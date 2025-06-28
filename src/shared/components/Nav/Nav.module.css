@@ -1,0 +1,82 @@
+.nav {
+  width: 250px;
+  background-color: #034F49;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  padding: 20px 20px 10px; /* menos padding abajo */
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* mantiene el userSection abajo */
+}
+
+.logoArea {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.logo {
+  color: #fff;
+  font-size: 24px;
+  margin: 0;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+  margin-top: 140px;
+}
+
+.menu li {
+  margin-bottom: 16px;
+}
+
+.menu li a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.menu li a:hover {
+  background-color: #057E74;
+}
+
+.active {
+  background-color: #057E74;
+}
+
+.userSection {
+  padding: 10px 16px 0; /* menos padding arriba */
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 40px; /* sube el userSection un poco */
+}
+
+.logoutButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  background-color: #d40012;
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.logoutButton:hover {
+  background-color: #b30010;
+}

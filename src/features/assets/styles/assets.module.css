@@ -1,0 +1,305 @@
+/* src/features/assets/styles/assets.module.css */
+
+.containerAssets {
+  margin-top: 40px;
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.title {
+  font-size: 40px;
+  margin: 0;
+}
+
+.positionButton {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.searchContainer {
+  width: 100%;
+}
+
+.listContainer {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.assetCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px 24px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease;
+}
+
+.assetCard:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.assetCard button {
+  padding: 10px;
+  margin: 5px;
+}
+
+/* Estilos para la información del activo */
+.assetInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.assetTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #212529;
+  margin: 0;
+}
+
+.assetDetails {
+  font-size: 14px;
+  color: #6c757d;
+  margin: 0;
+}
+
+.assetMeta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+/* Estilos para los estados y categorías */
+.assetStatus {
+  padding: 4px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 20px;
+  width: fit-content;
+}
+
+/* Colores para diferentes estados */
+.assetStatus.Activo {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.assetStatus.Inactivo {
+  background-color: #fff3e0;
+  color: #e65100;
+}
+
+.assetStatus.Enmantenimiento {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.assetStatus.Fueradeservicio {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.assetStatus.Pendientederevisión {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.assetCategory {
+  background-color: #034F49;
+  color: #fff;
+  padding: 4px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 20px;
+  width: fit-content;
+}
+
+.assetLocation {
+  background-color: #f5f5f5;
+  color: #333;
+  padding: 4px 12px;
+  font-size: 14px;
+  border-radius: 20px;
+  width: fit-content;
+}
+
+/* Estilos para los botones de acción */
+.cardActions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0;
+}
+
+.positionButtons {
+  display: flex;
+  margin: auto;
+  gap: 8px;
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  padding: 4px;
+  margin: 4px;
+  color: #000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s ease;
+  position: relative;
+}
+
+.iconButton:hover {
+  transform: scale(1.1);
+}
+
+.iconButton::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 4px 8px;
+  font-size: 12px;
+  white-space: nowrap;
+  border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+}
+
+.iconButton:hover::after {
+  opacity: 1;
+}
+
+.viewDetailsButton {
+  margin-top: 8px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.viewDetailsButton button {
+  background-color: #057E74;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.viewDetailsButton button:hover {
+  background-color: #045e58;
+}
+
+/* Paginación */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  font-family: inherit;
+}
+
+.pagination button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #333;
+  transform: translateY(-1px);
+}
+
+.pagination button:disabled {
+  background-color: #999;
+  color: #eee;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.pagination span {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Mensajes de carga */
+.loader {
+  color: black;
+  font-size: 1rem;
+}
+
+/* Estilos para los modales (compartidos con installations) */
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem 2.5rem;
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modalTitle {
+  margin: 0 0 1.5rem;
+  font-size: 1.5rem;
+  color: #2c3e50;
+}
+
+.modalMessage {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  color: #333;
+}
+
+.modalButton {
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.modalButton:hover {
+  background-color: #27ae60;
+}

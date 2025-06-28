@@ -1,0 +1,247 @@
+h1 {
+  font-family: 'Encode Sans', sans-serif;
+  font-weight: 700;
+  color: black;
+  text-align: center;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* Eliminar cualquier gap aplicado dinámicamente */
+  max-width: 480px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+form label {
+  color: black;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+form input {
+  padding: 12px;
+  border-radius: 4px;
+  width: 100%;
+  background-color: white;
+  color: black;
+  font-family: "montserrat", sans-serif;
+  font-size: 16px;
+  border: 1px solid black;
+  box-sizing: border-box;
+  margin-top: 0px;
+}
+
+button {
+  margin-top: 10px;
+  padding: 16px;
+  border-radius: 4px;
+  background-color: #01727A;
+  color: #FFFFFF;
+  font-weight: 200;
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 18px;
+  cursor: pointer;
+  border: 0px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+button[type="submit"] {
+  background-color: black;
+  color: #FFFFFF;
+  font-weight: 200;
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 18px;
+  cursor: pointer;
+  border: 0px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.inputWrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.eyesButton {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #555;
+  font-size: 18px;
+  padding: 0;
+  outline: none;
+  z-index: 2;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  margin: 0;
+}
+
+.eyesButton:hover {
+  color: #01727A;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: translateY(-50%) !important;
+  transition: none !important;
+}
+
+.eyesButton svg,
+.eyesButton i {
+  transition: color 0.2s ease;
+  width: 100%;
+  height: 100%;
+  display: block;
+  transform: none;
+}
+
+.eyesButton:hover svg,
+.eyesButton:hover i {
+  color: #01727A;
+  transform: none;
+}
+
+.containerForm h1 {
+  margin-top: 0px;
+  text-align: center;
+}
+
+.containerForm p {
+  margin-top: -10px;
+}
+
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-text-fill-color: black !important;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+.alertDanger {
+  background-color: #f8d7da;
+  border: 1px solid #f5c2c7;
+  color: #842029;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 16px;
+  margin-bottom: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 20px;
+}
+
+.inputError {
+  color: red;
+  font-size: 14px;
+  margin-top: -6px;
+  margin-bottom: 10px;
+  font-family: "Encode Sans", sans-serif;
+}
+
+.containerForm {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+/* Responsive para formularios más anchos en móviles y tablets */
+@media (max-width: 768px) {
+  form {
+    max-width: 100%;
+    gap: 0; /* Asegurar que no hay gap en móviles */
+  }
+  
+  .containerForm {
+    max-width: 100%;
+    padding: 0 0.5rem; /* Reducir padding para más espacio */
+  }
+
+  /* Hacer inputs más anchos en mobile */
+  form input {
+    width: 100%;
+    padding: 14px 12px; /* Aumentar padding vertical */
+    font-size: 16px;
+  }
+
+  .inputWrapper {
+    width: 100%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  form {
+    max-width: 100%; /* Cambiar de 600px a 100% para más ancho */
+    gap: 0; /* Asegurar que no hay gap en tablets */
+  }
+  
+  .containerForm {
+    max-width: 100%; /* Cambiar de 600px a 100% para más ancho */
+    padding: 0 1rem; /* Reducir padding para más espacio */
+  }
+
+  .containerForm h1{
+    text-align: center;
+  }
+
+  /* Hacer inputs más anchos en tablet */
+  form input {
+    width: 100%;
+    padding: 14px 12px; /* Aumentar padding vertical */
+    font-size: 17px; /* Aumentar ligeramente el font-size */
+  }
+
+  .inputWrapper {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .containerForm {
+    padding: 0 0.25rem; /* Reducir aún más el padding en pantallas muy pequeñas */
+  }
+  
+  form {
+    gap: 0; /* Asegurar que no hay gap en pantallas pequeñas */
+  }
+
+  /* Maximizar ancho en pantallas muy pequeñas */
+  form input {
+    width: 100%;
+    padding: 15px 12px; /* Aumentar padding para mejor UX táctil */
+    font-size: 16px;
+  }
+
+  .inputWrapper {
+    width: 100%;
+    margin-bottom: 12px; /* Aumentar ligeramente el margen */
+  }
+}
+
+/* Media query adicional para tablets en orientación landscape */
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  .containerForm {
+    max-width: 90%; /* Usar 90% del ancho disponible */
+    padding: 0 1.5rem;
+  }
+
+  form {
+    max-width: 100%;
+  }
+
+  form input {
+    width: 100%;
+    padding: 12px;
+  }
+}

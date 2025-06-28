@@ -1,0 +1,16 @@
+.containerAssets {
+    margin-top: 40px;
+    padding: 0 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.containerAssets h1{
+    font-size: 40px;
+    margin: 0;
+}
+
+.loader{
+    color: black;
+}

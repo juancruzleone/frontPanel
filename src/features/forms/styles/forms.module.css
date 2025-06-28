@@ -1,0 +1,185 @@
+.containerForms {
+  margin-top: 40px;
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.title {
+  font-size: 40px;
+  margin: 0;
+}
+
+.positionButton {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.searchContainer {
+  width: 100%;
+}
+
+.listContainer {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.templatesGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.templateCard {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px 24px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease;
+}
+
+.templateCard:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.templateHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.templateTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #212529;
+  margin: 0;
+}
+
+.templateCategory {
+  background-color: #034F49;
+  color: #fff;
+  text-align: center;
+  padding: 4px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 20px;
+  width: fit-content;
+}
+
+.templateDescription {
+  font-size: 14px;
+  color: #6c757d;
+  margin: 12px 0;
+}
+
+.templateStats {
+  font-size: 14px;
+  color: #343a40;
+  font-weight: 500;
+}
+
+.templateActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+  gap: 8px;
+}
+
+/* Botón sin hover oscuro */
+.iconButton {
+  background: none;
+  border: none;
+  padding: 6px;
+  color: #000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+/* Animación solo sobre el ícono */
+.iconWrapper {
+  position: relative;
+  display: inline-flex;
+  transition: transform 0.2s ease;
+}
+
+.iconWrapper:hover {
+  transform: scale(1.1);
+}
+
+/* Tooltip */
+.iconWrapper::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+  margin-bottom: 8px;
+}
+
+.iconWrapper:hover::after {
+  opacity: 1;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  font-family: inherit;
+}
+
+.pagination button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #333;
+  transform: translateY(-1px);
+}
+
+.pagination button:disabled {
+  background-color: #999;
+  color: #eee;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.pagination span {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.loader {
+  color: black;
+  font-size: 16px;
+}

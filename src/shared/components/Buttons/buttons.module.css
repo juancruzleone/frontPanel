@@ -1,0 +1,13 @@
+.buttons{
+    background-color: black;
+    color: #FFFFFF;
+    font-weight: 200;
+    font-family: 'Encode Sans', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    border: 0px;
+    width: 100%;
+    padding: 14px;
+    /*margin-left: 30px;*/
+    border-radius: 4px;
+}

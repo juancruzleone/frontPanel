@@ -1,0 +1,234 @@
+.containerWorkOrders {
+  margin-top: 40px;
+  padding: 0 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.title {
+  font-size: 40px;
+  margin: 0;
+}
+
+.positionButton {
+  /* Botón a la izquierda */
+}
+
+.searchContainer {
+  width: 100%;
+}
+
+.listContainer {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.workOrderCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px 24px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease;
+}
+
+.workOrderCard:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.workOrderHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.workOrderTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #212529;
+  margin: 0;
+}
+
+.priorityBadge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+}
+
+.workOrderDescription {
+  font-size: 14px;
+  color: #6c757d;
+  margin: 0 0 12px 0;
+}
+
+.workOrderDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  color: #495057;
+}
+
+.workOrderDetails p {
+  margin: 0;
+  display: flex;
+  gap: 4px;
+}
+
+.statusBadge {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+}
+
+.statusBadge.pendiente {
+  background-color: #6c757d;
+}
+
+.statusBadge.asignada {
+  background-color: #0d6efd;
+}
+
+.statusBadge.en_progreso {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.statusBadge.completada {
+  background-color: #198754;
+}
+
+.statusBadge.cancelada {
+  background-color: #dc3545;
+}
+
+/* ACCIONES de la card: columna, alineado a la derecha */
+.cardActions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0;
+}
+
+/* Botones de acción en fila */
+.positionButtons {
+  display: flex;
+  margin: auto;
+  gap: 8px;
+}
+
+/* Botón "Ver detalles" debajo y alineado a la derecha */
+.viewDetailsButton {
+  margin-top: 8px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.viewDetailsButton button {
+  background-color: #057e74;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.viewDetailsButton button:hover {
+  background-color: #045e58;
+}
+
+/* Íconos de acción - CON TOOLTIP PERSONALIZADO */
+.iconButton {
+  background: none;
+  border: none;
+  padding: 4px;
+  margin: 4px;
+  color: #000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s ease;
+  position: relative;
+}
+
+.iconButton:hover {
+  transform: scale(1.1);
+}
+
+.iconButton::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 4px 8px;
+  font-size: 12px;
+  white-space: nowrap;
+  border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+}
+
+.iconButton:hover::after {
+  opacity: 1;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  font-family: inherit;
+}
+
+.pagination button {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #333;
+  transform: translateY(-1px);
+}
+
+.pagination button:disabled {
+  background-color: #999;
+  color: #eee;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.pagination span {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.loader {
+  color: black;
+}

@@ -1,0 +1,163 @@
+.container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 1rem;
+}
+
+.title {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.address {
+  color: #7f8c8d;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.addButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #034F49;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.addButton:hover {
+  background-color: #023a36;
+}
+
+.devicesList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.deviceCard {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.deviceCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.deviceInfo h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+  color: #2c3e50;
+}
+
+.deviceInfo p {
+  margin: 0.5rem 0;
+  color: #7f8c8d;
+}
+
+.deviceInfo strong {
+  color: #2c3e50;
+}
+
+.deviceActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.editButton, .deleteButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editButton {
+  color: #3498db;
+}
+
+.editButton:hover {
+  background-color: #ebf5fb;
+}
+
+.deleteButton {
+  color: #e74c3c;
+}
+
+.deleteButton:hover {
+  background-color: #fdedec;
+}
+
+/* Estados de dispositivos */
+.Activo {
+  color: #27ae60;
+  font-weight: 500;
+}
+
+.Inactivo {
+  color: #e67e22;
+  font-weight: 500;
+}
+
+.Enmantenimiento {
+  color: #3498db;
+  font-weight: 500;
+}
+
+.Fueradeservicio {
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+.Pendientederevisión {
+  color: #9b59b6;
+  font-weight: 500;
+}
+
+.emptyMessage {
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 1.1rem;
+  grid-column: 1 / -1;
+  padding: 2rem;
+}
+
+.loader {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  color: #7f8c8d;
+}

@@ -1,0 +1,276 @@
+.containerManuals {
+    margin-top: 40px;
+    padding: 0 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .title {
+    font-size: 40px;
+    margin: 0;
+  }
+  
+  .positionButton {
+    /* Botón a la izquierda */
+  }
+  
+  .searchContainer {
+    width: 100%;
+  }
+  
+  .listContainer {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .manualCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px 24px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.2s ease;
+  }
+  
+  .manualCard:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  
+  .manualCard button {
+    padding: 10px;
+    margin: 5px;
+  }
+  
+  /* Íconos de acción */
+  .iconButton {
+    background: none;
+    border: none;
+    padding: 4px;
+    margin: 4px;
+    color: #000;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s ease;
+    position: relative;
+  }
+  
+  .iconButton:hover {
+    transform: scale(1.1);
+  }
+  
+  .iconButton::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 4px 8px;
+    font-size: 12px;
+    white-space: nowrap;
+    border-radius: 4px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 10;
+  }
+  
+  .iconButton:hover::after {
+    opacity: 1;
+  }
+  
+  /* ACCIONES de la card: columna, alineado a la derecha */
+  .cardActions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0;
+  }
+  
+  /* Botones de acción en fila */
+  .positionButtons {
+    display: flex;
+    margin: auto;
+    gap: 8px;
+  }
+  
+  .manualInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+  
+  .manualHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 4px;
+  }
+  
+  .manualTitle {
+    font-size: 24px;
+    font-weight: 700;
+    color: #212529;
+    margin: 0;
+    flex: 1;
+  }
+  
+  .manualCategory {
+    background-color: #034F49;
+    color: #ffff;
+    text-align: center;
+    padding: 4px 12px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 20px;
+    width: fit-content;
+    white-space: nowrap;
+  }
+  
+  .manualDescription {
+    font-size: 16px;
+    color: #6c757d;
+    margin: 0;
+    line-height: 1.4;
+  }
+  
+  .manualDetails {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 14px;
+    margin: 8px 0;
+  }
+  
+  .detailItem {
+    color: #6c757d;
+  }
+  
+  .detailItem strong {
+    color: #212529;
+  }
+  
+  .tagsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 8px 0;
+  }
+  
+  .tag {
+    background-color: #f8f9fa;
+    color: #495057;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    border: 1px solid #dee2e6;
+  }
+  
+  .fileInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #f8f9fa;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #495057;
+    margin-top: 8px;
+  }
+  
+  .fileSize {
+    color: #6c757d;
+    font-size: 12px;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 2rem;
+    font-family: inherit;
+  }
+  
+  .pagination button {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 0.9rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.2s ease, transform 0.1s ease;
+  }
+  
+  .pagination button:hover:not(:disabled) {
+    background-color: #333;
+    transform: translateY(-1px);
+  }
+  
+  .pagination button:disabled {
+    background-color: #999;
+    color: #eee;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  
+  .pagination span {
+    font-size: 0.95rem;
+    color: #333;
+  }
+  
+  .loader {
+    color: black;
+    font-size: 16px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .containerManuals {
+      padding: 0 15px;
+      margin-top: 20px;
+    }
+    
+    .title {
+      font-size: 32px;
+    }
+    
+    .manualCard {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 16px;
+    }
+    
+    .cardActions {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .manualDetails {
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .manualHeader {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    
+    .positionButtons {
+      gap: 4px;
+    }
+  }

@@ -1,0 +1,17 @@
+.layoutContainer {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+  }
+  
+  .contentArea {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  .contentArea main {
+    flex: 1;
+  }
+  
