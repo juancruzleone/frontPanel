@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useCallback } from "react"
 import {
   fetchWorkOrders,
@@ -86,6 +85,7 @@ const useWorkOrders = () => {
   const [loadingInstallations, setLoadingInstallations] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [errorLoadingInstallations, setErrorLoadingInstallations] = useState<string | null>(null)
+
   const [formData, setFormData] = useState<Omit<WorkOrder, "_id">>({
     titulo: "",
     descripcion: "",
@@ -96,6 +96,7 @@ const useWorkOrders = () => {
     fechaProgramada: new Date(),
     horaProgramada: "09:00",
   })
+
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -170,22 +171,62 @@ const useWorkOrders = () => {
 
   const assignTechnician = async (workOrderId: string, technicianId: string) => {
     await assignTechnicianToWorkOrder(workOrderId, technicianId)
+    // Recargar para obtener la información actualizada del técnico
     await loadWorkOrders()
     return { message: "Técnico asignado con éxito" }
   }
 
   const completeWorkOrder = async (id: string, data: any) => {
-    const result = await apiCompleteWorkOrder(id, data)
-    setWorkOrders((prev) => prev.map((o) => (o._id === id ? { ...o, estado: "completada", ...result } : o)))
-    return { message: "Orden de trabajo completada con éxito" }
+    console.log("🚀 Hook: Iniciando completar orden:", id, data)
+
+    try {
+      // 1. Hacer POST para completar la orden
+      const result = await apiCompleteWorkOrder(id, data)
+      console.log("✅ Hook: POST completado exitosamente:", result)
+
+      // 2. Actualizar estado local (sin hacer GET adicional)
+      setWorkOrders((prev) =>
+        prev.map((o) =>
+          o._id === id
+            ? {
+                ...o,
+                estado: "completada",
+                fechaCompletada: new Date(),
+                trabajoRealizado: data.trabajoRealizado,
+                observaciones: data.observaciones,
+                tiempoTrabajo: data.tiempoTrabajo,
+                estadoDispositivo: data.estadoDispositivo,
+                ...result,
+              }
+            : o,
+        ),
+      )
+
+      console.log("✅ Hook: Estado local actualizado")
+      return { message: "Orden de trabajo completada con éxito" }
+    } catch (error) {
+      console.error("❌ Hook: Error al completar orden:", error)
+      throw error
+    }
   }
 
   const startWorkOrder = async (id: string) => {
-    await apiStartWorkOrder(id)
-    setWorkOrders((prev) =>
-      prev.map((o) => (o._id === id ? { ...o, estado: "en_progreso", fechaInicio: new Date() } : o)),
-    )
-    return { message: "Orden de trabajo iniciada con éxito" }
+    console.log("🚀 Hook: Iniciando orden:", id)
+
+    try {
+      await apiStartWorkOrder(id)
+      console.log("✅ Hook: Orden iniciada exitosamente")
+
+      // Actualizar estado local
+      setWorkOrders((prev) =>
+        prev.map((o) => (o._id === id ? { ...o, estado: "en_progreso", fechaInicio: new Date() } : o)),
+      )
+
+      return { message: "Orden de trabajo iniciada con éxito" }
+    } catch (error) {
+      console.error("❌ Hook: Error al iniciar orden:", error)
+      throw error
+    }
   }
 
   const handleFieldChange = async (name: string, value: string) => {
@@ -207,6 +248,7 @@ const useWorkOrders = () => {
     setIsSubmitting(true)
 
     const validation = await validateWorkOrderForm(formData)
+
     if (!validation.isValid) {
       setFormErrors(validation.errors)
       setIsSubmitting(false)

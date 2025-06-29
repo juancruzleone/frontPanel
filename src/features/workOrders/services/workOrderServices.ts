@@ -72,6 +72,7 @@ export const fetchWorkOrders = async (): Promise<WorkOrder[]> => {
   const token = getToken()
 
   try {
+    console.log("🔍 Haciendo GET a órdenes de trabajo...")
     // Obtener órdenes de trabajo
     const ordersResponse = await fetch(`${API_URL}ordenes-trabajo`, {
       headers: {
@@ -129,6 +130,7 @@ export const fetchWorkOrders = async (): Promise<WorkOrder[]> => {
 
 export const fetchInstallations = async (): Promise<Installation[]> => {
   const token = getToken()
+
   const response = await fetch(`${API_URL}installations`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -143,6 +145,7 @@ export const fetchInstallations = async (): Promise<Installation[]> => {
 
 export const createWorkOrder = async (workOrder: WorkOrder) => {
   const token = getToken()
+
   const response = await fetch(`${API_URL}ordenes-trabajo`, {
     method: "POST",
     headers: {
@@ -179,6 +182,7 @@ export const updateWorkOrder = async (id: string, workOrder: WorkOrder) => {
 
 export const deleteWorkOrder = async (id: string) => {
   const token = getToken()
+
   const response = await fetch(`${API_URL}ordenes-trabajo/${id}`, {
     method: "DELETE",
     headers: {
@@ -193,6 +197,7 @@ export const deleteWorkOrder = async (id: string) => {
 
 export const assignTechnicianToWorkOrder = async (workOrderId: string, technicianId: string) => {
   const token = getToken()
+
   const response = await fetch(`${API_URL}ordenes-trabajo/${workOrderId}/asignar`, {
     method: "PATCH",
     headers: {
@@ -210,6 +215,11 @@ export const assignTechnicianToWorkOrder = async (workOrderId: string, technicia
 
 export const completeWorkOrder = async (workOrderId: string, completionData: any) => {
   const token = getToken()
+
+  console.log("📤 Service: Haciendo POST para completar orden:", workOrderId)
+  console.log("📤 Service: URL:", `${API_URL}ordenes-trabajo/${workOrderId}/completar`)
+  console.log("📤 Service: Datos:", completionData)
+
   const response = await fetch(`${API_URL}ordenes-trabajo/${workOrderId}/completar`, {
     method: "POST",
     headers: {
@@ -219,14 +229,25 @@ export const completeWorkOrder = async (workOrderId: string, completionData: any
     body: JSON.stringify(completionData),
   })
 
-  if (!response.ok) throw new Error("Error al completar orden de trabajo")
+  console.log("📥 Service: Response status:", response.status)
+  console.log("📥 Service: Response ok:", response.ok)
+
+  if (!response.ok) {
+    const errorText = await response.text()
+    console.error("❌ Service: Error response:", errorText)
+    throw new Error(`Error al completar orden de trabajo: ${response.status} - ${errorText}`)
+  }
 
   const result = await response.json()
+  console.log("✅ Service: Resultado exitoso:", result)
   return result.data || result
 }
 
 export const startWorkOrder = async (workOrderId: string) => {
   const token = getToken()
+
+  console.log("📤 Service: Haciendo PATCH para iniciar orden:", workOrderId)
+
   const response = await fetch(`${API_URL}ordenes-trabajo/${workOrderId}/iniciar`, {
     method: "PATCH",
     headers: {
@@ -234,14 +255,22 @@ export const startWorkOrder = async (workOrderId: string) => {
     },
   })
 
-  if (!response.ok) throw new Error("Error al iniciar orden de trabajo")
+  console.log("📥 Service: Response status:", response.status)
+
+  if (!response.ok) {
+    const errorText = await response.text()
+    console.error("❌ Service: Error al iniciar:", errorText)
+    throw new Error(`Error al iniciar orden de trabajo: ${response.status} - ${errorText}`)
+  }
 
   const result = await response.json()
+  console.log("✅ Service: Orden iniciada exitosamente:", result)
   return result.data || result
 }
 
 export const getWorkOrderById = async (id: string): Promise<WorkOrder> => {
   const token = getToken()
+
   const response = await fetch(`${API_URL}ordenes-trabajo/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,

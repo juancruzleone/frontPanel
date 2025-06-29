@@ -2,16 +2,17 @@
 
 import { useEffect } from "react"
 import styles from "/src/features/installations/styles/Modal.module.css"
-import type { Installation, Device } from "../hooks/useInstallations"
-import DeviceForm from "./DeviceForm"
-import useCategories from "../hooks/useCategories"
+import type { Installation, Device } from "../../../features/installations/hooks/useInstallations.ts"
+import DeviceForm from "../../../features/installations/components/DeviceForm.tsx"
+import useCategories from "../../../features/installations/hooks/useCategories.ts"
 
-interface ModalAddDeviceProps {
+interface ModalEditDeviceProps {
   isOpen: boolean
   onRequestClose: () => void
   onSubmitSuccess: (message: string) => void
-  onAddDevice: (installationId: string, device: Device) => Promise<{ message: string }>
+  onUpdateDevice: (installationId: string, deviceId: string, device: Partial<Device>) => Promise<{ message: string }>
   installation: Installation | null
+  device: Device | null
   assets: any[]
   loadingAssets: boolean
   errorLoadingAssets: string | null
@@ -19,24 +20,25 @@ interface ModalAddDeviceProps {
   loadAssets: () => void
 }
 
-const ModalAddDevice = ({
+const ModalEditDevice = ({
   isOpen,
   onRequestClose,
   onSubmitSuccess,
-  onAddDevice,
+  onUpdateDevice,
   installation,
+  device,
   assets,
   loadingAssets,
   errorLoadingAssets,
   onRetryLoadAssets,
   loadAssets,
-}: ModalAddDeviceProps) => {
+}: ModalEditDeviceProps) => {
   const { categories, loading: loadingCategories, error: errorLoadingCategories, loadCategories } = useCategories()
 
   useEffect(() => {
     if (isOpen) {
       loadAssets()
-      loadCategories() // Cargar categorías cuando se abre el modal
+      loadCategories()
     }
   }, [isOpen])
 
@@ -44,15 +46,18 @@ const ModalAddDevice = ({
     loadCategories()
   }
 
-  if (!isOpen || !installation) return null
+  if (!isOpen || !installation || !device) return null
 
   return (
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Agregar Dispositivo</h2>
+          <h2 className={styles.title}>Editar Dispositivo</h2>
           <p>
             Instalación: {installation.company} - {installation.address}
+          </p>
+          <p>
+            <strong>Dispositivo:</strong> {device.nombre}
           </p>
           <button className={styles.closeButton} onClick={onRequestClose}>
             ×
@@ -62,25 +67,17 @@ const ModalAddDevice = ({
         <div className={styles.modalContent}>
           {loadingAssets || loadingCategories ? (
             <p>Cargando datos necesarios...</p>
-          ) : errorLoadingAssets ? (
-            <>
-              <p>{errorLoadingAssets.includes("No hay activos") ? errorLoadingAssets : "Error al cargar activos"}</p>
-              <button onClick={onRetryLoadAssets}>Reintentar carga de activos</button>
-            </>
           ) : errorLoadingCategories ? (
             <>
               <p>Error al cargar categorías</p>
               <button onClick={handleRetryLoadCategories}>Reintentar carga de categorías</button>
             </>
-          ) : assets.length === 0 ? (
-            <p>No hay activos disponibles. Primero crear activos en la sección correspondiente.</p>
-          ) : categories.length === 0 ? (
-            <p>No hay categorías disponibles. Primero crear categorías en la sección correspondiente.</p>
           ) : (
             <DeviceForm
               installation={installation}
+              device={device}
               onSubmitSuccess={onSubmitSuccess}
-              onAddDevice={onAddDevice}
+              onUpdateDevice={onUpdateDevice}
               onCancel={onRequestClose}
               assets={assets}
               categories={categories}
@@ -95,4 +92,4 @@ const ModalAddDevice = ({
   )
 }
 
-export default ModalAddDevice
+export default ModalEditDevice

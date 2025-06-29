@@ -21,9 +21,7 @@ export const fetchInstallationById = async (id: string): Promise<any> => {
     headers: { Authorization: `Bearer ${token}` },
   })
   if (!response.ok) throw new Error("Error al obtener instalación")
-
   const result = await response.json()
-  // Si la respuesta tiene el formato { success: true, data: ... }, extraer solo los datos
   return result.success ? result.data : result
 }
 
@@ -33,9 +31,7 @@ export const fetchInstallationDevices = async (installationId: string): Promise<
     headers: { Authorization: `Bearer ${token}` },
   })
   if (!response.ok) throw new Error("Error al obtener dispositivos")
-
   const result = await response.json()
-  // Si la respuesta tiene el formato { success: true, data: [...] }, extraer solo los datos
   return result.success ? result.data : result
 }
 
@@ -50,7 +46,6 @@ export const createInstallation = async (installation: any) => {
     body: JSON.stringify(installation),
   })
   if (!response.ok) throw new Error("Error al crear instalación")
-
   const result = await response.json()
   return result.success ? result.data : result
 }
@@ -62,6 +57,7 @@ export const updateInstallation = async (id: string, installation: any) => {
     ...rest,
     ...(typeof image === "string" ? { image } : {}),
   }
+
   const response = await fetch(`${API_URL}installations/${id}`, {
     method: "PUT",
     headers: {
@@ -71,7 +67,6 @@ export const updateInstallation = async (id: string, installation: any) => {
     body: JSON.stringify(updateData),
   })
   if (!response.ok) throw new Error("Error al actualizar instalación")
-
   const result = await response.json()
   return result.success ? result.data : result
 }
@@ -97,7 +92,6 @@ export const addDeviceToInstallation = async (installationId: string, deviceData
     body: JSON.stringify(deviceData),
   })
   if (!response.ok) throw new Error("Error al agregar dispositivo")
-
   const result = await response.json()
   return result.success ? result.data : result
 }
@@ -123,7 +117,6 @@ export const updateDeviceInInstallation = async (installationId: string, deviceI
     body: JSON.stringify(deviceData),
   })
   if (!response.ok) throw new Error("Error al actualizar dispositivo")
-
   const result = await response.json()
   return result.success ? result.data : result
 }
@@ -139,6 +132,35 @@ export const assignTemplateToDevice = async (installationId: string, deviceId: s
     body: JSON.stringify({ templateId }),
   })
   if (!response.ok) throw new Error("Error al asignar plantilla al dispositivo")
+  const result = await response.json()
+  return result.success ? result.data : result
+}
+
+export const fetchAssets = async (): Promise<any[]> => {
+  const token = getToken()
+  const response = await fetch(`${API_URL}assets`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!response.ok) throw new Error("Error al obtener activos")
+  const result = await response.json()
+  return Array.isArray(result) ? result : result.data || []
+}
+
+export const getLastMaintenanceForDevice = async (installationId: string, deviceId: string) => {
+  const token = getToken()
+  const response = await fetch(
+    `${API_URL}installations/${installationId}/dispositivos/${deviceId}/ultimo-mantenimiento`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    },
+  )
+
+  if (!response.ok) {
+    if (response.status === 404) {
+      return null // No hay mantenimientos
+    }
+    throw new Error("Error al obtener el último mantenimiento")
+  }
 
   const result = await response.json()
   return result.success ? result.data : result

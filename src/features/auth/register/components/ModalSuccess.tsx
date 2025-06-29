@@ -1,13 +1,13 @@
-import styles from "../styles/Modal.module.css"
+import styles from "../styles/Modal.module.css";
 
 type ModalSuccessProps = {
-  isOpen: boolean
-  onRequestClose: () => void
-  mensaje: string
+  isOpen: boolean;
+  onRequestClose: () => void;
+  mensaje: string;
 }
 
 const ModalSuccess = ({ isOpen, onRequestClose, mensaje }: ModalSuccessProps) => {
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   return (
     <div className={styles.backdrop}>
@@ -40,7 +40,7 @@ const ModalSuccess = ({ isOpen, onRequestClose, mensaje }: ModalSuccessProps) =>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ModalSuccess
+export default ModalSuccess;

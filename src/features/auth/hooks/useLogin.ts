@@ -1,3 +1,7 @@
+"use client"
+
+import type React from "react"
+
 // useLogin.ts
 import { useState } from "react"
 import { userLogin } from "../services/loginServices"

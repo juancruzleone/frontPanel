@@ -60,7 +60,6 @@ const WorkOrders = () => {
         console.error("Error loading data:", err)
       }
     }
-
     loadData()
   }, [])
 
@@ -80,7 +79,6 @@ const WorkOrders = () => {
     const term = searchTerm.toLowerCase()
     return workOrders.filter((order) => {
       if (!order) return false
-
       const fields = [
         order.titulo,
         order.descripcion,
@@ -91,16 +89,13 @@ const WorkOrders = () => {
         order.prioridad,
         order.tipoTrabajo,
       ].filter(Boolean)
-
       const matchesStatus = !selectedStatus || order.estado === selectedStatus
       const matchesSearch = fields.some((f) => f?.toLowerCase().includes(term))
-
       return matchesStatus && matchesSearch
     })
   }, [workOrders, selectedStatus, searchTerm])
 
   const totalPages = Math.ceil(filteredWorkOrders.length / itemsPerPage)
-
   const paginatedWorkOrders = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage
     return filteredWorkOrders.slice(start, start + itemsPerPage)
@@ -155,7 +150,6 @@ const WorkOrders = () => {
 
   const handleConfirmDelete = async () => {
     if (!workOrderToDelete?._id) return
-
     try {
       await removeWorkOrder(workOrderToDelete._id)
       onSuccess("Orden de trabajo eliminada con éxito")
@@ -194,7 +188,6 @@ const WorkOrders = () => {
         </p>
       )
     }
-
     if (order.tecnicoAsignado) {
       return (
         <p style={{ color: "orange" }}>
@@ -204,7 +197,6 @@ const WorkOrders = () => {
         </p>
       )
     }
-
     return <p style={{ color: "#666", fontStyle: "italic" }}>Sin técnico asignado</p>
   }
 
@@ -212,11 +204,9 @@ const WorkOrders = () => {
     <>
       <div className={styles.containerWorkOrders}>
         <h1 className={styles.title}>Órdenes de Trabajo</h1>
-
         <div className={styles.positionButton}>
           <Button title="Crear orden de trabajo" onClick={handleOpenCreate} />
         </div>
-
         <div className={styles.searchContainer}>
           <SearchInput
             placeholder="Buscar por título, descripción, instalación o técnico"
@@ -227,7 +217,6 @@ const WorkOrders = () => {
             onSelectChange={setSelectedStatus}
           />
         </div>
-
         <div className={styles.listContainer}>
           {loading ? (
             <p className={styles.loader}>Cargando órdenes de trabajo...</p>
@@ -247,9 +236,7 @@ const WorkOrders = () => {
                         {order.prioridad.toUpperCase()}
                       </span>
                     </div>
-
                     <p className={styles.workOrderDescription}>{order.descripcion}</p>
-
                     <div className={styles.workOrderDetails}>
                       <p>
                         <strong>Tipo:</strong> {order.tipoTrabajo}
@@ -272,7 +259,6 @@ const WorkOrders = () => {
                       {renderTechnicianInfo(order)}
                     </div>
                   </div>
-
                   <div className={styles.cardActions}>
                     <div className={styles.positionButtons}>
                       {order.estado === "asignada" && (
@@ -325,14 +311,12 @@ const WorkOrders = () => {
                         <Trash size={20} />
                       </button>
                     </div>
-
                     <div className={styles.viewDetailsButton}>
                       <button onClick={() => handleViewDetails(order)}>Ver detalles completos</button>
                     </div>
                   </div>
                 </div>
               ))}
-
               <div className={styles.pagination}>
                 <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
                   {"<"}

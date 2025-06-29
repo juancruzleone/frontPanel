@@ -20,12 +20,43 @@
   color: #212529;
 }
 
-.assetInfo h4{
-  color: black;
+.assetInfo {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 2px solid #e9ecef;
+  margin: 1rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.assetInfo p{
-  color: black;
+.assetInfo h4 {
+  color: #212529;
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.assetInfo h4::before {
+  content: "📋";
+  font-size: 1.2rem;
+}
+
+.assetInfo p {
+  color: #495057;
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.assetInfo p strong {
+  color: #212529;
+  min-width: 80px;
 }
 
 @keyframes fadeIn {
@@ -46,9 +77,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 
-    0 25px 50px rgba(0, 0, 0, 0.15),
-    0 0 0 1px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.05);
   animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -71,7 +100,7 @@
 }
 
 .modalHeader::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -90,7 +119,7 @@
 }
 
 .title::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -8px;
   left: 0;
@@ -105,6 +134,29 @@
   font-size: 0.95rem;
   margin: 0;
   font-weight: 500;
+}
+
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #6c757d;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: #f8f9fa;
+  color: #495057;
 }
 
 .form {
@@ -140,7 +192,7 @@
 }
 
 .formGroup label::before {
-  content: '';
+  content: "";
   width: 3px;
   height: 16px;
   background: linear-gradient(135deg, #007bff, #0056b3);
@@ -176,6 +228,11 @@
   width: 100%;
 }
 
+.errorInput {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+}
+
 .error {
   color: #ef4444;
   font-size: 0.875rem;
@@ -187,7 +244,7 @@
 }
 
 .error::before {
-  content: '⚠';
+  content: "⚠";
   font-size: 1rem;
 }
 
@@ -201,6 +258,26 @@
   border: 1px solid #fecaca;
   border-radius: 8px;
   font-weight: 500;
+}
+
+.retryButton {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.75rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+}
+
+.retryButton:hover {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
 }
 
 .actions {
@@ -267,6 +344,12 @@
   box-shadow: none;
 }
 
+.cancelButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
 /* Scrollbar personalizado */
 .formContent::-webkit-scrollbar {
   width: 6px;
@@ -318,6 +401,18 @@
   .generalError {
     margin: 0.5rem 0;
   }
+
+  .assetInfo {
+    padding: 1rem;
+  }
+
+  .assetInfo h4 {
+    font-size: 1rem;
+  }
+
+  .assetInfo p {
+    font-size: 0.875rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -349,5 +444,21 @@
   .formGroup select {
     padding: 0.75rem;
     font-size: 0.95rem;
+  }
+
+  .assetInfo {
+    padding: 0.75rem;
+  }
+
+  .assetInfo h4 {
+    font-size: 0.95rem;
+  }
+
+  .assetInfo p {
+    font-size: 0.8rem;
+  }
+
+  .assetInfo p strong {
+    min-width: 70px;
   }
 }
