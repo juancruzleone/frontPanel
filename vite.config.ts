@@ -6,13 +6,13 @@ export default defineConfig({
   plugins: [react()],
   build: {
     rollupOptions: {
-      external: [],
       output: {
         manualChunks: undefined,
       },
     },
     target: "esnext",
     minify: "esbuild",
+    sourcemap: false,
   },
   optimizeDeps: {
     include: ["react", "react-dom"],
