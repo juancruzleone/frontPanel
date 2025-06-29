@@ -20,7 +20,7 @@ interface InstallationTypeFormProps {
   isSubmitting: boolean;
 }
 
-const InstallationTypeForm = ({
+const InstallationTypeForms = ({
   formData,
   formErrors,
   handleFieldChange,
@@ -115,4 +115,4 @@ const InstallationTypeForm = ({
   );
 };
 
-export default InstallationTypeForm;
+export default InstallationTypeForms;

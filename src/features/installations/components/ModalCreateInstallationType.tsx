@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import InstallationTypeForm from "./InstallationTypeForm";
+import InstallationTypeForm from "./InstallationTypeForms";
 import useInstallationTypes from "../hooks/useInstallationTypes";
 import styles from "../styles/Modal.module.css";
 
