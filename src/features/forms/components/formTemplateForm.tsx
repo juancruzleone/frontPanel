@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { FormTemplate, FormField } from "../hooks/useForms";
-import styles from "../styles/FormTemplateForm.module.css";
+import styles from "../styles/formTemplateForm.module.css";
 import { validateFormTemplate } from "../validators/formValidations";
 
 interface FormTemplateFormProps {
