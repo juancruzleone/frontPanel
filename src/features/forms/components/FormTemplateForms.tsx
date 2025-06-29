@@ -23,7 +23,7 @@ const fieldTypes = [
   "file",
 ];
 
-const FormTemplateForm = ({
+const FormTemplateForms = ({
   onCancel,
   onSuccess,
   onSubmit,
@@ -380,4 +380,4 @@ const FormTemplateForm = ({
   );
 };
 
-export default FormTemplateForm;
+export default FormTemplateForms;
