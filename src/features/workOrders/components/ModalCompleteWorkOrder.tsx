@@ -27,7 +27,6 @@ const ModalCompleteWorkOrder = ({
     materialesUtilizados: [],
     estadoDispositivo: "",
   })
-
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState("")
@@ -63,7 +62,6 @@ const ModalCompleteWorkOrder = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
     if (!workOrder?._id) return
 
     console.log("🚀 Iniciando completar orden desde modal:", workOrder._id, completionData)
@@ -129,6 +127,7 @@ const ModalCompleteWorkOrder = ({
             ×
           </button>
         </div>
+
         <div className={styles.modalContent}>
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.formInner}>
@@ -183,7 +182,8 @@ const ModalCompleteWorkOrder = ({
                 {showError("observaciones") && <p className={styles.inputError}>Las observaciones son obligatorias</p>}
               </div>
 
-              <div className={styles.formRow}>
+              {/* Fila corregida para alineación */}
+              <div className={styles.formRowFixed}>
                 <div className={styles.formGroup}>
                   <label>Tiempo de Trabajo (horas)</label>
                   <input

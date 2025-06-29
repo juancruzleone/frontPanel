@@ -229,10 +229,23 @@
   font-family: inherit;
 }
 
+/* Fila original para compatibilidad */
 .formRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
+}
+
+/* Nueva fila corregida para mejor alineación */
+.formRowFixed {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.formRowFixed .formGroup {
+  flex: 1;
+  min-width: 0; /* Permite que los elementos se contraigan */
 }
 
 .infoDisplay {
@@ -584,8 +597,9 @@
     width: 100%;
   }
 
-  .formRow {
-    grid-template-columns: 1fr;
+  .formRow,
+  .formRowFixed {
+    flex-direction: column;
     gap: 1.25rem;
   }
 
