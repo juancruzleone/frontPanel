@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import styles from "../styles/WorkOrderForm.module.css"
+import styles from "../styles/workOrderForm.module.css"
 
 interface AssignTechnicianFormProps {
   onCancel: () => void
