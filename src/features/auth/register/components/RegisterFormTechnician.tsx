@@ -20,8 +20,6 @@ interface RegisterTechnicianFormProps {
   showPassword: boolean
   showConfirmPassword: boolean
   isFormComplete: boolean
-  isFormValid: boolean
-  touchedFields: Record<string, boolean>
   handleFieldChange: (name: string, value: string) => void
   handleFieldBlur: (fieldName: string) => void
   handleSubmitForm: (
@@ -44,8 +42,6 @@ const RegisterTechnicianForm = ({
   showPassword,
   showConfirmPassword,
   isFormComplete,
-  isFormValid,
-  touchedFields,
   handleFieldChange,
   handleFieldBlur,
   handleSubmitForm,

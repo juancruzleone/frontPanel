@@ -153,9 +153,10 @@ const useRegisterTechnician = () => {
     setShowConfirmPassword(false)
   }, [])
 
+  // Función corregida que retorna boolean
   const shouldShowError = useCallback(
-    (fieldName: string) => {
-      return touchedFields[fieldName] && formErrors[fieldName]
+    (fieldName: string): boolean => {
+      return Boolean(touchedFields[fieldName] && formErrors[fieldName])
     },
     [touchedFields, formErrors],
   )
