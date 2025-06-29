@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import FormTemplateForm from "./formTemplateForm";
+import FormTemplateForm from "./FormTemplateForm";
 import useForms from "../hooks/useForms";
 import styles from "../styles/Modal.module.css";
 import { FormTemplate } from "../hooks/useForms";
