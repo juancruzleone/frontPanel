@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import ManualForm from "../../../../src/features/manuals/components/ManualForm";
 import useManuals from "../../../../src/features/manuals/hooks/useManuals";
-import styles from "../styles/modal.module.css";
+import styles from "../styles/Modal.module.css";
 
 interface ModalCreateProps {
   isOpen: boolean;
