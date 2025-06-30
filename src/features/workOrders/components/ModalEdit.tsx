@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useState, useRef } from "react"
 import WorkOrderForm from "./WorkOrderForm"
 import styles from "../styles/Modal.module.css"

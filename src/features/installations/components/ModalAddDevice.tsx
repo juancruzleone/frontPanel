@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect } from "react"
 import styles from "/src/features/installations/styles/Modal.module.css"
 import type { Installation, Device } from "../hooks/useInstallations"

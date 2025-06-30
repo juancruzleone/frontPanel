@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useEffect, useCallback } from "react"
 import Button from "../../src/shared/components/Buttons/buttonCreate"
 import ModalSuccess from "../features/auth/register/components/ModalSuccess"

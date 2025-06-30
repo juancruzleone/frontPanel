@@ -1,5 +1,3 @@
-"use client"
-
 import { useRef } from "react"
 import QRCode from "qrcode"
 import { useEffect, useState } from "react"

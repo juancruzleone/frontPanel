@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useState } from "react"
 import FormTemplateForm from "./formTemplateForm"
 import styles from "../styles/Modal.module.css"

@@ -1,5 +1,3 @@
-"use client"
-
 import type React from "react"
 import { useEffect, useCallback } from "react"
 import RegisterTechnicianForm from "./RegisterFormTechnician"

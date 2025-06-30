@@ -1,5 +1,3 @@
-"use client"
-
 import type React from "react"
 import { useState, useEffect, useMemo } from "react"
 import type { FormTemplate, FormField } from "../hooks/useForms"

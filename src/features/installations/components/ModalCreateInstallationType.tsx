@@ -1,5 +1,3 @@
-"use client"
-
 import InstallationTypeForm from "./InstallationTypeForms"
 import styles from "../styles/Modal.module.css"
 

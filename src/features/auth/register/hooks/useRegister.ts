@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useCallback } from "react"
 import { userRegister, getTechnicians } from "../services/registerServices"
 import { useAuthStore } from "../../../../../src/store/authStore.ts"

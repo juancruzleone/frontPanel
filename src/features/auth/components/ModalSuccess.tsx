@@ -1,5 +1,3 @@
-"use client"
-
 import styles from "../styles/Modal.module.css"
 
 type ModalSuccessProps = {

@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useMemo, useState } from "react"
 import Button from "../../src/shared/components/Buttons/buttonCreate.tsx"
 import SearchInput from "../shared/components/Inputs/SearchInput.tsx"

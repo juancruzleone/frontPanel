@@ -1,5 +1,3 @@
-"use client"
-
 import type React from "react"
 import { useCallback } from "react"
 import { FiEye, FiEyeOff, FiUser, FiLock, FiShield, FiUserPlus } from "react-icons/fi"

@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import Button from "../../src/shared/components/Buttons/buttonCreate.tsx"

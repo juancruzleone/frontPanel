@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect } from "react"
 import InstallationForm from "../../../../src/features/installations/components/InstallationForm"
 import useInstallations from "../../../../src/features/installations/hooks/useInstallations"

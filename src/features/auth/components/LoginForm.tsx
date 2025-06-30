@@ -1,5 +1,3 @@
-"use client"
-
 import type { loginFormProps } from "../types/loginForm.types"
 import styles from "../styles/loginForm.module.css"
 import { FiEye, FiEyeOff } from "react-icons/fi"

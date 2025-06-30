@@ -1,4 +1,3 @@
-"use client"
 import AssetForm from "./AssetForm"
 import useAssets, { type Asset } from "../hooks/useAssets"
 import styles from "../styles/Modal.module.css"
