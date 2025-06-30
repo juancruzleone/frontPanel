@@ -1,65 +1,51 @@
-import { useAuthStore } from "../../../store/authStore";
+import { useAuthStore } from "../../../store/authStore"
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL
 
 const getToken = () => {
-  return useAuthStore.getState().token;
-};
+  return useAuthStore.getState().token
+}
+
+const handleResponse = async (response: Response) => {
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ message: "Error de conexión" }))
+    throw new Error(error.message || `Error ${response.status}: ${response.statusText}`)
+  }
+  return await response.json()
+}
 
 export const fetchFormTemplates = async () => {
-  const token = getToken();
-
+  const token = getToken()
   const response = await fetch(`${API_URL}plantillas`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "Error al obtener plantillas");
-  }
-
-  return await response.json();
-};
+  })
+  return handleResponse(response)
+}
 
 export const fetchFormTemplateById = async (id: string) => {
-  const token = getToken();
-
+  const token = getToken()
   const response = await fetch(`${API_URL}plantillas/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "Error al obtener plantilla");
-  }
-
-  return await response.json();
-};
+  })
+  return handleResponse(response)
+}
 
 export const fetchFormTemplatesByCategory = async (category: string) => {
-  const token = getToken();
-
-  const response = await fetch(`${API_URL}plantillas/categoria/${category}`, {
+  const token = getToken()
+  const response = await fetch(`${API_URL}plantillas/categoria/${encodeURIComponent(category)}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "Error al obtener plantillas por categoría");
-  }
-
-  return await response.json();
-};
+  })
+  return handleResponse(response)
+}
 
 export const createFormTemplate = async (templateData: any) => {
-  const token = getToken();
-
+  const token = getToken()
   const response = await fetch(`${API_URL}plantillas`, {
     method: "POST",
     headers: {
@@ -67,19 +53,12 @@ export const createFormTemplate = async (templateData: any) => {
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(templateData),
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "Error al crear plantilla");
-  }
-
-  return await response.json();
-};
+  })
+  return handleResponse(response)
+}
 
 export const updateFormTemplate = async (id: string, templateData: any) => {
-  const token = getToken();
-
+  const token = getToken()
   const response = await fetch(`${API_URL}plantillas/${id}`, {
     method: "PUT",
     headers: {
@@ -87,30 +66,28 @@ export const updateFormTemplate = async (id: string, templateData: any) => {
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(templateData),
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "Error al actualizar plantilla");
-  }
-
-  return await response.json();
-};
+  })
+  return handleResponse(response)
+}
 
 export const deleteFormTemplate = async (id: string) => {
-  const token = getToken();
-
+  const token = getToken()
   const response = await fetch(`${API_URL}plantillas/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  });
+  })
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "Error al eliminar plantilla");
+    const error = await response.json().catch(() => ({ message: "Error de conexión" }))
+    throw new Error(error.message || `Error ${response.status}: ${response.statusText}`)
   }
 
-  return await response.json();
-};
+  // Para DELETE, puede que no haya contenido en la respuesta
+  if (response.status === 204) {
+    return { message: "Plantilla eliminada correctamente" }
+  }
+
+  return await response.json()
+}

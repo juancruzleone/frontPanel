@@ -1,100 +1,121 @@
-import { useEffect, useMemo, useState } from "react";
-import Button from "../../src/shared/components/Buttons/buttonCreate";
-import SearchInput from "../shared/components/Inputs/SearchInput";
-import styles from "../features/forms/styles/forms.module.css";
-import useForms from "../features/forms/hooks/useForms";
-import ModalCreateForm from "../features/forms/components/ModalCreateForm";
-import ModalEditForm from "../features/forms/components/ModalEditForm";
-import ModalSuccess from "../features/forms/components/ModalSuccess";
-import ModalConfirmDelete from "../features/forms/components/ModalConfirmDelete";
-import { Edit, Trash } from "lucide-react";
-import { FormTemplate } from "../features/forms/hooks/useForms";
+"use client"
+
+import { useEffect, useMemo, useState } from "react"
+import Button from "../../src/shared/components/Buttons/buttonCreate"
+import SearchInput from "../shared/components/Inputs/SearchInput"
+import styles from "../features/forms/styles/forms.module.css"
+import useForms from "../features/forms/hooks/useForms"
+import ModalCreateForm from "../features/forms/components/ModalCreateForm"
+import ModalEditForm from "../features/forms/components/ModalEditForm"
+import ModalSuccess from "../features/forms/components/ModalSuccess"
+import ModalConfirmDelete from "../features/forms/components/ModalConfirmDelete"
+import { Edit, Trash } from "lucide-react"
+import type { FormTemplate } from "../features/forms/hooks/useForms"
 
 const Forms = () => {
-  const {
-    templates,
-    loading,
-    categories,
-    loadTemplates,
-    addTemplate,
-    editTemplate,
-    removeTemplate,
-  } = useForms();
+  const { templates, loading, categories, loadTemplates, addTemplate, editTemplate, removeTemplate } = useForms()
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [currentTemplate, setCurrentTemplate] = useState<FormTemplate | null>(null);
-  const [responseMessage, setResponseMessage] = useState("");
-  const [templateToDelete, setTemplateToDelete] = useState<FormTemplate | null>(null);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const [searchTerm, setSearchTerm] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState("")
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [currentTemplate, setCurrentTemplate] = useState<FormTemplate | null>(null)
+  const [responseMessage, setResponseMessage] = useState("")
+  const [templateToDelete, setTemplateToDelete] = useState<FormTemplate | null>(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 5
 
   useEffect(() => {
-    document.title = "Plantillas de Formularios | LeoneSuite";
-  }, []);
+    document.title = "Plantillas de Formularios | LeoneSuite"
+  }, [])
 
   const filteredTemplates = useMemo(() => {
-    const searchTermLower = searchTerm.toLowerCase();
-    return templates.filter(template => {
-      const matchesCategory = !selectedCategory || template.categoria === selectedCategory;
-      const matchesSearch = 
+    const searchTermLower = searchTerm.toLowerCase()
+    return templates.filter((template) => {
+      const matchesCategory = !selectedCategory || template.categoria === selectedCategory
+      const matchesSearch =
         template.nombre.toLowerCase().includes(searchTermLower) ||
         template.categoria.toLowerCase().includes(searchTermLower) ||
-        (template.descripcion && template.descripcion.toLowerCase().includes(searchTermLower));
-      return matchesCategory && matchesSearch;
-    });
-  }, [templates, selectedCategory, searchTerm]);
+        (template.descripcion && template.descripcion.toLowerCase().includes(searchTermLower))
+      return matchesCategory && matchesSearch
+    })
+  }, [templates, selectedCategory, searchTerm])
 
-  const totalPages = Math.ceil(filteredTemplates.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredTemplates.length / itemsPerPage)
   const paginatedTemplates = useMemo(() => {
-    const start = (currentPage - 1) * itemsPerPage;
-    return filteredTemplates.slice(start, start + itemsPerPage);
-  }, [filteredTemplates, currentPage]);
+    const start = (currentPage - 1) * itemsPerPage
+    return filteredTemplates.slice(start, start + itemsPerPage)
+  }, [filteredTemplates, currentPage])
 
-  const handleOpenCreate = () => setIsCreateModalOpen(true);
+  const handleOpenCreate = () => {
+    setCurrentTemplate({
+      nombre: "",
+      categoria: "",
+      campos: [],
+    })
+    setIsCreateModalOpen(true)
+  }
 
   const handleOpenEdit = (template: FormTemplate) => {
-    setCurrentTemplate(template);
-    setIsEditModalOpen(true);
-  };
+    setCurrentTemplate({ ...template })
+    setIsEditModalOpen(true)
+  }
 
-  const handleSuccess = (message: string) => {
-    setIsCreateModalOpen(false);
-    setIsEditModalOpen(false);
-    loadTemplates();
-    setResponseMessage(message);
-  };
+  const handleCreateSuccess = async (templateData: FormTemplate) => {
+    try {
+      const newTemplate = await addTemplate(templateData)
+      setIsCreateModalOpen(false)
+      setCurrentTemplate(null)
+      await loadTemplates()
+      setResponseMessage("Plantilla creada con éxito")
+    } catch (error: any) {
+      console.error("Error al crear plantilla:", error)
+      throw error
+    }
+  }
 
-  const closeModal = () => setResponseMessage("");
+  const handleEditSuccess = async (templateData: FormTemplate) => {
+    try {
+      if (!currentTemplate?._id) throw new Error("ID de plantilla no encontrado")
+
+      const updatedTemplate = await editTemplate(currentTemplate._id, templateData)
+      setIsEditModalOpen(false)
+      setCurrentTemplate(null)
+      await loadTemplates()
+      setResponseMessage("Plantilla actualizada con éxito")
+    } catch (error: any) {
+      console.error("Error al actualizar plantilla:", error)
+      throw error
+    }
+  }
+
+  const closeModal = () => setResponseMessage("")
 
   const handleConfirmDelete = async () => {
-    if (!templateToDelete || !templateToDelete._id) return;
+    if (!templateToDelete || !templateToDelete._id) return
     try {
-      await removeTemplate(templateToDelete._id);
-      loadTemplates();
-      setResponseMessage("Plantilla eliminada con éxito");
+      await removeTemplate(templateToDelete._id)
+      await loadTemplates()
+      setResponseMessage("Plantilla eliminada con éxito")
     } catch (err) {
-      console.error("Error al eliminar plantilla", err);
-      setResponseMessage("Error al eliminar plantilla");
+      console.error("Error al eliminar plantilla", err)
+      setResponseMessage("Error al eliminar plantilla")
     } finally {
-      setTemplateToDelete(null);
-      setIsDeleteModalOpen(false);
+      setTemplateToDelete(null)
+      setIsDeleteModalOpen(false)
     }
-  };
+  }
 
   const handleChangePage = (page: number) => {
     if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
+      setCurrentPage(page)
     }
-  };
+  }
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [searchTerm, selectedCategory]);
+    setCurrentPage(1)
+  }, [searchTerm, selectedCategory])
 
   return (
     <>
@@ -103,21 +124,16 @@ const Forms = () => {
         <div className={styles.positionButton}>
           <Button title="Crear plantilla" onClick={handleOpenCreate} />
         </div>
-
         <div className={styles.searchContainer}>
           <SearchInput
             placeholder="Buscar por nombre, categoría o descripción"
             showSelect
             selectPlaceholder="Filtrar por categoría"
-            selectOptions={[
-              { label: "Todas", value: "" },
-              ...categories.map(cat => ({ label: cat, value: cat }))
-            ]}
+            selectOptions={[{ label: "Todas", value: "" }, ...categories.map((cat) => ({ label: cat, value: cat }))]}
             onInputChange={(value) => setSearchTerm(value)}
             onSelectChange={(value) => setSelectedCategory(value)}
           />
         </div>
-
         <div className={styles.listContainer}>
           {loading ? (
             <p className={styles.loader}>Cargando plantillas...</p>
@@ -132,9 +148,7 @@ const Forms = () => {
                       <h3 className={styles.templateTitle}>{template.nombre}</h3>
                       <span className={styles.templateCategory}>{template.categoria}</span>
                     </div>
-                    {template.descripcion && (
-                      <p className={styles.templateDescription}>{template.descripcion}</p>
-                    )}
+                    {template.descripcion && <p className={styles.templateDescription}>{template.descripcion}</p>}
                     <div className={styles.templateStats}>
                       <span>{template.campos.length} campos</span>
                     </div>
@@ -153,8 +167,8 @@ const Forms = () => {
                           className={styles.iconWrapper}
                           data-tooltip="Eliminar plantilla"
                           onClick={() => {
-                            setTemplateToDelete(template);
-                            setIsDeleteModalOpen(true);
+                            setTemplateToDelete(template)
+                            setIsDeleteModalOpen(true)
                           }}
                         >
                           <Trash size={18} />
@@ -164,21 +178,14 @@ const Forms = () => {
                   </div>
                 ))}
               </div>
-
               <div className={styles.pagination}>
-                <button
-                  onClick={() => handleChangePage(currentPage - 1)}
-                  disabled={currentPage === 1}
-                >
+                <button onClick={() => handleChangePage(currentPage - 1)} disabled={currentPage === 1}>
                   &lt;
                 </button>
                 <span>
                   Página {currentPage} de {totalPages}
                 </span>
-                <button
-                  onClick={() => handleChangePage(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                >
+                <button onClick={() => handleChangePage(currentPage + 1)} disabled={currentPage === totalPages}>
                   &gt;
                 </button>
               </div>
@@ -189,17 +196,22 @@ const Forms = () => {
 
       <ModalCreateForm
         isOpen={isCreateModalOpen}
-        onRequestClose={() => setIsCreateModalOpen(false)}
-        onSubmitSuccess={handleSuccess}
-        onAdd={addTemplate}
+        onRequestClose={() => {
+          setIsCreateModalOpen(false)
+          setCurrentTemplate(null)
+        }}
+        onSubmitSuccess={handleCreateSuccess}
+        initialData={currentTemplate}
         categories={categories}
       />
 
       <ModalEditForm
         isOpen={isEditModalOpen}
-        onRequestClose={() => setIsEditModalOpen(false)}
-        onSubmitSuccess={handleSuccess}
-        onEdit={editTemplate}
+        onRequestClose={() => {
+          setIsEditModalOpen(false)
+          setCurrentTemplate(null)
+        }}
+        onSubmitSuccess={handleEditSuccess}
         initialData={currentTemplate}
         categories={categories}
       />
@@ -212,13 +224,9 @@ const Forms = () => {
         description="Esta acción no se puede deshacer. Todos los formularios basados en esta plantilla se verán afectados."
       />
 
-      <ModalSuccess
-        isOpen={!!responseMessage}
-        onRequestClose={closeModal}
-        mensaje={responseMessage}
-      />
+      <ModalSuccess isOpen={!!responseMessage} onRequestClose={closeModal} mensaje={responseMessage} />
     </>
-  );
-};
+  )
+}
 
-export default Forms;
+export default Forms

@@ -30,9 +30,17 @@ const useInstallationTypes = () => {
     }
   }, [])
 
-  const addInstallationType = async (typeData: { nombre: string; descripcion?: string }) => {
+  const addInstallationType = async (typeData: {
+    nombre: string
+    descripcion?: string
+    activo?: boolean
+  }) => {
     try {
-      const newType = await createInstallationType(typeData)
+      const newType = await createInstallationType({
+        ...typeData,
+        activo: typeData.activo !== undefined ? typeData.activo : true,
+      })
+
       setInstallationTypes((prev) => [...prev, newType])
       return { message: "Tipo de instalación creado con éxito" }
     } catch (err: any) {

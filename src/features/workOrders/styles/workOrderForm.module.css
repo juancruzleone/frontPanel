@@ -231,4 +231,12 @@
   .readOnlyField{
     color: black;
   }
-  
+
+  .warningMessage {
+    color: #d32f2f;
+    background-color: #ffebee;
+    padding: 8px;
+    border-radius: 4px;
+    margin-top: 8px;
+    font-size: 0.9em;
+  }

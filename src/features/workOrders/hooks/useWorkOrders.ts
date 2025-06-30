@@ -95,6 +95,7 @@ const useWorkOrders = () => {
     tipoTrabajo: "mantenimiento",
     fechaProgramada: new Date(),
     horaProgramada: "09:00",
+    observaciones: "",
   })
 
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
@@ -117,17 +118,6 @@ const useWorkOrders = () => {
     setError(null)
     try {
       const workOrdersData = await fetchWorkOrders()
-      console.log(
-        "Órdenes cargadas:",
-        workOrdersData.map((order) => ({
-          id: order._id,
-          titulo: order.titulo,
-          estado: order.estado,
-          tecnico: order.tecnico ? order.tecnico.userName : null,
-          tecnicoAsignado: order.tecnicoAsignado,
-          instalacion: order.instalacion ? order.instalacion.company : null,
-        })),
-      )
       setWorkOrders(workOrdersData)
     } catch (err: any) {
       console.error("Error al cargar órdenes de trabajo:", err)
@@ -171,20 +161,13 @@ const useWorkOrders = () => {
 
   const assignTechnician = async (workOrderId: string, technicianId: string) => {
     await assignTechnicianToWorkOrder(workOrderId, technicianId)
-    // Recargar para obtener la información actualizada del técnico
     await loadWorkOrders()
     return { message: "Técnico asignado con éxito" }
   }
 
   const completeWorkOrder = async (id: string, data: any) => {
-    console.log("🚀 Hook: Iniciando completar orden:", id, data)
-
     try {
-      // 1. Hacer POST para completar la orden
       const result = await apiCompleteWorkOrder(id, data)
-      console.log("✅ Hook: POST completado exitosamente:", result)
-
-      // 2. Actualizar estado local (sin hacer GET adicional)
       setWorkOrders((prev) =>
         prev.map((o) =>
           o._id === id
@@ -201,48 +184,56 @@ const useWorkOrders = () => {
             : o,
         ),
       )
-
-      console.log("✅ Hook: Estado local actualizado")
       return { message: "Orden de trabajo completada con éxito" }
     } catch (error) {
-      console.error("❌ Hook: Error al completar orden:", error)
+      console.error("Error al completar orden:", error)
       throw error
     }
   }
 
   const startWorkOrder = async (id: string) => {
-    console.log("🚀 Hook: Iniciando orden:", id)
-
     try {
       await apiStartWorkOrder(id)
-      console.log("✅ Hook: Orden iniciada exitosamente")
-
-      // Actualizar estado local
       setWorkOrders((prev) =>
         prev.map((o) => (o._id === id ? { ...o, estado: "en_progreso", fechaInicio: new Date() } : o)),
       )
-
       return { message: "Orden de trabajo iniciada con éxito" }
     } catch (error) {
-      console.error("❌ Hook: Error al iniciar orden:", error)
+      console.error("Error al iniciar orden:", error)
       throw error
     }
   }
 
-  const handleFieldChange = async (name: string, value: string) => {
-    const updated = { ...formData, [name]: value }
-    setFormData(updated)
-    const validation = await validateWorkOrderForm(updated)
-    setFormErrors(validation.errors)
-  }
+  // Función simplificada para manejar cambios de campo
+  const handleFieldChange = useCallback(
+    (name: string, value: string | any) => {
+      console.log(`Cambiando campo ${name} a:`, value)
+
+      setFormData((prevFormData) => {
+        const updated = { ...prevFormData, [name]: value }
+        console.log("FormData actualizado:", updated)
+        return updated
+      })
+
+      // Limpiar error del campo si existe
+      if (formErrors[name]) {
+        setFormErrors((prev) => {
+          const newErrors = { ...prev }
+          delete newErrors[name]
+          return newErrors
+        })
+      }
+    },
+    [formErrors],
+  )
 
   const handleSubmitForm = async (
     e: React.FormEvent,
     isEditMode: boolean,
     initialData: WorkOrder | null,
     onSuccess: (msg: string) => void,
-    onAdd: typeof addWorkOrder,
-    onEdit: typeof editWorkOrder,
+    onAdd?: typeof addWorkOrder,
+    onEdit?: typeof editWorkOrder,
   ) => {
     e.preventDefault()
     setIsSubmitting(true)
@@ -256,16 +247,26 @@ const useWorkOrders = () => {
     }
 
     try {
-      const result = isEditMode && initialData?._id ? await onEdit(initialData._id, formData) : await onAdd(formData)
+      const result =
+        isEditMode && initialData?._id && onEdit
+          ? await onEdit(initialData._id, formData as WorkOrder)
+          : onAdd
+            ? await onAdd(formData as WorkOrder)
+            : { message: "Error: función no definida" }
+
       onSuccess(result.message)
-    } catch (err) {
+      resetForm()
+    } catch (err: any) {
       console.error("Error al guardar orden:", err)
+      setFormErrors({
+        submit: err.message || "Error al guardar la orden de trabajo",
+      })
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     setFormData({
       titulo: "",
       descripcion: "",
@@ -275,13 +276,93 @@ const useWorkOrders = () => {
       tipoTrabajo: "mantenimiento",
       fechaProgramada: new Date(),
       horaProgramada: "09:00",
+      observaciones: "",
     })
     setFormErrors({})
-  }
+  }, [])
 
-  const setFormValues = (data: Partial<WorkOrder>) => {
-    setFormData((prev) => ({ ...prev, ...data }))
-  }
+  const extractInstalacionId = useCallback((data: any): string => {
+    if (typeof data === "string") {
+      return data
+    }
+    if (data && typeof data === "object" && data.$oid) {
+      return data.$oid
+    }
+    if (data && typeof data === "object" && typeof data.toString === "function") {
+      return data.toString()
+    }
+    return ""
+  }, [])
+
+  const setFormValues = useCallback(
+    (data: Partial<WorkOrder>, availableInstallations: Installation[] = []) => {
+      console.log("setFormValues llamado con:", data)
+
+      const formatDate = (dateValue: any): Date => {
+        if (!dateValue) return new Date()
+        if (dateValue instanceof Date) return dateValue
+        if (typeof dateValue === "string") {
+          const parsed = new Date(dateValue)
+          return isNaN(parsed.getTime()) ? new Date() : parsed
+        }
+        return new Date()
+      }
+
+      let instalacionId = ""
+      let instalacionObject = data.instalacion
+
+      // Extraer instalacionId
+      if (data.instalacionId) {
+        instalacionId = extractInstalacionId(data.instalacionId)
+      } else if (data.instalacion?._id) {
+        instalacionId = extractInstalacionId(data.instalacion._id)
+      }
+
+      // Si tenemos instalaciones disponibles, verificar y corregir el instalacionId
+      if (availableInstallations.length > 0) {
+        if (instalacionId) {
+          const foundInstallation = availableInstallations.find((inst) => inst._id === instalacionId)
+          if (!foundInstallation) {
+            // Si no se encuentra por ID, intentar buscar por nombre de empresa
+            if (data.instalacion?.company) {
+              const foundByName = availableInstallations.find((inst) => inst.company === data.instalacion?.company)
+              if (foundByName) {
+                instalacionId = foundByName._id
+                instalacionObject = foundByName
+              }
+            }
+          } else {
+            instalacionObject = foundInstallation
+          }
+        } else if (data.instalacion?.company) {
+          // Si no hay instalacionId pero sí hay objeto instalacion, buscar por nombre
+          const foundByName = availableInstallations.find((inst) => inst.company === data.instalacion?.company)
+          if (foundByName) {
+            instalacionId = foundByName._id
+            instalacionObject = foundByName
+          }
+        }
+      }
+
+      const updatedFormData = {
+        titulo: data.titulo || "",
+        descripcion: data.descripcion || "",
+        instalacionId: instalacionId,
+        estado: data.estado || "pendiente",
+        prioridad: data.prioridad || "media",
+        tipoTrabajo: data.tipoTrabajo || "mantenimiento",
+        fechaProgramada: formatDate(data.fechaProgramada),
+        horaProgramada: data.horaProgramada || "09:00",
+        observaciones: data.observaciones || "",
+        instalacion: instalacionObject || undefined,
+      }
+
+      console.log("Estableciendo formData a:", updatedFormData)
+      setFormData(updatedFormData)
+      setFormErrors({})
+    },
+    [extractInstalacionId],
+  )
 
   return {
     workOrders,

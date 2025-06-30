@@ -33,8 +33,7 @@ const Installations = () => {
   } = useInstallations()
 
   const { addCategory } = useCategories()
-  const { installationTypes, addInstallationType } = useInstallationTypes()
-
+  const { installationTypes, addInstallationType, loadInstallationTypes } = useInstallationTypes()
   const navigate = useNavigate()
 
   const [selectedCategory, setSelectedCategory] = useState("")
@@ -90,7 +89,6 @@ const Installations = () => {
   }, [installations, selectedCategory, searchTerm])
 
   const totalPages = Math.ceil(filteredInstallations.length / itemsPerPage)
-
   const paginatedInstallations = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage
     return filteredInstallations.slice(start, start + itemsPerPage)
@@ -137,10 +135,13 @@ const Installations = () => {
     setResponseMessage(message)
   }
 
-  const handleSuccessCreateInstallationType = (message: string) => {
+  const handleSuccessCreateInstallationType = async (message: string) => {
     setIsCreateInstallationTypeModalOpen(false)
     setResponseMessage(message)
-    loadInstallations() // Recargar instalaciones para actualizar los tipos
+    // Recargar tipos de instalación para actualizar la lista
+    await loadInstallationTypes()
+    // Recargar instalaciones para actualizar los tipos
+    loadInstallations()
   }
 
   const closeModal = () => setResponseMessage("")

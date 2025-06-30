@@ -14,6 +14,34 @@ import ModalAssignTechnician from "../features/workOrders/components/ModalAssign
 import ModalCompleteWorkOrder from "../features/workOrders/components/ModalCompleteWorkOrder"
 import { Edit, Trash, User, Check, Play } from "lucide-react"
 
+const renderTechnicianInfo = (order: WorkOrder) => {
+  if (order.tecnico && (order.tecnico as any).userName) {
+    return (
+      <p>
+        <strong>Técnico:</strong> {(order.tecnico as any).userName}
+        {order.estado === "asignada" && (
+          <span style={{ marginLeft: "8px", color: "#4CAF50", fontSize: "0.8em" }}>(Pendiente de inicio)</span>
+        )}
+        {order.estado === "en_progreso" && (
+          <span style={{ marginLeft: "8px", color: "#2196F3", fontSize: "0.8em" }}>(En progreso)</span>
+        )}
+      </p>
+    )
+  }
+
+  if (order.tecnicoAsignado) {
+    return (
+      <p style={{ color: "orange" }}>
+        <strong>Técnico asignado:</strong> ID {order.tecnicoAsignado}
+        <br />
+        <small>Cargando detalles del técnico...</small>
+      </p>
+    )
+  }
+
+  return <p style={{ color: "#666", fontStyle: "italic" }}>Sin técnico asignado</p>
+}
+
 const WorkOrders = () => {
   const {
     workOrders,
@@ -34,6 +62,7 @@ const WorkOrders = () => {
   } = useWorkOrders()
 
   const navigate = useNavigate()
+
   const [selectedStatus, setSelectedStatus] = useState("")
   const [searchTerm, setSearchTerm] = useState("")
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
@@ -52,7 +81,6 @@ const WorkOrders = () => {
     document.title = "Órdenes de Trabajo | LeoneSuite"
     const loadData = async () => {
       try {
-        console.log("Cargando datos iniciales...")
         await loadTechnicians()
         await loadInstallations()
         await loadWorkOrders()
@@ -60,8 +88,9 @@ const WorkOrders = () => {
         console.error("Error loading data:", err)
       }
     }
+
     loadData()
-  }, [])
+  }, [loadTechnicians, loadInstallations, loadWorkOrders])
 
   const statusOptions = useMemo(
     () => [
@@ -79,6 +108,7 @@ const WorkOrders = () => {
     const term = searchTerm.toLowerCase()
     return workOrders.filter((order) => {
       if (!order) return false
+
       const fields = [
         order.titulo,
         order.descripcion,
@@ -89,8 +119,10 @@ const WorkOrders = () => {
         order.prioridad,
         order.tipoTrabajo,
       ].filter(Boolean)
+
       const matchesStatus = !selectedStatus || order.estado === selectedStatus
       const matchesSearch = fields.some((f) => f?.toLowerCase().includes(term))
+
       return matchesStatus && matchesSearch
     })
   }, [workOrders, selectedStatus, searchTerm])
@@ -122,7 +154,7 @@ const WorkOrders = () => {
   }
 
   const handleOpenEdit = (order: WorkOrder) => {
-    setInitialData(order)
+    setInitialData({ ...order })
     setIsEditModalOpen(true)
   }
 
@@ -140,16 +172,18 @@ const WorkOrders = () => {
     if (order._id) navigate(`/ordenes-trabajo/${order._id}`)
   }
 
-  const onSuccess = (msg: string) => {
+  const onSuccess = async (msg: string) => {
     setResponseMessage(msg)
     setIsCreateModalOpen(false)
     setIsEditModalOpen(false)
     setIsAssignModalOpen(false)
     setIsCompleteModalOpen(false)
+    await loadWorkOrders()
   }
 
   const handleConfirmDelete = async () => {
     if (!workOrderToDelete?._id) return
+
     try {
       await removeWorkOrder(workOrderToDelete._id)
       onSuccess("Orden de trabajo eliminada con éxito")
@@ -170,43 +204,23 @@ const WorkOrders = () => {
     }
   }
 
+  const shouldShowEditButton = (order: WorkOrder) => {
+    return order.estado !== "completada"
+  }
+
   useEffect(() => {
     setCurrentPage(1)
   }, [searchTerm, selectedStatus])
-
-  const renderTechnicianInfo = (order: WorkOrder) => {
-    if (order.tecnico && order.tecnico.userName) {
-      return (
-        <p>
-          <strong>Técnico:</strong> {order.tecnico.userName}
-          {order.estado === "asignada" && (
-            <span style={{ marginLeft: "8px", color: "#4CAF50", fontSize: "0.8em" }}>(Pendiente de inicio)</span>
-          )}
-          {order.estado === "en_progreso" && (
-            <span style={{ marginLeft: "8px", color: "#2196F3", fontSize: "0.8em" }}>(En progreso)</span>
-          )}
-        </p>
-      )
-    }
-    if (order.tecnicoAsignado) {
-      return (
-        <p style={{ color: "orange" }}>
-          <strong>Técnico asignado:</strong> ID {order.tecnicoAsignado}
-          <br />
-          <small>Cargando detalles del técnico...</small>
-        </p>
-      )
-    }
-    return <p style={{ color: "#666", fontStyle: "italic" }}>Sin técnico asignado</p>
-  }
 
   return (
     <>
       <div className={styles.containerWorkOrders}>
         <h1 className={styles.title}>Órdenes de Trabajo</h1>
+
         <div className={styles.positionButton}>
           <Button title="Crear orden de trabajo" onClick={handleOpenCreate} />
         </div>
+
         <div className={styles.searchContainer}>
           <SearchInput
             placeholder="Buscar por título, descripción, instalación o técnico"
@@ -217,6 +231,7 @@ const WorkOrders = () => {
             onSelectChange={setSelectedStatus}
           />
         </div>
+
         <div className={styles.listContainer}>
           {loading ? (
             <p className={styles.loader}>Cargando órdenes de trabajo...</p>
@@ -236,7 +251,9 @@ const WorkOrders = () => {
                         {order.prioridad.toUpperCase()}
                       </span>
                     </div>
+
                     <p className={styles.workOrderDescription}>{order.descripcion}</p>
+
                     <div className={styles.workOrderDetails}>
                       <p>
                         <strong>Tipo:</strong> {order.tipoTrabajo}
@@ -259,6 +276,7 @@ const WorkOrders = () => {
                       {renderTechnicianInfo(order)}
                     </div>
                   </div>
+
                   <div className={styles.cardActions}>
                     <div className={styles.positionButtons}>
                       {order.estado === "asignada" && (
@@ -291,14 +309,16 @@ const WorkOrders = () => {
                           <User size={20} />
                         </button>
                       )}
-                      <button
-                        className={styles.iconButton}
-                        onClick={() => handleOpenEdit(order)}
-                        aria-label="Editar orden"
-                        data-tooltip="Editar orden"
-                      >
-                        <Edit size={20} />
-                      </button>
+                      {shouldShowEditButton(order) && (
+                        <button
+                          className={styles.iconButton}
+                          onClick={() => handleOpenEdit(order)}
+                          aria-label="Editar orden"
+                          data-tooltip="Editar orden"
+                        >
+                          <Edit size={20} />
+                        </button>
+                      )}
                       <button
                         className={styles.iconButton}
                         onClick={() => {
@@ -311,12 +331,14 @@ const WorkOrders = () => {
                         <Trash size={20} />
                       </button>
                     </div>
+
                     <div className={styles.viewDetailsButton}>
                       <button onClick={() => handleViewDetails(order)}>Ver detalles completos</button>
                     </div>
                   </div>
                 </div>
               ))}
+
               <div className={styles.pagination}>
                 <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
                   {"<"}

@@ -77,43 +77,8 @@
   margin-top: 8px;
 }
 
-/* Estilos para los estados y categorías */
-.assetStatus {
-  padding: 4px 12px;
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 20px;
-  width: fit-content;
-}
-
-/* Colores para diferentes estados */
-.assetStatus.Activo {
-  background-color: #e8f5e9;
-  color: #2e7d32;
-}
-
-.assetStatus.Inactivo {
-  background-color: #fff3e0;
-  color: #e65100;
-}
-
-.assetStatus.Enmantenimiento {
-  background-color: #e3f2fd;
-  color: #1565c0;
-}
-
-.assetStatus.Fueradeservicio {
-  background-color: #ffebee;
-  color: #c62828;
-}
-
-.assetStatus.Pendientederevisión {
-  background-color: #f3e5f5;
-  color: #7b1fa2;
-}
-
 .assetCategory {
-  background-color: #034F49;
+  background-color: #034f49;
   color: #fff;
   padding: 4px 12px;
   font-size: 14px;
@@ -122,13 +87,17 @@
   width: fit-content;
 }
 
-.assetLocation {
-  background-color: #f5f5f5;
-  color: #333;
+.assetTemplate {
+  background-color: #e3f2fd;
+  color: #1565c0;
   padding: 4px 12px;
   font-size: 14px;
+  font-weight: 500;
   border-radius: 20px;
   width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 /* Estilos para los botones de acción */
@@ -193,7 +162,7 @@
 }
 
 .viewDetailsButton button {
-  background-color: #057E74;
+  background-color: #057e74;
   color: #fff;
   border: none;
   padding: 8px 12px;

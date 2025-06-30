@@ -1,4 +1,6 @@
-import { useEffect, useState, useCallback } from "react";
+"use client"
+
+import { useEffect, useState, useCallback } from "react"
 import {
   fetchFormTemplates,
   fetchFormTemplateById,
@@ -6,131 +8,162 @@ import {
   createFormTemplate,
   updateFormTemplate,
   deleteFormTemplate,
-} from "../services/formServices";
+} from "../services/formServices"
 
 export type FormField = {
-  name: string;
-  type: string;
-  label: string;
-  required?: boolean;
-  options?: string[];
-  placeholder?: string;
-  defaultValue?: any;
-  min?: number;
-  max?: number;
-  step?: number;
-  helpText?: string;
-};
+  name: string
+  type: string
+  label: string
+  required?: boolean
+  options?: string[]
+  placeholder?: string
+  defaultValue?: any
+  min?: number
+  max?: number
+  step?: number
+  helpText?: string
+}
 
 export type FormTemplate = {
-  _id?: string;
-  nombre: string;
-  descripcion?: string;
-  categoria: string;
-  campos: FormField[];
-  createdAt?: Date;
-  updatedAt?: Date;
-};
+  _id?: string
+  nombre: string
+  descripcion?: string
+  categoria: string
+  campos: FormField[]
+  createdAt?: Date
+  updatedAt?: Date
+}
 
 const useForms = () => {
-  const [templates, setTemplates] = useState<FormTemplate[]>([]);
-  const [currentTemplate, setCurrentTemplate] = useState<FormTemplate | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [categories, setCategories] = useState<string[]>([]);
+  const [templates, setTemplates] = useState<FormTemplate[]>([])
+  const [currentTemplate, setCurrentTemplate] = useState<FormTemplate | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [categories, setCategories] = useState<string[]>([])
 
   const loadTemplates = useCallback(async () => {
-    setLoading(true);
+    setLoading(true)
+    setError(null)
     try {
-      const data = await fetchFormTemplates();
-      setTemplates(data);
-      
-      const uniqueCategories = Array.from(new Set(data.map(t => t.categoria)));
-      setCategories(uniqueCategories);
+      const data = await fetchFormTemplates()
+      setTemplates(data)
+
+      const uniqueCategories = Array.from(new Set(data.map((t) => t.categoria)))
+      setCategories(uniqueCategories)
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message)
+      console.error("Error loading templates:", err)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, []);
+  }, [])
 
   const loadTemplateById = useCallback(async (id: string) => {
-    setLoading(true);
+    setLoading(true)
+    setError(null)
     try {
-      const data = await fetchFormTemplateById(id);
-      setCurrentTemplate(data);
+      const data = await fetchFormTemplateById(id)
+      setCurrentTemplate(data)
+      return data
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message)
+      console.error("Error loading template by ID:", err)
+      throw err
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, []);
+  }, [])
 
   const loadTemplatesByCategory = useCallback(async (category: string) => {
-    setLoading(true);
+    setLoading(true)
+    setError(null)
     try {
-      const data = await fetchFormTemplatesByCategory(category);
-      return data;
+      const data = await fetchFormTemplatesByCategory(category)
+      return data
     } catch (err: any) {
-      setError(err.message);
-      return [];
+      setError(err.message)
+      console.error("Error loading templates by category:", err)
+      return []
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  }, []);
+  }, [])
 
   const addTemplate = async (template: FormTemplate): Promise<FormTemplate> => {
     try {
-      const newTemplate = await createFormTemplate(template);
-      setTemplates(prev => [...prev, newTemplate]);
-      
+      setError(null)
+      const newTemplate = await createFormTemplate(template)
+
+      // Actualizar el estado local inmediatamente
+      setTemplates((prev) => [...prev, newTemplate])
+
+      // Actualizar categorías si es necesaria
       if (!categories.includes(newTemplate.categoria)) {
-        setCategories(prev => [...prev, newTemplate.categoria]);
+        setCategories((prev) => [...prev, newTemplate.categoria])
       }
-      
-      return newTemplate;
+
+      return newTemplate
     } catch (err: any) {
-      throw err;
+      setError(err.message)
+      console.error("Error adding template:", err)
+      throw err
     }
-  };
+  }
 
   const editTemplate = async (id: string, updatedData: FormTemplate): Promise<FormTemplate> => {
     try {
-      const updatedTemplate = await updateFormTemplate(id, updatedData);
-      setTemplates(prev => 
-        prev.map(t => t._id === id ? updatedTemplate : t)
-      );
-      
-      if (updatedTemplate.categoria !== updatedData.categoria) {
-        const uniqueCategories = Array.from(new Set(templates.map(t => t.categoria)));
-        setCategories(uniqueCategories);
-      }
-      
-      return updatedTemplate;
+      setError(null)
+      const updatedTemplate = await updateFormTemplate(id, updatedData)
+
+      // Actualizar el estado local inmediatamente
+      setTemplates((prev) => prev.map((t) => (t._id === id ? updatedTemplate : t)))
+
+      // Actualizar categorías si cambió la categoría
+      const allCategories = templates.map((t) => (t._id === id ? updatedTemplate.categoria : t.categoria))
+      const uniqueCategories = Array.from(new Set(allCategories))
+      setCategories(uniqueCategories)
+
+      return updatedTemplate
     } catch (err: any) {
-      throw err;
+      setError(err.message)
+      console.error("Error editing template:", err)
+      throw err
     }
-  };
+  }
 
   const removeTemplate = async (id: string): Promise<void> => {
     try {
-      await deleteFormTemplate(id);
-      setTemplates(prev => prev.filter(t => t._id !== id));
-      
-      const uniqueCategories = Array.from(new Set(templates.map(t => t.categoria)));
-      setCategories(uniqueCategories);
+      setError(null)
+      await deleteFormTemplate(id)
+
+      // Actualizar el estado local inmediatamente
+      setTemplates((prev) => {
+        const filtered = prev.filter((t) => t._id !== id)
+
+        // Actualizar categorías después de eliminar
+        const uniqueCategories = Array.from(new Set(filtered.map((t) => t.categoria)))
+        setCategories(uniqueCategories)
+
+        return filtered
+      })
     } catch (err: any) {
-      throw err;
+      setError(err.message)
+      console.error("Error removing template:", err)
+      throw err
     }
-  };
+  }
 
   const resetCurrentTemplate = () => {
-    setCurrentTemplate(null);
-  };
+    setCurrentTemplate(null)
+  }
+
+  const clearError = () => {
+    setError(null)
+  }
 
   useEffect(() => {
-    loadTemplates();
-  }, [loadTemplates]);
+    loadTemplates()
+  }, [loadTemplates])
 
   return {
     templates,
@@ -146,7 +179,8 @@ const useForms = () => {
     removeTemplate,
     resetCurrentTemplate,
     setCurrentTemplate,
-  };
-};
+    clearError,
+  }
+}
 
-export default useForms;
+export default useForms

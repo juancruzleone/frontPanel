@@ -12,6 +12,16 @@
   background: #ffffff;
 }
 
+.generalError {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
 .sectionTitle {
   font-size: 1.25rem;
   color: #374151;
@@ -26,7 +36,7 @@
 }
 
 .sectionTitle::before {
-  content: '';
+  content: "";
   width: 4px;
   height: 20px;
   background: linear-gradient(135deg, #007bff, #0056b3);
@@ -55,7 +65,7 @@
 }
 
 .formGroup label::before {
-  content: '';
+  content: "";
   width: 3px;
   height: 16px;
   background: linear-gradient(135deg, #007bff, #0056b3);
@@ -130,8 +140,53 @@
 }
 
 .inputError::before {
-  content: '⚠';
+  content: "⚠";
   font-size: 1rem;
+}
+
+.loadingMessage {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e5e7eb;
+  border-top: 2px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.templateInfo {
+  margin-top: 0.5rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+}
+
+.templateDescription {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #495057;
+  line-height: 1.5;
 }
 
 .actions {

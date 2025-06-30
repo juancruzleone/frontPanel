@@ -68,48 +68,42 @@ export type WorkOrder = {
   }[]
 }
 
+const handleResponse = async (response: Response) => {
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ message: "Error de conexión" }))
+    throw new Error(error.message || `Error ${response.status}: ${response.statusText}`)
+  }
+  return await response.json()
+}
+
 export const fetchWorkOrders = async (): Promise<WorkOrder[]> => {
   const token = getToken()
-
   try {
-    console.log("🔍 Haciendo GET a órdenes de trabajo...")
-    // Obtener órdenes de trabajo
     const ordersResponse = await fetch(`${API_URL}ordenes-trabajo`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
 
-    if (!ordersResponse.ok) throw new Error("Error al obtener órdenes de trabajo")
-
-    const ordersData = await ordersResponse.json()
+    const ordersData = await handleResponse(ordersResponse)
     const workOrders = ordersData.data || ordersData
 
-    // Verificar si las órdenes ya tienen la información del técnico poblada
     if (workOrders.some((order: any) => order.tecnico && order.tecnico.userName)) {
       return workOrders
     }
 
-    // Si no está poblado, obtener técnicos y enriquecer
     const techResponse = await fetch(`${API_URL}cuentas/tecnicos`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
 
-    if (!techResponse.ok) throw new Error("Error al obtener técnicos")
-
-    const techData = await techResponse.json()
+    const techData = await handleResponse(techResponse)
     const allTechnicians = techData.tecnicos || techData || []
 
-    // Enriquecer órdenes con información de técnicos
     return workOrders.map((order: any) => {
-      // Si ya tiene técnico completo, dejarlo como está
-      if (order.tecnico && order.tecnico.userName) {
-        return order
-      }
+      if (order.tecnico && order.tecnico.userName) return order
 
-      // Buscar técnico por tecnicoAsignado
       if (order.tecnicoAsignado) {
         const foundTech = allTechnicians.find((t: any) => t._id === order.tecnicoAsignado)
         if (foundTech) {
@@ -137,15 +131,12 @@ export const fetchInstallations = async (): Promise<Installation[]> => {
     },
   })
 
-  if (!response.ok) throw new Error("Error al obtener instalaciones")
-
-  const result = await response.json()
+  const result = await handleResponse(response)
   return Array.isArray(result) ? result : []
 }
 
 export const createWorkOrder = async (workOrder: WorkOrder) => {
   const token = getToken()
-
   const response = await fetch(`${API_URL}ordenes-trabajo`, {
     method: "POST",
     headers: {
@@ -155,9 +146,7 @@ export const createWorkOrder = async (workOrder: WorkOrder) => {
     body: JSON.stringify(workOrder),
   })
 
-  if (!response.ok) throw new Error("Error al crear orden de trabajo")
-
-  const result = await response.json()
+  const result = await handleResponse(response)
   return result.data || result
 }
 
@@ -174,15 +163,12 @@ export const updateWorkOrder = async (id: string, workOrder: WorkOrder) => {
     body: JSON.stringify(rest),
   })
 
-  if (!response.ok) throw new Error("Error al actualizar orden de trabajo")
-
-  const result = await response.json()
+  const result = await handleResponse(response)
   return result.data || result
 }
 
 export const deleteWorkOrder = async (id: string) => {
   const token = getToken()
-
   const response = await fetch(`${API_URL}ordenes-trabajo/${id}`, {
     method: "DELETE",
     headers: {
@@ -190,14 +176,11 @@ export const deleteWorkOrder = async (id: string) => {
     },
   })
 
-  if (!response.ok) throw new Error("Error al eliminar orden de trabajo")
-
-  return await response.json()
+  return handleResponse(response)
 }
 
 export const assignTechnicianToWorkOrder = async (workOrderId: string, technicianId: string) => {
   const token = getToken()
-
   const response = await fetch(`${API_URL}ordenes-trabajo/${workOrderId}/asignar`, {
     method: "PATCH",
     headers: {
@@ -207,18 +190,11 @@ export const assignTechnicianToWorkOrder = async (workOrderId: string, technicia
     body: JSON.stringify({ tecnicoId: technicianId }),
   })
 
-  if (!response.ok) throw new Error("Error al asignar técnico")
-
-  const result = await response.json()
-  return result
+  return handleResponse(response)
 }
 
 export const completeWorkOrder = async (workOrderId: string, completionData: any) => {
   const token = getToken()
-
-  console.log("📤 Service: Haciendo POST para completar orden:", workOrderId)
-  console.log("📤 Service: URL:", `${API_URL}ordenes-trabajo/${workOrderId}/completar`)
-  console.log("📤 Service: Datos:", completionData)
 
   const response = await fetch(`${API_URL}ordenes-trabajo/${workOrderId}/completar`, {
     method: "POST",
@@ -229,24 +205,12 @@ export const completeWorkOrder = async (workOrderId: string, completionData: any
     body: JSON.stringify(completionData),
   })
 
-  console.log("📥 Service: Response status:", response.status)
-  console.log("📥 Service: Response ok:", response.ok)
-
-  if (!response.ok) {
-    const errorText = await response.text()
-    console.error("❌ Service: Error response:", errorText)
-    throw new Error(`Error al completar orden de trabajo: ${response.status} - ${errorText}`)
-  }
-
-  const result = await response.json()
-  console.log("✅ Service: Resultado exitoso:", result)
+  const result = await handleResponse(response)
   return result.data || result
 }
 
 export const startWorkOrder = async (workOrderId: string) => {
   const token = getToken()
-
-  console.log("📤 Service: Haciendo PATCH para iniciar orden:", workOrderId)
 
   const response = await fetch(`${API_URL}ordenes-trabajo/${workOrderId}/iniciar`, {
     method: "PATCH",
@@ -255,30 +219,18 @@ export const startWorkOrder = async (workOrderId: string) => {
     },
   })
 
-  console.log("📥 Service: Response status:", response.status)
-
-  if (!response.ok) {
-    const errorText = await response.text()
-    console.error("❌ Service: Error al iniciar:", errorText)
-    throw new Error(`Error al iniciar orden de trabajo: ${response.status} - ${errorText}`)
-  }
-
-  const result = await response.json()
-  console.log("✅ Service: Orden iniciada exitosamente:", result)
+  const result = await handleResponse(response)
   return result.data || result
 }
 
 export const getWorkOrderById = async (id: string): Promise<WorkOrder> => {
   const token = getToken()
-
   const response = await fetch(`${API_URL}ordenes-trabajo/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
 
-  if (!response.ok) throw new Error("Error al obtener orden de trabajo")
-
-  const result = await response.json()
+  const result = await handleResponse(response)
   return result.data || result
 }

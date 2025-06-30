@@ -6,6 +6,14 @@ const getToken = () => {
   return useAuthStore.getState().token
 }
 
+const handleResponse = async (response: Response) => {
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ message: "Error de conexión" }))
+    throw new Error(error.message || `Error ${response.status}: ${response.statusText}`)
+  }
+  return await response.json()
+}
+
 export const fetchInstallationTypes = async (includeInactive = false): Promise<any[]> => {
   const token = getToken()
   const response = await fetch(`${API_URL}tipos-instalacion?includeInactive=${includeInactive}`, {
@@ -13,9 +21,7 @@ export const fetchInstallationTypes = async (includeInactive = false): Promise<a
       Authorization: `Bearer ${token}`,
     },
   })
-
-  if (!response.ok) throw new Error("Error al obtener tipos de instalación")
-  return await response.json()
+  return handleResponse(response)
 }
 
 export const createInstallationType = async (typeData: any) => {
@@ -28,7 +34,5 @@ export const createInstallationType = async (typeData: any) => {
     },
     body: JSON.stringify(typeData),
   })
-
-  if (!response.ok) throw new Error("Error al crear tipo de instalación")
-  return await response.json()
+  return handleResponse(response)
 }

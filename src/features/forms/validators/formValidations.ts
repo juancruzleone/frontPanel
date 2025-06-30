@@ -1,4 +1,4 @@
-import * as yup from "yup";
+import * as yup from "yup"
 
 export const formFieldSchema = yup.object().shape({
   name: yup
@@ -13,11 +13,13 @@ export const formFieldSchema = yup.object().shape({
   required: yup.boolean().default(false),
   options: yup.mixed().when("type", {
     is: (val: string) => val === "select" || val === "radio",
-    then: yup.array()
-      .of(yup.string())
-      .min(1, "Debe proporcionar al menos una opción")
-      .required("Las opciones son obligatorias para campos de tipo select o radio"),
-    otherwise: yup.mixed().notRequired(),
+    then: () =>
+      yup
+        .array()
+        .of(yup.string())
+        .min(1, "Debe proporcionar al menos una opción")
+        .required("Las opciones son obligatorias para campos de tipo select o radio"),
+    otherwise: () => yup.mixed().notRequired(),
   }),
   placeholder: yup.string().notRequired(),
   defaultValue: yup.mixed().notRequired(),
@@ -25,7 +27,7 @@ export const formFieldSchema = yup.object().shape({
   max: yup.number().notRequired(),
   step: yup.number().positive().notRequired(),
   helpText: yup.string().notRequired(),
-});
+})
 
 export const formTemplateSchema = yup.object().shape({
   nombre: yup
@@ -37,21 +39,32 @@ export const formTemplateSchema = yup.object().shape({
     .string()
     .required("La categoría es obligatoria")
     .max(50, "La categoría no puede tener más de 50 caracteres"),
-  campos: yup.array()
+  campos: yup
+    .array()
     .of(formFieldSchema)
     .min(1, "Debe proporcionar al menos un campo")
     .required("Los campos son obligatorios"),
-});
+})
 
 export const validateFormTemplate = async (data: any) => {
   try {
-    await formTemplateSchema.validate(data, { abortEarly: false });
-    return { isValid: true, errors: {} };
+    await formTemplateSchema.validate(data, { abortEarly: false })
+    return { isValid: true, errors: {} }
   } catch (err: any) {
-    const errors: Record<string, string> = {};
-    err.inner.forEach((e: any) => {
-      errors[e.path] = e.message;
-    });
-    return { isValid: false, errors };
+    const errors: Record<string, string> = {}
+
+    if (err.inner && Array.isArray(err.inner)) {
+      err.inner.forEach((e: any) => {
+        if (e.path) {
+          errors[e.path] = e.message
+        }
+      })
+    } else if (err.path) {
+      errors[err.path] = err.message
+    } else {
+      errors._error = err.message || "Error de validación desconocido"
+    }
+
+    return { isValid: false, errors }
   }
-};
+}
