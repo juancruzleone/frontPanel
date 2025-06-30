@@ -1,15 +1,16 @@
-import { createBrowserRouter } from "react-router-dom";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
-import Installations from "../pages/Installations";
-import InstallationDetails from "../pages/InstallationsDetails";
-import Assets from "../pages/Assets.tsx";
-import Forms from "../pages/Forms.tsx";
-import Manuals from "../pages/Manuals.tsx";
-import WorkOrders from "../pages/WorkOrders.tsx";
-import MainLayout from "../layouts/MainLayout";
-import ProtectedRoute from "./ProtectedRoute";
-import RedirectIfLogged from "../../src/router/RedirectIfLoggedIn.tsx";
+import { createBrowserRouter } from "react-router-dom"
+import Login from "../pages/Login"
+import Register from "../pages/Register"
+import Installations from "../pages/Installations"
+import InstallationDetails from "../pages/InstallationsDetails"
+import Assets from "../pages/Assets.tsx"
+import Forms from "../pages/Forms.tsx"
+import Manuals from "../pages/Manuals.tsx"
+import WorkOrders from "../pages/WorkOrders.tsx"
+import Calendar from "../pages/Calendar.tsx"
+import MainLayout from "../layouts/MainLayout"
+import ProtectedRoute from "./ProtectedRoute"
+import RedirectIfLogged from "../../src/router/RedirectIfLoggedIn.tsx"
 
 export const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ export const router = createBrowserRouter([
             element: <WorkOrders />,
           },
           {
+            path: "/calendario",
+            element: <Calendar />,
+          },
+          {
             path: "/register",
             element: <Register />,
           },
@@ -59,4 +64,4 @@ export const router = createBrowserRouter([
       },
     ],
   },
-]);
+])
