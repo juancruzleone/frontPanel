@@ -1,14 +1,80 @@
 .nav {
-  width: 250px;
-  background-color: #034F49;
-  height: 100vh;
-  position: sticky;
+  position: fixed;
   top: 0;
-  padding: 20px 20px 10px; /* menos padding abajo */
-  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  left: -100vw;
+  width: 80vw;
+  max-width: 280px;
+  height: 100vh;
+  background-color: var(--color-nav);
+  transition: left 0.3s ease-in-out;
+  padding: 20px;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* mantiene el userSection abajo */
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.nav.open {
+  left: 0;
+}
+
+@media (min-width: 1024px) {
+  .nav {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 250px;
+    max-width: 250px;
+    height: 100vh;
+    transition: none;
+    padding: 20px 20px 10px;
+  }
+
+  .menuToggle {
+    display: none;
+  }
+}
+
+.menuToggle {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 1100;
+  width: auto;
+  height: auto;
+  color: var(--color-icon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(.4,0,.2,1), opacity 0.3s cubic-bezier(.4,0,.2,1);
+  opacity: 1;
+}
+
+@media (min-width: 1024px) {
+  .menuToggle {
+    display: none !important;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.menuToggle svg {
+  transition: transform 0.3s cubic-bezier(.4,0,.2,1), opacity 0.3s cubic-bezier(.4,0,.2,1);
+  color: inherit;
+  fill: currentColor;
+}
+
+.menuToggle.open svg {
+  transform: rotate(90deg) scale(1.1);
+  opacity: 1;
+  color: inherit;
+  fill: currentColor;
 }
 
 .logoArea {
@@ -47,17 +113,17 @@
 }
 
 .menu li a:hover {
-  background-color: #057E74;
+  background-color: var(--color-nav-hover);
 }
 
 .active {
-  background-color: #057E74;
+  background-color: var(--color-nav-active);
 }
 
 .userSection {
-  padding: 10px 16px 0; /* menos padding arriba */
+  padding: 10px 16px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
-  margin-bottom: 40px; /* sube el userSection un poco */
+  margin-bottom: 40px;
 }
 
 .logoutButton {
@@ -66,7 +132,7 @@
   align-items: center;
   gap: 8px;
   justify-content: center;
-  background-color: #d40012;
+  background-color: var(--color-nav-logout);
   color: #fff;
   font-weight: 700;
   border: none;
@@ -78,5 +144,45 @@
 }
 
 .logoutButton:hover {
-  background-color: #b30010;
+  background-color: var(--color-nav-logout-hover);
+}
+
+.bottomSection {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.themeBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-themebox-bg);
+  border: 2px solid var(--color-themebox-border);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 8px #0001;
+  width: 40px;
+  height: 40px;
+  transition: background 0.2s, border 0.2s;
+}
+
+.themeButton {
+  background: none;
+  border: none;
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: 22px;
+  padding: 0;
+  border-radius: 50%;
+  margin: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
 }

@@ -8,9 +8,11 @@ import Forms from "../pages/Forms.tsx"
 import Manuals from "../pages/Manuals.tsx"
 import WorkOrders from "../pages/WorkOrders.tsx"
 import Calendar from "../pages/Calendar.tsx"
+import DeviceFormPage from "../pages/DeviceFormPage"
 import MainLayout from "../layouts/MainLayout"
 import ProtectedRoute from "./ProtectedRoute"
 import RedirectIfLogged from "../../src/router/RedirectIfLoggedIn.tsx"
+import Home from "../pages/Home" // <-- Import del componente Home
 
 export const router = createBrowserRouter([
   {
@@ -28,6 +30,10 @@ export const router = createBrowserRouter([
       {
         element: <MainLayout />,
         children: [
+          {
+            path: "/inicio", // <-- Ruta agregada
+            element: <Home />,
+          },
           {
             path: "/instalaciones",
             element: <Installations />,
@@ -59,6 +65,10 @@ export const router = createBrowserRouter([
           {
             path: "/register",
             element: <Register />,
+          },
+          {
+            path: "/formulario/:installationId/:deviceId",
+            element: <DeviceFormPage />,
           },
         ],
       },

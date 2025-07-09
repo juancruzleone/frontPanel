@@ -9,6 +9,7 @@ import ModalSuccess from "../features/forms/components/ModalSuccess"
 import ModalConfirmDelete from "../features/forms/components/ModalConfirmDelete"
 import { Edit, Trash } from "lucide-react"
 import type { FormTemplate } from "../features/forms/hooks/useForms"
+import Skeleton from '../shared/components/Skeleton'
 
 const Forms = () => {
   const { templates, loading, categories, loadTemplates, addTemplate, editTemplate, removeTemplate } = useForms()
@@ -134,7 +135,12 @@ const Forms = () => {
         </div>
         <div className={styles.listContainer}>
           {loading ? (
-            <p className={styles.loader}>Cargando plantillas...</p>
+            <>
+              <div className={styles.cardsRow}>
+                {[1,2,3].map((_,i) => <Skeleton key={i} height={120} width={"100%"} style={{borderRadius:14, marginBottom:16}} />)}
+              </div>
+              <Skeleton height={220} width={"100%"} style={{borderRadius:14, marginTop:16}} />
+            </>
           ) : filteredTemplates.length === 0 ? (
             <p className={styles.loader}>No se encontraron plantillas</p>
           ) : (
@@ -150,27 +156,28 @@ const Forms = () => {
                     <div className={styles.templateStats}>
                       <span>{template.campos.length} campos</span>
                     </div>
+
+                    <div className={styles.cardSeparator}></div>
+
                     <div className={styles.templateActions}>
-                      <button className={styles.iconButton}>
-                        <span
-                          className={styles.iconWrapper}
-                          data-tooltip="Editar plantilla"
-                          onClick={() => handleOpenEdit(template)}
-                        >
-                          <Edit size={18} />
-                        </span>
+                      <button 
+                        className={styles.iconButton}
+                        onClick={() => handleOpenEdit(template)}
+                        aria-label="Editar plantilla"
+                        data-tooltip="Editar plantilla"
+                      >
+                        <Edit size={24} />
                       </button>
-                      <button className={styles.iconButton}>
-                        <span
-                          className={styles.iconWrapper}
-                          data-tooltip="Eliminar plantilla"
-                          onClick={() => {
-                            setTemplateToDelete(template)
-                            setIsDeleteModalOpen(true)
-                          }}
-                        >
-                          <Trash size={18} />
-                        </span>
+                      <button 
+                        className={styles.iconButton}
+                        onClick={() => {
+                          setTemplateToDelete(template)
+                          setIsDeleteModalOpen(true)
+                        }}
+                        aria-label="Eliminar plantilla"
+                        data-tooltip="Eliminar plantilla"
+                      >
+                        <Trash size={24} />
                       </button>
                     </div>
                   </div>

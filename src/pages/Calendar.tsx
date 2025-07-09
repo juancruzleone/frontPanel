@@ -8,6 +8,7 @@ import useCalendar, { type WorkOrder } from "../features/calendar/hooks/useCalen
 import ModalWorkOrderDetails from "../features/calendar/components/ModalWorkOrderDetails"
 import ModalSuccess from "../features/workOrders/components/ModalSuccess"
 import { CalendarIcon, Clock, MapPin, User, AlertCircle } from "lucide-react"
+import Skeleton from '../shared/components/Skeleton'
 
 const Calendar = () => {
   const { workOrders, loading, error, loadWorkOrders, startWorkOrder, assignTechnician, completeWorkOrder } =
@@ -412,7 +413,12 @@ const Calendar = () => {
 
         <div className={styles.content}>
           {loading ? (
-            <p className={styles.loader}>Cargando órdenes de trabajo...</p>
+            <>
+              <div className={styles.cardsRow}>
+                {[1,2,3].map((_,i) => <Skeleton key={i} height={120} width={"100%"} style={{borderRadius:14, marginBottom:16}} />)}
+              </div>
+              <Skeleton height={220} width={"100%"} style={{borderRadius:14, marginTop:16}} />
+            </>
           ) : error ? (
             <p className={styles.error}>Error: {error}</p>
           ) : filteredWorkOrders.length === 0 ? (

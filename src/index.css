@@ -1,17 +1,52 @@
+/* VARIABLES GLOBALES DE TEMA */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --color-bg: #D1D1D1;
+  --color-bg-light: #f7f7f7;
+  --color-text: #111;
+  --color-card: #fff;
+  --color-card-border: #e0e0e0;
+  --color-primary: #1976d2;
+  --color-secondary: #057E74;
+  --color-accent: #fbc02d;
+  --color-success: #388e3c;
+  --color-danger: #e53935;
+  --color-skeleton: #f0f0f0;
+  --color-skeleton-light: #e0e0e0;
+  --color-icon: #111;
+  --color-nav: #034F49; /* Verde original */
+  --color-nav-active: #057E74;
+  --color-nav-hover: #057E74;
+  --color-nav-logout: #d40012;
+  --color-nav-logout-hover: #b30010;
+  --color-themebox-bg: #f0f0f0;
+  --color-themebox-border: #e0e0e0;
+  font-family: 'Encode Sans', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  /*background-color: #242424;*/
-  background-color: #D1D1D1;
+}
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.dark {
+  --color-bg: #121212;
+  --color-bg-light: #23272b;
+  --color-text: #f5f5f5;
+  --color-card: #23272b;
+  --color-card-border: #333;
+  --color-primary: #1976d2;
+  --color-secondary: #057E74;
+  --color-accent: #fbc02d;
+  --color-success: #388e3c;
+  --color-danger: #e53935;
+  --color-skeleton: #23272b;
+  --color-skeleton-light: #333;
+  --color-icon: #f5f5f5;
+  --color-nav: #034F49; /* Solo en oscuro */
+  --color-nav-active: #1976d2;
+  --color-nav-hover: #1976d2;
+  --color-nav-logout: #b30010;
+  --color-nav-logout-hover: #d40012;
+  --color-themebox-bg: #23272b;
+  --color-themebox-border: #333;
 }
 
 form {
@@ -19,6 +54,7 @@ form {
 }
 
 body {
+  font-family: 'Encode Sans', system-ui, Avenir, Helvetica, Arial, sans-serif;
   margin: 0;
   display: block;
   min-width: 320px;
@@ -41,7 +77,7 @@ html, body{
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    /* background-color: #ffffff; */
   }
   a:hover {
     color: #747bff;

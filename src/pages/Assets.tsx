@@ -9,6 +9,7 @@ import ModalSuccess from "../features/assets/components/ModalSuccess"
 import ModalConfirmDelete from "../features/assets/components/ModalConfirmDelete"
 import ModalAssignTemplate from "../features/assets/components/ModalAssignTemplate"
 import { Edit, Trash, List, FileText } from "lucide-react"
+import Skeleton from '../shared/components/Skeleton'
 
 const Assets = () => {
   const {
@@ -168,7 +169,12 @@ const Assets = () => {
 
         <div className={styles.listContainer}>
           {loading ? (
-            <p className={styles.loader}>Cargando activos...</p>
+            <>
+              <div className={styles.cardsRow}>
+                {[1,2,3].map((_,i) => <Skeleton key={i} height={120} width={"100%"} style={{borderRadius:14, marginBottom:16}} />)}
+              </div>
+              <Skeleton height={220} width={"100%"} style={{borderRadius:14, marginTop:16}} />
+            </>
           ) : filteredAssets.length === 0 ? (
             <p className={styles.loader}>No se encontraron activos</p>
           ) : (
@@ -195,8 +201,10 @@ const Assets = () => {
                       </div>
                     </div>
 
+                    <div className={styles.cardSeparator}></div>
+
                     <div className={styles.cardActions}>
-                      <div className={styles.positionButtons}>
+                      <div className={styles.actionButtons}>
                         <button
                           className={styles.iconButton}
                           onClick={() => handleOpenAssignTemplate(asset)}
@@ -225,6 +233,7 @@ const Assets = () => {
                           <Trash size={24} />
                         </button>
                       </div>
+
                       <div className={styles.viewDetailsButton}>
                         <button onClick={() => handleViewDetails(asset)}>Ver detalles completos</button>
                       </div>

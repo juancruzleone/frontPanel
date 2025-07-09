@@ -15,12 +15,9 @@
 }
 
 .title {
-  font-size: 32px;
+  font-size: 40px;
   margin: 0;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: #212529;
+  color: var(--color-text);
 }
 
 .viewModeButtons {
@@ -192,11 +189,11 @@
 
 /* Calendar View Styles */
 .calendarContainer {
-  background: white;
+  background: var(--color-card);
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  border: 1px solid #e9ecef;
+  border: 1px solid var(--color-card-border);
 }
 
 .calendarHeader {
@@ -204,8 +201,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 24px;
-  background: linear-gradient(135deg, #057e74 0%, #045e58 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--color-secondary) 0%, #045e58 100%);
+  color: #fff;
 }
 
 .navButton {
@@ -230,6 +227,7 @@
   font-weight: 600;
   margin: 0;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #fff;
 }
 
 .calendarGrid {
@@ -241,9 +239,9 @@
   padding: 16px 12px;
   text-align: center;
   font-weight: 600;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-bottom: 2px solid #dee2e6;
-  color: #495057;
+  background: linear-gradient(135deg, var(--color-bg-light) 0%, #e9ecef 100%);
+  border-bottom: 2px solid var(--color-card-border);
+  color: var(--color-text);
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -251,32 +249,33 @@
 
 .calendarDay {
   min-height: 120px;
-  border-right: 1px solid #dee2e6;
-  border-bottom: 1px solid #dee2e6;
+  border-right: 1px solid var(--color-card-border);
+  border-bottom: 1px solid var(--color-card-border);
   padding: 8px;
   position: relative;
-  background-color: white;
+  background-color: var(--color-card);
   transition: background-color 0.2s ease;
 }
 
 .calendarDay:hover {
-  background-color: #f8f9fa;
+  background-color: var(--color-bg-light);
 }
 
 .calendarDay.otherMonth {
-  background-color: #f8f9fa;
+  background-color: var(--color-bg-light);
   color: #6c757d;
 }
 
 .calendarDay.today {
   background-color: #e3f2fd;
-  border: 2px solid #057e74;
+  border: 2px solid var(--color-secondary);
 }
 
 .dayNumber {
   font-weight: 600;
   margin-bottom: 4px;
   font-size: 14px;
+  color: var(--color-text);
 }
 
 .dayOrders {

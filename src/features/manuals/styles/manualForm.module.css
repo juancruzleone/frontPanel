@@ -1,3 +1,4 @@
+/* Revertir a la estructura original, solo mantener variables CSS para colores */
 .form {
   display: flex;
   flex-direction: column;
@@ -9,7 +10,7 @@
   flex-direction: column;
   gap: 1.5rem;
   padding: 2rem 2.5rem;
-  background: #ffffff;
+  background: var(--color-card);
 }
 
 .formGroup {
@@ -21,7 +22,7 @@
 
 .formGroup label {
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text);
   font-size: 0.95rem;
   margin-bottom: 0.25rem;
   display: flex;
@@ -33,7 +34,7 @@
   content: '';
   width: 3px;
   height: 16px;
-  background: linear-gradient(135deg, #007bff, #0056b3);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
   border-radius: 2px;
 }
 
@@ -41,12 +42,12 @@
 .formGroup select,
 .formGroup textarea {
   padding: 0.875rem 1rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-card-border);
   border-radius: 12px;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background: #ffffff;
-  color: #374151;
+  background: var(--color-card);
+  color: var(--color-text);
   font-family: inherit;
 }
 
@@ -54,15 +55,15 @@
 .formGroup select:focus,
 .formGroup textarea:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1);
-  background: #fafbfc;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.1);
+  background: var(--color-bg-light);
 }
 
 .formGroup input:hover,
 .formGroup select:hover,
 .formGroup textarea:hover {
-  border-color: #d1d5db;
+  border-color: var(--color-card-border);
 }
 
 .formGroup textarea {
@@ -71,14 +72,22 @@
   font-family: inherit;
 }
 
+.formGroup input:disabled,
+.formGroup select:disabled,
+.formGroup textarea:disabled {
+  background-color: var(--color-skeleton);
+  color: var(--color-skeleton-light);
+  cursor: not-allowed;
+}
+
 .errorInput {
-  border-color: #ef4444 !important;
+  border-color: var(--color-danger) !important;
   box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
   background: #fef2f2 !important;
 }
 
 .inputError {
-  color: #ef4444;
+  color: var(--color-danger);
   font-size: 0.875rem;
   margin: 0;
   font-weight: 500;
@@ -100,9 +109,9 @@
 
 .fileInput {
   padding: 1.5rem;
-  border: 2px dashed #d1d5db;
+  border: 2px dashed var(--color-card-border);
   border-radius: 12px;
-  background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+  background: var(--color-bg-light);
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
@@ -120,30 +129,31 @@
 .fileInput::after {
   content: 'Arrastra tu archivo PDF aquí o haz clic para seleccionar';
   display: block;
-  color: #6b7280;
+  color: var(--color-text);
+  opacity: 0.7;
   font-size: 0.9rem;
   font-weight: 500;
 }
 
 .fileInput:hover {
-  border-color: #007bff;
-  background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+  border-color: var(--color-primary);
+  background: var(--color-card);
 }
 
 .fileInput:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.1);
 }
 
 .fileName {
-  color: #059669;
+  color: var(--color-success);
   font-size: 0.9rem;
   font-weight: 600;
   margin: 0;
   padding: 0.75rem 1rem;
-  background: #ecfdf5;
-  border: 1px solid #d1fae5;
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-card-border);
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -152,12 +162,13 @@
 
 .fileName::before {
   content: '✓';
-  color: #059669;
+  color: var(--color-success);
   font-weight: bold;
 }
 
 .fileHint {
-  color: #6b7280;
+  color: var(--color-text);
+  opacity: 0.7;
   font-size: 0.8rem;
   font-style: italic;
   margin: 0;
@@ -177,7 +188,7 @@
 }
 
 .addTagButton {
-  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  background: var(--color-primary);
   color: white;
   border: none;
   border-radius: 8px;
@@ -186,14 +197,14 @@
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
   min-width: 50px;
 }
 
 .addTagButton:hover {
-  background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+  background: var(--color-secondary);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
 }
 
 .addTagButton:active {
@@ -201,7 +212,7 @@
 }
 
 .addTagButton:disabled {
-  background: #9ca3af;
+  background: var(--color-skeleton);
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
@@ -213,17 +224,17 @@
   gap: 0.75rem;
   margin-top: 0.75rem;
   padding: 1rem;
-  background: #f9fafb;
+  background: var(--color-bg-light);
   border-radius: 12px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-card-border);
   min-height: 60px;
   align-items: flex-start;
   align-content: flex-start;
 }
 
 .tag {
-  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
-  color: #374151;
+  background: var(--color-bg-light);
+  color: var(--color-text);
   padding: 0.5rem 0.75rem;
   border-radius: 20px;
   font-size: 0.875rem;
@@ -231,19 +242,19 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid var(--color-card-border);
   transition: all 0.2s ease;
 }
 
 .tag:hover {
-  background: linear-gradient(135deg, #d1d5db 0%, #9ca3af 100%);
+  background: var(--color-card-border);
   transform: translateY(-1px);
 }
 
 .removeTagButton {
   background: none;
   border: none;
-  color: #ef4444;
+  color: var(--color-danger);
   cursor: pointer;
   font-size: 1.1rem;
   padding: 0;
@@ -268,15 +279,15 @@
   gap: 1rem;
   justify-content: flex-end;
   padding: 1.5rem 2.5rem 2rem;
-  border-top: 1px solid #e5e7eb;
-  background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+  border-top: 1px solid var(--color-card-border);
+  background: var(--color-bg-light);
   margin-top: auto;
 }
 
 .cancelButton {
-  background: #f8f9fa;
-  color: #495057;
-  border: 2px solid #dee2e6;
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  border: 2px solid var(--color-card-border);
   padding: 0.875rem 1.75rem;
   border-radius: 12px;
   cursor: pointer;
@@ -287,8 +298,8 @@
 }
 
 .cancelButton:hover {
-  background: #e9ecef;
-  border-color: #adb5bd;
+  background: var(--color-card-border);
+  border-color: var(--color-primary);
   transform: translateY(-1px);
 }
 
@@ -297,14 +308,14 @@
 }
 
 .cancelButton:disabled {
-  background: #f1f3f4;
-  color: #9ca3af;
+  background: var(--color-skeleton);
+  color: var(--color-skeleton-light);
   cursor: not-allowed;
   transform: none;
 }
 
 .submitButton {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: var(--color-success);
   color: white;
   border: 2px solid transparent;
   padding: 0.875rem 1.75rem;
@@ -318,7 +329,7 @@
 }
 
 .submitButton:hover {
-  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  background: var(--color-primary);
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
 }
@@ -328,35 +339,30 @@
 }
 
 .submitButton:disabled {
-  background: #9ca3af;
+  background: var(--color-skeleton);
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .formInner {
     padding: 1.5rem;
     gap: 1.25rem;
   }
-
   .actions {
     padding: 1.25rem 1.5rem;
     flex-direction: column;
     gap: 0.75rem;
   }
-
   .cancelButton,
   .submitButton {
     width: 100%;
   }
-
   .tagsContainer {
     flex-direction: column;
     gap: 0.5rem;
   }
-
   .addTagButton {
     align-self: flex-start;
     min-width: 100px;
@@ -367,15 +373,12 @@
   .formInner {
     padding: 1rem;
   }
-
   .actions {
     padding: 1rem;
   }
-
   .formGroup label {
     font-size: 0.9rem;
   }
-
   .formGroup input,
   .formGroup select,
   .formGroup textarea {
@@ -384,9 +387,9 @@
   }
 }
 
-/* Agrega esto al final del archivo */
 .loadingText {
-  color: #6b7280;
+  color: var(--color-text);
+  opacity: 0.7;
   font-size: 0.85rem;
   margin-top: 0.5rem;
   font-style: italic;

@@ -1,0 +1,165 @@
+.containerDeviceForm {
+    margin: 60px auto;
+    padding: 32px;
+    max-width: 720px;
+    background-color: var(--color-card);
+    border-radius: 16px;
+    box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  
+  .title {
+    font-size: 28px;
+    color: var(--color-primary);
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+  
+  .deviceInfoBox {
+    background: var(--color-bg-light);
+    border-radius: 12px;
+    padding: 20px;
+    font-size: 16px;
+    color: var(--color-text);
+    border: 1px solid var(--color-card-border);
+    line-height: 1.6;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    
+  }
+  
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .label {
+    font-weight: 600;
+    color: var(--color-text);
+  }
+  
+  .required {
+    color: var(--color-danger);
+    margin-left: 4px;
+  }
+  
+  .input, .select, .textarea {
+    border: 1.5px solid var(--color-card-border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 1rem;
+    background: var(--color-bg-light);
+    color: var(--color-text);
+    transition: border 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 2px #0001;
+  }
+  
+  .input:focus, .select:focus, .textarea:focus {
+    border: 1.5px solid var(--color-primary);
+    outline: none;
+    box-shadow: 0 2px 8px #1976d233;
+    color: var(--color-text);
+  }
+  
+  .checkbox {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--color-secondary);
+  }
+  
+  .buttonRow {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+  }
+  
+  .submitButton {
+    background-color: var(--color-secondary);
+    color: #fff;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .submitButton:hover:not(:disabled) {
+    background-color: #045e58;
+  }
+  
+  .submitButton:disabled {
+    background-color: #94a3b8;
+    cursor: not-allowed;
+  }
+  
+  .success {
+    color: #059669;
+    background-color: #ecfdf5;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid #34d399;
+    font-weight: 500;
+  }
+  
+  .error {
+    color: #dc2626;
+    background-color: #fef2f2;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid #f87171;
+    font-weight: 500;
+  }
+  
+  .loader {
+    font-size: 18px;
+    text-align: center;
+    color: #0f172a;
+    padding: 40px 0;
+  }
+  
+  @media (max-width: 900px) {
+    .containerDeviceForm {
+      padding: 18px;
+      max-width: 98vw;
+    }
+    .title {
+      font-size: 22px;
+    }
+  }
+  @media (max-width: 600px) {
+    .containerDeviceForm {
+      padding: 8px;
+      margin: 24px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .title {
+      font-size: 18px;
+    }
+    .form {
+      gap: 12px;
+    }
+    .formGroup {
+      gap: 2px;
+    }
+    .input, .select, .textarea {
+      padding: 8px 8px;
+      font-size: 0.98rem;
+    }
+    .submitButton {
+      padding: 10px 18px;
+      font-size: 15px;
+    }
+  }
+  
+  

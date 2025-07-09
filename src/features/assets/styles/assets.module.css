@@ -1,16 +1,21 @@
 /* src/features/assets/styles/assets.module.css */
 
 .containerAssets {
-  margin-top: 40px;
-  padding: 0 30px;
+  margin: 0 auto;
+  padding: 32px 24px 24px 24px;
+  max-width: 1200px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
+  color: var(--color-text);
 }
 
 .title {
   font-size: 40px;
+  font-weight: 700;
+  color: var(--color-text);
   margin: 0;
+  text-align: left;
 }
 
 .positionButton {
@@ -26,48 +31,83 @@
   margin-top: 10px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
 }
 
 .assetCard {
+  background: var(--color-card);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid var(--color-card-border);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  color: var(--color-text);
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 20px 24px;
-  border: 1px solid #e0e0e0;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.2s ease;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.assetCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
 }
 
 .assetCard:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.assetIcon {
+  color: var(--color-text);
+  fill: var(--color-text);
 }
 
 .assetCard button {
-  padding: 10px;
-  margin: 5px;
+  padding: 8px;
+  margin: 0;
 }
 
-/* Estilos para la información del activo */
+/* Header de la card con título y acciones */
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.cardTitle {
+  flex: 1;
+}
+
+/* Información principal de la card */
 .assetInfo {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
+  flex: 1;
 }
 
 .assetTitle {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
-  color: #212529;
-  margin: 0;
+  color: var(--color-text);
+  margin: 0 0 8px 0;
+  line-height: 1.3;
 }
 
 .assetDetails {
   font-size: 14px;
-  color: #6c757d;
+  color: var(--color-text);
+  opacity: 0.7;
   margin: 0;
+  line-height: 1.4;
 }
 
 .assetMeta {
@@ -78,20 +118,20 @@
 }
 
 .assetCategory {
-  background-color: #034f49;
+  background: var(--color-secondary);
   color: #fff;
-  padding: 4px 12px;
-  font-size: 14px;
+  padding: 6px 12px;
+  font-size: 12px;
   font-weight: 500;
   border-radius: 20px;
   width: fit-content;
 }
 
 .assetTemplate {
-  background-color: #e3f2fd;
-  color: #1565c0;
-  padding: 4px 12px;
-  font-size: 14px;
+  background: var(--color-bg-light);
+  color: var(--color-primary);
+  padding: 6px 12px;
+  font-size: 12px;
   font-weight: 500;
   border-radius: 20px;
   width: fit-content;
@@ -100,36 +140,49 @@
   gap: 4px;
 }
 
-/* Estilos para los botones de acción */
-.cardActions {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0;
+/* Separador antes de las acciones */
+.cardSeparator {
+  height: 1px;
+  background: var(--color-card-border);
+  margin: 8px 0;
 }
 
-.positionButtons {
+/* Acciones en la parte inferior */
+.cardActions {
   display: flex;
-  margin: auto;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  gap: 16px;
+}
+
+.actionButtons {
+  display: flex;
   gap: 8px;
+  align-items: center;
 }
 
 .iconButton {
   background: none;
   border: none;
-  padding: 4px;
-  margin: 4px;
-  color: #000;
+  padding: 8px;
+  color: var(--color-text);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.1s ease;
+  transition: all 0.2s ease;
   position: relative;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
 }
 
 .iconButton:hover {
-  transform: scale(1.1);
+  background: var(--color-bg-light);
+  transform: scale(1.05);
+  color: var(--color-primary);
 }
 
 .iconButton::after {
@@ -138,42 +191,64 @@
   bottom: 125%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #333;
-  color: #fff;
-  padding: 4px 8px;
+  background-color: var(--color-text);
+  color: var(--color-card);
+  padding: 6px 10px;
   font-size: 12px;
+  font-weight: 500;
   white-space: nowrap;
-  border-radius: 4px;
+  border-radius: 6px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
   z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .iconButton:hover::after {
   opacity: 1;
 }
 
+/* Botón "Ver detalles" */
 .viewDetailsButton {
-  margin-top: 8px;
-  width: 100%;
+  margin: 0;
   display: flex;
   justify-content: flex-end;
 }
 
 .viewDetailsButton button {
-  background-color: #057e74;
+  background: var(--color-secondary);
   color: #fff;
   border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: 10px 20px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 500;
-  transition: background-color 0.2s;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .viewDetailsButton button:hover {
-  background-color: #045e58;
+  background: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+/* Información adicional en el footer */
+.cardMeta {
+  display: flex;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--color-text);
+  opacity: 0.7;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 3px;
 }
 
 /* Paginación */
@@ -181,43 +256,50 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.75rem;
-  margin-top: 2rem;
-  font-family: inherit;
+  gap: 8px;
+  margin: 24px 0 0 0;
+  position: sticky;
+  bottom: 0;
+  background: var(--color-bg);
+  padding: 16px 0;
+  border-top: 1px solid var(--color-card-border);
+  z-index: 10;
 }
 
 .pagination button {
-  background-color: #000;
-  color: #fff;
-  border: none;
-  padding: 0.5rem 0.9rem;
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  border: 1px solid var(--color-card-border);
   border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: background 0.2s ease, transform 0.1s ease;
+  transition: all 0.2s ease;
 }
 
 .pagination button:hover:not(:disabled) {
-  background-color: #333;
+  background: var(--color-primary);
+  color: #fff;
   transform: translateY(-1px);
 }
 
 .pagination button:disabled {
-  background-color: #999;
-  color: #eee;
+  background: var(--color-skeleton);
+  color: var(--color-skeleton-light);
   cursor: not-allowed;
-  opacity: 0.6;
 }
 
 .pagination span {
-  font-size: 0.95rem;
-  color: #333;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 14px;
 }
 
 /* Mensajes de carga */
 .loader {
-  color: black;
-  font-size: 1rem;
+  color: var(--color-primary);
+  font-size: 16px;
 }
 
 /* Estilos para los modales (compartidos con installations) */
@@ -236,39 +318,71 @@
 }
 
 .modal {
-  background: white;
-  border-radius: 12px;
+  background: var(--color-card);
+  border-radius: 16px;
   padding: 2rem 2.5rem;
   max-width: 600px;
   width: 90%;
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--color-card-border);
 }
 
 .modalTitle {
   margin: 0 0 1.5rem;
   font-size: 1.5rem;
-  color: #2c3e50;
+  color: var(--color-text);
 }
 
 .modalMessage {
   margin-bottom: 1.5rem;
   font-size: 1rem;
-  color: #333;
+  color: var(--color-text);
 }
 
 .modalButton {
-  background-color: #2ecc71;
+  background: var(--color-success);
   color: white;
   border: none;
   padding: 0.7rem 1.5rem;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
-  transition: background-color 0.2s ease;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
 .modalButton:hover {
-  background-color: #27ae60;
+  background: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 900px) {
+  .containerAssets {
+    padding: 16px 12px;
+  }
+  .listContainer {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .assetCard {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .containerAssets {
+    padding: 12px 8px;
+  }
+  .listContainer {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .title {
+    font-size: 28px;
+  }
+  .assetCard {
+    padding: 12px;
+  }
 }

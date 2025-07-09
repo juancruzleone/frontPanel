@@ -13,7 +13,7 @@
   }
   
   .modal {
-    background: white;
+    background: var(--color-card);
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     max-width: 600px;
@@ -27,15 +27,15 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px;
-    border-bottom: 1px solid #e9ecef;
-    background-color: #f8f9fa;
+    border-bottom: 1px solid var(--color-card-border);
+    background-color: var(--color-bg-light);
   }
   
   .title {
     font-size: 20px;
     font-weight: 600;
     margin: 0;
-    color: #212529;
+    color: var(--color-text);
   }
   
   .closeButton {
@@ -43,17 +43,19 @@
     border: none;
     font-size: 24px;
     cursor: pointer;
-    color: #6c757d;
+    color: var(--color-text);
     padding: 4px;
     line-height: 1;
   }
   
   .closeButton:hover {
-    color: #495057;
+    color: var(--color-text);
+    opacity: 0.8;
   }
   
   .modalContent {
     padding: 20px;
+    background: var(--color-card);
   }
   
   .workOrderDetails {
@@ -68,13 +70,13 @@
     align-items: flex-start;
     gap: 16px;
     padding-bottom: 16px;
-    border-bottom: 1px solid #e9ecef;
+    border-bottom: 1px solid var(--color-card-border);
   }
   
   .workOrderTitle {
     font-size: 24px;
     font-weight: 600;
-    color: #212529;
+    color: var(--color-text);
     margin: 0;
     flex: 1;
   }
@@ -104,14 +106,15 @@
   .section h4 {
     font-size: 16px;
     font-weight: 600;
-    color: #495057;
+    color: var(--color-text);
     margin: 0;
   }
   
   .section p {
     margin: 0;
-    color: #6c757d;
+    color: var(--color-text);
     line-height: 1.5;
+    opacity: 0.7;
   }
   
   .infoGrid {
@@ -125,7 +128,7 @@
     align-items: flex-start;
     gap: 12px;
     padding: 12px;
-    background-color: #f8f9fa;
+    background-color: var(--color-bg-light);
     border-radius: 6px;
   }
   
@@ -142,19 +145,21 @@
   .infoItem strong {
     display: block;
     font-weight: 600;
-    color: #495057;
+    color: var(--color-text);
     margin-bottom: 4px;
   }
   
   .infoItem p {
     margin: 0;
-    color: #6c757d;
+    color: var(--color-text);
     font-size: 14px;
+    opacity: 0.7;
   }
   
   .address {
     font-size: 12px !important;
-    color: #868e96 !important;
+    color: var(--color-text) !important;
+    opacity: 0.6 !important;
   }
   
   .actions {
@@ -163,7 +168,7 @@
     gap: 12px;
     margin-top: 24px;
     padding-top: 20px;
-    border-top: 1px solid #e9ecef;
+    border-top: 1px solid var(--color-card-border);
   }
   
   .startButton {

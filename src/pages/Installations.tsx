@@ -14,6 +14,7 @@ import ModalAddDevice from "../features/installations/components/ModalAddDevice"
 import ModalCreateCategory from "../features/installations/components/ModalCreateCategory"
 import ModalCreateInstallationType from "../features/installations/components/ModalCreateInstallationType"
 import { Edit, Trash, Plus } from "lucide-react"
+import Skeleton from '../shared/components/Skeleton'
 
 const Installations = () => {
   const {
@@ -201,7 +202,12 @@ const Installations = () => {
 
         <div className={styles.listContainer}>
           {loading ? (
-            <p className={styles.loader}>Cargando instalaciones...</p>
+            <>
+              <div className={styles.cardsRow}>
+                {[1,2,3].map((_,i) => <Skeleton key={i} height={120} width={"100%"} style={{borderRadius:14, marginBottom:16}} />)}
+              </div>
+              <Skeleton height={220} width={"100%"} style={{borderRadius:14, marginTop:16}} />
+            </>
           ) : filteredInstallations.length === 0 ? (
             <p className={styles.loader}>No se encontraron instalaciones</p>
           ) : (
@@ -216,8 +222,10 @@ const Installations = () => {
                     </address>
                   </div>
 
+                  <div className={styles.cardSeparator}></div>
+
                   <div className={styles.cardActions}>
-                    <div className={styles.positionButtons}>
+                    <div className={styles.actionButtons}>
                       <button
                         className={styles.iconButton}
                         onClick={() => handleOpenAddDevice(inst)}

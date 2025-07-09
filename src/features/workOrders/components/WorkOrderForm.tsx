@@ -128,7 +128,7 @@ const WorkOrderForm = ({
     >
       <div className={styles.formInner}>
         <div className={styles.formGroup}>
-          <label>Título *</label>
+          <label className="formLabel">Título *</label>
           <input
             type="text"
             name="titulo"
@@ -136,21 +136,21 @@ const WorkOrderForm = ({
             onChange={(e) => handleFieldChange("titulo", e.target.value)}
             onBlur={() => handleFieldBlur("titulo")}
             disabled={isFieldDisabled("titulo")}
-            className={showError("titulo") ? styles.errorInput : ""}
+            className={showError("titulo") ? styles.errorInput : "formInput"}
             placeholder="Ingrese el título de la orden de trabajo"
           />
           {showError("titulo") && <p className={styles.inputError}>{formErrors["titulo"]}</p>}
         </div>
 
         <div className={styles.formGroup}>
-          <label>Descripción *</label>
+          <label className="formLabel">Descripción *</label>
           <textarea
             name="descripcion"
             value={formData.descripcion || ""}
             onChange={(e) => handleFieldChange("descripcion", e.target.value)}
             onBlur={() => handleFieldBlur("descripcion")}
             disabled={isFieldDisabled("descripcion")}
-            className={showError("descripcion") ? styles.errorInput : ""}
+            className={showError("descripcion") ? styles.errorInput : "formInput"}
             rows={4}
             placeholder="Describa el trabajo a realizar"
           />
@@ -158,7 +158,7 @@ const WorkOrderForm = ({
         </div>
 
         <div className={styles.formGroup}>
-          <label>Instalación *</label>
+          <label className="formLabel">Instalación *</label>
           {loadingInstallations ? (
             <p>Cargando instalaciones...</p>
           ) : errorLoadingInstallations ? (
@@ -171,7 +171,7 @@ const WorkOrderForm = ({
                 onChange={handleInstallationChange}
                 onBlur={() => handleFieldBlur("instalacionId")}
                 disabled={isFieldDisabled("instalacionId")}
-                className={showError("instalacionId") ? styles.errorInput : ""}
+                className={showError("instalacionId") ? styles.errorInput : "formInput"}
               >
                 <option value="">Seleccione una instalación</option>
                 {installations.map((inst) => (
@@ -204,14 +204,14 @@ const WorkOrderForm = ({
 
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
-            <label>Tipo de trabajo</label>
+            <label className="formLabel">Tipo de trabajo</label>
             <select
               name="tipoTrabajo"
               value={formData.tipoTrabajo || "mantenimiento"}
               onChange={(e) => handleFieldChange("tipoTrabajo", e.target.value)}
               onBlur={() => handleFieldBlur("tipoTrabajo")}
               disabled={isFieldDisabled("tipoTrabajo")}
-              className={showError("tipoTrabajo") ? styles.errorInput : ""}
+              className={showError("tipoTrabajo") ? styles.errorInput : "formInput"}
             >
               {workTypes.map((type) => (
                 <option key={type.value} value={type.value}>
@@ -223,14 +223,14 @@ const WorkOrderForm = ({
           </div>
 
           <div className={styles.formGroup}>
-            <label>Prioridad</label>
+            <label className="formLabel">Prioridad</label>
             <select
               name="prioridad"
               value={formData.prioridad || "media"}
               onChange={(e) => handleFieldChange("prioridad", e.target.value)}
               onBlur={() => handleFieldBlur("prioridad")}
               disabled={isFieldDisabled("prioridad")}
-              className={showError("prioridad") ? styles.errorInput : ""}
+              className={showError("prioridad") ? styles.errorInput : "formInput"}
             >
               {priorities.map((priority) => (
                 <option key={priority.value} value={priority.value}>
@@ -244,7 +244,7 @@ const WorkOrderForm = ({
 
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
-            <label>Fecha programada *</label>
+            <label className="formLabel">Fecha programada *</label>
             <input
               type="date"
               name="fechaProgramada"
@@ -255,7 +255,7 @@ const WorkOrderForm = ({
               }}
               onBlur={() => handleFieldBlur("fechaProgramada")}
               disabled={isFieldDisabled("fechaProgramada")}
-              className={showError("fechaProgramada") ? styles.errorInput : ""}
+              className={showError("fechaProgramada") ? styles.errorInput : "formInput"}
             />
             {isEditMode && ["completada", "en_progreso"].includes(initialData?.estado || "") && (
               <p className={styles.warningMessage}>
@@ -266,7 +266,7 @@ const WorkOrderForm = ({
           </div>
 
           <div className={styles.formGroup}>
-            <label>Hora programada *</label>
+            <label className="formLabel">Hora programada *</label>
             <input
               type="time"
               name="horaProgramada"
@@ -274,14 +274,14 @@ const WorkOrderForm = ({
               onChange={(e) => handleFieldChange("horaProgramada", e.target.value)}
               onBlur={() => handleFieldBlur("horaProgramada")}
               disabled={isFieldDisabled("horaProgramada")}
-              className={showError("horaProgramada") ? styles.errorInput : ""}
+              className={showError("horaProgramada") ? styles.errorInput : "formInput"}
             />
             {showError("horaProgramada") && <p className={styles.inputError}>{formErrors["horaProgramada"]}</p>}
           </div>
         </div>
 
         <div className={styles.formGroup}>
-          <label>Observaciones</label>
+          <label className="formLabel">Observaciones</label>
           <textarea
             name="observaciones"
             value={formData.observaciones || ""}
@@ -289,6 +289,7 @@ const WorkOrderForm = ({
             disabled={isSubmitting}
             rows={2}
             placeholder="Observaciones adicionales (opcional)"
+            className="formInput"
           />
         </div>
 

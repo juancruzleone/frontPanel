@@ -24,7 +24,7 @@
 
 /* Modal principal (Create/Edit/AssignTemplate) */
 .modal {
-  background: #ffffff;
+  background: var(--color-card);
   border-radius: 20px;
   max-width: 700px;
   width: 95%;
@@ -33,6 +33,7 @@
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.05);
   animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   position: relative;
+  border: 1px solid var(--color-card-border);
 }
 
 @keyframes slideUp {
@@ -51,8 +52,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 2rem 2.5rem 1.5rem;
-  border-bottom: 1px solid #e9ecef;
-  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border-bottom: 1px solid var(--color-card-border);
+  background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-card) 100%);
   position: relative;
 }
 
@@ -63,11 +64,11 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #007bff 0%, #0056b3 50%, #004085 100%);
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 50%, var(--color-accent) 100%);
 }
 
 .modalHeader p {
-  color: black;
+  color: var(--color-text);
 }
 
 .titleSection {
@@ -78,7 +79,7 @@
   margin: 0 0 0.5rem 0;
   font-size: 1.75rem;
   font-weight: 700;
-  color: #212529;
+  color: var(--color-text);
   letter-spacing: -0.025em;
   position: relative;
 }
@@ -90,12 +91,13 @@
   left: 0;
   width: 40px;
   height: 3px;
-  background: linear-gradient(90deg, #007bff, #0056b3);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
   border-radius: 2px;
 }
 
 .installationInfo {
-  color: #6c757d;
+  color: var(--color-text);
+  opacity: 0.7;
   font-size: 0.95rem;
   margin: 0;
   font-weight: 500;
@@ -105,7 +107,7 @@
   background: none;
   border: none;
   font-size: 2rem;
-  color: #6c757d;
+  color: var(--color-text);
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 50%;
@@ -120,8 +122,8 @@
 }
 
 .closeButton:hover {
-  background: #f8f9fa;
-  color: #495057;
+  background: var(--color-bg-light);
+  color: var(--color-text);
   transform: scale(1.1);
 }
 
@@ -135,6 +137,51 @@
   padding: 0;
   max-height: calc(95vh - 120px);
   overflow-y: auto;
+  background: var(--color-card);
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 1.5rem 2.5rem 2rem;
+  border-top: 1px solid var(--color-card-border);
+  background: var(--color-bg-light);
+}
+
+.modalButton {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.modalButton:hover {
+  background: var(--color-secondary);
+  transform: translateY(-1px);
+}
+
+.modalButton.secondary {
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  border: 1px solid var(--color-card-border);
+}
+
+.modalButton.secondary:hover {
+  background: var(--color-card-border);
+}
+
+.modalButton.danger {
+  background: var(--color-danger);
+}
+
+.modalButton.danger:hover {
+  background: #d32f2f;
 }
 
 /* Scrollbar personalizado */
@@ -143,16 +190,16 @@
 }
 
 .modalContent::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--color-bg-light);
 }
 
 .modalContent::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
+  background: var(--color-card-border);
   border-radius: 3px;
 }
 
 .modalContent::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+  background: var(--color-text);
 }
 
 /* Contenido del modal de éxito */
@@ -361,16 +408,18 @@
 /* Responsive */
 @media (max-width: 768px) {
   .modal {
-    width: 95%;
-    max-height: 90vh;
-    border-radius: 16px;
+    width: 98%;
+    max-height: 98vh;
   }
-
-  .modalHeader {
-    padding: 1.5rem 1.5rem 1rem;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+  
+  .modalHeader,
+  .modalContent,
+  .modalFooter {
+    padding: 1.5rem;
+  }
+  
+  .title {
+    font-size: 1.5rem;
   }
 
   .closeButton {
@@ -380,11 +429,6 @@
     width: 36px;
     height: 36px;
     font-size: 1.5rem;
-  }
-
-  .title {
-    font-size: 1.5rem;
-    margin-right: 3rem;
   }
 
   .confirmModal {

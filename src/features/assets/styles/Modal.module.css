@@ -24,7 +24,7 @@
 
 /* Modal principal (Create/Edit/AssignTemplate) */
 .modal {
-  background: #ffffff;
+  background: var(--color-card);
   border-radius: 20px;
   max-width: 700px;
   width: 95%;
@@ -53,8 +53,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 2rem 2.5rem 1.5rem;
-  border-bottom: 1px solid #e9ecef;
-  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border-bottom: 1px solid var(--color-card-border);
+  background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-card) 100%);
   position: relative;
 }
 
@@ -72,7 +72,7 @@
   margin: 0;
   font-size: 1.75rem;
   font-weight: 700;
-  color: #212529;
+  color: var(--color-text);
   letter-spacing: -0.025em;
   position: relative;
 }
@@ -92,7 +92,7 @@
   background: none;
   border: none;
   font-size: 2rem;
-  color: #6c757d;
+  color: var(--color-text);
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 50%;
@@ -106,8 +106,8 @@
 }
 
 .closeButton:hover {
-  background: #f8f9fa;
-  color: #495057;
+  background: var(--color-bg-light);
+  color: var(--color-text);
   transform: scale(1.1);
 }
 
@@ -121,7 +121,7 @@
   padding: 0;
   max-height: calc(95vh - 120px);
   overflow-y: auto;
-  background: #ffffff;
+  background: var(--color-card);
 }
 
 /* Scrollbar personalizado */
@@ -130,16 +130,16 @@
 }
 
 .modalContent::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--color-bg-light);
 }
 
 .modalContent::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
+  background: var(--color-card-border);
   border-radius: 3px;
 }
 
 .modalContent::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+  background: var(--color-text);
 }
 
 /* Formulario de asignación de plantilla */
@@ -154,7 +154,7 @@
   flex-direction: column;
   gap: 1.5rem;
   padding: 2rem 2.5rem;
-  background: #ffffff;
+  background: var(--color-card);
 }
 
 .formGroup {
@@ -166,7 +166,7 @@
 
 .formGroup label {
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text);
   font-size: 0.95rem;
   margin-bottom: 0.25rem;
   display: flex;
@@ -184,12 +184,12 @@
 
 .formGroup select {
   padding: 0.875rem 1rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-card-border);
   border-radius: 12px;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background: #ffffff;
-  color: #374151;
+  background: var(--color-card);
+  color: var(--color-text);
   font-family: inherit;
   appearance: none;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");

@@ -11,3 +11,44 @@
     /*margin-left: 30px;*/
     border-radius: 4px;
 }
+
+.createButton {
+  background: var(--color-primary);
+  color: var(--color-card);
+  border: none;
+  padding: 7px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  min-width: 80px;
+}
+
+.dark .createButton {
+  background: var(--color-secondary);
+  color: #fff;
+}
+
+.createButton:hover {
+  background: var(--color-secondary);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.createButton:active {
+  transform: translateY(0);
+}
+
+.createButton:disabled {
+  background: var(--color-skeleton);
+  color: var(--color-skeleton-light);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}

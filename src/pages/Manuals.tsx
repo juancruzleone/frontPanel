@@ -9,6 +9,7 @@ import ModalSuccess from "../features/manuals/components/ModalSuccess";
 import ModalConfirmDelete from "../features/manuals/components/ModalConfirmDelete";
 import ModalUploadFile from "../features/manuals/components/ModalUploadFile";
 import { Edit, Trash, Upload, FileText, Download, Eye } from 'lucide-react';
+import Skeleton from '../shared/components/Skeleton'
 
 const Manuals = () => {
   const {
@@ -198,7 +199,12 @@ const Manuals = () => {
 
         <div className={styles.listContainer}>
           {loading ? (
-            <p className={styles.loader}>Cargando manuales...</p>
+            <>
+              <div className={styles.cardsRow}>
+                {[1,2,3].map((_,i) => <Skeleton key={i} height={120} width={"100%"} style={{borderRadius:14, marginBottom:16}} />)}
+              </div>
+              <Skeleton height={220} width={"100%"} style={{borderRadius:14, marginTop:16}} />
+            </>
           ) : filteredManuals.length === 0 ? (
             <p className={styles.loader}>No se encontraron manuales</p>
           ) : (
@@ -251,58 +257,58 @@ const Manuals = () => {
                     )}
                   </div>
 
+                  <div className={styles.cardSeparator}></div>
+
                   <div className={styles.cardActions}>
-                    <div className={styles.positionButtons}>
-                      <button
-                        className={styles.iconButton}
-                        onClick={() => handleOpenUploadFile(manual)}
-                        aria-label="Subir archivo"
-                        data-tooltip="Subir/Actualizar archivo"
-                      >
-                        <Upload size={24} />
-                      </button>
-                      
-                      {manual.archivo && (
-                        <>
-                          <button
-                            className={styles.iconButton}
-                            onClick={() => handleViewFile(manual)}
-                            aria-label="Ver archivo"
-                            data-tooltip="Ver archivo"
-                          >
-                            <Eye size={24} />
-                          </button>
-                          <button
-                            className={styles.iconButton}
-                            onClick={() => handleDownloadFile(manual)}
-                            aria-label="Descargar archivo"
-                            data-tooltip="Descargar archivo"
-                          >
-                            <Download size={24} />
-                          </button>
-                        </>
-                      )}
-                      
-                      <button
-                        className={styles.iconButton}
-                        onClick={() => handleOpenEdit(manual)}
-                        aria-label="Editar manual"
-                        data-tooltip="Editar manual"
-                      >
-                        <Edit size={24} />
-                      </button>
-                      <button
-                        className={styles.iconButton}
-                        onClick={() => {
-                          setManualToDelete(manual);
-                          setIsDeleteModalOpen(true);
-                        }}
-                        aria-label="Eliminar manual"
-                        data-tooltip="Eliminar manual"
-                      >
-                        <Trash size={24} />
-                      </button>
-                    </div>
+                    <button
+                      className={styles.iconButton}
+                      onClick={() => handleOpenUploadFile(manual)}
+                      aria-label="Subir archivo"
+                      data-tooltip="Subir/Actualizar archivo"
+                    >
+                      <Upload size={24} />
+                    </button>
+                    
+                    {manual.archivo && (
+                      <>
+                        <button
+                          className={styles.iconButton}
+                          onClick={() => handleViewFile(manual)}
+                          aria-label="Ver archivo"
+                          data-tooltip="Ver archivo"
+                        >
+                          <Eye size={24} />
+                        </button>
+                        <button
+                          className={styles.iconButton}
+                          onClick={() => handleDownloadFile(manual)}
+                          aria-label="Descargar archivo"
+                          data-tooltip="Descargar archivo"
+                        >
+                          <Download size={24} />
+                        </button>
+                      </>
+                    )}
+                    
+                    <button
+                      className={styles.iconButton}
+                      onClick={() => handleOpenEdit(manual)}
+                      aria-label="Editar manual"
+                      data-tooltip="Editar manual"
+                    >
+                      <Edit size={24} />
+                    </button>
+                    <button
+                      className={styles.iconButton}
+                      onClick={() => {
+                        setManualToDelete(manual);
+                        setIsDeleteModalOpen(true);
+                      }}
+                      aria-label="Eliminar manual"
+                      data-tooltip="Eliminar manual"
+                    >
+                      <Trash size={24} />
+                    </button>
                   </div>
                 </div>
               ))}

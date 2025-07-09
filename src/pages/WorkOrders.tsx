@@ -11,6 +11,7 @@ import ModalConfirmDelete from "../features/workOrders/components/ModalConfirmDe
 import ModalAssignTechnician from "../features/workOrders/components/ModalAssignTechnician"
 import ModalCompleteWorkOrder from "../features/workOrders/components/ModalCompleteWorkOrder"
 import { Edit, Trash, User, Check, Play } from "lucide-react"
+import Skeleton from '../shared/components/Skeleton'
 
 const renderTechnicianInfo = (order: WorkOrder) => {
   if (order.tecnico && (order.tecnico as any).userName) {
@@ -79,14 +80,15 @@ const WorkOrders = () => {
     document.title = "Órdenes de Trabajo | LeoneSuite"
     const loadData = async () => {
       try {
-        await loadTechnicians()
-        await loadInstallations()
-        await loadWorkOrders()
+        await Promise.all([
+          loadTechnicians(),
+          loadInstallations(),
+          loadWorkOrders()
+        ])
       } catch (err) {
         console.error("Error loading data:", err)
       }
     }
-
     loadData()
   }, [loadTechnicians, loadInstallations, loadWorkOrders])
 
@@ -232,7 +234,12 @@ const WorkOrders = () => {
 
         <div className={styles.listContainer}>
           {loading ? (
-            <p className={styles.loader}>Cargando órdenes de trabajo...</p>
+            <>
+              <div className={styles.cardsRow}>
+                {[1,2,3].map((_,i) => <Skeleton key={i} height={120} width={"100%"} style={{borderRadius:14, marginBottom:16}} />)}
+              </div>
+              <Skeleton height={220} width={"100%"} style={{borderRadius:14, marginTop:16}} />
+            </>
           ) : filteredWorkOrders.length === 0 ? (
             <p className={styles.loader}>No se encontraron órdenes de trabajo</p>
           ) : (
@@ -275,8 +282,10 @@ const WorkOrders = () => {
                     </div>
                   </div>
 
+                  <div className={styles.cardSeparator}></div>
+
                   <div className={styles.cardActions}>
-                    <div className={styles.positionButtons}>
+                    <div className={styles.actionButtons}>
                       {order.estado === "asignada" && (
                         <button
                           className={styles.iconButton}
@@ -284,7 +293,7 @@ const WorkOrders = () => {
                           aria-label="Iniciar orden"
                           data-tooltip="Iniciar orden"
                         >
-                          <Play size={20} />
+                          <Play size={24} />
                         </button>
                       )}
                       {order.estado === "en_progreso" && (
@@ -294,7 +303,7 @@ const WorkOrders = () => {
                           aria-label="Completar orden"
                           data-tooltip="Completar orden"
                         >
-                          <Check size={20} />
+                          <Check size={24} />
                         </button>
                       )}
                       {order.estado === "pendiente" && (
@@ -304,7 +313,7 @@ const WorkOrders = () => {
                           aria-label="Asignar técnico"
                           data-tooltip="Asignar técnico"
                         >
-                          <User size={20} />
+                          <User size={24} />
                         </button>
                       )}
                       {shouldShowEditButton(order) && (
@@ -314,7 +323,7 @@ const WorkOrders = () => {
                           aria-label="Editar orden"
                           data-tooltip="Editar orden"
                         >
-                          <Edit size={20} />
+                          <Edit size={24} />
                         </button>
                       )}
                       <button
@@ -326,7 +335,7 @@ const WorkOrders = () => {
                         aria-label="Eliminar orden"
                         data-tooltip="Eliminar orden"
                       >
-                        <Trash size={20} />
+                        <Trash size={24} />
                       </button>
                     </div>
 

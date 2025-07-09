@@ -1,18 +1,26 @@
 .containerInstallations {
-  margin-top: 40px;
-  padding: 0 30px;
+  margin: 0 auto;
+  padding: 32px 24px 24px 24px;
+  max-width: 1200px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
+  color: var(--color-text);
+  min-height: unset;
+  position: static;
 }
 
 .title {
   font-size: 40px;
+  font-weight: 700;
+  color: var(--color-text);
   margin: 0;
+  text-align: left;
 }
 
 .positionButton {
-  /* Botón a la izquierda */
+  display: flex;
+  justify-content: flex-start;
 }
 
 .searchContainer {
@@ -23,47 +31,135 @@
   margin-top: 10px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
 }
 
 .installationCard {
+  background: var(--color-card);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid var(--color-card-border);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  color: var(--color-text);
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 20px 24px;
-  border: 1px solid #e0e0e0;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-  transition: box-shadow 0.2s ease;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.installationCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
 }
 
 .installationCard:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
 }
 
-.installationCard button{
-  padding: 10px;
-  margin: 5px;
+.installationCard button {
+  padding: 8px;
+  margin: 0;
 }
 
-/* Íconos de acción */
+/* Header de la card con título y acciones */
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.cardTitle {
+  flex: 1;
+}
+
+/* Información principal de la card */
+.installationInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.installationTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+}
+
+.installationAddress {
+  font-size: 14px;
+  color: var(--color-text);
+  opacity: 0.7;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.installationType {
+  background: var(--color-secondary);
+  color: #fff;
+  text-align: center;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 20px;
+  width: fit-content;
+  align-self: flex-start;
+}
+
+/* Separador antes de las acciones */
+.cardSeparator {
+  height: 1px;
+  background: var(--color-card-border);
+  margin: 8px 0;
+}
+
+/* Acciones en la parte inferior */
+.cardActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  gap: 16px;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
 .iconButton {
   background: none;
   border: none;
-  padding: 4px;
-  margin: 4px;
-  color: #000;
+  padding: 8px;
+  color: var(--color-text);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.1s ease;
+  transition: all 0.2s ease;
   position: relative;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
 }
 
 .iconButton:hover {
-  transform: scale(1.1);
+  background: var(--color-bg-light);
+  transform: scale(1.05);
+  color: var(--color-primary);
 }
 
 .iconButton::after {
@@ -72,172 +168,199 @@
   bottom: 125%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #333;
-  color: #fff;
-  padding: 4px 8px;
+  background-color: var(--color-text);
+  color: var(--color-card);
+  padding: 6px 10px;
   font-size: 12px;
+  font-weight: 500;
   white-space: nowrap;
-  border-radius: 4px;
+  border-radius: 6px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
   z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .iconButton:hover::after {
   opacity: 1;
 }
 
-/* ACCIONES de la card: columna, alineado a la derecha */
-.cardActions {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0;
-}
-
-/* Botones de acción en fila */
-.positionButtons {
-  display: flex;
-  margin: auto;
-  gap: 8px;
-}
-
-/* Botón "Ver listado de dispositivos" debajo y alineado a la derecha */
+/* Botón "Ver listado de dispositivos" */
 .viewDevicesButton {
-  margin-top: 8px;
-  width: 100%;
+  margin: 0;
   display: flex;
   justify-content: flex-end;
 }
 
 .viewDevicesButton button {
-  background-color: #057E74;
+  background: var(--color-secondary);
   color: #fff;
   border: none;
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: 10px 20px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 500;
-  /* Solo cambia color de fondo al hover, no tamaño */
-  transition: background-color 0.2s;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .viewDevicesButton button:hover {
-  background-color: #045e58;
+  background: var(--color-primary);
+  transform: translateY(-1px);
 }
 
-.installationInfo {
+/* Información adicional en el footer */
+.cardMeta {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--color-text);
+  opacity: 0.7;
 }
 
-.installationTitle {
-  font-size: 18px;
-  font-weight: 600;
-  color: #212529;
-  margin: 0;
-}
-
-.installationAddress {
-  font-size: 14px;
-  color: #6c757d;
-  margin: 0;
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 3px;
 }
 
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.75rem;
-  margin-top: 2rem;
-  font-family: inherit;
+  gap: 8px;
+  margin: 24px 0 0 0;
+  position: sticky;
+  bottom: 0;
+  background: var(--color-bg);
+  padding: 16px 0;
+  border-top: 1px solid var(--color-card-border);
+  z-index: 10;
 }
 
 .pagination button {
-  background-color: #000;
-  color: #fff;
-  border: none;
-  padding: 0.5rem 0.9rem;
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  border: 1px solid var(--color-card-border);
   border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: background 0.2s ease, transform 0.1s ease;
+  transition: all 0.2s ease;
 }
 
 .pagination button:hover:not(:disabled) {
-  background-color: #333;
+  background: var(--color-primary);
+  color: #fff;
   transform: translateY(-1px);
 }
 
 .pagination button:disabled {
-  background-color: #999;
-  color: #eee;
+  background: var(--color-skeleton);
+  color: var(--color-skeleton-light);
   cursor: not-allowed;
-  opacity: 0.6;
 }
 
 .pagination span {
-  font-size: 0.95rem;
-  color: #333;
-}
-
-.installationTittle{
-  font-size: 24px;
-  font-weight: 700;
-}
-
-.installationType {
-  background-color: #034F49;
-  color: #ffff;
-  text-align: center;
-  padding: 4px 12px;
+  color: var(--color-text);
+  font-weight: 600;
   font-size: 14px;
-  font-weight: 500;
-  border-radius: 20px;
-  width: fit-content;
 }
 
-.installationAddress{
-  font-size: 18px;
-}
-
-.loader{
-  color: black;
+.loader {
+  color: var(--color-primary);
+  font-size: 16px;
 }
 
 .smallButton {
-  background-color: #ffffff;
-  color: #333;
-  border: 1px solid #999;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-size: 14px;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
   cursor: pointer;
-  margin-top: 10px;
-  align-self: flex-end;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
-  font-weight: 700;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.2s ease;
 }
 
 .smallButton:hover {
-  background-color: #e0e0e0;
-  border-color: #777;
+  background: var(--color-secondary);
+  transform: translateY(-1px);
 }
 
 .searchContainer {
   width: 100%;
+}
+
+.typeButtons {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
   gap: 8px;
+  margin-bottom: 16px;
 }
 
-.typeButtons{
-  display: flex;
+.typeButtons button {
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  border: 1px solid var(--color-card-border);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.typeButtons button{
-  margin: 10px;
+.typeButtons button:hover,
+.typeButtons button.active {
+  background: var(--color-primary);
+  color: #fff;
 }
+
+.skeleton {
+  background: linear-gradient(90deg, var(--color-skeleton) 25%, var(--color-skeleton-light) 50%, var(--color-skeleton) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.2s infinite linear;
+  border-radius: 16px;
+  margin-bottom: 12px;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (max-width: 900px) {
+  .containerInstallations {
+    padding: 16px 12px;
+  }
+  .listContainer {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .installationCard {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .containerInstallations {
+    padding: 12px 8px;
+  }
+  .listContainer {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .title {
+    font-size: 28px;
+  }
+  .installationCard {
+    padding: 12px;
+  }
+}
+

@@ -1,24 +1,24 @@
+import React from "react"
+import { Plus } from "lucide-react"
 import styles from "./buttons.module.css"
 
-interface Props{
-    title: string;
-    onClick?:() => void
-    type?: "button" | "submit" | "reset"
-    disabled?: boolean
+interface ButtonCreateProps {
+  onClick: () => void
+  children?: React.ReactNode
+  className?: string
+  text?: string
 }
 
-const Button = ({title, onClick, type = "button", disabled = false}: Props) => {
-    return(
-        <button
-            type={type}
-            className={styles.buttons}
-            onClick={onClick}
-            disabled={disabled}
-        >
-            {title}
-        </button>
-    )
-
+const ButtonCreate: React.FC<ButtonCreateProps> = ({ onClick, children, className = "", text }) => {
+  return (
+    <button 
+      className={`${styles.createButton} ${className}`} 
+      onClick={onClick}
+    >
+      <Plus size={14} />
+      {text || children || "Crear"}
+    </button>
+  )
 }
 
-export default Button
+export default ButtonCreate
