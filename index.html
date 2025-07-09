@@ -5,6 +5,56 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + React + TS</title>
+    <script>
+      // Script para evitar el parpadeo del tema
+      (function() {
+        const stored = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        
+        // Determinar el tema inicial
+        let isDark = false;
+        if (stored === "dark") {
+          isDark = true;
+        } else if (stored === "light") {
+          isDark = false;
+        } else {
+          isDark = prefersDark;
+        }
+        
+        // Aplicar el tema inmediatamente
+        if (isDark) {
+          document.documentElement.classList.add("dark");
+          document.body.classList.add("dark");
+          
+          // Aplicar variables CSS para modo oscuro inmediatamente
+          document.documentElement.style.setProperty('--color-bg', '#121212');
+          document.documentElement.style.setProperty('--color-bg-light', '#23272b');
+          document.documentElement.style.setProperty('--color-text', '#f5f5f5');
+          document.documentElement.style.setProperty('--color-card', '#23272b');
+          document.documentElement.style.setProperty('--color-card-border', '#333');
+          document.documentElement.style.setProperty('--color-skeleton', '#23272b');
+          document.documentElement.style.setProperty('--color-skeleton-light', '#333');
+          document.documentElement.style.setProperty('--color-icon', '#f5f5f5');
+          document.documentElement.style.setProperty('--color-themebox-bg', '#23272b');
+          document.documentElement.style.setProperty('--color-themebox-border', '#333');
+        } else {
+          document.documentElement.classList.remove("dark");
+          document.body.classList.remove("dark");
+          
+          // Aplicar variables CSS para modo claro inmediatamente
+          document.documentElement.style.setProperty('--color-bg', '#D1D1D1');
+          document.documentElement.style.setProperty('--color-bg-light', '#f7f7f7');
+          document.documentElement.style.setProperty('--color-text', '#111');
+          document.documentElement.style.setProperty('--color-card', '#fff');
+          document.documentElement.style.setProperty('--color-card-border', '#e0e0e0');
+          document.documentElement.style.setProperty('--color-skeleton', '#d0d0d0');
+          document.documentElement.style.setProperty('--color-skeleton-light', '#c0c0c0');
+          document.documentElement.style.setProperty('--color-icon', '#111');
+          document.documentElement.style.setProperty('--color-themebox-bg', '#f0f0f0');
+          document.documentElement.style.setProperty('--color-themebox-border', '#e0e0e0');
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
