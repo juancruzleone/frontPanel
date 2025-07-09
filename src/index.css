@@ -10,8 +10,8 @@
   --color-accent: #fbc02d;
   --color-success: #388e3c;
   --color-danger: #e53935;
-  --color-skeleton: #f0f0f0;
-  --color-skeleton-light: #e0e0e0;
+  --color-skeleton: #d0d0d0;
+  --color-skeleton-light: #c0c0c0;
   --color-icon: #111;
   --color-nav: #034F49; /* Verde original */
   --color-nav-active: #057E74;
@@ -41,8 +41,8 @@
   --color-skeleton-light: #333;
   --color-icon: #f5f5f5;
   --color-nav: #034F49; /* Solo en oscuro */
-  --color-nav-active: #1976d2;
-  --color-nav-hover: #1976d2;
+  --color-nav-active: #057E74;
+  --color-nav-hover: #057E74;
   --color-nav-logout: #b30010;
   --color-nav-logout-hover: #d40012;
   --color-themebox-bg: #23272b;

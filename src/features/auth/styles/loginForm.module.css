@@ -1,7 +1,7 @@
 h1 {
   font-family: 'Encode Sans', sans-serif;
   font-weight: 700;
-  color: black;
+  color: var(--color-text);
   text-align: center;
 }
 
@@ -15,7 +15,7 @@ form {
 }
 
 form label {
-  color: black;
+  color: var(--color-text);
   font-size: 20px;
   font-weight: 600;
 }
@@ -24,20 +24,27 @@ form input {
   padding: 12px;
   border-radius: 4px;
   width: 100%;
-  background-color: white;
-  color: black;
+  background-color: var(--color-card);
+  color: var(--color-text);
   font-family: "montserrat", sans-serif;
   font-size: 16px;
-  border: 1px solid black;
+  border: 1px solid var(--color-card-border);
   box-sizing: border-box;
   margin-top: 0px;
+  transition: all 0.2s ease;
+}
+
+form input:focus {
+  outline: none;
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 2px rgba(5, 126, 116, 0.1);
 }
 
 button {
   margin-top: 10px;
   padding: 16px;
   border-radius: 4px;
-  background-color: #01727A;
+  background-color: var(--color-secondary);
   color: #FFFFFF;
   font-weight: 200;
   font-family: 'Encode Sans', sans-serif;
@@ -46,10 +53,17 @@ button {
   border: 0px;
   width: 100%;
   box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--color-nav-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.3);
 }
 
 button[type="submit"] {
-  background-color: black;
+  background-color: var(--color-secondary);
   color: #FFFFFF;
   font-weight: 200;
   font-family: 'Encode Sans', sans-serif;
@@ -58,6 +72,23 @@ button[type="submit"] {
   border: 0px;
   width: 100%;
   box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: var(--color-nav-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.3);
+}
+
+/* En modo oscuro, el botón cambia a un color más claro */
+.dark button[type="submit"] {
+  background-color: var(--color-accent);
+}
+
+.dark button[type="submit"]:hover {
+  background-color: #e6b800;
+  box-shadow: 0 4px 12px rgba(251, 192, 45, 0.3);
 }
 
 .inputWrapper {
@@ -74,7 +105,7 @@ button[type="submit"] {
   background: transparent;
   border: none;
   cursor: pointer;
-  color: #555;
+  color: var(--color-icon);
   font-size: 18px;
   padding: 0;
   outline: none;
@@ -86,10 +117,11 @@ button[type="submit"] {
   justify-content: center;
   border-radius: 0;
   margin: 0;
+  transition: color 0.2s ease;
 }
 
 .eyesButton:hover {
-  color: #01727A;
+  color: var(--color-secondary);
   background: transparent !important;
   box-shadow: none !important;
   transform: translateY(-50%) !important;
@@ -107,7 +139,7 @@ button[type="submit"] {
 
 .eyesButton:hover svg,
 .eyesButton:hover i {
-  color: #01727A;
+  color: var(--color-secondary);
   transform: none;
 }
 
@@ -121,15 +153,15 @@ button[type="submit"] {
 }
 
 input:-webkit-autofill {
-  box-shadow: 0 0 0px 1000px white inset !important;
-  -webkit-text-fill-color: black !important;
+  box-shadow: 0 0 0px 1000px var(--color-card) inset !important;
+  -webkit-text-fill-color: var(--color-text) !important;
   transition: background-color 9999s ease-in-out 0s;
 }
 
 .alertDanger {
-  background-color: #f8d7da;
-  border: 1px solid #f5c2c7;
-  color: #842029;
+  background-color: var(--color-danger);
+  border: 1px solid var(--color-danger);
+  color: #fff;
   padding: 12px 20px;
   border-radius: 4px;
   font-family: 'Encode Sans', sans-serif;
@@ -138,10 +170,11 @@ input:-webkit-autofill {
   width: 100%;
   box-sizing: border-box;
   margin-top: 20px;
+  opacity: 0.9;
 }
 
 .inputError {
-  color: red;
+  color: var(--color-danger);
   font-size: 14px;
   margin-top: -6px;
   margin-bottom: 10px;

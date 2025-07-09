@@ -13,36 +13,36 @@
 }
 
 .createButton {
-  background: var(--color-primary);
-  color: var(--color-card);
+  background: var(--color-nav);
+  color: #fff;
   border: none;
-  padding: 7px 14px;
+  padding: 8px 16px;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 14px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  min-width: 80px;
-}
-
-.dark .createButton {
-  background: var(--color-secondary);
-  color: #fff;
+  box-shadow: 0 2px 8px rgba(3, 79, 73, 0.2);
+  min-width: auto;
+  width: fit-content;
+  font-family: 'Encode Sans', sans-serif;
+  text-transform: none;
+  letter-spacing: 0.025em;
 }
 
 .createButton:hover {
-  background: var(--color-secondary);
+  background: var(--color-nav-hover);
   color: #fff;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(3, 79, 73, 0.3);
 }
 
 .createButton:active {
   transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(3, 79, 73, 0.2);
 }
 
 .createButton:disabled {
@@ -51,4 +51,40 @@
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+}
+
+/* Asegurar que el color sea consistente en modo oscuro */
+.dark .createButton {
+  background: var(--color-nav);
+  color: #fff;
+}
+
+.dark .createButton:hover {
+  background: var(--color-nav-hover);
+  color: #fff;
+}
+
+.themeButton {
+  background: var(--color-themebox-bg);
+  color: var(--color-icon);
+  border: 1px solid var(--color-themebox-border);
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  width: 40px;
+  height: 40px;
+}
+
+.themeButton:hover {
+  background: var(--color-card-border);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.themeButton:active {
+  transform: translateY(0);
 }

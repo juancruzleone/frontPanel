@@ -7,16 +7,17 @@ interface ButtonCreateProps {
   children?: React.ReactNode
   className?: string
   text?: string
+  title?: string
 }
 
-const ButtonCreate: React.FC<ButtonCreateProps> = ({ onClick, children, className = "", text }) => {
+const ButtonCreate: React.FC<ButtonCreateProps> = ({ onClick, children, className = "", text, title }) => {
   return (
     <button 
       className={`${styles.createButton} ${className}`} 
       onClick={onClick}
     >
-      <Plus size={14} />
-      {text || children || "Crear"}
+      <Plus size={16} />
+      {title || text || children || "Crear"}
     </button>
   )
 }

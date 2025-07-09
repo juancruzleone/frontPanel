@@ -1,51 +1,64 @@
 .container {
-  padding: 2rem;
-  max-width: 1200px;
   margin: 0 auto;
+  padding: 32px 24px 24px 24px;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  color: var(--color-text);
+  min-height: unset;
+  position: static;
 }
 
 .header {
   margin-bottom: 2rem;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--color-card-border);
   padding-bottom: 1rem;
 }
 
 .title {
-  font-size: 2rem;
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+  text-align: left;
 }
 
 .address {
-  color: #7f8c8d;
-  font-size: 1rem;
+  color: var(--color-text);
+  opacity: 0.7;
+  font-size: 16px;
   margin-bottom: 1.5rem;
-  text-align: center;
+  text-align: left;
 }
 
 .actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .addButton {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  background-color: #034f49;
+  gap: 8px;
+  background-color: var(--color-nav);
   color: white;
   border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.2s;
-  min-height: 44px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(3, 79, 73, 0.2);
+  font-family: 'Encode Sans', sans-serif;
 }
 
 .addButton:hover {
-  background-color: #023a36;
+  background-color: var(--color-nav-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(3, 79, 73, 0.3);
 }
 
 .addButton span {
@@ -53,99 +66,169 @@
 }
 
 .devicesList {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 10px;
 }
 
 .deviceCard {
-  background: white;
-  border-radius: 8px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
-  transition: transform 0.2s, box-shadow 0.2s;
+  background: var(--color-card);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid var(--color-card-border);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  color: var(--color-text);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.deviceCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
 }
 
 .deviceCard:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.deviceCard button {
+  padding: 8px;
+  margin: 0;
+}
+
+/* Información principal de la card */
+.deviceInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
 }
 
 .deviceInfo h3 {
-  font-size: 1.25rem;
-  margin-bottom: 0.75rem;
-  color: #2c3e50;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 8px 0;
+  line-height: 1.3;
 }
 
 .deviceInfo p {
-  margin: 0.5rem 0;
-  color: #7f8c8d;
+  font-size: 14px;
+  color: var(--color-text);
+  opacity: 0.7;
+  margin: 0;
+  line-height: 1.4;
 }
 
 .deviceInfo strong {
-  color: #2c3e50;
+  color: var(--color-text);
+  font-weight: 600;
 }
 
+/* Separador antes de las acciones */
+.cardSeparator {
+  height: 1px;
+  background: var(--color-card-border);
+  margin: 8px 0;
+}
+
+/* Acciones en la parte inferior */
 .deviceActions {
   display: flex;
   justify-content: flex-end;
-  gap: 0.5rem;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid #f0f0f0;
+  gap: 8px;
+  align-items: center;
+  margin-top: auto;
 }
 
 .editButton,
-.deleteButton {
+.deleteButton,
+.qrButton,
+.pdfButton {
   background: none;
   border: none;
+  padding: 8px;
+  color: var(--color-text);
   cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s ease;
+  position: relative;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
 }
 
-.editButton {
-  color: #3498db;
+.editButton:hover,
+.deleteButton:hover,
+.qrButton:hover,
+.pdfButton:hover {
+  background: var(--color-bg-light);
+  transform: scale(1.05);
+  color: var(--color-primary);
 }
 
-.editButton:hover {
-  background-color: #ebf5fb;
+.editButton::after,
+.deleteButton::after,
+.qrButton::after,
+.pdfButton::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-text);
+  color: var(--color-card);
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  border-radius: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.deleteButton {
-  color: #e74c3c;
-}
-
-.deleteButton:hover {
-  background-color: #fdedec;
+.editButton:hover::after,
+.deleteButton:hover::after,
+.qrButton:hover::after,
+.pdfButton:hover::after {
+  opacity: 1;
 }
 
 /* Estados de dispositivos */
 .Activo {
-  color: #27ae60;
+  color: var(--color-success);
   font-weight: 500;
 }
 
 .Inactivo {
-  color: #e67e22;
+  color: var(--color-accent);
   font-weight: 500;
 }
 
 .Enmantenimiento {
-  color: #3498db;
+  color: var(--color-primary);
   font-weight: 500;
 }
 
 .Fueradeservicio {
-  color: #e74c3c;
+  color: var(--color-danger);
   font-weight: 500;
 }
 
@@ -156,15 +239,16 @@
 
 .emptyMessage {
   text-align: center;
-  color: #7f8c8d;
-  font-size: 1.1rem;
-  grid-column: 1 / -1;
+  color: var(--color-text);
+  opacity: 0.7;
+  font-size: 16px;
   padding: 2rem;
 }
 
 .loader {
   text-align: center;
   padding: 2rem;
-  font-size: 1.1rem;
-  color: #7f8c8d;
+  font-size: 16px;
+  color: var(--color-primary);
+  font-weight: 600;
 }

@@ -194,20 +194,34 @@ const InstallationDetails = () => {
                   </p>
                 )}
               </div>
+
+              <div className={styles.cardSeparator}></div>
+
               <div className={styles.deviceActions}>
-                <button className={styles.qrButton} onClick={() => handleShowQR(device)} title="Ver código QR">
-                  <QrCode size={18} />
+                <button 
+                  className={styles.qrButton} 
+                  onClick={() => handleShowQR(device)} 
+                  aria-label="Ver código QR"
+                  data-tooltip="Ver código QR"
+                >
+                  <QrCode size={24} />
                 </button>
                 <button
                   className={styles.pdfButton}
                   onClick={() => handleDownloadLastMaintenancePDF(device)}
                   disabled={loadingPDF === device._id}
-                  title="Descargar último mantenimiento"
+                  aria-label="Descargar último mantenimiento"
+                  data-tooltip="Descargar último mantenimiento"
                 >
-                  <FileText size={18} />
+                  <FileText size={24} />
                 </button>
-                <button className={styles.editButton} onClick={() => handleEditDevice(device)}>
-                  <Edit size={18} />
+                <button 
+                  className={styles.editButton} 
+                  onClick={() => handleEditDevice(device)}
+                  aria-label="Editar dispositivo"
+                  data-tooltip="Editar dispositivo"
+                >
+                  <Edit size={24} />
                 </button>
                 <button
                   className={styles.deleteButton}
@@ -215,8 +229,10 @@ const InstallationDetails = () => {
                     setDeviceToDelete(device)
                     setIsDeleteModalOpen(true)
                   }}
+                  aria-label="Eliminar dispositivo"
+                  data-tooltip="Eliminar dispositivo"
                 >
-                  <Trash size={18} />
+                  <Trash size={24} />
                 </button>
               </div>
             </div>

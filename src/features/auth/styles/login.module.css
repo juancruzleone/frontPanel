@@ -96,3 +96,10 @@
         padding: 0.5rem;
     }
 }
+
+.themeToggleContainer {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+}

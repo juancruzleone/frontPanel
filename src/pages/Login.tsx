@@ -5,6 +5,7 @@ import ModalSuccess from "../features/auth/components/ModalSuccess"
 import { useLogin } from "../features/auth/hooks/useLogin"
 import styles from "../features/auth/styles/login.module.css"
 import { useAuthStore } from "../../src/store/authStore"
+import ThemeToggle from "../shared/components/Buttons/ThemeToggle"
 
 const Login = () => {
   const location = useLocation()
@@ -38,7 +39,11 @@ const Login = () => {
   return (
     <>
       <div className={styles.containerAuth}>
-        <div className={styles.positionContent}></div>
+        <div className={styles.positionContent}>
+          <div className={styles.themeToggleContainer}>
+            <ThemeToggle />
+          </div>
+        </div>
         <div className={styles.positionForm}>
           <LoginForm
             username={username}
