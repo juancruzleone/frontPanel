@@ -288,6 +288,27 @@
   border-color: var(--color-card-border);
 }
 
+.dateFilter {
+  padding: 8px 12px;
+  border: 1px solid var(--color-card-border);
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: var(--color-card);
+  color: var(--color-text);
+  transition: border-color 0.2s ease;
+}
+
+.dateFilter:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.dark .dateFilter {
+  color: #fff;
+  background-color: var(--color-card);
+  border-color: var(--color-card-border);
+}
+
 .dark .filterSelect {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
 }

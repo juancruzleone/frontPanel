@@ -9,7 +9,7 @@
   flex-direction: column;
   gap: 2rem;
   padding: 2rem 2.5rem;
-  background: #ffffff;
+  background: var(--color-card);
 }
 
 .basicInfoSection {
@@ -20,10 +20,10 @@
 
 .sectionTitle {
   font-size: 1.25rem;
-  color: #374151;
+  color: var(--color-text);
   margin: 0 0 1.5rem;
   padding-bottom: 0.75rem;
-  border-bottom: 2px solid #e5e7eb;
+  border-bottom: 2px solid var(--color-card-border);
   font-weight: 700;
   position: relative;
   display: flex;
@@ -48,7 +48,7 @@
 
 .formGroup label {
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text);
   font-size: 0.95rem;
   margin-bottom: 0.25rem;
   display: flex;
@@ -68,12 +68,12 @@
 .formGroup select,
 .formGroup textarea {
   padding: 0.875rem 1rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-card-border);
   border-radius: 12px;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background: #ffffff;
-  color: #374151;
+  background: var(--color-card);
+  color: var(--color-text);
   font-family: inherit;
 }
 
@@ -81,15 +81,15 @@
 .formGroup select:focus,
 .formGroup textarea:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1);
-  background: #fafbfc;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.1);
+  background: var(--color-bg-light);
 }
 
 .formGroup input:hover,
 .formGroup select:hover,
 .formGroup textarea:hover {
-  border-color: #d1d5db;
+  border-color: var(--color-card-border);
 }
 
 .formGroup select {
@@ -110,8 +110,8 @@
 .formGroup input:disabled,
 .formGroup select:disabled,
 .formGroup textarea:disabled {
-  background-color: #f3f4f6;
-  color: #9ca3af;
+  background-color: var(--color-skeleton);
+  color: var(--color-skeleton-light);
   cursor: not-allowed;
 }
 
@@ -122,7 +122,7 @@
 }
 
 .inputError {
-  color: #ef4444;
+  color: var(--color-danger);
   font-size: 0.875rem;
   margin: 0;
   font-weight: 500;

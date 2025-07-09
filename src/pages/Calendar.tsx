@@ -18,6 +18,7 @@ const Calendar = () => {
   const [selectedStatus, setSelectedStatus] = useState("")
   const [selectedPriority, setSelectedPriority] = useState("")
   const [selectedDate, setSelectedDate] = useState("")
+  const [selectedDateFilter, setSelectedDateFilter] = useState("")
   const [searchTerm, setSearchTerm] = useState("")
 
   const [viewMode, setViewMode] = useState<"month" | "week" | "list">("month")
@@ -117,13 +118,19 @@ const Calendar = () => {
         }
       }
 
+      // Filtro por fecha específica
+      if (selectedDateFilter) {
+        const filterDate = new Date(selectedDateFilter)
+        matchesDate = orderDate.toDateString() === filterDate.toDateString()
+      }
+
       const matchesStatus = !selectedStatus || order.estado === selectedStatus
       const matchesPriority = !selectedPriority || order.prioridad === selectedPriority
       const matchesSearch = fields.some((f) => f?.toLowerCase().includes(term))
 
       return matchesStatus && matchesPriority && matchesSearch && matchesDate
     })
-  }, [workOrders, selectedStatus, selectedPriority, selectedDate, searchTerm])
+  }, [workOrders, selectedStatus, selectedPriority, selectedDate, selectedDateFilter, searchTerm])
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -444,11 +451,20 @@ const Calendar = () => {
               ))}
             </select>
 
+            <input
+              type="date"
+              value={selectedDateFilter}
+              onChange={(e) => setSelectedDateFilter(e.target.value)}
+              className={styles.dateFilter}
+              placeholder="Seleccionar fecha"
+            />
+
             <button
               onClick={() => {
                 setSelectedStatus("")
                 setSelectedPriority("")
                 setSelectedDate("")
+                setSelectedDateFilter("")
                 setSearchTerm("")
               }}
               className={styles.clearFilters}
