@@ -1,152 +1,102 @@
-import React, { useState } from "react"
-import styles from "../styles/Modal.module.css"
+import React from 'react'
+import { X, Edit, Trash } from 'lucide-react'
+import styles from '../styles/Modal.module.css'
 
 interface InstallationType {
-  _id: string
+  _id?: string
   nombre: string
   descripcion?: string
+  createdAt?: string
 }
 
 interface ModalManageInstallationTypesProps {
   isOpen: boolean
   onRequestClose: () => void
   installationTypes: InstallationType[]
-  onEditInstallationType: (id: string, data: Partial<InstallationType>) => Promise<{ message: string }>
-  onDeleteInstallationType: (id: string) => Promise<{ message: string }>
-  onSubmitSuccess: (message: string) => void
+  onEdit?: (type: InstallationType) => void
+  onDelete?: (id: string) => void
 }
 
-const ModalManageInstallationTypes = ({
+const ModalManageInstallationTypes: React.FC<ModalManageInstallationTypesProps> = ({
   isOpen,
   onRequestClose,
   installationTypes,
-  onEditInstallationType,
-  onDeleteInstallationType,
-  onSubmitSuccess,
-}: ModalManageInstallationTypesProps) => {
-  const [editingType, setEditingType] = useState<InstallationType | null>(null)
-  const [editData, setEditData] = useState({ nombre: "", descripcion: "" })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [deletingType, setDeletingType] = useState<string | null>(null)
-
+  onEdit,
+  onDelete
+}) => {
   if (!isOpen) return null
 
-  const handleEdit = (type: InstallationType) => {
-    setEditingType(type)
-    setEditData({
-      nombre: type.nombre,
-      descripcion: type.descripcion || "",
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return 'N/A'
+    return new Date(dateString).toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
     })
   }
 
-  const handleCancelEdit = () => {
-    setEditingType(null)
-    setEditData({ nombre: "", descripcion: "" })
-  }
-
-  const handleSaveEdit = async () => {
-    if (!editingType) return
-
-    setIsSubmitting(true)
-    try {
-      await onEditInstallationType(editingType._id, editData)
-      onSubmitSuccess("Tipo de instalación actualizado con éxito")
-      setEditingType(null)
-      setEditData({ nombre: "", descripcion: "" })
-    } catch (error: any) {
-      onSubmitSuccess("Error al actualizar tipo de instalación")
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
-  const handleDelete = async (typeId: string) => {
-    setDeletingType(typeId)
-    try {
-      await onDeleteInstallationType(typeId)
-      onSubmitSuccess("Tipo de instalación eliminado con éxito")
-    } catch (error: any) {
-      onSubmitSuccess("Error al eliminar tipo de instalación")
-    } finally {
-      setDeletingType(null)
-    }
-  }
-
   return (
-    <div className={styles.backdrop}>
-      <div className={styles.modal}>
+    <div className={styles.modalOverlay} onClick={onRequestClose}>
+      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Gestionar Tipos de Instalación</h2>
+          <h2 className={styles.modalTitle}>Tipos de Instalación</h2>
           <button className={styles.closeButton} onClick={onRequestClose}>
-            ×
+            <X size={24} />
           </button>
         </div>
 
-        <div className={styles.modalContent}>
-          <div className={styles.categoriesList}>
-            {installationTypes.length === 0 ? (
-              <p className={styles.emptyMessage}>No hay tipos de instalación creados</p>
-            ) : (
-              installationTypes.map((type) => (
-                <div key={type._id} className={styles.categoryItem}>
-                  {editingType?._id === type._id ? (
-                    <div className={styles.editForm}>
-                      <input
-                        type="text"
-                        value={editData.nombre}
-                        onChange={(e) => setEditData({ ...editData, nombre: e.target.value })}
-                        placeholder="Nombre del tipo"
-                        className={styles.editInput}
-                      />
-                      <input
-                        type="text"
-                        value={editData.descripcion}
-                        onChange={(e) => setEditData({ ...editData, descripcion: e.target.value })}
-                        placeholder="Descripción (opcional)"
-                        className={styles.editInput}
-                      />
-                      <div className={styles.editActions}>
-                        <button
-                          onClick={handleSaveEdit}
-                          disabled={isSubmitting}
-                          className={styles.saveButton}
-                        >
-                          {isSubmitting ? "Guardando..." : "Guardar"}
-                        </button>
-                        <button onClick={handleCancelEdit} className={styles.cancelButton}>
-                          Cancelar
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      <div className={styles.categoryInfo}>
-                        <h4 className={styles.categoryName}>{type.nombre}</h4>
-                        {type.descripcion && (
-                          <p className={styles.categoryDescription}>{type.descripcion}</p>
-                        )}
-                      </div>
-                      <div className={styles.categoryActions}>
-                        <button
-                          onClick={() => handleEdit(type)}
-                          className={styles.editButton}
-                        >
-                          Editar
-                        </button>
-                        <button
-                          onClick={() => handleDelete(type._id)}
-                          disabled={deletingType === type._id}
-                          className={styles.deleteButton}
-                        >
-                          {deletingType === type._id ? "Eliminando..." : "Eliminar"}
-                        </button>
-                      </div>
-                    </>
-                  )}
+        <div className={styles.modalBody}>
+          {installationTypes.length === 0 ? (
+            <div className={styles.emptyState}>
+              <p>No hay tipos de instalación creados</p>
+              <p className={styles.emptyStateSubtext}>
+                Los tipos de instalación aparecerán aquí una vez que los crees
+              </p>
+            </div>
+          ) : (
+            <div className={styles.listContainer}>
+              {installationTypes.map((type) => (
+                <div key={type._id} className={styles.listItem}>
+                  <div className={styles.itemInfo}>
+                    <h3 className={styles.itemTitle}>{type.nombre}</h3>
+                    {type.descripcion && (
+                      <p className={styles.itemDescription}>{type.descripcion}</p>
+                    )}
+                    <p className={styles.itemDate}>
+                      Creado: {formatDate(type.createdAt)}
+                    </p>
+                  </div>
+                  
+                  <div className={styles.itemActions}>
+                    {onEdit && (
+                      <button
+                        className={styles.actionButton}
+                        onClick={() => onEdit(type)}
+                        aria-label="Editar tipo de instalación"
+                      >
+                        <Edit size={16} />
+                      </button>
+                    )}
+                    {onDelete && type._id && (
+                      <button
+                        className={styles.actionButton}
+                        onClick={() => onDelete(type._id!)}
+                        aria-label="Eliminar tipo de instalación"
+                      >
+                        <Trash size={16} />
+                      </button>
+                    )}
+                  </div>
                 </div>
-              ))
-            )}
-          </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className={styles.modalFooter}>
+          <button className={styles.cancelButton} onClick={onRequestClose}>
+            Cerrar
+          </button>
         </div>
       </div>
     </div>

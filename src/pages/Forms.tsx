@@ -7,6 +7,7 @@ import ModalCreateForm from "../features/forms/components/ModalCreateForm"
 import ModalEditForm from "../features/forms/components/ModalEditForm"
 import ModalSuccess from "../features/forms/components/ModalSuccess"
 import ModalConfirmDelete from "../features/forms/components/ModalConfirmDelete"
+import ModalCreateFormCategory from "../features/forms/components/ModalCreateFormCategory"
 import { Edit, Trash } from "lucide-react"
 import type { FormTemplate } from "../features/forms/hooks/useForms"
 import Skeleton from '../shared/components/Skeleton'
@@ -19,6 +20,7 @@ const Forms = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [isCreateCategoryModalOpen, setIsCreateCategoryModalOpen] = useState(false)
   const [currentTemplate, setCurrentTemplate] = useState<FormTemplate | null>(null)
   const [responseMessage, setResponseMessage] = useState("")
   const [templateToDelete, setTemplateToDelete] = useState<FormTemplate | null>(null)
@@ -89,6 +91,11 @@ const Forms = () => {
     }
   }
 
+  const handleSuccessCreateCategory = (message: string) => {
+    setIsCreateCategoryModalOpen(false)
+    setResponseMessage(message)
+  }
+
   const closeModal = () => setResponseMessage("")
 
   const handleConfirmDelete = async () => {
@@ -123,6 +130,16 @@ const Forms = () => {
         <div className={styles.positionButton}>
           <Button title="Crear plantilla" onClick={handleOpenCreate} />
         </div>
+        
+        <div className={styles.typeButtons}>
+          <button className={styles.smallButton} onClick={() => setIsCreateCategoryModalOpen(true)}>
+            + Crear categoría de formularios
+          </button>
+          <button className={styles.manageButton} onClick={() => {/* TODO: Abrir modal de gestión */}}>
+            📋 Ver categorías creadas
+          </button>
+        </div>
+        
         <div className={styles.searchContainer}>
           <SearchInput
             placeholder="Buscar por nombre, categoría o descripción"
@@ -199,12 +216,10 @@ const Forms = () => {
         </div>
       </div>
 
+      {/* Modales */}
       <ModalCreateForm
         isOpen={isCreateModalOpen}
-        onRequestClose={() => {
-          setIsCreateModalOpen(false)
-          setCurrentTemplate(null)
-        }}
+        onRequestClose={() => setIsCreateModalOpen(false)}
         onSubmitSuccess={handleCreateSuccess}
         initialData={currentTemplate}
         categories={categories}
@@ -212,24 +227,31 @@ const Forms = () => {
 
       <ModalEditForm
         isOpen={isEditModalOpen}
-        onRequestClose={() => {
-          setIsEditModalOpen(false)
-          setCurrentTemplate(null)
-        }}
+        onRequestClose={() => setIsEditModalOpen(false)}
         onSubmitSuccess={handleEditSuccess}
         initialData={currentTemplate}
         categories={categories}
+      />
+
+      <ModalCreateFormCategory
+        isOpen={isCreateCategoryModalOpen}
+        onRequestClose={() => setIsCreateCategoryModalOpen(false)}
+        onSubmitSuccess={handleSuccessCreateCategory}
       />
 
       <ModalConfirmDelete
         isOpen={isDeleteModalOpen}
         onCancel={() => setIsDeleteModalOpen(false)}
         onConfirm={handleConfirmDelete}
-        title="¿Eliminar plantilla?"
-        description="Esta acción no se puede deshacer. Todos los formularios basados en esta plantilla se verán afectados."
+        title="Eliminar plantilla"
+        description="¿Estás seguro de que quieres eliminar esta plantilla? Esta acción no se puede deshacer."
       />
 
-      <ModalSuccess isOpen={!!responseMessage} onRequestClose={closeModal} mensaje={responseMessage} />
+      <ModalSuccess
+        isOpen={!!responseMessage}
+        onRequestClose={closeModal}
+        mensaje={responseMessage}
+      />
     </>
   )
 }

@@ -168,10 +168,14 @@
   color: var(--color-primary);
 }
 
+.iconButton {
+  position: relative;
+}
+
 .iconButton::after {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: 125%;
+  bottom: 140%;
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--color-text);
@@ -184,8 +188,63 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
-  z-index: 10;
+  z-index: 1000;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.iconButton:hover::after {
+  opacity: 1;
+}
+
+/* Ajuste para cuando el tooltip se sale por arriba */
+.iconButton:hover::after {
+  bottom: auto;
+  top: 125%;
+}
+
+/* Ajuste para cuando el tooltip se sale por la derecha */
+.iconButton:hover::after {
+  left: auto;
+  right: 0;
+  transform: translateY(-50%);
+  top: 50%;
+}
+
+/* Ajuste para cuando el tooltip se sale por la izquierda */
+.iconButton:hover::after {
+  left: 0;
+  right: auto;
+  transform: translateY(-50%);
+  top: 50%;
+}
+
+/* Ajuste específico para cards de instalación */
+.installationCard .iconButton::after {
+  /* Asegurar que el tooltip se mantenga dentro de la card */
+  max-width: calc(100vw - 40px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.installationCard .iconButton:hover::after {
+  /* Si se sale por la derecha, ajustar a la izquierda */
+  left: auto;
+  right: 0;
+  transform: translateY(-50%);
+  top: 50%;
+}
+
+.installationCard .iconButton:hover::after {
+  /* Si se sale por la izquierda, ajustar a la derecha */
+  left: 0;
+  right: auto;
+  transform: translateY(-50%);
+  top: 50%;
 }
 
 .iconButton:hover::after {

@@ -1,152 +1,102 @@
-import React, { useState } from "react"
-import styles from "../styles/Modal.module.css"
+import React from 'react'
+import { X, Edit, Trash } from 'lucide-react'
+import styles from '../styles/Modal.module.css'
 
 interface Category {
   _id?: string
   nombre: string
   descripcion?: string
+  createdAt?: string
 }
 
 interface ModalManageCategoriesProps {
   isOpen: boolean
   onRequestClose: () => void
   categories: Category[]
-  onEditCategory: (id: string, data: Partial<Category>) => Promise<{ message: string }>
-  onDeleteCategory: (id: string) => Promise<{ message: string }>
-  onSubmitSuccess: (message: string) => void
+  onEdit?: (category: Category) => void
+  onDelete?: (id: string) => void
 }
 
-const ModalManageCategories = ({
+const ModalManageCategories: React.FC<ModalManageCategoriesProps> = ({
   isOpen,
   onRequestClose,
   categories,
-  onEditCategory,
-  onDeleteCategory,
-  onSubmitSuccess,
-}: ModalManageCategoriesProps) => {
-  const [editingCategory, setEditingCategory] = useState<Category | null>(null)
-  const [editData, setEditData] = useState({ nombre: "", descripcion: "" })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [deletingCategory, setDeletingCategory] = useState<string | null>(null)
-
+  onEdit,
+  onDelete
+}) => {
   if (!isOpen) return null
 
-  const handleEdit = (category: Category) => {
-    setEditingCategory(category)
-    setEditData({
-      nombre: category.nombre,
-      descripcion: category.descripcion || "",
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return 'N/A'
+    return new Date(dateString).toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
     })
   }
 
-  const handleCancelEdit = () => {
-    setEditingCategory(null)
-    setEditData({ nombre: "", descripcion: "" })
-  }
-
-  const handleSaveEdit = async () => {
-    if (!editingCategory || !editingCategory._id) return
-
-    setIsSubmitting(true)
-    try {
-      await onEditCategory(editingCategory._id, editData)
-      onSubmitSuccess("Categoría actualizada con éxito")
-      setEditingCategory(null)
-      setEditData({ nombre: "", descripcion: "" })
-    } catch (error: any) {
-      onSubmitSuccess("Error al actualizar categoría")
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
-  const handleDelete = async (categoryId: string) => {
-    setDeletingCategory(categoryId)
-    try {
-      await onDeleteCategory(categoryId)
-      onSubmitSuccess("Categoría eliminada con éxito")
-    } catch (error: any) {
-      onSubmitSuccess("Error al eliminar categoría")
-    } finally {
-      setDeletingCategory(null)
-    }
-  }
-
   return (
-    <div className={styles.backdrop}>
-      <div className={styles.modal}>
+    <div className={styles.modalOverlay} onClick={onRequestClose}>
+      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Gestionar Categorías</h2>
+          <h2 className={styles.modalTitle}>Categorías de Dispositivos</h2>
           <button className={styles.closeButton} onClick={onRequestClose}>
-            ×
+            <X size={24} />
           </button>
         </div>
 
-        <div className={styles.modalContent}>
-          <div className={styles.categoriesList}>
-            {categories.length === 0 ? (
-              <p className={styles.emptyMessage}>No hay categorías creadas</p>
-            ) : (
-              categories.map((category) => (
-                <div key={category._id} className={styles.categoryItem}>
-                  {editingCategory?._id === category._id ? (
-                    <div className={styles.editForm}>
-                      <input
-                        type="text"
-                        value={editData.nombre}
-                        onChange={(e) => setEditData({ ...editData, nombre: e.target.value })}
-                        placeholder="Nombre de la categoría"
-                        className={styles.editInput}
-                      />
-                      <input
-                        type="text"
-                        value={editData.descripcion}
-                        onChange={(e) => setEditData({ ...editData, descripcion: e.target.value })}
-                        placeholder="Descripción (opcional)"
-                        className={styles.editInput}
-                      />
-                      <div className={styles.editActions}>
-                        <button
-                          onClick={handleSaveEdit}
-                          disabled={isSubmitting}
-                          className={styles.saveButton}
-                        >
-                          {isSubmitting ? "Guardando..." : "Guardar"}
-                        </button>
-                        <button onClick={handleCancelEdit} className={styles.cancelButton}>
-                          Cancelar
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <>
-                      <div className={styles.categoryInfo}>
-                        <h4 className={styles.categoryName}>{category.nombre}</h4>
-                        {category.descripcion && (
-                          <p className={styles.categoryDescription}>{category.descripcion}</p>
-                        )}
-                      </div>
-                      <div className={styles.categoryActions}>
-                        <button
-                          onClick={() => handleEdit(category)}
-                          className={styles.editButton}
-                        >
-                          Editar
-                        </button>
-                        <button
-                          onClick={() => handleDelete(category._id)}
-                          disabled={deletingCategory === category._id}
-                          className={styles.deleteButton}
-                        >
-                          {deletingCategory === category._id ? "Eliminando..." : "Eliminar"}
-                        </button>
-                      </div>
-                    </>
-                  )}
+        <div className={styles.modalBody}>
+          {categories.length === 0 ? (
+            <div className={styles.emptyState}>
+              <p>No hay categorías de dispositivos creadas</p>
+              <p className={styles.emptyStateSubtext}>
+                Las categorías aparecerán aquí una vez que las crees
+              </p>
+            </div>
+          ) : (
+            <div className={styles.listContainer}>
+              {categories.map((category) => (
+                <div key={category._id} className={styles.listItem}>
+                  <div className={styles.itemInfo}>
+                    <h3 className={styles.itemTitle}>{category.nombre}</h3>
+                    {category.descripcion && (
+                      <p className={styles.itemDescription}>{category.descripcion}</p>
+                    )}
+                    <p className={styles.itemDate}>
+                      Creado: {formatDate(category.createdAt)}
+                    </p>
+                  </div>
+                  
+                  <div className={styles.itemActions}>
+                    {onEdit && (
+                      <button
+                        className={styles.actionButton}
+                        onClick={() => onEdit(category)}
+                        aria-label="Editar categoría"
+                      >
+                        <Edit size={16} />
+                      </button>
+                    )}
+                    {onDelete && category._id && (
+                      <button
+                        className={styles.actionButton}
+                        onClick={() => onDelete(category._id!)}
+                        aria-label="Eliminar categoría"
+                      >
+                        <Trash size={16} />
+                      </button>
+                    )}
+                  </div>
                 </div>
-              ))
-            )}
-          </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className={styles.modalFooter}>
+          <button className={styles.cancelButton} onClick={onRequestClose}>
+            Cerrar
+          </button>
         </div>
       </div>
     </div>

@@ -27,7 +27,7 @@ const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
       <text 
         x={x} 
         y={y} 
-        fill="white" 
+        fill="var(--color-text)" 
         textAnchor={x > cx ? 'start' : 'end'} 
         dominantBaseline="central"
         fontSize={12}
