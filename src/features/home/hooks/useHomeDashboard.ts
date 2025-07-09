@@ -42,13 +42,35 @@ const useHomeDashboard = () => {
           fetchWorkOrders(),
           fetchTechnicians(),
         ])
-        // KPIs
+        
+        // KPIs sin tendencias
         setKpis([
-          { label: "Instalaciones", value: String(installations.length), icon: Home, color: "#1976d2" },
-          { label: "Activos", value: String(assets.length), icon: Package, color: "#057E74" },
-          { label: "Órdenes de trabajo", value: String(workOrders.length), icon: ClipboardList, color: "#fbc02d" },
-          { label: "Personal", value: String(technicians.length), icon: User, color: "#e53935" },
+          { 
+            label: "Instalaciones", 
+            value: installations.length, 
+            icon: Home, 
+            color: "#1976d2"
+          },
+          { 
+            label: "Activos", 
+            value: assets.length, 
+            icon: Package, 
+            color: "#057E74"
+          },
+          { 
+            label: "Órdenes de trabajo", 
+            value: workOrders.length, 
+            icon: ClipboardList, 
+            color: "#fbc02d"
+          },
+          { 
+            label: "Personal", 
+            value: technicians.length, 
+            icon: User, 
+            color: "#e53935"
+          },
         ])
+        
         // Bar chart: órdenes por tipoTrabajo
         const tipos = Array.from(new Set(workOrders.map((o: any) => o.tipoTrabajo || "Otro")))
         setBarChartData(
@@ -58,6 +80,7 @@ const useHomeDashboard = () => {
             color: tipoColors[idx % tipoColors.length],
           }))
         )
+        
         // Pie chart: órdenes por estado
         const estados = ["pendiente", "asignada", "en_progreso", "completada", "cancelada"]
         setPieChartData(
@@ -67,6 +90,7 @@ const useHomeDashboard = () => {
             color: estadoColors[estado],
           }))
         )
+        
         // Line chart: evolución temporal de órdenes
         const ordersByDate: Record<string, number> = {}
         workOrders.forEach((o: any) => {
@@ -77,6 +101,7 @@ const useHomeDashboard = () => {
         setLineChartData(
           sortedDates.map((date) => ({ name: date, value: ordersByDate[date] }))
         )
+        
         // Últimas órdenes
         setRecentWorkOrders(
           workOrders

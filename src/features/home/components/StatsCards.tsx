@@ -14,16 +14,39 @@ interface StatsCardsProps {
 
 const StatsCards: React.FC<StatsCardsProps> = ({ kpis }) => {
   return (
-    <div className={styles.statsCardsRow}>
-      {kpis.map((kpi) => {
+    <div className={styles.statsCardsRow} role="region" aria-label="Estadísticas principales">
+      {kpis.map((kpi, index) => {
         const Icon = kpi.icon
         return (
-          <div className={styles.statsCard} key={kpi.label} style={{ borderBottom: `4px solid ${kpi.color}` }}>
-            <div className={styles.statsIcon} style={{ color: kpi.color }}>
-              <Icon size={28} />
+          <div 
+            className={styles.statsCard} 
+            key={kpi.label}
+            role="article"
+            aria-label={`${kpi.label}: ${kpi.value}`}
+            tabIndex={0}
+          >
+            {/* Header con icono y color de fondo */}
+            <div className={styles.statsCardHeader}>
+              <div 
+                className={styles.statsIconContainer}
+                style={{ 
+                  backgroundColor: `${kpi.color}15`,
+                  borderColor: `${kpi.color}30`
+                }}
+              >
+                <Icon size={24} />
+              </div>
             </div>
-            <div className={styles.statsValue} style={{ color: 'var(--color-text)' }}>{kpi.value}</div>
-            <div className={styles.statsLabel} style={{ color: 'var(--color-text)' }}>{kpi.label}</div>
+
+            {/* Contenido principal */}
+            <div className={styles.statsCardContent}>
+              <div className={styles.statsValue} aria-live="polite">
+                {kpi.value.toLocaleString()}
+              </div>
+              <div className={styles.statsLabel}>
+                {kpi.label}
+              </div>
+            </div>
           </div>
         )
       })}

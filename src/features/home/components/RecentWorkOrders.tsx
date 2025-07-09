@@ -21,26 +21,69 @@ const estadoColor: Record<string, string> = {
   cancelada: "#e53935",
 }
 
+const estadoLabels: Record<string, string> = {
+  pendiente: "Pendiente",
+  asignada: "Asignada",
+  en_progreso: "En progreso",
+  completada: "Completada",
+  cancelada: "Cancelada",
+}
+
 const RecentWorkOrders: React.FC<RecentWorkOrdersProps> = ({ workOrders }) => {
+  const formatDate = (dateString: string) => {
+    if (!dateString) return ""
+    const date = new Date(dateString)
+    return date.toLocaleDateString('es-ES', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    })
+  }
+
   return (
-    <div className={styles.recentOrdersCard}>
-      <h3>Órdenes de trabajo recientes</h3>
+    <div className={styles.recentOrdersCard} role="region" aria-label="Órdenes de trabajo recientes">
+      <div className={styles.recentOrdersHeader}>
+        <h3 className={styles.recentOrdersTitle}>Órdenes Recientes</h3>
+        <span className={styles.recentOrdersCount}>{workOrders.length} órdenes</span>
+      </div>
+      
       <div className={styles.ordersList}>
         {workOrders.length === 0 ? (
-          <div className={styles.noOrders}>No hay órdenes recientes.</div>
+          <div className={styles.noOrders} role="status">
+            <div className={styles.noOrdersIcon}>📋</div>
+            <p>No hay órdenes recientes</p>
+            <small>Las órdenes aparecerán aquí cuando se creen</small>
+          </div>
         ) : (
-          workOrders.map((order) => (
-            <div className={styles.orderItem} key={order._id}>
-              <div className={styles.orderTitle}>{order.titulo}</div>
-              <div className={styles.orderMeta}>
-                <span className={styles.orderInst}>{order.instalacion?.company || "-"}</span>
-                <span className={styles.orderDate}>{order.fechaCreacion?.slice(0, 10) || ""}</span>
+          workOrders.map((order, index) => (
+            <div 
+              className={styles.orderItem} 
+              key={order._id}
+              role="article"
+              aria-label={`Orden: ${order.titulo}, Estado: ${estadoLabels[order.estado] || order.estado}`}
+            >
+              <div className={styles.orderHeader}>
+                <div className={styles.orderTitle}>{order.titulo}</div>
                 <span
                   className={styles.orderStatus}
-                  style={{ background: estadoColor[order.estado] || "#bdbdbd" }}
+                  style={{ 
+                    background: estadoColor[order.estado] || "#bdbdbd",
+                    color: order.estado === 'pendiente' ? '#000' : '#fff'
+                  }}
                 >
-                  {order.estado}
+                  {estadoLabels[order.estado] || order.estado}
                 </span>
+              </div>
+              
+              <div className={styles.orderMeta}>
+                <div className={styles.orderInfo}>
+                  <span className={styles.orderInst}>
+                    🏢 {order.instalacion?.company || "Sin instalación"}
+                  </span>
+                  <span className={styles.orderDate}>
+                    📅 {formatDate(order.fechaCreacion || "")}
+                  </span>
+                </div>
               </div>
             </div>
           ))
