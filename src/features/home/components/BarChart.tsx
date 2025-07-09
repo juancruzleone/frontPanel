@@ -17,6 +17,28 @@ const COLORS = ["#1976d2", "#057E74", "#fbc02d", "#e53935", "#388e3c"]
 const CustomBarChart: React.FC<BarChartProps> = ({ data }) => {
   const total = data.reduce((sum, item) => sum + item.value, 0)
 
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div style={{
+          backgroundColor: 'var(--color-card)',
+          border: '1px solid var(--color-card-border)',
+          borderRadius: '8px',
+          padding: '8px 12px',
+          color: 'var(--color-text)',
+          fontSize: '12px',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
+        }}>
+          <p style={{ margin: '0 0 4px 0', fontWeight: '600' }}>{`Tipo: ${label}`}</p>
+          <p style={{ margin: '0', color: 'var(--color-text)' }}>
+            {`Órdenes: ${payload[0].value}`}
+          </p>
+        </div>
+      )
+    }
+    return null
+  }
+
   return (
     <div className={styles.chartCard} role="region" aria-label="Gráfico de barras - Órdenes por tipo">
       <div className={styles.chartHeader}>
@@ -47,17 +69,13 @@ const CustomBarChart: React.FC<BarChartProps> = ({ data }) => {
             tickLine={false}
             axisLine={false}
           />
-          <Tooltip 
-            contentStyle={{
-              backgroundColor: 'var(--color-card)',
-              border: '1px solid var(--color-card-border)',
-              borderRadius: '8px',
-              color: 'var(--color-text)'
+          <Tooltip content={<CustomTooltip />} />
+          <Legend 
+            wrapperStyle={{
+              color: 'var(--color-text)',
+              fontSize: '12px'
             }}
-            formatter={(value: number) => [value, 'Órdenes']}
-            labelFormatter={(label: string) => `Tipo: ${label}`}
           />
-          <Legend />
           <Bar 
             dataKey="value" 
             radius={[6, 6, 0, 0]}

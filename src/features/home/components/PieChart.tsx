@@ -38,6 +38,28 @@ const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
     ) : null
   }
 
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div style={{
+          backgroundColor: 'var(--color-card)',
+          border: '1px solid var(--color-card-border)',
+          borderRadius: '8px',
+          padding: '8px 12px',
+          color: 'var(--color-text)',
+          fontSize: '12px',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
+        }}>
+          <p style={{ margin: '0 0 4px 0', fontWeight: '600' }}>{`Estado: ${label}`}</p>
+          <p style={{ margin: '0', color: 'var(--color-text)' }}>
+            {`Órdenes: ${payload[0].value}`}
+          </p>
+        </div>
+      )
+    }
+    return null
+  }
+
   return (
     <div className={styles.chartCard} role="region" aria-label="Gráfico circular - Órdenes por estado">
       <div className={styles.chartHeader}>
@@ -71,21 +93,14 @@ const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
               />
             ))}
           </Pie>
-          <Tooltip 
-            contentStyle={{
-              backgroundColor: 'var(--color-card)',
-              border: '1px solid var(--color-card-border)',
-              borderRadius: '8px',
-              color: 'var(--color-text)'
-            }}
-            formatter={(value: number) => [value, 'Órdenes']}
-            labelFormatter={(label: string) => `Estado: ${label}`}
-          />
+          <Tooltip content={<CustomTooltip />} />
           <Legend 
             verticalAlign="bottom" 
             height={36}
             wrapperStyle={{
-              paddingTop: '16px'
+              paddingTop: '16px',
+              color: 'var(--color-text)',
+              fontSize: '12px'
             }}
           />
         </RePieChart>
