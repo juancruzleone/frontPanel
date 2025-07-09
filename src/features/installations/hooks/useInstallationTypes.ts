@@ -47,6 +47,32 @@ const useInstallationTypes = () => {
     }
   }
 
+  const updateInstallationType = async (id: string, data: Partial<InstallationType>): Promise<{ message: string }> => {
+    try {
+      // Aquí deberías llamar a un servicio de actualización
+      // Por ahora simulamos la actualización
+      setInstallationTypes(prev => prev.map(type => 
+        type._id === id ? { ...type, ...data } : type
+      ))
+      return { message: "Tipo de instalación actualizado con éxito" }
+    } catch (err: any) {
+      console.error("Error al actualizar tipo de instalación:", err)
+      throw err
+    }
+  }
+
+  const removeInstallationType = async (id: string): Promise<{ message: string }> => {
+    try {
+      // Aquí deberías llamar a un servicio de eliminación
+      // Por ahora simulamos la eliminación
+      setInstallationTypes(prev => prev.filter(type => type._id !== id))
+      return { message: "Tipo de instalación eliminado con éxito" }
+    } catch (err: any) {
+      console.error("Error al eliminar tipo de instalación:", err)
+      throw err
+    }
+  }
+
   useEffect(() => {
     loadInstallationTypes()
   }, [loadInstallationTypes])
@@ -57,6 +83,8 @@ const useInstallationTypes = () => {
     error,
     loadInstallationTypes,
     addInstallationType,
+    updateInstallationType,
+    removeInstallationType,
   }
 }
 

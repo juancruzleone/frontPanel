@@ -65,14 +65,16 @@ button:hover {
 button[type="submit"] {
   background-color: var(--color-secondary);
   color: #FFFFFF;
-  font-weight: 200;
+  font-weight: 700;
   font-family: 'Encode Sans', sans-serif;
-  font-size: 18px;
+  font-size: 20px;
+  letter-spacing: 0.01em;
   cursor: pointer;
   border: 0px;
   width: 100%;
   box-sizing: border-box;
   transition: all 0.2s ease;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.08);
 }
 
 button[type="submit"]:hover {

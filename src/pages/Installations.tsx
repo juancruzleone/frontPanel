@@ -13,6 +13,8 @@ import ModalConfirmDelete from "../features/installations/components/ModalConfir
 import ModalAddDevice from "../features/installations/components/ModalAddDevice"
 import ModalCreateCategory from "../features/installations/components/ModalCreateCategory"
 import ModalCreateInstallationType from "../features/installations/components/ModalCreateInstallationType"
+import ModalManageCategories from "../features/installations/components/ModalManageCategories"
+import ModalManageInstallationTypes from "../features/installations/components/ModalManageInstallationTypes"
 import { Edit, Trash, Plus } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 
@@ -31,8 +33,8 @@ const Installations = () => {
     addDeviceToInstallation,
   } = useInstallations()
 
-  const { addCategory } = useCategories()
-  const { installationTypes, addInstallationType, loadInstallationTypes } = useInstallationTypes()
+  const { categories, addCategory, updateCategory, removeCategory, loadCategories } = useCategories()
+  const { installationTypes, addInstallationType, updateInstallationType, removeInstallationType, loadInstallationTypes } = useInstallationTypes()
   const navigate = useNavigate()
 
   const [selectedCategory, setSelectedCategory] = useState("")
@@ -43,6 +45,8 @@ const Installations = () => {
   const [isDeviceModalOpen, setIsDeviceModalOpen] = useState(false)
   const [isCreateCategoryModalOpen, setIsCreateCategoryModalOpen] = useState(false)
   const [isCreateInstallationTypeModalOpen, setIsCreateInstallationTypeModalOpen] = useState(false)
+  const [isManageInstallationTypesModalOpen, setIsManageInstallationTypesModalOpen] = useState(false)
+  const [isManageCategoriesModalOpen, setIsManageCategoriesModalOpen] = useState(false)
   const [initialData, setInitialData] = useState<Installation | null>(null)
   const [responseMessage, setResponseMessage] = useState("")
   const [installationToDelete, setInstallationToDelete] = useState<Installation | null>(null)
@@ -53,6 +57,10 @@ const Installations = () => {
   useEffect(() => {
     document.title = "Instalaciones | LeoneSuite"
   }, [])
+
+  useEffect(() => {
+    loadCategories()
+  }, [loadCategories])
 
   const dynamicCategories = useMemo(
     () => [
@@ -186,6 +194,12 @@ const Installations = () => {
           </button>
           <button className={styles.smallButton} onClick={() => setIsCreateCategoryModalOpen(true)}>
             + Crear categoría de dispositivo
+          </button>
+          <button className={styles.manageButton} onClick={() => setIsManageInstallationTypesModalOpen(true)}>
+            Gestionar tipos
+          </button>
+          <button className={styles.manageButton} onClick={() => setIsManageCategoriesModalOpen(true)}>
+            Gestionar categorías
           </button>
         </div>
 
@@ -328,9 +342,27 @@ const Installations = () => {
         onCreate={addInstallationType}
       />
 
-      <ModalSuccess isOpen={!!responseMessage} onRequestClose={closeModal} mensaje={responseMessage} />
-    </>
-  )
-}
+              <ModalSuccess isOpen={!!responseMessage} onRequestClose={closeModal} mensaje={responseMessage} />
+
+        <ModalManageCategories
+          isOpen={isManageCategoriesModalOpen}
+          onRequestClose={() => setIsManageCategoriesModalOpen(false)}
+          categories={categories}
+          onEditCategory={updateCategory}
+          onDeleteCategory={removeCategory}
+          onSubmitSuccess={setResponseMessage}
+        />
+
+        <ModalManageInstallationTypes
+          isOpen={isManageInstallationTypesModalOpen}
+          onRequestClose={() => setIsManageInstallationTypesModalOpen(false)}
+          installationTypes={installationTypes}
+          onEditInstallationType={updateInstallationType}
+          onDeleteInstallationType={removeInstallationType}
+          onSubmitSuccess={setResponseMessage}
+        />
+      </>
+    )
+  }
 
 export default Installations

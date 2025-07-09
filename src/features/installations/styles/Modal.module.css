@@ -556,3 +556,131 @@
 .warningIcon svg {
   animation: pulse 2s infinite;
 }
+
+.categoriesList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.categoryItem {
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.categoryInfo {
+  flex: 1;
+}
+
+.categoryName {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 4px 0;
+}
+
+.categoryDescription {
+  font-size: 14px;
+  color: var(--color-text);
+  opacity: 0.7;
+  margin: 0;
+}
+
+.categoryActions {
+  display: flex;
+  gap: 8px;
+}
+
+.editButton,
+.deleteButton {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.editButton {
+  background: var(--color-secondary);
+  color: #fff;
+}
+
+.editButton:hover {
+  background: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.deleteButton {
+  background: var(--color-danger);
+  color: #fff;
+}
+
+.deleteButton:hover {
+  background: #dc3545;
+  transform: translateY(-1px);
+}
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.editInput {
+  padding: 10px 12px;
+  border: 1px solid var(--color-card-border);
+  border-radius: 6px;
+  font-size: 14px;
+  background: var(--color-card);
+  color: var(--color-text);
+}
+
+.editInput:focus {
+  outline: none;
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 2px rgba(5, 126, 116, 0.1);
+}
+
+.editActions {
+  display: flex;
+  gap: 8px;
+}
+
+.saveButton {
+  padding: 8px 16px;
+  background: var(--color-secondary);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.saveButton:hover:not(:disabled) {
+  background: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.saveButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.emptyMessage {
+  text-align: center;
+  color: var(--color-text);
+  opacity: 0.7;
+  font-style: italic;
+  padding: 32px;
+}

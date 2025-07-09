@@ -21,8 +21,8 @@ const CustomBarChart: React.FC<BarChartProps> = ({ data }) => {
       <ResponsiveContainer width="100%" height={220}>
         <ReBarChart data={data} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" stroke="#111" />
-          <YAxis allowDecimals={false} stroke="#111" />
+          <XAxis dataKey="name" stroke="var(--color-text)" />
+          <YAxis allowDecimals={false} stroke="var(--color-text)" />
           <Tooltip />
           <Legend />
           <Bar dataKey="value" radius={[6, 6, 0, 0]}>

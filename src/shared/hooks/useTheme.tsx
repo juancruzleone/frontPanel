@@ -37,6 +37,16 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       document.documentElement.style.setProperty('--color-icon', '#f5f5f5');
       document.documentElement.style.setProperty('--color-themebox-bg', '#23272b');
       document.documentElement.style.setProperty('--color-themebox-border', '#333');
+      document.documentElement.style.setProperty('--color-primary', '#1976d2');
+      document.documentElement.style.setProperty('--color-secondary', '#057E74');
+      document.documentElement.style.setProperty('--color-accent', '#fbc02d');
+      document.documentElement.style.setProperty('--color-success', '#388e3c');
+      document.documentElement.style.setProperty('--color-danger', '#e53935');
+      document.documentElement.style.setProperty('--color-nav', '#034F49');
+      document.documentElement.style.setProperty('--color-nav-active', '#057E74');
+      document.documentElement.style.setProperty('--color-nav-hover', '#057E74');
+      document.documentElement.style.setProperty('--color-nav-logout', '#b30010');
+      document.documentElement.style.setProperty('--color-nav-logout-hover', '#d40012');
     } else {
       document.documentElement.classList.remove("dark");
       document.body.classList.remove("dark");
@@ -48,11 +58,21 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       document.documentElement.style.setProperty('--color-text', '#111');
       document.documentElement.style.setProperty('--color-card', '#fff');
       document.documentElement.style.setProperty('--color-card-border', '#e0e0e0');
-      document.documentElement.style.setProperty('--color-skeleton', '#d0d0d0');
-      document.documentElement.style.setProperty('--color-skeleton-light', '#c0c0c0');
+      document.documentElement.style.setProperty('--color-skeleton', '#a0a0a0');
+      document.documentElement.style.setProperty('--color-skeleton-light', '#909090');
       document.documentElement.style.setProperty('--color-icon', '#111');
       document.documentElement.style.setProperty('--color-themebox-bg', '#f0f0f0');
       document.documentElement.style.setProperty('--color-themebox-border', '#e0e0e0');
+      document.documentElement.style.setProperty('--color-primary', '#1976d2');
+      document.documentElement.style.setProperty('--color-secondary', '#057E74');
+      document.documentElement.style.setProperty('--color-accent', '#fbc02d');
+      document.documentElement.style.setProperty('--color-success', '#388e3c');
+      document.documentElement.style.setProperty('--color-danger', '#e53935');
+      document.documentElement.style.setProperty('--color-nav', '#034F49');
+      document.documentElement.style.setProperty('--color-nav-active', '#057E74');
+      document.documentElement.style.setProperty('--color-nav-hover', '#057E74');
+      document.documentElement.style.setProperty('--color-nav-logout', '#d40012');
+      document.documentElement.style.setProperty('--color-nav-logout-hover', '#b30010');
     }
   };
 

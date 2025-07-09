@@ -79,6 +79,32 @@ const useCategories = () => {
     }
   }
 
+  const updateCategory = async (id: string, data: Partial<Category>): Promise<{ message: string }> => {
+    try {
+      // Aquí deberías llamar a un servicio de actualización
+      // Por ahora simulamos la actualización
+      setCategories(prev => prev.map(cat => 
+        cat._id === id ? { ...cat, ...data } : cat
+      ))
+      return { message: "Categoría actualizada con éxito" }
+    } catch (err: any) {
+      console.error("Error al actualizar categoría:", err)
+      throw err
+    }
+  }
+
+  const removeCategory = async (id: string): Promise<{ message: string }> => {
+    try {
+      // Aquí deberías llamar a un servicio de eliminación
+      // Por ahora simulamos la eliminación
+      setCategories(prev => prev.filter(cat => cat._id !== id))
+      return { message: "Categoría eliminada con éxito" }
+    } catch (err: any) {
+      console.error("Error al eliminar categoría:", err)
+      throw err
+    }
+  }
+
   const resetForm = () => {
     setFormData({
       nombre: "",
@@ -99,6 +125,8 @@ const useCategories = () => {
     handleSubmitForm,
     isSubmitting,
     addCategory,
+    updateCategory,
+    removeCategory,
     resetForm,
     setFormErrors,
   }

@@ -123,6 +123,11 @@ const Forms = () => {
         <div className={styles.positionButton}>
           <Button title="Crear plantilla" onClick={handleOpenCreate} />
         </div>
+        <div className={styles.categoryButton}>
+          <button className={styles.createCategoryButton} onClick={() => {}}>
+            + Crear categoría de plantilla
+          </button>
+        </div>
         <div className={styles.searchContainer}>
           <SearchInput
             placeholder="Buscar por nombre, categoría o descripción"

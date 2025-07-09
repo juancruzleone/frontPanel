@@ -39,19 +39,27 @@
   }
   
   .closeButton {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: var(--color-text);
-    padding: 4px;
-    line-height: 1;
-  }
-  
-  .closeButton:hover {
-    color: var(--color-text);
-    opacity: 0.8;
-  }
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--color-text);
+  padding: 8px;
+  line-height: 1;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.closeButton:hover {
+  background-color: var(--color-danger);
+  color: #fff;
+  transform: scale(1.1);
+}
   
   .modalContent {
     padding: 20px;

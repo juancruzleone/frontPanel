@@ -126,25 +126,61 @@
   margin-bottom: 40px;
 }
 
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 16px;
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.userName {
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.userRole {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  font-weight: 500;
+}
+
 .logoutButton {
-  width: 100%;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 8px;
-  justify-content: center;
-  background-color: var(--color-nav-logout);
-  color: #fff;
-  font-weight: 700;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  font-size: 14px;
+  padding: 12px 16px;
   border-radius: 8px;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
+  width: 100%;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
 }
 
 .logoutButton:hover {
-  background-color: var(--color-nav-logout-hover);
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.logoutButton:active {
+  transform: translateY(0);
 }
 
 .bottomSection {
@@ -184,5 +220,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s;
+  transition: all 0.2s ease;
+}
+
+.themeButton:hover {
+  background: var(--color-card-border);
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }

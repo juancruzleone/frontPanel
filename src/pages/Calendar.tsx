@@ -18,7 +18,7 @@ const Calendar = () => {
   const [selectedStatus, setSelectedStatus] = useState("")
   const [selectedPriority, setSelectedPriority] = useState("")
   const [searchTerm, setSearchTerm] = useState("")
-  const [selectedDate, setSelectedDate] = useState("")
+
   const [viewMode, setViewMode] = useState<"month" | "week" | "list">("month")
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
   const [selectedWorkOrder, setSelectedWorkOrder] = useState<WorkOrder | null>(null)
@@ -72,15 +72,9 @@ const Calendar = () => {
       const matchesPriority = !selectedPriority || order.prioridad === selectedPriority
       const matchesSearch = fields.some((f) => f?.toLowerCase().includes(term))
 
-      let matchesDate = true
-      if (selectedDate) {
-        const orderDate = new Date(order.fechaProgramada).toISOString().split("T")[0]
-        matchesDate = orderDate === selectedDate
-      }
-
-      return matchesStatus && matchesPriority && matchesSearch && matchesDate
+      return matchesStatus && matchesPriority && matchesSearch
     })
-  }, [workOrders, selectedStatus, selectedPriority, searchTerm, selectedDate])
+      }, [workOrders, selectedStatus, selectedPriority, searchTerm])
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -390,19 +384,13 @@ const Calendar = () => {
               ))}
             </select>
 
-            <input
-              type="date"
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-              className={styles.dateFilter}
-            />
+
 
             <button
               onClick={() => {
                 setSelectedStatus("")
                 setSelectedPriority("")
                 setSearchTerm("")
-                setSelectedDate("")
               }}
               className={styles.clearFilters}
             >

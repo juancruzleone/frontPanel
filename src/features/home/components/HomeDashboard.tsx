@@ -58,8 +58,8 @@ const HomeDashboard: React.FC = () => {
             <ResponsiveContainer width="100%" height={220}>
               <ReLineChart data={lineChartData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" stroke="#111" />
-                <YAxis allowDecimals={false} stroke="#111" />
+                <XAxis dataKey="name" stroke="var(--color-text)" />
+                <YAxis allowDecimals={false} stroke="var(--color-text)" />
                 <Tooltip />
                 <Legend />
                 <Line type="monotone" dataKey="value" stroke="#1976d2" strokeWidth={3} dot={false} />
