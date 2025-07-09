@@ -17,6 +17,7 @@ const Calendar = () => {
   const navigate = useNavigate()
   const [selectedStatus, setSelectedStatus] = useState("")
   const [selectedPriority, setSelectedPriority] = useState("")
+  const [selectedDate, setSelectedDate] = useState("")
   const [searchTerm, setSearchTerm] = useState("")
 
   const [viewMode, setViewMode] = useState<"month" | "week" | "list">("month")
@@ -53,6 +54,18 @@ const Calendar = () => {
     [],
   )
 
+  const dateOptions = useMemo(
+    () => [
+      { label: "Todas las fechas", value: "" },
+      { label: "Hoy", value: "today" },
+      { label: "Esta semana", value: "thisWeek" },
+      { label: "Este mes", value: "thisMonth" },
+      { label: "Próxima semana", value: "nextWeek" },
+      { label: "Próximo mes", value: "nextMonth" },
+    ],
+    [],
+  )
+
   const filteredWorkOrders = useMemo(() => {
     const term = searchTerm.toLowerCase()
     return workOrders.filter((order) => {
@@ -68,13 +81,49 @@ const Calendar = () => {
         order.tipoTrabajo,
       ].filter(Boolean)
 
+      const orderDate = new Date(order.fechaProgramada)
+      const today = new Date()
+      const startOfWeek = new Date(today)
+      startOfWeek.setDate(today.getDate() - today.getDay())
+      const endOfWeek = new Date(startOfWeek)
+      endOfWeek.setDate(startOfWeek.getDate() + 6)
+      const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1)
+      const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)
+      const nextWeekStart = new Date(startOfWeek)
+      nextWeekStart.setDate(startOfWeek.getDate() + 7)
+      const nextWeekEnd = new Date(nextWeekStart)
+      nextWeekEnd.setDate(nextWeekStart.getDate() + 6)
+      const nextMonthStart = new Date(today.getFullYear(), today.getMonth() + 1, 1)
+      const nextMonthEnd = new Date(today.getFullYear(), today.getMonth() + 2, 0)
+
+      let matchesDate = true
+      if (selectedDate) {
+        switch (selectedDate) {
+          case "today":
+            matchesDate = orderDate.toDateString() === today.toDateString()
+            break
+          case "thisWeek":
+            matchesDate = orderDate >= startOfWeek && orderDate <= endOfWeek
+            break
+          case "thisMonth":
+            matchesDate = orderDate >= startOfMonth && orderDate <= endOfMonth
+            break
+          case "nextWeek":
+            matchesDate = orderDate >= nextWeekStart && orderDate <= nextWeekEnd
+            break
+          case "nextMonth":
+            matchesDate = orderDate >= nextMonthStart && orderDate <= nextMonthEnd
+            break
+        }
+      }
+
       const matchesStatus = !selectedStatus || order.estado === selectedStatus
       const matchesPriority = !selectedPriority || order.prioridad === selectedPriority
       const matchesSearch = fields.some((f) => f?.toLowerCase().includes(term))
 
-      return matchesStatus && matchesPriority && matchesSearch
+      return matchesStatus && matchesPriority && matchesSearch && matchesDate
     })
-      }, [workOrders, selectedStatus, selectedPriority, searchTerm])
+  }, [workOrders, selectedStatus, selectedPriority, selectedDate, searchTerm])
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -339,7 +388,6 @@ const Calendar = () => {
       <div className={styles.containerCalendar}>
         <div className={styles.header}>
           <h1 className={styles.title}>
-            <CalendarIcon size={32} />
             Calendario de Órdenes de Trabajo
           </h1>
 
@@ -384,12 +432,23 @@ const Calendar = () => {
               ))}
             </select>
 
-
+            <select
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              className={styles.filterSelect}
+            >
+              {dateOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
 
             <button
               onClick={() => {
                 setSelectedStatus("")
                 setSelectedPriority("")
+                setSelectedDate("")
                 setSearchTerm("")
               }}
               className={styles.clearFilters}

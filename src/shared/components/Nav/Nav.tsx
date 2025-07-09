@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom"
 import { useAuthStore } from "../../../store/authStore"
 import {
   LogOut, Home, Package, FileText, BookOpen,
-  ClipboardList, Calendar, Sun, Moon, Menu, X, Building
+  ClipboardList, Calendar, Sun, Moon, Menu, X, Building, User
 } from "lucide-react"
 import styles from "./Nav.module.css"
 import { useState, useEffect } from "react"
@@ -75,6 +75,11 @@ const Nav = () => {
           <li>
             <NavLink to="/calendario" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
               <Calendar size={20} /> Calendario
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/personal" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+              <User size={20} /> Personal
             </NavLink>
           </li>
         </ul>

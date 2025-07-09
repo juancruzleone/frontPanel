@@ -63,7 +63,7 @@ export const router = createBrowserRouter([
             element: <Calendar />,
           },
           {
-            path: "/register",
+            path: "/personal",
             element: <Register />,
           },
           {
