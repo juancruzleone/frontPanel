@@ -1,17 +1,46 @@
 .layoutContainer {
-    display: flex;
-    min-height: 100vh;
-    width: 100%;
-  }
-  
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.contentArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  margin-left: 0;
+  transition: margin-left 0.3s ease-in-out;
+  overflow-x: hidden;
+}
+
+@media (min-width: 1024px) {
   .contentArea {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+    margin-left: 260px;
+  }
+}
+
+@media (min-width: 768px) {
+  .contentArea {
     padding: 20px;
   }
-  
-  .contentArea main {
-    flex: 1;
+}
+
+@media (min-width: 1024px) {
+  .contentArea {
+    padding: 24px;
+    margin-left: 260px;
   }
+}
+
+@media (min-width: 1440px) {
+  .contentArea {
+    margin-left: 280px;
+  }
+}
+
+.contentArea main {
+  flex: 1;
+}
   
