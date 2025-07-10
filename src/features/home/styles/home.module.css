@@ -14,6 +14,7 @@ body, html {
   color: var(--color-text);
   /* background: var(--color-bg); */
   background: transparent;
+  overflow-x: hidden;
 }
 
 /* Header del dashboard */
@@ -95,6 +96,7 @@ body, html {
   display: flex;
   flex-direction: column;
   gap: 40px;
+  overflow-x: hidden;
 }
 
 /* Secciones */
@@ -332,18 +334,22 @@ body, html {
 .ordersList {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
+  padding: 4px 0;
+  width: 100%;
 }
 
 .orderItem {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 16px;
+  gap: 10px;
+  padding: 16px 18px;
   border-radius: 12px;
   background: var(--color-bg-light);
   border: 1px solid var(--color-card-border);
   transition: all 0.2s ease;
+  min-height: 80px;
+  width: 97%;
 }
 
 .orderItem:hover {
@@ -356,7 +362,8 @@ body, html {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 12px;
+  gap: 16px;
+  width: 100%;
 }
 
 .orderTitle {
@@ -365,6 +372,7 @@ body, html {
   color: var(--color-text);
   flex: 1;
   line-height: 1.4;
+  min-width: 0;
 }
 
 .orderMeta {
@@ -376,11 +384,12 @@ body, html {
 .orderInfo {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 14px;
   align-items: center;
   font-size: 0.875rem;
   color: var(--color-text);
   opacity: 0.8;
+  width: 100%;
 }
 
 .orderInst {
@@ -402,7 +411,7 @@ body, html {
 .orderStatus {
   font-weight: 600;
   border-radius: 8px;
-  padding: 4px 12px;
+  padding: 5px 12px;
   font-size: 0.75rem;
   text-transform: capitalize;
   white-space: nowrap;
@@ -551,44 +560,14 @@ body, html {
   }
 } 
 
-/* Estilos modernos para gráficos de Recharts */
-.chartCard {
-  background: var(--color-card);
-  border-radius: 20px;
-  padding: 24px;
-  border: 1px solid var(--color-card-border);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: visible;
-  min-height: 320px;
-  display: flex;
-  flex-direction: column;
-}
 
-.chartCard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 50%, var(--color-accent) 100%);
-  border-radius: 20px 20px 0 0;
-}
-
-.chartCard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-  border-color: var(--color-primary);
-}
 
 .chartHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
   border-bottom: 1px solid var(--color-card-border);
   position: relative;
 }
@@ -602,14 +581,6 @@ body, html {
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.chartTitle::before {
-  content: '';
-  width: 4px;
-  height: 20px;
-  background: linear-gradient(180deg, var(--color-primary), var(--color-secondary));
-  border-radius: 2px;
 }
 
 .chartStats {
@@ -1098,4 +1069,8 @@ body, html {
   background: linear-gradient(135deg, var(--color-card) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
   border-color: var(--color-card-border) !important;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4) !important;
-} 
+}
+
+
+
+ 

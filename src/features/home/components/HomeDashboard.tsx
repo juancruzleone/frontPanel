@@ -61,31 +61,45 @@ const LineChart = ({ data }: { data: any[] }) => {
       
       <div className={styles.lineChartContainer} style={{ height: '250px', width: '100%' }}>
         <ResponsiveContainer width="100%" height="100%">
-          <ReLineChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
+          <ReLineChart 
+            data={data}
+            margin={{ top: 10, right: 20, left: 10, bottom: 10 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--color-card-border)" opacity={0.3} />
+            <XAxis 
+              dataKey="name" 
+              tick={{ fontSize: 12, fill: 'var(--color-text-secondary)' }}
+              axisLine={{ stroke: 'var(--color-card-border)' }}
+              tickLine={{ stroke: 'var(--color-card-border)' }}
+            />
+            <YAxis 
+              tick={{ fontSize: 12, fill: 'var(--color-text-secondary)' }}
+              axisLine={{ stroke: 'var(--color-card-border)' }}
+              tickLine={{ stroke: 'var(--color-card-border)' }}
+            />
             <Tooltip content={<CustomLineChartTooltip />} />
-            <Legend />
             <Line 
-              type="monotone" 
+              type="natural" 
               dataKey="value" 
               stroke="var(--color-primary)" 
               strokeWidth={3}
+              fill="none"
               dot={{ 
                 fill: 'var(--color-primary)', 
-                strokeWidth: 3, 
-                r: 6,
+                strokeWidth: 2, 
+                r: 5,
                 stroke: 'var(--color-bg)',
                 filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
               }}
               activeDot={{ 
-                r: 8, 
+                r: 7, 
                 stroke: 'var(--color-primary)', 
-                strokeWidth: 3, 
+                strokeWidth: 2, 
                 fill: 'var(--color-primary)',
                 filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
               }}
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </ReLineChart>
         </ResponsiveContainer>

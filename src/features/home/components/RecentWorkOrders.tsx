@@ -16,9 +16,9 @@ interface RecentWorkOrdersProps {
 const estadoColor: Record<string, string> = {
   pendiente: "#fbc02d",
   asignada: "#1976d2",
-  en_progreso: "#1976d2",
-  completada: "#388e3c",
-  cancelada: "#e53935",
+  en_progreso: "#ff9800", // Cambiado para coincidir con el gráfico de torta
+  completada: "#4caf50",
+  cancelada: "#f44336",
 }
 
 const estadoLabels: Record<string, string> = {
@@ -40,22 +40,27 @@ const RecentWorkOrders: React.FC<RecentWorkOrdersProps> = ({ workOrders }) => {
     })
   }
 
+  // Limitar a las 3 órdenes más recientes
+  const recentOrders = workOrders.slice(0, 3)
+
   return (
-    <div className={styles.recentOrdersCard} role="region" aria-label="Órdenes de trabajo recientes">
-      <div className={styles.recentOrdersHeader}>
-        <h3 className={styles.recentOrdersTitle}>Órdenes Recientes</h3>
-        <span className={styles.chartTotal}>{workOrders.length} órdenes</span>
+    <div className={styles.chartCard} role="region" aria-label="Órdenes de trabajo recientes">
+      <div className={styles.chartHeader}>
+        <h3 className={styles.chartTitle}>Órdenes Recientes</h3>
+        <div className={styles.chartStats}>
+          <span className={styles.chartTotal}>{recentOrders.length} órdenes</span>
+        </div>
       </div>
       
       <div className={styles.ordersList}>
-        {workOrders.length === 0 ? (
+        {recentOrders.length === 0 ? (
           <div className={styles.noOrders} role="status">
             <div className={styles.noOrdersIcon}>📋</div>
             <p>No hay órdenes recientes</p>
             <small>Las órdenes aparecerán aquí cuando se creen</small>
           </div>
         ) : (
-          workOrders.map((order, index) => (
+          recentOrders.map((order, index) => (
             <div 
               className={styles.orderItem} 
               key={order._id}

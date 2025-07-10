@@ -12,7 +12,14 @@ interface PieChartProps {
   data: PieChartData[]
 }
 
-const COLORS = ["#1976d2", "#057E74", "#fbc02d", "#e53935", "#388e3c"]
+// Colores mejorados para diferenciar mejor los estados
+const COLORS = [
+  "#1976d2", // Azul - Pendiente
+  "#ff9800", // Naranja - En progreso (cambiado de verde a naranja)
+  "#4caf50", // Verde - Completada
+  "#f44336", // Rojo - Cancelada
+  "#9c27b0"  // Púrpura - Otros
+]
 
 const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
   const total = data.reduce((sum, item) => sum + item.value, 0)
@@ -58,14 +65,28 @@ const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
                 cy="50%"
                 labelLine={false}
                 outerRadius={80}
+                innerRadius={30}
                 fill="#8884d8"
                 dataKey="value"
+                paddingAngle={2}
               >
                 {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color || COLORS[index % COLORS.length]} />
+                  <Cell 
+                    key={`cell-${index}`} 
+                    fill={entry.color || COLORS[index % COLORS.length]}
+                    stroke="var(--color-bg)"
+                    strokeWidth={2}
+                  />
                 ))}
               </Pie>
-              <Tooltip />
+              <Tooltip 
+                contentStyle={{
+                  backgroundColor: 'var(--color-card)',
+                  border: '1px solid var(--color-card-border)',
+                  borderRadius: '8px',
+                  color: 'var(--color-text)'
+                }}
+              />
             </RePieChart>
           </ResponsiveContainer>
         </div>
