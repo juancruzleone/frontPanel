@@ -7,6 +7,7 @@ import useWorkOrders, { type WorkOrder } from "../features/workOrders/hooks/useW
 import ModalCreate from "../features/workOrders/components/ModalCreate"
 import ModalEdit from "../features/workOrders/components/ModalEdit"
 import ModalSuccess from "../features/workOrders/components/ModalSuccess"
+import ModalError from "../features/forms/components/ModalError"
 import ModalConfirmDelete from "../features/workOrders/components/ModalConfirmDelete"
 import ModalAssignTechnician from "../features/workOrders/components/ModalAssignTechnician"
 import ModalCompleteWorkOrder from "../features/workOrders/components/ModalCompleteWorkOrder"
@@ -71,6 +72,7 @@ const WorkOrders = () => {
   const [isCompleteModalOpen, setIsCompleteModalOpen] = useState(false)
   const [initialData, setInitialData] = useState<WorkOrder | null>(null)
   const [responseMessage, setResponseMessage] = useState("")
+  const [isError, setIsError] = useState(false)
   const [workOrderToDelete, setWorkOrderToDelete] = useState<WorkOrder | null>(null)
   const [selectedWorkOrder, setSelectedWorkOrder] = useState<WorkOrder | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
@@ -174,11 +176,26 @@ const WorkOrders = () => {
 
   const onSuccess = async (msg: string) => {
     setResponseMessage(msg)
+    setIsError(false)
     setIsCreateModalOpen(false)
     setIsEditModalOpen(false)
     setIsAssignModalOpen(false)
     setIsCompleteModalOpen(false)
     await loadWorkOrders()
+  }
+
+  const onError = async (msg: string) => {
+    setResponseMessage(msg)
+    setIsError(true)
+    setIsCreateModalOpen(false)
+    setIsEditModalOpen(false)
+    setIsAssignModalOpen(false)
+    setIsCompleteModalOpen(false)
+  }
+
+  const closeModal = () => {
+    setResponseMessage("")
+    setIsError(false)
   }
 
   const handleConfirmDelete = async () => {
@@ -187,8 +204,8 @@ const WorkOrders = () => {
     try {
       await removeWorkOrder(workOrderToDelete._id)
       onSuccess("Orden de trabajo eliminada con éxito")
-    } catch {
-      onSuccess("Error al eliminar orden")
+    } catch (err: any) {
+      onError(err.message || "Error al eliminar orden")
     } finally {
       setWorkOrderToDelete(null)
       setIsDeleteModalOpen(false)
@@ -198,14 +215,20 @@ const WorkOrders = () => {
   const handleStart = async (id: string) => {
     try {
       await startWorkOrder(id)
-      onSuccess("Orden iniciada con éxito")
-    } catch {
-      onSuccess("Error al iniciar orden")
+      onSuccess("Orden de trabajo iniciada con éxito")
+    } catch (err: any) {
+      onError(err.message || "Error al iniciar orden")
     }
   }
 
   const shouldShowEditButton = (order: WorkOrder) => {
-    return order.estado !== "completada"
+    return ["pendiente", "asignada"].includes(order.estado)
+  }
+
+  const handleChangePage = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page)
+    }
   }
 
   useEffect(() => {
@@ -216,9 +239,8 @@ const WorkOrders = () => {
     <>
       <div className={styles.containerWorkOrders}>
         <h1 className={styles.title}>Órdenes de Trabajo</h1>
-
         <div className={styles.positionButton}>
-          <Button title="Crear orden de trabajo" onClick={handleOpenCreate} />
+          <Button title="Crear orden" onClick={handleOpenCreate} />
         </div>
 
         <div className={styles.searchContainer}>
@@ -347,13 +369,13 @@ const WorkOrders = () => {
               ))}
 
               <div className={styles.pagination}>
-                <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
+                <button onClick={() => handleChangePage(currentPage - 1)} disabled={currentPage === 1}>
                   {"<"}
                 </button>
                 <span>
                   Página {currentPage} de {totalPages}
                 </span>
-                <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages}>
+                <button onClick={() => handleChangePage(currentPage + 1)} disabled={currentPage === totalPages}>
                   {">"}
                 </button>
               </div>
@@ -409,8 +431,14 @@ const WorkOrders = () => {
       />
 
       <ModalSuccess
-        isOpen={!!responseMessage}
-        onRequestClose={() => setResponseMessage("")}
+        isOpen={!!responseMessage && !isError}
+        onRequestClose={closeModal}
+        mensaje={responseMessage}
+      />
+
+      <ModalError
+        isOpen={!!responseMessage && isError}
+        onRequestClose={closeModal}
         mensaje={responseMessage}
       />
     </>

@@ -6,6 +6,7 @@ import styles from "../styles/workOrderForm.module.css"
 interface WorkOrderFormProps {
   onCancel: () => void
   onSuccess: (message: string) => void
+  onError: (message: string) => void
   onAdd?: (data: WorkOrder) => Promise<{ message: string }>
   onEdit?: (id: string, data: WorkOrder) => Promise<{ message: string }>
   isEditMode?: boolean
@@ -18,6 +19,7 @@ interface WorkOrderFormProps {
     isEditMode: boolean,
     initialData: WorkOrder | null,
     onSuccess: (message: string) => void,
+    onError: (message: string) => void,
     onAdd?: (data: WorkOrder) => Promise<{ message: string }>,
     onEdit?: (id: string, data: WorkOrder) => Promise<{ message: string }>,
   ) => void
@@ -30,6 +32,7 @@ interface WorkOrderFormProps {
 const WorkOrderForm = ({
   onCancel,
   onSuccess,
+  onError,
   onAdd,
   onEdit,
   isEditMode = false,
@@ -123,7 +126,7 @@ const WorkOrderForm = ({
 
   return (
     <form
-      onSubmit={(e) => handleSubmitForm(e, isEditMode, initialData || null, onSuccess, onAdd, onEdit)}
+      onSubmit={(e) => handleSubmitForm(e, isEditMode, initialData || null, onSuccess, onError, onAdd, onEdit)}
       className={styles.form}
     >
       <div className={styles.formInner}>

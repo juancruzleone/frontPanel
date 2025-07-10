@@ -117,6 +117,7 @@ const useManuals = () => {
     isEditMode: boolean,
     initialData: Manual | null,
     onSuccess: (message: string) => void,
+    onError: (message: string) => void,
     onAdd?: (data: Manual) => Promise<{ message: string }>,
     onEdit?: (id: string, data: Manual) => Promise<{ message: string }>
   ) => {
@@ -142,8 +143,9 @@ const useManuals = () => {
       }
       onSuccess(message);
       resetForm();
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error al guardar manual:", err);
+      onError(err.message || "Error al guardar manual");
     } finally {
       setIsSubmitting(false);
     }

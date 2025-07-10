@@ -91,3 +91,67 @@ export const deleteFormTemplate = async (id: string) => {
 
   return await response.json()
 }
+
+// Funciones para categorías de formularios
+export const fetchFormCategories = async () => {
+  const token = getToken()
+  const response = await fetch(`${API_URL}categorias-formularios`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  return handleResponse(response)
+}
+
+export const fetchFormCategoryById = async (id: string) => {
+  const token = getToken()
+  const response = await fetch(`${API_URL}categorias-formularios/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+  return handleResponse(response)
+}
+
+export const createFormCategory = async (categoryData: any) => {
+  const token = getToken()
+  const response = await fetch(`${API_URL}categorias-formularios`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(categoryData),
+  })
+  return handleResponse(response)
+}
+
+export const updateFormCategory = async (id: string, categoryData: any) => {
+  const token = getToken()
+  const response = await fetch(`${API_URL}categorias-formularios/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(categoryData),
+  })
+  return handleResponse(response)
+}
+
+export const deleteFormCategory = async (id: string) => {
+  const token = getToken()
+  const response = await fetch(`${API_URL}categorias-formularios/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({ message: "Error de conexión" }))
+    throw new Error(error.message || `Error ${response.status}: ${response.statusText}`)
+  }
+
+  return await response.json()
+}

@@ -8,6 +8,7 @@ interface ModalCreateProps {
   isOpen: boolean;
   onRequestClose: () => void;
   onSubmitSuccess: (message: string) => void;
+  onSubmitError: (message: string) => void;
   onAdd: (data: WorkOrder) => Promise<{ message: string }>;
   installations: any[];
   loadingInstallations: boolean;
@@ -18,6 +19,7 @@ const ModalCreate = ({
   isOpen,
   onRequestClose,
   onSubmitSuccess,
+  onSubmitError,
   onAdd,
   installations,
   loadingInstallations,
@@ -64,6 +66,7 @@ const ModalCreate = ({
           <WorkOrderForm
             onCancel={handleClose}
             onSuccess={onSubmitSuccess}
+            onError={onSubmitError}
             onAdd={onAdd}
             isEditMode={false}
             formData={formData}

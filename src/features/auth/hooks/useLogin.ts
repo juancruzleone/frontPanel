@@ -13,6 +13,7 @@ export function useLogin() {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [showModal, setShowModal] = useState(false)
   const [responseMessage, setResponseMessage] = useState("")
+  const [isError, setIsError] = useState(false)
 
   const setUserStore = useAuthStore((state) => state.setUser)
   const setAuthenticated = useAuthStore((state) => state.setAuthenticated)
@@ -42,15 +43,19 @@ export function useLogin() {
     try {
       const response = await userLogin(username, password)
       setResponseMessage(response?.message || "Login exitoso.")
+      setIsError(false)
       setUserStore(response.cuenta.userName, response.token)
       setShowModal(true)
     } catch (err: any) {
-      setErrors({ general: err.message })
+      setResponseMessage(err.message || "Error al iniciar sesión")
+      setIsError(true)
+      setShowModal(true)
     }
   }
 
   const closeModal = () => {
     setShowModal(false)
+    setIsError(false)
     setAuthenticated(true)
   }
 
@@ -65,6 +70,7 @@ export function useLogin() {
     handleSubmit,
     showModal,
     responseMessage,
+    isError,
     closeModal,
   }
 }

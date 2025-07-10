@@ -8,6 +8,7 @@ import styles from "../styles/installationForm.module.css"
 interface InstallationFormProps {
   onCancel: () => void
   onSuccess: (message: string) => void
+  onError: (message: string) => void
   onAdd?: (data: Installation) => Promise<{ message: string }>
   onEdit?: (id: string, data: Installation) => Promise<{ message: string }>
   isEditMode?: boolean
@@ -20,6 +21,7 @@ interface InstallationFormProps {
     isEditMode: boolean,
     initialData: Installation | null,
     onSuccess: (message: string) => void,
+    onError: (message: string) => void,
     onAdd?: (data: Installation) => Promise<{ message: string }>,
     onEdit?: (id: string, data: Installation) => Promise<{ message: string }>,
   ) => void
@@ -29,6 +31,7 @@ interface InstallationFormProps {
 const InstallationForm = ({
   onCancel,
   onSuccess,
+  onError,
   onAdd,
   onEdit,
   isEditMode = false,
@@ -96,7 +99,7 @@ const InstallationForm = ({
 
   return (
     <form
-      onSubmit={(e) => handleSubmitForm(e, isEditMode, initialData || null, onSuccess, onAdd, onEdit)}
+      onSubmit={(e) => handleSubmitForm(e, isEditMode, initialData || null, onSuccess, onError, onAdd, onEdit)}
       className={styles.form}
     >
       <div className={styles.formInner}>

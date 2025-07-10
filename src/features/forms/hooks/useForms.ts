@@ -6,6 +6,7 @@ import {
   createFormTemplate,
   updateFormTemplate,
   deleteFormTemplate,
+  fetchFormCategories,
 } from "../services/formServices"
 
 export type FormField = {
@@ -45,9 +46,6 @@ const useForms = () => {
     try {
       const data = await fetchFormTemplates()
       setTemplates(data)
-
-      const uniqueCategories = Array.from(new Set(data.map((t) => t.categoria)))
-      setCategories(uniqueCategories)
     } catch (err: any) {
       setError(err.message)
       console.error("Error loading templates:", err)
@@ -55,6 +53,20 @@ const useForms = () => {
       setLoading(false)
     }
   }, [])
+
+  const loadCategories = useCallback(async () => {
+    try {
+      const response = await fetchFormCategories()
+      const fetchedCategories = response.categories || response
+      const categoryNames = fetchedCategories.map((cat: any) => cat.nombre)
+      setCategories(categoryNames)
+    } catch (err: any) {
+      console.error("Error loading categories:", err)
+      // Si falla la carga de categorías, extraer de las plantillas como fallback
+      const uniqueCategories = Array.from(new Set(templates.map((t) => t.categoria)))
+      setCategories(uniqueCategories)
+    }
+  }, [templates])
 
   const loadTemplateById = useCallback(async (id: string) => {
     setLoading(true)
@@ -163,6 +175,10 @@ const useForms = () => {
     loadTemplates()
   }, [loadTemplates])
 
+  useEffect(() => {
+    loadCategories()
+  }, [loadCategories])
+
   return {
     templates,
     currentTemplate,
@@ -170,6 +186,7 @@ const useForms = () => {
     loading,
     error,
     loadTemplates,
+    loadCategories,
     loadTemplateById,
     loadTemplatesByCategory,
     addTemplate,

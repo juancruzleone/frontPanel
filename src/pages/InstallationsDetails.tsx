@@ -6,6 +6,7 @@ import ModalAddDevice from "../features/installations/components/ModalAddDevice"
 import ModalEditDevice from "../features/installationsDetails/components/ModalEditDevice"
 import ModalConfirmDelete from "../features/installations/components/ModalConfirmDelete"
 import ModalSuccess from "../features/installations/components/ModalSuccess"
+import ModalError from "../features/forms/components/ModalError"
 import ModalQRCode from "../features/installationsDetails/components/ModalQrCode"
 import useInstallations from "../features/installations/hooks/useInstallations"
 import { getLastMaintenanceForDevice } from "../features/installationsDetails/services/installationDetailsServices.ts"
@@ -40,6 +41,7 @@ const InstallationDetails = () => {
   const [deviceToEdit, setDeviceToEdit] = useState<Device | null>(null)
   const [deviceForQR, setDeviceForQR] = useState<Device | null>(null)
   const [responseMessage, setResponseMessage] = useState("")
+  const [isError, setIsError] = useState(false)
   const [loadingPDF, setLoadingPDF] = useState<string | null>(null)
   
   // Estado para paginación
@@ -61,6 +63,7 @@ const InstallationDetails = () => {
   const handleSuccessAddDevice = (message: string) => {
     setIsAddDeviceModalOpen(false)
     setResponseMessage(message)
+    setIsError(false)
   }
 
   const handleUpdateDevice = async (installationId: string, deviceId: string, deviceData: Partial<Device>) => {
@@ -77,6 +80,7 @@ const InstallationDetails = () => {
     setIsEditDeviceModalOpen(false)
     setDeviceToEdit(null)
     setResponseMessage(message)
+    setIsError(false)
   }
 
   const handleDeleteDevice = async () => {
@@ -85,9 +89,11 @@ const InstallationDetails = () => {
     try {
       await removeDeviceFromInstallation(id, deviceToDelete._id)
       setResponseMessage("Dispositivo eliminado con éxito")
-    } catch (error) {
+      setIsError(false)
+    } catch (error: any) {
       console.error("Error deleting device:", error)
-      setResponseMessage("Error al eliminar dispositivo")
+      setResponseMessage(error.message || "Error al eliminar dispositivo")
+      setIsError(true)
     } finally {
       setIsDeleteModalOpen(false)
       setDeviceToDelete(null)
@@ -113,6 +119,7 @@ const InstallationDetails = () => {
 
       if (!maintenanceData || !maintenanceData.pdfUrl) {
         setResponseMessage("No hay registros de mantenimiento para este dispositivo")
+        setIsError(true)
         return
       }
 
@@ -126,9 +133,11 @@ const InstallationDetails = () => {
       document.body.removeChild(link)
 
       setResponseMessage("Descargando PDF del último mantenimiento...")
-    } catch (error) {
+      setIsError(false)
+    } catch (error: any) {
       console.error("Error downloading maintenance PDF:", error)
-      setResponseMessage("Error al descargar el PDF de mantenimiento")
+      setResponseMessage(error.message || "Error al descargar el PDF de mantenimiento")
+      setIsError(true)
     } finally {
       setLoadingPDF(null)
     }
@@ -138,7 +147,10 @@ const InstallationDetails = () => {
     loadAssets()
   }
 
-  const closeModal = () => setResponseMessage("")
+  const closeModal = () => {
+    setResponseMessage("")
+    setIsError(false)
+  }
 
   // Lógica de paginación
   const totalPages = Math.ceil(installationDevices.length / devicesPerPage)
@@ -323,7 +335,8 @@ const InstallationDetails = () => {
         installation={currentInstallation}
       />
 
-      <ModalSuccess isOpen={!!responseMessage} onRequestClose={closeModal} mensaje={responseMessage} />
+              <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={closeModal} mensaje={responseMessage} />
+        <ModalError isOpen={!!responseMessage && isError} onRequestClose={closeModal} mensaje={responseMessage} />
     </div>
   )
 }

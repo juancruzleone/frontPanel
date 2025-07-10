@@ -230,6 +230,7 @@ const useWorkOrders = () => {
     isEditMode: boolean,
     initialData: WorkOrder | null,
     onSuccess: (msg: string) => void,
+    onError: (msg: string) => void,
     onAdd?: typeof addWorkOrder,
     onEdit?: typeof editWorkOrder,
   ) => {
@@ -256,9 +257,7 @@ const useWorkOrders = () => {
       resetForm()
     } catch (err: any) {
       console.error("Error al guardar orden:", err)
-      setFormErrors({
-        submit: err.message || "Error al guardar la orden de trabajo",
-      })
+      onError(err.message || "Error al guardar la orden de trabajo")
     } finally {
       setIsSubmitting(false)
     }

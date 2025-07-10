@@ -7,6 +7,7 @@ interface ModalCreateProps {
   isOpen: boolean;
   onRequestClose: () => void;
   onSubmitSuccess: (message: string) => void;
+  onSubmitError: (message: string) => void;
   onAdd: (data: any) => Promise<{ message: string }>;
 }
 
@@ -14,6 +15,7 @@ const ModalCreate = ({
   isOpen,
   onRequestClose,
   onSubmitSuccess,
+  onSubmitError,
   onAdd,
 }: ModalCreateProps) => {
   const {
@@ -59,6 +61,7 @@ const ModalCreate = ({
           <ManualForm
             onCancel={handleClose}
             onSuccess={onSubmitSuccess}
+            onError={onSubmitError}
             onAdd={onAdd}
             isEditMode={false}
             formData={formData}

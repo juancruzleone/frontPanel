@@ -6,6 +6,7 @@ import styles from '../styles/manualForm.module.css';
 interface ManualFormProps {
   onCancel: () => void;
   onSuccess: (message: string) => void;
+  onError: (message: string) => void;
   onAdd?: (data: Manual) => Promise<{ message: string }>;
   onEdit?: (id: string, data: Manual) => Promise<{ message: string }>;
   isEditMode?: boolean;
@@ -18,6 +19,7 @@ interface ManualFormProps {
     isEditMode: boolean,
     initialData: Manual | null,
     onSuccess: (message: string) => void,
+    onError: (message: string) => void,
     onAdd?: (data: Manual) => Promise<{ message: string }>,
     onEdit?: (id: string, data: Manual) => Promise<{ message: string }>
   ) => void;
@@ -35,6 +37,7 @@ interface Asset {
 const ManualForm = ({
   onCancel,
   onSuccess,
+  onError,
   onAdd,
   onEdit,
   isEditMode = false,
@@ -138,7 +141,7 @@ const ManualForm = ({
   return (
     <form
       onSubmit={(e) =>
-        handleSubmitForm(e, isEditMode, initialData || null, onSuccess, onAdd, onEdit)
+        handleSubmitForm(e, isEditMode, initialData || null, onSuccess, onError, onAdd, onEdit)
       }
       className={styles.form}
     >

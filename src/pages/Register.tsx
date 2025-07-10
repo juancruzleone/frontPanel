@@ -1,13 +1,14 @@
 import { useState, useEffect, useCallback } from "react"
 import Button from "../../src/shared/components/Buttons/buttonCreate"
 import ModalSuccess from "../features/auth/register/components/ModalSuccess"
+import ModalError from "../features/forms/components/ModalError"
 import ModalRegisterTechnician from "../features/auth/register/components/ModalRegisterTechnician"
 import styles from "../features/auth/register/styles/register.module.css"
 import { FiUser } from "react-icons/fi"
 import { useRegister } from "../features/auth/register/hooks/useRegister.ts"
 
 const Register = () => {
-  const { showModal, responseMessage, closeModal, technicians, loadingTechnicians, fetchTechnicians, addTechnician } =
+  const { showModal, responseMessage, isError, closeModal, technicians, loadingTechnicians, fetchTechnicians, addTechnician } =
     useRegister()
 
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
@@ -117,7 +118,8 @@ const Register = () => {
         onAdd={addTechnician}
       />
 
-      <ModalSuccess isOpen={showModal} onRequestClose={closeModal} mensaje={responseMessage} />
+      <ModalSuccess isOpen={showModal && !isError} onRequestClose={closeModal} mensaje={responseMessage} />
+      <ModalError isOpen={showModal && isError} onRequestClose={closeModal} mensaje={responseMessage} />
     </div>
   )
 }

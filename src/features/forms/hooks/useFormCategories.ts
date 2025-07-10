@@ -1,4 +1,11 @@
 import { useState, useCallback } from "react"
+import {
+  fetchFormCategories,
+  fetchFormCategoryById,
+  createFormCategory,
+  updateFormCategory,
+  deleteFormCategory,
+} from "../services/formServices"
 
 export type FormCategory = {
   _id?: string
@@ -23,14 +30,9 @@ const useFormCategories = () => {
     setLoading(true)
     setError(null)
     try {
-      // Simular carga de categorías - en un caso real vendría de la API
-      const mockCategories: FormCategory[] = [
-        { _id: "1", nombre: "Mantenimiento", descripcion: "Formularios de mantenimiento", activa: true },
-        { _id: "2", nombre: "Inspección", descripcion: "Formularios de inspección", activa: true },
-        { _id: "3", nombre: "Calibración", descripcion: "Formularios de calibración", activa: true },
-        { _id: "4", nombre: "Reparación", descripcion: "Formularios de reparación", activa: true },
-      ]
-      setCategories(mockCategories)
+      const response = await fetchFormCategories()
+      const fetchedCategories = response.categories || response
+      setCategories(fetchedCategories)
     } catch (err: any) {
       console.error("Error al cargar categorías:", err)
       setError(err.message || "Error al cargar categorías")
@@ -90,13 +92,8 @@ const useFormCategories = () => {
 
   const addCategory = async (category: FormCategory): Promise<{ message: string }> => {
     try {
-      // Simular creación - en un caso real vendría de la API
-      const newCategory = {
-        ...category,
-        _id: Date.now().toString(),
-      }
-      setCategories(prev => [...prev, newCategory])
-      return { message: "Categoría creada con éxito" }
+      const response = await createFormCategory(category)
+      return { message: response.message || "Categoría creada con éxito" }
     } catch (err: any) {
       console.error("Error al crear categoría:", err)
       throw err
@@ -105,10 +102,8 @@ const useFormCategories = () => {
 
   const updateCategory = async (id: string, data: Partial<FormCategory>): Promise<{ message: string }> => {
     try {
-      setCategories(prev => prev.map(cat => 
-        cat._id === id ? { ...cat, ...data } : cat
-      ))
-      return { message: "Categoría actualizada con éxito" }
+      const response = await updateFormCategory(id, data)
+      return { message: response.message || "Categoría actualizada con éxito" }
     } catch (err: any) {
       console.error("Error al actualizar categoría:", err)
       throw err
@@ -117,8 +112,8 @@ const useFormCategories = () => {
 
   const removeCategory = async (id: string): Promise<{ message: string }> => {
     try {
-      setCategories(prev => prev.filter(cat => cat._id !== id))
-      return { message: "Categoría eliminada con éxito" }
+      const response = await deleteFormCategory(id)
+      return { message: response.message || "Categoría eliminada con éxito" }
     } catch (err: any) {
       console.error("Error al eliminar categoría:", err)
       throw err

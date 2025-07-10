@@ -11,6 +11,7 @@ interface ModalWorkOrderDetailsProps {
   workOrder: WorkOrder | null
   onStart?: (id: string) => Promise<void>
   onSuccess: (message: string) => void
+  onError: (message: string) => void
 }
 
 const ModalWorkOrderDetails = ({
@@ -19,6 +20,7 @@ const ModalWorkOrderDetails = ({
   workOrder,
   onStart,
   onSuccess,
+  onError,
 }: ModalWorkOrderDetailsProps) => {
   const [isLoading, setIsLoading] = useState(false)
 
@@ -63,8 +65,8 @@ const ModalWorkOrderDetails = ({
     try {
       await onStart(workOrder._id)
       onSuccess("Orden iniciada con éxito")
-    } catch (error) {
-      onSuccess("Error al iniciar orden")
+    } catch (error: any) {
+      onError(error.message || "Error al iniciar orden")
     } finally {
       setIsLoading(false)
     }

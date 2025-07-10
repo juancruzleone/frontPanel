@@ -6,10 +6,11 @@ interface ModalCreateProps {
   isOpen: boolean
   onRequestClose: () => void
   onSubmitSuccess: (message: string) => void
+  onSubmitError: (message: string) => void
   onAdd: (data: Asset) => Promise<{ message: string }>
 }
 
-const ModalCreate = ({ isOpen, onRequestClose, onSubmitSuccess, onAdd }: ModalCreateProps) => {
+const ModalCreate = ({ isOpen, onRequestClose, onSubmitSuccess, onSubmitError, onAdd }: ModalCreateProps) => {
   const { templates, templatesLoading, categories } = useAssets()
 
   if (!isOpen) return null
@@ -27,6 +28,7 @@ const ModalCreate = ({ isOpen, onRequestClose, onSubmitSuccess, onAdd }: ModalCr
           <AssetForm
             onCancel={onRequestClose}
             onSuccess={onSubmitSuccess}
+            onError={onSubmitError}
             onAdd={onAdd}
             isEditMode={false}
             templates={templates}

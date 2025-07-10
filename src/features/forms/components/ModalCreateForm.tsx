@@ -7,6 +7,7 @@ interface ModalCreateFormProps {
   isOpen: boolean
   onRequestClose: () => void
   onSubmitSuccess: (data: FormTemplate) => Promise<void>
+  onSubmitError: (message: string) => void
   initialData: FormTemplate | null
   categories: string[]
 }
@@ -15,6 +16,7 @@ const ModalCreateForm = ({
   isOpen,
   onRequestClose,
   onSubmitSuccess,
+  onSubmitError,
   initialData,
   categories,
 }: ModalCreateFormProps) => {
@@ -48,6 +50,7 @@ const ModalCreateForm = ({
           <FormTemplateForm
             onCancel={handleClose}
             onSubmitSuccess={onSubmitSuccess}
+            onSubmitError={onSubmitError}
             isEditMode={false}
             initialData={currentTemplate}
             categories={categories}

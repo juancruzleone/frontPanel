@@ -6,8 +6,10 @@ import useForms from "../features/forms/hooks/useForms"
 import ModalCreateForm from "../features/forms/components/ModalCreateForm"
 import ModalEditForm from "../features/forms/components/ModalEditForm"
 import ModalSuccess from "../features/forms/components/ModalSuccess"
+import ModalError from "../features/forms/components/ModalError"
 import ModalConfirmDelete from "../features/forms/components/ModalConfirmDelete"
 import ModalCreateFormCategory from "../features/forms/components/ModalCreateFormCategory"
+import ModalManageCategories from "../features/forms/components/ModalManageCategories"
 import { Edit, Trash } from "lucide-react"
 import type { FormTemplate } from "../features/forms/hooks/useForms"
 import Skeleton from '../shared/components/Skeleton'
@@ -21,8 +23,10 @@ const Forms = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isCreateCategoryModalOpen, setIsCreateCategoryModalOpen] = useState(false)
+  const [isManageCategoriesModalOpen, setIsManageCategoriesModalOpen] = useState(false)
   const [currentTemplate, setCurrentTemplate] = useState<FormTemplate | null>(null)
   const [responseMessage, setResponseMessage] = useState("")
+  const [isError, setIsError] = useState(false)
   const [templateToDelete, setTemplateToDelete] = useState<FormTemplate | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 5
@@ -70,9 +74,11 @@ const Forms = () => {
       setCurrentTemplate(null)
       await loadTemplates()
       setResponseMessage("Plantilla creada con éxito")
+      setIsError(false)
     } catch (error: any) {
       console.error("Error al crear plantilla:", error)
-      throw error
+      setResponseMessage(error.message || "Error al crear la plantilla")
+      setIsError(true)
     }
   }
 
@@ -85,18 +91,30 @@ const Forms = () => {
       setCurrentTemplate(null)
       await loadTemplates()
       setResponseMessage("Plantilla actualizada con éxito")
+      setIsError(false)
     } catch (error: any) {
       console.error("Error al actualizar plantilla:", error)
-      throw error
+      setResponseMessage(error.message || "Error al actualizar la plantilla")
+      setIsError(true)
     }
   }
 
   const handleSuccessCreateCategory = (message: string) => {
     setIsCreateCategoryModalOpen(false)
     setResponseMessage(message)
+    setIsError(false)
   }
 
-  const closeModal = () => setResponseMessage("")
+  const handleSuccessManageCategories = (message: string) => {
+    setIsManageCategoriesModalOpen(false)
+    setResponseMessage(message)
+    setIsError(false)
+  }
+
+  const closeModal = () => {
+    setResponseMessage("")
+    setIsError(false)
+  }
 
   const handleConfirmDelete = async () => {
     if (!templateToDelete || !templateToDelete._id) return
@@ -104,9 +122,11 @@ const Forms = () => {
       await removeTemplate(templateToDelete._id)
       await loadTemplates()
       setResponseMessage("Plantilla eliminada con éxito")
-    } catch (err) {
+      setIsError(false)
+    } catch (err: any) {
       console.error("Error al eliminar plantilla", err)
-      setResponseMessage("Error al eliminar plantilla")
+      setResponseMessage(err.message || "Error al eliminar plantilla")
+      setIsError(true)
     } finally {
       setTemplateToDelete(null)
       setIsDeleteModalOpen(false)
@@ -135,7 +155,7 @@ const Forms = () => {
           <button className={styles.smallButton} onClick={() => setIsCreateCategoryModalOpen(true)}>
             + Crear categoría de formularios
           </button>
-          <button className={styles.manageButton} onClick={() => {/* TODO: Abrir modal de gestión */}}>
+          <button className={styles.manageButton} onClick={() => setIsManageCategoriesModalOpen(true)}>
             📋 Ver categorías creadas
           </button>
         </div>
@@ -239,6 +259,12 @@ const Forms = () => {
         onSubmitSuccess={handleSuccessCreateCategory}
       />
 
+      <ModalManageCategories
+        isOpen={isManageCategoriesModalOpen}
+        onRequestClose={() => setIsManageCategoriesModalOpen(false)}
+        onCategoryCreated={handleSuccessManageCategories}
+      />
+
       <ModalConfirmDelete
         isOpen={isDeleteModalOpen}
         onCancel={() => setIsDeleteModalOpen(false)}
@@ -248,7 +274,13 @@ const Forms = () => {
       />
 
       <ModalSuccess
-        isOpen={!!responseMessage}
+        isOpen={!!responseMessage && !isError}
+        onRequestClose={closeModal}
+        mensaje={responseMessage}
+      />
+
+      <ModalError
+        isOpen={!!responseMessage && isError}
         onRequestClose={closeModal}
         mensaje={responseMessage}
       />

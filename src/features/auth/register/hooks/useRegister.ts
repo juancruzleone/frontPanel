@@ -14,6 +14,7 @@ interface Technician {
 export function useRegister() {
   const [showModal, setShowModal] = useState(false)
   const [responseMessage, setResponseMessage] = useState("")
+  const [isError, setIsError] = useState(false)
   const [technicians, setTechnicians] = useState<Technician[]>([])
   const [loadingTechnicians, setLoadingTechnicians] = useState(true)
 
@@ -49,10 +50,14 @@ export function useRegister() {
 
         // Mostrar modal de éxito
         setResponseMessage(message)
+        setIsError(false)
         setShowModal(true)
 
         return { message }
       } catch (err: any) {
+        setResponseMessage(err.message || "Error al registrar técnico")
+        setIsError(true)
+        setShowModal(true)
         throw new Error(err.message)
       }
     },
@@ -62,11 +67,13 @@ export function useRegister() {
   const closeModal = useCallback(() => {
     setShowModal(false)
     setResponseMessage("")
+    setIsError(false)
   }, [])
 
   return {
     showModal,
     responseMessage,
+    isError,
     closeModal,
     technicians,
     loadingTechnicians,

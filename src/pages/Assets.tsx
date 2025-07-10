@@ -6,6 +6,7 @@ import useAssets, { type Asset } from "../features/assets/hooks/useAssets"
 import ModalCreate from "../features/assets/components/ModalCreate"
 import ModalEdit from "../features/assets/components/ModalEdit"
 import ModalSuccess from "../features/assets/components/ModalSuccess"
+import ModalError from "../features/forms/components/ModalError"
 import ModalConfirmDelete from "../features/assets/components/ModalConfirmDelete"
 import ModalAssignTemplate from "../features/assets/components/ModalAssignTemplate"
 import { Edit, Trash, List, FileText } from "lucide-react"
@@ -33,6 +34,7 @@ const Assets = () => {
   const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false)
   const [initialData, setInitialData] = useState<Asset | null>(null)
   const [responseMessage, setResponseMessage] = useState("")
+  const [isError, setIsError] = useState(false)
   const [assetToDelete, setAssetToDelete] = useState<Asset | null>(null)
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
@@ -108,15 +110,20 @@ const Assets = () => {
     setIsEditModalOpen(false)
     loadAssets()
     setResponseMessage(message)
+    setIsError(false)
   }
 
   const handleSuccessAssignTemplate = (message: string) => {
     setIsTemplateModalOpen(false)
     loadAssets()
     setResponseMessage(message)
+    setIsError(false)
   }
 
-  const closeModal = () => setResponseMessage("")
+  const closeModal = () => {
+    setResponseMessage("")
+    setIsError(false)
+  }
 
   const handleConfirmDelete = async () => {
     if (!assetToDelete || !assetToDelete._id) return
@@ -125,9 +132,11 @@ const Assets = () => {
       await removeAsset(assetToDelete._id)
       loadAssets()
       setResponseMessage("Activo eliminado con éxito")
-    } catch (err) {
+      setIsError(false)
+    } catch (err: any) {
       console.error("Error al eliminar activo", err)
-      setResponseMessage("Error al eliminar activo")
+      setResponseMessage(err.message || "Error al eliminar activo")
+      setIsError(true)
     } finally {
       setAssetToDelete(null)
       setIsDeleteModalOpen(false)
@@ -289,7 +298,17 @@ const Assets = () => {
         description="Esta acción no se puede deshacer."
       />
 
-      <ModalSuccess isOpen={!!responseMessage} onRequestClose={closeModal} mensaje={responseMessage} />
+      <ModalSuccess 
+        isOpen={!!responseMessage && !isError} 
+        onRequestClose={closeModal} 
+        mensaje={responseMessage} 
+      />
+
+      <ModalError 
+        isOpen={!!responseMessage && isError} 
+        onRequestClose={closeModal} 
+        mensaje={responseMessage} 
+      />
     </>
   )
 }

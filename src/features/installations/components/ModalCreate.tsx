@@ -8,10 +8,11 @@ interface ModalCreateProps {
   isOpen: boolean
   onRequestClose: () => void
   onSubmitSuccess: (message: string) => void
+  onSubmitError: (message: string) => void
   onAdd: (data: Installation) => Promise<{ message: string }>
 }
 
-const ModalCreate = ({ isOpen, onRequestClose, onSubmitSuccess, onAdd }: ModalCreateProps) => {
+const ModalCreate = ({ isOpen, onRequestClose, onSubmitSuccess, onSubmitError, onAdd }: ModalCreateProps) => {
   const { formData, formErrors, handleFieldChange, handleSubmitForm, isSubmitting, resetForm, setFormErrors } =
     useInstallations()
 
@@ -42,6 +43,7 @@ const ModalCreate = ({ isOpen, onRequestClose, onSubmitSuccess, onAdd }: ModalCr
           <InstallationForm
             onCancel={handleClose}
             onSuccess={onSubmitSuccess}
+            onError={onSubmitError}
             onAdd={onAdd}
             isEditMode={false}
             formData={formData}

@@ -7,6 +7,7 @@ import {
   assignTemplateToAsset as apiAssignTemplateToAsset,
   fetchTemplates,
 } from "../services/assetServices"
+import { fetchFormCategories } from "../../forms/services/formServices"
 
 export type Asset = {
   _id?: string
@@ -37,29 +38,37 @@ const useAssets = () => {
   const [templatesLoading, setTemplatesLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const extractCategories = useCallback((templates: Template[]) => {
-    const uniqueCategories = new Set<string>()
-    templates.forEach((template) => {
-      if (template.categoria) {
-        uniqueCategories.add(template.categoria)
-      }
-    })
-    return Array.from(uniqueCategories)
-  }, [])
+  const loadCategories = useCallback(async () => {
+    try {
+      const response = await fetchFormCategories()
+      const fetchedCategories = response.categories || response
+      const categoryNames = fetchedCategories.map((cat: any) => cat.nombre)
+      setCategories(categoryNames)
+    } catch (err: any) {
+      console.error("Error al cargar categorías:", err)
+      // Si falla la carga de categorías, extraer de las plantillas como fallback
+      const uniqueCategories = new Set<string>()
+      templates.forEach((template) => {
+        if (template.categoria) {
+          uniqueCategories.add(template.categoria)
+        }
+      })
+      setCategories(Array.from(uniqueCategories))
+    }
+  }, [templates])
 
   const loadTemplates = useCallback(async () => {
     setTemplatesLoading(true)
     try {
       const data = await fetchTemplates()
       setTemplates(data)
-      setCategories(extractCategories(data))
     } catch (err: any) {
       console.error("Error al cargar plantillas:", err)
       setError(err.message)
     } finally {
       setTemplatesLoading(false)
     }
-  }, [extractCategories])
+  }, [])
 
   const loadAssets = useCallback(async () => {
     setLoading(true)
@@ -78,6 +87,10 @@ const useAssets = () => {
     loadTemplates()
     loadAssets()
   }, [loadTemplates, loadAssets])
+
+  useEffect(() => {
+    loadCategories()
+  }, [loadCategories])
 
   const addAsset = async (asset: Asset): Promise<{ message: string }> => {
     try {
@@ -139,6 +152,7 @@ const useAssets = () => {
     error,
     loadAssets,
     loadTemplates,
+    loadCategories,
     addAsset,
     editAsset,
     removeAsset,

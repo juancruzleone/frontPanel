@@ -6,6 +6,7 @@ import useManuals, { Manual } from "../features/manuals/hooks/useManuals";
 import ModalCreate from "../features/manuals/components/ModalCreate";
 import ModalEdit from "../features/manuals/components/ModalEdit";
 import ModalSuccess from "../features/manuals/components/ModalSuccess";
+import ModalError from "../features/forms/components/ModalError";
 import ModalConfirmDelete from "../features/manuals/components/ModalConfirmDelete";
 import ModalUploadFile from "../features/manuals/components/ModalUploadFile";
 import { Edit, Trash, Upload, FileText, Download, Eye } from 'lucide-react';
@@ -31,6 +32,7 @@ const Manuals = () => {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [initialData, setInitialData] = useState<Manual | null>(null);
   const [responseMessage, setResponseMessage] = useState("");
+  const [isError, setIsError] = useState(false);
   const [manualToDelete, setManualToDelete] = useState<Manual | null>(null);
   const [selectedManual, setSelectedManual] = useState<Manual | null>(null);
 
@@ -105,6 +107,7 @@ const Manuals = () => {
     setIsEditModalOpen(false);
     loadManuals();
     setResponseMessage(message);
+    setIsError(false);
   };
 
   const handleSuccessUploadFile = async (file: File) => {
@@ -115,13 +118,26 @@ const Manuals = () => {
       setIsUploadModalOpen(false);
       loadManuals();
       setResponseMessage(result.message);
+      setIsError(false);
     } catch (err: any) {
       console.error("Error al subir archivo:", err);
-      setResponseMessage("Error al subir archivo");
+      setResponseMessage(err.message || "Error al subir archivo");
+      setIsError(true);
     }
   };
 
-  const closeModal = () => setResponseMessage("");
+  const handleError = (message: string) => {
+    setResponseMessage(message);
+    setIsError(true);
+    setIsCreateModalOpen(false);
+    setIsEditModalOpen(false);
+    setIsUploadModalOpen(false);
+  };
+
+  const closeModal = () => {
+    setResponseMessage("");
+    setIsError(false);
+  };
 
   const handleConfirmDelete = async () => {
     if (!manualToDelete || !manualToDelete._id) return;
@@ -129,9 +145,11 @@ const Manuals = () => {
       await removeManual(manualToDelete._id);
       loadManuals();
       setResponseMessage("Manual eliminado con éxito");
-    } catch (err) {
+      setIsError(false);
+    } catch (err: any) {
       console.error("Error al eliminar manual", err);
-      setResponseMessage("Error al eliminar manual");
+      setResponseMessage(err.message || "Error al eliminar manual");
+      setIsError(true);
     } finally {
       setManualToDelete(null);
       setIsDeleteModalOpen(false);
@@ -370,6 +388,12 @@ const Manuals = () => {
         isOpen={!!responseMessage}
         onRequestClose={closeModal}
         message={responseMessage}
+      />
+
+      <ModalError
+        isOpen={!!responseMessage && isError}
+        onRequestClose={closeModal}
+        mensaje={responseMessage}
       />
     </>
   );

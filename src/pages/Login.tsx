@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useLocation } from "react-router-dom"
 import LoginForm from "../features/auth/components/LoginForm"
 import ModalSuccess from "../features/auth/components/ModalSuccess"
+import ModalError from "../features/forms/components/ModalError"
 import { useLogin } from "../features/auth/hooks/useLogin"
 import styles from "../features/auth/styles/login.module.css"
 import { useAuthStore } from "../../src/store/authStore"
@@ -33,6 +34,7 @@ const Login = () => {
     handleSubmit,
     showModal,
     responseMessage,
+    isError,
     closeModal,
   } = useLogin()
 
@@ -57,7 +59,8 @@ const Login = () => {
           />
         </div>
       </div>
-      <ModalSuccess isOpen={showModal} onRequestClose={closeModal} mensaje={responseMessage} />
+      <ModalSuccess isOpen={showModal && !isError} onRequestClose={closeModal} mensaje={responseMessage} />
+      <ModalError isOpen={showModal && isError} onRequestClose={closeModal} mensaje={responseMessage} />
       <ModalSuccess
         isOpen={showLogoutModal}
         onRequestClose={() => setShowLogoutModal(false)}

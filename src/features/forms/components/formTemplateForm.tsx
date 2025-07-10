@@ -7,6 +7,7 @@ import { validateFormTemplate } from "../validators/formValidations"
 interface FormTemplateFormProps {
   onCancel: () => void
   onSubmitSuccess: (data: FormTemplate) => Promise<void>
+  onSubmitError: (message: string) => void
   isEditMode: boolean
   initialData: FormTemplate | null
   categories: string[]
@@ -17,6 +18,7 @@ const fieldTypes = ["text", "textarea", "number", "date", "select", "checkbox", 
 const FormTemplateForm = ({
   onCancel,
   onSubmitSuccess,
+  onSubmitError,
   isEditMode,
   initialData,
   categories,
@@ -234,9 +236,7 @@ const FormTemplateForm = ({
       await onSubmitSuccess(formData)
     } catch (err: any) {
       console.error("Error al guardar plantilla:", err)
-      setErrors({
-        submit: err.message || "Error al guardar la plantilla. Por favor intente nuevamente.",
-      })
+      onSubmitError(err.message || "Error al guardar la plantilla. Por favor intente nuevamente.")
     } finally {
       setIsSubmitting(false)
     }

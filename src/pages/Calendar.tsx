@@ -7,6 +7,7 @@ import styles from "../features/calendar/styles/calendar.module.css"
 import useCalendar, { type WorkOrder } from "../features/calendar/hooks/useCalendar"
 import ModalWorkOrderDetails from "../features/calendar/components/ModalWorkOrderDetails"
 import ModalSuccess from "../features/workOrders/components/ModalSuccess"
+import ModalError from "../features/forms/components/ModalError"
 import { CalendarIcon, Clock, MapPin, User, AlertCircle, FilterX } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 
@@ -25,6 +26,7 @@ const Calendar = () => {
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
   const [selectedWorkOrder, setSelectedWorkOrder] = useState<WorkOrder | null>(null)
   const [responseMessage, setResponseMessage] = useState("")
+  const [isError, setIsError] = useState(false)
   const [currentDate, setCurrentDate] = useState(new Date())
 
   useEffect(() => {
@@ -175,16 +177,28 @@ const Calendar = () => {
 
   const onSuccess = async (msg: string) => {
     setResponseMessage(msg)
+    setIsError(false)
     setIsDetailsModalOpen(false)
     await loadWorkOrders()
+  }
+
+  const onError = async (msg: string) => {
+    setResponseMessage(msg)
+    setIsError(true)
+    setIsDetailsModalOpen(false)
+  }
+
+  const closeModal = () => {
+    setResponseMessage("")
+    setIsError(false)
   }
 
   const handleStart = async (id: string) => {
     try {
       await startWorkOrder(id)
       onSuccess("Orden iniciada con éxito")
-    } catch {
-      onSuccess("Error al iniciar orden")
+    } catch (err: any) {
+      onError(err.message || "Error al iniciar orden")
     }
   }
 
@@ -198,120 +212,97 @@ const Calendar = () => {
     startDate.setDate(startDate.getDate() - firstDay.getDay())
 
     const days = []
-    const current = new Date(startDate)
+    const currentDay = new Date(startDate)
 
-    for (let i = 0; i < 42; i++) {
-      const dayOrders = filteredWorkOrders.filter((order) => {
-        const orderDate = new Date(order.fechaProgramada)
-        return orderDate.toDateString() === current.toDateString()
-      })
-
-      days.push({
-        date: new Date(current),
-        isCurrentMonth: current.getMonth() === month,
-        isToday: current.toDateString() === new Date().toDateString(),
-        orders: dayOrders,
-      })
-
-      current.setDate(current.getDate() + 1)
+    while (currentDay <= lastDay || days.length < 42) {
+      days.push(new Date(currentDay))
+      currentDay.setDate(currentDay.getDate() + 1)
     }
 
     return days
   }
 
-  const calendarDays = generateCalendarDays()
-
   const navigateMonth = (direction: number) => {
-    setCurrentDate((prev) => {
-      const newDate = new Date(prev)
-      newDate.setMonth(newDate.getMonth() + direction)
-      return newDate
-    })
+    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + direction, 1))
   }
 
   const renderCalendarView = () => {
-    const monthNames = [
-      "Enero",
-      "Febrero",
-      "Marzo",
-      "Abril",
-      "Mayo",
-      "Junio",
-      "Julio",
-      "Agosto",
-      "Septiembre",
-      "Octubre",
-      "Noviembre",
-      "Diciembre",
-    ]
-    const dayNames = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
+    const days = generateCalendarDays()
+    const monthName = currentDate.toLocaleDateString("es-ES", { month: "long", year: "numeric" })
 
     return (
       <div className={styles.calendarContainer}>
         <div className={styles.calendarHeader}>
           <button onClick={() => navigateMonth(-1)} className={styles.navButton}>
-            ←
+            &lt;
           </button>
-          <h2 className={styles.monthTitle}>
-            {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
-          </h2>
+          <h2 className={styles.monthTitle}>{monthName}</h2>
           <button onClick={() => navigateMonth(1)} className={styles.navButton}>
-            →
+            &gt;
           </button>
         </div>
 
         <div className={styles.calendarGrid}>
-          {dayNames.map((day) => (
-            <div key={day} className={styles.dayHeader}>
-              {day}
-            </div>
-          ))}
-
-          {calendarDays.map((day, index) => (
-            <div
-              key={index}
-              className={`${styles.calendarDay} ${
-                !day.isCurrentMonth ? styles.otherMonth : ""
-              } ${day.isToday ? styles.today : ""}`}
-            >
-              <div className={styles.dayNumber}>{day.date.getDate()}</div>
-              <div className={styles.dayOrders}>
-                {day.orders.slice(0, 3).map((order) => (
-                  <div
-                    key={order._id}
-                    className={styles.orderItem}
-                    style={{
-                      backgroundColor: getStatusColor(order.estado),
-                      borderLeft: `4px solid ${getPriorityColor(order.prioridad)}`,
-                    }}
-                    onClick={() => handleOpenDetails(order)}
-                    title={`${order.titulo} - ${order.estado}`}
-                  >
-                    <span className={styles.orderTime}>{order.horaProgramada}</span>
-                    <span className={styles.orderTitle}>{order.titulo}</span>
-                  </div>
-                ))}
-                {day.orders.length > 3 && <div className={styles.moreOrders}>+{day.orders.length - 3} más</div>}
+          <div className={styles.weekDays}>
+            {["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"].map((day) => (
+              <div key={day} className={styles.weekDay}>
+                {day}
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
+          <div className={styles.daysGrid}>
+            {days.map((day, index) => {
+              const dayOrders = filteredWorkOrders.filter((order) => {
+                const orderDate = new Date(order.fechaProgramada)
+                return orderDate.toDateString() === day.toDateString()
+              })
+
+              const isCurrentMonth = day.getMonth() === currentDate.getMonth()
+              const isToday = day.toDateString() === new Date().toDateString()
+
+              return (
+                <div
+                  key={index}
+                  className={`${styles.dayCell} ${!isCurrentMonth ? styles.otherMonth : ""} ${
+                    isToday ? styles.today : ""
+                  }`}
+                >
+                  <div className={styles.dayNumber}>{day.getDate()}</div>
+                  <div className={styles.dayOrders}>
+                    {dayOrders.slice(0, 3).map((order) => (
+                      <div
+                        key={order._id}
+                        className={styles.orderIndicator}
+                        style={{ backgroundColor: getPriorityColor(order.prioridad) }}
+                        title={`${order.titulo} - ${order.prioridad}`}
+                        onClick={() => handleOpenDetails(order)}
+                      >
+                        <span className={styles.orderTitle}>{order.titulo}</span>
+                      </div>
+                    ))}
+                    {dayOrders.length > 3 && (
+                      <div className={styles.moreOrders}>+{dayOrders.length - 3} más</div>
+                    )}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
         </div>
       </div>
     )
   }
 
   const renderListView = () => {
-    const groupedOrders = filteredWorkOrders.reduce(
-      (groups, order) => {
-        const date = new Date(order.fechaProgramada).toDateString()
-        if (!groups[date]) {
-          groups[date] = []
-        }
-        groups[date].push(order)
-        return groups
-      },
-      {} as Record<string, WorkOrder[]>,
-    )
+    const groupedOrders = filteredWorkOrders.reduce((acc, order) => {
+      const date = new Date(order.fechaProgramada).toDateString()
+      if (!acc[date]) {
+        acc[date] = []
+      }
+      acc[date].push(order)
+      return acc
+    }, {} as Record<string, WorkOrder[]>)
 
     return (
       <div className={styles.listContainer}>
@@ -499,11 +490,18 @@ const Calendar = () => {
         workOrder={selectedWorkOrder}
         onStart={handleStart}
         onSuccess={onSuccess}
+        onError={onError}
       />
 
       <ModalSuccess
-        isOpen={!!responseMessage}
-        onRequestClose={() => setResponseMessage("")}
+        isOpen={!!responseMessage && !isError}
+        onRequestClose={closeModal}
+        mensaje={responseMessage}
+      />
+
+      <ModalError
+        isOpen={!!responseMessage && isError}
+        onRequestClose={closeModal}
         mensaje={responseMessage}
       />
     </>

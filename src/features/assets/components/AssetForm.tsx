@@ -7,6 +7,7 @@ import styles from "../styles/assetForm.module.css"
 interface AssetFormProps {
   onCancel: () => void
   onSuccess: (message: string) => void
+  onError: (message: string) => void
   onAdd?: (data: Asset) => Promise<{ message: string }>
   onEdit?: (id: string, data: Asset) => Promise<{ message: string }>
   isEditMode?: boolean
@@ -19,6 +20,7 @@ interface AssetFormProps {
 const AssetForm = ({
   onCancel,
   onSuccess,
+  onError,
   onAdd,
   onEdit,
   isEditMode = false,
@@ -133,7 +135,7 @@ const AssetForm = ({
       onSuccess(message)
     } catch (err: any) {
       console.error("Error al guardar activo:", err)
-      setFormErrors({ general: err.message || "Error al guardar el activo" })
+      onError(err.message || "Error al guardar el activo")
     } finally {
       setIsSubmitting(false)
     }

@@ -9,12 +9,11 @@ import useInstallationTypes from "../features/installations/hooks/useInstallatio
 import ModalCreate from "../features/installations/components/ModalCreate"
 import ModalEdit from "../features/installations/components/ModalEdit"
 import ModalSuccess from "../features/installations/components/ModalSuccess"
+import ModalError from "../features/forms/components/ModalError"
 import ModalConfirmDelete from "../features/installations/components/ModalConfirmDelete"
 import ModalAddDevice from "../features/installations/components/ModalAddDevice"
 import ModalCreateCategory from "../features/installations/components/ModalCreateCategory"
 import ModalCreateInstallationType from "../features/installations/components/ModalCreateInstallationType"
-import ModalManageInstallationTypes from "../features/installations/components/ModalManageInstallationTypes"
-import ModalManageCategories from "../features/installations/components/ModalManageCategories"
 import ModalViewInstallationTypes from "../features/installations/components/ModalViewInstallationTypes"
 import ModalViewCategories from "../features/installations/components/ModalViewCategories"
 import { Edit, Trash, Plus } from "lucide-react"
@@ -50,12 +49,11 @@ const Installations = () => {
   const [isDeviceModalOpen, setIsDeviceModalOpen] = useState(false)
   const [isCreateCategoryModalOpen, setIsCreateCategoryModalOpen] = useState(false)
   const [isCreateInstallationTypeModalOpen, setIsCreateInstallationTypeModalOpen] = useState(false)
-  const [isManageInstallationTypesModalOpen, setIsManageInstallationTypesModalOpen] = useState(false)
-  const [isManageCategoriesModalOpen, setIsManageCategoriesModalOpen] = useState(false)
   const [isViewInstallationTypesModalOpen, setIsViewInstallationTypesModalOpen] = useState(false)
   const [isViewCategoriesModalOpen, setIsViewCategoriesModalOpen] = useState(false)
   const [initialData, setInitialData] = useState<Installation | null>(null)
   const [responseMessage, setResponseMessage] = useState("")
+  const [isError, setIsError] = useState(false)
   const [installationToDelete, setInstallationToDelete] = useState<Installation | null>(null)
   const [selectedInstallation, setSelectedInstallation] = useState<Installation | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
@@ -133,29 +131,46 @@ const Installations = () => {
     setIsEditModalOpen(false)
     loadInstallations()
     setResponseMessage(message)
+    setIsError(false)
   }
 
   const handleSuccessAddDevice = (message: string) => {
     setIsDeviceModalOpen(false)
     loadInstallations()
     setResponseMessage(message)
+    setIsError(false)
   }
 
   const handleSuccessCreateCategory = (message: string) => {
     setIsCreateCategoryModalOpen(false)
     setResponseMessage(message)
+    setIsError(false)
   }
 
   const handleSuccessCreateInstallationType = async (message: string) => {
     setIsCreateInstallationTypeModalOpen(false)
     setResponseMessage(message)
+    setIsError(false)
     // Recargar tipos de instalación para actualizar la lista
     await loadInstallationTypes()
     // Recargar instalaciones para actualizar los tipos
     loadInstallations()
   }
 
-  const closeModal = () => setResponseMessage("")
+  const handleError = (message: string) => {
+    setResponseMessage(message)
+    setIsError(true)
+    setIsCreateModalOpen(false)
+    setIsEditModalOpen(false)
+    setIsDeviceModalOpen(false)
+    setIsCreateCategoryModalOpen(false)
+    setIsCreateInstallationTypeModalOpen(false)
+  }
+
+  const closeModal = () => {
+    setResponseMessage("")
+    setIsError(false)
+  }
 
   const handleConfirmDelete = async () => {
     if (!installationToDelete || !installationToDelete._id) return
@@ -164,9 +179,11 @@ const Installations = () => {
       await removeInstallation(installationToDelete._id)
       loadInstallations()
       setResponseMessage("Instalación eliminada con éxito")
-    } catch (err) {
+      setIsError(false)
+    } catch (err: any) {
       console.error("Error al eliminar instalación", err)
-      setResponseMessage("Error al eliminar instalación")
+      setResponseMessage(err.message || "Error al eliminar instalación")
+      setIsError(true)
     } finally {
       setInstallationToDelete(null)
       setIsDeleteModalOpen(false)
@@ -203,9 +220,6 @@ const Installations = () => {
             📋 Ver tipos creados
           </button>
           <button className={styles.manageButton} onClick={() => setIsViewCategoriesModalOpen(true)}>
-            📋 Ver categorías creadas
-          </button>
-          <button className={styles.manageButton} onClick={() => setIsManageCategoriesModalOpen(true)}>
             📋 Ver categorías creadas
           </button>
         </div>
@@ -303,6 +317,7 @@ const Installations = () => {
         isOpen={isCreateModalOpen}
         onRequestClose={() => setIsCreateModalOpen(false)}
         onSubmitSuccess={handleSuccessCreateOrEdit}
+        onSubmitError={handleError}
         onAdd={addInstallation}
       />
 
@@ -349,18 +364,6 @@ const Installations = () => {
         onCreate={addInstallationType}
       />
 
-      <ModalManageInstallationTypes
-        isOpen={isManageInstallationTypesModalOpen}
-        onRequestClose={() => setIsManageInstallationTypesModalOpen(false)}
-        installationTypes={installationTypes}
-      />
-
-      <ModalManageCategories
-        isOpen={isManageCategoriesModalOpen}
-        onRequestClose={() => setIsManageCategoriesModalOpen(false)}
-        categories={categories}
-      />
-
       <ModalViewInstallationTypes
         isOpen={isViewInstallationTypesModalOpen}
         onRequestClose={() => setIsViewInstallationTypesModalOpen(false)}
@@ -371,7 +374,8 @@ const Installations = () => {
         onRequestClose={() => setIsViewCategoriesModalOpen(false)}
       />
 
-      <ModalSuccess isOpen={!!responseMessage} onRequestClose={closeModal} mensaje={responseMessage} />
+      <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={closeModal} mensaje={responseMessage} />
+      <ModalError isOpen={!!responseMessage && isError} onRequestClose={closeModal} mensaje={responseMessage} />
     </>
   )
 }

@@ -173,6 +173,7 @@ const useInstallations = () => {
     isEditMode: boolean,
     initialData: Installation | null,
     onSuccess: (message: string) => void,
+    onError: (message: string) => void,
     onAdd: (data: Installation) => Promise<{ message: string }>,
     onEdit: (id: string, data: Installation) => Promise<{ message: string }>,
   ) => {
@@ -200,8 +201,9 @@ const useInstallations = () => {
 
       onSuccess(message)
       resetForm()
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error al guardar instalación:", err)
+      onError(err.message || "Error al guardar instalación")
     } finally {
       setIsSubmitting(false)
     }
