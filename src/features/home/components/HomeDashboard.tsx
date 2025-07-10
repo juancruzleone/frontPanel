@@ -15,6 +15,73 @@ const Skeleton = ({ height = 40, width = '100%', style = {} }) => (
   />
 )
 
+const CustomLineChartTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className={styles.customTooltip}>
+        <p style={{ margin: '0 0 8px 0', fontWeight: '600', color: 'var(--color-text)' }}>
+          {`Fecha: ${label}`}
+        </p>
+        <p style={{ margin: '0', color: 'var(--color-text)', opacity: 0.8 }}>
+          {`Órdenes: ${payload[0].value}`}
+        </p>
+      </div>
+    )
+  }
+  return null
+}
+
+const LineChart = ({ data }: { data: any[] }) => {
+  const total = data.reduce((sum, item) => sum + item.value, 0)
+
+  if (!data || data.length === 0) {
+    return (
+      <div className={styles.chartCard} role="region" aria-label="Gráfico de línea - Evolución temporal">
+        <div className={styles.chartHeader}>
+          <h3 className={styles.chartTitle}>Evolución Temporal</h3>
+          <div className={styles.chartStats}>
+            <span className={styles.chartTotal}>0 total</span>
+          </div>
+        </div>
+        <div className={styles.chartPlaceholder}>
+          <p>No hay datos disponibles</p>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className={styles.chartCard} role="region" aria-label="Gráfico de línea - Evolución temporal">
+      <div className={styles.chartHeader}>
+        <h3 className={styles.chartTitle}>Evolución Temporal</h3>
+        <div className={styles.chartStats}>
+          <span className={styles.chartTotal}>{total} total</span>
+        </div>
+      </div>
+      
+      <div className={styles.lineChartContainer} style={{ height: '250px', width: '100%' }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <ReLineChart data={data}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip content={<CustomLineChartTooltip />} />
+            <Legend />
+            <Line 
+              type="monotone" 
+              dataKey="value" 
+              stroke="#8884d8" 
+              strokeWidth={2}
+              dot={{ fill: '#8884d8', strokeWidth: 2, r: 4 }}
+              activeDot={{ r: 6, stroke: '#8884d8', strokeWidth: 2, fill: '#8884d8' }}
+            />
+          </ReLineChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  )
+}
+
 const HomeDashboard: React.FC = () => {
   const {
     kpis,
@@ -77,44 +144,7 @@ const HomeDashboard: React.FC = () => {
           {/* Gráfico de línea */}
           <section className={styles.lineChartSection} aria-labelledby="trend-title">
             <h2 id="trend-title" className={styles.sectionTitle}>Tendencia de Órdenes</h2>
-            <div className={styles.chartCard}>
-              <ResponsiveContainer width="100%" height={220}>
-                <ReLineChart data={lineChartData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--color-card-border)" />
-                  <XAxis 
-                    dataKey="name" 
-                    stroke="var(--color-text)" 
-                    fontSize={12}
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <YAxis 
-                    allowDecimals={false} 
-                    stroke="var(--color-text)" 
-                    fontSize={12}
-                    tickLine={false}
-                    axisLine={false}
-                  />
-                  <Tooltip 
-                    contentStyle={{
-                      backgroundColor: 'var(--color-card)',
-                      border: '1px solid var(--color-card-border)',
-                      borderRadius: '8px',
-                      color: 'var(--color-text)'
-                    }}
-                  />
-                  <Legend />
-                  <Line 
-                    type="monotone" 
-                    dataKey="value" 
-                    stroke="var(--color-primary)" 
-                    strokeWidth={3} 
-                    dot={{ fill: 'var(--color-primary)', strokeWidth: 2, r: 4 }}
-                    activeDot={{ r: 6, stroke: 'var(--color-primary)', strokeWidth: 2 }}
-                  />
-                </ReLineChart>
-              </ResponsiveContainer>
-            </div>
+            <LineChart data={lineChartData} />
           </section>
 
           {/* Órdenes recientes */}

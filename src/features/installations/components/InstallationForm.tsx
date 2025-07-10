@@ -100,22 +100,50 @@ const InstallationForm = ({
       className={styles.form}
     >
       <div className={styles.formInner}>
-        {fields.map((field) => (
+        {/* Error general */}
+        {formErrors.general && <div className={styles.generalError}>{formErrors.general}</div>}
+
+        {/* Sección: Información de la Empresa */}
+        <h3 className={styles.sectionTitle}>Información de la Empresa</h3>
+        
+        {fields.slice(0, 2).map((field) => (
           <div className={styles.formGroup} key={field.name}>
-            <label>{field.label}</label>
+            <label>{field.label} *</label>
             {renderField(field)}
             {showError(field.name) && <p className={styles.inputError}>{formErrors[field.name]}</p>}
           </div>
         ))}
 
-        <div className={styles.actions}>
-          <button type="button" onClick={onCancel} disabled={isSubmitting} className={styles.cancelButton}>
-            Cancelar
-          </button>
-          <button type="submit" disabled={isSubmitting || loadingTypes} className={styles.submitButton}>
-            {isSubmitting ? "Guardando..." : isEditMode ? "Actualizar" : "Crear"}
-          </button>
-        </div>
+        {/* Sección: Configuración de la Instalación */}
+        <h3 className={styles.sectionTitle}>Configuración de la Instalación</h3>
+        
+        {fields.slice(2, 4).map((field) => (
+          <div className={styles.formGroup} key={field.name}>
+            <label>{field.label} *</label>
+            {renderField(field)}
+            {showError(field.name) && <p className={styles.inputError}>{formErrors[field.name]}</p>}
+          </div>
+        ))}
+
+        {/* Sección: Ubicación */}
+        <h3 className={styles.sectionTitle}>Ubicación</h3>
+        
+        {fields.slice(4).map((field) => (
+          <div className={styles.formGroup} key={field.name}>
+            <label>{field.label} *</label>
+            {renderField(field)}
+            {showError(field.name) && <p className={styles.inputError}>{formErrors[field.name]}</p>}
+          </div>
+        ))}
+      </div>
+
+      <div className={styles.actions}>
+        <button type="button" onClick={onCancel} disabled={isSubmitting} className={styles.cancelButton}>
+          Cancelar
+        </button>
+        <button type="submit" disabled={isSubmitting || loadingTypes} className={styles.submitButton}>
+          {isSubmitting ? "Guardando..." : isEditMode ? "Actualizar" : "Crear"}
+        </button>
       </div>
     </form>
   )

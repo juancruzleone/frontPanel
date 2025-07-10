@@ -165,16 +165,15 @@
 .form {
   display: flex;
   flex-direction: column;
-  flex: 1;
-  overflow: hidden;
 }
 
 .formContent {
   padding: 2rem 2.5rem;
-  overflow-y: auto;
-  flex: 1;
   background: var(--color-card);
 }
+
+/* Scrollbar personalizado */
+
 
 .formGroup {
   display: flex;
@@ -205,26 +204,26 @@
 .formGroup input,
 .formGroup select {
   padding: 0.875rem 1rem;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-card-border);
   border-radius: 12px;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background: #ffffff;
-  color: #374151;
+  background: var(--color-card);
+  color: var(--color-text);
   font-family: inherit;
 }
 
 .formGroup input:focus,
 .formGroup select:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1);
-  background: #fafbfc;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.1);
+  background: var(--color-bg-light);
 }
 
 .formGroup input:hover,
 .formGroup select:hover {
-  border-color: #d1d5db;
+  border-color: var(--color-card-border);
 }
 
 .formGroup select {
@@ -237,7 +236,7 @@
 }
 
 .error {
-  color: #ef4444;
+  color: var(--color-danger);
   font-size: 0.875rem;
   margin: 0;
   font-weight: 500;
@@ -252,13 +251,13 @@
 }
 
 .generalError {
-  color: #ef4444;
+  color: var(--color-danger);
   font-size: 0.9rem;
   text-align: center;
   margin: 0.5rem 2.5rem;
   padding: 1rem;
-  background: #fef2f2;
-  border: 1px solid #fecaca;
+  background: var(--color-danger-light);
+  border: 1px solid var(--color-danger);
   border-radius: 8px;
   font-weight: 500;
 }
@@ -288,15 +287,15 @@
   justify-content: flex-end;
   gap: 1rem;
   padding: 1.5rem 2.5rem 2rem;
-  background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
-  border-top: 1px solid #e5e7eb;
+  background: var(--color-bg-light);
+  border-top: 1px solid var(--color-card-border);
   margin-top: auto;
 }
 
 .cancelButton {
-  background: #f8f9fa;
-  color: #495057;
-  border: 2px solid #dee2e6;
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  border: 2px solid var(--color-card-border);
   padding: 0.875rem 1.75rem;
   border-radius: 12px;
   cursor: pointer;
@@ -307,8 +306,8 @@
 }
 
 .cancelButton:hover {
-  background: #e9ecef;
-  border-color: #adb5bd;
+  background: var(--color-card-border);
+  border-color: var(--color-primary);
   transform: translateY(-1px);
 }
 
@@ -353,23 +352,7 @@
   transform: none;
 }
 
-/* Scrollbar personalizado */
-.formContent::-webkit-scrollbar {
-  width: 6px;
-}
 
-.formContent::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.formContent::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 3px;
-}
-
-.formContent::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
-}
 
 /* Responsive */
 @media (max-width: 768px) {

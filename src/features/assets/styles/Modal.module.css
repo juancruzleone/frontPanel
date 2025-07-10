@@ -201,29 +201,29 @@
 
 .formGroup select:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1);
-  background-color: #fafbfc;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.1);
+  background-color: var(--color-bg-light);
 }
 
 .formGroup select:hover {
-  border-color: #d1d5db;
+  border-color: var(--color-card-border);
 }
 
 .formGroup select:disabled {
-  background-color: #f3f4f6;
-  color: #9ca3af;
+  background-color: var(--color-skeleton);
+  color: var(--color-skeleton-light);
   cursor: not-allowed;
 }
 
 .errorInput {
-  border-color: #ef4444 !important;
+  border-color: var(--color-danger) !important;
   box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
-  background: #fef2f2 !important;
+  background: var(--color-danger-light) !important;
 }
 
 .inputError {
-  color: #ef4444;
+  color: var(--color-danger);
   font-size: 0.875rem;
   margin: 0;
   font-weight: 500;
@@ -242,18 +242,18 @@
   align-items: center;
   gap: 0.75rem;
   padding: 1rem;
-  background: #f8f9fa;
-  border: 2px solid #e5e7eb;
+  background: var(--color-bg-light);
+  border: 2px solid var(--color-card-border);
   border-radius: 12px;
-  color: #6c757d;
+  color: var(--color-text);
   font-weight: 500;
 }
 
 .spinner {
   width: 20px;
   height: 20px;
-  border: 2px solid #e5e7eb;
-  border-top: 2px solid #007bff;
+  border: 2px solid var(--color-card-border);
+  border-top: 2px solid var(--color-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -268,12 +268,12 @@
 }
 
 .generalError {
-  color: #ef4444;
+  color: var(--color-danger);
   font-size: 0.9rem;
   text-align: center;
   padding: 1rem;
-  background: #fef2f2;
-  border: 1px solid #fecaca;
+  background: var(--color-danger-light);
+  border: 1px solid var(--color-danger);
   border-radius: 8px;
   font-weight: 500;
 }
@@ -283,15 +283,15 @@
   gap: 1rem;
   justify-content: flex-end;
   padding: 1.5rem 2.5rem 2rem;
-  border-top: 1px solid #e5e7eb;
-  background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+  border-top: 1px solid var(--color-card-border);
+  background: var(--color-bg-light);
   margin-top: auto;
 }
 
 .cancelButton {
-  background: #f8f9fa;
-  color: #495057;
-  border: 2px solid #dee2e6;
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  border: 2px solid var(--color-card-border);
   padding: 0.875rem 1.75rem;
   border-radius: 12px;
   cursor: pointer;
@@ -302,8 +302,8 @@
 }
 
 .cancelButton:hover {
-  background: #e9ecef;
-  border-color: #adb5bd;
+  background: var(--color-card-border);
+  border-color: var(--color-primary);
   transform: translateY(-1px);
 }
 

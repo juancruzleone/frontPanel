@@ -63,6 +63,26 @@
   
   .modalContent {
     padding: 20px;
+    max-height: calc(90vh - 120px);
+    overflow-y: auto;
+  }
+
+  /* Scrollbar personalizado */
+  .modalContent::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .modalContent::-webkit-scrollbar-track {
+    background: var(--color-bg-light);
+  }
+
+  .modalContent::-webkit-scrollbar-thumb {
+    background: var(--color-card-border);
+    border-radius: 3px;
+  }
+
+  .modalContent::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text);
   }
   
   .deviceInfo {

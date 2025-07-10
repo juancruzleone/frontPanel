@@ -7,7 +7,7 @@ import styles from "../features/calendar/styles/calendar.module.css"
 import useCalendar, { type WorkOrder } from "../features/calendar/hooks/useCalendar"
 import ModalWorkOrderDetails from "../features/calendar/components/ModalWorkOrderDetails"
 import ModalSuccess from "../features/workOrders/components/ModalSuccess"
-import { CalendarIcon, Clock, MapPin, User, AlertCircle } from "lucide-react"
+import { CalendarIcon, Clock, MapPin, User, AlertCircle, FilterX } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 
 const Calendar = () => {
@@ -469,6 +469,7 @@ const Calendar = () => {
               }}
               className={styles.clearFilters}
             >
+              <FilterX size={16} />
               Limpiar Filtros
             </button>
           </div>

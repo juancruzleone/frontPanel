@@ -64,6 +64,26 @@
   .modalContent {
     padding: 20px;
     background: var(--color-card);
+    max-height: calc(90vh - 120px);
+    overflow-y: auto;
+  }
+
+  /* Scrollbar personalizado */
+  .modalContent::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .modalContent::-webkit-scrollbar-track {
+    background: var(--color-bg-light);
+  }
+
+  .modalContent::-webkit-scrollbar-thumb {
+    background: var(--color-card-border);
+    border-radius: 3px;
+  }
+
+  .modalContent::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text);
   }
   
   .workOrderDetails {
@@ -132,19 +152,21 @@
   }
   
   .infoItem {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 12px;
-    background-color: var(--color-bg-light);
-    border-radius: 6px;
-  }
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-card-border);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
   
   .infoItem svg {
-    color: #057e74;
-    margin-top: 2px;
-    flex-shrink: 0;
-  }
+  color: var(--color-primary);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
   
   .infoItem div {
     flex: 1;
@@ -180,42 +202,42 @@
   }
   
   .startButton {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.2s ease;
-  }
-  
-  .startButton:hover:not(:disabled) {
-    background-color: #218838;
-  }
-  
-  .startButton:disabled {
-    background-color: #6c757d;
-    cursor: not-allowed;
-  }
-  
-  .closeModalButton {
-    padding: 10px 20px;
-    background-color: #6c757d;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.2s ease;
-  }
-  
-  .closeModalButton:hover {
-    background-color: #5a6268;
-  }
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background-color: var(--color-success);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.startButton:hover:not(:disabled) {
+  background-color: var(--color-success-dark);
+}
+
+.startButton:disabled {
+  background-color: var(--color-skeleton);
+  cursor: not-allowed;
+}
+
+.closeModalButton {
+  padding: 10px 20px;
+  background-color: var(--color-bg-light);
+  color: var(--color-text);
+  border: 2px solid var(--color-card-border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.closeModalButton:hover {
+  background-color: var(--color-card-border);
+}
   
   /* Responsive Design */
   @media (max-width: 768px) {

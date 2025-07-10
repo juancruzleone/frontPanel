@@ -182,16 +182,7 @@ const WorkOrderForm = ({
               </select>
 
               {selectedInstallation && (
-                <div
-                  style={{
-                    marginTop: "8px",
-                    padding: "8px",
-                    backgroundColor: "#f5f5f5",
-                    borderRadius: "4px",
-                    fontSize: "0.9em",
-                    color: "#666",
-                  }}
-                >
+                <div className={styles.selectedInstallationDetail}>
                   <strong>Instalación seleccionada:</strong> {selectedInstallation.company}
                   <br />
                   <strong>Dirección:</strong> {selectedInstallation.address}, {selectedInstallation.city}

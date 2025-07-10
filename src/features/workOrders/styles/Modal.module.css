@@ -213,15 +213,15 @@
 .formGroup select:focus,
 .formGroup textarea:focus {
   outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1);
-  background: #fafbfc;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.1);
+  background: var(--color-bg-light);
 }
 
 .formGroup input:hover,
 .formGroup select:hover,
 .formGroup textarea:hover {
-  border-color: #d1d5db;
+  border-color: var(--color-card-border);
 }
 
 .formGroup textarea {
@@ -250,14 +250,14 @@
 }
 
 .infoDisplay {
-  background: #f8f9fa;
+  background: var(--color-bg-light);
   padding: 1rem;
   border-radius: 8px;
-  border: 2px solid #e9ecef;
+  border: 2px solid var(--color-card-border);
 }
 
 .infoDisplay strong {
-  color: #212529;
+  color: var(--color-text);
   font-size: 1.1rem;
   display: block;
   margin-bottom: 0.5rem;
@@ -265,18 +265,19 @@
 
 .infoDisplay p {
   margin: 0.25rem 0;
-  color: #6c757d;
+  color: var(--color-text);
+  opacity: 0.7;
   font-size: 0.9rem;
 }
 
 .errorInput {
-  border-color: #ef4444 !important;
+  border-color: var(--color-danger) !important;
   box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
-  background: #fef2f2 !important;
+  background: var(--color-danger-light) !important;
 }
 
 .inputError {
-  color: #ef4444;
+  color: var(--color-danger);
   font-size: 0.875rem;
   margin: 0;
   font-weight: 500;
@@ -291,17 +292,17 @@
 }
 
 .generalError {
-  color: #ef4444;
+  color: var(--color-danger);
   font-size: 0.875rem;
   margin: 0;
   font-weight: 500;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: #fef2f2;
+  background: var(--color-danger-light);
   padding: 0.75rem 1rem;
   border-radius: 8px;
-  border: 1px solid #fecaca;
+  border: 1px solid var(--color-danger);
 }
 
 .generalError::before {
@@ -314,15 +315,15 @@
   gap: 1rem;
   justify-content: flex-end;
   padding: 1.5rem 2.5rem 2rem;
-  border-top: 1px solid #e5e7eb;
-  background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+  border-top: 1px solid var(--color-card-border);
+  background: var(--color-bg-light);
   margin-top: auto;
 }
 
 .cancelButton {
-  background: #f8f9fa;
-  color: #495057;
-  border: 2px solid #dee2e6;
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  border: 2px solid var(--color-card-border);
   padding: 0.875rem 1.75rem;
   border-radius: 12px;
   cursor: pointer;
@@ -333,8 +334,8 @@
 }
 
 .cancelButton:hover {
-  background: #e9ecef;
-  border-color: #adb5bd;
+  background: var(--color-card-border);
+  border-color: var(--color-primary);
   transform: translateY(-1px);
 }
 

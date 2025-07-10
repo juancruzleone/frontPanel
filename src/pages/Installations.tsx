@@ -15,6 +15,8 @@ import ModalCreateCategory from "../features/installations/components/ModalCreat
 import ModalCreateInstallationType from "../features/installations/components/ModalCreateInstallationType"
 import ModalManageInstallationTypes from "../features/installations/components/ModalManageInstallationTypes"
 import ModalManageCategories from "../features/installations/components/ModalManageCategories"
+import ModalViewInstallationTypes from "../features/installations/components/ModalViewInstallationTypes"
+import ModalViewCategories from "../features/installations/components/ModalViewCategories"
 import { Edit, Trash, Plus } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 
@@ -50,6 +52,8 @@ const Installations = () => {
   const [isCreateInstallationTypeModalOpen, setIsCreateInstallationTypeModalOpen] = useState(false)
   const [isManageInstallationTypesModalOpen, setIsManageInstallationTypesModalOpen] = useState(false)
   const [isManageCategoriesModalOpen, setIsManageCategoriesModalOpen] = useState(false)
+  const [isViewInstallationTypesModalOpen, setIsViewInstallationTypesModalOpen] = useState(false)
+  const [isViewCategoriesModalOpen, setIsViewCategoriesModalOpen] = useState(false)
   const [initialData, setInitialData] = useState<Installation | null>(null)
   const [responseMessage, setResponseMessage] = useState("")
   const [installationToDelete, setInstallationToDelete] = useState<Installation | null>(null)
@@ -195,8 +199,11 @@ const Installations = () => {
           <button className={styles.smallButton} onClick={() => setIsCreateCategoryModalOpen(true)}>
             + Crear categoría de dispositivo
           </button>
-          <button className={styles.manageButton} onClick={() => setIsManageInstallationTypesModalOpen(true)}>
+          <button className={styles.manageButton} onClick={() => setIsViewInstallationTypesModalOpen(true)}>
             📋 Ver tipos creados
+          </button>
+          <button className={styles.manageButton} onClick={() => setIsViewCategoriesModalOpen(true)}>
+            📋 Ver categorías creadas
           </button>
           <button className={styles.manageButton} onClick={() => setIsManageCategoriesModalOpen(true)}>
             📋 Ver categorías creadas
@@ -352,6 +359,16 @@ const Installations = () => {
         isOpen={isManageCategoriesModalOpen}
         onRequestClose={() => setIsManageCategoriesModalOpen(false)}
         categories={categories}
+      />
+
+      <ModalViewInstallationTypes
+        isOpen={isViewInstallationTypesModalOpen}
+        onRequestClose={() => setIsViewInstallationTypesModalOpen(false)}
+      />
+
+      <ModalViewCategories
+        isOpen={isViewCategoriesModalOpen}
+        onRequestClose={() => setIsViewCategoriesModalOpen(false)}
       />
 
       <ModalSuccess isOpen={!!responseMessage} onRequestClose={closeModal} mensaje={responseMessage} />

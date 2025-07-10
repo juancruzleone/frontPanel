@@ -1,8 +1,7 @@
-/* Revertir a la estructura original, solo mantener variables CSS para colores */
+/* Formulario simplificado sin scroll interno */
 .form {
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
 
 .formInner {
@@ -11,6 +10,41 @@
   gap: 1.5rem;
   padding: 2rem 2.5rem;
   background: var(--color-card);
+}
+
+.generalError {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: var(--color-danger);
+  padding: 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  color: var(--color-text);
+  margin: 1.5rem 0 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--color-card-border);
+  font-weight: 700;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sectionTitle::before {
+  content: "";
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  border-radius: 2px;
+}
+
+.sectionTitle:first-of-type {
+  margin-top: 0;
 }
 
 .formGroup {
@@ -30,6 +64,14 @@
   gap: 0.5rem;
 }
 
+.formGroup label::before {
+  content: "";
+  width: 3px;
+  height: 16px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  border-radius: 2px;
+}
+
 .formGroup input,
 .formGroup select,
 .formGroup textarea {
@@ -43,15 +85,6 @@
   font-family: inherit;
 }
 
-.formGroup select {
-  appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 16px;
-  padding-right: 40px;
-}
-
 .formGroup input:focus,
 .formGroup select:focus,
 .formGroup textarea:focus {
@@ -61,10 +94,33 @@
   background: var(--color-bg-light);
 }
 
+.formGroup input:hover,
+.formGroup select:hover,
+.formGroup textarea:hover {
+  border-color: var(--color-card-border);
+}
+
+.formGroup select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
 .formGroup textarea {
   resize: vertical;
   min-height: 100px;
   font-family: inherit;
+}
+
+.formGroup input:disabled,
+.formGroup select:disabled,
+.formGroup textarea:disabled {
+  background-color: var(--color-skeleton);
+  color: var(--color-skeleton-light);
+  cursor: not-allowed;
 }
 
 .errorInput {
@@ -95,7 +151,6 @@
   padding: 1.5rem 2.5rem 2rem;
   border-top: 1px solid var(--color-card-border);
   background: var(--color-bg-light);
-  margin-top: auto;
 }
 
 .cancelButton {
@@ -115,6 +170,16 @@
   background: var(--color-card-border);
   border-color: var(--color-primary);
   transform: translateY(-1px);
+}
+
+.cancelButton:active {
+  transform: translateY(0);
+}
+
+.cancelButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .submitButton {
@@ -137,6 +202,17 @@
   box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
 }
 
+.submitButton:active {
+  transform: translateY(0);
+}
+
+.submitButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
 @media (max-width: 768px) {
   .formInner {
     padding: 1.5rem;
@@ -150,5 +226,28 @@
   .cancelButton,
   .submitButton {
     width: 100%;
+  }
+  .sectionTitle {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .formInner {
+    padding: 1rem;
+  }
+  .actions {
+    padding: 1rem;
+  }
+  .formGroup label {
+    font-size: 0.9rem;
+  }
+  .formGroup input,
+  .formGroup select,
+  .formGroup textarea {
+    padding: 0.75rem 0.875rem;
+  }
+  .sectionTitle {
+    font-size: 1rem;
   }
 }
