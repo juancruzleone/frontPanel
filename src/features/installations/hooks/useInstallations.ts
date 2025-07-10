@@ -116,7 +116,7 @@ const useInstallations = () => {
     }
   }, [extractInstallationTypes])
 
-  const loadInstallationDetails = async (id: string) => {
+  const loadInstallationDetails = useCallback(async (id: string) => {
     setLoading(true)
     setError(null)
     try {
@@ -134,9 +134,18 @@ const useInstallations = () => {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
 
-  const removeDeviceFromInstallation = async (installationId: string, deviceId: string) => {
+  const refreshInstallationDevices = useCallback(async (id: string) => {
+    try {
+      const devices = await fetchInstallationDevices(id)
+      setInstallationDevices(Array.isArray(devices) ? devices : [])
+    } catch (err: any) {
+      console.error("Error al recargar dispositivos:", err)
+    }
+  }, [])
+
+  const removeDeviceFromInstallation = useCallback(async (installationId: string, deviceId: string) => {
     try {
       await deleteDeviceFromInstallation(installationId, deviceId)
       setInstallationDevices((prev) => prev.filter((d) => d._id !== deviceId))
@@ -145,7 +154,7 @@ const useInstallations = () => {
       console.error("Error al eliminar dispositivo:", err)
       throw err
     }
-  }
+  }, [])
 
   useEffect(() => {
     loadInstallations()
@@ -240,17 +249,35 @@ const useInstallations = () => {
     }
   }
 
-  const addDeviceToInstallation = async (installationId: string, device: Device): Promise<{ message: string }> => {
+  const addDeviceToInstallation = useCallback(async (installationId: string, device: Device): Promise<{ message: string }> => {
     try {
       const result = await apiAddDeviceToInstallation(installationId, device)
-      setInstallationDevices((prev) => [...prev, device])
+      
+      // Usar el dispositivo devuelto por la API que incluye el _id generado
+      const addedDevice = result.success ? result.data : result
+      
+      // Asegurar que el dispositivo tenga todos los datos necesarios
+      const completeDevice = {
+        ...device,
+        ...addedDevice,
+        _id: addedDevice._id || device._id,
+        nombre: device.nombre,
+        ubicacion: device.ubicacion,
+        categoria: device.categoria,
+        estado: device.estado || "Activo",
+        marca: device.marca,
+        modelo: device.modelo,
+        numeroSerie: device.numeroSerie,
+      }
+      
+      setInstallationDevices((prev) => [...prev, completeDevice])
 
       setInstallations((prev) =>
         prev.map((inst) =>
           inst._id === installationId
             ? {
                 ...inst,
-                devices: [...(inst.devices || []), device],
+                devices: [...(inst.devices || []), completeDevice],
               }
             : inst,
         ),
@@ -261,7 +288,7 @@ const useInstallations = () => {
       console.error("Error al agregar dispositivo:", err)
       throw err
     }
-  }
+  }, [])
 
   const resetForm = () => {
     setFormData({
@@ -292,6 +319,7 @@ const useInstallations = () => {
     errorLoadingAssets,
     loadInstallations,
     loadInstallationDetails,
+    refreshInstallationDevices,
     loadAssets,
     addInstallation,
     editInstallation,

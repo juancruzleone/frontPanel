@@ -658,19 +658,43 @@ body, html {
 .barChartContainer .recharts-cartesian-grid-horizontal line,
 .barChartContainer .recharts-cartesian-grid-vertical line {
   stroke: var(--color-card-border);
-  stroke-opacity: 0.3;
+  stroke-opacity: 0.08;
   stroke-dasharray: 4 4;
+  stroke-width: 1;
 }
 
 .barChartContainer .recharts-bar-rectangle {
-  transition: all 0.3s ease;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-  border-radius: 4px 4px 0 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.12));
+  border-radius: 6px 6px 0 0;
+  stroke: var(--color-card);
+  stroke-width: 1;
+  opacity: 0.85;
 }
 
 .barChartContainer .recharts-bar-rectangle:hover {
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
-  transform: scale(1.02);
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.2));
+  transform: translateY(-2px) scale(1.02);
+  opacity: 1;
+}
+
+.barChartContainer .recharts-cartesian-axis-tick-value {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  fill: var(--color-text) !important;
+  opacity: 0.8;
+  font-family: inherit;
+}
+
+.barChartContainer .recharts-cartesian-axis-line {
+  stroke: var(--color-card-border) !important;
+  stroke-width: 1;
+  opacity: 0.15;
+}
+
+.barChartContainer .recharts-cartesian-axis-tick-line {
+  stroke: var(--color-card-border) !important;
+  opacity: 0.1;
 }
 
 /* Mejoras para ejes de gráficos */
@@ -705,24 +729,27 @@ body, html {
 }
 
 .pieChartContainer .recharts-pie {
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.1));
 }
 
 .pieChartContainer .recharts-pie-sector {
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   stroke: var(--color-card);
   stroke-width: 2;
+  opacity: 0.9;
 }
 
 .pieChartContainer .recharts-pie-sector:hover {
-  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.2));
   transform: scale(1.05);
+  opacity: 1;
 }
 
 /* Mejoras para gráficos circulares */
 .pieChartContainer .recharts-pie-label-text {
   font-weight: 600 !important;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+  font-size: 13px !important;
 }
 
 /* Estilos específicos para gráficos de línea */
@@ -735,55 +762,107 @@ body, html {
 .lineChartContainer .recharts-cartesian-grid-horizontal line,
 .lineChartContainer .recharts-cartesian-grid-vertical line {
   stroke: var(--color-card-border);
+  stroke-opacity: 0.12;
+  stroke-dasharray: 6 6;
+  stroke-width: 1.5;
+  transition: all 0.3s ease;
+}
+
+.lineChartContainer .recharts-cartesian-grid-horizontal line:hover,
+.lineChartContainer .recharts-cartesian-grid-vertical line:hover {
   stroke-opacity: 0.2;
-  stroke-dasharray: 3 3;
+  stroke-width: 2;
 }
 
 .lineChartContainer .recharts-line-curve {
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-  stroke-width: 3;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lineChartContainer .recharts-line-curve:hover {
+  filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.25));
+  stroke-width: 5;
 }
 
 .lineChartContainer .recharts-line-dot {
-  transition: all 0.3s ease;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+  stroke-width: 3;
+  stroke: var(--color-card);
+  r: 8;
 }
 
 .lineChartContainer .recharts-line-dot:hover {
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
-  transform: scale(1.2);
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.35));
+  transform: scale(1.4);
+  r: 10;
 }
 
 /* Mejoras para gráficos de línea */
 .lineChartContainer .recharts-line-active-dot {
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3)) !important;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.4)) !important;
+  stroke-width: 4 !important;
+  r: 12 !important;
+}
+
+.lineChartContainer .recharts-cartesian-axis-tick-value {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  fill: var(--color-text) !important;
+  opacity: 0.9;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.lineChartContainer .recharts-cartesian-axis-tick-value:hover {
+  opacity: 1;
+  font-weight: 800 !important;
+}
+
+.lineChartContainer .recharts-cartesian-axis-line {
+  stroke: var(--color-card-border) !important;
+  stroke-width: 2;
+  opacity: 0.2;
+  stroke-linecap: round;
+}
+
+.lineChartContainer .recharts-cartesian-axis-tick-line {
+  stroke: var(--color-card-border) !important;
+  opacity: 0.15;
+  stroke-width: 1.5;
 }
 
 /* Tooltips personalizados */
 .customTooltip {
-  background: var(--color-card) !important;
+  background: linear-gradient(135deg, var(--color-card) 0%, var(--color-bg-light) 100%) !important;
   border: 1px solid var(--color-card-border) !important;
-  border-radius: 12px !important;
-  padding: 12px 16px !important;
+  border-radius: 16px !important;
+  padding: 16px 20px !important;
   color: var(--color-text) !important;
   font-size: 0.875rem !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
-  backdrop-filter: blur(8px) !important;
-  border-radius: 12px !important;
-  max-width: 200px !important;
+  font-weight: 600 !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(12px) !important;
+  max-width: 220px !important;
+  font-family: inherit !important;
+  line-height: 1.4 !important;
 }
 
 .customTooltip::before {
   content: '';
   position: absolute;
-  top: -6px;
+  top: -8px;
   left: 50%;
   transform: translateX(-50%);
   width: 0;
   height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid var(--color-card);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid var(--color-card);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 /* Contenedor de porcentajes sin wrapper */
@@ -885,9 +964,13 @@ body, html {
   }
 }
 
+
+
 .chartCard {
-  animation: chartFadeIn 0.6s ease-out;
+  animation: chartFadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+/* Los gráficos heredan la animación del chartCard */
 
 /* Responsive design para gráficos */
 @media (max-width: 768px) {
@@ -916,6 +999,8 @@ body, html {
     height: 250px !important;
   }
   
+
+  
   .percentagesContainer {
     flex-direction: row !important;
     flex-wrap: wrap !important;
@@ -931,6 +1016,17 @@ body, html {
   
   .legendContent {
     min-width: 60px !important;
+  }
+  
+  .barChartContainer .recharts-cartesian-axis-tick-value,
+  .lineChartContainer .recharts-cartesian-axis-tick-value {
+    font-size: 10px !important;
+  }
+  
+  .customTooltip {
+    max-width: 180px !important;
+    padding: 12px 16px !important;
+    font-size: 0.8rem !important;
   }
 }
 
@@ -976,4 +1072,30 @@ body, html {
 
 .dark .legendPercentage {
   color: var(--color-primary) !important;
+}
+
+/* Estilos específicos para modo oscuro en gráficos */
+.dark .barChartContainer .recharts-cartesian-grid-horizontal line,
+.dark .barChartContainer .recharts-cartesian-grid-vertical line,
+.dark .lineChartContainer .recharts-cartesian-grid-horizontal line,
+.dark .lineChartContainer .recharts-cartesian-grid-vertical line {
+  stroke-opacity: 0.05 !important;
+}
+
+.dark .barChartContainer .recharts-bar-rectangle,
+.dark .pieChartContainer .recharts-pie-sector,
+.dark .lineChartContainer .recharts-line-curve {
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25)) !important;
+}
+
+.dark .barChartContainer .recharts-bar-rectangle:hover,
+.dark .pieChartContainer .recharts-pie-sector:hover,
+.dark .lineChartContainer .recharts-line-dot:hover {
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.35)) !important;
+}
+
+.dark .customTooltip {
+  background: linear-gradient(135deg, var(--color-card) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
+  border-color: var(--color-card-border) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4) !important;
 } 

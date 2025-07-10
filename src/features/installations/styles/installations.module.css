@@ -52,7 +52,7 @@
   flex-direction: column;
   gap: 16px;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .installationCard::before {
@@ -175,79 +175,39 @@
 .iconButton::after {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: 140%;
+  bottom: 125%;
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--color-text);
   color: var(--color-card);
-  padding: 6px 10px;
+  padding: 8px 12px;
   font-size: 12px;
   font-weight: 500;
   white-space: nowrap;
-  border-radius: 6px;
+  border-radius: 8px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
-  z-index: 1000;
+  z-index: 10;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  max-width: 200px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
-  white-space: normal;
 }
 
-.iconButton:hover::after {
-  opacity: 1;
-}
-
-/* Ajuste para cuando el tooltip se sale por arriba */
-.iconButton:hover::after {
-  bottom: auto;
-  top: 125%;
-}
-
-/* Ajuste para cuando el tooltip se sale por la derecha */
-.iconButton:hover::after {
-  left: auto;
-  right: 0;
-  transform: translateY(-50%);
-  top: 50%;
-}
-
-/* Ajuste para cuando el tooltip se sale por la izquierda */
-.iconButton:hover::after {
-  left: 0;
-  right: auto;
-  transform: translateY(-50%);
-  top: 50%;
-}
-
-/* Ajuste específico para cards de instalación */
-.installationCard .iconButton::after {
-  /* Asegurar que el tooltip se mantenga dentro de la card */
-  max-width: calc(100vw - 40px);
+.iconButton::before {
+  content: '';
+  position: absolute;
+  bottom: 115%;
   left: 50%;
   transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--color-text);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 10;
 }
 
-.installationCard .iconButton:hover::after {
-  /* Si se sale por la derecha, ajustar a la izquierda */
-  left: auto;
-  right: 0;
-  transform: translateY(-50%);
-  top: 50%;
-}
-
-.installationCard .iconButton:hover::after {
-  /* Si se sale por la izquierda, ajustar a la derecha */
-  left: 0;
-  right: auto;
-  transform: translateY(-50%);
-  top: 50%;
-}
-
-.iconButton:hover::after {
+.iconButton:hover::after,
+.iconButton:hover::before {
   opacity: 1;
 }
 

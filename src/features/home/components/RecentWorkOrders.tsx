@@ -44,7 +44,7 @@ const RecentWorkOrders: React.FC<RecentWorkOrdersProps> = ({ workOrders }) => {
     <div className={styles.recentOrdersCard} role="region" aria-label="Órdenes de trabajo recientes">
       <div className={styles.recentOrdersHeader}>
         <h3 className={styles.recentOrdersTitle}>Órdenes Recientes</h3>
-        <span className={styles.recentOrdersCount}>{workOrders.length} órdenes</span>
+        <span className={styles.chartTotal}>{workOrders.length} órdenes</span>
       </div>
       
       <div className={styles.ordersList}>

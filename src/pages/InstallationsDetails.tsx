@@ -9,6 +9,7 @@ import ModalSuccess from "../features/installations/components/ModalSuccess"
 import ModalQRCode from "../features/installationsDetails/components/ModalQrCode"
 import useInstallations from "../features/installations/hooks/useInstallations"
 import { getLastMaintenanceForDevice } from "../features/installationsDetails/services/installationDetailsServices.ts"
+import { updateDeviceInInstallation } from "../features/installations/services/installationServices"
 import type { Device } from "../features/installations/hooks/useInstallations"
 
 const InstallationDetails = () => {
@@ -25,9 +26,9 @@ const InstallationDetails = () => {
     loadingAssets,
     errorLoadingAssets,
     loadInstallationDetails,
+    refreshInstallationDevices,
     loadAssets,
     addDeviceToInstallation,
-    updateDeviceInInstallation,
     removeDeviceFromInstallation,
   } = useInstallations()
 
@@ -40,6 +41,10 @@ const InstallationDetails = () => {
   const [deviceForQR, setDeviceForQR] = useState<Device | null>(null)
   const [responseMessage, setResponseMessage] = useState("")
   const [loadingPDF, setLoadingPDF] = useState<string | null>(null)
+  
+  // Estado para paginación
+  const [currentPage, setCurrentPage] = useState(1)
+  const devicesPerPage = 12
 
   useEffect(() => {
     if (id) {
@@ -48,31 +53,30 @@ const InstallationDetails = () => {
     }
   }, [id, loadInstallationDetails])
 
-  const handleAddDevice = async (device: Device) => {
-    try {
-      if (!id) return
-      const result = await addDeviceToInstallation(id, device)
-      setResponseMessage(result.message)
-      setIsAddDeviceModalOpen(false)
-      loadInstallationDetails(id)
-    } catch (error) {
-      console.error("Error adding device:", error)
-      setResponseMessage("Error al agregar dispositivo")
-    }
+  // Resetear página cuando cambien los dispositivos
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [installationDevices.length])
+
+  const handleSuccessAddDevice = (message: string) => {
+    setIsAddDeviceModalOpen(false)
+    setResponseMessage(message)
   }
 
   const handleUpdateDevice = async (installationId: string, deviceId: string, deviceData: Partial<Device>) => {
     try {
       const result = await updateDeviceInInstallation(installationId, deviceId, deviceData)
-      setResponseMessage(result.message)
-      setIsEditDeviceModalOpen(false)
-      setDeviceToEdit(null)
-      loadInstallationDetails(installationId)
-      return result
-    } catch (error) {
-      console.error("Error updating device:", error)
-      throw error
+      return { message: "Dispositivo actualizado con éxito" }
+    } catch (err: any) {
+      console.error("Error al actualizar dispositivo:", err)
+      throw err
     }
+  }
+
+  const handleSuccessUpdateDevice = (message: string) => {
+    setIsEditDeviceModalOpen(false)
+    setDeviceToEdit(null)
+    setResponseMessage(message)
   }
 
   const handleDeleteDevice = async () => {
@@ -81,7 +85,6 @@ const InstallationDetails = () => {
     try {
       await removeDeviceFromInstallation(id, deviceToDelete._id)
       setResponseMessage("Dispositivo eliminado con éxito")
-      loadInstallationDetails(id)
     } catch (error) {
       console.error("Error deleting device:", error)
       setResponseMessage("Error al eliminar dispositivo")
@@ -137,6 +140,16 @@ const InstallationDetails = () => {
 
   const closeModal = () => setResponseMessage("")
 
+  // Lógica de paginación
+  const totalPages = Math.ceil(installationDevices.length / devicesPerPage)
+  const startIndex = (currentPage - 1) * devicesPerPage
+  const endIndex = startIndex + devicesPerPage
+  const currentDevices = installationDevices.slice(startIndex, endIndex)
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page)
+  }
+
   if (loading && !currentInstallation) {
     return <div className={styles.loader}>Cargando dispositivos...</div>
   }
@@ -152,6 +165,11 @@ const InstallationDetails = () => {
         <p className={styles.address}>
           {currentInstallation.address}, {currentInstallation.city}, {currentInstallation.province}
         </p>
+        {currentInstallation.installationType && (
+          <span className={styles.installationTypeTag}>
+            {currentInstallation.installationType}
+          </span>
+        )}
         <div className={styles.actions}>
           <button className={styles.addButton} onClick={() => setIsAddDeviceModalOpen(true)}>
             <Plus size={20} />
@@ -164,35 +182,43 @@ const InstallationDetails = () => {
         {installationDevices.length === 0 ? (
           <p className={styles.emptyMessage}>No hay dispositivos en esta instalación</p>
         ) : (
-          installationDevices.map((device) => (
-            <div key={device._id} className={styles.deviceCard}>
+          currentDevices.map((device, index) => (
+            <div key={device._id || `device-${startIndex + index}`} className={styles.deviceCard}>
               <div className={styles.deviceInfo}>
                 <h3>{device.nombre}</h3>
-                <p>
-                  <strong>Tipo:</strong> {device.categoria}
-                </p>
-                <p>
-                  <strong>Ubicación:</strong> {device.ubicacion}
-                </p>
-                <p>
-                  <strong>Estado:</strong>{" "}
-                  <span className={styles[device.estado?.replace(/\s/g, "") || ""]}>{device.estado}</span>
-                </p>
-                {device.marca && (
-                  <p>
-                    <strong>Marca:</strong> {device.marca}
-                  </p>
-                )}
-                {device.modelo && (
-                  <p>
-                    <strong>Modelo:</strong> {device.modelo}
-                  </p>
-                )}
-                {device.numeroSerie && (
-                  <p>
-                    <strong>N° Serie:</strong> {device.numeroSerie}
-                  </p>
-                )}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+                  <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+                    <p>
+                      <strong>Tipo:</strong> {device.categoria}
+                    </p>
+                    <p>
+                      <strong>Ubicación:</strong> {device.ubicacion}
+                    </p>
+                    <p>
+                      <strong>Estado:</strong>{" "}
+                      <span className={styles[device.estado?.replace(/\s/g, "") || ""]}>{device.estado}</span>
+                    </p>
+                  </div>
+                  {(device.marca || device.modelo || device.numeroSerie) && (
+                    <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+                      {device.marca && (
+                        <p>
+                          <strong>Marca:</strong> {device.marca}
+                        </p>
+                      )}
+                      {device.modelo && (
+                        <p>
+                          <strong>Modelo:</strong> {device.modelo}
+                        </p>
+                      )}
+                      {device.numeroSerie && (
+                        <p>
+                          <strong>N° Serie:</strong> {device.numeroSerie}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className={styles.cardSeparator}></div>
@@ -204,7 +230,7 @@ const InstallationDetails = () => {
                   aria-label="Ver código QR"
                   data-tooltip="Ver código QR"
                 >
-                  <QrCode size={24} />
+                  <QrCode size={18} />
                 </button>
                 <button
                   className={styles.pdfButton}
@@ -213,7 +239,7 @@ const InstallationDetails = () => {
                   aria-label="Descargar último mantenimiento"
                   data-tooltip="Descargar último mantenimiento"
                 >
-                  <FileText size={24} />
+                  <FileText size={18} />
                 </button>
                 <button 
                   className={styles.editButton} 
@@ -221,7 +247,7 @@ const InstallationDetails = () => {
                   aria-label="Editar dispositivo"
                   data-tooltip="Editar dispositivo"
                 >
-                  <Edit size={24} />
+                  <Edit size={18} />
                 </button>
                 <button
                   className={styles.deleteButton}
@@ -232,7 +258,7 @@ const InstallationDetails = () => {
                   aria-label="Eliminar dispositivo"
                   data-tooltip="Eliminar dispositivo"
                 >
-                  <Trash size={24} />
+                  <Trash size={18} />
                 </button>
               </div>
             </div>
@@ -240,11 +266,26 @@ const InstallationDetails = () => {
         )}
       </div>
 
+      {/* Paginación */}
+      {installationDevices.length > devicesPerPage && (
+        <div className={styles.pagination}>
+          <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+            &lt;
+          </button>
+          <span>
+            Página {currentPage} de {totalPages}
+          </span>
+          <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+            &gt;
+          </button>
+        </div>
+      )}
+
       <ModalAddDevice
         isOpen={isAddDeviceModalOpen}
         onRequestClose={() => setIsAddDeviceModalOpen(false)}
-        onSubmitSuccess={(message) => setResponseMessage(message)}
-        onAddDevice={handleAddDevice}
+        onSubmitSuccess={handleSuccessAddDevice}
+        onAddDevice={addDeviceToInstallation}
         installation={currentInstallation}
         assets={assets}
         loadingAssets={loadingAssets}
@@ -255,29 +296,16 @@ const InstallationDetails = () => {
 
       <ModalEditDevice
         isOpen={isEditDeviceModalOpen}
-        onRequestClose={() => {
-          setIsEditDeviceModalOpen(false)
-          setDeviceToEdit(null)
-        }}
-        onSubmitSuccess={(message) => setResponseMessage(message)}
+        onRequestClose={() => setIsEditDeviceModalOpen(false)}
+        onSubmitSuccess={handleSuccessUpdateDevice}
         onUpdateDevice={handleUpdateDevice}
-        installation={currentInstallation}
         device={deviceToEdit}
+        installation={currentInstallation}
         assets={assets}
         loadingAssets={loadingAssets}
         errorLoadingAssets={errorLoadingAssets}
         onRetryLoadAssets={handleRetryLoadAssets}
         loadAssets={loadAssets}
-      />
-
-      <ModalQRCode
-        isOpen={isQRModalOpen}
-        onRequestClose={() => {
-          setIsQRModalOpen(false)
-          setDeviceForQR(null)
-        }}
-        device={deviceForQR}
-        installation={currentInstallation}
       />
 
       <ModalConfirmDelete
@@ -286,6 +314,13 @@ const InstallationDetails = () => {
         onConfirm={handleDeleteDevice}
         title="¿Eliminar dispositivo?"
         description="Esta acción no se puede deshacer."
+      />
+
+      <ModalQRCode
+        isOpen={isQRModalOpen}
+        onRequestClose={() => setIsQRModalOpen(false)}
+        device={deviceForQR}
+        installation={currentInstallation}
       />
 
       <ModalSuccess isOpen={!!responseMessage} onRequestClose={closeModal} mensaje={responseMessage} />

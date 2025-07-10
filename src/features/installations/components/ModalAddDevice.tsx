@@ -33,10 +33,13 @@ const ModalAddDevice = ({
 
   useEffect(() => {
     if (isOpen) {
-      loadAssets()
+      // Solo cargar assets si no están ya cargados
+      if (assets.length === 0) {
+        loadAssets()
+      }
       loadCategories() // Cargar categorías cuando se abre el modal
     }
-  }, [isOpen])
+  }, [isOpen, assets.length])
 
   const handleRetryLoadCategories = () => {
     loadCategories()

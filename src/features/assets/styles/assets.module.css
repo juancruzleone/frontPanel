@@ -46,7 +46,7 @@
   flex-direction: column;
   gap: 16px;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .assetCard::before {
@@ -193,11 +193,11 @@
   transform: translateX(-50%);
   background-color: var(--color-text);
   color: var(--color-card);
-  padding: 6px 10px;
+  padding: 8px 12px;
   font-size: 12px;
   font-weight: 500;
   white-space: nowrap;
-  border-radius: 6px;
+  border-radius: 8px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
@@ -205,7 +205,22 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.iconButton:hover::after {
+.iconButton::before {
+  content: '';
+  position: absolute;
+  bottom: 115%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--color-text);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+}
+
+.iconButton:hover::after,
+.iconButton:hover::before {
   opacity: 1;
 }
 

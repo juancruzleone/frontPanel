@@ -70,10 +70,22 @@ const LineChart = ({ data }: { data: any[] }) => {
             <Line 
               type="monotone" 
               dataKey="value" 
-              stroke="#8884d8" 
-              strokeWidth={2}
-              dot={{ fill: '#8884d8', strokeWidth: 2, r: 4 }}
-              activeDot={{ r: 6, stroke: '#8884d8', strokeWidth: 2, fill: '#8884d8' }}
+              stroke="var(--color-primary)" 
+              strokeWidth={3}
+              dot={{ 
+                fill: 'var(--color-primary)', 
+                strokeWidth: 3, 
+                r: 6,
+                stroke: 'var(--color-bg)',
+                filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
+              }}
+              activeDot={{ 
+                r: 8, 
+                stroke: 'var(--color-primary)', 
+                strokeWidth: 3, 
+                fill: 'var(--color-primary)',
+                filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
+              }}
             />
           </ReLineChart>
         </ResponsiveContainer>
