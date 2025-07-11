@@ -13,8 +13,10 @@ import ModalManageCategories from "../features/forms/components/ModalManageCateg
 import { Edit, Trash } from "lucide-react"
 import type { FormTemplate } from "../features/forms/hooks/useForms"
 import Skeleton from '../shared/components/Skeleton'
+import { useTranslation } from "react-i18next"
 
 const Forms = () => {
+  const { t } = useTranslation()
   const { templates, loading, categories, loadTemplates, addTemplate, editTemplate, removeTemplate } = useForms()
 
   const [searchTerm, setSearchTerm] = useState("")
@@ -73,11 +75,11 @@ const Forms = () => {
       setIsCreateModalOpen(false)
       setCurrentTemplate(null)
       await loadTemplates()
-      setResponseMessage("Plantilla creada con éxito")
+      setResponseMessage(t('forms.templateCreated'))
       setIsError(false)
     } catch (error: any) {
       console.error("Error al crear plantilla:", error)
-      setResponseMessage(error.message || "Error al crear la plantilla")
+      setResponseMessage(error.message || t('forms.errorCreatingTemplate'))
       setIsError(true)
     }
   }
@@ -90,11 +92,11 @@ const Forms = () => {
       setIsEditModalOpen(false)
       setCurrentTemplate(null)
       await loadTemplates()
-      setResponseMessage("Plantilla actualizada con éxito")
+      setResponseMessage(t('forms.templateUpdated'))
       setIsError(false)
     } catch (error: any) {
       console.error("Error al actualizar plantilla:", error)
-      setResponseMessage(error.message || "Error al actualizar la plantilla")
+      setResponseMessage(error.message || t('forms.errorUpdatingTemplate'))
       setIsError(true)
     }
   }
@@ -121,11 +123,11 @@ const Forms = () => {
     try {
       await removeTemplate(templateToDelete._id)
       await loadTemplates()
-      setResponseMessage("Plantilla eliminada con éxito")
+      setResponseMessage(t('forms.templateDeleted'))
       setIsError(false)
     } catch (err: any) {
       console.error("Error al eliminar plantilla", err)
-      setResponseMessage(err.message || "Error al eliminar plantilla")
+      setResponseMessage(err.message || t('forms.errorDeletingTemplate'))
       setIsError(true)
     } finally {
       setTemplateToDelete(null)
@@ -146,26 +148,26 @@ const Forms = () => {
   return (
     <>
       <div className={styles.containerForms}>
-        <h1 className={styles.title}>Plantillas de Formularios</h1>
+        <h1 className={styles.title}>{t('forms.title')}</h1>
         <div className={styles.positionButton}>
-          <Button title="Crear plantilla" onClick={handleOpenCreate} />
+          <Button title={t('forms.createTemplate')} onClick={handleOpenCreate} />
         </div>
         
         <div className={styles.typeButtons}>
           <button className={styles.smallButton} onClick={() => setIsCreateCategoryModalOpen(true)}>
-            + Crear categoría de formularios
+            + {t('forms.createFormCategory')}
           </button>
           <button className={styles.manageButton} onClick={() => setIsManageCategoriesModalOpen(true)}>
-            📋 Ver categorías creadas
+            📋 {t('forms.viewCreatedCategories')}
           </button>
         </div>
         
         <div className={styles.searchContainer}>
           <SearchInput
-            placeholder="Buscar por nombre, categoría o descripción"
+            placeholder={t('forms.searchPlaceholder')}
             showSelect
-            selectPlaceholder="Filtrar por categoría"
-            selectOptions={[{ label: "Todas", value: "" }, ...categories.map((cat) => ({ label: cat, value: cat }))]}
+            selectPlaceholder={t('forms.filterByCategory')}
+            selectOptions={[{ label: t('common.all'), value: "" }, ...categories.map((cat) => ({ label: cat, value: cat }))]}
             onInputChange={(value) => setSearchTerm(value)}
             onSelectChange={(value) => setSelectedCategory(value)}
           />
@@ -179,7 +181,7 @@ const Forms = () => {
               <Skeleton height={220} width={"100%"} style={{borderRadius:14, marginTop:16}} />
             </>
           ) : filteredTemplates.length === 0 ? (
-            <p className={styles.loader}>No se encontraron plantillas</p>
+            <p className={styles.loader}>{t('forms.noTemplatesFound')}</p>
           ) : (
             <>
               <div className={styles.templatesGrid}>
@@ -191,7 +193,7 @@ const Forms = () => {
                     </div>
                     {template.descripcion && <p className={styles.templateDescription}>{template.descripcion}</p>}
                     <div className={styles.templateStats}>
-                      <span>{template.campos.length} campos</span>
+                      <span>{template.campos.length} {t('forms.fields')}</span>
                     </div>
 
                     <div className={styles.cardSeparator}></div>
@@ -200,8 +202,8 @@ const Forms = () => {
                       <button 
                         className={styles.iconButton}
                         onClick={() => handleOpenEdit(template)}
-                        aria-label="Editar plantilla"
-                        data-tooltip="Editar plantilla"
+                        aria-label={t('forms.editTemplate')}
+                        data-tooltip={t('forms.editTemplate')}
                       >
                         <Edit size={24} />
                       </button>
@@ -211,8 +213,8 @@ const Forms = () => {
                           setTemplateToDelete(template)
                           setIsDeleteModalOpen(true)
                         }}
-                        aria-label="Eliminar plantilla"
-                        data-tooltip="Eliminar plantilla"
+                        aria-label={t('forms.deleteTemplate')}
+                        data-tooltip={t('forms.deleteTemplate')}
                       >
                         <Trash size={24} />
                       </button>
@@ -225,7 +227,7 @@ const Forms = () => {
                   &lt;
                 </button>
                 <span>
-                  Página {currentPage} de {totalPages}
+                  {t('forms.page')} {currentPage} {t('forms.of')} {totalPages}
                 </span>
                 <button onClick={() => handleChangePage(currentPage + 1)} disabled={currentPage === totalPages}>
                   &gt;
@@ -269,8 +271,8 @@ const Forms = () => {
         isOpen={isDeleteModalOpen}
         onCancel={() => setIsDeleteModalOpen(false)}
         onConfirm={handleConfirmDelete}
-        title="Eliminar plantilla"
-        description="¿Estás seguro de que quieres eliminar esta plantilla? Esta acción no se puede deshacer."
+        title={t('forms.deleteTemplate')}
+        description={t('forms.confirmDeleteTemplate')}
       />
 
       <ModalSuccess

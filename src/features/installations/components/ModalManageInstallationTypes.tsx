@@ -1,6 +1,7 @@
 import React from 'react'
 import { X, Edit, Trash } from 'lucide-react'
 import styles from '../styles/Modal.module.css'
+import { useTranslation } from 'react-i18next'
 
 interface InstallationType {
   _id?: string
@@ -24,6 +25,7 @@ const ModalManageInstallationTypes: React.FC<ModalManageInstallationTypesProps> 
   onEdit,
   onDelete
 }) => {
+  const { t } = useTranslation()
   if (!isOpen) return null
 
   const formatDate = (dateString?: string) => {
@@ -39,7 +41,7 @@ const ModalManageInstallationTypes: React.FC<ModalManageInstallationTypesProps> 
     <div className={styles.modalOverlay} onClick={onRequestClose}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>Tipos de Instalación</h2>
+          <h2 className={styles.modalTitle}>{t('installations.installationTypes')}</h2>
           <button className={styles.closeButton} onClick={onRequestClose}>
             <X size={24} />
           </button>
@@ -48,9 +50,9 @@ const ModalManageInstallationTypes: React.FC<ModalManageInstallationTypesProps> 
         <div className={styles.modalBody}>
           {installationTypes.length === 0 ? (
             <div className={styles.emptyState}>
-              <p>No hay tipos de instalación creados</p>
+              <p>{t('installations.noInstallationTypesCreated')}</p>
               <p className={styles.emptyStateSubtext}>
-                Los tipos de instalación aparecerán aquí una vez que los crees
+                {t('installations.installationTypesWillAppearHere')}
               </p>
             </div>
           ) : (
@@ -63,7 +65,7 @@ const ModalManageInstallationTypes: React.FC<ModalManageInstallationTypesProps> 
                       <p className={styles.itemDescription}>{type.descripcion}</p>
                     )}
                     <p className={styles.itemDate}>
-                      Creado: {formatDate(type.createdAt)}
+                      {t('installations.created')}: {formatDate(type.createdAt)}
                     </p>
                   </div>
                   
@@ -72,7 +74,7 @@ const ModalManageInstallationTypes: React.FC<ModalManageInstallationTypesProps> 
                       <button
                         className={styles.actionButton}
                         onClick={() => onEdit(type)}
-                        aria-label="Editar tipo de instalación"
+                        aria-label={t('installations.editInstallationType')}
                       >
                         <Edit size={16} />
                       </button>
@@ -81,7 +83,7 @@ const ModalManageInstallationTypes: React.FC<ModalManageInstallationTypesProps> 
                       <button
                         className={styles.actionButton}
                         onClick={() => onDelete(type._id!)}
-                        aria-label="Eliminar tipo de instalación"
+                        aria-label={t('installations.deleteInstallationType')}
                       >
                         <Trash size={16} />
                       </button>
@@ -95,7 +97,7 @@ const ModalManageInstallationTypes: React.FC<ModalManageInstallationTypesProps> 
 
         <div className={styles.modalFooter}>
           <button className={styles.cancelButton} onClick={onRequestClose}>
-            Cerrar
+            {t('common.close')}
           </button>
         </div>
       </div>

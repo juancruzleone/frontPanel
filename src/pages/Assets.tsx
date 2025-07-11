@@ -11,8 +11,10 @@ import ModalConfirmDelete from "../features/assets/components/ModalConfirmDelete
 import ModalAssignTemplate from "../features/assets/components/ModalAssignTemplate"
 import { Edit, Trash, List, FileText } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
+import { useTranslation } from "react-i18next"
 
 const Assets = () => {
+  const { t } = useTranslation()
   const {
     assets,
     loading,
@@ -46,13 +48,13 @@ const Assets = () => {
 
   const dynamicCategories = useMemo(
     () => [
-      { label: "Todas", value: "" },
+      { label: t('common.all'), value: "" },
       ...categories.map((category) => ({
         label: category,
         value: category,
       })),
     ],
-    [categories],
+    [categories, t],
   )
 
   const filteredAssets = useMemo(() => {
@@ -131,11 +133,11 @@ const Assets = () => {
     try {
       await removeAsset(assetToDelete._id)
       loadAssets()
-      setResponseMessage("Activo eliminado con éxito")
+      setResponseMessage(t('assets.assetDeleted'))
       setIsError(false)
     } catch (err: any) {
       console.error("Error al eliminar activo", err)
-      setResponseMessage(err.message || "Error al eliminar activo")
+      setResponseMessage(err.message || t('assets.errorDeletingAsset'))
       setIsError(true)
     } finally {
       setAssetToDelete(null)
@@ -160,16 +162,16 @@ const Assets = () => {
   return (
     <>
       <div className={styles.containerAssets}>
-        <h1 className={styles.title}>Activos</h1>
+        <h1 className={styles.title}>{t('assets.title')}</h1>
         <div className={styles.positionButton}>
-          <Button title="Crear activo" onClick={handleOpenCreate} />
+          <Button title={t('assets.createAsset')} onClick={handleOpenCreate} />
         </div>
 
         <div className={styles.searchContainer}>
           <SearchInput
-            placeholder="Buscar por nombre, marca, modelo, número de serie o plantilla"
+            placeholder={t('assets.searchPlaceholder')}
             showSelect
-            selectPlaceholder="Filtrar por categoría de plantilla"
+            selectPlaceholder={t('assets.filterByTemplateCategory')}
             selectOptions={dynamicCategories}
             onInputChange={(value) => setSearchTerm(value)}
             onSelectChange={(value) => setSelectedCategory(value)}
@@ -185,7 +187,7 @@ const Assets = () => {
               <Skeleton height={220} width={"100%"} style={{borderRadius:14, marginTop:16}} />
             </>
           ) : filteredAssets.length === 0 ? (
-            <p className={styles.loader}>No se encontraron activos</p>
+            <p className={styles.loader}>{t('assets.noAssetsFound')}</p>
           ) : (
             <>
               {paginatedAssets.map((asset) => {
@@ -217,16 +219,16 @@ const Assets = () => {
                         <button
                           className={styles.iconButton}
                           onClick={() => handleOpenAssignTemplate(asset)}
-                          aria-label="Cambiar plantilla"
-                          data-tooltip="Cambiar plantilla"
+                          aria-label={t('assets.changeTemplate')}
+                          data-tooltip={t('assets.changeTemplate')}
                         >
                           <List size={24} />
                         </button>
                         <button
                           className={styles.iconButton}
                           onClick={() => handleOpenEdit(asset)}
-                          aria-label="Editar activo"
-                          data-tooltip="Editar activo"
+                          aria-label={t('assets.editAsset')}
+                          data-tooltip={t('assets.editAsset')}
                         >
                           <Edit size={24} />
                         </button>
@@ -236,15 +238,15 @@ const Assets = () => {
                             setAssetToDelete(asset)
                             setIsDeleteModalOpen(true)
                           }}
-                          aria-label="Eliminar activo"
-                          data-tooltip="Eliminar activo"
+                          aria-label={t('assets.deleteAsset')}
+                          data-tooltip={t('assets.deleteAsset')}
                         >
                           <Trash size={24} />
                         </button>
                       </div>
 
                       <div className={styles.viewDetailsButton}>
-                        <button onClick={() => handleViewDetails(asset)}>Ver detalles completos</button>
+                        <button onClick={() => handleViewDetails(asset)}>{t('assets.viewCompleteDetails')}</button>
                       </div>
                     </div>
                   </div>
@@ -256,7 +258,7 @@ const Assets = () => {
                   &lt;
                 </button>
                 <span>
-                  Página {currentPage} de {totalPages}
+                  {t('assets.page')} {currentPage} {t('assets.of')} {totalPages}
                 </span>
                 <button onClick={() => handleChangePage(currentPage + 1)} disabled={currentPage === totalPages}>
                   &gt;
@@ -294,8 +296,8 @@ const Assets = () => {
         isOpen={isDeleteModalOpen}
         onCancel={() => setIsDeleteModalOpen(false)}
         onConfirm={handleConfirmDelete}
-        title="¿Eliminar activo?"
-        description="Esta acción no se puede deshacer."
+        title={t('assets.confirmDeleteAsset')}
+        description={t('assets.confirmDeleteAssetDescription')}
       />
 
       <ModalSuccess 

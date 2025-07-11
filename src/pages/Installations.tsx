@@ -18,9 +18,11 @@ import ModalViewInstallationTypes from "../features/installations/components/Mod
 import ModalViewCategories from "../features/installations/components/ModalViewCategories"
 import { Edit, Trash, Plus } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
+import { useTranslation } from "react-i18next"
 
 
 const Installations = () => {
+  const { t } = useTranslation()
   const {
     installations,
     loading,
@@ -66,13 +68,13 @@ const Installations = () => {
 
   const dynamicCategories = useMemo(
     () => [
-      { label: "Todas", value: "" },
+      { label: t('common.all'), value: "" },
       ...installationTypes.map((type) => ({
         label: type.nombre,
         value: type.nombre,
       })),
     ],
-    [installationTypes],
+    [installationTypes, t],
   )
 
   const filteredInstallations = useMemo(() => {
@@ -203,32 +205,32 @@ const Installations = () => {
   return (
     <>
       <div className={styles.containerInstallations}>
-        <h1 className={styles.title}>Instalaciones</h1>
+        <h1 className={styles.title}>{t('installations.title')}</h1>
 
         <div className={styles.positionButton}>
-          <Button title="Crear instalación" onClick={handleOpenCreate} />
+          <Button title={t('installations.createInstallation')} onClick={handleOpenCreate} />
         </div>
 
         <div className={styles.typeButtons}>
           <button className={styles.smallButton} onClick={() => setIsCreateInstallationTypeModalOpen(true)}>
-            + Crear tipo de instalación
+            + {t('installations.createInstallationType')}
           </button>
           <button className={styles.smallButton} onClick={() => setIsCreateCategoryModalOpen(true)}>
-            + Crear categoría de dispositivo
+            + {t('installations.createCategory')}
           </button>
           <button className={styles.manageButton} onClick={() => setIsViewInstallationTypesModalOpen(true)}>
-            📋 Ver tipos creados
+            📋 {t('installations.viewInstallationTypes')}
           </button>
           <button className={styles.manageButton} onClick={() => setIsViewCategoriesModalOpen(true)}>
-            📋 Ver categorías creadas
+            📋 {t('installations.viewCategories')}
           </button>
         </div>
 
         <div className={styles.searchContainer}>
           <SearchInput
-            placeholder="Buscar por empresa, dirección, ciudad, provincia o tipo"
+            placeholder={t('installations.searchPlaceholder')}
             showSelect
-            selectPlaceholder="Filtrar por tipo de instalación"
+            selectPlaceholder={t('installations.filterByInstallationType')}
             selectOptions={dynamicCategories}
             onInputChange={(value) => setSearchTerm(value)}
             onSelectChange={(value) => setSelectedCategory(value)}
@@ -244,7 +246,7 @@ const Installations = () => {
               <Skeleton height={220} width={"100%"} style={{borderRadius:14, marginTop:16}} />
             </>
           ) : filteredInstallations.length === 0 ? (
-            <p className={styles.loader}>No se encontraron instalaciones</p>
+            <p className={styles.loader}>{t('installations.noInstallationsFound')}</p>
           ) : (
             <>
               {paginatedInstallations.map((inst) => (
@@ -264,16 +266,16 @@ const Installations = () => {
                       <button
                         className={styles.iconButton}
                         onClick={() => handleOpenAddDevice(inst)}
-                        aria-label="Agregar dispositivo"
-                        data-tooltip="Agregar dispositivo"
+                        aria-label={t('installations.addDevice')}
+                        data-tooltip={t('installations.addDevice')}
                       >
                         <Plus size={24} />
                       </button>
                       <button
                         className={styles.iconButton}
                         onClick={() => handleOpenEdit(inst)}
-                        aria-label="Editar instalación"
-                        data-tooltip="Editar instalación"
+                        aria-label={t('installations.editInstallation')}
+                        data-tooltip={t('installations.editInstallation')}
                       >
                         <Edit size={24} />
                       </button>
@@ -283,15 +285,15 @@ const Installations = () => {
                           setInstallationToDelete(inst)
                           setIsDeleteModalOpen(true)
                         }}
-                        aria-label="Eliminar instalación"
-                        data-tooltip="Eliminar instalación"
+                        aria-label={t('installations.deleteInstallation')}
+                        data-tooltip={t('installations.deleteInstallation')}
                       >
                         <Trash size={24} />
                       </button>
                     </div>
 
                     <div className={styles.viewDevicesButton}>
-                      <button onClick={() => handleViewDevices(inst)}>Ver listado de dispositivos</button>
+                      <button onClick={() => handleViewDevices(inst)}>{t('installations.viewDeviceList')}</button>
                     </div>
                   </div>
                 </div>
@@ -302,7 +304,7 @@ const Installations = () => {
                   &lt;
                 </button>
                 <span>
-                  Página {currentPage} de {totalPages}
+                  {t('installations.page')} {currentPage} {t('installations.of')} {totalPages}
                 </span>
                 <button onClick={() => handleChangePage(currentPage + 1)} disabled={currentPage === totalPages}>
                   &gt;

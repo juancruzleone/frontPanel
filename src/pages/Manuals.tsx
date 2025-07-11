@@ -11,8 +11,10 @@ import ModalConfirmDelete from "../features/manuals/components/ModalConfirmDelet
 import ModalUploadFile from "../features/manuals/components/ModalUploadFile";
 import { Edit, Trash, Upload, FileText, Download, Eye } from 'lucide-react';
 import Skeleton from '../shared/components/Skeleton'
+import { useTranslation } from "react-i18next";
 
 const Manuals = () => {
+  const { t } = useTranslation();
   const {
     manuals,
     loading,
@@ -44,12 +46,12 @@ const Manuals = () => {
   }, []);
 
   const dynamicCategories = useMemo(() => [
-    { label: "Todas", value: "" },
+    { label: t('common.all'), value: "" },
     ...categories.map((category) => ({
       label: category,
       value: category,
     })),
-  ], [categories]);
+  ], [categories, t]);
 
   const filteredManuals = useMemo(() => {
     const searchTermLower = searchTerm.toLowerCase();
@@ -121,7 +123,7 @@ const Manuals = () => {
       setIsError(false);
     } catch (err: any) {
       console.error("Error al subir archivo:", err);
-      setResponseMessage(err.message || "Error al subir archivo");
+      setResponseMessage(err.message || t('manuals.errorUploadingFile'));
       setIsError(true);
     }
   };
@@ -144,11 +146,11 @@ const Manuals = () => {
     try {
       await removeManual(manualToDelete._id);
       loadManuals();
-      setResponseMessage("Manual eliminado con éxito");
+      setResponseMessage(t('manuals.manualDeleted'));
       setIsError(false);
     } catch (err: any) {
       console.error("Error al eliminar manual", err);
-      setResponseMessage(err.message || "Error al eliminar manual");
+      setResponseMessage(err.message || t('manuals.errorDeletingManual'));
       setIsError(true);
     } finally {
       setManualToDelete(null);
@@ -199,16 +201,16 @@ const Manuals = () => {
   return (
     <>
       <div className={styles.containerManuals}>
-        <h1 className={styles.title}>Manuales</h1>
+        <h1 className={styles.title}>{t('manuals.title')}</h1>
         <div className={styles.positionButton}>
-          <Button title="Crear manual" onClick={handleOpenCreate} />
+          <Button title={t('manuals.createManual')} onClick={handleOpenCreate} />
         </div>
 
         <div className={styles.searchContainer}>
           <SearchInput
-            placeholder="Buscar por nombre, descripción, autor, versión o tags"
+            placeholder={t('manuals.searchPlaceholder')}
             showSelect
-            selectPlaceholder="Filtrar por categoría"
+            selectPlaceholder={t('manuals.filterByCategory')}
             selectOptions={dynamicCategories}
             onInputChange={(value) => setSearchTerm(value)}
             onSelectChange={(value) => setSelectedCategory(value)}
@@ -224,7 +226,7 @@ const Manuals = () => {
               <Skeleton height={220} width={"100%"} style={{borderRadius:14, marginTop:16}} />
             </>
           ) : filteredManuals.length === 0 ? (
-            <p className={styles.loader}>No se encontraron manuales</p>
+            <p className={styles.loader}>{t('manuals.noManualsFound')}</p>
           ) : (
             <>
               {paginatedManuals.map((manual) => (
@@ -241,16 +243,16 @@ const Manuals = () => {
                     
                     <div className={styles.manualDetails}>
                       <div className={styles.detailItem}>
-                        <strong>Versión:</strong> {manual.version || 'N/A'}
+                        <strong>{t('manuals.version')}:</strong> {manual.version || 'N/A'}
                       </div>
                       <div className={styles.detailItem}>
-                        <strong>Autor:</strong> {manual.autor || 'N/A'}
+                        <strong>{t('manuals.author')}:</strong> {manual.autor || 'N/A'}
                       </div>
                       <div className={styles.detailItem}>
-                        <strong>Idioma:</strong> {manual.idioma || 'N/A'}
+                        <strong>{t('manuals.language')}:</strong> {manual.idioma || 'N/A'}
                       </div>
                       <div className={styles.detailItem}>
-                        <strong>Fecha:</strong> {formatDate(manual.fechaCreacion)}
+                        <strong>{t('manuals.date')}:</strong> {formatDate(manual.fechaCreacion)}
                       </div>
                     </div>
 
@@ -281,8 +283,8 @@ const Manuals = () => {
                     <button
                       className={styles.iconButton}
                       onClick={() => handleOpenUploadFile(manual)}
-                      aria-label="Subir archivo"
-                      data-tooltip="Subir/Actualizar archivo"
+                      aria-label={t('manuals.uploadFile')}
+                      data-tooltip={t('manuals.uploadUpdateFile')}
                     >
                       <Upload size={24} />
                     </button>
@@ -292,16 +294,16 @@ const Manuals = () => {
                         <button
                           className={styles.iconButton}
                           onClick={() => handleViewFile(manual)}
-                          aria-label="Ver archivo"
-                          data-tooltip="Ver archivo"
+                          aria-label={t('manuals.viewFile')}
+                          data-tooltip={t('manuals.viewFile')}
                         >
                           <Eye size={24} />
                         </button>
                         <button
                           className={styles.iconButton}
                           onClick={() => handleDownloadFile(manual)}
-                          aria-label="Descargar archivo"
-                          data-tooltip="Descargar archivo"
+                          aria-label={t('manuals.downloadFile')}
+                          data-tooltip={t('manuals.downloadFile')}
                         >
                           <Download size={24} />
                         </button>
@@ -311,8 +313,8 @@ const Manuals = () => {
                     <button
                       className={styles.iconButton}
                       onClick={() => handleOpenEdit(manual)}
-                      aria-label="Editar manual"
-                      data-tooltip="Editar manual"
+                      aria-label={t('manuals.editManual')}
+                      data-tooltip={t('manuals.editManual')}
                     >
                       <Edit size={24} />
                     </button>
@@ -322,8 +324,8 @@ const Manuals = () => {
                         setManualToDelete(manual);
                         setIsDeleteModalOpen(true);
                       }}
-                      aria-label="Eliminar manual"
-                      data-tooltip="Eliminar manual"
+                      aria-label={t('manuals.deleteManual')}
+                      data-tooltip={t('manuals.deleteManual')}
                     >
                       <Trash size={24} />
                     </button>
@@ -339,7 +341,7 @@ const Manuals = () => {
                   &lt;
                 </button>
                 <span>
-                  Página {currentPage} de {totalPages}
+                  {t('manuals.page')} {currentPage} {t('manuals.of')} {totalPages}
                 </span>
                 <button
                   onClick={() => handleChangePage(currentPage + 1)}
@@ -372,16 +374,16 @@ const Manuals = () => {
         isOpen={isUploadModalOpen}
         onRequestClose={() => setIsUploadModalOpen(false)}
         onSubmit={handleSuccessUploadFile}
-        title="Subir/Actualizar Archivo PDF"
-        description="Seleccione un archivo PDF para el manual"
+        title={t('manuals.uploadUpdateFile')}
+        description={t('manuals.selectPdfFile')}
       />
 
       <ModalConfirmDelete
         isOpen={isDeleteModalOpen}
         onCancel={() => setIsDeleteModalOpen(false)}
         onConfirm={handleConfirmDelete}
-        title="¿Eliminar manual?"
-        description="Esta acción eliminará el manual y su archivo asociado. No se puede deshacer."
+        title={t('manuals.confirmDeleteManual')}
+        description={t('manuals.confirmDeleteManualDescription')}
       />
 
       <ModalSuccess

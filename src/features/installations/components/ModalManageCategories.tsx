@@ -1,6 +1,7 @@
 import React from 'react'
 import { X, Edit, Trash } from 'lucide-react'
 import styles from '../styles/Modal.module.css'
+import { useTranslation } from 'react-i18next'
 
 interface Category {
   _id?: string
@@ -24,6 +25,7 @@ const ModalManageCategories: React.FC<ModalManageCategoriesProps> = ({
   onEdit,
   onDelete
 }) => {
+  const { t } = useTranslation()
   if (!isOpen) return null
 
   const formatDate = (dateString?: string) => {
@@ -39,7 +41,7 @@ const ModalManageCategories: React.FC<ModalManageCategoriesProps> = ({
     <div className={styles.modalOverlay} onClick={onRequestClose}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>Categorías de Dispositivos</h2>
+          <h2 className={styles.modalTitle}>{t('installations.deviceCategories')}</h2>
           <button className={styles.closeButton} onClick={onRequestClose}>
             <X size={24} />
           </button>
@@ -48,9 +50,9 @@ const ModalManageCategories: React.FC<ModalManageCategoriesProps> = ({
         <div className={styles.modalBody}>
           {categories.length === 0 ? (
             <div className={styles.emptyState}>
-              <p>No hay categorías de dispositivos creadas</p>
+              <p>{t('installations.noDeviceCategoriesCreated')}</p>
               <p className={styles.emptyStateSubtext}>
-                Las categorías aparecerán aquí una vez que las crees
+                {t('installations.categoriesWillAppearHere')}
               </p>
             </div>
           ) : (
@@ -63,7 +65,7 @@ const ModalManageCategories: React.FC<ModalManageCategoriesProps> = ({
                       <p className={styles.itemDescription}>{category.descripcion}</p>
                     )}
                     <p className={styles.itemDate}>
-                      Creado: {formatDate(category.createdAt)}
+                      {t('installations.created')}: {formatDate(category.createdAt)}
                     </p>
                   </div>
                   
@@ -72,7 +74,7 @@ const ModalManageCategories: React.FC<ModalManageCategoriesProps> = ({
                       <button
                         className={styles.actionButton}
                         onClick={() => onEdit(category)}
-                        aria-label="Editar categoría"
+                        aria-label={t('installations.editCategory')}
                       >
                         <Edit size={16} />
                       </button>
@@ -81,7 +83,7 @@ const ModalManageCategories: React.FC<ModalManageCategoriesProps> = ({
                       <button
                         className={styles.actionButton}
                         onClick={() => onDelete(category._id!)}
-                        aria-label="Eliminar categoría"
+                        aria-label={t('installations.deleteCategory')}
                       >
                         <Trash size={16} />
                       </button>
@@ -95,7 +97,7 @@ const ModalManageCategories: React.FC<ModalManageCategoriesProps> = ({
 
         <div className={styles.modalFooter}>
           <button className={styles.cancelButton} onClick={onRequestClose}>
-            Cerrar
+            {t('common.close')}
           </button>
         </div>
       </div>

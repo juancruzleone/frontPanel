@@ -4,6 +4,8 @@ import { useState } from "react"
 import styles from "../styles/Modal.module.css"
 import type { WorkOrder } from "../hooks/useCalendar"
 import { Clock, MapPin, User, AlertCircle, Calendar, Play } from "lucide-react"
+import { useTranslation } from "react-i18next"
+import i18n from "../../../i18n"
 
 interface ModalWorkOrderDetailsProps {
   isOpen: boolean
@@ -22,6 +24,7 @@ const ModalWorkOrderDetails = ({
   onSuccess,
   onError,
 }: ModalWorkOrderDetailsProps) => {
+  const { t } = useTranslation()
   const [isLoading, setIsLoading] = useState(false)
 
   if (!isOpen || !workOrder) return null
@@ -64,16 +67,17 @@ const ModalWorkOrderDetails = ({
     setIsLoading(true)
     try {
       await onStart(workOrder._id)
-      onSuccess("Orden iniciada con éxito")
+      onSuccess(t('calendar.orderStarted'))
     } catch (error: any) {
-      onError(error.message || "Error al iniciar orden")
+      onError(error.message || t('calendar.errorStartingOrder'))
     } finally {
       setIsLoading(false)
     }
   }
 
   const formatDate = (date: Date | string) => {
-    return new Date(date).toLocaleDateString("es-ES", {
+    const currentLanguage = i18n.language || 'es'
+    return new Date(date).toLocaleDateString(currentLanguage, {
       weekday: "long",
       year: "numeric",
       month: "long",
@@ -85,7 +89,7 @@ const ModalWorkOrderDetails = ({
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Detalles de la Orden de Trabajo</h2>
+          <h2 className={styles.title}>{t('calendar.workOrderDetails')}</h2>
           <button className={styles.closeButton} onClick={onRequestClose}>
             ×
           </button>
@@ -109,7 +113,7 @@ const ModalWorkOrderDetails = ({
             </div>
 
             <div className={styles.section}>
-              <h4>Descripción</h4>
+              <h4>{t('calendar.description')}</h4>
               <p>{workOrder.descripcion}</p>
             </div>
 
@@ -117,7 +121,7 @@ const ModalWorkOrderDetails = ({
               <div className={styles.infoItem}>
                 <Calendar size={20} />
                 <div>
-                  <strong>Fecha Programada</strong>
+                  <strong>{t('calendar.scheduledDate')}</strong>
                   <p>{formatDate(workOrder.fechaProgramada)}</p>
                 </div>
               </div>
@@ -125,7 +129,7 @@ const ModalWorkOrderDetails = ({
               <div className={styles.infoItem}>
                 <Clock size={20} />
                 <div>
-                  <strong>Hora</strong>
+                  <strong>{t('calendar.time')}</strong>
                   <p>{workOrder.horaProgramada}</p>
                 </div>
               </div>
@@ -133,7 +137,7 @@ const ModalWorkOrderDetails = ({
               <div className={styles.infoItem}>
                 <AlertCircle size={20} />
                 <div>
-                  <strong>Tipo de Trabajo</strong>
+                  <strong>{t('calendar.workType')}</strong>
                   <p>{workOrder.tipoTrabajo}</p>
                 </div>
               </div>
@@ -142,7 +146,7 @@ const ModalWorkOrderDetails = ({
                 <div className={styles.infoItem}>
                   <MapPin size={20} />
                   <div>
-                    <strong>Instalación</strong>
+                    <strong>{t('calendar.installation')}</strong>
                     <p>{workOrder.instalacion.company}</p>
                     <p className={styles.address}>
                       {workOrder.instalacion.address}, {workOrder.instalacion.city}
@@ -155,7 +159,7 @@ const ModalWorkOrderDetails = ({
                 <div className={styles.infoItem}>
                   <User size={20} />
                   <div>
-                    <strong>Técnico Asignado</strong>
+                    <strong>{t('calendar.assignedTechnician')}</strong>
                     <p>{(workOrder.tecnico as any).userName}</p>
                   </div>
                 </div>
@@ -164,30 +168,30 @@ const ModalWorkOrderDetails = ({
 
             {workOrder.observaciones && (
               <div className={styles.section}>
-                <h4>Observaciones</h4>
+                <h4>{t('calendar.observations')}</h4>
                 <p>{workOrder.observaciones}</p>
               </div>
             )}
 
             {workOrder.fechaCreacion && (
               <div className={styles.section}>
-                <h4>Información Adicional</h4>
+                <h4>{t('calendar.additionalInfo')}</h4>
                 <p>
-                  <strong>Creada:</strong> {formatDate(workOrder.fechaCreacion)}
+                  <strong>{t('calendar.created')}:</strong> {formatDate(workOrder.fechaCreacion)}
                 </p>
                 {workOrder.fechaAsignacion && (
                   <p>
-                    <strong>Asignada:</strong> {formatDate(workOrder.fechaAsignacion)}
+                    <strong>{t('calendar.assigned')}:</strong> {formatDate(workOrder.fechaAsignacion)}
                   </p>
                 )}
                 {workOrder.fechaInicio && (
                   <p>
-                    <strong>Iniciada:</strong> {formatDate(workOrder.fechaInicio)}
+                    <strong>{t('calendar.started')}:</strong> {formatDate(workOrder.fechaInicio)}
                   </p>
                 )}
                 {workOrder.fechaCompletada && (
                   <p>
-                    <strong>Completada:</strong> {formatDate(workOrder.fechaCompletada)}
+                    <strong>{t('calendar.completed')}:</strong> {formatDate(workOrder.fechaCompletada)}
                   </p>
                 )}
               </div>
@@ -198,12 +202,12 @@ const ModalWorkOrderDetails = ({
             {workOrder.estado === "asignada" && onStart && (
               <button className={styles.startButton} onClick={handleStart} disabled={isLoading}>
                 <Play size={16} />
-                {isLoading ? "Iniciando..." : "Iniciar Orden"}
+                {isLoading ? t('calendar.starting') : t('calendar.startOrder')}
               </button>
             )}
 
             <button className={styles.closeModalButton} onClick={onRequestClose}>
-              Cerrar
+              {t('common.close')}
             </button>
           </div>
         </div>

@@ -11,7 +11,7 @@ const ThemeToggle = () => {
       onClick={toggleTheme} 
       aria-label="Cambiar tema"
     >
-      {dark ? <Sun size={20} /> : <Moon size={20} />}
+      {dark ? <Sun size={16} /> : <Moon size={16} />}
     </button>
   )
 }

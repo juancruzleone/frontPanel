@@ -1,7 +1,8 @@
 import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import InstallationForm from "../../../../src/features/installations/components/InstallationForm"
 import useInstallations from "../../../../src/features/installations/hooks/useInstallations"
-import type { Installation } from "../../../../src/features/installations/types/Installation" // Import Installation type
+import type { Installation } from "../hooks/useInstallations"
 import styles from "../styles/Modal.module.css"
 
 interface ModalCreateProps {
@@ -13,6 +14,7 @@ interface ModalCreateProps {
 }
 
 const ModalCreate = ({ isOpen, onRequestClose, onSubmitSuccess, onSubmitError, onAdd }: ModalCreateProps) => {
+  const { t } = useTranslation()
   const { formData, formErrors, handleFieldChange, handleSubmitForm, isSubmitting, resetForm, setFormErrors } =
     useInstallations()
 
@@ -34,7 +36,7 @@ const ModalCreate = ({ isOpen, onRequestClose, onSubmitSuccess, onSubmitError, o
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Crear Instalación</h2>
+          <h2 className={styles.title}>{t('installations.createInstallation')}</h2>
           <button className={styles.closeButton} onClick={handleClose} disabled={isSubmitting}>
             ×
           </button>

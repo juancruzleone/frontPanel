@@ -1,5 +1,6 @@
 import InstallationTypeForm from "./InstallationTypeForms"
 import styles from "../styles/Modal.module.css"
+import { useTranslation } from "react-i18next"
 
 interface ModalCreateInstallationTypeProps {
   isOpen: boolean
@@ -14,6 +15,7 @@ const ModalCreateInstallationType = ({
   onSubmitSuccess,
   onCreate,
 }: ModalCreateInstallationTypeProps) => {
+  const { t } = useTranslation()
   const handleClose = () => {
     onRequestClose()
   }
@@ -29,7 +31,7 @@ const ModalCreateInstallationType = ({
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Crear Tipo de Instalación</h2>
+          <h2 className={styles.title}>{t('installations.createInstallationType')}</h2>
           <button className={styles.closeButton} onClick={handleClose}>
             ×
           </button>

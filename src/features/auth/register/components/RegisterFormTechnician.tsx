@@ -2,6 +2,7 @@ import type React from "react"
 import { useCallback } from "react"
 import { FiEye, FiEyeOff, FiUser, FiLock, FiShield, FiUserPlus } from "react-icons/fi"
 import styles from "../styles/registerForm.module.css"
+import { useTranslation } from "react-i18next"
 
 interface RegisterTechnicianFormData {
   username: string
@@ -48,10 +49,12 @@ const RegisterTechnicianForm = ({
   toggleConfirmPasswordVisibility,
   shouldShowError,
 }: RegisterTechnicianFormProps) => {
+  const { t } = useTranslation()
+  
   const fields = [
-    { name: "username", label: "Usuario", type: "text", icon: FiUser },
-    { name: "password", label: "Contraseña", type: "password", icon: FiLock },
-    { name: "confirmPassword", label: "Confirmar Contraseña", type: "password", icon: FiShield },
+    { name: "username", label: t('personal.username'), type: "text", icon: FiUser },
+    { name: "password", label: t('personal.password'), type: "password", icon: FiLock },
+    { name: "confirmPassword", label: t('personal.confirmPassword'), type: "password", icon: FiShield },
   ]
 
   const handleInputChange = useCallback(
@@ -126,7 +129,7 @@ const RegisterTechnicianForm = ({
                 onChange={handleInputChange}
                 onBlur={handleInputBlur}
                 disabled={isSubmitting}
-                placeholder={`Ingrese ${label.toLowerCase()}`}
+                placeholder={t('personal.enterField', { field: label.toLowerCase() })}
                 className={shouldShowError(name) ? styles.errorInput : ""}
                 autoComplete={name === "username" ? "username" : "new-password"}
               />
@@ -138,8 +141,8 @@ const RegisterTechnicianForm = ({
                   disabled={isSubmitting}
                   aria-label={
                     (name === "password" ? showPassword : showConfirmPassword)
-                      ? "Ocultar contraseña"
-                      : "Mostrar contraseña"
+                      ? t('personal.hidePassword')
+                      : t('personal.showPassword')
                   }
                 >
                   {(() => {
@@ -155,14 +158,14 @@ const RegisterTechnicianForm = ({
 
         {formErrors.general && (
           <div className={styles.alertDanger}>
-            <strong>Error:</strong> {formErrors.general}
+            <strong>{t('common.error')}:</strong> {formErrors.general}
           </div>
         )}
       </div>
 
       <div className={styles.actions}>
         <button type="button" onClick={onCancel} disabled={isSubmitting} className={styles.cancelButton}>
-          Cancelar
+          {t('common.cancel')}
         </button>
         <button
           type="submit"
@@ -172,12 +175,12 @@ const RegisterTechnicianForm = ({
           {isSubmitting ? (
             <>
               <div className={styles.buttonSpinner}></div>
-              Registrando...
+              {t('personal.registering')}
             </>
           ) : (
             <>
               <FiUserPlus size={16} />
-              {!isFormComplete ? "Complete todos los campos" : "Registrar Técnico"}
+              {!isFormComplete ? t('personal.completeAllFields') : t('personal.registerTechnician')}
             </>
           )}
         </button>

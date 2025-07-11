@@ -1,6 +1,7 @@
 import AssetForm from "./AssetForm"
 import useAssets, { type Asset } from "../hooks/useAssets"
 import styles from "../styles/Modal.module.css"
+import { useTranslation } from "react-i18next"
 
 interface ModalEditProps {
   isOpen: boolean
@@ -11,6 +12,7 @@ interface ModalEditProps {
 }
 
 const ModalEdit = ({ isOpen, onRequestClose, onSubmitSuccess, onEdit, initialData }: ModalEditProps) => {
+  const { t } = useTranslation()
   const { templates, templatesLoading, categories } = useAssets()
 
   if (!isOpen) return null
@@ -19,7 +21,7 @@ const ModalEdit = ({ isOpen, onRequestClose, onSubmitSuccess, onEdit, initialDat
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Editar Activo</h2>
+          <h2 className={styles.title}>{t('assets.editAsset')}</h2>
           <button className={styles.closeButton} onClick={onRequestClose}>
             ×
           </button>

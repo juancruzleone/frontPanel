@@ -5,6 +5,7 @@ import { router } from "./router"
 import { ThemeProvider } from "./shared/hooks/useTheme"
 import "./index.css"
 import "../src/styles/font.css"
+import "./i18n"
 
 // Registrar Service Worker para PWA
 if ('serviceWorker' in navigator) {

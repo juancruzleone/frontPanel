@@ -1,5 +1,6 @@
 import React from "react"
 import styles from "../styles/home.module.css"
+import { useTranslation } from "react-i18next"
 
 interface KPI {
   label: string
@@ -13,8 +14,10 @@ interface StatsCardsProps {
 }
 
 const StatsCards: React.FC<StatsCardsProps> = ({ kpis }) => {
+  const { t } = useTranslation()
+  
   return (
-    <div className={styles.statsCardsRow} role="region" aria-label="Estadísticas principales">
+    <div className={styles.statsCardsRow} role="region" aria-label={t('home.mainMetrics')}>
       {kpis.map((kpi, index) => {
         const Icon = kpi.icon
         return (

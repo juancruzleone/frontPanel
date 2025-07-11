@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next"
 import styles from "../styles/Modal.module.css"
 
 interface ModalConfirmDeleteProps {
@@ -9,6 +10,7 @@ interface ModalConfirmDeleteProps {
 }
 
 const ModalConfirmDelete = ({ isOpen, onCancel, onConfirm, title, description }: ModalConfirmDeleteProps) => {
+  const { t } = useTranslation()
   if (!isOpen) return null
 
   return (
@@ -28,10 +30,10 @@ const ModalConfirmDelete = ({ isOpen, onCancel, onConfirm, title, description }:
           <p className={styles.confirmDescription}>{description}</p>
           <div className={styles.confirmActions}>
             <button className={styles.cancelButton} onClick={onCancel}>
-              Cancelar
+              {t('common.cancel')}
             </button>
             <button className={styles.deleteButton} onClick={onConfirm}>
-              Eliminar
+              {t('common.delete')}
             </button>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import type React from "react"
 
 import { useState } from "react"
+import { useTranslation } from "react-i18next"
 import type { Installation } from "../hooks/useInstallations"
 import useInstallationTypes from "../hooks/useInstallationTypes"
 import styles from "../styles/installationForm.module.css"
@@ -42,17 +43,18 @@ const InstallationForm = ({
   handleSubmitForm,
   isSubmitting,
 }: InstallationFormProps) => {
+  const { t } = useTranslation()
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
   const { installationTypes, loading: loadingTypes } = useInstallationTypes()
 
   const fields = [
-    { name: "company", label: "Empresa", type: "text" },
-    { name: "address", label: "Dirección", type: "text" },
-    { name: "installationType", label: "Tipo de instalación", type: "select" },
-    { name: "floorSector", label: "Piso/Sector", type: "text" },
-    { name: "postalCode", label: "Código Postal", type: "text" },
-    { name: "city", label: "Ciudad", type: "text" },
-    { name: "province", label: "Provincia", type: "text" },
+    { name: "company", label: t('installations.company'), type: "text" },
+    { name: "address", label: t('installations.address'), type: "text" },
+    { name: "installationType", label: t('installations.installationType'), type: "select" },
+    { name: "floorSector", label: t('installations.floorSector'), type: "text" },
+    { name: "postalCode", label: t('installations.postalCode'), type: "text" },
+    { name: "city", label: t('installations.city'), type: "text" },
+    { name: "province", label: t('installations.province'), type: "text" },
   ]
 
   const handleFieldBlur = (fieldName: string) => {
@@ -74,7 +76,7 @@ const InstallationForm = ({
           disabled={isSubmitting || loadingTypes}
           className={showError(field.name) ? styles.errorInput : ""}
         >
-          <option value="">Seleccionar tipo de instalación</option>
+          <option value="">{t('installations.selectInstallationType')}</option>
           {installationTypes.map((type) => (
             <option key={type._id} value={type.nombre}>
               {type.nombre}
@@ -107,7 +109,7 @@ const InstallationForm = ({
         {formErrors.general && <div className={styles.generalError}>{formErrors.general}</div>}
 
         {/* Sección: Información de la Empresa */}
-        <h3 className={styles.sectionTitle}>Información de la Empresa</h3>
+        <h3 className={styles.sectionTitle}>{t('installations.companyInfo')}</h3>
         
         {fields.slice(0, 2).map((field) => (
           <div className={styles.formGroup} key={field.name}>
@@ -118,7 +120,7 @@ const InstallationForm = ({
         ))}
 
         {/* Sección: Configuración de la Instalación */}
-        <h3 className={styles.sectionTitle}>Configuración de la Instalación</h3>
+        <h3 className={styles.sectionTitle}>{t('installations.installationConfig')}</h3>
         
         {fields.slice(2, 4).map((field) => (
           <div className={styles.formGroup} key={field.name}>
@@ -129,7 +131,7 @@ const InstallationForm = ({
         ))}
 
         {/* Sección: Ubicación */}
-        <h3 className={styles.sectionTitle}>Ubicación</h3>
+        <h3 className={styles.sectionTitle}>{t('installations.location')}</h3>
         
         {fields.slice(4).map((field) => (
           <div className={styles.formGroup} key={field.name}>
@@ -142,10 +144,10 @@ const InstallationForm = ({
 
       <div className={styles.actions}>
         <button type="button" onClick={onCancel} disabled={isSubmitting} className={styles.cancelButton}>
-          Cancelar
+          {t('common.cancel')}
         </button>
         <button type="submit" disabled={isSubmitting || loadingTypes} className={styles.submitButton}>
-          {isSubmitting ? "Guardando..." : isEditMode ? "Actualizar" : "Crear"}
+          {isSubmitting ? t('installations.saving') : isEditMode ? t('common.update') : t('common.create')}
         </button>
       </div>
     </form>

@@ -4,6 +4,7 @@ import RegisterTechnicianForm from "./RegisterFormTechnician"
 import useRegisterTechnician from "../hooks/useRegisterTechnician"
 import styles from "../styles/Modal.module.css"
 import { FiUserPlus } from "react-icons/fi"
+import { useTranslation } from "react-i18next"
 
 interface ModalRegisterTechnicianProps {
   isOpen: boolean
@@ -13,6 +14,7 @@ interface ModalRegisterTechnicianProps {
 }
 
 const ModalRegisterTechnician = ({ isOpen, onRequestClose, onSubmitSuccess, onAdd }: ModalRegisterTechnicianProps) => {
+  const { t } = useTranslation()
   const {
     formData,
     formErrors,
@@ -81,8 +83,8 @@ const ModalRegisterTechnician = ({ isOpen, onRequestClose, onSubmitSuccess, onAd
               <FiUserPlus size={24} />
             </div>
             <div>
-              <h2 className={styles.title}>Registrar Nuevo Técnico</h2>
-              <p className={styles.subtitle}>Completa la información para crear una nueva cuenta</p>
+              <h2 className={styles.title}>{t('personal.registerNewTechnician')}</h2>
+              <p className={styles.subtitle}>{t('personal.completeInformation')}</p>
             </div>
           </div>
           <button className={styles.closeButton} onClick={handleClose} disabled={isSubmitting} type="button">
@@ -100,8 +102,6 @@ const ModalRegisterTechnician = ({ isOpen, onRequestClose, onSubmitSuccess, onAd
             showPassword={showPassword}
             showConfirmPassword={showConfirmPassword}
             isFormComplete={isFormComplete}
-            isFormValid={isFormValid}
-            touchedFields={touchedFields}
             handleFieldChange={handleFieldChange}
             handleFieldBlur={handleFieldBlur}
             handleSubmitForm={handleSubmitForm}

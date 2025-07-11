@@ -6,8 +6,11 @@ import ModalRegisterTechnician from "../features/auth/register/components/ModalR
 import styles from "../features/auth/register/styles/register.module.css"
 import { FiUser } from "react-icons/fi"
 import { useRegister } from "../features/auth/register/hooks/useRegister.ts"
+import { useTranslation } from "react-i18next"
+import i18n from "../i18n"
 
 const Register = () => {
+  const { t } = useTranslation()
   const { showModal, responseMessage, isError, closeModal, technicians, loadingTechnicians, fetchTechnicians, addTechnician } =
     useRegister()
 
@@ -19,7 +22,8 @@ const Register = () => {
 
   const formatDate = useCallback((dateString: string) => {
     const date = new Date(dateString)
-    return date.toLocaleDateString("es-ES", {
+    const currentLanguage = i18n.language || 'es'
+    return date.toLocaleDateString(currentLanguage, {
       day: "2-digit",
       month: "2-digit",
       year: "numeric",
@@ -47,39 +51,68 @@ const Register = () => {
     setIsRegisterModalOpen(false)
   }, [])
 
+  const translateRole = useCallback((role: string) => {
+    switch (role.toLowerCase()) {
+      case 'técnico':
+      case 'technician':
+      case 'technicien':
+      case 'técnico':
+      case 'techniker':
+      case 'tecnico':
+      case '技術者':
+      case '기술자':
+      case '技术人员':
+      case 'فني':
+        return t('personal.roleTechnician')
+      case 'admin':
+      case 'administrador':
+      case 'administrator':
+      case 'administrateur':
+      case 'administrador':
+      case 'amministratore':
+      case '管理者':
+      case '관리자':
+      case '管理员':
+      case 'مدير':
+        return t('personal.roleAdmin')
+      default:
+        return role
+    }
+  }, [t])
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1 className={styles.title}>Técnicos</h1>
+        <h1 className={styles.title}>{t('personal.title')}</h1>
         <div className={styles.buttonContainer}>
-          <Button title="Agregar técnico" onClick={handleOpenModal} />
+          <Button title={t('personal.addTechnician')} onClick={handleOpenModal} />
         </div>
       </div>
 
       {/* Listado de técnicos */}
       <div className={styles.techniciansContainer}>
-        <h2 className={styles.subtitle}>Listado de Técnicos</h2>
+        <h2 className={styles.subtitle}>{t('personal.techniciansList')}</h2>
 
         {loadingTechnicians ? (
           <div className={styles.loadingContainer}>
             <div className={styles.spinner}></div>
-            <p>Cargando técnicos...</p>
+            <p>{t('personal.loadingTechnicians')}</p>
           </div>
         ) : !Array.isArray(technicians) || technicians.length === 0 ? (
           <div className={styles.emptyContainer}>
             <FiUser size={48} className={styles.emptyIcon} />
-            <p>No hay técnicos registrados</p>
-            <span className={styles.emptySubtext}>Agrega el primer técnico para comenzar</span>
+            <p>{t('personal.noTechnicians')}</p>
+            <span className={styles.emptySubtext}>{t('personal.addFirstTechnician')}</span>
           </div>
         ) : (
           <div className={styles.tableContainer}>
             <table className={styles.techniciansTable}>
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Usuario</th>
-                  <th>Rol</th>
-                  <th>Fecha de Registro</th>
+                  <th>{t('personal.id')}</th>
+                  <th>{t('personal.user')}</th>
+                  <th>{t('personal.role')}</th>
+                  <th>{t('personal.registrationDate')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -99,7 +132,7 @@ const Register = () => {
                       </div>
                     </td>
                     <td>
-                      <span className={styles.roleBadge}>{tech.role}</span>
+                      <span className={styles.roleBadge}>{translateRole(tech.role)}</span>
                     </td>
                     <td>{formatDate(tech.createdAt)}</td>
                   </tr>

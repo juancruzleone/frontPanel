@@ -13,17 +13,20 @@ import ModalAssignTechnician from "../features/workOrders/components/ModalAssign
 import ModalCompleteWorkOrder from "../features/workOrders/components/ModalCompleteWorkOrder"
 import { Edit, Trash, User, Check, Play } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
+import { useTranslation } from "react-i18next"
 
 const renderTechnicianInfo = (order: WorkOrder) => {
+  const { t } = useTranslation()
+  
   if (order.tecnico && (order.tecnico as any).userName) {
     return (
       <p>
-        <strong>Técnico:</strong> {(order.tecnico as any).userName}
+        <strong>{t('workOrders.technician')}:</strong> {(order.tecnico as any).userName}
         {order.estado === "asignada" && (
-          <span style={{ marginLeft: "8px", color: "#4CAF50", fontSize: "0.8em" }}>(Pendiente de inicio)</span>
+          <span style={{ marginLeft: "8px", color: "#4CAF50", fontSize: "0.8em" }}>({t('workOrders.pendingStart')})</span>
         )}
         {order.estado === "en_progreso" && (
-          <span style={{ marginLeft: "8px", color: "#2196F3", fontSize: "0.8em" }}>(En progreso)</span>
+          <span style={{ marginLeft: "8px", color: "#2196F3", fontSize: "0.8em" }}>({t('workOrders.inProgress')})</span>
         )}
       </p>
     )
@@ -32,17 +35,18 @@ const renderTechnicianInfo = (order: WorkOrder) => {
   if (order.tecnicoAsignado) {
     return (
       <p style={{ color: "orange" }}>
-        <strong>Técnico asignado:</strong> ID {order.tecnicoAsignado}
+        <strong>{t('workOrders.assignedTechnician')}:</strong> ID {order.tecnicoAsignado}
         <br />
-        <small>Cargando detalles del técnico...</small>
+        <small>{t('workOrders.loadingTechnicianDetails')}</small>
       </p>
     )
   }
 
-  return <p style={{ color: "#666", fontStyle: "italic" }}>Sin técnico asignado</p>
+  return <p style={{ color: "#666", fontStyle: "italic" }}>{t('workOrders.noTechnicianAssigned')}</p>
 }
 
 const WorkOrders = () => {
+  const { t } = useTranslation()
   const {
     workOrders,
     loading,
@@ -96,14 +100,14 @@ const WorkOrders = () => {
 
   const statusOptions = useMemo(
     () => [
-      { label: "Todas", value: "" },
-      { label: "Pendiente", value: "pendiente" },
-      { label: "Asignada", value: "asignada" },
-      { label: "En Progreso", value: "en_progreso" },
-      { label: "Completada", value: "completada" },
-      { label: "Cancelada", value: "cancelada" },
+      { label: t('common.all'), value: "" },
+      { label: t('workOrders.pending'), value: "pendiente" },
+      { label: t('workOrders.assigned'), value: "asignada" },
+      { label: t('workOrders.inProgress'), value: "en_progreso" },
+      { label: t('workOrders.completed'), value: "completada" },
+      { label: t('workOrders.cancelled'), value: "cancelada" },
     ],
-    [],
+    [t],
   )
 
   const filteredWorkOrders = useMemo(() => {
@@ -203,9 +207,9 @@ const WorkOrders = () => {
 
     try {
       await removeWorkOrder(workOrderToDelete._id)
-      onSuccess("Orden de trabajo eliminada con éxito")
+      onSuccess(t('workOrders.workOrderDeleted'))
     } catch (err: any) {
-      onError(err.message || "Error al eliminar orden")
+      onError(err.message || t('workOrders.errorDeletingWorkOrder'))
     } finally {
       setWorkOrderToDelete(null)
       setIsDeleteModalOpen(false)
@@ -215,9 +219,9 @@ const WorkOrders = () => {
   const handleStart = async (id: string) => {
     try {
       await startWorkOrder(id)
-      onSuccess("Orden de trabajo iniciada con éxito")
+      onSuccess(t('workOrders.workOrderStarted'))
     } catch (err: any) {
-      onError(err.message || "Error al iniciar orden")
+      onError(err.message || t('workOrders.errorStartingWorkOrder'))
     }
   }
 
@@ -238,16 +242,16 @@ const WorkOrders = () => {
   return (
     <>
       <div className={styles.containerWorkOrders}>
-        <h1 className={styles.title}>Órdenes de Trabajo</h1>
+        <h1 className={styles.title}>{t('workOrders.title')}</h1>
         <div className={styles.positionButton}>
-          <Button title="Crear orden" onClick={handleOpenCreate} />
+          <Button title={t('workOrders.createWorkOrder')} onClick={handleOpenCreate} />
         </div>
 
         <div className={styles.searchContainer}>
           <SearchInput
-            placeholder="Buscar por título, descripción, instalación o técnico"
+            placeholder={t('workOrders.searchPlaceholder')}
             showSelect
-            selectPlaceholder="Filtrar por estado"
+            selectPlaceholder={t('workOrders.filterByStatus')}
             selectOptions={statusOptions}
             onInputChange={setSearchTerm}
             onSelectChange={setSelectedStatus}
@@ -263,7 +267,7 @@ const WorkOrders = () => {
               <Skeleton height={220} width={"100%"} style={{borderRadius:14, marginTop:16}} />
             </>
           ) : filteredWorkOrders.length === 0 ? (
-            <p className={styles.loader}>No se encontraron órdenes de trabajo</p>
+            <p className={styles.loader}>{t('workOrders.noWorkOrdersFound')}</p>
           ) : (
             <>
               {paginatedWorkOrders.map((order) => (
@@ -283,21 +287,20 @@ const WorkOrders = () => {
 
                     <div className={styles.workOrderDetails}>
                       <p>
-                        <strong>Tipo:</strong> {order.tipoTrabajo}
+                        <strong>{t('workOrders.type')}:</strong> {order.tipoTrabajo}
                       </p>
                       <p>
-                        <strong>Estado:</strong>{" "}
+                        <strong>{t('workOrders.status')}:</strong>{" "}
                         <span className={`${styles.statusBadge} ${styles[order.estado]}`}>
                           {order.estado.replace("_", " ").toUpperCase()}
                         </span>
                       </p>
                       <p>
-                        <strong>Programada:</strong> {new Date(order.fechaProgramada).toLocaleDateString()} a las{" "}
-                        {order.horaProgramada}
+                        <strong>{t('workOrders.scheduled')}:</strong> {new Date(order.fechaProgramada).toLocaleDateString()} {t('workOrders.at')} {order.horaProgramada}
                       </p>
                       {order.instalacion && (
                         <p>
-                          <strong>Instalación:</strong> {order.instalacion.company} - {order.instalacion.address}
+                          <strong>{t('workOrders.installation')}:</strong> {order.instalacion.company} - {order.instalacion.address}
                         </p>
                       )}
                       {renderTechnicianInfo(order)}
@@ -312,8 +315,8 @@ const WorkOrders = () => {
                         <button
                           className={styles.iconButton}
                           onClick={() => handleStart(order._id!)}
-                          aria-label="Iniciar orden"
-                          data-tooltip="Iniciar orden"
+                          aria-label={t('workOrders.startOrder')}
+                          data-tooltip={t('workOrders.startOrder')}
                         >
                           <Play size={24} />
                         </button>
@@ -322,8 +325,8 @@ const WorkOrders = () => {
                         <button
                           className={styles.iconButton}
                           onClick={() => handleOpenComplete(order)}
-                          aria-label="Completar orden"
-                          data-tooltip="Completar orden"
+                          aria-label={t('workOrders.completeOrder')}
+                          data-tooltip={t('workOrders.completeOrder')}
                         >
                           <Check size={24} />
                         </button>
@@ -332,8 +335,8 @@ const WorkOrders = () => {
                         <button
                           className={styles.iconButton}
                           onClick={() => handleOpenAssign(order)}
-                          aria-label="Asignar técnico"
-                          data-tooltip="Asignar técnico"
+                          aria-label={t('workOrders.assignTechnician')}
+                          data-tooltip={t('workOrders.assignTechnician')}
                         >
                           <User size={24} />
                         </button>
@@ -342,8 +345,8 @@ const WorkOrders = () => {
                         <button
                           className={styles.iconButton}
                           onClick={() => handleOpenEdit(order)}
-                          aria-label="Editar orden"
-                          data-tooltip="Editar orden"
+                          aria-label={t('workOrders.editOrder')}
+                          data-tooltip={t('workOrders.editOrder')}
                         >
                           <Edit size={24} />
                         </button>
@@ -354,15 +357,15 @@ const WorkOrders = () => {
                           setWorkOrderToDelete(order)
                           setIsDeleteModalOpen(true)
                         }}
-                        aria-label="Eliminar orden"
-                        data-tooltip="Eliminar orden"
+                        aria-label={t('workOrders.deleteOrder')}
+                        data-tooltip={t('workOrders.deleteOrder')}
                       >
                         <Trash size={24} />
                       </button>
                     </div>
 
                     <div className={styles.viewDetailsButton}>
-                      <button onClick={() => handleViewDetails(order)}>Ver detalles completos</button>
+                      <button onClick={() => handleViewDetails(order)}>{t('workOrders.viewCompleteDetails')}</button>
                     </div>
                   </div>
                 </div>
@@ -373,7 +376,7 @@ const WorkOrders = () => {
                   {"<"}
                 </button>
                 <span>
-                  Página {currentPage} de {totalPages}
+                  {t('workOrders.page')} {currentPage} {t('workOrders.of')} {totalPages}
                 </span>
                 <button onClick={() => handleChangePage(currentPage + 1)} disabled={currentPage === totalPages}>
                   {">"}
@@ -426,8 +429,8 @@ const WorkOrders = () => {
         isOpen={isDeleteModalOpen}
         onCancel={() => setIsDeleteModalOpen(false)}
         onConfirm={handleConfirmDelete}
-        title="¿Eliminar orden de trabajo?"
-        description="Esta acción no se puede deshacer."
+        title={t('workOrders.confirmDeleteWorkOrder')}
+        description={t('workOrders.confirmDeleteWorkOrderDescription')}
       />
 
       <ModalSuccess

@@ -1,5 +1,6 @@
 import React from "react"
 import styles from "../styles/home.module.css"
+import { useTranslation } from "react-i18next"
 
 interface WorkOrder {
   _id: string
@@ -21,15 +22,17 @@ const estadoColor: Record<string, string> = {
   cancelada: "#f44336",
 }
 
-const estadoLabels: Record<string, string> = {
-  pendiente: "Pendiente",
-  asignada: "Asignada",
-  en_progreso: "En progreso",
-  completada: "Completada",
-  cancelada: "Cancelada",
-}
-
 const RecentWorkOrders: React.FC<RecentWorkOrdersProps> = ({ workOrders }) => {
+  const { t } = useTranslation()
+  
+  const estadoLabels: Record<string, string> = {
+    pendiente: t('workOrders.pending'),
+    asignada: t('workOrders.assigned'),
+    en_progreso: t('workOrders.inProgress'),
+    completada: t('workOrders.completed'),
+    cancelada: t('workOrders.cancelled'),
+  }
+
   const formatDate = (dateString: string) => {
     if (!dateString) return ""
     const date = new Date(dateString)
@@ -44,11 +47,11 @@ const RecentWorkOrders: React.FC<RecentWorkOrdersProps> = ({ workOrders }) => {
   const recentOrders = workOrders.slice(0, 3)
 
   return (
-    <div className={styles.chartCard} role="region" aria-label="Órdenes de trabajo recientes">
+    <div className={styles.chartCard} role="region" aria-label={t('home.recentOrders')}>
       <div className={styles.chartHeader}>
-        <h3 className={styles.chartTitle}>Órdenes Recientes</h3>
+        <h3 className={styles.chartTitle}>{t('home.recentOrders')}</h3>
         <div className={styles.chartStats}>
-          <span className={styles.chartTotal}>{recentOrders.length} órdenes</span>
+          <span className={styles.chartTotal}>{recentOrders.length} {t('workOrders.title')}</span>
         </div>
       </div>
       
@@ -56,8 +59,8 @@ const RecentWorkOrders: React.FC<RecentWorkOrdersProps> = ({ workOrders }) => {
         {recentOrders.length === 0 ? (
           <div className={styles.noOrders} role="status">
             <div className={styles.noOrdersIcon}>📋</div>
-            <p>No hay órdenes recientes</p>
-            <small>Las órdenes aparecerán aquí cuando se creen</small>
+            <p>{t('home.noRecentOrders')}</p>
+            <small>{t('home.ordersWillAppear')}</small>
           </div>
         ) : (
           recentOrders.map((order, index) => (
@@ -65,7 +68,7 @@ const RecentWorkOrders: React.FC<RecentWorkOrdersProps> = ({ workOrders }) => {
               className={styles.orderItem} 
               key={order._id}
               role="article"
-              aria-label={`Orden: ${order.titulo}, Estado: ${estadoLabels[order.estado] || order.estado}`}
+              aria-label={`${t('workOrders.title')}: ${order.titulo}, ${t('workOrders.status')}: ${estadoLabels[order.estado] || order.estado}`}
             >
               <div className={styles.orderHeader}>
                 <div className={styles.orderTitle}>{order.titulo}</div>
@@ -83,7 +86,7 @@ const RecentWorkOrders: React.FC<RecentWorkOrdersProps> = ({ workOrders }) => {
               <div className={styles.orderMeta}>
                 <div className={styles.orderInfo}>
                   <span className={styles.orderInst}>
-                    🏢 {order.instalacion?.company || "Sin instalación"}
+                    🏢 {order.instalacion?.company || t('workOrders.noInstallation')}
                   </span>
                   <span className={styles.orderDate}>
                     📅 {formatDate(order.fechaCreacion || "")}

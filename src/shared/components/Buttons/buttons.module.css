@@ -68,15 +68,15 @@
   background: var(--color-themebox-bg);
   color: var(--color-icon);
   border: 1px solid var(--color-themebox-border);
-  padding: 8px;
-  border-radius: 8px;
+  padding: 6px;
+  border-radius: 6px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
   width: 40px;
-  height: 40px;
+  height: 32px;
 }
 
 .themeButton:hover {
@@ -87,4 +87,118 @@
 
 .themeButton:active {
   transform: translateY(0);
+}
+
+/* Language Selector Styles */
+.languageSelectorContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.languageButton {
+  background: var(--color-themebox-bg);
+  color: var(--color-icon);
+  border: 1px solid var(--color-themebox-border);
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  width: 40px;
+  height: 32px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.languageButton:hover {
+  background: var(--color-card-border);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.languageButton:active {
+  transform: translateY(0);
+}
+
+.languageCode {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.chevron {
+  transition: transform 0.2s ease;
+  color: var(--color-text);
+}
+
+.chevronUp {
+  transform: rotate(180deg);
+}
+
+.languageDropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  min-width: 140px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.languageOption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--color-text);
+  font-size: 14px;
+  text-align: left;
+}
+
+.languageOption:hover {
+  background: var(--color-bg-light);
+}
+
+.languageOption.active {
+  background: var(--color-secondary);
+  color: white;
+}
+
+.flag {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.languageName {
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .languageButton {
+    width: 44px;
+    height: 28px;
+    padding: 4px 6px;
+    font-size: 11px;
+  }
+  
+  .languageDropdown {
+    min-width: 120px;
+  }
+  
+  .languageOption {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
 }

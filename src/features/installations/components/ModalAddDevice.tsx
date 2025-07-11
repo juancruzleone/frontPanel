@@ -1,4 +1,5 @@
 import { useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import styles from "/src/features/installations/styles/Modal.module.css"
 import type { Installation, Device } from "../hooks/useInstallations"
 import DeviceForm from "./DeviceForm"
@@ -29,6 +30,7 @@ const ModalAddDevice = ({
   onRetryLoadAssets,
   loadAssets,
 }: ModalAddDeviceProps) => {
+  const { t } = useTranslation()
   const { categories, loading: loadingCategories, error: errorLoadingCategories, loadCategories } = useCategories()
 
   useEffect(() => {
@@ -51,9 +53,9 @@ const ModalAddDevice = ({
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Agregar Dispositivo</h2>
+          <h2 className={styles.title}>{t('installations.addDevice')}</h2>
           <p>
-            Instalación: {installation.company} - {installation.address}
+            {t('installations.installation')}: {installation.company} - {installation.address}
           </p>
           <button className={styles.closeButton} onClick={onRequestClose}>
             ×
@@ -62,21 +64,21 @@ const ModalAddDevice = ({
 
         <div className={styles.modalContent}>
           {loadingAssets || loadingCategories ? (
-            <p>Cargando datos necesarios...</p>
+            <p>{t('installations.loadingRequiredData')}</p>
           ) : errorLoadingAssets ? (
             <>
-              <p>{errorLoadingAssets.includes("No hay activos") ? errorLoadingAssets : "Error al cargar activos"}</p>
-              <button onClick={onRetryLoadAssets}>Reintentar carga de activos</button>
+              <p>{errorLoadingAssets.includes("No hay activos") ? errorLoadingAssets : t('installations.errorLoadingAssets')}</p>
+              <button onClick={onRetryLoadAssets}>{t('installations.retryLoadAssets')}</button>
             </>
           ) : errorLoadingCategories ? (
             <>
-              <p>Error al cargar categorías</p>
-              <button onClick={handleRetryLoadCategories}>Reintentar carga de categorías</button>
+              <p>{t('installations.errorLoadingCategories')}</p>
+              <button onClick={handleRetryLoadCategories}>{t('installations.retryLoadCategories')}</button>
             </>
           ) : assets.length === 0 ? (
-            <p>No hay activos disponibles. Primero crear activos en la sección correspondiente.</p>
+            <p>{t('installations.noAssetsAvailable')}. {t('installations.createAssetsFirst')}.</p>
           ) : categories.length === 0 ? (
-            <p>No hay categorías disponibles. Primero crear categorías en la sección correspondiente.</p>
+            <p>{t('installations.noCategoriesAvailable')}. {t('installations.createCategoriesFirst')}.</p>
           ) : (
             <DeviceForm
               installation={installation}

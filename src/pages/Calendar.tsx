@@ -10,8 +10,11 @@ import ModalSuccess from "../features/workOrders/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
 import { CalendarIcon, Clock, MapPin, User, AlertCircle, FilterX } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
+import { useTranslation } from "react-i18next"
+import i18n from "../i18n"
 
 const Calendar = () => {
+  const { t } = useTranslation()
   const { workOrders, loading, error, loadWorkOrders, startWorkOrder, assignTechnician, completeWorkOrder } =
     useCalendar()
 
@@ -36,37 +39,37 @@ const Calendar = () => {
 
   const statusOptions = useMemo(
     () => [
-      { label: "Todas", value: "" },
-      { label: "Pendiente", value: "pendiente" },
-      { label: "Asignada", value: "asignada" },
-      { label: "En Progreso", value: "en_progreso" },
-      { label: "Completada", value: "completada" },
-      { label: "Cancelada", value: "cancelada" },
+      { label: t('common.all'), value: "" },
+      { label: t('workOrders.pending'), value: "pendiente" },
+      { label: t('workOrders.assigned'), value: "asignada" },
+      { label: t('workOrders.inProgress'), value: "en_progreso" },
+      { label: t('workOrders.completed'), value: "completada" },
+      { label: t('workOrders.cancelled'), value: "cancelada" },
     ],
-    [],
+    [t],
   )
 
   const priorityOptions = useMemo(
     () => [
-      { label: "Todas", value: "" },
-      { label: "Baja", value: "baja" },
-      { label: "Media", value: "media" },
-      { label: "Alta", value: "alta" },
-      { label: "Crítica", value: "critica" },
+      { label: t('common.all'), value: "" },
+      { label: t('calendar.low'), value: "baja" },
+      { label: t('calendar.medium'), value: "media" },
+      { label: t('calendar.high'), value: "alta" },
+      { label: t('calendar.critical'), value: "critica" },
     ],
-    [],
+    [t],
   )
 
   const dateOptions = useMemo(
     () => [
-      { label: "Todas las fechas", value: "" },
-      { label: "Hoy", value: "today" },
-      { label: "Esta semana", value: "thisWeek" },
-      { label: "Este mes", value: "thisMonth" },
-      { label: "Próxima semana", value: "nextWeek" },
-      { label: "Próximo mes", value: "nextMonth" },
+      { label: t('calendar.allDates'), value: "" },
+      { label: t('calendar.today'), value: "today" },
+      { label: t('calendar.thisWeek'), value: "thisWeek" },
+      { label: t('calendar.thisMonth'), value: "thisMonth" },
+      { label: t('calendar.nextWeek'), value: "nextWeek" },
+      { label: t('calendar.nextMonth'), value: "nextMonth" },
     ],
-    [],
+    [t],
   )
 
   const filteredWorkOrders = useMemo(() => {
@@ -196,9 +199,9 @@ const Calendar = () => {
   const handleStart = async (id: string) => {
     try {
       await startWorkOrder(id)
-      onSuccess("Orden iniciada con éxito")
+      onSuccess(t('calendar.orderStarted'))
     } catch (err: any) {
-      onError(err.message || "Error al iniciar orden")
+      onError(err.message || t('calendar.errorStartingOrder'))
     }
   }
 
@@ -228,7 +231,8 @@ const Calendar = () => {
 
   const renderCalendarView = () => {
     const days = generateCalendarDays()
-    const monthName = currentDate.toLocaleDateString("es-ES", { month: "long", year: "numeric" })
+    const currentLanguage = i18n.language || 'es'
+    const monthName = currentDate.toLocaleDateString(currentLanguage, { month: "long", year: "numeric" })
 
     return (
       <div className={styles.calendarContainer}>
@@ -244,7 +248,7 @@ const Calendar = () => {
 
         <div className={styles.calendarGrid}>
           <div className={styles.weekDays}>
-            {["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"].map((day) => (
+            {[t('calendar.sun'), t('calendar.mon'), t('calendar.tue'), t('calendar.wed'), t('calendar.thu'), t('calendar.fri'), t('calendar.sat')].map((day) => (
               <div key={day} className={styles.weekDay}>
                 {day}
               </div>
@@ -282,7 +286,7 @@ const Calendar = () => {
                       </div>
                     ))}
                     {dayOrders.length > 3 && (
-                      <div className={styles.moreOrders}>+{dayOrders.length - 3} más</div>
+                      <div className={styles.moreOrders}>+{dayOrders.length - 3} {t('calendar.moreOrders')}</div>
                     )}
                   </div>
                 </div>
@@ -311,7 +315,7 @@ const Calendar = () => {
           .map(([date, orders]) => (
             <div key={date} className={styles.dateGroup}>
               <h3 className={styles.dateHeader}>
-                {new Date(date).toLocaleDateString("es-ES", {
+                {new Date(date).toLocaleDateString(i18n.language || 'es', {
                   weekday: "long",
                   year: "numeric",
                   month: "long",
@@ -367,10 +371,10 @@ const Calendar = () => {
 
                   <div className={styles.cardActions}>
                     <button className={styles.detailsButton} onClick={() => handleOpenDetails(order)}>
-                      Ver Detalles
+                      {t('calendar.viewDetails')}
                     </button>
                     <button className={styles.fullDetailsButton} onClick={() => handleViewWorkOrderDetails(order)}>
-                      Ver Completo
+                      {t('calendar.viewComplete')}
                     </button>
                   </div>
                 </div>
@@ -386,7 +390,7 @@ const Calendar = () => {
       <div className={styles.containerCalendar}>
         <div className={styles.header}>
           <h1 className={styles.title}>
-            Calendario de Órdenes de Trabajo
+            {t('calendar.title')}
           </h1>
 
           <div className={styles.viewModeButtons}>
@@ -394,13 +398,13 @@ const Calendar = () => {
               className={`${styles.viewButton} ${viewMode === "month" ? styles.active : ""}`}
               onClick={() => setViewMode("month")}
             >
-              Mes
+              {t('calendar.month')}
             </button>
             <button
               className={`${styles.viewButton} ${viewMode === "list" ? styles.active : ""}`}
               onClick={() => setViewMode("list")}
             >
-              Lista
+              {t('calendar.list')}
             </button>
           </div>
         </div>
@@ -408,9 +412,9 @@ const Calendar = () => {
         <div className={styles.filtersContainer}>
           <div className={styles.searchContainer}>
             <SearchInput
-              placeholder="Buscar por título, descripción, instalación o técnico"
+              placeholder={t('calendar.searchPlaceholder')}
               showSelect
-              selectPlaceholder="Filtrar por estado"
+              selectPlaceholder={t('calendar.filterByStatus')}
               selectOptions={statusOptions}
               onInputChange={setSearchTerm}
               onSelectChange={setSelectedStatus}
@@ -447,7 +451,7 @@ const Calendar = () => {
               value={selectedDateFilter}
               onChange={(e) => setSelectedDateFilter(e.target.value)}
               className={styles.dateFilter}
-              placeholder="Seleccionar fecha"
+              placeholder={t('calendar.selectDate')}
             />
 
             <button
@@ -461,7 +465,7 @@ const Calendar = () => {
               className={styles.clearFilters}
             >
               <FilterX size={16} />
-              Limpiar Filtros
+              {t('calendar.clearFilters')}
             </button>
           </div>
         </div>
@@ -477,7 +481,7 @@ const Calendar = () => {
           ) : error ? (
             <p className={styles.error}>Error: {error}</p>
           ) : filteredWorkOrders.length === 0 ? (
-            <p className={styles.noResults}>No se encontraron órdenes de trabajo</p>
+            <p className={styles.noResults}>{t('calendar.noOrders')}</p>
           ) : (
             <>{viewMode === "month" ? renderCalendarView() : renderListView()}</>
           )}

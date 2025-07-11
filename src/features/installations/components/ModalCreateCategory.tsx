@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import CategoryForm from "./CategoryForm";
 import useCategories from "../hooks/useCategories";
 import styles from "../styles/Modal.module.css";
+import { useTranslation } from "react-i18next";
 
 interface ModalCreateCategoryProps {
   isOpen: boolean;
@@ -16,6 +17,7 @@ const ModalCreateCategory = ({
   onSubmitSuccess,
   onCreate,
 }: ModalCreateCategoryProps) => {
+  const { t } = useTranslation();
   const {
     formData,
     formErrors,
@@ -44,7 +46,7 @@ const ModalCreateCategory = ({
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Crear Categoría</h2>
+          <h2 className={styles.title}>{t('installations.createCategory')}</h2>
           <button
             className={styles.closeButton}
             onClick={handleClose}

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import InstallationForm from "../../../../src/features/installations/components/InstallationForm";
 import useInstallations from "../../../../src/features/installations/hooks/useInstallations";
 import { Installation } from "../hooks/useInstallations";
@@ -19,6 +20,7 @@ const ModalEdit = ({
   onEdit,
   initialData,
 }: ModalEditProps) => {
+  const { t } = useTranslation();
   const {
     formData,
     formErrors,
@@ -49,7 +51,7 @@ const ModalEdit = ({
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Editar Instalación</h2>
+          <h2 className={styles.title}>{t('installations.editInstallation')}</h2>
           <button 
             className={styles.closeButton}
             onClick={handleClose}
@@ -62,6 +64,7 @@ const ModalEdit = ({
           <InstallationForm
             onCancel={handleClose}
             onSuccess={onSubmitSuccess}
+            onError={() => {}}
             onEdit={onEdit}
             isEditMode={true}
             initialData={initialData}
