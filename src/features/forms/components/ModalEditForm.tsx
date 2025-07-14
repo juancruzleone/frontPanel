@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import FormTemplateForm from "./formTemplateForm"
 import styles from "../styles/Modal.module.css"
 import type { FormTemplate } from "../hooks/useForms"
+import { useTranslation } from "react-i18next"
 
 interface ModalEditFormProps {
   isOpen: boolean
@@ -12,6 +13,7 @@ interface ModalEditFormProps {
 }
 
 const ModalEditForm = ({ isOpen, onRequestClose, onSubmitSuccess, initialData, categories }: ModalEditFormProps) => {
+  const { t } = useTranslation()
   const [currentTemplate, setCurrentTemplate] = useState<FormTemplate | null>(null)
 
   useEffect(() => {
@@ -33,8 +35,8 @@ const ModalEditForm = ({ isOpen, onRequestClose, onSubmitSuccess, initialData, c
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Editar Plantilla</h2>
-          <button className={styles.closeButton} onClick={handleClose}>
+          <h2 className={styles.title}>{t('forms.editFormTemplate')}</h2>
+          <button className={styles.closeButton} onClick={handleClose} aria-label={t('common.close')}>
             ×
           </button>
         </div>
@@ -42,6 +44,7 @@ const ModalEditForm = ({ isOpen, onRequestClose, onSubmitSuccess, initialData, c
           <FormTemplateForm
             onCancel={handleClose}
             onSubmitSuccess={onSubmitSuccess}
+            onSubmitError={(message: string) => console.error(message)}
             isEditMode={true}
             initialData={currentTemplate}
             categories={categories}

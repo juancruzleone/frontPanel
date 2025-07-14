@@ -1,6 +1,7 @@
 import React from "react"
 import { PieChart as RePieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts"
 import styles from "../styles/home.module.css"
+import { useTranslation } from "react-i18next"
 
 interface PieChartData {
   name: string
@@ -21,7 +22,22 @@ const COLORS = [
   "#9c27b0"  // Púrpura - Otros
 ]
 
+const CustomTooltip = ({ active, payload }: any) => {
+  const { t } = useTranslation();
+  if (active && payload && payload.length) {
+    const estadoClave = payload[0]?.payload?.name;
+    return (
+      <div style={{ background: 'var(--color-card)', color: 'var(--color-text)', border: '1px solid var(--color-card-border)', borderRadius: 8, padding: 8 }}>
+        <p style={{ margin: 0, fontWeight: 600 }}>{t('workOrders.' + estadoClave)}</p>
+        <p style={{ margin: 0, opacity: 0.8 }}>{t('common.total')}: {payload[0].value}</p>
+      </div>
+    );
+  }
+  return null;
+};
+
 const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
+  const { t } = useTranslation()
   const total = data.reduce((sum, item) => sum + item.value, 0)
   
   // Calcular porcentajes para la leyenda personalizada
@@ -32,26 +48,26 @@ const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
 
   if (!data || data.length === 0) {
     return (
-      <div className={styles.chartCard} role="region" aria-label="Gráfico circular - Órdenes por estado">
+      <div className={styles.chartCard} role="region" aria-label={t('home.ordersByStatus')}>
         <div className={styles.chartHeader}>
-          <h3 className={styles.chartTitle}>Órdenes por Estado</h3>
+          <h3 className={styles.chartTitle}>{t('home.ordersByStatus')}</h3>
           <div className={styles.chartStats}>
-            <span className={styles.chartTotal}>0 total</span>
+            <span className={styles.chartTotal}>0 {t('common.total')}</span>
           </div>
         </div>
         <div className={styles.chartPlaceholder}>
-          <p>No hay datos disponibles</p>
+          <p>{t('common.noDataAvailable')}</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className={styles.chartCard} role="region" aria-label="Gráfico circular - Órdenes por estado">
+    <div className={styles.chartCard} role="region" aria-label={t('home.ordersByStatus')}>
       <div className={styles.chartHeader}>
-        <h3 className={styles.chartTitle}>Órdenes por Estado</h3>
+        <h3 className={styles.chartTitle}>{t('home.ordersByStatus')}</h3>
         <div className={styles.chartStats}>
-          <span className={styles.chartTotal}>{total} total</span>
+          <span className={styles.chartTotal}>{total} {t('common.total')}</span>
         </div>
       </div>
       
@@ -79,14 +95,7 @@ const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
                   />
                 ))}
               </Pie>
-              <Tooltip 
-                contentStyle={{
-                  backgroundColor: 'var(--color-card)',
-                  border: '1px solid var(--color-card-border)',
-                  borderRadius: '8px',
-                  color: 'var(--color-text)'
-                }}
-              />
+              <Tooltip content={<CustomTooltip />} />
             </RePieChart>
           </ResponsiveContainer>
         </div>
@@ -97,7 +106,7 @@ const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
             <div key={index} className={styles.percentageItem}>
               <div className={styles.percentageColor} style={{ backgroundColor: item.color || COLORS[index % COLORS.length] }}></div>
               <div className={styles.percentageContent}>
-                <span className={styles.percentageName}>{item.name}</span>
+                <span className={styles.percentageName}>{t(`workOrders.${item.name}`)}</span>
                 <span className={styles.percentageValue}>{item.percentage}%</span>
               </div>
             </div>

@@ -14,10 +14,9 @@ import ModalCompleteWorkOrder from "../features/workOrders/components/ModalCompl
 import { Edit, Trash, User, Check, Play } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
+import { translateWorkOrderStatus, translatePriority, translateWorkType } from "../shared/utils/backendTranslations"
 
-const renderTechnicianInfo = (order: WorkOrder) => {
-  const { t } = useTranslation()
-  
+const renderTechnicianInfo = (order: WorkOrder, t: (key: string) => string) => {
   if (order.tecnico && (order.tecnico as any).userName) {
     return (
       <p>
@@ -244,7 +243,9 @@ const WorkOrders = () => {
       <div className={styles.containerWorkOrders}>
         <h1 className={styles.title}>{t('workOrders.title')}</h1>
         <div className={styles.positionButton}>
-          <Button title={t('workOrders.createWorkOrder')} onClick={handleOpenCreate} />
+          <Button title={t('workOrders.createWorkOrder')} onClick={handleOpenCreate}>
+            {t('workOrders.createWorkOrder')}
+          </Button>
         </div>
 
         <div className={styles.searchContainer}>
@@ -287,12 +288,12 @@ const WorkOrders = () => {
 
                     <div className={styles.workOrderDetails}>
                       <p>
-                        <strong>{t('workOrders.type')}:</strong> {order.tipoTrabajo}
+                        <strong>{t('workOrders.type')}:</strong> {translateWorkType(order.tipoTrabajo)}
                       </p>
                       <p>
                         <strong>{t('workOrders.status')}:</strong>{" "}
                         <span className={`${styles.statusBadge} ${styles[order.estado]}`}>
-                          {order.estado.replace("_", " ").toUpperCase()}
+                          {translateWorkOrderStatus(order.estado)}
                         </span>
                       </p>
                       <p>
@@ -303,7 +304,7 @@ const WorkOrders = () => {
                           <strong>{t('workOrders.installation')}:</strong> {order.instalacion.company} - {order.instalacion.address}
                         </p>
                       )}
-                      {renderTechnicianInfo(order)}
+                      {renderTechnicianInfo(order, t)}
                     </div>
                   </div>
 
@@ -318,7 +319,7 @@ const WorkOrders = () => {
                           aria-label={t('workOrders.startOrder')}
                           data-tooltip={t('workOrders.startOrder')}
                         >
-                          <Play size={24} />
+                          <Play size={20} />
                         </button>
                       )}
                       {order.estado === "en_progreso" && (
@@ -328,7 +329,7 @@ const WorkOrders = () => {
                           aria-label={t('workOrders.completeOrder')}
                           data-tooltip={t('workOrders.completeOrder')}
                         >
-                          <Check size={24} />
+                          <Check size={20} />
                         </button>
                       )}
                       {order.estado === "pendiente" && (
@@ -338,7 +339,7 @@ const WorkOrders = () => {
                           aria-label={t('workOrders.assignTechnician')}
                           data-tooltip={t('workOrders.assignTechnician')}
                         >
-                          <User size={24} />
+                          <User size={20} />
                         </button>
                       )}
                       {shouldShowEditButton(order) && (
@@ -348,7 +349,7 @@ const WorkOrders = () => {
                           aria-label={t('workOrders.editOrder')}
                           data-tooltip={t('workOrders.editOrder')}
                         >
-                          <Edit size={24} />
+                          <Edit size={20} />
                         </button>
                       )}
                       <button
@@ -360,7 +361,7 @@ const WorkOrders = () => {
                         aria-label={t('workOrders.deleteOrder')}
                         data-tooltip={t('workOrders.deleteOrder')}
                       >
-                        <Trash size={24} />
+                        <Trash size={20} />
                       </button>
                     </div>
 
@@ -391,6 +392,7 @@ const WorkOrders = () => {
         isOpen={isCreateModalOpen}
         onRequestClose={() => setIsCreateModalOpen(false)}
         onSubmitSuccess={onSuccess}
+        onSubmitError={onError}
         onAdd={addWorkOrder}
         installations={installations}
         loadingInstallations={loadingInstallations}

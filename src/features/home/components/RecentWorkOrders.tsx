@@ -48,11 +48,8 @@ const RecentWorkOrders: React.FC<RecentWorkOrdersProps> = ({ workOrders }) => {
 
   return (
     <div className={styles.chartCard} role="region" aria-label={t('home.recentOrders')}>
-      <div className={styles.chartHeader}>
-        <h3 className={styles.chartTitle}>{t('home.recentOrders')}</h3>
-        <div className={styles.chartStats}>
-          <span className={styles.chartTotal}>{recentOrders.length} {t('workOrders.title')}</span>
-        </div>
+      <div className={styles.chartStats}>
+        <span className={styles.chartTotal}>{recentOrders.length} {t('workOrders.title')}</span>
       </div>
       
       <div className={styles.ordersList}>

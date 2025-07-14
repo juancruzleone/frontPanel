@@ -2,6 +2,7 @@ import { useEffect } from "react"
 import FormCategoryForm from "./FormCategoryForm"
 import styles from "../styles/Modal.module.css"
 import useFormCategories from "../hooks/useFormCategories"
+import { useTranslation } from "react-i18next"
 
 interface ModalCreateFormCategoryProps {
   isOpen: boolean
@@ -14,6 +15,7 @@ const ModalCreateFormCategory = ({
   onRequestClose,
   onSubmitSuccess,
 }: ModalCreateFormCategoryProps) => {
+  const { t } = useTranslation()
   const {
     formData,
     formErrors,
@@ -43,11 +45,12 @@ const ModalCreateFormCategory = ({
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Crear Categoría de Formularios</h2>
+          <h2 className={styles.title}>{t('forms.createFormCategory')}</h2>
           <button
             className={styles.closeButton}
             onClick={handleClose}
             disabled={isSubmitting}
+            aria-label={t('common.close')}
           >
             ×
           </button>

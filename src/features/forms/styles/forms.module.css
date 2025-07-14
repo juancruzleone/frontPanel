@@ -434,3 +434,26 @@
   background: var(--color-primary);
   color: #fff;
 }
+
+.fieldTypes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--color-text);
+  opacity: 0.8;
+  margin-top: 4px;
+}
+
+.fieldType {
+  background: var(--color-bg-light);
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.moreFields {
+  color: var(--color-primary);
+  font-weight: 500;
+}

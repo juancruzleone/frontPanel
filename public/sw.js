@@ -36,15 +36,29 @@ self.addEventListener('activate', (event) => {
 
 // Interceptar peticiones
 self.addEventListener('fetch', (event) => {
+  // Verificar que la request sea válida para cachear
+  const request = event.request;
+  const url = new URL(request.url);
+  
+  // No cachear extensiones de Chrome, data URLs, o esquemas no soportados
+  if (url.protocol === 'chrome-extension:' || 
+      url.protocol === 'chrome:' || 
+      url.protocol === 'moz-extension:' || 
+      url.protocol === 'data:' ||
+      url.protocol === 'blob:' ||
+      url.protocol === 'file:') {
+    return;
+  }
+
   event.respondWith(
-    caches.match(event.request)
+    caches.match(request)
       .then((response) => {
         // Cache hit - return response
         if (response) {
           return response;
         }
 
-        return fetch(event.request).then(
+        return fetch(request).then(
           (response) => {
             // Check if we received a valid response
             if(!response || response.status !== 200 || response.type !== 'basic') {
@@ -59,7 +73,7 @@ self.addEventListener('fetch', (event) => {
 
             caches.open(CACHE_NAME)
               .then((cache) => {
-                cache.put(event.request, responseToCache);
+                cache.put(request, responseToCache);
               });
 
             return response;

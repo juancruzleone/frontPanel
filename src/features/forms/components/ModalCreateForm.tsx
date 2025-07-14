@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import FormTemplateForm from "./formTemplateForm"
 import styles from "../styles/Modal.module.css"
 import type { FormTemplate } from "../hooks/useForms"
+import { useTranslation } from "react-i18next"
 
 interface ModalCreateFormProps {
   isOpen: boolean
@@ -20,6 +21,7 @@ const ModalCreateForm = ({
   initialData,
   categories,
 }: ModalCreateFormProps) => {
+  const { t } = useTranslation()
   const [currentTemplate, setCurrentTemplate] = useState<FormTemplate | null>(null)
 
   useEffect(() => {
@@ -41,8 +43,8 @@ const ModalCreateForm = ({
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Crear Plantilla</h2>
-          <button className={styles.closeButton} onClick={handleClose}>
+          <h2 className={styles.title}>{t('forms.createFormTemplate')}</h2>
+          <button className={styles.closeButton} onClick={handleClose} aria-label={t('common.close')}>
             ×
           </button>
         </div>

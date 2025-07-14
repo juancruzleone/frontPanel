@@ -96,25 +96,33 @@
 }
 
 .languageButton {
-  background: var(--color-themebox-bg);
-  color: var(--color-icon);
-  border: 1px solid var(--color-themebox-border);
-  padding: 6px;
-  border-radius: 6px;
+  background: none;
+  color: var(--color-text);
+  border: none;
+  padding: 0;
+  border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  width: 40px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   font-size: 11px;
   font-weight: 600;
 }
 
+@media (min-width: 768px) {
+  .languageButton {
+    font-size: 12px;
+    width: 28px;
+    height: 28px;
+  }
+}
+
 .languageButton:hover {
   background: var(--color-card-border);
-  transform: translateY(-1px);
+  transform: scale(1.1);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 

@@ -3,6 +3,7 @@ import { useState, useEffect, useMemo } from "react"
 import type { FormTemplate, FormField } from "../hooks/useForms"
 import styles from "../styles/formTemplateForm.module.css"
 import { validateFormTemplate } from "../validators/formValidations"
+import { useTranslation } from "react-i18next"
 
 interface FormTemplateFormProps {
   onCancel: () => void
@@ -23,6 +24,7 @@ const FormTemplateForm = ({
   initialData,
   categories,
 }: FormTemplateFormProps) => {
+  const { t } = useTranslation()
   const [formData, setFormData] = useState<FormTemplate>({
     nombre: "",
     categoria: "",
@@ -165,19 +167,19 @@ const FormTemplateForm = ({
     const newErrors: Record<string, string> = {}
 
     if (!field.name.trim()) {
-      newErrors.name = "El nombre del campo es obligatorio"
+      newErrors.name = t('forms.fieldNameRequired')
     } else if (!/^[a-zA-Z0-9_]+$/.test(field.name)) {
-      newErrors.name = "Solo letras, números y guiones bajos"
+      newErrors.name = t('forms.fieldNameInvalid')
     } else if (formData.campos.some((existingField) => existingField.name === field.name)) {
-      newErrors.name = "Ya existe un campo con este nombre"
+      newErrors.name = t('forms.fieldNameExists')
     }
 
     if (!field.label.trim()) {
-      newErrors.label = "La etiqueta es obligatoria"
+      newErrors.label = t('forms.fieldLabelRequired')
     }
 
     if ((field.type === "select" || field.type === "radio") && (!field.options || field.options.length === 0)) {
-      newErrors.options = "Debe agregar al menos una opción"
+      newErrors.options = t('forms.fieldOptionsRequired')
     }
 
     setFieldErrors(newErrors)
@@ -249,7 +251,7 @@ const FormTemplateForm = ({
       <div className={styles.formInner}>
         <div className={styles.basicInfoSection}>
           <div className={styles.formGroup}>
-            <label>Nombre de la plantilla *</label>
+            <label>{t('forms.templateName')} *</label>
             <input
               type="text"
               name="nombre"
@@ -258,13 +260,13 @@ const FormTemplateForm = ({
               onBlur={() => handleFieldBlur("nombre")}
               disabled={isSubmitting}
               className={showError("nombre") ? styles.errorInput : ""}
-              placeholder="Ingrese el nombre de la plantilla"
+              placeholder={t('forms.enterTemplateName')}
             />
             {showError("nombre") && <span className={styles.inputError}>{errors.nombre}</span>}
           </div>
 
           <div className={styles.formGroup}>
-            <label>Categoría *</label>
+            <label>{t('forms.category')} *</label>
             <select
               name="categoria"
               value={formData.categoria}
@@ -273,7 +275,7 @@ const FormTemplateForm = ({
               disabled={isSubmitting}
               className={showError("categoria") ? styles.errorInput : ""}
             >
-              <option value="">Seleccione una categoría</option>
+              <option value="">{t('forms.selectCategory')}</option>
               {categories.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat}
@@ -284,7 +286,7 @@ const FormTemplateForm = ({
           </div>
 
           <div className={styles.formGroup}>
-            <label>Descripción (opcional)</label>
+            <label>{t('forms.templateDescription')} ({t('common.optional')})</label>
             <textarea
               name="descripcion"
               value={formData.descripcion || ""}
@@ -292,15 +294,15 @@ const FormTemplateForm = ({
               onBlur={() => handleFieldBlur("descripcion")}
               disabled={isSubmitting}
               rows={3}
-              placeholder="Descripción opcional de la plantilla"
+              placeholder={t('forms.enterTemplateDescription')}
             />
           </div>
         </div>
 
         <div className={styles.fieldsSection}>
-          <h3 className={styles.sectionTitle}>Campos del formulario *</h3>
+          <h3 className={styles.sectionTitle}>{t('forms.formFields')} *</h3>
           {formData.campos.length === 0 && touchedFields.campos && (
-            <span className={styles.inputError}>Debe agregar al menos un campo</span>
+            <span className={styles.inputError}>{t('forms.addAtLeastOneField')}</span>
           )}
 
           <div className={styles.fieldsList}>
@@ -310,13 +312,14 @@ const FormTemplateForm = ({
                   <div className={styles.fieldInfo}>
                     <span className={styles.fieldLabel}>{field.label}</span>
                     <span className={styles.fieldType}>({field.type})</span>
-                    {field.required && <span className={styles.requiredBadge}>Requerido</span>}
+                    {field.required && <span className={styles.requiredBadge}>{t('forms.required')}</span>}
                   </div>
                   <button
                     type="button"
                     onClick={() => removeField(index)}
                     disabled={isSubmitting}
                     className={styles.removeFieldButton}
+                    aria-label={t('forms.removeField')}
                   >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                       <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -325,7 +328,7 @@ const FormTemplateForm = ({
                 </div>
                 {field.options && (
                   <div className={styles.fieldOptions}>
-                    <strong>Opciones:</strong> {field.options.join(", ")}
+                    <strong>{t('forms.options')}:</strong> {field.options.join(", ")}
                   </div>
                 )}
               </div>
@@ -333,11 +336,11 @@ const FormTemplateForm = ({
           </div>
 
           <div className={styles.addFieldForm}>
-            <h4 className={styles.addFieldTitle}>Agregar nuevo campo</h4>
+            <h4 className={styles.addFieldTitle}>{t('forms.addNewField')}</h4>
 
             <div className={styles.fieldFormRow}>
               <div className={styles.fieldFormGroup}>
-                <label>Nombre del campo *</label>
+                <label>{t('forms.fieldName')} *</label>
                 <input
                   type="text"
                   name="name"
@@ -345,17 +348,17 @@ const FormTemplateForm = ({
                   onChange={handleFieldChange}
                   disabled={isSubmitting}
                   className={fieldErrors.name ? styles.errorInput : ""}
-                  placeholder="nombre_campo"
+                  placeholder={t('forms.fieldNamePlaceholder')}
                 />
                 {fieldErrors.name && <span className={styles.inputError}>{fieldErrors.name}</span>}
               </div>
 
               <div className={styles.fieldFormGroup}>
-                <label>Tipo *</label>
+                <label>{t('forms.fieldType')} *</label>
                 <select name="type" value={newField.type} onChange={handleFieldChange} disabled={isSubmitting}>
                   {fieldTypes.map((type) => (
                     <option key={type} value={type}>
-                      {type}
+                      {t(`forms.${type}Field`)}
                     </option>
                   ))}
                 </select>
@@ -363,7 +366,7 @@ const FormTemplateForm = ({
             </div>
 
             <div className={styles.fieldFormGroup}>
-              <label>Etiqueta *</label>
+              <label>{t('forms.fieldLabel')} *</label>
               <input
                 type="text"
                 name="label"
@@ -371,7 +374,7 @@ const FormTemplateForm = ({
                 onChange={handleFieldChange}
                 disabled={isSubmitting}
                 className={fieldErrors.label ? styles.errorInput : ""}
-                placeholder="Etiqueta del campo"
+                placeholder={t('forms.fieldLabelPlaceholder')}
               />
               {fieldErrors.label && <span className={styles.inputError}>{fieldErrors.label}</span>}
             </div>
@@ -385,20 +388,20 @@ const FormTemplateForm = ({
                   onChange={handleFieldChange}
                   disabled={isSubmitting}
                 />
-                <span className={styles.checkboxText}>¿Campo requerido?</span>
+                <span className={styles.checkboxText}>{t('forms.isFieldRequired')}</span>
               </label>
             </div>
 
             {(newField.type === "select" || newField.type === "radio") && (
               <div className={styles.fieldFormGroup}>
-                <label>Opciones (una por línea) *</label>
+                <label>{t('forms.options')} ({t('forms.onePerLine')}) *</label>
                 <textarea
                   value={newField.options?.join("\n") || ""}
                   onChange={handleOptionsChange}
                   disabled={isSubmitting}
                   rows={3}
                   className={fieldErrors.options ? styles.errorInput : ""}
-                  placeholder="Opción 1&#10;Opción 2&#10;Opción 3"
+                  placeholder={t('forms.optionsPlaceholder')}
                 />
                 {fieldErrors.options && <span className={styles.inputError}>{fieldErrors.options}</span>}
               </div>
@@ -413,7 +416,7 @@ const FormTemplateForm = ({
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                 <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
               </svg>
-              Agregar Campo
+              {t('forms.addField')}
             </button>
           </div>
         </div>
@@ -421,15 +424,15 @@ const FormTemplateForm = ({
 
       <div className={styles.actions}>
         <button type="button" onClick={onCancel} disabled={isSubmitting} className={styles.cancelButton}>
-          Cancelar
+          {t('common.cancel')}
         </button>
         <button
           type="submit"
           disabled={isSubmitting || !isFormValid}
           className={styles.submitButton}
-          title={!isFormValid ? "Complete todos los campos obligatorios" : ""}
+          title={!isFormValid ? t('forms.completeRequiredFields') : ""}
         >
-          {isSubmitting ? "Guardando..." : isEditMode ? "Actualizar" : "Crear"}
+          {isSubmitting ? t('common.saving') : isEditMode ? t('common.update') : t('common.create')}
         </button>
       </div>
 

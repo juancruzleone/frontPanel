@@ -406,6 +406,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background: var(--color-themebox-bg);
+  border: 2px solid var(--color-themebox-border);
+  border-radius: 6px;
+  padding: 2px;
+  margin-bottom: 4px;
+  box-shadow: 0 2px 8px #0001;
+  width: 28px;
+  height: 28px;
+  transition: background 0.2s, border 0.2s;
+}
+
+@media (min-width: 768px) {
+  .languageBox {
+    border-radius: 8px;
+    padding: 3px;
+    margin-bottom: 6px;
+    width: 32px;
+    height: 32px;
+  }
 }
 
 .themeButton {

@@ -695,4 +695,27 @@
   outline-offset: 2px;
 }
 
+.workOrderInfoRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  font-size: 14px;
+  color: var(--color-text);
+  opacity: 0.8;
+  margin-top: 8px;
+}
+
+.workOrderInfoRow span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.workOrderInfoRow strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
 

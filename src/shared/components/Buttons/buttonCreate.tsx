@@ -17,7 +17,7 @@ const ButtonCreate: React.FC<ButtonCreateProps> = ({ onClick, children, classNam
       onClick={onClick}
     >
       <Plus size={16} />
-      {title || text || children || "Crear"}
+      {children || title || text || "Crear"}
     </button>
   )
 }

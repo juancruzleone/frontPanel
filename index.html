@@ -27,7 +27,7 @@
         // Aplicar el tema inmediatamente
         if (isDark) {
           document.documentElement.classList.add("dark");
-          document.body.classList.add("dark");
+          if (document.body) document.body.classList.add("dark");
           
           // Aplicar variables CSS para modo oscuro inmediatamente
           document.documentElement.style.setProperty('--color-bg', '#121212');
@@ -52,7 +52,7 @@
           document.documentElement.style.setProperty('--color-nav-logout-hover', '#d40012');
         } else {
           document.documentElement.classList.remove("dark");
-          document.body.classList.remove("dark");
+          if (document.body) document.body.classList.remove("dark");
           
           // Aplicar variables CSS para modo claro inmediatamente
           document.documentElement.style.setProperty('--color-bg', '#D1D1D1');

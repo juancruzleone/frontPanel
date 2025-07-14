@@ -37,6 +37,158 @@ const Installations = () => {
     addDeviceToInstallation,
   } = useInstallations()
 
+  // Función para traducir el tipo de instalación
+  const translateInstallationType = (type: string) => {
+    if (!type) return ''
+    
+    // Mapeo sin duplicados
+    const typeMapping: { [key: string]: string } = {
+      // Español
+      'Oficina': 'office',
+      'Fábrica': 'factory',
+      'Almacén': 'warehouse',
+      'Tienda': 'store',
+      'Hospital': 'hospital',
+      'Escuela': 'school',
+      'Residencial': 'residential',
+      'Comercial': 'commercial',
+      'Industrial': 'industrial',
+      'Médico': 'medical',
+      'Educativo': 'educational',
+      'Minorista': 'retail',
+      'Logística': 'logistics',
+      'Manufactura': 'manufacturing',
+      'Servicio': 'service',
+      'Otro': 'other',
+      // Inglés
+      'Office': 'office',
+      'Factory': 'factory',
+      'Warehouse': 'warehouse',
+      'Store': 'store',
+      'School': 'school',
+      'Residential': 'residential',
+      'Commercial': 'commercial',
+      'Medical': 'medical',
+      'Educational': 'educational',
+      'Logistics': 'logistics',
+      'Manufacturing': 'manufacturing',
+      'Other': 'other',
+      // Francés
+      'Bureau': 'office',
+      'Usine': 'factory',
+      'Entrepôt': 'warehouse',
+      'Magasin': 'store',
+      'Hôpital': 'hospital',
+      'École': 'school',
+      'Résidentiel': 'residential',
+      'Industriel': 'industrial',
+      'Médical': 'medical',
+      'Éducatif': 'educational',
+      'Détaillant': 'retail',
+      'Logistique': 'logistics',
+      'Fabrication': 'manufacturing',
+      'Autre': 'other',
+      // Alemán
+      'Büro': 'office',
+      'Fabrik': 'factory',
+      'Lager': 'warehouse',
+      'Geschäft': 'store',
+      'Krankenhaus': 'hospital',
+      'Schule': 'school',
+      'Wohn': 'residential',
+      'Gewerblich': 'commercial',
+      'Industriell': 'industrial',
+      'Medizinisch': 'medical',
+      'Bildung': 'educational',
+      'Einzelhandel': 'retail',
+      'Logistik': 'logistics',
+      'Fertigung': 'manufacturing',
+      'Dienstleistung': 'service',
+      'Andere': 'other',
+      // Italiano
+      'Ufficio': 'office',
+      'Fabbrica': 'factory',
+      'Magazzino': 'warehouse',
+      'Negozio': 'store',
+      'Ospedale': 'hospital',
+      'Scuola': 'school',
+      'Residenziale': 'residential',
+      'Industriale': 'industrial',
+      'Medico': 'medical',
+      'Educativo': 'educational',
+      'Dettagliante': 'retail',
+      'Logistica': 'logistics',
+      'Produzione': 'manufacturing',
+      'Servizio': 'service',
+      'Altro': 'other',
+      // Portugués
+      'Escritório': 'office',
+      'Fábrica': 'factory',
+      'Armazém': 'warehouse',
+      'Loja': 'store',
+      'Escola': 'school',
+      'Residencial': 'residential',
+      'Industrial': 'industrial',
+      'Médico': 'medical',
+      'Educacional': 'educational',
+      'Varejista': 'retail',
+      'Logística': 'logistics',
+      'Manufatura': 'manufacturing',
+      'Serviço': 'service',
+      'Outro': 'other'
+    }
+    
+    // Buscar en el mapeo primero
+    const mappedType = typeMapping[type]
+    if (mappedType) {
+      return t(`installations.installationTypes.${mappedType}`)
+    }
+    
+    // Si no está en el mapeo, intentar normalizar
+    const normalizedType = type.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '')
+    const translation = t(`installations.installationTypes.${normalizedType}`, type)
+    return translation === type ? type : translation
+  }
+
+  // Función para traducir elementos de dirección
+  const translateAddressElement = (element: string, type: string) => {
+    if (!element) return ''
+    
+    // Normalizar el elemento para buscar en las traducciones
+    const normalizedElement = element.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '')
+    
+    // Intentar traducir, si no existe la traducción, devolver el original
+    const translation = t(`installations.addressTypes.${normalizedElement}`, element)
+    return translation === element ? element : translation
+  }
+
+  // Función para traducir la dirección completa
+  const translateAddress = (province: string, city: string, address: string, floorSector: string) => {
+    const parts = []
+    
+    if (province) {
+      const translatedProvince = translateAddressElement(province, 'province')
+      parts.push(translatedProvince)
+    }
+    
+    if (city) {
+      const translatedCity = translateAddressElement(city, 'city')
+      parts.push(translatedCity)
+    }
+    
+    if (address) {
+      const translatedAddress = translateAddressElement(address, 'address')
+      parts.push(translatedAddress)
+    }
+    
+    if (floorSector) {
+      const translatedFloorSector = translateAddressElement(floorSector, 'floorSector')
+      parts.push(translatedFloorSector)
+    }
+    
+    return parts.join(' | ')
+  }
+
   const { categories, addCategory, loadCategories } = useCategories()
   const { installationTypes, addInstallationType, loadInstallationTypes } = useInstallationTypes()
   const navigate = useNavigate()
@@ -253,9 +405,9 @@ const Installations = () => {
                 <div key={inst._id} className={styles.installationCard}>
                   <div className={styles.installationInfo}>
                     <h3 className={styles.installationTitle}>{inst.company}</h3>
-                    <p className={styles.installationType}>{inst.installationType}</p>
+                    <p className={styles.installationType}>{translateInstallationType(inst.installationType)}</p>
                     <address className={styles.installationAddress}>
-                      {inst.province} | {inst.city} | {inst.address} | {inst.floorSector}
+                      {translateAddress(inst.province, inst.city, inst.address, inst.floorSector)}
                     </address>
                   </div>
 

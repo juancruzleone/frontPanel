@@ -12,6 +12,7 @@ import { CalendarIcon, Clock, MapPin, User, AlertCircle, FilterX } from "lucide-
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import i18n from "../i18n"
+import { translateWorkOrderStatus, translatePriority, translateWorkType } from "../shared/utils/backendTranslations"
 
 const Calendar = () => {
   const { t } = useTranslation()
@@ -332,39 +333,28 @@ const Calendar = () => {
                           className={styles.priorityBadge}
                           style={{ backgroundColor: getPriorityColor(order.prioridad) }}
                         >
-                          {order.prioridad.toUpperCase()}
+                          {translatePriority(order.prioridad)}
                         </span>
                         <span className={styles.statusBadge} style={{ backgroundColor: getStatusColor(order.estado) }}>
-                          {order.estado.replace("_", " ").toUpperCase()}
+                          {translateWorkOrderStatus(order.estado)}
                         </span>
                       </div>
                     </div>
 
-                    <p className={styles.workOrderDescription}>{order.descripcion}</p>
-
                     <div className={styles.workOrderDetails}>
-                      <div className={styles.detailItem}>
-                        <Clock size={16} />
-                        <span>{order.horaProgramada}</span>
-                      </div>
-
-                      <div className={styles.detailItem}>
-                        <MapPin size={16} />
+                      <p className={styles.workOrderDescription}>{order.descripcion}</p>
+                      <div className={styles.workOrderInfoRow}>
                         <span>
-                          {order.instalacion?.company} - {order.instalacion?.address}
+                          <strong>{t('calendar.type')}:</strong> {translateWorkType(order.tipoTrabajo)}
                         </span>
-                      </div>
-
-                      {order.tecnico && (
-                        <div className={styles.detailItem}>
-                          <User size={16} />
-                          <span>{(order.tecnico as any).userName}</span>
-                        </div>
-                      )}
-
-                      <div className={styles.detailItem}>
-                        <AlertCircle size={16} />
-                        <span>{order.tipoTrabajo}</span>
+                        <span>
+                          <strong>{t('calendar.time')}:</strong> {order.horaProgramada}
+                        </span>
+                        {order.instalacion && (
+                          <span>
+                            <strong>{t('calendar.installation')}:</strong> {order.instalacion.company}
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>

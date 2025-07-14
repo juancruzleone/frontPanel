@@ -47,7 +47,7 @@ const StatsCards: React.FC<StatsCardsProps> = ({ kpis }) => {
                 {kpi.value.toLocaleString()}
               </div>
               <div className={styles.statsLabel}>
-                {kpi.label}
+                {t(kpi.label)}
               </div>
             </div>
           </div>

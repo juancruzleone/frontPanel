@@ -12,6 +12,7 @@ import ModalAssignTemplate from "../features/assets/components/ModalAssignTempla
 import { Edit, Trash, List, FileText } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
+import { translateDeviceStatus } from "../shared/utils/backendTranslations"
 
 const Assets = () => {
   const { t } = useTranslation()
@@ -196,18 +197,20 @@ const Assets = () => {
                   <div key={asset._id} className={styles.assetCard}>
                     <div className={styles.assetInfo}>
                       <h3 className={styles.assetTitle}>{asset.nombre}</h3>
-                      <p className={styles.assetDetails}>
-                        {asset.marca} | {asset.modelo} | {asset.numeroSerie}
-                      </p>
-                      <div className={styles.assetMeta}>
+                      <div className={styles.assetDetails}>
+                        <p>
+                          <strong>{t('assets.brand')}:</strong> {asset.marca}
+                        </p>
+                        <p>
+                          <strong>{t('assets.model')}:</strong> {asset.modelo}
+                        </p>
+                        <p>
+                          <strong>{t('assets.serialNumber')}:</strong> {asset.numeroSerie}
+                        </p>
                         {template && (
-                          <>
-                            <span className={styles.assetCategory}>{template.categoria}</span>
-                            <span className={styles.assetTemplate}>
-                              <FileText size={14} />
-                              {template.nombre}
-                            </span>
-                          </>
+                          <p>
+                            <strong>{t('assets.template')}:</strong> {template.nombre}
+                          </p>
                         )}
                       </div>
                     </div>
@@ -218,20 +221,31 @@ const Assets = () => {
                       <div className={styles.actionButtons}>
                         <button
                           className={styles.iconButton}
-                          onClick={() => handleOpenAssignTemplate(asset)}
-                          aria-label={t('assets.changeTemplate')}
-                          data-tooltip={t('assets.changeTemplate')}
-                        >
-                          <List size={24} />
-                        </button>
-                        <button
-                          className={styles.iconButton}
                           onClick={() => handleOpenEdit(asset)}
                           aria-label={t('assets.editAsset')}
                           data-tooltip={t('assets.editAsset')}
                         >
-                          <Edit size={24} />
+                          <Edit size={20} />
                         </button>
+
+                        <button
+                          className={styles.iconButton}
+                          onClick={() => handleOpenAssignTemplate(asset)}
+                          aria-label={t('assets.assignTemplate')}
+                          data-tooltip={t('assets.assignTemplate')}
+                        >
+                          <List size={20} />
+                        </button>
+
+                        <button
+                          className={styles.iconButton}
+                          onClick={() => handleViewDetails(asset)}
+                          aria-label={t('assets.viewDetails')}
+                          data-tooltip={t('assets.viewDetails')}
+                        >
+                          <FileText size={20} />
+                        </button>
+
                         <button
                           className={styles.iconButton}
                           onClick={() => {
@@ -241,12 +255,8 @@ const Assets = () => {
                           aria-label={t('assets.deleteAsset')}
                           data-tooltip={t('assets.deleteAsset')}
                         >
-                          <Trash size={24} />
+                          <Trash size={20} />
                         </button>
-                      </div>
-
-                      <div className={styles.viewDetailsButton}>
-                        <button onClick={() => handleViewDetails(asset)}>{t('assets.viewCompleteDetails')}</button>
                       </div>
                     </div>
                   </div>
@@ -255,13 +265,13 @@ const Assets = () => {
 
               <div className={styles.pagination}>
                 <button onClick={() => handleChangePage(currentPage - 1)} disabled={currentPage === 1}>
-                  &lt;
+                  {"<"}
                 </button>
                 <span>
                   {t('assets.page')} {currentPage} {t('assets.of')} {totalPages}
                 </span>
                 <button onClick={() => handleChangePage(currentPage + 1)} disabled={currentPage === totalPages}>
-                  &gt;
+                  {">"}
                 </button>
               </div>
             </>
@@ -273,6 +283,10 @@ const Assets = () => {
         isOpen={isCreateModalOpen}
         onRequestClose={() => setIsCreateModalOpen(false)}
         onSubmitSuccess={handleSuccessCreateOrEdit}
+        onSubmitError={(message) => {
+          setResponseMessage(message)
+          setIsError(true)
+        }}
         onAdd={addAsset}
       />
 
@@ -300,16 +314,16 @@ const Assets = () => {
         description={t('assets.confirmDeleteAssetDescription')}
       />
 
-      <ModalSuccess 
-        isOpen={!!responseMessage && !isError} 
-        onRequestClose={closeModal} 
-        mensaje={responseMessage} 
+      <ModalSuccess
+        isOpen={!!responseMessage && !isError}
+        onRequestClose={closeModal}
+        mensaje={responseMessage}
       />
 
-      <ModalError 
-        isOpen={!!responseMessage && isError} 
-        onRequestClose={closeModal} 
-        mensaje={responseMessage} 
+      <ModalError
+        isOpen={!!responseMessage && isError}
+        onRequestClose={closeModal}
+        mensaje={responseMessage}
       />
     </>
   )

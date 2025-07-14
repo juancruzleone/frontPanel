@@ -3,14 +3,9 @@ import { Home, Package, ClipboardList, User } from "lucide-react"
 import { fetchInstallations, fetchAssets } from "../../installations/services/installationServices"
 import { fetchWorkOrders } from "../../workOrders/services/workOrderServices"
 import { fetchTechnicians } from "../../workOrders/services/technicianServices"
+import { useTranslation } from "react-i18next"
 
-const estadoLabels: Record<string, string> = {
-  pendiente: "Pendiente",
-  asignada: "Asignada",
-  en_progreso: "En progreso",
-  completada: "Completada",
-  cancelada: "Cancelada",
-}
+// Los labels de estado se manejarán dinámicamente con traducciones
 
 const estadoColors: Record<string, string> = {
   pendiente: "#fbc02d",
@@ -23,6 +18,7 @@ const estadoColors: Record<string, string> = {
 const tipoColors = ["#1976d2", "#057E74", "#fbc02d", "#e53935", "#388e3c"]
 
 const useHomeDashboard = () => {
+  const { t, i18n } = useTranslation()
   const [kpis, setKpis] = useState<any[]>([])
   const [barChartData, setBarChartData] = useState<any[]>([])
   const [pieChartData, setPieChartData] = useState<any[]>([])
@@ -59,25 +55,25 @@ const useHomeDashboard = () => {
         // KPIs sin tendencias
         const kpisData = [
           { 
-            label: "Instalaciones", 
+            label: 'installations.title',
             value: installationsData.length, 
             icon: Home, 
             color: "#1976d2"
           },
           { 
-            label: "Activos", 
+            label: 'assets.title',
             value: assetsData.length, 
             icon: Package, 
             color: "#057E74"
           },
           { 
-            label: "Órdenes de trabajo", 
+            label: 'workOrders.title',
             value: workOrdersData.length, 
             icon: ClipboardList, 
             color: "#fbc02d"
           },
           { 
-            label: "Personal", 
+            label: 'personal.title',
             value: techniciansData.length, 
             icon: User, 
             color: "#e53935"
@@ -87,17 +83,31 @@ const useHomeDashboard = () => {
         
         // Bar chart: órdenes por tipoTrabajo
         const tipos = Array.from(new Set(workOrdersData.map((o: any) => o.tipoTrabajo || "Otro")))
-        const barData = tipos.map((tipo, idx) => ({
-          name: tipo,
-          value: workOrdersData.filter((o: any) => o.tipoTrabajo === tipo).length,
-          color: tipoColors[idx % tipoColors.length],
-        }))
+        const barData = tipos.map((tipo, idx) => {
+          // Mapear tipos de trabajo a claves de traducción
+          const tipoKey = tipo.toLowerCase()
+          let tipoClave = 'other'
+          if (tipoKey === 'mantenimiento') {
+            tipoClave = 'maintenance'
+          } else if (tipoKey === 'reparación' || tipoKey === 'reparacion') {
+            tipoClave = 'repair'
+          } else if (tipoKey === 'instalación' || tipoKey === 'instalacion') {
+            tipoClave = 'installation'
+          } else if (tipoKey === 'inspección' || tipoKey === 'inspeccion') {
+            tipoClave = 'inspection'
+          }
+          return {
+            name: tipoClave,
+            value: workOrdersData.filter((o: any) => o.tipoTrabajo === tipo).length,
+            color: tipoColors[idx % tipoColors.length],
+          }
+        })
         setBarChartData(barData)
         
         // Pie chart: órdenes por estado
         const estados = ["pendiente", "asignada", "en_progreso", "completada", "cancelada"]
         const pieData = estados.map((estado, idx) => ({
-          name: estadoLabels[estado],
+          name: estado, // Guardar la clave, no el texto traducido
           value: workOrdersData.filter((o: any) => o.estado === estado).length,
           color: estadoColors[estado],
         }))
@@ -127,7 +137,7 @@ const useHomeDashboard = () => {
       }
     }
     load()
-  }, [])
+  }, [i18n.language])
 
   return { kpis, barChartData, pieChartData, lineChartData, recentWorkOrders, loading, error }
 }

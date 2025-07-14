@@ -3,6 +3,7 @@ import WorkOrderForm from "./WorkOrderForm";
 import styles from "../styles/Modal.module.css";
 import useWorkOrders from "../hooks/useWorkOrders";
 import { WorkOrder } from "../hooks/useWorkOrders";
+import { useTranslation } from "react-i18next";
 
 interface ModalCreateProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ const ModalCreate = ({
   loadingInstallations,
   errorLoadingInstallations,
 }: ModalCreateProps) => {
+  const { t } = useTranslation();
   const {
     formData,
     formErrors,
@@ -53,7 +55,7 @@ const ModalCreate = ({
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Crear Orden de Trabajo</h2>
+          <h2 className={styles.title}>{t('workOrders.form.createWorkOrder')}</h2>
           <button 
             className={styles.closeButton}
             onClick={handleClose}

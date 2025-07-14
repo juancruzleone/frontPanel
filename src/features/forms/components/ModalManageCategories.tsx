@@ -3,6 +3,7 @@ import { Edit, Trash, Plus } from "lucide-react"
 import styles from "../styles/Modal.module.css"
 import useFormCategories from "../hooks/useFormCategories"
 import type { FormCategory } from "../hooks/useFormCategories"
+import { useTranslation } from "react-i18next"
 
 interface ModalManageCategoriesProps {
   isOpen: boolean
@@ -15,6 +16,7 @@ const ModalManageCategories = ({
   onRequestClose,
   onCategoryCreated,
 }: ModalManageCategoriesProps) => {
+  const { t } = useTranslation()
   const {
     categories,
     loading,
@@ -57,7 +59,7 @@ const ModalManageCategories = ({
       await updateCategory(editingCategory._id, editFormData)
       await loadCategories()
       handleCancelEdit()
-      onCategoryCreated("Categoría actualizada con éxito")
+      onCategoryCreated(t('forms.categoryUpdated'))
     } catch (err: any) {
       console.error("Error al actualizar categoría:", err)
     }
@@ -66,14 +68,14 @@ const ModalManageCategories = ({
   const handleDelete = async (category: FormCategory) => {
     if (!category._id) return
 
-    if (window.confirm(`¿Estás seguro de que quieres eliminar la categoría "${category.nombre}"?`)) {
+    if (window.confirm(t('forms.confirmDeleteCategory', { name: category.nombre }))) {
       try {
         await removeCategory(category._id)
         await loadCategories()
-        onCategoryCreated("Categoría eliminada con éxito")
+        onCategoryCreated(t('forms.categoryDeleted'))
       } catch (err: any) {
         console.error("Error al eliminar categoría:", err)
-        alert("Error al eliminar categoría: " + err.message)
+        alert(t('forms.errorDeletingCategory') + ": " + err.message)
       }
     }
   }
@@ -89,8 +91,8 @@ const ModalManageCategories = ({
     <div className={styles.backdrop}>
       <div className={styles.modal} style={{ maxWidth: "800px", width: "90%" }}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Gestionar Categorías de Formularios</h2>
-          <button className={styles.closeButton} onClick={handleClose}>
+          <h2 className={styles.title}>{t('forms.manageFormCategories')}</h2>
+          <button className={styles.closeButton} onClick={handleClose} aria-label={t('common.close')}>
             ×
           </button>
         </div>
@@ -98,17 +100,17 @@ const ModalManageCategories = ({
           {loading ? (
             <div style={{ textAlign: "center", padding: "2rem", color: "var(--color-text)" }}>
               <div className={styles.spinner}></div>
-              <p>Cargando categorías...</p>
+              <p>{t('forms.loadingCategories')}</p>
             </div>
           ) : error ? (
             <div style={{ color: "#dc3545", textAlign: "center", padding: "1rem" }}>
-              Error: {error}
+              {t('common.error')}: {error}
             </div>
           ) : (
             <div>
               {categories.length === 0 ? (
                 <p style={{ textAlign: "center", padding: "2rem", color: "var(--color-text-secondary)" }}>
-                  No hay categorías creadas
+                  {t('forms.noCategoriesCreated')}
                 </p>
               ) : (
                 <div style={{ maxHeight: "400px", overflowY: "auto" }}>
@@ -132,7 +134,7 @@ const ModalManageCategories = ({
                               fontWeight: "bold",
                               color: "var(--color-text)"
                             }}>
-                              Nombre:
+                              {t('forms.name')}:
                             </label>
                             <input
                               type="text"
@@ -155,7 +157,7 @@ const ModalManageCategories = ({
                               fontWeight: "bold",
                               color: "var(--color-text)"
                             }}>
-                              Descripción:
+                              {t('forms.description')}:
                             </label>
                             <textarea
                               value={editFormData.descripcion || ""}
@@ -187,7 +189,7 @@ const ModalManageCategories = ({
                                   accentColor: "var(--color-primary)",
                                 }}
                               />
-                              <span>Activa</span>
+                              <span>{t('forms.active')}</span>
                             </label>
                           </div>
                           <div style={{ display: "flex", gap: "0.5rem" }}>
@@ -200,123 +202,80 @@ const ModalManageCategories = ({
                                 border: "none",
                                 borderRadius: "4px",
                                 cursor: "pointer",
-                                fontWeight: "500",
-                                transition: "all 0.2s ease",
-                              }}
-                              onMouseEnter={(e) => {
-                                e.currentTarget.style.backgroundColor = "var(--color-primary-hover)"
-                              }}
-                              onMouseLeave={(e) => {
-                                e.currentTarget.style.backgroundColor = "var(--color-primary)"
+                                fontSize: "0.9rem",
                               }}
                             >
-                              Guardar
+                              {t('common.save')}
                             </button>
                             <button
                               onClick={handleCancelEdit}
                               style={{
                                 padding: "0.5rem 1rem",
-                                backgroundColor: "var(--color-secondary)",
-                                color: "white",
-                                border: "none",
+                                backgroundColor: "transparent",
+                                color: "var(--color-text)",
+                                border: "1px solid var(--color-card-border)",
                                 borderRadius: "4px",
                                 cursor: "pointer",
-                                fontWeight: "500",
-                                transition: "all 0.2s ease",
-                              }}
-                              onMouseEnter={(e) => {
-                                e.currentTarget.style.backgroundColor = "var(--color-secondary-hover)"
-                              }}
-                              onMouseLeave={(e) => {
-                                e.currentTarget.style.backgroundColor = "var(--color-secondary)"
+                                fontSize: "0.9rem",
                               }}
                             >
-                              Cancelar
+                              {t('common.cancel')}
                             </button>
                           </div>
                         </div>
                       ) : (
                         <div>
-                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                            <div style={{ flex: 1 }}>
-                              <h3 style={{ 
-                                margin: "0 0 0.5rem 0", 
-                                color: "var(--color-text)",
-                                fontSize: "1.1rem",
-                                fontWeight: "600"
-                              }}>
-                                {category.nombre}
-                                {!category.activa && (
-                                  <span
-                                    style={{
-                                      marginLeft: "0.5rem",
-                                      padding: "0.25rem 0.5rem",
-                                      backgroundColor: "#ffc107",
-                                      color: "#856404",
-                                      borderRadius: "4px",
-                                      fontSize: "0.75rem",
-                                      fontWeight: "500",
-                                    }}
-                                  >
-                                    Inactiva
-                                  </span>
-                                )}
-                              </h3>
-                              {category.descripcion && (
-                                <p style={{ 
-                                  margin: "0 0 1rem 0", 
-                                  color: "var(--color-text-secondary)", 
-                                  fontSize: "0.9rem",
-                                  lineHeight: "1.4"
-                                }}>
-                                  {category.descripcion}
-                                </p>
-                              )}
-                            </div>
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.5rem" }}>
+                            <h3 style={{ margin: 0, color: "var(--color-text)", fontSize: "1.1rem" }}>
+                              {category.nombre}
+                            </h3>
                             <div style={{ display: "flex", gap: "0.5rem" }}>
                               <button
                                 onClick={() => handleEdit(category)}
                                 style={{
-                                  padding: "0.5rem",
-                                  backgroundColor: "#28a745",
-                                  color: "white",
+                                  padding: "0.25rem",
+                                  backgroundColor: "transparent",
                                   border: "none",
-                                  borderRadius: "4px",
                                   cursor: "pointer",
-                                  transition: "all 0.2s ease",
+                                  color: "var(--color-text)",
                                 }}
-                                title="Editar categoría"
-                                onMouseEnter={(e) => {
-                                  e.currentTarget.style.backgroundColor = "#218838"
-                                }}
-                                onMouseLeave={(e) => {
-                                  e.currentTarget.style.backgroundColor = "#28a745"
-                                }}
+                                aria-label={t('common.edit')}
                               >
                                 <Edit size={16} />
                               </button>
                               <button
                                 onClick={() => handleDelete(category)}
                                 style={{
-                                  padding: "0.5rem",
-                                  backgroundColor: "#dc3545",
-                                  color: "white",
+                                  padding: "0.25rem",
+                                  backgroundColor: "transparent",
                                   border: "none",
-                                  borderRadius: "4px",
                                   cursor: "pointer",
-                                  transition: "all 0.2s ease",
+                                  color: "#dc3545",
                                 }}
-                                title="Eliminar categoría"
-                                onMouseEnter={(e) => {
-                                  e.currentTarget.style.backgroundColor = "#c82333"
-                                }}
-                                onMouseLeave={(e) => {
-                                  e.currentTarget.style.backgroundColor = "#dc3545"
-                                }}
+                                aria-label={t('common.delete')}
                               >
                                 <Trash size={16} />
                               </button>
                             </div>
+                          </div>
+                          {category.descripcion && (
+                            <p style={{ 
+                              margin: "0.5rem 0", 
+                              color: "var(--color-text-secondary)",
+                              fontSize: "0.9rem"
+                            }}>
+                              {category.descripcion}
+                            </p>
+                          )}
+                          <div style={{ 
+                            display: "inline-block", 
+                            padding: "0.25rem 0.5rem", 
+                            borderRadius: "4px", 
+                            fontSize: "0.8rem",
+                            backgroundColor: category.activa ? "#d4edda" : "#f8d7da",
+                            color: category.activa ? "#155724" : "#721c24"
+                          }}>
+                            {category.activa ? t('forms.active') : t('forms.inactive')}
                           </div>
                         </div>
                       )}

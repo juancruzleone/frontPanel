@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { FormCategory } from "../hooks/useFormCategories"
 import styles from "../styles/formTemplateForm.module.css"
+import { useTranslation } from "react-i18next"
 
 interface FormCategoryFormProps {
   onCancel: () => void
@@ -27,6 +28,7 @@ const FormCategoryForm = ({
   handleSubmitForm,
   isSubmitting,
 }: FormCategoryFormProps) => {
+  const { t } = useTranslation()
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
 
   const handleFieldBlur = (fieldName: string) => {
@@ -44,7 +46,7 @@ const FormCategoryForm = ({
     >
       <div className={styles.formInner}>
         <div className={styles.formGroup}>
-          <label>Nombre *</label>
+          <label>{t('forms.name')} *</label>
           <input
             type="text"
             name="nombre"
@@ -53,7 +55,7 @@ const FormCategoryForm = ({
             onBlur={() => handleFieldBlur("nombre")}
             disabled={isSubmitting}
             className={showError("nombre") ? styles.errorInput : ""}
-            placeholder="Ingrese el nombre de la categoría"
+            placeholder={t('forms.enterCategoryName')}
           />
           {showError("nombre") && (
             <p className={styles.inputError}>{formErrors["nombre"]}</p>
@@ -61,7 +63,7 @@ const FormCategoryForm = ({
         </div>
 
         <div className={styles.formGroup}>
-          <label>Descripción</label>
+          <label>{t('forms.description')}</label>
           <textarea
             name="descripcion"
             value={formData.descripcion || ""}
@@ -70,7 +72,7 @@ const FormCategoryForm = ({
             disabled={isSubmitting}
             className={showError("descripcion") ? styles.errorInput : ""}
             rows={3}
-            placeholder="Ingrese una descripción opcional"
+            placeholder={t('forms.enterOptionalDescription')}
           />
           {showError("descripcion") && (
             <p className={styles.inputError}>{formErrors["descripcion"]}</p>
@@ -88,7 +90,7 @@ const FormCategoryForm = ({
               className={styles.checkboxInput}
             />
             <span className={styles.checkboxCustom}></span>
-            Activa
+            {t('forms.active')}
           </label>
         </div>
 
@@ -99,14 +101,14 @@ const FormCategoryForm = ({
             disabled={isSubmitting}
             className={styles.cancelButton}
           >
-            Cancelar
+            {t('common.cancel')}
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
             className={styles.submitButton}
           >
-            {isSubmitting ? "Guardando..." : "Crear"}
+            {isSubmitting ? t('common.saving') : t('forms.create')}
           </button>
         </div>
       </div>

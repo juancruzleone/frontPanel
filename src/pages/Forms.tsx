@@ -14,6 +14,7 @@ import { Edit, Trash } from "lucide-react"
 import type { FormTemplate } from "../features/forms/hooks/useForms"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
+import { translateFormFieldType } from "../shared/utils/backendTranslations"
 
 const Forms = () => {
   const { t } = useTranslation()
@@ -194,6 +195,20 @@ const Forms = () => {
                     {template.descripcion && <p className={styles.templateDescription}>{template.descripcion}</p>}
                     <div className={styles.templateStats}>
                       <span>{template.campos.length} {t('forms.fields')}</span>
+                      {template.campos.length > 0 && (
+                        <div className={styles.fieldTypes}>
+                          <span>{t('forms.fieldTypes')}: </span>
+                          {template.campos.slice(0, 3).map((campo, index) => (
+                            <span key={index} className={styles.fieldType}>
+                              {translateFormFieldType(campo.type)}
+                              {index < Math.min(template.campos.length, 3) - 1 && ", "}
+                            </span>
+                          ))}
+                          {template.campos.length > 3 && (
+                            <span className={styles.moreFields}> +{template.campos.length - 3} {t('forms.more')}</span>
+                          )}
+                        </div>
+                      )}
                     </div>
 
                     <div className={styles.cardSeparator}></div>
@@ -243,6 +258,10 @@ const Forms = () => {
         isOpen={isCreateModalOpen}
         onRequestClose={() => setIsCreateModalOpen(false)}
         onSubmitSuccess={handleCreateSuccess}
+        onSubmitError={(message: string) => {
+          setResponseMessage(message)
+          setIsError(true)
+        }}
         initialData={currentTemplate}
         categories={categories}
       />

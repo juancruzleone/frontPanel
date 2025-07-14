@@ -2,6 +2,7 @@ import type React from "react"
 import { useState, useMemo } from "react"
 import type { WorkOrder } from "../hooks/useWorkOrders"
 import styles from "../styles/workOrderForm.module.css"
+import { useTranslation } from "react-i18next"
 
 interface WorkOrderFormProps {
   onCancel: () => void
@@ -46,21 +47,22 @@ const WorkOrderForm = ({
   loadingInstallations = false,
   errorLoadingInstallations = null,
 }: WorkOrderFormProps) => {
+  const { t } = useTranslation()
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
 
   const workTypes = [
-    { value: "mantenimiento", label: "Mantenimiento" },
-    { value: "reparacion", label: "Reparación" },
-    { value: "instalacion", label: "Instalación" },
-    { value: "inspeccion", label: "Inspección" },
-    { value: "otro", label: "Otro" },
+    { value: "mantenimiento", label: t('workOrders.form.maintenance') },
+    { value: "reparacion", label: t('workOrders.form.repair') },
+    { value: "instalacion", label: t('workOrders.form.installation') },
+    { value: "inspeccion", label: t('workOrders.form.inspection') },
+    { value: "otro", label: t('workOrders.form.other') },
   ]
 
   const priorities = [
-    { value: "baja", label: "Baja" },
-    { value: "media", label: "Media" },
-    { value: "alta", label: "Alta" },
-    { value: "critica", label: "Crítica" },
+    { value: "baja", label: t('workOrders.form.low') },
+    { value: "media", label: t('workOrders.form.medium') },
+    { value: "alta", label: t('workOrders.form.high') },
+    { value: "critica", label: t('workOrders.form.critical') },
   ]
 
   const handleFieldBlur = (fieldName: string) => {
@@ -131,7 +133,7 @@ const WorkOrderForm = ({
     >
       <div className={styles.formInner}>
         <div className={styles.formGroup}>
-          <label className="formLabel">Título *</label>
+          <label className="formLabel">{t('workOrders.form.title')} *</label>
           <input
             type="text"
             name="titulo"
@@ -140,13 +142,13 @@ const WorkOrderForm = ({
             onBlur={() => handleFieldBlur("titulo")}
             disabled={isFieldDisabled("titulo")}
             className={showError("titulo") ? styles.errorInput : "formInput"}
-            placeholder="Ingrese el título de la orden de trabajo"
+            placeholder={t('workOrders.form.titlePlaceholder')}
           />
           {showError("titulo") && <p className={styles.inputError}>{formErrors["titulo"]}</p>}
         </div>
 
         <div className={styles.formGroup}>
-          <label className="formLabel">Descripción *</label>
+          <label className="formLabel">{t('workOrders.form.description')} *</label>
           <textarea
             name="descripcion"
             value={formData.descripcion || ""}
@@ -155,15 +157,15 @@ const WorkOrderForm = ({
             disabled={isFieldDisabled("descripcion")}
             className={showError("descripcion") ? styles.errorInput : "formInput"}
             rows={4}
-            placeholder="Describa el trabajo a realizar"
+            placeholder={t('workOrders.form.descriptionPlaceholder')}
           />
           {showError("descripcion") && <p className={styles.inputError}>{formErrors["descripcion"]}</p>}
         </div>
 
         <div className={styles.formGroup}>
-          <label className="formLabel">Instalación *</label>
+          <label className="formLabel">{t('workOrders.form.installation')} *</label>
           {loadingInstallations ? (
-            <p>Cargando instalaciones...</p>
+            <p>{t('workOrders.form.loadingInstallations')}</p>
           ) : errorLoadingInstallations ? (
             <p className={styles.inputError}>{errorLoadingInstallations}</p>
           ) : (
@@ -176,7 +178,7 @@ const WorkOrderForm = ({
                 disabled={isFieldDisabled("instalacionId")}
                 className={showError("instalacionId") ? styles.errorInput : "formInput"}
               >
-                <option value="">Seleccione una instalación</option>
+                <option value="">{t('workOrders.form.selectInstallation')}</option>
                 {installations.map((inst) => (
                   <option key={inst._id} value={inst._id}>
                     {inst.company} - {inst.address} {inst.city ? `(${inst.city})` : ""}
@@ -186,9 +188,9 @@ const WorkOrderForm = ({
 
               {selectedInstallation && (
                 <div className={styles.selectedInstallationDetail}>
-                  <strong>Instalación seleccionada:</strong> {selectedInstallation.company}
+                  <strong>{t('workOrders.form.selectedInstallation')}</strong> {selectedInstallation.company}
                   <br />
-                  <strong>Dirección:</strong> {selectedInstallation.address}, {selectedInstallation.city}
+                  <strong>{t('workOrders.form.address')}</strong> {selectedInstallation.address}, {selectedInstallation.city}
                 </div>
               )}
             </>
@@ -198,7 +200,7 @@ const WorkOrderForm = ({
 
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
-            <label className="formLabel">Tipo de trabajo</label>
+            <label className="formLabel">{t('workOrders.form.workType')}</label>
             <select
               name="tipoTrabajo"
               value={formData.tipoTrabajo || "mantenimiento"}
@@ -217,7 +219,7 @@ const WorkOrderForm = ({
           </div>
 
           <div className={styles.formGroup}>
-            <label className="formLabel">Prioridad</label>
+            <label className="formLabel">{t('workOrders.form.priority')}</label>
             <select
               name="prioridad"
               value={formData.prioridad || "media"}
@@ -238,7 +240,7 @@ const WorkOrderForm = ({
 
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
-            <label className="formLabel">Fecha programada *</label>
+            <label className="formLabel">{t('workOrders.form.scheduledDate')} *</label>
             <input
               type="date"
               name="fechaProgramada"
@@ -260,7 +262,7 @@ const WorkOrderForm = ({
           </div>
 
           <div className={styles.formGroup}>
-            <label className="formLabel">Hora programada *</label>
+            <label className="formLabel">{t('workOrders.form.scheduledTime')} *</label>
             <input
               type="time"
               name="horaProgramada"
@@ -275,21 +277,21 @@ const WorkOrderForm = ({
         </div>
 
         <div className={styles.formGroup}>
-          <label className="formLabel">Observaciones</label>
+          <label className="formLabel">{t('workOrders.observations')}</label>
           <textarea
             name="observaciones"
             value={formData.observaciones || ""}
             onChange={(e) => handleFieldChange("observaciones", e.target.value)}
             disabled={isSubmitting}
             rows={2}
-            placeholder="Observaciones adicionales (opcional)"
+            placeholder={t('workOrders.form.observationsPlaceholder')}
             className="formInput"
           />
         </div>
 
         <div className={styles.actions}>
           <button type="button" onClick={onCancel} disabled={isSubmitting} className={styles.cancelButton}>
-            Cancelar
+            {t('workOrders.form.cancel')}
           </button>
           <button
             type="submit"
@@ -299,9 +301,9 @@ const WorkOrderForm = ({
               (isEditMode && ["completada", "en_progreso"].includes(initialData?.estado || ""))
             }
             className={styles.submitButton}
-            title={!isFormValid ? "Complete todos los campos obligatorios" : ""}
+            title={!isFormValid ? t('workOrders.form.completeRequiredFields') : ""}
           >
-            {isSubmitting ? "Guardando..." : isEditMode ? "Actualizar" : "Crear"}
+            {isSubmitting ? t('workOrders.form.saving') : isEditMode ? t('workOrders.form.update') : t('workOrders.form.save')}
           </button>
         </div>
 

@@ -8,6 +8,7 @@ import { FiUser } from "react-icons/fi"
 import { useRegister } from "../features/auth/register/hooks/useRegister.ts"
 import { useTranslation } from "react-i18next"
 import i18n from "../i18n"
+import { translateUserRole } from "../shared/utils/backendTranslations"
 
 const Register = () => {
   const { t } = useTranslation()
@@ -51,34 +52,9 @@ const Register = () => {
     setIsRegisterModalOpen(false)
   }, [])
 
-  const translateRole = useCallback((role: string) => {
-    switch (role.toLowerCase()) {
-      case 'técnico':
-      case 'technician':
-      case 'technicien':
-      case 'técnico':
-      case 'techniker':
-      case 'tecnico':
-      case '技術者':
-      case '기술자':
-      case '技术人员':
-      case 'فني':
-        return t('personal.roleTechnician')
-      case 'admin':
-      case 'administrador':
-      case 'administrator':
-      case 'administrateur':
-      case 'administrador':
-      case 'amministratore':
-      case '管理者':
-      case '관리자':
-      case '管理员':
-      case 'مدير':
-        return t('personal.roleAdmin')
-      default:
-        return role
-    }
-  }, [t])
+  const getTranslatedRole = (role: string) => {
+    return translateUserRole(role)
+  }
 
   return (
     <div className={styles.container}>
@@ -132,7 +108,9 @@ const Register = () => {
                       </div>
                     </td>
                     <td>
-                      <span className={styles.roleBadge}>{translateRole(tech.role)}</span>
+                      <span className={`${styles.roleBadge} ${styles[tech.role]}`}>
+                        {getTranslatedRole(tech.role)}
+                      </span>
                     </td>
                     <td>{formatDate(tech.createdAt)}</td>
                   </tr>
