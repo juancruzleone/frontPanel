@@ -137,7 +137,7 @@ const useHomeDashboard = () => {
       }
     }
     load()
-  }, [i18n.language])
+  }, []) // <--- Solo al montar, no depende de i18n.language
 
   return { kpis, barChartData, pieChartData, lineChartData, recentWorkOrders, loading, error }
 }

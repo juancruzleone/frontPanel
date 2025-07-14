@@ -1,6 +1,7 @@
 import type React from "react"
 import { useState, useMemo } from "react"
 import styles from "../styles/installationForm.module.css"
+import { useTranslation } from "react-i18next"
 
 export type InstallationTypeFormData = {
   nombre: string
@@ -15,6 +16,7 @@ interface InstallationTypeFormProps {
 }
 
 const InstallationTypeForms = ({ onCancel, onSuccess, onCreate }: InstallationTypeFormProps) => {
+  const { t } = useTranslation()
   const [formData, setFormData] = useState<InstallationTypeFormData>({
     nombre: "",
     descripcion: "",
@@ -29,15 +31,15 @@ const InstallationTypeForms = ({ onCancel, onSuccess, onCreate }: InstallationTy
     const errors: Record<string, string> = {}
 
     if (!data.nombre.trim()) {
-      errors.nombre = "El nombre es obligatorio"
+      errors.nombre = t('installations.typeNameRequired')
     } else if (data.nombre.trim().length < 2) {
-      errors.nombre = "El nombre debe tener al menos 2 caracteres"
+      errors.nombre = t('installations.typeNameMin')
     } else if (data.nombre.trim().length > 100) {
-      errors.nombre = "El nombre no puede tener más de 100 caracteres"
+      errors.nombre = t('installations.typeNameMax')
     }
 
     if (data.descripcion && data.descripcion.length > 500) {
-      errors.descripcion = "La descripción no puede tener más de 500 caracteres"
+      errors.descripcion = t('installations.typeDescriptionMax')
     }
 
     return errors
@@ -112,7 +114,7 @@ const InstallationTypeForms = ({ onCancel, onSuccess, onCreate }: InstallationTy
     <form onSubmit={handleSubmit} className={styles.form}>
       <div className={styles.formInner}>
         <div className={styles.formGroup}>
-          <label>Nombre *</label>
+          <label>{t('installations.typeName')} *</label>
           <input
             type="text"
             name="nombre"
@@ -121,13 +123,13 @@ const InstallationTypeForms = ({ onCancel, onSuccess, onCreate }: InstallationTy
             onBlur={() => handleFieldBlur("nombre")}
             disabled={isSubmitting}
             className={showError("nombre") ? styles.errorInput : ""}
-            placeholder="Ingrese el nombre del tipo de instalación"
+            placeholder={t('installations.typeNamePlaceholder')}
           />
           {showError("nombre") && <p className={styles.inputError}>{formErrors["nombre"]}</p>}
         </div>
 
         <div className={styles.formGroup}>
-          <label>Descripción</label>
+          <label>{t('installations.typeDescription')}</label>
           <textarea
             name="descripcion"
             value={formData.descripcion}
@@ -136,7 +138,7 @@ const InstallationTypeForms = ({ onCancel, onSuccess, onCreate }: InstallationTy
             disabled={isSubmitting}
             className={showError("descripcion") ? styles.errorInput : ""}
             rows={3}
-            placeholder="Descripción opcional del tipo de instalación"
+            placeholder={t('installations.typeDescriptionPlaceholder')}
           />
           {showError("descripcion") && <p className={styles.inputError}>{formErrors["descripcion"]}</p>}
         </div>
@@ -152,21 +154,21 @@ const InstallationTypeForms = ({ onCancel, onSuccess, onCreate }: InstallationTy
               className={styles.checkboxInput}
             />
             <span className={styles.checkboxCustom}></span>
-            Activo
+            {t('installations.active')}
           </label>
         </div>
 
         <div className={styles.actions}>
           <button type="button" onClick={onCancel} disabled={isSubmitting} className={styles.cancelButton}>
-            Cancelar
+            {t('common.cancel')}
           </button>
           <button
             type="submit"
             disabled={isSubmitting || !isFormValid}
             className={styles.submitButton}
-            title={!isFormValid ? "Complete todos los campos obligatorios" : ""}
+            title={!isFormValid ? t('installations.completeAllFields') : ""}
           >
-            {isSubmitting ? "Guardando..." : "Crear"}
+            {isSubmitting ? t('common.saving') : t('common.create')}
           </button>
         </div>
 

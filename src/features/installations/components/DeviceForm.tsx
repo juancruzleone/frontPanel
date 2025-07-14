@@ -196,7 +196,7 @@ const DeviceForm = ({
         {!isEditMode && (
           <>
             <div className={styles.formGroup}>
-              <label>{t('installations.asset')}*</label>
+              <label>{t('installations.asset')}</label>
               <select
                 value={formData.assetId}
                 onChange={(e) => handleFieldChange("assetId", e.target.value)}
@@ -236,7 +236,7 @@ const DeviceForm = ({
 
         {isEditMode && (
           <div className={styles.formGroup}>
-            <label>{t('installations.deviceName')}*</label>
+            <label>{t('installations.deviceName')}</label>
             <input
               type="text"
               name="nombre"
@@ -245,14 +245,14 @@ const DeviceForm = ({
               onBlur={() => handleFieldBlur("nombre")}
               disabled={isSubmitting}
               className={showError("nombre") ? styles.errorInput : ""}
-              placeholder={t('installations.deviceName')}
+              placeholder={t('installations.deviceNamePlaceholder')}
             />
             {showError("nombre") && <p className={styles.error}>{formErrors.nombre}</p>}
           </div>
         )}
 
         <div className={styles.formGroup}>
-          <label>{t('installations.deviceLocation')}*</label>
+          <label>{t('installations.deviceLocation')}</label>
           <input
             type="text"
             name="ubicacion"
@@ -267,7 +267,7 @@ const DeviceForm = ({
         </div>
 
         <div className={styles.formGroup}>
-          <label>{t('installations.deviceCategory')}*</label>
+          <label>{t('installations.deviceCategory')}</label>
           {loadingCategories ? (
             <p>{t('common.loading')}</p>
           ) : errorLoadingCategories ? (
@@ -308,7 +308,7 @@ const DeviceForm = ({
 
         {isEditMode && (
           <div className={styles.formGroup}>
-            <label>{t('installations.deviceState')}*</label>
+            <label>{t('installations.deviceStatus')}</label>
             <select
               name="estado"
               value={formData.estado}
@@ -318,9 +318,7 @@ const DeviceForm = ({
               className={showError("estado") ? styles.errorInput : ""}
             >
               {estadosDisponibles.map((estado) => (
-                <option key={estado} value={estado}>
-                  {estado}
-                </option>
+                <option key={estado} value={estado}>{estado}</option>
               ))}
             </select>
             {showError("estado") && <p className={styles.error}>{formErrors.estado}</p>}
@@ -339,13 +337,7 @@ const DeviceForm = ({
           disabled={isSubmitting || (!isEditMode && (!selectedAsset || !formData.categoria))}
           className={styles.submitButton}
         >
-          {isSubmitting
-            ? isEditMode
-              ? t('common.updating')
-              : t('common.adding')
-            : isEditMode
-              ? t('installations.updateDevice')
-              : t('installations.addDevice')}
+          {isSubmitting ? t('common.saving') : isEditMode ? t('common.update') : t('common.create')}
         </button>
       </div>
     </form>

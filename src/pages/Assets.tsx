@@ -222,8 +222,8 @@ const Assets = () => {
                         <button
                           className={styles.iconButton}
                           onClick={() => handleOpenEdit(asset)}
-                          aria-label={t('assets.editAsset')}
-                          data-tooltip={t('assets.editAsset')}
+                          aria-label={t('assets.editAssetTooltip')}
+                          data-tooltip={t('assets.editAssetTooltip')}
                         >
                           <Edit size={20} />
                         </button>
@@ -231,8 +231,8 @@ const Assets = () => {
                         <button
                           className={styles.iconButton}
                           onClick={() => handleOpenAssignTemplate(asset)}
-                          aria-label={t('assets.assignTemplate')}
-                          data-tooltip={t('assets.assignTemplate')}
+                          aria-label={t('assets.assignTemplateTooltip')}
+                          data-tooltip={t('assets.assignTemplateTooltip')}
                         >
                           <List size={20} />
                         </button>
@@ -240,8 +240,8 @@ const Assets = () => {
                         <button
                           className={styles.iconButton}
                           onClick={() => handleViewDetails(asset)}
-                          aria-label={t('assets.viewDetails')}
-                          data-tooltip={t('assets.viewDetails')}
+                          aria-label={t('assets.viewDetailsTooltip')}
+                          data-tooltip={t('assets.viewDetailsTooltip')}
                         >
                           <FileText size={20} />
                         </button>
@@ -252,8 +252,8 @@ const Assets = () => {
                             setAssetToDelete(asset)
                             setIsDeleteModalOpen(true)
                           }}
-                          aria-label={t('assets.deleteAsset')}
-                          data-tooltip={t('assets.deleteAsset')}
+                          aria-label={t('assets.deleteAssetTooltip')}
+                          data-tooltip={t('assets.deleteAssetTooltip')}
                         >
                           <Trash size={20} />
                         </button>

@@ -147,7 +147,7 @@ const InstallationForm = ({
           {t('common.cancel')}
         </button>
         <button type="submit" disabled={isSubmitting || loadingTypes} className={styles.submitButton}>
-          {isSubmitting ? t('installations.saving') : isEditMode ? t('common.update') : t('common.create')}
+          {isSubmitting ? t('common.saving') : isEditMode ? t('common.update') : t('common.create')}
         </button>
       </div>
     </form>

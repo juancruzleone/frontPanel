@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Category } from "../hooks/useCategories";
 import styles from "../styles/installationForm.module.css"; // Usamos los mismos estilos
+import { useTranslation } from "react-i18next"
 
 interface CategoryFormProps {
   onCancel: () => void;
@@ -27,6 +28,7 @@ const CategoryForm = ({
   handleSubmitForm,
   isSubmitting,
 }: CategoryFormProps) => {
+  const { t } = useTranslation()
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
 
   const handleFieldBlur = (fieldName: string) => {
@@ -44,7 +46,7 @@ const CategoryForm = ({
     >
       <div className={styles.formInner}>
         <div className={styles.formGroup}>
-          <label>Nombre *</label>
+          <label>{t('installations.categoryName')} *</label>
           <input
             type="text"
             name="nombre"
@@ -53,6 +55,7 @@ const CategoryForm = ({
             onBlur={() => handleFieldBlur("nombre")}
             disabled={isSubmitting}
             className={showError("nombre") ? styles.errorInput : ""}
+            placeholder={t('installations.categoryNamePlaceholder')}
           />
           {showError("nombre") && (
             <p className={styles.inputError}>{formErrors["nombre"]}</p>
@@ -60,7 +63,7 @@ const CategoryForm = ({
         </div>
 
         <div className={styles.formGroup}>
-          <label>Descripción</label>
+          <label>{t('installations.categoryDescription')}</label>
           <textarea
             name="descripcion"
             value={formData.descripcion || ""}
@@ -69,6 +72,7 @@ const CategoryForm = ({
             disabled={isSubmitting}
             className={showError("descripcion") ? styles.errorInput : ""}
             rows={3}
+            placeholder={t('installations.categoryDescriptionPlaceholder')}
           />
           {showError("descripcion") && (
             <p className={styles.inputError}>{formErrors["descripcion"]}</p>
@@ -86,7 +90,7 @@ const CategoryForm = ({
               className={styles.checkboxInput}
             />
             <span className={styles.checkboxCustom}></span>
-            Activa
+            {t('installations.active')}
           </label>
         </div>
 
@@ -97,14 +101,14 @@ const CategoryForm = ({
             disabled={isSubmitting}
             className={styles.cancelButton}
           >
-            Cancelar
+            {t('common.cancel')}
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
             className={styles.submitButton}
           >
-            {isSubmitting ? "Guardando..." : "Crear"}
+            {isSubmitting ? t('common.saving') : t('common.create')}
           </button>
         </div>
       </div>

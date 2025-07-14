@@ -1,4 +1,5 @@
 import styles from "../styles/Modal.module.css";
+import { useTranslation } from "react-i18next"
 
 interface ModalConfirmDeleteProps {
   isOpen: boolean;
@@ -15,6 +16,7 @@ const ModalConfirmDelete = ({
   title,
   description,
 }: ModalConfirmDeleteProps) => {
+  const { t } = useTranslation()
   if (!isOpen) return null;
 
   return (
@@ -31,19 +33,23 @@ const ModalConfirmDelete = ({
           <button 
             className={styles.confirmCloseButton}
             onClick={onCancel}
+            aria-label={t('common.close')}
           >
             ×
           </button>
         </div>
         <div className={styles.confirmContent}>
-          <h2 className={styles.confirmTitle}>{title}</h2>
-          <p className={styles.confirmDescription}>{description}</p>
+          <h2 className={styles.confirmTitle}>{t('assets.confirmDeleteAsset') || title}</h2>
+          <p className={styles.confirmDescription}>{t('assets.confirmDeleteAssetDescription') || description}</p>
           <div className={styles.confirmActions}>
             <button className={styles.cancelButton} onClick={onCancel}>
-              Cancelar
+              {t('assets.cancel')}
             </button>
-            <button className={styles.deleteButton} onClick={onConfirm}>
-              Eliminar
+            <button className={styles.deleteButton} onClick={onConfirm}
+              aria-label={t('assets.deleteAssetTooltip')}
+              data-tooltip={t('assets.deleteAssetTooltip')}
+            >
+              {t('assets.delete')}
             </button>
           </div>
         </div>

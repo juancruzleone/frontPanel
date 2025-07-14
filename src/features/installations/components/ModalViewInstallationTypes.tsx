@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import styles from "../styles/Modal.module.css"
 import { fetchInstallationTypes } from "../services/installationTypeServices"
+import { useTranslation } from "react-i18next"
 
 interface InstallationType {
   _id: string
@@ -15,6 +16,7 @@ interface ModalViewInstallationTypesProps {
 }
 
 const ModalViewInstallationTypes = ({ isOpen, onRequestClose }: ModalViewInstallationTypesProps) => {
+  const { t, i18n } = useTranslation()
   const [installationTypes, setInstallationTypes] = useState<InstallationType[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -32,7 +34,7 @@ const ModalViewInstallationTypes = ({ isOpen, onRequestClose }: ModalViewInstall
       const data = await fetchInstallationTypes()
       setInstallationTypes(data)
     } catch (err) {
-      setError("Error al cargar los tipos de instalación")
+      setError(t('installations.errorLoadingTypes'))
       console.error("Error loading installation types:", err)
     } finally {
       setLoading(false)
@@ -40,7 +42,7 @@ const ModalViewInstallationTypes = ({ isOpen, onRequestClose }: ModalViewInstall
   }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("es-ES", {
+    return new Date(dateString).toLocaleDateString(i18n.language, {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -53,7 +55,7 @@ const ModalViewInstallationTypes = ({ isOpen, onRequestClose }: ModalViewInstall
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Tipos de Instalación</h2>
+          <h2 className={styles.title}>{t('installations.viewTypesTitle')}</h2>
           <button className={styles.closeButton} onClick={onRequestClose}>
             ×
           </button>
@@ -62,20 +64,20 @@ const ModalViewInstallationTypes = ({ isOpen, onRequestClose }: ModalViewInstall
           {loading ? (
             <div className={styles.loadingMessage}>
               <div className={styles.spinner}></div>
-              Cargando tipos de instalación...
+              {t('installations.loadingTypes')}
             </div>
           ) : error ? (
             <div className={styles.generalError}>
-              {error}
+              {t('installations.errorLoadingTypes')}
               <button onClick={loadInstallationTypes} className={styles.retryButton}>
-                Reintentar
+                {t('common.retry')}
               </button>
             </div>
           ) : installationTypes.length === 0 ? (
             <div className={styles.emptyState}>
-              <p>No hay tipos de instalación creados</p>
+              <p>{t('installations.noTypes')}</p>
               <p className={styles.emptyStateSubtext}>
-                Los tipos de instalación aparecerán aquí una vez que sean creados
+                {t('installations.noTypesSubtext')}
               </p>
             </div>
           ) : (
@@ -88,7 +90,7 @@ const ModalViewInstallationTypes = ({ isOpen, onRequestClose }: ModalViewInstall
                       <div className={styles.itemDescription}>{type.descripcion}</div>
                     )}
                     <div className={styles.itemDate}>
-                      Creado: {formatDate(type.fechaCreacion)}
+                      {t('installations.created')}: {formatDate(type.fechaCreacion)}
                     </div>
                   </div>
                 </div>
@@ -98,7 +100,7 @@ const ModalViewInstallationTypes = ({ isOpen, onRequestClose }: ModalViewInstall
         </div>
         <div className={styles.actions}>
           <button className={styles.cancelButton} onClick={onRequestClose}>
-            Cerrar
+            {t('common.close')}
           </button>
         </div>
       </div>

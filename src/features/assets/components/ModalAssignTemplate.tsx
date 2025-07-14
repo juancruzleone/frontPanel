@@ -3,6 +3,7 @@ import useAssets from "../../../../src/features/assets/hooks/useAssets";
 import { Asset } from "../hooks/useAssets";
 import styles from "../styles/Modal.module.css";
 import { fetchTemplates } from "../services/assetServices";
+import { useTranslation } from "react-i18next"
 
 interface ModalAssignTemplateProps {
   isOpen: boolean;
@@ -29,6 +30,7 @@ const ModalAssignTemplate = ({
   const [loadingTemplates, setLoadingTemplates] = useState(false);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { t } = useTranslation()
 
   const handleClose = () => {
     setSelectedTemplate("");
@@ -80,7 +82,7 @@ const ModalAssignTemplate = ({
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Asignar Plantilla a {asset.nombre}</h2>
+          <h2 className={styles.title}>{t('assets.assignTemplate', { asset: asset.nombre })}</h2>
           <button 
             className={styles.closeButton}
             onClick={handleClose}
@@ -93,11 +95,11 @@ const ModalAssignTemplate = ({
           <form onSubmit={handleSubmit} className={styles.assignForm}>
             <div className={styles.assignFormInner}>
               <div className={styles.formGroup}>
-                <label>Seleccionar Plantilla</label>
+                <label>{t('assets.template')}</label>
                 {loadingTemplates ? (
                   <div className={styles.loadingMessage}>
                     <div className={styles.spinner}></div>
-                    Cargando plantillas...
+                    {t('assets.loadingTemplates')}
                   </div>
                 ) : (
                   <>
@@ -110,7 +112,7 @@ const ModalAssignTemplate = ({
                       className={formErrors.templateId ? styles.errorInput : ""}
                       disabled={isSubmitting}
                     >
-                      <option value="">Seleccione una plantilla</option>
+                      <option value="">{t('assets.templatePlaceholder')}</option>
                       {templates.map(template => (
                         <option key={template._id} value={template._id}>
                           {template.nombre}
@@ -138,14 +140,16 @@ const ModalAssignTemplate = ({
                 disabled={isSubmitting}
                 className={styles.cancelButton}
               >
-                Cancelar
+                {t('assets.cancel')}
               </button>
               <button
                 type="submit"
                 disabled={!selectedTemplate || loadingTemplates || isSubmitting}
                 className={styles.submitButton}
+                aria-label={t('assets.assignTemplateTooltip')}
+                data-tooltip={t('assets.assignTemplateTooltip')}
               >
-                {isSubmitting ? "Asignando..." : "Asignar Plantilla"}
+                {isSubmitting ? t('common.saving') : t('assets.assign')}
               </button>
             </div>
           </form>

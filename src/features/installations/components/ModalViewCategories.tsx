@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import styles from "../styles/Modal.module.css"
 import { fetchCategories } from "../services/categoryServices"
+import { useTranslation } from "react-i18next"
 
 interface Category {
   _id: string
@@ -15,6 +16,7 @@ interface ModalViewCategoriesProps {
 }
 
 const ModalViewCategories = ({ isOpen, onRequestClose }: ModalViewCategoriesProps) => {
+  const { t, i18n } = useTranslation()
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -32,7 +34,7 @@ const ModalViewCategories = ({ isOpen, onRequestClose }: ModalViewCategoriesProp
       const data = await fetchCategories()
       setCategories(data)
     } catch (err) {
-      setError("Error al cargar las categorías")
+      setError(t('installations.errorLoadingCategories'))
       console.error("Error loading categories:", err)
     } finally {
       setLoading(false)
@@ -40,7 +42,7 @@ const ModalViewCategories = ({ isOpen, onRequestClose }: ModalViewCategoriesProp
   }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("es-ES", {
+    return new Date(dateString).toLocaleDateString(i18n.language, {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -53,7 +55,7 @@ const ModalViewCategories = ({ isOpen, onRequestClose }: ModalViewCategoriesProp
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Categorías de Dispositivos</h2>
+          <h2 className={styles.title}>{t('installations.viewCategoriesTitle')}</h2>
           <button className={styles.closeButton} onClick={onRequestClose}>
             ×
           </button>
@@ -62,20 +64,20 @@ const ModalViewCategories = ({ isOpen, onRequestClose }: ModalViewCategoriesProp
           {loading ? (
             <div className={styles.loadingMessage}>
               <div className={styles.spinner}></div>
-              Cargando categorías...
+              {t('installations.loadingCategories')}
             </div>
           ) : error ? (
             <div className={styles.generalError}>
-              {error}
+              {t('installations.errorLoadingCategories')}
               <button onClick={loadCategories} className={styles.retryButton}>
-                Reintentar
+                {t('common.retry')}
               </button>
             </div>
           ) : categories.length === 0 ? (
             <div className={styles.emptyState}>
-              <p>No hay categorías creadas</p>
+              <p>{t('installations.noCategories')}</p>
               <p className={styles.emptyStateSubtext}>
-                Las categorías aparecerán aquí una vez que sean creadas
+                {t('installations.noCategoriesSubtext')}
               </p>
             </div>
           ) : (
@@ -88,7 +90,7 @@ const ModalViewCategories = ({ isOpen, onRequestClose }: ModalViewCategoriesProp
                       <div className={styles.itemDescription}>{category.descripcion}</div>
                     )}
                     <div className={styles.itemDate}>
-                      Creado: {formatDate(category.fechaCreacion)}
+                      {t('installations.created')}: {formatDate(category.fechaCreacion)}
                     </div>
                   </div>
                 </div>
@@ -98,7 +100,7 @@ const ModalViewCategories = ({ isOpen, onRequestClose }: ModalViewCategoriesProp
         </div>
         <div className={styles.actions}>
           <button className={styles.cancelButton} onClick={onRequestClose}>
-            Cerrar
+            {t('common.close')}
           </button>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import type { Asset, Template } from "../hooks/useAssets"
 import { validateAssetForm } from "../validators/assetValidations"
 import styles from "../styles/assetForm.module.css"
+import { useTranslation } from "react-i18next"
 
 interface AssetFormProps {
   onCancel: () => void
@@ -29,6 +30,7 @@ const AssetForm = ({
   templatesLoading,
   categories,
 }: AssetFormProps) => {
+  const { t } = useTranslation()
   const [formData, setFormData] = useState<Omit<Asset, "_id">>({
     nombre: "",
     marca: "",
@@ -43,11 +45,11 @@ const AssetForm = ({
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const requiredFields = [
-    { name: "nombre", label: "Nombre" },
-    { name: "marca", label: "Marca" },
-    { name: "modelo", label: "Modelo" },
-    { name: "numeroSerie", label: "Número de Serie" },
-    { name: "templateId", label: "Plantilla de Formulario" },
+    { name: "nombre", label: t('assets.name') },
+    { name: "marca", label: t('assets.brand') },
+    { name: "modelo", label: t('assets.model') },
+    { name: "numeroSerie", label: t('assets.serialNumber') },
+    { name: "templateId", label: t('assets.template') },
   ]
 
   // Inicializar formulario
@@ -154,7 +156,7 @@ const AssetForm = ({
         {formErrors.general && <div className={styles.generalError}>{formErrors.general}</div>}
 
         {/* Sección: Información Básica */}
-        <h3 className={styles.sectionTitle}>Información Básica</h3>
+        <h3 className={styles.sectionTitle}>{t('assets.basicInfo')}</h3>
 
         {requiredFields.slice(0, 4).map(({ name, label }) => (
           <div className={styles.formGroup} key={name}>
@@ -167,26 +169,27 @@ const AssetForm = ({
               onBlur={() => handleFieldBlur(name)}
               disabled={isSubmitting}
               className={showError(name) ? styles.errorInput : ""}
+              placeholder={t(`assets.${name}Placeholder`)}
             />
             {showError(name) && <p className={styles.inputError}>{formErrors[name]}</p>}
           </div>
         ))}
 
         {/* Sección: Configuración */}
-        <h3 className={styles.sectionTitle}>Configuración</h3>
+        <h3 className={styles.sectionTitle}>{t('assets.config')}</h3>
 
         {/* Filtro por categoría */}
         <div className={styles.formGroup}>
-          <label>Filtrar plantillas por categoría</label>
+          <label>{t('assets.filterByTemplateCategory')}</label>
           <select
             value={selectedCategory}
             onChange={(e) => handleCategoryChange(e.target.value)}
             disabled={isSubmitting || templatesLoading}
           >
-            <option value="">Todas las categorías</option>
+            <option value="">{t('assets.allCategories')}</option>
             {categories.map((categoria) => (
-              <option key={categoria} value={categoria}>
-                {categoria}
+              <option key={String(categoria)} value={String(categoria)}>
+                {String(categoria)}
               </option>
             ))}
           </select>
@@ -194,11 +197,11 @@ const AssetForm = ({
 
         {/* Plantilla de formulario */}
         <div className={styles.formGroup}>
-          <label>Plantilla de Formulario *</label>
+          <label>{t('assets.template')} *</label>
           {templatesLoading ? (
             <div className={styles.loadingMessage}>
               <div className={styles.spinner}></div>
-              Cargando plantillas...
+              {t('assets.loadingTemplates')}
             </div>
           ) : (
             <select
@@ -209,10 +212,10 @@ const AssetForm = ({
               disabled={isSubmitting}
               className={showError("templateId") ? styles.errorInput : ""}
             >
-              <option value="">Seleccionar plantilla</option>
+              <option value="">{t('assets.selectTemplatePlaceholder')}</option>
               {filteredTemplates.map((template) => (
-                <option key={template._id} value={template._id}>
-                  {template.nombre} ({template.categoria})
+                <option key={String(template._id)} value={String(template._id)}>
+                  {template.nombre} ({String(template.categoria)})
                 </option>
               ))}
             </select>
@@ -225,11 +228,11 @@ const AssetForm = ({
                 const selectedTemplate = templates.find((t) => t._id === formData.templateId)
                 return selectedTemplate ? (
                   <p className={styles.templateDescription}>
-                    <strong>Descripción:</strong> {selectedTemplate.descripcion || "Sin descripción"}
+                    <strong>{t('assets.description')}:</strong> {selectedTemplate.descripcion || t('assets.noDescription')}
                     <br />
-                    <strong>Categoría:</strong> {selectedTemplate.categoria}
+                    <strong>{t('assets.category')}:</strong> {t('assets.categories.' + selectedTemplate.categoria, { defaultValue: selectedTemplate.categoria })}
                     <br />
-                    <strong>Campos:</strong> {selectedTemplate.campos.length} campo(s)
+                    <strong>{t('assets.fields')}:</strong> {selectedTemplate.campos.length} {t('assets.fieldsCount')}
                   </p>
                 ) : null
               })()}
@@ -239,10 +242,10 @@ const AssetForm = ({
 
         <div className={styles.actions}>
           <button type="button" onClick={onCancel} disabled={isSubmitting} className={styles.cancelButton}>
-            Cancelar
+            {t('common.cancel')}
           </button>
           <button type="submit" disabled={isSubmitting || templatesLoading} className={styles.submitButton}>
-            {isSubmitting ? "Guardando..." : isEditMode ? "Actualizar" : "Crear"}
+            {isSubmitting ? t('common.saving') : isEditMode ? t('assets.update') : t('assets.create')}
           </button>
         </div>
       </div>
