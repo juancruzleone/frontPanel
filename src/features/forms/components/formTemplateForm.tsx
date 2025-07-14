@@ -286,7 +286,7 @@ const FormTemplateForm = ({
           </div>
 
           <div className={styles.formGroup}>
-            <label>{t('forms.templateDescription')} ({t('common.optional')})</label>
+            <label>{t('forms.templateDescription')} ({t('forms.optional')})</label>
             <textarea
               name="descripcion"
               value={formData.descripcion || ""}
@@ -311,7 +311,7 @@ const FormTemplateForm = ({
                 <div className={styles.fieldHeader}>
                   <div className={styles.fieldInfo}>
                     <span className={styles.fieldLabel}>{field.label}</span>
-                    <span className={styles.fieldType}>({field.type})</span>
+                    <span className={styles.fieldType}>({t(`forms.${field.type}Field`)})</span>
                     {field.required && <span className={styles.requiredBadge}>{t('forms.required')}</span>}
                   </div>
                   <button

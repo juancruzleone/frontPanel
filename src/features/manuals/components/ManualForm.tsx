@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Manual } from '../hooks/useManuals';
-import { fetchAssets } from '../services/assetServices';
 import styles from '../styles/manualForm.module.css';
 
 interface ManualFormProps {
@@ -26,14 +26,6 @@ interface ManualFormProps {
   isSubmitting: boolean;
 }
 
-interface Asset {
-  _id: string;
-  nombre: string;
-  marca: string;
-  modelo: string;
-  numeroSerie: string;
-}
-
 const ManualForm = ({
   onCancel,
   onSuccess,
@@ -48,41 +40,24 @@ const ManualForm = ({
   handleSubmitForm,
   isSubmitting,
 }: ManualFormProps) => {
+  const { t } = useTranslation();
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
   const [tagsInput, setTagsInput] = useState('');
-  const [assets, setAssets] = useState<Asset[]>([]);
-  const [loadingAssets, setLoadingAssets] = useState(false);
 
   const categories = [
-    "Manual de usuario",
-    "Manual técnico",
-    "Manual de mantenimiento",
-    "Guía de instalación",
-    "Otros"
+    t('manuals.userManual'),
+    t('manuals.technicalManual'),
+    t('manuals.maintenanceManual'),
+    t('manuals.installationGuide'),
+    t('manuals.others')
   ];
 
   const languages = [
-    { value: "es", label: "Español" },
-    { value: "en", label: "Inglés" },
-    { value: "pt", label: "Portugués" },
-    { value: "fr", label: "Francés" },
+    { value: "es", label: t('manuals.spanish') },
+    { value: "en", label: t('manuals.english') },
+    { value: "pt", label: t('manuals.portuguese') },
+    { value: "fr", label: t('manuals.french') },
   ];
-
-  useEffect(() => {
-    const loadAssets = async () => {
-      setLoadingAssets(true);
-      try {
-        const assetsData = await fetchAssets();
-        setAssets(assetsData);
-      } catch (error) {
-        console.error("Error al cargar activos:", error);
-      } finally {
-        setLoadingAssets(false);
-      }
-    };
-
-    loadAssets();
-  }, []);
 
   const handleFieldBlur = (fieldName: string) => {
     if (!touchedFields[fieldName]) {
@@ -100,7 +75,7 @@ const ManualForm = ({
       handleFieldChange('archivo', file);
       setTouchedFields(prev => ({ ...prev, archivo: true }));
     } else {
-      handleFieldChange('archivo', null as any);
+      handleFieldChange('archivo', '');
       setTouchedFields(prev => ({ ...prev, archivo: true }));
     }
   };
@@ -147,7 +122,7 @@ const ManualForm = ({
     >
       <div className={styles.formInner}>
         <div className={styles.formGroup}>
-          <label>Nombre *</label>
+          <label>{t('manuals.name')} *</label>
           <input
             type="text"
             name="nombre"
@@ -156,6 +131,7 @@ const ManualForm = ({
             onBlur={() => handleFieldBlur('nombre')}
             disabled={isSubmitting}
             className={showError('nombre') ? styles.errorInput : ''}
+            placeholder={t('manuals.enterName')}
           />
           {showError('nombre') && (
             <p className={styles.inputError}>{formErrors['nombre']}</p>
@@ -163,7 +139,7 @@ const ManualForm = ({
         </div>
 
         <div className={styles.formGroup}>
-          <label>Descripción</label>
+          <label>{t('manuals.description')}</label>
           <textarea
             name="descripcion"
             value={formData.descripcion || ''}
@@ -171,36 +147,29 @@ const ManualForm = ({
             onBlur={() => handleFieldBlur('descripcion')}
             disabled={isSubmitting}
             rows={3}
+            placeholder={t('manuals.enterDescription')}
           />
         </div>
 
         <div className={styles.formGroup}>
-          <label>Activo *</label>
-          <select
+          <label>{t('manuals.active')} *</label>
+          <input
+            type="text"
             name="assetId"
             value={formData.assetId}
             onChange={(e) => handleFieldChange('assetId', e.target.value)}
             onBlur={() => handleFieldBlur('assetId')}
-            disabled={isSubmitting || loadingAssets}
+            disabled={isSubmitting}
             className={showError('assetId') ? styles.errorInput : ''}
-          >
-            <option value="">Seleccione un activo</option>
-            {assets.map((asset) => (
-              <option key={asset._id} value={asset._id}>
-                {asset.nombre} - {asset.marca} {asset.modelo} (S/N: {asset.numeroSerie})
-              </option>
-            ))}
-          </select>
+            placeholder={t('manuals.selectAsset')}
+          />
           {showError('assetId') && (
             <p className={styles.inputError}>{formErrors['assetId']}</p>
-          )}
-          {loadingAssets && (
-            <p className={styles.loadingText}>Cargando activos...</p>
           )}
         </div>
 
         <div className={styles.formGroup}>
-          <label>Categoría</label>
+          <label>{t('manuals.category')}</label>
           <select
             name="categoria"
             value={formData.categoria}
@@ -217,7 +186,7 @@ const ManualForm = ({
         </div>
 
         <div className={styles.formGroup}>
-          <label>Versión</label>
+          <label>{t('manuals.version')}</label>
           <input
             type="text"
             name="version"
@@ -225,11 +194,12 @@ const ManualForm = ({
             onChange={(e) => handleFieldChange('version', e.target.value)}
             onBlur={() => handleFieldBlur('version')}
             disabled={isSubmitting}
+            placeholder={t('manuals.enterVersion')}
           />
         </div>
 
         <div className={styles.formGroup}>
-          <label>Idioma</label>
+          <label>{t('manuals.language')}</label>
           <select
             name="idioma"
             value={formData.idioma || 'es'}
@@ -246,7 +216,7 @@ const ManualForm = ({
         </div>
 
         <div className={styles.formGroup}>
-          <label>Autor</label>
+          <label>{t('manuals.author')}</label>
           <input
             type="text"
             name="autor"
@@ -254,11 +224,12 @@ const ManualForm = ({
             onChange={(e) => handleFieldChange('autor', e.target.value)}
             onBlur={() => handleFieldBlur('autor')}
             disabled={isSubmitting}
+            placeholder={t('manuals.enterAuthor')}
           />
         </div>
 
         <div className={styles.formGroup}>
-          <label>Archivo PDF {!isEditMode && '*'}</label>
+          <label>{t('manuals.pdfFile')} {!isEditMode && '*'}</label>
           <div className={styles.fileInputContainer}>
             <input
               type="file"
@@ -270,7 +241,7 @@ const ManualForm = ({
             />
             {getFileName() && (
               <p className={styles.fileName}>
-                Archivo seleccionado: {getFileName()}
+                {t('manuals.selectedFile')}: {getFileName()}
               </p>
             )}
             {showError('archivo') && (
@@ -278,14 +249,14 @@ const ManualForm = ({
             )}
             {!isEditMode && (
               <p className={styles.fileHint}>
-                * Se requiere un archivo PDF para crear el manual
+                * {t('manuals.fileRequired')}
               </p>
             )}
           </div>
         </div>
 
         <div className={styles.formGroup}>
-          <label>Tags</label>
+          <label>{t('manuals.tags')}</label>
           <div className={styles.tagsInputContainer}>
             <input
               type="text"
@@ -293,7 +264,7 @@ const ManualForm = ({
               onChange={handleTagsChange}
               onKeyDown={handleKeyDown}
               disabled={isSubmitting}
-              placeholder="Escribe un tag y presiona Enter"
+              placeholder={t('manuals.tagPlaceholder')}
               className={styles.tagInput}
             />
             <button
@@ -302,7 +273,7 @@ const ManualForm = ({
               disabled={isSubmitting || !tagsInput.trim()}
               className={styles.addTagButton}
             >
-              Añadir
+              {t('manuals.addTag')}
             </button>
           </div>
           <div className={styles.tagsList}>
@@ -329,14 +300,14 @@ const ManualForm = ({
             disabled={isSubmitting}
             className={styles.cancelButton}
           >
-            Cancelar
+            {t('manuals.cancel')}
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
             className={styles.submitButton}
           >
-            {isSubmitting ? 'Guardando...' : isEditMode ? 'Actualizar' : 'Crear'}
+            {isSubmitting ? t('manuals.saving') : isEditMode ? t('manuals.update') : t('manuals.create')}
           </button>
         </div>
       </div>

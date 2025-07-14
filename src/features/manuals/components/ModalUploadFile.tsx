@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import styles from "../styles/Modal.module.css";
 
 interface ModalUploadFileProps {
@@ -13,9 +14,10 @@ const ModalUploadFile = ({
   isOpen,
   onRequestClose,
   onSubmit,
-  title = "Subir Archivo PDF",
-  description = "Seleccione un archivo PDF para subir",
+  title,
+  description,
 }: ModalUploadFileProps) => {
+  const { t } = useTranslation();
   const [file, setFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -27,7 +29,7 @@ const ModalUploadFile = ({
         setFile(selectedFile);
         setError(null);
       } else {
-        setError("Por favor, seleccione un archivo PDF");
+        setError(t('manuals.selectPdfFile'));
       }
     }
   };
@@ -35,7 +37,7 @@ const ModalUploadFile = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file) {
-      setError("Por favor, seleccione un archivo");
+      setError(t('manuals.selectFile'));
       return;
     }
 
@@ -44,7 +46,7 @@ const ModalUploadFile = ({
       await onSubmit(file);
       onRequestClose();
     } catch (err: any) {
-      setError(err.message || "Error al subir el archivo");
+      setError(err.message || t('manuals.uploadError'));
     } finally {
       setIsSubmitting(false);
     }
@@ -77,9 +79,10 @@ const ModalUploadFile = ({
             ×
           </button>
         </div>
+        
         <div className={styles.uploadContent}>
-          <h2 className={styles.uploadTitle}>{title}</h2>
-          <p className={styles.uploadDescription}>{description}</p>
+          <h2 className={styles.uploadTitle}>{title || t('manuals.uploadFile')}</h2>
+          <p className={styles.uploadDescription}>{description || t('manuals.selectPdfFile')}</p>
           
           <form onSubmit={handleSubmit} className={styles.uploadForm}>
             <div className={styles.fileInputContainer}>
@@ -101,10 +104,10 @@ const ModalUploadFile = ({
                     <polyline points="10,9 9,9 8,9" stroke="#6b7280" strokeWidth="2"/>
                   </svg>
                   <span className={styles.fileInputText}>
-                    {file ? "Cambiar archivo" : "Seleccionar archivo PDF"}
+                    {file ? t('manuals.changeFile') : t('manuals.selectPdfFile')}
                   </span>
                   <span className={styles.fileInputSubtext}>
-                    Arrastra y suelta o haz clic para seleccionar
+                    {t('manuals.dragAndDrop')}
                   </span>
                 </label>
               </div>
@@ -155,7 +158,7 @@ const ModalUploadFile = ({
                 disabled={isSubmitting}
                 className={styles.cancelButton}
               >
-                Cancelar
+                {t('manuals.cancel')}
               </button>
               <button
                 type="submit"
@@ -168,10 +171,10 @@ const ModalUploadFile = ({
                       <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" opacity="0.25"/>
                       <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
                     </svg>
-                    Subiendo...
+                    {t('manuals.uploading')}
                   </>
                 ) : (
-                  "Subir Archivo"
+                  t('manuals.uploadFile')
                 )}
               </button>
             </div>

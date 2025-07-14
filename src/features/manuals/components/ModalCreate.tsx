@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import ManualForm from "../../../../src/features/manuals/components/ManualForm";
 import useManuals from "../../../../src/features/manuals/hooks/useManuals";
 import styles from "../styles/Modal.module.css";
@@ -18,6 +19,7 @@ const ModalCreate = ({
   onSubmitError,
   onAdd,
 }: ModalCreateProps) => {
+  const { t } = useTranslation();
   const {
     formData,
     formErrors,
@@ -26,8 +28,6 @@ const ModalCreate = ({
     isSubmitting,
     resetForm,
     setFormErrors,
-    assets,
-    loadingAssets,
   } = useManuals();
 
   const handleClose = () => {
@@ -48,7 +48,7 @@ const ModalCreate = ({
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Crear Manual</h2>
+          <h2 className={styles.title}>{t('manuals.createManual')}</h2>
           <button 
             className={styles.closeButton}
             onClick={handleClose}
@@ -69,8 +69,6 @@ const ModalCreate = ({
             handleFieldChange={handleFieldChange}
             handleSubmitForm={handleSubmitForm}
             isSubmitting={isSubmitting}
-            assets={assets}
-            loadingAssets={loadingAssets}
           />
         </div>
       </div>

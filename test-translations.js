@@ -1,33 +1,23 @@
-// Script de prueba para verificar traducciones
-const fs = require('fs')
+// Test para verificar traducciones
+import i18n from './src/i18n/index.ts'
 
-console.log('Probando traducciones...')
+// Cambiar a inglés para probar
+i18n.changeLanguage('en')
 
-// Leer el archivo de traducción español
-const esTranslations = JSON.parse(fs.readFileSync('./src/i18n/locales/es.json', 'utf8'))
+console.log('Testing translations:')
+console.log('manuals.uploadFile:', i18n.t('manuals.uploadFile'))
+console.log('manuals.selectPdfFile:', i18n.t('manuals.selectPdfFile'))
+console.log('manuals.changeFile:', i18n.t('manuals.changeFile'))
+console.log('manuals.dragAndDrop:', i18n.t('manuals.dragAndDrop'))
+console.log('manuals.cancel:', i18n.t('manuals.cancel'))
+console.log('manuals.uploading:', i18n.t('manuals.uploading'))
 
-// Verificar si las claves existen
-const testKeys = [
-  'home.ordersByType',
-  'home.ordersByStatus',
-  'common.total',
-  'common.noDataAvailable'
-]
-
-testKeys.forEach(key => {
-  const keys = key.split('.')
-  let value = esTranslations
-  
-  for (const k of keys) {
-    if (value && value[k]) {
-      value = value[k]
-    } else {
-      value = `❌ CLAVE NO ENCONTRADA: ${key}`
-      break
-    }
-  }
-  
-  console.log(`${key}: ${value}`)
-})
-
-console.log('✅ Verificación completada') 
+// Cambiar a español
+i18n.changeLanguage('es')
+console.log('\nEn español:')
+console.log('manuals.uploadFile:', i18n.t('manuals.uploadFile'))
+console.log('manuals.selectPdfFile:', i18n.t('manuals.selectPdfFile'))
+console.log('manuals.changeFile:', i18n.t('manuals.changeFile'))
+console.log('manuals.dragAndDrop:', i18n.t('manuals.dragAndDrop'))
+console.log('manuals.cancel:', i18n.t('manuals.cancel'))
+console.log('manuals.uploading:', i18n.t('manuals.uploading')) 

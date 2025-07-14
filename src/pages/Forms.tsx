@@ -151,7 +151,7 @@ const Forms = () => {
       <div className={styles.containerForms}>
         <h1 className={styles.title}>{t('forms.title')}</h1>
         <div className={styles.positionButton}>
-          <Button title={t('forms.createTemplate')} onClick={handleOpenCreate} />
+          <Button title={t('forms.createFormTemplate')} onClick={handleOpenCreate} />
         </div>
         
         <div className={styles.typeButtons}>
@@ -217,8 +217,8 @@ const Forms = () => {
                       <button 
                         className={styles.iconButton}
                         onClick={() => handleOpenEdit(template)}
-                        aria-label={t('forms.editTemplate')}
-                        data-tooltip={t('forms.editTemplate')}
+                        aria-label={t('forms.editTemplateTooltip')}
+                        data-tooltip={t('forms.editTemplateTooltip')}
                       >
                         <Edit size={24} />
                       </button>
@@ -228,8 +228,8 @@ const Forms = () => {
                           setTemplateToDelete(template)
                           setIsDeleteModalOpen(true)
                         }}
-                        aria-label={t('forms.deleteTemplate')}
-                        data-tooltip={t('forms.deleteTemplate')}
+                        aria-label={t('forms.deleteTemplateTooltip')}
+                        data-tooltip={t('forms.deleteTemplateTooltip')}
                       >
                         <Trash size={24} />
                       </button>

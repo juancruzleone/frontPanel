@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import ManualForm from "../../../../src/features/manuals/components/ManualForm";
 import useManuals from "../../../../src/features/manuals/hooks/useManuals";
 import { Manual } from "../hooks/useManuals";
@@ -8,6 +9,7 @@ interface ModalEditProps {
   isOpen: boolean;
   onRequestClose: () => void;
   onSubmitSuccess: (message: string) => void;
+  onSubmitError: (message: string) => void;
   onEdit: (id: string, data: Manual) => Promise<{ message: string }>;
   initialData: Manual | null;
 }
@@ -16,9 +18,11 @@ const ModalEdit = ({
   isOpen,
   onRequestClose,
   onSubmitSuccess,
+  onSubmitError,
   onEdit,
   initialData,
 }: ModalEditProps) => {
+  const { t } = useTranslation();
   const {
     formData,
     formErrors,
@@ -49,7 +53,7 @@ const ModalEdit = ({
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Editar Manual</h2>
+          <h2 className={styles.title}>{t('manuals.editManual')}</h2>
           <button 
             className={styles.closeButton}
             onClick={handleClose}
@@ -62,6 +66,7 @@ const ModalEdit = ({
           <ManualForm
             onCancel={handleClose}
             onSuccess={onSubmitSuccess}
+            onError={onSubmitError}
             onEdit={onEdit}
             isEditMode={true}
             initialData={initialData}
