@@ -5,6 +5,7 @@
 [build.environment]
   NODE_VERSION = "20"
   NPM_FLAGS = "--legacy-peer-deps"
+  VITE_API_URL = "https://backpanel-d4em.onrender.com/api/"
 
 [[redirects]]
   from = "/*"

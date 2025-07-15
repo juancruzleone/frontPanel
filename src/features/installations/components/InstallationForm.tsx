@@ -48,13 +48,13 @@ const InstallationForm = ({
   const { installationTypes, loading: loadingTypes } = useInstallationTypes()
 
   const fields = [
-    { name: "company", label: t('installations.company'), type: "text" },
-    { name: "address", label: t('installations.address'), type: "text" },
+    { name: "company", label: t('installations.company'), type: "text", placeholder: t('installations.companyPlaceholder') },
+    { name: "address", label: t('installations.address'), type: "text", placeholder: t('installations.addressPlaceholder') },
     { name: "installationType", label: t('installations.installationType'), type: "select" },
-    { name: "floorSector", label: t('installations.floorSector'), type: "text" },
-    { name: "postalCode", label: t('installations.postalCode'), type: "text" },
-    { name: "city", label: t('installations.city'), type: "text" },
-    { name: "province", label: t('installations.province'), type: "text" },
+    { name: "floorSector", label: t('installations.floorSector'), type: "text", placeholder: t('installations.floorSectorPlaceholder') },
+    { name: "postalCode", label: t('installations.postalCode'), type: "text", placeholder: t('installations.postalCodePlaceholder') },
+    { name: "city", label: t('installations.city'), type: "text", placeholder: t('installations.cityPlaceholder') },
+    { name: "province", label: t('installations.province'), type: "text", placeholder: t('installations.provincePlaceholder') },
   ]
 
   const handleFieldBlur = (fieldName: string) => {
@@ -65,7 +65,7 @@ const InstallationForm = ({
 
   const showError = (fieldName: string) => touchedFields[fieldName] && formErrors[fieldName]
 
-  const renderField = (field: { name: string; label: string; type: string }) => {
+  const renderField = (field: { name: string; label: string; type: string; placeholder?: string }) => {
     if (field.type === "select" && field.name === "installationType") {
       return (
         <select
@@ -95,6 +95,7 @@ const InstallationForm = ({
         onBlur={() => handleFieldBlur(field.name)}
         disabled={isSubmitting}
         className={showError(field.name) ? styles.errorInput : ""}
+        placeholder={field.placeholder || ""}
       />
     )
   }

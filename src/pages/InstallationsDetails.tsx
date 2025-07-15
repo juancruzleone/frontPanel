@@ -12,8 +12,10 @@ import useInstallations from "../features/installations/hooks/useInstallations"
 import { getLastMaintenanceForDevice } from "../features/installationsDetails/services/installationDetailsServices.ts"
 import { updateDeviceInInstallation } from "../features/installations/services/installationServices"
 import type { Device } from "../features/installations/hooks/useInstallations"
+import { useTranslation } from "react-i18next"
 
 const InstallationDetails = () => {
+  const { t } = useTranslation()
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const location = useLocation()
@@ -51,9 +53,9 @@ const InstallationDetails = () => {
   useEffect(() => {
     if (id) {
       loadInstallationDetails(id)
-      document.title = `Dispositivos | LeoneSuite`
+      document.title = t("installationDetails.titlePage")
     }
-  }, [id, loadInstallationDetails])
+  }, [id, loadInstallationDetails, t])
 
   // Resetear página cuando cambien los dispositivos
   useEffect(() => {
@@ -163,36 +165,36 @@ const InstallationDetails = () => {
   }
 
   if (loading && !currentInstallation) {
-    return <div className={styles.loader}>Cargando dispositivos...</div>
+    return <div className={styles.loader}>{t("installationDetails.loadingDevices")}</div>
   }
 
   if (!currentInstallation) {
-    return <div className={styles.loader}>Instalación no encontrada</div>
+    return <div className={styles.loader}>{t("installationDetails.notFound")}</div>
   }
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1 className={styles.title}>Dispositivos de {installationName || currentInstallation.company}</h1>
+        <h1 className={styles.title}>{t("installationDetails.devicesOf", { name: installationName || currentInstallation.company })}</h1>
         <p className={styles.address}>
           {currentInstallation.address}, {currentInstallation.city}, {currentInstallation.province}
         </p>
         {currentInstallation.installationType && (
           <span className={styles.installationTypeTag}>
-            {currentInstallation.installationType}
+            {t(`installationTypes.${currentInstallation.installationType}`)}
           </span>
         )}
         <div className={styles.actions}>
           <button className={styles.addButton} onClick={() => setIsAddDeviceModalOpen(true)}>
             <Plus size={20} />
-            <span>Agregar dispositivo</span>
+            <span>{t("installationDetails.addDevice")}</span>
           </button>
         </div>
       </div>
 
       <div className={styles.devicesList}>
         {installationDevices.length === 0 ? (
-          <p className={styles.emptyMessage}>No hay dispositivos en esta instalación</p>
+          <p className={styles.emptyMessage}>{t("installationDetails.noDevices")}</p>
         ) : (
           currentDevices.map((device, index) => (
             <div key={device._id || `device-${startIndex + index}`} className={styles.deviceCard}>
@@ -201,31 +203,31 @@ const InstallationDetails = () => {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
                   <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
                     <p>
-                      <strong>Tipo:</strong> {device.categoria}
+                      <strong>{t("installationDetails.type")}:</strong> {device.categoria}
                     </p>
                     <p>
-                      <strong>Ubicación:</strong> {device.ubicacion}
+                      <strong>{t("installationDetails.location")}:</strong> {device.ubicacion}
                     </p>
                     <p>
-                      <strong>Estado:</strong>{" "}
-                      <span className={styles[device.estado?.replace(/\s/g, "") || ""]}>{device.estado}</span>
+                      <strong>{t("installationDetails.status")}:</strong>{" "}
+                      <span className={styles[device.estado?.replace(/\s/g, "") || ""]}>{t(`deviceStatus.${device.estado}`)}</span>
                     </p>
                   </div>
                   {(device.marca || device.modelo || device.numeroSerie) && (
                     <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
                       {device.marca && (
                         <p>
-                          <strong>Marca:</strong> {device.marca}
+                          <strong>{t("installationDetails.brand")}:</strong> {device.marca}
                         </p>
                       )}
                       {device.modelo && (
                         <p>
-                          <strong>Modelo:</strong> {device.modelo}
+                          <strong>{t("installationDetails.model")}:</strong> {device.modelo}
                         </p>
                       )}
                       {device.numeroSerie && (
                         <p>
-                          <strong>N° Serie:</strong> {device.numeroSerie}
+                          <strong>{t("installationDetails.serialNumber")}:</strong> {device.numeroSerie}
                         </p>
                       )}
                     </div>
@@ -239,8 +241,8 @@ const InstallationDetails = () => {
                 <button 
                   className={styles.qrButton} 
                   onClick={() => handleShowQR(device)} 
-                  aria-label="Ver código QR"
-                  data-tooltip="Ver código QR"
+                  aria-label={t("installationDetails.seeQR")}
+                  data-tooltip={t("installationDetails.seeQR")}
                 >
                   <QrCode size={18} />
                 </button>
@@ -248,16 +250,16 @@ const InstallationDetails = () => {
                   className={styles.pdfButton}
                   onClick={() => handleDownloadLastMaintenancePDF(device)}
                   disabled={loadingPDF === device._id}
-                  aria-label="Descargar último mantenimiento"
-                  data-tooltip="Descargar último mantenimiento"
+                  aria-label={t("installationDetails.downloadLastMaintenance")}
+                  data-tooltip={t("installationDetails.downloadLastMaintenance")}
                 >
                   <FileText size={18} />
                 </button>
                 <button 
                   className={styles.editButton} 
                   onClick={() => handleEditDevice(device)}
-                  aria-label="Editar dispositivo"
-                  data-tooltip="Editar dispositivo"
+                  aria-label={t("installationDetails.editDevice")}
+                  data-tooltip={t("installationDetails.editDevice")}
                 >
                   <Edit size={18} />
                 </button>
@@ -267,8 +269,8 @@ const InstallationDetails = () => {
                     setDeviceToDelete(device)
                     setIsDeleteModalOpen(true)
                   }}
-                  aria-label="Eliminar dispositivo"
-                  data-tooltip="Eliminar dispositivo"
+                  aria-label={t("installationDetails.deleteDevice")}
+                  data-tooltip={t("installationDetails.deleteDevice")}
                 >
                   <Trash size={18} />
                 </button>
@@ -285,7 +287,7 @@ const InstallationDetails = () => {
             &lt;
           </button>
           <span>
-            Página {currentPage} de {totalPages}
+            {t("installationDetails.page", { currentPage, totalPages })}
           </span>
           <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
             &gt;
@@ -324,8 +326,8 @@ const InstallationDetails = () => {
         isOpen={isDeleteModalOpen}
         onCancel={() => setIsDeleteModalOpen(false)}
         onConfirm={handleDeleteDevice}
-        title="¿Eliminar dispositivo?"
-        description="Esta acción no se puede deshacer."
+        title={t("installationDetails.confirmDeleteTitle")}
+        description={t("installationDetails.confirmDeleteDescription")}
       />
 
       <ModalQRCode

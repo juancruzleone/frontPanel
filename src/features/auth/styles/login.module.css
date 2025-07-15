@@ -98,8 +98,21 @@
 }
 
 .themeToggleContainer {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    width: 100%;
+    top: 0;
+    right: 0;
     z-index: 10;
+}
+
+@media (max-width: 768px) {
+    .themeToggleContainer {
+        justify-content: flex-end;
+        margin-bottom: 1rem;
+        padding-right: 1.5rem;
+    }
 }
