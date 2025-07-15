@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "../styles/Modal.module.css";
 import { WorkOrder } from "../hooks/useWorkOrders";
 import AssignTechnicianForm from "./AssignTechnicianForm";
+import { useTranslation } from "react-i18next"
 
 interface ModalAssignTechnicianProps {
   isOpen: boolean;
@@ -20,6 +21,7 @@ const ModalAssignTechnician = ({
   workOrder,
   technicians,
 }: ModalAssignTechnicianProps) => {
+  const { t } = useTranslation()
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleClose = () => {
@@ -30,7 +32,7 @@ const ModalAssignTechnician = ({
 
   const handleAssign = async (technicianId: string) => {
     if (!workOrder?._id) {
-      throw new Error("Orden de trabajo no válida");
+      throw new Error(t('workOrders.invalidWorkOrder'))
     }
     
     setIsSubmitting(true);
@@ -48,12 +50,12 @@ const ModalAssignTechnician = ({
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Asignar Técnico</h2>
+          <h2 className={styles.title}>{t('workOrders.modals.assignTechnicianTitle')}</h2>
           <button 
             className={styles.closeButton}
             onClick={handleClose}
             disabled={isSubmitting}
-            aria-label="Cerrar modal"
+            aria-label={t('common.close')}
           >
             ×
           </button>

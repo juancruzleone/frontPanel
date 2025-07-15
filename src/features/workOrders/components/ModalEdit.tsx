@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react"
 import WorkOrderForm from "./WorkOrderForm"
 import styles from "../styles/Modal.module.css"
 import useWorkOrders, { type WorkOrder } from "../hooks/useWorkOrders"
+import { useTranslation } from "react-i18next"
 
 interface ModalEditProps {
   isOpen: boolean
@@ -24,6 +25,7 @@ const ModalEdit = ({
   loadingInstallations,
   errorLoadingInstallations,
 }: ModalEditProps) => {
+  const { t } = useTranslation()
   const {
     formData,
     formErrors,
@@ -73,15 +75,15 @@ const ModalEdit = ({
       <div className={styles.backdrop}>
         <div className={styles.modal}>
           <div className={styles.modalHeader}>
-            <h2 className={styles.title}>Orden no editable</h2>
+            <h2 className={styles.title}>{t('workOrders.notEditable')}</h2>
             <button className={styles.closeButton} onClick={onRequestClose}>
               ×
             </button>
           </div>
           <div className={styles.modalContent}>
-            <p>No se puede editar una orden {initialData.estado.replace("_", " ")}</p>
+            <p>{t('workOrders.cannotEdit', { status: t('workOrders.' + initialData.estado) })}</p>
             <button className={styles.cancelButton} onClick={onRequestClose}>
-              Cerrar
+              {t('common.close')}
             </button>
           </div>
         </div>
@@ -93,7 +95,7 @@ const ModalEdit = ({
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Editar Orden de Trabajo</h2>
+          <h2 className={styles.title}>{t('workOrders.editOrder')}</h2>
           <button className={styles.closeButton} onClick={handleClose} disabled={isSubmitting}>
             ×
           </button>
@@ -102,6 +104,7 @@ const ModalEdit = ({
           <WorkOrderForm
             onCancel={handleClose}
             onSuccess={onSubmitSuccess}
+            onError={() => {}}
             onEdit={onEdit}
             isEditMode={true}
             initialData={initialData}

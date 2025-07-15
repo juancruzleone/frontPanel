@@ -55,7 +55,7 @@ const ModalCreate = ({
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>{t('workOrders.form.createWorkOrder')}</h2>
+          <h2 className={styles.title}>{t('workOrders.createWorkOrder')}</h2>
           <button 
             className={styles.closeButton}
             onClick={handleClose}

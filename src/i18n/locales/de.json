@@ -194,6 +194,12 @@
     }
   },
   "installations": {
+    "companyPlaceholder": "Firmenname eingeben",
+    "addressPlaceholder": "Adresse eingeben",
+    "floorSectorPlaceholder": "Etage/Sektor eingeben",
+    "postalCodePlaceholder": "Postleitzahl eingeben",
+    "cityPlaceholder": "Stadt eingeben",
+    "provincePlaceholder": "Provinz eingeben",
     "title": "Installationen",
     "createInstallation": "Installation erstellen",
     "editInstallation": "Installation bearbeiten",

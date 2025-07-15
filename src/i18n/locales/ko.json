@@ -168,6 +168,12 @@
     }
   },
   "installations": {
+    "companyPlaceholder": "회사 이름을 입력하세요",
+    "addressPlaceholder": "주소를 입력하세요",
+    "floorSectorPlaceholder": "층/구역을 입력하세요",
+    "postalCodePlaceholder": "우편번호를 입력하세요",
+    "cityPlaceholder": "도시를 입력하세요",
+    "provincePlaceholder": "도/주를 입력하세요",
   "title": "설치",
   "createInstallation": "설치 생성",
   "editInstallation": "설치 편집",

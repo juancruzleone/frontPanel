@@ -1,4 +1,5 @@
 import styles from "../styles/Modal.module.css";
+import { useTranslation } from "react-i18next"
 
 type ModalErrorProps = {
   isOpen: boolean;
@@ -7,13 +8,14 @@ type ModalErrorProps = {
 }
 
 const ModalError = ({ isOpen, onRequestClose, mensaje }: ModalErrorProps) => {
+  const { t } = useTranslation()
   if (!isOpen) return null;
 
   return (
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Error</h2>
+          <h2 className={styles.title}>{t('common.error')}</h2>
           <button 
             className={styles.closeButton}
             onClick={onRequestClose}
@@ -34,7 +36,7 @@ const ModalError = ({ isOpen, onRequestClose, mensaje }: ModalErrorProps) => {
               className={styles.errorButtonLarge} 
               onClick={onRequestClose}
             >
-              Entendido
+              {t('common.understood')}
             </button>
           </div>
         </div>

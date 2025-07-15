@@ -1,4 +1,5 @@
 import styles from "../styles/Modal.module.css"
+import { useTranslation } from "react-i18next"
 
 type ModalSuccessProps = {
   isOpen: boolean
@@ -7,13 +8,14 @@ type ModalSuccessProps = {
 }
 
 const ModalSuccess = ({ isOpen, onRequestClose, mensaje }: ModalSuccessProps) => {
+  const { t } = useTranslation()
   if (!isOpen) return null
 
   return (
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>¡Operación exitosa!</h2>
+          <h2 className={styles.title}>{t('auth.successTitle')}</h2>
           <button className={styles.closeButton} onClick={onRequestClose}>
             ×
           </button>
@@ -26,9 +28,14 @@ const ModalSuccess = ({ isOpen, onRequestClose, mensaje }: ModalSuccessProps) =>
                 <path d="m9 12 2 2 4-4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-            <p className={styles.successMessageLarge}>{mensaje}</p>
+            <p className={styles.successMessageLarge}>
+              {mensaje === "Login exitoso." ? t('auth.loginSuccess') : 
+               mensaje === "Sesión cerrada con éxito." ? t('auth.logoutSuccess') : 
+               mensaje === "Inicio de sesión exitoso" ? t('auth.loginSuccess') :
+               mensaje}
+            </p>
             <button className={styles.successButtonLarge} onClick={onRequestClose}>
-              Continuar
+              {t('auth.continue')}
             </button>
           </div>
         </div>

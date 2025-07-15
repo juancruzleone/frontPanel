@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import styles from "../styles/workOrderForm.module.css"
+import { useTranslation } from "react-i18next"
 
 interface AssignTechnicianFormProps {
   onCancel: () => void
@@ -18,6 +19,7 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
   technicians,
   isSubmitting,
 }) => {
+  const { t } = useTranslation()
   const [selectedTechnician, setSelectedTechnician] = useState("")
   const [error, setError] = useState("")
   const [touched, setTouched] = useState(false)
@@ -27,7 +29,7 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!selectedTechnician) {
-      setError("Seleccione un técnico")
+      setError(t('workOrders.form.selectTechnician'))
       return
     }
     try {
@@ -35,13 +37,13 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
       onSuccess(result.message)
     } catch (err: any) {
       console.error("Error al asignar técnico:", err)
-      setError(err.message || "Error al asignar técnico")
+      setError(err.message || t('workOrders.form.errorAssigningTechnician'))
     }
   }
 
   const handleBlur = () => {
     setTouched(true)
-    if (!selectedTechnician) setError("Seleccione un técnico")
+    if (!selectedTechnician) setError(t('workOrders.form.selectTechnician'))
     else setError("")
   }
 
@@ -49,12 +51,12 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
     <form onSubmit={handleSubmit} className={styles.form}>
       <div className={styles.formInner}>
         <div className={styles.formGroup}>
-          <label>Orden de Trabajo</label>
+          <label>{t('workOrders.title')}</label>
           <p className={styles.readOnlyField}>{workOrder.titulo}</p>
         </div>
 
         <div className={styles.formGroup}>
-          <label>Seleccionar Técnico</label>
+          <label>{t('workOrders.assignTechnician')}</label>
           <select
             value={selectedTechnician}
             onChange={(e) => {
@@ -64,9 +66,9 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
             onBlur={handleBlur}
             disabled={isSubmitting || technicians.length === 0}
             className={error && touched ? styles.errorInput : ""}
-            aria-label="Seleccionar técnico"
+            aria-label={t('workOrders.selectTechnician')}
           >
-            <option value="">Seleccione un técnico</option>
+            <option value="">{t('workOrders.selectTechnician')}</option>
             {technicians.map((tech) => (
               <option key={tech._id} value={tech._id}>
                 {tech.userName} 
@@ -76,7 +78,7 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
           {error && touched && <p className={styles.inputError}>{error}</p>}
           {technicians.length === 0 && (
             <p className={styles.inputWarning}>
-              No hay técnicos disponibles
+              {t('workOrders.noTechniciansAvailable')}
             </p>
           )}
         </div>
@@ -88,14 +90,14 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
             disabled={isSubmitting}
             className={styles.cancelButton}
           >
-            Cancelar
+            {t('workOrders.cancel')}
           </button>
           <button
             type="submit"
             disabled={isSubmitting || !selectedTechnician || technicians.length === 0}
             className={styles.submitButton}
           >
-            {isSubmitting ? "Asignando..." : "Asignar Técnico"}
+            {isSubmitting ? t('workOrders.assigning') : t('workOrders.assign')}
           </button>
         </div>
       </div>

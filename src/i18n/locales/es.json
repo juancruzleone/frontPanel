@@ -130,6 +130,12 @@
   },
 
   "installations": {
+    "companyPlaceholder": "Ingresa el nombre de la empresa",
+    "addressPlaceholder": "Ingresa la dirección",
+    "floorSectorPlaceholder": "Ingresa el piso/sector",
+    "postalCodePlaceholder": "Ingresa el código postal",
+    "cityPlaceholder": "Ingresa la ciudad",
+    "provincePlaceholder": "Ingresa la provincia",
     "title": "Instalaciones",
     "createInstallation": "Crear Instalación",
     "editInstallation": "Editar Instalación",
@@ -140,7 +146,6 @@
     "phone": "Teléfono",
     "email": "Correo Electrónico",
     "devices": "Dispositivos",
-
     "editDevice": "Editar Dispositivo",
     "deviceType": "Tipo de Dispositivo",
     "serialNumber": "Número de Serie",
@@ -652,6 +657,7 @@
     "clickToSelect": "o haz clic para seleccionar"
   },
   "workOrders": {
+    "observations": "Observaciones",
     "title": "Órdenes de Trabajo",
     "createWorkOrder": "Crear orden",
     "searchPlaceholder": "Buscar por título, descripción, instalación o técnico",
