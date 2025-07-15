@@ -10,9 +10,27 @@ import "./i18n"
 // Registrar Service Worker para PWA
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
+    navigator.serviceWorker.register('/sw.js', {
+      updateViaCache: 'none'
+    })
       .then((registration) => {
         console.log('SW registered: ', registration);
+        
+        // Verificar actualizaciones del Service Worker
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          if (newWorker) {
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // Hay una nueva versión disponible
+                if (confirm('Hay una nueva versión disponible. ¿Deseas actualizar?')) {
+                  newWorker.postMessage({ type: 'SKIP_WAITING' });
+                  window.location.reload();
+                }
+              }
+            });
+          }
+        });
       })
       .catch((registrationError) => {
         console.log('SW registration failed: ', registrationError);
