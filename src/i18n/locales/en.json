@@ -581,7 +581,6 @@
   "manuals": {
     "title": "Manuals",
     "createManual": "Create manual",
-    "editManual": "Edit manual",
     "searchPlaceholder": "Search by name, description, author, version or tags",
     "filterByCategory": "Filter by category",
     "noManualsFound": "No manuals found",
@@ -671,8 +670,7 @@
     "operationSuccess": "Operation successful!",
     "noFileSelected": "No file selected",
     "dragDropPdfFile": "Drag your PDF file here",
-    "clickToSelect": "or click to select",
-    "uploadFile": "Upload file"
+    "clickToSelect": "or click to select"
   },
   "calendar": {
     "title": "Work Orders Calendar",
