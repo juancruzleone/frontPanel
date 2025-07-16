@@ -217,7 +217,7 @@
   .menu li a {
     gap: 12px;
     padding: 10px 16px;
-    font-size: 12px;
+    font-size: 14px;
     border-radius: 8px;
   }
 }
@@ -231,9 +231,9 @@
 }
 
 .userSection {
-  padding: 4px 6px 0;
+  padding: 2px 2px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   margin-top: auto;
 }
 
@@ -254,12 +254,12 @@
 .userInfo {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 8px;
+  gap: 3px;
+  padding: 4px;
   background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: 6px;
+  margin-top: 2px;
 }
 
 @media (min-width: 768px) {
@@ -283,7 +283,7 @@
 .userDetails {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
 }
 
 @media (min-width: 768px) {
@@ -295,18 +295,18 @@
 .userName {
   color: #fff;
   font-weight: 600;
-  font-size: 10.5px;
+  font-size: 9px;
 }
 
 @media (min-width: 768px) {
   .userName {
-    font-size: 14px;
+    font-size: 12px;
   }
 }
 
 .userRole {
   color: rgba(255, 255, 255, 0.7);
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 500;
 }
 
@@ -321,27 +321,24 @@
   border: none;
   color: #fff;
   cursor: pointer;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
   display: flex;
   align-items: center;
   gap: 3px;
-  padding: 5px 6px;
-  border-radius: 4px;
+  padding: 4px 5px;
+  border-radius: 3px;
   transition: all 0.2s ease;
   width: 100%;
   justify-content: center;
   box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
 }
 
-.logoutButton svg {
-  width: 12px;
-  height: 12px;
-}
+
 
 @media (min-width: 768px) {
   .logoutButton {
-    font-size: 14px;
+    font-size: 12px;
     gap: 8px;
     padding: 12px 16px;
     border-radius: 8px;
@@ -362,7 +359,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 12px;
+  gap: 6px;
   margin-top: auto;
 }
 
@@ -401,8 +398,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  margin-bottom: 6px;
+  gap: 4px;
+  margin-bottom: 2px;
 }
 
 @media (min-width: 768px) {
@@ -473,3 +470,10 @@
   height: 18px;
   font-size: 9px;
 }
+
+/* Eliminar estilos de la barra superior fija revertida */
+.topBarNav {}
+.profileIcon {}
+.userNameTop {}
+.logoutButtonTop {}
+.logoutButtonTop:hover {}
