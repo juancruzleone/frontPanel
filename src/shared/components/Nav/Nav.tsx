@@ -104,8 +104,12 @@ const Nav = () => {
           <div className={styles.userSection}>
             {user && (
               <div className={styles.userInfo}>
+                <div className={styles.userDetails}>
+                  <span className={styles.userName}>{user}</span>
+                  <span className={styles.userRole}>{t('nav.user')}</span>
+                </div>
                 <button className={styles.logoutButton} onClick={handleLogout}>
-                  <LogOut size={15} />
+                  <LogOut size={16} />
                   <span>{t('nav.logout')}</span>
                 </button>
               </div>
