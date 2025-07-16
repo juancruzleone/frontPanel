@@ -34,7 +34,10 @@ const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date())
 
   useEffect(() => {
-    document.title = "Calendario de Órdenes | LeoneSuite"
+    document.title = t("calendar.titlePage")
+  }, [t, i18n.language])
+
+  useEffect(() => {
     loadWorkOrders()
   }, [loadWorkOrders])
 

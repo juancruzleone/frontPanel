@@ -15,6 +15,7 @@
     "logout": "로그아웃"
   },
   "personal": {
+    "titlePage": "직원 | LeoneSuite",
     "title": "기술자",
     "addTechnician": "기술자 추가",
     "techniciansList": "기술자 목록",
@@ -102,6 +103,7 @@
   },
 
   "workOrders": {
+    "titlePage": "작업 지시서 | LeoneSuite",
   "titlePlaceholder": "작업 지시서 제목을 입력하세요",
   "descriptionPlaceholder": "수행할 작업에 대한 설명",
   "observationsPlaceholder": "추가 메모(선택 사항)",
@@ -225,6 +227,7 @@
   }
   },
   "installations": {
+    "titlePage": "설치 | LeoneSuite",
     "companyPlaceholder": "회사 이름을 입력하세요",
     "addressPlaceholder": "주소를 입력하세요",
     "floorSectorPlaceholder": "층/구역을 입력하세요",
@@ -542,6 +545,7 @@
     }
   },
   "assets": {
+    "titlePage": "자산 | LeoneSuite",
     "title": "자산",
     "createAsset": "자산 생성",
     "editAsset": "자산 편집",
@@ -604,6 +608,7 @@
     }
   },
   "forms": {
+    "titlePage": "양식 | LeoneSuite",
     "title": "양식 템플릿",
     "createTemplate": "양식 템플릿 만들기",
     "createFormTemplate": "양식 템플릿 만들기",
@@ -695,6 +700,7 @@
     }
   },
   "manuals": {
+    "titlePage": "매뉴얼 | LeoneSuite",
     "title": "매뉴얼",
     "createManual": "매뉴얼 생성",
     "editManual": "매뉴얼 편집",
@@ -803,6 +809,7 @@
     }
   },
   "calendar": {
+    "titlePage": "달력 | LeoneSuite",
     "title": "작업 지시서 달력",
     "month": "월",
     "week": "주",

@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next"
 import { translateFormFieldType } from "../shared/utils/backendTranslations"
 
 const Forms = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { templates, loading, categories, loadTemplates, addTemplate, editTemplate, removeTemplate } = useForms()
 
   const [searchTerm, setSearchTerm] = useState("")
@@ -35,8 +35,8 @@ const Forms = () => {
   const itemsPerPage = 5
 
   useEffect(() => {
-    document.title = "Plantillas de Formularios | LeoneSuite"
-  }, [])
+    document.title = t("forms.titlePage")
+  }, [t, i18n.language])
 
   const filteredTemplates = useMemo(() => {
     const searchTermLower = searchTerm.toLowerCase()

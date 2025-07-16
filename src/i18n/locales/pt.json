@@ -37,7 +37,8 @@
     "completeAllFields": "Complete todos os campos",
     "registerTechnician": "Registrar Técnico",
     "roleTechnician": "Técnico",
-    "roleAdmin": "Administrador"
+    "roleAdmin": "Administrador",
+    "titlePage": "Pessoal | LeoneSuite"
   },
   "common": {
     "loading": "Carregando...",
@@ -221,7 +222,8 @@
         "timeMax": "O tempo de trabalho não pode exceder 24 horas",
         "deviceStateInvalid": "O estado do dispositivo deve ser válido"
       }
-    }
+    },
+    "titlePage": "Ordens de Trabalho | LeoneSuite"
   },
   "installations": {
     "companyPlaceholder": "Digite o nome da empresa",
@@ -542,7 +544,8 @@
       "typeNameMin": "O nome deve ter pelo menos 2 caracteres",
       "typeNameMax": "O nome não pode exceder 100 caracteres",
       "typeDescriptionMax": "A descrição não pode exceder 500 caracteres"
-    }
+    },
+    "titlePage": "Instalações | LeoneSuite"
   },
   "assets": {
     "title": "Ativos",
@@ -598,9 +601,11 @@
       "modelRequired": "O modelo é obrigatório",
       "serialRequired": "O número de série é obrigatório",
       "templateRequired": "O modelo de formulário é obrigatório"
-    }
+    },
+    "titlePage": "Ativos | LeoneSuite"
   },
   "forms": {
+    "titlePage": "Formulários | LeoneSuite",
     "title": "Modelos de Formulários",
     "createFormTemplate": "Criar modelo de formulário",
     "viewCreatedCategories": "Ver categorias criadas",
@@ -687,6 +692,7 @@
     }
   },
   "manuals": {
+    "titlePage": "Manuais | LeoneSuite",
   "title": "Manuais",
   "createManual": "Criar manual",
   "editManual": "Editar manual",
@@ -794,6 +800,7 @@
     }
 },
   "calendar": {
+    "titlePage": "Calendário | LeoneSuite",
     "title": "Calendário de Ordens de Trabalho",
     "month": "Mês",
     "week": "Semana",

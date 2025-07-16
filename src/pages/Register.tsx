@@ -11,7 +11,7 @@ import i18n from "../i18n"
 import { translateUserRole } from "../shared/utils/backendTranslations"
 
 const Register = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { showModal, responseMessage, isError, closeModal, technicians, loadingTechnicians, fetchTechnicians, addTechnician } =
     useRegister()
 
@@ -19,7 +19,8 @@ const Register = () => {
 
   useEffect(() => {
     fetchTechnicians()
-  }, [fetchTechnicians])
+    document.title = t('personal.titlePage')
+  }, [fetchTechnicians, t, i18n.language])
 
   const formatDate = useCallback((dateString: string) => {
     const date = new Date(dateString)

@@ -37,7 +37,8 @@
     "completeAllFields": "Complete all fields",
     "registerTechnician": "Register Technician",
     "roleTechnician": "Technician",
-    "roleAdmin": "Administrator"
+    "roleAdmin": "Administrator",
+    "titlePage": "Personnel | LeoneSuite"
   },
   "common": {
     "loading": "Loading...",
@@ -130,6 +131,7 @@
   },
 
   "installations": {
+    "titlePage": "Installations | LeoneSuite",
     "companyPlaceholder": "Enter company name",
     "addressPlaceholder": "Enter address",
     "floorSectorPlaceholder": "Enter floor/sector",
@@ -434,6 +436,7 @@
     }
   },
   "assets": {
+    "titlePage": "Assets | LeoneSuite",
     "cancel": "cancel",
     "delete": "delete",
     "title": "Assets",
@@ -496,6 +499,7 @@
     }
   },
   "forms": {
+    "titlePage": "Forms | LeoneSuite",
     "title": "Form Templates",
     "createFormTemplate": "Create form template",
     "viewCreatedCategories": "View created categories",
@@ -582,6 +586,7 @@
     }
   },
   "manuals": {
+    "titlePage": "Manuals | LeoneSuite",
     "title": "Manuals",
     "createManual": "Create manual",
     "editManual": "Edit manual",
@@ -690,7 +695,7 @@
     }
   },
   "calendar": {
-    "title": "Work Orders Calendar",
+    "titlePage": "Calendar | LeoneSuite",
     "month": "Month",
     "week": "Week",
     "list": "List",
@@ -844,7 +849,8 @@
         "timeMax": "Work time cannot exceed 24 hours",
         "deviceStateInvalid": "Device state must be valid"
       }
-    }
+    },
+    "titlePage": "Work Orders | LeoneSuite"
   },
   "languageSelector": {
     "title": "Select Language",

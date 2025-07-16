@@ -14,7 +14,7 @@ import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next";
 
 const Manuals = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const {
     manuals,
     loading,
@@ -42,8 +42,8 @@ const Manuals = () => {
   const itemsPerPage = 4;
 
   useEffect(() => {
-    document.title = "Manuales | LeoneSuite";
-  }, []);
+    document.title = t("manuals.titlePage");
+  }, [t, i18n.language]);
 
   const dynamicCategories = useMemo(() => [
     { label: t('common.all'), value: "" },

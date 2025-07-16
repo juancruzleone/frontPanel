@@ -15,6 +15,7 @@
     "logout": "تسجيل الخروج"
   },
   "personal": {
+    "titlePage": "الموظفون | LeoneSuite",
     "title": "الفنيين",
     "addTechnician": "إضافة فني",
     "techniciansList": "قائمة الفنيين",
@@ -104,6 +105,7 @@
     "ordersWillAppear": "ستظهر الأوامر هنا عند إنشائها"
   },
   "workOrders": {
+    "titlePage": "أوامر العمل | LeoneSuite",
     "titlePlaceholder": "أدخل عنوان أمر العمل",
     "descriptionPlaceholder": "وصف العمل المطلوب تنفيذه",
     "observationsPlaceholder": "ملاحظات إضافية (اختياري)",
@@ -541,9 +543,11 @@
       "typeNameMin": "يجب أن يحتوي الاسم على حرفين على الأقل",
       "typeNameMax": "لا يمكن أن يتجاوز الاسم 100 حرف",
       "typeDescriptionMax": "لا يمكن أن تتجاوز الوصف 500 حرف"
-    }
+    },
+    "titlePage": "التثبيتات | LeoneSuite"
   },
   "assets": {
+    "titlePage": "الأصول | LeoneSuite",
     "assign": "تعيين",
     "title": "الأصول",
     "createAsset": "إنشاء أصل",
@@ -607,6 +611,7 @@
     }
   },
   "forms": {
+    "titlePage": "النماذج | LeoneSuite",
     "title": "قوالب النماذج",
     "createTemplate": "إنشاء قالب نموذج",
     "createFormTemplate": "إنشاء قالب نموذج",
@@ -698,6 +703,7 @@
     }
   },
   "manuals": {
+    "titlePage": "الكتيبات | LeoneSuite",
   "title": "الكتيبات",
   "createManual": "إنشاء كتيب",
   "editManual": "تعديل الكتيب",
@@ -805,6 +811,7 @@
     }
 },
   "calendar": {
+    "titlePage": "التقويم | LeoneSuite",
     "title": "تقويم أوامر العمل",
     "month": "شهر",
     "week": "أسبوع",

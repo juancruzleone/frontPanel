@@ -15,6 +15,7 @@
     "logout": "ログアウト"
   },
   "personal": {
+    "titlePage": "スタッフ | LeoneSuite",
     "title": "技術者",
     "addTechnician": "技術者を追加",
     "techniciansList": "技術者リスト",
@@ -102,6 +103,7 @@
     "ordersWillAppear": "指示が作成されるとここに表示されます"
   },
   "workOrders": {
+    "titlePage": "作業指示 | LeoneSuite",
     "titlePlaceholder": "作業指示書のタイトルを入力してください",
     "descriptionPlaceholder": "実施する作業内容を入力してください",
     "observationsPlaceholder": "追加の備考（任意）",
@@ -225,6 +227,7 @@
     }
   },
   "installations": {
+    "titlePage": "インストール | LeoneSuite",
     "companyPlaceholder": "会社名を入力してください",
     "addressPlaceholder": "住所を入力してください",
     "floorSectorPlaceholder": "階/セクターを入力してください",
@@ -543,6 +546,7 @@
     }
   },
   "assets": {
+    "titlePage": "資産 | LeoneSuite",
     "title": "資産",
     "createAsset": "資産作成",
     "editAsset": "資産編集",
@@ -599,6 +603,7 @@
     }
   },
   "forms": {
+    "titlePage": "フォーム | LeoneSuite",
     "title": "フォームテンプレート",
     "createFormTemplate": "フォームテンプレートを作成",
     "viewCreatedCategories": "作成済みカテゴリを見る",
@@ -684,6 +689,7 @@
     }
   },
   "manuals": {
+    "titlePage": "マニュアル | LeoneSuite",
   "title": "マニュアル",
   "createManual": "マニュアルを作成",
   "editManual": "マニュアルを編集",
@@ -791,6 +797,7 @@
     }
 },
   "calendar": {
+    "titlePage": "カレンダー | LeoneSuite",
     "title": "作業指示カレンダー",
     "month": "月",
     "week": "週",

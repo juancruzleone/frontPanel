@@ -45,7 +45,7 @@ const renderTechnicianInfo = (order: WorkOrder, t: (key: string) => string) => {
 }
 
 const WorkOrders = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const {
     workOrders,
     loading,
@@ -82,7 +82,10 @@ const WorkOrders = () => {
   const itemsPerPage = 5
 
   useEffect(() => {
-    document.title = "Órdenes de Trabajo | LeoneSuite"
+    document.title = t("workOrders.titlePage")
+  }, [t, i18n.language])
+
+  useEffect(() => {
     const loadData = async () => {
       try {
         await Promise.all([

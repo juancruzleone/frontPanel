@@ -37,7 +37,8 @@
     "completeAllFields": "Complete todos los campos",
     "registerTechnician": "Registrar Técnico",
     "roleTechnician": "Técnico",
-    "roleAdmin": "Administrador"
+    "roleAdmin": "Administrador",
+    "titlePage": "Personal | LeoneSuite"
   },
   "common": {
     "loading": "Cargando...",
@@ -448,7 +449,8 @@
       "typeNameMin": "El nombre debe tener al menos 2 caracteres",
       "typeNameMax": "El nombre no puede tener más de 100 caracteres",
       "typeDescriptionMax": "La descripción no puede exceder 500 caracteres"
-    }
+    },
+    "titlePage": "Instalaciones | LeoneSuite"
   },
   "assets": {
     "title": "Activos",
@@ -510,7 +512,8 @@
       "modelRequired": "El modelo es obligatorio",
       "serialRequired": "El número de serie es obligatorio",
       "templateRequired": "La plantilla de formulario es obligatoria"
-    }
+    },
+    "titlePage": "Activos | LeoneSuite"
   },
   "forms": {
     "title": "Plantillas de Formularios",
@@ -601,9 +604,11 @@
       "fieldOptionsMin": "Debe proporcionar al menos una opción",
       "fieldOptionsRequired": "Las opciones son obligatorias para campos de tipo select o radio",
       "unknownError": "Error de validación desconocido"
-    }
+    },
+    "titlePage": "Formularios | LeoneSuite"
   },
   "manuals": {
+    "titlePage": "Manuales | LeoneSuite",
     "title": "Manuales",
     "createManual": "Crear manual",
     "editManual": "Editar manual",
@@ -831,9 +836,11 @@
         "timeMax": "El tiempo de trabajo no puede exceder 24 horas",
         "deviceStateInvalid": "El estado del dispositivo debe ser válido"
       }
-    }
+    },
+    "titlePage": "Órdenes de Trabajo | LeoneSuite"
   },
   "calendar": {
+    "titlePage": "Calendario | LeoneSuite",
     "title": "Calendario de Órdenes de Trabajo",
     "month": "Mes",
     "week": "Semana",

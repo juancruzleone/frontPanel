@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next"
 import { translateDeviceStatus } from "../shared/utils/backendTranslations"
 
 const Assets = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const {
     assets,
     loading,
@@ -44,8 +44,8 @@ const Assets = () => {
   const itemsPerPage = 4
 
   useEffect(() => {
-    document.title = "Activos | LeoneSuite"
-  }, [])
+    document.title = t("assets.titlePage")
+  }, [t, i18n.language])
 
   const dynamicCategories = useMemo(
     () => [

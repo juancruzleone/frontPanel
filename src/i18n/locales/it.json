@@ -37,7 +37,8 @@
     "completeAllFields": "Completa tutti i campi",
     "registerTechnician": "Registra Tecnico",
     "roleTechnician": "Tecnico",
-    "roleAdmin": "Amministratore"
+    "roleAdmin": "Amministratore",
+    "titlePage": "Personale | LeoneSuite"
   },
   "common": {
     "loading": "Caricamento...",
@@ -222,7 +223,8 @@
         "timeMax": "Il tempo di lavoro non può superare le 24 ore",
         "deviceStateInvalid": "Lo stato del dispositivo deve essere valido"
       }
-    }
+    },
+    "titlePage": "Ordini di Lavoro | LeoneSuite"
   },
   "installations": {
     "companyPlaceholder": "Inserisci il nome dell'azienda",
@@ -541,7 +543,8 @@
       "typeNameMin": "Il nome deve contenere almeno 2 caratteri",
       "typeNameMax": "Il nome non può superare i 100 caratteri",
       "typeDescriptionMax": "La descrizione non può superare i 500 caratteri"
-    }
+    },
+    "titlePage": "Impianti | LeoneSuite"
   },
   "assets": {
     "title": "Beni",
@@ -597,7 +600,8 @@
       "modelRequired": "Il modello è obbligatorio",
       "serialRequired": "Il numero di serie è obbligatorio",
       "templateRequired": "Il modello del modulo è obbligatorio"
-    }
+    },
+    "titlePage": "Beni | LeoneSuite"
   },
   "forms": {
     "title": "Modelli di Formulari",
@@ -678,9 +682,11 @@
       "fieldOptionsMin": "Devi fornire almeno un'opzione",
       "fieldOptionsRequired": "Le opzioni sono obbligatorie per i campi di tipo select o radio",
       "unknownError": "Errore di validazione sconosciuto"
-    }
+    },
+    "titlePage": "Moduli | LeoneSuite"
   },
   "manuals": {
+    "titlePage": "Manuali | LeoneSuite",
   "title": "Manuali",
   "createManual": "Crea manuale",
   "editManual": "Modifica manuale",
@@ -788,6 +794,7 @@
     }
 },
   "calendar": {
+    "titlePage": "Calendario | LeoneSuite",
     "title": "Calendario degli Ordini di Lavoro",
     "month": "Mese",
     "week": "Settimana",

@@ -15,6 +15,7 @@
     "closeMenu": "关闭菜单"
   },
   "personal": {
+    "titlePage": "人员 | LeoneSuite",
     "title": "技术人员",
     "addTechnician": "添加技术人员",
     "techniciansList": "技术人员列表",
@@ -101,6 +102,7 @@
     "ordersWillAppear": "创建订单时将在此显示"
   },
   "workOrders": {
+    "titlePage": "工单 | LeoneSuite",
     "titlePlaceholder": "请输入工单标题",
     "descriptionPlaceholder": "请输入要执行的工作描述",
     "observationsPlaceholder": "附加备注（可选）",
@@ -275,6 +277,7 @@
 },
 
   "installations": {
+    "titlePage": "安装 | LeoneSuite",
     "companyPlaceholder": "请输入公司名称",
     "addressPlaceholder": "请输入地址",
     "floorSectorPlaceholder": "请输入楼层/区域",
@@ -596,6 +599,7 @@
     }
   },
   "assets": {
+    "titlePage": "资产 | LeoneSuite",
     "title": "资产",
     "createAsset": "创建资产",
     "editAsset": "编辑资产",
@@ -652,6 +656,7 @@
     }
   },
   "forms": {
+    "titlePage": "表单 | LeoneSuite",
     "title": "表单模板",
     "createFormTemplate": "创建表单模板",
     "viewCreatedCategories": "查看已创建的类别",
@@ -740,6 +745,7 @@
     }
   },
   "manuals": {
+    "titlePage": "手册 | LeoneSuite",
   "title": "手册",
   "createManual": "创建手册",
   "editManual": "编辑手册",
@@ -847,6 +853,7 @@
     }
 },
   "calendar": {
+    "titlePage": "日历 | LeoneSuite",
     "title": "工单日历",
     "month": "月份",
     "week": "周",

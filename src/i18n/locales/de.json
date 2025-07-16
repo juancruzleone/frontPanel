@@ -37,7 +37,8 @@
     "completeAllFields": "Alle Felder ausfüllen",
     "registerTechnician": "Techniker registrieren",
     "roleTechnician": "Techniker",
-    "roleAdmin": "Administrator"
+    "roleAdmin": "Administrator",
+    "titlePage": "Personal | LeoneSuite"
   },
   "common": {
     "loading": "Laden...",
@@ -101,6 +102,7 @@
     "ordersWillAppear": "Aufträge werden hier angezeigt, wenn sie erstellt werden"
   },
   "workOrders": {
+    "titlePage": "Arbeitsaufträge | LeoneSuite",
     "titlePlaceholder": "Arbeitsauftrags-Titel eingeben",
     "descriptionPlaceholder": "Beschreibung der auszuführenden Arbeit",
     "observationsPlaceholder": "Zusätzliche Hinweise (optional)",
@@ -487,7 +489,8 @@
       "typeNameMin": "Der Name muss mindestens 2 Zeichen lang sein",
       "typeNameMax": "Der Name darf nicht mehr als 100 Zeichen haben",
       "typeDescriptionMax": "Die Beschreibung darf nicht länger als 500 Zeichen sein"
-    }
+    },
+    "titlePage": "Installationen | LeoneSuite"
   },
   "assets": {
     "title": "Anlagen",
@@ -542,7 +545,8 @@
       "modelRequired": "Das Modell ist erforderlich",
       "serialRequired": "Die Seriennummer ist erforderlich",
       "templateRequired": "Das Formularvorlage ist erforderlich"
-    }
+    },
+    "titlePage": "Vermögenswerte | LeoneSuite"
   },
   "forms": {
     "title": "Formularvorlagen",
@@ -628,9 +632,11 @@
       "fieldOptionsMin": "Es muss mindestens eine Option angegeben werden",
       "fieldOptionsRequired": "Optionen sind erforderlich für Felder vom Typ Select oder Radio",
       "unknownError": "Unbekannter Validierungsfehler"
-    }
+    },
+    "titlePage": "Formulare | LeoneSuite"
   },
   "manuals": {
+    "titlePage": "Handbücher | LeoneSuite",
     "title": "Handbücher",
     "createManual": "Handbuch erstellen",
     "editManual": "Handbuch bearbeiten",
@@ -693,6 +699,7 @@
     }
   },
   "calendar": {
+    "titlePage": "Kalender | LeoneSuite",
     "filterByStatus": "Nach Status filtern", 
     "searchPlaceholder": "Suchen nach Titel, Beschreibung, Installation oder Techniker",
     "low": "Niedrig",

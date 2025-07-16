@@ -15,6 +15,7 @@
     "logout": "Déconnexion"
   },
   "personal": {
+    "titlePage": "Personnel | LeoneSuite",
     "title": "Techniciens",
     "addTechnician": "Ajouter un technicien",
     "techniciansList": "Liste des Techniciens",
@@ -102,6 +103,7 @@
     "ordersWillAppear": "Les ordres apparaîtront ici lors de leur création"
   },
   "workOrders": {
+    "titlePage": "Ordres de travail | LeoneSuite",
     "titlePlaceholder": "Entrez le titre de l'ordre de travail",
     "descriptionPlaceholder": "Description du travail à effectuer",
     "observationsPlaceholder": "Remarques supplémentaires (optionnel)",
@@ -225,6 +227,7 @@
     }
   },
   "installations": {
+    "titlePage": "Installations | LeoneSuite",
     "companyPlaceholder": "Entrez le nom de l'entreprise",
     "addressPlaceholder": "Entrez l'adresse",
     "floorSectorPlaceholder": "Entrez l'étage/secteur",
@@ -533,6 +536,7 @@
     }
 },
   "assets": {
+    "titlePage": "Actifs | LeoneSuite",
     "title": "Actifs",
     "createAsset": "Créer un Actif",
     "editAsset": "Modifier l'Actif",
@@ -586,6 +590,7 @@
     }
   },
   "forms": {
+    "titlePage": "Formulaires | LeoneSuite",
     "title": "Modèles de Formulaires",
     "createFormTemplate": "Créer un modèle de formulaire",
     "viewCreatedCategories": "Voir les catégories créées",
@@ -672,6 +677,7 @@
     }
   },
   "manuals": {
+    "titlePage": "Manuels | LeoneSuite",
   "title": "Manuels",
   "createManual": "Créer un manuel",
   "editManual": "Modifier le manuel",
@@ -779,6 +785,7 @@
     }
 },
   "calendar": {
+    "titlePage": "Calendrier | LeoneSuite",
     "title": "Calendrier des Ordres de Travail",
     "month": "Mois",
     "week": "Semaine",

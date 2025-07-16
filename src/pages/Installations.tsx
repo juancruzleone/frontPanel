@@ -22,7 +22,7 @@ import { useTranslation } from "react-i18next"
 
 
 const Installations = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const {
     installations,
     loading,
@@ -214,9 +214,9 @@ const Installations = () => {
   const itemsPerPage = 4
 
   useEffect(() => {
-    document.title = "Instalaciones | LeoneSuite"
+    document.title = t("installations.titlePage")
     loadCategories()
-  }, [loadCategories])
+  }, [t, i18n.language, loadCategories])
 
   const dynamicCategories = useMemo(
     () => [
