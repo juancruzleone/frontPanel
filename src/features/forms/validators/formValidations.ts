@@ -1,52 +1,55 @@
 import * as yup from "yup"
 
-export const formFieldSchema = yup.object().shape({
-  name: yup
-    .string()
-    .required("El nombre del campo es obligatorio")
-    .matches(/^[a-zA-Z0-9_]+$/, "El nombre del campo solo puede contener letras, números y guiones bajos"),
-  type: yup
-    .string()
-    .required("El tipo de campo es obligatorio")
-    .oneOf(["text", "textarea", "number", "date", "select", "checkbox", "radio", "file"], "Tipo de campo no válido"),
-  label: yup.string().required("La etiqueta del campo es obligatoria"),
-  required: yup.boolean().default(false),
-  options: yup.mixed().when("type", {
-    is: (val: string) => val === "select" || val === "radio",
-    then: () =>
-      yup
-        .array()
-        .of(yup.string())
-        .min(1, "Debe proporcionar al menos una opción")
-        .required("Las opciones son obligatorias para campos de tipo select o radio"),
-    otherwise: () => yup.mixed().notRequired(),
-  }),
-  placeholder: yup.string().notRequired(),
-  defaultValue: yup.mixed().notRequired(),
-  min: yup.number().notRequired(),
-  max: yup.number().notRequired(),
-  step: yup.number().positive().notRequired(),
-  helpText: yup.string().notRequired(),
-})
+export const getFormFieldSchema = (t: (key: string) => string) =>
+  yup.object().shape({
+    name: yup
+      .string()
+      .required(t("forms.validation.fieldNameRequired"))
+      .matches(/^[a-zA-Z0-9_]+$/, t("forms.validation.fieldNameInvalid")),
+    type: yup
+      .string()
+      .required(t("forms.validation.fieldTypeRequired"))
+      .oneOf(["text", "textarea", "number", "date", "select", "checkbox", "radio", "file"], t("forms.validation.fieldTypeInvalid")),
+    label: yup.string().required(t("forms.validation.fieldLabelRequired")),
+    required: yup.boolean().default(false),
+    options: yup.mixed().when("type", {
+      is: (val: string) => val === "select" || val === "radio",
+      then: () =>
+        yup
+          .array()
+          .of(yup.string())
+          .min(1, t("forms.validation.fieldOptionsMin"))
+          .required(t("forms.validation.fieldOptionsRequired")),
+      otherwise: () => yup.mixed().notRequired(),
+    }),
+    placeholder: yup.string().notRequired(),
+    defaultValue: yup.mixed().notRequired(),
+    min: yup.number().notRequired(),
+    max: yup.number().notRequired(),
+    step: yup.number().positive().notRequired(),
+    helpText: yup.string().notRequired(),
+  })
 
-export const formTemplateSchema = yup.object().shape({
-  nombre: yup
-    .string()
-    .required("El nombre de la plantilla es obligatorio")
-    .max(100, "El nombre no puede tener más de 100 caracteres"),
-  descripcion: yup.string().max(500, "La descripción no puede tener más de 500 caracteres").notRequired(),
-  categoria: yup
-    .string()
-    .required("La categoría es obligatoria")
-    .max(50, "La categoría no puede tener más de 50 caracteres"),
-  campos: yup
-    .array()
-    .of(formFieldSchema)
-    .min(1, "Debe proporcionar al menos un campo")
-    .required("Los campos son obligatorios"),
-})
+export const getFormTemplateSchema = (t: (key: string) => string) =>
+  yup.object().shape({
+    nombre: yup
+      .string()
+      .required(t("forms.validation.templateNameRequired"))
+      .max(100, t("forms.validation.templateNameMax")),
+    descripcion: yup.string().max(500, t("forms.validation.templateDescriptionMax")).notRequired(),
+    categoria: yup
+      .string()
+      .required(t("forms.validation.categoryRequired"))
+      .max(50, t("forms.validation.categoryMax")),
+    campos: yup
+      .array()
+      .of(getFormFieldSchema(t))
+      .min(1, t("forms.validation.fieldsMin"))
+      .required(t("forms.validation.fieldsRequired")),
+  })
 
-export const validateFormTemplate = async (data: any) => {
+export const validateFormTemplate = async (data: any, t: (key: string) => string) => {
+  const formTemplateSchema = getFormTemplateSchema(t)
   try {
     await formTemplateSchema.validate(data, { abortEarly: false })
     return { isValid: true, errors: {} }
@@ -62,9 +65,19 @@ export const validateFormTemplate = async (data: any) => {
     } else if (err.path) {
       errors[err.path] = err.message
     } else {
-      errors._error = err.message || "Error de validación desconocido"
+      errors._error = err.message || t("forms.validation.unknownError")
     }
 
     return { isValid: false, errors }
+  }
+}
+
+export const validateFormField = async (fieldName: string, value: any, allData: any, t: (key: string) => string) => {
+  const formTemplateSchema = getFormTemplateSchema(t)
+  try {
+    await formTemplateSchema.validateAt(fieldName, { ...allData, [fieldName]: value })
+    return { isValid: true, error: null }
+  } catch (err: any) {
+    return { isValid: false, error: err.message }
   }
 }

@@ -79,6 +79,7 @@ const ModalCreate = ({
             installations={installations}
             loadingInstallations={loadingInstallations}
             errorLoadingInstallations={errorLoadingInstallations}
+            setFormErrors={setFormErrors}
           />
         </div>
       </div>

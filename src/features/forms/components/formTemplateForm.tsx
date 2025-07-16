@@ -2,7 +2,7 @@ import type React from "react"
 import { useState, useEffect, useMemo } from "react"
 import type { FormTemplate, FormField } from "../hooks/useForms"
 import styles from "../styles/formTemplateForm.module.css"
-import { validateFormTemplate } from "../validators/formValidations"
+import { validateFormTemplate, validateFormField } from "../validators/formValidations"
 import { useTranslation } from "react-i18next"
 
 interface FormTemplateFormProps {
@@ -100,32 +100,20 @@ const FormTemplateForm = ({
 
   const handleFieldBlur = async (fieldName: string) => {
     setTouchedFields((prev) => ({ ...prev, [fieldName]: true }))
-
-    // Validar solo si el campo tiene contenido o ya fue tocado antes
+    // Validar solo el campo que perdió el foco
     const fieldValue = formData[fieldName as keyof FormTemplate]
-    if (fieldValue || touchedFields[fieldName]) {
-      await validateField(fieldName, fieldValue)
-    }
+    const result = await validateFormField(fieldName, fieldValue, formData, t)
+    setErrors((prev) => ({ ...prev, [fieldName]: result.isValid ? "" : result.error }))
   }
 
-  const validateField = async (fieldName: string, value: any) => {
-    try {
-      // Crear un objeto temporal para validar solo este campo
-      const tempData = { ...formData, [fieldName]: value }
-      const validation = await validateFormTemplate(tempData)
-
-      setErrors((prev) => {
-        const newErrors = { ...prev }
-        if (validation.errors[fieldName]) {
-          newErrors[fieldName] = validation.errors[fieldName]
-        } else {
-          delete newErrors[fieldName]
-        }
-        return newErrors
-      })
-    } catch (error) {
-      console.error("Error en validación:", error)
-    }
+  const validateForm = async (): Promise<boolean> => {
+    // Marcar todos los campos como tocados para mostrar errores
+    const allTouched: Record<string, boolean> = {}
+    Object.keys(formData).forEach((name) => { allTouched[name] = true })
+    setTouchedFields(allTouched)
+    const validation = await validateFormTemplate(formData, t)
+    setErrors(validation.errors)
+    return validation.isValid
   }
 
   const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -211,18 +199,6 @@ const FormTemplateForm = ({
       ...prev,
       campos: prev.campos.filter((_, i) => i !== index),
     }))
-  }
-
-  const validateForm = async (): Promise<boolean> => {
-    try {
-      const validation = await validateFormTemplate(formData)
-      setErrors(validation.errors)
-      return validation.isValid
-    } catch (error) {
-      console.error("Error en validación del formulario:", error)
-      setErrors({ submit: "Error en la validación del formulario" })
-      return false
-    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {

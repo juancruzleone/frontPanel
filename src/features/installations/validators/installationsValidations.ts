@@ -1,18 +1,20 @@
 import * as yup from "yup"
 
-export const installationSchema = yup.object({
-  company: yup.string().trim().required("La empresa es obligatoria"),
-  address: yup.string().trim().required("La dirección es obligatoria"),
-  installationType: yup.string().trim().required("El tipo de instalación es obligatorio"),
-  floorSector: yup.string().trim().required("El piso o sector es obligatorio"),
-  postalCode: yup.string().trim().required("El código postal es obligatorio"),
-  city: yup.string().trim().required("La ciudad es obligatoria"),
-  province: yup.string().trim().required("La provincia es obligatoria"),
-})
+export const getInstallationSchema = (t: (key: string) => string) =>
+  yup.object({
+    company: yup.string().trim().required(t("installations.validation.companyRequired")),
+    address: yup.string().trim().required(t("installations.validation.addressRequired")),
+    installationType: yup.string().trim().required(t("installations.validation.typeRequired")),
+    floorSector: yup.string().trim().required(t("installations.validation.floorSectorRequired")),
+    postalCode: yup.string().trim().required(t("installations.validation.postalCodeRequired")),
+    city: yup.string().trim().required(t("installations.validation.cityRequired")),
+    province: yup.string().trim().required(t("installations.validation.provinceRequired")),
+  })
 
-export const validateInstallationForm = async (data: any) => {
+export const validateInstallationForm = async (data: any, t: (key: string) => string) => {
+  const schema = getInstallationSchema(t)
   try {
-    await installationSchema.validate(data, { abortEarly: false })
+    await schema.validate(data, { abortEarly: false })
     return { isValid: true, errors: {} }
   } catch (err: any) {
     const errors: Record<string, string> = {}
@@ -20,5 +22,20 @@ export const validateInstallationForm = async (data: any) => {
       errors[e.path] = e.message
     })
     return { isValid: false, errors }
+  }
+}
+
+export const validateInstallationField = async (
+  fieldName: string,
+  value: any,
+  allData: any,
+  t: (key: string) => string
+) => {
+  const schema = getInstallationSchema(t)
+  try {
+    await schema.validateAt(fieldName, { ...allData, [fieldName]: value })
+    return { isValid: true, error: null }
+  } catch (err: any) {
+    return { isValid: false, error: err.message }
   }
 }

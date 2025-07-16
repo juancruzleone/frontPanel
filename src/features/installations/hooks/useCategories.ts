@@ -2,7 +2,8 @@ import type React from "react"
 
 import { useState, useCallback } from "react"
 import { createCategory, fetchCategories } from "../services/categoryServices"
-import { validateCategoryForm } from "../validators/categoryValidations"
+import { useTranslation } from "react-i18next"
+import { validateCategoryForm, validateCategoryField } from "../validators/categoryValidations"
 
 export type Category = {
   _id?: string
@@ -12,6 +13,7 @@ export type Category = {
 }
 
 const useCategories = () => {
+  const { t } = useTranslation();
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -37,8 +39,11 @@ const useCategories = () => {
     }
   }, [])
 
-  const handleFieldChange = (name: string, value: string | boolean) => {
+  const handleFieldChange = async (name: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [name]: value }))
+    // Validar por campo
+    const result = validateCategoryField(name, value, { ...formData, [name]: value }, t)
+    setFormErrors((prev) => ({ ...prev, [name]: result.isValid ? "" : result.error || "" }))
   }
 
   const handleSubmitForm = async (
@@ -49,7 +54,7 @@ const useCategories = () => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    const validation = validateCategoryForm(formData)
+    const validation = validateCategoryForm(formData, t)
     if (!validation.isValid) {
       setFormErrors(validation.errors)
       setIsSubmitting(false)

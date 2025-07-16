@@ -73,6 +73,7 @@ const ModalEdit = ({
             handleFieldChange={handleFieldChange}
             handleSubmitForm={handleSubmitForm}
             isSubmitting={isSubmitting}
+            setFormErrors={setFormErrors}
           />
         </div>
       </div>

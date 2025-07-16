@@ -32,16 +32,22 @@ const CategoryForm = ({
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
 
   const handleFieldBlur = (fieldName: string) => {
-    if (!touchedFields[fieldName]) {
-      setTouchedFields(prev => ({ ...prev, [fieldName]: true }));
-    }
+    setTouchedFields((prev) => ({ ...prev, [fieldName]: true }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Marcar todos los campos como tocados para mostrar errores
+    setTouchedFields({ nombre: true, descripcion: true });
+    // Llamar a handleSubmitForm original
+    handleSubmitForm(e, onSuccess, onCreate);
   };
 
   const showError = (fieldName: string) => touchedFields[fieldName] && formErrors[fieldName];
 
   return (
     <form
-      onSubmit={(e) => handleSubmitForm(e, onSuccess, onCreate)}
+      onSubmit={handleSubmit}
       className={styles.form}
     >
       <div className={styles.formInner}>

@@ -12,6 +12,7 @@ import {
 } from "../services/workOrderServices"
 import { fetchTechnicians } from "../services/technicianServices"
 import { validateWorkOrderForm } from "../validators/workOrderValidations"
+import { useTranslation } from 'react-i18next'
 
 export type Technician = {
   _id: string
@@ -98,6 +99,7 @@ const useWorkOrders = () => {
 
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const { t } = useTranslation();
 
   const loadTechnicians = useCallback(async () => {
     try {
@@ -237,7 +239,7 @@ const useWorkOrders = () => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    const validation = await validateWorkOrderForm(formData)
+    const validation = await validateWorkOrderForm(formData, t)
 
     if (!validation.isValid) {
       setFormErrors(validation.errors)

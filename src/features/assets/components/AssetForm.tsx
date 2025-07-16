@@ -1,7 +1,7 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import type { Asset, Template } from "../hooks/useAssets"
-import { validateAssetForm } from "../validators/assetValidations"
+import { validateAssetForm, validateAssetField } from "../validators/assetValidations"
 import styles from "../styles/assetForm.module.css"
 import { useTranslation } from "react-i18next"
 
@@ -93,8 +93,12 @@ const AssetForm = ({
     }
   }
 
-  const handleFieldBlur = (fieldName: string) => {
+  const handleFieldBlur = async (fieldName: string) => {
     setTouchedFields((prev) => ({ ...prev, [fieldName]: true }))
+    // Validar solo el campo que perdió el foco
+    const value = formData[fieldName as keyof typeof formData]
+    const result = await validateAssetField(fieldName, value, formData, t)
+    setFormErrors((prev) => ({ ...prev, [fieldName]: result.isValid ? "" : result.error }))
   }
 
   const handleCategoryChange = (categoria: string) => {
@@ -113,8 +117,13 @@ const AssetForm = ({
     e.preventDefault()
     setIsSubmitting(true)
 
+    // Marcar todos los campos como tocados para mostrar errores
+    const allTouched: Record<string, boolean> = {}
+    requiredFields.forEach(({ name }) => { allTouched[name] = true })
+    setTouchedFields(allTouched)
+
     // Validar formulario
-    const validation = await validateAssetForm(formData)
+    const validation = await validateAssetForm(formData, t)
     if (!validation.isValid) {
       setFormErrors(validation.errors)
       setIsSubmitting(false)

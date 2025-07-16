@@ -63,6 +63,10 @@ const InstallationTypeForms = ({ onCancel, onSuccess, onCreate }: InstallationTy
 
   const handleFieldBlur = (fieldName: string) => {
     setTouchedFields((prev) => ({ ...prev, [fieldName]: true }))
+    // Validar por campo
+    const value = formData[fieldName as keyof typeof formData]
+    const errors = validateForm({ ...formData, [fieldName]: value })
+    setFormErrors((prev) => ({ ...prev, [fieldName]: errors[fieldName] || "" }))
   }
 
   const showError = (fieldName: string) => touchedFields[fieldName] && formErrors[fieldName]
@@ -76,21 +80,14 @@ const InstallationTypeForms = ({ onCancel, onSuccess, onCreate }: InstallationTy
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
+    // Marcar todos los campos como tocados para mostrar errores
+    setTouchedFields({ nombre: true, descripcion: true, activo: true })
     // Validar formulario
     const errors = validateForm(formData)
     setFormErrors(errors)
-
     if (Object.keys(errors).length > 0) {
-      // Marcar todos los campos como tocados para mostrar errores
-      setTouchedFields({
-        nombre: true,
-        descripcion: true,
-        activo: true,
-      })
       return
     }
-
     setIsSubmitting(true)
     try {
       const result = await onCreate({
@@ -98,7 +95,6 @@ const InstallationTypeForms = ({ onCancel, onSuccess, onCreate }: InstallationTy
         descripcion: formData.descripcion.trim() || undefined,
         activo: formData.activo,
       })
-
       onSuccess(result.message)
     } catch (err: any) {
       console.error("Error al crear tipo de instalación:", err)
@@ -164,9 +160,9 @@ const InstallationTypeForms = ({ onCancel, onSuccess, onCreate }: InstallationTy
           </button>
           <button
             type="submit"
-            disabled={isSubmitting || !isFormValid}
+            disabled={isSubmitting}
             className={styles.submitButton}
-            title={!isFormValid ? t('installations.completeAllFields') : ""}
+            title={Object.keys(formErrors).length > 0 ? t('installations.completeAllFields') : ""}
           >
             {isSubmitting ? t('common.saving') : t('common.create')}
           </button>

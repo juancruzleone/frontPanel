@@ -1,22 +1,23 @@
 import * as yup from "yup"
+import { TFunction } from "i18next"
 
-export const cuentaLogin = yup.object({
-  userName: yup
-    .string()
-    .trim()
-    .required("El nombre de usuario es obligatorio"),
+export const getLoginSchema = (t: TFunction) =>
+  yup.object({
+    userName: yup
+      .string()
+      .trim()
+      .required(t("login.validation.userNameRequired")),
+    password: yup
+      .string()
+      .required(t("login.validation.passwordRequired")),
+  })
 
-  password: yup
-    .string()
-    .required("La contraseña es obligatoria"),
-})
-
-export const validateLoginForm = async (data: {
-  userName: string
-  password: string
-}) => {
+export const validateLoginForm = async (
+  data: { userName: string; password: string },
+  t: TFunction
+) => {
   try {
-    await cuentaLogin.validate(data, { abortEarly: false })
+    await getLoginSchema(t).validate(data, { abortEarly: false })
     return { isValid: true, errors: {} }
   } catch (err: any) {
     const errors: Record<string, string> = {}

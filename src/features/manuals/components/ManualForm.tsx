@@ -2,6 +2,7 @@ import { useState, ChangeEvent, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Manual } from '../hooks/useManuals';
 import styles from '../styles/manualForm.module.css';
+import { validateManualForm, validateManualField } from '../validators/manualValidations';
 
 interface ManualFormProps {
   onCancel: () => void;
@@ -59,10 +60,39 @@ const ManualForm = ({
     { value: "fr", label: t('manuals.french') },
   ];
 
-  const handleFieldBlur = (fieldName: string) => {
-    if (!touchedFields[fieldName]) {
-      setTouchedFields(prev => ({ ...prev, [fieldName]: true }));
+  const handleFieldBlur = async (fieldName: string) => {
+    setTouchedFields(prev => ({ ...prev, [fieldName]: true }));
+    // Validar solo el campo que perdió el foco
+    const value = formData[fieldName as keyof typeof formData];
+    const result = await validateManualField(fieldName, value, formData, t);
+    handleSetFieldError(fieldName, result.isValid ? '' : result.error);
+  };
+
+  const handleSetFieldError = (fieldName: string, error: string) => {
+    handleSetErrors((prev: Record<string, string>) => ({ ...prev, [fieldName]: error }));
+  };
+
+  // Para poder actualizar los errores desde la validación por campo y por formulario
+  const [formErrorsState, setFormErrorsState] = useState<Record<string, string>>(formErrors);
+  const handleSetErrors = (updater: (prev: Record<string, string>) => Record<string, string>) => {
+    setFormErrorsState(updater);
+    if (typeof formErrors === 'object') {
+      Object.assign(formErrors, updater(formErrors));
     }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // Marcar todos los campos como tocados para mostrar errores
+    const allTouched: Record<string, boolean> = {};
+    Object.keys(formData).forEach((name) => { allTouched[name] = true });
+    setTouchedFields(allTouched);
+    // Validar formulario
+    const validation = await validateManualForm(formData, t);
+    setFormErrorsState(validation.errors);
+    if (!validation.isValid) return;
+    // Lógica de submit original
+    handleSubmitForm(e, isEditMode, initialData || null, onSuccess, onError, onAdd, onEdit);
   };
 
   const handleTagsChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -101,7 +131,7 @@ const ManualForm = ({
     }
   };
 
-  const showError = (fieldName: string) => touchedFields[fieldName] && formErrors[fieldName];
+  const showError = (fieldName: string) => touchedFields[fieldName] && formErrorsState[fieldName];
 
   const getFileName = () => {
     if (formData.archivo instanceof File) {
@@ -116,7 +146,7 @@ const ManualForm = ({
   return (
     <form
       onSubmit={(e) =>
-        handleSubmitForm(e, isEditMode, initialData || null, onSuccess, onError, onAdd, onEdit)
+        handleSubmit(e)
       }
       className={styles.form}
     >
@@ -134,7 +164,7 @@ const ManualForm = ({
             placeholder={t('manuals.enterName')}
           />
           {showError('nombre') && (
-            <p className={styles.inputError}>{formErrors['nombre']}</p>
+            <p className={styles.inputError}>{formErrorsState['nombre']}</p>
           )}
         </div>
 
@@ -164,7 +194,7 @@ const ManualForm = ({
             placeholder={t('manuals.selectAsset')}
           />
           {showError('assetId') && (
-            <p className={styles.inputError}>{formErrors['assetId']}</p>
+            <p className={styles.inputError}>{formErrorsState['assetId']}</p>
           )}
         </div>
 
@@ -245,7 +275,7 @@ const ManualForm = ({
               </p>
             )}
             {showError('archivo') && (
-              <p className={styles.inputError}>{formErrors['archivo']}</p>
+              <p className={styles.inputError}>{formErrorsState['archivo']}</p>
             )}
             {!isEditMode && (
               <p className={styles.fileHint}>

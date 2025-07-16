@@ -13,6 +13,7 @@ import {
   fetchAssets as apiFetchAssets,
 } from "../services/installationServices"
 import { validateInstallationForm } from "../validators/installationsValidations"
+import { useTranslation } from "react-i18next"
 
 export type Asset = {
   _id: string
@@ -51,6 +52,7 @@ export type Installation = {
 }
 
 const useInstallations = () => {
+  const { t } = useTranslation();
   const [installations, setInstallations] = useState<Installation[]>([])
   const [installationTypes, setInstallationTypes] = useState<string[]>([])
   const [currentInstallation, setCurrentInstallation] = useState<Installation | null>(null)
@@ -164,7 +166,7 @@ const useInstallations = () => {
     const updatedData = { ...formData, [name]: value }
     setFormData(updatedData)
 
-    const validation = await validateInstallationForm(updatedData)
+    const validation = await validateInstallationForm(updatedData, t)
     setFormErrors(validation.errors)
   }
 
@@ -180,7 +182,7 @@ const useInstallations = () => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    const validation = await validateInstallationForm(formData)
+    const validation = await validateInstallationForm(formData, t)
 
     if (!validation.isValid) {
       setFormErrors(validation.errors)

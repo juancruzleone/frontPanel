@@ -1,3 +1,4 @@
+import * as yup from "yup";
 import { Manual } from '../hooks/useManuals';
 
 export interface ValidationResult {
@@ -5,75 +6,77 @@ export interface ValidationResult {
   errors: Record<string, string>;
 }
 
-export const validateManualForm = async (data: Partial<Manual>): Promise<ValidationResult> => {
-  const errors: Record<string, string> = {};
+export const getManualSchema = (t: (key: string) => string) =>
+  yup.object({
+    nombre: yup
+      .string()
+      .trim()
+      .test('required-or-min', t('manuals.validation.nameRequired'), (value) => !!value && value.trim().length > 0)
+      .test('min', t('manuals.validation.nameMin'), (value) => {
+        if (!value || value.trim().length === 0) return true; // Si está vacío, que lo maneje el required
+        return value.trim().length >= 3;
+      })
+      .max(100, t('manuals.validation.nameMax')),
+    descripcion: yup
+      .string()
+      .max(500, t('manuals.validation.descriptionMax')),
+    assetId: yup
+      .string()
+      .required(t('manuals.validation.assetRequired')),
+    categoria: yup
+      .string()
+      .oneOf([
+        t('manuals.userManual'),
+        t('manuals.technicalManual'),
+        t('manuals.maintenanceManual'),
+        t('manuals.installationGuide'),
+        t('manuals.others')
+      ], t('manuals.validation.categoryInvalid')),
+    version: yup
+      .string()
+      .max(20, t('manuals.validation.versionMax')),
+    idioma: yup
+      .string()
+      .oneOf(['es', 'en', 'pt', 'fr'], t('manuals.validation.languageInvalid')),
+    autor: yup
+      .string()
+      .max(100, t('manuals.validation.authorMax')),
+    tags: yup
+      .array()
+      .of(yup.string().max(30, t('manuals.validation.tagMax')).required())
+      .max(10, t('manuals.validation.tagsMax')),
+  });
 
-  // Validar nombre
-  if (!data.nombre || !data.nombre.trim()) {
-    errors.nombre = 'El nombre del manual es obligatorio';
-  } else if (data.nombre.trim().length < 3) {
-    errors.nombre = 'El nombre debe tener al menos 3 caracteres';
-  } else if (data.nombre.trim().length > 100) {
-    errors.nombre = 'El nombre no puede exceder 100 caracteres';
-  }
-
-  // Validar descripción
-  if (data.descripcion && data.descripcion.length > 500) {
-    errors.descripcion = 'La descripción no puede exceder 500 caracteres';
-  }
-
-  // Validar assetId
-  if (!data.assetId || !data.assetId.trim()) {
-    errors.assetId = 'Debe seleccionar un activo';
-  }
-
-  // Validar categoría
-  const validCategories = [
-    'Manual de usuario',
-    'Manual técnico',
-    'Manual de mantenimiento',
-    'Guía de instalación',
-    'Otros'
-  ];
-  if (data.categoria && !validCategories.includes(data.categoria)) {
-    errors.categoria = 'La categoría seleccionada no es válida';
-  }
-
-  // Validar versión
-  if (data.version && data.version.length > 20) {
-    errors.version = 'La versión no puede exceder 20 caracteres';
-  }
-
-  // Validar idioma
-  const validLanguages = ['es', 'en', 'pt', 'fr'];
-  if (data.idioma && !validLanguages.includes(data.idioma)) {
-    errors.idioma = 'El idioma seleccionado no es válido';
-  }
-
-  // Validar autor
-  if (data.autor && data.autor.length > 100) {
-    errors.autor = 'El nombre del autor no puede exceder 100 caracteres';
-  }
-
-  // Validar tags
-  if (data.tags && Array.isArray(data.tags)) {
-    if (data.tags.length > 10) {
-      errors.tags = 'No se pueden agregar más de 10 tags';
+export const validateManualForm = async (data: Partial<Manual>, t: (key: string) => string): Promise<ValidationResult> => {
+  const schema = getManualSchema(t);
+  try {
+    await schema.validate(data, { abortEarly: false });
+    return { isValid: true, errors: {} };
+  } catch (err: any) {
+    const errors: Record<string, string> = {};
+    if (err.inner && Array.isArray(err.inner)) {
+      err.inner.forEach((e: any) => {
+        if (e.path) {
+          errors[e.path] = e.message;
+        }
+      });
+    } else if (err.path) {
+      errors[err.path] = err.message;
+    } else {
+      errors._error = err.message || t('manuals.validation.unknownError');
     }
-
-    const invalidTags = data.tags.filter(tag =>
-      typeof tag !== 'string' || tag.trim().length === 0 || tag.length > 30
-    );
-
-    if (invalidTags.length > 0) {
-      errors.tags = 'Los tags deben ser texto válido y no exceder 30 caracteres';
-    }
+    return { isValid: false, errors };
   }
+};
 
-  return {
-    isValid: Object.keys(errors).length === 0,
-    errors
-  };
+export const validateManualField = async (fieldName: string, value: any, allData: any, t: (key: string) => string) => {
+  const schema = getManualSchema(t);
+  try {
+    await schema.validateAt(fieldName, { ...allData, [fieldName]: value });
+    return { isValid: true, error: null };
+  } catch (err: any) {
+    return { isValid: false, error: err.message };
+  }
 };
 
 export const validateFileUpload = (file: File): ValidationResult => {

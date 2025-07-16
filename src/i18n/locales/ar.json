@@ -189,17 +189,7 @@
       "startOrderTitle": "بدء الأمر",
       "startOrderMessage": "هل أنت متأكد من أنك تريد بدء أمر العمل هذا؟",
       "assignTechnician": "تعيين فني"
-    }
-  },
-    "low": "منخفض",
-    "medium": "متوسط",
-    "high": "عالي",
-    "critical": "حرج",
-    "pendiente": "قيد الانتظار",
-    "asignada": "مُسندة",
-    "en_progreso": "قيد التنفيذ",
-    "completada": "مكتملة",
-    "cancelada": "ملغاة",
+    },
     "form": {
       "maintenance": "صيانة",
       "repair": "إصلاح",
@@ -207,6 +197,35 @@
       "inspection": "فحص",
       "other": "أخرى"
     },
+    "validation": {
+      "titleRequired": "العنوان مطلوب",
+      "titleMin": "يجب أن يحتوي العنوان على 3 أحرف على الأقل",
+      "titleMax": "لا يمكن أن يحتوي العنوان على أكثر من 200 حرف",
+      "descriptionRequired": "الوصف مطلوب",
+      "descriptionMin": "يجب أن يحتوي الوصف على 10 أحرف على الأقل",
+      "descriptionMax": "لا يمكن أن يحتوي الوصف على أكثر من 1000 حرف",
+      "installationRequired": "التركيب مطلوب",
+      "priorityRequired": "الأولوية مطلوبة",
+      "priorityInvalid": "يجب أن تكون الأولوية صالحة",
+      "scheduledDateRequired": "التاريخ المجدول مطلوب",
+      "scheduledDateMin": "لا يمكن أن يكون التاريخ المجدول في الماضي",
+      "scheduledTimeRequired": "الوقت المجدول مطلوب",
+      "scheduledTimeFormat": "يجب أن يكون الوقت بالتنسيق HH:MM",
+      "workTypeRequired": "نوع العمل مطلوب",
+      "workTypeInvalid": "نوع العمل غير صالح",
+      "observationsMax": "لا يمكن أن تتجاوز الملاحظات 500 حرف",
+      "completion": {
+        "workDoneRequired": "العمل المنجز مطلوب",
+        "workDoneMin": "يجب أن يحتوي العمل المنجز على 10 أحرف على الأقل",
+        "observationsRequired": "الملاحظات مطلوبة",
+        "observationsMin": "يجب أن تحتوي الملاحظات على 10 أحرف على الأقل",
+        "timeRequired": "وقت العمل مطلوب",
+        "timePositive": "يجب أن يكون وقت العمل موجبًا",
+        "timeMax": "لا يمكن أن يتجاوز وقت العمل 24 ساعة",
+        "deviceStateInvalid": "يجب أن تكون حالة الجهاز صالحة"
+      }
+    }
+  },
   "installations": {
     "companyPlaceholder": "أدخل اسم الشركة",
     "addressPlaceholder": "أدخل العنوان",
@@ -506,6 +525,22 @@
       "japaneseMarten": "سمور اليابان",
       "address": "عنوان",
       "floorSector": "طابق/قطاع"
+    },
+    "validation": {
+      "companyRequired": "اسم الشركة مطلوب",
+      "addressRequired": "العنوان مطلوب",
+      "typeRequired": "نوع التركيب مطلوب",
+      "floorSectorRequired": "الطابق/القطاع مطلوب",
+      "postalCodeRequired": "الرمز البريدي مطلوب",
+      "cityRequired": "المدينة مطلوبة",
+      "provinceRequired": "المحافظة مطلوبة",
+      "categoryNameRequired": "اسم الفئة مطلوب",
+      "categoryNameMin": "يجب أن يحتوي الاسم على حرفين على الأقل",
+      "categoryDescriptionMax": "لا يمكن أن تتجاوز الوصف 255 حرفًا",
+      "typeNameRequired": "اسم النوع مطلوب",
+      "typeNameMin": "يجب أن يحتوي الاسم على حرفين على الأقل",
+      "typeNameMax": "لا يمكن أن يتجاوز الاسم 100 حرف",
+      "typeDescriptionMax": "لا يمكن أن تتجاوز الوصف 500 حرف"
     }
   },
   "assets": {
@@ -562,7 +597,14 @@
     "cancel": "إلغاء",
     "loadingTemplates": "جاري تحميل القوالب...",
     "update": "تحديث",
-    "create": "إنشاء"
+    "create": "إنشاء",
+    "validation": {
+      "nameRequired": "الاسم مطلوب",
+      "brandRequired": "العلامة التجارية مطلوبة",
+      "modelRequired": "الطراز مطلوب",
+      "serialRequired": "الرقم التسلسلي مطلوب",
+      "templateRequired": "نموذج النموذج مطلوب"
+    }
   },
   "forms": {
     "title": "قوالب النماذج",
@@ -636,7 +678,24 @@
     "formFields": "حقول النموذج",
     "addNewField": "إضافة حقل جديد",
     "optional": "اختياري",
-    "fieldNamePlaceholder": "اسم الحقل"
+    "fieldNamePlaceholder": "اسم الحقل",
+    "validation": {
+      "templateNameRequired": "اسم القالب مطلوب",
+      "templateNameMax": "لا يمكن أن يحتوي الاسم على أكثر من 100 حرف",
+      "templateDescriptionMax": "لا يمكن أن تحتوي الوصف على أكثر من 500 حرف",
+      "categoryRequired": "الفئة مطلوبة",
+      "categoryMax": "لا يمكن أن تحتوي الفئة على أكثر من 50 حرفًا",
+      "fieldsMin": "يجب تقديم حقل واحد على الأقل",
+      "fieldsRequired": "الحقول مطلوبة",
+      "fieldNameRequired": "اسم الحقل مطلوب",
+      "fieldNameInvalid": "يمكن أن يحتوي اسم الحقل فقط على أحرف وأرقام وشرطات سفلية",
+      "fieldTypeRequired": "نوع الحقل مطلوب",
+      "fieldTypeInvalid": "نوع الحقل غير صالح",
+      "fieldLabelRequired": "تسمية الحقل مطلوبة",
+      "fieldOptionsMin": "يجب تقديم خيار واحد على الأقل",
+      "fieldOptionsRequired": "الخيارات مطلوبة للحقول من نوع select أو radio",
+      "unknownError": "خطأ تحقق غير معروف"
+    }
   },
   "manuals": {
   "title": "الكتيبات",
@@ -729,7 +788,21 @@
   "operationSuccess": "تمت العملية بنجاح!",
   "noFileSelected": "لم يتم تحديد أي ملف",
   "dragDropPdfFile": "اسحب ملف PDF هنا",
-  "clickToSelect": "أو انقر لتحديد"
+  "clickToSelect": "أو انقر لتحديد",
+  "validation": {
+      "nameRequired": "اسم الدليل مطلوب",
+      "nameMin": "يجب أن يحتوي الاسم على 3 أحرف على الأقل",
+      "nameMax": "لا يمكن أن يتجاوز الاسم 100 حرف",
+      "descriptionMax": "لا يمكن أن يتجاوز الوصف 500 حرف",
+      "assetRequired": "يجب تحديد أصل",
+      "categoryInvalid": "الفئة المحددة غير صالحة",
+      "versionMax": "لا يمكن أن تتجاوز النسخة 20 حرفًا",
+      "languageInvalid": "اللغة المحددة غير صالحة",
+      "authorMax": "لا يمكن أن يتجاوز اسم المؤلف 100 حرف",
+      "tagsMax": "لا يمكن إضافة أكثر من 10 وسوم",
+      "tagMax": "لا يمكن أن يتجاوز كل وسم 30 حرفًا",
+      "unknownError": "خطأ تحقق غير معروف"
+    }
 },
   "calendar": {
     "title": "تقويم أوامر العمل",
@@ -840,6 +913,10 @@
   "invalidEmail": "بريد إلكتروني غير صالح",
   "minPassword": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل",
   "usernamePlaceholder": "أدخل اسم المستخدم",
-  "passwordPlaceholder": "أدخل كلمة المرور"
+  "passwordPlaceholder": "أدخل كلمة المرور",
+  "validation": {
+    "userNameRequired": "اسم المستخدم مطلوب",
+    "passwordRequired": "كلمة المرور مطلوبة"
+  }
   }
 } 

@@ -1,12 +1,14 @@
 import type React from "react"
 
 // useLogin.ts
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { userLogin } from "../services/loginServices"
 import { validateLoginForm } from "../validators/loginValidations"
 import { useAuthStore } from "../../../../src/store/authStore.ts"
+import { useTranslation } from "react-i18next"
 
 export function useLogin() {
+  const { t, i18n } = useTranslation();
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
@@ -22,18 +24,48 @@ export function useLogin() {
     setShowPassword(!showPassword)
   }
 
+  // Limpiar error de usuario al escribir
   const handleUsernameChange = (value: string) => {
     setUsername(value)
+    setErrors((prev) => {
+      if (prev.userName && value.trim() !== "") {
+        const { userName, ...rest } = prev
+        return rest
+      }
+      return prev
+    })
   }
 
+  // Limpiar error de contraseña al escribir
   const handlePasswordChange = (value: string) => {
     setPassword(value)
+    setErrors((prev) => {
+      if (prev.password && value.trim() !== "") {
+        const { password, ...rest } = prev
+        return rest
+      }
+      return prev
+    })
   }
+
+  // Revalidar errores al cambiar de idioma
+  useEffect(() => {
+    if (Object.keys(errors).length > 0) {
+      validateLoginForm({ userName: username, password }, t).then((validation) => {
+        if (!validation.isValid) {
+          setErrors(validation.errors)
+        } else {
+          setErrors({})
+        }
+      })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [i18n.language])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    const validation = await validateLoginForm({ userName: username, password })
+    const validation = await validateLoginForm({ userName: username, password }, t)
 
     if (!validation.isValid) {
       setErrors(validation.errors)

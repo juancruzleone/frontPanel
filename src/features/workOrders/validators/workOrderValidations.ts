@@ -1,35 +1,35 @@
 import * as yup from 'yup';
 
-export const validateWorkOrderForm = async (data: any) => {
+export const validateWorkOrderForm = async (data: any, t: (key: string) => string) => {
   const schema = yup.object().shape({
     titulo: yup
       .string()
-      .required('El título es obligatorio')
-      .min(3, 'El título debe tener al menos 3 caracteres')
-      .max(200, 'El título no puede tener más de 200 caracteres'),
+      .required(t('workOrders.validation.titleRequired'))
+      .min(3, t('workOrders.validation.titleMin'))
+      .max(200, t('workOrders.validation.titleMax')),
     descripcion: yup
       .string()
-      .required('La descripción es obligatoria')
-      .min(10, 'La descripción debe tener al menos 10 caracteres')
-      .max(1000, 'La descripción no puede tener más de 1000 caracteres'),
-    instalacionId: yup.string().required('La instalación es obligatoria'),
+      .required(t('workOrders.validation.descriptionRequired'))
+      .min(10, t('workOrders.validation.descriptionMin'))
+      .max(1000, t('workOrders.validation.descriptionMax')),
+    instalacionId: yup.string().required(t('workOrders.validation.installationRequired')),
     prioridad: yup
       .string()
-      .required('La prioridad es obligatoria')
-      .oneOf(['baja', 'media', 'alta', 'critica'], 'La prioridad debe ser válida'),
+      .required(t('workOrders.validation.priorityRequired'))
+      .oneOf(['baja', 'media', 'alta', 'critica'], t('workOrders.validation.priorityInvalid')),
     fechaProgramada: yup
       .date()
-      .required('La fecha programada es obligatoria')
-      .min(new Date(), 'La fecha programada no puede ser en el pasado'),
+      .required(t('workOrders.validation.scheduledDateRequired'))
+      .min(new Date(), t('workOrders.validation.scheduledDateMin')),
     horaProgramada: yup
       .string()
-      .required('La hora programada es obligatoria')
-      .matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, 'La hora debe tener formato HH:MM'),
+      .required(t('workOrders.validation.scheduledTimeRequired'))
+      .matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, t('workOrders.validation.scheduledTimeFormat')),
     tipoTrabajo: yup
       .string()
-      .required('El tipo de trabajo es obligatorio')
-      .oneOf(['mantenimiento', 'reparacion', 'instalacion', 'inspeccion', 'otro'], 'El tipo de trabajo debe ser válido'),
-    observaciones: yup.string().max(500, 'Las observaciones no pueden tener más de 500 caracteres'),
+      .required(t('workOrders.validation.workTypeRequired'))
+      .oneOf(['mantenimiento', 'reparacion', 'instalacion', 'inspeccion', 'otro'], t('workOrders.validation.workTypeInvalid')),
+    observaciones: yup.string().max(500, t('workOrders.validation.observationsMax')),
   });
 
   try {
@@ -44,26 +44,26 @@ export const validateWorkOrderForm = async (data: any) => {
   }
 };
 
-export const validateWorkOrderCompletion = async (data: any) => {
+export const validateWorkOrderCompletion = async (data: any, t: (key: string) => string) => {
   const schema = yup.object().shape({
     trabajoRealizado: yup
       .string()
-      .required('El trabajo realizado es obligatorio')
-      .min(10, 'El trabajo realizado debe tener al menos 10 caracteres'),
+      .required(t('workOrders.validation.completion.workDoneRequired'))
+      .min(10, t('workOrders.validation.completion.workDoneMin')),
     observaciones: yup
       .string()
-      .required('Las observaciones son obligatorias')
-      .min(10, 'Las observaciones deben tener al menos 10 caracteres'),
+      .required(t('workOrders.validation.completion.observationsRequired'))
+      .min(10, t('workOrders.validation.completion.observationsMin')),
     tiempoTrabajo: yup
       .number()
-      .required('El tiempo de trabajo es obligatorio')
-      .positive('El tiempo de trabajo debe ser positivo')
-      .max(24, 'El tiempo de trabajo no puede ser mayor a 24 horas'),
+      .required(t('workOrders.validation.completion.timeRequired'))
+      .positive(t('workOrders.validation.completion.timePositive'))
+      .max(24, t('workOrders.validation.completion.timeMax')),
     estadoDispositivo: yup
       .string()
       .oneOf(
         ['Activo', 'Inactivo', 'En mantenimiento', 'Fuera de servicio', 'Pendiente de revisión'],
-        'El estado del dispositivo debe ser válido'
+        t('workOrders.validation.completion.deviceStateInvalid')
       ),
   });
 
@@ -78,3 +78,50 @@ export const validateWorkOrderCompletion = async (data: any) => {
     return { isValid: false, errors };
   }
 };
+
+export const getWorkOrderSchema = (t: (key: string) => string) =>
+  yup.object().shape({
+    titulo: yup
+      .string()
+      .required(t('workOrders.validation.titleRequired'))
+      .min(3, t('workOrders.validation.titleMin'))
+      .max(200, t('workOrders.validation.titleMax')),
+    descripcion: yup
+      .string()
+      .required(t('workOrders.validation.descriptionRequired'))
+      .min(10, t('workOrders.validation.descriptionMin'))
+      .max(1000, t('workOrders.validation.descriptionMax')),
+    instalacionId: yup.string().required(t('workOrders.validation.installationRequired')),
+    prioridad: yup
+      .string()
+      .required(t('workOrders.validation.priorityRequired'))
+      .oneOf(['baja', 'media', 'alta', 'critica'], t('workOrders.validation.priorityInvalid')),
+    fechaProgramada: yup
+      .date()
+      .required(t('workOrders.validation.scheduledDateRequired'))
+      .min(new Date(), t('workOrders.validation.scheduledDateMin')),
+    horaProgramada: yup
+      .string()
+      .required(t('workOrders.validation.scheduledTimeRequired'))
+      .matches(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/, t('workOrders.validation.scheduledTimeFormat')),
+    tipoTrabajo: yup
+      .string()
+      .required(t('workOrders.validation.workTypeRequired'))
+      .oneOf(['mantenimiento', 'reparacion', 'instalacion', 'inspeccion', 'otro'], t('workOrders.validation.workTypeInvalid')),
+    observaciones: yup.string().max(500, t('workOrders.validation.observationsMax')),
+  })
+
+export const validateWorkOrderField = async (
+  fieldName: string,
+  value: any,
+  allData: any,
+  t: (key: string) => string
+) => {
+  const schema = getWorkOrderSchema(t)
+  try {
+    await schema.validateAt(fieldName, { ...allData, [fieldName]: value })
+    return { isValid: true, error: null }
+  } catch (err: any) {
+    return { isValid: false, error: err.message }
+  }
+}

@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next"
 import type { Installation } from "../hooks/useInstallations"
 import useInstallationTypes from "../hooks/useInstallationTypes"
 import styles from "../styles/installationForm.module.css"
+import { validateInstallationForm, validateInstallationField } from '../validators/installationsValidations';
 
 interface InstallationFormProps {
   onCancel: () => void
@@ -27,6 +28,7 @@ interface InstallationFormProps {
     onEdit?: (id: string, data: Installation) => Promise<{ message: string }>,
   ) => void
   isSubmitting: boolean
+  setFormErrors: (errors: Record<string, string>) => void
 }
 
 const InstallationForm = ({
@@ -42,6 +44,7 @@ const InstallationForm = ({
   handleFieldChange,
   handleSubmitForm,
   isSubmitting,
+  setFormErrors,
 }: InstallationFormProps) => {
   const { t } = useTranslation()
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
@@ -57,10 +60,34 @@ const InstallationForm = ({
     { name: "province", label: t('installations.province'), type: "text", placeholder: t('installations.provincePlaceholder') },
   ]
 
-  const handleFieldBlur = (fieldName: string) => {
-    if (!touchedFields[fieldName]) {
-      setTouchedFields((prev) => ({ ...prev, [fieldName]: true }))
+  const handleFieldBlur = async (fieldName: string) => {
+    setTouchedFields((prev) => ({ ...prev, [fieldName]: true }))
+    // Validar solo el campo que perdió el foco
+    const value = formData[fieldName as keyof typeof formData]
+    const result = await validateInstallationField(fieldName, value, formData, t)
+    handleSetFieldError(fieldName, result.isValid ? '' : result.error)
+  }
+
+  const handleSetFieldError = (fieldName: string, error: string) => {
+    // setFormErrors espera un objeto, no una función updater
+    setFormErrors({ ...formErrors, [fieldName]: error })
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    // Marcar todos los campos como tocados para mostrar errores
+    const allTouched: Record<string, boolean> = {}
+    Object.keys(formData).forEach((name) => { allTouched[name] = true })
+    setTouchedFields(allTouched)
+    // Validar todo el formulario
+    const validation = await validateInstallationForm(formData, t)
+    if (!validation.isValid) {
+      // Mostrar todos los errores de una vez
+      setFormErrors(validation.errors)
+      return
     }
+    // ... aquí llamar a handleSubmitForm original ...
+    handleSubmitForm(e, isEditMode, initialData, onSuccess, onError, onAdd, onEdit)
   }
 
   const showError = (fieldName: string) => touchedFields[fieldName] && formErrors[fieldName]
@@ -102,7 +129,7 @@ const InstallationForm = ({
 
   return (
     <form
-      onSubmit={(e) => handleSubmitForm(e, isEditMode, initialData || null, onSuccess, onError, onAdd, onEdit)}
+      onSubmit={handleSubmit}
       className={styles.form}
     >
       <div className={styles.formInner}>

@@ -3,6 +3,7 @@ import { useState, useMemo } from "react"
 import type { WorkOrder } from "../hooks/useWorkOrders"
 import styles from "../styles/workOrderForm.module.css"
 import { useTranslation } from "react-i18next"
+import { validateWorkOrderForm, validateWorkOrderField } from '../validators/workOrderValidations';
 
 interface WorkOrderFormProps {
   onCancel: () => void
@@ -46,7 +47,8 @@ const WorkOrderForm = ({
   installations = [],
   loadingInstallations = false,
   errorLoadingInstallations = null,
-}: WorkOrderFormProps) => {
+  setFormErrors,
+}: WorkOrderFormProps & { setFormErrors: (updater: (prev: Record<string, string>) => Record<string, string>) => void }) => {
   const { t } = useTranslation()
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
 
@@ -65,10 +67,34 @@ const WorkOrderForm = ({
     { value: "critica", label: t('workOrders.critical') },
   ]
 
-  const handleFieldBlur = (fieldName: string) => {
-    if (!touchedFields[fieldName]) {
-      setTouchedFields((prev) => ({ ...prev, [fieldName]: true }))
+  const handleFieldBlur = async (fieldName: string) => {
+    setTouchedFields((prev) => ({ ...prev, [fieldName]: true }))
+    // Validar solo el campo que perdió el foco
+    const value = formData[fieldName as keyof typeof formData]
+    const result = await validateWorkOrderField(fieldName, value, formData, t)
+    handleSetFieldError(fieldName, result.isValid ? '' : result.error)
+  }
+
+  const handleSetFieldError = (fieldName: string, error: string) => {
+    setFormErrors((prev: Record<string, string>) => ({ ...prev, [fieldName]: error }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    // Marcar todos los campos como tocados para mostrar errores
+    const allTouched: Record<string, boolean> = {}
+    Object.keys(formData).forEach((name) => { allTouched[name] = true })
+    setTouchedFields(allTouched)
+    // Validar todo el formulario
+    const validation = await validateWorkOrderForm(formData, t)
+    if (!validation.isValid) {
+      Object.entries(validation.errors).forEach(([field, error]) => {
+        handleSetFieldError(field, error)
+      })
+      return
     }
+    // ... aquí llamar a handleSubmitForm original ...
+    handleSubmitForm(e, isEditMode, initialData, onSuccess, onError, onAdd, onEdit)
   }
 
   const showError = (fieldName: string) => touchedFields[fieldName] && formErrors[fieldName]
@@ -128,7 +154,7 @@ const WorkOrderForm = ({
 
   return (
     <form
-      onSubmit={(e) => handleSubmitForm(e, isEditMode, initialData || null, onSuccess, onError, onAdd, onEdit)}
+      onSubmit={handleSubmit}
       className={styles.form}
     >
       <div className={styles.formInner}>

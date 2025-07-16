@@ -53,6 +53,7 @@ const ModalCreate = ({ isOpen, onRequestClose, onSubmitSuccess, onSubmitError, o
             handleFieldChange={handleFieldChange}
             handleSubmitForm={handleSubmitForm}
             isSubmitting={isSubmitting}
+            setFormErrors={setFormErrors}
           />
         </div>
       </div>
