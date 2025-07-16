@@ -97,11 +97,11 @@
 }
 
 .languageButton {
-  background: none;
-  color: var(--color-text);
-  border: none;
-  padding: 0;
-  border-radius: 50%;
+  background: var(--color-themebox-bg);
+  color: var(--color-icon);
+  border: 1px solid var(--color-themebox-border);
+  padding: 3px;
+  border-radius: 6px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -109,7 +109,7 @@
   transition: all 0.2s ease;
   width: 24px;
   height: 24px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   margin-top: 0;
   padding-top: 0;
@@ -151,9 +151,9 @@
 
 .languageDropdown {
   position: absolute;
-  top: 100%;
+  bottom: 100%;
   right: 0;
-  margin-top: 4px;
+  margin-bottom: 4px;
   background: var(--color-card);
   border: 1px solid var(--color-card-border);
   border-radius: 8px;

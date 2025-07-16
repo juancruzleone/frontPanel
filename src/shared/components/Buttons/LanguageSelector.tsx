@@ -55,7 +55,7 @@ const LanguageSelector = () => {
         onClick={toggleDropdown}
         aria-label={t('languageSelector.title')}
       >
-        <Globe size={16} />
+        <Globe size={14} />
         <span className={styles.languageCode}>{currentLanguage.code.toUpperCase()}</span>
         <ChevronDown size={12} className={`${styles.chevron} ${isOpen ? styles.chevronUp : ''}`} />
       </button>
