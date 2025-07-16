@@ -9,19 +9,19 @@ import { useAuthStore } from "../../src/store/authStore"
 import { useTranslation } from "react-i18next"
 
 const Login = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const location = useLocation()
   const logoutMessage = useAuthStore((state) => state.logoutMessage)
   const setLogoutMessage = useAuthStore((state) => state.setLogoutMessage)
   const [showLogoutModal, setShowLogoutModal] = useState(false)
 
   useEffect(() => {
-    document.title = "Iniciar sesión | LeoneSuite"
+    document.title = t("login.titlePage")
     if (logoutMessage && location.pathname === "/") {
       setShowLogoutModal(true)
       setLogoutMessage(null)
     }
-  }, [logoutMessage, location, setLogoutMessage])
+  }, [logoutMessage, location, setLogoutMessage, t, i18n.language])
 
   const {
     username,
