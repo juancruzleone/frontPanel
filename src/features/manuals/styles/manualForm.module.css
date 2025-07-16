@@ -403,3 +403,27 @@
   margin-top: 0.5rem;
   font-style: italic;
 }
+
+.hiddenInput {
+  display: none;
+}
+
+.fileSelectButton {
+  width: 100%;
+  display: inline-block;
+  padding: 0.875rem 1.25rem;
+  background-color: var(--color-secondary);
+  color: #fff;
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-align: center;
+  border: none;
+  box-shadow: 0 2px 8px rgba(5, 126, 116, 0.2);
+}
+
+.fileSelectButton:hover {
+  background-color: var(--color-nav-hover);
+}

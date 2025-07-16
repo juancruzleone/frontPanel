@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Manual } from '../hooks/useManuals';
 import styles from '../styles/manualForm.module.css';
 import { validateManualForm, validateManualField } from '../validators/manualValidations';
+import ButtonCreate from '../../../shared/components/Buttons/buttonCreate'
 
 interface ManualFormProps {
   onCancel: () => void;
@@ -263,11 +264,17 @@ const ManualForm = ({
           <div className={styles.fileInputContainer}>
             <input
               type="file"
+              id="archivoUpload"
               accept=".pdf,application/pdf"
               onChange={handleFileChange}
               onBlur={() => handleFieldBlur('archivo')}
               disabled={isSubmitting}
-              className={showError('archivo') ? styles.errorInput : styles.fileInput}
+              className={styles.hiddenInput}
+            />
+            <ButtonCreate
+              onClick={() => document.getElementById('archivoUpload')?.click()}
+              title={t('manuals.selectFile')}
+              className={styles.fileSelectButton}
             />
             {getFileName() && (
               <p className={styles.fileName}>
