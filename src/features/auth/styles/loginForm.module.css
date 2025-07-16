@@ -280,3 +280,20 @@ input:-webkit-autofill {
     padding: 12px;
   }
 }
+
+.headerControls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.formTopControls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+

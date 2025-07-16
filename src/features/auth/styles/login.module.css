@@ -116,3 +116,19 @@
         padding-right: 1.5rem;
     }
 }
+
+.themeToggleFixed {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 1000;
+  }
+  
+  @media (max-width: 480px) {
+    .themeToggleFixed {
+      top: 8px;
+      right: 8px;
+      transform: scale(0.9);
+    }
+  }
+  
