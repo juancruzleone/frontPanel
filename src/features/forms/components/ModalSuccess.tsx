@@ -1,4 +1,5 @@
 import styles from "../styles/Modal.module.css";
+import { useTranslation } from "react-i18next";
 
 type ModalSuccessProps = {
   isOpen: boolean;
@@ -7,13 +8,14 @@ type ModalSuccessProps = {
 }
 
 const ModalSuccess = ({ isOpen, onRequestClose, mensaje }: ModalSuccessProps) => {
+  const { t } = useTranslation();
   if (!isOpen) return null;
 
   return (
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>¡Operación exitosa!</h2>
+          <h2 className={styles.title}>{t('forms.successTitle', '¡Operación exitosa!')}</h2>
           <button 
             className={styles.closeButton}
             onClick={onRequestClose}
@@ -34,7 +36,7 @@ const ModalSuccess = ({ isOpen, onRequestClose, mensaje }: ModalSuccessProps) =>
               className={styles.successButtonLarge} 
               onClick={onRequestClose}
             >
-              Continuar
+              {t('forms.understood', 'Continuar')}
             </button>
           </div>
         </div>

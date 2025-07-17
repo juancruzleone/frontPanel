@@ -12,6 +12,7 @@ import ModalUploadFile from "../features/manuals/components/ModalUploadFile";
 import { Edit, Trash, Upload, FileText, Download, Eye } from 'lucide-react';
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next";
+import { useAuthStore } from "../store/authStore";
 
 const Manuals = () => {
   const { t, i18n } = useTranslation();
@@ -40,6 +41,9 @@ const Manuals = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
+
+  const role = useAuthStore((s) => s.role)
+  const isTechnician = role && ["tecnico", "técnico"].includes(role.toLowerCase())
 
   useEffect(() => {
     document.title = t("manuals.titlePage");
@@ -213,9 +217,11 @@ const Manuals = () => {
     <>
       <div className={styles.containerManuals}>
         <h1 className={styles.title}>{t('manuals.title')}</h1>
-        <div className={styles.positionButton}>
-          <Button title={t('manuals.createManual')} onClick={handleOpenCreate} />
-        </div>
+        {!isTechnician && (
+          <div className={styles.positionButton}>
+            <Button title={t('manuals.createManual')} onClick={handleOpenCreate} />
+          </div>
+        )}
 
         <div className={styles.searchContainer}>
           <SearchInput
@@ -291,15 +297,38 @@ const Manuals = () => {
                   <div className={styles.cardSeparator}></div>
 
                   <div className={styles.cardActions}>
-                    <button
-                      className={styles.iconButton}
-                      onClick={() => handleOpenUploadFile(manual)}
-                      aria-label={t('manuals.uploadFile')}
-                      data-tooltip={t('manuals.uploadUpdateFile')}
-                    >
-                      <Upload size={24} />
-                    </button>
-                    
+                    {!isTechnician && (
+                      <>
+                        <button
+                          className={styles.iconButton}
+                          onClick={() => handleOpenUploadFile(manual)}
+                          aria-label={t('manuals.uploadFile')}
+                          data-tooltip={t('manuals.uploadUpdateFile')}
+                        >
+                          <Upload size={24} />
+                        </button>
+                        <button
+                          className={styles.iconButton}
+                          onClick={() => handleOpenEdit(manual)}
+                          aria-label={t('manuals.editManual')}
+                          data-tooltip={t('manuals.editManual')}
+                        >
+                          <Edit size={24} />
+                        </button>
+                        <button
+                          className={styles.iconButton}
+                          onClick={() => {
+                            setManualToDelete(manual);
+                            setIsDeleteModalOpen(true);
+                          }}
+                          aria-label={t('manuals.deleteManual')}
+                          data-tooltip={t('manuals.deleteManual')}
+                        >
+                          <Trash size={24} />
+                        </button>
+                      </>
+                    )}
+                    {/* Botones de ver y descargar siempre visibles */}
                     {manual.archivo && (
                       <>
                         <button
@@ -320,26 +349,6 @@ const Manuals = () => {
                         </button>
                       </>
                     )}
-                    
-                    <button
-                      className={styles.iconButton}
-                      onClick={() => handleOpenEdit(manual)}
-                      aria-label={t('manuals.editManual')}
-                      data-tooltip={t('manuals.editManual')}
-                    >
-                      <Edit size={24} />
-                    </button>
-                    <button
-                      className={styles.iconButton}
-                      onClick={() => {
-                        setManualToDelete(manual);
-                        setIsDeleteModalOpen(true);
-                      }}
-                      aria-label={t('manuals.deleteManual')}
-                      data-tooltip={t('manuals.deleteManual')}
-                    >
-                      <Trash size={24} />
-                    </button>
                   </div>
                 </div>
               ))}

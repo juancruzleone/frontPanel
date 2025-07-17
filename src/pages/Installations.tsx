@@ -19,6 +19,7 @@ import ModalViewCategories from "../features/installations/components/ModalViewC
 import { Edit, Trash, Plus } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
+import { useAuthStore } from "../store/authStore"
 
 
 const Installations = () => {
@@ -192,6 +193,8 @@ const Installations = () => {
   const { categories, addCategory, loadCategories } = useCategories()
   const { installationTypes, addInstallationType, loadInstallationTypes } = useInstallationTypes()
   const navigate = useNavigate()
+  const role = useAuthStore((s) => s.role)
+  const isTechnician = role && ["tecnico", "técnico"].includes(role.toLowerCase())
   
 
 
@@ -359,17 +362,23 @@ const Installations = () => {
       <div className={styles.containerInstallations}>
         <h1 className={styles.title}>{t('installations.title')}</h1>
 
-        <div className={styles.positionButton}>
-          <Button title={t('installations.createInstallation')} onClick={handleOpenCreate} />
-        </div>
+        {!isTechnician && (
+          <div className={styles.positionButton}>
+            <Button title={t('installations.createInstallation')} onClick={handleOpenCreate} />
+          </div>
+        )}
 
         <div className={styles.typeButtons}>
-          <button className={styles.smallButton} onClick={() => setIsCreateInstallationTypeModalOpen(true)}>
-            + {t('installations.createInstallationType')}
-          </button>
-          <button className={styles.smallButton} onClick={() => setIsCreateCategoryModalOpen(true)}>
-            + {t('installations.createCategory')}
-          </button>
+          {!isTechnician && (
+            <>
+              <button className={styles.smallButton} onClick={() => setIsCreateInstallationTypeModalOpen(true)}>
+                + {t('installations.createInstallationType')}
+              </button>
+              <button className={styles.smallButton} onClick={() => setIsCreateCategoryModalOpen(true)}>
+                + {t('installations.createCategory')}
+              </button>
+            </>
+          )}
           <button className={styles.manageButton} onClick={() => setIsViewInstallationTypesModalOpen(true)}>
             📋 {t('installations.viewInstallationTypes')}
           </button>

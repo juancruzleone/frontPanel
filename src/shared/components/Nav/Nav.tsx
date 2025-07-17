@@ -12,12 +12,16 @@ import { useTranslation } from "react-i18next"
 const Nav = () => {
   const { t, i18n } = useTranslation()
   const user = useAuthStore((s) => s.user)
+  const role = useAuthStore((s) => s.role)
   const logout = useAuthStore((s) => s.logout)
   const setLogoutMessage = useAuthStore((s) => s.setLogoutMessage)
   const navigate = useNavigate()
   const { dark, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isLanguageOpen, setIsLanguageOpen] = useState(false)
+
+  // Normalizar el rol para aceptar 'tecnico' y 'técnico'
+  const isTechnician = role && ["tecnico", "técnico"].includes(role.toLowerCase())
 
   const languages = [
     { code: 'es', name: t('languageSelector.spanish'), flag: '🇪🇸' },
@@ -94,16 +98,25 @@ const Nav = () => {
               <Building size={20} /> {t('nav.installations')}
             </NavLink>
           </li>
-          <li>
-            <NavLink to="/activos" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-              <Package size={20} /> {t('nav.assets')}
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/formularios" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-              <FileText size={20} /> {t('nav.forms')}
-            </NavLink>
-          </li>
+          {!isTechnician && (
+            <>
+              <li>
+                <NavLink to="/activos" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                  <Package size={20} /> {t('nav.assets')}
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/formularios" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                  <FileText size={20} /> {t('nav.forms')}
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/personal" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                  <User size={20} /> {t('nav.personal')}
+                </NavLink>
+              </li>
+            </>
+          )}
           <li>
             <NavLink to="/manuales" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
               <BookOpen size={20} /> {t('nav.manuals')}
@@ -117,11 +130,6 @@ const Nav = () => {
           <li>
             <NavLink to="/calendario" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
               <Calendar size={20} /> {t('nav.calendar')}
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/personal" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-              <User size={20} /> {t('nav.personal')}
             </NavLink>
           </li>
         </ul>

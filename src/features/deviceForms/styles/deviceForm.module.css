@@ -299,5 +299,35 @@
     padding: 6px 10px;
   }
 }
-  
+
+.select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: var(--color-bg-light);
+  border: 1.5px solid var(--color-card-border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 1rem;
+  color: var(--color-text);
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 2px #0001;
+
+  /* espacio para el ícono */
+  padding-right: 40px;
+
+  /* flechita custom en SVG inline */
+  background-image: url("data:image/svg+xml;utf8,<svg fill='currentColor' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px 16px;
+}
+
+.select:focus {
+  border: 1.5px solid var(--color-primary);
+  outline: none;
+  box-shadow: 0 2px 8px #1976d233;
+  color: var(--color-text);
+}
+
   

@@ -3,8 +3,10 @@ import { useParams } from "react-router-dom"
 import { Wifi, WifiOff, Clock, CheckCircle } from "lucide-react"
 import useDeviceForm from "../hooks/useDeviceForm"
 import styles from "../styles/deviceForm.module.css"
+import { useTranslation } from "react-i18next"
 
 const DeviceForm: React.FC = () => {
+  const { t } = useTranslation();
   const { installationId, deviceId } = useParams()
   const { 
     deviceInfo, 
@@ -20,9 +22,9 @@ const DeviceForm: React.FC = () => {
     handleSubmit 
   } = useDeviceForm(installationId, deviceId)
 
-  if (loading) return <div className={styles.loader}>Cargando formulario...</div>
-  if (error) return <div className={styles.error}>Error: {error}</div>
-  if (!deviceInfo) return <div className={styles.error}>No se encontró el dispositivo.</div>
+  if (loading) return <div className={styles.loader}>{t('deviceForm.loading')}</div>
+  if (error) return <div className={styles.error}>{t('deviceForm.error', { error })}</div>
+  if (!deviceInfo) return <div className={styles.error}>{t('deviceForm.notFound')}</div>
 
   const formatTimestamp = (timestamp: number) => {
     return new Date(timestamp).toLocaleString('es-ES', {
@@ -36,35 +38,33 @@ const DeviceForm: React.FC = () => {
 
   return (
     <div className={styles.containerDeviceForm}>
-      <h2 className={styles.title}>Formulario de mantenimiento</h2>
-      
+      <h2 className={styles.title}>{t('deviceForm.maintenanceForm')}</h2>
       {/* Estado de conexión */}
       <div className={styles.connectionStatus}>
         {isOnline ? (
           <div className={styles.onlineStatus}>
             <Wifi size={16} />
-            <span>Conectado</span>
+            <span>{t('deviceForm.connected')}</span>
           </div>
         ) : (
           <div className={styles.offlineStatus}>
             <WifiOff size={16} />
-            <span>Sin conexión - Los datos se guardarán localmente</span>
+            <span>{t('deviceForm.offline')}</span>
           </div>
         )}
       </div>
-
       {/* Envíos pendientes */}
       {pendingSubmissions.length > 0 && (
         <div className={styles.pendingSubmissions}>
-          <h3>Enviós pendientes ({pendingSubmissions.length})</h3>
+          <h3>{t('deviceForm.pendingSubmissions', { count: pendingSubmissions.length })}</h3>
           <div className={styles.pendingList}>
             {pendingSubmissions.map((submission) => (
               <div key={submission.id} className={styles.pendingItem}>
                 <Clock size={14} />
-                <span>Guardado el {formatTimestamp(submission.timestamp)}</span>
+                <span>{t('deviceForm.savedAt', { date: formatTimestamp(submission.timestamp) })}</span>
                 {submission.retryCount > 0 && (
                   <span className={styles.retryCount}>
-                    Reintentos: {submission.retryCount}/3
+                    {t('deviceForm.retryCount', { count: submission.retryCount })}
                   </span>
                 )}
               </div>
@@ -72,21 +72,19 @@ const DeviceForm: React.FC = () => {
           </div>
         </div>
       )}
-
       <div className={styles.deviceInfoBox}>
-        <strong>Dispositivo:</strong> {deviceInfo.nombre} <br />
-        <strong>Ubicación:</strong> {deviceInfo.ubicacion} <br />
-        <strong>Categoría:</strong> {deviceInfo.categoria} <br />
-        <strong>Marca:</strong> {deviceInfo.marca} <br />
-        <strong>Modelo:</strong> {deviceInfo.modelo} <br />
-        <strong>N° Serie:</strong> {deviceInfo.numeroSerie}
+        <strong>{t('deviceForm.device')}:</strong> {deviceInfo.nombre} <br />
+        <strong>{t('deviceForm.location')}:</strong> {deviceInfo.ubicacion} <br />
+        <strong>{t('deviceForm.category')}:</strong> {deviceInfo.categoria} <br />
+        <strong>{t('deviceForm.brand')}:</strong> {deviceInfo.marca} <br />
+        <strong>{t('deviceForm.model')}:</strong> {deviceInfo.modelo} <br />
+        <strong>{t('deviceForm.serialNumber')}:</strong> {deviceInfo.numeroSerie}
       </div>
-      
       <form onSubmit={handleSubmit} className={styles.form}>
         {formFields.map((field) => (
           <div key={field.name} className={styles.formGroup}>
             <label className={styles.label}>
-              {field.label}
+              {t(`deviceForm.fields.${field.name}`, field.label)}
               {field.required && <span className={styles.required}> *</span>}
             </label>
             {field.type === "textarea" ? (
@@ -105,10 +103,10 @@ const DeviceForm: React.FC = () => {
                 required={field.required}
                 className={styles.select}
               >
-                <option value="">Seleccione...</option>
+                <option value="">{t('deviceForm.select')}</option>
                 {field.options.map((opt) => (
                   <option key={opt} value={opt}>
-                    {opt}
+                    {t(`deviceForm.options.${opt}`, opt)}
                   </option>
                 ))}
               </select>
@@ -132,20 +130,18 @@ const DeviceForm: React.FC = () => {
             )}
           </div>
         ))}
-        
         <div className={styles.submitSection}>
           <button type="submit" disabled={submitting} className={styles.submitButton}>
-            {submitting ? "Enviando..." : isOnline ? "Enviar mantenimiento" : "Guardar mantenimiento"}
+            {submitting ? t('deviceForm.sending') : isOnline ? t('deviceForm.sendMaintenance') : t('deviceForm.saveMaintenance')}
           </button>
           {!isOnline && (
             <p className={styles.offlineNote}>
               <WifiOff size={14} />
-              Los datos se guardarán localmente y se enviarán cuando haya conexión
+              {t('deviceForm.localSaveNote')}
             </p>
           )}
         </div>
       </form>
-      
       {success && (
         <div className={styles.success}>
           <CheckCircle size={16} />

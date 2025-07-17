@@ -7,6 +7,7 @@ import {
   assignTechnicianToWorkOrder,
   completeWorkOrder as apiCompleteWorkOrder,
 } from "../services/calendarServices"
+import { fetchTechnicians } from "../../workOrders/services/technicianServices";
 
 export type Technician = {
   _id: string
@@ -62,6 +63,19 @@ const useCalendar = () => {
   const [workOrders, setWorkOrders] = useState<WorkOrder[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [technicians, setTechnicians] = useState<Technician[]>([])
+
+  const loadTechnicians = useCallback(async () => {
+    try {
+      const data = await fetchTechnicians()
+      setTechnicians(data)
+      return data
+    } catch (err: any) {
+      console.error("Error al cargar técnicos:", err)
+      setTechnicians([])
+      return []
+    }
+  }, [])
 
   const loadWorkOrders = useCallback(async () => {
     setLoading(true)
@@ -135,6 +149,8 @@ const useCalendar = () => {
     startWorkOrder,
     assignTechnician,
     completeWorkOrder,
+    technicians,
+    loadTechnicians,
   }
 }
 

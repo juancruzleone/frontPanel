@@ -6,6 +6,7 @@ import type { WorkOrder } from "../hooks/useCalendar"
 import { Clock, MapPin, User, AlertCircle, Calendar, Play } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import i18n from "../../../i18n"
+import { translatePriority, translateWorkOrderStatus } from "../../../shared/utils/backendTranslations";
 
 interface ModalWorkOrderDetailsProps {
   isOpen: boolean
@@ -28,6 +29,9 @@ const ModalWorkOrderDetails = ({
   const [isLoading, setIsLoading] = useState(false)
 
   if (!isOpen || !workOrder) return null
+
+  // DEBUG: Verificar si trabajoRealizado llega al modal
+  console.log("workOrder en modal:", workOrder)
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -102,12 +106,12 @@ const ModalWorkOrderDetails = ({
               <div className={styles.badges}>
                 <span
                   className={styles.priorityBadge}
-                  style={{ backgroundColor: getPriorityColor(workOrder.prioridad) }}
+                  style={{ backgroundColor: getPriorityColor(workOrder.prioridad), color: '#000', fontWeight: 700 }}
                 >
-                  {workOrder.prioridad.toUpperCase()}
+                  {translatePriority(workOrder.prioridad)}
                 </span>
-                <span className={styles.statusBadge} style={{ backgroundColor: getStatusColor(workOrder.estado) }}>
-                  {workOrder.estado.replace("_", " ").toUpperCase()}
+                <span className={styles.statusBadge} style={{ backgroundColor: getStatusColor(workOrder.estado), color: '#000', fontWeight: 700 }}>
+                  {translateWorkOrderStatus(workOrder.estado)}
                 </span>
               </div>
             </div>
@@ -170,6 +174,13 @@ const ModalWorkOrderDetails = ({
               <div className={styles.section}>
                 <h4>{t('calendar.observations')}</h4>
                 <p>{workOrder.observaciones}</p>
+              </div>
+            )}
+
+            {workOrder.trabajoRealizado && (
+              <div className={styles.section}>
+                <h4>{t('calendar.workDone')}</h4>
+                <p>{workOrder.trabajoRealizado}</p>
               </div>
             )}
 

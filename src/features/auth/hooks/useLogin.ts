@@ -76,7 +76,7 @@ export function useLogin() {
       const response = await userLogin(username, password)
       setResponseMessage(response?.message || "Login exitoso.")
       setIsError(false)
-      setUserStore(response.cuenta.userName, response.token)
+      setUserStore(response.cuenta.userName, response.token, response.cuenta.role) // <-- PASAR ROL
       setShowModal(true)
     } catch (err: any) {
       setResponseMessage(err.message || "Error al iniciar sesión")

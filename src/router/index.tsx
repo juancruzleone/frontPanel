@@ -43,12 +43,12 @@ export const router = createBrowserRouter([
             element: <InstallationDetails />,
           },
           {
-            path: "/activos",
-            element: <Assets />,
-          },
-          {
-            path: "/formularios",
-            element: <Forms />,
+            element: <ProtectedRoute allowedRoles={["admin", "otroRol"]} />, // Solo admin y otros roles, no tecnico
+            children: [
+              { path: "/activos", element: <Assets /> },
+              { path: "/formularios", element: <Forms /> },
+              { path: "/personal", element: <Register /> },
+            ],
           },
           {
             path: "/manuales",
@@ -61,10 +61,6 @@ export const router = createBrowserRouter([
           {
             path: "/calendario",
             element: <Calendar />,
-          },
-          {
-            path: "/personal",
-            element: <Register />,
           },
           {
             path: "/formulario/:installationId/:deviceId",

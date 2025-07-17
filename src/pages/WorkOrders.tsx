@@ -15,6 +15,7 @@ import { Edit, Trash, User, Check, Play } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { translateWorkOrderStatus, translatePriority, translateWorkType } from "../shared/utils/backendTranslations"
+import { useAuthStore } from "../store/authStore"
 
 const renderTechnicianInfo = (order: WorkOrder, t: (key: string) => string) => {
   if (order.tecnico && (order.tecnico as any).userName) {
@@ -65,6 +66,8 @@ const WorkOrders = () => {
   } = useWorkOrders()
 
   const navigate = useNavigate()
+  const role = useAuthStore((s) => s.role)
+  const isTechnician = role && ["tecnico", "técnico"].includes(role.toLowerCase())
 
   const [selectedStatus, setSelectedStatus] = useState("")
   const [searchTerm, setSearchTerm] = useState("")
@@ -245,11 +248,13 @@ const WorkOrders = () => {
     <>
       <div className={styles.containerWorkOrders}>
         <h1 className={styles.title}>{t('workOrders.title')}</h1>
-        <div className={styles.positionButton}>
-          <Button title={t('workOrders.createWorkOrder')} onClick={handleOpenCreate}>
-            {t('workOrders.createWorkOrder')}
-          </Button>
-        </div>
+        {!isTechnician && (
+          <div className={styles.positionButton}>
+            <Button title={t('workOrders.createWorkOrder')} onClick={handleOpenCreate}>
+              {t('workOrders.createWorkOrder')}
+            </Button>
+          </div>
+        )}
 
         <div className={styles.searchContainer}>
           <SearchInput
@@ -281,9 +286,9 @@ const WorkOrders = () => {
                       <h3 className={styles.workOrderTitle}>{order.titulo}</h3>
                       <span
                         className={styles.priorityBadge}
-                        style={{ backgroundColor: getPriorityColor(order.prioridad) }}
+                        style={{ backgroundColor: getPriorityColor(order.prioridad), color: '#000', fontWeight: 700 }}
                       >
-                        {order.prioridad.toUpperCase()}
+                        {translatePriority(order.prioridad)}
                       </span>
                     </div>
 
@@ -335,7 +340,7 @@ const WorkOrders = () => {
                           <Check size={20} />
                         </button>
                       )}
-                      {order.estado === "pendiente" && (
+                      {!isTechnician && order.estado === "pendiente" && (
                         <button
                           className={styles.iconButton}
                           onClick={() => handleOpenAssign(order)}
@@ -345,7 +350,7 @@ const WorkOrders = () => {
                           <User size={20} />
                         </button>
                       )}
-                      {shouldShowEditButton(order) && (
+                      {!isTechnician && shouldShowEditButton(order) && (
                         <button
                           className={styles.iconButton}
                           onClick={() => handleOpenEdit(order)}
@@ -355,17 +360,19 @@ const WorkOrders = () => {
                           <Edit size={20} />
                         </button>
                       )}
-                      <button
-                        className={styles.iconButton}
-                        onClick={() => {
-                          setWorkOrderToDelete(order)
-                          setIsDeleteModalOpen(true)
-                        }}
-                        aria-label={t('workOrders.deleteOrder')}
-                        data-tooltip={t('workOrders.deleteOrder')}
-                      >
-                        <Trash size={20} />
-                      </button>
+                      {!isTechnician && (
+                        <button
+                          className={styles.iconButton}
+                          onClick={() => {
+                            setWorkOrderToDelete(order)
+                            setIsDeleteModalOpen(true)
+                          }}
+                          aria-label={t('workOrders.deleteOrder')}
+                          data-tooltip={t('workOrders.deleteOrder')}
+                        >
+                          <Trash size={20} />
+                        </button>
+                      )}
                     </div>
 
                     <div className={styles.viewDetailsButton}>

@@ -17,8 +17,7 @@ import { translateWorkOrderStatus, translatePriority, translateWorkType } from "
 
 const Calendar = () => {
   const { t } = useTranslation()
-  const { workOrders, loading, error, loadWorkOrders, startWorkOrder, assignTechnician, completeWorkOrder } =
-    useCalendar()
+  const { workOrders, loading, error, loadWorkOrders, startWorkOrder, assignTechnician, completeWorkOrder, technicians, loadTechnicians } = useCalendar()
 
   const navigate = useNavigate()
   const [selectedStatus, setSelectedStatus] = useState("")
@@ -26,6 +25,7 @@ const Calendar = () => {
   const [selectedDate, setSelectedDate] = useState("")
   const [selectedDateFilter, setSelectedDateFilter] = useState("")
   const [searchTerm, setSearchTerm] = useState("")
+  const [selectedTechnician, setSelectedTechnician] = useState("")
 
   const [viewMode, setViewMode] = useState<"month" | "week" | "list">("month")
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
@@ -37,6 +37,7 @@ const Calendar = () => {
 
   useEffect(() => {
     document.title = t("calendar.titlePage")
+    loadTechnicians()
   }, [t, i18n.language])
 
   useEffect(() => {
@@ -138,10 +139,23 @@ const Calendar = () => {
       const matchesStatus = !selectedStatus || order.estado === selectedStatus
       const matchesPriority = !selectedPriority || order.prioridad === selectedPriority
       const matchesSearch = fields.some((f) => f?.toLowerCase().includes(term))
+      const matchesTechnician = !selectedTechnician || (order.tecnico && typeof order.tecnico === 'object' && (order.tecnico as any)._id === selectedTechnician) || order.tecnicoAsignado === selectedTechnician
 
-      return matchesStatus && matchesPriority && matchesSearch && matchesDate
+      return matchesStatus && matchesPriority && matchesSearch && matchesDate && matchesTechnician
     })
-  }, [workOrders, selectedStatus, selectedPriority, selectedDate, selectedDateFilter, searchTerm])
+  }, [workOrders, selectedStatus, selectedPriority, selectedDate, selectedDateFilter, searchTerm, selectedTechnician])
+
+  // NUEVO: función para color por estado
+  const getEventStatusColor = (estado) => {
+    switch (estado) {
+      case "pendiente": return "#FFD600";      // Amarillo fuerte
+      case "asignada": return "#00B8D9";       // Celeste
+      case "en_progreso": return "#FF9100";    // Naranja
+      case "completada": return "#00C853";     // Verde
+      case "cancelada": return "#D50000";      // Rojo
+      default: return "#212121";                // Negro por defecto
+    }
+  }
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -292,11 +306,12 @@ const Calendar = () => {
                       <div
                         key={order._id}
                         className={styles.orderIndicator}
-                        style={{ backgroundColor: getPriorityColor(order.prioridad) }}
-                        title={`${order.titulo} - ${order.prioridad}`}
+                        style={{ backgroundColor: getEventStatusColor(order.estado), color: '#000', fontWeight: 700 }}
+                        title={`${order.titulo} - ${translatePriority(order.prioridad)}`}
                         onClick={() => handleOpenDetails(order)}
                       >
                         <span className={styles.orderTitle}>{order.titulo}</span>
+                        <span style={{fontSize:10}}>{translatePriority(order.prioridad)}</span>
                       </div>
                     ))}
                     {dayOrders.length > 3 && (
@@ -388,6 +403,11 @@ const Calendar = () => {
     )
   }
 
+  const getTechnicianLabel = (tech) => {
+    const label = t(`technicians.${tech.userName}`, tech.userName)
+    return typeof label === 'string' ? label : tech.userName
+  }
+
   return (
     <>
       <div className={styles.containerCalendar}>
@@ -425,6 +445,16 @@ const Calendar = () => {
           </div>
 
           <div className={styles.additionalFilters}>
+            <select
+              value={selectedTechnician}
+              onChange={e => setSelectedTechnician(e.target.value)}
+              className={styles.filterSelect}
+            >
+              <option value="">{t('calendar.allTechnicians') || 'Todos los técnicos'}</option>
+              {technicians.map(tech => (
+                <option key={tech._id} value={tech._id}>{getTechnicianLabel(tech)}</option>
+              ))}
+            </select>
             <select
               value={selectedPriority}
               onChange={(e) => setSelectedPriority(e.target.value)}
@@ -478,6 +508,7 @@ const Calendar = () => {
                 setSelectedDate("")
                 setSelectedDateFilter("")
                 setSearchTerm("")
+                setSelectedTechnician("")
               }}
               className={styles.clearFilters}
             >
