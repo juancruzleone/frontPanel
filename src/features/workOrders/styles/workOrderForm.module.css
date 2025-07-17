@@ -239,3 +239,61 @@
     font-size: 0.95rem;
   }
 }
+
+/* Custom Date Button Styles */
+.customDateButton {
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--color-card-border);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  width: 100%;
+  background-color: var(--color-card);
+  color: var(--color-text);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin: 0;
+  align-self: flex-start;
+  font-family: inherit;
+}
+
+.customDateButton:hover {
+  border-color: var(--color-card-border);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.customDateButton:focus {
+  outline: none;
+  border-color: var(--color-card-border);
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
+}
+
+.customDateButton:disabled {
+  background-color: var(--color-skeleton);
+  color: var(--color-skeleton-light);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.dateButtonIcon {
+  flex-shrink: 0;
+  color: var(--color-text);
+  opacity: 0.7;
+  width: 16px;
+  height: 16px;
+}
+
+.customDateButton:hover .dateButtonIcon {
+  opacity: 1;
+}

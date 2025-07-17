@@ -15,6 +15,7 @@
     "logout": "Logout"
   },
   "personal": {
+    "understood": "Fermer",
     "title": "Technicians",
     "addTechnician": "Add technician",
     "techniciansList": "Technicians List",
@@ -41,6 +42,7 @@
     "titlePage": "Personnel | LeoneSuite"
   },
   "common": {
+    "understood": "Fermer",
     "loading": "Loading...",
     "error": "Error",
     "success": "Success",
@@ -99,9 +101,12 @@
     "adding": "Adding..."
   },
   "auth": {
+    "understood": "Close",
     "login": "Login",
     "register": "Register",
     "email": "Email",
+    "successTitle": "Successful operation!",
+    "continue": "Continue",
     "password": "Password",
     "confirmPassword": "Confirm Password",
     "forgotPassword": "Forgot your password?",
@@ -131,6 +136,7 @@
   },
 
   "installations": {
+    "understood": "Close",
     "titlePage": "Installations | LeoneSuite",
     "companyPlaceholder": "Enter company name",
     "addressPlaceholder": "Enter address",
@@ -436,6 +442,7 @@
     }
   },
   "assets": {
+    "understood": "Close",
     "titlePage": "Assets | LeoneSuite",
     "cancel": "cancel",
     "delete": "delete",
@@ -499,6 +506,7 @@
     }
   },
   "forms": {
+    "understood": "Close",
     "titlePage": "Forms | LeoneSuite",
     "title": "Form Templates",
     "createFormTemplate": "Create form template",
@@ -586,6 +594,7 @@
     }
   },
   "manuals": {
+    "understood": "Close",
     "titlePage": "Manuals | LeoneSuite",
     "title": "Manuals",
     "createManual": "Create manual",
@@ -695,6 +704,7 @@
     }
   },
   "calendar": {
+    "understood": "Close",
     "titlePage": "Calendar | LeoneSuite",
     "month": "Month",
     "week": "Week",
@@ -744,9 +754,11 @@
     "starting": "Starting...",
     "startOrder": "Start Order",
     "filterByPriority": "Filter by priority",
-    "filterByDate": "Filter by date"
+    "filterByDate": "Filter by date",
+    "selectedDate": "Selected date"
   },
   "workOrders": {
+    "understood": "Close",
     "title": "Work orders",
     "createWorkOrder": "Create work order",
     "deleteOrder": "Delete order",
@@ -779,6 +791,7 @@
     "scheduledDate": "Scheduled date",
     "scheduledTime": "Scheduled time",
     "observations": "Notes",
+    "selectDate": "Select date",
     "completeRequiredFields": "Please complete all required fields",
     "repair": "Repair",
     "inspection": "Inspection",
@@ -804,6 +817,7 @@
       "viewDetails": "View complete order details"
     },
     "modals": {
+      "understood": "Close",
       "confirmDeleteTitle": "Confirm deletion",
       "confirmDeleteMessage": "Are you sure you want to delete this work order?",
       "confirmDeleteDescription": "This action cannot be undone. All related data will be lost.",
@@ -866,6 +880,7 @@
     "arabic": "Arabic"
   },
   "installationDetails": {
+    "understood": "Close",
   "titlePage": "Devices | LeoneSuite",
   "loadingDevices": "Loading devices...",
   "notFound": "Installation not found",
@@ -887,6 +902,7 @@
   "confirmDeleteDescription": "This action cannot be undone."
 },
 "login": {
+  "understood": "Close",
   "titlePage": "Login | LeoneSuite",
   "title": "Login",
   "username": "Username",

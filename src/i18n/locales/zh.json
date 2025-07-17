@@ -15,6 +15,9 @@
     "closeMenu": "关闭菜单"
   },
   "personal": {
+    "understood": "关闭",
+    "successTitle": "操作成功！",
+    "continue": "继续",
     "titlePage": "人员 | LeoneSuite",
     "title": "技术人员",
     "addTechnician": "添加技术人员",
@@ -41,6 +44,9 @@
     "roleAdmin": "管理员"
   },
   "common": {
+    "understood": "关闭",
+    "successTitle": "操作成功！",
+    "continue": "继续",
     "loading": "加载中...",
     "error": "错误",
     "success": "成功",
@@ -71,6 +77,9 @@
     "all": "全部"
   },
   "auth": {
+    "understood": "关闭",
+    "successTitle": "操作成功！",
+    "continue": "继续",
     "login": "登录",
     "register": "注册",
     "email": "邮箱",
@@ -83,6 +92,8 @@
     "logoutSuccess": "登出成功"
   },
   "home": {
+    "successTitle": "操作成功！",
+    "continue": "继续",
     "title": "仪表板",
     "subtitle": "操作概览",
     "welcome": "欢迎",
@@ -102,6 +113,9 @@
     "ordersWillAppear": "创建订单时将在此显示"
   },
   "workOrders": {
+    "understood": "关闭",
+    "successTitle": "操作成功！",
+    "continue": "继续",
     "titlePage": "工单 | LeoneSuite",
     "titlePlaceholder": "请输入工单标题",
     "descriptionPlaceholder": "请输入要执行的工作描述",
@@ -178,6 +192,9 @@
       "viewDetails": "查看工单完整详情"
     },
     "modals": {
+      "understood": "关闭",
+      "successTitle": "操作成功！",
+     "continue": "继续",
       "confirmDeleteTitle": "确认删除",
       "confirmDeleteMessage": "您确定要删除此工单吗？",
       "confirmDeleteDescription": "此操作无法撤销。所有相关数据将丢失。",
@@ -226,6 +243,9 @@
     }
   },
     "modals": {
+      "understood": "关闭",
+      "successTitle": "操作成功！",
+      "continue": "继续",
       "confirmDeleteTitle": "确认删除",
       "confirmDeleteMessage": "您确定要删除此工作订单吗？",
       "confirmDeleteDescription": "此操作无法撤销。所有相关数据将丢失。",
@@ -277,6 +297,9 @@
 },
 
   "installations": {
+    "understood": "关闭",
+    "successTitle": "操作成功！",
+    "continue": "继续",
     "titlePage": "安装 | LeoneSuite",
     "companyPlaceholder": "请输入公司名称",
     "addressPlaceholder": "请输入地址",
@@ -599,6 +622,9 @@
     }
   },
   "assets": {
+    "understood": "关闭",
+    "successTitle": "操作成功！",
+    "continue": "继续",
     "titlePage": "资产 | LeoneSuite",
     "title": "资产",
     "createAsset": "创建资产",
@@ -656,6 +682,9 @@
     }
   },
   "forms": {
+    "understood": "关闭",
+    "successTitle": "操作成功！",
+    "continue": "继续",
     "titlePage": "表单 | LeoneSuite",
     "title": "表单模板",
     "createFormTemplate": "创建表单模板",
@@ -745,6 +774,8 @@
     }
   },
   "manuals": {
+    "understood": "关闭",
+    "viewFile": "查看文件",
     "titlePage": "手册 | LeoneSuite",
   "title": "手册",
   "createManual": "创建手册",
@@ -853,6 +884,9 @@
     }
 },
   "calendar": {
+    "understood": "关闭",
+    "successTitle": "操作成功！",
+    "continue": "继续",
     "titlePage": "日历 | LeoneSuite",
     "title": "工单日历",
     "month": "月份",
@@ -921,6 +955,9 @@
     "arabic": "阿拉伯语"
   },
   "installationDetails": {
+    "understood": "关闭",
+    "successTitle": "操作成功！",
+    "continue": "继续",
     "titlePage": "设备 | LeoneSuite",
     "loadingDevices": "正在加载设备...",
     "notFound": "未找到安装信息",
@@ -942,6 +979,9 @@
     "confirmDeleteDescription": "此操作无法撤销。"
   },
   "login": {
+    "understood": "关闭",
+    "successTitle": "操作成功！",
+    "continue": "继续",
   "titlePage": "登录 | LeoneSuite",
   "title": "登录",
   "username": "用户名",

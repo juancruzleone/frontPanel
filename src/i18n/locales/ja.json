@@ -15,6 +15,9 @@
     "logout": "ログアウト"
   },
   "personal": {
+    "understood": "閉じる",
+    "successTitle": "操作が成功しました！",
+    "continue": "続行",
     "titlePage": "スタッフ | LeoneSuite",
     "title": "技術者",
     "addTechnician": "技術者を追加",
@@ -41,6 +44,9 @@
     "roleAdmin": "管理者"
   },
   "common": {
+    "understood": "閉じる",
+    "successTitle": "操作が成功しました！",
+    "continue": "続行",
     "loading": "読み込み中...",
     "update": "アップデート",
     "error": "エラー",
@@ -72,6 +78,9 @@
     "all": "すべて"
   },
   "auth": {
+    "understood": "閉じる",
+    "successTitle": "操作が成功しました！",
+    "continue": "続行",
     "login": "ログイン",
     "register": "登録",
     "email": "メール",
@@ -103,6 +112,9 @@
     "ordersWillAppear": "指示が作成されるとここに表示されます"
   },
   "workOrders": {
+    "understood": "閉じる",
+    "successTitle": "操作が成功しました！",
+    "continue": "続行",
     "titlePage": "作業指示 | LeoneSuite",
     "titlePlaceholder": "作業指示書のタイトルを入力してください",
     "descriptionPlaceholder": "実施する作業内容を入力してください",
@@ -179,6 +191,9 @@
       "viewDetails": "作業指示書の詳細を表示"
     },
     "modals": {
+      "understood": "閉じる",
+      "successTitle": "操作が成功しました！",
+      "continue": "続行",
       "confirmDeleteTitle": "削除の確認",
       "confirmDeleteMessage": "この作業指示書を削除してもよろしいですか？",
       "confirmDeleteDescription": "この操作は元に戻せません。すべての関連データが失われます。",
@@ -227,6 +242,9 @@
     }
   },
   "installations": {
+    "understood": "閉じる",
+    "successTitle": "操作が成功しました！",
+    "continue": "続行",
     "titlePage": "インストール | LeoneSuite",
     "companyPlaceholder": "会社名を入力してください",
     "addressPlaceholder": "住所を入力してください",
@@ -546,6 +564,9 @@
     }
   },
   "assets": {
+    "understood": "閉じる",
+    "successTitle": "操作が成功しました！",
+    "continue": "続行",
     "titlePage": "資産 | LeoneSuite",
     "title": "資産",
     "createAsset": "資産作成",
@@ -603,6 +624,9 @@
     }
   },
   "forms": {
+    "understood": "閉じる",
+    "successTitle": "操作が成功しました！",
+    "continue": "続行",
     "titlePage": "フォーム | LeoneSuite",
     "title": "フォームテンプレート",
     "createFormTemplate": "フォームテンプレートを作成",
@@ -689,6 +713,8 @@
     }
   },
   "manuals": {
+    "understood": "閉じる",
+    "viewFile": "ファイルを表示",
     "titlePage": "マニュアル | LeoneSuite",
   "title": "マニュアル",
   "createManual": "マニュアルを作成",
@@ -797,6 +823,11 @@
     }
 },
   "calendar": {
+    "understood": "閉じる",
+    "successTitle": "操作が成功しました！",
+    "continue": "続行",
+    "searchPlaceholder": "タイトル、説明、設置、または技術者で検索",
+    "filterByStatus": "状態でフィルタ",
     "titlePage": "カレンダー | LeoneSuite",
     "title": "作業指示カレンダー",
     "month": "月",
@@ -828,6 +859,9 @@
     "arabic": "アラビア語"
   },
     "login": {
+      "understood": "閉じる",
+      "successTitle": "操作が成功しました！",
+      "continue": "続行",
     "titlePage": "ログイン | LeoneSuite",
     "title": "ログイン",
     "username": "ユーザー名",

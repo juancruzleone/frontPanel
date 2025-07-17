@@ -15,6 +15,9 @@
     "logout": "Disconnetti"
   },
   "personal": {
+    "understood": "Chiudi",
+    "successTitle": "Operazione riuscita!",
+    "continue": "Continua",
     "title": "Tecnici",
     "addTechnician": "Aggiungi tecnico",
     "techniciansList": "Lista Tecnici",
@@ -41,6 +44,9 @@
     "titlePage": "Personale | LeoneSuite"
   },
   "common": {
+    "understood": "Chiudi",
+    "successTitle": "Operazione riuscita!",
+    "continue": "Continua",
     "loading": "Caricamento...",
     "error": "Errore",
     "success": "Successo",
@@ -72,6 +78,9 @@
     "update": "Aggiorna"
   },
   "auth": {
+    "understood": "Chiudi",
+    "successTitle": "Operazione riuscita!",
+    "continue": "Continua",
     "login": "Accedi",
     "register": "Registrati",
     "email": "Email",
@@ -103,6 +112,9 @@
     "ordersWillAppear": "Gli ordini appariranno qui quando verranno creati"
   },
   "workOrders": {
+    "understood": "Chiudi",
+    "successTitle": "Operazione riuscita!",
+    "continue": "Continua",
     "titlePlaceholder": "Inserisci il titolo dell'ordine di lavoro",
     "descriptionPlaceholder": "Descrizione del lavoro da eseguire",
     "observationsPlaceholder": "Osservazioni aggiuntive (opzionale)",
@@ -178,6 +190,9 @@
       "viewDetails": "Visualizza dettagli completi dell'ordine"
     },
     "modals": {
+      "understood": "Chiudi",
+      "successTitle": "Operazione riuscita!",
+      "continue": "Continua",
       "confirmDeleteTitle": "Conferma eliminazione",
       "confirmDeleteMessage": "Sei sicuro di voler eliminare questo ordine di lavoro?",
       "confirmDeleteDescription": "Questa azione non può essere annullata. Tutti i dati correlati andranno persi.",
@@ -227,6 +242,9 @@
     "titlePage": "Ordini di Lavoro | LeoneSuite"
   },
   "installations": {
+    "understood": "Chiudi",
+    "successTitle": "Operazione riuscita!",
+    "continue": "Continua",
     "companyPlaceholder": "Inserisci il nome dell'azienda",
     "addressPlaceholder": "Inserisci l'indirizzo",
     "floorSectorPlaceholder": "Inserisci piano/settore",
@@ -547,6 +565,9 @@
     "titlePage": "Impianti | LeoneSuite"
   },
   "assets": {
+    "understood": "Chiudi",
+    "successTitle": "Operazione riuscita!",
+    "continue": "Continua",
     "title": "Beni",
     "createAsset": "Crea Bene",
     "editAsset": "Modifica Bene",
@@ -604,6 +625,9 @@
     "titlePage": "Beni | LeoneSuite"
   },
   "forms": {
+    "understood": "Chiudi",
+    "successTitle": "Operazione riuscita!",
+    "continue": "Continua",
     "title": "Modelli di Formulari",
     "createFormTemplate": "Crea modello di modulo",
     "viewCreatedCategories": "Visualizza categorie create",
@@ -686,6 +710,8 @@
     "titlePage": "Moduli | LeoneSuite"
   },
   "manuals": {
+    "understood": "Chiudi",
+    "viewFile": "Visualizza file",
     "titlePage": "Manuali | LeoneSuite",
   "title": "Manuali",
   "createManual": "Crea manuale",
@@ -794,6 +820,9 @@
     }
 },
   "calendar": {
+    "understood": "Chiudi",
+    "successTitle": "Operazione riuscita!",
+    "continue": "Continua",
     "titlePage": "Calendario | LeoneSuite",
     "title": "Calendario degli Ordini di Lavoro",
     "month": "Mese",
@@ -861,6 +890,9 @@
     "arabic": "Arabo"
   },
     "installationDetails": {
+      "understood": "Chiudi",
+      "successTitle": "Operazione riuscita!",
+      "continue": "Continua",
     "titlePage": "Dispositivi | LeoneSuite",
     "loadingDevices": "Caricamento dispositivi...",
     "notFound": "Installazione non trovata",
@@ -882,6 +914,9 @@
     "confirmDeleteDescription": "Questa azione non può essere annullata."
   },
     "login": {
+      "understood": "Chiudi",
+      "successTitle": "Operazione riuscita!",
+      "continue": "Continua",
     "titlePage": "Accedi | LeoneSuite",
     "title": "Accedi",
     "username": "Nome utente",

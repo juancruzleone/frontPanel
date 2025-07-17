@@ -8,6 +8,7 @@ import useCalendar, { type WorkOrder } from "../features/calendar/hooks/useCalen
 import ModalWorkOrderDetails from "../features/calendar/components/ModalWorkOrderDetails"
 import ModalSuccess from "../features/workOrders/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
+import DatePickerModal from "../features/calendar/components/DatePickerModal"
 import { CalendarIcon, Clock, MapPin, User, AlertCircle, FilterX } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
@@ -32,6 +33,7 @@ const Calendar = () => {
   const [responseMessage, setResponseMessage] = useState("")
   const [isError, setIsError] = useState(false)
   const [currentDate, setCurrentDate] = useState(new Date())
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
 
   useEffect(() => {
     document.title = t("calendar.titlePage")
@@ -207,6 +209,14 @@ const Calendar = () => {
     } catch (err: any) {
       onError(err.message || t('calendar.errorStartingOrder'))
     }
+  }
+
+  const handleOpenDatePicker = () => {
+    setIsDatePickerOpen(true)
+  }
+
+  const handleDateSelect = (date: string) => {
+    setSelectedDateFilter(date)
   }
 
   // Generar días del mes para la vista de calendario
@@ -439,13 +449,27 @@ const Calendar = () => {
               ))}
             </select>
 
-            <input
-              type="date"
-              value={selectedDateFilter}
-              onChange={(e) => setSelectedDateFilter(e.target.value)}
-              className={styles.dateFilter}
-              placeholder={t('calendar.selectDate')}
-            />
+            <button
+              onClick={handleOpenDatePicker}
+              className={styles.customDateButton}
+              type="button"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className={styles.dateButtonIcon}>
+                <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
+                <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+              {selectedDateFilter ? (
+                new Date(selectedDateFilter).toLocaleDateString(i18n.language || 'es', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric'
+                })
+              ) : (
+                t('calendar.selectDate')
+              )}
+            </button>
 
             <button
               onClick={() => {
@@ -500,6 +524,14 @@ const Calendar = () => {
         isOpen={!!responseMessage && isError}
         onRequestClose={closeModal}
         mensaje={responseMessage}
+      />
+
+      <DatePickerModal
+        isOpen={isDatePickerOpen}
+        onRequestClose={() => setIsDatePickerOpen(false)}
+        onDateSelect={handleDateSelect}
+        selectedDate={selectedDateFilter}
+        title={t('calendar.selectDate')}
       />
     </>
   )

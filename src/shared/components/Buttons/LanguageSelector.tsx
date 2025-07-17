@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Globe, ChevronDown } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 import styles from './buttons.module.css'
 
 const LanguageSelector = () => {
@@ -55,8 +55,7 @@ const LanguageSelector = () => {
         onClick={toggleDropdown}
         aria-label={t('languageSelector.title')}
       >
-        <Globe size={14} />
-        <span className={styles.languageCode}>{currentLanguage.code.toUpperCase()}</span>
+        <span className={styles.flag}>{currentLanguage.flag}</span>
         <ChevronDown size={12} className={`${styles.chevron} ${isOpen ? styles.chevronUp : ''}`} />
       </button>
 

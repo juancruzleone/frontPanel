@@ -194,6 +194,17 @@ const Manuals = () => {
     return new Date(date).toLocaleDateString('es-ES');
   };
 
+  const translateCategory = (category: string) => {
+    const categoryMap: Record<string, string> = {
+      'Manual de usuario': t('manuals.userManual'),
+      'Manual técnico': t('manuals.technicalManual'),
+      'Manual de mantenimiento': t('manuals.maintenanceManual'),
+      'Guía de instalación': t('manuals.installationGuide'),
+      'Otros': t('manuals.others')
+    };
+    return categoryMap[category] || category;
+  };
+
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, selectedCategory]);
@@ -234,7 +245,7 @@ const Manuals = () => {
                   <div className={styles.manualInfo}>
                     <div className={styles.manualHeader}>
                       <h3 className={styles.manualTitle}>{manual.nombre}</h3>
-                      <span className={styles.manualCategory}>{manual.categoria}</span>
+                      <span className={styles.manualCategory}>{translateCategory(manual.categoria)}</span>
                     </div>
                     
                     {manual.descripcion && (

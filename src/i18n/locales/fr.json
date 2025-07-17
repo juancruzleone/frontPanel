@@ -15,6 +15,9 @@
     "logout": "Déconnexion"
   },
   "personal": {
+    "understood": "Fermer",
+    "successTitle": "Opération réussie !",
+    "continue": "Continuer",
     "titlePage": "Personnel | LeoneSuite",
     "title": "Techniciens",
     "addTechnician": "Ajouter un technicien",
@@ -41,6 +44,9 @@
     "roleAdmin": "Administrateur"
   },
   "common": {
+    "understood": "Fermer",
+    "successTitle": "Opération réussie !",
+    "continue": "Continuer",
     "loading": "Chargement...",
     "error": "Erreur",
     "success": "Succès",
@@ -71,6 +77,9 @@
     "all": "Toutes"
   },
   "auth": {
+    "understood": "Fermer",
+    "successTitle": "Opération réussie !",
+    "continue": "Continuer",
     "login": "Connexion",
     "register": "S'inscrire",
     "email": "E-mail",
@@ -103,6 +112,9 @@
     "ordersWillAppear": "Les ordres apparaîtront ici lors de leur création"
   },
   "workOrders": {
+    "understood": "Fermer",
+    "successTitle": "Opération réussie !",
+    "continue": "Continuer",
     "titlePage": "Ordres de travail | LeoneSuite",
     "titlePlaceholder": "Entrez le titre de l'ordre de travail",
     "descriptionPlaceholder": "Description du travail à effectuer",
@@ -179,6 +191,9 @@
       "viewDetails": "Voir les détails complets de l'ordre"
     },
     "modals": {
+      "understood": "Fermer",
+      "successTitle": "Opération réussie !",
+      "continue": "Continuer",
       "confirmDeleteTitle": "Confirmer la suppression",
       "confirmDeleteMessage": "Êtes-vous sûr de vouloir supprimer cet ordre de travail ?",
       "confirmDeleteDescription": "Cette action est irréversible. Toutes les données associées seront perdues.",
@@ -227,6 +242,9 @@
     }
   },
   "installations": {
+    "understood": "Fermer",
+    "successTitle": "Opération réussie !",
+    "continue": "Continuer",
     "titlePage": "Installations | LeoneSuite",
     "companyPlaceholder": "Entrez le nom de l'entreprise",
     "addressPlaceholder": "Entrez l'adresse",
@@ -536,6 +554,9 @@
     }
 },
   "assets": {
+    "understood": "Fermer",
+    "successTitle": "Opération réussie !",
+    "continue": "Continuer",
     "titlePage": "Actifs | LeoneSuite",
     "title": "Actifs",
     "createAsset": "Créer un Actif",
@@ -590,6 +611,9 @@
     }
   },
   "forms": {
+    "understood": "Fermer",
+    "successTitle": "Opération réussie !",
+    "continue": "Continuer",
     "titlePage": "Formulaires | LeoneSuite",
     "title": "Modèles de Formulaires",
     "createFormTemplate": "Créer un modèle de formulaire",
@@ -677,6 +701,8 @@
     }
   },
   "manuals": {
+    "understood": "Fermer",
+    "viewFile": "Voir le fichier",
     "titlePage": "Manuels | LeoneSuite",
   "title": "Manuels",
   "createManual": "Créer un manuel",
@@ -785,6 +811,9 @@
     }
 },
   "calendar": {
+    "understood": "Fermer",
+    "successTitle": "Opération réussie !",
+    "continue": "Continuer",
     "titlePage": "Calendrier | LeoneSuite",
     "title": "Calendrier des Ordres de Travail",
     "month": "Mois",
@@ -816,6 +845,9 @@
     "arabic": "Arabe"
   },
     "installationDetails": {
+      "understood": "Fermer",
+      "successTitle": "Opération réussie !",
+      "continue": "Continuer",
     "titlePage": "Appareils | LeoneSuite",
     "loadingDevices": "Chargement des appareils...",
     "notFound": "Installation introuvable",
@@ -837,6 +869,9 @@
     "confirmDeleteDescription": "Cette action est irréversible."
   },
     "login": {
+      "understood": "Fermer",
+      "successTitle": "Opération réussie !",
+      "continue": "Continuer",
     "titlePage": "Connexion | LeoneSuite",
     "title": "Se connecter",
     "username": "Nom d'utilisateur",

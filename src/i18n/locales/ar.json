@@ -15,6 +15,9 @@
     "logout": "تسجيل الخروج"
   },
   "personal": {
+    "understood": "إغلاق",
+    "successTitle": "تمت العملية بنجاح!",
+    "continue": "متابعة",
     "titlePage": "الموظفون | LeoneSuite",
     "title": "الفنيين",
     "addTechnician": "إضافة فني",
@@ -41,6 +44,9 @@
     "roleAdmin": "مدير"
   },
   "common": {
+    "understood": "إغلاق",
+    "successTitle": "تمت العملية بنجاح!",
+    "continue": "متابعة",
     "loading": "جاري التحميل...",
     "update": "تحديث",
     "error": "خطأ",
@@ -72,6 +78,7 @@
     "all": "الكل"
   },
   "auth": {
+    "understood": "إغلاق",
     "login": "تسجيل الدخول",
     "register": "التسجيل",
     "email": "البريد الإلكتروني",
@@ -86,6 +93,7 @@
     "continue": "متابعة"
   },
   "home": {
+    "understood": "إغلاق",
     "title": "لوحة التحكم",
     "subtitle": "ملخص العمليات العامة",
     "welcome": "مرحبًا",
@@ -105,6 +113,9 @@
     "ordersWillAppear": "ستظهر الأوامر هنا عند إنشائها"
   },
   "workOrders": {
+    "understood": "إغلاق",
+    "successTitle": "تمت العملية بنجاح!",
+    "continue": "متابعة",
     "titlePage": "أوامر العمل | LeoneSuite",
     "titlePlaceholder": "أدخل عنوان أمر العمل",
     "descriptionPlaceholder": "وصف العمل المطلوب تنفيذه",
@@ -181,6 +192,7 @@
       "viewDetails": "عرض التفاصيل الكاملة للأمر"
     },
     "modals": {
+      "understood": "إغلاق",
       "confirmDeleteTitle": "تأكيد الحذف",
       "confirmDeleteMessage": "هل أنت متأكد من أنك تريد حذف أمر العمل هذا؟",
       "confirmDeleteDescription": "لا يمكن التراجع عن هذا الإجراء. ستفقد جميع البيانات المرتبطة.",
@@ -229,6 +241,9 @@
     }
   },
   "installations": {
+    "understood": "إغلاق",
+    "successTitle": "تمت العملية بنجاح!",
+    "continue": "متابعة",
     "companyPlaceholder": "أدخل اسم الشركة",
     "addressPlaceholder": "أدخل العنوان",
     "floorSectorPlaceholder": "أدخل الطابق/القسم",
@@ -547,6 +562,9 @@
     "titlePage": "التثبيتات | LeoneSuite"
   },
   "assets": {
+    "understood": "إغلاق",
+    "successTitle": "تمت العملية بنجاح!",
+    "continue": "متابعة",
     "titlePage": "الأصول | LeoneSuite",
     "assign": "تعيين",
     "title": "الأصول",
@@ -611,6 +629,9 @@
     }
   },
   "forms": {
+    "understood": "إغلاق",
+    "successTitle": "تمت العملية بنجاح!",
+    "continue": "متابعة",
     "titlePage": "النماذج | LeoneSuite",
     "title": "قوالب النماذج",
     "createTemplate": "إنشاء قالب نموذج",
@@ -703,6 +724,8 @@
     }
   },
   "manuals": {
+    "understood": "إغلاق",
+    "viewFile": "عرض الملف",
     "titlePage": "الكتيبات | LeoneSuite",
   "title": "الكتيبات",
   "createManual": "إنشاء كتيب",
@@ -811,6 +834,9 @@
     }
 },
   "calendar": {
+    "understood": "إغلاق",
+    "successTitle": "تمت العملية بنجاح!",
+    "continue": "متابعة",
     "titlePage": "التقويم | LeoneSuite",
     "title": "تقويم أوامر العمل",
     "month": "شهر",
@@ -878,6 +904,9 @@
     "arabic": "العربية"
   },
   "installationDetails": {
+    "understood": "إغلاق",
+    "successTitle": "تمت العملية بنجاح!",
+    "continue": "متابعة",
   "titlePage": "الأجهزة | LeoneSuite",
   "loadingDevices": "جارٍ تحميل الأجهزة...",
   "notFound": "لم يتم العثور على التركيب",
@@ -899,6 +928,9 @@
   "confirmDeleteDescription": "لا يمكن التراجع عن هذا الإجراء."
 },
 "login": {
+  "understood": "إغلاق",
+  "successTitle": "تمت العملية بنجاح!",
+  "continue": "متابعة",
   "titlePage": "تسجيل الدخول | LeoneSuite",
   "title": "تسجيل الدخول",
   "username": "اسم المستخدم",

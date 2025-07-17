@@ -15,6 +15,7 @@
     "logout": "Abmelden"
   },
   "personal": {
+    "understood": "Schließen",
     "title": "Techniker",
     "addTechnician": "Techniker hinzufügen",
     "techniciansList": "Techniker-Liste",
@@ -41,6 +42,7 @@
     "titlePage": "Personal | LeoneSuite"
   },
   "common": {
+    "understood": "Schließen",
     "loading": "Laden...",
     "error": "Fehler",
     "success": "Erfolg",
@@ -71,6 +73,9 @@
     "all": "Alle"
   },
   "auth": {
+    "understood": "Schließen",
+    "successTitle": "Vorgang erfolgreich!",
+    "continue": "Weiter",
     "login": "Anmelden",
     "register": "Registrieren",
     "email": "E-Mail",
@@ -102,6 +107,9 @@
     "ordersWillAppear": "Aufträge werden hier angezeigt, wenn sie erstellt werden"
   },
   "workOrders": {
+    "understood": "Schließen",
+    "successTitle": "Vorgang erfolgreich!",
+    "continue": "Weiter",
     "titlePage": "Arbeitsaufträge | LeoneSuite",
     "titlePlaceholder": "Arbeitsauftrags-Titel eingeben",
     "descriptionPlaceholder": "Beschreibung der auszuführenden Arbeit",
@@ -178,6 +186,8 @@
       "viewDetails": "Komplette Auftragsdetails anzeigen"
     },
     "modals": {
+      "successTitle": "Vorgang erfolgreich!",
+      "continue": "Weiter",
       "confirmDeleteTitle": "Löschen bestätigen",
       "confirmDeleteMessage": "Sind Sie sicher, dass Sie diesen Arbeitsauftrag löschen möchten?",
       "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Alle zugehörigen Daten gehen verloren.",
@@ -190,6 +200,8 @@
       "assignTechnician": "Techniker zuweisen"
     },
     "form": {
+      "successTitle": "Vorgang erfolgreich!",
+      "continue": "Weiter",
       "maintenance": "Wartung",
       "repair": "Reparatur",
       "installation": "Installation",
@@ -226,6 +238,9 @@
     }
   },
   "installations": {
+    "understood": "Schließen",
+    "successTitle": "Vorgang erfolgreich!",
+    "continue": "Weiter",
     "companyPlaceholder": "Firmenname eingeben",
     "addressPlaceholder": "Adresse eingeben",
     "floorSectorPlaceholder": "Etage/Sektor eingeben",
@@ -493,6 +508,9 @@
     "titlePage": "Installationen | LeoneSuite"
   },
   "assets": {
+    "understood": "Schließen",
+    "successTitle": "Vorgang erfolgreich!",
+    "continue": "Weiter",
     "title": "Anlagen",
     "createAsset": "Anlage erstellen",
     "editAsset": "Anlage bearbeiten",
@@ -549,6 +567,9 @@
     "titlePage": "Vermögenswerte | LeoneSuite"
   },
   "forms": {
+    "understood": "Schließen",
+    "successTitle": "Vorgang erfolgreich!",
+    "continue": "Weiter",
     "title": "Formularvorlagen",
     "createFormTemplate": "Formularvorlage erstellen",
     "viewCreatedCategories": "Erstellte Kategorien anzeigen",
@@ -636,6 +657,9 @@
     "titlePage": "Formulare | LeoneSuite"
   },
   "manuals": {
+    "understood": "Schließen",
+    "successTitle": "Vorgang erfolgreich!",
+    "continue": "Weiter",
     "titlePage": "Handbücher | LeoneSuite",
     "title": "Handbücher",
     "createManual": "Handbuch erstellen",
@@ -699,6 +723,9 @@
     }
   },
   "calendar": {
+    "understood": "Schließen",
+    "successTitle": "Vorgang erfolgreich!",
+    "continue": "Weiter",
     "titlePage": "Kalender | LeoneSuite",
     "filterByStatus": "Nach Status filtern", 
     "searchPlaceholder": "Suchen nach Titel, Beschreibung, Installation oder Techniker",
@@ -762,6 +789,9 @@
     "arabic": "Arabisch"
   },
   "installationDetails": {
+    "understood": "Schließen",
+    "successTitle": "Vorgang erfolgreich!",
+    "continue": "Weiter",
   "titlePage": "Geräte | LeoneSuite",
   "loadingDevices": "Geräte werden geladen...",
   "notFound": "Installation nicht gefunden",
@@ -783,6 +813,9 @@
   "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden."
 },
 "login": {
+  "understood": "Schließen",
+  "successTitle": "Vorgang erfolgreich!",
+  "continue": "Weiter",
   "titlePage": "Anmelden | LeoneSuite",
   "title": "Anmelden",
   "username": "Benutzername",

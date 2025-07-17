@@ -15,6 +15,9 @@
     "logout": "Sair"
   },
   "personal": {
+    "understood": "Fechar",
+    "successTitle": "Operação bem-sucedida!",
+    "continue": "Continuar",
     "title": "Técnicos",
     "addTechnician": "Adicionar técnico",
     "techniciansList": "Lista de Técnicos",
@@ -41,6 +44,7 @@
     "titlePage": "Pessoal | LeoneSuite"
   },
   "common": {
+    "understood": "Fechar",
     "loading": "Carregando...",
     "error": "Erro",
     "success": "Sucesso",
@@ -71,6 +75,9 @@
     "all": "Todas"
   },
   "auth": {
+    "understood": "Fechar",
+    "successTitle": "Operação bem-sucedida!",
+    "continue": "Continuar",
     "login": "Entrar",
     "register": "Registrar",
     "email": "E-mail",
@@ -102,6 +109,9 @@
     "ordersWillAppear": "As ordens aparecerão aqui quando forem criadas"
   },
   "workOrders": {
+    "understood": "Fechar",
+    "successTitle": "Operação bem-sucedida!",
+    "continue": "Continuar",
     "titlePlaceholder": "Digite o título da ordem de serviço",
     "descriptionPlaceholder": "Descrição do trabalho a ser realizado",
     "observationsPlaceholder": "Observações adicionais (opcional)",
@@ -177,6 +187,8 @@
       "viewDetails": "Ver detalhes completos da ordem"
     },
     "modals": {
+      "successTitle": "Operação bem-sucedida!",
+      "continue": "Continuar",
       "confirmDeleteTitle": "Confirmar exclusão",
       "confirmDeleteMessage": "Tem certeza de que deseja excluir esta ordem de serviço?",
       "confirmDeleteDescription": "Esta ação não pode ser desfeita. Todos os dados relacionados serão perdidos.",
@@ -226,6 +238,9 @@
     "titlePage": "Ordens de Trabalho | LeoneSuite"
   },
   "installations": {
+    "understood": "Fechar",
+    "successTitle": "Operação bem-sucedida!",
+    "continue": "Continuar",  
     "companyPlaceholder": "Digite o nome da empresa",
     "addressPlaceholder": "Digite o endereço",
     "floorSectorPlaceholder": "Digite o andar/setor",
@@ -548,6 +563,9 @@
     "titlePage": "Instalações | LeoneSuite"
   },
   "assets": {
+    "understood": "Fechar",
+    "successTitle": "Operação bem-sucedida!",
+    "continue": "Continuar",
     "title": "Ativos",
     "createAsset": "Criar Ativo",
     "editAsset": "Editar Ativo",
@@ -605,6 +623,9 @@
     "titlePage": "Ativos | LeoneSuite"
   },
   "forms": {
+    "understood": "Fechar",
+    "successTitle": "Operação bem-sucedida!",
+    "continue": "Continuar",
     "titlePage": "Formulários | LeoneSuite",
     "title": "Modelos de Formulários",
     "createFormTemplate": "Criar modelo de formulário",
@@ -692,6 +713,8 @@
     }
   },
   "manuals": {
+    "understood": "Fechar",
+    "viewFile": "Visualizar arquivo",
     "titlePage": "Manuais | LeoneSuite",
   "title": "Manuais",
   "createManual": "Criar manual",
@@ -800,6 +823,9 @@
     }
 },
   "calendar": {
+    "understood": "Fechar",
+    "successTitle": "Operação bem-sucedida!",
+    "continue": "Continuar",
     "titlePage": "Calendário | LeoneSuite",
     "title": "Calendário de Ordens de Trabalho",
     "month": "Mês",
@@ -831,6 +857,9 @@
     "arabic": "Árabe"
   },
   "installationDetails": {
+    "understood": "Fechar",
+    "successTitle": "Operação bem-sucedida!",
+    "continue": "Continuar",
   "titlePage": "Dispositivos | LeoneSuite",
   "loadingDevices": "Carregando dispositivos...",
   "notFound": "Instalação não encontrada",
@@ -852,6 +881,9 @@
   "confirmDeleteDescription": "Esta ação não pode ser desfeita."
 },
 "login": {
+  "understood": "Fechar",
+  "successTitle": "Operação bem-sucedida!",
+  "continue": "Continuar",
   "titlePage": "Entrar | LeoneSuite",
   "title": "Entrar",
   "username": "Nome de usuário",

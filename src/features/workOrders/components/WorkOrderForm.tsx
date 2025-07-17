@@ -4,6 +4,7 @@ import type { WorkOrder } from "../hooks/useWorkOrders"
 import styles from "../styles/workOrderForm.module.css"
 import { useTranslation } from "react-i18next"
 import { validateWorkOrderForm, validateWorkOrderField } from '../validators/workOrderValidations';
+import DatePickerModal from "../../calendar/components/DatePickerModal"
 
 interface WorkOrderFormProps {
   onCancel: () => void
@@ -49,8 +50,9 @@ const WorkOrderForm = ({
   errorLoadingInstallations = null,
   setFormErrors,
 }: WorkOrderFormProps & { setFormErrors: (updater: (prev: Record<string, string>) => Record<string, string>) => void }) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
 
   const workTypes = [
     { value: "mantenimiento", label: t('workOrders.maintenance') },
@@ -152,11 +154,21 @@ const WorkOrderForm = ({
     }
   }
 
+  const handleOpenDatePicker = () => {
+    setIsDatePickerOpen(true)
+  }
+
+  const handleDateSelect = (date: string) => {
+    const dateObj = new Date(date)
+    handleFieldChange("fechaProgramada", dateObj.toISOString())
+  }
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      className={styles.form}
-    >
+    <>
+      <form
+        onSubmit={handleSubmit}
+        className={styles.form}
+      >
       <div className={styles.formInner}>
         <div className={styles.formGroup}>
           <label className="formLabel">{t('workOrders.title')} *</label>
@@ -267,18 +279,28 @@ const WorkOrderForm = ({
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
             <label className="formLabel">{t('workOrders.scheduledDate')} *</label>
-            <input
-              type="date"
-              name="fechaProgramada"
-              value={formatDateForInput(formData.fechaProgramada)}
-              onChange={(e) => {
-                const date = e.target.value ? new Date(e.target.value) : null
-                handleFieldChange("fechaProgramada", date?.toISOString() || "")
-              }}
-              onBlur={() => handleFieldBlur("fechaProgramada")}
+            <button
+              type="button"
+              onClick={handleOpenDatePicker}
               disabled={isFieldDisabled("fechaProgramada")}
-              className={showError("fechaProgramada") ? styles.errorInput : "formInput"}
-            />
+              className={showError("fechaProgramada") ? styles.errorInput : styles.customDateButton}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className={styles.dateButtonIcon}>
+                <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
+                <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+              {formData.fechaProgramada ? (
+                new Date(formData.fechaProgramada).toLocaleDateString(i18n.language || 'es', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric'
+                })
+              ) : (
+                t('workOrders.selectDate')
+              )}
+            </button>
             {isEditMode && ["completada", "en_progreso"].includes(initialData?.estado || "") && (
               <p className={styles.warningMessage}>
                 No se puede editar una orden {initialData?.estado.replace("_", " ")}
@@ -337,6 +359,15 @@ const WorkOrderForm = ({
         {formErrors.submit && <div className={styles.formError}>{formErrors.submit}</div>}
       </div>
     </form>
+
+    <DatePickerModal
+      isOpen={isDatePickerOpen}
+      onRequestClose={() => setIsDatePickerOpen(false)}
+      onDateSelect={handleDateSelect}
+      selectedDate={formData.fechaProgramada ? formatDateForInput(formData.fechaProgramada) : undefined}
+      title={t('workOrders.scheduledDate')}
+    />
+    </>
   )
 }
 
