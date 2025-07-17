@@ -101,10 +101,10 @@ button{
 }
 
 .languageButton {
-  background: var(--color-themebox-bg);
-  color: var(--color-icon);
-  border: 1px solid var(--color-themebox-border);
-  padding: 10px;
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
   border-radius: 10px;
   cursor: pointer;
   display: flex;
@@ -112,43 +112,25 @@ button{
   justify-content: center;
   transition: all 0.2s ease;
   width: 40px;
-  height: 48px;
-  font-size: 12px;
-  font-weight: 600;
+  height: 44px;
+  font-size: 1.5rem;
   margin-top: 0;
-}
-
-.languageCode {
-  font-weight: 600;
-  color: var(--color-text);
 }
 
 .chevron {
   transition: transform 0.2s ease;
   color: var(--color-text);
+  margin-left: 4px;
 }
 
 .chevronUp {
   transform: rotate(180deg);
 }
 
-@media (min-width: 768px) {
-  .languageButton {
-    font-size: 12px;
-    width: 40px;
-    height: 48px;
-    margin-top: 0;
-  }
-}
-
 .languageButton:hover {
   background: var(--color-card-border);
   transform: scale(1.1);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.languageButton:active {
-  transform: translateY(0);
 }
 
 .languageDropdown {
@@ -195,8 +177,25 @@ button{
   flex-shrink: 0;
 }
 
+.flagImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+
 .languageName {
   font-weight: 500;
+}
+
+.languageButton .flagImg {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 10px !important;
+  margin: 0 !important;
+  object-fit: cover;
+  display: block;
 }
 
 /* Responsive adjustments */
