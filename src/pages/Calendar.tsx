@@ -581,19 +581,56 @@ const Calendar = () => {
         title={t('calendar.selectDate')}
       />
       {isYearModalOpen && (
-        (() => { const year = currentDate.getFullYear(); return (
-        <div style={{position:'fixed', top:0, left:0, width:'100vw', height:'100vh', background:'rgba(0,0,0,0.3)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center'}}>
-          <div style={{background:'#fff', borderRadius:12, padding:24, maxHeight:'80vh', overflowY:'auto', minWidth:220}}>
-            <h3 style={{marginBottom:16, textAlign:'center'}}>{t('calendar.selectYear') || 'Selecciona un año'}</h3>
-            <div style={{display:'flex', flexDirection:'column', gap:8}}>
-              {yearList.map(y => (
-                <button key={y} style={{padding:8, borderRadius:6, border:'1px solid #eee', background: y===year ? '#057e74' : '#f5f5f5', color: y===year ? '#fff' : '#222', fontWeight: y===year ? 700 : 400, cursor:'pointer'}} onClick={() => { setCurrentDate(new Date(y, currentDate.getMonth(), 1)); setIsYearModalOpen(false); }}>{y}</button>
-              ))}
+        <div className={styles.datePickerBackdrop}>
+          <div className={styles.datePickerModal}>
+            <div className={styles.datePickerHeader}>
+              <div className={styles.datePickerIcon}>
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                  <rect x="3" y="4" width="18" height="18" rx="2" fill="#3b82f6"/>
+                  <line x1="16" y1="2" x2="16" y2="6" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+                  <line x1="8" y1="2" x2="8" y2="6" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+                  <line x1="3" y1="10" x2="21" y2="10" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
+              </div>
+              <h2 className={styles.datePickerTitle}>{t('calendar.selectYear') || 'Selecciona un año'}</h2>
+              <button 
+                className={styles.datePickerCloseButton}
+                onClick={() => setIsYearModalOpen(false)}
+              >
+                ×
+              </button>
             </div>
-            <button style={{marginTop:20, width:'100%', padding:8, borderRadius:6, background:'#eee', border:'none', cursor:'pointer'}} onClick={()=>setIsYearModalOpen(false)}>{t('common.cancel') || 'Cancelar'}</button>
+            
+            <div className={styles.datePickerContent}>
+              <div className={styles.yearPickerContainer}>
+                <div className={styles.yearPickerGrid}>
+                  {yearList.map(y => (
+                    <button
+                      key={y}
+                      className={`${styles.yearPickerYear} ${y === currentDate.getFullYear() ? styles.yearPickerSelected : ''}`}
+                      onClick={() => {
+                        setCurrentDate(new Date(y, currentDate.getMonth(), 1));
+                        setIsYearModalOpen(false);
+                      }}
+                    >
+                      {y}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className={styles.datePickerActions}>
+                <button
+                  type="button"
+                  onClick={() => setIsYearModalOpen(false)}
+                  className={styles.datePickerCancelButton}
+                >
+                  {t('common.cancel') || 'Cancelar'}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-        )})()
       )}
     </>
   )
