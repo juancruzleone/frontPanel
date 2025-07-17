@@ -28,12 +28,15 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    console.log("handleSubmit llamado con selectedTechnician:", selectedTechnician)
     if (!selectedTechnician) {
       setError(t('workOrders.form.selectTechnician'))
       return
     }
     try {
+      console.log("Llamando onAssign con technicianId:", selectedTechnician)
       const result = await onAssign(selectedTechnician)
+      console.log("onAssign completado con resultado:", result)
       onSuccess(result.message)
     } catch (err: any) {
       console.error("Error al asignar técnico:", err)

@@ -10,7 +10,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:netlify": "npm install --legacy-peer-deps && vite build",
+    "build:netlify": "rm -rf dist && npm install --legacy-peer-deps && vite build",
+    "build:clean": "rm -rf dist node_modules package-lock.json && npm install --legacy-peer-deps && vite build",
     "lint": "eslint . --max-warnings 999",
     "preview": "vite preview"
   },

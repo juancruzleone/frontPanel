@@ -15,7 +15,8 @@
     "logout": "Cerrar Sesión"
   },
   "personal": {
-    "uderstood": "cerrar",
+    "successTitle": "¡Operación exitosa!",
+    "understood": "cerrar",
     "title": "Técnicos",
     "addTechnician": "Agregar técnico",
     "techniciansList": "Listado de Técnicos",
@@ -42,7 +43,8 @@
     "titlePage": "Personal | LeoneSuite"
   },
   "common": {
-    "uderstood": "cerrar",
+    "successTitle": "¡Operación exitosa!",
+    "understood": "cerrar",
     "loading": "Cargando...",
     "error": "Error",
     "success": "Éxito",
@@ -101,7 +103,9 @@
     "adding": "Agregando..."
   },
   "auth": {
-    "uderstood": "cerrar",
+    "continue": "Continuar",
+    "successTitle": "¡Operación exitosa!",
+    "understood": "cerrar",
     "login": "Iniciar Sesión",
     "register": "Registrarse",
     "email": "Correo Electrónico",
@@ -134,7 +138,8 @@
   },
 
   "installations": {
-    "uderstood": "cerrar",
+    "successTitle": "¡Operación exitosa!",
+    "understood": "cerrar",
     "companyPlaceholder": "Ingresa el nombre de la empresa",
     "addressPlaceholder": "Ingresa la dirección",
     "floorSectorPlaceholder": "Ingresa el piso/sector",
@@ -457,7 +462,8 @@
     "titlePage": "Instalaciones | LeoneSuite"
   },
   "assets": {
-    "uderstood": "cerrar",
+    "successTitle": "¡Operación exitosa!",
+    "understood": "cerrar",
     "title": "Activos",
     "createAsset": "Crear Activo",
     "editAsset": "Editar Activo",
@@ -521,7 +527,8 @@
     "titlePage": "Activos | LeoneSuite"
   },
   "forms": {
-    "uderstood": "cerrar",
+    "successTitle": "¡Operación exitosa!",
+    "understood": "cerrar",
     "title": "Plantillas de Formularios",
     "createTemplate": "Crear Plantilla de Formulario",
     "createFormTemplate": "Crear plantilla de formulario",
@@ -614,7 +621,7 @@
     "titlePage": "Formularios | LeoneSuite"
   },
   "manuals": {
-    "uderstood": "cerrar",
+    "understood": "cerrar",
     "viewFile": "Ver archivo",
     "titlePage": "Manuales | LeoneSuite",
     "title": "Manuales",
@@ -724,7 +731,8 @@
     }
   },
   "workOrders": {
-    "uderstood": "cerrar",
+    "successTitle": "¡Operación exitosa!",
+    "understood": "cerrar",
     "titlePlaceholder": "Ingrese el título de la orden de trabajo",
     "descriptionPlaceholder": "Descripción del trabajo a realizar",
     "observationsPlaceholder": "Observaciones adicionales (opcional)",
@@ -801,7 +809,8 @@
       "viewDetails": "Ver detalles completos de la orden"
     },
     "modals": {
-      "uderstood": "cerrar",
+      "successTitle": "¡Operación exitosa!",
+      "understood": "cerrar",
       "confirmDeleteTitle": "Confirmar eliminación",
       "confirmDeleteMessage": "¿Está seguro de que desea eliminar esta orden de trabajo?",
       "confirmDeleteDescription": "Esta acción no se puede deshacer. Todos los datos relacionados se perderán.",
@@ -851,7 +860,8 @@
     "titlePage": "Órdenes de Trabajo | LeoneSuite"
   },
   "calendar": {
-    "uderstood": "cerrar",
+    "successTitle": "¡Operación exitosa!",
+    "understood": "cerrar",
     "titlePage": "Calendario | LeoneSuite",
     "title": "Calendario de Órdenes de Trabajo",
     "month": "Mes",
@@ -920,7 +930,8 @@
     "arabic": "Árabe"
   },
   "installationDetails": {
-      "uderstood": "cerrar",
+      "successTitle": "¡Operación exitosa!",
+      "understood": "cerrar",
       "titlePage": "Dispositivos | LeoneSuite",
       "loadingDevices": "Cargando dispositivos...",
       "notFound": "Instalación no encontrada",
@@ -942,7 +953,8 @@
       "confirmDeleteDescription": "Esta acción no se puede deshacer."
     },
   "login": {
-    "uderstood": "cerrar",
+    "successTitle": "¡Operación exitosa!",
+    "understood": "cerrar",
     "titlePage": "Iniciar Sesión | LeoneSuite",
     "title": "Inicia sesión",
     "username": "Usuario",

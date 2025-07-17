@@ -160,9 +160,17 @@ const useWorkOrders = () => {
   }
 
   const assignTechnician = async (workOrderId: string, technicianId: string) => {
-    await assignTechnicianToWorkOrder(workOrderId, technicianId)
-    await loadWorkOrders()
-    return { message: "Técnico asignado con éxito" }
+    console.log("assignTechnician llamado con:", { workOrderId, technicianId })
+    try {
+      await assignTechnicianToWorkOrder(workOrderId, technicianId)
+      console.log("assignTechnicianToWorkOrder completado exitosamente")
+      await loadWorkOrders()
+      console.log("loadWorkOrders completado exitosamente")
+      return { message: "Técnico asignado con éxito" }
+    } catch (error) {
+      console.error("Error en assignTechnician:", error)
+      throw error
+    }
   }
 
   const completeWorkOrder = async (id: string, data: any) => {
