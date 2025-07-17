@@ -525,6 +525,7 @@ const Calendar = () => {
                 setSelectedDateFilter("")
                 setSearchTerm("")
                 setSelectedTechnician("")
+                setCurrentDate(new Date()) // Reiniciar el año a la fecha actual
               }}
               className={styles.clearFilters}
             >
