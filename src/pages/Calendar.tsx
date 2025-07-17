@@ -14,6 +14,7 @@ import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import i18n from "../i18n"
 import { translateWorkOrderStatus, translatePriority, translateWorkType } from "../shared/utils/backendTranslations"
+import { useAuthStore } from "../store/authStore"
 
 const Calendar = () => {
   const { t } = useTranslation()
@@ -34,6 +35,9 @@ const Calendar = () => {
   const [isError, setIsError] = useState(false)
   const [currentDate, setCurrentDate] = useState(new Date())
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
+  const [isYearModalOpen, setIsYearModalOpen] = useState(false)
+  const [yearList, setYearList] = useState<number[]>([])
+  const role = useAuthStore((s) => s.role)
 
   useEffect(() => {
     document.title = t("calendar.titlePage")
@@ -43,6 +47,16 @@ const Calendar = () => {
   useEffect(() => {
     loadWorkOrders()
   }, [loadWorkOrders])
+
+  useEffect(() => {
+    // Generar lista de años desde 2000 hasta 20 años después del actual
+    const current = new Date().getFullYear()
+    const years = []
+    for (let y = 2000; y <= current + 20; y++) {
+      years.push(y)
+    }
+    setYearList(years)
+  }, [])
 
   const statusOptions = useMemo(
     () => [
@@ -260,7 +274,8 @@ const Calendar = () => {
   const renderCalendarView = () => {
     const days = generateCalendarDays()
     const currentLanguage = i18n.language || 'es'
-    const monthName = currentDate.toLocaleDateString(currentLanguage, { month: "long", year: "numeric" })
+    const monthName = currentDate.toLocaleDateString(currentLanguage, { month: "long" })
+    const year = currentDate.getFullYear()
 
     return (
       <div className={styles.calendarContainer}>
@@ -268,7 +283,9 @@ const Calendar = () => {
           <button onClick={() => navigateMonth(-1)} className={styles.navButton}>
             &lt;
           </button>
-          <h2 className={styles.monthTitle}>{monthName}</h2>
+          <h2 className={styles.monthTitle}>
+            {monthName} <span style={{cursor:'pointer', textDecoration:'underline'}} onClick={() => setIsYearModalOpen(true)}>{year}</span>
+          </h2>
           <button onClick={() => navigateMonth(1)} className={styles.navButton}>
             &gt;
           </button>
@@ -564,6 +581,21 @@ const Calendar = () => {
         selectedDate={selectedDateFilter}
         title={t('calendar.selectDate')}
       />
+      {isYearModalOpen && (
+        (() => { const year = currentDate.getFullYear(); return (
+        <div style={{position:'fixed', top:0, left:0, width:'100vw', height:'100vh', background:'rgba(0,0,0,0.3)', zIndex:1000, display:'flex', alignItems:'center', justifyContent:'center'}}>
+          <div style={{background:'#fff', borderRadius:12, padding:24, maxHeight:'80vh', overflowY:'auto', minWidth:220}}>
+            <h3 style={{marginBottom:16, textAlign:'center'}}>{t('calendar.selectYear') || 'Selecciona un año'}</h3>
+            <div style={{display:'flex', flexDirection:'column', gap:8}}>
+              {yearList.map(y => (
+                <button key={y} style={{padding:8, borderRadius:6, border:'1px solid #eee', background: y===year ? '#057e74' : '#f5f5f5', color: y===year ? '#fff' : '#222', fontWeight: y===year ? 700 : 400, cursor:'pointer'}} onClick={() => { setCurrentDate(new Date(y, currentDate.getMonth(), 1)); setIsYearModalOpen(false); }}>{y}</button>
+              ))}
+            </div>
+            <button style={{marginTop:20, width:'100%', padding:8, borderRadius:6, background:'#eee', border:'none', cursor:'pointer'}} onClick={()=>setIsYearModalOpen(false)}>{t('common.cancel') || 'Cancelar'}</button>
+          </div>
+        </div>
+        )})()
+      )}
     </>
   )
 }
