@@ -92,7 +92,7 @@ const useWorkOrders = () => {
     estado: "pendiente",
     prioridad: "media",
     tipoTrabajo: "mantenimiento",
-    fechaProgramada: new Date(),
+    fechaProgramada: new Date().toISOString().split('T')[0], // YYYY-MM-DD
     horaProgramada: "09:00",
     observaciones: "",
   })
@@ -273,7 +273,7 @@ const useWorkOrders = () => {
       estado: "pendiente",
       prioridad: "media",
       tipoTrabajo: "mantenimiento",
-      fechaProgramada: new Date(),
+      fechaProgramada: new Date().toISOString().split('T')[0], // YYYY-MM-DD
       horaProgramada: "09:00",
       observaciones: "",
     })
@@ -296,16 +296,6 @@ const useWorkOrders = () => {
   const setFormValues = useCallback(
     (data: Partial<WorkOrder>, availableInstallations: Installation[] = []) => {
       console.log("setFormValues llamado con:", data)
-
-      const formatDate = (dateValue: any): Date => {
-        if (!dateValue) return new Date()
-        if (dateValue instanceof Date) return dateValue
-        if (typeof dateValue === "string") {
-          const parsed = new Date(dateValue)
-          return isNaN(parsed.getTime()) ? new Date() : parsed
-        }
-        return new Date()
-      }
 
       let instalacionId = ""
       let instalacionObject = data.instalacion
@@ -343,6 +333,16 @@ const useWorkOrders = () => {
         }
       }
 
+      // Usar la fecha como string YYYY-MM-DD si es posible
+      let fechaProgramada = ""
+      if (typeof data.fechaProgramada === "string") {
+        fechaProgramada = data.fechaProgramada.length > 10 ? data.fechaProgramada.split('T')[0] : data.fechaProgramada
+      } else if (data.fechaProgramada instanceof Date) {
+        fechaProgramada = data.fechaProgramada.toISOString().split('T')[0]
+      } else {
+        fechaProgramada = new Date().toISOString().split('T')[0]
+      }
+
       const updatedFormData = {
         titulo: data.titulo || "",
         descripcion: data.descripcion || "",
@@ -350,7 +350,7 @@ const useWorkOrders = () => {
         estado: data.estado || "pendiente",
         prioridad: data.prioridad || "media",
         tipoTrabajo: data.tipoTrabajo || "mantenimiento",
-        fechaProgramada: formatDate(data.fechaProgramada),
+        fechaProgramada,
         horaProgramada: data.horaProgramada || "09:00",
         observaciones: data.observaciones || "",
         instalacion: instalacionObject || undefined,

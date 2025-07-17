@@ -111,6 +111,13 @@ const WorkOrderForm = ({
     return `${year}-${month}-${day}`
   }
 
+  // Utilidad para formatear YYYY-MM-DD a DD/MM/YYYY
+  const formatLocalDate = (dateStr: string) => {
+    if (!dateStr) return "";
+    const [year, month, day] = dateStr.split("-");
+    return `${day}/${month}/${year}`;
+  }
+
   const isFormValid = useMemo(() => {
     const hasTitulo = formData.titulo?.trim().length > 0
     const hasDescripcion = formData.descripcion?.trim().length > 0
@@ -159,8 +166,8 @@ const WorkOrderForm = ({
   }
 
   const handleDateSelect = (date: string) => {
-    const dateObj = new Date(date)
-    handleFieldChange("fechaProgramada", dateObj.toISOString())
+    // Guardar la fecha como string local 'YYYY-MM-DD' para evitar desfase de zona horaria
+    handleFieldChange("fechaProgramada", date)
   }
 
   return (
@@ -292,11 +299,9 @@ const WorkOrderForm = ({
                 <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
               </svg>
               {formData.fechaProgramada ? (
-                new Date(formData.fechaProgramada).toLocaleDateString(i18n.language || 'es', {
-                  day: '2-digit',
-                  month: '2-digit',
-                  year: 'numeric'
-                })
+                typeof formData.fechaProgramada === 'string'
+                  ? formatLocalDate(formData.fechaProgramada)
+                  : formatLocalDate(formData.fechaProgramada.toISOString().split('T')[0])
               ) : (
                 t('workOrders.selectDate')
               )}
