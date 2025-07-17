@@ -313,8 +313,9 @@ input:-webkit-autofill {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 12px;
+  gap: 2px;
   margin-bottom: 12px;
+  flex-wrap: nowrap;
 }
 
 

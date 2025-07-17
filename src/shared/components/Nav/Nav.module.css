@@ -430,6 +430,10 @@
   display: inline-block;
 }
 
+.languageSelectorContainer :hover{
+  background-color: #23272b;
+}
+
 @media (min-width: 768px) {
   .controlsContainer {
     gap: 10px;

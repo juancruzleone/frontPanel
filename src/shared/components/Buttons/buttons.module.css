@@ -97,13 +97,18 @@ button{
 /* Language Selector Styles */
 .languageSelectorContainer {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  width: 40px;
+  height: 48px;
+  align-items: center;
+  justify-content: center;
 }
 
 .languageButton {
-  background: none;
-  color: inherit;
-  border: none;
+  position: relative;
+  background: var(--color-themebox-bg);
+  color: var(--color-icon);
+  border: 1px solid var(--color-themebox-border);
   padding: 0;
   border-radius: 10px;
   cursor: pointer;
@@ -113,8 +118,9 @@ button{
   transition: all 0.2s ease;
   width: 40px;
   height: 48px;
-  font-size: 1.5rem;
-  margin-top: 0;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
 }
 
 .chevron {
@@ -127,11 +133,7 @@ button{
   transform: rotate(180deg);
 }
 
-.languageButton:hover {
-  background: var(--color-card-border);
-  transform: scale(1.1);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
+
 
 .languageDropdown {
   position: absolute;
@@ -190,17 +192,24 @@ button{
 }
 
 .languageButton .flagImg {
-  width: 80% !important;
-  height: 80% !important;
-  max-width: 80% !important;
-  max-height: 80% !important;
-  min-width: 0 !important;
-  min-height: 0 !important;
-  object-fit: cover;
-  border-radius: 8px;
-  display: block;
-  margin: 0;
-  box-sizing: border-box;
+  width: 70% !important;
+  height: 70% !important;
+  object-fit: contain !important;
+  border-radius: 6px !important;
+  box-sizing: border-box !important;
+  display: block !important;
+}
+
+.languageSelectorContainer .flagImg {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  border-radius: 10px !important;
+  box-sizing: border-box !important;
+  display: block !important;
+  background: var(--color-themebox-bg);
+  border: 1px solid var(--color-themebox-border);
+  padding: 4px;
 }
 
 /* Responsive adjustments */

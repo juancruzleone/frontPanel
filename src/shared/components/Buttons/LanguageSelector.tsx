@@ -83,14 +83,13 @@ const LanguageSelector = () => {
 
   return (
     <div className={styles.languageSelectorContainer} ref={dropdownRef}>
-      <button
-        className={styles.languageButton}
+      <img 
+        src={currentFlag} 
+        alt={i18n.language} 
+        className={styles.flagImg}
         onClick={toggleDropdown}
-        aria-label={t('languageSelector.title')}
-      >
-        <img src={currentFlag} alt={i18n.language} className={styles.flagImg} />
-        {/* Eliminado el ChevronDown para que la bandera ocupe el 100% */}
-      </button>
+        style={{ cursor: 'pointer' }}
+      />
 
       {isOpen && (
         <div className={styles.languageDropdown}>
