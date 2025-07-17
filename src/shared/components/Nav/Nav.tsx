@@ -2,26 +2,65 @@ import { NavLink, useNavigate } from "react-router-dom"
 import { useAuthStore } from "../../../store/authStore"
 import {
   LogOut, Home, Package, FileText, BookOpen,
-  ClipboardList, Calendar, Sun, Moon, Menu, X, Building, User
+  ClipboardList, Calendar, Sun, Moon, Menu, X, Building, User, Globe
 } from "lucide-react"
 import styles from "./Nav.module.css"
 import { useState, useEffect } from "react"
 import { useTheme } from "../../hooks/useTheme"
-import LanguageSelector from "../Buttons/LanguageSelector"
 import { useTranslation } from "react-i18next"
 
 const Nav = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const user = useAuthStore((s) => s.user)
   const logout = useAuthStore((s) => s.logout)
   const setLogoutMessage = useAuthStore((s) => s.setLogoutMessage)
   const navigate = useNavigate()
   const { dark, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false)
+
+  const languages = [
+    { code: 'es', name: t('languageSelector.spanish'), flag: '🇪🇸' },
+    { code: 'en', name: t('languageSelector.english'), flag: '🇺🇸' },
+    { code: 'fr', name: t('languageSelector.french'), flag: '🇫🇷' },
+    { code: 'pt', name: t('languageSelector.portuguese'), flag: '🇵🇹' },
+    { code: 'de', name: t('languageSelector.german'), flag: '🇩🇪' },
+    { code: 'it', name: t('languageSelector.italian'), flag: '🇮🇹' },
+    { code: 'ja', name: t('languageSelector.japanese'), flag: '🇯🇵' },
+    { code: 'ko', name: t('languageSelector.korean'), flag: '🇰🇷' },
+    { code: 'zh', name: t('languageSelector.chinese'), flag: '🇨🇳' },
+    { code: 'ar', name: t('languageSelector.arabic'), flag: '🇸🇦' }
+  ]
+
+  const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0]
+
+  const handleLanguageChange = (languageCode: string) => {
+    i18n.changeLanguage(languageCode)
+    setIsLanguageOpen(false)
+  }
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : ""
   }, [isMenuOpen])
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node
+      const languageBox = document.querySelector(`.${styles.languageBox}`)
+      
+      if (languageBox && !languageBox.contains(target)) {
+        setIsLanguageOpen(false)
+      }
+    }
+
+    if (isLanguageOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isLanguageOpen, styles.languageBox])
 
   const handleLogout = () => {
     setLogoutMessage("Sesión cerrada con éxito.")
@@ -88,6 +127,29 @@ const Nav = () => {
         </ul>
         <div className={styles.bottomSection}>
           <div className={styles.controlsContainer}>
+            <div className={styles.languageBox}>
+              <button 
+                className={styles.languageButton} 
+                onClick={() => setIsLanguageOpen(!isLanguageOpen)}
+                aria-label={t('languageSelector.title')}
+              >
+                <span className={styles.flag}>{currentLanguage.flag}</span>
+              </button>
+              {isLanguageOpen && (
+                <div className={styles.languageDropdown}>
+                  {languages.map((language) => (
+                    <button
+                      key={language.code}
+                      className={`${styles.languageOption} ${i18n.language === language.code ? styles.active : ''}`}
+                      onClick={() => handleLanguageChange(language.code)}
+                    >
+                      <span className={styles.flag}>{language.flag}</span>
+                      <span className={styles.languageName}>{language.name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
             <div className={styles.themeBox}>
               <button 
                 className={styles.themeButton} 
@@ -96,9 +158,6 @@ const Nav = () => {
               >
                 {dark ? <Sun size={15} /> : <Moon size={15} />}
               </button>
-            </div>
-            <div className={styles.languageBox}>
-              <LanguageSelector />
             </div>
           </div>
           <div className={styles.userSection}>
