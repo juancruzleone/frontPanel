@@ -834,6 +834,7 @@
     }
 },
   "calendar": {
+    "selectYear": "اختر السنة",
   "successTitle": "تمت العملية بنجاح!",
   "understood": "إغلاق",
   "titlePage": "التقويم | LeoneSuite",

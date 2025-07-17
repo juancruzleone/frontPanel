@@ -823,6 +823,7 @@
     }
 },
   "calendar": {
+    "selectYear": "年を選択",
   "successTitle": "操作が成功しました！",
   "understood": "閉じる",
   "titlePage": "カレンダー | LeoneSuite",

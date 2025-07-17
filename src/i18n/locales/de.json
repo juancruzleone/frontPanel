@@ -723,6 +723,7 @@
     }
   },
   "calendar": {
+    "selectYear": "Jahr auswählen",
   "successTitle": "Vorgang erfolgreich!",
   "understood": "schließen",
   "titlePage": "Kalender | LeoneSuite",

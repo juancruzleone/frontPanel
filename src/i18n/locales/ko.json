@@ -836,6 +836,7 @@
     }
   },
   "calendar": {
+    "selectYear": "연도 선택",
   "successTitle": "작업 성공!",
   "understood": "닫기",
   "titlePage": "캘린더 | LeoneSuite",

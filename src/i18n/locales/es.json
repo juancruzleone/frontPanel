@@ -861,6 +861,7 @@
     "titlePage": "Órdenes de Trabajo | LeoneSuite"
   },
   "calendar": {
+    "selectYear": "Seleccionar año",
     "successTitle": "¡Operación exitosa!",
     "understood": "cerrar",
     "titlePage": "Calendario | LeoneSuite",

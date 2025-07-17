@@ -884,6 +884,7 @@
     }
 },
   "calendar": {
+    "selectYear": "选择年份",
   "successTitle": "操作成功！",
   "understood": "关闭",
   "titlePage": "日历 | LeoneSuite",

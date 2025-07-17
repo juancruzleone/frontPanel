@@ -811,6 +811,7 @@
     }
 },
   "calendar": {
+    "selectYear": "Sélectionner une année",
   "successTitle": "Opération réussie !",
   "understood": "fermer",
   "titlePage": "Calendrier | LeoneSuite",

@@ -711,6 +711,7 @@
     }
   },
   "calendar": {
+    "selectYear": "Select year",
   "successTitle": "Operation successful!",
   "understood": "close",
   "titlePage": "Calendar | LeoneSuite",
