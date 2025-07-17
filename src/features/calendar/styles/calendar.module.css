@@ -268,11 +268,11 @@
   cursor: pointer;
   padding: 6px 10px;
   border-radius: 6px;
-  transition: all 0.2s ease;
   font-weight: 600;
   font-family: 'Encode Sans', sans-serif;
   min-width: 32px;
   height: 32px;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -285,7 +285,7 @@
 }
 
 .calendarHeader button {
-  width: 400px;
+  width: 80px;
 }
 
 .monthTitle {
