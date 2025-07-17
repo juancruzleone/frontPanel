@@ -43,6 +43,7 @@
     "titlePage": "Personal | LeoneSuite"
   },
   "common": {
+    "saving": "Guardando...",
     "successTitle": "¡Operación exitosa!",
     "understood": "cerrar",
     "loading": "Cargando...",

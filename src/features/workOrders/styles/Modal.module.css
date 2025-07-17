@@ -405,7 +405,6 @@
 
 .successMessageLarge {
   font-size: 1.125rem;
-  color: #374151;
   line-height: 1.6;
   margin: 0;
   max-width: 400px;
@@ -750,4 +749,8 @@
 .successIconLarge svg,
 .warningIcon svg {
   animation: pulse 2s infinite;
+}
+
+.dark .modal, .dark .modalContent, .dark .successMessageLarge, .dark .successMessage, .dark .errorMessage, .dark .modalContentBody, .dark .successContentBody, .dark .errorContentBody {
+  color: #fff !important;
 }

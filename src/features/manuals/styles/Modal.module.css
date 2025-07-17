@@ -309,9 +309,9 @@
 }
 
 .cancelButton {
-  background: #f8f9fa;
-  color: #495057;
-  border: 2px solid #dee2e6;
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  border: 2px solid var(--color-card-border);
   padding: 0.875rem 1.75rem;
   border-radius: 12px;
   cursor: pointer;
@@ -322,8 +322,8 @@
 }
 
 .cancelButton:hover {
-  background: #e9ecef;
-  border-color: #adb5bd;
+  background: var(--color-card-border);
+  border-color: var(--color-primary);
   transform: translateY(-1px);
 }
 
@@ -515,4 +515,8 @@
 .successIconLarge svg,
 .warningIcon svg {
   animation: pulse 2s infinite;
+}
+
+.dark .modal, .dark .modalContent, .dark .successMessageLarge, .dark .successMessage, .dark .errorMessage, .dark .modalContentBody, .dark .successContentBody, .dark .errorContentBody {
+  color: #fff !important;
 }

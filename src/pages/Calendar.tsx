@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next"
 import i18n from "../i18n"
 import { translateWorkOrderStatus, translatePriority, translateWorkType } from "../shared/utils/backendTranslations"
 import { useAuthStore } from "../store/authStore"
+import { updateWorkOrder } from "../features/workOrders/services/workOrderServices"
 
 const Calendar = () => {
   const { t } = useTranslation()
@@ -313,9 +314,7 @@ const Calendar = () => {
               return (
                 <div
                   key={index}
-                  className={`${styles.dayCell} ${!isCurrentMonth ? styles.otherMonth : ""} ${
-                    isToday ? styles.today : ""
-                  }`}
+                  className={`${styles.dayCell} ${!isCurrentMonth ? styles.otherMonth : ""} ${isToday ? styles.today : ""}`}
                 >
                   <div className={styles.dayNumber}>{day.getDate()}</div>
                   <div className={styles.dayOrders}>

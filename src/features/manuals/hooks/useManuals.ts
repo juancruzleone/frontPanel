@@ -10,6 +10,7 @@ import {
   updateManualFile,
 } from "../services/manualServices";
 import { validateManualForm } from "../validators/manualValidations";
+import { useTranslation } from 'react-i18next';
 
 export type Manual = {
   _id?: string;
@@ -94,23 +95,23 @@ const useManuals = () => {
     loadManuals();
   }, [loadManuals]);
 
+  const { t } = useTranslation();
   const validateForm = useCallback(async (data: Partial<Manual>) => {
-    const validation = await validateManualForm(data);
+    const validation = await validateManualForm(data, t);
     setFormErrors(validation.errors);
     return validation;
-  }, []);
+  }, [t]);
 
   const handleFieldChange = useCallback(async (name: string, value: string | string[] | File) => {
     const newFormData = { ...formData, [name]: value };
     setFormData(newFormData);
-    
     // Validación inmediata para el campo cambiado
-    const validation = await validateManualForm({ [name]: value });
+    const validation = await validateManualForm({ [name]: value }, t);
     setFormErrors(prev => ({
       ...prev,
       [name]: validation.errors[name] || ''
     }));
-  }, [formData]);
+  }, [formData, t]);
 
   const handleSubmitForm = useCallback(async (
     e: React.FormEvent,

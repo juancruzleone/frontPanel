@@ -40,11 +40,6 @@ const ModalSuccess = ({ isOpen, onRequestClose, mensaje }: ModalSuccessProps) =>
             </button>
           </div>
         </div>
-        <div className={styles.actions}>
-          <button className={styles.closeButton} onClick={onRequestClose}>
-            {t('common.close')}
-          </button>
-        </div>
       </div>
     </div>
   );

@@ -266,4 +266,8 @@
       justify-content: center;
     }
   }
+
+.dark .modal, .dark .modalContent, .dark .successMessageLarge, .dark .successMessage, .dark .errorMessage, .dark .modalContentBody, .dark .successContentBody, .dark .errorContentBody {
+  color: #fff !important;
+}
   
