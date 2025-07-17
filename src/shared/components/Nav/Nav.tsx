@@ -8,6 +8,33 @@ import styles from "./Nav.module.css"
 import { useState, useEffect } from "react"
 import { useTheme } from "../../hooks/useTheme"
 import { useTranslation } from "react-i18next"
+import esFlag from '../../../../src/assets/flags/es.svg'
+import frFlag from '../../../../src/assets/flags/fr.svg'
+import usFlag from '../../../../src/assets/flags/us.svg'
+import deFlag from '../../../../src/assets/flags/de.svg'
+import jpFlag from '../../../../src/assets/flags/jp.svg'
+import krFlag from '../../../../src/assets/flags/kr.svg'
+import saFlag from '../../../../src/assets/flags/sa.svg'
+import brFlag from '../../../../src/assets/flags/br.svg'
+import cnFlag from '../../../../src/assets/flags/cn.svg'
+
+
+const flagMap: Record<string, string> = {
+  es: esFlag,
+  fr: frFlag,
+  en: usFlag,
+  us: usFlag,
+  de: deFlag,
+  ja: jpFlag,
+  jp: jpFlag,
+  ko: krFlag,
+  kr: krFlag,
+  ar: saFlag,
+  pt: brFlag,
+  br: brFlag,
+  zh: cnFlag,
+  cn: cnFlag,
+}
 
 const Nav = () => {
   const { t, i18n } = useTranslation()
@@ -37,6 +64,7 @@ const Nav = () => {
   ]
 
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0]
+  const currentFlag = flagMap[i18n.language] || esFlag
 
   const handleLanguageChange = (languageCode: string) => {
     i18n.changeLanguage(languageCode)
@@ -141,7 +169,7 @@ const Nav = () => {
                 onClick={() => setIsLanguageOpen(!isLanguageOpen)}
                 aria-label={t('languageSelector.title')}
               >
-                <span className={styles.flag}>{currentLanguage.flag}</span>
+                <img src={currentFlag} alt={i18n.language} className={styles.flagImg} />
               </button>
               {isLanguageOpen && (
                 <div className={styles.languageDropdown}>

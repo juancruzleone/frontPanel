@@ -559,3 +559,25 @@
 .userNameTop {}
 .logoutButtonTop {}
 .logoutButtonTop:hover {}
+
+.languageBox .languageButton {
+  width: 40px !important;
+  height: 48px !important;
+  padding: 0 !important;
+  border-radius: 10px !important;
+  border: none !important;
+  background: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.languageBox .flagImg {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 10px !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  display: block !important;
+}

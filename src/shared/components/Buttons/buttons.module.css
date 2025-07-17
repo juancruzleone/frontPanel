@@ -112,7 +112,7 @@ button{
   justify-content: center;
   transition: all 0.2s ease;
   width: 40px;
-  height: 44px;
+  height: 48px;
   font-size: 1.5rem;
   margin-top: 0;
 }
@@ -192,10 +192,15 @@ button{
 .languageButton .flagImg {
   width: 100% !important;
   height: 100% !important;
-  border-radius: 10px !important;
-  margin: 0 !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
   object-fit: cover;
+  border-radius: 10px;
   display: block;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 /* Responsive adjustments */
