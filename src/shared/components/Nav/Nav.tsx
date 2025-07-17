@@ -5,7 +5,7 @@ import {
   ClipboardList, Calendar, Sun, Moon, Menu, X, Building, User, Globe
 } from "lucide-react"
 import styles from "./Nav.module.css"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useTheme } from "../../hooks/useTheme"
 import { useTranslation } from "react-i18next"
 import esFlag from '../../../../src/assets/flags/es.svg'
@@ -46,6 +46,7 @@ const Nav = () => {
   const { dark, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isLanguageOpen, setIsLanguageOpen] = useState(false)
+  const languageDropdownRef = useRef<HTMLDivElement>(null)
 
   // Normalizar el rol para aceptar 'tecnico' y 'técnico'
   const isTechnician = role && ["tecnico", "técnico"].includes(role.toLowerCase())
@@ -75,12 +76,14 @@ const Nav = () => {
     document.body.style.overflow = isMenuOpen ? "hidden" : ""
   }, [isMenuOpen])
 
+
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node
-      const languageBox = document.querySelector(`.${styles.languageBox}`)
-      
-      if (languageBox && !languageBox.contains(target)) {
+      if (
+        languageDropdownRef.current &&
+        !languageDropdownRef.current.contains(event.target as Node)
+      ) {
         setIsLanguageOpen(false)
       }
     }
@@ -92,7 +95,7 @@ const Nav = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [isLanguageOpen, styles.languageBox])
+  }, [isLanguageOpen])
 
   const handleLogout = () => {
     setLogoutMessage("Sesión cerrada con éxito.")
@@ -163,7 +166,7 @@ const Nav = () => {
         </ul>
         <div className={styles.bottomSection}>
           <div className={styles.controlsContainer}>
-            <div className={styles.languageBox}>
+            <div className={styles.languageSelectorContainer} ref={languageDropdownRef}>
               <button 
                 className={styles.languageButton} 
                 onClick={() => setIsLanguageOpen(!isLanguageOpen)}

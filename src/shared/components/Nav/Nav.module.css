@@ -425,6 +425,11 @@
   margin-bottom: 2px;
 }
 
+.languageSelectorContainer {
+  position: relative;
+  display: inline-block;
+}
+
 @media (min-width: 768px) {
   .controlsContainer {
     gap: 10px;
@@ -432,51 +437,26 @@
   }
 }
 
-.languageBox {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-themebox-bg);
-  border: 1px solid var(--color-themebox-border);
-  border-radius: 10px;
-  padding: 0;
-  margin: 0;
-  width: 40px;
-  height: 48px;
-  transition: all 0.2s ease;
-}
-
-@media (min-width: 768px) {
-  .languageBox {
-    width: 40px;
-    height: 48px;
-  }
-}
-
 .languageButton {
-  background: none;
+  position: relative;
+  background: var(--color-themebox-bg);
   color: var(--color-icon);
-  border: none;
-  padding: 10px;
+  border: 1px solid var(--color-themebox-border);
+  padding: 0;
   border-radius: 10px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  width: 100%;
-  height: 100%;
+  width: 40px;
+  height: 48px;
   font-size: 16px;
   font-weight: 600;
   margin: 0;
 }
 
-.languageButton:hover {
-  background: var(--color-card-border);
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
+
 
 .languageButton:active {
   transform: translateY(0);
@@ -485,8 +465,7 @@
 .languageDropdown {
   position: absolute;
   bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
   margin-bottom: 8px;
   background: var(--color-card);
   border: 1px solid var(--color-card-border);
@@ -496,6 +475,9 @@
   min-width: 140px;
   max-height: 200px;
   overflow-y: auto;
+  display: block;
+  visibility: visible;
+  opacity: 1;
 }
 
 .languageOption {
@@ -560,24 +542,13 @@
 .logoutButtonTop {}
 .logoutButtonTop:hover {}
 
-.languageBox .languageButton {
-  width: 40px !important;
-  height: 48px !important;
-  padding: 0 !important;
-  border-radius: 10px !important;
-  border: none !important;
-  background: none !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
 
-.languageBox .flagImg {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  border-radius: 10px !important;
-  margin: 0 !important;
+
+.languageButton .flagImg {
+  width: 70% !important;
+  height: 70% !important;
+  object-fit: contain !important;
+  border-radius: 6px !important;
   box-sizing: border-box !important;
   display: block !important;
 }
