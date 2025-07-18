@@ -204,7 +204,6 @@ const Nav = () => {
               <div className={styles.userInfo}>
                 <div className={styles.userDetails}>
                   <span className={styles.userName}>{user}</span>
-                  <span className={styles.userRole}>{t('nav.user')}</span>
                 </div>
                 <button className={styles.logoutButton} onClick={handleLogout}>
                   <LogOut size={16} />
