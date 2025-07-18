@@ -13,6 +13,7 @@ import MainLayout from "../layouts/MainLayout"
 import ProtectedRoute from "./ProtectedRoute"
 import RedirectIfLogged from "../../src/router/RedirectIfLoggedIn.tsx"
 import Home from "../pages/Home" // <-- Import del componente Home
+import Profile from '../pages/Profile';
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
           {
             path: "/instalaciones/:id",
             element: <InstallationDetails />,
+          },
+          {
+            path: "/perfil",
+            element: <Profile />,
           },
           {
             element: <ProtectedRoute allowedRoles={["admin", "otroRol"]} />, // Solo admin y otros roles, no tecnico

@@ -1,0 +1,1 @@
+// Aquí puedes agregar validaciones para el perfil de usuario en el futuro. 
