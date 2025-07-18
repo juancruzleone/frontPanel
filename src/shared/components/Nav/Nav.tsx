@@ -203,7 +203,9 @@ const Nav = () => {
             {user && (
               <div className={styles.userInfo}>
                 <div className={styles.userDetails}>
-                  <span className={styles.userName}>{user}</span>
+                  <span className={styles.userName} style={{cursor: 'pointer', marginBottom: 10, display: 'inline-block'}} onClick={() => { setIsMenuOpen(false); navigate('/perfil'); }}>
+                    {user}
+                  </span>
                 </div>
                 <button className={styles.logoutButton} onClick={handleLogout}>
                   <LogOut size={16} />
