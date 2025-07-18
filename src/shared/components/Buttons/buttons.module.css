@@ -82,6 +82,7 @@ button{
   width: 40px; /* menos ancho */
   height: 48px;
   font-size: 1.5rem;
+  margin-left: 5px;
 }
 
 .themeButton:hover {
