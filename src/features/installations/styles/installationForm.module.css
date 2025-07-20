@@ -120,11 +120,31 @@
   align-items: center;
 }
 
-.selectWrapper .select {
-  appearance: none;
-  background-image: none;
-  padding-right: 40px;
+.selectWrapper select {
   width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #ffffff;
+  color: #111827;
+  transition: all 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 40px;
+}
+
+.selectWrapper select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.selectWrapper select:disabled {
+  background-color: #f3f4f6;
+  color: #6b7280;
+  cursor: not-allowed;
 }
 
 .selectIcon {
@@ -140,6 +160,23 @@
 
 .selectIcon.dark {
   color: #f5f5f5;
+}
+
+/* Dark mode styles */
+[data-theme="dark"] .selectWrapper select {
+  background-color: #1f2937;
+  border-color: #374151;
+  color: #f9fafb;
+}
+
+[data-theme="dark"] .selectWrapper select:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+}
+
+[data-theme="dark"] .selectWrapper select:disabled {
+  background-color: #374151;
+  color: #9ca3af;
 }
 
 .formGroup textarea {

@@ -14,6 +14,7 @@ import ProtectedRoute from "./ProtectedRoute"
 import RedirectIfLogged from "../../src/router/RedirectIfLoggedIn.tsx"
 import Home from "../pages/Home" // <-- Import del componente Home
 import Profile from '../pages/Profile';
+import UserProfile from '../pages/UserProfile';
 
 export const router = createBrowserRouter([
   {
@@ -53,6 +54,7 @@ export const router = createBrowserRouter([
               { path: "/activos", element: <Assets /> },
               { path: "/formularios", element: <Forms /> },
               { path: "/personal", element: <Register /> },
+              { path: "/perfil/:userId", element: <UserProfile /> },
             ],
           },
           {

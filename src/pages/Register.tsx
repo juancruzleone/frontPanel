@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react"
+import { useNavigate } from "react-router-dom"
 import Button from "../../src/shared/components/Buttons/buttonCreate"
 import ModalSuccess from "../features/auth/register/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
@@ -10,12 +11,15 @@ import { useRegister } from "../features/auth/register/hooks/useRegister.ts"
 import { useTranslation } from "react-i18next"
 import i18n from "../i18n"
 import { translateUserRole } from "../shared/utils/backendTranslations"
-import { Trash } from "lucide-react"
+import { Trash, User, Search } from "lucide-react"
+import { useTheme } from "../shared/hooks/useTheme"
 import { deleteTechnician } from "../features/auth/register/services/registerServices"
 import { useAuthStore } from "../store/authStore"
 
 const Register = () => {
   const { t, i18n } = useTranslation()
+  const { dark } = useTheme()
+  const navigate = useNavigate()
   const { showModal, responseMessage, isError, closeModal, technicians, loadingTechnicians, fetchTechnicians, addTechnician } =
     useRegister()
 
@@ -24,6 +28,7 @@ const Register = () => {
   const token = useAuthStore((state) => state.token)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [technicianToDelete, setTechnicianToDelete] = useState<any>(null)
+  const [searchTerm, setSearchTerm] = useState("")
 
   useEffect(() => {
     fetchTechnicians()
@@ -93,12 +98,34 @@ const Register = () => {
     }
   }
 
+  const handleViewProfile = (technician: any) => {
+    navigate(`/perfil/${technician._id || technician.id}`)
+  }
+
+  const filteredTechnicians = technicians.filter((tech: any) =>
+    tech.userName.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>{t('personal.title')}</h1>
         <div className={styles.buttonContainer}>
           <Button title={t('personal.addTechnician')} onClick={handleOpenModal} />
+        </div>
+      </div>
+
+      {/* Filtro de búsqueda */}
+      <div className={styles.searchContainer}>
+        <div className={styles.searchWrapper}>
+          <Search size={20} className={styles.searchIcon} />
+          <input
+            type="text"
+            placeholder={t('personal.searchPlaceholder')}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className={styles.searchInput}
+          />
         </div>
       </div>
 
@@ -117,26 +144,26 @@ const Register = () => {
             <p>{t('personal.noTechnicians')}</p>
             <span className={styles.emptySubtext}>{t('personal.addFirstTechnician')}</span>
           </div>
+        ) : filteredTechnicians.length === 0 ? (
+          <div className={styles.emptyContainer}>
+            <Search size={48} className={styles.emptyIcon} />
+            <p>{t('personal.noSearchResults')}</p>
+            <span className={styles.emptySubtext}>{t('personal.tryDifferentSearch')}</span>
+          </div>
         ) : (
           <div className={styles.tableContainer}>
             <table className={styles.techniciansTable}>
               <thead>
                 <tr>
-                  <th>{t('personal.id')}</th>
                   <th>{t('personal.user')}</th>
                   <th>{t('personal.role')}</th>
                   <th>{t('personal.registrationDate')}</th>
-                  <th>{t('common.delete')}</th>
+                  <th>{t('common.actions')}</th>
                 </tr>
               </thead>
               <tbody>
-                {technicians.map((tech) => (
+                {filteredTechnicians.map((tech) => (
                   <tr key={tech._id || tech.id}>
-                    <td>
-                      <span className={styles.idBadge}>
-                        {(tech._id || tech.id)?.toString().slice(-6).toUpperCase()}
-                      </span>
-                    </td>
                     <td>
                       <div className={styles.userInfo}>
                         <div className={styles.userAvatar}>
@@ -152,18 +179,28 @@ const Register = () => {
                     </td>
                     <td>{formatDate(tech.createdAt)}</td>
                     <td>
-                      <button
-                        className={styles.deleteButton}
-                        title={t('common.delete')}
-                        data-tooltip={t('personal.deleteUser')}
-                        onClick={() => {
-                          setTechnicianToDelete(tech)
-                          setIsDeleteModalOpen(true)
-                        }}
-                        // disabled={userId === (tech._id || tech.id)}
-                      >
-                        <Trash size={18} />
-                      </button>
+                      <div className={styles.actionButtons}>
+                        <button
+                          className={styles.iconButton}
+                          title={t('personal.viewProfile')}
+                          data-tooltip={t('personal.viewProfile')}
+                          onClick={() => handleViewProfile(tech)}
+                        >
+                          <User size={20} />
+                        </button>
+                        <button
+                          className={styles.iconButton}
+                          title={t('common.delete')}
+                          data-tooltip={t('personal.deleteUser')}
+                          onClick={() => {
+                            setTechnicianToDelete(tech)
+                            setIsDeleteModalOpen(true)
+                          }}
+                          // disabled={userId === (tech._id || tech.id)}
+                        >
+                          <Trash size={20} />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -188,6 +225,9 @@ const Register = () => {
         title={t('personal.confirmDeleteTitle')}
         description={t('personal.confirmDeleteDescription')}
       />
+
+      {/* Modal de perfil */}
+      {/* This block was removed as per the edit hint */}
 
       <ModalSuccess isOpen={showModal && !isError} onRequestClose={closeModal} mensaje={responseMessage} />
       <ModalError isOpen={showModal && isError} onRequestClose={closeModal} mensaje={responseMessage} />

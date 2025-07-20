@@ -452,33 +452,34 @@
   animation: fadeIn 0.3s ease-out;
 }
 
-.deleteButton {
+
+
+
+
+.iconButton {
   background: none;
   border: none;
-  color: #000000;
+  padding: 8px;
+  color: var(--color-text);
   cursor: pointer;
-  padding: 0;
-  border-radius: 0;
-  transition: none;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s ease;
   position: relative;
-  width: auto;
-  height: auto;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
 }
 
-.deleteButton:hover {
-  background: none;
-  color: #000000;
-  transform: none;
+.iconButton:hover {
+  background: var(--color-bg-light);
+  transform: scale(1.05);
+  color: var(--color-primary);
 }
 
-.deleteButton svg {
-  pointer-events: none;
-}
-
-.deleteButton::after {
+.iconButton::after {
   content: attr(data-tooltip);
   position: absolute;
   bottom: 125%;
@@ -498,7 +499,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.deleteButton::before {
+.iconButton::before {
   content: '';
   position: absolute;
   bottom: 115%;
@@ -512,7 +513,256 @@
   z-index: 10;
 }
 
-.deleteButton:hover::after,
-.deleteButton:hover::before {
+.iconButton:hover::after,
+.iconButton:hover::before {
   opacity: 1;
+}
+
+.searchContainer {
+  margin-bottom: 24px;
+}
+
+.searchWrapper {
+  position: relative;
+  max-width: 400px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 12px 16px 12px 44px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: var(--color-card);
+  color: var(--color-text);
+  transition: all 0.2s ease;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.searchInput::placeholder {
+  color: var(--color-text);
+  opacity: 0.6;
+}
+
+.actionButtons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionButtons .iconButton {
+  width: 32px;
+  height: 32px;
+  padding: 6px;
+}
+
+/* Modal de perfil */
+.profileModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.profileModalContent {
+  background: var(--color-card);
+  border-radius: 16px;
+  padding: 0;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--color-border);
+}
+
+.profileModalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 0 24px;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 24px;
+}
+
+.profileModalHeader h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.profileModalHeader .closeButton {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--color-text);
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.profileModalHeader .closeButton:hover {
+  opacity: 1;
+  background-color: var(--color-bg-light);
+}
+
+.profileModalBody {
+  padding: 0 24px 24px 24px;
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+
+.profileAvatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--color-bg-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+  border: 3px solid var(--color-border);
+}
+
+.profileDetails h3 {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.profileRole {
+  margin: 0 0 20px 0;
+  font-size: 16px;
+  color: var(--color-text);
+  opacity: 0.8;
+  padding: 8px 16px;
+  background: var(--color-bg-light);
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.profileMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.profileMetaItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--color-bg-light);
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+}
+
+.profileMetaItem strong {
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.profileMetaItem span {
+  color: var(--color-text);
+  opacity: 0.8;
+  font-family: monospace;
+  font-size: 14px;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.backButton:hover {
+  background-color: var(--color-bg-light);
+  transform: translateX(-2px);
+}
+
+.loaderContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 40px;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--color-border);
+  border-top: 3px solid var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 40px;
+  text-align: center;
+}
+
+.errorContainer p {
+  color: var(--color-text);
+  font-size: 16px;
+  margin: 0;
 }

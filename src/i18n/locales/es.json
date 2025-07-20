@@ -45,7 +45,14 @@
     "confirmDeleteTitle": "¿Eliminar técnico?",
     "confirmDeleteDescription": "Esta acción no se puede deshacer. El técnico será eliminado permanentemente.",
     "technicianDeleted": "Técnico eliminado con éxito",
-    "errorDeletingTechnician": "Error al eliminar técnico"
+    "errorDeletingTechnician": "Error al eliminar técnico",
+    "searchPlaceholder": "Buscar por nombre de usuario...",
+    "viewProfile": "Ver perfil",
+    "userProfile": "Perfil de Usuario",
+    "actions": "Acciones",
+    "noSearchResults": "No se encontraron resultados",
+    "tryDifferentSearch": "Intenta con un término de búsqueda diferente",
+    "userNotFound": "Usuario no encontrado"
   },
   "common": {
     "saving": "Guardando...",
@@ -98,6 +105,7 @@
     "export": "Exportar",
     "import": "Importar",
     "print": "Imprimir",
+    "actions": "Acciones",
     "share": "Compartir",
     "copy": "Copiar",
     "paste": "Pegar",
@@ -249,7 +257,6 @@
       "pendingReview": "Pendiente de revisión"
     },
     "deviceState": "Estado del Dispositivo",
-    "deviceStatu": "Estado del dispositivo",
     "selectCategory": "Seleccionar categoría",
     "selectState": "Seleccionar estado",
     "noAssetsAvailable": "No hay activos disponibles",
@@ -283,24 +290,6 @@
     "installationTypesWillAppearHere": "Los tipos de instalación aparecerán aquí una vez que los crees",
     "deleteInstallationType": "Eliminar tipo de instalación",
     "deleteInstallation": "Eliminar instalación",
-    "installationTypes": {
-      "office": "Oficina",
-      "factory": "Fábrica",
-      "warehouse": "Almacén",
-      "store": "Tienda",
-      "hospital": "Hospital",
-      "school": "Escuela",
-      "residential": "Residencial",
-      "commercial": "Comercial",
-      "industrial": "Industrial",
-      "medical": "Médico",
-      "educational": "Educativo",
-      "retail": "Minorista",
-      "logistics": "Logística",
-      "manufacturing": "Manufactura",
-      "service": "Servicio",
-      "other": "Otro"
-    },
     "addressTypes": {
       "street": "Calle",
       "avenue": "Avenida",

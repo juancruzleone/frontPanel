@@ -2,6 +2,8 @@ import type React from "react"
 
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
+import { ChevronDown } from "lucide-react"
+import { useTheme } from "../../../shared/hooks/useTheme"
 import type { Installation } from "../hooks/useInstallations"
 import useInstallationTypes from "../hooks/useInstallationTypes"
 import styles from "../styles/installationForm.module.css"
@@ -47,6 +49,7 @@ const InstallationForm = ({
   setFormErrors,
 }: InstallationFormProps) => {
   const { t } = useTranslation()
+  const { dark } = useTheme()
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
   const { installationTypes, loading: loadingTypes } = useInstallationTypes()
 
@@ -95,21 +98,27 @@ const InstallationForm = ({
   const renderField = (field: { name: string; label: string; type: string; placeholder?: string }) => {
     if (field.type === "select" && field.name === "installationType") {
       return (
-        <select
-          name={field.name}
-          value={formData[field.name] || ""}
-          onChange={(e) => handleFieldChange(field.name, e.target.value)}
-          onBlur={() => handleFieldBlur(field.name)}
-          disabled={isSubmitting || loadingTypes}
-          className={showError(field.name) ? styles.errorInput : ""}
-        >
-          <option value="">{t('installations.selectInstallationType')}</option>
-          {installationTypes.map((type) => (
-            <option key={type._id} value={type.nombre}>
-              {type.nombre}
-            </option>
-          ))}
-        </select>
+        <div className={styles.selectWrapper}>
+          <select
+            name={field.name}
+            value={formData[field.name] || ""}
+            onChange={(e) => handleFieldChange(field.name, e.target.value)}
+            onBlur={() => handleFieldBlur(field.name)}
+            disabled={isSubmitting || loadingTypes}
+            className={showError(field.name) ? styles.errorInput : ""}
+          >
+            <option value="">{t('installations.selectInstallationType')}</option>
+            {installationTypes.map((type) => (
+              <option key={type._id} value={type.nombre}>
+                {type.nombre}
+              </option>
+            ))}
+          </select>
+          <ChevronDown 
+            size={20} 
+            className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
+          />
+        </div>
       )
     }
 

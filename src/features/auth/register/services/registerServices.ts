@@ -62,3 +62,19 @@ export const deleteTechnician = async (id: string, token: string) => {
 
   return await response.json()
 }
+
+export const getUserById = async (id: string, token: string) => {
+  const response = await fetch(`${API_URL}cuentas/${id}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}))
+    throw new Error(errorData.error?.message || "Error al obtener datos del usuario")
+  }
+
+  return await response.json()
+}
