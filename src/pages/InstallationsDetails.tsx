@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useParams, useNavigate, useLocation } from "react-router-dom"
 import styles from "../features/installationsDetails/styles/installationDetails.module.css"
 import { Trash, Edit, Plus, QrCode, FileText } from "lucide-react"
+import { FiArrowLeft } from "react-icons/fi"
 import ModalAddDevice from "../features/installations/components/ModalAddDevice"
 import ModalEditDevice from "../features/installationsDetails/components/ModalEditDevice"
 import ModalConfirmDelete from "../features/installations/components/ModalConfirmDelete"
@@ -13,6 +14,7 @@ import { getLastMaintenanceForDevice } from "../features/installationsDetails/se
 import { updateDeviceInInstallation } from "../features/installations/services/installationServices"
 import type { Device } from "../features/installations/hooks/useInstallations"
 import { useTranslation } from "react-i18next"
+import { translateDeviceStatus } from "../shared/utils/backendTranslations"
 
 const InstallationDetails = () => {
   const { t } = useTranslation()
@@ -48,7 +50,22 @@ const InstallationDetails = () => {
   
   // Estado para paginación
   const [currentPage, setCurrentPage] = useState(1)
-  const devicesPerPage = 12
+  const devicesPerPage = 4
+
+  // Cálculos de paginación
+  const totalPages = Math.ceil(installationDevices.length / devicesPerPage)
+  const startIndex = (currentPage - 1) * devicesPerPage
+  const currentDevices = installationDevices.slice(startIndex, startIndex + devicesPerPage)
+
+  // Debug: Log para verificar la paginación
+  console.log('Paginación debug:', {
+    totalDevices: installationDevices.length,
+    devicesPerPage,
+    totalPages,
+    currentPage,
+    startIndex,
+    currentDevicesLength: currentDevices.length
+  })
 
   useEffect(() => {
     if (id) {
@@ -155,13 +172,14 @@ const InstallationDetails = () => {
   }
 
   // Lógica de paginación
-  const totalPages = Math.ceil(installationDevices.length / devicesPerPage)
-  const startIndex = (currentPage - 1) * devicesPerPage
-  const endIndex = startIndex + devicesPerPage
-  const currentDevices = installationDevices.slice(startIndex, endIndex)
-
   const handlePageChange = (page: number) => {
-    setCurrentPage(page)
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page)
+    }
+  }
+
+  const handleGoBack = () => {
+    navigate("/instalaciones")
   }
 
   if (loading && !currentInstallation) {
@@ -174,6 +192,29 @@ const InstallationDetails = () => {
 
   return (
     <div className={styles.container}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+        <button 
+          onClick={handleGoBack}
+          style={{
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: '8px',
+            borderRadius: '6px',
+            color: 'var(--color-text)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'all 0.2s ease',
+            width: '36px',
+            height: '36px'
+          }}
+          title={t('common.back')}
+        >
+          <FiArrowLeft size={20} />
+        </button>
+      </div>
+
       <div className={styles.header}>
         <h1 className={styles.title}>{t("installationDetails.devicesOf", { name: installationName || currentInstallation.company })}</h1>
         <p className={styles.address}>
@@ -181,7 +222,7 @@ const InstallationDetails = () => {
         </p>
         {currentInstallation.installationType && (
           <span className={styles.installationTypeTag}>
-            {t(`installationTypes.${currentInstallation.installationType}`)}
+            {currentInstallation.installationType}
           </span>
         )}
         <div className={styles.actions}>
@@ -210,7 +251,7 @@ const InstallationDetails = () => {
                     </p>
                     <p>
                       <strong>{t("installationDetails.status")}:</strong>{" "}
-                      <span className={styles[device.estado?.replace(/\s/g, "") || ""]}>{t(`deviceStatus.${device.estado}`)}</span>
+                      <span className={styles[device.estado?.replace(/\s/g, "") || ""]}>{translateDeviceStatus(device.estado)}</span>
                     </p>
                   </div>
                   {(device.marca || device.modelo || device.numeroSerie) && (
@@ -287,11 +328,18 @@ const InstallationDetails = () => {
             &lt;
           </button>
           <span>
-            {t("installationDetails.page", { currentPage, totalPages })}
+            {t('installationDetails.page')} {currentPage} {t('installationDetails.of')} {totalPages}
           </span>
           <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
             &gt;
           </button>
+        </div>
+      )}
+      
+      {/* Información adicional cuando hay paginación */}
+      {installationDevices.length > devicesPerPage && (
+        <div style={{ textAlign: 'center', marginTop: '8px', color: 'var(--color-text)', opacity: 0.7, fontSize: '14px' }}>
+          Mostrando {startIndex + 1}-{Math.min(startIndex + devicesPerPage, installationDevices.length)} de {installationDevices.length} dispositivos
         </div>
       )}
 
