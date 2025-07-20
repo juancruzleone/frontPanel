@@ -11,6 +11,7 @@ import krFlag from '../../../../src/assets/flags/kr.svg'
 import saFlag from '../../../../src/assets/flags/sa.svg'
 import brFlag from '../../../../src/assets/flags/br.svg'
 import cnFlag from '../../../../src/assets/flags/cn.svg'
+import itFlag from '../../../../src/assets/flags/it.svg'
 
 const flagMap: Record<string, string> = {
   es: esFlag,
@@ -18,6 +19,7 @@ const flagMap: Record<string, string> = {
   en: usFlag,
   us: usFlag,
   de: deFlag,
+  it: itFlag,
   ja: jpFlag,
   jp: jpFlag,
   ko: krFlag,
@@ -34,18 +36,18 @@ const LanguageSelector = () => {
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  // Lista fija con bandera y nombre nativo
+  // Lista fija con bandera y nombre traducido
   const languages = [
-    { code: 'es', name: 'Español', flag: '🇪🇸' },
-    { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'fr', name: 'Français', flag: '🇫🇷' },
-    { code: 'pt', name: 'Português', flag: '🇵🇹' },
-    { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
-    { code: 'it', name: 'Italiano', flag: '🇮🇹' },
-    { code: 'ja', name: '日本語', flag: '🇯🇵' },
-    { code: 'ko', name: '한국어', flag: '🇰🇷' },
-    { code: 'zh', name: '中文', flag: '🇨🇳' },
-    { code: 'ar', name: 'العربية', flag: '🇸🇦' }
+    { code: 'es', name: t('languageSelector.spanish'), flag: '🇪🇸' },
+    { code: 'en', name: t('languageSelector.english'), flag: '🇺🇸' },
+    { code: 'fr', name: t('languageSelector.french'), flag: '🇫🇷' },
+    { code: 'pt', name: t('languageSelector.portuguese'), flag: '🇵🇹' },
+    { code: 'de', name: t('languageSelector.german'), flag: '🇩🇪' },
+    { code: 'it', name: t('languageSelector.italian'), flag: '🇮🇹' },
+    { code: 'ja', name: t('languageSelector.japanese'), flag: '🇯🇵' },
+    { code: 'ko', name: t('languageSelector.korean'), flag: '🇰🇷' },
+    { code: 'zh', name: t('languageSelector.chinese'), flag: '🇨🇳' },
+    { code: 'ar', name: t('languageSelector.arabic'), flag: '🇸🇦' }
   ]
 
   const currentLanguage =

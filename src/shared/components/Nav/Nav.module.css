@@ -410,9 +410,6 @@
   display: inline-block;
 }
 
-.languageSelectorContainer :hover{
-  background-color: #23272b;
-}
 
 @media (min-width: 768px) {
   .controlsContainer {
@@ -480,7 +477,8 @@
 }
 
 .languageOption:hover {
-  background: var(--color-bg-light);
+  background: var(--color-secondary);
+  color: white;
 }
 
 .languageOption.active {

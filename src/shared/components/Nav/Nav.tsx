@@ -17,6 +17,7 @@ import krFlag from '../../../../src/assets/flags/kr.svg'
 import saFlag from '../../../../src/assets/flags/sa.svg'
 import brFlag from '../../../../src/assets/flags/br.svg'
 import cnFlag from '../../../../src/assets/flags/cn.svg'
+import itFlag from '../../../../src/assets/flags/it.svg'
 
 
 const flagMap: Record<string, string> = {
@@ -25,6 +26,7 @@ const flagMap: Record<string, string> = {
   en: usFlag,
   us: usFlag,
   de: deFlag,
+  it: itFlag,
   ja: jpFlag,
   jp: jpFlag,
   ko: krFlag,

@@ -165,7 +165,8 @@ button{
 }
 
 .languageOption:hover {
-  background: var(--color-bg-light);
+  /* background: var(--color-bg-light); */
+  background: none;
 }
 
 .languageOption.active {
