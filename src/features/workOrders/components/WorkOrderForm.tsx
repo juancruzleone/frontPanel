@@ -254,39 +254,51 @@ const WorkOrderForm = ({
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
             <label className="formLabel">{t('workOrders.workType')}</label>
-            <select
-              name="tipoTrabajo"
-              value={formData.tipoTrabajo || "mantenimiento"}
-              onChange={(e) => handleFieldChange("tipoTrabajo", e.target.value)}
-              onBlur={() => handleFieldBlur("tipoTrabajo")}
-              disabled={isFieldDisabled("tipoTrabajo")}
-              className={showError("tipoTrabajo") ? styles.errorInput : "formInput"}
-            >
-              {workTypes.map((type) => (
-                <option key={type.value} value={type.value}>
-                  {type.label}
-                </option>
-              ))}
-            </select>
+            <div className={styles.selectWrapper}>
+              <select
+                name="tipoTrabajo"
+                value={formData.tipoTrabajo || "mantenimiento"}
+                onChange={(e) => handleFieldChange("tipoTrabajo", e.target.value)}
+                onBlur={() => handleFieldBlur("tipoTrabajo")}
+                disabled={isFieldDisabled("tipoTrabajo")}
+                className={`${showError("tipoTrabajo") ? styles.errorInput : ""} ${styles.select}`}
+              >
+                {workTypes.map((type) => (
+                  <option key={type.value} value={type.value}>
+                    {type.label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown 
+                size={16} 
+                className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
+              />
+            </div>
             {showError("tipoTrabajo") && <p className={styles.inputError}>{formErrors["tipoTrabajo"]}</p>}
           </div>
 
           <div className={styles.formGroup}>
             <label className="formLabel">{t('workOrders.priority')}</label>
-            <select
-              name="prioridad"
-              value={formData.prioridad || "media"}
-              onChange={(e) => handleFieldChange("prioridad", e.target.value)}
-              onBlur={() => handleFieldBlur("prioridad")}
-              disabled={isFieldDisabled("prioridad")}
-              className={showError("prioridad") ? styles.errorInput : "formInput"}
-            >
-              {priorities.map((priority) => (
-                <option key={priority.value} value={priority.value}>
-                  {priority.label}
-                </option>
-              ))}
-            </select>
+            <div className={styles.selectWrapper}>
+              <select
+                name="prioridad"
+                value={formData.prioridad || "media"}
+                onChange={(e) => handleFieldChange("prioridad", e.target.value)}
+                onBlur={() => handleFieldBlur("prioridad")}
+                disabled={isFieldDisabled("prioridad")}
+                className={`${showError("prioridad") ? styles.errorInput : ""} ${styles.select}`}
+              >
+                {priorities.map((priority) => (
+                  <option key={priority.value} value={priority.value}>
+                    {priority.label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown 
+                size={16} 
+                className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
+              />
+            </div>
             {showError("prioridad") && <p className={styles.inputError}>{formErrors["prioridad"]}</p>}
           </div>
         </div>

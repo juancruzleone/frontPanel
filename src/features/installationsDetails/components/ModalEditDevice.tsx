@@ -52,20 +52,11 @@ const ModalEditDevice = ({
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <div className={styles.titleSection}>
-            <h2 className={styles.title}>{t('installationDetails.editDevice')}</h2>
-            <p className={styles.installationInfo}>
-              {t('installationDetails.installation')}: {installation.company} - {installation.address}
-            </p>
-            <p className={styles.deviceInfo}>
-              <strong>{t('installationDetails.device')}:</strong> {device.nombre}
-            </p>
-          </div>
+          <h2 className={styles.title}>{t('installationDetails.editDevice')}</h2>
           <button className={styles.closeButton} onClick={onRequestClose}>
             ×
           </button>
         </div>
-
         <div className={styles.modalContent}>
           {loadingAssets || loadingCategories ? (
             <div className={styles.loaderContainer}>

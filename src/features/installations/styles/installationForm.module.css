@@ -179,6 +179,18 @@
   color: #9ca3af;
 }
 
+/* Estilos para las opciones del select en modo oscuro */
+[data-theme="dark"] .selectWrapper select option {
+  background-color: var(--color-card);
+  color: var(--color-text);
+}
+
+/* Estilos para las opciones del select en modo claro */
+.selectWrapper select option {
+  background-color: var(--color-card);
+  color: var(--color-text);
+}
+
 .formGroup textarea {
   resize: vertical;
   min-height: 100px;
@@ -196,7 +208,14 @@
 .errorInput {
   border-color: var(--color-danger) !important;
   box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
-  background: #fef2f2 !important;
+  background: var(--color-card) !important;
+  color: var(--color-text) !important;
+}
+
+/* Estilos específicos para selects con error en modo oscuro */
+[data-theme="dark"] .errorInput {
+  background: var(--color-card) !important;
+  color: var(--color-text) !important;
 }
 
 .inputError {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChevronDown } from 'lucide-react'
 import { useTheme } from '../../../shared/hooks/useTheme'
-import styles from '../styles/installationForm.module.css'
+import styles from '../styles/deviceForm.module.css'
 import type { Device, Installation } from "../hooks/useInstallations"
 import { validateForm, assetSchema, deviceEditSchema } from "../validators/deviceValidations"
 
@@ -212,7 +212,7 @@ const DeviceForm = ({
                   onChange={(e) => handleFieldChange("assetId", e.target.value)}
                   onBlur={() => handleFieldBlur("assetId")}
                   disabled={isSubmitting}
-                  className={`${showError("assetId") ? styles.errorInput : ""} ${styles.select}`}
+                  className={showError("assetId") ? styles.errorInput : ""}
                 >
                   <option value="">{t('installations.selectAsset')}</option>
                   {assets.map((asset) => (
@@ -308,7 +308,7 @@ const DeviceForm = ({
                 onChange={(e) => handleFieldChange("categoria", e.target.value)}
                 onBlur={() => handleFieldBlur("categoria")}
                 disabled={isSubmitting}
-                className={`${showError("categoria") ? styles.errorInput : ""} ${styles.select}`}
+                className={showError("categoria") ? styles.errorInput : ""}
               >
                 <option value="">{t('installations.selectCategory')}</option>
                 {categories.map((category) => (
@@ -337,7 +337,7 @@ const DeviceForm = ({
                 onChange={(e) => handleFieldChange("estado", e.target.value)}
                 onBlur={() => handleFieldBlur("estado")}
                 disabled={isSubmitting}
-                className={`${showError("estado") ? styles.errorInput : ""} ${styles.select}`}
+                className={showError("estado") ? styles.errorInput : ""}
               >
                 {estadosDisponibles.map((estado) => (
                   <option key={estado} value={estado}>{estado}</option>
@@ -361,7 +361,7 @@ const DeviceForm = ({
         </button>
         <button
           type="submit"
-          disabled={isSubmitting || (!isEditMode && (!selectedAsset || !formData.categoria))}
+          disabled={isSubmitting}
           className={styles.submitButton}
         >
           {isSubmitting ? t('common.saving') : isEditMode ? t('common.update') : t('common.create')}

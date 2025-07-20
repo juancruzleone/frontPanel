@@ -95,17 +95,38 @@ html, body{
 }
 
 /* Estilos globales para selects en modo oscuro */
-.customSelect {
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  background-image: url("tu-flecha.svg") !important;
-  background-position: right 1rem center !important;
-  background-repeat: no-repeat !important;
-  background-size: 12px 8px !important;
-  padding-right: 2.5rem !important;
+[data-theme="dark"] select {
   background-color: var(--color-card) !important;
-  border: 2px solid var(--color-card-border) !important;
   color: var(--color-text) !important;
+}
+
+[data-theme="dark"] select option {
+  background-color: var(--color-card) !important;
+  color: var(--color-text) !important;
+}
+
+/* Estilos para selects en modo claro */
+select {
+  background-color: var(--color-card) !important;
+  color: var(--color-text) !important;
+}
+
+select option {
+  background-color: var(--color-card) !important;
+  color: var(--color-text) !important;
+}
+
+/* Estilos para selects con error - mantener el fondo y color correctos */
+select.errorInput {
+  background-color: var(--color-card) !important;
+  color: var(--color-text) !important;
+  border-color: var(--color-danger) !important;
+}
+
+[data-theme="dark"] select.errorInput {
+  background-color: var(--color-card) !important;
+  color: var(--color-text) !important;
+  border-color: var(--color-danger) !important;
 }
 
 
