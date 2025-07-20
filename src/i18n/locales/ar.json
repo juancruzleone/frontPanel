@@ -41,7 +41,13 @@
     "completeAllFields": "أكمل جميع الحقول",
     "registerTechnician": "تسجيل الفني",
     "roleTechnician": "فني",
-    "roleAdmin": "مدير"
+    "roleAdmin": "مدير",
+    "confirmDeleteTechnician": "هل أنت متأكد أنك تريد حذف هذا المستخدم؟",
+    "deleteUser": "حذف المستخدم",
+    "confirmDeleteTitle": "هل تريد حذف الفني؟",
+    "confirmDeleteDescription": "لا يمكن التراجع عن هذا الإجراء. سيتم حذف الفني نهائيًا.",
+    "technicianDeleted": "تم حذف الفني بنجاح",
+    "errorDeletingTechnician": "حدث خطأ أثناء حذف الفني"
   },
   "common": {
     "understood": "إغلاق",
@@ -241,6 +247,8 @@
     }
   },
   "installations": {
+    "deviceNamePlaceholder": "اكتب اسم الجهاز",
+    "installation": "تركيب",
     "understood": "إغلاق",
     "successTitle": "تمت العملية بنجاح!",
     "continue": "متابعة",
@@ -292,7 +300,7 @@
     "categoryDescriptionPlaceholder": "وصف اختياري للفئة",
     "active": "نشط",
     "deviceCategory": "فئة الجهاز",
-    "deviceStatus": "حالة الجهاز",
+    "deviceStatu": "حالة الجهاز",
     "deviceLocation": "موقع الجهاز",
     "deviceName": "اسم الجهاز",
     "selectCategory": "اختر فئة",
@@ -559,7 +567,9 @@
       "typeNameMax": "لا يمكن أن يتجاوز الاسم 100 حرف",
       "typeDescriptionMax": "لا يمكن أن تتجاوز الوصف 500 حرف"
     },
-    "titlePage": "التثبيتات | LeoneSuite"
+    "titlePage": "التثبيتات | LeoneSuite",
+    "confirmDeleteTitle": "هل تريد حذف التثبيت؟",
+    "confirmDeleteDescription": "لا يمكن التراجع عن هذا الإجراء. سيتم حذف التثبيت نهائيًا."
   },
   "assets": {
     "understood": "إغلاق",
@@ -911,9 +921,11 @@
     "arabic": "العربية"
   },
   "installationDetails": {
-    "understood": "إغلاق",
-    "successTitle": "تمت العملية بنجاح!",
-    "continue": "متابعة",
+  "category": "الفئة",
+  "installation": "التثبيت",
+  "deviceNamePlaceholder": "اكتب اسم الجهاز",
+  "successTitle": "تمت العملية بنجاح!",
+  "understood": "إغلاق",
   "titlePage": "الأجهزة | LeoneSuite",
   "loadingDevices": "جارٍ تحميل الأجهزة...",
   "notFound": "لم يتم العثور على التركيب",
@@ -930,9 +942,19 @@
   "downloadLastMaintenance": "تحميل آخر صيانة",
   "editDevice": "تعديل الجهاز",
   "deleteDevice": "حذف الجهاز",
-  "page": "الصفحة {{currentPage}} من {{totalPages}}",
-  "confirmDeleteTitle": "هل تريد حذف الجهاز؟",
-  "confirmDeleteDescription": "لا يمكن التراجع عن هذا الإجراء."
+  "page": "صفحة {{currentPage}} من {{totalPages}}",
+  "confirmDeleteTitle": "حذف الجهاز؟",
+  "confirmDeleteDescription": "لا يمكن التراجع عن هذا الإجراء.",
+  "qrCode": "رمز الاستجابة السريعة",
+  "generatingQR": "جاري إنشاء رمز الاستجابة السريعة...",
+  "errorGeneratingQR": "خطأ في إنشاء رمز الاستجابة السريعة",
+  "scanQRDescription": "امسح هذا الرمز للوصول إلى نموذج الصيانة",
+  "openForm": "افتح النموذج",
+  "printQR": "طباعة الرمز",
+  "device": "جهاز",
+  "loadingRequiredData": "جارٍ تحميل البيانات المطلوبة...",
+  "errorLoadingCategories": "خطأ في تحميل الفئات",
+  "retryLoadCategories": "إعادة محاولة تحميل الفئات"
 },
 "login": {
   "understood": "إغلاق",
@@ -995,6 +1017,22 @@
   "sendMaintenance": "إرسال الصيانة",
   "saveMaintenance": "حفظ الصيانة",
   "localSaveNote": "سيتم حفظ البيانات محليًا وإرسالها عند توفر الاتصال"
+},
+"validations": {
+  "selectAsset": "يجب تحديد أصل",
+  "locationRequired": "الموقع مطلوب",
+  "locationMin": "يجب أن يحتوي الموقع على حرف واحد على الأقل",
+  "locationMax": "لا يمكن أن يتجاوز الموقع 255 حرفًا",
+  "categoryRequired": "الفئة مطلوبة",
+  "categoryMax": "لا يمكن أن تتجاوز الفئة 100 حرف",
+  "deviceNameRequired": "اسم الجهاز مطلوب",
+  "deviceNameMin": "يجب أن يحتوي الاسم على حرف واحد على الأقل",
+  "deviceNameMax": "لا يمكن أن يتجاوز الاسم 100 حرف",
+  "statusRequired": "الحالة مطلوبة",
+  "statusInvalid": "يجب أن تكون الحالة صالحة",
+  "brandMax": "لا يمكن أن تتجاوز العلامة التجارية 100 حرف",
+  "modelMax": "لا يمكن أن يتجاوز الطراز 100 حرف",
+  "serialMax": "لا يمكن أن يتجاوز الرقم التسلسلي 100 حرف"
 }
 
 } 

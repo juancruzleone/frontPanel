@@ -3,6 +3,7 @@ import styles from "/src/features/installations/styles/Modal.module.css"
 import type { Installation, Device } from "../../../features/installations/hooks/useInstallations.ts"
 import DeviceForm from "../../../features/installations/components/DeviceForm.tsx"
 import useCategories from "../../../features/installations/hooks/useCategories.ts"
+import { useTranslation } from "react-i18next"
 
 interface ModalEditDeviceProps {
   isOpen: boolean
@@ -31,6 +32,7 @@ const ModalEditDevice = ({
   onRetryLoadAssets,
   loadAssets,
 }: ModalEditDeviceProps) => {
+  const { t } = useTranslation()
   const { categories, loading: loadingCategories, error: errorLoadingCategories, loadCategories } = useCategories()
 
   useEffect(() => {
@@ -50,13 +52,15 @@ const ModalEditDevice = ({
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Editar Dispositivo</h2>
-          <p>
-            Instalación: {installation.company} - {installation.address}
-          </p>
-          <p>
-            <strong>Dispositivo:</strong> {device.nombre}
-          </p>
+          <div className={styles.titleSection}>
+            <h2 className={styles.title}>{t('installationDetails.editDevice')}</h2>
+            <p className={styles.installationInfo}>
+              {t('installationDetails.installation')}: {installation.company} - {installation.address}
+            </p>
+            <p className={styles.deviceInfo}>
+              <strong>{t('installationDetails.device')}:</strong> {device.nombre}
+            </p>
+          </div>
           <button className={styles.closeButton} onClick={onRequestClose}>
             ×
           </button>
@@ -64,11 +68,13 @@ const ModalEditDevice = ({
 
         <div className={styles.modalContent}>
           {loadingAssets || loadingCategories ? (
-            <p>Cargando datos necesarios...</p>
+            <div className={styles.loaderContainer}>
+              <p>{t('installationDetails.loadingRequiredData')}</p>
+            </div>
           ) : errorLoadingCategories ? (
             <>
-              <p>Error al cargar categorías</p>
-              <button onClick={handleRetryLoadCategories}>Reintentar carga de categorías</button>
+              <p>{t('installationDetails.errorLoadingCategories')}</p>
+              <button onClick={handleRetryLoadCategories}>{t('installationDetails.retryLoadCategories')}</button>
             </>
           ) : (
             <DeviceForm

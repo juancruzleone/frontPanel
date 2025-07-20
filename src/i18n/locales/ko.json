@@ -41,7 +41,13 @@
     "completeAllFields": "모든 필드를 입력하세요",
     "registerTechnician": "기술자 등록",
     "roleTechnician": "기술자",
-    "roleAdmin": "관리자"
+    "roleAdmin": "관리자",
+    "confirmDeleteTechnician": "이 사용자를 삭제하시겠습니까?",
+    "deleteUser": "사용자 삭제",
+    "confirmDeleteTitle": "기술자를 삭제하시겠습니까?",
+    "confirmDeleteDescription": "이 작업은 취소할 수 없습니다. 기술자가 영구적으로 삭제됩니다.",
+    "technicianDeleted": "기술자가 성공적으로 삭제되었습니다",
+    "errorDeletingTechnician": "기술자 삭제 중 오류가 발생했습니다"
   },
   "common": {
     "understood": "닫기",
@@ -74,7 +80,8 @@
     "total": "총계",
     "noDataAvailable": "데이터가 없습니다",
     "retry": "다시 시도",
-    "all": "모든"
+    "all": "모든",
+    "update": " 수정하다"
   },
   "auth": {
     "understood": "닫기",
@@ -244,6 +251,8 @@
   }
   },
   "installations": {
+    "deviceNamePlaceholder": "장치 이름을 입력하세요",
+    "installation": "설치",
     "understood": "닫기",
     "successTitle": "작업이 성공적으로 완료되었습니다!",
     "continue": "계속하기",
@@ -296,7 +305,7 @@
   "categoryDescriptionPlaceholder": "카테고리의 선택적 설명",
   "active": "활성화",
   "deviceCategory": "디바이스 카테고리",
-  "deviceStatus": "디바이스 상태",
+  "deviceStatu": "디바이스 상태",
   "deviceLocation": "디바이스 위치",
   "deviceName": "디바이스 이름",
   "selectCategory": "카테고리 선택",
@@ -562,7 +571,9 @@
       "typeNameMin": "이름은 최소 2자 이상이어야 합니다",
       "typeNameMax": "이름은 100자를 초과할 수 없습니다",
       "typeDescriptionMax": "설명은 500자를 초과할 수 없습니다"
-    }
+    },
+    "confirmDeleteTitle": "설치를 삭제하시겠습니까?",
+    "confirmDeleteDescription": "이 작업은 취소할 수 없습니다. 설치가 영구적으로 삭제됩니다."
   },
   "assets": {
     "understood": "닫기",
@@ -914,28 +925,40 @@
     "arabic": "아랍어"
   },
   "installationDetails": {
-    "understood": "닫기",
-    "successTitle": "작업이 성공적으로 완료되었습니다!",
-    "continue": "계속하기",
+  "category": "카테고리",
+  "installation": "설치",
+  "deviceNamePlaceholder": "장치 이름을 입력하세요",
+  "successTitle": "작업이 성공했습니다!",
+  "understood": "닫기",
   "titlePage": "장치 | LeoneSuite",
-  "loadingDevices": "장치를 불러오는 중...",
+  "loadingDevices": "장치를 로드 중...",
   "notFound": "설치를 찾을 수 없습니다",
   "devicesOf": "{{name}}의 장치",
   "addDevice": "장치 추가",
-  "noDevices": "이 설치에 등록된 장치가 없습니다",
+  "noDevices": "이 설치에 장치가 없습니다",
   "type": "유형",
   "location": "위치",
   "status": "상태",
   "brand": "브랜드",
   "model": "모델",
-  "serialNumber": "일련번호",
+  "serialNumber": "일련 번호",
   "seeQR": "QR 코드 보기",
-  "downloadLastMaintenance": "최근 유지보수 다운로드",
+  "downloadLastMaintenance": "마지막 유지보수 다운로드",
   "editDevice": "장치 편집",
   "deleteDevice": "장치 삭제",
-  "page": "{{totalPages}} 중 {{currentPage}}페이지",
+  "page": "{{currentPage}} 페이지 / {{totalPages}} 페이지",
   "confirmDeleteTitle": "장치를 삭제하시겠습니까?",
-  "confirmDeleteDescription": "이 작업은 되돌릴 수 없습니다."
+  "confirmDeleteDescription": "이 작업은 되돌릴 수 없습니다.",
+  "qrCode": "QR 코드",
+  "generatingQR": "QR 코드 생성 중...",
+  "errorGeneratingQR": "QR 코드 생성 오류",
+  "scanQRDescription": "이 코드를 스캔하여 유지보수 양식에 접근하세요",
+  "openForm": "양식 열기",
+  "printQR": "QR 인쇄",
+  "device": "장치",
+  "loadingRequiredData": "필요한 데이터를 로드 중...",
+  "errorLoadingCategories": "카테고리 로드 오류",
+  "retryLoadCategories": "카테고리 다시 로드"
 },
 "login": {
   "understood": "닫기",
@@ -998,6 +1021,21 @@
   "sendMaintenance": "유지보수 제출",
   "saveMaintenance": "유지보수 저장",
   "localSaveNote": "데이터는 로컬에 저장되고 온라인 상태일 때 제출됩니다"
+},
+"validations": {
+  "selectAsset": "자산을 선택해야 합니다",
+  "locationRequired": "위치는 필수입니다",
+  "locationMin": "위치는 최소 1자 이상이어야 합니다",
+  "locationMax": "위치는 255자를 초과할 수 없습니다",
+  "categoryRequired": "카테고리는 필수입니다",
+  "categoryMax": "카테고리는 100자를 초과할 수 없습니다",
+  "deviceNameRequired": "장치 이름은 필수입니다",
+  "deviceNameMin": "이름은 최소 1자 이상이어야 합니다",
+  "deviceNameMax": "이름은 100자를 초과할 수 없습니다",
+  "statusRequired": "상태는 필수입니다",
+  "statusInvalid": "상태는 유효해야 합니다",
+  "brandMax": "브랜드는 100자를 초과할 수 없습니다",
+  "modelMax": "모델은 100자를 초과할 수 없습니다",
+  "serialMax": "시리얼 번호는 100자를 초과할 수 없습니다"
 }
-
 } 

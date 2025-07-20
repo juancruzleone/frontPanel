@@ -41,7 +41,13 @@
     "registerTechnician": "Registra Tecnico",
     "roleTechnician": "Tecnico",
     "roleAdmin": "Amministratore",
-    "titlePage": "Personale | LeoneSuite"
+    "titlePage": "Personale | LeoneSuite",
+    "confirmDeleteTechnician": "Sei sicuro di voler eliminare questo utente?",
+    "deleteUser": "Elimina utente",
+    "confirmDeleteTitle": "Eliminare il tecnico?",
+    "confirmDeleteDescription": "Questa azione non può essere annullata. Il tecnico sarà eliminato definitivamente.",
+    "technicianDeleted": "Tecnico eliminato con successo",
+    "errorDeletingTechnician": "Errore durante l'eliminazione del tecnico"
   },
   "common": {
     "understood": "Chiudi",
@@ -242,6 +248,8 @@
     "titlePage": "Ordini di Lavoro | LeoneSuite"
   },
   "installations": {
+    "deviceNamePlaceholder": "Inserisci il nome del dispositivo",
+    "installation": "Installazione",
     "understood": "Chiudi",
     "successTitle": "Operazione riuscita!",
     "continue": "Continua",
@@ -293,7 +301,7 @@
     "categoryDescriptionPlaceholder": "Descrizione opzionale della categoria",
     "active": "Attiva",
     "deviceCategory": "Categoria del dispositivo",
-    "deviceStatus": "Stato del dispositivo",
+    "deviceStatu": "Stato del dispositivo",
     "deviceLocation": "Posizione del dispositivo",
     "deviceName": "Nome del dispositivo",
     "selectCategory": "Seleziona una categoria",
@@ -562,7 +570,10 @@
       "typeNameMax": "Il nome non può superare i 100 caratteri",
       "typeDescriptionMax": "La descrizione non può superare i 500 caratteri"
     },
-    "titlePage": "Impianti | LeoneSuite"
+    "titlePage": "Impianti | LeoneSuite",
+    "confirmDeleteTitle": "Eliminare l'installazione?",
+  "confirmDeleteDescription": "Questa azione non può essere annullata. L'installazione sarà eliminata definitivamente."
+
   },
   "assets": {
     "understood": "Chiudi",
@@ -896,29 +907,41 @@
     "arabic": "Arabo"
   },
     "installationDetails": {
-      "understood": "Chiudi",
-      "successTitle": "Operazione riuscita!",
-      "continue": "Continua",
-    "titlePage": "Dispositivi | LeoneSuite",
-    "loadingDevices": "Caricamento dispositivi...",
-    "notFound": "Installazione non trovata",
-    "devicesOf": "Dispositivi di {{name}}",
-    "addDevice": "Aggiungi dispositivo",
-    "noDevices": "Nessun dispositivo in questa installazione",
-    "type": "Tipo",
-    "location": "Posizione",
-    "status": "Stato",
-    "brand": "Marca",
-    "model": "Modello",
-    "serialNumber": "Numero di serie",
-    "seeQR": "Vedi codice QR",
-    "downloadLastMaintenance": "Scarica ultima manutenzione",
-    "editDevice": "Modifica dispositivo",
-    "deleteDevice": "Elimina dispositivo",
-    "page": "Pagina {{currentPage}} di {{totalPages}}",
-    "confirmDeleteTitle": "Eliminare il dispositivo?",
-    "confirmDeleteDescription": "Questa azione non può essere annullata."
-  },
+  "category": "Categoria",
+  "installation": "Installazione",
+  "deviceNamePlaceholder": "Inserisci il nome del dispositivo",
+  "successTitle": "Operazione riuscita!",
+  "understood": "Chiudi",
+  "titlePage": "Dispositivi | LeoneSuite",
+  "loadingDevices": "Caricamento dispositivi...",
+  "notFound": "Installazione non trovata",
+  "devicesOf": "Dispositivi di {{name}}",
+  "addDevice": "Aggiungi dispositivo",
+  "noDevices": "Nessun dispositivo in questa installazione",
+  "type": "Tipo",
+  "location": "Posizione",
+  "status": "Stato",
+  "brand": "Marca",
+  "model": "Modello",
+  "serialNumber": "N° di serie",
+  "seeQR": "Visualizza codice QR",
+  "downloadLastMaintenance": "Scarica ultima manutenzione",
+  "editDevice": "Modifica dispositivo",
+  "deleteDevice": "Elimina dispositivo",
+  "page": "Pagina {{currentPage}} di {{totalPages}}",
+  "confirmDeleteTitle": "Eliminare il dispositivo?",
+  "confirmDeleteDescription": "Questa azione non può essere annullata.",
+  "qrCode": "Codice QR",
+  "generatingQR": "Generazione del codice QR...",
+  "errorGeneratingQR": "Errore nella generazione del codice QR",
+  "scanQRDescription": "Scansiona questo codice per accedere al modulo di manutenzione",
+  "openForm": "Apri modulo",
+  "printQR": "Stampa QR",
+  "device": "Dispositivo",
+  "loadingRequiredData": "Caricamento dati necessari...",
+  "errorLoadingCategories": "Errore nel caricamento delle categorie",
+  "retryLoadCategories": "Riprova a caricare le categorie"
+},
     "login": {
       "understood": "Chiudi",
       "successTitle": "Operazione riuscita!",
@@ -980,6 +1003,23 @@
   "sendMaintenance": "Invia manutenzione",
   "saveMaintenance": "Salva manutenzione",
   "localSaveNote": "I dati saranno salvati localmente e inviati quando sei online"
+},
+"validations": {
+  "selectAsset": "Devi selezionare un asset",
+  "locationRequired": "La posizione è obbligatoria",
+  "locationMin": "La posizione deve contenere almeno 1 carattere",
+  "locationMax": "La posizione non può superare i 255 caratteri",
+  "categoryRequired": "La categoria è obbligatoria",
+  "categoryMax": "La categoria non può superare i 100 caratteri",
+  "deviceNameRequired": "Il nome del dispositivo è obbligatorio",
+  "deviceNameMin": "Il nome deve contenere almeno 1 carattere",
+  "deviceNameMax": "Il nome non può superare i 100 caratteri",
+  "statusRequired": "Lo stato è obbligatorio",
+  "statusInvalid": "Lo stato deve essere valido",
+  "brandMax": "La marca non può superare i 100 caratteri",
+  "modelMax": "Il modello non può superare i 100 caratteri",
+  "serialMax": "Il numero di serie non può superare i 100 caratteri"
 }
+
 
 } 

@@ -53,10 +53,12 @@ const ModalAddDevice = ({
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>{t('installations.addDevice')}</h2>
-          <p>
-            {t('installations.installation')}: {installation.company} - {installation.address}
-          </p>
+          <div className={styles.titleSection}>
+            <h2 className={styles.title}>{t('installations.addDevice')}</h2>
+            <p className={styles.installationInfo}>
+              {t('installations.installation')}: {installation.company} - {installation.address}
+            </p>
+          </div>
           <button className={styles.closeButton} onClick={onRequestClose}>
             ×
           </button>
@@ -64,7 +66,9 @@ const ModalAddDevice = ({
 
         <div className={styles.modalContent}>
           {loadingAssets || loadingCategories ? (
-            <p>{t('installations.loadingRequiredData')}</p>
+            <div className={styles.loaderContainer}>
+              <p>{t('installations.loadingRequiredData')}</p>
+            </div>
           ) : errorLoadingAssets ? (
             <>
               <p>{errorLoadingAssets.includes("No hay activos") ? errorLoadingAssets : t('installations.errorLoadingAssets')}</p>

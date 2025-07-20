@@ -39,9 +39,16 @@
     "registerTechnician": "Techniker registrieren",
     "roleTechnician": "Techniker",
     "roleAdmin": "Administrator",
-    "titlePage": "Personal | LeoneSuite"
+    "titlePage": "Personal | LeoneSuite",
+    "confirmDeleteTechnician": "Möchten Sie diesen Benutzer wirklich löschen?",
+    "deleteUser": "Benutzer löschen",
+    "confirmDeleteTitle": "Techniker löschen?",
+    "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Der Techniker wird dauerhaft gelöscht.",
+    "technicianDeleted": "Techniker erfolgreich gelöscht",
+    "errorDeletingTechnician": "Fehler beim Löschen des Technikers"
   },
   "common": {
+    "update": "bearbeiten",
     "understood": "Schließen",
     "loading": "Laden...",
     "error": "Fehler",
@@ -238,6 +245,8 @@
     }
   },
   "installations": {
+    "deviceNamePlaceholder": "Geben Sie den Gerätenamen ein",
+    "installation": "Installation",
     "understood": "Schließen",
     "successTitle": "Vorgang erfolgreich!",
     "continue": "Weiter",
@@ -288,7 +297,14 @@
     "categoryDescriptionPlaceholder": "Optionale Kategoriebeschreibung",
     "active": "Aktiv",
     "deviceCategory": "Gerätekategorie",
-    "deviceStatus": "Gerätestatus",
+    "deviceStatu": "Gerätestatus",
+    "deviceStatus": {
+      "active": "Aktiv",
+      "inactive": "Inaktiv",
+      "maintenance": "In Wartung",
+      "outOfService": "Außer Betrieb",
+      "pendingReview": "Zur Überprüfung ausstehend"
+    },
     "deviceLocation": "Gerätestandort",
     "deviceName": "Gerätename",
     "selectCategory": "Wählen Sie eine Kategorie",
@@ -505,7 +521,9 @@
       "typeNameMax": "Der Name darf nicht mehr als 100 Zeichen haben",
       "typeDescriptionMax": "Die Beschreibung darf nicht länger als 500 Zeichen sein"
     },
-    "titlePage": "Installationen | LeoneSuite"
+    "titlePage": "Installationen | LeoneSuite",
+    "confirmDeleteTitle": "Installation löschen?",
+  "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Die Installation wird dauerhaft gelöscht."
   },
   "assets": {
     "understood": "Schließen",
@@ -800,9 +818,11 @@
     "arabic": "Arabisch"
   },
   "installationDetails": {
-    "understood": "Schließen",
-    "successTitle": "Vorgang erfolgreich!",
-    "continue": "Weiter",
+  "category": "Kategorie",
+  "installation": "Installation",
+  "deviceNamePlaceholder": "Geben Sie den Gerätenamen ein",
+  "successTitle": "Vorgang erfolgreich!",
+  "understood": "Schließen",
   "titlePage": "Geräte | LeoneSuite",
   "loadingDevices": "Geräte werden geladen...",
   "notFound": "Installation nicht gefunden",
@@ -821,7 +841,17 @@
   "deleteDevice": "Gerät löschen",
   "page": "Seite {{currentPage}} von {{totalPages}}",
   "confirmDeleteTitle": "Gerät löschen?",
-  "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden."
+  "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden.",
+  "qrCode": "QR-Code",
+  "generatingQR": "QR-Code wird generiert...",
+  "errorGeneratingQR": "Fehler bei der QR-Code-Erstellung",
+  "scanQRDescription": "Scannen Sie diesen Code, um auf das Wartungsformular zuzugreifen",
+  "openForm": "Formular öffnen",
+  "printQR": "QR drucken",
+  "device": "Gerät",
+  "loadingRequiredData": "Erforderliche Daten werden geladen...",
+  "errorLoadingCategories": "Fehler beim Laden der Kategorien",
+  "retryLoadCategories": "Laden der Kategorien erneut versuchen"
 },
 "login": {
   "understood": "Schließen",
@@ -884,6 +914,23 @@
   "sendMaintenance": "Wartung senden",
   "saveMaintenance": "Wartung speichern",
   "localSaveNote": "Daten werden lokal gespeichert und bei Verbindung gesendet"
+},
+"validations": {
+  "selectAsset": "Sie müssen ein Asset auswählen",
+  "locationRequired": "Standort ist erforderlich",
+  "locationMin": "Standort muss mindestens 1 Zeichen lang sein",
+  "locationMax": "Standort darf nicht länger als 255 Zeichen sein",
+  "categoryRequired": "Kategorie ist erforderlich",
+  "categoryMax": "Kategorie darf nicht länger als 100 Zeichen sein",
+  "deviceNameRequired": "Gerätename ist erforderlich",
+  "deviceNameMin": "Name muss mindestens 1 Zeichen lang sein",
+  "deviceNameMax": "Name darf nicht länger als 100 Zeichen sein",
+  "statusRequired": "Status ist erforderlich",
+  "statusInvalid": "Status muss gültig sein",
+  "brandMax": "Marke darf nicht länger als 100 Zeichen sein",
+  "modelMax": "Modell darf nicht länger als 100 Zeichen sein",
+  "serialMax": "Seriennummer darf nicht länger als 100 Zeichen sein"
 }
+
 
 } 

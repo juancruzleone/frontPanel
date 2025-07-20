@@ -41,7 +41,13 @@
     "completeAllFields": "すべてのフィールドを入力してください",
     "registerTechnician": "技術者を登録",
     "roleTechnician": "技術者",
-    "roleAdmin": "管理者"
+    "roleAdmin": "管理者",
+    "confirmDeleteTechnician": "このユーザーを削除してもよろしいですか？",
+    "deleteUser": "ユーザーを削除する",
+    "confirmDeleteTitle": "技術者を削除しますか？",
+    "confirmDeleteDescription": "この操作は元に戻せません。技術者は完全に削除されます。",
+    "technicianDeleted": "技術者が正常に削除されました",
+    "errorDeletingTechnician": "技術者の削除中にエラーが発生しました"
   },
   "common": {
     "understood": "閉じる",
@@ -242,6 +248,8 @@
     }
   },
   "installations": {
+    "deviceNamePlaceholder": "デバイス名を入力してください",
+    "installation": "設置",
     "understood": "閉じる",
     "successTitle": "操作が成功しました！",
     "continue": "続行",
@@ -294,7 +302,7 @@
     "categoryDescriptionPlaceholder": "カテゴリのオプション説明",
     "active": "有効",
     "deviceCategory": "デバイスカテゴリ",
-    "deviceStatus": "デバイスの状態",
+    "deviceStatu": "デバイスの状態",
     "deviceLocation": "デバイスの場所",
     "deviceName": "デバイス名",
     "selectCategory": "カテゴリを選択",
@@ -561,7 +569,9 @@
       "typeNameMin": "名前は2文字以上である必要があります",
       "typeNameMax": "名前は100文字以内である必要があります",
       "typeDescriptionMax": "説明は500文字以内である必要があります"
-    }
+    },
+    "confirmDeleteTitle": "インストールを削除しますか？",
+    "confirmDeleteDescription": "この操作は元に戻せません。インストールは完全に削除されます。"
   },
   "assets": {
     "understood": "閉じる",
@@ -960,6 +970,59 @@
   "sendMaintenance": "メンテナンスを送信",
   "saveMaintenance": "メンテナンスを保存",
   "localSaveNote": "データはローカルに保存され、オンライン時に送信されます"
+},
+"validations": {
+  "selectAsset": "アセットを選択する必要があります",
+  "locationRequired": "場所は必須です",
+  "locationMin": "場所は少なくとも1文字必要です",
+  "locationMax": "場所は255文字を超えることはできません",
+  "categoryRequired": "カテゴリは必須です",
+  "categoryMax": "カテゴリは100文字を超えることはできません",
+  "deviceNameRequired": "デバイス名は必須です",
+  "deviceNameMin": "名前は少なくとも1文字必要です",
+  "deviceNameMax": "名前は100文字を超えることはできません",
+  "statusRequired": "ステータスは必須です",
+  "statusInvalid": "ステータスは有効でなければなりません",
+  "brandMax": "ブランドは100文字を超えることはできません",
+  "modelMax": "モデルは100文字を超えることはできません",
+  "serialMax": "シリアル番号は100文字を超えることはできません"
+},
+"installationDetails": {
+  "category": "カテゴリ",
+  "installation": "インストール",
+  "deviceNamePlaceholder": "デバイス名を入力してください",
+  "successTitle": "操作が成功しました！",
+  "understood": "閉じる",
+  "titlePage": "デバイス | LeoneSuite",
+  "loadingDevices": "デバイスを読み込み中...",
+  "notFound": "インストールが見つかりません",
+  "devicesOf": "{{name}} のデバイス",
+  "addDevice": "デバイスを追加",
+  "noDevices": "このインストールにはデバイスがありません",
+  "type": "タイプ",
+  "location": "場所",
+  "status": "状態",
+  "brand": "ブランド",
+  "model": "モデル",
+  "serialNumber": "シリアル番号",
+  "seeQR": "QRコードを見る",
+  "downloadLastMaintenance": "最終メンテナンスをダウンロード",
+  "editDevice": "デバイスを編集",
+  "deleteDevice": "デバイスを削除",
+  "page": "{{currentPage}} ページ / {{totalPages}} ページ",
+  "confirmDeleteTitle": "デバイスを削除しますか？",
+  "confirmDeleteDescription": "この操作は取り消せません。",
+  "qrCode": "QRコード",
+  "generatingQR": "QRコードを生成中...",
+  "errorGeneratingQR": "QRコード生成エラー",
+  "scanQRDescription": "このコードをスキャンしてメンテナンスフォームにアクセスしてください",
+  "openForm": "フォームを開く",
+  "printQR": "QRを印刷",
+  "device": "デバイス",
+  "loadingRequiredData": "必要なデータを読み込み中...",
+  "errorLoadingCategories": "カテゴリの読み込みエラー",
+  "retryLoadCategories": "カテゴリの再読み込み"
 }
+
 
 } 

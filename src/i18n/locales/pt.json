@@ -41,9 +41,16 @@
     "registerTechnician": "Registrar Técnico",
     "roleTechnician": "Técnico",
     "roleAdmin": "Administrador",
-    "titlePage": "Pessoal | LeoneSuite"
+    "titlePage": "Pessoal | LeoneSuite",
+    "confirmDeleteTechnician": "Tem certeza de que deseja excluir este usuário?",
+    "deleteUser": "Excluir usuário",
+    "confirmDeleteTitle": "Excluir técnico?",
+    "confirmDeleteDescription": "Esta ação não pode ser desfeita. O técnico será excluído permanentemente.",
+    "technicianDeleted": "Técnico excluído com sucesso",
+    "errorDeletingTechnician": "Erro ao excluir técnico"
   },
   "common": {
+    "update": "editar",
     "understood": "Fechar",
     "loading": "Carregando...",
     "error": "Erro",
@@ -238,6 +245,8 @@
     "titlePage": "Ordens de Trabalho | LeoneSuite"
   },
   "installations": {
+    "deviceNamePlaceholder": "Digite o nome do dispositivo",
+    "installations": "instalação",
     "understood": "Fechar",
     "successTitle": "Operação bem-sucedida!",
     "continue": "Continuar",  
@@ -287,7 +296,7 @@
     "categoryDescriptionPlaceholder": "Descrição opcional da categoria",
     "active": "Ativa",
     "deviceCategory": "Categoria do dispositivo",
-    "deviceStatus": "Status do dispositivo",
+    "deviceStatu": "Status do dispositivo",
     "deviceLocation": "Localização do dispositivo",
     "deviceName": "Nome do dispositivo",
     "selectCategory": "Selecione uma categoria",
@@ -560,7 +569,9 @@
       "typeNameMax": "O nome não pode exceder 100 caracteres",
       "typeDescriptionMax": "A descrição não pode exceder 500 caracteres"
     },
-    "titlePage": "Instalações | LeoneSuite"
+    "titlePage": "Instalações | LeoneSuite",
+    "confirmDeleteTitle": "Excluir instalação?",
+    "confirmDeleteDescription": "Esta ação não pode ser desfeita. A instalação será excluída permanentemente."
   },
   "assets": {
     "understood": "Fechar",
@@ -900,9 +911,11 @@
     "arabic": "Árabe"
   },
   "installationDetails": {
-    "understood": "Fechar",
-    "successTitle": "Operação bem-sucedida!",
-    "continue": "Continuar",
+  "category": "Categoria",
+  "installation": "Instalação",
+  "deviceNamePlaceholder": "Digite o nome do dispositivo",
+  "successTitle": "Operação bem-sucedida!",
+  "understood": "Fechar",
   "titlePage": "Dispositivos | LeoneSuite",
   "loadingDevices": "Carregando dispositivos...",
   "notFound": "Instalação não encontrada",
@@ -914,14 +927,24 @@
   "status": "Status",
   "brand": "Marca",
   "model": "Modelo",
-  "serialNumber": "Número de série",
+  "serialNumber": "Nº de série",
   "seeQR": "Ver código QR",
   "downloadLastMaintenance": "Baixar última manutenção",
   "editDevice": "Editar dispositivo",
   "deleteDevice": "Excluir dispositivo",
   "page": "Página {{currentPage}} de {{totalPages}}",
   "confirmDeleteTitle": "Excluir dispositivo?",
-  "confirmDeleteDescription": "Esta ação não pode ser desfeita."
+  "confirmDeleteDescription": "Esta ação não pode ser desfeita.",
+  "qrCode": "Código QR",
+  "generatingQR": "Gerando código QR...",
+  "errorGeneratingQR": "Erro ao gerar código QR",
+  "scanQRDescription": "Escaneie este código para acessar o formulário de manutenção",
+  "openForm": "Abrir formulário",
+  "printQR": "Imprimir QR",
+  "device": "Dispositivo",
+  "loadingRequiredData": "Carregando dados necessários...",
+  "errorLoadingCategories": "Erro ao carregar categorias",
+  "retryLoadCategories": "Tentar novamente carregar categorias"
 },
 "login": {
   "understood": "Fechar",
@@ -984,6 +1007,23 @@
   "sendMaintenance": "Enviar manutenção",
   "saveMaintenance": "Salvar manutenção",
   "localSaveNote": "Os dados serão salvos localmente e enviados quando houver conexão"
+},
+"validations": {
+  "selectAsset": "Você deve selecionar um ativo",
+  "locationRequired": "Localização é obrigatória",
+  "locationMin": "Localização deve ter pelo menos 1 caractere",
+  "locationMax": "Localização não pode ter mais de 255 caracteres",
+  "categoryRequired": "Categoria é obrigatória",
+  "categoryMax": "Categoria não pode ter mais de 100 caracteres",
+  "deviceNameRequired": "O nome do dispositivo é obrigatório",
+  "deviceNameMin": "O nome deve ter pelo menos 1 caractere",
+  "deviceNameMax": "O nome não pode ter mais de 100 caracteres",
+  "statusRequired": "Status é obrigatório",
+  "statusInvalid": "Status deve ser válido",
+  "brandMax": "Marca não pode ter mais de 100 caracteres",
+  "modelMax": "Modelo não pode ter mais de 100 caracteres",
+  "serialMax": "Número de série não pode ter mais de 100 caracteres"
 }
+
 
 } 

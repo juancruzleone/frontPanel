@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import styles from "../../../features/installationsDetails/styles/modalQr.module.css"
 import { Printer, ExternalLink } from "lucide-react"
 import type { Device, Installation } from "../../installations/hooks/useInstallations"
+import { useTranslation } from "react-i18next"
 
 interface ModalQRCodeProps {
   isOpen: boolean
@@ -13,6 +14,7 @@ interface ModalQRCodeProps {
 }
 
 const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCodeProps) => {
+  const { t } = useTranslation()
   const [qrCodeDataURL, setQrCodeDataURL] = useState<string>("")
   const [loading, setLoading] = useState(false)
   const printRef = useRef<HTMLDivElement>(null)
@@ -52,7 +54,7 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
       <!DOCTYPE html>
       <html>
         <head>
-          <title>Código QR - ${device?.nombre}</title>
+          <title>${t('installationDetails.qrCode')} - ${device?.nombre}</title>
           <style>
             body {
               font-family: Arial, sans-serif;
@@ -99,15 +101,15 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
           <div class="qr-container">
             <div class="qr-title">${device?.nombre}</div>
             <div class="qr-info">
-              <strong>Instalación:</strong> ${installation?.company}<br>
-              <strong>Ubicación:</strong> ${device?.ubicacion}<br>
-              <strong>Categoría:</strong> ${device?.categoria}
+              <strong>${t('installationDetails.installation')}:</strong> ${installation?.company}<br>
+              <strong>${t('installationDetails.location')}:</strong> ${device?.ubicacion}<br>
+              <strong>${t('installationDetails.category')}:</strong> ${device?.categoria}
             </div>
             <div class="qr-code">
-              <img src="${qrCodeDataURL}" alt="Código QR" />
+              <img src="${qrCodeDataURL}" alt="${t('installationDetails.qrCode')}" />
             </div>
             <div class="qr-url">
-              Escanea este código para acceder al formulario de mantenimiento
+              ${t('installationDetails.scanQRDescription')}
             </div>
           </div>
         </body>
@@ -133,7 +135,7 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>Código QR - {device.nombre}</h2>
+          <h2 className={styles.title}>{t('installationDetails.qrCode')} - {device.nombre}</h2>
           <button className={styles.closeButton} onClick={onRequestClose}>
             ×
           </button>
@@ -142,37 +144,37 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
         <div className={styles.modalContent}>
           <div className={styles.deviceInfo}>
             <p>
-              <strong>Instalación:</strong> {installation?.company}
+              <strong>{t('installationDetails.installation')}:</strong> {installation?.company}
             </p>
             <p>
-              <strong>Ubicación:</strong> {device.ubicacion}
+              <strong>{t('installationDetails.location')}:</strong> {device.ubicacion}
             </p>
             <p>
-              <strong>Categoría:</strong> {device.categoria}
+              <strong>{t('installationDetails.category')}:</strong> {device.categoria}
             </p>
           </div>
 
           <div className={styles.qrContainer} ref={printRef}>
             {loading ? (
-              <div className={styles.loading}>Generando código QR...</div>
+              <div className={styles.loading}>{t('installationDetails.generatingQR')}</div>
             ) : qrCodeDataURL ? (
               <>
-                <img src={qrCodeDataURL || "/placeholder.svg"} alt="Código QR" className={styles.qrImage} />
-                <p className={styles.qrDescription}>Escanea este código para acceder al formulario de mantenimiento</p>
+                <img src={qrCodeDataURL || "/placeholder.svg"} alt={t('installationDetails.qrCode')} className={styles.qrImage} />
+                <p className={styles.qrDescription}>{t('installationDetails.scanQRDescription')}</p>
               </>
             ) : (
-              <div className={styles.error}>Error al generar el código QR</div>
+              <div className={styles.error}>{t('installationDetails.errorGeneratingQR')}</div>
             )}
           </div>
 
           <div className={styles.actions}>
             <button className={styles.openButton} onClick={handleOpenURL} disabled={!device.codigoQR}>
               <ExternalLink size={16} />
-              Abrir formulario
+              {t('installationDetails.openForm')}
             </button>
             <button className={styles.printButton} onClick={handlePrint} disabled={!qrCodeDataURL}>
               <Printer size={16} />
-              Imprimir QR
+              {t('installationDetails.printQR')}
             </button>
           </div>
         </div>

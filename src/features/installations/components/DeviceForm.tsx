@@ -189,6 +189,13 @@ const DeviceForm = ({
   }
 
   const showError = (field: string) => touchedFields[field] && formErrors[field]
+  const getErrorMessage = (field: string) => {
+    const error = formErrors[field]
+    if (!error) return null
+    // Si el error es una clave de traducción, traducir
+    if (error.startsWith('validations.')) return t(error)
+    return error
+  }
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
@@ -211,7 +218,7 @@ const DeviceForm = ({
                   </option>
                 ))}
               </select>
-              {showError("assetId") && <p className={styles.error}>{formErrors.assetId}</p>}
+              {showError("assetId") && <p className={styles.error}>{getErrorMessage("assetId")}</p>}
             </div>
 
             {selectedAsset && (
@@ -247,7 +254,7 @@ const DeviceForm = ({
               className={showError("nombre") ? styles.errorInput : ""}
               placeholder={t('installations.deviceNamePlaceholder')}
             />
-            {showError("nombre") && <p className={styles.error}>{formErrors.nombre}</p>}
+            {showError("nombre") && <p className={styles.error}>{getErrorMessage("nombre")}</p>}
           </div>
         )}
 
@@ -263,7 +270,7 @@ const DeviceForm = ({
             className={showError("ubicacion") ? styles.errorInput : ""}
             placeholder={t('installations.locationExample')}
           />
-          {showError("ubicacion") && <p className={styles.error}>{formErrors.ubicacion}</p>}
+          {showError("ubicacion") && <p className={styles.error}>{getErrorMessage("ubicacion")}</p>}
         </div>
 
         <div className={styles.formGroup}>
@@ -303,12 +310,12 @@ const DeviceForm = ({
               ))}
             </select>
           )}
-          {showError("categoria") && <p className={styles.error}>{formErrors.categoria}</p>}
+          {showError("categoria") && <p className={styles.error}>{getErrorMessage("categoria")}</p>}
         </div>
 
         {isEditMode && (
           <div className={styles.formGroup}>
-            <label>{t('installations.deviceStatus')}</label>
+            <label>{t('installations.deviceStatu')}</label>
             <select
               name="estado"
               value={formData.estado}
@@ -321,7 +328,7 @@ const DeviceForm = ({
                 <option key={estado} value={estado}>{estado}</option>
               ))}
             </select>
-            {showError("estado") && <p className={styles.error}>{formErrors.estado}</p>}
+            {showError("estado") && <p className={styles.error}>{getErrorMessage("estado")}</p>}
           </div>
         )}
       </div>

@@ -41,9 +41,16 @@
     "completeAllFields": "请填写所有字段",
     "registerTechnician": "注册技术人员",
     "roleTechnician": "技术人员",
-    "roleAdmin": "管理员"
+    "roleAdmin": "管理员",
+    "confirmDeleteTechnician": "您确定要删除此用户吗？",
+    "deleteUser": "删除用户",
+    "confirmDeleteTitle": "删除技术员？",
+    "confirmDeleteDescription": "此操作不可撤销。技术员将被永久删除。",
+    "technicianDeleted": "技术员删除成功",
+    "errorDeletingTechnician": "删除技术员时出错"
   },
   "common": {
+    "update": "编辑",
     "understood": "关闭",
     "successTitle": "操作成功！",
     "continue": "继续",
@@ -297,6 +304,7 @@
 },
 
   "installations": {
+    "deviceNamePlaceholder": "输入设备名称",
     "understood": "关闭",
     "successTitle": "操作成功！",
     "continue": "继续",
@@ -347,7 +355,7 @@
     "categoryDescriptionPlaceholder": "类别的可选描述",
     "active": "激活",
     "deviceCategory": "设备类别",
-    "deviceStatus": "设备状态",
+    "deviceStatu": "设备状态",
     "deviceLocation": "设备位置",
     "deviceName": "设备名称",
     "selectCategory": "选择类别",
@@ -619,7 +627,9 @@
       "typeNameMin": "名称至少需要2个字符",
       "typeNameMax": "名称不能超过100个字符",
       "typeDescriptionMax": "描述不能超过500个字符"
-    }
+    },
+    "confirmDeleteTitle": "删除安装？",
+    "confirmDeleteDescription": "此操作不可撤销。安装将被永久删除。"
   },
   "assets": {
     "understood": "关闭",
@@ -962,29 +972,42 @@
     "arabic": "阿拉伯语"
   },
   "installationDetails": {
-    "understood": "关闭",
-    "successTitle": "操作成功！",
-    "continue": "继续",
-    "titlePage": "设备 | LeoneSuite",
-    "loadingDevices": "正在加载设备...",
-    "notFound": "未找到安装信息",
-    "devicesOf": "{{name}} 的设备",
-    "addDevice": "添加设备",
-    "noDevices": "此安装中没有设备",
-    "type": "类型",
-    "location": "位置",
-    "status": "状态",
-    "brand": "品牌",
-    "model": "型号",
-    "serialNumber": "序列号",
-    "seeQR": "查看二维码",
-    "downloadLastMaintenance": "下载上次维护记录",
-    "editDevice": "编辑设备",
-    "deleteDevice": "删除设备",
-    "page": "第 {{currentPage}} 页，共 {{totalPages}} 页",
-    "confirmDeleteTitle": "确定删除设备？",
-    "confirmDeleteDescription": "此操作无法撤销。"
-  },
+  "category": "类别",
+  "installation": "安装",
+  "deviceNamePlaceholder": "输入设备名称",
+  "successTitle": "操作成功！",
+  "understood": "关闭",
+  "titlePage": "设备 | LeoneSuite",
+  "loadingDevices": "正在加载设备...",
+  "notFound": "未找到安装",
+  "devicesOf": "{{name}} 的设备",
+  "addDevice": "添加设备",
+  "noDevices": "此安装中没有设备",
+  "type": "类型",
+  "location": "位置",
+  "status": "状态",
+  "brand": "品牌",
+  "model": "型号",
+  "serialNumber": "序列号",
+  "seeQR": "查看二维码",
+  "downloadLastMaintenance": "下载最后一次维护",
+  "editDevice": "编辑设备",
+  "deleteDevice": "删除设备",
+  "page": "第 {{currentPage}} 页，共 {{totalPages}} 页",
+  "confirmDeleteTitle": "删除设备？",
+  "confirmDeleteDescription": "此操作无法撤销。",
+  "qrCode": "二维码",
+  "generatingQR": "正在生成二维码...",
+  "errorGeneratingQR": "生成二维码出错",
+  "scanQRDescription": "扫描此二维码以访问维护表单",
+  "openForm": "打开表单",
+  "printQR": "打印二维码",
+  "device": "设备",
+  "loadingRequiredData": "正在加载所需数据...",
+  "errorLoadingCategories": "加载类别出错",
+  "retryLoadCategories": "重试加载类别"
+},
+
   "login": {
     "understood": "关闭",
     "successTitle": "操作成功！",
@@ -1046,6 +1069,23 @@
   "sendMaintenance": "提交维护",
   "saveMaintenance": "保存维护",
   "localSaveNote": "数据将本地保存，并在在线时提交"
+},
+"validations": {
+  "selectAsset": "必须选择一个资产",
+  "locationRequired": "位置是必填项",
+  "locationMin": "位置至少需要1个字符",
+  "locationMax": "位置不能超过255个字符",
+  "categoryRequired": "类别是必填项",
+  "categoryMax": "类别不能超过100个字符",
+  "deviceNameRequired": "设备名称是必填项",
+  "deviceNameMin": "名称至少需要1个字符",
+  "deviceNameMax": "名称不能超过100个字符",
+  "statusRequired": "状态是必填项",
+  "statusInvalid": "状态必须有效",
+  "brandMax": "品牌不能超过100个字符",
+  "modelMax": "型号不能超过100个字符",
+  "serialMax": "序列号不能超过100个字符"
 }
+
 
 } 

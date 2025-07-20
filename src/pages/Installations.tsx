@@ -124,16 +124,11 @@ const Installations = () => {
       'Altro': 'other',
       // Portugués
       'Escritório': 'office',
-      'Fábrica': 'factory',
       'Armazém': 'warehouse',
       'Loja': 'store',
       'Escola': 'school',
-      'Residencial': 'residential',
-      'Industrial': 'industrial',
-      'Médico': 'medical',
       'Educacional': 'educational',
       'Varejista': 'retail',
-      'Logística': 'logistics',
       'Manufatura': 'manufacturing',
       'Serviço': 'service',
       'Outro': 'other'
@@ -432,25 +427,29 @@ const Installations = () => {
                       >
                         <Plus size={24} />
                       </button>
-                      <button
-                        className={styles.iconButton}
-                        onClick={() => handleOpenEdit(inst)}
-                        aria-label={t('installations.editInstallation')}
-                        data-tooltip={t('installations.editInstallation')}
-                      >
-                        <Edit size={24} />
-                      </button>
-                      <button
-                        className={styles.iconButton}
-                        onClick={() => {
-                          setInstallationToDelete(inst)
-                          setIsDeleteModalOpen(true)
-                        }}
-                        aria-label={t('installations.deleteInstallation')}
-                        data-tooltip={t('installations.deleteInstallation')}
-                      >
-                        <Trash size={24} />
-                      </button>
+                      {!isTechnician && (
+                        <>
+                          <button
+                            className={styles.iconButton}
+                            onClick={() => handleOpenEdit(inst)}
+                            aria-label={t('installations.editInstallation')}
+                            data-tooltip={t('installations.editInstallation')}
+                          >
+                            <Edit size={24} />
+                          </button>
+                          <button
+                            className={styles.iconButton}
+                            onClick={() => {
+                              setInstallationToDelete(inst)
+                              setIsDeleteModalOpen(true)
+                            }}
+                            aria-label={t('installations.deleteInstallation')}
+                            data-tooltip={t('installations.deleteInstallation')}
+                          >
+                            <Trash size={24} />
+                          </button>
+                        </>
+                      )}
                     </div>
 
                     <div className={styles.viewDevicesButton}>
@@ -509,8 +508,8 @@ const Installations = () => {
         isOpen={isDeleteModalOpen}
         onCancel={() => setIsDeleteModalOpen(false)}
         onConfirm={handleConfirmDelete}
-        title="¿Eliminar instalación?"
-        description="Esta acción no se puede deshacer."
+        title={t('installations.confirmDeleteTitle')}
+        description={t('installations.confirmDeleteDescription')}
       />
 
       <ModalCreateCategory

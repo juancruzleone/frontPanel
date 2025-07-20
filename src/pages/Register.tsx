@@ -3,12 +3,16 @@ import Button from "../../src/shared/components/Buttons/buttonCreate"
 import ModalSuccess from "../features/auth/register/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
 import ModalRegisterTechnician from "../features/auth/register/components/ModalRegisterTechnician"
+import ModalConfirmDelete from "../features/installations/components/ModalConfirmDelete"
 import styles from "../features/auth/register/styles/register.module.css"
 import { FiUser } from "react-icons/fi"
 import { useRegister } from "../features/auth/register/hooks/useRegister.ts"
 import { useTranslation } from "react-i18next"
 import i18n from "../i18n"
 import { translateUserRole } from "../shared/utils/backendTranslations"
+import { Trash } from "lucide-react"
+import { deleteTechnician } from "../features/auth/register/services/registerServices"
+import { useAuthStore } from "../store/authStore"
 
 const Register = () => {
   const { t, i18n } = useTranslation()
@@ -16,10 +20,17 @@ const Register = () => {
     useRegister()
 
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
+  const [userId, setUserId] = useState<string | null>(null)
+  const token = useAuthStore((state) => state.token)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [technicianToDelete, setTechnicianToDelete] = useState<any>(null)
 
   useEffect(() => {
     fetchTechnicians()
     document.title = t('personal.titlePage')
+    // Obtener el id del usuario actual (admin) desde el token o el store si está disponible
+    // Aquí asumo que tienes acceso al id del usuario logueado, si no, deberás ajustarlo
+    // setUserId(authStore.user?._id)
   }, [fetchTechnicians, t, i18n.language])
 
   const formatDate = useCallback((dateString: string) => {
@@ -57,6 +68,31 @@ const Register = () => {
     return translateUserRole(role)
   }
 
+  const handleDeleteTechnician = async (id: string) => {
+    try {
+      await deleteTechnician(id, token)
+      await fetchTechnicians()
+    } catch (err: any) {
+      alert(err.message || 'Error al eliminar usuario')
+    }
+  }
+
+  const handleConfirmDelete = async () => {
+    if (!technicianToDelete) return
+    try {
+      await deleteTechnician(technicianToDelete._id || technicianToDelete.id, token)
+      await fetchTechnicians()
+      // Usar las funciones del hook useRegister para manejar mensajes
+      // El mensaje se mostrará a través del ModalSuccess/ModalError existente
+    } catch (err: any) {
+      console.error('Error al eliminar técnico:', err)
+      // El error se manejará a través del sistema existente
+    } finally {
+      setTechnicianToDelete(null)
+      setIsDeleteModalOpen(false)
+    }
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -90,6 +126,7 @@ const Register = () => {
                   <th>{t('personal.user')}</th>
                   <th>{t('personal.role')}</th>
                   <th>{t('personal.registrationDate')}</th>
+                  <th>{t('common.delete')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -114,6 +151,20 @@ const Register = () => {
                       </span>
                     </td>
                     <td>{formatDate(tech.createdAt)}</td>
+                    <td>
+                      <button
+                        className={styles.deleteButton}
+                        title={t('common.delete')}
+                        data-tooltip={t('personal.deleteUser')}
+                        onClick={() => {
+                          setTechnicianToDelete(tech)
+                          setIsDeleteModalOpen(true)
+                        }}
+                        // disabled={userId === (tech._id || tech.id)}
+                      >
+                        <Trash size={18} />
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -128,6 +179,14 @@ const Register = () => {
         onRequestClose={handleCloseModal}
         onSubmitSuccess={handleSuccessRegister}
         onAdd={addTechnician}
+      />
+
+      <ModalConfirmDelete
+        isOpen={isDeleteModalOpen}
+        onCancel={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+        title={t('personal.confirmDeleteTitle')}
+        description={t('personal.confirmDeleteDescription')}
       />
 
       <ModalSuccess isOpen={showModal && !isError} onRequestClose={closeModal} mensaje={responseMessage} />

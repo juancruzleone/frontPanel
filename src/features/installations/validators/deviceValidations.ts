@@ -1,37 +1,37 @@
 import * as Yup from "yup"
 
 export const assetSchema = Yup.object().shape({
-  assetId: Yup.string().required("Debe seleccionar un activo"),
+  assetId: Yup.string().required('validations.selectAsset'),
   ubicacion: Yup.string()
-    .required("La ubicación es requerida")
-    .min(1, "La ubicación debe tener al menos 1 carácter")
-    .max(255, "La ubicación no puede tener más de 255 caracteres"),
+    .required('validations.locationRequired')
+    .min(1, 'validations.locationMin')
+    .max(255, 'validations.locationMax'),
   categoria: Yup.string()
-    .required("La categoría es requerida")
-    .max(100, "La categoría no puede tener más de 100 caracteres"),
+    .required('validations.categoryRequired')
+    .max(100, 'validations.categoryMax'),
 })
 
 export const deviceEditSchema = Yup.object().shape({
   nombre: Yup.string()
-    .required("El nombre del dispositivo es requerido")
-    .min(1, "El nombre debe tener al menos 1 carácter")
-    .max(100, "El nombre no puede tener más de 100 caracteres"),
+    .required('validations.deviceNameRequired')
+    .min(1, 'validations.deviceNameMin')
+    .max(100, 'validations.deviceNameMax'),
   ubicacion: Yup.string()
-    .required("La ubicación es requerida")
-    .min(1, "La ubicación debe tener al menos 1 carácter")
-    .max(255, "La ubicación no puede tener más de 255 caracteres"),
+    .required('validations.locationRequired')
+    .min(1, 'validations.locationMin')
+    .max(255, 'validations.locationMax'),
   categoria: Yup.string()
-    .required("La categoría es requerida")
-    .max(100, "La categoría no puede tener más de 100 caracteres"),
+    .required('validations.categoryRequired')
+    .max(100, 'validations.categoryMax'),
   estado: Yup.string()
-    .required("El estado es requerido")
+    .required('validations.statusRequired')
     .oneOf(
-      ["Activo", "Inactivo", "En mantenimiento", "Fuera de servicio", "Pendiente de revisión"],
-      "El estado debe ser válido",
+      ['Activo', 'Inactivo', 'En mantenimiento', 'Fuera de servicio', 'Pendiente de revisión'],
+      'validations.statusInvalid',
     ),
-  marca: Yup.string().max(100, "La marca no puede tener más de 100 caracteres"),
-  modelo: Yup.string().max(100, "El modelo no puede tener más de 100 caracteres"),
-  numeroSerie: Yup.string().max(100, "El número de serie no puede tener más de 100 caracteres"),
+  marca: Yup.string().max(100, 'validations.brandMax'),
+  modelo: Yup.string().max(100, 'validations.modelMax'),
+  numeroSerie: Yup.string().max(100, 'validations.serialMax'),
 })
 
 export const validateForm = async (schema: Yup.ObjectSchema<any>, data: any) => {
