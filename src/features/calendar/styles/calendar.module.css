@@ -111,6 +111,35 @@
   -moz-appearance: none;
 }
 
+/* Select personalizado con icono */
+.selectWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.selectWrapper .select {
+  appearance: none;
+  background-image: none;
+  padding-right: 40px;
+  width: 100%;
+}
+
+.selectIcon {
+  position: absolute;
+  right: 12px;
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+.selectIcon.light {
+  color: #111;
+}
+
+.selectIcon.dark {
+  color: #f5f5f5;
+}
+
 .dateFilter {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3e%3c/rect%3e%3cline x1='16' y1='2' x2='16' y2='6'%3e%3c/line%3e%3cline x1='8' y1='2' x2='8' y2='6'%3e%3c/line%3e%3cline x1='3' y1='10' x2='21' y2='10'%3e%3c/line%3e%3c/svg%3e");
   background-repeat: no-repeat;
@@ -263,25 +292,32 @@
 .navButton {
   background: none;
   border: none;
-  color: var(--color-text);
-  font-size: 16px;
+  font-size: 1.5rem;
   cursor: pointer;
-  padding: 6px 10px;
-  border-radius: 6px;
-  font-weight: 600;
-  font-family: 'Encode Sans', sans-serif;
-  min-width: 32px;
-  height: 32px;
+  padding: 8px;
+  border-radius: 50%;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--color-text);
 }
 
 .navButton:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-  transform: scale(1.01);
-  z-index: 5;
+  background-color: var(--color-bg-light);
+  transform: scale(1.1);
+}
+
+.navButton svg {
+  transition: color 0.2s ease;
+}
+
+.navButton .light {
+  color: #111;
+}
+
+.navButton .dark {
+  color: #f5f5f5;
 }
 
 .calendarHeader button {
@@ -415,22 +451,19 @@
 }
 
 .dark .filterSelect {
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
 }
 
-/* Hacer las flechas de los selects blancas en modo oscuro en todas las secciones */
 .dark select,
-.dark .filterSelect,
-.dark .dateFilter {
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+.dark .filterSelect {
+  background-color: var(--color-card);
+  color: var(--color-text);
+  border-color: var(--color-card-border);
 }
 
-/* Asegurar que todos los selects en modo oscuro tengan flechas blancas */
 .dark select[class*="filter"],
-.dark select[class*="select"],
-.dark select[class*="Filter"],
-.dark select[class*="Select"] {
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+.dark .filterSelect {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
 }
 
 .dark .dateFilter {

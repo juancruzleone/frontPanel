@@ -1,9 +1,10 @@
-import type React from "react"
-import { useState, useEffect, useMemo } from "react"
-import type { FormTemplate, FormField } from "../hooks/useForms"
-import styles from "../styles/formTemplateForm.module.css"
-import { validateFormTemplate, validateFormField } from "../validators/formValidations"
+import React, { useState, useEffect, useMemo } from "react"
 import { useTranslation } from "react-i18next"
+import { ChevronDown } from "lucide-react"
+import { useTheme } from "../../../shared/hooks/useTheme"
+import styles from "../styles/formTemplateForm.module.css"
+import type { FormTemplate, FormField } from "../hooks/useForms"
+import { validateFormTemplate, validateFormField } from "../validators/formValidations"
 
 interface FormTemplateFormProps {
   onCancel: () => void
@@ -25,9 +26,11 @@ const FormTemplateForm = ({
   categories,
 }: FormTemplateFormProps) => {
   const { t } = useTranslation()
-  const [formData, setFormData] = useState<FormTemplate>({
+  const { dark } = useTheme()
+  const [formData, setFormData] = useState<Omit<FormTemplate, "_id">>({
     nombre: "",
     categoria: "",
+    descripcion: "",
     campos: [],
   })
 
@@ -101,7 +104,7 @@ const FormTemplateForm = ({
   const handleFieldBlur = async (fieldName: string) => {
     setTouchedFields((prev) => ({ ...prev, [fieldName]: true }))
     // Validar solo el campo que perdió el foco
-    const fieldValue = formData[fieldName as keyof FormTemplate]
+    const fieldValue = formData[fieldName as keyof Omit<FormTemplate, "_id">]
     const result = await validateFormField(fieldName, fieldValue, formData, t)
     setErrors((prev) => ({ ...prev, [fieldName]: result.isValid ? "" : result.error }))
   }
@@ -242,22 +245,28 @@ const FormTemplateForm = ({
           </div>
 
           <div className={styles.formGroup}>
-            <label>{t('forms.category')} *</label>
-            <select
-              name="categoria"
-              value={formData.categoria}
-              onChange={handleChange}
-              onBlur={() => handleFieldBlur("categoria")}
-              disabled={isSubmitting}
-              className={showError("categoria") ? styles.errorInput : ""}
-            >
-              <option value="">{t('forms.selectCategory')}</option>
-              {categories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
-                </option>
-              ))}
-            </select>
+            <label>{t('forms.templateCategory')} *</label>
+            <div className={styles.selectWrapper}>
+              <select
+                name="categoria"
+                value={formData.categoria}
+                onChange={handleChange}
+                onBlur={() => handleFieldBlur("categoria")}
+                disabled={isSubmitting}
+                className={`${showError("categoria") ? styles.errorInput : ""} ${styles.select}`}
+              >
+                <option value="">{t('forms.selectCategory')}</option>
+                {categories.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown 
+                size={16} 
+                className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
+              />
+            </div>
             {showError("categoria") && <span className={styles.inputError}>{errors.categoria}</span>}
           </div>
 
@@ -331,13 +340,27 @@ const FormTemplateForm = ({
 
               <div className={styles.fieldFormGroup}>
                 <label>{t('forms.fieldType')} *</label>
-                <select name="type" value={newField.type} onChange={handleFieldChange} disabled={isSubmitting}>
-                  {fieldTypes.map((type) => (
-                    <option key={type} value={type}>
-                      {t(`forms.${type}Field`)}
-                    </option>
-                  ))}
-                </select>
+                <div className={styles.selectWrapper}>
+                  <select
+                    name="type"
+                    value={newField.type}
+                    onChange={handleFieldChange}
+                    disabled={isSubmitting}
+                    className={fieldErrors.type ? styles.errorInput : styles.select}
+                  >
+                    <option value="">{t('forms.selectFieldType')}</option>
+                    {fieldTypes.map((type) => (
+                      <option key={type} value={type}>
+                        {t(`forms.${type}Field`)}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown 
+                    size={16} 
+                    className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
+                  />
+                </div>
+                {fieldErrors.type && <span className={styles.inputError}>{fieldErrors.type}</span>}
               </div>
             </div>
 

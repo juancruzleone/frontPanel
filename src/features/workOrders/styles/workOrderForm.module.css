@@ -24,7 +24,7 @@
   font-weight: 600;
   color: var(--color-text);
   font-size: 0.95rem;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -58,6 +58,35 @@
   background-position: right 12px center;
   background-size: 16px;
   padding-right: 40px;
+}
+
+/* Select personalizado con icono */
+.selectWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.selectWrapper .select {
+  appearance: none;
+  background-image: none;
+  padding-right: 40px;
+  width: 100%;
+}
+
+.selectIcon {
+  position: absolute;
+  right: 12px;
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+.selectIcon.light {
+  color: #111;
+}
+
+.selectIcon.dark {
+  color: #f5f5f5;
 }
 
 .formGroup input:focus,

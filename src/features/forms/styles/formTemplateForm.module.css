@@ -50,7 +50,7 @@
   font-weight: 600;
   color: var(--color-text);
   font-size: 0.95rem;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -99,6 +99,10 @@
   background-position: right 12px center;
   background-size: 1em;
   padding-right: 40px;
+}
+
+.dark .formGroup select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
 }
 
 .formGroup textarea {
@@ -294,7 +298,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .fieldFormGroup label::before {
@@ -342,6 +346,39 @@
   background-size: 1em;
   padding-right: 40px;
   cursor: pointer;
+}
+
+.dark .fieldFormGroup select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+}
+
+/* Select personalizado con icono */
+.selectWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.selectWrapper .select {
+  appearance: none;
+  background-image: none;
+  padding-right: 40px;
+  width: 100%;
+}
+
+.selectIcon {
+  position: absolute;
+  right: 12px;
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+.selectIcon.light {
+  color: #111;
+}
+
+.selectIcon.dark {
+  color: #f5f5f5;
 }
 
 .fieldFormGroup textarea {

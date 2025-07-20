@@ -1,10 +1,11 @@
-import type React from "react"
-import { useState, useMemo } from "react"
-import type { WorkOrder } from "../hooks/useWorkOrders"
-import styles from "../styles/workOrderForm.module.css"
-import { useTranslation } from "react-i18next"
-import { validateWorkOrderForm, validateWorkOrderField } from '../validators/workOrderValidations';
-import DatePickerModal from "../../calendar/components/DatePickerModal"
+import React, { useState, useEffect, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { ChevronDown } from 'lucide-react'
+import { useTheme } from '../../../shared/hooks/useTheme'
+import styles from '../styles/workOrderForm.module.css'
+import type { WorkOrder } from '../hooks/useWorkOrders'
+import { validateWorkOrderForm, validateWorkOrderField } from '../validators/workOrderValidations'
+import DatePickerModal from '../../calendar/components/DatePickerModal'
 
 interface WorkOrderFormProps {
   onCancel: () => void
@@ -51,6 +52,7 @@ const WorkOrderForm = ({
   setFormErrors,
 }: WorkOrderFormProps & { setFormErrors: (updater: (prev: Record<string, string>) => Record<string, string>) => void }) => {
   const { t, i18n } = useTranslation()
+  const { dark } = useTheme()
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
 
@@ -215,21 +217,27 @@ const WorkOrderForm = ({
             <p className={styles.inputError}>{errorLoadingInstallations}</p>
           ) : (
             <>
-              <select
-                name="instalacionId"
-                value={formData.instalacionId || ""}
-                onChange={handleInstallationChange}
-                onBlur={() => handleFieldBlur("instalacionId")}
-                disabled={isFieldDisabled("instalacionId")}
-                className={showError("instalacionId") ? styles.errorInput : "formInput"}
-              >
-                <option value="">{t('workOrders.selectInstallation')}</option>
-                {installations.map((inst) => (
-                  <option key={inst._id} value={inst._id}>
-                    {inst.company} - {inst.address} {inst.city ? `(${inst.city})` : ""}
-                  </option>
-                ))}
-              </select>
+              <div className={styles.selectWrapper}>
+                <select
+                  name="instalacionId"
+                  value={formData.instalacionId || ""}
+                  onChange={handleInstallationChange}
+                  onBlur={() => handleFieldBlur("instalacionId")}
+                  disabled={isFieldDisabled("instalacionId")}
+                  className={`${showError("instalacionId") ? styles.errorInput : ""} ${styles.select}`}
+                >
+                  <option value="">{t('workOrders.selectInstallation')}</option>
+                  {installations.map((inst) => (
+                    <option key={inst._id} value={inst._id}>
+                      {inst.company} - {inst.address} {inst.city ? `(${inst.city})` : ""}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown 
+                  size={16} 
+                  className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
+                />
+              </div>
 
               {selectedInstallation && (
                 <div className={styles.selectedInstallationDetail}>

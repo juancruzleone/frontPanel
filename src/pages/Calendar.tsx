@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import SearchInput from "../shared/components/Inputs/SearchInput.tsx"
 import styles from "../features/calendar/styles/calendar.module.css"
@@ -9,7 +9,8 @@ import ModalWorkOrderDetails from "../features/calendar/components/ModalWorkOrde
 import ModalSuccess from "../features/workOrders/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
 import DatePickerModal from "../features/calendar/components/DatePickerModal"
-import { CalendarIcon, Clock, MapPin, User, AlertCircle, FilterX } from "lucide-react"
+import { CalendarIcon, Clock, MapPin, User, AlertCircle, FilterX, ChevronLeft, ChevronRight, ChevronDown } from "lucide-react"
+import { useTheme } from "../shared/hooks/useTheme"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import i18n from "../i18n"
@@ -17,8 +18,80 @@ import { translateWorkOrderStatus, translatePriority, translateWorkType } from "
 import { useAuthStore } from "../store/authStore"
 import { updateWorkOrder } from "../features/workOrders/services/workOrderServices"
 
+// Componente personalizado para selects que se ajustan automáticamente
+interface AutoSizeSelectProps {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  options: { label: string; value: string }[];
+  placeholder?: string;
+  className?: string;
+}
+
+const AutoSizeSelect = ({ value, onChange, options, placeholder, className }: AutoSizeSelectProps) => {
+  const { dark } = useTheme();
+  const selectRef = useRef<HTMLSelectElement>(null);
+  const [selectWidth, setSelectWidth] = useState<number>(180);
+
+  // Calcular el ancho necesario basado en el texto más largo
+  useEffect(() => {
+    if (selectRef.current) {
+      const tempSpan = document.createElement('span');
+      tempSpan.style.visibility = 'hidden';
+      tempSpan.style.position = 'absolute';
+      tempSpan.style.whiteSpace = 'nowrap';
+      tempSpan.style.fontSize = '14px';
+      tempSpan.style.fontFamily = 'Encode Sans, sans-serif';
+      tempSpan.style.fontWeight = '500';
+      tempSpan.style.padding = '12px 40px 12px 16px';
+      
+      document.body.appendChild(tempSpan);
+      
+      // Encontrar el texto más largo
+      let maxWidth = 0;
+      const allTexts = [placeholder || '', ...options.map(opt => opt.label)];
+      
+      allTexts.forEach(text => {
+        tempSpan.textContent = text;
+        const width = tempSpan.offsetWidth;
+        if (width > maxWidth) {
+          maxWidth = width;
+        }
+      });
+      
+      document.body.removeChild(tempSpan);
+      
+      // Establecer el ancho mínimo de 180px o el ancho calculado, lo que sea mayor
+      setSelectWidth(Math.max(180, maxWidth + 20)); // +20 para padding extra
+    }
+  }, [options, placeholder]);
+
+  return (
+    <div className={styles.selectWrapper} style={{ width: selectWidth }}>
+      <select
+        ref={selectRef}
+        value={value}
+        onChange={onChange}
+        className={`${styles.filterSelect} ${styles.select} ${className || ''}`}
+        style={{ width: selectWidth }}
+      >
+        {placeholder && <option value="">{placeholder}</option>}
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <ChevronDown 
+        size={16} 
+        className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
+      />
+    </div>
+  );
+};
+
 const Calendar = () => {
   const { t } = useTranslation()
+  const { dark } = useTheme()
   const { workOrders, loading, error, loadWorkOrders, startWorkOrder, assignTechnician, completeWorkOrder, technicians, loadTechnicians } = useCalendar()
 
   const navigate = useNavigate()
@@ -282,13 +355,19 @@ const Calendar = () => {
       <div className={styles.calendarContainer}>
         <div className={styles.calendarHeader}>
           <button onClick={() => navigateMonth(-1)} className={styles.navButton}>
-            &lt;
+            <ChevronLeft 
+              size={24} 
+              className={dark ? styles.dark : styles.light}
+            />
           </button>
           <h2 className={styles.monthTitle}>
             {monthName} <span style={{cursor:'pointer', textDecoration:'underline'}} onClick={() => setIsYearModalOpen(true)}>{year}</span>
           </h2>
           <button onClick={() => navigateMonth(1)} className={styles.navButton}>
-            &gt;
+            <ChevronRight 
+              size={24} 
+              className={dark ? styles.dark : styles.light}
+            />
           </button>
         </div>
 
@@ -461,39 +540,26 @@ const Calendar = () => {
           </div>
 
           <div className={styles.additionalFilters}>
-            <select
+            <AutoSizeSelect
               value={selectedTechnician}
               onChange={e => setSelectedTechnician(e.target.value)}
-              className={styles.filterSelect}
-            >
-              <option value="">{t('calendar.allTechnicians') || 'Todos los técnicos'}</option>
-              {technicians.map(tech => (
-                <option key={tech._id} value={tech._id}>{getTechnicianLabel(tech)}</option>
-              ))}
-            </select>
-            <select
+              options={technicians.map(tech => ({ label: getTechnicianLabel(tech), value: tech._id }))}
+              placeholder={t('calendar.allTechnicians') || 'Todos los técnicos'}
+            />
+            
+            <AutoSizeSelect
               value={selectedPriority}
               onChange={(e) => setSelectedPriority(e.target.value)}
-              className={styles.filterSelect}
-            >
-              {priorityOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+              options={priorityOptions}
+              placeholder={t('common.all')}
+            />
 
-            <select
+            <AutoSizeSelect
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
-              className={styles.filterSelect}
-            >
-              {dateOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+              options={dateOptions}
+              placeholder={t('calendar.allDates')}
+            />
 
             <button
               onClick={handleOpenDatePicker}

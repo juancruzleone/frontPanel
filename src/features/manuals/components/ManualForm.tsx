@@ -1,9 +1,11 @@
-import { useState, ChangeEvent, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { Manual } from '../hooks/useManuals';
-import styles from '../styles/manualForm.module.css';
-import { validateManualForm, validateManualField } from '../validators/manualValidations';
+import React, { useState, ChangeEvent } from 'react'
+import { useTranslation } from 'react-i18next'
+import { ChevronDown } from 'lucide-react'
+import { useTheme } from '../../../shared/hooks/useTheme'
 import ButtonCreate from '../../../shared/components/Buttons/buttonCreate'
+import styles from '../styles/manualForm.module.css'
+import type { Manual } from '../hooks/useManuals'
+import { validateManualForm, validateManualField } from '../validators/manualValidations'
 
 interface ManualFormProps {
   onCancel: () => void;
@@ -43,6 +45,7 @@ const ManualForm = ({
   isSubmitting,
 }: ManualFormProps) => {
   const { t } = useTranslation();
+  const { dark } = useTheme();
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
   const [tagsInput, setTagsInput] = useState('');
 
@@ -201,19 +204,26 @@ const ManualForm = ({
 
         <div className={styles.formGroup}>
           <label>{t('manuals.category')}</label>
-          <select
-            name="categoria"
-            value={formData.categoria}
-            onChange={(e) => handleFieldChange('categoria', e.target.value)}
-            onBlur={() => handleFieldBlur('categoria')}
-            disabled={isSubmitting}
-          >
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
-          </select>
+          <div className={styles.selectWrapper}>
+            <select
+              name="categoria"
+              value={formData.categoria}
+              onChange={(e) => handleFieldChange('categoria', e.target.value)}
+              onBlur={() => handleFieldBlur('categoria')}
+              disabled={isSubmitting}
+              className={styles.select}
+            >
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+            <ChevronDown 
+              size={16} 
+              className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
+            />
+          </div>
         </div>
 
         <div className={styles.formGroup}>
@@ -231,19 +241,26 @@ const ManualForm = ({
 
         <div className={styles.formGroup}>
           <label>{t('manuals.language')}</label>
-          <select
-            name="idioma"
-            value={formData.idioma || 'es'}
-            onChange={(e) => handleFieldChange('idioma', e.target.value)}
-            onBlur={() => handleFieldBlur('idioma')}
-            disabled={isSubmitting}
-          >
-            {languages.map((lang) => (
-              <option key={lang.value} value={lang.value}>
-                {lang.label}
-              </option>
-            ))}
-          </select>
+          <div className={styles.selectWrapper}>
+            <select
+              name="idioma"
+              value={formData.idioma || 'es'}
+              onChange={(e) => handleFieldChange('idioma', e.target.value)}
+              onBlur={() => handleFieldBlur('idioma')}
+              disabled={isSubmitting}
+              className={styles.select}
+            >
+              {languages.map((lang) => (
+                <option key={lang.value} value={lang.value}>
+                  {lang.label}
+                </option>
+              ))}
+            </select>
+            <ChevronDown 
+              size={16} 
+              className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
+            />
+          </div>
         </div>
 
         <div className={styles.formGroup}>

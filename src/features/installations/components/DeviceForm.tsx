@@ -1,8 +1,9 @@
-import type React from "react"
-import { useState, useEffect } from "react"
-import { useTranslation } from "react-i18next"
+import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { ChevronDown } from 'lucide-react'
+import { useTheme } from '../../../shared/hooks/useTheme'
+import styles from '../styles/installationForm.module.css'
 import type { Device, Installation } from "../hooks/useInstallations"
-import styles from "../styles/modalAddDevice.module.css"
 import { validateForm, assetSchema, deviceEditSchema } from "../validators/deviceValidations"
 
 interface DeviceFormProps {
@@ -33,6 +34,7 @@ const DeviceForm = ({
   onRetryLoadCategories,
 }: DeviceFormProps) => {
   const { t } = useTranslation()
+  const { dark } = useTheme()
   const isEditMode = !!device
 
   // Inicializar formData según el modo
@@ -204,20 +206,26 @@ const DeviceForm = ({
           <>
             <div className={styles.formGroup}>
               <label>{t('installations.asset')}</label>
-              <select
-                value={formData.assetId}
-                onChange={(e) => handleFieldChange("assetId", e.target.value)}
-                onBlur={() => handleFieldBlur("assetId")}
-                disabled={isSubmitting}
-                className={showError("assetId") ? styles.errorInput : ""}
-              >
-                <option value="">{t('installations.selectAsset')}</option>
-                {assets.map((asset) => (
-                  <option key={asset._id} value={asset._id}>
-                    {asset.nombre} - {asset.marca} {asset.modelo} (Serie: {asset.numeroSerie})
-                  </option>
-                ))}
-              </select>
+              <div className={styles.selectWrapper}>
+                <select
+                  value={formData.assetId}
+                  onChange={(e) => handleFieldChange("assetId", e.target.value)}
+                  onBlur={() => handleFieldBlur("assetId")}
+                  disabled={isSubmitting}
+                  className={`${showError("assetId") ? styles.errorInput : ""} ${styles.select}`}
+                >
+                  <option value="">{t('installations.selectAsset')}</option>
+                  {assets.map((asset) => (
+                    <option key={asset._id} value={asset._id}>
+                      {asset.nombre} - {asset.marca} {asset.modelo}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown 
+                  size={16} 
+                  className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
+                />
+              </div>
               {showError("assetId") && <p className={styles.error}>{getErrorMessage("assetId")}</p>}
             </div>
 
@@ -293,22 +301,28 @@ const DeviceForm = ({
               {t('installations.noCategoriesAvailable')}. {t('installations.createCategoriesFirst')}.
             </p>
           ) : (
-            <select
-              name="categoria"
-              value={formData.categoria}
-              onChange={(e) => handleFieldChange("categoria", e.target.value)}
-              onBlur={() => handleFieldBlur("categoria")}
-              disabled={isSubmitting}
-              className={showError("categoria") ? styles.errorInput : ""}
-            >
-              <option value="">{t('installations.selectCategory')}</option>
-              {categories.map((category) => (
-                <option key={category._id} value={category.nombre}>
-                  {category.nombre}
-                  {category.descripcion && ` - ${category.descripcion}`}
-                </option>
-              ))}
-            </select>
+            <div className={styles.selectWrapper}>
+              <select
+                name="categoria"
+                value={formData.categoria}
+                onChange={(e) => handleFieldChange("categoria", e.target.value)}
+                onBlur={() => handleFieldBlur("categoria")}
+                disabled={isSubmitting}
+                className={`${showError("categoria") ? styles.errorInput : ""} ${styles.select}`}
+              >
+                <option value="">{t('installations.selectCategory')}</option>
+                {categories.map((category) => (
+                  <option key={category._id} value={category.nombre}>
+                    {category.nombre}
+                    {category.descripcion && ` - ${category.descripcion}`}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown 
+                size={16} 
+                className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
+              />
+            </div>
           )}
           {showError("categoria") && <p className={styles.error}>{getErrorMessage("categoria")}</p>}
         </div>
@@ -316,18 +330,24 @@ const DeviceForm = ({
         {isEditMode && (
           <div className={styles.formGroup}>
             <label>{t('installations.deviceStatu')}</label>
-            <select
-              name="estado"
-              value={formData.estado}
-              onChange={(e) => handleFieldChange("estado", e.target.value)}
-              onBlur={() => handleFieldBlur("estado")}
-              disabled={isSubmitting}
-              className={showError("estado") ? styles.errorInput : ""}
-            >
-              {estadosDisponibles.map((estado) => (
-                <option key={estado} value={estado}>{estado}</option>
-              ))}
-            </select>
+            <div className={styles.selectWrapper}>
+              <select
+                name="estado"
+                value={formData.estado}
+                onChange={(e) => handleFieldChange("estado", e.target.value)}
+                onBlur={() => handleFieldBlur("estado")}
+                disabled={isSubmitting}
+                className={`${showError("estado") ? styles.errorInput : ""} ${styles.select}`}
+              >
+                {estadosDisponibles.map((estado) => (
+                  <option key={estado} value={estado}>{estado}</option>
+                ))}
+              </select>
+              <ChevronDown 
+                size={16} 
+                className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
+              />
+            </div>
             {showError("estado") && <p className={styles.error}>{getErrorMessage("estado")}</p>}
           </div>
         )}

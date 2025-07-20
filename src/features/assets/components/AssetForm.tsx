@@ -1,9 +1,11 @@
-import type React from "react"
-import { useState, useEffect } from "react"
-import type { Asset, Template } from "../hooks/useAssets"
-import { validateAssetForm, validateAssetField } from "../validators/assetValidations"
-import styles from "../styles/assetForm.module.css"
-import { useTranslation } from "react-i18next"
+import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { ChevronDown } from 'lucide-react'
+import { useTheme } from '../../../shared/hooks/useTheme'
+import ButtonCreate from '../../../shared/components/Buttons/buttonCreate'
+import styles from '../styles/assetForm.module.css'
+import type { Asset, Template } from '../hooks/useAssets'
+import { validateAssetForm, validateAssetField } from '../validators/assetValidations'
 
 interface AssetFormProps {
   onCancel: () => void
@@ -31,6 +33,7 @@ const AssetForm = ({
   categories,
 }: AssetFormProps) => {
   const { t } = useTranslation()
+  const { dark } = useTheme()
   const [formData, setFormData] = useState<Omit<Asset, "_id">>({
     nombre: "",
     marca: "",
@@ -190,18 +193,25 @@ const AssetForm = ({
         {/* Filtro por categoría */}
         <div className={styles.formGroup}>
           <label>{t('assets.filterByTemplateCategory')}</label>
-          <select
-            value={selectedCategory}
-            onChange={(e) => handleCategoryChange(e.target.value)}
-            disabled={isSubmitting || templatesLoading}
-          >
-            <option value="">{t('assets.allCategories')}</option>
-            {categories.map((categoria) => (
-              <option key={String(categoria)} value={String(categoria)}>
-                {String(categoria)}
-              </option>
-            ))}
-          </select>
+          <div className={styles.selectWrapper}>
+            <select
+              value={selectedCategory}
+              onChange={(e) => handleCategoryChange(e.target.value)}
+              disabled={isSubmitting || templatesLoading}
+              className={styles.select}
+            >
+              <option value="">{t('assets.allCategories')}</option>
+              {categories.map((categoria) => (
+                <option key={String(categoria)} value={String(categoria)}>
+                  {String(categoria)}
+                </option>
+              ))}
+            </select>
+            <ChevronDown 
+              size={16} 
+              className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
+            />
+          </div>
         </div>
 
         {/* Plantilla de formulario */}
@@ -213,21 +223,27 @@ const AssetForm = ({
               {t('assets.loadingTemplates')}
             </div>
           ) : (
-            <select
-              name="templateId"
-              value={formData.templateId || ""}
-              onChange={(e) => handleFieldChange("templateId", e.target.value)}
-              onBlur={() => handleFieldBlur("templateId")}
-              disabled={isSubmitting}
-              className={showError("templateId") ? styles.errorInput : ""}
-            >
-              <option value="">{t('assets.selectTemplatePlaceholder')}</option>
-              {filteredTemplates.map((template) => (
-                <option key={String(template._id)} value={String(template._id)}>
-                  {template.nombre} ({String(template.categoria)})
-                </option>
-              ))}
-            </select>
+            <div className={styles.selectWrapper}>
+              <select
+                name="templateId"
+                value={formData.templateId || ""}
+                onChange={(e) => handleFieldChange("templateId", e.target.value)}
+                onBlur={() => handleFieldBlur("templateId")}
+                disabled={isSubmitting}
+                className={`${showError("templateId") ? styles.errorInput : ""} ${styles.select}`}
+              >
+                <option value="">{t('assets.selectTemplatePlaceholder')}</option>
+                {filteredTemplates.map((template) => (
+                  <option key={String(template._id)} value={String(template._id)}>
+                    {template.nombre} ({String(template.categoria)})
+                  </option>
+                ))}
+              </select>
+              <ChevronDown 
+                size={16} 
+                className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
+              />
+            </div>
           )}
           {showError("templateId") && <p className={styles.inputError}>{formErrors.templateId}</p>}
 
