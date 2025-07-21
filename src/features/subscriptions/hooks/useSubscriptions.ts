@@ -2,6 +2,9 @@ import { useState, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { fetchInstallations, updateInstallation } from '../../installations/services/installationServices'
 import type { Installation } from '../../installations/hooks/useInstallations'
+import { useAuthStore } from '../../../../src/store/authStore.ts'
+import { updateSubscription as updateSubscriptionService } from '../services/subscriptionServices'
+import { validateSubscriptionForm } from '../validators/subscriptionValidations';
 
 export interface Subscription {
   _id: string
@@ -13,8 +16,8 @@ export interface Subscription {
   installationType: string
   frequency: string
   months: string[]
-  startDate: Date
-  endDate: Date
+  startDate: Date | undefined
+  endDate: Date | undefined
   status: 'active' | 'inactive' | 'pending'
   createdAt: Date
   updatedAt: Date
@@ -75,8 +78,8 @@ const useSubscriptions = () => {
       installationType: installation.installationType,
       frequency: installation.frecuencia || '',
       months: installation.mesesFrecuencia || getMonthsByFrequency(installation.frecuencia || ''),
-      startDate: installation.fechaInicio ? new Date(installation.fechaInicio) : new Date(),
-      endDate: installation.fechaFin ? new Date(installation.fechaFin) : new Date(),
+      startDate: installation.fechaInicio ? new Date(installation.fechaInicio) : undefined,
+      endDate: installation.fechaFin ? new Date(installation.fechaFin) : undefined,
       status: (installation.estado as 'active' | 'inactive' | 'pending') || 'active',
       createdAt: installation.fechaCreacion ? new Date(installation.fechaCreacion) : new Date(),
       updatedAt: installation.fechaActualizacion ? new Date(installation.fechaActualizacion) : new Date(),
@@ -87,24 +90,22 @@ const useSubscriptions = () => {
     try {
       setLoading(true)
       setError(null)
-      
       // Cargar instalaciones reales
       const installationsData = await fetchInstallations()
       setInstallations(installationsData)
-      
       // Mapear instalaciones a abonos
       const subscriptionsData = installationsData.map(mapInstallationToSubscription)
       setSubscriptions(subscriptionsData)
     } catch (err: any) {
-      setError(err.message || t('subscriptions.errorLoading'))
+      setError(err.message || 'Error al cargar abonos')
     } finally {
       setLoading(false)
     }
-  }, [t])
+  }, [])
 
   useEffect(() => {
     loadSubscriptions()
-  }, [loadSubscriptions])
+  }, [])
 
   const refreshSubscriptions = useCallback(() => {
     loadSubscriptions()
@@ -112,10 +113,8 @@ const useSubscriptions = () => {
 
   // Función para actualizar abono (frecuencia, fechas, estado)
   const updateSubscription = async (subscriptionId: string, data: Partial<Subscription>) => {
-    // Buscar la instalación original
     const installation = installations.find(inst => inst._id === subscriptionId)
     if (!installation) throw new Error(t('subscriptions.installationNotFound'))
-    // Preparar datos a actualizar
     const updateData: any = {
       ...installation,
       frecuencia: data.frequency || installation.frecuencia,
@@ -124,10 +123,93 @@ const useSubscriptions = () => {
       estado: data.status || installation.estado,
       mesesFrecuencia: data.months || installation.mesesFrecuencia || getMonthsByFrequency(data.frequency || installation.frecuencia || ''),
     }
-    // Llamar al backend
-    await updateInstallation(subscriptionId, updateData)
-    // Refrescar datos
+    await updateSubscriptionService(subscriptionId, updateData)
     await loadSubscriptions()
+  }
+
+  // Estado para el formulario de edición de suscripción
+  const [formData, setFormData] = useState<{
+    frequency?: string
+    startDate?: string | Date
+    endDate?: string | Date
+    status?: string
+  }>({
+    frequency: '',
+    startDate: '',
+    endDate: '',
+    status: 'active',
+  })
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({})
+  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // Manejar cambios de campo
+  const handleFieldChange = async (name: string, value: any) => {
+    const updatedData = { ...formData, [name]: value }
+    setFormData(updatedData)
+    setTouchedFields((prev) => ({ ...prev, [name]: true }))
+    const validation = await validateSubscriptionForm({
+      tipo: updatedData.frequency,
+      fechaInicio: updatedData.startDate,
+      fechaFin: updatedData.endDate,
+      estado: updatedData.status,
+    }, t)
+    setFormErrors(validation.errors)
+  }
+
+  // Manejar blur de campo
+  const handleFieldBlur = async (name: string) => {
+    setTouchedFields((prev) => ({ ...prev, [name]: true }))
+    const validation = await validateSubscriptionForm({
+      tipo: formData.frequency,
+      fechaInicio: formData.startDate,
+      fechaFin: formData.endDate,
+      estado: formData.status,
+    }, t)
+    setFormErrors(validation.errors)
+  }
+
+  // Manejar submit del formulario
+  const handleSubmitForm = async (
+    e: React.FormEvent,
+    onSuccess: (message: string) => void,
+    onError: (message: string) => void,
+    subscriptionId: string,
+  ) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setTouchedFields({ frequency: true, startDate: true, endDate: true, status: true })
+    const validation = await validateSubscriptionForm({
+      tipo: formData.frequency,
+      fechaInicio: formData.startDate,
+      fechaFin: formData.endDate,
+      estado: formData.status,
+    }, t)
+    setFormErrors(validation.errors)
+    if (!validation.isValid) {
+      setIsSubmitting(false)
+      return
+    }
+    try {
+      await updateSubscription(subscriptionId, {
+        frequency: formData.frequency,
+        startDate: formData.startDate ? new Date(formData.startDate) : undefined,
+        endDate: formData.endDate ? new Date(formData.endDate) : undefined,
+        status: formData.status as 'active' | 'inactive' | 'pending',
+      })
+      onSuccess(t('subscriptions.frequencyUpdated'))
+      resetForm()
+    } catch (err: any) {
+      onError(err.message || t('subscriptions.errorUpdating'))
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const resetForm = () => {
+    setFormData({ frequency: '', startDate: '', endDate: '', status: 'active' })
+    setFormErrors({})
+    setTouchedFields({})
   }
 
   return {
@@ -139,6 +221,16 @@ const useSubscriptions = () => {
     error,
     refreshSubscriptions,
     updateSubscription,
+    // Nuevo para formulario
+    formData,
+    setFormData,
+    formErrors,
+    touchedFields,
+    isSubmitting,
+    handleFieldChange,
+    handleFieldBlur,
+    handleSubmitForm,
+    resetForm,
   }
 }
 

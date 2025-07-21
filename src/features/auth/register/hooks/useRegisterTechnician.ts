@@ -85,9 +85,7 @@ const useRegisterTechnician = () => {
       setTouchedFields((prev) => ({ ...prev, [fieldName]: true }))
 
       const value = formData[fieldName as keyof RegisterTechnicianFormData]
-      if (value && value.trim()) {
-        validateSingleField(fieldName, value)
-      }
+      validateSingleField(fieldName, value ?? "")
     },
     [formData, validateSingleField],
   )

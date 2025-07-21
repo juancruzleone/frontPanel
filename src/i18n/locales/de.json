@@ -1,6 +1,7 @@
 {
   "nav": {
     "home": "Startseite",
+    "subscriptions": "Aktive Abonnements",
     "workOrders": "Arbeitsaufträge",
     "installations": "Installationen",
     "assets": "Anlagen",
@@ -50,11 +51,12 @@
   "searchPlaceholder": "Nach Benutzernamen suchen...",
   "viewProfile": "Profil ansehen",
   "userProfile": "Benutzerprofil",
-  "actions": "Aktionen",
+  "actions": "Actions",
   "noSearchResults": "Keine Ergebnisse gefunden",
   "tryDifferentSearch": "Versuche einen anderen Suchbegriff"
 },
   "common": {
+    "actions": "Aktionen",
     "update": "bearbeiten",
     "understood": "Schließen",
     "loading": "Laden...",
@@ -937,7 +939,44 @@
   "brandMax": "Marke darf nicht länger als 100 Zeichen sein",
   "modelMax": "Modell darf nicht länger als 100 Zeichen sein",
   "serialMax": "Seriennummer darf nicht länger als 100 Zeichen sein"
+},
+"subscriptions": {
+  "title": "Aktive Abonnements",
+  "titlePage": "Aktive Abonnements - FrontPanel",
+  "subtitle": "Verwaltung aktiver Abonnements und Abrechnungen",
+  "searchPlaceholder": "Abonnements suchen...",
+  "startDate": "Startdatum",
+  "endDate": "Enddatum",
+  "noSubscriptionsFound": "Keine Abonnements gefunden",
+  "noSubscriptions": "Keine Abonnements verfügbar",
+  "errorLoading": "Fehler beim Laden der Abonnements",
+  "status": {
+    "label": "Status",
+    "active": "Aktiv",
+    "inactive": "Inaktiv",
+    "pending": "Ausstehend"
+  },
+  "table": {
+    "installation": "Installation",
+    "address": "Adresse",
+    "type": "Typ",
+    "frequency": "Frequenz",
+    "months": "Monate",
+    "status": "Status",
+    "startDate": "Startdatum",
+    "endDate": "Enddatum"
+  },
+  "frequency": {
+    "monthly": "Monatlich",
+    "quarterly": "Vierteljährlich",
+    "semiannual": "Halbjährlich",
+    "annual": "Jährlich"
+  },
+  "editFrequency": "Frequenz bearbeiten",
+  "newFrequency": "Neue Frequenz",
+  "selectFrequency": "Frequenz auswählen",
+  "selectedMonths": "Ausgewählte Monate",
+  "frequencyUpdated": "Frequenz erfolgreich aktualisiert",
+  "errorUpdating": "Fehler bei der Aktualisierung der Frequenz"
 }
-
-
-} 
+}

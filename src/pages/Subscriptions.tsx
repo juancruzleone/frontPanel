@@ -3,6 +3,8 @@ import SearchInput from "../shared/components/Inputs/SearchInput"
 import styles from "../features/subscriptions/styles/subscriptions.module.css"
 import useSubscriptions, { type Subscription } from "../features/subscriptions/hooks/useSubscriptions"
 import ModalEditFrequency from "../features/subscriptions/components/ModalEditFrequency"
+import ModalSuccess from '../features/forms/components/ModalSuccess'
+import ModalError from '../features/forms/components/ModalError'
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { Edit } from "lucide-react"
@@ -228,12 +230,12 @@ const Subscriptions = () => {
                       </span>
                     </td>
                     <td className={styles.tableCell}>
-                      {subscription.startDate && !isNaN(new Date(subscription.startDate).getTime()) ?
-                        new Date(subscription.startDate).toLocaleDateString(i18n.language || 'es', { year: 'numeric', month: 'short', day: 'numeric' }) : ''}
+                      {subscription.startDate instanceof Date && !isNaN(subscription.startDate.getTime()) ?
+                        subscription.startDate.toLocaleDateString(i18n.language || 'es', { year: 'numeric', month: 'short', day: 'numeric' }) : ''}
                     </td>
                     <td className={styles.tableCell}>
-                      {subscription.endDate && !isNaN(new Date(subscription.endDate).getTime()) ?
-                        new Date(subscription.endDate).toLocaleDateString(i18n.language || 'es', { year: 'numeric', month: 'short', day: 'numeric' }) : ''}
+                      {subscription.endDate instanceof Date && !isNaN(subscription.endDate.getTime()) ?
+                        subscription.endDate.toLocaleDateString(i18n.language || 'es', { year: 'numeric', month: 'short', day: 'numeric' }) : ''}
                     </td>
                   </tr>
                 ))}
@@ -275,6 +277,8 @@ const Subscriptions = () => {
         onSubmitSuccess={handleSuccessEditFrequency}
         onSubmitError={handleErrorEditFrequency}
       />
+      <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={() => setResponseMessage("")} mensaje={responseMessage} />
+      <ModalError isOpen={!!responseMessage && isError} onRequestClose={() => setResponseMessage("")} mensaje={responseMessage} />
     </div>
   )
 }

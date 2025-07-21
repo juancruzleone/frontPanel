@@ -14,6 +14,7 @@ interface FrequencySelectorProps {
   showIcon?: boolean
   size?: 'small' | 'medium' | 'large'
   className?: string
+  onBlur?: (e: React.FocusEvent<HTMLSelectElement>) => void
 }
 
 const FrequencySelector: React.FC<FrequencySelectorProps> = ({
@@ -25,6 +26,7 @@ const FrequencySelector: React.FC<FrequencySelectorProps> = ({
   showIcon = true,
   size = 'medium',
   className = '',
+  onBlur,
 }) => {
   const { t } = useTranslation()
   const { dark } = useTheme()
@@ -43,6 +45,7 @@ const FrequencySelector: React.FC<FrequencySelectorProps> = ({
         className={className}
         aria-label={placeholder || t('subscriptions.selectFrequency')}
         style={{ appearance: 'none', WebkitAppearance: 'none', MozAppearance: 'none', width: '100%' }}
+        onBlur={onBlur}
       >
         {placeholder && (
           <option value="">{placeholder}</option>

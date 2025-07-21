@@ -8,6 +8,7 @@ interface DatePickerModalProps {
   onDateSelect: (date: string) => void;
   selectedDate?: string;
   title?: string;
+  placeholder?: string;
 }
 
 // Utilidad para formatear fecha local a YYYY-MM-DD
@@ -24,6 +25,7 @@ const DatePickerModal = ({
   onDateSelect,
   selectedDate,
   title,
+  placeholder,
 }: DatePickerModalProps) => {
   const { t, i18n } = useTranslation();
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -101,14 +103,7 @@ const DatePickerModal = ({
     <div className={styles.datePickerBackdrop}>
       <div className={styles.datePickerModal}>
         <div className={styles.datePickerHeader}>
-          <div className={styles.datePickerIcon}>
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-              <rect x="3" y="4" width="18" height="18" rx="2" fill="#3b82f6"/>
-              <line x1="16" y1="2" x2="16" y2="6" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-              <line x1="8" y1="2" x2="8" y2="6" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-              <line x1="3" y1="10" x2="21" y2="10" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-          </div>
+          {/* Icono de calendario eliminado */}
           <h2 className={styles.datePickerTitle}>{title || t('calendar.selectDate')}</h2>
           <button 
             className={styles.datePickerCloseButton}
@@ -176,13 +171,22 @@ const DatePickerModal = ({
                 <div className={styles.selectedDateText}>
                   <p className={styles.selectedDateLabel}>{t('calendar.selectedDate')}:</p>
                   <p className={styles.selectedDateValue}>
-                    {selectedDateState.toLocaleDateString(currentLanguage, {
-                      weekday: "long",
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
+                    {selectedDateState
+                      ? selectedDateState.toLocaleDateString(currentLanguage, {
+                          weekday: "long",
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })
+                      : (placeholder || '')}
                   </p>
+                </div>
+              </div>
+            )}
+            {!selectedDateState && placeholder && (
+              <div className={styles.selectedDateInfo}>
+                <div className={styles.selectedDateText}>
+                  <p className={styles.selectedDateValue}>{placeholder}</p>
                 </div>
               </div>
             )}

@@ -102,7 +102,7 @@ const RegisterTechnicianForm = ({
   )
 
   // Determinar si el botón debe estar deshabilitado
-  const isButtonDisabled = isSubmitting || !isFormComplete
+  const isButtonDisabled = isSubmitting
 
   const handleFormSubmit = useCallback(
     (e: React.FormEvent) => {

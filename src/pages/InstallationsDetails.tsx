@@ -221,11 +221,11 @@ const InstallationDetails = () => {
     navigate("/instalaciones")
   }
 
-  if (loading && !currentInstallation) {
+  if (loading) {
     return <div className={styles.loader}>{t("installationDetails.loadingDevices")}</div>
   }
 
-  if (!currentInstallation) {
+  if (!loading && !currentInstallation) {
     return <div className={styles.loader}>{t("installationDetails.notFound")}</div>
   }
 

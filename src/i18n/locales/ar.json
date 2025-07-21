@@ -1,6 +1,7 @@
 {
   "nav": {
     "home": "الرئيسية",
+    "subscriptions": "الاشتراكات النشطة",
     "workOrders": "أوامر العمل",
     "installations": "التركيبات",
     "assets": "الأصول",
@@ -55,6 +56,7 @@
   "tryDifferentSearch": "جرّب مصطلح بحث مختلف"
 },
   "common": {
+    "actions": "الإجراءات",
     "understood": "إغلاق",
     "successTitle": "تمت العملية بنجاح!",
     "continue": "متابعة",
@@ -1038,6 +1040,47 @@
   "brandMax": "لا يمكن أن تتجاوز العلامة التجارية 100 حرف",
   "modelMax": "لا يمكن أن يتجاوز الطراز 100 حرف",
   "serialMax": "لا يمكن أن يتجاوز الرقم التسلسلي 100 حرف"
+},
+"subscriptions": {
+  "title": "الاشتراكات النشطة",
+  "titlePage": "الاشتراكات النشطة - FrontPanel",
+  "subtitle": "إدارة الاشتراكات والفواتير النشطة",
+  "searchPlaceholder": "البحث في الاشتراكات...",
+  "startDate": "تاريخ البدء",
+  "endDate": "تاريخ الانتهاء",
+  "noSubscriptionsFound": "لم يتم العثور على اشتراكات",
+  "noSubscriptions": "لا توجد اشتراكات متاحة",
+  "errorLoading": "خطأ في تحميل الاشتراكات",
+  "status": {
+    "label": "الحالة",
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "pending": "قيد الانتظار"
+  },
+  "table": {
+    "installation": "التثبيت",
+    "address": "العنوان",
+    "type": "النوع",
+    "frequency": "التكرار",
+    "months": "الأشهر",
+    "status": "الحالة",
+    "startDate": "تاريخ البدء",
+    "endDate": "تاريخ الانتهاء"
+  },
+  "frequency": {
+    "monthly": "شهريًا",
+    "quarterly": "ربع سنوي",
+    "semiannual": "نصف سنوي",
+    "annual": "سنوي"
+  },
+  "editFrequency": "تعديل التكرار",
+  "newFrequency": "تكرار جديد",
+  "selectFrequency": "اختر تكرارًا",
+  "selectedMonths": "الأشهر المحددة",
+  "frequencyUpdated": "تم تحديث التكرار بنجاح",
+  "errorUpdating": "خطأ في تحديث التكرار"
 }
+
+
 
 } 

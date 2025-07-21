@@ -660,6 +660,28 @@
   justify-content: center;
 }
 
+.errorInput {
+  border-color: var(--color-danger) !important;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+  background: var(--color-card) !important;
+  color: var(--color-text) !important;
+}
+
+.inputError {
+  color: var(--color-danger);
+  font-size: 0.875rem;
+  margin: 0;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.inputError::before {
+  content: '⚠';
+  font-size: 1rem;
+}
+
 /* Modo oscuro y claro */
 :root {
   --color-bg-light: #fff;

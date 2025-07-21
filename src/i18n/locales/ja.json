@@ -6,6 +6,7 @@
     "assets": "資産",
     "forms": "フォーム",
     "manuals": "マニュアル",
+    "subscriptions": "有効なサブスクリプション",
     "calendar": "カレンダー",
     "personal": "人事",
     "user": "ユーザー",
@@ -55,6 +56,7 @@
   "tryDifferentSearch": "別の検索キーワードを試してください"
 },
   "common": {
+    "actions": "操作",
     "understood": "閉じる",
     "successTitle": "操作が成功しました！",
     "continue": "続行",
@@ -1027,7 +1029,48 @@
   "loadingRequiredData": "必要なデータを読み込み中...",
   "errorLoadingCategories": "カテゴリの読み込みエラー",
   "retryLoadCategories": "カテゴリの再読み込み"
+},
+"subscriptions": {
+  "title": "有効なサブスクリプション",
+  "titlePage": "有効なサブスクリプション - FrontPanel",
+  "subtitle": "サブスクリプションおよび有効な請求の管理",
+  "searchPlaceholder": "サブスクリプションを検索...",
+  "startDate": "開始日",
+  "endDate": "終了日",
+  "noSubscriptionsFound": "サブスクリプションが見つかりません",
+  "noSubscriptions": "利用可能なサブスクリプションはありません",
+  "errorLoading": "サブスクリプションの読み込みエラー",
+  "status": {
+    "label": "状態",
+    "active": "アクティブ",
+    "inactive": "非アクティブ",
+    "pending": "保留中"
+  },
+  "table": {
+    "installation": "設置",
+    "address": "住所",
+    "type": "タイプ",
+    "frequency": "頻度",
+    "months": "月",
+    "status": "状態",
+    "startDate": "開始日",
+    "endDate": "終了日"
+  },
+  "frequency": {
+    "monthly": "毎月",
+    "quarterly": "四半期ごと",
+    "semiannual": "半年ごと",
+    "annual": "毎年"
+  },
+  "editFrequency": "頻度を編集",
+  "newFrequency": "新しい頻度",
+  "selectFrequency": "頻度を選択",
+  "selectedMonths": "選択した月",
+  "frequencyUpdated": "頻度が正常に更新されました",
+  "errorUpdating": "頻度の更新エラー"
 }
+
+
 
 
 } 

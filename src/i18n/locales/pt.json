@@ -3,6 +3,7 @@
     "home": "Início",
     "workOrders": "Ordens de Trabalho",
     "installations": "Instalações",
+    "subscriptions": "Assinaturas ativas",
     "assets": "Ativos",
     "forms": "Formulários",
     "manuals": "Manuais",
@@ -55,6 +56,7 @@
   "tryDifferentSearch": "Tente um termo de pesquisa diferente"
 },
   "common": {
+    "actions": "Ações",
     "update": "editar",
     "understood": "Fechar",
     "loading": "Carregando...",
@@ -1028,7 +1030,48 @@
   "brandMax": "Marca não pode ter mais de 100 caracteres",
   "modelMax": "Modelo não pode ter mais de 100 caracteres",
   "serialMax": "Número de série não pode ter mais de 100 caracteres"
+},
+"subscriptions": {
+  "title": "Assinaturas ativas",
+  "titlePage": "Assinaturas ativas - FrontPanel",
+  "subtitle": "Gestão de assinaturas e cobranças ativas",
+  "searchPlaceholder": "Buscar assinaturas...",
+  "startDate": "Data de início",
+  "endDate": "Data de término",
+  "noSubscriptionsFound": "Nenhuma assinatura encontrada",
+  "noSubscriptions": "Nenhuma assinatura disponível",
+  "errorLoading": "Erro ao carregar assinaturas",
+  "status": {
+    "label": "Status",
+    "active": "Ativo",
+    "inactive": "Inativo",
+    "pending": "Pendente"
+  },
+  "table": {
+    "installation": "Instalação",
+    "address": "Endereço",
+    "type": "Tipo",
+    "frequency": "Frequência",
+    "months": "Meses",
+    "status": "Status",
+    "startDate": "Data início",
+    "endDate": "Data fim"
+  },
+  "frequency": {
+    "monthly": "Mensal",
+    "quarterly": "Trimestral",
+    "semiannual": "Semestral",
+    "annual": "Anual"
+  },
+  "editFrequency": "Editar frequência",
+  "newFrequency": "Nova frequência",
+  "selectFrequency": "Selecione uma frequência",
+  "selectedMonths": "Meses selecionados",
+  "frequencyUpdated": "Frequência atualizada com sucesso",
+  "errorUpdating": "Erro ao atualizar a frequência"
 }
+
+
 
 
 } 

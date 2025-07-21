@@ -742,14 +742,19 @@
     }
   },
   "subscriptions": {
+    "selectStartDate": "Seleccionar fecha de inicio",
+    "selectEndDate": "Seleccionar fecha de finalización",
     "title": "Abonos Vigentes",
     "titlePage": "Abonos Vigentes - FrontPanel",
     "subtitle": "Gestión de suscripciones y abonos activos",
     "searchPlaceholder": "Buscar abonos...",
+    "startDate": "Fecha de inicio",
+    "endDate": "Fecha de finalización",
     "noSubscriptionsFound": "No se encontraron abonos",
     "noSubscriptions": "No hay abonos disponibles",
     "errorLoading": "Error al cargar abonos",
     "status": {
+      "label": "Estado",
       "active": "Activo",
       "inactive": "Inactivo",
       "pending": "Pendiente"

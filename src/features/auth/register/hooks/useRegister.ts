@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react"
 import { userRegister, getTechnicians } from "../services/registerServices"
 import { useAuthStore } from "../../../../../src/store/authStore.ts"
+import { useTranslation } from "react-i18next"
 
 interface Technician {
   _id?: string
@@ -12,6 +13,7 @@ interface Technician {
 }
 
 export function useRegister() {
+  const { t } = useTranslation();
   const [showModal, setShowModal] = useState(false)
   const [responseMessage, setResponseMessage] = useState("")
   const [isError, setIsError] = useState(false)
@@ -38,12 +40,12 @@ export function useRegister() {
   const addTechnician = useCallback(
     async (username: string, password: string): Promise<{ message: string }> => {
       if (!token) {
-        throw new Error("No tienes permisos para registrar usuarios")
+        throw new Error(t('personal.noPermission'))
       }
 
       try {
         const response = await userRegister(username, password, token)
-        const message = response?.message || "Técnico registrado exitosamente."
+        const message = response?.message || t('personal.userCreated')
 
         // Actualizar lista de técnicos
         await fetchTechnicians()
@@ -55,13 +57,13 @@ export function useRegister() {
 
         return { message }
       } catch (err: any) {
-        setResponseMessage(err.message || "Error al registrar técnico")
+        setResponseMessage(err.message || t('personal.errorCreatingUser'))
         setIsError(true)
         setShowModal(true)
         throw new Error(err.message)
       }
     },
-    [token, fetchTechnicians],
+    [token, fetchTechnicians, t],
   )
 
   const closeModal = useCallback(() => {
@@ -69,6 +71,17 @@ export function useRegister() {
     setResponseMessage("")
     setIsError(false)
   }, [])
+
+  const showSuccess = (message: string) => {
+    setResponseMessage(message)
+    setIsError(false)
+    setShowModal(true)
+  }
+  const showError = (message: string) => {
+    setResponseMessage(message)
+    setIsError(true)
+    setShowModal(true)
+  }
 
   return {
     showModal,
@@ -79,5 +92,7 @@ export function useRegister() {
     loadingTechnicians,
     fetchTechnicians,
     addTechnician,
+    showSuccess,
+    showError,
   }
 }

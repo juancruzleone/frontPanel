@@ -20,8 +20,7 @@ const Register = () => {
   const { t, i18n } = useTranslation()
   const { dark } = useTheme()
   const navigate = useNavigate()
-  const { showModal, responseMessage, isError, closeModal, technicians, loadingTechnicians, fetchTechnicians, addTechnician } =
-    useRegister()
+  const { showModal, responseMessage, isError, closeModal, technicians, loadingTechnicians, fetchTechnicians, addTechnician, showSuccess, showError } = useRegister()
 
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
   const [userId, setUserId] = useState<string | null>(null)
@@ -36,7 +35,7 @@ const Register = () => {
     // Obtener el id del usuario actual (admin) desde el token o el store si está disponible
     // Aquí asumo que tienes acceso al id del usuario logueado, si no, deberás ajustarlo
     // setUserId(authStore.user?._id)
-  }, [fetchTechnicians, t, i18n.language])
+  }, [fetchTechnicians])
 
   const formatDate = useCallback((dateString: string) => {
     const date = new Date(dateString)
@@ -52,13 +51,9 @@ const Register = () => {
     (message: string) => {
       setIsRegisterModalOpen(false)
       fetchTechnicians()
-      closeModal()
-      // Mostrar mensaje de éxito después de un pequeño delay
-      setTimeout(() => {
-        closeModal()
-      }, 100)
+      showSuccess(message)
     },
-    [fetchTechnicians, closeModal],
+    [fetchTechnicians, showSuccess],
   )
 
   const handleOpenModal = useCallback(() => {
@@ -87,11 +82,10 @@ const Register = () => {
     try {
       await deleteTechnician(technicianToDelete._id || technicianToDelete.id, token)
       await fetchTechnicians()
-      // Usar las funciones del hook useRegister para manejar mensajes
-      // El mensaje se mostrará a través del ModalSuccess/ModalError existente
+      showSuccess(t('personal.userDeleted'))
     } catch (err: any) {
       console.error('Error al eliminar técnico:', err)
-      // El error se manejará a través del sistema existente
+      showError(err.message || t('personal.errorDeletingUser'))
     } finally {
       setTechnicianToDelete(null)
       setIsDeleteModalOpen(false)

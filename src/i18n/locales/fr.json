@@ -2,6 +2,7 @@
   "nav": {
     "home": "Accueil",
     "workOrders": "Ordres de Travail",
+    "subscriptions": "Abonnements actifs",
     "installations": "Installations",
     "assets": "Actifs",
     "forms": "Formulaires",
@@ -55,6 +56,7 @@
   "tryDifferentSearch": "Essayez un autre terme de recherche"
 },
   "common": {
+    "actions": "Actions",
     "update": "modifier",
     "understood": "Fermer",
     "successTitle": "Opération réussie !",
@@ -1017,7 +1019,48 @@
   "brandMax": "La marque ne peut pas dépasser 100 caractères",
   "modelMax": "Le modèle ne peut pas dépasser 100 caractères",
   "serialMax": "Le numéro de série ne peut pas dépasser 100 caractères"
+},
+"subscriptions": {
+  "title": "Abonnements actifs",
+  "titlePage": "Abonnements actifs - FrontPanel",
+  "subtitle": "Gestion des abonnements et facturations actives",
+  "searchPlaceholder": "Rechercher des abonnements...",
+  "startDate": "Date de début",
+  "endDate": "Date de fin",
+  "noSubscriptionsFound": "Aucun abonnement trouvé",
+  "noSubscriptions": "Aucun abonnement disponible",
+  "errorLoading": "Erreur lors du chargement des abonnements",
+  "status": {
+    "label": "Statut",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "pending": "En attente"
+  },
+  "table": {
+    "installation": "Installation",
+    "address": "Adresse",
+    "type": "Type",
+    "frequency": "Fréquence",
+    "months": "Mois",
+    "status": "Statut",
+    "startDate": "Date de début",
+    "endDate": "Date de fin"
+  },
+  "frequency": {
+    "monthly": "Mensuel",
+    "quarterly": "Trimestriel",
+    "semiannual": "Semestriel",
+    "annual": "Annuel"
+  },
+  "editFrequency": "Modifier la fréquence",
+  "newFrequency": "Nouvelle fréquence",
+  "selectFrequency": "Sélectionner une fréquence",
+  "selectedMonths": "Mois sélectionnés",
+  "frequencyUpdated": "Fréquence mise à jour avec succès",
+  "errorUpdating": "Erreur lors de la mise à jour de la fréquence"
 }
+
+
 
 
 } 

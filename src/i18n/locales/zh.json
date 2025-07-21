@@ -2,6 +2,7 @@
   "nav": {
     "home": "首页",
     "workOrders": "工作订单",
+    "subscriptions": "有效订阅",
     "installations": "安装",
     "assets": "资产",
     "forms": "表单",
@@ -56,6 +57,7 @@
 },
 
   "common": {
+    "actions": "操作",
     "update": "编辑",
     "understood": "关闭",
     "successTitle": "操作成功！",
@@ -1091,7 +1093,47 @@
   "brandMax": "品牌不能超过100个字符",
   "modelMax": "型号不能超过100个字符",
   "serialMax": "序列号不能超过100个字符"
+},
+"subscriptions": {
+  "title": "有效订阅",
+  "titlePage": "有效订阅 - FrontPanel",
+  "subtitle": "订阅和活跃计费管理",
+  "searchPlaceholder": "搜索订阅...",
+  "startDate": "开始日期",
+  "endDate": "结束日期",
+  "noSubscriptionsFound": "未找到订阅",
+  "noSubscriptions": "无可用订阅",
+  "errorLoading": "加载订阅出错",
+  "status": {
+    "label": "状态",
+    "active": "激活",
+    "inactive": "未激活",
+    "pending": "待定"
+  },
+  "table": {
+    "installation": "安装",
+    "address": "地址",
+    "type": "类型",
+    "frequency": "频率",
+    "months": "月数",
+    "status": "状态",
+    "startDate": "开始日期",
+    "endDate": "结束日期"
+  },
+  "frequency": {
+    "monthly": "每月",
+    "quarterly": "每季度",
+    "semiannual": "每半年",
+    "annual": "每年"
+  },
+  "editFrequency": "编辑频率",
+  "newFrequency": "新频率",
+  "selectFrequency": "选择频率",
+  "selectedMonths": "已选月份",
+  "frequencyUpdated": "频率更新成功",
+  "errorUpdating": "更新频率时出错"
 }
+
 
 
 } 
