@@ -6,6 +6,7 @@ import InstallationDetails from "../pages/InstallationsDetails"
 import Assets from "../pages/Assets.tsx"
 import Forms from "../pages/Forms.tsx"
 import Manuals from "../pages/Manuals.tsx"
+import Subscriptions from "../pages/Subscriptions.tsx"
 import WorkOrders from "../pages/WorkOrders.tsx"
 import Calendar from "../pages/Calendar.tsx"
 import DeviceFormPage from "../pages/DeviceFormPage"
@@ -60,6 +61,10 @@ export const router = createBrowserRouter([
           {
             path: "/manuales",
             element: <Manuals />,
+          },
+          {
+            path: "/abonos-vigentes",
+            element: <Subscriptions />,
           },
           {
             path: "/ordenes-trabajo",

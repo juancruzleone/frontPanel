@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import { useParams, useNavigate, useLocation } from "react-router-dom"
 import styles from "../features/installationsDetails/styles/installationDetails.module.css"
-import { Trash, Edit, Plus, QrCode, FileText } from "lucide-react"
+import { Trash, Edit, Plus, QrCode, FileText, ChevronDown } from "lucide-react"
 import { FiArrowLeft } from "react-icons/fi"
+import { useTheme } from "../shared/hooks/useTheme"
 import ModalAddDevice from "../features/installations/components/ModalAddDevice"
 import ModalEditDevice from "../features/installationsDetails/components/ModalEditDevice"
 import ModalConfirmDelete from "../features/installations/components/ModalConfirmDelete"
@@ -15,13 +16,25 @@ import { updateDeviceInInstallation } from "../features/installations/services/i
 import type { Device } from "../features/installations/hooks/useInstallations"
 import { useTranslation } from "react-i18next"
 import { translateDeviceStatus } from "../shared/utils/backendTranslations"
+import SearchInput from "../shared/components/Inputs/SearchInput"
 
 const InstallationDetails = () => {
   const { t } = useTranslation()
+  const { dark } = useTheme()
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const location = useLocation()
   const { installationName } = location.state || { installationName: "" }
+
+  // Opciones de estado para el filtro
+  const statusOptions = [
+    { value: "", label: t('common.all') },
+    { value: "Activo", label: t('installations.deviceStatus.active') },
+    { value: "Inactivo", label: t('installations.deviceStatus.inactive') },
+    { value: "En mantenimiento", label: t('installations.deviceStatus.maintenance') },
+    { value: "Fuera de servicio", label: t('installations.deviceStatus.outOfService') },
+    { value: "Pendiente de revisión", label: t('installations.deviceStatus.pendingReview') },
+  ]
 
   const {
     currentInstallation,
@@ -48,14 +61,40 @@ const InstallationDetails = () => {
   const [isError, setIsError] = useState(false)
   const [loadingPDF, setLoadingPDF] = useState<string | null>(null)
   
+  // Estado para búsqueda y filtros
+  const [searchTerm, setSearchTerm] = useState("")
+  const [selectedStatus, setSelectedStatus] = useState("")
+
   // Estado para paginación
   const [currentPage, setCurrentPage] = useState(1)
   const devicesPerPage = 4
 
+  // Filtrar dispositivos por término de búsqueda y estado
+  const filteredDevices = useMemo(() => {
+    let filtered = installationDevices
+
+    // Filtrar por término de búsqueda
+    if (searchTerm.trim()) {
+      const term = searchTerm.toLowerCase().trim()
+      filtered = filtered.filter(device => 
+        device.nombre?.toLowerCase().includes(term) ||
+        device.ubicacion?.toLowerCase().includes(term) ||
+        device.categoria?.toLowerCase().includes(term)
+      )
+    }
+
+    // Filtrar por estado
+    if (selectedStatus) {
+      filtered = filtered.filter(device => device.estado === selectedStatus)
+    }
+
+    return filtered
+  }, [installationDevices, searchTerm, selectedStatus])
+
   // Cálculos de paginación
-  const totalPages = Math.ceil(installationDevices.length / devicesPerPage)
+  const totalPages = Math.ceil(filteredDevices.length / devicesPerPage)
   const startIndex = (currentPage - 1) * devicesPerPage
-  const currentDevices = installationDevices.slice(startIndex, startIndex + devicesPerPage)
+  const currentDevices = filteredDevices.slice(startIndex, startIndex + devicesPerPage)
 
   // Debug: Log para verificar la paginación
   console.log('Paginación debug:', {
@@ -74,10 +113,10 @@ const InstallationDetails = () => {
     }
   }, [id, loadInstallationDetails, t])
 
-  // Resetear página cuando cambien los dispositivos
+  // Resetear página cuando cambien los dispositivos, el término de búsqueda o el filtro de estado
   useEffect(() => {
     setCurrentPage(1)
-  }, [installationDevices.length])
+  }, [installationDevices.length, searchTerm, selectedStatus])
 
   const handleSuccessAddDevice = (message: string) => {
     setIsAddDeviceModalOpen(false)
@@ -233,9 +272,37 @@ const InstallationDetails = () => {
         </div>
       </div>
 
+      <div className={styles.searchContainer}>
+        <SearchInput
+          placeholder={t('installationDetails.searchDevicesPlaceholder')}
+          onInputChange={(value) => setSearchTerm(value)}
+        />
+        <div className={styles.filterContainer}>
+          <div className={styles.selectWrapper}>
+            <select
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value)}
+              className={styles.statusFilter}
+            >
+              {statusOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <ChevronDown 
+              size={16} 
+              className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
+            />
+          </div>
+        </div>
+      </div>
+
       <div className={styles.devicesList}>
-        {installationDevices.length === 0 ? (
-          <p className={styles.emptyMessage}>{t("installationDetails.noDevices")}</p>
+        {filteredDevices.length === 0 ? (
+          <p className={styles.emptyMessage}>
+            {searchTerm.trim() || selectedStatus ? t("installationDetails.noDevicesFound") : t("installationDetails.noDevices")}
+          </p>
         ) : (
           currentDevices.map((device, index) => (
             <div key={device._id || `device-${startIndex + index}`} className={styles.deviceCard}>

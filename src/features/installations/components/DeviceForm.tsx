@@ -202,6 +202,22 @@ const DeviceForm = ({
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
       <div className={styles.formContent}>
+        {/* Información de la instalación */}
+        <div className={styles.installationInfo}>
+          <h4>{t('installations.deviceInstallationInfo')}:</h4>
+          <p>
+            <strong>{t('installations.company')}:</strong> {installation.company}
+          </p>
+          <p>
+            <strong>{t('installations.address')}:</strong> {installation.address}, {installation.city}, {installation.province}
+          </p>
+          {installation.installationType && (
+            <p>
+              <strong>{t('installations.installationType')}:</strong> {installation.installationType}
+            </p>
+          )}
+        </div>
+
         {!isEditMode && (
           <>
             <div className={styles.formGroup}>

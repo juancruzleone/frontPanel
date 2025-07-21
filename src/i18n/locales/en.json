@@ -2,6 +2,7 @@
   "nav": {
     "home": "Home",
     "workOrders": "Work Orders",
+    "subscriptions": "Active Subscriptions",
     "installations": "Installations",
     "assets": "Assets",
     "forms": "Forms",
@@ -115,7 +116,10 @@
     "redo": "Redo",
     "continue": "Continue",
     "updating": "Updating...",
-    "adding": "Adding..."
+    "adding": "Adding...",
+    "backToAssets": "Back to Assets",
+    "page": "Page",
+    "of": "of"
   },
   "auth": {
     "understood": "Close",
@@ -259,6 +263,10 @@
       "outOfService": "Out of service",
       "pendingReview": "Pending review"
     },
+    "deviceInstallationInfo": "Installation Information",
+    "company": "Company",
+    "address": "Address",
+    "installationType": "Installation Type",
     "deviceState": "Device State",
     "selectState": "Select state",
     "noAssetsAvailable": "No assets available",
@@ -712,6 +720,9 @@
     "userManual": "User manual",
     "technicalManual": "Technical manual",
     "maintenanceManual": "Maintenance manual",
+    "errorLoadingAssets": "Error loading assets",
+    "noAssetsAvailable": "No assets available",
+    "createAssetsFirst": "Create assets first",
     "installationGuide": "Installation guide",
     "others": "Others",
     "spanish": "Spanish",
@@ -744,6 +755,42 @@
       "tagMax": "Each tag cannot exceed 30 characters",
       "unknownError": "Unknown validation error"
     }
+  },
+  "subscriptions": {
+    "title": "Active Subscriptions",
+    "titlePage": "Active Subscriptions - FrontPanel",
+    "subtitle": "Subscription and active billing management",
+    "searchPlaceholder": "Search subscriptions...",
+    "noSubscriptionsFound": "No subscriptions found",
+    "noSubscriptions": "No subscriptions available",
+    "errorLoading": "Error loading subscriptions",
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "pending": "Pending"
+    },
+    "table": {
+      "installation": "Installation",
+      "address": "Address",
+      "type": "Type",
+      "frequency": "Frequency",
+      "months": "Months",
+      "status": "Status",
+      "startDate": "Start Date",
+      "endDate": "End Date"
+    },
+    "frequency": {
+      "monthly": "Monthly",
+      "quarterly": "Quarterly",
+      "semiannual": "Semiannual",
+      "annual": "Annual"
+    },
+    "editFrequency": "Edit Frequency",
+    "newFrequency": "New Frequency",
+    "selectFrequency": "Select a frequency",
+    "selectedMonths": "Selected months",
+    "frequencyUpdated": "Frequency updated successfully",
+    "errorUpdating": "Error updating frequency"
   },
   "calendar": {
     "selectYear": "Select year",
@@ -965,9 +1012,11 @@
   "openForm": "Open form",
   "printQR": "Print QR",
   "device": "Device",
-  "loadingRequiredData": "Loading required data...",
-  "errorLoadingCategories": "Error loading categories",
-  "retryLoadCategories": "Retry loading categories"
+      "loadingRequiredData": "Loading required data...",
+    "errorLoadingCategories": "Error loading categories",
+    "retryLoadCategories": "Retry loading categories",
+    "searchDevicesPlaceholder": "Search by device, location or category...",
+    "noDevicesFound": "No devices found with that search term"
 },
 "login": {
   "understood": "Close",

@@ -79,6 +79,84 @@
   text-align: center;
 }
 
+.searchContainer {
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.filterContainer {
+  min-width: 200px;
+}
+
+.selectWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.statusFilter {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--color-card-border);
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: var(--color-card);
+  color: var(--color-text);
+  font-family: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 40px;
+}
+
+.statusFilter:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.1);
+  background: var(--color-bg-light);
+}
+
+.statusFilter:focus + .selectIcon {
+  color: var(--color-primary);
+}
+
+.statusFilter:hover {
+  border-color: var(--color-card-border);
+}
+
+.selectIcon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition: all 0.2s ease;
+  z-index: 1;
+}
+
+.selectIcon.light {
+  color: var(--color-text);
+}
+
+.selectIcon.dark {
+  color: var(--color-text);
+}
+
+/* Estilos para las opciones del select en modo oscuro */
+[data-theme="dark"] .statusFilter option {
+  background-color: var(--color-card);
+  color: var(--color-text);
+}
+
+/* Estilos para las opciones del select en modo claro */
+.statusFilter option {
+  background-color: var(--color-card);
+  color: var(--color-text);
+}
+
 .devicesList {
   display: flex;
   flex-direction: column;
@@ -336,4 +414,27 @@
   color: var(--color-text);
   font-weight: 600;
   font-size: 14px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .searchContainer {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .filterContainer {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .searchContainer {
+    gap: 0.5rem;
+  }
+
+  .statusFilter {
+    padding: 0.75rem 0.875rem;
+    font-size: 0.95rem;
+  }
 }

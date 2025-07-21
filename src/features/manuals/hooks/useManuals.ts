@@ -11,6 +11,7 @@ import {
 } from "../services/manualServices";
 import { validateManualForm } from "../validators/manualValidations";
 import { useTranslation } from 'react-i18next';
+import { fetchAssets } from "../../assets/services/assetServices";
 
 export type Manual = {
   _id?: string;
@@ -38,6 +39,9 @@ export type Manual = {
 const useManuals = () => {
   const [manuals, setManuals] = useState<Manual[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
+  const [assets, setAssets] = useState<any[]>([]);
+  const [loadingAssets, setLoadingAssets] = useState(false);
+  const [errorLoadingAssets, setErrorLoadingAssets] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState<Omit<Manual, '_id'>>({
@@ -61,6 +65,20 @@ const useManuals = () => {
       }
     });
     return Array.from(uniqueCategories);
+  }, []);
+
+  const loadAssets = useCallback(async () => {
+    setLoadingAssets(true);
+    setErrorLoadingAssets(null);
+    try {
+      const data = await fetchAssets();
+      setAssets(data);
+    } catch (err: any) {
+      console.error("Error al cargar activos:", err);
+      setErrorLoadingAssets(err.message);
+    } finally {
+      setLoadingAssets(false);
+    }
   }, []);
 
   const loadManuals = useCallback(async () => {
@@ -93,7 +111,8 @@ const useManuals = () => {
 
   useEffect(() => {
     loadManuals();
-  }, [loadManuals]);
+    loadAssets();
+  }, [loadManuals, loadAssets]);
 
   const { t } = useTranslation();
   const validateForm = useCallback(async (data: Partial<Manual>) => {
@@ -234,6 +253,10 @@ const useManuals = () => {
   return {
     manuals,
     categories,
+    assets,
+    loadingAssets,
+    errorLoadingAssets,
+    loadAssets,
     loading,
     error,
     loadManuals,

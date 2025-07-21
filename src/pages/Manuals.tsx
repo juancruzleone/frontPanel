@@ -9,13 +9,15 @@ import ModalSuccess from "../features/manuals/components/ModalSuccess";
 import ModalError from "../features/forms/components/ModalError";
 import ModalConfirmDelete from "../features/manuals/components/ModalConfirmDelete";
 import ModalUploadFile from "../features/manuals/components/ModalUploadFile";
-import { Edit, Trash, Upload, FileText, Download, Eye } from 'lucide-react';
+import { Edit, Trash, Upload, FileText, Download, Eye, ArrowLeft } from 'lucide-react';
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../store/authStore";
+import { useNavigate } from "react-router-dom";
 
 const Manuals = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const {
     manuals,
     loading,
@@ -216,7 +218,17 @@ const Manuals = () => {
   return (
     <>
       <div className={styles.containerManuals}>
-        <h1 className={styles.title}>{t('manuals.title')}</h1>
+        <div className={styles.headerContainer}>
+          <button 
+            className={styles.backButton}
+            onClick={() => navigate('/activos')}
+            aria-label={t('common.backToAssets')}
+          >
+            <ArrowLeft size={20} />
+            <span>{t('common.backToAssets')}</span>
+          </button>
+          <h1 className={styles.title}>{t('manuals.title')}</h1>
+        </div>
         {!isTechnician && (
           <div className={styles.positionButton}>
             <Button title={t('manuals.createManual')} onClick={handleOpenCreate} />

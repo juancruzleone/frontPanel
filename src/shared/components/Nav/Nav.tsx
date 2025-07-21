@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom"
 import { useAuthStore } from "../../../store/authStore"
 import {
   LogOut, Home, Package, FileText, BookOpen,
-  ClipboardList, Calendar, Sun, Moon, Menu, X, Building, User, Globe
+  ClipboardList, Calendar, Sun, Moon, Menu, X, Building, User, Globe, CreditCard
 } from "lucide-react"
 import styles from "./Nav.module.css"
 import { useState, useEffect, useRef } from "react"
@@ -150,11 +150,15 @@ const Nav = () => {
               </li>
             </>
           )}
-          <li>
-            <NavLink to="/manuales" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-              <BookOpen size={20} /> {t('nav.manuals')}
-            </NavLink>
-          </li>
+
+          {/* Botón de abonos vigentes solo para no técnicos */}
+          {!isTechnician && (
+            <li>
+              <NavLink to="/abonos-vigentes" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                <CreditCard size={20} /> {t('nav.subscriptions')}
+              </NavLink>
+            </li>
+          )}
           <li>
             <NavLink to="/ordenes-trabajo" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
               <ClipboardList size={20} /> {t('nav.workOrders')}

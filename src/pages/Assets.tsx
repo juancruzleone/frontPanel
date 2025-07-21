@@ -9,13 +9,15 @@ import ModalSuccess from "../features/assets/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
 import ModalConfirmDelete from "../features/assets/components/ModalConfirmDelete"
 import ModalAssignTemplate from "../features/assets/components/ModalAssignTemplate"
-import { Edit, Trash, List, FileText } from "lucide-react"
+import { Edit, Trash, List, FileText, BookOpen } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { translateDeviceStatus } from "../shared/utils/backendTranslations"
+import { useNavigate } from "react-router-dom"
 
 const Assets = () => {
   const { t, i18n } = useTranslation()
+  const navigate = useNavigate()
   const {
     assets,
     loading,
@@ -166,6 +168,14 @@ const Assets = () => {
         <h1 className={styles.title}>{t('assets.title')}</h1>
         <div className={styles.positionButton}>
           <Button title={t('assets.createAsset')} onClick={handleOpenCreate} />
+          <button 
+            className={styles.manualsButton}
+            onClick={() => navigate('/manuales')}
+            aria-label={t('nav.manuals')}
+          >
+            <BookOpen size={20} />
+            <span>{t('nav.manuals')}</span>
+          </button>
         </div>
 
         <div className={styles.searchContainer}>

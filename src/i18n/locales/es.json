@@ -2,6 +2,7 @@
   "nav": {
     "home": "Inicio",
     "workOrders": "Órdenes de Trabajo",
+    "subscriptions": "Abonos Vigentes",
     "installations": "Instalaciones",
     "assets": "Activos",
     "forms": "Formularios",
@@ -114,7 +115,10 @@
     "redo": "Rehacer",
     "continue": "Continuar",
     "updating": "Actualizando...",
-    "adding": "Agregando..."
+    "adding": "Agregando...",
+    "backToAssets": "Volver a Activos",
+    "page": "Página",
+    "of": "de"
   },
   "auth": {
     "continue": "Continuar",
@@ -256,6 +260,10 @@
       "outOfService": "Fuera de servicio",
       "pendingReview": "Pendiente de revisión"
     },
+    "deviceInstallationInfo": "Información de la instalación",
+    "company": "Empresa",
+    "address": "Dirección",
+    "installationType": "Tipo de instalación",
     "deviceState": "Estado del Dispositivo",
     "selectCategory": "Seleccionar categoría",
     "selectState": "Seleccionar estado",
@@ -697,6 +705,9 @@
     "userManual": "Manual de usuario",
     "technicalManual": "Manual técnico",
     "maintenanceManual": "Manual de mantenimiento",
+    "errorLoadingAssets": "Error al cargar activos",
+    "noAssetsAvailable": "No hay activos disponibles",
+    "createAssetsFirst": "Crea activos primero",
     "installationGuide": "Guía de instalación",
     "others": "Otros",
     "spanish": "Español",
@@ -729,6 +740,42 @@
       "tagMax": "Cada tag no puede exceder 30 caracteres",
       "unknownError": "Error de validación desconocido"
     }
+  },
+  "subscriptions": {
+    "title": "Abonos Vigentes",
+    "titlePage": "Abonos Vigentes - FrontPanel",
+    "subtitle": "Gestión de suscripciones y abonos activos",
+    "searchPlaceholder": "Buscar abonos...",
+    "noSubscriptionsFound": "No se encontraron abonos",
+    "noSubscriptions": "No hay abonos disponibles",
+    "errorLoading": "Error al cargar abonos",
+    "status": {
+      "active": "Activo",
+      "inactive": "Inactivo",
+      "pending": "Pendiente"
+    },
+    "table": {
+      "installation": "Instalación",
+      "address": "Dirección",
+      "type": "Tipo",
+      "frequency": "Frecuencia",
+      "months": "Meses",
+      "status": "Estado",
+      "startDate": "Fecha Inicio",
+      "endDate": "Fecha Fin"
+    },
+    "frequency": {
+      "monthly": "Mensual",
+      "quarterly": "Trimestral",
+      "semiannual": "Semestral",
+      "annual": "Anual"
+    },
+    "editFrequency": "Editar Frecuencia",
+    "newFrequency": "Nueva Frecuencia",
+    "selectFrequency": "Selecciona una frecuencia",
+    "selectedMonths": "Meses seleccionados",
+    "frequencyUpdated": "Frecuencia actualizada exitosamente",
+    "errorUpdating": "Error al actualizar la frecuencia"
   },
   "workOrders": {
     "successTitle": "¡Operación exitosa!",
@@ -970,7 +1017,9 @@
     "device": "Dispositivo",
     "loadingRequiredData": "Cargando datos necesarios...",
     "errorLoadingCategories": "Error al cargar categorías",
-    "retryLoadCategories": "Reintentar carga de categorías"
+    "retryLoadCategories": "Reintentar carga de categorías",
+    "searchDevicesPlaceholder": "Buscar por dispositivo, ubicación o categoría...",
+    "noDevicesFound": "No se encontraron dispositivos con ese término de búsqueda"
   },
   "login": {
     "successTitle": "¡Operación exitosa!",

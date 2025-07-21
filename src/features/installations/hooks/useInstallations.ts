@@ -49,6 +49,14 @@ export type Installation = {
   installationType: string
   image?: File | null | string
   devices?: Device[]
+  // Campos para abonos/estado/frecuencia
+  frecuencia?: string
+  fechaInicio?: string | Date
+  fechaFin?: string | Date
+  estado?: 'active' | 'inactive' | 'pending'
+  fechaCreacion?: string | Date
+  fechaActualizacion?: string | Date
+  mesesFrecuencia?: string[]
 }
 
 const useInstallations = () => {

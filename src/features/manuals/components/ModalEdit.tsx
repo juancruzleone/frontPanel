@@ -32,6 +32,10 @@ const ModalEdit = ({
     resetForm,
     setFormValues,
     setFormErrors,
+    assets,
+    loadingAssets,
+    errorLoadingAssets,
+    loadAssets,
   } = useManuals();
 
   const handleClose = () => {
@@ -75,6 +79,10 @@ const ModalEdit = ({
             handleFieldChange={handleFieldChange}
             handleSubmitForm={handleSubmitForm}
             isSubmitting={isSubmitting}
+            assets={assets}
+            loadingAssets={loadingAssets}
+            errorLoadingAssets={errorLoadingAssets}
+            onRetryLoadAssets={loadAssets}
           />
         </div>
       </div>

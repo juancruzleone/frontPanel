@@ -8,6 +8,47 @@
   color: var(--color-text);
 }
 
+.headerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 4px 4px;
+  background: var(--color-card);
+  border: 2px solid var(--color-card-border);
+  border-radius: 8px;
+  color: var(--color-text);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  height: 32px;
+  min-width: 0;
+  width: auto;
+  margin-bottom: 1.25rem;
+}
+
+.backButton:hover {
+  background: var(--color-bg-light);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.backButton:active {
+  transform: translateY(0);
+}
+
 .title {
   font-size: 32px;
   font-weight: 700;
@@ -19,6 +60,9 @@
 .positionButton {
   display: flex;
   justify-content: flex-start;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 0;
 }
 
 .searchContainer {
@@ -339,6 +383,18 @@
   .containerManuals {
     padding: 12px 8px;
   }
+
+  .headerContainer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .backButton {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.9rem;
+  }
+
   .listContainer {
     grid-template-columns: 1fr;
     gap: 12px;

@@ -28,6 +28,10 @@ interface ManualFormProps {
     onEdit?: (id: string, data: Manual) => Promise<{ message: string }>
   ) => void;
   isSubmitting: boolean;
+  assets: any[];
+  loadingAssets: boolean;
+  errorLoadingAssets: string | null;
+  onRetryLoadAssets: () => void;
 }
 
 const ManualForm = ({
@@ -43,6 +47,10 @@ const ManualForm = ({
   handleFieldChange,
   handleSubmitForm,
   isSubmitting,
+  assets,
+  loadingAssets,
+  errorLoadingAssets,
+  onRetryLoadAssets,
 }: ManualFormProps) => {
   const { t } = useTranslation();
   const { dark } = useTheme();
@@ -187,16 +195,46 @@ const ManualForm = ({
 
         <div className={styles.formGroup}>
           <label>{t('manuals.active')} *</label>
-          <input
-            type="text"
-            name="assetId"
-            value={formData.assetId}
-            onChange={(e) => handleFieldChange('assetId', e.target.value)}
-            onBlur={() => handleFieldBlur('assetId')}
-            disabled={isSubmitting}
-            className={showError('assetId') ? styles.errorInput : ''}
-            placeholder={t('manuals.selectAsset')}
-          />
+          {loadingAssets ? (
+            <p>{t('common.loading')}</p>
+          ) : errorLoadingAssets ? (
+            <div>
+              <p className={styles.error}>
+                {errorLoadingAssets.includes("No hay activos")
+                  ? errorLoadingAssets
+                  : t('manuals.errorLoadingAssets')}
+              </p>
+              <button type="button" onClick={onRetryLoadAssets} className={styles.retryButton}>
+                {t('common.retry')}
+              </button>
+            </div>
+          ) : assets.length === 0 ? (
+            <p className={styles.error}>
+              {t('manuals.noAssetsAvailable')}. {t('manuals.createAssetsFirst')}.
+            </p>
+          ) : (
+            <div className={styles.selectWrapper}>
+              <select
+                name="assetId"
+                value={formData.assetId}
+                onChange={(e) => handleFieldChange('assetId', e.target.value)}
+                onBlur={() => handleFieldBlur('assetId')}
+                disabled={isSubmitting}
+                className={showError('assetId') ? styles.errorInput : ''}
+              >
+                <option value="">{t('manuals.selectAsset')}</option>
+                {assets.map((asset) => (
+                  <option key={asset._id} value={asset._id}>
+                    {asset.nombre} - {asset.marca} {asset.modelo}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown 
+                size={16} 
+                className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
+              />
+            </div>
+          )}
           {showError('assetId') && (
             <p className={styles.inputError}>{formErrorsState['assetId']}</p>
           )}

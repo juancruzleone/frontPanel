@@ -10,6 +10,14 @@ interface DatePickerModalProps {
   title?: string;
 }
 
+// Utilidad para formatear fecha local a YYYY-MM-DD
+function formatLocalDate(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 const DatePickerModal = ({
   isOpen,
   onRequestClose,
@@ -58,7 +66,8 @@ const DatePickerModal = ({
 
   const handleConfirm = () => {
     if (selectedDateState) {
-      const formattedDate = selectedDateState.toISOString().split('T')[0];
+      // Usar fecha local, no UTC
+      const formattedDate = formatLocalDate(selectedDateState);
       onDateSelect(formattedDate);
       onRequestClose();
     }

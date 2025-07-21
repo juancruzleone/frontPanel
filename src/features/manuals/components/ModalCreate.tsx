@@ -28,6 +28,10 @@ const ModalCreate = ({
     isSubmitting,
     resetForm,
     setFormErrors,
+    assets,
+    loadingAssets,
+    errorLoadingAssets,
+    loadAssets,
   } = useManuals();
 
   const handleClose = () => {
@@ -69,6 +73,10 @@ const ModalCreate = ({
             handleFieldChange={handleFieldChange}
             handleSubmitForm={handleSubmitForm}
             isSubmitting={isSubmitting}
+            assets={assets}
+            loadingAssets={loadingAssets}
+            errorLoadingAssets={errorLoadingAssets}
+            onRetryLoadAssets={loadAssets}
           />
         </div>
       </div>
