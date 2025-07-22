@@ -56,6 +56,7 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
     handleStartDateSelect,
     handleEndDateSelect,
     resetFrequencyForm,
+    validateAllFields, // NUEVA FUNCIÓN DEL HOOK
   } = useSubscriptions()
 
   useEffect(() => {
@@ -98,6 +99,14 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
     if (!subscription) {
       setIsError(true)
       setResponseMessage(t('subscriptions.selectFrequency'))
+      return
+    }
+
+    // USAR LA NUEVA FUNCIÓN DE VALIDACIÓN
+    const isValid = await validateAllFields()
+    
+    if (!isValid) {
+      // Si no es válido, no continuar con el envío
       return
     }
 

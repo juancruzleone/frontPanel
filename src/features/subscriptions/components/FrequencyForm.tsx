@@ -66,10 +66,10 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
 
   const isMonthSelected = (month: string) => selectedMonths.includes(month)
 
+  // Prevenir que los clicks en los inputs de fecha propaguen el evento
   const handleDateInputClick = (e: React.MouseEvent, type: 'start' | 'end') => {
     e.preventDefault()
     e.stopPropagation()
-    e.nativeEvent.stopImmediatePropagation()
     if (type === 'start') {
       onFieldChange('isStartDatePickerOpen', true)
     } else {
@@ -77,56 +77,28 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
     }
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent, type: 'start' | 'end') => {
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      e.stopPropagation()
-      if (type === 'start') {
-        onFieldChange('isStartDatePickerOpen', true)
-      } else {
-        onFieldChange('isEndDatePickerOpen', true)
-      }
+  // SOLUCIÓN 1: Manejador específico para los íconos de calendario
+  const handleCalendarIconClick = (e: React.MouseEvent, type: 'start' | 'end') => {
+    e.preventDefault() // Prevenir envío del formulario
+    e.stopPropagation() // Prevenir propagación del evento
+    
+    if (type === 'start') {
+      onFieldChange('isStartDatePickerOpen', true)
+    } else {
+      onFieldChange('isEndDatePickerOpen', true)
     }
   }
 
-  // Handler mejorado para el formulario que previene Enter cuando hay modales abiertos
-  const handleFormKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
-    if (e.key === 'Enter') {
-      // Si algún modal está abierto, siempre prevenir el submit
-      if (isStartDatePickerOpen || isEndDatePickerOpen) {
-        e.preventDefault()
-        e.stopPropagation()
-        return
-      }
-      
-      const target = e.target as HTMLElement;
-      // Solo permitir Enter en el botón de submit y textareas
-      if (
-        !(target instanceof HTMLButtonElement && target.type === 'submit') &&
-        target.tagName !== 'TEXTAREA'
-      ) {
-        e.preventDefault()
-      }
-    }
-  }
-
-  // Handler para prevenir el submit cuando se hace click fuera de los botones
+  // Manejador de envío del formulario con validación completa
   const handleFormSubmit = (e: React.FormEvent) => {
-    // Si algún modal está abierto, prevenir el submit
-    if (isStartDatePickerOpen || isEndDatePickerOpen) {
-      e.preventDefault()
-      return
-    }
+    e.preventDefault()
+    
+    // Simplemente llamar al onSubmit original - la validación se manejará en el hook
     onSubmit(e)
   }
 
   return (
-    <form
-      onSubmit={handleFormSubmit}
-      className={styles.frequencyForm}
-      noValidate
-      onKeyDown={handleFormKeyDown}
-    >
+    <form onSubmit={handleFormSubmit} className={styles.frequencyForm} noValidate>
       {isError && responseMessage && (
         <div className={styles.inputError}>{responseMessage}</div>
       )}
@@ -146,6 +118,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
           <div className={styles.inputError}>{formErrors['tipo']}</div>
         )}
       </div>
+      
       <div className={styles.formGroup}>
         <label>{t('subscriptions.startDate')}</label>
         <div style={{ position: 'relative', width: '100%' }}>
@@ -157,23 +130,40 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
                 : ''
             }
             onClick={(e) => handleDateInputClick(e, 'start')}
-            onKeyDown={(e) => handleKeyDown(e, 'start')}
             readOnly
             className={styles.inputDate}
             placeholder={t('subscriptions.selectStartDate')}
             style={{ cursor: 'pointer', paddingRight: 40 }}
           />
-          <Calendar
-            size={20}
-            style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', opacity: 0.7 }}
-            onClick={(e) => handleDateInputClick(e as any, 'start')}
-            onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
+          {/* SOLUCIÓN 2: Convertir el ícono en un botón con type="button" */}
+          <button
+            type="button" // IMPORTANTE: Especificar type="button"
+            onClick={(e) => handleCalendarIconClick(e, 'start')}
             aria-label={t('subscriptions.selectStartDate')}
-          />
+            style={{ 
+              position: 'absolute', 
+              right: 12, 
+              top: '50%', 
+              transform: 'translateY(-50%)', 
+              cursor: 'pointer', 
+              opacity: 0.7,
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <Calendar size={20} />
+          </button>
         </div>
         <DatePickerModal
           isOpen={isStartDatePickerOpen}
-          onRequestClose={onStartDateClose}
+          onRequestClose={() => {
+            onStartDateClose();
+            onFieldBlur('startDate'); // Validar solo el campo de inicio al cerrar
+          }}
           onDateSelect={onStartDateSelect}
           selectedDate={formData.startDate as string}
           title={t('subscriptions.selectStartDate')}
@@ -183,6 +173,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
           <div className={styles.inputError}>{formErrors['fechaInicio']}</div>
         )}
       </div>
+      
       <div className={styles.formGroup}>
         <label>{t('subscriptions.endDate')}</label>
         <div style={{ position: 'relative', width: '100%' }}>
@@ -194,23 +185,40 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
                 : ''
             }
             onClick={(e) => handleDateInputClick(e, 'end')}
-            onKeyDown={(e) => handleKeyDown(e, 'end')}
             readOnly
             className={styles.inputDate}
             placeholder={t('subscriptions.selectEndDate')}
             style={{ cursor: 'pointer', paddingRight: 40 }}
           />
-          <Calendar
-            size={20}
-            style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', opacity: 0.7 }}
-            onClick={(e) => handleDateInputClick(e as any, 'end')}
-            onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()}
+          {/* SOLUCIÓN 2: Convertir el ícono en un botón con type="button" */}
+          <button
+            type="button" // IMPORTANTE: Especificar type="button"
+            onClick={(e) => handleCalendarIconClick(e, 'end')}
             aria-label={t('subscriptions.selectEndDate')}
-          />
+            style={{ 
+              position: 'absolute', 
+              right: 12, 
+              top: '50%', 
+              transform: 'translateY(-50%)', 
+              cursor: 'pointer', 
+              opacity: 0.7,
+              background: 'none',
+              border: 'none',
+              padding: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <Calendar size={20} />
+          </button>
         </div>
         <DatePickerModal
           isOpen={isEndDatePickerOpen}
-          onRequestClose={onEndDateClose}
+          onRequestClose={() => {
+            onEndDateClose();
+            onFieldBlur('endDate'); // Validar solo el campo de fin al cerrar
+          }}
           onDateSelect={onEndDateSelect}
           selectedDate={formData.endDate as string}
           title={t('subscriptions.selectEndDate')}
@@ -220,6 +228,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
           <div className={styles.inputError}>{formErrors['fechaFin']}</div>
         )}
       </div>
+      
       <div className={styles.formGroup} style={{ position: 'relative' }}>
         <label>{t('subscriptions.status.label')}</label>
         <span style={{ position: 'relative', display: 'block', width: '100%' }}>
@@ -243,6 +252,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
           <div className={styles.inputError}>{formErrors['estado']}</div>
         )}
       </div>
+      
       {(formData.frequency === 'semestral' || formData.frequency === 'trimestral') && (
         <div className={styles.formGroup}>
           <label className={styles.monthsLabel}>
@@ -271,6 +281,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
           </div>
         </div>
       )}
+      
       {(formData.frequency === 'mensual' || formData.frequency === 'anual') && (
         <div className={styles.formGroup}>
           <label className={styles.monthsLabel}>
@@ -286,6 +297,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
           </div>
         </div>
       )}
+      
       <div className={styles.modalActions}>
         <button
           type="button"

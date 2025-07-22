@@ -157,6 +157,8 @@ const useSubscriptions = () => {
 
   const handleFieldChange = useCallback((name: string, value: any) => {
     setFormData(prev => ({ ...prev, [name]: value }))
+    // Limpiar touchedFields de los otros campos
+    setTouchedFields({ [name]: true })
     if (name === 'frequency') {
       setTouchedFields(prev => ({ ...prev, [name]: true }))
       // Reset selected months when frequency changes
@@ -168,28 +170,62 @@ const useSubscriptions = () => {
     }
   }, [])
 
+  // ACTUALIZACIÓN: Mejorar el handleFieldBlur para validar SOLO el campo específico
   const handleFieldBlur = useCallback(async (name: string) => {
-    setTouchedFields(prev => ({ ...prev, [name]: true }))
+    // Limpiar touchedFields de los otros campos
+    setTouchedFields({ [name]: true })
     
+    // Mapear nombres de campos del formulario a nombres de validación
+    const fieldMapping: Record<string, string> = {
+      'frequency': 'tipo',
+      'startDate': 'fechaInicio',
+      'endDate': 'fechaFin',
+      'status': 'estado'
+    }
+    
+    const validationFieldName = fieldMapping[name] || name
+    const fieldValue = formData[name as keyof typeof formData]
+    
+    // CAMBIO CLAVE: Solo validar el campo específico, no todos los campos
     const fieldToValidate = {
-      [name === 'frequency' ? 'tipo' : 
-       name === 'startDate' ? 'fechaInicio' :
-       name === 'endDate' ? 'fechaFin' :
-       'estado']: formData[name]
+      [validationFieldName]: fieldValue
+    }
+    
+    // Para fechas, también necesitamos incluir la fecha de inicio si estamos validando fecha de fin
+    if (name === 'endDate' && formData.startDate) {
+      fieldToValidate['fechaInicio'] = formData.startDate
     }
     
     const validation = await validateSubscriptionForm(fieldToValidate, t)
     
+    // CAMBIO CLAVE: Solo actualizar el error del campo específico, mantener otros errores existentes
     setFormErrors(prev => ({
       ...prev,
-      [name === 'frequency' ? 'tipo' : 
-       name === 'startDate' ? 'fechaInicio' :
-       name === 'endDate' ? 'fechaFin' :
-       'estado']: validation.errors[name === 'frequency' ? 'tipo' : 
-                  name === 'startDate' ? 'fechaInicio' :
-                  name === 'endDate' ? 'fechaFin' :
-                  'estado'] || ''
+      [validationFieldName]: validation.errors[validationFieldName] || ''
     }))
+  }, [formData, t])
+
+  // NUEVA FUNCIÓN: Validar todos los campos y marcarlos como tocados
+  const validateAllFields = useCallback(async () => {
+    const allFields = ['frequency', 'startDate', 'endDate', 'status']
+    
+    // Marcar todos los campos como tocados
+    const newTouchedFields: Record<string, boolean> = {}
+    allFields.forEach(field => {
+      newTouchedFields[field] = true
+    })
+    setTouchedFields(prev => ({ ...prev, ...newTouchedFields }))
+    
+    // Validar todos los campos
+    const validation = await validateSubscriptionForm({
+      tipo: formData.frequency,
+      fechaInicio: formData.startDate,
+      fechaFin: formData.endDate,
+      estado: formData.status,
+    }, t)
+    
+    setFormErrors(validation.errors)
+    return validation.isValid
   }, [formData, t])
 
   const handleSubmitForm = async (
@@ -200,18 +236,11 @@ const useSubscriptions = () => {
   ) => {
     e.preventDefault()
     setIsSubmitting(true)
-    setTouchedFields({ frequency: true, startDate: true, endDate: true, status: true })
     
-    const validation = await validateSubscriptionForm({
-      tipo: formData.frequency,
-      fechaInicio: formData.startDate,
-      fechaFin: formData.endDate,
-      estado: formData.status,
-    }, t)
+    // Validar todos los campos
+    const isValid = await validateAllFields()
     
-    setFormErrors(validation.errors)
-    
-    if (!validation.isValid) {
+    if (!isValid) {
       setIsSubmitting(false)
       return
     }
@@ -274,34 +303,36 @@ const useSubscriptions = () => {
 
   const handleStartDateClose = () => {
     setIsStartDatePickerOpen(false)
-    if (touchedFields.startDate && !formData.startDate) {
-      handleFieldBlur('startDate')
-    }
+    // NO HACER NADA MÁS - No validar automáticamente
   }
 
   const handleEndDateClose = () => {
     setIsEndDatePickerOpen(false)
-    if (touchedFields.endDate) {
-      handleFieldBlur('endDate')
-    }
+    // NO HACER NADA MÁS - No validar automáticamente
   }
 
   const handleStartDateSelect = (date: string) => {
     handleFieldChange('startDate', date)
     setIsStartDatePickerOpen(false)
-    setTouchedFields(prev => ({ ...prev, startDate: true }))
-    if (!date) {
-      handleFieldBlur('startDate')
-    } else {
+    
+    // Solo limpiar errores si se selecciona una fecha válida
+    if (date) {
       setFormErrors(prev => ({ ...prev, fechaInicio: '' }))
     }
+    
+    // NO marcar como tocado ni validar - solo en envío del formulario
   }
 
   const handleEndDateSelect = (date: string) => {
     handleFieldChange('endDate', date)
     setIsEndDatePickerOpen(false)
-    setTouchedFields(prev => ({ ...prev, endDate: true }))
-    handleFieldBlur('endDate')
+    
+    // Solo limpiar errores si se selecciona una fecha válida
+    if (date) {
+      setFormErrors(prev => ({ ...prev, fechaFin: '' }))
+    }
+    
+    // NO marcar como tocado ni validar - solo en envío del formulario
   }
 
   const setFormErrorState = (error: boolean, message: string) => {
@@ -356,6 +387,7 @@ const useSubscriptions = () => {
     handleEndDateSelect,
     setFormErrorState,
     resetFrequencyForm,
+    validateAllFields, // NUEVA FUNCIÓN EXPORTADA
   }
 }
 
