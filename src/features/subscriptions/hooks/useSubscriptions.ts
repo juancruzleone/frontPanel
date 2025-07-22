@@ -36,7 +36,6 @@ const useSubscriptions = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  // Opciones de frecuencia disponibles
   const frequencyOptions: FrequencyOption[] = [
     {
       value: 'mensual',
@@ -60,13 +59,11 @@ const useSubscriptions = () => {
     }
   ]
 
-  // Función para obtener meses según la frecuencia
   const getMonthsByFrequency = (frequency: string): string[] => {
     const option = frequencyOptions.find(opt => opt.value === frequency)
     return option ? option.months : []
   }
 
-  // Mapear instalación a abono (subscription)
   const mapInstallationToSubscription = (installation: Installation): Subscription => {
     return {
       _id: installation._id || '',
@@ -90,10 +87,8 @@ const useSubscriptions = () => {
     try {
       setLoading(true)
       setError(null)
-      // Cargar instalaciones reales
       const installationsData = await fetchInstallations()
       setInstallations(installationsData)
-      // Mapear instalaciones a abonos
       const subscriptionsData = installationsData.map(mapInstallationToSubscription)
       setSubscriptions(subscriptionsData)
     } catch (err: any) {
@@ -111,65 +106,92 @@ const useSubscriptions = () => {
     loadSubscriptions()
   }, [loadSubscriptions])
 
-  // Función para actualizar abono (frecuencia, fechas, estado)
   const updateSubscription = async (subscriptionId: string, data: Partial<Subscription>) => {
     const installation = installations.find(inst => inst._id === subscriptionId)
     if (!installation) throw new Error(t('subscriptions.installationNotFound'))
+    
+    // Determinar los meses según la frecuencia
+    let monthsToSave = data.months || []
+    
+    if (data.frequency) {
+      if (data.frequency === 'mensual' || data.frequency === 'anual') {
+        // Para mensual y anual, todos los meses
+        monthsToSave = getMonthsByFrequency(data.frequency)
+      } else if (data.months && data.months.length > 0) {
+        // Para trimestral y semestral, usar los meses seleccionados
+        monthsToSave = data.months
+      } else {
+        // Si no hay meses seleccionados, mantener los existentes
+        monthsToSave = installation.mesesFrecuencia || []
+      }
+    }
+    
     const updateData: any = {
       ...installation,
       frecuencia: data.frequency || installation.frecuencia,
       fechaInicio: data.startDate || installation.fechaInicio,
       fechaFin: data.endDate || installation.fechaFin,
       estado: data.status || installation.estado,
-      mesesFrecuencia: data.months || installation.mesesFrecuencia || getMonthsByFrequency(data.frequency || installation.frecuencia || ''),
+      mesesFrecuencia: monthsToSave,
     }
+    
     await updateSubscriptionService(subscriptionId, updateData)
     await loadSubscriptions()
   }
 
-  // Estado para el formulario de edición de suscripción
   const [formData, setFormData] = useState<{
-    frequency?: string
-    startDate?: string | Date
-    endDate?: string | Date
-    status?: string
+    frequency: string
+    startDate: string
+    endDate: string
+    status: 'active' | 'inactive' | 'pending'
   }>({
     frequency: '',
     startDate: '',
     endDate: '',
     status: 'active',
   })
+
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  // Manejar cambios de campo
-  const handleFieldChange = async (name: string, value: any) => {
-    const updatedData = { ...formData, [name]: value }
-    setFormData(updatedData)
-    setTouchedFields((prev) => ({ ...prev, [name]: true }))
-    const validation = await validateSubscriptionForm({
-      tipo: updatedData.frequency,
-      fechaInicio: updatedData.startDate,
-      fechaFin: updatedData.endDate,
-      estado: updatedData.status,
-    }, t)
-    setFormErrors(validation.errors)
-  }
+  const handleFieldChange = useCallback((name: string, value: any) => {
+    setFormData(prev => ({ ...prev, [name]: value }))
+    if (name === 'frequency') {
+      setTouchedFields(prev => ({ ...prev, [name]: true }))
+      // Reset selected months when frequency changes
+      if (value === 'mensual' || value === 'anual') {
+        setSelectedMonths(getMonthsByFrequency(value))
+      } else {
+        setSelectedMonths([])
+      }
+    }
+  }, [])
 
-  // Manejar blur de campo
-  const handleFieldBlur = async (name: string) => {
-    setTouchedFields((prev) => ({ ...prev, [name]: true }))
-    const validation = await validateSubscriptionForm({
-      tipo: formData.frequency,
-      fechaInicio: formData.startDate,
-      fechaFin: formData.endDate,
-      estado: formData.status,
-    }, t)
-    setFormErrors(validation.errors)
-  }
+  const handleFieldBlur = useCallback(async (name: string) => {
+    setTouchedFields(prev => ({ ...prev, [name]: true }))
+    
+    const fieldToValidate = {
+      [name === 'frequency' ? 'tipo' : 
+       name === 'startDate' ? 'fechaInicio' :
+       name === 'endDate' ? 'fechaFin' :
+       'estado']: formData[name]
+    }
+    
+    const validation = await validateSubscriptionForm(fieldToValidate, t)
+    
+    setFormErrors(prev => ({
+      ...prev,
+      [name === 'frequency' ? 'tipo' : 
+       name === 'startDate' ? 'fechaInicio' :
+       name === 'endDate' ? 'fechaFin' :
+       'estado']: validation.errors[name === 'frequency' ? 'tipo' : 
+                  name === 'startDate' ? 'fechaInicio' :
+                  name === 'endDate' ? 'fechaFin' :
+                  'estado'] || ''
+    }))
+  }, [formData, t])
 
-  // Manejar submit del formulario
   const handleSubmitForm = async (
     e: React.FormEvent,
     onSuccess: (message: string) => void,
@@ -179,26 +201,30 @@ const useSubscriptions = () => {
     e.preventDefault()
     setIsSubmitting(true)
     setTouchedFields({ frequency: true, startDate: true, endDate: true, status: true })
+    
     const validation = await validateSubscriptionForm({
       tipo: formData.frequency,
       fechaInicio: formData.startDate,
       fechaFin: formData.endDate,
       estado: formData.status,
     }, t)
+    
     setFormErrors(validation.errors)
+    
     if (!validation.isValid) {
       setIsSubmitting(false)
       return
     }
+
     try {
       await updateSubscription(subscriptionId, {
         frequency: formData.frequency,
         startDate: formData.startDate ? new Date(formData.startDate) : undefined,
         endDate: formData.endDate ? new Date(formData.endDate) : undefined,
         status: formData.status as 'active' | 'inactive' | 'pending',
+        months: selectedMonths,
       })
       onSuccess(t('subscriptions.frequencyUpdated'))
-      resetForm()
     } catch (err: any) {
       onError(err.message || t('subscriptions.errorUpdating'))
     } finally {
@@ -212,6 +238,86 @@ const useSubscriptions = () => {
     setTouchedFields({})
   }
 
+  const [selectedMonths, setSelectedMonths] = useState<string[]>([])
+  const [isStartDatePickerOpen, setIsStartDatePickerOpen] = useState(false)
+  const [isEndDatePickerOpen, setIsEndDatePickerOpen] = useState(false)
+  const [isError, setIsError] = useState(false)
+  const [responseMessage, setResponseMessage] = useState("")
+
+  const handleMonthClick = (month: string) => {
+    if (formData.frequency === 'semestral') {
+      if (selectedMonths.includes(month)) {
+        setSelectedMonths(selectedMonths.filter(m => m !== month))
+      } else if (selectedMonths.length < 2) {
+        setSelectedMonths([...selectedMonths, month])
+      }
+    } else if (formData.frequency === 'trimestral') {
+      if (selectedMonths.includes(month)) {
+        setSelectedMonths(selectedMonths.filter(m => m !== month))
+      } else if (selectedMonths.length < 4) {
+        setSelectedMonths([...selectedMonths, month])
+      }
+    }
+  }
+
+  const isMonthSelectable = (month: string) => {
+    return formData.frequency === 'semestral' || formData.frequency === 'trimestral'
+  }
+
+  const isMonthSelected = (month: string) => selectedMonths.includes(month)
+
+  const canSave = () => {
+    if (formData.frequency === 'semestral') return selectedMonths.length === 2
+    if (formData.frequency === 'trimestral') return selectedMonths.length === 4
+    return true
+  }
+
+  const handleStartDateClose = () => {
+    setIsStartDatePickerOpen(false)
+    if (touchedFields.startDate && !formData.startDate) {
+      handleFieldBlur('startDate')
+    }
+  }
+
+  const handleEndDateClose = () => {
+    setIsEndDatePickerOpen(false)
+    if (touchedFields.endDate) {
+      handleFieldBlur('endDate')
+    }
+  }
+
+  const handleStartDateSelect = (date: string) => {
+    handleFieldChange('startDate', date)
+    setIsStartDatePickerOpen(false)
+    setTouchedFields(prev => ({ ...prev, startDate: true }))
+    if (!date) {
+      handleFieldBlur('startDate')
+    } else {
+      setFormErrors(prev => ({ ...prev, fechaInicio: '' }))
+    }
+  }
+
+  const handleEndDateSelect = (date: string) => {
+    handleFieldChange('endDate', date)
+    setIsEndDatePickerOpen(false)
+    setTouchedFields(prev => ({ ...prev, endDate: true }))
+    handleFieldBlur('endDate')
+  }
+
+  const setFormErrorState = (error: boolean, message: string) => {
+    setIsError(error)
+    setResponseMessage(message)
+  }
+
+  const resetFrequencyForm = () => {
+    resetForm()
+    setSelectedMonths([])
+    setIsStartDatePickerOpen(false)
+    setIsEndDatePickerOpen(false)
+    setIsError(false)
+    setResponseMessage("")
+  }
+
   return {
     subscriptions,
     installations,
@@ -221,7 +327,6 @@ const useSubscriptions = () => {
     error,
     refreshSubscriptions,
     updateSubscription,
-    // Nuevo para formulario
     formData,
     setFormData,
     formErrors,
@@ -231,7 +336,27 @@ const useSubscriptions = () => {
     handleFieldBlur,
     handleSubmitForm,
     resetForm,
+    selectedMonths,
+    setSelectedMonths,
+    isStartDatePickerOpen,
+    setIsStartDatePickerOpen,
+    isEndDatePickerOpen,
+    setIsEndDatePickerOpen,
+    isError,
+    setIsError,
+    responseMessage,
+    setResponseMessage,
+    handleMonthClick,
+    isMonthSelectable,
+    isMonthSelected,
+    canSave,
+    handleStartDateClose,
+    handleEndDateClose,
+    handleStartDateSelect,
+    handleEndDateSelect,
+    setFormErrorState,
+    resetFrequencyForm,
   }
 }
 
-export default useSubscriptions 
+export default useSubscriptions

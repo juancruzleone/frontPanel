@@ -100,7 +100,7 @@ const DatePickerModal = ({
   const monthName = currentDate.toLocaleDateString(currentLanguage, { month: "long", year: "numeric" });
 
   return (
-    <div className={styles.datePickerBackdrop}>
+    <div className={styles.datePickerBackdrop} onKeyDown={e => { if (e.key === 'Enter') e.stopPropagation(); }}>
       <div className={styles.datePickerModal}>
         <div className={styles.datePickerHeader}>
           {/* Icono de calendario eliminado */}

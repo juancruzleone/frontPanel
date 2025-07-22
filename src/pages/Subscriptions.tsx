@@ -80,14 +80,27 @@ const Subscriptions = () => {
     setIsEditFrequencyModalOpen(true)
   }
 
-  const handleSaveFrequency = async (subscriptionId: string, frequency: string, startDate?: string, endDate?: string, status?: 'active' | 'inactive' | 'pending') => {
-    await updateSubscription(subscriptionId, {
-      frequency,
-      startDate: startDate ? new Date(startDate) : undefined,
-      endDate: endDate ? new Date(endDate) : undefined,
-      status,
-    })
-    return { message: t('subscriptions.frequencyUpdated') }
+  const handleSaveFrequency = async (
+    subscriptionId: string,
+    frequency: string,
+    startDate?: string,
+    endDate?: string,
+    status?: 'active' | 'inactive' | 'pending',
+    months?: string[]
+  ) => {
+    try {
+      await updateSubscription(subscriptionId, {
+        frequency,
+        startDate: startDate ? new Date(startDate) : undefined,
+        endDate: endDate ? new Date(endDate) : undefined,
+        status,
+        months: months || [],
+      })
+      return { message: t('subscriptions.frequencyUpdated') }
+    } catch (error: any) {
+      // Propagar el error para que sea manejado por el modal
+      throw error
+    }
   }
 
   const handleSuccessEditFrequency = (message: string) => {
@@ -283,4 +296,4 @@ const Subscriptions = () => {
   )
 }
 
-export default Subscriptions 
+export default Subscriptions
