@@ -1049,6 +1049,10 @@
   }
 },
 "deviceForm": {
+  "installation": "Installation Details",
+  "company": "Installation Name",
+  "installationType": "Installation Type",
+  "deviceDetails": "Device Details",
   "loading": "Loading form...",
   "error": "Error: {{error}}",
   "notFound": "Device not found.",

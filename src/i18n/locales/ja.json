@@ -948,6 +948,10 @@
     }
   },
   "deviceForm": {
+    "installation": "設置の詳細",
+    "company": "設置名",
+    "installationType": "設置タイプ",
+    "deviceDetails": "デバイスの詳細",
   "loading": "フォームを読み込み中...",
   "error": "エラー: {{error}}",
   "notFound": "デバイスが見つかりません。",

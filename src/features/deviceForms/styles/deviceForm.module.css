@@ -330,4 +330,88 @@
   color: var(--color-text);
 }
 
+  /* Agregar estos estilos a deviceForm.module.css */
+
+/* Información de la instalación */
+.installationInfoBox {
+  background: var(--color-primary-light, #e3f2fd);
+  border-radius: 12px;
+  padding: 20px;
+  font-size: 16px;
+  color: var(--color-text);
+  border: 1px solid var(--color-primary-border, #90caf9);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.infoHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 18px;
+  color: var(--color-primary, #1976d2);
+}
+
+.infoContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.infoRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.infoIcon {
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+/* Actualizar estilo del deviceInfoBox para consistencia */
+.deviceInfoBox {
+  background: var(--color-bg-light);
+  border-radius: 12px;
+  padding: 20px;
+  font-size: 16px;
+  color: var(--color-text);
+  border: 1px solid var(--color-card-border);
+  line-height: 1.6;
+}
+
+.deviceInfoBox .infoHeader {
+  color: var(--color-text);
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+/* Responsive para información de instalación */
+@media (max-width: 768px) {
+  .installationInfoBox,
+  .deviceInfoBox {
+    padding: 16px;
+    font-size: 14px;
+  }
   
+  .infoHeader {
+    font-size: 16px;
+  }
+  
+  .infoRow {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 600px) {
+  .installationInfoBox,
+  .deviceInfoBox {
+    padding: 12px;
+    font-size: 13px;
+  }
+  
+  .infoHeader {
+    font-size: 15px;
+  }
+}

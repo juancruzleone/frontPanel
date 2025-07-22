@@ -18,6 +18,17 @@ interface DeviceInfo {
   numeroSerie: string
 }
 
+interface InstallationInfo {
+  _id: string
+  company: string
+  address: string
+  floorSector?: string
+  city: string
+  province: string
+  installationType: string
+  fullAddress: string
+}
+
 interface OfflineSubmission {
   id: string
   installationId: string
@@ -29,6 +40,7 @@ interface OfflineSubmission {
 
 const useDeviceForm = (installationId?: string, deviceId?: string) => {
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfo | null>(null)
+  const [installationInfo, setInstallationInfo] = useState<InstallationInfo | null>(null)
   const [formFields, setFormFields] = useState<FormField[]>([])
   const [formData, setFormData] = useState<Record<string, any>>({})
   const [loading, setLoading] = useState(true)
@@ -63,11 +75,25 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
       try {
         const data = await fetchDeviceForm(installationId!, deviceId!)
         setDeviceInfo(data.data.deviceInfo)
+        setInstallationInfo(data.data.installationInfo)
         setFormFields(data.data.formFields)
-        // Inicializar formData con valores vacíos
+        
+        // Inicializar formData con valores apropiados según el tipo
         const initialData: Record<string, any> = {}
         data.data.formFields.forEach((field: FormField) => {
-          initialData[field.name] = ""
+          if (field.type === "checkbox") {
+            // Los checkboxes deben inicializarse en false, no en cadena vacía
+            initialData[field.name] = false
+          } else if (field.type === "select") {
+            // Los selects deben inicializarse con cadena vacía
+            initialData[field.name] = ""
+          } else if (field.type === "date") {
+            // Las fechas pueden inicializarse vacías
+            initialData[field.name] = ""
+          } else {
+            // Otros campos (text, textarea, etc.)
+            initialData[field.name] = ""
+          }
         })
         setFormData(initialData)
       } catch (e: any) {
@@ -177,10 +203,32 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
     setSuccess(null)
 
     try {
+      // Debug: mostrar datos antes de enviar
+      console.log("Enviando formulario con datos:", {
+        formData,
+        formFields: formFields.map(f => ({
+          name: f.name,
+          type: f.type,
+          required: f.required,
+          value: formData[f.name]
+        }))
+      })
+
       if (isOnline) {
         // Enviar directamente si hay conexión
         await submitDeviceMaintenance(installationId!, deviceId!, formData)
         setSuccess("¡Mantenimiento registrado exitosamente!")
+        
+        // Limpiar formulario manteniendo los tipos correctos
+        const initialData: Record<string, any> = {}
+        formFields.forEach((field: FormField) => {
+          if (field.type === "checkbox") {
+            initialData[field.name] = false
+          } else {
+            initialData[field.name] = ""
+          }
+        })
+        setFormData(initialData)
       } else {
         // Guardar para envío posterior si no hay conexión
         const submission: OfflineSubmission = {
@@ -195,10 +243,14 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
         savePendingSubmission(submission)
         setSuccess("Mantenimiento guardado. Se enviará automáticamente cuando haya conexión.")
         
-        // Limpiar formulario
+        // Limpiar formulario manteniendo los tipos correctos
         const initialData: Record<string, any> = {}
         formFields.forEach((field: FormField) => {
-          initialData[field.name] = ""
+          if (field.type === "checkbox") {
+            initialData[field.name] = false
+          } else {
+            initialData[field.name] = ""
+          }
         })
         setFormData(initialData)
       }
@@ -215,6 +267,7 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
 
   return {
     deviceInfo,
+    installationInfo,
     formFields,
     formData,
     loading,
@@ -229,4 +282,4 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
   }
 }
 
-export default useDeviceForm 
+export default useDeviceForm

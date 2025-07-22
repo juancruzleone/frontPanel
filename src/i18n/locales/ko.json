@@ -999,6 +999,10 @@
   }
   },
   "deviceForm": {
+    "installation": "설치 세부 정보",
+    "company": "설치 이름",
+    "installationType": "설치 유형",
+    "deviceDetails": "장치 세부 정보",
   "loading": "양식 로딩 중...",
   "error": "오류: {{error}}",
   "notFound": "장치를 찾을 수 없습니다.",

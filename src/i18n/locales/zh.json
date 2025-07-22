@@ -1048,6 +1048,10 @@
   }
   },
   "deviceForm": {
+    "installation": "安装详情",
+    "company": "安装名称",
+    "installationType": "安装类型",
+    "deviceDetails": "设备详情",
   "loading": "正在加载表单...",
   "error": "错误：{{error}}",
   "notFound": "未找到设备。",

@@ -985,6 +985,10 @@
   }
   },
   "deviceForm": {
+    "installation": "Detalhes da Instalação",
+    "company": "Nome da instalação",
+    "installationType": "Tipo de instalação",
+    "deviceDetails": "Detalhes do dispositivo",
   "loading": "Carregando formulário...",
   "error": "Erro: {{error}}",
   "notFound": "Dispositivo não encontrado.",

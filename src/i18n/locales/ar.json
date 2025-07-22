@@ -995,6 +995,10 @@
   }
   },
   "deviceForm": {
+    "installation": "تفاصيل التركيب",
+    "company": "اسم التركيب",
+    "installationType": "نوع التركيب",
+    "deviceDetails": "تفاصيل الجهاز",
   "loading": "جاري تحميل النموذج...",
   "error": "خطأ: {{error}}",
   "notFound": "لم يتم العثور على الجهاز.",

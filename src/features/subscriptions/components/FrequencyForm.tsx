@@ -162,7 +162,10 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
           isOpen={isStartDatePickerOpen}
           onRequestClose={() => {
             onStartDateClose();
-            onFieldBlur('startDate'); // Validar solo el campo de inicio al cerrar
+            // Solo validar si el campo tiene un valor
+            if (formData.startDate) {
+              onFieldBlur('startDate');
+            }
           }}
           onDateSelect={onStartDateSelect}
           selectedDate={formData.startDate as string}
@@ -217,7 +220,10 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
           isOpen={isEndDatePickerOpen}
           onRequestClose={() => {
             onEndDateClose();
-            onFieldBlur('endDate'); // Validar solo el campo de fin al cerrar
+            // Solo validar si el campo tiene un valor
+            if (formData.endDate) {
+              onFieldBlur('endDate');
+            }
           }}
           onDateSelect={onEndDateSelect}
           selectedDate={formData.endDate as string}

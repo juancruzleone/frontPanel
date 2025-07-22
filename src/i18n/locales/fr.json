@@ -974,6 +974,10 @@
     }
   },
   "deviceForm": {
+    "installation": "Détails de l'installation",
+    "company": "Nom de l'installation",
+    "installationType": "Type d'installation",
+    "deviceDetails": "Détails de l'appareil",
   "loading": "Chargement du formulaire...",
   "error": "Erreur : {{error}}",
   "notFound": "Appareil non trouvé.",

@@ -10,23 +10,36 @@ export const validateSubscriptionForm = async (data: any, t: (key: string, optio
   }
   
   if ('fechaInicio' in data) {
-    schemaFields.fechaInicio = Yup.date()
+    schemaFields.fechaInicio = Yup.string()
       .required(t("subscriptions.errors.startDateRequired"))
-      .typeError(t("subscriptions.errors.invalidDate"));
+      .matches(
+        /^\d{4}-\d{2}-\d{2}$/,
+        t("subscriptions.errors.invalidDate")
+      );
   }
   
   if ('fechaFin' in data) {
-    schemaFields.fechaFin = Yup.date()
+    schemaFields.fechaFin = Yup.string()
       .nullable()
+      .test(
+        'is-after-start',
+        t("subscriptions.errors.endDateAfterStart"),
+        function(value) {
+          const { fechaInicio } = this.parent;
+          if (!value || !fechaInicio) return true;
+          const startDate = new Date(fechaInicio);
+          const endDate = new Date(value);
+          return endDate >= startDate;
+        }
+      )
       .when('fechaInicio', {
-        is: (fechaInicio: any) => fechaInicio != null,
-        then: (schema) => schema.min(
-          Yup.ref("fechaInicio"), 
-          t("subscriptions.errors.endDateAfterStart")
+        is: (fechaInicio: any) => !!fechaInicio,
+        then: (schema) => schema.matches(
+          /^\d{4}-\d{2}-\d{2}$/,
+          t("subscriptions.errors.invalidDate")
         ),
         otherwise: (schema) => schema
-      })
-      .typeError(t("subscriptions.errors.invalidDate"));
+      });
   }
   
   if ('estado' in data) {

@@ -1,6 +1,6 @@
 import React from "react"
 import { useParams } from "react-router-dom"
-import { Wifi, WifiOff, Clock, CheckCircle } from "lucide-react"
+import { Wifi, WifiOff, Clock, CheckCircle, Building2, MapPin } from "lucide-react"
 import useDeviceForm from "../hooks/useDeviceForm"
 import styles from "../styles/deviceForm.module.css"
 import { useTranslation } from "react-i18next"
@@ -9,7 +9,8 @@ const DeviceForm: React.FC = () => {
   const { t } = useTranslation();
   const { installationId, deviceId } = useParams()
   const { 
-    deviceInfo, 
+    deviceInfo,
+    installationInfo, 
     formFields, 
     formData, 
     loading, 
@@ -39,6 +40,7 @@ const DeviceForm: React.FC = () => {
   return (
     <div className={styles.containerDeviceForm}>
       <h2 className={styles.title}>{t('deviceForm.maintenanceForm')}</h2>
+      
       {/* Estado de conexión */}
       <div className={styles.connectionStatus}>
         {isOnline ? (
@@ -53,6 +55,7 @@ const DeviceForm: React.FC = () => {
           </div>
         )}
       </div>
+      
       {/* Envíos pendientes */}
       {pendingSubmissions.length > 0 && (
         <div className={styles.pendingSubmissions}>
@@ -72,14 +75,56 @@ const DeviceForm: React.FC = () => {
           </div>
         </div>
       )}
+      
+      {/* Información de la instalación */}
+      {installationInfo && (
+        <div className={styles.installationInfoBox}>
+          <div className={styles.infoHeader}>
+            <Building2 size={20} />
+            <strong>{t('deviceForm.installation')}</strong>
+          </div>
+          <div className={styles.infoContent}>
+            <div className={styles.infoRow}>
+              <strong>{t('deviceForm.company')}:</strong> {installationInfo.company}
+            </div>
+            <div className={styles.infoRow}>
+              <MapPin size={14} className={styles.infoIcon} />
+              <span>{installationInfo.fullAddress}</span>
+            </div>
+            <div className={styles.infoRow}>
+              <strong>{t('deviceForm.installationType')}:</strong> {installationInfo.installationType}
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Información del dispositivo */}
       <div className={styles.deviceInfoBox}>
-        <strong>{t('deviceForm.device')}:</strong> {deviceInfo.nombre} <br />
-        <strong>{t('deviceForm.location')}:</strong> {deviceInfo.ubicacion} <br />
-        <strong>{t('deviceForm.category')}:</strong> {deviceInfo.categoria} <br />
-        <strong>{t('deviceForm.brand')}:</strong> {deviceInfo.marca} <br />
-        <strong>{t('deviceForm.model')}:</strong> {deviceInfo.modelo} <br />
-        <strong>{t('deviceForm.serialNumber')}:</strong> {deviceInfo.numeroSerie}
+        <div className={styles.infoHeader}>
+            <strong>{t('deviceForm.deviceDetails')}</strong>
+        </div>
+        <div className={styles.infoContent}>
+          <div className={styles.infoRow}>
+            <strong>{t('deviceForm.device')}:</strong> {deviceInfo.nombre}
+          </div>
+          <div className={styles.infoRow}>
+            <strong>{t('deviceForm.location')}:</strong> {deviceInfo.ubicacion}
+          </div>
+          <div className={styles.infoRow}>
+            <strong>{t('deviceForm.category')}:</strong> {deviceInfo.categoria}
+          </div>
+          <div className={styles.infoRow}>
+            <strong>{t('deviceForm.brand')}:</strong> {deviceInfo.marca}
+          </div>
+          <div className={styles.infoRow}>
+            <strong>{t('deviceForm.model')}:</strong> {deviceInfo.modelo}
+          </div>
+          <div className={styles.infoRow}>
+            <strong>{t('deviceForm.serialNumber')}:</strong> {deviceInfo.numeroSerie}
+          </div>
+        </div>
       </div>
+      
       <form onSubmit={handleSubmit} className={styles.form}>
         {formFields.map((field) => (
           <div key={field.name} className={styles.formGroup}>
@@ -153,4 +198,4 @@ const DeviceForm: React.FC = () => {
   )
 }
 
-export default DeviceForm 
+export default DeviceForm
