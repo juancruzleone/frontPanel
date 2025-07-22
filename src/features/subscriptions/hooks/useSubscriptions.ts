@@ -126,12 +126,21 @@ const useSubscriptions = () => {
       }
     }
     
-    const updateData: any = {
-      ...installation,
-      frecuencia: data.frequency || installation.frecuencia,
-      fechaInicio: data.startDate || installation.fechaInicio,
-      fechaFin: data.endDate || installation.fechaFin,
-      estado: data.status || installation.estado,
+    // Mapear la frecuencia al formato esperado por el backend
+    const mapFrequency = (freq: string): string => {
+      const frequencyMap: Record<string, string> = {
+        'mensual': 'Mensual',
+        'trimestral': 'Trimestral',
+        'semestral': 'Semestral',
+        'anual': 'Anual'
+      }
+      return frequencyMap[freq] || freq
+    }
+    
+    const updateData = {
+      fechaInicio: data.startDate ? new Date(data.startDate).toISOString() : installation.fechaInicio,
+      fechaFin: data.endDate ? new Date(data.endDate).toISOString() : installation.fechaFin,
+      frecuencia: data.frequency ? mapFrequency(data.frequency) : installation.frecuencia,
       mesesFrecuencia: monthsToSave,
     }
     

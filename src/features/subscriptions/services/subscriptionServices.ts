@@ -10,18 +10,18 @@ export const updateSubscription = async (subscriptionId: string, updateData: any
     throw new Error('Token de autorización requerido')
   }
   
-  // Preparar el payload eliminando propiedades no necesarias
-  const { _id, image, ...rest } = updateData
-  
+  // Mapear los campos del frontend a los campos esperados por el backend
   const updatePayload = {
-    ...rest,
-    // Solo incluir imagen si es string (URL)
-    ...(typeof updateData.image === "string" ? { image: updateData.image } : {}),
+    fechaInicio: updateData.fechaInicio,
+    fechaFin: updateData.fechaFin,
+    frecuencia: updateData.frecuencia,
+    mesesFrecuencia: updateData.mesesFrecuencia,
   }
   
   // Asegurarse de que la URL esté bien formada
   const baseUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL
-  const url = `${baseUrl}/installations/${subscriptionId}`
+  // Usar la ruta PATCH de suscripción
+  const url = `${baseUrl}/installations/${subscriptionId}/subscription`
   
   console.log('Updating subscription:', url)
   console.log('Update payload:', updatePayload)
@@ -29,7 +29,7 @@ export const updateSubscription = async (subscriptionId: string, updateData: any
   
   try {
     const response = await fetch(url, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
@@ -42,7 +42,7 @@ export const updateSubscription = async (subscriptionId: string, updateData: any
     if (!response.ok) {
       // Si hay un mensaje de error específico del servidor, usarlo
       console.error('Update error:', data)
-      throw new Error(data.error?.message || data.message || "Error al actualizar instalación")
+      throw new Error(data.error?.message || data.message || "Error al actualizar suscripción")
     }
     
     return data
