@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Calendar, ChevronDown } from 'lucide-react'
 import styles from '../styles/subscriptions.module.css'
 import FrequencySelector from './FrequencySelector'
-import DatePickerModal from '../../calendar/components/DatePickerModal'
+import DatePickerModal from './DatePickerModal'
 import type { FrequencyOption } from '../hooks/useSubscriptions'
 
 interface FrequencyFormProps {
@@ -77,10 +77,10 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
     }
   }
 
-  // SOLUCIÓN 1: Manejador específico para los íconos de calendario
+  // Manejador específico para los íconos de calendario
   const handleCalendarIconClick = (e: React.MouseEvent, type: 'start' | 'end') => {
-    e.preventDefault() // Prevenir envío del formulario
-    e.stopPropagation() // Prevenir propagación del evento
+    e.preventDefault()
+    e.stopPropagation()
     
     if (type === 'start') {
       onFieldChange('isStartDatePickerOpen', true)
@@ -89,12 +89,18 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
     }
   }
 
-  // Manejador de envío del formulario con validación completa
+  // Manejador de envío del formulario
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    
-    // Simplemente llamar al onSubmit original - la validación se manejará en el hook
     onSubmit(e)
+  }
+
+  // Handler simplificado para blur
+  const handleFieldBlurSimple = (fieldName: string) => {
+    // Ejecutar blur después de un pequeño delay para evitar conflictos con el date picker
+    setTimeout(() => {
+      onFieldBlur(fieldName)
+    }, 150)
   }
 
   return (
@@ -112,7 +118,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
           placeholder={t('subscriptions.selectFrequency')}
           size="large"
           className={styles.statusSelect}
-          onBlur={() => onFieldBlur('frequency')}
+          onBlur={() => handleFieldBlurSimple('frequency')}
         />
         {(!!formErrors['tipo'] && touchedFields['frequency']) && (
           <div className={styles.inputError}>{formErrors['tipo']}</div>
@@ -124,20 +130,21 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
         <div style={{ position: 'relative', width: '100%' }}>
           <input
             type="text"
+            data-date-input="start"
             value={
               formData.startDate && /^\d{4}-\d{2}-\d{2}$/.test(formData.startDate)
                 ? formData.startDate.split('-').reverse().join('/')
                 : ''
             }
             onClick={(e) => handleDateInputClick(e, 'start')}
+            onBlur={() => handleFieldBlurSimple('startDate')}
             readOnly
             className={styles.inputDate}
             placeholder={t('subscriptions.selectStartDate')}
             style={{ cursor: 'pointer', paddingRight: 40 }}
           />
-          {/* SOLUCIÓN 2: Convertir el ícono en un botón con type="button" */}
           <button
-            type="button" // IMPORTANTE: Especificar type="button"
+            type="button"
             onClick={(e) => handleCalendarIconClick(e, 'start')}
             aria-label={t('subscriptions.selectStartDate')}
             style={{ 
@@ -160,13 +167,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
         </div>
         <DatePickerModal
           isOpen={isStartDatePickerOpen}
-          onRequestClose={() => {
-            onStartDateClose();
-            // Solo validar si el campo tiene un valor
-            if (formData.startDate) {
-              onFieldBlur('startDate');
-            }
-          }}
+          onRequestClose={onStartDateClose}
           onDateSelect={onStartDateSelect}
           selectedDate={formData.startDate as string}
           title={t('subscriptions.selectStartDate')}
@@ -182,20 +183,21 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
         <div style={{ position: 'relative', width: '100%' }}>
           <input
             type="text"
+            data-date-input="end"
             value={
               formData.endDate && /^\d{4}-\d{2}-\d{2}$/.test(formData.endDate)
                 ? formData.endDate.split('-').reverse().join('/')
                 : ''
             }
             onClick={(e) => handleDateInputClick(e, 'end')}
+            onBlur={() => handleFieldBlurSimple('endDate')}
             readOnly
             className={styles.inputDate}
             placeholder={t('subscriptions.selectEndDate')}
             style={{ cursor: 'pointer', paddingRight: 40 }}
           />
-          {/* SOLUCIÓN 2: Convertir el ícono en un botón con type="button" */}
           <button
-            type="button" // IMPORTANTE: Especificar type="button"
+            type="button"
             onClick={(e) => handleCalendarIconClick(e, 'end')}
             aria-label={t('subscriptions.selectEndDate')}
             style={{ 
@@ -218,13 +220,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
         </div>
         <DatePickerModal
           isOpen={isEndDatePickerOpen}
-          onRequestClose={() => {
-            onEndDateClose();
-            // Solo validar si el campo tiene un valor
-            if (formData.endDate) {
-              onFieldBlur('endDate');
-            }
-          }}
+          onRequestClose={onEndDateClose}
           onDateSelect={onEndDateSelect}
           selectedDate={formData.endDate as string}
           title={t('subscriptions.selectEndDate')}
@@ -244,7 +240,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
             disabled={isSubmitting}
             className={styles.statusSelect}
             style={{ appearance: 'none', WebkitAppearance: 'none', MozAppearance: 'none', width: '100%' }}
-            onBlur={() => onFieldBlur('status')}
+            onBlur={() => handleFieldBlurSimple('status')}
           >
             <option value="active">{t('subscriptions.status.active')}</option>
             <option value="inactive">{t('subscriptions.status.inactive')}</option>

@@ -15,6 +15,7 @@ interface FrequencySelectorProps {
   size?: 'small' | 'medium' | 'large'
   className?: string
   onBlur?: (e: React.FocusEvent<HTMLSelectElement>) => void
+  onFocus?: (e: React.FocusEvent<HTMLSelectElement>) => void
 }
 
 const FrequencySelector: React.FC<FrequencySelectorProps> = ({
@@ -27,12 +28,25 @@ const FrequencySelector: React.FC<FrequencySelectorProps> = ({
   size = 'medium',
   className = '',
   onBlur,
+  onFocus,
 }) => {
   const { t } = useTranslation()
   const { dark } = useTheme()
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     onChange(e.target.value)
+  }
+
+  const handleBlur = (e: React.FocusEvent<HTMLSelectElement>) => {
+    // Solo ejecutar onBlur si se proporciona y si no estamos yendo a un date picker
+    if (onBlur) {
+      const relatedTarget = e.relatedTarget as HTMLElement
+      // Verificar si el nuevo foco NO es un date picker
+      if (!relatedTarget || (!relatedTarget.hasAttribute('data-date-input') && 
+          !relatedTarget.closest('[data-date-input]'))) {
+        onBlur(e)
+      }
+    }
   }
 
   // Usar un span contenedor con position: relative para alinear la flecha correctamente
@@ -45,7 +59,8 @@ const FrequencySelector: React.FC<FrequencySelectorProps> = ({
         className={className}
         aria-label={placeholder || t('subscriptions.selectFrequency')}
         style={{ appearance: 'none', WebkitAppearance: 'none', MozAppearance: 'none', width: '100%' }}
-        onBlur={onBlur}
+        onBlur={handleBlur}
+        onFocus={onFocus}
       >
         {placeholder && (
           <option value="">{placeholder}</option>
@@ -64,4 +79,4 @@ const FrequencySelector: React.FC<FrequencySelectorProps> = ({
   )
 }
 
-export default FrequencySelector 
+export default FrequencySelector

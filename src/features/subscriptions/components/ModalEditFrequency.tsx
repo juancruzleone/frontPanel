@@ -36,6 +36,7 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
     setFormData,
     formErrors,
     touchedFields,
+    setTouchedFields,
     isSubmitting,
     handleFieldChange,
     handleFieldBlur,
@@ -56,7 +57,7 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
     handleStartDateSelect,
     handleEndDateSelect,
     resetFrequencyForm,
-    validateAllFields, // NUEVA FUNCIÓN DEL HOOK
+    validateAllFields,
   } = useSubscriptions()
 
   useEffect(() => {
@@ -102,11 +103,19 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
       return
     }
 
-    // USAR LA NUEVA FUNCIÓN DE VALIDACIÓN
+    // CAMBIO: Marcar todos los campos como tocados antes de validar
+    setTouchedFields({
+      frequency: true,
+      startDate: true,
+      endDate: true,
+      status: true
+    })
+
+    // Validar todos los campos
     const isValid = await validateAllFields()
     
     if (!isValid) {
-      // Si no es válido, no continuar con el envío
+      // Los errores ya estarán en formErrors y se mostrarán en el formulario
       return
     }
 
