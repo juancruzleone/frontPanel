@@ -328,12 +328,26 @@ const useSubscriptions = () => {
     return true
   }
 
+  // CAMBIO: Handler mejorado para cerrar el DatePicker que valida si no se seleccionó fecha
   const handleStartDateClose = () => {
     setIsStartDatePickerOpen(false)
+    // Si el campo está vacío después de cerrar, validar
+    if (!formData.startDate) {
+      setTimeout(() => {
+        handleFieldBlur('startDate')
+      }, 100)
+    }
   }
 
+  // CAMBIO: Handler mejorado para cerrar el DatePicker que valida si no se seleccionó fecha
   const handleEndDateClose = () => {
     setIsEndDatePickerOpen(false)
+    // Si el campo está vacío después de cerrar, validar
+    if (!formData.endDate) {
+      setTimeout(() => {
+        handleFieldBlur('endDate')
+      }, 100)
+    }
   }
 
   // CAMBIO: Validar después de seleccionar fecha

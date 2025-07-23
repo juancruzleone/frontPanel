@@ -31,12 +31,20 @@ const DatePickerModal = ({
   const [selectedDateState, setSelectedDateState] = useState<Date | null>(
     selectedDate ? new Date(selectedDate) : null
   );
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   useEffect(() => {
     if (selectedDate) {
       setSelectedDateState(new Date(selectedDate));
     }
   }, [selectedDate]);
+
+  // Resetear el estado de interacción cuando se abre el modal
+  useEffect(() => {
+    if (isOpen) {
+      setHasUserInteracted(false);
+    }
+  }, [isOpen]);
 
   const generateCalendarDays = () => {
     const year = currentDate.getFullYear();
@@ -59,10 +67,12 @@ const DatePickerModal = ({
 
   const navigateMonth = (direction: number) => {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + direction, 1));
+    setHasUserInteracted(true);
   };
 
   const handleDateClick = (date: Date) => {
     setSelectedDateState(date);
+    setHasUserInteracted(true);
   };
 
   const handleConfirm = (e?: React.MouseEvent) => {
@@ -75,8 +85,20 @@ const DatePickerModal = ({
   };
 
   const handleClose = () => {
-    setSelectedDateState(selectedDate ? new Date(selectedDate) : null);
+    // Si el usuario interactuó pero no seleccionó fecha, resetear el estado
+    if (hasUserInteracted && !selectedDate) {
+      setSelectedDateState(null);
+    } else {
+      setSelectedDateState(selectedDate ? new Date(selectedDate) : null);
+    }
     onRequestClose();
+  };
+
+  // Handler para cerrar con click fuera del modal
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      handleClose();
+    }
   };
 
   const isToday = (date: Date) => {
@@ -99,7 +121,11 @@ const DatePickerModal = ({
   const monthName = currentDate.toLocaleDateString(currentLanguage, { month: "long", year: "numeric" });
 
   return (
-    <div className={styles.datePickerBackdrop} onKeyDown={e => { if (e.key === 'Enter') e.stopPropagation(); }}>
+    <div 
+      className={styles.datePickerBackdrop} 
+      onClick={handleBackdropClick}
+      onKeyDown={e => { if (e.key === 'Enter') e.stopPropagation(); }}
+    >
       <div className={styles.datePickerModal}>
         <div className={styles.datePickerHeader}>
           <h2 className={styles.datePickerTitle}>{title || t('calendar.selectDate')}</h2>
@@ -209,4 +235,4 @@ const DatePickerModal = ({
   );
 };
 
-export default DatePickerModal; 
+export default DatePickerModal;

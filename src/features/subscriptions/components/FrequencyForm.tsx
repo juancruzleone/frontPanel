@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Calendar, ChevronDown } from 'lucide-react'
 import styles from '../styles/subscriptions.module.css'
@@ -59,12 +59,29 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
   getMonthsByFrequency,
 }) => {
   const { t } = useTranslation()
+  
+  // Estados para rastrear si el DatePicker fue abierto
+  const [wasStartDatePickerOpened, setWasStartDatePickerOpened] = useState(false)
+  const [wasEndDatePickerOpened, setWasEndDatePickerOpened] = useState(false)
 
   const isMonthSelectable = (month: string) => {
     return formData.frequency === 'semestral' || formData.frequency === 'trimestral'
   }
 
   const isMonthSelected = (month: string) => selectedMonths.includes(month)
+
+  // Detectar cuando se abre el DatePicker
+  useEffect(() => {
+    if (isStartDatePickerOpen) {
+      setWasStartDatePickerOpened(true)
+    }
+  }, [isStartDatePickerOpen])
+
+  useEffect(() => {
+    if (isEndDatePickerOpen) {
+      setWasEndDatePickerOpened(true)
+    }
+  }, [isEndDatePickerOpen])
 
   // Prevenir que los clicks en los inputs de fecha propaguen el evento
   const handleDateInputClick = (e: React.MouseEvent, type: 'start' | 'end') => {
@@ -101,6 +118,40 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
     setTimeout(() => {
       onFieldBlur(fieldName)
     }, 150)
+  }
+
+  // Handlers personalizados para cerrar DatePicker que validan si no se seleccionó fecha
+  const handleStartDatePickerClose = () => {
+    onStartDateClose()
+    // Si el picker fue abierto pero no hay fecha, validar
+    if (wasStartDatePickerOpened && !formData.startDate) {
+      setTimeout(() => {
+        onFieldBlur('startDate')
+      }, 100)
+    }
+    setWasStartDatePickerOpened(false)
+  }
+
+  const handleEndDatePickerClose = () => {
+    onEndDateClose()
+    // Si el picker fue abierto pero no hay fecha, validar
+    if (wasEndDatePickerOpened && !formData.endDate) {
+      setTimeout(() => {
+        onFieldBlur('endDate')
+      }, 100)
+    }
+    setWasEndDatePickerOpened(false)
+  }
+
+  // Handlers para selección de fecha
+  const handleStartDateSelection = (date: string) => {
+    onStartDateSelect(date)
+    setWasStartDatePickerOpened(false)
+  }
+
+  const handleEndDateSelection = (date: string) => {
+    onEndDateSelect(date)
+    setWasEndDatePickerOpened(false)
   }
 
   return (
@@ -167,8 +218,8 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
         </div>
         <DatePickerModal
           isOpen={isStartDatePickerOpen}
-          onRequestClose={onStartDateClose}
-          onDateSelect={onStartDateSelect}
+          onRequestClose={handleStartDatePickerClose}
+          onDateSelect={handleStartDateSelection}
           selectedDate={formData.startDate as string}
           title={t('subscriptions.selectStartDate')}
           placeholder={t('subscriptions.selectStartDate')}
@@ -220,8 +271,8 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
         </div>
         <DatePickerModal
           isOpen={isEndDatePickerOpen}
-          onRequestClose={onEndDateClose}
-          onDateSelect={onEndDateSelect}
+          onRequestClose={handleEndDatePickerClose}
+          onDateSelect={handleEndDateSelection}
           selectedDate={formData.endDate as string}
           title={t('subscriptions.selectEndDate')}
           placeholder={t('subscriptions.selectEndDate')}
