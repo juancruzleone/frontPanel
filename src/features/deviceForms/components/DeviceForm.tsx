@@ -1,30 +1,87 @@
-import React from "react"
+import React, { useState } from "react"
 import { useParams } from "react-router-dom"
-import { Wifi, WifiOff, Clock, CheckCircle, Building2, MapPin } from "lucide-react"
+import { Wifi, WifiOff, Clock, CheckCircle, Building2, MapPin, ChevronDown, X, Calendar } from "lucide-react"
 import useDeviceForm from "../hooks/useDeviceForm"
 import styles from "../styles/deviceForm.module.css"
 import { useTranslation } from "react-i18next"
+import { useTheme } from "../../../shared/hooks/useTheme"
+import DatePickerModal from "./DatePickerModal"
+
+// Modales de éxito y error locales
+const ModalSuccess = ({ message, onClose }: { message: string, onClose: () => void }) => (
+  <div className={styles.modalOverlay}>
+    <div className={styles.modal}>
+      <button className={styles.closeButtonIcon} onClick={onClose} aria-label="Cerrar" type="button">
+        <X size={20} />
+      </button>
+      <div className={styles.modalContent}>
+        <CheckCircle size={32} color="#059669" style={{ marginBottom: 12 }} />
+        <div className={styles.success}>{message}</div>
+      </div>
+    </div>
+  </div>
+)
+const ModalError = ({ message, onClose }: { message: string, onClose: () => void }) => (
+  <div className={styles.modalOverlay}>
+    <div className={styles.modal}>
+      <button className={styles.closeButtonIcon} onClick={onClose} aria-label="Cerrar" type="button">
+        <X size={20} />
+      </button>
+      <div className={styles.modalContent}>
+        <div className={styles.error}>{message}</div>
+      </div>
+    </div>
+  </div>
+)
 
 const DeviceForm: React.FC = () => {
   const { t } = useTranslation();
   const { installationId, deviceId } = useParams()
-  const { 
+  const { dark } = useTheme();
+  const {
     deviceInfo,
-    installationInfo, 
-    formFields, 
-    formData, 
-    loading, 
-    error, 
-    success, 
-    submitting, 
+    installationInfo,
+    formFields,
+    formData,
+    loading,
+    error,
+    success,
+    submitting,
     isOnline,
     pendingSubmissions,
-    handleChange, 
-    handleSubmit 
+    handleChange,
+    handleSubmit
   } = useDeviceForm(installationId, deviceId)
 
+  // Estado para mostrar modales
+  const [showSuccess, setShowSuccess] = useState(false)
+  const [showError, setShowError] = useState(false)
+  const [modalMessage, setModalMessage] = useState("")
+
+  // Estado para el date picker modal
+  const [datePickerOpen, setDatePickerOpen] = useState<{ [key: string]: boolean }>({});
+  const [datePickerField, setDatePickerField] = useState<string | null>(null);
+
+  // Función para formatear fecha a dd/mm/yyyy
+  const formatDate = (dateStr: string) => {
+    if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return "";
+    const [y, m, d] = dateStr.split("-");
+    return `${d}/${m}/${y}`;
+  };
+
+  // Mostrar modal según resultado
+  React.useEffect(() => {
+    if (success) {
+      setModalMessage(success)
+      setShowSuccess(true)
+    }
+    if (error) {
+      setModalMessage(error)
+      setShowError(true)
+    }
+  }, [success, error])
+
   if (loading) return <div className={styles.loader}>{t('deviceForm.loading')}</div>
-  if (error) return <div className={styles.error}>{t('deviceForm.error', { error })}</div>
   if (!deviceInfo) return <div className={styles.error}>{t('deviceForm.notFound')}</div>
 
   const formatTimestamp = (timestamp: number) => {
@@ -40,7 +97,6 @@ const DeviceForm: React.FC = () => {
   return (
     <div className={styles.containerDeviceForm}>
       <h2 className={styles.title}>{t('deviceForm.maintenanceForm')}</h2>
-      
       {/* Estado de conexión */}
       <div className={styles.connectionStatus}>
         {isOnline ? (
@@ -55,7 +111,6 @@ const DeviceForm: React.FC = () => {
           </div>
         )}
       </div>
-      
       {/* Envíos pendientes */}
       {pendingSubmissions.length > 0 && (
         <div className={styles.pendingSubmissions}>
@@ -75,7 +130,6 @@ const DeviceForm: React.FC = () => {
           </div>
         </div>
       )}
-      
       {/* Información de la instalación */}
       {installationInfo && (
         <div className={styles.installationInfoBox}>
@@ -97,18 +151,19 @@ const DeviceForm: React.FC = () => {
           </div>
         </div>
       )}
-      
-      {/* Información del dispositivo */}
+      {/* Información del dispositivo (igual estilo que instalación) */}
       <div className={styles.deviceInfoBox}>
         <div className={styles.infoHeader}>
-            <strong>{t('deviceForm.deviceDetails')}</strong>
+          <Building2 size={20} />
+          <strong>{t('deviceForm.deviceDetails')}</strong>
         </div>
         <div className={styles.infoContent}>
           <div className={styles.infoRow}>
             <strong>{t('deviceForm.device')}:</strong> {deviceInfo.nombre}
           </div>
           <div className={styles.infoRow}>
-            <strong>{t('deviceForm.location')}:</strong> {deviceInfo.ubicacion}
+            <MapPin size={14} className={styles.infoIcon} />
+            <span>{deviceInfo.ubicacion}</span>
           </div>
           <div className={styles.infoRow}>
             <strong>{t('deviceForm.category')}:</strong> {deviceInfo.categoria}
@@ -124,8 +179,7 @@ const DeviceForm: React.FC = () => {
           </div>
         </div>
       </div>
-      
-      <form onSubmit={handleSubmit} className={styles.form}>
+      <form onSubmit={handleSubmit} className={styles.form} autoComplete="off">
         {formFields.map((field) => (
           <div key={field.name} className={styles.formGroup}>
             <label className={styles.label}>
@@ -141,20 +195,69 @@ const DeviceForm: React.FC = () => {
                 className={styles.textarea}
               />
             ) : field.type === "select" && field.options ? (
-              <select
-                name={field.name}
-                value={formData[field.name] || ""}
-                onChange={handleChange}
-                required={field.required}
-                className={styles.select}
-              >
-                <option value="">{t('deviceForm.select')}</option>
-                {field.options.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {t(`deviceForm.options.${opt}`, opt)}
-                  </option>
-                ))}
-              </select>
+              <span style={{ position: 'relative', display: 'block', width: '100%' }}>
+                <select
+                  name={field.name}
+                  value={formData[field.name] || ""}
+                  onChange={handleChange}
+                  required={field.required}
+                  className={styles.select}
+                  style={{ appearance: 'none', WebkitAppearance: 'none', MozAppearance: 'none', width: '100%' }}
+                >
+                  <option value="">{t('deviceForm.select')}</option>
+                  {field.options.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {t(`deviceForm.options.${opt}`, opt)}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown
+                  size={20}
+                  style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#888' }}
+                />
+              </span>
+            ) : field.type === "date" ? (
+              <span style={{ position: 'relative', display: 'block', width: '100%' }}>
+                <input
+                  type="text"
+                  name={field.name}
+                  value={formatDate(formData[field.name])}
+                  readOnly
+                  required={field.required}
+                  className={styles.input}
+                  style={{ paddingRight: 40, cursor: 'pointer', background: 'var(--color-bg-light)' }}
+                  placeholder={t('deviceForm.selectDate')}
+                  onClick={() => {
+                    setDatePickerOpen({ ...datePickerOpen, [field.name]: true });
+                    setDatePickerField(field.name);
+                  }}
+                />
+                <Calendar
+                  size={20}
+                  style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', color: dark ? '#f5f5f5' : '#111' }}
+                  onClick={() => {
+                    setDatePickerOpen({ ...datePickerOpen, [field.name]: true });
+                    setDatePickerField(field.name);
+                  }}
+                />
+                <DatePickerModal
+                  isOpen={!!datePickerOpen[field.name]}
+                  onRequestClose={() => setDatePickerOpen({ ...datePickerOpen, [field.name]: false })}
+                  onDateSelect={(date) => {
+                    handleChange({
+                      target: {
+                        name: field.name,
+                        value: date,
+                        type: 'date',
+                      }
+                    } as any);
+                    setDatePickerOpen({ ...datePickerOpen, [field.name]: false });
+                  }}
+                  selectedDate={formData[field.name]}
+                  title={t('deviceForm.selectDate')}
+                  placeholder={t('deviceForm.selectDate')}
+                />
+              </span>
             ) : field.type === "checkbox" ? (
               <input
                 type="checkbox"
@@ -187,13 +290,9 @@ const DeviceForm: React.FC = () => {
           )}
         </div>
       </form>
-      {success && (
-        <div className={styles.success}>
-          <CheckCircle size={16} />
-          {success}
-        </div>
-      )}
-      {error && <div className={styles.error}>{error}</div>}
+      {/* Modales de éxito y error */}
+      {showSuccess && <ModalSuccess message={modalMessage} onClose={() => setShowSuccess(false)} />}
+      {showError && <ModalError message={modalMessage} onClose={() => setShowError(false)} />}
     </div>
   )
 }
