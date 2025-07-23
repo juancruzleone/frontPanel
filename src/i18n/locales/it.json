@@ -1067,6 +1067,20 @@
     "startDate": "Data inizio",
     "endDate": "Data fine"
   },
+  "months": {
+    "Enero": "Gennaio",
+    "Febrero": "Febbraio",
+    "Marzo": "Marzo",
+    "Abril": "Aprile",
+    "Mayo": "Maggio",
+    "Junio": "Giugno",
+    "Julio": "Luglio",
+    "Agosto": "Agosto",
+    "Septiembre": "Settembre",
+    "Octubre": "Ottobre",
+    "Noviembre": "Novembre",
+    "Diciembre": "Dicembre"
+  },
   "frequency": {
     "monthly": "Mensile",
     "quarterly": "Trimestrale",

@@ -1133,6 +1133,20 @@
     "startDate": "开始日期",
     "endDate": "结束日期"
   },
+  "months": {
+    "Enero": "一月",
+    "Febrero": "二月",
+    "Marzo": "三月",
+    "Abril": "四月",
+    "Mayo": "五月",
+    "Junio": "六月",
+    "Julio": "七月",
+    "Agosto": "八月",
+    "Septiembre": "九月",
+    "Octubre": "十月",
+    "Noviembre": "十一月",
+    "Diciembre": "十二月"
+  },
   "frequency": {
     "monthly": "每月",
     "quarterly": "每季度",

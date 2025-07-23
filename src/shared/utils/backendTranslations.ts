@@ -519,3 +519,88 @@ export const translateDeviceStatus = (status: string): string => {
 
   return translations[currentLanguage]?.[status] || status
 } 
+
+// Traducción de meses (ES <-> idioma actual)
+export const monthNamesES = [
+  'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+  'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+];
+
+export const monthTranslations: Record<string, string[]> = {
+  es: monthNamesES,
+  en: [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ],
+  fr: [
+    'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+    'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+  ],
+  pt: [
+    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+  ],
+  de: [
+    'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+    'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
+  ],
+  it: [
+    'Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno',
+    'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'
+  ],
+  ja: [
+    '1月', '2月', '3月', '4月', '5月', '6月',
+    '7月', '8月', '9月', '10月', '11月', '12月'
+  ],
+  ko: [
+    '1월', '2월', '3월', '4월', '5월', '6월',
+    '7월', '8월', '9월', '10월', '11월', '12월'
+  ],
+  zh: [
+    '一月', '二月', '三月', '四月', '五月', '六月',
+    '七月', '八月', '九月', '十月', '十一月', '十二月'
+  ]
+};
+
+export function translateMonthToCurrentLang(monthES: string, lang: string): string {
+  const esIndex = monthNamesES.indexOf(monthES);
+  if (esIndex === -1) return monthES;
+  const months = monthTranslations[lang] || monthNamesES;
+  return months[esIndex] || monthES;
+}
+
+export function translateMonthToES(month: string, lang: string): string {
+  const months = monthTranslations[lang] || monthNamesES;
+  const idx = months.indexOf(month);
+  if (idx === -1) return month;
+  return monthNamesES[idx];
+}
+
+// Traducción de frecuencia (ES <-> idioma actual)
+export const frequencyMapES = ['Mensual', 'Trimestral', 'Semestral', 'Anual'];
+export const frequencyMapValues = ['mensual', 'trimestral', 'semestral', 'anual'];
+export const frequencyTranslations: Record<string, string[]> = {
+  es: frequencyMapES,
+  en: ['Monthly', 'Quarterly', 'Semiannual', 'Annual'],
+  fr: ['Mensuel', 'Trimestriel', 'Semestriel', 'Annuel'],
+  pt: ['Mensal', 'Trimestral', 'Semestral', 'Anual'],
+  de: ['Monatlich', 'Vierteljährlich', 'Halbjährlich', 'Jährlich'],
+  it: ['Mensile', 'Trimestrale', 'Semestrale', 'Annuale'],
+  ja: ['毎月', '四半期ごと', '半年ごと', '毎年'],
+  ko: ['매월', '분기별', '반기별', '매년'],
+  zh: ['每月', '每季度', '每半年', '每年']
+};
+
+export function translateFrequencyToCurrentLang(freqES: string, lang: string): string {
+  const idx = frequencyMapES.indexOf(freqES);
+  if (idx === -1) return freqES;
+  const freqs = frequencyTranslations[lang] || frequencyMapES;
+  return freqs[idx] || freqES;
+}
+
+export function translateFrequencyToES(freq: string, lang: string): string {
+  const freqs = frequencyTranslations[lang] || frequencyMapES;
+  const idx = freqs.indexOf(freq);
+  if (idx === -1) return freq;
+  return frequencyMapES[idx];
+} 

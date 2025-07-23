@@ -5,6 +5,7 @@ import styles from '../styles/subscriptions.module.css'
 import FrequencySelector from './FrequencySelector'
 import DatePickerModal from './DatePickerModal'
 import type { FrequencyOption } from '../hooks/useSubscriptions'
+import { translateMonthToCurrentLang, translateMonthToES } from '../../../shared/utils/backendTranslations';
 
 interface FrequencyFormProps {
   formData: {
@@ -200,17 +201,17 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
             aria-label={t('subscriptions.selectStartDate')}
             style={{ 
               position: 'absolute', 
-              right: 12, 
+              right: 16, 
               top: '50%', 
               transform: 'translateY(-50%)', 
               cursor: 'pointer', 
-              opacity: 0.7,
               background: 'none',
               border: 'none',
               padding: 0,
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              boxShadow: 'none',
             }}
           >
             <Calendar size={20} />
@@ -253,17 +254,17 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
             aria-label={t('subscriptions.selectEndDate')}
             style={{ 
               position: 'absolute', 
-              right: 12, 
+              right: 16, 
               top: '50%', 
               transform: 'translateY(-50%)', 
               cursor: 'pointer', 
-              opacity: 0.7,
               background: 'none',
               border: 'none',
               padding: 0,
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              boxShadow: 'none',
             }}
           >
             <Calendar size={20} />
@@ -324,7 +325,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
                 onClick={() => isMonthSelectable(month) && onMonthClick(month)}
                 style={{ cursor: isMonthSelectable(month) ? 'pointer' : 'default' }}
               >
-                {month}
+                {translateMonthToCurrentLang(month, t('i18n.language'))}
               </span>
             ))}
           </div>
@@ -344,7 +345,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
           <div className={styles.monthsPreview}>
             {['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'].map((month, index) => (
               <span key={index} className={styles.monthTag + ' ' + styles.monthTagSelected}>
-                {month}
+                {translateMonthToCurrentLang(month, t('i18n.language'))}
               </span>
             ))}
           </div>

@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next"
 import { Edit } from "lucide-react"
 import { useAuthStore } from '../store/authStore'
 import { useNavigate } from 'react-router-dom'
+import { translateMonthToCurrentLang, translateFrequencyToCurrentLang } from '../shared/utils/backendTranslations';
 
 const Subscriptions = () => {
   const { t, i18n } = useTranslation()
@@ -213,7 +214,7 @@ const Subscriptions = () => {
                     <td className={styles.tableCell}>
                       <div className={styles.frequencyCell}>
                         <span className={styles.frequency}>
-                          {subscription.frequency}
+                          {translateFrequencyToCurrentLang(subscription.frequency, i18n.language)}
                         </span>
                         <button
                           className={styles.editFrequencyButton}
@@ -232,7 +233,7 @@ const Subscriptions = () => {
                       <div className={styles.monthsContainer}>
                         {subscription.months.map((month, index) => (
                           <span key={index} className={styles.monthTag}>
-                            {month}
+                            {translateMonthToCurrentLang(month, i18n.language)}
                           </span>
                         ))}
                       </div>

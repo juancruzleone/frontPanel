@@ -1084,6 +1084,20 @@
     "startDate": "시작일",
     "endDate": "종료일"
   },
+  "months": {
+      "Enero": "1월",
+      "Febrero": "2월",
+      "Marzo": "3월",
+      "Abril": "4월",
+      "Mayo": "5월",
+      "Junio": "6월",
+      "Julio": "7월",
+      "Agosto": "8월",
+      "Septiembre": "9월",
+      "Octubre": "10월",
+      "Noviembre": "11월",
+      "Diciembre": "12월"
+    },
   "frequency": {
     "monthly": "매월",
     "quarterly": "분기별",

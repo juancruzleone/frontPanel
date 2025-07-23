@@ -8,6 +8,7 @@ import DatePickerModal from '../../calendar/components/DatePickerModal'
 import { validateSubscriptionForm } from '../validators/subscriptionValidations'
 import useSubscriptions from '../hooks/useSubscriptions'
 import FrequencyForm from './FrequencyForm'
+import { translateFrequencyToCurrentLang } from '../../../shared/utils/backendTranslations';
 
 interface ModalEditFrequencyProps {
   isOpen: boolean
@@ -172,7 +173,7 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
             <h3>{subscription.installationName}</h3>
             <p>{subscription.address}, {subscription.city}, {subscription.province}</p>
             <p><strong>{t('subscriptions.table.type')}:</strong> {subscription.installationType}</p>
-            <p><strong>{t('subscriptions.table.frequency')}:</strong> {subscription.frequency}</p>
+            <p><strong>{t('subscriptions.table.frequency')}:</strong> {translateFrequencyToCurrentLang(subscription.frequency, t('i18n.language'))}</p>
           </div>
           <FrequencyForm
             formData={formData}

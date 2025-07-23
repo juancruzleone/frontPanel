@@ -1069,6 +1069,20 @@
     "startDate": "開始日",
     "endDate": "終了日"
   },
+  "months": {
+    "Enero": "1月",
+    "Febrero": "2月",
+    "Marzo": "3月",
+    "Abril": "4月",
+    "Mayo": "5月",
+    "Junio": "6月",
+    "Julio": "7月",
+    "Agosto": "8月",
+    "Septiembre": "9月",
+    "Octubre": "10月",
+    "Noviembre": "11月",
+    "Diciembre": "12月"
+  },
   "frequency": {
     "monthly": "毎月",
     "quarterly": "四半期ごと",
