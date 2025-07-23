@@ -57,6 +57,8 @@
 },
 
   "common": {
+    "page": "页",
+    "of": "共",
     "actions": "操作",
     "update": "编辑",
     "understood": "关闭",
@@ -1099,6 +1101,8 @@
   "serialMax": "序列号不能超过100个字符"
 },
 "subscriptions": {
+  "page": "页",
+  "of": "共",
   "title": "有效订阅",
   "titlePage": "有效订阅 - FrontPanel",
   "subtitle": "订阅和活跃计费管理",
@@ -1113,6 +1117,11 @@
     "active": "激活",
     "inactive": "未激活",
     "pending": "待定"
+  },
+  "errors": {
+    "endDateAfterStart": "结束日期必须晚于开始日期",
+    "invalidDate": "日期必须有效",
+    "frequencyRequired": "激活订阅需要填写频率"
   },
   "table": {
     "installation": "安装",

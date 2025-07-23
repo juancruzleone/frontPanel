@@ -57,6 +57,8 @@
 },
 
   "common": {
+    "page": "Pagina",
+    "of": "di",
     "actions": "Azioni",
     "understood": "Chiudi",
     "successTitle": "Operazione riuscita!",
@@ -1033,6 +1035,8 @@
   "serialMax": "Il numero di serie non può superare i 100 caratteri"
 },
 "subscriptions": {
+  "page": "Pagina",
+  "of": "di",
   "title": "Abbonamenti attivi",
   "titlePage": "Abbonamenti attivi - FrontPanel",
   "subtitle": "Gestione degli abbonamenti e delle fatturazioni attive",
@@ -1047,6 +1051,11 @@
     "active": "Attivo",
     "inactive": "Inattivo",
     "pending": "In sospeso"
+  },
+  "errors": {
+    "endDateAfterStart": "La data di fine deve essere successiva alla data di inizio",
+    "invalidDate": "La data deve essere valida",
+    "frequencyRequired": "La frequenza è obbligatoria per attivare l’abbonamento"
   },
   "table": {
     "installation": "Installazione",

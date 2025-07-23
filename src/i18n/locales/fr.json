@@ -56,6 +56,8 @@
   "tryDifferentSearch": "Essayez un autre terme de recherche"
 },
   "common": {
+    "page": "Page",
+    "of": "sur",
     "actions": "Actions",
     "update": "modifier",
     "understood": "Fermer",
@@ -1025,6 +1027,8 @@
   "serialMax": "Le numéro de série ne peut pas dépasser 100 caractères"
 },
 "subscriptions": {
+  "page": "Page",
+  "of": "sur",
   "title": "Abonnements actifs",
   "titlePage": "Abonnements actifs - FrontPanel",
   "subtitle": "Gestion des abonnements et facturations actives",
@@ -1040,6 +1044,11 @@
     "inactive": "Inactif",
     "pending": "En attente"
   },
+  "errors": {
+      "endDateAfterStart": "La date de fin doit être postérieure à la date de début",
+      "invalidDate": "La date doit être valide",
+      "frequencyRequired": "La fréquence est requise pour activer l’abonnement"
+    },
   "table": {
     "installation": "Installation",
     "address": "Adresse",

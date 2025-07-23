@@ -1036,6 +1036,8 @@
   "serialMax": "Número de série não pode ter mais de 100 caracteres"
 },
 "subscriptions": {
+  "page": "Página",
+  "of": "de",
   "title": "Assinaturas ativas",
   "titlePage": "Assinaturas ativas - FrontPanel",
   "subtitle": "Gestão de assinaturas e cobranças ativas",
@@ -1051,6 +1053,11 @@
     "inactive": "Inativo",
     "pending": "Pendente"
   },
+  "errors": {
+      "endDateAfterStart": "A data de término deve ser posterior à data de início",
+      "invalidDate": "A data deve ser válida",
+      "frequencyRequired": "A frequência é obrigatória para ativar a assinatura"
+    },
   "table": {
     "installation": "Instalação",
     "address": "Endereço",

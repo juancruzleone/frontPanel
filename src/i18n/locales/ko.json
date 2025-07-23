@@ -56,6 +56,8 @@
   "tryDifferentSearch": "다른 검색어를 사용해 보세요"
 },
   "common": {
+    "page": "페이지",
+    "of": "중",
     "actions": "동작",
     "understood": "닫기",
     "successTitle": "작업이 성공적으로 완료되었습니다!",
@@ -1050,6 +1052,8 @@
   "serialMax": "시리얼 번호는 100자를 초과할 수 없습니다"
 },
 "subscriptions": {
+  "page": "페이지",
+  "of": "중",
   "title": "활성 구독",
   "titlePage": "활성 구독 - FrontPanel",
   "subtitle": "구독 및 활성 결제 관리",
@@ -1064,6 +1068,11 @@
     "active": "활성",
     "inactive": "비활성",
     "pending": "보류 중"
+  },
+  "errors": {
+    "endDateAfterStart": "종료 날짜는 시작 날짜 이후여야 합니다",
+    "invalidDate": "유효한 날짜여야 합니다",
+    "frequencyRequired": "구독을 활성화하려면 빈도가 필요합니다"
   },
   "table": {
     "installation": "설치",

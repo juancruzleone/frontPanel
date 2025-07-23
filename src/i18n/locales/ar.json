@@ -56,6 +56,8 @@
   "tryDifferentSearch": "جرّب مصطلح بحث مختلف"
 },
   "common": {
+    "page": "الصفحة",
+    "of": "من",
     "actions": "الإجراءات",
     "understood": "إغلاق",
     "successTitle": "تمت العملية بنجاح!",
@@ -1046,6 +1048,8 @@
   "serialMax": "لا يمكن أن يتجاوز الرقم التسلسلي 100 حرف"
 },
 "subscriptions": {
+  "page": "الصفحة",
+  "of": "من",
   "title": "الاشتراكات النشطة",
   "titlePage": "الاشتراكات النشطة - FrontPanel",
   "subtitle": "إدارة الاشتراكات والفواتير النشطة",
@@ -1060,6 +1064,11 @@
     "active": "نشط",
     "inactive": "غير نشط",
     "pending": "قيد الانتظار"
+  },
+    "errors": {
+    "endDateAfterStart": "يجب أن يكون تاريخ الانتهاء بعد تاريخ البدء",
+    "invalidDate": "يجب أن يكون التاريخ صالحًا",
+    "frequencyRequired": "التكرار مطلوب لتفعيل الاشتراك"
   },
   "table": {
     "installation": "التثبيت",

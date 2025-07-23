@@ -56,6 +56,8 @@
   "tryDifferentSearch": "別の検索キーワードを試してください"
 },
   "common": {
+    "page": "ページ",
+    "of": "の",
     "actions": "操作",
     "understood": "閉じる",
     "successTitle": "操作が成功しました！",
@@ -1035,6 +1037,8 @@
   "retryLoadCategories": "カテゴリの再読み込み"
 },
 "subscriptions": {
+  "page": "ページ",
+  "of": "の",
   "title": "有効なサブスクリプション",
   "titlePage": "有効なサブスクリプション - FrontPanel",
   "subtitle": "サブスクリプションおよび有効な請求の管理",
@@ -1049,6 +1053,11 @@
     "active": "アクティブ",
     "inactive": "非アクティブ",
     "pending": "保留中"
+  },
+  "errors": {
+    "endDateAfterStart": "終了日は開始日より後である必要があります",
+    "invalidDate": "日付が有効である必要があります",
+    "frequencyRequired": "サブスクリプションを有効にするには頻度が必要です"
   },
   "table": {
     "installation": "設置",

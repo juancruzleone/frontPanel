@@ -759,6 +759,11 @@
       "inactive": "Inactivo",
       "pending": "Pendiente"
     },
+    "errors": {
+      "endDateAfterStart": "La fecha de fin debe ser posterior a la fecha de inicio",
+      "invalidDate": "La fecha debe ser válida",
+      "frequencyRequired": "La frecuencia es obligatoria para activar la suscripción"
+    },
     "table": {
       "installation": "Instalación",
       "address": "Dirección",

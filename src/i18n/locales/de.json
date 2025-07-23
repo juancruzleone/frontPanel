@@ -56,6 +56,8 @@
   "tryDifferentSearch": "Versuche einen anderen Suchbegriff"
 },
   "common": {
+    "page": "Seite",
+    "of": "von",
     "actions": "Aktionen",
     "update": "bearbeiten",
     "understood": "Schließen",
@@ -945,6 +947,8 @@
   "serialMax": "Seriennummer darf nicht länger als 100 Zeichen sein"
 },
 "subscriptions": {
+  "page": "Seite",
+  "of": "von",
   "title": "Aktive Abonnements",
   "titlePage": "Aktive Abonnements - FrontPanel",
   "subtitle": "Verwaltung aktiver Abonnements und Abrechnungen",
@@ -959,6 +963,11 @@
     "active": "Aktiv",
     "inactive": "Inaktiv",
     "pending": "Ausstehend"
+  },
+  "errors": {
+    "endDateAfterStart": "Das Enddatum muss nach dem Startdatum liegen",
+    "invalidDate": "Das Datum muss gültig sein",
+    "frequencyRequired": "Die Frequenz ist erforderlich, um das Abonnement zu aktivieren"
   },
   "table": {
     "installation": "Installation",
