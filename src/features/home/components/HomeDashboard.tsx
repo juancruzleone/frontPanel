@@ -64,11 +64,11 @@ const LineChart = ({ data }: { data: any[] }) => {
         </div>
       </div>
       
-      <div className={styles.lineChartContainer} style={{ height: '250px', width: '100%' }}>
+      <div className={styles.lineChartContainer} style={{ height: '320px', width: '100%' }}>
         <ResponsiveContainer width="100%" height="100%">
           <ReLineChart 
             data={data}
-            margin={{ top: 10, right: 20, left: 10, bottom: 10 }}
+            margin={{ top: 20, right: 30, left: 0, bottom: 20 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="var(--color-card-border)" opacity={0.3} />
             <XAxis 
