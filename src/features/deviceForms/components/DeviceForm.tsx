@@ -6,33 +6,9 @@ import styles from "../styles/deviceForm.module.css"
 import { useTranslation } from "react-i18next"
 import { useTheme } from "../../../shared/hooks/useTheme"
 import DatePickerModal from "./DatePickerModal"
+import ModalSuccess from "./ModalSuccess";
+import ModalError from "./ModalError";
 
-// Modales de éxito y error locales
-const ModalSuccess = ({ message, onClose }: { message: string, onClose: () => void }) => (
-  <div className={styles.modalOverlay}>
-    <div className={styles.modal}>
-      <button className={styles.closeButtonIcon} onClick={onClose} aria-label="Cerrar" type="button">
-        <X size={20} />
-      </button>
-      <div className={styles.modalContent}>
-        <CheckCircle size={32} color="#059669" style={{ marginBottom: 12 }} />
-        <div className={styles.success}>{message}</div>
-      </div>
-    </div>
-  </div>
-)
-const ModalError = ({ message, onClose }: { message: string, onClose: () => void }) => (
-  <div className={styles.modalOverlay}>
-    <div className={styles.modal}>
-      <button className={styles.closeButtonIcon} onClick={onClose} aria-label="Cerrar" type="button">
-        <X size={20} />
-      </button>
-      <div className={styles.modalContent}>
-        <div className={styles.error}>{message}</div>
-      </div>
-    </div>
-  </div>
-)
 
 const DeviceForm: React.FC = () => {
   const { t } = useTranslation();
@@ -291,8 +267,20 @@ const DeviceForm: React.FC = () => {
         </div>
       </form>
       {/* Modales de éxito y error */}
-      {showSuccess && <ModalSuccess message={modalMessage} onClose={() => setShowSuccess(false)} />}
-      {showError && <ModalError message={modalMessage} onClose={() => setShowError(false)} />}
+      {showSuccess && (
+        <ModalSuccess
+          isOpen={showSuccess}
+          onRequestClose={() => setShowSuccess(false)}
+          mensaje={modalMessage}
+        />
+      )}
+      {showError && (
+        <ModalError
+          isOpen={showError}
+          onRequestClose={() => setShowError(false)}
+          mensaje={modalMessage}
+        />
+      )}
     </div>
   )
 }
