@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import styles from "../styles/workOrderForm.module.css"
 import { useTranslation } from "react-i18next"
+import { ChevronDown } from 'lucide-react';
 
 interface AssignTechnicianFormProps {
   onCancel: () => void
@@ -60,24 +61,28 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
 
         <div className={styles.formGroup}>
           <label>{t('workOrders.assignTechnician')}</label>
-          <select
-            value={selectedTechnician}
-            onChange={(e) => {
-              setSelectedTechnician(e.target.value)
-              if (error) setError("")
-            }}
-            onBlur={handleBlur}
-            disabled={isSubmitting || technicians.length === 0}
-            className={error && touched ? styles.errorInput : ""}
-            aria-label={t('workOrders.selectTechnician')}
-          >
-            <option value="">{t('workOrders.selectTechnician')}</option>
-            {technicians.map((tech) => (
-              <option key={tech._id} value={tech._id}>
-                {tech.userName} 
-              </option>
-            ))}
-          </select>
+          <span style={{ position: 'relative', display: 'block', width: '100%' }}>
+            <select
+              value={selectedTechnician}
+              onChange={(e) => {
+                setSelectedTechnician(e.target.value)
+                if (error) setError("")
+              }}
+              onBlur={handleBlur}
+              disabled={isSubmitting || technicians.length === 0}
+              className={error && touched ? styles.errorInput : ""}
+              aria-label={t('workOrders.selectTechnician')}
+              style={{ appearance: 'none', WebkitAppearance: 'none', MozAppearance: 'none', width: '100%' }}
+            >
+              <option value="">{t('workOrders.selectTechnician')}</option>
+              {technicians.map((tech) => (
+                <option key={tech._id} value={tech._id}>
+                  {tech.userName} 
+                </option>
+              ))}
+            </select>
+            <ChevronDown size={20} className={styles.selectIcon + ' ' + (document.body.dataset.theme === 'dark' ? styles.dark : styles.light)} />
+          </span>
           {error && touched && <p className={styles.inputError}>{error}</p>}
           {technicians.length === 0 && (
             <p className={styles.inputWarning}>

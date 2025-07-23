@@ -159,13 +159,13 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
             {t('subscriptions.editFrequency')}
           </h2>
           <button
-            className={styles.closeButtonIcon}
+            className={styles.closeButton}
             onClick={handleClose}
             disabled={isSubmitting}
             aria-label={t('common.close')}
             type="button"
           >
-            <X size={20} />
+            ×
           </button>
         </div>
         <div className={styles.modalContent}>

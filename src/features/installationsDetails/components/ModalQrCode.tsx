@@ -168,11 +168,11 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
           </div>
 
           <div className={styles.actions}>
-            <button className={styles.openButton} onClick={handleOpenURL} disabled={!device.codigoQR}>
+            <button className={styles.modalButton} onClick={handleOpenURL} disabled={!device.codigoQR}>
               <ExternalLink size={16} />
               {t('installationDetails.openForm')}
             </button>
-            <button className={styles.printButton} onClick={handlePrint} disabled={!qrCodeDataURL}>
+            <button className={styles.modalButton + ' ' + styles.secondary} onClick={handlePrint} disabled={!qrCodeDataURL}>
               <Printer size={16} />
               {t('installationDetails.printQR')}
             </button>

@@ -43,22 +43,29 @@
   .closeButton {
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: 2rem;
+  color: var(--color-text);
   cursor: pointer;
-  color: var(--color-icon);
-  padding: 0;
-  width: 30px;
-  height: 30px;
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
+  line-height: 1;
+  flex-shrink: 0;
 }
-
 .closeButton:hover {
-  background-color: var(--color-card-border);
+  background: var(--color-bg-light);
   color: var(--color-text);
+  transform: scale(1.1);
+}
+.closeButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
   
   .modalContent {
@@ -186,6 +193,30 @@
     cursor: not-allowed;
     opacity: 0.6;
   }
+
+.modalButton {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+.modalButton:hover {
+  background: var(--color-secondary);
+  transform: translateY(-1px);
+}
+.modalButton.secondary {
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  border: 1px solid var(--color-card-border);
+}
+.modalButton.secondary:hover {
+  background: var(--color-card-border);
+}
   
   @media (max-width: 768px) {
     .modal {

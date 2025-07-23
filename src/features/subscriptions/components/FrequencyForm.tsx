@@ -199,20 +199,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
             type="button"
             onClick={(e) => handleCalendarIconClick(e, 'start')}
             aria-label={t('subscriptions.selectStartDate')}
-            style={{ 
-              position: 'absolute', 
-              right: 16, 
-              top: '50%', 
-              transform: 'translateY(-50%)', 
-              cursor: 'pointer', 
-              background: 'none',
-              border: 'none',
-              padding: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: 'none',
-            }}
+            className={styles.calendarIconButton}
           >
             <Calendar size={20} />
           </button>
@@ -252,20 +239,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
             type="button"
             onClick={(e) => handleCalendarIconClick(e, 'end')}
             aria-label={t('subscriptions.selectEndDate')}
-            style={{ 
-              position: 'absolute', 
-              right: 16, 
-              top: '50%', 
-              transform: 'translateY(-50%)', 
-              cursor: 'pointer', 
-              background: 'none',
-              border: 'none',
-              padding: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: 'none',
-            }}
+            className={styles.calendarIconButton}
           >
             <Calendar size={20} />
           </button>

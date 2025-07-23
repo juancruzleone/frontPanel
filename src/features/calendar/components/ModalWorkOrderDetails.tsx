@@ -94,7 +94,7 @@ const ModalWorkOrderDetails = ({
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
           <h2 className={styles.title}>{t('calendar.workOrderDetails')}</h2>
-          <button className={styles.closeButton} onClick={onRequestClose}>
+          <button className={styles.closeButton} onClick={onRequestClose} aria-label={t('common.close')}>
             ×
           </button>
         </div>
