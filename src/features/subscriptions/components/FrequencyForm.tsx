@@ -5,7 +5,6 @@ import styles from '../styles/subscriptions.module.css'
 import FrequencySelector from './FrequencySelector'
 import DatePickerModal from './DatePickerModal'
 import type { FrequencyOption } from '../hooks/useSubscriptions'
-import { translateMonthToCurrentLang, translateMonthToES } from '../../../shared/utils/backendTranslations';
 
 interface FrequencyFormProps {
   formData: {
@@ -64,6 +63,10 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
   // Estados para rastrear si el DatePicker fue abierto
   const [wasStartDatePickerOpened, setWasStartDatePickerOpened] = useState(false)
   const [wasEndDatePickerOpened, setWasEndDatePickerOpened] = useState(false)
+  
+  // Estados para prevenir validación inmediata
+  const [skipStartDateValidation, setSkipStartDateValidation] = useState(false)
+  const [skipEndDateValidation, setSkipEndDateValidation] = useState(false)
 
   const isMonthSelectable = (month: string) => {
     return formData.frequency === 'semestral' || formData.frequency === 'trimestral'
@@ -89,8 +92,10 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
     e.preventDefault()
     e.stopPropagation()
     if (type === 'start') {
+      setSkipStartDateValidation(true)
       onFieldChange('isStartDatePickerOpen', true)
     } else {
+      setSkipEndDateValidation(true)
       onFieldChange('isEndDatePickerOpen', true)
     }
   }
@@ -101,8 +106,10 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
     e.stopPropagation()
     
     if (type === 'start') {
+      setSkipStartDateValidation(true)
       onFieldChange('isStartDatePickerOpen', true)
     } else {
+      setSkipEndDateValidation(true)
       onFieldChange('isEndDatePickerOpen', true)
     }
   }
@@ -115,14 +122,21 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
 
   // Handler simplificado para blur
   const handleFieldBlurSimple = (fieldName: string) => {
-    // Ejecutar blur después de un pequeño delay para evitar conflictos con el date picker
+    // No validar si estamos skippeando la validación
+    if ((fieldName === 'startDate' && skipStartDateValidation) || 
+        (fieldName === 'endDate' && skipEndDateValidation)) {
+      return
+    }
+    
+    // Ejecutar blur después de un pequeño delay
     setTimeout(() => {
       onFieldBlur(fieldName)
     }, 150)
   }
 
-  // Handlers personalizados para cerrar DatePicker que validan si no se seleccionó fecha
+  // Handlers personalizados para cerrar DatePicker
   const handleStartDatePickerClose = () => {
+    setSkipStartDateValidation(false)
     onStartDateClose()
     // Si el picker fue abierto pero no hay fecha, validar
     if (wasStartDatePickerOpened && !formData.startDate) {
@@ -134,6 +148,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
   }
 
   const handleEndDatePickerClose = () => {
+    setSkipEndDateValidation(false)
     onEndDateClose()
     // Si el picker fue abierto pero no hay fecha, validar
     if (wasEndDatePickerOpened && !formData.endDate) {
@@ -146,11 +161,13 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
 
   // Handlers para selección de fecha
   const handleStartDateSelection = (date: string) => {
+    setSkipStartDateValidation(false)
     onStartDateSelect(date)
     setWasStartDatePickerOpened(false)
   }
 
   const handleEndDateSelection = (date: string) => {
+    setSkipEndDateValidation(false)
     onEndDateSelect(date)
     setWasEndDatePickerOpened(false)
   }
@@ -299,7 +316,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
                 onClick={() => isMonthSelectable(month) && onMonthClick(month)}
                 style={{ cursor: isMonthSelectable(month) ? 'pointer' : 'default' }}
               >
-                {translateMonthToCurrentLang(month, t('i18n.language'))}
+                {month}
               </span>
             ))}
           </div>
@@ -319,7 +336,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
           <div className={styles.monthsPreview}>
             {['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'].map((month, index) => (
               <span key={index} className={styles.monthTag + ' ' + styles.monthTagSelected}>
-                {translateMonthToCurrentLang(month, t('i18n.language'))}
+                {month}
               </span>
             ))}
           </div>

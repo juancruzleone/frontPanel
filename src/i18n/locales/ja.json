@@ -1055,6 +1055,8 @@
     "pending": "保留中"
   },
   "errors": {
+    "startDateRequired": "開始日は必須です",
+    "endDateRequired": "終了日は必須です",
     "endDateAfterStart": "終了日は開始日より後である必要があります",
     "invalidDate": "日付が有効である必要があります",
     "frequencyRequired": "サブスクリプションを有効にするには頻度が必要です"

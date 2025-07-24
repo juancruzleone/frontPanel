@@ -167,23 +167,39 @@ const useSubscriptions = () => {
   const handleFieldChange = useCallback((name: string, value: any) => {
     setFormData(prev => ({ ...prev, [name]: value }))
     
-    // Solo limpiar el error del campo específico si tiene un valor válido
-    if (value) {
-      const fieldMapping: Record<string, string> = {
-        'frequency': 'tipo',
-        'startDate': 'fechaInicio',
-        'endDate': 'fechaFin',
-        'status': 'estado'
+    // Limpiar errores cuando el usuario cambia el valor
+    const fieldMapping: Record<string, string> = {
+      'frequency': 'tipo',
+      'startDate': 'fechaInicio',
+      'endDate': 'fechaFin',
+      'status': 'estado'
+    }
+    
+    const validationFieldName = fieldMapping[name] || name
+    
+    // Limpiar el error del campo actual
+    setFormErrors(prev => {
+      const newErrors = { ...prev }
+      delete newErrors[validationFieldName]
+      
+      // Si estamos cambiando fecha fin, también limpiar error de validación cruzada
+      if (name === 'endDate' && value) {
+        // Revalidar si la fecha es posterior a la de inicio
+        if (formData.startDate && value) {
+          try {
+            const startDate = new Date(formData.startDate)
+            const endDate = new Date(value)
+            if (endDate < startDate) {
+              newErrors[validationFieldName] = t('subscriptions.errors.endDateAfterStart')
+            }
+          } catch {
+            // Ignorar errores de parseo aquí
+          }
+        }
       }
       
-      const validationFieldName = fieldMapping[name] || name
-      
-      setFormErrors(prev => {
-        const newErrors = { ...prev }
-        delete newErrors[validationFieldName]
-        return newErrors
-      })
-    }
+      return newErrors
+    })
     
     if (name === 'frequency') {
       // Reset selected months when frequency changes
@@ -193,11 +209,11 @@ const useSubscriptions = () => {
         setSelectedMonths([])
       }
     }
-  }, [])
+  }, [formData, t])
 
-  // CAMBIO: Simplificar handleFieldBlur para que siempre valide
+  // CAMBIO: Mejorar handleFieldBlur para manejar mejor las fechas
   const handleFieldBlur = useCallback(async (name: string) => {
-    // Marcar el campo como tocado SIEMPRE
+    // Marcar el campo como tocado
     setTouchedFields(prev => ({ ...prev, [name]: true }))
     
     // Mapear nombres de campos
@@ -211,20 +227,26 @@ const useSubscriptions = () => {
     const validationFieldName = fieldMapping[name] || name
     const fieldValue = formData[name as keyof typeof formData]
     
-    // Crear objeto con el campo a validar (enviar string vacío si no hay valor)
+    // Solo validar si el campo está vacío o tiene un valor
+    // No validar si el campo no ha sido tocado y está vacío
+    if (!touchedFields[name] && !fieldValue) {
+      return
+    }
+    
+    // Crear objeto con el campo a validar
     const fieldToValidate: any = {
       [validationFieldName]: fieldValue || ''
     }
     
-    // Para fecha fin, incluir fecha inicio para validación cruzada
-    if (name === 'endDate') {
-      fieldToValidate['fechaInicio'] = formData.startDate || ''
+    // Para fecha fin, incluir fecha inicio para validación cruzada solo si ambas existen
+    if (name === 'endDate' && formData.startDate && fieldValue) {
+      fieldToValidate['fechaInicio'] = formData.startDate
     }
     
     try {
       const validation = await validateSubscriptionForm(fieldToValidate, t)
       
-      // Actualizar el error del campo específico
+      // Actualizar solo el error del campo específico
       setFormErrors(prev => ({
         ...prev,
         [validationFieldName]: validation.errors[validationFieldName] || ''
@@ -232,7 +254,7 @@ const useSubscriptions = () => {
     } catch (error) {
       console.error('Error validating field:', error)
     }
-  }, [formData, t])
+  }, [formData, touchedFields, t])
 
   const validateAllFields = useCallback(async () => {
     // Marcar todos los campos como tocados
@@ -328,43 +350,59 @@ const useSubscriptions = () => {
     return true
   }
 
-  // CAMBIO: Handler mejorado para cerrar el DatePicker que valida si no se seleccionó fecha
+  // CAMBIO: Mejorar handlers de DatePicker
   const handleStartDateClose = () => {
     setIsStartDatePickerOpen(false)
-    // Si el campo está vacío después de cerrar, validar
-    if (!formData.startDate) {
+    // Solo validar si el campo fue tocado y está vacío
+    if (touchedFields['startDate'] && !formData.startDate) {
       setTimeout(() => {
         handleFieldBlur('startDate')
       }, 100)
     }
   }
 
-  // CAMBIO: Handler mejorado para cerrar el DatePicker que valida si no se seleccionó fecha
   const handleEndDateClose = () => {
     setIsEndDatePickerOpen(false)
-    // Si el campo está vacío después de cerrar, validar
-    if (!formData.endDate) {
+    // Solo validar si el campo fue tocado y está vacío
+    if (touchedFields['endDate'] && !formData.endDate) {
       setTimeout(() => {
         handleFieldBlur('endDate')
       }, 100)
     }
   }
 
-  // CAMBIO: Validar después de seleccionar fecha
+  // CAMBIO: Limpiar errores inmediatamente al seleccionar fecha
   const handleStartDateSelect = async (date: string) => {
+    // Primero actualizar el valor
     handleFieldChange('startDate', date)
     setIsStartDatePickerOpen(false)
-    // Validar después de un pequeño delay
+    
+    // Limpiar cualquier error existente inmediatamente
+    setFormErrors(prev => {
+      const newErrors = { ...prev }
+      delete newErrors['fechaInicio']
+      return newErrors
+    })
+    
+    // Luego validar después de un delay
     setTimeout(() => {
       handleFieldBlur('startDate')
     }, 100)
   }
 
-  // CAMBIO: Validar después de seleccionar fecha
   const handleEndDateSelect = async (date: string) => {
+    // Primero actualizar el valor
     handleFieldChange('endDate', date)
     setIsEndDatePickerOpen(false)
-    // Validar después de un pequeño delay
+    
+    // Limpiar cualquier error existente inmediatamente
+    setFormErrors(prev => {
+      const newErrors = { ...prev }
+      delete newErrors['fechaFin']
+      return newErrors
+    })
+    
+    // Luego validar después de un delay
     setTimeout(() => {
       handleFieldBlur('endDate')
     }, 100)

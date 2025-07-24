@@ -1045,6 +1045,8 @@
     "pending": "En attente"
   },
   "errors": {
+    "startDateRequired": "La date de début est requise",
+    "endDateRequired": "La date de fin est requise",
       "endDateAfterStart": "La date de fin doit être postérieure à la date de début",
       "invalidDate": "La date doit être valide",
       "frequencyRequired": "La fréquence est requise pour activer l’abonnement"

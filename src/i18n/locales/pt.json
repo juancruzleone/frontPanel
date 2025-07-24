@@ -1054,6 +1054,8 @@
     "pending": "Pendente"
   },
   "errors": {
+    "startDateRequired": "A data de início é obrigatória",
+    "endDateRequired": "A data de término é obrigatória",
       "endDateAfterStart": "A data de término deve ser posterior à data de início",
       "invalidDate": "A data deve ser válida",
       "frequencyRequired": "A frequência é obrigatória para ativar a assinatura"

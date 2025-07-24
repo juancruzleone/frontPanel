@@ -1070,6 +1070,8 @@
     "pending": "보류 중"
   },
   "errors": {
+    "startDateRequired": "시작 날짜는 필수입니다",
+    "endDateRequired": "종료 날짜는 필수입니다",
     "endDateAfterStart": "종료 날짜는 시작 날짜 이후여야 합니다",
     "invalidDate": "유효한 날짜여야 합니다",
     "frequencyRequired": "구독을 활성화하려면 빈도가 필요합니다"

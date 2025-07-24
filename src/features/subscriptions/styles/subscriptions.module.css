@@ -711,10 +711,12 @@
   cursor: pointer;
   z-index: 2;
 }
-.calendarIconButton:hover, .calendarIconButton:focus {
-  background: none;
-  color: inherit;
-  box-shadow: none;
+.calendarIconButton:hover, .calendarIconButton:focus, .calendarIconButton:active {
+  background: none !important;
+  color: inherit !important;
+  box-shadow: none !important;
+  transform: translateY(-50%) !important;
+  scale: 1 !important;
 }
 
 /* Modo oscuro y claro */

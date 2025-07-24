@@ -770,6 +770,8 @@
       "pending": "Pending"
     },
     "errors": {
+      "startDateRequired": "Start date is required",
+      "endDateRequired": "End date is required",
       "endDateAfterStart": "End date must be after the start date",
       "invalidDate": "The date must be valid",
       "frequencyRequired": "Frequency is required to activate the subscription"

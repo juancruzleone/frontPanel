@@ -965,6 +965,8 @@
     "pending": "Ausstehend"
   },
   "errors": {
+    "startDateRequired": "Startdatum ist erforderlich",
+    "endDateRequired": "Enddatum ist erforderlich",
     "endDateAfterStart": "Das Enddatum muss nach dem Startdatum liegen",
     "invalidDate": "Das Datum muss gültig sein",
     "frequencyRequired": "Die Frequenz ist erforderlich, um das Abonnement zu aktivieren"

@@ -1,4 +1,3 @@
-// ===== subscriptionValidations.ts =====
 import * as Yup from "yup";
 
 export const validateSubscriptionForm = async (data: any, t: (key: string, options?: any) => string) => {
@@ -12,42 +11,64 @@ export const validateSubscriptionForm = async (data: any, t: (key: string, optio
   
   if ('fechaInicio' in data) {
     schemaFields.fechaInicio = Yup.string()
-      .required(t("subscriptions.errors.startDateRequired"))
       .test(
-        'is-valid-date',
-        t("subscriptions.errors.invalidDate"),
+        'is-required-or-valid',
         function(value) {
-          if (!value) return false; // Requerido
-          return /^\d{4}-\d{2}-\d{2}$/.test(value);
+          // Si no hay valor, es un error de campo requerido
+          if (!value || value === '') {
+            return this.createError({ message: t("subscriptions.errors.startDateRequired") });
+          }
+          // Si hay valor, verificar que sea válido
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+            return this.createError({ message: t("subscriptions.errors.invalidDate") });
+          }
+          return true;
         }
       );
   }
   
   if ('fechaFin' in data) {
     schemaFields.fechaFin = Yup.string()
-      .required(t("subscriptions.errors.endDateRequired")) // CAMBIO: Hacerlo requerido
       .test(
-        'is-valid-date',
-        t("subscriptions.errors.invalidDate"),
+        'is-required-or-valid',
         function(value) {
-          if (!value) return false; // CAMBIO: No permitir vacío
-          return /^\d{4}-\d{2}-\d{2}$/.test(value);
+          // Si no hay valor, es un error de campo requerido
+          if (!value || value === '') {
+            return this.createError({ message: t("subscriptions.errors.endDateRequired") });
+          }
+          // Si hay valor, verificar que sea válido
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+            return this.createError({ message: t("subscriptions.errors.invalidDate") });
+          }
+          return true;
         }
       )
       .test(
         'is-after-start',
         t("subscriptions.errors.endDateAfterStart"),
         function(value) {
-          if (!value) return false; // CAMBIO: No permitir vacío
           const { fechaInicio } = this.parent;
-          if (!fechaInicio) return true; // Si no hay fecha inicio, no podemos validar
+          
+          // Si no hay fecha fin o fecha inicio, no validar
+          if (!value || !fechaInicio) return true;
+          
+          // Si alguna fecha está vacía, no validar
+          if (value === '' || fechaInicio === '') return true;
+          
+          // Verificar formato válido antes de comparar
+          const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+          if (!dateRegex.test(fechaInicio) || !dateRegex.test(value)) return true;
           
           try {
             const startDate = new Date(fechaInicio);
             const endDate = new Date(value);
+            
+            // Verificar que las fechas sean válidas
+            if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) return true;
+            
             return endDate >= startDate;
           } catch {
-            return false;
+            return true;
           }
         }
       );

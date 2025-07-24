@@ -1119,6 +1119,8 @@
     "pending": "待定"
   },
   "errors": {
+    "startDateRequired": "开始日期是必填项",
+    "endDateRequired": "结束日期是必填项",
     "endDateAfterStart": "结束日期必须晚于开始日期",
     "invalidDate": "日期必须有效",
     "frequencyRequired": "激活订阅需要填写频率"
