@@ -134,7 +134,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
     }, 150)
   }
 
-  // Handlers personalizados para cerrar DatePicker
+  // Handlers personalizados para cerrar DatePicker que validan si no se seleccionó fecha
   const handleStartDatePickerClose = () => {
     setSkipStartDateValidation(false)
     onStartDateClose()
@@ -246,7 +246,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
                 : ''
             }
             onClick={(e) => handleDateInputClick(e, 'end')}
-            onBlur={() => handleFieldBlurSimple('endDate')}
+            onBlur={() => handleFieldBlurSimple('startDate')}
             readOnly
             className={styles.inputDate}
             placeholder={t('subscriptions.selectEndDate')}
