@@ -402,6 +402,33 @@
   }
 }
 
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .title {
+    font-size: 22px;
+    margin-top: 24px;
+    text-align: left;
+  }
+  .searchContainer {
+    width: 100%;
+    margin-bottom: 12px;
+  }
+  .searchWrapper {
+    max-width: 100%;
+    width: 100%;
+  }
+  .searchInput {
+    width: 100%;
+    font-size: 15px;
+    padding: 12px 8px 12px 40px;
+    box-sizing: border-box;
+  }
+}
+
 /* Animaciones adicionales */
 @keyframes fadeIn {
   from {
