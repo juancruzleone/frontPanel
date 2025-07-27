@@ -52,7 +52,6 @@ const FormTemplateForm = ({
         categoria: initialData.categoria || "",
         descripcion: initialData.descripcion || "",
         campos: initialData.campos || [],
-        _id: initialData._id,
       })
       // Limpiar errores cuando se carga nueva data
       setErrors({})
@@ -427,9 +426,8 @@ const FormTemplateForm = ({
         </button>
         <button
           type="submit"
-          disabled={isSubmitting || !isFormValid}
+          disabled={isSubmitting}
           className={styles.submitButton}
-          title={!isFormValid ? t('forms.completeRequiredFields') : ""}
         >
           {isSubmitting ? t('common.saving') : isEditMode ? t('common.update') : t('common.create')}
         </button>

@@ -371,11 +371,9 @@ const WorkOrderForm = ({
             type="submit"
             disabled={
               isSubmitting ||
-              !isFormValid ||
               (isEditMode && ["completada", "en_progreso"].includes(initialData?.estado || ""))
             }
             className={styles.submitButton}
-            title={!isFormValid ? t('workOrders.completeRequiredFields') : ""}
           >
             {isSubmitting ? t('workOrders.saving') : isEditMode ? t('workOrders.update') : t('workOrders.save')}
           </button>
