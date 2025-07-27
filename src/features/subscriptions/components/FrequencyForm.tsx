@@ -59,43 +59,20 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
   getMonthsByFrequency,
 }) => {
   const { t } = useTranslation()
-  
-  // Estados para rastrear si el DatePicker fue abierto
-  const [wasStartDatePickerOpened, setWasStartDatePickerOpened] = useState(false)
-  const [wasEndDatePickerOpened, setWasEndDatePickerOpened] = useState(false)
-  
-  // Estados para prevenir validación inmediata
-  const [skipStartDateValidation, setSkipStartDateValidation] = useState(false)
-  const [skipEndDateValidation, setSkipEndDateValidation] = useState(false)
 
   const isMonthSelectable = (month: string) => {
-    return formData.frequency === 'semestral' || formData.frequency === 'trimestral'
+    return formData.frequency === 'semestral' || formData.frequency === 'trimestral' || formData.frequency === 'anual' || formData.frequency === 'mensual'
   }
 
   const isMonthSelected = (month: string) => selectedMonths.includes(month)
 
-  // Detectar cuando se abre el DatePicker
-  useEffect(() => {
-    if (isStartDatePickerOpen) {
-      setWasStartDatePickerOpened(true)
-    }
-  }, [isStartDatePickerOpen])
-
-  useEffect(() => {
-    if (isEndDatePickerOpen) {
-      setWasEndDatePickerOpened(true)
-    }
-  }, [isEndDatePickerOpen])
-
-  // Prevenir que los clicks en los inputs de fecha propaguen el evento
+  // Handlers para abrir DatePicker sin validación
   const handleDateInputClick = (e: React.MouseEvent, type: 'start' | 'end') => {
     e.preventDefault()
     e.stopPropagation()
     if (type === 'start') {
-      setSkipStartDateValidation(true)
       onFieldChange('isStartDatePickerOpen', true)
     } else {
-      setSkipEndDateValidation(true)
       onFieldChange('isEndDatePickerOpen', true)
     }
   }
@@ -106,10 +83,8 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
     e.stopPropagation()
     
     if (type === 'start') {
-      setSkipStartDateValidation(true)
       onFieldChange('isStartDatePickerOpen', true)
     } else {
-      setSkipEndDateValidation(true)
       onFieldChange('isEndDatePickerOpen', true)
     }
   }
@@ -120,56 +95,12 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
     onSubmit(e)
   }
 
-  // Handler simplificado para blur
-  const handleFieldBlurSimple = (fieldName: string) => {
-    // No validar si estamos skippeando la validación
-    if ((fieldName === 'startDate' && skipStartDateValidation) || 
-        (fieldName === 'endDate' && skipEndDateValidation)) {
-      return
-    }
-    
-    // Ejecutar blur después de un pequeño delay
+  // Handler simplificado para blur - solo para campos que no sean fechas desde DatePicker
+  const handleFieldBlurIfNotFromDatePicker = (fieldName: string) => {
+    // Solo ejecutar blur si no estamos interactuando con DatePickers
     setTimeout(() => {
       onFieldBlur(fieldName)
     }, 150)
-  }
-
-  // Handlers personalizados para cerrar DatePicker que validan si no se seleccionó fecha
-  const handleStartDatePickerClose = () => {
-    setSkipStartDateValidation(false)
-    onStartDateClose()
-    // Si el picker fue abierto pero no hay fecha, validar
-    if (wasStartDatePickerOpened && !formData.startDate) {
-      setTimeout(() => {
-        onFieldBlur('startDate')
-      }, 100)
-    }
-    setWasStartDatePickerOpened(false)
-  }
-
-  const handleEndDatePickerClose = () => {
-    setSkipEndDateValidation(false)
-    onEndDateClose()
-    // Si el picker fue abierto pero no hay fecha, validar
-    if (wasEndDatePickerOpened && !formData.endDate) {
-      setTimeout(() => {
-        onFieldBlur('endDate')
-      }, 100)
-    }
-    setWasEndDatePickerOpened(false)
-  }
-
-  // Handlers para selección de fecha
-  const handleStartDateSelection = (date: string) => {
-    setSkipStartDateValidation(false)
-    onStartDateSelect(date)
-    setWasStartDatePickerOpened(false)
-  }
-
-  const handleEndDateSelection = (date: string) => {
-    setSkipEndDateValidation(false)
-    onEndDateSelect(date)
-    setWasEndDatePickerOpened(false)
   }
 
   return (
@@ -187,7 +118,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
           placeholder={t('subscriptions.selectFrequency')}
           size="large"
           className={styles.statusSelect}
-          onBlur={() => handleFieldBlurSimple('frequency')}
+          onBlur={() => handleFieldBlurIfNotFromDatePicker('frequency')}
         />
         {(!!formErrors['tipo'] && touchedFields['frequency']) && (
           <div className={styles.inputError}>{formErrors['tipo']}</div>
@@ -206,7 +137,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
                 : ''
             }
             onClick={(e) => handleDateInputClick(e, 'start')}
-            onBlur={() => handleFieldBlurSimple('startDate')}
+            onBlur={() => handleFieldBlurIfNotFromDatePicker('startDate')}
             readOnly
             className={styles.inputDate}
             placeholder={t('subscriptions.selectStartDate')}
@@ -223,8 +154,8 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
         </div>
         <DatePickerModal
           isOpen={isStartDatePickerOpen}
-          onRequestClose={handleStartDatePickerClose}
-          onDateSelect={handleStartDateSelection}
+          onRequestClose={onStartDateClose}
+          onDateSelect={onStartDateSelect}
           selectedDate={formData.startDate as string}
           title={t('subscriptions.selectStartDate')}
           placeholder={t('subscriptions.selectStartDate')}
@@ -246,7 +177,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
                 : ''
             }
             onClick={(e) => handleDateInputClick(e, 'end')}
-            onBlur={() => handleFieldBlurSimple('startDate')}
+            onBlur={() => handleFieldBlurIfNotFromDatePicker('endDate')}
             readOnly
             className={styles.inputDate}
             placeholder={t('subscriptions.selectEndDate')}
@@ -263,8 +194,8 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
         </div>
         <DatePickerModal
           isOpen={isEndDatePickerOpen}
-          onRequestClose={handleEndDatePickerClose}
-          onDateSelect={handleEndDateSelection}
+          onRequestClose={onEndDateClose}
+          onDateSelect={onEndDateSelect}
           selectedDate={formData.endDate as string}
           title={t('subscriptions.selectEndDate')}
           placeholder={t('subscriptions.selectEndDate')}
@@ -283,7 +214,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
             disabled={isSubmitting}
             className={styles.statusSelect}
             style={{ appearance: 'none', WebkitAppearance: 'none', MozAppearance: 'none', width: '100%' }}
-            onBlur={() => handleFieldBlurSimple('status')}
+            onBlur={() => handleFieldBlurIfNotFromDatePicker('status')}
           >
             <option value="active">{t('subscriptions.status.active')}</option>
             <option value="inactive">{t('subscriptions.status.inactive')}</option>
@@ -298,7 +229,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
         )}
       </div>
       
-      {(formData.frequency === 'semestral' || formData.frequency === 'trimestral') && (
+      {(formData.frequency === 'semestral' || formData.frequency === 'trimestral' || formData.frequency === 'anual' || formData.frequency === 'mensual') && (
         <div className={styles.formGroup}>
           <label className={styles.monthsLabel}>
             <Calendar size={16} />
@@ -323,26 +254,12 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
           <div className={styles.monthsHelp}>
             {formData.frequency === 'semestral' && t('subscriptions.selectTwoMonths')}
             {formData.frequency === 'trimestral' && t('subscriptions.selectFourMonths')}
+            {formData.frequency === 'anual' && t('subscriptions.selectOneMonth')}
+            {formData.frequency === 'mensual' && t('subscriptions.selectAllMonths')}
           </div>
         </div>
       )}
-      
-      {(formData.frequency === 'mensual' || formData.frequency === 'anual') && (
-        <div className={styles.formGroup}>
-          <label className={styles.monthsLabel}>
-            <Calendar size={16} />
-            {t('subscriptions.selectedMonths')}
-          </label>
-          <div className={styles.monthsPreview}>
-            {['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'].map((month, index) => (
-              <span key={index} className={styles.monthTag + ' ' + styles.monthTagSelected}>
-                {month}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
-      
+
       <div className={styles.modalActions}>
         <button
           type="button"

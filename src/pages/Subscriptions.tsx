@@ -7,13 +7,15 @@ import ModalSuccess from '../features/forms/components/ModalSuccess'
 import ModalError from '../features/forms/components/ModalError'
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
-import { Edit } from "lucide-react"
+import { Edit, ChevronDown, FilterX } from "lucide-react"
 import { useAuthStore } from '../store/authStore'
 import { useNavigate } from 'react-router-dom'
-import { translateMonthToCurrentLang, translateFrequencyToCurrentLang } from '../shared/utils/backendTranslations';
+import { translateMonthToCurrentLang, translateFrequencyToCurrentLang } from '../shared/utils/backendTranslations'
+import { useTheme } from '../shared/hooks/useTheme'
 
 const Subscriptions = () => {
   const { t, i18n } = useTranslation()
+  const { dark } = useTheme()
   const { subscriptions, frequencyOptions, getMonthsByFrequency, loading, error, refreshSubscriptions, updateSubscription } = useSubscriptions()
   const role = useAuthStore((s) => s.role)
   const navigate = useNavigate()
@@ -26,6 +28,7 @@ const Subscriptions = () => {
   }, [role, navigate])
 
   const [searchTerm, setSearchTerm] = useState("")
+  const [selectedMonthFilter, setSelectedMonthFilter] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
   const [isEditFrequencyModalOpen, setIsEditFrequencyModalOpen] = useState(false)
   const [selectedSubscription, setSelectedSubscription] = useState<Subscription | null>(null)
@@ -37,7 +40,24 @@ const Subscriptions = () => {
     document.title = t("subscriptions.titlePage")
   }, [t, i18n.language])
 
-  // Filtrar suscripciones por término de búsqueda
+  // Opciones para el filtro de meses
+  const monthOptions = useMemo(() => [
+    { label: t('common.all'), value: "" },
+    { label: translateMonthToCurrentLang('Enero', i18n.language), value: "Enero" },
+    { label: translateMonthToCurrentLang('Febrero', i18n.language), value: "Febrero" },
+    { label: translateMonthToCurrentLang('Marzo', i18n.language), value: "Marzo" },
+    { label: translateMonthToCurrentLang('Abril', i18n.language), value: "Abril" },
+    { label: translateMonthToCurrentLang('Mayo', i18n.language), value: "Mayo" },
+    { label: translateMonthToCurrentLang('Junio', i18n.language), value: "Junio" },
+    { label: translateMonthToCurrentLang('Julio', i18n.language), value: "Julio" },
+    { label: translateMonthToCurrentLang('Agosto', i18n.language), value: "Agosto" },
+    { label: translateMonthToCurrentLang('Septiembre', i18n.language), value: "Septiembre" },
+    { label: translateMonthToCurrentLang('Octubre', i18n.language), value: "Octubre" },
+    { label: translateMonthToCurrentLang('Noviembre', i18n.language), value: "Noviembre" },
+    { label: translateMonthToCurrentLang('Diciembre', i18n.language), value: "Diciembre" },
+  ], [t, i18n.language])
+
+  // Filtrar suscripciones por término de búsqueda y mes
   const filteredSubscriptions = useMemo(() => {
     const searchTermLower = searchTerm.toLowerCase()
     
@@ -54,11 +74,16 @@ const Subscriptions = () => {
         ...subscription.months
       ]
 
-      return fieldsToSearch.some(
+      const matchesSearch = fieldsToSearch.some(
         field => field.toLowerCase().includes(searchTermLower)
       )
+
+      // Filtro por mes
+      const matchesMonth = !selectedMonthFilter || subscription.months.includes(selectedMonthFilter)
+
+      return matchesSearch && matchesMonth
     })
-  }, [subscriptions, searchTerm])
+  }, [subscriptions, searchTerm, selectedMonthFilter])
 
   // Cálculos de paginación
   const totalPages = Math.ceil(filteredSubscriptions.length / itemsPerPage)
@@ -162,11 +187,46 @@ const Subscriptions = () => {
         <p className={styles.subtitle}>{t('subscriptions.subtitle')}</p>
       </div>
 
-      <div className={styles.searchContainer}>
-        <SearchInput
-          placeholder={t('subscriptions.searchPlaceholder')}
-          onInputChange={(value) => setSearchTerm(value)}
-        />
+      <div className={styles.filtersContainer}>
+        <div className={styles.searchContainer}>
+          <SearchInput
+            placeholder={t('subscriptions.searchPlaceholder')}
+            onInputChange={(value) => setSearchTerm(value)}
+          />
+        </div>
+
+        <div className={styles.additionalFilters}>
+          <div className={styles.selectWrapper}>
+            <select
+              value={selectedMonthFilter}
+              onChange={(e) => setSelectedMonthFilter(e.target.value)}
+              className={styles.filterSelect}
+              style={{ appearance: 'none', WebkitAppearance: 'none', MozAppearance: 'none', width: '100%' }}
+            >
+              {monthOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <ChevronDown 
+              size={16} 
+              className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
+            />
+          </div>
+
+          <button
+            onClick={() => {
+              setSearchTerm("")
+              setSelectedMonthFilter("")
+              setCurrentPage(1)
+            }}
+            className={styles.clearFilters}
+          >
+            <FilterX size={16} />
+            {t('calendar.clearFilters')}
+          </button>
+        </div>
       </div>
 
       <div className={styles.tableContainer}>

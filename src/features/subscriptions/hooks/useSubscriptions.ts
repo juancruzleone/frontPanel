@@ -167,7 +167,7 @@ const useSubscriptions = () => {
   const handleFieldChange = useCallback((name: string, value: any) => {
     setFormData(prev => ({ ...prev, [name]: value }))
     
-    // Solo limpiar el error del campo específico si tiene un valor válido
+    // Limpiar el error del campo específico inmediatamente cuando hay un valor válido
     if (value) {
       const fieldMapping: Record<string, string> = {
         'frequency': 'tipo',
@@ -187,20 +187,115 @@ const useSubscriptions = () => {
     
     if (name === 'frequency') {
       // Reset selected months when frequency changes
-      if (value === 'mensual' || value === 'anual') {
-        setSelectedMonths(getMonthsByFrequency(value))
+      if (value === 'mensual') {
+        // Para mensual, seleccionar todos los meses a partir de la fecha de inicio
+        const allMonths = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+        setSelectedMonths(allMonths)
+      } else if (value === 'anual') {
+        // Para anual, seleccionar solo el mes de la fecha de inicio
+        const currentStartDate = formData.startDate
+        if (currentStartDate) {
+          const startDate = new Date(currentStartDate)
+          const monthIndex = startDate.getMonth()
+          const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+          setSelectedMonths([monthNames[monthIndex]])
+        } else {
+          setSelectedMonths([])
+        }
+      } else if (value === 'trimestral') {
+        // Para trimestral, seleccionar 4 meses alternados a partir del mes de inicio
+        const currentStartDate = formData.startDate
+        if (currentStartDate) {
+          const startDate = new Date(currentStartDate)
+          const monthIndex = startDate.getMonth()
+          const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+          
+          let selectedMonthsArray: string[] = []
+          // Seleccionar mes de inicio + cada 3 meses
+          for (let i = 0; i < 4; i++) {
+            const monthToAdd = monthNames[(monthIndex + (i * 3)) % 12]
+            if (!selectedMonthsArray.includes(monthToAdd)) {
+              selectedMonthsArray.push(monthToAdd)
+            }
+          }
+          setSelectedMonths(selectedMonthsArray)
+        } else {
+          setSelectedMonths([])
+        }
+      } else if (value === 'semestral') {
+        // Para semestral, seleccionar 2 meses alternados a partir del mes de inicio
+        const currentStartDate = formData.startDate
+        if (currentStartDate) {
+          const startDate = new Date(currentStartDate)
+          const monthIndex = startDate.getMonth()
+          const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+          
+          let selectedMonthsArray: string[] = []
+          // Seleccionar mes de inicio + 6 meses después
+          for (let i = 0; i < 2; i++) {
+            const monthToAdd = monthNames[(monthIndex + (i * 6)) % 12]
+            if (!selectedMonthsArray.includes(monthToAdd)) {
+              selectedMonthsArray.push(monthToAdd)
+            }
+          }
+          setSelectedMonths(selectedMonthsArray)
+        } else {
+          setSelectedMonths([])
+        }
       } else {
         setSelectedMonths([])
       }
     }
-  }, [])
+    
+    // Si cambia la fecha de inicio, recalcular meses para frecuencias que dependen de ella
+    if (name === 'startDate' && value) {
+      const currentFrequency = formData.frequency
+      if (currentFrequency === 'anual') {
+        const startDate = new Date(value)
+        const monthIndex = startDate.getMonth()
+        const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+        setSelectedMonths([monthNames[monthIndex]])
+      } else if (currentFrequency === 'trimestral') {
+        const startDate = new Date(value)
+        const monthIndex = startDate.getMonth()
+        const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+        let selectedMonthsArray: string[] = []
+        // Seleccionar mes de inicio + cada 3 meses
+        for (let i = 0; i < 4; i++) {
+          const monthToAdd = monthNames[(monthIndex + (i * 3)) % 12]
+          if (!selectedMonthsArray.includes(monthToAdd)) {
+            selectedMonthsArray.push(monthToAdd)
+          }
+        }
+        setSelectedMonths(selectedMonthsArray)
+      } else if (currentFrequency === 'semestral') {
+        const startDate = new Date(value)
+        const monthIndex = startDate.getMonth()
+        const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+        let selectedMonthsArray: string[] = []
+        // Seleccionar mes de inicio + 6 meses después
+        for (let i = 0; i < 2; i++) {
+          const monthToAdd = monthNames[(monthIndex + (i * 6)) % 12]
+          if (!selectedMonthsArray.includes(monthToAdd)) {
+            selectedMonthsArray.push(monthToAdd)
+          }
+        }
+        setSelectedMonths(selectedMonthsArray)
+      }
+    }
+  }, [formData.frequency, formData.startDate])
 
-  // CAMBIO PRINCIPAL: handleFieldBlur mejorado
+  // Función de blur simplificada - solo valida campos vacíos
   const handleFieldBlur = useCallback(async (name: string) => {
-    // Marcar el campo como tocado SIEMPRE
+    // Marcar el campo como tocado
     setTouchedFields(prev => ({ ...prev, [name]: true }))
     
-    // Mapear nombres de campos
+    // Solo validar si el campo está vacío
+    const fieldValue = formData[name as keyof typeof formData]
+    if (fieldValue && fieldValue !== '') {
+      return // No validar si hay valor
+    }
+    
     const fieldMapping: Record<string, string> = {
       'frequency': 'tipo',
       'startDate': 'fechaInicio',
@@ -209,11 +304,10 @@ const useSubscriptions = () => {
     }
     
     const validationFieldName = fieldMapping[name] || name
-    const fieldValue = formData[name as keyof typeof formData]
     
     // Crear objeto con el campo a validar
     const fieldToValidate: any = {
-      [validationFieldName]: fieldValue || ''
+      [validationFieldName]: ''
     }
     
     // Para fecha fin, incluir fecha inicio para validación cruzada
@@ -234,7 +328,7 @@ const useSubscriptions = () => {
     }
   }, [formData, t])
 
-  // NUEVO: Función para marcar campo como tocado cuando se abre un DatePicker
+  // Función para marcar campo como tocado cuando se abre un DatePicker
   const handleFieldFocus = useCallback((name: string) => {
     setTouchedFields(prev => ({ ...prev, [name]: true }))
   }, [])
@@ -248,7 +342,7 @@ const useSubscriptions = () => {
       status: true
     })
     
-    // Validar todos los campos con valores vacíos si no tienen valor
+    // Validar todos los campos
     const validation = await validateSubscriptionForm({
       tipo: formData.frequency || '',
       fechaInicio: formData.startDate || '',
@@ -318,6 +412,20 @@ const useSubscriptions = () => {
       } else if (selectedMonths.length < 4) {
         setSelectedMonths([...selectedMonths, month])
       }
+    } else if (formData.frequency === 'anual') {
+      // Para anual, solo permitir un mes seleccionado
+      if (selectedMonths.includes(month)) {
+        setSelectedMonths([])
+      } else {
+        setSelectedMonths([month])
+      }
+    } else if (formData.frequency === 'mensual') {
+      // Para mensual, permitir seleccionar/deseleccionar cualquier mes
+      if (selectedMonths.includes(month)) {
+        setSelectedMonths(selectedMonths.filter(m => m !== month))
+      } else {
+        setSelectedMonths([...selectedMonths, month])
+      }
     }
   }
 
@@ -330,84 +438,84 @@ const useSubscriptions = () => {
   const canSave = () => {
     if (formData.frequency === 'semestral') return selectedMonths.length === 2
     if (formData.frequency === 'trimestral') return selectedMonths.length === 4
+    if (formData.frequency === 'anual') return selectedMonths.length === 1
+    if (formData.frequency === 'mensual') return selectedMonths.length > 0
     return true
   }
 
-  // Handler para cerrar DatePicker con validación
+  // Handler para cerrar DatePicker - MODIFICADO para no validar automáticamente
   const handleStartDateClose = () => {
     setIsStartDatePickerOpen(false)
-    // Validar si el campo está vacío
-    if (!formData.startDate) {
-      setTimeout(() => {
-        handleFieldBlur('startDate')
-      }, 100)
-    }
+    // NO validar automáticamente al cerrar
   }
 
   const handleEndDateClose = () => {
     setIsEndDatePickerOpen(false)
-    // Validar si el campo está vacío
-    if (!formData.endDate) {
-      setTimeout(() => {
-        handleFieldBlur('endDate')
-      }, 100)
-    }
+    // NO validar automáticamente al cerrar
   }
 
-  // CAMBIO: Mejorar handlers de selección de fecha
+  // Handlers mejorados para selección de fecha - MODIFICADOS
   const handleStartDateSelect = useCallback(async (date: string) => {
-    // Actualizar el valor
+    // Actualizar el valor usando handleFieldChange para limpiar errores automáticamente
     handleFieldChange('startDate', date)
     setIsStartDatePickerOpen(false)
     
-    // Limpiar cualquier error existente inmediatamente
-    setFormErrors(prev => {
-      const newErrors = { ...prev }
-      delete newErrors['fechaInicio']
-      return newErrors
-    })
-    
     // Marcar como tocado
     setTouchedFields(prev => ({ ...prev, startDate: true }))
-  }, [handleFieldChange])
+    
+    // Validar fecha fin si existe y podría ser inválida
+    if (formData.endDate && date > formData.endDate) {
+      const validation = await validateSubscriptionForm({
+        fechaInicio: date,
+        fechaFin: formData.endDate
+      }, t)
+      
+      if (validation.errors['fechaFin']) {
+        setFormErrors(prev => ({
+          ...prev,
+          fechaFin: validation.errors['fechaFin']
+        }))
+      }
+    } else if (formData.endDate && date <= formData.endDate) {
+      // Si la nueva fecha de inicio hace que la fecha fin sea válida, limpiar su error
+      setFormErrors(prev => {
+        const newErrors = { ...prev }
+        delete newErrors['fechaFin']
+        return newErrors
+      })
+    }
+  }, [handleFieldChange, formData.endDate, t])
 
   const handleEndDateSelect = useCallback(async (date: string) => {
-    // Actualizar el valor
+    // Actualizar el valor usando handleFieldChange para limpiar errores automáticamente
     handleFieldChange('endDate', date)
     setIsEndDatePickerOpen(false)
-    
-    // Limpiar cualquier error existente inmediatamente
-    setFormErrors(prev => {
-      const newErrors = { ...prev }
-      delete newErrors['fechaFin']
-      return newErrors
-    })
     
     // Marcar como tocado
     setTouchedFields(prev => ({ ...prev, endDate: true }))
     
-    // Validar SOLO si ya tenemos fecha de inicio para la validación cruzada
-    if (formData.startDate && date) {
-      setTimeout(async () => {
-        const fieldToValidate: any = {
-          fechaFin: date,
-          fechaInicio: formData.startDate
-        }
-        
-        try {
-          const validation = await validateSubscriptionForm(fieldToValidate, t)
-          if (validation.errors['fechaFin']) {
-            setFormErrors(prev => ({
-              ...prev,
-              fechaFin: validation.errors['fechaFin']
-            }))
-          }
-        } catch (error) {
-          console.error('Error validating end date:', error)
-        }
-      }, 200)
+    // Validar si la fecha fin es anterior a la fecha inicio
+    if (formData.startDate && date < formData.startDate) {
+      const validation = await validateSubscriptionForm({
+        fechaInicio: formData.startDate,
+        fechaFin: date
+      }, t)
+      
+      if (validation.errors['fechaFin']) {
+        setFormErrors(prev => ({
+          ...prev,
+          fechaFin: validation.errors['fechaFin']
+        }))
+      }
+    } else if (formData.startDate && date >= formData.startDate) {
+      // Si la nueva fecha fin es válida, asegurar que no hay error
+      setFormErrors(prev => {
+        const newErrors = { ...prev }
+        delete newErrors['fechaFin']
+        return newErrors
+      })
     }
-  }, [formData.startDate, handleFieldChange, t])
+  }, [handleFieldChange, formData.startDate, t])
 
   const setFormErrorState = (error: boolean, message: string) => {
     setIsError(error)
@@ -440,7 +548,7 @@ const useSubscriptions = () => {
     isSubmitting,
     handleFieldChange,
     handleFieldBlur,
-    handleFieldFocus, // NUEVO
+    handleFieldFocus,
     handleSubmitForm,
     resetForm,
     selectedMonths,

@@ -787,7 +787,10 @@
     "selectFrequency": "Selecciona una frecuencia",
     "selectedMonths": "Meses seleccionados",
     "frequencyUpdated": "Frecuencia actualizada exitosamente",
-    "errorUpdating": "Error al actualizar la frecuencia"
+    "selectTwoMonths": "Selecciona 2 meses",
+    "selectFourMonths": "Selecciona 4 meses",
+    "selectOneMonth": "Selecciona 1 mes",
+    "selectAllMonths": "Selecciona los meses deseados"
   },
   "workOrders": {
     "successTitle": "¡Operación exitosa!",

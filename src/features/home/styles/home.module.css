@@ -504,60 +504,206 @@ body, html {
 
 @media (max-width: 900px) {
   .dashboardContainer {
-    padding: 24px 16px 16px 16px;
+    padding: 16px 0;
+    overflow-x: hidden;
+    width: 100vw;
+    max-width: 100vw;
+    box-sizing: border-box;
   }
-  
   .statsCardsRow {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 8px;
+    min-width: 0;
+    width: 100vw;
+    max-width: 100vw;
+    overflow-x: hidden;
+    box-sizing: border-box;
   }
-  
-  .chartsRow {
-    gap: 16px;
+  .statsCard {
+    min-width: 0;
+    width: 100%;
+    max-width: 100vw;
+    padding: 10px 4px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 4px;
+    box-sizing: border-box;
   }
-  
-  .statsCard, .chartCard {
-    min-width: 280px;
+  .statsValue {
+    font-size: 1.3rem;
   }
-
-  .title {
-    font-size: 2rem;
-  }
-
-  .sectionTitle {
-    font-size: 1.25rem;
+  .statsIconContainer {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
   }
 }
-
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .dashboardContainer {
-    padding: 16px 12px 12px 12px;
+    padding: 12px 0;
+    overflow-x: hidden;
+    width: 100vw;
+    max-width: 100vw;
+    box-sizing: border-box;
   }
-  
+  .kpisSection,
+  .chartsSection,
+  .lineChartSection,
+  .recentSection {
+    gap: 16px;
+  }
   .statsCardsRow {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 8px;
+    margin-bottom: 8px;
+    min-width: 0;
+    width: 100vw;
+    max-width: 100vw;
+    overflow-x: hidden;
+    box-sizing: border-box;
   }
-  
-  .chartsRow {
-    gap: 12px;
+  .statsCard {
+    min-width: 0;
+    width: 100%;
+    max-width: 100vw;
+    padding: 8px 2px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 4px;
+    box-sizing: border-box;
   }
-  
-  .chartCard, .statsCard {
-    min-width: 100%;
+  .statsValue {
+    font-size: 1.5rem;
   }
-  
+  .statsIconContainer {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+  }
+  .pieChartFlexContainer {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    height: auto !important;
+    gap: 8px !important;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+  .chartCard {
+    padding-bottom: 12px;
+    overflow: hidden;
+    min-height: 0;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+  }
+  .pieChartContainer {
+    min-height: 140px;
+    height: 140px;
+    width: 100% !important;
+    max-width: 100vw;
+  }
+  .percentagesContainer {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  .percentageItem {
+    min-width: 80px;
+    flex: 1 1 40%;
+    font-size: 13px;
+    padding: 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 48%;
+    box-sizing: border-box;
+  }
+  .percentageColor {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-right: 4px;
+  }
+  .percentageContent {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .percentageName {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 80px;
+  }
+  .percentageValue {
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .lineChartContainer {
+    min-height: 180px;
+    height: 180px;
+    width: 100vw;
+    max-width: 100vw;
+    overflow-x: auto;
+  }
+  .ordersList {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  .orderItem {
+    border-radius: 10px;
+    padding: 12px 8px;
+    margin-bottom: 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    background: var(--color-card);
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .orderHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .orderTitle {
+    font-size: 1rem;
+    word-break: break-word;
+  }
+  .orderMeta {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .orderInfo {
+    flex-direction: column;
+    gap: 2px;
+  }
   .title {
     font-size: 1.75rem;
     margin-top: 24px;
   }
-
   .sectionTitle {
     font-size: 1.1rem;
   }
-
   .dashboardContent {
-    gap: 32px;
+    gap: 24px;
   }
 } 
 
