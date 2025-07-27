@@ -1101,6 +1101,8 @@
   "serialMax": "序列号不能超过100个字符"
 },
 "subscriptions": {
+  "selectStartDate": "选择开始日期",
+  "selectEndDate": "选择结束日期",
   "page": "页",
   "of": "共",
   "title": "有效订阅",
@@ -1160,7 +1162,11 @@
   "selectFrequency": "选择频率",
   "selectedMonths": "已选月份",
   "frequencyUpdated": "频率更新成功",
-  "errorUpdating": "更新频率时出错"
+  "errorUpdating": "更新频率时出错",
+  "selectTwoMonths": "选择2个月",
+  "selectFourMonths": "选择4个月",
+  "selectOneMonth": "选择1个月",
+  "selectAllMonths": "请选择所需的月份"
 }
 
 

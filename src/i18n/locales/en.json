@@ -757,6 +757,8 @@
     }
   },
   "subscriptions": {
+    "selectStartDate": "Select start date",
+    "selectEndDate": "Select end date",
     "title": "Active Subscriptions",
     "titlePage": "Active Subscriptions - FrontPanel",
     "subtitle": "Subscription and active billing management",
@@ -815,7 +817,11 @@
     "selectFrequency": "Select a frequency",
     "selectedMonths": "Selected months",
     "frequencyUpdated": "Frequency updated successfully",
-    "errorUpdating": "Error updating frequency"
+    "errorUpdating": "Error updating frequency",
+    "selectTwoMonths": "Select 2 months",
+    "selectFourMonths": "Select 4 months",
+    "selectOneMonth": "Select 1 month",
+    "selectAllMonths": "Select the desired months"
   },
   "calendar": {
     "selectYear": "Select year",

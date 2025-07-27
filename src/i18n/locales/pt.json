@@ -1036,6 +1036,8 @@
   "serialMax": "Número de série não pode ter mais de 100 caracteres"
 },
 "subscriptions": {
+  "selectStartDate": "Selecionar data de início",
+  "selectEndDate": "Selecionar data de término",
   "page": "Página",
   "of": "de",
   "title": "Assinaturas ativas",
@@ -1095,7 +1097,11 @@
   "selectFrequency": "Selecione uma frequência",
   "selectedMonths": "Meses selecionados",
   "frequencyUpdated": "Frequência atualizada com sucesso",
-  "errorUpdating": "Erro ao atualizar a frequência"
+  "errorUpdating": "Erro ao atualizar a frequência",
+  "selectTwoMonths": "Selecione 2 meses",
+  "selectFourMonths": "Selecione 4 meses",
+  "selectOneMonth": "Selecione 1 mês",
+  "selectAllMonths": "Selecione os meses desejados"
 }
 
 

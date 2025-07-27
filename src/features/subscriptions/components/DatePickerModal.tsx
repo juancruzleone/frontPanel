@@ -154,28 +154,33 @@ const DatePickerModal = ({
             </div>
             
             <div className={styles.calendarPickerGrid}>
-              {['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].map((day) => (
-                <div key={day} className={styles.calendarPickerWeekDay}>
-                  {day}
-                </div>
-              ))}
-              
-              {days.map((day, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  onClick={() => handleDateClick(day)}
-                  className={`${styles.calendarPickerDay} ${
-                    isToday(day) ? styles.calendarPickerToday : ''
-                  } ${
-                    isSelected(day) ? styles.calendarPickerSelected : ''
-                  } ${
-                    isOtherMonth(day) ? styles.calendarPickerOtherMonth : ''
-                  }`}
-                >
-                  {day.getDate()}
-                </button>
-              ))}
+              <div className={styles.calendarPickerWeekDays}>
+                <div className={styles.calendarPickerWeekDay}>{t('calendar.sun')}</div>
+                <div className={styles.calendarPickerWeekDay}>{t('calendar.mon')}</div>
+                <div className={styles.calendarPickerWeekDay}>{t('calendar.tue')}</div>
+                <div className={styles.calendarPickerWeekDay}>{t('calendar.wed')}</div>
+                <div className={styles.calendarPickerWeekDay}>{t('calendar.thu')}</div>
+                <div className={styles.calendarPickerWeekDay}>{t('calendar.fri')}</div>
+                <div className={styles.calendarPickerWeekDay}>{t('calendar.sat')}</div>
+              </div>
+              <div className={styles.calendarPickerDays}>
+                {days.map((day, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    className={`
+                      ${styles.calendarPickerDay}
+                      ${isOtherMonth(day) ? styles.calendarPickerOtherMonth : ''}
+                      ${isToday(day) ? styles.calendarPickerToday : ''}
+                      ${isSelected(day) ? styles.calendarPickerSelected : ''}
+                    `}
+                    onClick={() => handleDateClick(day)}
+                    disabled={isOtherMonth(day)}
+                  >
+                    {day.getDate()}
+                  </button>
+                ))}
+              </div>
             </div>
             
             {selectedDateState && (

@@ -947,6 +947,8 @@
   "serialMax": "Seriennummer darf nicht länger als 100 Zeichen sein"
 },
 "subscriptions": {
+  "selectStartDate": "Startdatum auswählen",
+  "selectEndDate": "Enddatum auswählen",
   "page": "Seite",
   "of": "von",
   "title": "Aktive Abonnements",
@@ -1006,6 +1008,10 @@
   "selectFrequency": "Frequenz auswählen",
   "selectedMonths": "Ausgewählte Monate",
   "frequencyUpdated": "Frequenz erfolgreich aktualisiert",
-  "errorUpdating": "Fehler bei der Aktualisierung der Frequenz"
+  "errorUpdating": "Fehler bei der Aktualisierung der Frequenz",
+  "selectTwoMonths": "Wähle 2 Monate",
+  "selectFourMonths": "Wähle 4 Monate",
+  "selectOneMonth": "Wähle 1 Monat",
+  "selectAllMonths": "Wähle die gewünschten Monate"
 }
 }

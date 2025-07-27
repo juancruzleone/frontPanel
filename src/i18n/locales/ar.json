@@ -1048,32 +1048,29 @@
   "serialMax": "لا يمكن أن يتجاوز الرقم التسلسلي 100 حرف"
 },
 "subscriptions": {
-  "page": "الصفحة",
-  "of": "من",
+  "selectStartDate": "اختر تاريخ البدء",
+  "selectEndDate": "اختر تاريخ الانتهاء",
   "title": "الاشتراكات النشطة",
-  "titlePage": "الاشتراكات النشطة - FrontPanel",
-  "subtitle": "إدارة الاشتراكات والفواتير النشطة",
-  "searchPlaceholder": "البحث في الاشتراكات...",
-  "startDate": "تاريخ البدء",
-  "endDate": "تاريخ الانتهاء",
+  "titlePage": "الاشتراكات النشطة - لوحة التحكم",
+  "subtitle": "إدارة الاشتراكات والفوترة النشطة",
+  "searchPlaceholder": "ابحث عن الاشتراكات...",
   "noSubscriptionsFound": "لم يتم العثور على اشتراكات",
   "noSubscriptions": "لا توجد اشتراكات متاحة",
-  "errorLoading": "خطأ في تحميل الاشتراكات",
+  "errorLoading": "حدث خطأ أثناء تحميل الاشتراكات",
   "status": {
-    "label": "الحالة",
     "active": "نشط",
     "inactive": "غير نشط",
     "pending": "قيد الانتظار"
   },
-    "errors": {
-      "startDateRequired": "تاريخ البدء مطلوب",
+  "errors": {
+    "startDateRequired": "تاريخ البدء مطلوب",
     "endDateRequired": "تاريخ الانتهاء مطلوب",
     "endDateAfterStart": "يجب أن يكون تاريخ الانتهاء بعد تاريخ البدء",
     "invalidDate": "يجب أن يكون التاريخ صالحًا",
     "frequencyRequired": "التكرار مطلوب لتفعيل الاشتراك"
   },
   "table": {
-    "installation": "التثبيت",
+    "installation": "التركيب",
     "address": "العنوان",
     "type": "النوع",
     "frequency": "التكرار",
@@ -1082,8 +1079,26 @@
     "startDate": "تاريخ البدء",
     "endDate": "تاريخ الانتهاء"
   },
+  "months": {
+    "Enero": "يناير",
+    "Febrero": "فبراير",
+    "Marzo": "مارس",
+    "Abril": "أبريل",
+    "Mayo": "مايو",
+    "Junio": "يونيو",
+    "Julio": "يوليو",
+    "Agosto": "أغسطس",
+    "Septiembre": "سبتمبر",
+    "Octubre": "أكتوبر",
+    "Noviembre": "نوفمبر",
+    "Diciembre": "ديسمبر"
+  },
   "frequency": {
-    "monthly": "شهريًا",
+    "Mensual": "شهري",
+    "Trimestral": "ربع سنوي",
+    "Semestral": "نصف سنوي",
+    "Anual": "سنوي",
+    "monthly": "شهري",
     "quarterly": "ربع سنوي",
     "semiannual": "نصف سنوي",
     "annual": "سنوي"
@@ -1093,8 +1108,13 @@
   "selectFrequency": "اختر تكرارًا",
   "selectedMonths": "الأشهر المحددة",
   "frequencyUpdated": "تم تحديث التكرار بنجاح",
-  "errorUpdating": "خطأ في تحديث التكرار"
+  "errorUpdating": "حدث خطأ أثناء تحديث التكرار",
+  "selectTwoMonths": "اختر شهرين",
+  "selectFourMonths": "اختر 4 أشهر",
+  "selectOneMonth": "اختر شهرًا واحدًا",
+  "selectAllMonths": "اختر الأشهر المطلوبة"
 }
+
 
 
 

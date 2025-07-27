@@ -1037,6 +1037,8 @@
   "retryLoadCategories": "カテゴリの再読み込み"
 },
 "subscriptions": {
+  "selectStartDate": "開始日を選択",
+  "selectEndDate": "終了日を選択",
   "page": "ページ",
   "of": "の",
   "title": "有効なサブスクリプション",
@@ -1096,7 +1098,11 @@
   "selectFrequency": "頻度を選択",
   "selectedMonths": "選択した月",
   "frequencyUpdated": "頻度が正常に更新されました",
-  "errorUpdating": "頻度の更新エラー"
+  "errorUpdating": "頻度の更新エラー",
+  "selectTwoMonths": "2か月を選択してください",
+  "selectFourMonths": "4か月を選択してください",
+  "selectOneMonth": "1か月を選択してください",
+  "selectAllMonths": "希望する月を選択してください"
 }
 
 
