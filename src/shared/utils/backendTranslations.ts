@@ -559,6 +559,10 @@ export const monthTranslations: Record<string, string[]> = {
   zh: [
     '一月', '二月', '三月', '四月', '五月', '六月',
     '七月', '八月', '九月', '十月', '十一月', '十二月'
+  ],
+  ar: [
+    'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+    'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'
   ]
 };
 
@@ -588,7 +592,8 @@ export const frequencyTranslations: Record<string, string[]> = {
   it: ['Mensile', 'Trimestrale', 'Semestrale', 'Annuale'],
   ja: ['毎月', '四半期ごと', '半年ごと', '毎年'],
   ko: ['매월', '분기별', '반기별', '매년'],
-  zh: ['每月', '每季度', '每半年', '每年']
+  zh: ['每月', '每季度', '每半年', '每年'],
+  ar: ['شهري', 'ربع سنوي', 'نصف سنوي', 'سنوي']
 };
 
 export function translateFrequencyToCurrentLang(freqES: string, lang: string): string {
