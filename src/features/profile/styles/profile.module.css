@@ -118,7 +118,7 @@
 .orderStatus {
   display: inline-block;
   background: var(--color-secondary);
-  color: #fff;
+  color: #000;
   text-align: center;
   padding: 6px 14px;
   font-size: 13px;

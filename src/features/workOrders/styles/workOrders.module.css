@@ -15,7 +15,7 @@
   font-weight: 700;
   color: var(--color-text);
   margin: 0;
-  text-align: left;
+  text-align: left !important;
 }
 
 .positionButton {
@@ -137,22 +137,22 @@
 
 .statusPending {
   background: #fff3cd;
-  color: #856404;
+  color: #000;
 }
 
 .statusInProgress {
   background: #cce5ff;
-  color: #004085;
+  color: #000;
 }
 
 .statusCompleted {
   background: #d4edda;
-  color: #155724;
+  color: #000;
 }
 
 .statusCancelled {
   background: #f8d7da;
-  color: #721c24;
+  color: #000;
 }
 
 .priorityBadge {
@@ -166,17 +166,17 @@
 
 .priorityHigh {
   background: #f8d7da;
-  color: #721c24;
+  color: #000;
 }
 
 .priorityMedium {
   background: #fff3cd;
-  color: #856404;
+  color: #000;
 }
 
 .priorityLow {
   background: #d4edda;
-  color: #155724;
+  color: #000;
 }
 
 /* Separador antes de las acciones */

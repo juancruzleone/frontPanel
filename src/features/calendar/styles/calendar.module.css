@@ -641,7 +641,7 @@
   border-radius: 16px;
   font-size: 12px;
   font-weight: 600;
-  color: white;
+  color: #000;
   text-transform: uppercase;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

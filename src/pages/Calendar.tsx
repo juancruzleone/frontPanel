@@ -464,8 +464,10 @@ const Calendar = () => {
                       </div>
                     </div>
 
+                    {/* Descripción arriba */}
+                    <p className={styles.workOrderDescription}>{order.descripcion}</p>
+
                     <div className={styles.workOrderDetails}>
-                      <p className={styles.workOrderDescription}>{order.descripcion}</p>
                       <div className={styles.workOrderInfoRow}>
                         <span>
                           <strong>{t('calendar.type')}:</strong> {translateWorkType(order.tipoTrabajo)}
@@ -485,9 +487,6 @@ const Calendar = () => {
                   <div className={styles.cardActions}>
                     <button className={styles.detailsButton} onClick={() => handleOpenDetails(order)}>
                       {t('calendar.viewDetails')}
-                    </button>
-                    <button className={styles.fullDetailsButton} onClick={() => handleViewWorkOrderDetails(order)}>
-                      {t('calendar.viewComplete')}
                     </button>
                   </div>
                 </div>

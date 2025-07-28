@@ -73,7 +73,7 @@ const RecentWorkOrders: React.FC<RecentWorkOrdersProps> = ({ workOrders }) => {
                   className={styles.orderStatus}
                   style={{ 
                     background: estadoColor[order.estado] || "#bdbdbd",
-                    color: order.estado === 'pendiente' ? '#000' : '#fff'
+                    color: '#000'
                   }}
                 >
                   {estadoLabels[order.estado] || order.estado}

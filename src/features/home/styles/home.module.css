@@ -27,7 +27,7 @@ body, html {
   font-weight: 800;
   color: var(--color-text);
   margin: 0 0 8px 0;
-  text-align: left;
+  text-align: left !important;
   letter-spacing: -0.02em;
   background: linear-gradient(135deg, var(--color-text) 0%, var(--color-primary) 100%);
   -webkit-background-clip: text;
