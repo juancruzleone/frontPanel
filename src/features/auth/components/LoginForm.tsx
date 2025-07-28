@@ -24,7 +24,7 @@ const LoginForm = ({
         <ThemeToggle />
       </div>
       <h1>{t("login.title")}</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={styles.formLogin}>
         <label htmlFor="username">{t("login.username")}</label>
         <div className={styles.inputWrapper}>
           <input

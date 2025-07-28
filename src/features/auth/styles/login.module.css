@@ -12,6 +12,14 @@
     margin-right: 200px;
 }
 
+.positionForm {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
 .positionContent{
     flex: 1;
     max-width: 700px;
@@ -25,14 +33,6 @@
     background-size: auto;
     background-position: center;
     background-attachment: scroll;
-}
-
-.positionForm {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
 }
 
 /* Responsive design para dispositivos móviles */
@@ -59,7 +59,7 @@
     .positionForm {
         padding: 1rem;
         height: 70vh; /* El resto del espacio para el formulario */
-        overflow-y: auto;
+        /*overflow-y: auto;*/
     }
     
     .containerAuth img {
@@ -79,12 +79,52 @@
     }
     
     .positionForm {
-        padding: 1.5rem;
+        padding: 2rem;
+        max-width: 800px;
+        width: 100%;
+        min-width: 600px;
+    }
+    
+    /* Hacer el containerForm más ancho en tablets */
+    .positionForm .containerForm {
+        max-width: 800px;
+        width: 100%;
+        padding: 0 3rem;
+    }
+    
+    /* Hacer los inputs y botones más anchos */
+    .positionForm form {
+        max-width: 800px;
+        width: 100%;
+    }
+    
+    .positionForm form input {
+        width: 100%;
+        max-width: 800px;
+    }
+    
+    .positionForm .inputWrapper {
+        width: 100% !important;
+        max-width: 800px;
+    }
+    
+    .positionForm button[type="submit"] {
+        width: 100%;
+        max-width: 800px;
+    }
+    
+    .positionForm .alertDanger {
+        width: 100%;
+        max-width: 800px;
     }
 }
 
 /* Para pantallas muy pequeñas */
 @media (max-width: 480px) {
+    h1{
+        font-size: 24px;
+    }
+
     .positionContent {
         height: 25vh;
         min-height: 150px;
@@ -109,7 +149,7 @@
     z-index: 10;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     .themeToggleContainer {
         justify-content: flex-end;
         margin-bottom: 1rem;
@@ -131,4 +171,3 @@
       transform: scale(0.9);
     }
   }
-  

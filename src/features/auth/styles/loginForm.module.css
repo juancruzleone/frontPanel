@@ -20,6 +20,7 @@ form label {
   font-weight: 600;
 }
 
+
 form input {
   padding: 12px;
   border-radius: 4px;
@@ -191,116 +192,6 @@ input:-webkit-autofill {
   box-sizing: border-box;
 }
 
-/* Responsive para formularios más anchos en móviles y tablets */
-@media (max-width: 768px) {
-  form {
-    max-width: 100%;
-    gap: 0;
-    padding: 0;
-  }
-  
-  .containerForm {
-    max-width: 100%;
-    padding: 0; /* Sin padding lateral */
-  }
-
-  form input {
-    width: 100vw;
-    max-width: 100vw;
-    box-sizing: border-box;
-    padding: 8px 8px;
-    font-size: 16px;
-  }
-
-  .inputWrapper {
-    width: 100vw;
-    max-width: 100vw;
-    box-sizing: border-box;
-  }
-
-  h1 {
-    font-size: 1.5rem;
-    text-align: center;
-  }
-
-  /* Botón de iniciar sesión más chico */
-  button[type="submit"] {
-    font-size: 1rem;
-    padding: 12px;
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-  form {
-    max-width: 100%;
-    gap: 0;
-    padding: 0;
-  }
-  .containerForm {
-    max-width: 100%;
-    padding: 0;
-  }
-  .containerForm h1 {
-    text-align: center;
-    font-size: 1.8rem;
-  }
-  form input {
-    width: 100vw;
-    max-width: 100vw;
-    box-sizing: border-box;
-    padding: 10px 10px;
-    font-size: 16px;
-  }
-  .inputWrapper {
-    width: 100vw;
-    max-width: 100vw;
-    box-sizing: border-box;
-  }
-  button[type="submit"] {
-    font-size: 1.1rem;
-    padding: 13px;
-  }
-}
-
-@media (max-width: 480px) {
-  .containerForm {
-    padding: 0 0.25rem; /* Reducir aún más el padding en pantallas muy pequeñas */
-  }
-  
-  form {
-    gap: 0; /* Asegurar que no hay gap en pantallas pequeñas */
-  }
-
-  /* Maximizar ancho en pantallas muy pequeñas */
-  form input {
-    width: 100%;
-    padding: 15px 12px; /* Aumentar padding para mejor UX táctil */
-    font-size: 16px;
-  }
-
-  .inputWrapper {
-    width: 100%;
-    margin-bottom: 12px; /* Aumentar ligeramente el margen */
-  }
-}
-
-/* Media query adicional para tablets en orientación landscape */
-@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
-  .containerForm {
-    max-width: 90%; /* Usar 90% del ancho disponible */
-    padding: 0 1.5rem;
-  }
-
-  form {
-    max-width: 100%;
-  }
-
-  form input {
-    width: 100%;
-    padding: 12px;
-  }
-}
-
 .headerControls {
   display: flex;
   justify-content: flex-end;
@@ -319,4 +210,188 @@ input:-webkit-autofill {
 }
 
 
+/* MOBILE Y TABLETS - Diseño móvil para pantallas hasta 1366px */
+@media (max-width: 1366px) {
+  form {
+    max-width: 100% !important;
+    gap: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .containerForm {
+    max-width: 100% !important;
+    padding: 0 !important; /* Sin padding lateral */
+  }
+  
+  form input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 12px !important;
+    font-size: 16px !important;
+  }
+  
+  .inputWrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin-bottom: 10px !important;
+  }
+  
+  h1 {
+    font-size: 1.5rem !important;
+    text-align: center !important;
+  }
+  
+  form label {
+    font-size: 18px !important;
+  }
+  
+  /* Botón de iniciar sesión con diseño móvil */
+  button[type="submit"] {
+    font-size: 1rem !important;
+    padding: 12px !important;
+    width: 100% !important;
+    margin-top: 15px !important;
+  }
+}
 
+/* MOBILE PEQUEÑO - Ajustes específicos para pantallas muy pequeñas */
+@media (max-width: 480px) {
+  button[type="submit"] {
+    font-size: 14px !important; /* Cambia este valor - era 1rem (16px) */
+    padding: 8px !important;
+    width: 100% !important;
+    margin-top: 15px !important;
+  }
+
+  .eyesButton {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  .formLogin input{
+    height: 30px;
+  }
+  
+  .formLogin label {
+    font-size: 14px !important;
+    ;
+  }
+
+  .formLogin button{
+    font-size: 12px;
+  }
+  
+  .containerForm {
+    padding: 0 0.25rem !important;
+  }
+
+  .inputWrapper {
+    margin-bottom: 12px !important;
+  }
+  
+  h1 {
+    font-size: 1.3rem !important;
+  }
+}
+
+/* TABLET - Ajustes específicos para tablets (768x1024) */
+@media (min-width: 481px) and (max-width: 1024px) {
+  .containerForm {
+    max-width: 800px;
+    width: 100%;
+    padding: 0 3rem;
+  }
+  
+  form {
+    max-width: 800px;
+    width: 100%;
+  }
+  
+  form input {
+    font-size: 18px;
+    padding: 14px;
+    height: auto;
+    width: 100%;
+    max-width: 800px;
+  }
+  
+  .inputWrapper {
+    width: 100%;
+    max-width: 800px;
+  }
+  
+  h1 {
+    font-size: 2.2rem !important;
+    margin-bottom: 1.5rem;
+  }
+  
+  form label {
+    font-size: 22px !important;
+    margin-bottom: 0.5rem;
+  }
+  
+  button[type="submit"] {
+    font-size: 22px;
+    padding: 18px;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 800px;
+  }
+  
+  .eyesButton {
+    width: 28px;
+    height: 28px;
+    font-size: 22px;
+  }
+  
+  .inputError {
+    font-size: 16px;
+  }
+  
+  .alertDanger {
+    font-size: 18px;
+    padding: 14px 22px;
+    width: 100%;
+    max-width: 800px;
+  }
+}
+
+/* DESKTOP - Solo para pantallas mayores a 1366px */
+@media (min-width: 1367px) {
+  .containerForm {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 15px;
+    box-sizing: border-box;
+  }
+  
+  form {
+    max-width: 480px;
+  }
+  
+  form input {
+    width: 100%;
+    padding: 12px;
+  }
+  
+  .inputWrapper {
+    width: 100%;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  form label {
+    font-size: 20px;
+  }
+  
+  button[type="submit"] {
+    font-size: 20px;
+    padding: 16px;
+    width: 100%;
+  }
+}
