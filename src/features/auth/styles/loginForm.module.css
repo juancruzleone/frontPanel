@@ -3,15 +3,27 @@ h1 {
   font-weight: 700;
   color: var(--color-text);
   text-align: center;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
 }
 
 form {
-  display: flex;
-  flex-direction: column;
-  gap: 0; /* Eliminar cualquier gap aplicado dinámicamente */
-  max-width: 480px;
-  width: 100%;
-  margin: 0 auto;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important; /* Eliminar cualquier gap aplicado dinámicamente */
+  max-width: 480px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+.formLogin {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+  max-width: 480px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  padding: 1.5rem;
 }
 
 form label {
@@ -204,9 +216,13 @@ input:-webkit-autofill {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 2px;
-  margin-bottom: 12px;
-  flex-wrap: nowrap;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--color-card-border);
+  padding-bottom: 15px;
 }
 
 
@@ -223,19 +239,20 @@ input:-webkit-autofill {
     padding: 0 !important; /* Sin padding lateral */
   }
   
+  .inputWrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin-bottom: 12px !important; /* Reducir distancia entre input y siguiente label */
+  }
+  
   form input {
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
     padding: 12px !important;
     font-size: 16px !important;
-  }
-  
-  .inputWrapper {
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-    margin-bottom: 10px !important;
+    margin-top: 8px !important; /* Reducir distancia entre label e input */
   }
   
   h1 {
@@ -245,6 +262,7 @@ input:-webkit-autofill {
   
   form label {
     font-size: 18px !important;
+    margin-bottom: 8px !important; /* Reducir espacio después del label */
   }
   
   /* Botón de iniciar sesión con diseño móvil */
@@ -252,60 +270,20 @@ input:-webkit-autofill {
     font-size: 1rem !important;
     padding: 12px !important;
     width: 100% !important;
-    margin-top: 15px !important;
-  }
-}
-
-/* MOBILE PEQUEÑO - Ajustes específicos para pantallas muy pequeñas */
-@media (max-width: 480px) {
-  button[type="submit"] {
-    font-size: 14px !important; /* Cambia este valor - era 1rem (16px) */
-    padding: 8px !important;
-    width: 100% !important;
-    margin-top: 15px !important;
-  }
-
-  .eyesButton {
-    width: 16px !important;
-    height: 16px !important;
-  }
-
-  .formLogin input{
-    height: 30px;
-  }
-  
-  .formLogin label {
-    font-size: 14px !important;
-    ;
-  }
-
-  .formLogin button{
-    font-size: 12px;
-  }
-  
-  .containerForm {
-    padding: 0 0.25rem !important;
-  }
-
-  .inputWrapper {
-    margin-bottom: 12px !important;
-  }
-  
-  h1 {
-    font-size: 1.3rem !important;
+    margin-top: 18px !important; /* Reducir margen superior */
   }
 }
 
 /* TABLET - Ajustes específicos para tablets (768x1024) */
 @media (min-width: 481px) and (max-width: 1024px) {
   .containerForm {
-    max-width: 800px;
+    max-width: 900px; /* Hacer el contenedor más ancho en iPad Mini */
     width: 100%;
     padding: 0 3rem;
   }
   
   form {
-    max-width: 800px;
+    max-width: 900px; /* Hacer el contenedor más ancho en iPad Mini */
     width: 100%;
   }
   
@@ -314,12 +292,14 @@ input:-webkit-autofill {
     padding: 14px;
     height: auto;
     width: 100%;
-    max-width: 800px;
+    max-width: 100%; /* Usar todo el ancho disponible */
+    margin-top: 10px; /* Reducir espacio entre label e input en tablet */
   }
   
   .inputWrapper {
     width: 100%;
-    max-width: 800px;
+    max-width: 100%; /* Usar todo el ancho disponible */
+    margin-bottom: 15px; /* Reducir espacio entre grupos */
   }
   
   h1 {
@@ -329,15 +309,15 @@ input:-webkit-autofill {
   
   form label {
     font-size: 22px !important;
-    margin-bottom: 0.5rem;
+    margin-bottom: 6px; /* Reducir espacio entre label e input */
   }
   
   button[type="submit"] {
     font-size: 22px;
     padding: 18px;
-    margin-top: 20px;
+    margin-top: 22px; /* Reducir margen superior */
     width: 100%;
-    max-width: 800px;
+    max-width: 100%; /* Usar todo el ancho disponible */
   }
   
   .eyesButton {
@@ -354,44 +334,122 @@ input:-webkit-autofill {
     font-size: 18px;
     padding: 14px 22px;
     width: 100%;
-    max-width: 800px;
+    max-width: 100%; /* Usar todo el ancho disponible */
   }
 }
 
 /* DESKTOP - Solo para pantallas mayores a 1366px */
 @media (min-width: 1367px) {
   .containerForm {
-    width: 100%;
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 0 15px;
-    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 480px !important; /* Mantener el ancho original */
+    margin: 0 auto !important;
+    padding: 0 15px !important;
+    box-sizing: border-box !important;
   }
   
-  form {
-    max-width: 480px;
+  form,
+  .formLogin {
+    max-width: 480px !important; /* Mantener el ancho original */
   }
   
-  form input {
-    width: 100%;
-    padding: 12px;
+  .formTopControls {
+    max-width: 480px !important; /* Mantener el ancho original */
+  }
+  
+  form input,
+  .formLogin input {
+    width: 100% !important;
+    padding: 12px !important;
+    max-width: 480px !important; /* Mantener el ancho original */
   }
   
   .inputWrapper {
-    width: 100%;
+    width: 100% !important;
+    max-width: 480px !important; /* Mantener el ancho original */
   }
   
   h1 {
-    font-size: 2rem;
+    font-size: 2rem !important;
   }
   
-  form label {
-    font-size: 20px;
+  form label,
+  .formLogin label {
+    font-size: 20px !important;
   }
   
   button[type="submit"] {
-    font-size: 20px;
-    padding: 16px;
+    font-size: 20px !important;
+    padding: 16px !important;
+    width: 100% !important;
+    max-width: 480px !important; /* Mantener el ancho original */
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .formInner {
+    padding: 1.5rem;
+    gap: 1.25rem;
+  }
+
+  .formGroup {
+    gap: 0.75rem; /* Reducir gap en mobile - menos distancia entre label e input */
+  }
+  
+  .formGroup label {
+    margin-bottom: 0.5rem; /* Reducir margen inferior en mobile */
+  }
+
+  .actions {
+    padding: 1.25rem 1.5rem;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .cancelButton,
+  .submitButton {
     width: 100%;
+  }
+
+  .submitButton {
+    min-width: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .formInner {
+    padding: 1rem;
+  }
+
+  .formGroup {
+    gap: 0.75rem; /* Mantener gap reducido en móviles pequeños */
+  }
+
+  .formGroup label {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem; /* Mantener margen reducido */
+  }
+
+  .actions {
+    padding: 1rem;
+  }
+
+  .formGroup input {
+    padding: 0.75rem;
+    padding-right: 2.5rem;
+    font-size: 0.95rem;
+  }
+
+  .eyesButton {
+    right: 0.5rem;
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .submitButton {
+    min-width: auto;
+    font-size: 0.9rem;
+    padding: 0.75rem 1.5rem;
   }
 }

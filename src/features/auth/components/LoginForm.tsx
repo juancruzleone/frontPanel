@@ -19,12 +19,12 @@ const LoginForm = ({
 
   return (
     <div className={styles.containerForm}>
-      <div className={styles.formTopControls}>
-        <LanguageSelector />
-        <ThemeToggle />
-      </div>
-      <h1>{t("login.title")}</h1>
       <form onSubmit={handleSubmit} className={styles.formLogin}>
+        <div className={styles.formTopControls}>
+          <LanguageSelector />
+          <ThemeToggle />
+        </div>
+        <h1>{t("login.title")}</h1>
         <label htmlFor="username">{t("login.username")}</label>
         <div className={styles.inputWrapper}>
           <input
