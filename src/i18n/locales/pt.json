@@ -654,7 +654,7 @@
     "editFormTemplate": "Editar Modelo de Formulário",
     "templateName": "Nome do Modelo",
     "enterTemplateName": "Digite o nome do modelo",
-    "category": "Categoria",
+    "templateCategory": "Categoria",
     "selectCategory": "Selecione uma categoria",
     "description": "Descrição",
     "enterDescription": "Digite uma descrição",

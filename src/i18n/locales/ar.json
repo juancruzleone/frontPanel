@@ -660,7 +660,7 @@
     "deleteTemplate": "حذف القالب",
     "templateName": "اسم القالب",
     "enterTemplateName": "أدخل اسم القالب",
-    "category": "الفئة",
+    "templateCategory": "الفئة",
     "selectCategory": "اختر فئة",
     "description": "الوصف",
     "enterDescription": "أدخل وصفًا",

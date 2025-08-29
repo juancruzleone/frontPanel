@@ -658,6 +658,8 @@
     "editFormTemplate": "Modifica Modello di Formulario",
     "templateName": "Nome del Modello",
     "enterTemplateName": "Inserisci il nome del modello",
+    "templateCategory": "Categoria",
+    "selectCategory": "Seleziona una categoria",
     "templateDescription": "Descrizione del modello",
     "enterTemplateDescription": "Inserisci la descrizione del modello",
     "fields": "Campi",

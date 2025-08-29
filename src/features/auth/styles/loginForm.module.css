@@ -262,7 +262,6 @@ input:-webkit-autofill {
   
   form label {
     font-size: 18px !important;
-    margin-bottom: 8px !important; /* Reducir espacio después del label */
   }
   
   /* Botón de iniciar sesión con diseño móvil */
@@ -270,7 +269,6 @@ input:-webkit-autofill {
     font-size: 1rem !important;
     padding: 12px !important;
     width: 100% !important;
-    margin-top: 18px !important; /* Reducir margen superior */
   }
 }
 
@@ -315,7 +313,6 @@ input:-webkit-autofill {
   button[type="submit"] {
     font-size: 22px;
     padding: 18px;
-    margin-top: 22px; /* Reducir margen superior */
     width: 100%;
     max-width: 100%; /* Usar todo el ancho disponible */
   }

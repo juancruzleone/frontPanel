@@ -4,6 +4,7 @@ import { ChevronDown } from 'lucide-react'
 import { useTheme } from '../../../shared/hooks/useTheme'
 import ButtonCreate from '../../../shared/components/Buttons/buttonCreate'
 import styles from '../styles/manualForm.module.css'
+import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
 import type { Manual } from '../hooks/useManuals'
 import { validateManualForm, validateManualField } from '../validators/manualValidations'
 
@@ -385,21 +386,21 @@ const ManualForm = ({
           </div>
         </div>
 
-        <div className={styles.actions}>
+        <div className={formButtonStyles.actions}>
           <button
             type="button"
             onClick={onCancel}
             disabled={isSubmitting}
-            className={styles.cancelButton}
+            className={formButtonStyles.cancelButton}
           >
-            {t('manuals.cancel')}
+            {t('common.cancel')}
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
-            className={styles.submitButton}
+            className={formButtonStyles.submitButton}
           >
-            {isSubmitting ? t('manuals.saving') : isEditMode ? t('manuals.update') : t('manuals.create')}
+            {isSubmitting ? t('common.saving') : isEditMode ? t('common.update') : t('common.create')}
           </button>
         </div>
       </div>

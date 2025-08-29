@@ -608,7 +608,7 @@
     "editFormTemplate": "Formularvorlage bearbeiten",
     "templateName": "Vorlagenname",
     "enterTemplateName": "Vorlagennamen eingeben",
-    "category": "Kategorie",
+    "templateCategory": "Kategorie",
     "selectCategory": "Kategorie auswählen",
     "description": "Beschreibung",
     "enterDescription": "Beschreibung eingeben",

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useAssets from "../../../../src/features/assets/hooks/useAssets";
 import { Asset } from "../hooks/useAssets";
 import styles from "../styles/Modal.module.css";
+import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css";
 import { fetchTemplates } from "../services/assetServices";
 import { useTranslation } from "react-i18next"
 
@@ -131,26 +132,26 @@ const ModalAssignTemplate = ({
                   {formErrors.general}
                 </div>
               )}
-            </div>
 
-            <div className={styles.actions}>
-              <button
-                type="button"
-                onClick={handleClose}
-                disabled={isSubmitting}
-                className={styles.cancelButton}
-              >
-                {t('assets.cancel')}
-              </button>
-              <button
-                type="submit"
-                disabled={!selectedTemplate || loadingTemplates || isSubmitting}
-                className={styles.submitButton}
-                aria-label={t('assets.assignTemplateTooltip')}
-                data-tooltip={t('assets.assignTemplateTooltip')}
-              >
-                {isSubmitting ? t('common.saving') : t('assets.assign')}
-              </button>
+              <div className={formButtonStyles.actions}>
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  disabled={isSubmitting}
+                  className={formButtonStyles.cancelButton}
+                >
+                  {t('common.cancel')}
+                </button>
+                <button
+                  type="submit"
+                  disabled={!selectedTemplate || loadingTemplates || isSubmitting}
+                  className={formButtonStyles.submitButton}
+                  aria-label={t('assets.assignTemplateTooltip')}
+                  data-tooltip={t('assets.assignTemplateTooltip')}
+                >
+                  {isSubmitting ? t('common.saving') : t('assets.assign')}
+                </button>
+              </div>
             </div>
           </form>
         </div>

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Category } from "../hooks/useCategories";
 import styles from "../styles/installationForm.module.css"; // Usamos los mismos estilos
+import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
+import formCheckboxStyles from "../../../shared/components/Buttons/formCheckboxes.module.css"
 import { useTranslation } from "react-i18next"
 
 interface CategoryFormProps {
@@ -86,33 +88,33 @@ const CategoryForm = ({
         </div>
 
         <div className={styles.formGroup}>
-          <label className={styles.checkboxLabel}>
+          <label className={formCheckboxStyles.checkboxLabel}>
             <input
               type="checkbox"
               name="activa"
               checked={formData.activa === true}
               onChange={(e) => handleFieldChange("activa", e.target.checked)}
               disabled={isSubmitting}
-              className={styles.checkboxInput}
+              className={formCheckboxStyles.checkboxInput}
             />
-            <span className={styles.checkboxCustom}></span>
+            <span className={formCheckboxStyles.checkboxCustom}></span>
             {t('installations.active')}
           </label>
         </div>
 
-        <div className={styles.actions}>
+        <div className={formButtonStyles.actions}>
           <button
             type="button"
             onClick={onCancel}
             disabled={isSubmitting}
-            className={styles.cancelButton}
+            className={formButtonStyles.cancelButton}
           >
             {t('common.cancel')}
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
-            className={styles.submitButton}
+            className={formButtonStyles.submitButton}
           >
             {isSubmitting ? t('common.saving') : t('common.create')}
           </button>

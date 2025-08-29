@@ -567,7 +567,7 @@
     "editFormTemplate": "Edit form template",
     "templateName": "Template name",
     "enterTemplateName": "Enter template name",
-    "category": "Category",
+    "templateCategory": "Category",
     "selectCategory": "Select category",
     "description": "Description",
     "enterDescription": "Enter description",

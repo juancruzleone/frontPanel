@@ -663,7 +663,7 @@
     "deleteTemplate": "템플릿 삭제",
     "templateName": "템플릿 이름",
     "enterTemplateName": "템플릿 이름 입력",
-    "category": "카테고리",
+    "templateCategory": "카테고리",
     "selectCategory": "카테고리 선택",
     "description": "설명",
     "enterDescription": "설명 입력",

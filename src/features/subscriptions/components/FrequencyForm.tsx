@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Calendar, ChevronDown } from 'lucide-react'
 import styles from '../styles/subscriptions.module.css'
+import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
 import FrequencySelector from './FrequencySelector'
 import DatePickerModal from './DatePickerModal'
 import type { FrequencyOption } from '../hooks/useSubscriptions'
@@ -260,19 +261,19 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
         </div>
       )}
 
-      <div className={styles.modalActions}>
+      <div className={formButtonStyles.actions}>
         <button
           type="button"
           onClick={onCancel}
           disabled={isSubmitting}
-          className={styles.cancelButton}
+          className={formButtonStyles.cancelButton}
         >
           {t('common.cancel')}
         </button>
         <button
           type="submit"
           disabled={isSubmitting || !canSave()}
-          className={styles.saveButton}
+          className={formButtonStyles.submitButton}
         >
           {isSubmitting ? t('common.saving') : t('common.save')}
         </button>

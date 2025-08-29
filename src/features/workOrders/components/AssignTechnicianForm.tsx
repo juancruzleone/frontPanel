@@ -1,7 +1,9 @@
 import React, { useState } from "react"
 import styles from "../styles/workOrderForm.module.css"
+import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 import { useTranslation } from "react-i18next"
 import { ChevronDown } from 'lucide-react';
+import { useTheme } from "../../../shared/hooks/useTheme";
 
 interface AssignTechnicianFormProps {
   onCancel: () => void
@@ -21,9 +23,11 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
   isSubmitting,
 }) => {
   const { t } = useTranslation()
+  const { dark } = useTheme()
   const [selectedTechnician, setSelectedTechnician] = useState("")
   const [error, setError] = useState("")
   const [touched, setTouched] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   console.log("Técnicos en AssignTechnicianForm:", technicians)
 
@@ -31,7 +35,7 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
     e.preventDefault()
     console.log("handleSubmit llamado con selectedTechnician:", selectedTechnician)
     if (!selectedTechnician) {
-      setError(t('workOrders.form.selectTechnician'))
+      setError(t('workOrders.selectTechnician'))
       return
     }
     try {
@@ -47,9 +51,17 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
 
   const handleBlur = () => {
     setTouched(true)
-    if (!selectedTechnician) setError(t('workOrders.form.selectTechnician'))
+    if (!selectedTechnician) setError(t('workOrders.selectTechnician'))
     else setError("")
   }
+
+  const handleTechnicianSelect = (technicianId: string) => {
+    setSelectedTechnician(technicianId)
+    setIsDropdownOpen(false)
+    if (error) setError("")
+  }
+
+  const selectedTechnicianData = technicians.find(tech => tech._id === selectedTechnician)
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
@@ -61,53 +73,66 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
 
         <div className={styles.formGroup}>
           <label>{t('workOrders.assignTechnician')}</label>
-          <span style={{ position: 'relative', display: 'block', width: '100%' }}>
-            <select
-              value={selectedTechnician}
-              onChange={(e) => {
-                setSelectedTechnician(e.target.value)
-                if (error) setError("")
+          <div className={styles.customSelectWrapper}>
+            <div 
+              className={`${styles.customSelect} ${error && touched ? styles.errorInput : ""}`}
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              onBlur={() => {
+                setTimeout(() => setIsDropdownOpen(false), 200)
+                handleBlur()
               }}
-              onBlur={handleBlur}
-              disabled={isSubmitting || technicians.length === 0}
-              className={error && touched ? styles.errorInput : ""}
+              tabIndex={0}
+              role="button"
               aria-label={t('workOrders.selectTechnician')}
-              style={{ appearance: 'none', WebkitAppearance: 'none', MozAppearance: 'none', width: '100%' }}
             >
-              <option value="">{t('workOrders.selectTechnician')}</option>
-              {technicians.map((tech) => (
-                <option key={tech._id} value={tech._id}>
-                  {tech.userName} 
-                </option>
-              ))}
-            </select>
-            <ChevronDown size={20} className={styles.selectIcon + ' ' + (document.body.dataset.theme === 'dark' ? styles.dark : styles.light)} />
-          </span>
+              <span className={styles.customSelectText}>
+                {selectedTechnicianData ? selectedTechnicianData.userName : t('workOrders.selectTechnician')}
+              </span>
+              <ChevronDown 
+                size={20} 
+                className={`${styles.customSelectIcon} ${isDropdownOpen ? styles.rotated : ''}`}
+                style={{ color: dark ? '#f5f5f5' : '#111' }}
+              />
+            </div>
+            
+            {isDropdownOpen && (
+              <div className={styles.customDropdown}>
+                {technicians.map((tech) => (
+                  <div
+                    key={tech._id}
+                    className={styles.customOption}
+                    onClick={() => handleTechnicianSelect(tech._id)}
+                  >
+                    {tech.userName}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          
           {error && touched && <p className={styles.inputError}>{error}</p>}
-          {technicians.length === 0 && (
-            <p className={styles.inputWarning}>
-              {t('workOrders.noTechniciansAvailable')}
-            </p>
-          )}
         </div>
 
-        <div className={styles.actions}>
-          <button
-            type="button"
-            onClick={onCancel}
-            disabled={isSubmitting}
-            className={styles.cancelButton}
-          >
-            {t('workOrders.cancel')}
-          </button>
-          <button
-            type="submit"
-            disabled={isSubmitting || !selectedTechnician || technicians.length === 0}
-            className={styles.submitButton}
-          >
-            {isSubmitting ? t('workOrders.assigning') : t('workOrders.assign')}
-          </button>
-        </div>
+        {/* Solo mostrar botones si hay técnicos disponibles */}
+        {technicians.length > 0 && (
+          <div className={formButtonStyles.actions}>
+            <button
+              type="button"
+              onClick={onCancel}
+              disabled={isSubmitting}
+              className={formButtonStyles.cancelButton}
+            >
+              {t('common.cancel')}
+            </button>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className={formButtonStyles.submitButton}
+            >
+              {isSubmitting ? t('workOrders.assigning') : t('workOrders.assign')}
+            </button>
+          </div>
+        )}
       </div>
     </form>
   )

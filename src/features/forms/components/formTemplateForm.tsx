@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next"
 import { ChevronDown } from "lucide-react"
 import { useTheme } from "../../../shared/hooks/useTheme"
 import styles from "../styles/formTemplateForm.module.css"
+import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
+import formCheckboxStyles from "../../../shared/components/Buttons/formCheckboxes.module.css"
 import type { FormTemplate, FormField } from "../hooks/useForms"
 import { validateFormTemplate, validateFormField } from "../validators/formValidations"
 
@@ -377,8 +379,8 @@ const FormTemplateForm = ({
               {fieldErrors.label && <span className={styles.inputError}>{fieldErrors.label}</span>}
             </div>
 
-            <div className={styles.checkboxGroup}>
-              <label className={styles.checkboxLabel}>
+            <div className={formCheckboxStyles.checkboxGroup}>
+              <label className={formCheckboxStyles.checkboxLabel}>
                 <input
                   type="checkbox"
                   name="required"
@@ -386,7 +388,7 @@ const FormTemplateForm = ({
                   onChange={handleFieldChange}
                   disabled={isSubmitting}
                 />
-                <span className={styles.checkboxText}>{t('forms.isFieldRequired')}</span>
+                <span className={formCheckboxStyles.checkboxText}>{t('forms.isFieldRequired')}</span>
               </label>
             </div>
 
@@ -418,22 +420,22 @@ const FormTemplateForm = ({
             </button>
           </div>
         </div>
-      </div>
 
-      <div className={styles.actions}>
-        <button type="button" onClick={onCancel} disabled={isSubmitting} className={styles.cancelButton}>
-          {t('common.cancel')}
-        </button>
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className={styles.submitButton}
-        >
-          {isSubmitting ? t('common.saving') : isEditMode ? t('common.update') : t('common.create')}
-        </button>
-      </div>
+        <div className={formButtonStyles.actions}>
+          <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
+            {t('common.cancel')}
+          </button>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className={formButtonStyles.submitButton}
+          >
+            {isSubmitting ? t('common.saving') : isEditMode ? t('common.update') : t('common.create')}
+          </button>
+        </div>
 
-      {errors.submit && <div className={styles.formError}>{errors.submit}</div>}
+        {errors.submit && <div className={styles.formError}>{errors.submit}</div>}
+      </div>
     </form>
   )
 }

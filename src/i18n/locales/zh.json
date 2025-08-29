@@ -715,7 +715,7 @@
     "editFormTemplate": "编辑表单模板",
     "templateName": "模板名称",
     "enterTemplateName": "输入模板名称",
-    "category": "类别",
+    "templateCategory": "类别",
     "selectCategory": "选择类别",
     "description": "描述",
     "enterDescription": "输入描述",

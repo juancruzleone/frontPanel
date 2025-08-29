@@ -70,9 +70,11 @@
   }
   
   .checkbox {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     accent-color: var(--color-secondary);
+    cursor: pointer;
+    border-radius: 3px;
   }
   
   .buttonRow {

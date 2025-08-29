@@ -24,6 +24,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     if (isDark) {
       document.documentElement.classList.add("dark");
       document.body.classList.add("dark");
+      document.body.setAttribute("data-theme", "dark");
       localStorage.setItem("theme", "dark");
       
       // Aplicar variables CSS para modo oscuro
@@ -55,6 +56,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     } else {
       document.documentElement.classList.remove("dark");
       document.body.classList.remove("dark");
+      document.body.setAttribute("data-theme", "light");
       localStorage.setItem("theme", "light");
       
       // Aplicar variables CSS para modo claro

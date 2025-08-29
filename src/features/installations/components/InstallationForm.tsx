@@ -7,6 +7,7 @@ import { useTheme } from "../../../shared/hooks/useTheme"
 import type { Installation } from "../hooks/useInstallations"
 import useInstallationTypes from "../hooks/useInstallationTypes"
 import styles from "../styles/installationForm.module.css"
+import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 import { validateInstallationForm, validateInstallationField } from '../validators/installationsValidations';
 
 interface InstallationFormProps {
@@ -177,15 +178,15 @@ const InstallationForm = ({
             {showError(field.name) && <p className={styles.inputError}>{formErrors[field.name]}</p>}
           </div>
         ))}
-      </div>
 
-      <div className={styles.actions}>
-        <button type="button" onClick={onCancel} disabled={isSubmitting} className={styles.cancelButton}>
-          {t('common.cancel')}
-        </button>
-        <button type="submit" disabled={isSubmitting || loadingTypes} className={styles.submitButton}>
-          {isSubmitting ? t('common.saving') : isEditMode ? t('common.update') : t('common.create')}
-        </button>
+        <div className={formButtonStyles.actions}>
+          <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
+            {t('common.cancel')}
+          </button>
+          <button type="submit" disabled={isSubmitting || loadingTypes} className={formButtonStyles.submitButton}>
+            {isSubmitting ? t('common.saving') : isEditMode ? t('common.update') : t('common.create')}
+          </button>
+        </div>
       </div>
     </form>
   )

@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom"
 import { Wifi, WifiOff, Clock, CheckCircle, Building2, MapPin, ChevronDown, X, Calendar } from "lucide-react"
 import useDeviceForm from "../hooks/useDeviceForm"
 import styles from "../styles/deviceForm.module.css"
+import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
+import formCheckboxStyles from "../../../shared/components/Buttons/formCheckboxes.module.css"
 import { useTranslation } from "react-i18next"
 import { useTheme } from "../../../shared/hooks/useTheme"
 import DatePickerModal from "./DatePickerModal"
@@ -240,7 +242,7 @@ const DeviceForm: React.FC = () => {
                 name={field.name}
                 checked={!!formData[field.name]}
                 onChange={handleChange}
-                className={styles.checkbox}
+                className={formCheckboxStyles.checkbox}
               />
             ) : (
               <input
@@ -254,8 +256,8 @@ const DeviceForm: React.FC = () => {
             )}
           </div>
         ))}
-        <div className={styles.submitSection}>
-          <button type="submit" disabled={submitting} className={styles.submitButton}>
+        <div className={formButtonStyles.actions}>
+          <button type="submit" disabled={submitting} className={formButtonStyles.submitButton}>
             {submitting ? t('deviceForm.sending') : isOnline ? t('deviceForm.sendMaintenance') : t('deviceForm.saveMaintenance')}
           </button>
           {!isOnline && (

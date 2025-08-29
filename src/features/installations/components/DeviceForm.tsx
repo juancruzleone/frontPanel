@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { ChevronDown } from 'lucide-react'
 import { useTheme } from '../../../shared/hooks/useTheme'
 import styles from '../styles/deviceForm.module.css'
+import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
+import formCheckboxStyles from '../../../shared/components/Buttons/formCheckboxes.module.css'
 import type { Device, Installation } from "../hooks/useInstallations"
 import { validateForm, assetSchema, deviceEditSchema } from "../validators/deviceValidations"
 
@@ -367,21 +369,21 @@ const DeviceForm = ({
             {showError("estado") && <p className={styles.error}>{getErrorMessage("estado")}</p>}
           </div>
         )}
-      </div>
 
-      {formErrors.general && <p className={styles.generalError}>{formErrors.general}</p>}
+        {formErrors.general && <p className={styles.generalError}>{formErrors.general}</p>}
 
-      <div className={styles.actions}>
-        <button type="button" onClick={onCancel} disabled={isSubmitting} className={styles.cancelButton}>
-          {t('common.cancel')}
-        </button>
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className={styles.submitButton}
-        >
-          {isSubmitting ? t('common.saving') : isEditMode ? t('common.update') : t('common.create')}
-        </button>
+        <div className={formButtonStyles.actions}>
+          <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
+            {t('common.cancel')}
+          </button>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className={formButtonStyles.submitButton}
+          >
+            {isSubmitting ? t('common.saving') : isEditMode ? t('common.update') : t('common.create')}
+          </button>
+        </div>
       </div>
     </form>
   )

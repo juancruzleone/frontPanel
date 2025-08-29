@@ -2,6 +2,7 @@ import type React from "react"
 import { useCallback } from "react"
 import { FiEye, FiEyeOff, FiUser, FiLock, FiShield, FiUserPlus } from "react-icons/fi"
 import styles from "../styles/registerForm.module.css"
+import formButtonStyles from "../../../../shared/components/Buttons/formButtons.module.css"
 import { useTranslation } from "react-i18next"
 
 interface RegisterTechnicianFormData {
@@ -161,29 +162,29 @@ const RegisterTechnicianForm = ({
             <strong>{t('common.error')}:</strong> {formErrors.general}
           </div>
         )}
-      </div>
 
-      <div className={styles.actions}>
-        <button type="button" onClick={onCancel} disabled={isSubmitting} className={styles.cancelButton}>
-          {t('common.cancel')}
-        </button>
-        <button
-          type="submit"
-          disabled={isButtonDisabled}
-          className={`${styles.submitButton} ${isButtonDisabled ? styles.submitButtonDisabled : ""}`}
-        >
-          {isSubmitting ? (
-            <>
-              <div className={styles.buttonSpinner}></div>
-              {t('personal.registering')}
-            </>
-          ) : (
-            <>
-              <FiUserPlus size={16} />
-              {!isFormComplete ? t('personal.completeAllFields') : t('personal.registerTechnician')}
-            </>
-          )}
-        </button>
+        <div className={formButtonStyles.actions}>
+          <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
+            {t('common.cancel')}
+          </button>
+          <button
+            type="submit"
+            disabled={isButtonDisabled}
+            className={formButtonStyles.submitButton}
+          >
+            {isSubmitting ? (
+              <>
+                <div className={styles.buttonSpinner}></div>
+                {t('personal.registering')}
+              </>
+            ) : (
+              <>
+                <FiUserPlus size={16} />
+                {!isFormComplete ? t('personal.completeAllFields') : t('personal.registerTechnician')}
+              </>
+            )}
+          </button>
+        </div>
       </div>
     </form>
   )

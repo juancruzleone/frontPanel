@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ChevronDown } from 'lucide-react'
 import { useTheme } from '../../../shared/hooks/useTheme'
 import styles from '../styles/workOrderForm.module.css'
+import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
 import type { WorkOrder } from '../hooks/useWorkOrders'
 import { validateWorkOrderForm, validateWorkOrderField } from '../validators/workOrderValidations'
 import DatePickerModal from '../../calendar/components/DatePickerModal'
@@ -363,8 +364,8 @@ const WorkOrderForm = ({
           />
         </div>
 
-        <div className={styles.actions}>
-          <button type="button" onClick={onCancel} disabled={isSubmitting} className={styles.cancelButton}>
+        <div className={formButtonStyles.actions}>
+          <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
             {t('workOrders.cancel')}
           </button>
           <button
@@ -373,9 +374,9 @@ const WorkOrderForm = ({
               isSubmitting ||
               (isEditMode && ["completada", "en_progreso"].includes(initialData?.estado || ""))
             }
-            className={styles.submitButton}
+            className={formButtonStyles.submitButton}
           >
-            {isSubmitting ? t('workOrders.saving') : isEditMode ? t('workOrders.update') : t('workOrders.save')}
+            {isSubmitting ? t('workOrders.saving') : isEditMode ? t('common.update') : t('common.save')}
           </button>
         </div>
 

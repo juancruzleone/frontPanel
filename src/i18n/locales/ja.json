@@ -657,6 +657,8 @@
     "editFormTemplate": "フォームテンプレートを編集",
     "templateName": "テンプレート名",
     "enterTemplateName": "テンプレート名を入力",
+    "templateCategory": "カテゴリ",
+    "selectCategory": "カテゴリを選択してください",
     "templateDescription": "テンプレートの説明",
     "enterTemplateDescription": "テンプレートの説明を入力してください",
     "fields": "フィールド",

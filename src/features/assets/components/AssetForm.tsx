@@ -4,6 +4,7 @@ import { ChevronDown } from 'lucide-react'
 import { useTheme } from '../../../shared/hooks/useTheme'
 import ButtonCreate from '../../../shared/components/Buttons/buttonCreate'
 import styles from '../styles/assetForm.module.css'
+import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
 import type { Asset, Template } from '../hooks/useAssets'
 import { validateAssetForm, validateAssetField } from '../validators/assetValidations'
 
@@ -265,11 +266,11 @@ const AssetForm = ({
           )}
         </div>
 
-        <div className={styles.actions}>
-          <button type="button" onClick={onCancel} disabled={isSubmitting} className={styles.cancelButton}>
+        <div className={formButtonStyles.actions}>
+          <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
             {t('common.cancel')}
           </button>
-          <button type="submit" disabled={isSubmitting || templatesLoading} className={styles.submitButton}>
+          <button type="submit" disabled={isSubmitting || templatesLoading} className={formButtonStyles.submitButton}>
             {isSubmitting ? t('common.saving') : isEditMode ? t('assets.update') : t('assets.create')}
           </button>
         </div>
