@@ -699,6 +699,7 @@
     "categoryUpdated": "تم تحديث الفئة بنجاح",
     "categoryDeleted": "تم حذف الفئة بنجاح",
     "confirmDeleteCategory": "هل أنت متأكد من حذف الفئة \"{{name}}\"؟",
+    "deleteCategoryWarning": "لا يمكن التراجع عن هذا الإجراء. سيتم حذف الفئة نهائياً.",
     "errorDeletingCategory": "خطأ في حذف الفئة",
     "loadingCategories": "جارٍ تحميل الفئات...",
     "noCategoriesCreated": "لا توجد فئات منشأة",

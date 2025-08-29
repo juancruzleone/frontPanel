@@ -605,6 +605,7 @@
     "categoryUpdated": "Category updated successfully",
     "categoryDeleted": "Category deleted successfully",
     "confirmDeleteCategory": "Are you sure you want to delete the category \"{{name}}\"?",
+    "deleteCategoryWarning": "This action cannot be undone. The category will be permanently deleted.",
     "errorDeletingCategory": "Error deleting category",
     "loadingCategories": "Loading categories...",
     "noCategoriesCreated": "No categories created",

@@ -690,6 +690,7 @@
     "categoryUpdated": "Categoria atualizada com sucesso",
     "categoryDeleted": "Categoria excluída com sucesso",
     "confirmDeleteCategory": "Tem certeza de que deseja excluir a categoria \"{{name}}\"?",
+    "deleteCategoryWarning": "Esta ação não pode ser desfeita. A categoria será excluída permanentemente.",
     "errorDeletingCategory": "Erro ao excluir categoria",
     "loadingCategories": "Carregando categorias...",
     "noCategoriesCreated": "Nenhuma categoria criada",

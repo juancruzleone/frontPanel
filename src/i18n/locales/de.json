@@ -644,6 +644,7 @@
     "categoryUpdated": "Kategorie erfolgreich aktualisiert",
     "categoryDeleted": "Kategorie erfolgreich gelöscht",
     "confirmDeleteCategory": "Sind Sie sicher, dass Sie die Kategorie \"{{name}}\" löschen möchten?",
+    "deleteCategoryWarning": "Diese Aktion kann nicht rückgängig gemacht werden. Die Kategorie wird dauerhaft gelöscht.",
     "errorDeletingCategory": "Fehler beim Löschen der Kategorie",
     "loadingCategories": "Kategorien werden geladen...",
     "noCategoriesCreated": "Keine Kategorien erstellt",

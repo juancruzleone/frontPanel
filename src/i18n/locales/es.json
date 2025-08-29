@@ -584,6 +584,7 @@
     "categoryUpdated": "Categoría actualizada con éxito",
     "categoryDeleted": "Categoría eliminada con éxito",
     "confirmDeleteCategory": "¿Estás seguro de que quieres eliminar la categoría \"{{name}}\"?",
+    "deleteCategoryWarning": "Esta acción no se puede deshacer. La categoría será eliminada permanentemente.",
     "errorDeletingCategory": "Error al eliminar categoría",
     "loadingCategories": "Cargando categorías...",
     "noCategoriesCreated": "No hay categorías creadas",

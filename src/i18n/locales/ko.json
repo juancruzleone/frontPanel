@@ -702,6 +702,7 @@
     "categoryUpdated": "카테고리가 성공적으로 업데이트되었습니다",
     "categoryDeleted": "카테고리가 성공적으로 삭제되었습니다",
     "confirmDeleteCategory": "\"{{name}}\" 카테고리를 삭제하시겠습니까?",
+    "deleteCategoryWarning": "이 작업은 취소할 수 없습니다. 카테고리가 영구적으로 삭제됩니다.",
     "errorDeletingCategory": "카테고리 삭제 중 오류 발생",
     "loadingCategories": "카테고리 로딩 중...",
     "noCategoriesCreated": "생성된 카테고리가 없습니다",

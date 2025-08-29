@@ -681,6 +681,7 @@
     "categoryUpdated": "Catégorie mise à jour avec succès",
     "categoryDeleted": "Catégorie supprimée avec succès",
     "confirmDeleteCategory": "Êtes-vous sûr de vouloir supprimer la catégorie \"{{name}}\" ?",
+    "deleteCategoryWarning": "Cette action ne peut pas être annulée. La catégorie sera supprimée définitivement.",
     "errorDeletingCategory": "Erreur lors de la suppression de la catégorie",
     "loadingCategories": "Chargement des catégories...",
     "noCategoriesCreated": "Aucune catégorie créée",

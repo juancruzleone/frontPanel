@@ -871,14 +871,14 @@
   --color-card: #f8f9fa;
   --color-card-border: #e0e0e0;
   --color-text: #222;
-  --color-primary: #007bff;
+  --color-subscription-primary: #007bff;
 }
 [data-theme="dark"] {
   --color-bg-light: #23272f;
   --color-card: #23272f;
   --color-card-border: #353b48;
   --color-text: #f5f6fa;
-  --color-primary: #4f8cff;
+  --color-subscription-primary: #4f8cff;
 }
 
 /* Estilos responsivos */

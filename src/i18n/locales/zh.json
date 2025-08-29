@@ -754,6 +754,7 @@
     "categoryUpdated": "类别更新成功",
     "categoryDeleted": "类别删除成功",
     "confirmDeleteCategory": "确定要删除类别\"{{name}}\"吗？",
+    "deleteCategoryWarning": "此操作无法撤销。类别将被永久删除。",
     "errorDeletingCategory": "删除类别时出错",
     "loadingCategories": "正在加载类别...",
     "noCategoriesCreated": "未创建任何类别",
