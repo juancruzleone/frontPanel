@@ -21,9 +21,8 @@ form {
   flex-direction: column !important;
   gap: 0 !important;
   max-width: 480px !important;
-  width: 100% !important;
+  width: 90% !important;
   margin: 0 auto !important;
-  padding: 1.5rem;
 }
 
 form label {
@@ -202,6 +201,7 @@ input:-webkit-autofill {
   margin: 0 auto;
   padding: 0 15px;
   box-sizing: border-box;
+  margin: 1rem auto;
 }
 
 .headerControls {
@@ -229,30 +229,42 @@ input:-webkit-autofill {
 /* MOBILE Y TABLETS - Diseño móvil para pantallas hasta 1366px */
 @media (max-width: 1366px) {
   form {
-    max-width: 100% !important;
-    gap: 0 !important;
-    padding: 0 !important;
+    max-width: 100%;
+    gap: 0;
+    padding: 0;
+  }
+  
+  .formLogin {
+    width: 130%;
   }
   
   .containerForm {
-    max-width: 100% !important;
-    padding: 0 !important; /* Sin padding lateral */
+    max-width: 100%;
+    padding: 0;
   }
   
   .inputWrapper {
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-    margin-bottom: 12px !important; /* Reducir distancia entre input y siguiente label */
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+  }
+  
+  .eyesButton {
+    width: 20px;
+    height: 20px;
+    font-size: 16px;
+    top: 58%;
   }
   
   form input {
-    width: 100% !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-    padding: 12px !important;
-    font-size: 16px !important;
-    margin-top: 8px !important; /* Reducir distancia entre label e input */
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+    font-size: 16px;
+    margin-top: 8px;
+    height: 40px;
   }
   
   h1 {
@@ -266,32 +278,37 @@ input:-webkit-autofill {
   
   /* Botón de iniciar sesión con diseño móvil */
   button[type="submit"] {
-    font-size: 1rem !important;
-    padding: 12px !important;
-    width: 100% !important;
+    font-size: 1rem;
+    padding: 8px;
+    width: 100%;
+    height: 40px;
   }
 }
 
 /* TABLET - Ajustes específicos para tablets (768x1024) */
 @media (min-width: 481px) and (max-width: 1024px) {
   .containerForm {
-    max-width: 900px; /* Hacer el contenedor más ancho en iPad Mini */
+    max-width: 900px;
     width: 100%;
     padding: 0 3rem;
   }
   
   form {
-    max-width: 900px; /* Hacer el contenedor más ancho en iPad Mini */
+    max-width: 900px;
     width: 100%;
+  }
+  
+  .formLogin {
+    width: 130%;
   }
   
   form input {
     font-size: 18px;
-    padding: 14px;
-    height: auto;
+    padding: 10px;
+    height: 44px;
     width: 100%;
-    max-width: 100%; /* Usar todo el ancho disponible */
-    margin-top: 10px; /* Reducir espacio entre label e input en tablet */
+    max-width: 100%;
+    margin-top: 10px;
   }
   
   .inputWrapper {
@@ -312,15 +329,16 @@ input:-webkit-autofill {
   
   button[type="submit"] {
     font-size: 22px;
-    padding: 18px;
+    padding: 10px;
     width: 100%;
-    max-width: 100%; /* Usar todo el ancho disponible */
+    max-width: 100%;
+    height: 44px;
   }
   
   .eyesButton {
-    width: 28px;
-    height: 28px;
-    font-size: 22px;
+    width: 22px;
+    height: 22px;
+    font-size: 18px;
     top: 58%;
   }
   
@@ -387,7 +405,6 @@ input:-webkit-autofill {
 /* Responsive */
 @media (max-width: 768px) {
   .formInner {
-    padding: 1.5rem;
     gap: 1.25rem;
   }
 
@@ -437,18 +454,21 @@ input:-webkit-autofill {
     padding: 0.75rem;
     padding-right: 2.5rem;
     font-size: 0.95rem;
+    height: 36px;
   }
 
   .eyesButton {
     right: 0.5rem;
     top: 58%;
-    width: 1.75rem;
-    height: 1.75rem;
+    width: 18px;
+    height: 18px;
+    font-size: 14px;
   }
 
   .submitButton {
     min-width: auto;
     font-size: 0.9rem;
     padding: 0.75rem 1.5rem;
+    height: 36px;
   }
 }
