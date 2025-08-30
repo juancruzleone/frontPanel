@@ -7,6 +7,7 @@ const ThemeToggle = () => {
 
   return (
     <button 
+      type="button"
       className={styles.themeButton} 
       onClick={toggleTheme} 
       aria-label="Cambiar tema"

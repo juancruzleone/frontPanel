@@ -115,7 +115,7 @@ button[type="submit"]:hover {
 .eyesButton {
   position: absolute;
   right: 10px;
-  top: 50%;
+  top: 58%;
   transform: translateY(-50%);
   background: transparent;
   border: none;
@@ -321,6 +321,7 @@ input:-webkit-autofill {
     width: 28px;
     height: 28px;
     font-size: 22px;
+    top: 58%;
   }
   
   .inputError {
@@ -440,6 +441,7 @@ input:-webkit-autofill {
 
   .eyesButton {
     right: 0.5rem;
+    top: 58%;
     width: 1.75rem;
     height: 1.75rem;
   }

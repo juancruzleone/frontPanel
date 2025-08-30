@@ -174,6 +174,7 @@ const Nav = () => {
           <div className={styles.controlsContainer}>
             <div className={styles.languageSelectorContainer} ref={languageDropdownRef}>
               <button 
+                type="button"
                 className={styles.languageButton} 
                 onClick={() => setIsLanguageOpen(!isLanguageOpen)}
                 aria-label={t('languageSelector.title')}
@@ -184,6 +185,7 @@ const Nav = () => {
                 <div className={styles.languageDropdown}>
                   {languages.map((language) => (
                     <button
+                      type="button"
                       key={language.code}
                       className={`${styles.languageOption} ${i18n.language === language.code ? styles.active : ''}`}
                       onClick={() => handleLanguageChange(language.code)}
@@ -197,6 +199,7 @@ const Nav = () => {
             </div>
             <div className={styles.themeBox}>
               <button 
+                type="button"
                 className={styles.themeButton} 
                 onClick={toggleTheme} 
                 aria-label={t('nav.toggleTheme')}
