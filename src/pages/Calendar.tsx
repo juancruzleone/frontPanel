@@ -17,6 +17,9 @@ import i18n from "../i18n"
 import { translateWorkOrderStatus, translatePriority, translateWorkType } from "../shared/utils/backendTranslations"
 import { useAuthStore } from "../store/authStore"
 import { updateWorkOrder } from "../features/workOrders/services/workOrderServices"
+import { formatDateToString, compareDates, parseDateString } from "../features/calendar/utils/dateUtils"
+import { useTimeZone } from "../features/calendar/hooks/useTimeZone"
+import TimeZoneInfo from "../features/calendar/components/TimeZoneInfo"
 
 // Componente personalizado para selects que se ajustan automáticamente
 interface AutoSizeSelectProps {
@@ -198,10 +201,15 @@ const Calendar = () => {
       const nextMonthEnd = new Date(today.getFullYear(), today.getMonth() + 2, 0)
 
       let matchesDate = true
-      if (selectedDate) {
+      
+      // Si hay un filtro de fecha específica, tiene prioridad sobre otros filtros de fecha
+      if (selectedDateFilter) {
+        matchesDate = compareDates(order.fechaProgramada, selectedDateFilter);
+      } else if (selectedDate) {
+        // Solo aplicar filtros de fecha relativa si no hay fecha específica
         switch (selectedDate) {
           case "today":
-            matchesDate = orderDate.toDateString() === today.toDateString()
+            matchesDate = compareDates(order.fechaProgramada, today);
             break
           case "thisWeek":
             matchesDate = orderDate >= startOfWeek && orderDate <= endOfWeek
@@ -216,12 +224,6 @@ const Calendar = () => {
             matchesDate = orderDate >= nextMonthStart && orderDate <= nextMonthEnd
             break
         }
-      }
-
-      // Filtro por fecha específica
-      if (selectedDateFilter) {
-        const filterDate = new Date(selectedDateFilter)
-        matchesDate = orderDate.toDateString() === filterDate.toDateString()
       }
 
       const matchesStatus = !selectedStatus || order.estado === selectedStatus
@@ -383,12 +385,11 @@ const Calendar = () => {
           <div className={styles.daysGrid}>
             {days.map((day, index) => {
               const dayOrders = filteredWorkOrders.filter((order) => {
-                const orderDate = new Date(order.fechaProgramada)
-                return orderDate.toDateString() === day.toDateString()
+                return compareDates(order.fechaProgramada, day);
               })
 
               const isCurrentMonth = day.getMonth() === currentDate.getMonth()
-              const isToday = day.toDateString() === new Date().toDateString()
+              const isToday = compareDates(day, new Date())
 
               return (
                 <div
@@ -424,11 +425,14 @@ const Calendar = () => {
 
   const renderListView = () => {
     const groupedOrders = filteredWorkOrders.reduce((acc, order) => {
-      const date = new Date(order.fechaProgramada).toDateString()
-      if (!acc[date]) {
-        acc[date] = []
+      // Usar la función utilitaria para normalizar la fecha
+      const dateString = formatDateToString(order.fechaProgramada);
+      const dateKey = new Date(dateString).toDateString();
+      
+      if (!acc[dateKey]) {
+        acc[dateKey] = []
       }
-      acc[date].push(order)
+      acc[dateKey].push(order)
       return acc
     }, {} as Record<string, WorkOrder[]>)
 
@@ -510,6 +514,8 @@ const Calendar = () => {
             {t('calendar.title')}
           </h1>
 
+          <TimeZoneInfo showDetails={true} />
+
           <div className={styles.viewModeButtons}>
             <button
               className={`${styles.viewButton} ${viewMode === "month" ? styles.active : ""}`}
@@ -572,11 +578,16 @@ const Calendar = () => {
                 <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
               </svg>
               {selectedDateFilter ? (
-                new Date(selectedDateFilter).toLocaleDateString(i18n.language || 'es', {
-                  day: '2-digit',
-                  month: '2-digit',
-                  year: 'numeric'
-                })
+                <>
+                  <span style={{ color: '#10b981', fontWeight: 'bold' }}>
+                    {parseDateString(selectedDateFilter).toLocaleDateString(i18n.language || 'es', {
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric'
+                    })}
+                  </span>
+
+                </>
               ) : (
                 t('calendar.selectDate')
               )}
@@ -610,10 +621,25 @@ const Calendar = () => {
             </>
           ) : error ? (
             <p className={styles.error}>Error: {error}</p>
-          ) : filteredWorkOrders.length === 0 ? (
-            <p className={styles.noResults}>{t('calendar.noOrders')}</p>
           ) : (
-            <>{viewMode === "month" ? renderCalendarView() : renderListView()}</>
+            <>
+
+              {filteredWorkOrders.length === 0 ? (
+                <p className={styles.noResults}>
+                  {selectedDateFilter 
+                    ? `No se encontraron órdenes de trabajo para el ${parseDateString(selectedDateFilter).toLocaleDateString(i18n.language || 'es', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit'
+                      })}`
+                    : t('calendar.noOrders')
+                  }
+                </p>
+              ) : (
+                viewMode === "month" ? renderCalendarView() : renderListView()
+              )}
+            </>
           )}
         </div>
       </div>

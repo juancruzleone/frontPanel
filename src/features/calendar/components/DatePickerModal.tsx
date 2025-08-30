@@ -11,7 +11,6 @@ interface DatePickerModalProps {
   placeholder?: string;
 }
 
-// Utilidad para formatear fecha local a YYYY-MM-DD
 function formatLocalDate(date: Date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -69,7 +68,6 @@ const DatePickerModal = ({
   const handleConfirm = (e?: React.MouseEvent) => {
     if (e) e.preventDefault();
     if (selectedDateState) {
-      // Usar fecha local, no UTC
       const formattedDate = formatLocalDate(selectedDateState);
       onDateSelect(formattedDate);
       onRequestClose();
@@ -104,18 +102,16 @@ const DatePickerModal = ({
     <div className={styles.datePickerBackdrop} onKeyDown={e => { if (e.key === 'Enter') e.stopPropagation(); }}>
       <div className={styles.datePickerModal}>
         <div className={styles.datePickerHeader}>
-          {/* Icono de calendario eliminado */}
           <h2 className={styles.datePickerTitle}>{title || t('calendar.selectDate')}</h2>
           <button 
+            type="button"
             className={styles.datePickerCloseButton}
             onClick={handleClose}
           >
             ×
           </button>
         </div>
-        
         <div className={styles.datePickerContent}>
-          
           <div className={styles.calendarPickerContainer}>
             <div className={styles.calendarPickerHeader}>
               <button type="button" onClick={() => navigateMonth(-1)} className={styles.calendarPickerNavButton}>
@@ -130,7 +126,6 @@ const DatePickerModal = ({
                 </svg>
               </button>
             </div>
-
             <div className={styles.calendarPickerGrid}>
               <div className={styles.calendarPickerWeekDays}>
                 <div className={styles.calendarPickerWeekDay}>{t('calendar.sun')}</div>
@@ -141,7 +136,6 @@ const DatePickerModal = ({
                 <div className={styles.calendarPickerWeekDay}>{t('calendar.fri')}</div>
                 <div className={styles.calendarPickerWeekDay}>{t('calendar.sat')}</div>
               </div>
-
               <div className={styles.calendarPickerDays}>
                 {days.map((day, index) => (
                   <button
@@ -161,7 +155,6 @@ const DatePickerModal = ({
                 ))}
               </div>
             </div>
-
             {selectedDateState && (
               <div className={styles.selectedDateInfo}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className={styles.selectedDateIcon}>
@@ -193,7 +186,6 @@ const DatePickerModal = ({
               </div>
             )}
           </div>
-
           <div className={styles.datePickerActions}>
             <button
               type="button"
