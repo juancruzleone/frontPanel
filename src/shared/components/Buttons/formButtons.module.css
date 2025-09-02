@@ -3,7 +3,7 @@
 .actions {
   display: flex;
   gap: 1rem;
-  justify-content: flex-end;
+  justify-content: center;
   padding: 1.5rem 2.5rem 2rem;
   border-top: 1px solid var(--color-card-border);
   background: var(--color-card);
@@ -11,7 +11,7 @@
 }
 
 .cancelButton {
-  background: var(--color-card);
+  background: var(--color-bg-light);
   color: var(--color-text);
   border: 2px solid var(--color-card-border);
   padding: 0.875rem 1.75rem;
@@ -20,18 +20,22 @@
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.2s ease;
-  min-width: 120px;
-  height: 48px;
+  min-width: 184px;
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+  width: 184px;
 }
 
 
 
 .cancelButton:hover {
   background: var(--color-card-border);
-  border-color: var(--color-text-secondary);
+  border-color: var(--color-primary);
   transform: translateY(-1px);
 }
 
@@ -57,12 +61,16 @@
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.2s ease;
-  min-width: 120px;
-  height: 48px;
+  min-width: 184px;
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+  box-sizing: border-box;
+  width: 184px;
 }
 
 .submitButton:hover {
