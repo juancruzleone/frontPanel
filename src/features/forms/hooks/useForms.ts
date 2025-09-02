@@ -56,9 +56,15 @@ const useForms = () => {
 
   const loadCategories = useCallback(async () => {
     try {
+      console.log('=== DEBUG FORMS CATEGORIES ===')
+      console.log('Cargando categorías de formularios...')
       const response = await fetchFormCategories()
+      console.log('Respuesta de categorías:', response)
       const fetchedCategories = response.categories || response
+      console.log('Categorías extraídas:', fetchedCategories)
       const categoryNames = fetchedCategories.map((cat: any) => cat.nombre)
+      console.log('Nombres de categorías:', categoryNames)
+      console.log('================================')
       setCategories(categoryNames)
     } catch (err: any) {
       console.error("Error loading categories:", err)

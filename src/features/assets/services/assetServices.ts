@@ -1,121 +1,113 @@
-import { useAuthStore } from "../../../store/authStore";
+import { useAuthStore } from "../../../store/authStore"
+import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL
 
 const getToken = () => {
-  return useAuthStore.getState().token;
-};
+  return useAuthStore.getState().token
+}
 
 export const fetchAssets = async (): Promise<any[]> => {
-  const token = getToken();
-
   const response = await fetch(`${API_URL}activos`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+    headers: getAuthHeaders(),
+  })
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "Error al obtener activos");
+    const error = await response.json()
+    throw new Error(error.message || "Error al obtener activos")
   }
 
-  return await response.json();
-};
+  const result = await response.json()
+  return result.success ? result.data : result
+}
 
 export const fetchTemplates = async (): Promise<any[]> => {
-  const token = getToken();
-
+  console.log('=== DEBUG ASSETS TEMPLATES SERVICE ===')
+  console.log('API_URL:', API_URL)
+  console.log('Headers:', getAuthHeaders())
+  console.log('URL:', `${API_URL}plantillas`)
+  
   const response = await fetch(`${API_URL}plantillas`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+    headers: getAuthHeaders(),
+  })
+
+  console.log('Response status:', response.status)
+  console.log('Response ok:', response.ok)
+  console.log('Response headers:', Object.fromEntries(response.headers.entries()))
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "Error al obtener plantillas");
+    const error = await response.json()
+    throw new Error(error.message || "Error al obtener plantillas")
   }
 
-  return await response.json();
-};
+  const result = await response.json()
+  console.log('Result:', result)
+  console.log('=====================================')
+  
+  return result.success ? result.data : result
+}
 
 export const createAsset = async (asset: any) => {
-  const token = getToken();
-
   const response = await fetch(`${API_URL}activos`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeadersWithContentType(),
     body: JSON.stringify(asset),
-  });
+  })
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "Error al crear activo");
+    const error = await response.json()
+    throw new Error(error.message || "Error al crear activo")
   }
 
-  return await response.json();
-};
+  const result = await response.json()
+  return result.success ? result.data : result
+}
 
 export const updateAsset = async (id: string, asset: any) => {
-  const token = getToken();
-
-  const { _id, ...rest } = asset;
+  const { _id, ...rest } = asset
 
   const response = await fetch(`${API_URL}activos/${id}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeadersWithContentType(),
     body: JSON.stringify(rest),
-  });
+  })
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "Error al actualizar activo");
+    const error = await response.json()
+    throw new Error(error.message || "Error al actualizar activo")
   }
 
-  return await response.json();
-};
+  const result = await response.json()
+  return result.success ? result.data : result
+}
 
 export const deleteAsset = async (id: string) => {
-  const token = getToken();
-
   const response = await fetch(`${API_URL}activos/${id}`, {
     method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+    headers: getAuthHeaders(),
+  })
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "Error al eliminar activo");
+    const error = await response.json()
+    throw new Error(error.message || "Error al eliminar activo")
   }
 
-  return await response.json();
-};
+  const result = await response.json()
+  return result.success ? result.data : result
+}
 
 export const assignTemplateToAsset = async (assetId: string, templateId: string) => {
-  const token = getToken();
-
   const response = await fetch(`${API_URL}activos/${assetId}/plantilla`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeadersWithContentType(),
     body: JSON.stringify({ templateId }),
-  });
+  })
 
   if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || "Error al asignar plantilla al activo");
+    const error = await response.json()
+    throw new Error(error.message || "Error al asignar plantilla al activo")
   }
 
-  return await response.json();
-};
+  const result = await response.json()
+  return result.success ? result.data : result
+}

@@ -40,9 +40,15 @@ const useAssets = () => {
 
   const loadCategories = useCallback(async () => {
     try {
+      console.log('=== DEBUG ASSETS CATEGORIES ===')
+      console.log('Cargando categorías de formularios...')
       const response = await fetchFormCategories()
+      console.log('Respuesta de categorías:', response)
       const fetchedCategories = response.categories || response
+      console.log('Categorías extraídas:', fetchedCategories)
       const categoryNames = fetchedCategories.map((cat: any) => cat.nombre)
+      console.log('Nombres de categorías:', categoryNames)
+      console.log('================================')
       setCategories(categoryNames)
     } catch (err: any) {
       console.error("Error al cargar categorías:", err)
@@ -60,7 +66,11 @@ const useAssets = () => {
   const loadTemplates = useCallback(async () => {
     setTemplatesLoading(true)
     try {
+      console.log('=== DEBUG ASSETS TEMPLATES ===')
+      console.log('Cargando plantillas...')
       const data = await fetchTemplates()
+      console.log('Plantillas cargadas:', data)
+      console.log('==============================')
       setTemplates(data)
     } catch (err: any) {
       console.error("Error al cargar plantillas:", err)

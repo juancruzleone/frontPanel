@@ -75,12 +75,49 @@ export const deleteFormTemplate = async (id: string) => {
 
 // Funciones para categorías de formularios
 export const fetchFormCategories = async () => {
+  console.log('=== DEBUG FORMS CATEGORIES SERVICE ===')
+  console.log('API_URL:', API_URL)
+  console.log('Headers:', getAuthHeaders())
+  console.log('URL:', `${API_URL}categorias-formularios`)
+  
   const response = await fetch(`${API_URL}categorias-formularios`, {
     headers: getAuthHeaders(),
   })
+  
+  console.log('Response status:', response.status)
+  console.log('Response ok:', response.ok)
+  console.log('Response headers:', Object.fromEntries(response.headers.entries()))
+  
   if (!response.ok) throw new Error("Error al obtener categorías")
   const result = await response.json()
-  return result.success ? result.data : result
+  console.log('Result:', result)
+  console.log('=====================================')
+  
+  // FILTRO TEMPORAL EN FRONTEND - Eliminar cuando el backend esté corregido
+  // TODO: El backend debe filtrar por x-tenant-id en el endpoint GET /categorias-formularios
+  // Por ahora, filtramos en el frontend para evitar mostrar categorías de otros tenants
+  const { tenantId } = useAuthStore.getState()
+  console.log('TenantId del usuario:', tenantId)
+  
+  let filteredResult = result.success ? result.data : result
+  
+  // Si hay tenantId en el store, filtrar por él
+  if (tenantId) {
+    filteredResult = filteredResult.filter((category: any) => {
+      // Si la categoría tiene tenantId, verificar que coincida
+      if (category.tenantId) {
+        const matches = category.tenantId === tenantId
+        console.log(`Categoría "${category.nombre}": tenantId=${category.tenantId}, matches=${matches}`)
+        return matches
+      }
+      // Si no tiene tenantId, incluir (para compatibilidad con datos existentes)
+      console.log(`Categoría "${category.nombre}": sin tenantId, incluyendo`)
+      return true
+    })
+  }
+  
+  console.log('Resultado filtrado:', filteredResult)
+  return filteredResult
 }
 
 export const fetchFormCategoryById = async (id: string) => {
