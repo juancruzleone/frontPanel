@@ -1,4 +1,5 @@
 import { useAuthStore } from '../../../store/authStore'
+import { getHeadersWithContentType } from '../../../shared/utils/apiHeaders'
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -30,10 +31,7 @@ export const updateSubscription = async (subscriptionId: string, updateData: any
   try {
     const response = await fetch(url, {
       method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
-      },
+      headers: getHeadersWithContentType(),
       body: JSON.stringify(updatePayload),
     })
     

@@ -1,4 +1,5 @@
 import { useAuthStore } from "../../../store/authStore";
+import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -7,12 +8,9 @@ const getToken = () => {
 };
 
 export const fetchAssets = async (): Promise<any[]> => {
-  const token = getToken();
   try {
     const response = await fetch(`${API_URL}activos`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: getAuthHeaders(),
     });
     
     if (!response.ok) {
@@ -27,14 +25,10 @@ export const fetchAssets = async (): Promise<any[]> => {
 };
 
 export const createAsset = async (assetData: any) => {
-  const token = getToken();
   try {
     const response = await fetch(`${API_URL}activos`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+      headers: getHeadersWithContentType(),
       body: JSON.stringify(assetData),
     });
     
@@ -50,14 +44,10 @@ export const createAsset = async (assetData: any) => {
 };
 
 export const updateAsset = async (id: string, assetData: any) => {
-  const token = getToken();
   try {
     const response = await fetch(`${API_URL}activos/${id}`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+      headers: getHeadersWithContentType(),
       body: JSON.stringify(assetData),
     });
     
@@ -73,13 +63,10 @@ export const updateAsset = async (id: string, assetData: any) => {
 };
 
 export const deleteAsset = async (id: string) => {
-  const token = getToken();
   try {
     const response = await fetch(`${API_URL}activos/${id}`, {
       method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: getAuthHeaders(),
     });
     
     if (!response.ok) {

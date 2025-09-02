@@ -1,4 +1,5 @@
 import { useAuthStore } from "../../../store/authStore"
+import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -15,23 +16,16 @@ const handleResponse = async (response: Response) => {
 }
 
 export const fetchInstallationTypes = async (includeInactive = false): Promise<any[]> => {
-  const token = getToken()
   const response = await fetch(`${API_URL}tipos-instalacion?includeInactive=${includeInactive}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   })
   return handleResponse(response)
 }
 
 export const createInstallationType = async (typeData: any) => {
-  const token = getToken()
   const response = await fetch(`${API_URL}tipos-instalacion`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeadersWithContentType(),
     body: JSON.stringify(typeData),
   })
   return handleResponse(response)

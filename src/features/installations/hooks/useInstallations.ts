@@ -1,6 +1,7 @@
 import type React from "react"
 
 import { useEffect, useState, useCallback } from "react"
+import { useAuthStore } from "../../../store/authStore"
 import {
   fetchInstallations,
   createInstallation,
@@ -61,6 +62,7 @@ export type Installation = {
 
 const useInstallations = () => {
   const { t } = useTranslation();
+  const { token, isAuthenticated } = useAuthStore()
   const [installations, setInstallations] = useState<Installation[]>([])
   const [installationTypes, setInstallationTypes] = useState<string[]>([])
   const [currentInstallation, setCurrentInstallation] = useState<Installation | null>(null)
@@ -113,6 +115,10 @@ const useInstallations = () => {
   }, [])
 
   const loadInstallations = useCallback(async () => {
+    if (!token || !isAuthenticated) {
+      return
+    }
+    
     setLoading(true)
     try {
       const data = await fetchInstallations()
@@ -124,7 +130,7 @@ const useInstallations = () => {
     } finally {
       setLoading(false)
     }
-  }, [extractInstallationTypes])
+  }, [extractInstallationTypes, token, isAuthenticated])
 
   const loadInstallationDetails = useCallback(async (id: string) => {
     setLoading(true)

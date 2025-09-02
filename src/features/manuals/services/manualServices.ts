@@ -1,4 +1,5 @@
 import { useAuthStore } from "../../../store/authStore";
+import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -7,12 +8,8 @@ const getToken = () => {
 };
 
 export const fetchManuals = async (): Promise<any[]> => {
-  const token = getToken();
-
   const response = await fetch(`${API_URL}manuales`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   });
 
   if (!response.ok) {
@@ -24,12 +21,8 @@ export const fetchManuals = async (): Promise<any[]> => {
 };
 
 export const fetchManualById = async (id: string): Promise<any> => {
-  const token = getToken();
-
   const response = await fetch(`${API_URL}manuales/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   });
 
   if (!response.ok) {
@@ -41,12 +34,8 @@ export const fetchManualById = async (id: string): Promise<any> => {
 };
 
 export const fetchManualsByAssetId = async (assetId: string): Promise<any[]> => {
-  const token = getToken();
-
   const response = await fetch(`${API_URL}activos/${assetId}/manuales`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   });
 
   if (!response.ok) {
@@ -58,8 +47,6 @@ export const fetchManualsByAssetId = async (assetId: string): Promise<any[]> => 
 };
 
 export const createManual = async (manualData: any): Promise<any> => {
-  const token = getToken();
-
   const formData = new FormData();
   Object.entries(manualData).forEach(([key, value]) => {
     if (key === 'tags' && Array.isArray(value)) {
@@ -71,9 +58,7 @@ export const createManual = async (manualData: any): Promise<any> => {
 
   const response = await fetch(`${API_URL}manuales`, {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
     body: formData,
   });
 
@@ -86,8 +71,6 @@ export const createManual = async (manualData: any): Promise<any> => {
 };
 
 export const updateManual = async (id: string, manualData: any): Promise<any> => {
-  const token = getToken();
-
   const formData = new FormData();
   Object.entries(manualData).forEach(([key, value]) => {
     if (key === 'tags' && Array.isArray(value)) {
@@ -99,9 +82,7 @@ export const updateManual = async (id: string, manualData: any): Promise<any> =>
 
   const response = await fetch(`${API_URL}manuales/${id}`, {
     method: "PUT",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
     body: formData,
   });
 
@@ -114,14 +95,9 @@ export const updateManual = async (id: string, manualData: any): Promise<any> =>
 };
 
 export const patchManual = async (id: string, manualData: any): Promise<any> => {
-  const token = getToken();
-
   const response = await fetch(`${API_URL}manuales/${id}`, {
     method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeadersWithContentType(),
     body: JSON.stringify(manualData),
   });
 
@@ -134,13 +110,9 @@ export const patchManual = async (id: string, manualData: any): Promise<any> => 
 };
 
 export const deleteManual = async (id: string): Promise<void> => {
-  const token = getToken();
-
   const response = await fetch(`${API_URL}manuales/${id}`, {
     method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   });
 
   if (!response.ok) {
@@ -150,16 +122,12 @@ export const deleteManual = async (id: string): Promise<void> => {
 };
 
 export const updateManualFile = async (id: string, file: File): Promise<any> => {
-  const token = getToken();
-
   const formData = new FormData();
   formData.append('archivo', file);
 
   const response = await fetch(`${API_URL}manuales/${id}/archivo`, {
     method: "PATCH",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
     body: formData,
   });
 

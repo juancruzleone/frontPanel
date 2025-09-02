@@ -1,4 +1,5 @@
 import { useAuthStore } from "../../../store/authStore"
+import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -7,18 +8,16 @@ const getToken = () => {
 }
 
 export const fetchInstallations = async (): Promise<any[]> => {
-  const token = getToken()
   const response = await fetch(`${API_URL}installations`, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: getAuthHeaders(),
   })
   if (!response.ok) throw new Error("Error al obtener instalaciones")
   return await response.json()
 }
 
 export const fetchInstallationById = async (id: string): Promise<any> => {
-  const token = getToken()
   const response = await fetch(`${API_URL}installations/${id}`, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: getAuthHeaders(),
   })
   if (!response.ok) throw new Error("Error al obtener instalación")
   const result = await response.json()
@@ -26,9 +25,8 @@ export const fetchInstallationById = async (id: string): Promise<any> => {
 }
 
 export const fetchInstallationDevices = async (installationId: string): Promise<any[]> => {
-  const token = getToken()
   const response = await fetch(`${API_URL}installations/${installationId}/dispositivos`, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: getAuthHeaders(),
   })
   if (!response.ok) throw new Error("Error al obtener dispositivos")
   const result = await response.json()
@@ -36,13 +34,9 @@ export const fetchInstallationDevices = async (installationId: string): Promise<
 }
 
 export const createInstallation = async (installation: any) => {
-  const token = getToken()
   const response = await fetch(`${API_URL}installations`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeadersWithContentType(),
     body: JSON.stringify(installation),
   })
   if (!response.ok) throw new Error("Error al crear instalación")
@@ -51,7 +45,6 @@ export const createInstallation = async (installation: any) => {
 }
 
 export const updateInstallation = async (id: string, installation: any) => {
-  const token = getToken()
   const { _id, image, ...rest } = installation
   const updateData = {
     ...rest,
@@ -60,10 +53,7 @@ export const updateInstallation = async (id: string, installation: any) => {
 
   const response = await fetch(`${API_URL}installations/${id}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeadersWithContentType(),
     body: JSON.stringify(updateData),
   })
   if (!response.ok) throw new Error("Error al actualizar instalación")
@@ -72,23 +62,18 @@ export const updateInstallation = async (id: string, installation: any) => {
 }
 
 export const deleteInstallation = async (id: string) => {
-  const token = getToken()
   const response = await fetch(`${API_URL}installations/${id}`, {
     method: "DELETE",
-    headers: { Authorization: `Bearer ${token}` },
+    headers: getAuthHeaders(),
   })
   if (!response.ok) throw new Error("Error al eliminar instalación")
   return await response.json()
 }
 
 export const addDeviceToInstallation = async (installationId: string, deviceData: any) => {
-  const token = getToken()
   const response = await fetch(`${API_URL}installations/${installationId}/dispositivos`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeadersWithContentType(),
     body: JSON.stringify(deviceData),
   })
   if (!response.ok) throw new Error("Error al agregar dispositivo")
@@ -97,23 +82,18 @@ export const addDeviceToInstallation = async (installationId: string, deviceData
 }
 
 export const deleteDeviceFromInstallation = async (installationId: string, deviceId: string) => {
-  const token = getToken()
   const response = await fetch(`${API_URL}installations/${installationId}/dispositivos/${deviceId}`, {
     method: "DELETE",
-    headers: { Authorization: `Bearer ${token}` },
+    headers: getAuthHeaders(),
   })
   if (!response.ok) throw new Error("Error al eliminar dispositivo")
   return await response.json()
 }
 
 export const updateDeviceInInstallation = async (installationId: string, deviceId: string, deviceData: any) => {
-  const token = getToken()
   const response = await fetch(`${API_URL}installations/${installationId}/dispositivos/${deviceId}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeadersWithContentType(),
     body: JSON.stringify(deviceData),
   })
   if (!response.ok) throw new Error("Error al actualizar dispositivo")
@@ -122,13 +102,9 @@ export const updateDeviceInInstallation = async (installationId: string, deviceI
 }
 
 export const assignTemplateToDevice = async (installationId: string, deviceId: string, templateId: string) => {
-  const token = getToken()
   const response = await fetch(`${API_URL}installations/${installationId}/dispositivos/${deviceId}/plantilla`, {
     method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeadersWithContentType(),
     body: JSON.stringify({ templateId }),
   })
   if (!response.ok) throw new Error("Error al asignar plantilla al dispositivo")
@@ -137,9 +113,8 @@ export const assignTemplateToDevice = async (installationId: string, deviceId: s
 }
 
 export const fetchAssets = async (): Promise<any[]> => {
-  const token = getToken()
   const response = await fetch(`${API_URL}assets`, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: getAuthHeaders(),
   })
   if (!response.ok) throw new Error("Error al obtener activos")
   const result = await response.json()
@@ -147,11 +122,10 @@ export const fetchAssets = async (): Promise<any[]> => {
 }
 
 export const getLastMaintenanceForDevice = async (installationId: string, deviceId: string) => {
-  const token = getToken()
   const response = await fetch(
     `${API_URL}installations/${installationId}/dispositivos/${deviceId}/ultimo-mantenimiento`,
     {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: getAuthHeaders(),
     },
   )
 

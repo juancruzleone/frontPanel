@@ -1,4 +1,5 @@
 import { useAuthStore } from "../../../store/authStore"
+import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
 
 const API_URL = import.meta.env.VITE_API_URL
 console.log("API_URL:", API_URL)
@@ -86,12 +87,9 @@ const handleResponse = async (response: Response) => {
 }
 
 export const fetchWorkOrders = async (): Promise<WorkOrder[]> => {
-  const token = getToken()
   try {
     const ordersResponse = await fetch(`${API_URL}ordenes-trabajo`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: getAuthHeaders(),
     })
 
     const ordersData = await handleResponse(ordersResponse)
@@ -102,9 +100,7 @@ export const fetchWorkOrders = async (): Promise<WorkOrder[]> => {
     }
 
     const techResponse = await fetch(`${API_URL}cuentas/tecnicos`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: getAuthHeaders(),
     })
 
     const techData = await handleResponse(techResponse)
@@ -132,12 +128,8 @@ export const fetchWorkOrders = async (): Promise<WorkOrder[]> => {
 }
 
 export const fetchInstallations = async (): Promise<Installation[]> => {
-  const token = getToken()
-
   const response = await fetch(`${API_URL}installations`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   })
 
   const result = await handleResponse(response)
@@ -145,13 +137,9 @@ export const fetchInstallations = async (): Promise<Installation[]> => {
 }
 
 export const createWorkOrder = async (workOrder: WorkOrder) => {
-  const token = getToken()
   const response = await fetch(`${API_URL}ordenes-trabajo`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeadersWithContentType(),
     body: JSON.stringify(workOrder),
   })
 
@@ -160,15 +148,11 @@ export const createWorkOrder = async (workOrder: WorkOrder) => {
 }
 
 export const updateWorkOrder = async (id: string, workOrder: WorkOrder) => {
-  const token = getToken()
   const { _id, ...rest } = workOrder
 
   const response = await fetch(`${API_URL}ordenes-trabajo/${id}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeadersWithContentType(),
     body: JSON.stringify(rest),
   })
 
@@ -177,12 +161,9 @@ export const updateWorkOrder = async (id: string, workOrder: WorkOrder) => {
 }
 
 export const deleteWorkOrder = async (id: string) => {
-  const token = getToken()
   const response = await fetch(`${API_URL}ordenes-trabajo/${id}`, {
     method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   })
 
   return handleResponse(response)
@@ -190,8 +171,7 @@ export const deleteWorkOrder = async (id: string) => {
 
 export const assignTechnicianToWorkOrder = async (workOrderId: string, technicianId: string) => {
   console.log("assignTechnicianToWorkOrder llamado con:", { workOrderId, technicianId })
-  const token = getToken()
-  console.log("Token obtenido:", token ? "Sí" : "No")
+  console.log("Token obtenido:", getToken() ? "Sí" : "No")
   
   const url = `${API_URL}ordenes-trabajo/${workOrderId}/asignar`
   const body = JSON.stringify({ tecnicoId: technicianId })
@@ -201,11 +181,7 @@ export const assignTechnicianToWorkOrder = async (workOrderId: string, technicia
   // Usar PATCH según la configuración del backend
   const response = await fetch(url, {
     method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeadersWithContentType(),
     body: body,
   })
 
@@ -217,14 +193,9 @@ export const assignTechnicianToWorkOrder = async (workOrderId: string, technicia
 }
 
 export const completeWorkOrder = async (workOrderId: string, completionData: any) => {
-  const token = getToken()
-
   const response = await fetch(`${API_URL}ordenes-trabajo/${workOrderId}/completar`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeadersWithContentType(),
     body: JSON.stringify(completionData),
   })
 
@@ -233,13 +204,9 @@ export const completeWorkOrder = async (workOrderId: string, completionData: any
 }
 
 export const startWorkOrder = async (workOrderId: string) => {
-  const token = getToken()
-
   const response = await fetch(`${API_URL}ordenes-trabajo/${workOrderId}/iniciar`, {
     method: "PATCH",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   })
 
   const result = await handleResponse(response)
@@ -247,11 +214,8 @@ export const startWorkOrder = async (workOrderId: string) => {
 }
 
 export const getWorkOrderById = async (id: string): Promise<WorkOrder> => {
-  const token = getToken()
   const response = await fetch(`${API_URL}ordenes-trabajo/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   })
 
   const result = await handleResponse(response)

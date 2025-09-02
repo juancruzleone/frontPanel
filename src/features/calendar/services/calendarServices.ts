@@ -1,4 +1,5 @@
 import { useAuthStore } from "../../../store/authStore"
+import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -7,11 +8,8 @@ const getToken = () => {
 }
 
 export const fetchWorkOrders = async (): Promise<any[]> => {
-  const token = getToken()
   const response = await fetch(`${API_URL}ordenes-trabajo`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   })
 
   if (!response.ok) throw new Error("Error al obtener órdenes de trabajo")
@@ -21,12 +19,9 @@ export const fetchWorkOrders = async (): Promise<any[]> => {
 }
 
 export const startWorkOrder = async (id: string) => {
-  const token = getToken()
   const response = await fetch(`${API_URL}ordenes-trabajo/${id}/iniciar`, {
     method: "PATCH",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   })
 
   if (!response.ok) throw new Error("Error al iniciar orden de trabajo")
@@ -36,13 +31,9 @@ export const startWorkOrder = async (id: string) => {
 }
 
 export const assignTechnicianToWorkOrder = async (workOrderId: string, technicianId: string) => {
-  const token = getToken()
   const response = await fetch(`${API_URL}ordenes-trabajo/${workOrderId}/asignar`, {
     method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeadersWithContentType(),
     body: JSON.stringify({ tecnicoId: technicianId }),
   })
 
@@ -53,13 +44,9 @@ export const assignTechnicianToWorkOrder = async (workOrderId: string, technicia
 }
 
 export const completeWorkOrder = async (id: string, data: any) => {
-  const token = getToken()
   const response = await fetch(`${API_URL}ordenes-trabajo/${id}/completar`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeadersWithContentType(),
     body: JSON.stringify(data),
   })
 

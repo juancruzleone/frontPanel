@@ -1,15 +1,13 @@
 import { useAuthStore } from "../../../store/authStore"
+import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
 
 const API_URL = import.meta.env.VITE_API_URL
 
 export const fetchDeviceForm = async (installationId: string, deviceId: string) => {
-  const token = useAuthStore.getState().token
   const res = await fetch(
     `${API_URL}installations/${installationId}/dispositivos/${deviceId}/formulario`,
     {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: getAuthHeaders(),
     },
   )
   if (!res.ok) {
@@ -20,15 +18,11 @@ export const fetchDeviceForm = async (installationId: string, deviceId: string) 
 }
 
 export const submitDeviceMaintenance = async (installationId: string, deviceId: string, formData: any) => {
-  const token = useAuthStore.getState().token
   const res = await fetch(
     `${API_URL}installations/${installationId}/dispositivos/${deviceId}/mantenimiento`,
     {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
+      headers: getHeadersWithContentType(),
       body: JSON.stringify(formData),
     },
   )

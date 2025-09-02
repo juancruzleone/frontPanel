@@ -1,5 +1,6 @@
 // src/features/manuals/services/assetServices.ts
 import { useAuthStore } from "../../../store/authStore";
+import { getAuthHeaders } from "../../../shared/utils/apiHeaders";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -21,12 +22,8 @@ export interface Asset {
 }
 
 export const fetchAssets = async (): Promise<Asset[]> => {
-  const token = getToken();
-
   const response = await fetch(`${API_URL}activos`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   });
 
   if (!response.ok) {
@@ -38,12 +35,8 @@ export const fetchAssets = async (): Promise<Asset[]> => {
 };
 
 export const fetchAssetById = async (id: string): Promise<Asset> => {
-  const token = getToken();
-
   const response = await fetch(`${API_URL}activos/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   });
 
   if (!response.ok) {

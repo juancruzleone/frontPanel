@@ -1,4 +1,5 @@
 import { useAuthStore } from '../../../store/authStore';
+import { getAuthHeaders } from '../../../shared/utils/apiHeaders';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -8,9 +9,7 @@ export const fetchAssignedWorkOrders = async () => {
   if (!token || !user) throw new Error('No autenticado');
 
   const response = await fetch(`${API_URL}ordenes-trabajo`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error('Error al obtener órdenes');
   const data = await response.json();

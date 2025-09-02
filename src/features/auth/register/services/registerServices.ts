@@ -1,12 +1,14 @@
+import { getHeadersWithContentType, getAuthHeaders } from "../../../../shared/utils/apiHeaders"
+
 const API_URL = import.meta.env.VITE_API_URL
 
 export const userRegister = async (username: string, password: string, token: string) => {
+  const headers = getHeadersWithContentType()
+  headers.Authorization = `Bearer ${token}` // Sobrescribir el token del store con el token pasado como parámetro
+  
   const response = await fetch(`${API_URL}cuenta`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers,
     body: JSON.stringify({
       userName: username,
       password: password,
@@ -28,11 +30,12 @@ export const userRegister = async (username: string, password: string, token: st
 }
 
 export const getTechnicians = async (token: string) => {
+  const headers = getAuthHeaders()
+  headers.Authorization = `Bearer ${token}` // Sobrescribir el token del store con el token pasado como parámetro
+  
   const response = await fetch(`${API_URL}cuentas/tecnicos`, {
     method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers,
   })
 
   if (!response.ok) {
@@ -48,11 +51,12 @@ export const getTechnicians = async (token: string) => {
 }
 
 export const deleteTechnician = async (id: string, token: string) => {
+  const headers = getAuthHeaders()
+  headers.Authorization = `Bearer ${token}` // Sobrescribir el token del store con el token pasado como parámetro
+  
   const response = await fetch(`${API_URL}cuentas/${id}`, {
     method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers,
   })
 
   if (!response.ok) {
@@ -64,11 +68,12 @@ export const deleteTechnician = async (id: string, token: string) => {
 }
 
 export const getUserById = async (id: string, token: string) => {
+  const headers = getAuthHeaders()
+  headers.Authorization = `Bearer ${token}` // Sobrescribir el token del store con el token pasado como parámetro
+  
   const response = await fetch(`${API_URL}cuentas/${id}`, {
     method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers,
   })
 
   if (!response.ok) {

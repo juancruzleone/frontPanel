@@ -1,4 +1,5 @@
 import { useAuthStore } from "../../../store/authStore"
+import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -17,12 +18,8 @@ export interface Technician {
 }
 
 export const fetchTechnicians = async (): Promise<Technician[]> => {
-  const token = getToken()
   const response = await fetch(`${API_URL}cuentas/tecnicos`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
+    headers: getHeadersWithContentType(),
   })
 
   if (!response.ok) {
@@ -35,13 +32,9 @@ export const fetchTechnicians = async (): Promise<Technician[]> => {
 }
 
 export const createTechnician = async (technicianData: Partial<Technician>) => {
-  const token = getToken()
   const response = await fetch(`${API_URL}/cuenta`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeadersWithContentType(),
     body: JSON.stringify(technicianData),
   })
 
@@ -54,13 +47,9 @@ export const createTechnician = async (technicianData: Partial<Technician>) => {
 }
 
 export const updateTechnician = async (id: string, technicianData: Partial<Technician>) => {
-  const token = getToken()
   const response = await fetch(`${API_URL}/cuentas/${id}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeadersWithContentType(),
     body: JSON.stringify(technicianData),
   })
 
@@ -73,12 +62,9 @@ export const updateTechnician = async (id: string, technicianData: Partial<Techn
 }
 
 export const deleteTechnician = async (id: string) => {
-  const token = getToken()
   const response = await fetch(`${API_URL}/cuentas/${id}`, {
     method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   })
 
   if (!response.ok) {
@@ -90,11 +76,8 @@ export const deleteTechnician = async (id: string) => {
 }
 
 export const getTechnicianById = async (id: string): Promise<Technician> => {
-  const token = getToken()
   const response = await fetch(`${API_URL}/cuentas/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   })
 
   if (!response.ok) {

@@ -6,9 +6,11 @@ import { userLogin } from "../services/loginServices"
 import { validateLoginForm } from "../validators/loginValidations"
 import { useAuthStore } from "../../../../src/store/authStore.ts"
 import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router-dom"
 
 export function useLogin() {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
@@ -16,6 +18,7 @@ export function useLogin() {
   const [showModal, setShowModal] = useState(false)
   const [responseMessage, setResponseMessage] = useState("")
   const [isError, setIsError] = useState(false)
+  const [shouldRedirect, setShouldRedirect] = useState(false)
 
   const setUserStore = useAuthStore((state) => state.setUser)
   const setAuthenticated = useAuthStore((state) => state.setAuthenticated)
@@ -74,9 +77,15 @@ export function useLogin() {
 
     try {
       const response = await userLogin(username, password)
-      setResponseMessage(response?.message || "Login exitoso.")
+      setResponseMessage(t('auth.loginSuccess'))
       setIsError(false)
-      setUserStore(response.cuenta.userName, response.token, response.cuenta.role) // <-- PASAR ROL
+      setUserStore(
+        response.cuenta.userName, 
+        response.token, 
+        response.cuenta.role,
+        response.tenantId || "051935e5-1c2f-4661-82a5-587f78c99e5d"
+      )
+      // No marcar como autenticado aquí, esperar a que se cierre el modal
       setShowModal(true)
     } catch (err: any) {
       setResponseMessage(err.message || "Error al iniciar sesión")
@@ -88,7 +97,14 @@ export function useLogin() {
   const closeModal = () => {
     setShowModal(false)
     setIsError(false)
-    setAuthenticated(true)
+    // Solo marcar como autenticado si no es un error
+    if (!isError) {
+      setAuthenticated(true)
+      // Redirigir después de cerrar el modal de éxito
+      setTimeout(() => {
+        navigate("/instalaciones", { replace: true })
+      }, 100)
+    }
   }
 
   return {
@@ -104,5 +120,6 @@ export function useLogin() {
     responseMessage,
     isError,
     closeModal,
+    shouldRedirect,
   }
 }

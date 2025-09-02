@@ -37,43 +37,52 @@ export const createLocalDate = (year: number, month: number, day: number): Date 
 };
 
 /**
+ * Normaliza una fecha para comparación, manejando diferentes formatos
+ * @param date - Fecha a normalizar (Date, string, o objeto MongoDB)
+ * @returns Date normalizada en zona horaria local
+ */
+export const normalizeDate = (date: any): Date => {
+  // Si es un objeto MongoDB con $date
+  if (date && typeof date === 'object' && date.$date) {
+    return new Date(date.$date);
+  }
+  
+  // Si es un string ISO
+  if (typeof date === 'string') {
+    return new Date(date);
+  }
+  
+  // Si ya es un Date
+  if (date instanceof Date) {
+    return date;
+  }
+  
+  // Fallback
+  return new Date(date);
+};
+
+/**
  * Compara dos fechas sin considerar la hora, solo la fecha
  * Maneja fechas como strings YYYY-MM-DD para evitar problemas de zona horaria
- * @param date1 - Primera fecha a comparar (Date o string YYYY-MM-DD)
- * @param date2 - Segunda fecha a comparar (Date o string YYYY-MM-DD)
+ * @param date1 - Primera fecha a comparar (Date, string, o objeto MongoDB)
+ * @param date2 - Segunda fecha a comparar (Date, string, o objeto MongoDB)
  * @returns true si las fechas son iguales (ignorando la hora)
  */
-export const compareDates = (date1: Date | string, date2: Date | string): boolean => {
+export const compareDates = (date1: any, date2: any): boolean => {
+  // Normalizar ambas fechas
+  const normalizedDate1 = normalizeDate(date1);
+  const normalizedDate2 = normalizeDate(date2);
+  
   // Si ambas son strings YYYY-MM-DD, comparar directamente
-  if (typeof date1 === 'string' && typeof date2 === 'string') {
+  if (typeof date1 === 'string' && typeof date2 === 'string' && 
+      date1.match(/^\d{4}-\d{2}-\d{2}$/) && date2.match(/^\d{4}-\d{2}-\d{2}$/)) {
     return date1 === date2;
   }
   
-  // Si una es string y otra es Date, convertir la string a Date local
-  if (typeof date1 === 'string') {
-    const [year, month, day] = date1.split('-').map(Number);
-    const localDate1 = new Date(year, month - 1, day, 12, 0, 0, 0);
-    const date2AsDate = date2 as Date;
-    return localDate1.getFullYear() === date2AsDate.getFullYear() &&
-           localDate1.getMonth() === date2AsDate.getMonth() &&
-           localDate1.getDate() === date2AsDate.getDate();
-  }
-  
-  if (typeof date2 === 'string') {
-    const [year, month, day] = date2.split('-').map(Number);
-    const localDate2 = new Date(year, month - 1, day, 12, 0, 0, 0);
-    const date1AsDate = date1 as Date;
-    return date1AsDate.getFullYear() === localDate2.getFullYear() &&
-           date1AsDate.getMonth() === localDate2.getMonth() &&
-           date1AsDate.getDate() === localDate2.getDate();
-  }
-  
-  // Si ambas son Date, comparar normalmente
-  const date1AsDate = date1 as Date;
-  const date2AsDate = date2 as Date;
-  return date1AsDate.getFullYear() === date2AsDate.getFullYear() &&
-         date1AsDate.getMonth() === date2AsDate.getMonth() &&
-         date1AsDate.getDate() === date2AsDate.getDate();
+  // Comparar año, mes y día
+  return normalizedDate1.getFullYear() === normalizedDate2.getFullYear() &&
+         normalizedDate1.getMonth() === normalizedDate2.getMonth() &&
+         normalizedDate1.getDate() === normalizedDate2.getDate();
 };
 
 /**
@@ -81,8 +90,8 @@ export const compareDates = (date1: Date | string, date2: Date | string): boolea
  * @param date - Fecha a formatear
  * @returns String en formato YYYY-MM-DD
  */
-export const formatDateToString = (date: Date | string): string => {
-  const dateObj = typeof date === 'string' ? new Date(date) : date;
+export const formatDateToString = (date: any): string => {
+  const dateObj = normalizeDate(date);
   
   // Usar métodos locales para obtener la fecha en la zona horaria del usuario
   const year = dateObj.getFullYear();
@@ -108,7 +117,7 @@ export const parseDateString = (dateString: string): Date => {
  * @param date - Fecha a verificar
  * @returns true si la fecha es hoy
  */
-export const isToday = (date: Date | string): boolean => {
+export const isToday = (date: any): boolean => {
   return compareDates(date, new Date());
 };
 
@@ -118,9 +127,9 @@ export const isToday = (date: Date | string): boolean => {
  * @param date2 - Segunda fecha
  * @returns true si ambas fechas están en el mismo mes
  */
-export const isSameMonth = (date1: Date | string, date2: Date | string): boolean => {
-  const d1 = typeof date1 === 'string' ? new Date(date1) : date1;
-  const d2 = typeof date2 === 'string' ? new Date(date2) : date2;
+export const isSameMonth = (date1: any, date2: any): boolean => {
+  const d1 = normalizeDate(date1);
+  const d2 = normalizeDate(date2);
   return d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth();
 };
 
