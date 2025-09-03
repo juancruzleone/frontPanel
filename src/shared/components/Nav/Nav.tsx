@@ -2,12 +2,13 @@ import { NavLink, useNavigate } from "react-router-dom"
 import { useAuthStore } from "../../../store/authStore"
 import {
   LogOut, Home, Package, FileText, BookOpen,
-  ClipboardList, Calendar, Sun, Moon, Menu, X, Building, User, Globe, CreditCard
+  ClipboardList, Calendar, Sun, Moon, Menu, X, Building, User, Globe, CreditCard, Settings, Database
 } from "lucide-react"
 import styles from "./Nav.module.css"
 import { useState, useEffect, useRef } from "react"
 import { useTheme } from "../../hooks/useTheme"
 import { useTranslation } from "react-i18next"
+import { isTechnician, isSuperAdmin, canAccessSection } from "../../utils/roleUtils"
 import esFlag from '../../../../src/assets/flags/es.svg'
 import frFlag from '../../../../src/assets/flags/fr.svg'
 import usFlag from '../../../../src/assets/flags/us.svg'
@@ -50,8 +51,9 @@ const Nav = () => {
   const [isLanguageOpen, setIsLanguageOpen] = useState(false)
   const languageDropdownRef = useRef<HTMLDivElement>(null)
 
-  // Normalizar el rol para aceptar 'tecnico' y 'técnico'
-  const isTechnician = role && ["tecnico", "técnico"].includes(role.toLowerCase())
+  // Usar las utilidades de roles
+  const isTechnicianUser = isTechnician(role)
+  const isSuperAdminUser = isSuperAdmin(role)
 
   const languages = [
     { code: 'es', name: t('languageSelector.spanish'), flag: '🇪🇸' },
@@ -121,17 +123,21 @@ const Nav = () => {
           <h2 className={styles.logo}>{/* LeoneSuite */}</h2>
         </div>
         <ul className={styles.menu}>
-          <li>
-            <NavLink to="/inicio" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-              <Home size={20} /> {t('nav.home')}
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/instalaciones" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-              <Building size={20} /> {t('nav.installations')}
-            </NavLink>
-          </li>
-          {!isTechnician && (
+          {!isSuperAdminUser && (
+            <li>
+              <NavLink to="/inicio" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                <Home size={20} /> {t('nav.home')}
+              </NavLink>
+            </li>
+          )}
+          {!isSuperAdminUser && (
+            <li>
+              <NavLink to="/instalaciones" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                <Building size={20} /> {t('nav.installations')}
+              </NavLink>
+            </li>
+          )}
+          {!isTechnicianUser && !isSuperAdminUser && (
             <>
               <li>
                 <NavLink to="/activos" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
@@ -151,24 +157,44 @@ const Nav = () => {
             </>
           )}
 
-          {/* Botón de abonos vigentes solo para no técnicos */}
-          {!isTechnician && (
+          {/* Botón de abonos vigentes solo para no técnicos y no super_admin */}
+          {!isTechnicianUser && !isSuperAdminUser && (
             <li>
               <NavLink to="/abonos-vigentes" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
                 <CreditCard size={20} /> {t('nav.subscriptions')}
               </NavLink>
             </li>
           )}
-          <li>
-            <NavLink to="/ordenes-trabajo" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-              <ClipboardList size={20} /> {t('nav.workOrders')}
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/calendario" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-              <Calendar size={20} /> {t('nav.calendar')}
-            </NavLink>
-          </li>
+          {!isSuperAdminUser && (
+            <li>
+              <NavLink to="/ordenes-trabajo" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                <ClipboardList size={20} /> {t('nav.workOrders')}
+              </NavLink>
+            </li>
+          )}
+          {!isSuperAdminUser && (
+            <li>
+              <NavLink to="/calendario" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                <Calendar size={20} /> {t('nav.calendar')}
+              </NavLink>
+            </li>
+          )}
+          {/* Panel Admin solo para super_admin */}
+          {isSuperAdminUser && (
+            <li>
+              <NavLink to="/panel-admin" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                <Settings size={20} /> Panel Admin
+              </NavLink>
+            </li>
+          )}
+          {/* Tenants solo para super_admin */}
+          {isSuperAdminUser && (
+            <li>
+              <NavLink to="/tenants" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                <Database size={20} /> Tenants
+              </NavLink>
+            </li>
+          )}
         </ul>
         <div className={styles.bottomSection}>
           <div className={styles.controlsContainer}>

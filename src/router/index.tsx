@@ -12,10 +12,15 @@ import Calendar from "../pages/Calendar.tsx"
 import DeviceFormPage from "../pages/DeviceFormPage"
 import MainLayout from "../layouts/MainLayout"
 import ProtectedRoute from "./ProtectedRoute"
+import RoleProtectedRoute from "./RoleProtectedRoute"
 import RedirectIfLogged from "../../src/router/RedirectIfLoggedIn.tsx"
 import Home from "../pages/Home" // <-- Import del componente Home
 import Profile from '../pages/Profile';
 import UserProfile from '../pages/UserProfile';
+import PanelAdmin from '../pages/PanelAdmin';
+import NotFound from '../pages/NotFound';
+import Tenants from '../pages/Tenants';
+import { ROLES } from "../shared/utils/roleUtils"
 
 export const router = createBrowserRouter([
   {
@@ -34,23 +39,35 @@ export const router = createBrowserRouter([
         element: <MainLayout />,
         children: [
           {
-            path: "/inicio", // <-- Ruta agregada
-            element: <Home />,
+            path: "/inicio",
+            element: <RoleProtectedRoute section="inicio"><Home /></RoleProtectedRoute>,
           },
           {
             path: "/instalaciones",
-            element: <Installations />,
+            element: <RoleProtectedRoute section="instalaciones"><Installations /></RoleProtectedRoute>,
           },
           {
             path: "/instalaciones/:id",
-            element: <InstallationDetails />,
+            element: <RoleProtectedRoute section="instalaciones"><InstallationDetails /></RoleProtectedRoute>,
           },
           {
             path: "/perfil",
-            element: <Profile />,
+            element: <RoleProtectedRoute section="perfil"><Profile /></RoleProtectedRoute>,
           },
           {
-            element: <ProtectedRoute allowedRoles={["admin", "otroRol"]} />, // Solo admin y otros roles, no tecnico
+            element: <ProtectedRoute allowedRoles={[ROLES.SUPER_ADMIN]} />, // Solo super_admin para panel admin
+            children: [
+              { path: "/panel-admin", element: <PanelAdmin /> },
+            ],
+          },
+          {
+            element: <ProtectedRoute allowedRoles={[ROLES.SUPER_ADMIN]} />, // Solo super_admin para tenants
+            children: [
+              { path: "/tenants", element: <Tenants /> },
+            ],
+          },
+          {
+            element: <ProtectedRoute allowedRoles={[ROLES.ADMIN]} />, // Solo admin, no super_admin ni tecnico
             children: [
               { path: "/activos", element: <Assets /> },
               { path: "/formularios", element: <Forms /> },
@@ -63,23 +80,34 @@ export const router = createBrowserRouter([
             element: <Manuals />,
           },
           {
-            path: "/abonos-vigentes",
-            element: <Subscriptions />,
+            element: <ProtectedRoute allowedRoles={[ROLES.ADMIN]} />, // Solo admin para abonos
+            children: [
+              { path: "/abonos-vigentes", element: <Subscriptions /> },
+            ],
           },
           {
-            path: "/ordenes-trabajo",
-            element: <WorkOrders />,
+            element: <ProtectedRoute allowedRoles={[ROLES.ADMIN, ROLES.TECHNICIAN]} />, // Admin y tecnico para ordenes
+            children: [
+              { path: "/ordenes-trabajo", element: <WorkOrders /> },
+            ],
           },
           {
-            path: "/calendario",
-            element: <Calendar />,
+            element: <ProtectedRoute allowedRoles={[ROLES.ADMIN, ROLES.TECHNICIAN]} />, // Admin y tecnico para calendario
+            children: [
+              { path: "/calendario", element: <Calendar /> },
+            ],
           },
           {
             path: "/formulario/:installationId/:deviceId",
             element: <DeviceFormPage />,
+          },
+          {
+            path: "*",
+            element: <NotFound />,
           },
         ],
       },
     ],
   },
 ])
+
