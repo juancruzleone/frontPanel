@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Tenant, CreateTenantData, EditTenantData } from '../types/tenant.types'
 import { validateField, ValidationErrors } from '../validators/tenantValidations'
 import styles from '../styles/tenantForm.module.css'
+import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
 
 interface TenantFormProps {
   tenant?: Tenant
@@ -295,18 +296,18 @@ const TenantForm: React.FC<TenantFormProps> = ({
         )}
       </div>
 
-      <div className={styles.actions}>
+      <div className={formButtonStyles.actions}>
         <button
           type="button"
           onClick={onCancel}
-          className={styles.cancelButton}
+          className={formButtonStyles.cancelButton}
           disabled={isLoading}
         >
           {t('common.cancel')}
         </button>
         <button
           type="submit"
-          className={styles.submitButton}
+          className={formButtonStyles.submitButton}
           disabled={isLoading}
         >
           {isLoading ? t('common.loading') : (isEdit ? t('common.update') : t('common.create'))}
