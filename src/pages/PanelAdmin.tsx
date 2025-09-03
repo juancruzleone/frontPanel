@@ -1,73 +1,99 @@
-import React from 'react'
-import styles from './panelAdmin.module.css'
+import React from "react"
+import { useTranslation } from "react-i18next"
+import usePanelAdminDashboard from "../features/tenants/hooks/usePanelAdminDashboard"
+import TenantStatsCards from "../features/tenants/components/TenantStatsCards"
+import TenantBarChart from "../features/tenants/components/TenantBarChart"
+import TenantPieChart from "../features/tenants/components/TenantPieChart"
+import TenantLineChart from "../features/tenants/components/TenantLineChart"
+import RecentTenants from "../features/tenants/components/RecentTenants"
+import styles from "../features/tenants/styles/panelAdmin.module.css"
+
+const Skeleton = ({ height = 40, width = '100%', style = {} }) => (
+  <div
+    className={styles.skeleton}
+    style={{ height, width, ...style }}
+    aria-hidden="true"
+  />
+)
 
 const PanelAdmin: React.FC = () => {
+  const { t } = useTranslation()
+  const { stats, loading, error } = usePanelAdminDashboard()
+
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <h1 className={styles.title}>Panel de Administración</h1>
-        <p className={styles.subtitle}>Gestión centralizada del sistema</p>
-      </div>
+    <div className={styles.dashboardContainer}>
+      <header className={styles.dashboardHeader}>
+        <h1 className={styles.title}>{t('panelAdmin.title')}</h1>
+        <p className={styles.subtitle}>{t('panelAdmin.subtitle')}</p>
+      </header>
       
-      <div className={styles.content}>
-        <div className={styles.section}>
-          <h2 className={styles.sectionTitle}>Estadísticas Generales</h2>
-          <div className={styles.statsGrid}>
-            <div className={styles.statCard}>
-              <h3>Total de Usuarios</h3>
-              <p className={styles.statNumber}>0</p>
-            </div>
-            <div className={styles.statCard}>
-              <h3>Tenants Activos</h3>
-              <p className={styles.statNumber}>0</p>
-            </div>
-            <div className={styles.statCard}>
-              <h3>Sistemas Activos</h3>
-              <p className={styles.statNumber}>0</p>
-            </div>
-            <div className={styles.statCard}>
-              <h3>Configuraciones</h3>
-              <p className={styles.statNumber}>0</p>
-            </div>
+      {loading ? (
+        <div className={styles.loadingContainer}>
+          {/* Skeletons mejorados */}
+          <div className={styles.skeletonGrid}>
+            <Skeleton height={160} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
+            <Skeleton height={160} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
+            <Skeleton height={160} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
+            <Skeleton height={160} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
           </div>
+          <Skeleton height={220} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
+          <Skeleton height={220} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
+          <Skeleton height={220} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
         </div>
+      ) : error ? (
+        <div className={styles.errorContainer} role="alert">
+          <div className={styles.errorIcon}>⚠️</div>
+          <div className={styles.error}>{error}</div>
+          <button 
+            className={styles.retryButton}
+            onClick={() => window.location.reload()}
+          >
+            {t('common.retry')}
+          </button>
+        </div>
+      ) : (
+        <main className={styles.dashboardContent}>
+          {/* Sección de KPIs */}
+          <section className={styles.kpisSection} aria-labelledby="kpis-title">
+            <h2 id="kpis-title" className={styles.sectionTitle}>Métricas Principales</h2>
+            <TenantStatsCards stats={{
+              totalTenants: stats.totalTenants,
+              activeTenants: stats.activeTenants,
+              totalUsers: stats.totalUsers,
+              totalAssets: stats.totalAssets
+            }} />
+          </section>
 
-        <div className={styles.section}>
-          <h2 className={styles.sectionTitle}>Acciones de Administración</h2>
-          <div className={styles.actionsGrid}>
-            <button className={styles.actionButton}>
-              <span>Gestionar Usuarios</span>
-            </button>
-            <button className={styles.actionButton}>
-              <span>Gestionar Tenants</span>
-            </button>
-            <button className={styles.actionButton}>
-              <span>Configuración del Sistema</span>
-            </button>
-            <button className={styles.actionButton}>
-              <span>Logs del Sistema</span>
-            </button>
-          </div>
-        </div>
+          {/* Sección de gráficos */}
+          <section className={styles.chartsSection} aria-labelledby="charts-title">
+            <h2 id="charts-title" className={styles.sectionTitle}>Análisis de Datos</h2>
+            <div className={styles.chartsRow}>
+              <TenantBarChart data={[
+                { name: 'basic', value: stats.planDistribution.basic, color: '#1976d2' },
+                { name: 'professional', value: stats.planDistribution.professional, color: '#057E74' },
+                { name: 'enterprise', value: stats.planDistribution.enterprise, color: '#fbc02d' }
+              ]} />
+              <TenantPieChart data={[
+                { name: 'active', value: stats.statusDistribution.active, color: '#10b981' },
+                { name: 'suspended', value: stats.statusDistribution.suspended, color: '#f59e0b' },
+                { name: 'cancelled', value: stats.statusDistribution.cancelled, color: '#ef4444' }
+              ]} />
+            </div>
+          </section>
 
-        <div className={styles.section}>
-          <h2 className={styles.sectionTitle}>Información del Sistema</h2>
-          <div className={styles.infoGrid}>
-            <div className={styles.infoCard}>
-              <h3>Versión del Sistema</h3>
-              <p>v1.0.0</p>
-            </div>
-            <div className={styles.infoCard}>
-              <h3>Última Actualización</h3>
-              <p>No disponible</p>
-            </div>
-            <div className={styles.infoCard}>
-              <h3>Estado del Servidor</h3>
-              <p className={styles.statusOnline}>Online</p>
-            </div>
-          </div>
-        </div>
-      </div>
+          {/* Gráfico de línea */}
+          <section className={styles.lineChartSection} aria-labelledby="trend-title">
+            <h2 id="trend-title" className={styles.sectionTitle}>Evolución de Tenants</h2>
+            <TenantLineChart data={stats.evolutionData} />
+          </section>
+
+          {/* Tenants recientes */}
+          <section className={styles.recentSection} aria-labelledby="recent-title">
+            <h2 id="recent-title" className={styles.sectionTitle}>Tenants Recientes</h2>
+            <RecentTenants tenants={stats.recentTenants} />
+          </section>
+        </main>
+      )}
     </div>
   )
 }

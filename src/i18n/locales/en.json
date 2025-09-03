@@ -1181,5 +1181,13 @@
     "deleteSuccess": "Tenant deleted successfully",
     "maxUsers": "Max Users",
     "maxAssets": "Max Assets"
-}
+  },
+  "panelAdmin": {
+    "title": "Admin Panel",
+    "subtitle": "Centralized management of tenants and system resources",
+    "mainMetrics": "Main Metrics",
+    "recentTenants": "Recent Tenants",
+    "noTenantsYet": "No tenants registered",
+    "createFirstTenant": "Create the first tenant to get started"
+  }
 } 

@@ -1,0 +1,851 @@
+body, html {
+  background: var(--color-bg);
+  color: var(--color-text);
+  transition: background 0.3s, color 0.3s;
+}
+
+.dashboardContainer {
+  margin: 0 auto;
+  padding: 32px 24px 24px 24px;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  color: var(--color-text);
+  background: transparent;
+  overflow-x: hidden;
+}
+
+/* Header del dashboard */
+.dashboardHeader {
+  margin-bottom: 8px;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--color-text);
+  margin: 0 0 8px 0;
+  text-align: left !important;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--color-text) 0%, var(--color-primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: var(--color-text);
+  opacity: 0.7;
+  margin: 0;
+  font-weight: 400;
+}
+
+/* Contenedor de carga */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+/* Contenedor de error */
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 48px 24px;
+  text-align: center;
+  background: var(--color-card);
+  border-radius: 16px;
+  border: 1px solid var(--color-card-border);
+}
+
+.errorIcon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.retryButton {
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.retryButton:hover {
+  background: var(--color-primary);
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Contenido principal del dashboard */
+.dashboardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  overflow-x: hidden;
+}
+
+/* Secciones */
+.kpisSection,
+.chartsSection,
+.lineChartSection,
+.recentSection {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+/* Estilos para las tarjetas de estadísticas */
+.statsCardsRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 12px;
+}
+
+.statsCard {
+  background: var(--color-card);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--color-card-border);
+  cursor: pointer;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.statsCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  border-color: var(--color-primary);
+}
+
+.statsCard:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.statsCardHeader {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.statsIconContainer {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid;
+  transition: all 0.3s ease;
+}
+
+.statsIconContainer:hover {
+  transform: scale(1.05);
+}
+
+.statsCardContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: auto;
+}
+
+.statsValue {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--color-text);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.statsLabel {
+  font-size: 1rem;
+  color: var(--color-text);
+  font-weight: 500;
+  opacity: 0.8;
+  text-transform: capitalize;
+}
+
+/* Estilos para modo oscuro */
+.dark .statsCard {
+  background: linear-gradient(135deg, var(--color-card) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .statsCard:hover {
+  border-color: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-card) 0%, rgba(25, 118, 210, 0.05) 100%);
+}
+
+/* Estilos para modo claro */
+.statsCard {
+  background: linear-gradient(135deg, var(--color-card) 0%, rgba(0, 0, 0, 0.02) 100%);
+}
+
+.statsCard:hover {
+  background: linear-gradient(135deg, var(--color-card) 0%, rgba(25, 118, 210, 0.05) 100%);
+}
+
+/* Estilos para tenants recientes */
+.recentTenantsCard {
+  background: var(--color-card);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  color: var(--color-text);
+  border: 1px solid var(--color-card-border);
+  transition: all 0.3s ease;
+}
+
+.recentTenantsCard:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+}
+
+.recentTenantsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-card-border);
+}
+
+.recentTenantsTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.recentTenantsCount {
+  font-size: 0.875rem;
+  color: var(--color-text);
+  opacity: 0.7;
+  font-weight: 500;
+  background: var(--color-primary);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+}
+
+.tenantsList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 4px 0;
+  width: 100%;
+}
+
+.tenantItem {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-card-border);
+  transition: all 0.2s ease;
+  min-height: 80px;
+  width: 97%;
+}
+
+.tenantItem:hover {
+  background: var(--color-card);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.tenantHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+}
+
+.tenantTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  flex: 1;
+  line-height: 1.4;
+  min-width: 0;
+}
+
+.tenantMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tenantInfo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  opacity: 0.8;
+  width: 100%;
+}
+
+.tenantDetail {
+  color: var(--color-secondary);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tenantStatus {
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 0.75rem;
+  text-transform: capitalize;
+  white-space: nowrap;
+  flex-shrink: 0;
+  color: white;
+}
+
+.noTenants {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--color-text);
+  opacity: 0.7;
+}
+
+.noTenantsIcon {
+  font-size: 3rem;
+  margin-bottom: 8px;
+}
+
+.noTenants p {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.noTenants small {
+  font-size: 0.875rem;
+  opacity: 0.8;
+}
+
+/* Estilos para gráficos */
+.chartsRow {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.chartCard {
+  background: var(--color-card);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  min-width: 320px;
+  flex: 1 1 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  color: var(--color-text);
+  border: 1px solid var(--color-card-border);
+  transition: all 0.3s ease;
+}
+
+.chartCard:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.chartHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.chartTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.chartStats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chartTotal {
+  background: var(--color-primary);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.chartPlaceholder {
+  width: 100%;
+  height: 180px;
+  background: repeating-linear-gradient(135deg, var(--color-bg-light), var(--color-bg-light) 20px, var(--color-card-border) 20px, var(--color-card-border) 40px);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bdbdbd;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* Estilos específicos para gráficos de barras */
+.barChartContainer {
+  position: relative;
+  height: 100%;
+  min-height: 280px;
+}
+
+.barChartContainer .recharts-cartesian-grid-horizontal line,
+.barChartContainer .recharts-cartesian-grid-vertical line {
+  stroke: var(--color-card-border);
+  stroke-opacity: 0.08;
+  stroke-dasharray: 4 4;
+  stroke-width: 1;
+}
+
+.barChartContainer .recharts-bar-rectangle {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.12));
+  border-radius: 6px 6px 0 0;
+  stroke: var(--color-card);
+  stroke-width: 1;
+  opacity: 0.85;
+}
+
+.barChartContainer .recharts-bar-rectangle:hover {
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.2));
+  transform: translateY(-2px) scale(1.02);
+  opacity: 1;
+}
+
+.barChartContainer .recharts-cartesian-axis-tick-value {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  fill: var(--color-text) !important;
+  opacity: 0.8;
+  font-family: inherit;
+}
+
+.barChartContainer .recharts-cartesian-axis-line {
+  stroke: var(--color-card-border) !important;
+  stroke-width: 1;
+  opacity: 0.15;
+}
+
+.barChartContainer .recharts-cartesian-axis-tick-line {
+  stroke: var(--color-card-border) !important;
+  opacity: 0.1;
+}
+
+/* Contenedor flex para gráfico circular y leyenda */
+.pieChartFlexContainer {
+  display: flex !important;
+  align-items: center !important;
+  gap: 24px !important;
+  height: 280px !important;
+  width: 100% !important;
+}
+
+/* Estilos específicos para gráficos circulares */
+.pieChartContainer {
+  position: relative;
+  height: 100%;
+  min-height: 280px;
+  flex: 1 !important;
+}
+
+.pieChartContainer .recharts-pie {
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.1));
+}
+
+.pieChartContainer .recharts-pie-sector {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  stroke: var(--color-card);
+  stroke-width: 2;
+  opacity: 0.9;
+}
+
+.pieChartContainer .recharts-pie-sector:hover {
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.2));
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+/* Mejoras para gráficos circulares */
+.pieChartContainer .recharts-pie-label-text {
+  font-weight: 600 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+  font-size: 13px !important;
+}
+
+/* Estilos específicos para gráficos de línea */
+.lineChartContainer {
+  position: relative;
+  height: 100%;
+  min-height: 280px;
+}
+
+.lineChartContainer .recharts-cartesian-grid-horizontal line,
+.lineChartContainer .recharts-cartesian-grid-vertical line {
+  stroke: var(--color-card-border);
+  stroke-opacity: 0.12;
+  stroke-dasharray: 6 6;
+  stroke-width: 1.5;
+  transition: all 0.3s ease;
+}
+
+.lineChartContainer .recharts-cartesian-grid-horizontal line:hover,
+.lineChartContainer .recharts-cartesian-grid-vertical line:hover {
+  stroke-opacity: 0.2;
+  stroke-width: 2;
+}
+
+.lineChartContainer .recharts-line-curve {
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lineChartContainer .recharts-line-curve:hover {
+  filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.25));
+  stroke-width: 5;
+}
+
+.lineChartContainer .recharts-line-dot {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+  stroke-width: 3;
+  stroke: var(--color-card);
+  r: 8;
+}
+
+.lineChartContainer .recharts-line-dot:hover {
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.35));
+  transform: scale(1.4);
+  r: 10;
+}
+
+/* Mejoras para gráficos de línea */
+.lineChartContainer .recharts-line-active-dot {
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.4)) !important;
+  stroke-width: 4 !important;
+  r: 12 !important;
+}
+
+.lineChartContainer .recharts-cartesian-axis-tick-value {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  fill: var(--color-text) !important;
+  opacity: 0.9;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.lineChartContainer .recharts-cartesian-axis-tick-value:hover {
+  opacity: 1;
+  font-weight: 800 !important;
+}
+
+.lineChartContainer .recharts-cartesian-axis-line {
+  stroke: var(--color-card-border) !important;
+  stroke-width: 2;
+  opacity: 0.2;
+  stroke-linecap: round;
+}
+
+.lineChartContainer .recharts-cartesian-axis-tick-line {
+  stroke: var(--color-card-border) !important;
+  opacity: 0.15;
+  stroke-width: 1.5;
+}
+
+/* Tooltips personalizados */
+.customTooltip {
+  background: linear-gradient(135deg, var(--color-card) 0%, var(--color-bg-light) 100%) !important;
+  border: 1px solid var(--color-card-border) !important;
+  border-radius: 16px !important;
+  padding: 16px 20px !important;
+  color: var(--color-text) !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(12px) !important;
+  max-width: 220px !important;
+  font-family: inherit !important;
+  line-height: 1.4 !important;
+}
+
+.customTooltip::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid var(--color-card);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* Contenedor de porcentajes sin wrapper */
+.percentagesContainer {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  justify-content: center !important;
+  min-width: 180px !important;
+  height: fit-content !important;
+}
+
+.percentageItem {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 6px 0 !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  color: var(--color-text) !important;
+  transition: all 0.2s ease !important;
+  width: 100% !important;
+}
+
+.percentageItem:hover {
+  transform: translateX(4px) !important;
+}
+
+.percentageColor {
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 3px !important;
+  flex-shrink: 0 !important;
+}
+
+.percentageContent {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  min-width: 80px !important;
+}
+
+.percentageName {
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  color: var(--color-text) !important;
+  text-transform: capitalize !important;
+}
+
+.percentageValue {
+  font-size: 0.875rem !important;
+  font-weight: 700 !important;
+  color: var(--color-primary) !important;
+}
+
+.error {
+  color: var(--color-danger);
+  font-size: 1.1rem;
+  margin: 24px 0;
+  text-align: center;
+  font-weight: 600;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--color-skeleton) 25%, var(--color-skeleton-light) 50%, var(--color-skeleton) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .dashboardContainer {
+    padding: 16px 0;
+    overflow-x: hidden;
+    width: 100vw;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+  .statsCardsRow {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 8px;
+    min-width: 0;
+    width: 100vw;
+    max-width: 100vw;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+  .statsCard {
+    min-width: 0;
+    width: 100%;
+    max-width: 100vw;
+    padding: 10px 4px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 4px;
+    box-sizing: border-box;
+  }
+  .statsValue {
+    font-size: 1.3rem;
+  }
+  .statsIconContainer {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboardContainer {
+    padding: 12px 0;
+    overflow-x: hidden;
+    width: 100vw;
+    max-width: 100vw;
+    box-sizing: border-box;
+  }
+  .kpisSection,
+  .recentSection {
+    gap: 16px;
+  }
+  .statsCardsRow {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-bottom: 8px;
+    min-width: 0;
+    width: 100vw;
+    max-width: 100vw;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+  .statsCard {
+    min-width: 0;
+    width: 100%;
+    max-width: 100vw;
+    padding: 8px 2px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    height: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 4px;
+    box-sizing: border-box;
+  }
+  .statsValue {
+    font-size: 1.5rem;
+  }
+  .statsIconContainer {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+  }
+  .tenantsList {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  .tenantItem {
+    border-radius: 10px;
+    padding: 12px 8px;
+    margin-bottom: 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    background: var(--color-card);
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .tenantHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .tenantTitle {
+    font-size: 1rem;
+    word-break: break-word;
+  }
+  .tenantMeta {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .tenantInfo {
+    flex-direction: column;
+    gap: 2px;
+  }
+  .title {
+    font-size: 1.75rem;
+    margin-top: 24px;
+  }
+  .sectionTitle {
+    font-size: 1.1rem;
+  }
+  .dashboardContent {
+    gap: 24px;
+  }
+} 

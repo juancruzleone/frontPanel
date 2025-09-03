@@ -1172,5 +1172,13 @@
     "deleteSuccess": "Tenant eliminado exitosamente",
     "maxUsers": "Máximo de Usuarios",
     "maxAssets": "Máximo de Activos"
+  },
+  "panelAdmin": {
+    "title": "Panel de Administración",
+    "subtitle": "Gestión centralizada de tenants y recursos del sistema",
+    "mainMetrics": "Métricas Principales",
+    "recentTenants": "Tenants Recientes",
+    "noTenantsYet": "No hay tenants registrados",
+    "createFirstTenant": "Crea el primer tenant para comenzar"
   }
 } 
