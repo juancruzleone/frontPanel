@@ -8,7 +8,7 @@ export const ROLES = {
 export type UserRole = typeof ROLES[keyof typeof ROLES]
 
 export const isTechnician = (role: string | null): boolean => {
-  return role && [ROLES.TECHNICIAN, ROLES.TECHNICIAN_ALT].includes(role.toLowerCase() as any)
+  return role && [ROLES.TECHNICIAN, ROLES.TECHNICIAN_ALT].includes(role as any)
 }
 
 export const isSuperAdmin = (role: string | null): boolean => {

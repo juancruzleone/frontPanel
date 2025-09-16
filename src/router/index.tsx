@@ -86,13 +86,13 @@ export const router = createBrowserRouter([
             ],
           },
           {
-            element: <ProtectedRoute allowedRoles={[ROLES.ADMIN, ROLES.TECHNICIAN]} />, // Admin y tecnico para ordenes
+            element: <ProtectedRoute allowedRoles={[ROLES.ADMIN, ROLES.TECHNICIAN, ROLES.TECHNICIAN_ALT]} />, // Admin y tecnico para ordenes
             children: [
               { path: "/ordenes-trabajo", element: <WorkOrders /> },
             ],
           },
           {
-            element: <ProtectedRoute allowedRoles={[ROLES.ADMIN, ROLES.TECHNICIAN]} />, // Admin y tecnico para calendario
+            element: <ProtectedRoute allowedRoles={[ROLES.ADMIN, ROLES.TECHNICIAN, ROLES.TECHNICIAN_ALT]} />, // Admin y tecnico para calendario
             children: [
               { path: "/calendario", element: <Calendar /> },
             ],
