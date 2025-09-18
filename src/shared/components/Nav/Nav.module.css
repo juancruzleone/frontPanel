@@ -138,15 +138,64 @@
   margin: 0;
 }
 
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.logoImage {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.logoText {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
 @media (min-width: 768px) {
   .logo {
     font-size: 22px;
+  }
+  
+  .logoContainer {
+    gap: 10px;
+    padding: 6px 0;
+  }
+  
+  .logoImage {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .logoText {
+    font-size: 20px;
   }
 }
 
 @media (min-width: 1024px) {
   .logo {
     font-size: 24px;
+  }
+  
+  .logoContainer {
+    gap: 12px;
+    padding: 8px 0;
+  }
+  
+  .logoImage {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .logoText {
+    font-size: 22px;
   }
 }
 
@@ -525,12 +574,7 @@
   }
 }
 
-/* Eliminar estilos de la barra superior fija revertida */
-.topBarNav {}
-.profileIcon {}
-.userNameTop {}
-.logoutButtonTop {}
-.logoutButtonTop:hover {}
+/* Estilos de la barra superior fija eliminados */
 
 
 

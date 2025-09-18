@@ -120,7 +120,10 @@ const Nav = () => {
 
       <nav className={`${styles.nav} ${isMenuOpen ? styles.open : ""}`}>
         <div className={styles.logoArea}>
-          <h2 className={styles.logo}>{/* LeoneSuite */}</h2>
+          <div className={styles.logoContainer}>
+            <img src="/logo leonix 5.svg" alt="Leonix Logo" className={styles.logoImage} />
+            <span className={styles.logoText}>Leonix</span>
+          </div>
         </div>
         <ul className={styles.menu}>
           {!isSuperAdminUser && (

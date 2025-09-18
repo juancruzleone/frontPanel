@@ -1,0 +1,17 @@
+<svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50.64 89.57">
+    <defs>
+        <style>
+            .cls-1 { fill: #fff; }
+            @media (prefers-color-scheme: light) {
+                .cls-1 { fill: #000; }
+            }
+        </style>
+    </defs>
+    <title>Leonix Logo</title>
+    <path class="cls-1" d="M83.87,57.08s-3.34,61.67-11.7,68.49L69.36,36C78,39.11,83.56,47.14,83.87,57.08Z" transform="translate(-69.36 -36)"/>
+    <path class="cls-1" d="M95.31,99.05s-1.18,21.8-4.14,24.21l-1-31.67A7.88,7.88,0,0,1,95.31,99.05Z" transform="translate(-69.36 -36)"/>
+    <path class="cls-1" d="M95.17,96.13s6.26,14.4,5.17,16.69L89.54,92.57A6.32,6.32,0,0,1,95.17,96.13Z" transform="translate(-69.36 -36)"/>
+    <path class="cls-1" d="M103.36,87.45s-1.18,21.8-4.14,24.22L98.23,80A7.88,7.88,0,0,1,103.36,87.45Z" transform="translate(-69.36 -36)"/>
+    <path class="cls-1" d="M119,109.31s-7.74,13.24-10.34,14l9.55-19.88C119.77,104.87,120.07,107.1,119,109.31Z" transform="translate(-69.36 -36)"/>
+    <path class="cls-1" d="M109.66,108.94s7.73,13.25,10.34,14l-9.55-19.89A4.81,4.81,0,0,0,109.66,108.94Z" transform="translate(-69.36 -36)"/>
+</svg>
