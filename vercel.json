@@ -2,13 +2,5 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": null,
-  "installCommand": "npm install --legacy-peer-deps",
-  "functions": {
-    "app/api/**/*.js": {
-      "runtime": "nodejs18.x"
-    }
-  },
-  "env": {
-    "NODE_ENV": "production"
-  }
+  "installCommand": "npm install --legacy-peer-deps"
 }
