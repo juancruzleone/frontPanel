@@ -1,6 +1,6 @@
 import { useAuthStore } from "../../../store/authStore"
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || "/api/";
 console.log("API_URL:", API_URL)
 console.log("ENV:", import.meta.env);
 
