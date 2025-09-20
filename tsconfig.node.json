@@ -21,7 +21,6 @@
     "noFallthroughCasesInSwitch": false,
     "noUncheckedSideEffectImports": false,
     "allowSyntheticDefaultImports": true,
-    "suppressImplicitAnyIndexErrors": true
   },
   "include": ["vite.config.ts"]
 }
