@@ -116,7 +116,7 @@ const Installations = () => {
       'Residenziale': 'residential',
       'Industriale': 'industrial',
       'Medico': 'medical',
-      'Educativo': 'educational',
+      'Educativo_IT': 'educational',
       'Dettagliante': 'retail',
       'Logistica': 'logistics',
       'Produzione': 'manufacturing',
