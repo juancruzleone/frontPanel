@@ -5,7 +5,7 @@
 [build.environment]
   NODE_VERSION = "20"
   NPM_FLAGS = "--legacy-peer-deps"
-  VITE_API_URL = "http://c0wowkoosgcws08g4gs44w4o.5.78.146.208.sslip.io/api/"
+  VITE_API_URL = "https://c0wowkoosgcws08g4gs44w4o.5.78.146.208.sslip.io/api/"
 
 # Redirección principal para SPA - CRÍTICO
 [[redirects]]
