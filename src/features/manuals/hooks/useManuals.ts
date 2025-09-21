@@ -165,7 +165,9 @@ const useManuals = () => {
       resetForm();
     } catch (err: any) {
       console.error("Error al guardar manual:", err);
-      onError(err.message || "Error al guardar manual");
+      if (onError && typeof onError === 'function') {
+        onError(err.message || "Error al guardar manual");
+      }
     } finally {
       setIsSubmitting(false);
     }
