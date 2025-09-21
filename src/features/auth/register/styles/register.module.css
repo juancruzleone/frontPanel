@@ -41,6 +41,7 @@
 .loadingContainer,
 .emptyContainer {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 2rem;
@@ -49,6 +50,7 @@
   border: 1px solid var(--color-card-border);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition: all 0.2s ease;
+  gap: 12px;
 }
 
 .loadingContainer:hover,
@@ -62,6 +64,22 @@
   color: var(--color-text);
   font-size: 16px;
   margin: 0;
+  text-align: center;
+}
+
+.emptySubtext {
+  color: var(--color-text);
+  font-size: 14px;
+  opacity: 0.7;
+  margin: 0;
+  text-align: center;
+  display: block;
+}
+
+.emptyIcon {
+  color: var(--color-text);
+  opacity: 0.6;
+  margin-bottom: 8px;
 }
 
 /* Tabla de técnicos */
