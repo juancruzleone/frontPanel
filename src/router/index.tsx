@@ -20,7 +20,6 @@ import UserProfile from '../pages/UserProfile';
 import PanelAdmin from '../pages/PanelAdmin';
 import NotFound from '../pages/NotFound';
 import Tenants from '../pages/Tenants';
-import AuthDebug from '../components/debug/AuthDebug';
 import { ROLES } from "../shared/utils/roleUtils"
 
 export const router = createBrowserRouter([

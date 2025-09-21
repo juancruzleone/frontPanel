@@ -1,22 +1,20 @@
 import { Outlet } from "react-router-dom"
 import Nav from "../shared/components/Nav/Nav"
 import Footer from "../shared/components/Footer"
-import AuthDebug from "../components/debug/AuthDebug"
-import styles from "./MainLayout.module.css"
+import React from 'react';
 
-const MainLayout = () => {
+const MainLayout: React.FC = () => {
   return (
-    <div className={styles.layoutContainer}>
+    <div className="main-layout">
       <Nav />
-      <AuthDebug />
-      <div className={styles.contentArea}>
+      <div className="contentArea">
         <main>
           <Outlet />
         </main>
         <Footer />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default MainLayout
