@@ -626,6 +626,8 @@
     "addNewField": "Add new field",
     "optional": "optional",
     "fieldNamePlaceholder": "Field name",
+    "addAtLeastOneField": "You must add at least one field",
+    "fieldNameInvalid": "Field name can only contain letters, numbers, and underscores",
     "validation": {
       "templateNameRequired": "Template name is required",
       "templateNameMax": "Template name cannot be more than 100 characters",
@@ -635,7 +637,6 @@
       "fieldsMin": "You must provide at least one field",
       "fieldsRequired": "Fields are required",
       "fieldNameRequired": "Field name is required",
-      "fieldNameInvalid": "Field name can only contain letters, numbers, and underscores",
       "fieldTypeRequired": "Field type is required",
       "fieldTypeInvalid": "Invalid field type",
       "fieldLabelRequired": "Field label is required",

@@ -713,6 +713,8 @@
     "addNewField": "Adicionar novo campo",
     "optional": "opcional",
     "fieldNamePlaceholder": "Nome do campo",
+    "addAtLeastOneField": "Você deve adicionar pelo menos um campo",
+    "fieldNameInvalid": "O nome do campo só pode conter letras, números e underlines",
     "validation": {
       "templateNameRequired": "O nome do modelo é obrigatório",
       "templateNameMax": "O nome não pode ter mais de 100 caracteres",
@@ -722,7 +724,6 @@
       "fieldsMin": "É necessário fornecer pelo menos um campo",
       "fieldsRequired": "Os campos são obrigatórios",
       "fieldNameRequired": "O nome do campo é obrigatório",
-      "fieldNameInvalid": "O nome do campo só pode conter letras, números e underlines",
       "fieldTypeRequired": "O tipo de campo é obrigatório",
       "fieldTypeInvalid": "Tipo de campo inválido",
       "fieldLabelRequired": "O rótulo do campo é obrigatório",

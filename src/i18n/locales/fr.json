@@ -703,6 +703,8 @@
     "addNewField": "Ajouter un nouveau champ",
     "fieldName": "Nom du champ",
     "optional": "optionnel",
+    "addAtLeastOneField": "Vous devez ajouter au moins un champ",
+    "fieldNameInvalid": "Le nom du champ ne peut contenir que des lettres, des chiffres et des underscores",
     "validation": {
       "templateNameRequired": "Le nom du modèle est requis",
       "templateNameMax": "Le nom ne peut pas dépasser 100 caractères",
@@ -712,7 +714,6 @@
       "fieldsMin": "Vous devez fournir au moins un champ",
       "fieldsRequired": "Les champs sont obligatoires",
       "fieldNameRequired": "Le nom du champ est requis",
-      "fieldNameInvalid": "Le nom du champ ne peut contenir que des lettres, des chiffres et des underscores",
       "fieldTypeRequired": "Le type de champ est requis",
       "fieldTypeInvalid": "Type de champ invalide",
       "fieldLabelRequired": "L’étiquette du champ est requise",

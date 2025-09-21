@@ -610,6 +610,8 @@
     "addNewField": "Agregar nuevo campo",
     "optional": "opcional",
     "fieldNamePlaceholder": "Nombre del campo",
+    "addAtLeastOneField": "Debe agregar al menos un campo",
+    "fieldNameInvalid": "El nombre del campo solo puede contener letras, números y guiones bajos",
     "validation": {
       "templateNameRequired": "El nombre de la plantilla es obligatorio",
       "templateNameMax": "El nombre no puede tener más de 100 caracteres",
@@ -619,7 +621,6 @@
       "fieldsMin": "Debe proporcionar al menos un campo",
       "fieldsRequired": "Los campos son obligatorios",
       "fieldNameRequired": "El nombre del campo es obligatorio",
-      "fieldNameInvalid": "El nombre del campo solo puede contener letras, números y guiones bajos",
       "fieldTypeRequired": "El tipo de campo es obligatorio",
       "fieldTypeInvalid": "Tipo de campo no válido",
       "fieldLabelRequired": "La etiqueta del campo es obligatoria",

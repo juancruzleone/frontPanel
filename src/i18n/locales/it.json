@@ -714,6 +714,8 @@
     "formFields": "Campi del modulo",
     "addNewField": "Aggiungi nuovo campo",
     "optional": "opzionale",
+    "addAtLeastOneField": "Devi aggiungere almeno un campo",
+    "fieldNameInvalid": "Il nome del campo può contenere solo lettere, numeri e underscore",
     "validation": {
       "templateNameRequired": "Il nome del modello è obbligatorio",
       "templateNameMax": "Il nome non può superare i 100 caratteri",
@@ -723,7 +725,6 @@
       "fieldsMin": "Devi fornire almeno un campo",
       "fieldsRequired": "I campi sono obbligatori",
       "fieldNameRequired": "Il nome del campo è obbligatorio",
-      "fieldNameInvalid": "Il nome del campo può contenere solo lettere, numeri e underscore",
       "fieldTypeRequired": "Il tipo di campo è obbligatorio",
       "fieldTypeInvalid": "Tipo di campo non valido",
       "fieldLabelRequired": "L'etichetta del campo è obbligatoria",

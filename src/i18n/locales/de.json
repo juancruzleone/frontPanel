@@ -667,6 +667,8 @@
     "addNewField": "Neues Feld hinzufügen",
     "optional": "optional",
     "fieldNamePlaceholder": "Feldname",
+    "addAtLeastOneField": "Sie müssen mindestens ein Feld hinzufügen",
+    "fieldNameInvalid": "Der Feldname darf nur Buchstaben, Zahlen und Unterstriche enthalten",
     "validation": {
       "templateNameRequired": "Der Vorlagenname ist erforderlich",
       "templateNameMax": "Der Name darf nicht länger als 100 Zeichen sein",
@@ -676,7 +678,6 @@
       "fieldsMin": "Es muss mindestens ein Feld angegeben werden",
       "fieldsRequired": "Die Felder sind erforderlich",
       "fieldNameRequired": "Der Feldname ist erforderlich",
-      "fieldNameInvalid": "Der Feldname darf nur Buchstaben, Zahlen und Unterstriche enthalten",
       "fieldTypeRequired": "Der Feldtyp ist erforderlich",
       "fieldTypeInvalid": "Ungültiger Feldtyp",
       "fieldLabelRequired": "Die Feldbezeichnung ist erforderlich",

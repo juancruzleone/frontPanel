@@ -725,6 +725,8 @@
     "addNewField": "إضافة حقل جديد",
     "optional": "اختياري",
     "fieldNamePlaceholder": "اسم الحقل",
+    "addAtLeastOneField": "يجب إضافة حقل واحد على الأقل",
+    "fieldNameInvalid": "يمكن أن يحتوي اسم الحقل فقط على أحرف وأرقام وشرطات سفلية",
     "validation": {
       "templateNameRequired": "اسم القالب مطلوب",
       "templateNameMax": "لا يمكن أن يحتوي الاسم على أكثر من 100 حرف",
@@ -734,7 +736,6 @@
       "fieldsMin": "يجب تقديم حقل واحد على الأقل",
       "fieldsRequired": "الحقول مطلوبة",
       "fieldNameRequired": "اسم الحقل مطلوب",
-      "fieldNameInvalid": "يمكن أن يحتوي اسم الحقل فقط على أحرف وأرقام وشرطات سفلية",
       "fieldTypeRequired": "نوع الحقل مطلوب",
       "fieldTypeInvalid": "نوع الحقل غير صالح",
       "fieldLabelRequired": "تسمية الحقل مطلوبة",
