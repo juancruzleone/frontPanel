@@ -26,7 +26,7 @@
 .modal {
   background: var(--color-card);
   border-radius: 20px;
-  max-width: 700px;
+  max-width: 900px;
   width: 95%;
   max-height: 95vh;
   overflow: hidden;
@@ -167,7 +167,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  padding: 2rem 2.5rem;
+  padding: 2rem 1.5rem;
   background: var(--color-card);
 }
 
@@ -314,7 +314,7 @@
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
-  padding: 1.5rem 2.5rem 2rem;
+  padding: 1.5rem 1.5rem 2rem;
   border-top: 1px solid var(--color-card-border);
   background: var(--color-bg-light);
   margin-top: auto;
