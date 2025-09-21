@@ -217,22 +217,19 @@
   position: absolute;
   right: 12px;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-500%);
   background: transparent;
   border: none;
   cursor: pointer;
   color: #6c757d;
   font-size: 18px;
-  padding: 4px;
+  padding: 0;
   outline: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s ease;
-}
-
-.eyesButton:hover {
-  color: #057e74;
+  width: 20px;
+  height: 20px;
 }
 
 .eyesButton:disabled {
