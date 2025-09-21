@@ -32,7 +32,9 @@ const RecentTenants: React.FC<RecentTenantsProps> = ({ tenants }) => {
     }
   }
 
-  const translatePlan = (plan: string) => {
+  const translatePlan = (plan: string | null) => {
+    if (!plan) return 'Sin plan'
+    
     switch (plan.toLowerCase()) {
       case 'basic':
         return 'Básico'

@@ -2,12 +2,13 @@ import { Outlet } from "react-router-dom"
 import Nav from "../shared/components/Nav/Nav"
 import Footer from "../shared/components/Footer"
 import React from 'react';
+import styles from './MainLayout.module.css';
 
 const MainLayout: React.FC = () => {
   return (
-    <div className="main-layout">
+    <div className={styles.layoutContainer}>
       <Nav />
-      <div className="contentArea">
+      <div className={styles.contentArea}>
         <main>
           <Outlet />
         </main>
