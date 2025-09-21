@@ -53,7 +53,15 @@
   "userProfile": "ユーザープロフィール",
   "actions": "操作",
   "noSearchResults": "結果が見つかりません",
-  "tryDifferentSearch": "別の検索キーワードを試してください"
+  "tryDifferentSearch": "別の検索キーワードを試してください",
+  "userNotFound": "ユーザーが見つかりません",
+  "validation": {
+    "usernameRequired": "ユーザー名は必須です",
+    "passwordRequired": "パスワードは必須です",
+    "passwordsDoNotMatch": "パスワードが一致しません",
+    "passwordMinLength": "パスワードは6文字以上である必要があります",
+    "confirmPasswordRequired": "パスワードの確認が必要です"
+  }
 },
   "common": {
     "page": "ページ",

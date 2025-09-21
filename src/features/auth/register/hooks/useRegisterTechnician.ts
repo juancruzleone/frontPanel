@@ -1,6 +1,7 @@
 import type React from "react"
 import { useState, useMemo, useCallback } from "react"
-import { validateRegisterForm, validateField } from "../validators/registerValidations"
+import { validateRegisterForm, validateField, validateRegisterFormWithTranslation, validateFieldWithTranslation } from "../validators/registerValidations"
+import { useTranslation } from "react-i18next"
 
 interface RegisterTechnicianFormData {
   username: string
@@ -9,6 +10,7 @@ interface RegisterTechnicianFormData {
 }
 
 const useRegisterTechnician = () => {
+  const { t } = useTranslation()
   const [formData, setFormData] = useState<RegisterTechnicianFormData>({
     username: "",
     password: "",
@@ -49,7 +51,7 @@ const useRegisterTechnician = () => {
         confirmPassword: fieldName === "confirmPassword" ? value : formData.confirmPassword,
       }
 
-      const result = await validateField(mappedFieldName, value, validationData)
+      const result = await validateFieldWithTranslation(mappedFieldName, value, validationData, t)
 
       setFormErrors((prev) => {
         const newErrors = { ...prev }
@@ -61,7 +63,7 @@ const useRegisterTechnician = () => {
         return newErrors
       })
     },
-    [formData],
+    [formData, t],
   )
 
   const handleFieldChange = useCallback(
@@ -113,11 +115,11 @@ const useRegisterTechnician = () => {
       setIsSubmitting(true)
 
       try {
-        const validation = await validateRegisterForm({
+        const validation = await validateRegisterFormWithTranslation({
           userName: formData.username,
           password: formData.password,
           confirmPassword: formData.confirmPassword,
-        })
+        }, t)
 
         if (!validation.isValid) {
           setFormErrors(validation.errors)

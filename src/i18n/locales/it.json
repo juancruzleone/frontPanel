@@ -53,7 +53,15 @@
   "userProfile": "Profilo utente",
   "actions": "Azioni",
   "noSearchResults": "Nessun risultato trovato",
-  "tryDifferentSearch": "Prova con un termine di ricerca diverso"
+  "tryDifferentSearch": "Prova con un termine di ricerca diverso",
+  "userNotFound": "Utente non trovato",
+  "validation": {
+    "usernameRequired": "Il nome utente è obbligatorio",
+    "passwordRequired": "La password è obbligatoria",
+    "passwordsDoNotMatch": "Le password non corrispondono",
+    "passwordMinLength": "La password deve avere almeno 6 caratteri",
+    "confirmPasswordRequired": "Devi confermare la password"
+  }
 },
 
   "common": {

@@ -53,7 +53,15 @@
   "userProfile": "Perfil do usuário",
   "actions": "Ações",
   "noSearchResults": "Nenhum resultado encontrado",
-  "tryDifferentSearch": "Tente um termo de pesquisa diferente"
+  "tryDifferentSearch": "Tente um termo de pesquisa diferente",
+  "userNotFound": "Usuário não encontrado",
+  "validation": {
+    "usernameRequired": "O nome de usuário é obrigatório",
+    "passwordRequired": "A senha é obrigatória",
+    "passwordsDoNotMatch": "As senhas não coincidem",
+    "passwordMinLength": "A senha deve ter pelo menos 6 caracteres",
+    "confirmPasswordRequired": "Você deve confirmar a senha"
+  }
 },
   "common": {
     "actions": "Ações",

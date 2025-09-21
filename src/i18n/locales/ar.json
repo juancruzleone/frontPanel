@@ -53,7 +53,15 @@
   "userProfile": "الملف الشخصي للمستخدم",
   "actions": "إجراءات",
   "noSearchResults": "لم يتم العثور على نتائج",
-  "tryDifferentSearch": "جرّب مصطلح بحث مختلف"
+  "tryDifferentSearch": "جرّب مصطلح بحث مختلف",
+  "userNotFound": "المستخدم غير موجود",
+  "validation": {
+    "usernameRequired": "اسم المستخدم مطلوب",
+    "passwordRequired": "كلمة المرور مطلوبة",
+    "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
+    "passwordMinLength": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+    "confirmPasswordRequired": "يجب تأكيد كلمة المرور"
+  }
 },
   "common": {
     "page": "الصفحة",

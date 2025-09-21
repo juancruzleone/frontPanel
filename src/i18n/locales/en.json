@@ -54,7 +54,14 @@
   "actions": "Actions",
       "noSearchResults": "No results found",
     "tryDifferentSearch": "Try a different search term",
-    "userNotFound": "User not found"
+    "userNotFound": "User not found",
+    "validation": {
+      "usernameRequired": "Username is required",
+      "passwordRequired": "Password is required",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "confirmPasswordRequired": "You must confirm the password"
+    }
 },
   "common": {
     "saving": "Saving",

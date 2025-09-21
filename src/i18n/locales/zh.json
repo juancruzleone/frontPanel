@@ -53,7 +53,15 @@
   "userProfile": "用户档案",
   "actions": "操作",
   "noSearchResults": "未找到结果",
-  "tryDifferentSearch": "尝试不同的搜索关键词"
+  "tryDifferentSearch": "尝试不同的搜索关键词",
+  "userNotFound": "未找到用户",
+  "validation": {
+    "usernameRequired": "用户名是必需的",
+    "passwordRequired": "密码是必需的",
+    "passwordsDoNotMatch": "密码不匹配",
+    "passwordMinLength": "密码必须至少6个字符",
+    "confirmPasswordRequired": "您必须确认密码"
+  }
 },
 
   "common": {
