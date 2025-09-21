@@ -109,7 +109,9 @@ const Tenants = () => {
     }
   }
 
-  const translatePlan = (plan: string) => {
+  const translatePlan = (plan: string | null) => {
+    if (!plan) return t('tenants.noPlan') || 'Sin plan'
+    
     switch (plan.toLowerCase()) {
       case 'basic':
         return t('tenants.planBasic')
