@@ -8,12 +8,9 @@
 .formInner {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  padding: 1.5rem 5%;
+  gap: 1.5rem;
+  padding: 2rem 2.5rem;
   background: var(--color-card);
-  width: 90%;
-  margin: 0 auto;
-  box-sizing: border-box;
 }
 
 .basicInfoSection {
@@ -136,7 +133,7 @@
 }
 
 .errorInput {
-  border-color: #ef4444 !important;
+  border-color: var(--color-danger) !important;
   box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
   background: var(--color-card) !important;
   color: var(--color-text) !important;
@@ -159,14 +156,12 @@
 }
 
 .inputError::before {
-  content: '⚠';
+  content: "⚠";
   font-size: 1rem;
 }
 
 /* Sección de campos */
 .fieldsSection {
-  border-top: 2px solid var(--color-card-border);
-  padding-top: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -276,13 +271,11 @@
 
 /* Formulario para agregar campos */
 .addFieldForm {
-  background: var(--color-card);
-  padding: 1.5rem 0.5rem;
-  border-radius: 16px;
-  border: 2px solid var(--color-card-border);
+  background: var(--color-bg-light);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-card-border);
   margin-top: 1rem;
-  width: 100%;
-  box-sizing: border-box;
 }
 
 .addFieldTitle {
@@ -426,7 +419,8 @@
 .fieldFormGroup .errorInput {
   border-color: var(--color-danger) !important;
   box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
-  background: var(--color-danger-light) !important;
+  background: var(--color-card) !important;
+  color: var(--color-text) !important;
 }
 
 .checkboxGroup {
@@ -468,26 +462,27 @@
 }
 
 .addFieldButton {
-  background: var(--color-primary);
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: white;
-  border: none;
-  padding: 0.875rem 1.5rem;
+  border: 2px solid transparent;
+  padding: 0.875rem 1.75rem;
   border-radius: 12px;
   cursor: pointer;
+  font-size: 1rem;
   font-weight: 600;
-  font-size: 0.95rem;
   transition: all 0.2s ease;
+  min-width: 120px;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-top: 1rem;
-  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
 }
 
 .addFieldButton:hover {
-  background: var(--color-primary-dark);
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(25, 118, 210, 0.4);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
 }
 
 .addFieldButton:active {
@@ -495,11 +490,65 @@
 }
 
 .addFieldButton:disabled {
-  background: var(--color-skeleton);
-  color: var(--color-skeleton-light);
+  background: #9ca3af;
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+}
+
+.loadingMessage {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--color-bg-light);
+  border: 2px solid var(--color-card-border);
+  border-radius: 12px;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-card-border);
+  border-top: 2px solid var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.templateInfo {
+  margin-top: 0.5rem;
+  padding: 1rem;
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-card-border);
+  border-radius: 8px;
+}
+
+.templateDescription {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  padding: 1.5rem 2.5rem 2rem;
+  border-top: 1px solid var(--color-card-border);
+  background: var(--color-bg-light);
+  margin-top: auto;
 }
 
 /* Los estilos de botones ahora están en formButtons.module.css */
@@ -520,10 +569,20 @@
 @media (max-width: 768px) {
   .formInner {
     padding: 1.5rem;
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
-
-  /* Los estilos responsive de botones están en formButtons.module.css */
+  .actions {
+    padding: 1.25rem 1.5rem;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .cancelButton,
+  .submitButton {
+    width: 100%;
+  }
+  .sectionTitle {
+    font-size: 1.1rem;
+  }
 
   .fieldFormRow {
     grid-template-columns: 1fr;
@@ -560,8 +619,21 @@
   .formInner {
     padding: 1rem;
   }
-
-  /* Los estilos responsive de botones están en formButtons.module.css */
+  .actions {
+    padding: 1rem;
+  }
+  .formGroup label {
+    font-size: 0.9rem;
+  }
+  .formGroup input,
+  .formGroup select,
+  .formGroup textarea {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+  .sectionTitle {
+    font-size: 1rem;
+  }
 
   .addFieldForm {
     padding: 1rem;
@@ -571,22 +643,14 @@
     padding: 1rem;
   }
 
-  .sectionTitle {
-    font-size: 1.1rem;
-  }
-
   .addFieldTitle {
     font-size: 1rem;
   }
 
-  .formGroup label,
   .fieldFormGroup label {
     font-size: 0.9rem;
   }
 
-  .formGroup input,
-  .formGroup select,
-  .formGroup textarea,
   .fieldFormGroup input,
   .fieldFormGroup select,
   .fieldFormGroup textarea {
