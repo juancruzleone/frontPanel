@@ -575,4 +575,4 @@ const useSubscriptions = () => {
   }
 }
 
-export default useSubscriptions
+export { useSubscriptions }

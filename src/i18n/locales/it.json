@@ -655,6 +655,7 @@
     "titlePage": "Beni | LeoneSuite"
   },
   "forms": {
+    "templateCreated": "Modello di modulo creato con successo",
     "understood": "Chiudi",
     "successTitle": "Operazione riuscita!",
     "continue": "Continua",

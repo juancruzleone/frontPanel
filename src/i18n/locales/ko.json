@@ -660,6 +660,7 @@
     }
   },
   "forms": {
+    "templateCreated": "양식 템플릿이 성공적으로 생성되었습니다",
     "understood": "닫기",
     "successTitle": "작업이 성공적으로 완료되었습니다!",
     "continue": "계속하기",

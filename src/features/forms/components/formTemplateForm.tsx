@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import { ChevronDown } from "lucide-react"
 import { useTheme } from "../../../shared/hooks/useTheme"
+import HybridSelect from "../../workOrders/components/HybridSelect"
 import styles from "../styles/formTemplateForm.module.css"
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 import formCheckboxStyles from "../../../shared/components/Buttons/formCheckboxes.module.css"
@@ -247,27 +248,31 @@ const FormTemplateForm = ({
 
           <div className={styles.formGroup}>
             <label>{t('forms.templateCategory')} *</label>
-            <div className={styles.selectWrapper}>
-              <select
-                name="categoria"
-                value={formData.categoria}
-                onChange={handleChange}
-                onBlur={() => handleFieldBlur("categoria")}
-                disabled={isSubmitting}
-                className={`${showError("categoria") ? styles.errorInput : ""} ${styles.select}`}
-              >
-                <option value="">{t('forms.selectCategory')}</option>
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown 
-                size={16} 
-                className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
-              />
-            </div>
+            <HybridSelect
+              name="categoria"
+              value={formData.categoria}
+              onChange={(value) => {
+                setFormData((prev) => ({ ...prev, categoria: value }));
+                if (errors.categoria) {
+                  setErrors((prev) => {
+                    const newErrors = { ...prev };
+                    delete newErrors.categoria;
+                    return newErrors;
+                  });
+                }
+              }}
+              onBlur={() => handleFieldBlur("categoria")}
+              disabled={isSubmitting}
+              options={[
+                { value: "", label: t('forms.selectCategory') },
+                ...categories.map((cat) => ({
+                  value: cat,
+                  label: cat
+                }))
+              ]}
+              placeholder={t('forms.selectCategory')}
+              error={!!showError("categoria")}
+            />
             {showError("categoria") && <span className={styles.inputError}>{errors.categoria}</span>}
           </div>
 
@@ -341,26 +346,30 @@ const FormTemplateForm = ({
 
               <div className={styles.fieldFormGroup}>
                 <label>{t('forms.fieldType')} *</label>
-                <div className={styles.selectWrapper}>
-                  <select
-                    name="type"
-                    value={newField.type}
-                    onChange={handleFieldChange}
-                    disabled={isSubmitting}
-                    className={fieldErrors.type ? styles.errorInput : styles.select}
-                  >
-                    <option value="">{t('forms.selectFieldType')}</option>
-                    {fieldTypes.map((type) => (
-                      <option key={type} value={type}>
-                        {t(`forms.${type}Field`)}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown 
-                    size={16} 
-                    className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
-                  />
-                </div>
+                <HybridSelect
+                  name="type"
+                  value={newField.type}
+                  onChange={(value) => {
+                    setNewField((prev) => ({ ...prev, type: value as any }));
+                    if (fieldErrors.type) {
+                      setFieldErrors((prev) => {
+                        const newErrors = { ...prev };
+                        delete newErrors.type;
+                        return newErrors;
+                      });
+                    }
+                  }}
+                  disabled={isSubmitting}
+                  options={[
+                    { value: "", label: t('forms.selectFieldType') },
+                    ...fieldTypes.map((type) => ({
+                      value: type,
+                      label: t(`forms.${type}Field`)
+                    }))
+                  ]}
+                  placeholder={t('forms.selectFieldType')}
+                  error={!!fieldErrors.type}
+                />
                 {fieldErrors.type && <span className={styles.inputError}>{fieldErrors.type}</span>}
               </div>
             </div>

@@ -542,6 +542,7 @@
     "titlePage": "Activos | LeoneSuite"
   },
   "forms": {
+    "templateCreated": "Plantilla de formulario creada exitosamente",
     "successTitle": "¡Operación exitosa!",
     "understood": "cerrar",
     "title": "Plantillas de Formularios",

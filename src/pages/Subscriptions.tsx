@@ -1,17 +1,19 @@
-import { useEffect, useMemo, useState } from "react"
-import SearchInput from "../shared/components/Inputs/SearchInput"
-import styles from "../features/subscriptions/styles/subscriptions.module.css"
-import useSubscriptions, { type Subscription } from "../features/subscriptions/hooks/useSubscriptions"
-import ModalEditFrequency from "../features/subscriptions/components/ModalEditFrequency"
-import ModalSuccess from '../features/forms/components/ModalSuccess'
-import ModalError from '../features/forms/components/ModalError'
-import Skeleton from '../shared/components/Skeleton'
+import React, { useState, useEffect, useMemo } from "react"
+import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import { Edit, ChevronDown, FilterX } from "lucide-react"
-import { useAuthStore } from '../store/authStore'
-import { useNavigate } from 'react-router-dom'
-import { translateMonthToCurrentLang, translateFrequencyToCurrentLang } from '../shared/utils/backendTranslations'
-import { useTheme } from '../shared/hooks/useTheme'
+import { Edit, FilterX } from "lucide-react"
+import { useAuthStore } from "../store/authStore"
+import { useTheme } from "../shared/hooks/useTheme"
+import SearchInput from "../shared/components/Inputs/SearchInput"
+import HybridSelect from "../shared/components/HybridSelect"
+import ModalEditFrequency from "../features/subscriptions/components/ModalEditFrequency"
+import ModalSuccess from "../features/subscriptions/components/ModalSuccess"
+import ModalError from "../features/subscriptions/components/ModalError"
+import Skeleton from "../shared/components/Skeleton"
+import { useSubscriptions } from "../features/subscriptions/hooks/useSubscriptions"
+import type { Subscription } from "../features/subscriptions/hooks/useSubscriptions"
+import { translateMonthToCurrentLang, translateFrequencyToCurrentLang } from "../shared/utils/backendTranslations"
+import styles from "../features/subscriptions/styles/subscriptions.module.css"
 
 const Subscriptions = () => {
   const { t, i18n } = useTranslation()
@@ -196,24 +198,13 @@ const Subscriptions = () => {
         </div>
 
         <div className={styles.additionalFilters}>
-          <div className={styles.selectWrapper}>
-            <select
-              value={selectedMonthFilter}
-              onChange={(e) => setSelectedMonthFilter(e.target.value)}
-              className={styles.filterSelect}
-              style={{ appearance: 'none', WebkitAppearance: 'none', MozAppearance: 'none', width: '100%' }}
-            >
-              {monthOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            <ChevronDown 
-              size={16} 
-              className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
-            />
-          </div>
+          <HybridSelect
+            value={selectedMonthFilter}
+            onChange={setSelectedMonthFilter}
+            options={monthOptions}
+            placeholder={t('subscriptions.filterByMonth')}
+            autoSize={true}
+          />
 
           <button
             onClick={() => {

@@ -652,6 +652,7 @@
     }
   },
   "forms": {
+    "templateCreated": "フォームテンプレートが正常に作成されました",
     "understood": "閉じる",
     "successTitle": "操作が成功しました！",
     "continue": "続行",

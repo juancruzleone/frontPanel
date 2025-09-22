@@ -561,6 +561,7 @@
     }
   },
   "forms": {
+    "templateCreated": "Form template created successfully",
     "continue": "Continue",
     "understood": "Close",
     "successTitle": "Operation successful!",

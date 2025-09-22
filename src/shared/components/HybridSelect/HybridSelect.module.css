@@ -1,0 +1,232 @@
+/* HybridSelect Component Styles - Consistent with SearchInput */
+.hybridSelectWrapper {
+  position: relative;
+  display: inline-block;
+  min-width: 180px;
+}
+
+.hybridSelect {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-card);
+  border-radius: 4px;
+  padding: 12px 12px;
+  border: 1px solid var(--color-card-border);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: border-color 0.2s ease;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Encode Sans', sans-serif;
+  font-weight: 400;
+  min-height: 20px;
+  box-sizing: border-box;
+}
+
+.hybridSelect:hover {
+  border-color: #007bff;
+}
+
+.hybridSelect:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.hybridSelect.disabled {
+  background-color: var(--color-bg-disabled);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+  border-color: var(--color-border-disabled);
+}
+
+.hybridSelect.disabled:hover {
+  border-color: var(--color-border-disabled);
+}
+
+.hybridSelectValue {
+  flex: 1;
+  text-align: left;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  font-family: 'Encode Sans', sans-serif;
+  font-weight: 400;
+}
+
+.hybridSelectIcon {
+  margin-left: 8px;
+  transition: transform 0.2s ease, color 0.2s ease;
+  color: var(--color-icon);
+  flex-shrink: 0;
+}
+
+.hybridSelectIcon.rotated {
+  transform: rotate(180deg);
+}
+
+.hybridSelectIcon.dark {
+  color: #f5f5f5;
+}
+
+.hybridSelectIcon.light {
+  color: #111;
+}
+
+/* Dropdown Styles */
+.hybridDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 4px;
+  animation: dropdownFadeIn 0.15s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hybridOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 12px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  font-size: 16px;
+  font-family: 'Encode Sans', sans-serif;
+  font-weight: 400;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-card-border);
+}
+
+.hybridOption:last-child {
+  border-bottom: none;
+}
+
+.hybridOption:hover,
+.hybridOption.highlighted {
+  background-color: var(--color-bg-hover);
+}
+
+.hybridOption.selected {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.hybridOption.selected:hover,
+.hybridOption.selected.highlighted {
+  background-color: var(--color-primary-light-hover);
+}
+
+.checkIcon {
+  color: var(--color-primary);
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hybridSelectWrapper {
+    min-width: 150px;
+  }
+  
+  .hybridSelect {
+    padding: 10px 10px;
+    font-size: 15px;
+    min-height: 18px;
+  }
+  
+  .hybridSelectValue {
+    font-size: 15px;
+  }
+  
+  .hybridOption {
+    padding: 10px 10px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hybridSelectWrapper {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100%;
+  }
+  
+  .hybridSelect {
+    width: 100% !important;
+    min-width: 0 !important;
+    font-size: 15px;
+    padding: 12px 8px 12px 12px;
+    box-sizing: border-box;
+  }
+  
+  .hybridSelectValue {
+    font-size: 15px;
+  }
+  
+  .hybridOption {
+    font-size: 15px;
+    padding: 12px 8px 12px 12px;
+  }
+}
+
+/* Dark Theme Support */
+:root[data-theme="dark"] .hybridSelect {
+  background-color: var(--color-card);
+  border-color: var(--color-card-border);
+  color: var(--color-text);
+}
+
+:root[data-theme="dark"] .hybridDropdown {
+  background-color: var(--color-card);
+  border-color: var(--color-card-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+:root[data-theme="dark"] .hybridOption {
+  color: var(--color-text);
+  border-color: var(--color-card-border);
+}
+
+:root[data-theme="dark"] .hybridOption:hover,
+:root[data-theme="dark"] .hybridOption.highlighted {
+  background-color: var(--color-bg-hover);
+}
+
+/* Custom scrollbar for dropdown */
+.hybridDropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.hybridDropdown::-webkit-scrollbar-track {
+  background: var(--color-bg-light);
+  border-radius: 3px;
+}
+
+.hybridDropdown::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+.hybridDropdown::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary);
+}

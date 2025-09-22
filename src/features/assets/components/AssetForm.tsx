@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ChevronDown } from 'lucide-react'
 import { useTheme } from '../../../shared/hooks/useTheme'
 import ButtonCreate from '../../../shared/components/Buttons/buttonCreate'
+import HybridSelect from '../../workOrders/components/HybridSelect'
 import styles from '../styles/assetForm.module.css'
 import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
 import type { Asset, Template } from '../hooks/useAssets'
@@ -194,25 +195,21 @@ const AssetForm = ({
         {/* Filtro por categoría */}
         <div className={styles.formGroup}>
           <label>{t('assets.filterByTemplateCategory')}</label>
-          <div className={styles.selectWrapper}>
-            <select
-              value={selectedCategory}
-              onChange={(e) => handleCategoryChange(e.target.value)}
-              disabled={isSubmitting || templatesLoading}
-              className={styles.select}
-            >
-              <option value="">{t('assets.allCategories')}</option>
-              {categories.map((categoria) => (
-                <option key={String(categoria)} value={String(categoria)}>
-                  {String(categoria)}
-                </option>
-              ))}
-            </select>
-            <ChevronDown 
-              size={16} 
-              className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
-            />
-          </div>
+          <HybridSelect
+            name="categoryFilter"
+            value={selectedCategory}
+            onChange={(value) => handleCategoryChange(value)}
+            disabled={isSubmitting || templatesLoading}
+            options={[
+              { value: "", label: t('assets.allCategories') },
+              ...categories.map((categoria) => ({
+                value: String(categoria),
+                label: String(categoria)
+              }))
+            ]}
+            placeholder={t('assets.allCategories')}
+            error={false}
+          />
         </div>
 
         {/* Plantilla de formulario */}
@@ -224,27 +221,22 @@ const AssetForm = ({
               {t('assets.loadingTemplates')}
             </div>
           ) : (
-            <div className={styles.selectWrapper}>
-              <select
-                name="templateId"
-                value={formData.templateId || ""}
-                onChange={(e) => handleFieldChange("templateId", e.target.value)}
-                onBlur={() => handleFieldBlur("templateId")}
-                disabled={isSubmitting}
-                className={`${showError("templateId") ? styles.errorInput : ""} ${styles.select}`}
-              >
-                <option value="">{t('assets.selectTemplatePlaceholder')}</option>
-                {filteredTemplates.map((template) => (
-                  <option key={String(template._id)} value={String(template._id)}>
-                    {template.nombre} ({String(template.categoria)})
-                  </option>
-                ))}
-              </select>
-              <ChevronDown 
-                size={16} 
-                className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
-              />
-            </div>
+            <HybridSelect
+              name="templateId"
+              value={formData.templateId || ""}
+              onChange={(value) => handleFieldChange("templateId", value)}
+              onBlur={() => handleFieldBlur("templateId")}
+              disabled={isSubmitting}
+              options={[
+                { value: "", label: t('assets.selectTemplatePlaceholder') },
+                ...filteredTemplates.map((template) => ({
+                  value: String(template._id),
+                  label: `${template.nombre} (${String(template.categoria)})`
+                }))
+              ]}
+              placeholder={t('assets.selectTemplatePlaceholder')}
+              error={!!showError("templateId")}
+            />
           )}
           {showError("templateId") && <p className={styles.inputError}>{formErrors.templateId}</p>}
 

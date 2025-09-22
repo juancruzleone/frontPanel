@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { useParams } from "react-router-dom"
 import { Wifi, WifiOff, Clock, CheckCircle, Building2, MapPin, ChevronDown, X, Calendar } from "lucide-react"
 import useDeviceForm from "../hooks/useDeviceForm"
+import HybridSelect from "../../workOrders/components/HybridSelect"
 import styles from "../styles/deviceForm.module.css"
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 import formCheckboxStyles from "../../../shared/components/Buttons/formCheckboxes.module.css"
@@ -173,27 +174,21 @@ const DeviceForm: React.FC = () => {
                 className={styles.textarea}
               />
             ) : field.type === "select" && field.options ? (
-              <span style={{ position: 'relative', display: 'block', width: '100%' }}>
-                <select
-                  name={field.name}
-                  value={formData[field.name] || ""}
-                  onChange={handleChange}
-                  required={field.required}
-                  className={styles.select}
-                  style={{ appearance: 'none', WebkitAppearance: 'none', MozAppearance: 'none', width: '100%' }}
-                >
-                  <option value="">{t('deviceForm.select')}</option>
-                  {field.options.map((opt) => (
-                    <option key={opt} value={opt}>
-                      {t(`deviceForm.options.${opt}`, opt)}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown
-                  size={20}
-                  style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#888' }}
-                />
-              </span>
+              <HybridSelect
+                name={field.name}
+                value={formData[field.name] || ""}
+                onChange={(value) => handleChange({ target: { name: field.name, value } } as any)}
+                disabled={false}
+                options={[
+                  { value: "", label: t('deviceForm.select') },
+                  ...field.options.map((opt) => ({
+                    value: opt,
+                    label: t(`deviceForm.options.${opt}`, opt)
+                  }))
+                ]}
+                placeholder={t('deviceForm.select')}
+                error={false}
+              />
             ) : field.type === "date" ? (
               <span style={{ position: 'relative', display: 'block', width: '100%' }}>
                 <input

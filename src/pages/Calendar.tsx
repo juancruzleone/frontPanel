@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import SearchInput from "../shared/components/Inputs/SearchInput.tsx"
+import HybridSelect from "../shared/components/HybridSelect"
 import styles from "../features/calendar/styles/calendar.module.css"
 import useCalendar, { type WorkOrder } from "../features/calendar/hooks/useCalendar"
 import ModalWorkOrderDetails from "../features/calendar/components/ModalWorkOrderDetails"
@@ -545,25 +546,31 @@ const Calendar = () => {
           </div>
 
           <div className={styles.additionalFilters}>
-            <AutoSizeSelect
+            <HybridSelect
               value={selectedTechnician}
-              onChange={e => setSelectedTechnician(e.target.value)}
-              options={technicians.map(tech => ({ label: getTechnicianLabel(tech), value: tech._id }))}
+              onChange={setSelectedTechnician}
+              options={[
+                { value: "", label: t('calendar.allTechnicians') || 'Todos los técnicos' },
+                ...technicians.map(tech => ({ label: getTechnicianLabel(tech), value: tech._id }))
+              ]}
               placeholder={t('calendar.allTechnicians') || 'Todos los técnicos'}
+              autoSize={true}
             />
             
-            <AutoSizeSelect
+            <HybridSelect
               value={selectedPriority}
-              onChange={(e) => setSelectedPriority(e.target.value)}
+              onChange={setSelectedPriority}
               options={priorityOptions}
               placeholder={t('common.all')}
+              autoSize={true}
             />
 
-            <AutoSizeSelect
+            <HybridSelect
               value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
+              onChange={setSelectedDate}
               options={dateOptions}
               placeholder={t('calendar.allDates')}
+              autoSize={true}
             />
 
             <button

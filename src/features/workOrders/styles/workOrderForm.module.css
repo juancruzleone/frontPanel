@@ -397,19 +397,264 @@
 
 .customDateButton:disabled {
   background-color: var(--color-skeleton);
-  color: var(--color-skeleton-light);
+  color: var(--color-text-muted);
   cursor: not-allowed;
   transform: none;
 }
 
 .dateButtonIcon {
-  flex-shrink: 0;
-  color: var(--color-text);
-  opacity: 0.7;
   width: 16px;
   height: 16px;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
 }
 
 .customDateButton:hover .dateButtonIcon {
   opacity: 1;
+}
+
+/* Custom select with styled dropdown approach */
+.customSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: none;
+  position: relative;
+  background: var(--color-card) !important;
+  border: 1px solid var(--color-card-border) !important;
+  color: var(--color-text) !important;
+}
+
+/* Force styles on select dropdown - more aggressive approach */
+select.customSelect {
+  background-color: var(--color-card) !important;
+  color: var(--color-text) !important;
+}
+
+select.customSelect option {
+  background-color: var(--color-card) !important;
+  color: var(--color-text) !important;
+  padding: 12px 16px !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+  border: none !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+select.customSelect option:hover {
+  background-color: rgba(16, 185, 129, 0.1) !important;
+  color: var(--color-text) !important;
+}
+
+select.customSelect option:checked,
+select.customSelect option:focus {
+  background-color: #10b981 !important;
+  color: white !important;
+  font-weight: 600 !important;
+}
+
+/* Alternative approach using CSS custom properties */
+.customSelect {
+  --select-bg: var(--color-card);
+  --select-color: var(--color-text);
+  --option-bg: var(--color-card);
+  --option-color: var(--color-text);
+  --option-hover-bg: rgba(16, 185, 129, 0.1);
+  --option-selected-bg: #10b981;
+  --option-selected-color: white;
+}
+
+/* Webkit specific targeting */
+@supports (-webkit-appearance: none) {
+  .customSelect {
+    background: var(--color-card);
+    color: var(--color-text);
+  }
+  
+  .customSelect option {
+    background: var(--color-card);
+    color: var(--color-text);
+    padding: 12px 16px;
+    font-weight: 500;
+  }
+  
+  .customSelect option:hover {
+    background: rgba(16, 185, 129, 0.1);
+  }
+  
+  .customSelect option:checked {
+    background: #10b981;
+    color: white;
+    font-weight: 600;
+  }
+}
+
+/* Firefox specific */
+@-moz-document url-prefix() {
+  .customSelect {
+    background: var(--color-card) !important;
+    color: var(--color-text) !important;
+  }
+  
+  .customSelect option {
+    background: var(--color-card) !important;
+    color: var(--color-text) !important;
+    padding: 12px 16px !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+  
+  .customSelect option:hover {
+    background: rgba(16, 185, 129, 0.15) !important;
+  }
+  
+  .customSelect option:checked {
+    background: #10b981 !important;
+    color: white !important;
+    font-weight: 600 !important;
+  }
+}
+
+/* Enhanced focus state */
+.customSelect:focus {
+  outline: none;
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+/* Hybrid Select Styles */
+.hybridSelect {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--color-card-border);
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: var(--color-card);
+  color: var(--color-text);
+  min-height: 48px;
+  box-sizing: border-box;
+}
+
+.hybridSelect:hover {
+  border-color: #10b981;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+.hybridSelect:focus {
+  outline: none;
+  border-color: #10b981;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+}
+
+.hybridSelect:disabled {
+  background-color: var(--color-skeleton);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.selectValue {
+  flex: 1;
+  text-align: left;
+  color: var(--color-text);
+}
+
+.selectIcon.rotated {
+  transform: rotate(180deg);
+  transition: transform 0.2s ease;
+}
+
+/* Custom Dropdown */
+.customDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 4px;
+  animation: dropdownSlideIn 0.2s ease-out;
+}
+
+@keyframes dropdownSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.customOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  cursor: pointer;
+  color: var(--color-text);
+  font-size: 1rem;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.customOption:last-child {
+  border-bottom: none;
+}
+
+.customOption:hover,
+.customOption.highlighted {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
+  color: var(--color-text);
+  transform: translateX(2px);
+}
+
+.customOption.selected {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  font-weight: 600;
+}
+
+.customOption.selected:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateX(0);
+}
+
+.checkIcon {
+  color: currentColor;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+/* Scrollbar for custom dropdown */
+.customDropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.customDropdown::-webkit-scrollbar-track {
+  background: var(--color-bg-light);
+  border-radius: 3px;
+}
+
+.customDropdown::-webkit-scrollbar-thumb {
+  background: var(--color-card-border);
+  border-radius: 3px;
+}
+
+.customDropdown::-webkit-scrollbar-thumb:hover {
+  background: #10b981;
 }

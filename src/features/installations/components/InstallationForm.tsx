@@ -6,6 +6,7 @@ import { ChevronDown } from "lucide-react"
 import { useTheme } from "../../../shared/hooks/useTheme"
 import type { Installation } from "../hooks/useInstallations"
 import useInstallationTypes from "../hooks/useInstallationTypes"
+import HybridSelect from "../../workOrders/components/HybridSelect"
 import styles from "../styles/installationForm.module.css"
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 import { validateInstallationForm, validateInstallationField } from '../validators/installationsValidations';
@@ -98,28 +99,25 @@ const InstallationForm = ({
 
   const renderField = (field: { name: string; label: string; type: string; placeholder?: string }) => {
     if (field.type === "select" && field.name === "installationType") {
+      const installationTypeOptions = [
+        { value: "", label: t('installations.selectInstallationType') },
+        ...installationTypes.map((type) => ({
+          value: type.nombre,
+          label: type.nombre
+        }))
+      ];
+
       return (
-        <div className={styles.selectWrapper}>
-          <select
-            name={field.name}
-            value={formData[field.name] || ""}
-            onChange={(e) => handleFieldChange(field.name, e.target.value)}
-            onBlur={() => handleFieldBlur(field.name)}
-            disabled={isSubmitting || loadingTypes}
-            className={showError(field.name) ? styles.errorInput : ""}
-          >
-            <option value="">{t('installations.selectInstallationType')}</option>
-            {installationTypes.map((type) => (
-              <option key={type._id} value={type.nombre}>
-                {type.nombre}
-              </option>
-            ))}
-          </select>
-          <ChevronDown 
-            size={20} 
-            className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
-          />
-        </div>
+        <HybridSelect
+          name={field.name}
+          value={formData[field.name] || ""}
+          onChange={(value) => handleFieldChange(field.name, value)}
+          onBlur={() => handleFieldBlur(field.name)}
+          disabled={isSubmitting || loadingTypes}
+          options={installationTypeOptions}
+          placeholder={t('installations.selectInstallationType')}
+          error={!!showError(field.name)}
+        />
       )
     }
 

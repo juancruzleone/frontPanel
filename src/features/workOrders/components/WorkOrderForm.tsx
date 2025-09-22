@@ -8,6 +8,7 @@ import type { WorkOrder } from '../hooks/useWorkOrders'
 import { validateWorkOrderForm, validateWorkOrderField } from '../validators/workOrderValidations'
 import DatePickerModal from '../../calendar/components/DatePickerModal'
 import TimePickerModal from '../../calendar/components/TimePickerModal'
+import HybridSelect from './HybridSelect'
 
 interface WorkOrderFormProps {
   onCancel: () => void
@@ -228,27 +229,34 @@ const WorkOrderForm = ({
             <p className={styles.inputError}>{errorLoadingInstallations}</p>
           ) : (
             <>
-              <div className={styles.selectWrapper}>
-                <select
-                  name="instalacionId"
-                  value={formData.instalacionId || ""}
-                  onChange={handleInstallationChange}
-                  onBlur={() => handleFieldBlur("instalacionId")}
-                  disabled={isFieldDisabled("instalacionId")}
-                  className={`${showError("instalacionId") ? styles.errorInput : ""} ${styles.select}`}
-                >
-                  <option value="">{t('workOrders.selectInstallation')}</option>
-                  {installations.map((inst) => (
-                    <option key={inst._id} value={inst._id}>
-                      {inst.company} - {inst.address} {inst.city ? `(${inst.city})` : ""}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown 
-                  size={16} 
-                  className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
-                />
-              </div>
+              <HybridSelect
+                name="instalacionId"
+                value={formData.instalacionId || ""}
+                onChange={(value) => {
+                  handleFieldChange("instalacionId", value);
+                  // Si se selecciona una instalación, también actualizar el objeto instalacion
+                  if (value) {
+                    const selectedInst = installations.find((inst) => inst._id === value);
+                    if (selectedInst) {
+                      handleFieldChange("instalacion", selectedInst);
+                    }
+                  } else {
+                    // Si se deselecciona, limpiar el objeto instalacion
+                    handleFieldChange("instalacion", null);
+                  }
+                }}
+                onBlur={() => handleFieldBlur("instalacionId")}
+                disabled={isFieldDisabled("instalacionId")}
+                options={[
+                  { value: "", label: t('workOrders.selectInstallation') },
+                  ...installations.map(inst => ({
+                    value: inst._id,
+                    label: `${inst.company} - ${inst.address} ${inst.city ? `(${inst.city})` : ""}`
+                  }))
+                ]}
+                placeholder={t('workOrders.selectInstallation')}
+                error={!!showError("instalacionId")}
+              />
 
               {selectedInstallation && (
                 <div className={styles.selectedInstallationDetail}>
@@ -264,52 +272,40 @@ const WorkOrderForm = ({
 
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
-            <label className="formLabel">{t('workOrders.workType')}</label>
-            <div className={styles.selectWrapper}>
-              <select
-                name="tipoTrabajo"
-                value={formData.tipoTrabajo || "mantenimiento"}
-                onChange={(e) => handleFieldChange("tipoTrabajo", e.target.value)}
-                onBlur={() => handleFieldBlur("tipoTrabajo")}
-                disabled={isFieldDisabled("tipoTrabajo")}
-                className={`${showError("tipoTrabajo") ? styles.errorInput : ""} ${styles.select}`}
-              >
-                {workTypes.map((type) => (
-                  <option key={type.value} value={type.value}>
-                    {type.label}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown 
-                size={16} 
-                className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
-              />
-            </div>
+            <label className="formLabel">{t('workOrders.workType')} *</label>
+            <HybridSelect
+              name="tipoTrabajo"
+              value={formData.tipoTrabajo || ""}
+              onChange={(value) => handleFieldChange("tipoTrabajo", value)}
+              onBlur={() => handleFieldBlur("tipoTrabajo")}
+              disabled={isFieldDisabled("tipoTrabajo")}
+              options={[
+                { value: "", label: t('workOrders.selectWorkType') },
+                ...workTypes
+              ]}
+              placeholder={t('workOrders.selectWorkType')}
+              error={!!showError("tipoTrabajo")}
+            />
             {showError("tipoTrabajo") && <p className={styles.inputError}>{formErrors["tipoTrabajo"]}</p>}
           </div>
+        </div>
 
+        <div className={styles.formRow}>
           <div className={styles.formGroup}>
-            <label className="formLabel">{t('workOrders.priority')}</label>
-            <div className={styles.selectWrapper}>
-              <select
-                name="prioridad"
-                value={formData.prioridad || "media"}
-                onChange={(e) => handleFieldChange("prioridad", e.target.value)}
-                onBlur={() => handleFieldBlur("prioridad")}
-                disabled={isFieldDisabled("prioridad")}
-                className={`${showError("prioridad") ? styles.errorInput : ""} ${styles.select}`}
-              >
-                {priorities.map((priority) => (
-                  <option key={priority.value} value={priority.value}>
-                    {priority.label}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown 
-                size={16} 
-                className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
-              />
-            </div>
+            <label className="formLabel">{t('workOrders.priority')} *</label>
+            <HybridSelect
+              name="prioridad"
+              value={formData.prioridad || "media"}
+              onChange={(value) => handleFieldChange("prioridad", value)}
+              onBlur={() => handleFieldBlur("prioridad")}
+              disabled={isFieldDisabled("prioridad")}
+              options={[
+                { value: "", label: t('workOrders.selectPriority') },
+                ...priorities
+              ]}
+              placeholder={t('workOrders.selectPriority')}
+              error={!!showError("prioridad")}
+            />
             {showError("prioridad") && <p className={styles.inputError}>{formErrors["prioridad"]}</p>}
           </div>
         </div>
@@ -411,6 +407,7 @@ const WorkOrderForm = ({
       selectedTime={formData.horaProgramada}
       title={t('workOrders.scheduledTime')}
     />
+
     </>
   )
 }

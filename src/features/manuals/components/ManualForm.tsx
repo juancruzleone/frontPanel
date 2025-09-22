@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ChevronDown } from 'lucide-react'
 import { useTheme } from '../../../shared/hooks/useTheme'
 import ButtonCreate from '../../../shared/components/Buttons/buttonCreate'
+import HybridSelect from '../../workOrders/components/HybridSelect'
 import styles from '../styles/manualForm.module.css'
 import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
 import type { Manual } from '../hooks/useManuals'
@@ -214,27 +215,22 @@ const ManualForm = ({
               {t('manuals.noAssetsAvailable')}. {t('manuals.createAssetsFirst')}.
             </p>
           ) : (
-            <div className={styles.selectWrapper}>
-              <select
-                name="assetId"
-                value={formData.assetId}
-                onChange={(e) => handleFieldChange('assetId', e.target.value)}
-                onBlur={() => handleFieldBlur('assetId')}
-                disabled={isSubmitting}
-                className={showError('assetId') ? styles.errorInput : ''}
-              >
-                <option value="">{t('manuals.selectAsset')}</option>
-                {assets.map((asset) => (
-                  <option key={asset._id} value={asset._id}>
-                    {asset.nombre} - {asset.marca} {asset.modelo}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown 
-                size={16} 
-                className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
-              />
-            </div>
+            <HybridSelect
+              name="assetId"
+              value={formData.assetId}
+              onChange={(value) => handleFieldChange('assetId', value)}
+              onBlur={() => handleFieldBlur('assetId')}
+              disabled={isSubmitting}
+              options={[
+                { value: "", label: t('manuals.selectAsset') },
+                ...assets.map((asset) => ({
+                  value: asset._id,
+                  label: `${asset.nombre} - ${asset.marca} ${asset.modelo}`
+                }))
+              ]}
+              placeholder={t('manuals.selectAsset')}
+              error={!!showError('assetId')}
+            />
           )}
           {showError('assetId') && (
             <p className={styles.inputError}>{formErrorsState['assetId']}</p>
@@ -243,26 +239,19 @@ const ManualForm = ({
 
         <div className={styles.formGroup}>
           <label>{t('manuals.category')}</label>
-          <div className={styles.selectWrapper}>
-            <select
-              name="categoria"
-              value={formData.categoria}
-              onChange={(e) => handleFieldChange('categoria', e.target.value)}
-              onBlur={() => handleFieldBlur('categoria')}
-              disabled={isSubmitting}
-              className={styles.select}
-            >
-              {categories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
-                </option>
-              ))}
-            </select>
-            <ChevronDown 
-              size={16} 
-              className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
-            />
-          </div>
+          <HybridSelect
+            name="categoria"
+            value={formData.categoria}
+            onChange={(value) => handleFieldChange('categoria', value)}
+            onBlur={() => handleFieldBlur('categoria')}
+            disabled={isSubmitting}
+            options={categories.map((cat) => ({
+              value: cat,
+              label: cat
+            }))}
+            placeholder={t('manuals.category')}
+            error={false}
+          />
         </div>
 
         <div className={styles.formGroup}>
@@ -280,26 +269,16 @@ const ManualForm = ({
 
         <div className={styles.formGroup}>
           <label>{t('manuals.language')}</label>
-          <div className={styles.selectWrapper}>
-            <select
-              name="idioma"
-              value={formData.idioma || 'es'}
-              onChange={(e) => handleFieldChange('idioma', e.target.value)}
-              onBlur={() => handleFieldBlur('idioma')}
-              disabled={isSubmitting}
-              className={styles.select}
-            >
-              {languages.map((lang) => (
-                <option key={lang.value} value={lang.value}>
-                  {lang.label}
-                </option>
-              ))}
-            </select>
-            <ChevronDown 
-              size={16} 
-              className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
-            />
-          </div>
+          <HybridSelect
+            name="idioma"
+            value={formData.idioma || 'es'}
+            onChange={(value) => handleFieldChange('idioma', value)}
+            onBlur={() => handleFieldBlur('idioma')}
+            disabled={isSubmitting}
+            options={languages}
+            placeholder={t('manuals.language')}
+            error={false}
+          />
         </div>
 
         <div className={styles.formGroup}>

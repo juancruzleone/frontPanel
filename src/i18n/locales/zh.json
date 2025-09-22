@@ -711,6 +711,7 @@
     }
   },
   "forms": {
+    "templateCreated": "表单模板创建成功",
     "understood": "关闭",
     "successTitle": "操作成功！",
     "continue": "继续",

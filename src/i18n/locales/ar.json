@@ -657,6 +657,7 @@
     }
   },
   "forms": {
+    "templateCreated": "تم إنشاء قالب النموذج بنجاح",
     "understood": "إغلاق",
     "successTitle": "تمت العملية بنجاح!",
     "continue": "متابعة",

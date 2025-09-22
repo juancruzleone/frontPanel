@@ -6,7 +6,7 @@ import FrequencySelector from './FrequencySelector'
 import type { Subscription, FrequencyOption } from '../hooks/useSubscriptions'
 import DatePickerModal from '../../calendar/components/DatePickerModal'
 import { validateSubscriptionForm } from '../validators/subscriptionValidations'
-import useSubscriptions from '../hooks/useSubscriptions'
+import { useSubscriptions } from '../hooks/useSubscriptions'
 import FrequencyForm from './FrequencyForm'
 import { translateFrequencyToCurrentLang } from '../../../shared/utils/backendTranslations';
 

@@ -1,0 +1,198 @@
+/* FilterSelect Component Styles */
+.filterSelectWrapper {
+  position: relative;
+  display: inline-block;
+  min-width: 180px;
+}
+
+.filterSelect {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background-color: var(--color-bg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  min-height: 40px;
+  box-sizing: border-box;
+}
+
+.filterSelect:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-alpha);
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-alpha);
+}
+
+.filterSelect.disabled {
+  background-color: var(--color-bg-disabled);
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+  border-color: var(--color-border-disabled);
+}
+
+.filterSelect.disabled:hover {
+  border-color: var(--color-border-disabled);
+  box-shadow: none;
+}
+
+.filterSelectValue {
+  flex: 1;
+  text-align: left;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.filterSelectIcon {
+  margin-left: 8px;
+  transition: transform 0.2s ease;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.filterSelectIcon.rotated {
+  transform: rotate(180deg);
+}
+
+.filterSelectIcon.dark {
+  color: var(--color-text-dark);
+}
+
+.filterSelectIcon.light {
+  color: var(--color-text-light);
+}
+
+/* Dropdown Styles */
+.filterDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 4px;
+  animation: dropdownFadeIn 0.15s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.filterOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  font-size: 14px;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.filterOption:last-child {
+  border-bottom: none;
+}
+
+.filterOption:hover,
+.filterOption.highlighted {
+  background-color: var(--color-bg-hover);
+}
+
+.filterOption.selected {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.filterOption.selected:hover,
+.filterOption.selected.highlighted {
+  background-color: var(--color-primary-light-hover);
+}
+
+.checkIcon {
+  color: var(--color-primary);
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .filterSelectWrapper {
+    min-width: 150px;
+  }
+  
+  .filterSelect {
+    padding: 6px 10px;
+    font-size: 13px;
+    min-height: 36px;
+  }
+  
+  .filterOption {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+}
+
+/* Dark Theme Support */
+:root[data-theme="dark"] .filterSelect {
+  background-color: var(--color-bg-dark);
+  border-color: var(--color-border-dark);
+  color: var(--color-text-dark);
+}
+
+:root[data-theme="dark"] .filterDropdown {
+  background-color: var(--color-bg-dark);
+  border-color: var(--color-border-dark);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+:root[data-theme="dark"] .filterOption {
+  color: var(--color-text-dark);
+  border-color: var(--color-border-dark-light);
+}
+
+:root[data-theme="dark"] .filterOption:hover,
+:root[data-theme="dark"] .filterOption.highlighted {
+  background-color: var(--color-bg-hover-dark);
+}
+
+/* Custom scrollbar for dropdown */
+.filterDropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.filterDropdown::-webkit-scrollbar-track {
+  background: var(--color-bg-light);
+  border-radius: 3px;
+}
+
+.filterDropdown::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+.filterDropdown::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary);
+}

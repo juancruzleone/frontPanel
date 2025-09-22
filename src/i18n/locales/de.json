@@ -605,6 +605,7 @@
     "titlePage": "Vermögenswerte | LeoneSuite"
   },
   "forms": {
+    "templateCreated": "Formularvorlage erfolgreich erstellt",
     "understood": "Schließen",
     "successTitle": "Vorgang erfolgreich!",
     "continue": "Weiter",

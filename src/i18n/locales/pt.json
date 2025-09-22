@@ -650,6 +650,7 @@
     "titlePage": "Ativos | LeoneSuite"
   },
   "forms": {
+    "templateCreated": "Modelo de formulário criado com sucesso",
     "understood": "Fechar",
     "successTitle": "Operação bem-sucedida!",
     "continue": "Continuar",
