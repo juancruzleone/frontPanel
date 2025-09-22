@@ -49,6 +49,8 @@
   background: var(--color-card);
   color: var(--color-text);
   font-family: inherit;
+  height: 48px;
+  box-sizing: border-box;
 }
 
 /* Estilos para select nativo - solo se usan en otros formularios */
@@ -63,6 +65,7 @@
   position: relative;
   display: flex;
   align-items: center;
+  margin-top: -3px;
 }
 
 .selectWrapper .select {
@@ -70,6 +73,31 @@
   background-image: none;
   padding-right: 40px;
   width: 100%;
+}
+
+.selectWrapper input[type="time"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: none;
+  padding-right: 40px;
+  width: 100%;
+}
+
+.selectWrapper input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none !important;
+  -webkit-appearance: none;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+  right: -9999px;
+}
+
+.selectWrapper input[type="time"]::-webkit-inner-spin-button,
+.selectWrapper input[type="time"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .selectIcon {
@@ -205,6 +233,7 @@
   resize: vertical;
   min-height: 100px;
   font-family: inherit;
+  height: auto;
 }
 
 .formGroup input:disabled,

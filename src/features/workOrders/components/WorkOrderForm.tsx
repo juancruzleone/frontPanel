@@ -7,6 +7,7 @@ import formButtonStyles from '../../../shared/components/Buttons/formButtons.mod
 import type { WorkOrder } from '../hooks/useWorkOrders'
 import { validateWorkOrderForm, validateWorkOrderField } from '../validators/workOrderValidations'
 import DatePickerModal from '../../calendar/components/DatePickerModal'
+import TimePickerModal from '../../calendar/components/TimePickerModal'
 
 interface WorkOrderFormProps {
   onCancel: () => void
@@ -56,6 +57,7 @@ const WorkOrderForm = ({
   const { dark } = useTheme()
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
+  const [isTimePickerOpen, setIsTimePickerOpen] = useState(false)
 
   const workTypes = [
     { value: "mantenimiento", label: t('workOrders.maintenance') },
@@ -171,6 +173,14 @@ const WorkOrderForm = ({
   const handleDateSelect = (date: string) => {
     // Guardar la fecha como string local 'YYYY-MM-DD' para evitar desfase de zona horaria
     handleFieldChange("fechaProgramada", date)
+  }
+
+  const handleOpenTimePicker = () => {
+    setIsTimePickerOpen(true)
+  }
+
+  const handleTimeSelect = (time: string) => {
+    handleFieldChange("horaProgramada", time)
   }
 
   return (
@@ -337,16 +347,18 @@ const WorkOrderForm = ({
 
           <div className={styles.formGroup}>
             <label className="formLabel">{t('workOrders.scheduledTime')} *</label>
-            <input
-              type="time"
-              name="horaProgramada"
-              value={formData.horaProgramada || ""}
-              onChange={(e) => handleFieldChange("horaProgramada", e.target.value)}
-              onBlur={() => handleFieldBlur("horaProgramada")}
+            <button
+              type="button"
+              onClick={handleOpenTimePicker}
               disabled={isFieldDisabled("horaProgramada")}
-              className={showError("horaProgramada") ? styles.errorInput : "formInput"}
-              placeholder={t('workOrders.scheduledTimePlaceholder')}
-            />
+              className={showError("horaProgramada") ? styles.errorInput : styles.customDateButton}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className={styles.dateButtonIcon}>
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+                <polyline points="12,6 12,12 16,14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              {formData.horaProgramada || t('workOrders.selectTime')}
+            </button>
             {showError("horaProgramada") && <p className={styles.inputError}>{formErrors["horaProgramada"]}</p>}
           </div>
         </div>
@@ -391,8 +403,16 @@ const WorkOrderForm = ({
       selectedDate={formData.fechaProgramada ? formatDateForInput(formData.fechaProgramada) : undefined}
       title={t('workOrders.scheduledDate')}
     />
+
+    <TimePickerModal
+      isOpen={isTimePickerOpen}
+      onRequestClose={() => setIsTimePickerOpen(false)}
+      onTimeSelect={handleTimeSelect}
+      selectedTime={formData.horaProgramada}
+      title={t('workOrders.scheduledTime')}
+    />
     </>
   )
 }
 
-export default WorkOrderForm
+export default WorkOrderForm;
