@@ -274,7 +274,6 @@ const Subscriptions = () => {
                           title={t('subscriptions.editFrequency')}
                           type="button"
                           data-tooltip={t('subscriptions.editFrequency')}
-                          style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: 'none', border: 'none', padding: 0, marginLeft: 8, cursor: 'pointer', position: 'relative' }}
                         >
                           <Edit size={16} />
                         </button>
