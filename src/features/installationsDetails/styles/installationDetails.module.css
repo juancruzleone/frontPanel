@@ -86,12 +86,12 @@
   width: 100%;
   margin-bottom: 1rem;
   display: flex;
-  gap: 12px;
   align-items: center;
 }
 
 .filterContainer {
-  min-width: 200px;
+  margin-right: 22px;
+  min-width: 180px;
 }
 
 .selectWrapper {
