@@ -968,7 +968,9 @@
   "device": "Dispositivo",
   "loadingRequiredData": "Carregando dados necessários...",
   "errorLoadingCategories": "Erro ao carregar categorias",
-  "retryLoadCategories": "Tentar novamente carregar categorias"
+  "retryLoadCategories": "Tentar novamente carregar categorias",
+  "searchDevicesPlaceholder": "Buscar por dispositivo, localização ou categoria...",
+  "noDevicesFound": "Nenhum dispositivo encontrado com esse termo de busca"
 },
 "login": {
   "understood": "Fechar",

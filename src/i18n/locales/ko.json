@@ -984,7 +984,9 @@
   "device": "장치",
   "loadingRequiredData": "필요한 데이터를 로드 중...",
   "errorLoadingCategories": "카테고리 로드 오류",
-  "retryLoadCategories": "카테고리 다시 로드"
+  "retryLoadCategories": "카테고리 다시 로드",
+  "searchDevicesPlaceholder": "장치, 위치 또는 카테고리로 검색...",
+  "noDevicesFound": "이 검색어로 장치를 찾을 수 없습니다"
 },
 "login": {
   "understood": "닫기",

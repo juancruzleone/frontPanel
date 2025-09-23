@@ -23,6 +23,27 @@
   gap: 0.5rem;
 }
 
+/* Modo claro específico para installationInfo h4 */
+body:not(.dark) .installationInfo h4,
+html:not(.dark) .installationInfo h4,
+body:not([data-theme="dark"]) .installationInfo h4,
+html:not([data-theme="dark"]) .installationInfo h4,
+:not(.dark) .installationInfo h4 {
+  color: black !important;
+}
+
+/* Modo oscuro específico para installationInfo h4 */
+:global(.dark) .installationInfo h4,
+:global(body.dark) .installationInfo h4,
+:global(html.dark) .installationInfo h4,
+:global([data-theme="dark"]) .installationInfo h4,
+body.dark .installationInfo h4,
+html.dark .installationInfo h4,
+body[data-theme="dark"] .installationInfo h4,
+html[data-theme="dark"] .installationInfo h4 {
+  color: white !important;
+}
+
 .installationInfo h4::before {
   content: "";
   width: 3px;
@@ -30,6 +51,27 @@
   background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
   border-radius: 2px;
   flex-shrink: 0;
+}
+
+/* Modo claro específico para installationInfo h4::before */
+body:not(.dark) .installationInfo h4::before,
+html:not(.dark) .installationInfo h4::before,
+body:not([data-theme="dark"]) .installationInfo h4::before,
+html:not([data-theme="dark"]) .installationInfo h4::before,
+:not(.dark) .installationInfo h4::before {
+  background: black !important;
+}
+
+/* Modo oscuro específico para installationInfo h4::before */
+:global(.dark) .installationInfo h4::before,
+:global(body.dark) .installationInfo h4::before,
+:global(html.dark) .installationInfo h4::before,
+:global([data-theme="dark"]) .installationInfo h4::before,
+body.dark .installationInfo h4::before,
+html.dark .installationInfo h4::before,
+body[data-theme="dark"] .installationInfo h4::before,
+html[data-theme="dark"] .installationInfo h4::before {
+  background: white !important;
 }
 
 .installationInfo p {
@@ -87,6 +129,27 @@
   flex-shrink: 0;
 }
 
+/* Modo claro específico para formGroup label::before */
+body:not(.dark) .formGroup label::before,
+html:not(.dark) .formGroup label::before,
+body:not([data-theme="dark"]) .formGroup label::before,
+html:not([data-theme="dark"]) .formGroup label::before,
+:not(.dark) .formGroup label::before {
+  background: black !important;
+}
+
+/* Modo oscuro específico para formGroup label::before */
+:global(.dark) .formGroup label::before,
+:global(body.dark) .formGroup label::before,
+:global(html.dark) .formGroup label::before,
+:global([data-theme="dark"]) .formGroup label::before,
+body.dark .formGroup label::before,
+html.dark .formGroup label::before,
+body[data-theme="dark"] .formGroup label::before,
+html[data-theme="dark"] .formGroup label::before {
+  background: white !important;
+}
+
 .formGroup input,
 .formGroup select,
 .formGroup textarea {
@@ -100,6 +163,25 @@
   font-family: inherit;
 }
 
+/* Modo claro específico para mejorar contraste de bordes */
+body:not(.dark) .formGroup input,
+body:not(.dark) .formGroup select,
+body:not(.dark) .formGroup textarea,
+html:not(.dark) .formGroup input,
+html:not(.dark) .formGroup select,
+html:not(.dark) .formGroup textarea,
+body:not([data-theme="dark"]) .formGroup input,
+body:not([data-theme="dark"]) .formGroup select,
+body:not([data-theme="dark"]) .formGroup textarea,
+html:not([data-theme="dark"]) .formGroup input,
+html:not([data-theme="dark"]) .formGroup select,
+html:not([data-theme="dark"]) .formGroup textarea,
+:not(.dark) .formGroup input,
+:not(.dark) .formGroup select,
+:not(.dark) .formGroup textarea {
+  border-color: #d1d5db !important;
+}
+
 .formGroup input:focus,
 .formGroup select:focus,
 .formGroup textarea:focus {
@@ -109,10 +191,49 @@
   background: var(--color-bg-light);
 }
 
+/* Modo claro específico para focus en inputs, selects y textareas */
+body:not(.dark) .formGroup input:focus,
+body:not(.dark) .formGroup select:focus,
+body:not(.dark) .formGroup textarea:focus,
+html:not(.dark) .formGroup input:focus,
+html:not(.dark) .formGroup select:focus,
+html:not(.dark) .formGroup textarea:focus,
+body:not([data-theme="dark"]) .formGroup input:focus,
+body:not([data-theme="dark"]) .formGroup select:focus,
+body:not([data-theme="dark"]) .formGroup textarea:focus,
+html:not([data-theme="dark"]) .formGroup input:focus,
+html:not([data-theme="dark"]) .formGroup select:focus,
+html:not([data-theme="dark"]) .formGroup textarea:focus,
+:not(.dark) .formGroup input:focus,
+:not(.dark) .formGroup select:focus,
+:not(.dark) .formGroup textarea:focus {
+  border-color: black !important;
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1) !important;
+}
+
 .formGroup input:hover,
 .formGroup select:hover,
 .formGroup textarea:hover {
   border-color: var(--color-card-border);
+}
+
+/* Modo claro específico para hover en inputs, selects y textareas */
+body:not(.dark) .formGroup input:hover,
+body:not(.dark) .formGroup select:hover,
+body:not(.dark) .formGroup textarea:hover,
+html:not(.dark) .formGroup input:hover,
+html:not(.dark) .formGroup select:hover,
+html:not(.dark) .formGroup textarea:hover,
+body:not([data-theme="dark"]) .formGroup input:hover,
+body:not([data-theme="dark"]) .formGroup select:hover,
+body:not([data-theme="dark"]) .formGroup textarea:hover,
+html:not([data-theme="dark"]) .formGroup input:hover,
+html:not([data-theme="dark"]) .formGroup select:hover,
+html:not([data-theme="dark"]) .formGroup textarea:hover,
+:not(.dark) .formGroup input:hover,
+:not(.dark) .formGroup select:hover,
+:not(.dark) .formGroup textarea:hover {
+  border-color: black !important;
 }
 
 .formGroup select {
@@ -185,6 +306,16 @@
   border-color: white;
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
   background: var(--color-bg-light);
+}
+
+/* Modo claro específico para focus en selectWrapper select */
+body:not(.dark) .selectWrapper select:focus,
+html:not(.dark) .selectWrapper select:focus,
+body:not([data-theme="dark"]) .selectWrapper select:focus,
+html:not([data-theme="dark"]) .selectWrapper select:focus,
+:not(.dark) .selectWrapper select:focus {
+  border-color: black !important;
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1) !important;
 }
 
 .selectWrapper select:disabled {

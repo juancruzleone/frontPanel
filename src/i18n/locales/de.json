@@ -879,7 +879,9 @@
   "device": "Gerät",
   "loadingRequiredData": "Erforderliche Daten werden geladen...",
   "errorLoadingCategories": "Fehler beim Laden der Kategorien",
-  "retryLoadCategories": "Laden der Kategorien erneut versuchen"
+  "retryLoadCategories": "Laden der Kategorien erneut versuchen",
+  "searchDevicesPlaceholder": "Nach Gerät, Standort oder Kategorie suchen...",
+  "noDevicesFound": "Keine Geräte mit diesem Suchbegriff gefunden"
 },
 "login": {
   "understood": "Schließen",

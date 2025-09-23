@@ -969,7 +969,9 @@
   "device": "Dispositivo",
   "loadingRequiredData": "Caricamento dati necessari...",
   "errorLoadingCategories": "Errore nel caricamento delle categorie",
-  "retryLoadCategories": "Riprova a caricare le categorie"
+  "retryLoadCategories": "Riprova a caricare le categorie",
+  "searchDevicesPlaceholder": "Cerca per dispositivo, posizione o categoria...",
+  "noDevicesFound": "Nessun dispositivo trovato con questo termine di ricerca"
 },
     "login": {
       "understood": "Chiudi",

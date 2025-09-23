@@ -1053,7 +1053,9 @@
   "device": "デバイス",
   "loadingRequiredData": "必要なデータを読み込み中...",
   "errorLoadingCategories": "カテゴリの読み込みエラー",
-  "retryLoadCategories": "カテゴリの再読み込み"
+  "retryLoadCategories": "カテゴリの再読み込み",
+  "searchDevicesPlaceholder": "デバイス、場所、またはカテゴリで検索...",
+  "noDevicesFound": "この検索用語でデバイスが見つかりませんでした"
 },
 "subscriptions": {
   "selectStartDate": "開始日を選択",

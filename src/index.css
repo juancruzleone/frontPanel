@@ -130,4 +130,22 @@ select.errorInput {
   border-color: var(--color-danger) !important;
 }
 
+/* Estilos específicos para installationDetails en modo oscuro - FORZADO */
+body.dark [class*="deviceCard"]::before,
+html.dark [class*="deviceCard"]::before,
+body[data-theme="dark"] [class*="deviceCard"]::before,
+html[data-theme="dark"] [class*="deviceCard"]::before,
+.dark [class*="deviceCard"]::before {
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8)) !important;
+}
+
+body.dark [class*="cardSeparator"],
+html.dark [class*="cardSeparator"],
+body[data-theme="dark"] [class*="cardSeparator"],
+html[data-theme="dark"] [class*="cardSeparator"],
+.dark [class*="cardSeparator"] {
+  background: white !important;
+}
+
+
 

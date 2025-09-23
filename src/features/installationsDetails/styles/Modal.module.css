@@ -167,7 +167,7 @@
 }
 
 .modalButton {
-  background: var(--color-primary);
+  background: var(--color-secondary);
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -351,9 +351,9 @@
 }
 
 .cancelButton {
-  background: var(--color-bg-light);
+  background: var(--color-card);
   color: var(--color-text);
-  border: 2px solid var(--color-card-border);
+  border: 2px solid var(--color-text);
   padding: 0.875rem 1.75rem;
   border-radius: 12px;
   cursor: pointer;
@@ -361,12 +361,15 @@
   font-weight: 600;
   transition: all 0.2s ease;
   min-width: 120px;
+  opacity: 0.9;
 }
 
 .cancelButton:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: white;
+  background: var(--color-text);
+  color: var(--color-card);
+  border-color: var(--color-text);
   transform: translateY(-1px);
+  opacity: 1;
 }
 
 .cancelButton:active {

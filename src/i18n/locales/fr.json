@@ -935,6 +935,8 @@
   "notFound": "Installation introuvable",
   "devicesOf": "Appareils de {{name}}",
   "addDevice": "Ajouter un appareil",
+  "searchDevicesPlaceholder": "Rechercher par appareil, emplacement ou catégorie...",
+  "noDevicesFound": "Aucun appareil trouvé avec ce terme de recherche",
   "noDevices": "Aucun appareil dans cette installation",
   "type": "Type",
   "location": "Emplacement",

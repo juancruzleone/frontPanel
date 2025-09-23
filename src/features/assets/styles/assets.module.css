@@ -336,6 +336,11 @@
   border-top: 1px solid black;
 }
 
+/* Modo oscuro específico para el borde de la paginación */
+:global([data-theme="dark"]) .pagination {
+  border-top: 1px solid white !important;
+}
+
 .pagination button {
   background: var(--color-bg-light);
   color: var(--color-text);

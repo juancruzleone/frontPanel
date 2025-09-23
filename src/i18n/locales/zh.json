@@ -1032,7 +1032,9 @@
   "device": "设备",
   "loadingRequiredData": "正在加载所需数据...",
   "errorLoadingCategories": "加载类别出错",
-  "retryLoadCategories": "重试加载类别"
+  "retryLoadCategories": "重试加载类别",
+  "searchDevicesPlaceholder": "按设备、位置或类别搜索...",
+  "noDevicesFound": "未找到与此搜索词匹配的设备"
 },
 
   "login": {

@@ -979,7 +979,9 @@
   "device": "جهاز",
   "loadingRequiredData": "جارٍ تحميل البيانات المطلوبة...",
   "errorLoadingCategories": "خطأ في تحميل الفئات",
-  "retryLoadCategories": "إعادة محاولة تحميل الفئات"
+  "retryLoadCategories": "إعادة محاولة تحميل الفئات",
+  "searchDevicesPlaceholder": "البحث بالجهاز أو الموقع أو الفئة...",
+  "noDevicesFound": "لم يتم العثور على أجهزة لهذا البحث"
 },
 "login": {
   "understood": "إغلاق",

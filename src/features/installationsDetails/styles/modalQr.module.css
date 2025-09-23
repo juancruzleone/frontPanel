@@ -170,21 +170,35 @@
   }
   
   .openButton {
-    background-color: #007bff;
+    background-color: var(--color-secondary);
     color: white;
   }
   
   .openButton:hover:not(:disabled) {
-    background-color: #0056b3;
+    background-color: #045e58;
   }
   
   .printButton {
     background-color: #28a745;
     color: white;
+    border: 2px solid transparent;
+  }
+
+  /* Modo claro - borde más fuerte para mejor contraste */
+  :root:not([data-theme="dark"]) .printButton {
+    border: 2px solid #1e7e34;
+    box-shadow: 0 2px 4px rgba(30, 126, 52, 0.3);
   }
   
   .printButton:hover:not(:disabled) {
     background-color: #1e7e34;
+  }
+
+  /* Modo claro - hover con borde más fuerte */
+  :root:not([data-theme="dark"]) .printButton:hover:not(:disabled) {
+    border: 2px solid #155724;
+    box-shadow: 0 4px 8px rgba(21, 87, 36, 0.4);
+    transform: translateY(-1px);
   }
   
   .openButton:disabled,
@@ -195,7 +209,7 @@
   }
 
 .modalButton {
-  background: var(--color-primary);
+  background: var(--color-secondary);
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -214,8 +228,22 @@
   color: var(--color-text);
   border: 1px solid var(--color-card-border);
 }
+
+/* Modo claro - borde más fuerte para el botón secundario (imprimir) */
+:root:not([data-theme="dark"]) .modalButton.secondary {
+  border: 2px solid #333;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
 .modalButton.secondary:hover {
   background: var(--color-card-border);
+}
+
+/* Modo claro - hover mejorado para el botón secundario */
+:root:not([data-theme="dark"]) .modalButton.secondary:hover {
+  border: 2px solid #000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background: #f0f0f0;
+  transform: translateY(-1px);
 }
   
   @media (max-width: 768px) {

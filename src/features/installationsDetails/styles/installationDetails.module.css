@@ -22,6 +22,11 @@
   border-bottom: 1px solid black;
 }
 
+/* Modo oscuro específico para el borde del header */
+:global([data-theme="dark"]) .header {
+  border-bottom: 1px solid white !important;
+}
+
 .title {
   font-size: 40px;
   font-weight: 700;
@@ -64,7 +69,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: var(--color-nav);
+  background-color: var(--color-nav-hover);
   color: white;
   border: none;
   padding: 8px 16px;
@@ -78,9 +83,9 @@
 }
 
 .addButton:hover {
-  background-color: var(--color-nav-hover);
+  background-color: #047857;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(3, 79, 73, 0.3);
+  box-shadow: 0 4px 12px rgba(4, 120, 87, 0.4);
 }
 
 .addButton span {
@@ -204,6 +209,23 @@
   background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
 }
 
+/* Modo claro específico para el borde superior de deviceCard */
+:root:not([data-theme="dark"]) .deviceCard::before {
+  background: linear-gradient(90deg, black, rgba(0, 0, 0, 0.8));
+}
+
+/* Modo oscuro específico para el borde superior de deviceCard - múltiples selectores */
+:global(.dark) .deviceCard::before,
+:global(body.dark) .deviceCard::before,
+:global(html.dark) .deviceCard::before,
+:global([data-theme="dark"]) .deviceCard::before,
+body.dark .deviceCard::before,
+html.dark .deviceCard::before,
+body[data-theme="dark"] .deviceCard::before,
+html[data-theme="dark"] .deviceCard::before {
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8)) !important;
+}
+
 .deviceCard:hover {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   transform: translateY(-2px);
@@ -250,6 +272,41 @@
   margin: 4px 0;
 }
 
+/* Modo claro específico para el separador */
+:root:not([data-theme="dark"]) .cardSeparator {
+  background: black;
+}
+
+/* Modo claro específico para cardSeparator con selectores de clase */
+body:not(.dark) [class*="cardSeparator"], 
+html:not(.dark) [class*="cardSeparator"], 
+body:not([data-theme="dark"]) [class*="cardSeparator"], 
+html:not([data-theme="dark"]) [class*="cardSeparator"], 
+:not(.dark) [class*="cardSeparator"] {
+  background: black !important;
+}
+
+/* Modo oscuro específico para cardSeparator con selectores de clase */
+body.dark [class*="cardSeparator"], 
+html.dark [class*="cardSeparator"], 
+body[data-theme="dark"] [class*="cardSeparator"], 
+html[data-theme="dark"] [class*="cardSeparator"], 
+.dark [class*="cardSeparator"] {
+  background: white !important;
+}
+
+/* Modo oscuro específico para el separador - múltiples selectores */
+:global(.dark) .cardSeparator,
+:global(body.dark) .cardSeparator,
+:global(html.dark) .cardSeparator,
+:global([data-theme="dark"]) .cardSeparator,
+body.dark .cardSeparator,
+html.dark .cardSeparator,
+body[data-theme="dark"] .cardSeparator,
+html[data-theme="dark"] .cardSeparator {
+  background: white !important;
+}
+
 /* Acciones en la parte inferior */
 .deviceActions {
   display: flex;
@@ -284,9 +341,10 @@
 .deleteButton:hover,
 .qrButton:hover,
 .pdfButton:hover {
-  background: var(--color-bg-light);
+  background: var(--color-text);
   transform: scale(1.05);
-  color: var(--color-primary);
+  color: var(--color-card);
+  border: 1px solid var(--color-text);
 }
 
 .editButton::after,
@@ -385,6 +443,18 @@
 /* Modo claro específico para el loader */
 :root:not([data-theme="dark"]) .loader {
   color: black;
+}
+
+/* Modo oscuro específico para el loader */
+:global(.dark) .loader,
+:global(body.dark) .loader,
+:global(html.dark) .loader,
+:global([data-theme="dark"]) .loader,
+body.dark .loader,
+html.dark .loader,
+body[data-theme="dark"] .loader,
+html[data-theme="dark"] .loader {
+  color: white !important;
 }
 
 /* Estilos de paginación */
