@@ -407,15 +407,15 @@
   border-radius: 10px;
   padding: 0;
   margin: 0;
-  width: 28px;
-  height: 32px;
+  width: 36px;
+  height: 40px;
   transition: all 0.2s ease;
 }
 
 @media (min-width: 768px) {
   .themeBox {
-    width: 28px;
-    height: 32px;
+    width: 40px;
+    height: 44px;
   }
 }
 
@@ -479,11 +479,18 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  width: 28px;
-  height: 32px;
+  width: 36px;
+  height: 40px;
   font-size: 12px;
   font-weight: 600;
   margin: 0;
+}
+
+@media (min-width: 768px) {
+  .languageButton {
+    width: 40px;
+    height: 44px;
+  }
 }
 
 
@@ -583,6 +590,15 @@
   height: 70% !important;
   object-fit: contain !important;
   border-radius: 6px !important;
+  box-sizing: border-box !important;
+  display: block !important;
+}
+
+.languageOption .flagImg {
+  width: 20px !important;
+  height: 15px !important;
+  object-fit: cover !important;
+  border-radius: 3px !important;
   box-sizing: border-box !important;
   display: block !important;
 }

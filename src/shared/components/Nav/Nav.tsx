@@ -219,7 +219,7 @@ const Nav = () => {
                       className={`${styles.languageOption} ${i18n.language === language.code ? styles.active : ''}`}
                       onClick={() => handleLanguageChange(language.code)}
                     >
-                      <span className={styles.flag}>{language.flag}</span>
+                      <img src={flagMap[language.code] || esFlag} alt={language.code} className={styles.flagImg} />
                       <span className={styles.languageName}>{language.name}</span>
                     </button>
                   ))}

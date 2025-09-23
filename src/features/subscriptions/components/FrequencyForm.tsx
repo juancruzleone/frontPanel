@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { Calendar, ChevronDown } from 'lucide-react'
 import styles from '../styles/subscriptions.module.css'
 import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
-import FrequencySelector from './FrequencySelector'
 import DatePickerModal from './DatePickerModal'
+import HybridSelect from '../../../shared/components/HybridSelect'
 import type { FrequencyOption } from '../hooks/useSubscriptions'
 
 interface FrequencyFormProps {
@@ -111,15 +111,13 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
       )}
       <div className={styles.formGroup} style={{ position: 'relative' }}>
         <label>{t('subscriptions.newFrequency')}</label>
-        <FrequencySelector
+        <HybridSelect
           value={formData.frequency || ''}
           onChange={(val) => onFieldChange('frequency', val)}
-          options={frequencyOptions}
+          options={frequencyOptions.map(option => ({ value: option.value, label: option.label }))}
           disabled={isSubmitting}
           placeholder={t('subscriptions.selectFrequency')}
-          size="large"
           className={styles.statusSelect}
-          onBlur={() => handleFieldBlurIfNotFromDatePicker('frequency')}
         />
         {(!!formErrors['tipo'] && touchedFields['frequency']) && (
           <div className={styles.inputError}>{formErrors['tipo']}</div>
@@ -208,23 +206,17 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
       
       <div className={styles.formGroup} style={{ position: 'relative' }}>
         <label>{t('subscriptions.status.label')}</label>
-        <span style={{ position: 'relative', display: 'block', width: '100%' }}>
-          <select
-            value={formData.status || 'active'}
-            onChange={e => onFieldChange('status', e.target.value)}
-            disabled={isSubmitting}
-            className={styles.statusSelect}
-            style={{ appearance: 'none', WebkitAppearance: 'none', MozAppearance: 'none', width: '100%' }}
-            onBlur={() => handleFieldBlurIfNotFromDatePicker('status')}
-          >
-            <option value="active">{t('subscriptions.status.active')}</option>
-            <option value="inactive">{t('subscriptions.status.inactive')}</option>
-          </select>
-          <ChevronDown
-            size={20}
-            className={styles.selectIcon}
-          />
-        </span>
+        <HybridSelect
+          value={formData.status || 'active'}
+          onChange={(value) => onFieldChange('status', value)}
+          options={[
+            { value: 'active', label: t('subscriptions.status.active') },
+            { value: 'inactive', label: t('subscriptions.status.inactive') }
+          ]}
+          placeholder={t('subscriptions.status.label')}
+          disabled={isSubmitting}
+          className={styles.statusSelect}
+        />
         {(!!formErrors['estado'] && touchedFields['status']) && (
           <div className={styles.inputError}>{formErrors['estado']}</div>
         )}

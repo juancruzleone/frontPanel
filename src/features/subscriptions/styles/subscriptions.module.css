@@ -739,24 +739,47 @@
 .inputDate:focus {
   outline: 2px solid var(--color-primary);
 }
+/* Estilos para HybridSelect en formularios de suscripciones */
 .statusSelect {
   width: 100%;
-  padding: 0.5rem 2.2rem 0.5rem 0.75rem; /* padding derecho para la flecha, izquierdo igual que otros */
-  border-radius: 8px;
-  border: 1px solid var(--color-card-border);
-  background: var(--color-bg-light);
-  color: var(--color-text);
-  font-size: 1rem;
   margin-top: 0.25rem;
   margin-bottom: 0.5rem;
-  min-height: 44px;
-  height: 44px;
-  box-sizing: border-box;
-  appearance: none;
-  cursor: pointer;
+  position: relative;
 }
-.statusSelect:focus {
-  outline: 2px solid var(--color-primary);
+
+/* Sobrescribir estilos del HybridSelect para que coincidan con el diseño del formulario */
+.statusSelect :global(.hybridSelectWrapper) {
+  width: 100% !important;
+  position: relative;
+}
+
+.statusSelect :global(.hybridSelect) {
+  width: 100% !important;
+  padding: 0.5rem 0.75rem !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--color-card-border) !important;
+  background: var(--color-bg-light) !important;
+  color: var(--color-text) !important;
+  font-size: 1rem !important;
+  min-height: 44px !important;
+  height: 44px !important;
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+}
+
+.statusSelect :global(.hybridSelect):focus {
+  outline: 2px solid var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+/* Asegurar que no haya elementos superpuestos */
+.statusSelect::before,
+.statusSelect::after {
+  display: none !important;
+}
+
+.statusSelect * {
+  position: relative;
 }
 
 .closeButtonIcon {
@@ -806,7 +829,8 @@
   margin-top: 0.25rem;
 }
 
-.formGroup .selectIcon {
+/* Estilos para selectIcon solo en elementos select nativos, no en HybridSelect */
+.formGroup select + .selectIcon {
   position: absolute;
   right: 16px;
   top: 50%;
