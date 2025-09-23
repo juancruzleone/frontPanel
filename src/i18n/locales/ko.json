@@ -210,6 +210,7 @@
     "assign": "기술자 할당",
     "selectTechnician": "기술자 선택",
     "selectWorkType": "작업 유형 선택",
+    "selectPriority": "우선순위 선택",
     "minute": "분",
     "hour": "시간",
     "selectedTime": "선택된 시간",

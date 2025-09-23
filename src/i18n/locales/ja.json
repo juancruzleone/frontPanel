@@ -207,6 +207,7 @@
     "assign": "技術者を割り当て",
     "selectTechnician": "技術者を選択",
     "selectWorkType": "作業タイプを選択",
+    "selectPriority": "優先度を選択",
     "minute": "分",
     "hour": "時間",
     "selectedTime": "選択された時間",

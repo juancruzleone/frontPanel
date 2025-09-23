@@ -950,6 +950,7 @@
     "assign": "Assign technician",
     "selectTechnician": "Select a technician",
     "selectWorkType": "Select work type",
+    "selectPriority": "Select priority",
     "minute": "Minute",
     "hour": "Hour",
     "selectedTime": "Selected time",

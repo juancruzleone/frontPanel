@@ -201,6 +201,7 @@
     "noTechniciansAvailable": "لا يوجد فنيون متاحون",
     "invalidWorkOrder": "أمر عمل غير صالح",
     "selectWorkType": "اختر نوع العمل",
+    "selectPriority": "اختر الأولوية",
     "minute": "دقيقة",
     "hour": "ساعة",
     "selectedTime": "الوقت المحدد",

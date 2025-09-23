@@ -207,6 +207,7 @@
     "assign": "Assegna tecnico",
     "selectTechnician": "Seleziona un tecnico",
     "selectWorkType": "Seleziona tipo di lavoro",
+    "selectPriority": "Seleziona priorità",
     "minute": "Minuto",
     "hour": "Ora",
     "selectedTime": "Ora selezionata",

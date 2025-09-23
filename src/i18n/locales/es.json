@@ -879,6 +879,7 @@
     "noTechniciansAvailable": "No hay técnicos disponibles",
     "invalidWorkOrder": "Orden de trabajo inválida",
     "selectWorkType": "Seleccione tipo de trabajo",
+    "selectPriority": "Seleccione prioridad",
     "minute": "Minuto",
     "hour": "Hora",
     "selectedTime": "Hora seleccionada",
