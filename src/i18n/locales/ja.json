@@ -374,6 +374,7 @@
       "outOfService": "サービス停止",
       "pendingReview": "レビュー待ち"
     },
+    "deviceInstallationInfo": "インストール情報",
     "deviceState": "デバイス状態",
     "selectState": "状態を選択",
     "noAssetsAvailable": "利用可能な資産がありません",

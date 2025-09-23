@@ -370,6 +370,7 @@
       "outOfService": "خارج الخدمة",
       "pendingReview": "في انتظار المراجعة"
     },
+    "deviceInstallationInfo": "معلومات التركيب",
     "deviceState": "حالة الجهاز",
     "selectState": "اختر الحالة",
     "noAssetsAvailable": "لا توجد أصول متاحة",

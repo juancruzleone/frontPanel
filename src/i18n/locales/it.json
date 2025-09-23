@@ -375,6 +375,7 @@
       "outOfService": "Fuori servizio",
       "pendingReview": "In attesa di revisione"
     },
+    "deviceInstallationInfo": "Informazioni di installazione",
     "selectState": "Seleziona stato",
     "noAssetsAvailable": "Nessun bene disponibile",
     "noCategoriesAvailable": "Nessuna categoria disponibile",

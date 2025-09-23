@@ -329,6 +329,7 @@
       "outOfService": "Außer Betrieb",
       "pendingReview": "Zur Überprüfung ausstehend"
     },
+    "deviceInstallationInfo": "Installationsinformationen",
     "deviceLocation": "Gerätestandort",
     "deviceName": "Gerätename",
     "selectCategory": "Wählen Sie eine Kategorie",

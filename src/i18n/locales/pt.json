@@ -370,6 +370,7 @@
       "outOfService": "Fora de serviço",
       "pendingReview": "Pendente de revisão"
     },
+    "deviceInstallationInfo": "Informações da instalação",
     "deviceState": "Estado do Dispositivo",
     "selectState": "Selecionar estado",
     "noAssetsAvailable": "Nenhum ativo disponível",

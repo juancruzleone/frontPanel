@@ -432,6 +432,7 @@
       "outOfService": "停止服务",
       "pendingReview": "等待审核"
     },
+    "deviceInstallationInfo": "安装信息",
     "deviceState": "设备状态",
     "selectState": "选择状态",
     "noAssetsAvailable": "暂无可用资产",

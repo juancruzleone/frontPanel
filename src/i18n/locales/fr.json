@@ -373,6 +373,7 @@
     "outOfService": "Hors service",
     "pendingReview": "En attente de révision"
   },
+  "deviceInstallationInfo": "Informations d'installation",
   "deviceState": "État de l'Appareil",
   "selectState": "Sélectionner un état",
   "noAssetsAvailable": "Aucun actif disponible",

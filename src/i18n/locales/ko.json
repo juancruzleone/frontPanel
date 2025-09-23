@@ -377,6 +377,7 @@
     "outOfService": "서비스 중단",
     "pendingReview": "검토 대기"
   },
+  "deviceInstallationInfo": "설치 정보",
   "selectState": "상태 선택",
   "noAssetsAvailable": "사용 가능한 자산이 없습니다",
   "noCategoriesAvailable": "사용 가능한 카테고리가 없습니다",
