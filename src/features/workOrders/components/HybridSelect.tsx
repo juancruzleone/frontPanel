@@ -36,6 +36,7 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
   const { dark } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [hasBeenOpened, setHasBeenOpened] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -48,10 +49,9 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
         setIsOpen(false);
         setHighlightedIndex(-1);
         
-        // Disparar onBlur siempre que se haga clic fuera del componente
-        // para activar la validación del formulario
-        if (onBlur) {
-          console.log(`HybridSelect onBlur disparado para: ${name}`);
+        // Solo disparar onBlur si el usuario había abierto el dropdown y no seleccionó nada
+        if (onBlur && hasBeenOpened && (!value || value === "")) {
+          console.log(`HybridSelect onBlur disparado para: ${name} - usuario abrió dropdown pero no seleccionó`);
           onBlur();
         }
       }
@@ -59,7 +59,7 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [onBlur, isOpen, name]);
+  }, [onBlur, isOpen, name, hasBeenOpened, value]);
 
   useEffect(() => {
     if (isOpen && dropdownRef.current && highlightedIndex >= 0) {
@@ -72,6 +72,9 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
 
   const handleToggle = () => {
     if (!disabled) {
+      if (!isOpen) {
+        setHasBeenOpened(true);
+      }
       setIsOpen(!isOpen);
       setHighlightedIndex(-1);
     }
@@ -106,10 +109,10 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
         // Cuando el usuario presiona Tab para salir del componente
         setIsOpen(false);
         setHighlightedIndex(-1);
-        if (onBlur) {
+        if (onBlur && hasBeenOpened && (!value || value === "")) {
           // Usar setTimeout para asegurar que el blur se ejecute después del cambio de foco
           setTimeout(() => {
-            console.log(`HybridSelect onBlur disparado por Tab para: ${name}`);
+            console.log(`HybridSelect onBlur disparado por Tab para: ${name} - usuario abrió dropdown pero no seleccionó`);
             onBlur();
           }, 0);
         }
@@ -118,6 +121,7 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
         event.preventDefault();
         if (!isOpen) {
           setIsOpen(true);
+          setHasBeenOpened(true);
         } else {
           setHighlightedIndex(prev => 
             prev < options.length - 1 ? prev + 1 : 0
