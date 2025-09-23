@@ -48,18 +48,9 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
         setIsOpen(false);
         setHighlightedIndex(-1);
         
-        // Solo disparar onBlur si el dropdown estaba abierto (usuario interactuó con él)
-        // y NO se está haciendo clic en otro elemento de formulario
-        const target = event.target as HTMLElement;
-        const isClickingOnFormElement = target.closest('[role="combobox"]') || 
-                                       target.closest('.selectWrapper') ||
-                                       target.closest('[class*="select"]') ||
-                                       target.closest('[class*="hybridSelect"]') ||
-                                       target.closest('input') ||
-                                       target.closest('textarea') ||
-                                       target.closest('button');
-        
-        if (onBlur && wasOpen && !isClickingOnFormElement) {
+        // Disparar onBlur siempre que se haga clic fuera del componente
+        // para activar la validación del formulario
+        if (onBlur) {
           console.log(`HybridSelect onBlur disparado para: ${name}`);
           onBlur();
         }
@@ -110,6 +101,18 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
       case 'Escape':
         setIsOpen(false);
         setHighlightedIndex(-1);
+        break;
+      case 'Tab':
+        // Cuando el usuario presiona Tab para salir del componente
+        setIsOpen(false);
+        setHighlightedIndex(-1);
+        if (onBlur) {
+          // Usar setTimeout para asegurar que el blur se ejecute después del cambio de foco
+          setTimeout(() => {
+            console.log(`HybridSelect onBlur disparado por Tab para: ${name}`);
+            onBlur();
+          }, 0);
+        }
         break;
       case 'ArrowDown':
         event.preventDefault();
