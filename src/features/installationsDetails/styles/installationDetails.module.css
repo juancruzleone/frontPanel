@@ -86,8 +86,8 @@
   width: 100%;
   margin-bottom: 1rem;
   display: flex;
-  gap: 1rem;
-  align-items: flex-start;
+  gap: 12px;
+  align-items: center;
 }
 
 .filterContainer {
@@ -101,13 +101,17 @@
 
 .statusFilter {
   width: 100%;
-  padding: 0.875rem 1rem;
+  padding: 12px 16px;
   border: 2px solid var(--color-card-border);
-  border-radius: 12px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  background: var(--color-card);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 180px;
+  background-color: var(--color-card);
   color: var(--color-text);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
   font-family: inherit;
   appearance: none;
   -webkit-appearance: none;
@@ -115,19 +119,20 @@
   padding-right: 40px;
 }
 
+.statusFilter:hover {
+  border-color: var(--color-secondary);
+  box-shadow: 0 4px 8px rgba(5, 126, 116, 0.15);
+  transform: translateY(-1px);
+}
+
 .statusFilter:focus {
   outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.1);
-  background: var(--color-bg-light);
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 3px rgba(5, 126, 116, 0.1);
 }
 
 .statusFilter:focus + .selectIcon {
-  color: var(--color-primary);
-}
-
-.statusFilter:hover {
-  border-color: var(--color-card-border);
+  color: var(--color-secondary);
 }
 
 .selectIcon {

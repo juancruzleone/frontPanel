@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react"
 import { useParams, useNavigate, useLocation } from "react-router-dom"
 import styles from "../features/installationsDetails/styles/installationDetails.module.css"
-import { Trash, Edit, Plus, QrCode, FileText, ChevronDown } from "lucide-react"
+import { Trash, Edit, Plus, QrCode, FileText } from "lucide-react"
 import { FiArrowLeft } from "react-icons/fi"
 import { useTheme } from "../shared/hooks/useTheme"
 import ModalAddDevice from "../features/installations/components/ModalAddDevice"
@@ -17,6 +17,7 @@ import type { Device } from "../features/installations/hooks/useInstallations"
 import { useTranslation } from "react-i18next"
 import { translateDeviceStatus } from "../shared/utils/backendTranslations"
 import SearchInput from "../shared/components/Inputs/SearchInput"
+import HybridSelect from "../shared/components/HybridSelect/HybridSelect"
 
 const InstallationDetails = () => {
   const { t } = useTranslation()
@@ -273,29 +274,18 @@ const InstallationDetails = () => {
       </div>
 
       <div className={styles.searchContainer}>
+        <div className={styles.filterContainer}>
+          <HybridSelect
+            value={selectedStatus}
+            onChange={(value) => setSelectedStatus(value)}
+            options={statusOptions}
+            placeholder={t('common.all')}
+          />
+        </div>
         <SearchInput
           placeholder={t('installationDetails.searchDevicesPlaceholder')}
           onInputChange={(value) => setSearchTerm(value)}
         />
-        <div className={styles.filterContainer}>
-          <div className={styles.selectWrapper}>
-            <select
-              value={selectedStatus}
-              onChange={(e) => setSelectedStatus(e.target.value)}
-              className={styles.statusFilter}
-            >
-              {statusOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            <ChevronDown 
-              size={16} 
-              className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
-            />
-          </div>
-        </div>
       </div>
 
       <div className={styles.devicesList}>
