@@ -61,6 +61,7 @@ const InstallationDetails = () => {
   const [responseMessage, setResponseMessage] = useState("")
   const [isError, setIsError] = useState(false)
   const [loadingPDF, setLoadingPDF] = useState<string | null>(null)
+  const [initialLoad, setInitialLoad] = useState(true)
   
   // Estado para búsqueda y filtros
   const [searchTerm, setSearchTerm] = useState("")
@@ -109,7 +110,9 @@ const InstallationDetails = () => {
 
   useEffect(() => {
     if (id) {
-      loadInstallationDetails(id)
+      loadInstallationDetails(id).finally(() => {
+        setInitialLoad(false)
+      })
       document.title = t("installationDetails.titlePage")
     }
   }, [id, loadInstallationDetails, t])
@@ -222,11 +225,11 @@ const InstallationDetails = () => {
     navigate("/instalaciones")
   }
 
-  if (loading) {
+  if (loading || initialLoad) {
     return <div className={styles.loader}>{t("installationDetails.loadingDevices")}</div>
   }
 
-  if (!loading && !currentInstallation) {
+  if (!loading && !currentInstallation && !initialLoad) {
     return <div className={styles.loader}>{t("installationDetails.notFound")}</div>
   }
 

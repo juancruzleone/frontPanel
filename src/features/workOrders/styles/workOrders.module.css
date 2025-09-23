@@ -333,6 +333,11 @@
   z-index: 10;
 }
 
+/* Modo claro específico para el borde de la paginación */
+:root:not([data-theme="dark"]) .pagination {
+  border-top: 1px solid black;
+}
+
 .pagination button {
   background: var(--color-bg-light);
   color: var(--color-text);
