@@ -306,7 +306,7 @@
 }
 
 .loader {
-  color: var(--color-primary);
+  color: white;
   font-size: 16px;
 }
 

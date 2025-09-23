@@ -354,7 +354,7 @@
 
 /* Mensajes de carga */
 .loader {
-  color: var(--color-primary);
+  color: white;
   font-size: 16px;
 }
 
