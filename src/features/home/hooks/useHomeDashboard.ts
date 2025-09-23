@@ -39,14 +39,8 @@ const useHomeDashboard = () => {
           fetchTechnicians(),
         ])
         
-        // Si no hay datos de APIs, usar datos de ejemplo
-        const workOrdersData = workOrders.length > 0 ? workOrders : [
-          { tipoTrabajo: "Mantenimiento", estado: "pendiente", fechaCreacion: "2024-01-01" },
-          { tipoTrabajo: "Reparación", estado: "asignada", fechaCreacion: "2024-01-02" },
-          { tipoTrabajo: "Instalación", estado: "en_progreso", fechaCreacion: "2024-01-03" },
-          { tipoTrabajo: "Mantenimiento", estado: "completada", fechaCreacion: "2024-01-04" },
-          { tipoTrabajo: "Reparación", estado: "pendiente", fechaCreacion: "2024-01-05" },
-        ]
+        // Usar datos reales de la API, sin fallbacks hardcodeados
+        const workOrdersData = workOrders || []
         
         const installationsData = installations.length > 0 ? installations : []
         const assetsData = assets.length > 0 ? assets : []
