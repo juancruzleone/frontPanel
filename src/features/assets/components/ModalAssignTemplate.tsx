@@ -4,7 +4,8 @@ import { Asset } from "../hooks/useAssets";
 import styles from "../styles/Modal.module.css";
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css";
 import { fetchTemplates } from "../services/assetServices";
-import { useTranslation } from "react-i18next"
+import { useTranslation } from "react-i18next";
+import HybridSelect from "../../../shared/components/HybridSelect/HybridSelect";
 
 interface ModalAssignTemplateProps {
   isOpen: boolean;
@@ -104,22 +105,23 @@ const ModalAssignTemplate = ({
                   </div>
                 ) : (
                   <>
-                    <select
+                    <HybridSelect
                       value={selectedTemplate}
-                      onChange={(e) => {
-                        setSelectedTemplate(e.target.value);
+                      onChange={(value) => {
+                        setSelectedTemplate(value);
                         setFormErrors({});
                       }}
-                      className={formErrors.templateId ? styles.errorInput : ""}
+                      options={[
+                        { value: "", label: t('assets.templatePlaceholder') },
+                        ...templates.map(template => ({
+                          value: template._id,
+                          label: template.nombre
+                        }))
+                      ]}
+                      placeholder={t('assets.templatePlaceholder')}
                       disabled={isSubmitting}
-                    >
-                      <option value="">{t('assets.templatePlaceholder')}</option>
-                      {templates.map(template => (
-                        <option key={template._id} value={template._id}>
-                          {template.nombre}
-                        </option>
-                      ))}
-                    </select>
+                      className={formErrors.templateId ? styles.errorInput : ""}
+                    />
                     {formErrors.templateId && (
                       <p className={styles.inputError}>{formErrors.templateId}</p>
                     )}
@@ -144,7 +146,7 @@ const ModalAssignTemplate = ({
                 </button>
                 <button
                   type="submit"
-                  disabled={!selectedTemplate || loadingTemplates || isSubmitting}
+                  disabled={loadingTemplates || isSubmitting}
                   className={formButtonStyles.submitButton}
                   aria-label={t('assets.assignTemplateTooltip')}
                   data-tooltip={t('assets.assignTemplateTooltip')}

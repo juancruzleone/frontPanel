@@ -289,8 +289,13 @@
 .editFrequencyButton:hover {
   background: rgba(255, 255, 255, 0.1);
   transform: scale(1.05);
-  color: white;
+  color: var(--color-text);
   border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Modo claro específico para el hover del botón editar */
+:root:not([data-theme="dark"]) .editFrequencyButton:hover {
+  color: black;
 }
 .editFrequencyButton::after {
   content: attr(data-tooltip);

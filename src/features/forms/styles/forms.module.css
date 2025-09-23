@@ -60,6 +60,11 @@
   left: 0;
   right: 0;
   height: 4px;
+  background: linear-gradient(90deg, black, rgba(0, 0, 0, 0.8));
+}
+
+/* Modo oscuro - borde superior blanco */
+:global(.dark) .templateCard::before {
   background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
 }
 
@@ -147,10 +152,10 @@
 }
 
 .iconButton:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--color-text);
   transform: scale(1.05);
-  color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--color-card);
+  border: 1px solid var(--color-text);
 }
 
 .iconButton::after {
@@ -279,7 +284,7 @@
   bottom: 0;
   background: var(--color-bg);
   padding: 16px 0;
-  border-top: 1px solid var(--color-card-border);
+  border-top: 1px solid var(--color-text);
   z-index: 10;
 }
 
@@ -298,9 +303,9 @@
 }
 
 .pagination button:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  border-color: white;
+  background: var(--color-text);
+  color: var(--color-card);
+  border-color: var(--color-text);
   transform: translateY(-1px);
 }
 
@@ -317,7 +322,7 @@
 }
 
 .loader {
-  color: white;
+  color: var(--color-text);
   font-size: 16px;
 }
 
@@ -401,9 +406,9 @@
 
 .typeButtons button:hover,
 .typeButtons button.active {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  border-color: white;
+  background: var(--color-text);
+  color: var(--color-card);
+  border-color: var(--color-text);
 }
 
 .smallButton {

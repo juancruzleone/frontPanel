@@ -590,10 +590,24 @@
   transition: all 0.2s ease;
 }
 
+.searchInput:hover {
+  border-color: var(--color-text);
+}
+
+.searchInput:active {
+  border-color: var(--color-text);
+}
+
 .searchInput:focus {
   outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: var(--color-text);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Modo oscuro para el focus del buscador */
+:root[data-theme="dark"] .searchInput:focus {
+  border-color: var(--color-text);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
 }
 
 .searchInput::placeholder {
@@ -783,7 +797,7 @@
   width: 32px;
   height: 32px;
   border: 3px solid var(--color-border);
-  border-top: 3px solid var(--color-primary);
+  border-top: 3px solid var(--color-text);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }

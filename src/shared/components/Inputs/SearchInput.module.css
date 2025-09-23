@@ -22,8 +22,8 @@
   
 .inputWrapper:focus-within,
 .inputWrapper:hover {
-  border-color: white;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+  border-color: var(--color-text);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
 }
   
   .icon {
@@ -70,8 +70,8 @@
 
 .select:hover,
 .select:focus {
-  border-color: white;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+  border-color: var(--color-text);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
   outline: none;
 }
 

@@ -477,6 +477,7 @@
     "confirmDeleteDescription": "Esta acción no se puede deshacer. La instalación será eliminada permanentemente."
   },
   "assets": {
+    "assign": "Asignar",
     "successTitle": "¡Operación exitosa!",
     "understood": "cerrar",
     "title": "Activos",
@@ -545,6 +546,7 @@
     "templateCreated": "Plantilla de formulario creada exitosamente",
     "successTitle": "¡Operación exitosa!",
     "understood": "cerrar",
+    "selectFieldType": "Selecciona el tipo de campo",
     "title": "Plantillas de Formularios",
     "createTemplate": "Crear Plantilla de Formulario",
     "createFormTemplate": "Crear plantilla de formulario",

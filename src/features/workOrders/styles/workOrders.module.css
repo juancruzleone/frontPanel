@@ -56,7 +56,12 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+  background: linear-gradient(90deg, black, rgba(0, 0, 0, 0.8));
+}
+
+/* Modo oscuro - borde superior blanco */
+:global(.dark) .workOrderCard::before {
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
 }
 
 .workOrderCard:hover {
@@ -361,7 +366,7 @@
 }
 
 .loader {
-  color: white;
+  color: var(--color-text);
   font-size: 16px;
 }
 

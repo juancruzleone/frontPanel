@@ -362,7 +362,7 @@
 }
 
 .loader {
-  color: white;
+  color: var(--color-text);
   font-size: 16px;
 }
 

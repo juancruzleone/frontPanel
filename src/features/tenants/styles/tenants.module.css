@@ -222,7 +222,7 @@
 
 .loader {
   text-align: center;
-  color: white;
+  color: var(--color-text);
   font-size: 16px;
   margin: 40px 0;
 }

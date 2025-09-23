@@ -125,7 +125,7 @@
   .loader {
     font-size: 18px;
     text-align: center;
-    color: white;
+    color: var(--color-text);
     padding: 40px 0;
   }
   

@@ -9,7 +9,7 @@ import ModalSuccess from "../features/assets/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
 import ModalConfirmDelete from "../features/assets/components/ModalConfirmDelete"
 import ModalAssignTemplate from "../features/assets/components/ModalAssignTemplate"
-import { Edit, Trash, List, FileText, BookOpen } from "lucide-react"
+import { Edit, Trash, List, BookOpen } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { translateDeviceStatus } from "../shared/utils/backendTranslations"
@@ -154,9 +154,6 @@ const Assets = () => {
     }
   }
 
-  const handleViewDetails = (asset: Asset) => {
-    console.log("Ver detalles del activo:", asset)
-  }
 
   useEffect(() => {
     setCurrentPage(1)
@@ -247,14 +244,6 @@ const Assets = () => {
                           <List size={20} />
                         </button>
 
-                        <button
-                          className={styles.iconButton}
-                          onClick={() => handleViewDetails(asset)}
-                          aria-label={t('assets.viewDetailsTooltip')}
-                          data-tooltip={t('assets.viewDetailsTooltip')}
-                        >
-                          <FileText size={20} />
-                        </button>
 
                         <button
                           className={styles.iconButton}

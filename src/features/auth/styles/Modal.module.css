@@ -51,7 +51,7 @@
   justify-content: space-between;
   align-items: flex-start;
   padding: 24px 24px 16px;
-  border-bottom: 1px solid var(--color-card-border);
+  border-bottom: 1px solid var(--color-text);
   background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-card) 100%);
   position: relative;
 }
