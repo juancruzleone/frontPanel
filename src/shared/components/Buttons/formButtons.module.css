@@ -75,8 +75,8 @@
 
 .submitButton:hover {
   background: rgba(255, 255, 255, 0.9);
-  color: var(--color-primary);
-  border-color: var(--color-primary);
+  color: white;
+  border-color: white;
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
@@ -101,8 +101,8 @@
 
 .submitButton.success:hover {
   background: rgba(255, 255, 255, 0.9);
-  color: var(--color-success);
-  border-color: var(--color-success);
+  color: white;
+  border-color: white;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 

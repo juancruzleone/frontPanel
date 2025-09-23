@@ -274,8 +274,8 @@
 }
 
 .datePickerCancelButton:hover {
-  background: var(--color-card-border);
-  border-color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
   transform: translateY(-1px);
 }
 

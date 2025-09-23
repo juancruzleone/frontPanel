@@ -40,7 +40,7 @@
   content: "";
   width: 4px;
   height: 20px;
-  background: linear-gradient(135deg, #007bff, #0056b3);
+  background: linear-gradient(135deg, white, rgba(255, 255, 255, 0.8));
   border-radius: 2px;
 }
 
@@ -69,7 +69,7 @@
   content: '';
   width: 3px;
   height: 16px;
-  background: linear-gradient(135deg, #007bff, #0056b3);
+  background: linear-gradient(135deg, white, rgba(255, 255, 255, 0.8));
   border-radius: 2px;
 }
 
@@ -90,8 +90,8 @@
 .formGroup select:focus,
 .formGroup textarea:focus {
   outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.1);
+  border-color: white;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
   background: var(--color-bg-light);
 }
 

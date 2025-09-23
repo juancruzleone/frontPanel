@@ -64,7 +64,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-secondary) 50%, var(--color-accent) 100%);
+  background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.6) 100%);
 }
 
 .modalHeader p {
@@ -91,7 +91,7 @@
   left: 0;
   width: 40px;
   height: 3px;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
   border-radius: 2px;
 }
 
@@ -364,8 +364,8 @@
 }
 
 .cancelButton:hover {
-  background: var(--color-card-border);
-  border-color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
   transform: translateY(-1px);
 }
 
@@ -699,7 +699,7 @@
   width: 20px;
   height: 20px;
   border: 2px solid var(--color-card-border);
-  border-top: 2px solid var(--color-primary);
+  border-top: 2px solid white;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -772,7 +772,7 @@
 }
 
 .listItem:hover {
-  border-color: var(--color-primary);
+  border-color: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
@@ -806,7 +806,7 @@
 .loader {
   font-size: 18px;
   text-align: center;
-  color: #0f172a;
+  color: white;
   padding: 40px 0;
   margin: 0 1.5rem; /* Igual que los tems, para que no toque los bordes */
 }

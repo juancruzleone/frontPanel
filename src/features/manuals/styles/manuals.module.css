@@ -98,7 +98,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
 }
 
 .manualCard:hover {

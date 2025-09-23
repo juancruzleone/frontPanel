@@ -130,7 +130,7 @@
 
 .hybridOption.selected {
   background-color: rgba(255, 255, 255, 0.15);
-  color: white;
+  color: black;
   font-weight: 500;
   border-left: 3px solid white;
 }

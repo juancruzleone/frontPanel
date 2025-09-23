@@ -66,7 +66,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #007bff 0%, #0056b3 50%, #004085 100%);
+  background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.6) 100%);
 }
 
 .modalHeader p {
@@ -93,7 +93,7 @@
   left: 0;
   width: 40px;
   height: 3px;
-  background: linear-gradient(90deg, #007bff, #0056b3);
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
   border-radius: 2px;
 }
 
@@ -170,9 +170,9 @@
 }
 
 .modalButton {
-  background: var(--color-primary);
-  color: #fff;
-  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-text);
+  border: 2px solid white;
   padding: 10px 20px;
   border-radius: 8px;
   cursor: pointer;
@@ -369,8 +369,8 @@
 }
 
 .cancelButton:hover {
-  background: var(--color-card-border);
-  border-color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
   transform: translateY(-1px);
 }
 
@@ -618,7 +618,9 @@
 }
 
 .editButton:hover {
-  background: var(--color-primary);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-text);
+  border-color: white;
   transform: translateY(-1px);
 }
 
@@ -672,7 +674,9 @@
 }
 
 .saveButton:hover:not(:disabled) {
-  background: var(--color-primary);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-text);
+  border-color: white;
   transform: translateY(-1px);
 }
 
@@ -705,7 +709,7 @@
   width: 20px;
   height: 20px;
   border: 2px solid var(--color-card-border);
-  border-top: 2px solid var(--color-primary);
+  border-top: 2px solid white;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -778,7 +782,7 @@
 }
 
 .listItem:hover {
-  border-color: var(--color-primary);
+  border-color: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
@@ -812,7 +816,7 @@
 .loader {
   font-size: 18px;
   text-align: center;
-  color: #0f172a;
+  color: white;
   padding: 40px 0;
   margin: 0 1.5rem; /* Igual que los ítems, para que no toque los bordes */
 }

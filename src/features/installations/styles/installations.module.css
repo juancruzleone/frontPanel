@@ -62,7 +62,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
 }
 
 .installationCard:hover {
@@ -311,7 +311,7 @@
 }
 
 .smallButton {
-  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+  background: linear-gradient(135deg, white 0%, rgba(255, 255, 255, 0.8) 100%);
   color: #fff;
   border: none;
   border-radius: 8px;

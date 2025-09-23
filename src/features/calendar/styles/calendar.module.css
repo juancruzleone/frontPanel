@@ -1482,7 +1482,7 @@
 }
 
 .timePickerScroll::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #007bff, #0056b3);
+  background: linear-gradient(135deg, white, rgba(255, 255, 255, 0.8));
 }
 
 .timePickerItem {
@@ -1555,7 +1555,7 @@
 }
 
 .selectDropdownList::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, #007bff, #0056b3);
+  background: linear-gradient(135deg, white, rgba(255, 255, 255, 0.8));
 }
 
 .selectDropdownItem {

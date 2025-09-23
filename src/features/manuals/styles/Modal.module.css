@@ -63,7 +63,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #007bff 0%, #0056b3 50%, #004085 100%);
+  background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.6) 100%);
 }
 
 .modalHeader p {
@@ -90,7 +90,7 @@
   left: 0;
   width: 40px;
   height: 3px;
-  background: linear-gradient(90deg, #007bff, #0056b3);
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
   border-radius: 2px;
 }
 
@@ -322,8 +322,8 @@
 }
 
 .cancelButton:hover {
-  background: var(--color-card-border);
-  border-color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
   transform: translateY(-1px);
 }
 
