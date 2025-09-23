@@ -196,6 +196,28 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
     }))
   }
 
+  const handleSelectChange = (name: string, value: string) => {
+    console.log(`Seleccionando ${name}:`, value);
+    console.log('FormData antes del cambio:', formData);
+    setFormData((prev) => {
+      const newData = {
+        ...prev,
+        [name]: value,
+      };
+      console.log('FormData después del cambio:', newData);
+      return newData;
+    })
+  }
+
+  const handleSelectBlur = (name: string) => {
+    console.log(`=== onBlur disparado ===`);
+    console.log(`Campo que perdió el foco: ${name}`);
+    console.log(`Valor actual del campo ${name}:`, formData[name]);
+    console.log(`FormData completo:`, formData);
+    console.log(`========================`);
+    // Aquí puedes agregar validaciones onBlur si es necesario
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitting(true)
@@ -204,15 +226,23 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
 
     try {
       // Debug: mostrar datos antes de enviar
-      console.log("Enviando formulario con datos:", {
-        formData,
-        formFields: formFields.map(f => ({
-          name: f.name,
-          type: f.type,
-          required: f.required,
-          value: formData[f.name]
-        }))
-      })
+      console.log("=== ENVIANDO FORMULARIO ===");
+      console.log("FormData completo:", formData);
+      console.log("Campos del formulario:", formFields.map(f => ({
+        name: f.name,
+        type: f.type,
+        required: f.required,
+        value: formData[f.name],
+        isEmpty: !formData[f.name] || formData[f.name] === ""
+      })));
+      
+      // Verificar campos requeridos vacíos
+      const emptyRequiredFields = formFields.filter(f => 
+        f.required && (!formData[f.name] || formData[f.name] === "")
+      );
+      if (emptyRequiredFields.length > 0) {
+        console.log("⚠️ CAMPOS REQUERIDOS VACÍOS:", emptyRequiredFields.map(f => f.name));
+      }
 
       if (isOnline) {
         // Enviar directamente si hay conexión
@@ -277,6 +307,8 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
     isOnline,
     pendingSubmissions,
     handleChange,
+    handleSelectChange,
+    handleSelectBlur,
     handleSubmit,
     syncPendingSubmissions,
   }

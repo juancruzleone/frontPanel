@@ -29,6 +29,8 @@ const DeviceForm: React.FC = () => {
     isOnline,
     pendingSubmissions,
     handleChange,
+    handleSelectChange,
+    handleSelectBlur,
     handleSubmit
   } = useDeviceForm(installationId, deviceId)
 
@@ -177,7 +179,8 @@ const DeviceForm: React.FC = () => {
               <HybridSelect
                 name={field.name}
                 value={formData[field.name] || ""}
-                onChange={(value) => handleChange({ target: { name: field.name, value } } as any)}
+                onChange={(value) => handleSelectChange(field.name, value)}
+                onBlur={() => handleSelectBlur(field.name)}
                 disabled={false}
                 options={[
                   { value: "", label: t('deviceForm.select') },
@@ -188,6 +191,7 @@ const DeviceForm: React.FC = () => {
                 ]}
                 placeholder={t('deviceForm.select')}
                 error={false}
+                required={field.required}
               />
             ) : field.type === "date" ? (
               <span style={{ position: 'relative', display: 'block', width: '100%' }}>

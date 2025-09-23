@@ -18,6 +18,7 @@ interface HybridSelectProps {
   options: Option[];
   placeholder?: string;
   error?: boolean;
+  required?: boolean;
 }
 
 const HybridSelect: React.FC<HybridSelectProps> = ({
@@ -29,7 +30,8 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
   className,
   options,
   placeholder,
-  error
+  error,
+  required = false
 }) => {
   const { dark } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
@@ -42,14 +44,31 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+        const wasOpen = isOpen;
         setIsOpen(false);
         setHighlightedIndex(-1);
+        
+        // Solo disparar onBlur si el dropdown estaba abierto (usuario interactuó con él)
+        // y NO se está haciendo clic en otro elemento de formulario
+        const target = event.target as HTMLElement;
+        const isClickingOnFormElement = target.closest('[role="combobox"]') || 
+                                       target.closest('.selectWrapper') ||
+                                       target.closest('[class*="select"]') ||
+                                       target.closest('[class*="hybridSelect"]') ||
+                                       target.closest('input') ||
+                                       target.closest('textarea') ||
+                                       target.closest('button');
+        
+        if (onBlur && wasOpen && !isClickingOnFormElement) {
+          console.log(`HybridSelect onBlur disparado para: ${name}`);
+          onBlur();
+        }
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [onBlur, isOpen, name]);
 
   useEffect(() => {
     if (isOpen && dropdownRef.current && highlightedIndex >= 0) {
@@ -71,10 +90,8 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
     onChange(option.value);
     setIsOpen(false);
     setHighlightedIndex(-1);
-    // Trigger onBlur after a small delay to ensure the change event is processed first
-    setTimeout(() => {
-      if (onBlur) onBlur();
-    }, 0);
+    // No disparar onBlur al seleccionar una opción válida
+    // onBlur solo debe dispararse cuando realmente se pierde el foco sin seleccionar
   };
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
@@ -117,6 +134,14 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
 
   return (
     <div className={styles.selectWrapper} ref={selectRef}>
+      {/* Hidden input for form validation */}
+      <input
+        type="hidden"
+        name={name}
+        value={value}
+        required={required}
+        onChange={() => {}} // Controlled by the select component
+      />
       <div
         className={`${styles.select} ${styles.hybridSelect} ${error ? styles.errorInput : ''} ${className || ''}`}
         onClick={handleToggle}
@@ -126,6 +151,7 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         aria-disabled={disabled}
+        aria-required={required}
       >
         <span className={styles.selectValue}>
           {selectedOption ? selectedOption.label : placeholder}
