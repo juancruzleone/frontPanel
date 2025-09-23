@@ -34,8 +34,8 @@
 
 
 .cancelButton:hover {
-  background: var(--color-card-border);
-  border-color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
   transform: translateY(-1px);
 }
 
@@ -74,9 +74,11 @@
 }
 
 .submitButton:hover {
-  background: var(--color-primary-dark);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(25, 118, 210, 0.4);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .submitButton:active {
@@ -98,8 +100,10 @@
 }
 
 .submitButton.success:hover {
-  background: var(--color-primary);
-  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-success);
+  border-color: var(--color-success);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 /* Responsive */

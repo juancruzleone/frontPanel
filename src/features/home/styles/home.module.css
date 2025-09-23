@@ -144,7 +144,7 @@ body, html {
 .statsCard:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-  border-color: var(--color-primary);
+  border-color: white;
 }
 
 .statsCard:focus {
@@ -354,7 +354,7 @@ body, html {
 
 .orderItem:hover {
   background: var(--color-card);
-  border-color: var(--color-primary);
+  border-color: white;
   transform: translateY(-1px);
 }
 

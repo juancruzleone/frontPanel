@@ -12,7 +12,7 @@
   
   .title {
     font-size: 28px;
-    color: var(--color-primary);
+    color: white;
     font-weight: 700;
     text-align: center;
     margin-bottom: 8px;
@@ -63,9 +63,9 @@
   }
   
   .input:focus, .select:focus, .textarea:focus {
-    border: 1.5px solid var(--color-primary);
+    border: 1.5px solid white;
     outline: none;
-    box-shadow: 0 2px 8px #1976d233;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
     color: var(--color-text);
   }
   
@@ -188,7 +188,7 @@
 }
 
 .pendingItem svg {
-  color: var(--color-primary);
+  color: white;
   flex-shrink: 0;
 }
 
@@ -363,9 +363,9 @@
   padding-right: 40px;
 }
 .select:focus {
-  border: 1.5px solid var(--color-primary);
+  border: 1.5px solid white;
   outline: none;
-  box-shadow: 0 2px 8px #1976d233;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
   color: var(--color-text);
 }
 
@@ -389,7 +389,7 @@
   gap: 8px;
   margin-bottom: 12px;
   font-size: 18px;
-  color: var(--color-primary, #1976d2);
+  color: white;
 }
 
 .infoContent {

@@ -240,7 +240,7 @@
 
 .installationName {
   font-weight: 600;
-  color: var(--color-primary);
+  color: white;
 }
 
 .address {
@@ -287,9 +287,10 @@
   font-size: 16px;
 }
 .editFrequencyButton:hover {
-  background: var(--color-bg-light);
+  background: rgba(255, 255, 255, 0.1);
   transform: scale(1.05);
-  color: var(--color-primary);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 .editFrequencyButton::after {
   content: attr(data-tooltip);
@@ -383,13 +384,13 @@
 
 .frequencySelect:focus {
   outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.1);
+  border-color: white;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
   background: var(--color-bg-light);
 }
 
 .frequencySelect:hover:not(:disabled) {
-  border-color: var(--color-primary);
+  border-color: white;
   background: var(--color-bg-light);
 }
 
@@ -485,8 +486,9 @@
 }
 
 .pagination button:hover:not(:disabled) {
-  background: var(--color-primary);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-color: white;
   transform: translateY(-1px);
 }
 
@@ -609,7 +611,7 @@
 
 .subscriptionInfo h3 {
   margin: 0 0 0.5rem 0;
-  color: var(--color-primary);
+  color: white;
   font-size: 1.1rem;
 }
 
@@ -708,9 +710,11 @@
 }
 
 .saveButton:hover:not(:disabled) {
-  background: var(--color-primary-dark);
-  border-color: var(--color-primary-dark);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .saveButton:disabled {

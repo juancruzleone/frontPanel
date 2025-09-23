@@ -24,12 +24,14 @@
 }
 
 .hybridSelect:hover {
-  border-color: #007bff;
+  border-color: white;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
 }
 
 .hybridSelect:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: white;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
 }
 
 .hybridSelect.disabled {
@@ -122,22 +124,25 @@
 
 .hybridOption:hover,
 .hybridOption.highlighted {
-  background-color: var(--color-bg-hover);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-left: 3px solid white;
 }
 
 .hybridOption.selected {
-  background-color: var(--color-primary-light);
-  color: var(--color-primary);
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
   font-weight: 500;
+  border-left: 3px solid white;
 }
 
 .hybridOption.selected:hover,
 .hybridOption.selected.highlighted {
-  background-color: var(--color-primary-light-hover);
+  background-color: rgba(255, 255, 255, 0.2);
+  border-left: 3px solid white;
 }
 
 .checkIcon {
-  color: var(--color-primary);
+  color: white;
   margin-left: 8px;
   flex-shrink: 0;
 }
