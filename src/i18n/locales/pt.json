@@ -201,6 +201,10 @@
     "pendingStart": "Aguardando início",
     "assign": "Atribuir técnico",
     "selectTechnician": "Selecione um técnico",
+    "selectWorkType": "Selecione tipo de trabalho",
+    "minute": "Minuto",
+    "hour": "Hora",
+    "selectedTime": "Hora selecionada",
     "tooltips": {
       "editOrder": "Editar ordem de serviço",
       "deleteOrder": "Excluir ordem de serviço",

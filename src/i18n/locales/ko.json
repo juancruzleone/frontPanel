@@ -207,9 +207,13 @@
   "completada": "완료됨",
   "cancelada": "취소됨",
   "pendingStart": "시작 대기 중",
-  "assign": "기술자 할당",
-  "selectTechnician": "기술자 선택",
-  "tooltips": {
+    "assign": "기술자 할당",
+    "selectTechnician": "기술자 선택",
+    "selectWorkType": "작업 유형 선택",
+    "minute": "분",
+    "hour": "시간",
+    "selectedTime": "선택된 시간",
+    "tooltips": {
     "editOrder": "작업 지시서 수정",
     "deleteOrder": "작업 지시서 삭제",
     "startOrder": "작업 시작",

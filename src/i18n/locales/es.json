@@ -876,6 +876,10 @@
     "errorAssigningTechnician": "Error al asignar técnico",
     "noTechniciansAvailable": "No hay técnicos disponibles",
     "invalidWorkOrder": "Orden de trabajo inválida",
+    "selectWorkType": "Seleccione tipo de trabajo",
+    "minute": "Minuto",
+    "hour": "Hora",
+    "selectedTime": "Hora seleccionada",
     "tooltips": {
       "editOrder": "Editar orden de trabajo",
       "deleteOrder": "Eliminar orden de trabajo",

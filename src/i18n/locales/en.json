@@ -948,6 +948,10 @@
     "pendingStart": "Waiting to start",
     "assign": "Assign technician",
     "selectTechnician": "Select a technician",
+    "selectWorkType": "Select work type",
+    "minute": "Minute",
+    "hour": "Hour",
+    "selectedTime": "Selected time",
     "tooltips": {
       "editOrder": "Edit work order",
       "deleteOrder": "Delete work order",

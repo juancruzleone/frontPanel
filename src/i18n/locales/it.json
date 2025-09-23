@@ -206,6 +206,10 @@
     "pendingStart": "In attesa di avvio",
     "assign": "Assegna tecnico",
     "selectTechnician": "Seleziona un tecnico",
+    "selectWorkType": "Seleziona tipo di lavoro",
+    "minute": "Minuto",
+    "hour": "Ora",
+    "selectedTime": "Ora selezionata",
     "tooltips": {
       "editOrder": "Modifica ordine di lavoro",
       "deleteOrder": "Elimina ordine di lavoro",

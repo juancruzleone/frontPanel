@@ -204,6 +204,10 @@
     "pendingStart": "Warten auf Start",
     "assign": "Techniker zuweisen",
     "selectTechnician": "Techniker auswählen",
+    "selectWorkType": "Arbeitstyp auswählen",
+    "minute": "Minute",
+    "hour": "Stunde",
+    "selectedTime": "Ausgewählte Zeit",
     "tooltips": {
       "editOrder": "Arbeitsauftrag bearbeiten",
       "deleteOrder": "Arbeitsauftrag löschen",

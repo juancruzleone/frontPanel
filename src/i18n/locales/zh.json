@@ -209,6 +209,10 @@
     "pendingStart": "等待开始",
     "assign": "分配技术员",
     "selectTechnician": "选择技术员",
+    "selectWorkType": "选择工作类型",
+    "minute": "分钟",
+    "hour": "小时",
+    "selectedTime": "选择的时间",
     "tooltips": {
       "editOrder": "编辑工单",
       "deleteOrder": "删除工单",
