@@ -11,6 +11,7 @@ interface Option {
 interface HybridSelectProps {
   value: string;
   onChange: (value: string) => void;
+  onBlur?: () => void;
   options: Option[];
   placeholder?: string;
   className?: string;
@@ -21,6 +22,7 @@ interface HybridSelectProps {
 const HybridSelect: React.FC<HybridSelectProps> = ({
   value,
   onChange,
+  onBlur,
   options,
   placeholder = "Seleccionar...",
   className,
@@ -30,6 +32,7 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
   const { dark } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const [hasBeenOpened, setHasBeenOpened] = useState(false);
   const [selectWidth, setSelectWidth] = useState<number>(180);
   const selectRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -70,14 +73,21 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+        const wasOpen = isOpen;
         setIsOpen(false);
         setHighlightedIndex(-1);
+        
+        // Solo disparar onBlur si el usuario había abierto el dropdown y no seleccionó nada
+        if (onBlur && hasBeenOpened && (!value || value === "")) {
+          console.log(`HybridSelect onBlur disparado - usuario abrió dropdown pero no seleccionó`);
+          onBlur();
+        }
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [onBlur, isOpen, hasBeenOpened, value]);
 
   useEffect(() => {
     if (isOpen && dropdownRef.current && highlightedIndex >= 0) {
@@ -90,6 +100,9 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
 
   const handleToggle = () => {
     if (!disabled) {
+      if (!isOpen) {
+        setHasBeenOpened(true);
+      }
       setIsOpen(!isOpen);
       setHighlightedIndex(-1);
     }
@@ -118,10 +131,23 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
         setIsOpen(false);
         setHighlightedIndex(-1);
         break;
+      case 'Tab':
+        // Cuando el usuario presiona Tab para salir del componente
+        setIsOpen(false);
+        setHighlightedIndex(-1);
+        if (onBlur && hasBeenOpened && (!value || value === "")) {
+          // Usar setTimeout para asegurar que el blur se ejecute después del cambio de foco
+          setTimeout(() => {
+            console.log(`HybridSelect onBlur disparado por Tab - usuario abrió dropdown pero no seleccionó`);
+            onBlur();
+          }, 0);
+        }
+        break;
       case 'ArrowDown':
         event.preventDefault();
         if (!isOpen) {
           setIsOpen(true);
+          setHasBeenOpened(true);
         } else {
           setHighlightedIndex(prev => 
             prev < options.length - 1 ? prev + 1 : 0

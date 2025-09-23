@@ -114,6 +114,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
         <HybridSelect
           value={formData.frequency || ''}
           onChange={(val) => onFieldChange('frequency', val)}
+          onBlur={() => onFieldBlur('frequency')}
           options={frequencyOptions.map(option => ({ value: option.value, label: option.label }))}
           disabled={isSubmitting}
           placeholder={t('subscriptions.selectFrequency')}
