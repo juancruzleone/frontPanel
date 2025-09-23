@@ -407,15 +407,15 @@
   border-radius: 10px;
   padding: 0;
   margin: 0;
-  width: 36px;
-  height: 40px;
+  width: 30px;
+  height: 32px;
   transition: all 0.2s ease;
 }
 
 @media (min-width: 768px) {
   .themeBox {
-    width: 40px;
-    height: 44px;
+    width: 34px;
+    height: 36px;
   }
 }
 
@@ -479,8 +479,8 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  width: 36px;
-  height: 40px;
+  width: 30px;
+  height: 32px;
   font-size: 12px;
   font-weight: 600;
   margin: 0;
@@ -488,8 +488,8 @@
 
 @media (min-width: 768px) {
   .languageButton {
-    width: 40px;
-    height: 44px;
+    width: 34px;
+    height: 36px;
   }
 }
 

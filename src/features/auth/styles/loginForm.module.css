@@ -225,6 +225,16 @@ input:-webkit-autofill {
   padding-bottom: 15px;
 }
 
+/* Modo claro - borde gris oscuro */
+:global(:root:not(.dark)) .formTopControls {
+  border-bottom: 1px solid #4a5568 !important;
+}
+
+/* Modo oscuro - borde gris original */
+:global(:root.dark) .formTopControls {
+  border-bottom: 1px solid var(--color-card-border) !important;
+}
+
 
 /* MOBILE Y TABLETS - Diseño móvil para pantallas hasta 1366px */
 @media (max-width: 1366px) {

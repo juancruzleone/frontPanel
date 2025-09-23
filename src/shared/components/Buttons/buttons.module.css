@@ -72,16 +72,16 @@ button{
   background: var(--color-themebox-bg);
   color: var(--color-icon);
   border: 1px solid var(--color-themebox-border);
-  padding: 10px;
+  padding: 8px;
   border-radius: 10px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-  width: 40px; /* menos ancho */
-  height: 48px;
-  font-size: 1.5rem;
+  width: 34px;
+  height: 40px;
+  font-size: 1.2rem;
   margin-left: 5px;
 }
 
@@ -99,8 +99,8 @@ button{
 .languageSelectorContainer {
   position: relative;
   display: inline-block;
-  width: 40px;
-  height: 48px;
+  width: 34px;
+  height: 40px;
 }
 
 .languageButton {
