@@ -39,6 +39,7 @@
   "registering": "등록 중...",
   "completeAllFields": "모든 필드를 입력하세요",
   "registerTechnician": "기술자 등록",
+  "createTechnician": "기술자 생성",
   "roleTechnician": "기술자",
   "roleAdmin": "관리자",
   "titlePage": "직원 | Leonix",
