@@ -40,7 +40,7 @@
     "registerTechnician": "Registrar Técnico",
     "roleTechnician": "Técnico",
     "roleAdmin": "Administrador",
-    "titlePage": "Personal | LeoneSuite",
+    "titlePage": "Personal | Leonix",
     "confirmDeleteTechnician": "¿Seguro que deseas eliminar este usuario?",
     "deleteUser": "Eliminar usuario",
     "confirmDeleteTitle": "¿Eliminar técnico?",
@@ -472,7 +472,7 @@
       "typeNameMax": "El nombre no puede tener más de 100 caracteres",
       "typeDescriptionMax": "La descripción no puede exceder 500 caracteres"
     },
-    "titlePage": "Instalaciones | LeoneSuite",
+    "titlePage": "Instalaciones | Leonix",
     "confirmDeleteTitle": "¿Eliminar instalación?",
     "confirmDeleteDescription": "Esta acción no se puede deshacer. La instalación será eliminada permanentemente."
   },
@@ -540,7 +540,7 @@
       "serialRequired": "El número de serie es obligatorio",
       "templateRequired": "La plantilla de formulario es obligatoria"
     },
-    "titlePage": "Activos | LeoneSuite"
+    "titlePage": "Activos | Leonix"
   },
   "forms": {
     "templateCreated": "Plantilla de formulario creada exitosamente",
@@ -638,12 +638,12 @@
       "fieldOptionsRequired": "Las opciones son obligatorias para campos de tipo select o radio",
       "unknownError": "Error de validación desconocido"
     },
-    "titlePage": "Formularios | LeoneSuite"
+    "titlePage": "Formularios | Leonix"
   },
   "manuals": {
     "understood": "cerrar",
     "viewFile": "Ver archivo",
-    "titlePage": "Manuales | LeoneSuite",
+    "titlePage": "Manuales | Leonix",
     "title": "Manuales",
     "createManual": "Crear manual",
     "editManual": "Editar manual",
@@ -757,7 +757,7 @@
     "selectStartDate": "Seleccionar fecha de inicio",
     "selectEndDate": "Seleccionar fecha de finalización",
     "title": "Abonos Vigentes",
-    "titlePage": "Abonos Vigentes - FrontPanel",
+    "titlePage": "Abonos Vigentes | Leonix",
     "subtitle": "Gestión de suscripciones y abonos activos",
     "searchPlaceholder": "Buscar abonos...",
     "startDate": "Fecha de inicio",
@@ -940,13 +940,13 @@
         "deviceStateInvalid": "El estado del dispositivo debe ser válido"
       }
     },
-    "titlePage": "Órdenes de Trabajo | LeoneSuite"
+    "titlePage": "Órdenes de Trabajo | Leonix"
   },
   "calendar": {
     "selectYear": "Seleccionar año",
     "successTitle": "¡Operación exitosa!",
     "understood": "cerrar",
-    "titlePage": "Calendario | LeoneSuite",
+    "titlePage": "Calendario | Leonix",
     "title": "Calendario de Órdenes de Trabajo",
     "month": "Mes",
     "week": "Semana",
@@ -1024,7 +1024,7 @@
     "deviceNamePlaceholder": "Escribe el nombre del dispositvo",
     "successTitle": "¡Operación exitosa!",
     "understood": "cerrar",
-    "titlePage": "Dispositivos | LeoneSuite",
+    "titlePage": "Dispositivos | Leonix",
     "loadingDevices": "Cargando dispositivos...",
     "notFound": "Instalación no encontrada",
     "devicesOf": "Dispositivos de {{name}}",
@@ -1060,7 +1060,7 @@
   "login": {
     "successTitle": "¡Operación exitosa!",
     "understood": "cerrar",
-    "titlePage": "Iniciar Sesión | LeoneSuite",
+    "titlePage": "Iniciar Sesión | Leonix",
     "title": "Inicia sesión",
     "username": "Usuario",
     "submit": "Inciar sesión",
@@ -1150,7 +1150,7 @@
   },
   "tenants": {
     "title": "Tenants",
-    "titlePage": "Tenants | LeoneSuite",
+    "titlePage": "Tenants | Leonix",
     "createTenant": "Crear Tenant",
     "editTenant": "Editar Tenant",
     "deleteTenant": "Eliminar Tenant",

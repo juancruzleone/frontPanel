@@ -41,7 +41,7 @@
   "registerTechnician": "Registrar técnico",
   "roleTechnician": "Técnico",
   "roleAdmin": "Administrador",
-  "titlePage": "Equipe | LeoneSuite",
+  "titlePage": "Equipe | Leonix",
   "confirmDeleteTechnician": "Tem certeza de que deseja excluir este usuário?",
   "deleteUser": "Excluir usuário",
   "confirmDeleteTitle": "Excluir técnico?",
@@ -263,7 +263,7 @@
         "deviceStateInvalid": "O estado do dispositivo deve ser válido"
       }
     },
-    "titlePage": "Ordens de Trabalho | LeoneSuite"
+    "titlePage": "Ordens de Trabalho | Leonix"
   },
   "installations": {
     "deviceNamePlaceholder": "Digite o nome do dispositivo",
@@ -591,7 +591,7 @@
       "typeNameMax": "O nome não pode exceder 100 caracteres",
       "typeDescriptionMax": "A descrição não pode exceder 500 caracteres"
     },
-    "titlePage": "Instalações | LeoneSuite",
+    "titlePage": "Instalações | Leonix",
     "confirmDeleteTitle": "Excluir instalação?",
     "confirmDeleteDescription": "Esta ação não pode ser desfeita. A instalação será excluída permanentemente."
   },
@@ -653,7 +653,7 @@
       "serialRequired": "O número de série é obrigatório",
       "templateRequired": "O modelo de formulário é obrigatório"
     },
-    "titlePage": "Ativos | LeoneSuite"
+    "titlePage": "Ativos | Leonix"
   },
   "forms": {
     "templateCreated": "Modelo de formulário criado com sucesso",
@@ -661,7 +661,7 @@
     "successTitle": "Operação bem-sucedida!",
     "selectFieldType": "Selecione o tipo de campo",
     "continue": "Continuar",
-    "titlePage": "Formulários | LeoneSuite",
+    "titlePage": "Formulários | Leonix",
     "title": "Modelos de Formulários",
     "createFormTemplate": "Criar modelo de formulário",
     "viewCreatedCategories": "Ver categorias criadas",
@@ -752,7 +752,7 @@
   "manuals": {
     "understood": "Fechar",
     "viewFile": "Visualizar arquivo",
-    "titlePage": "Manuais | LeoneSuite",
+    "titlePage": "Manuais | Leonix",
   "title": "Manuais",
   "createManual": "Criar manual",
   "editManual": "Editar manual",
@@ -863,7 +863,7 @@
     "selectYear": "Selecionar ano",
   "successTitle": "Operação bem-sucedida!",
   "understood": "fechar",
-  "titlePage": "Calendário | LeoneSuite",
+  "titlePage": "Calendário | Leonix",
   "title": "Calendário de Ordens de Serviço",
   "month": "Mês",
   "week": "Semana",
@@ -942,7 +942,7 @@
   "deviceNamePlaceholder": "Digite o nome do dispositivo",
   "successTitle": "Operação bem-sucedida!",
   "understood": "Fechar",
-  "titlePage": "Dispositivos | LeoneSuite",
+  "titlePage": "Dispositivos | Leonix",
   "loadingDevices": "Carregando dispositivos...",
   "notFound": "Instalação não encontrada",
   "devicesOf": "Dispositivos de {{name}}",
@@ -978,7 +978,7 @@
   "understood": "Fechar",
   "successTitle": "Operação bem-sucedida!",
   "continue": "Continuar",
-  "titlePage": "Entrar | LeoneSuite",
+  "titlePage": "Entrar | Leonix",
   "title": "Entrar",
   "username": "Nome de usuário",
   "submit": "Entrar",
@@ -1062,7 +1062,7 @@
   "page": "Página",
   "of": "de",
   "title": "Assinaturas ativas",
-  "titlePage": "Assinaturas ativas - FrontPanel",
+  "titlePage": "Assinaturas ativas | Leonix",
   "subtitle": "Gestão de assinaturas e cobranças ativas",
   "searchPlaceholder": "Buscar assinaturas...",
   "startDate": "Data de início",

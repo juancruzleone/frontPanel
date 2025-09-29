@@ -41,7 +41,7 @@
   "registerTechnician": "Techniker registrieren",
   "roleTechnician": "Techniker",
   "roleAdmin": "Administrator",
-  "titlePage": "Mitarbeiter | LeoneSuite",
+  "titlePage": "Mitarbeiter | Leonix",
   "confirmDeleteTechnician": "Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?",
   "deleteUser": "Benutzer löschen",
   "confirmDeleteTitle": "Techniker löschen?",
@@ -137,7 +137,7 @@
     "understood": "Schließen",
     "successTitle": "Vorgang erfolgreich!",
     "continue": "Weiter",
-    "titlePage": "Arbeitsaufträge | LeoneSuite",
+    "titlePage": "Arbeitsaufträge | Leonix",
     "titlePlaceholder": "Arbeitsauftrags-Titel eingeben",
     "descriptionPlaceholder": "Beschreibung der auszuführenden Arbeit",
     "observationsPlaceholder": "Zusätzliche Hinweise (optional)",
@@ -547,7 +547,7 @@
       "typeNameMax": "Der Name darf nicht mehr als 100 Zeichen haben",
       "typeDescriptionMax": "Die Beschreibung darf nicht länger als 500 Zeichen sein"
     },
-    "titlePage": "Installationen | LeoneSuite",
+    "titlePage": "Installationen | Leonix",
     "confirmDeleteTitle": "Installation löschen?",
   "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Die Installation wird dauerhaft gelöscht."
   },
@@ -608,7 +608,7 @@
       "serialRequired": "Die Seriennummer ist erforderlich",
       "templateRequired": "Das Formularvorlage ist erforderlich"
     },
-    "titlePage": "Vermögenswerte | LeoneSuite"
+    "titlePage": "Vermögenswerte | Leonix"
   },
   "forms": {
     "templateCreated": "Formularvorlage erfolgreich erstellt",
@@ -702,13 +702,13 @@
       "fieldOptionsRequired": "Optionen sind erforderlich für Felder vom Typ Select oder Radio",
       "unknownError": "Unbekannter Validierungsfehler"
     },
-    "titlePage": "Formulare | LeoneSuite"
+    "titlePage": "Formulare | Leonix"
   },
   "manuals": {
     "understood": "Schließen",
     "successTitle": "Vorgang erfolgreich!",
     "continue": "Weiter",
-    "titlePage": "Handbücher | LeoneSuite",
+    "titlePage": "Handbücher | Leonix",
     "title": "Handbücher",
     "createManual": "Handbuch erstellen",
     "editManual": "Handbuch bearbeiten",
@@ -774,7 +774,7 @@
     "selectYear": "Jahr auswählen",
   "successTitle": "Vorgang erfolgreich!",
   "understood": "schließen",
-  "titlePage": "Kalender | LeoneSuite",
+  "titlePage": "Kalender | Leonix",
   "title": "Arbeitsauftragskalender",
   "month": "Monat",
   "week": "Woche",
@@ -853,7 +853,7 @@
   "deviceNamePlaceholder": "Geben Sie den Gerätenamen ein",
   "successTitle": "Vorgang erfolgreich!",
   "understood": "Schließen",
-  "titlePage": "Geräte | LeoneSuite",
+  "titlePage": "Geräte | Leonix",
   "loadingDevices": "Geräte werden geladen...",
   "notFound": "Installation nicht gefunden",
   "devicesOf": "Geräte von {{name}}",
@@ -889,7 +889,7 @@
   "understood": "Schließen",
   "successTitle": "Vorgang erfolgreich!",
   "continue": "Weiter",
-  "titlePage": "Anmelden | LeoneSuite",
+  "titlePage": "Anmelden | Leonix",
   "title": "Anmelden",
   "username": "Benutzername",
   "submit": "Anmelden",
@@ -973,7 +973,7 @@
   "page": "Seite",
   "of": "von",
   "title": "Aktive Abonnements",
-  "titlePage": "Aktive Abonnements - FrontPanel",
+  "titlePage": "Aktive Abonnements | Leonix",
   "subtitle": "Verwaltung aktiver Abonnements und Abrechnungen",
   "searchPlaceholder": "Abonnements suchen...",
   "startDate": "Startdatum",

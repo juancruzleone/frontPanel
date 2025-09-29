@@ -41,7 +41,7 @@
   "registerTechnician": "Registra tecnico",
   "roleTechnician": "Tecnico",
   "roleAdmin": "Amministratore",
-  "titlePage": "Staff | LeoneSuite",
+  "titlePage": "Staff | Leonix",
   "confirmDeleteTechnician": "Sei sicuro di voler eliminare questo utente?",
   "deleteUser": "Elimina utente",
   "confirmDeleteTitle": "Eliminare tecnico?",
@@ -269,7 +269,7 @@
         "deviceStateInvalid": "Lo stato del dispositivo deve essere valido"
       }
     },
-    "titlePage": "Ordini di Lavoro | LeoneSuite"
+    "titlePage": "Ordini di Lavoro | Leonix"
   },
   "installations": {
     "deviceNamePlaceholder": "Inserisci il nome del dispositivo",
@@ -595,7 +595,7 @@
       "typeNameMax": "Il nome non può superare i 100 caratteri",
       "typeDescriptionMax": "La descrizione non può superare i 500 caratteri"
     },
-    "titlePage": "Impianti | LeoneSuite",
+    "titlePage": "Impianti | Leonix",
     "confirmDeleteTitle": "Eliminare l'installazione?",
   "confirmDeleteDescription": "Questa azione non può essere annullata. L'installazione sarà eliminata definitivamente."
 
@@ -658,7 +658,7 @@
       "serialRequired": "Il numero di serie è obbligatorio",
       "templateRequired": "Il modello del modulo è obbligatorio"
     },
-    "titlePage": "Beni | LeoneSuite"
+    "titlePage": "Beni | Leonix"
   },
   "forms": {
     "templateCreated": "Modello di modulo creato con successo",
@@ -749,12 +749,12 @@
       "fieldOptionsRequired": "Le opzioni sono obbligatorie per i campi di tipo select o radio",
       "unknownError": "Errore di validazione sconosciuto"
     },
-    "titlePage": "Moduli | LeoneSuite"
+    "titlePage": "Moduli | Leonix"
   },
   "manuals": {
     "understood": "Chiudi",
     "viewFile": "Visualizza file",
-    "titlePage": "Manuali | LeoneSuite",
+    "titlePage": "Manuali | Leonix",
   "title": "Manuali",
   "createManual": "Crea manuale",
   "editManual": "Modifica manuale",
@@ -865,7 +865,7 @@
     "selectYear": "Seleziona anno",
   "successTitle": "Operazione riuscita!",
   "understood": "chiudi",
-  "titlePage": "Calendario | LeoneSuite",
+  "titlePage": "Calendario | Leonix",
   "title": "Calendario degli ordini di lavoro",
   "month": "Mese",
   "week": "Settimana",
@@ -943,7 +943,7 @@
   "deviceNamePlaceholder": "Inserisci il nome del dispositivo",
   "successTitle": "Operazione riuscita!",
   "understood": "Chiudi",
-  "titlePage": "Dispositivi | LeoneSuite",
+  "titlePage": "Dispositivi | Leonix",
   "loadingDevices": "Caricamento dispositivi...",
   "notFound": "Installazione non trovata",
   "devicesOf": "Dispositivi di {{name}}",
@@ -979,7 +979,7 @@
       "understood": "Chiudi",
       "successTitle": "Operazione riuscita!",
       "continue": "Continua",
-    "titlePage": "Accedi | LeoneSuite",
+    "titlePage": "Accedi | Leonix",
     "title": "Accedi",
     "username": "Nome utente",
     "submit": "Accedi",
@@ -1063,7 +1063,7 @@
   "page": "Pagina",
   "of": "di",
   "title": "Abbonamenti attivi",
-  "titlePage": "Abbonamenti attivi - FrontPanel",
+  "titlePage": "Abbonamenti attivi | Leonix",
   "subtitle": "Gestione degli abbonamenti e delle fatturazioni attive",
   "searchPlaceholder": "Cerca abbonamenti...",
   "startDate": "Data inizio",

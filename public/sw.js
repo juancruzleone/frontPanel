@@ -1,4 +1,4 @@
-const CACHE_NAME = 'frontpanel-v1';
+const CACHE_NAME = 'leonix-v1';
 const urlsToCache = [
   '/',
   '/index.html',
