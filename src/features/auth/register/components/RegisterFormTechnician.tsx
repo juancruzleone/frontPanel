@@ -176,7 +176,8 @@ const RegisterTechnicianForm = ({
               </>
             ) : (
               <>
-                {!isFormComplete ? t('personal.completeAllFields') : t('personal.registerTechnician')}
+                <FiUserPlus size={16} style={{ marginRight: '8px' }} />
+                {t('personal.createTechnician')}
               </>
             )}
           </button>

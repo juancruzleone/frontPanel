@@ -79,9 +79,6 @@ const ModalRegisterTechnician = ({ isOpen, onRequestClose, onSubmitSuccess, onAd
       <div className={styles.modal} onClick={handleModalClick}>
         <div className={styles.modalHeader}>
           <div className={styles.headerContent}>
-            <div className={styles.iconContainer}>
-              <FiUserPlus size={24} />
-            </div>
             <div>
               <h2 className={styles.title}>{t('personal.registerNewTechnician')}</h2>
               <p className={styles.subtitle}>{t('personal.completeInformation')}</p>

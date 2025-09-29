@@ -109,6 +109,12 @@ const useRegisterTechnician = () => {
 
       // Verificar que el formulario esté completo antes de proceder
       if (!isFormComplete) {
+        // Validar cada campo individualmente para mostrar errores específicos
+        const validationPromises = Object.keys(formData).map(async (fieldName) => {
+          const value = formData[fieldName as keyof RegisterTechnicianFormData]
+          await validateSingleField(fieldName, value ?? "")
+        })
+        await Promise.all(validationPromises)
         return
       }
 
