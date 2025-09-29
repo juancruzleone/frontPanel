@@ -162,12 +162,6 @@ const ModalManageCategories = ({
                           </div>
                           <div className={formButtonStyles.actions}>
                             <button
-                              onClick={handleCancelEdit}
-                              className={formButtonStyles.cancelButton}
-                            >
-                              {t('common.cancel')}
-                            </button>
-                            <button
                               onClick={handleSaveEdit}
                               style={{
                                 background: 'var(--color-nav)',
@@ -198,6 +192,12 @@ const ModalManageCategories = ({
                               }}
                             >
                               {t('common.save')}
+                            </button>
+                            <button
+                              onClick={handleCancelEdit}
+                              className={formButtonStyles.cancelButton}
+                            >
+                              {t('common.cancel')}
                             </button>
                             </div>
                         </div>
@@ -255,16 +255,16 @@ const ModalManageCategories = ({
               </p>
               <div className={formButtonStyles.actions}>
                 <button
-                  onClick={cancelDelete}
-                  className={formButtonStyles.cancelButton}
-                >
-                  {t('common.cancel')}
-                </button>
-                <button
                   onClick={confirmDelete}
                   className={formButtonStyles.submitButton}
                 >
                   {t('common.delete')}
+                </button>
+                <button
+                  onClick={cancelDelete}
+                  className={formButtonStyles.cancelButton}
+                >
+                  {t('common.cancel')}
                 </button>
               </div>
             </div>

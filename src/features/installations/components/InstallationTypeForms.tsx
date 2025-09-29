@@ -157,9 +157,6 @@ const InstallationTypeForms = ({ onCancel, onSuccess, onCreate }: InstallationTy
         </div>
 
         <div className={formButtonStyles.actions}>
-          <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
-            {t('common.cancel')}
-          </button>
           <button
             type="submit"
             disabled={isSubmitting}
@@ -167,6 +164,9 @@ const InstallationTypeForms = ({ onCancel, onSuccess, onCreate }: InstallationTy
             title={Object.keys(formErrors).length > 0 ? t('installations.completeAllFields') : ""}
           >
             {isSubmitting ? t('common.saving') : t('common.create')}
+          </button>
+          <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
+            {t('common.cancel')}
           </button>
         </div>
 

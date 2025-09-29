@@ -298,19 +298,19 @@ const TenantForm: React.FC<TenantFormProps> = ({
 
       <div className={formButtonStyles.actions}>
         <button
+          type="submit"
+          className={formButtonStyles.submitButton}
+          disabled={isLoading}
+        >
+          {isLoading ? t('common.loading') : (isEdit ? t('common.update') : t('common.create'))}
+        </button>
+        <button
           type="button"
           onClick={onCancel}
           className={formButtonStyles.cancelButton}
           disabled={isLoading}
         >
           {t('common.cancel')}
-        </button>
-        <button
-          type="submit"
-          className={formButtonStyles.submitButton}
-          disabled={isLoading}
-        >
-          {isLoading ? t('common.loading') : (isEdit ? t('common.update') : t('common.create'))}
         </button>
       </div>
     </form>

@@ -431,15 +431,15 @@ const FormTemplateForm = ({
         </div>
 
         <div className={formButtonStyles.actions}>
-          <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
-            {t('common.cancel')}
-          </button>
           <button
             type="submit"
             disabled={isSubmitting}
             className={formButtonStyles.submitButton}
           >
             {isSubmitting ? t('common.saving') : isEditMode ? t('common.update') : t('common.create')}
+          </button>
+          <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
+            {t('common.cancel')}
           </button>
         </div>
 

@@ -117,19 +117,19 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
         {technicians.length > 0 && (
           <div className={formButtonStyles.actions}>
             <button
+              type="submit"
+              disabled={isSubmitting}
+              className={formButtonStyles.submitButton}
+            >
+              {isSubmitting ? t('workOrders.assigning') : t('workOrders.assign')}
+            </button>
+            <button
               type="button"
               onClick={onCancel}
               disabled={isSubmitting}
               className={formButtonStyles.cancelButton}
             >
               {t('common.cancel')}
-            </button>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className={formButtonStyles.submitButton}
-            >
-              {isSubmitting ? t('workOrders.assigning') : t('workOrders.assign')}
             </button>
           </div>
         )}
