@@ -374,10 +374,6 @@ const WorkOrders = () => {
                         </button>
                       )}
                     </div>
-
-                    <div className={styles.viewDetailsButton}>
-                      <button onClick={() => handleViewDetails(order)}>{t('workOrders.viewCompleteDetails')}</button>
-                    </div>
                   </div>
                 </div>
               ))}

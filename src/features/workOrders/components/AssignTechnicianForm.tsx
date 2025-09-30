@@ -2,8 +2,7 @@ import React, { useState } from "react"
 import styles from "../styles/workOrderForm.module.css"
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 import { useTranslation } from "react-i18next"
-import { ChevronDown } from 'lucide-react';
-import { useTheme } from "../../../shared/hooks/useTheme";
+import HybridSelect from "../../../shared/components/HybridSelect/HybridSelect"
 
 interface AssignTechnicianFormProps {
   onCancel: () => void
@@ -23,11 +22,9 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
   isSubmitting,
 }) => {
   const { t } = useTranslation()
-  const { dark } = useTheme()
   const [selectedTechnician, setSelectedTechnician] = useState("")
   const [error, setError] = useState("")
   const [touched, setTouched] = useState(false)
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   console.log("Técnicos en AssignTechnicianForm:", technicians)
 
@@ -57,11 +54,15 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
 
   const handleTechnicianSelect = (technicianId: string) => {
     setSelectedTechnician(technicianId)
-    setIsDropdownOpen(false)
+    setTouched(true)
     if (error) setError("")
   }
 
-  const selectedTechnicianData = technicians.find(tech => tech._id === selectedTechnician)
+  // Convertir técnicos a formato de opciones para HybridSelect
+  const technicianOptions = technicians.map(tech => ({
+    value: tech._id,
+    label: tech.userName
+  }))
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
@@ -73,43 +74,15 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
 
         <div className={styles.formGroup}>
           <label>{t('workOrders.assignTechnician')}</label>
-          <div className={styles.customSelectWrapper}>
-            <div 
-              className={`${styles.customSelect} ${error && touched ? styles.errorInput : ""}`}
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              onBlur={() => {
-                setTimeout(() => setIsDropdownOpen(false), 200)
-                handleBlur()
-              }}
-              tabIndex={0}
-              role="button"
-              aria-label={t('workOrders.selectTechnician')}
-            >
-              <span className={styles.customSelectText}>
-                {selectedTechnicianData ? selectedTechnicianData.userName : t('workOrders.selectTechnician')}
-              </span>
-              <ChevronDown 
-                size={20} 
-                className={`${styles.customSelectIcon} ${isDropdownOpen ? styles.rotated : ''}`}
-                style={{ color: dark ? '#f5f5f5' : '#111' }}
-              />
-            </div>
-            
-            {isDropdownOpen && (
-              <div className={styles.customDropdown}>
-                {technicians.map((tech) => (
-                  <div
-                    key={tech._id}
-                    className={styles.customOption}
-                    onClick={() => handleTechnicianSelect(tech._id)}
-                  >
-                    {tech.userName}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-          
+          <HybridSelect
+            value={selectedTechnician}
+            onChange={handleTechnicianSelect}
+            onBlur={handleBlur}
+            options={technicianOptions}
+            placeholder={t('workOrders.selectTechnician')}
+            disabled={isSubmitting}
+            className={error && touched ? styles.errorInput : ""}
+          />
           {error && touched && <p className={styles.inputError}>{error}</p>}
         </div>
 

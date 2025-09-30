@@ -303,7 +303,8 @@ const useWorkOrders = () => {
 
   const setFormValues = useCallback(
     (data: Partial<WorkOrder>, availableInstallations: Installation[] = []) => {
-      console.log("setFormValues llamado con:", data)
+      console.log("🔍 [setFormValues] Llamado con data:", data)
+      console.log("🔍 [setFormValues] Instalaciones disponibles:", availableInstallations.length)
 
       let instalacionId = ""
       let instalacionObject = data.instalacion
@@ -311,32 +312,43 @@ const useWorkOrders = () => {
       // Extraer instalacionId
       if (data.instalacionId) {
         instalacionId = extractInstalacionId(data.instalacionId)
+        console.log("🔍 [setFormValues] instalacionId extraído de data.instalacionId:", instalacionId)
       } else if (data.instalacion?._id) {
         instalacionId = extractInstalacionId(data.instalacion._id)
+        console.log("🔍 [setFormValues] instalacionId extraído de data.instalacion._id:", instalacionId)
       }
 
       // Si tenemos instalaciones disponibles, verificar y corregir el instalacionId
       if (availableInstallations.length > 0) {
+        console.log("🔍 [setFormValues] Buscando instalación con ID:", instalacionId)
+        
         if (instalacionId) {
           const foundInstallation = availableInstallations.find((inst) => inst._id === instalacionId)
+          console.log("🔍 [setFormValues] Instalación encontrada por ID:", foundInstallation ? "SÍ" : "NO")
+          
           if (!foundInstallation) {
             // Si no se encuentra por ID, intentar buscar por nombre de empresa
             if (data.instalacion?.company) {
+              console.log("🔍 [setFormValues] Buscando por nombre de empresa:", data.instalacion.company)
               const foundByName = availableInstallations.find((inst) => inst.company === data.instalacion?.company)
               if (foundByName) {
                 instalacionId = foundByName._id
                 instalacionObject = foundByName
+                console.log("✅ [setFormValues] Instalación encontrada por nombre, nuevo ID:", instalacionId)
               }
             }
           } else {
             instalacionObject = foundInstallation
+            console.log("✅ [setFormValues] Usando instalación encontrada por ID")
           }
         } else if (data.instalacion?.company) {
           // Si no hay instalacionId pero sí hay objeto instalacion, buscar por nombre
+          console.log("🔍 [setFormValues] No hay instalacionId, buscando por nombre:", data.instalacion.company)
           const foundByName = availableInstallations.find((inst) => inst.company === data.instalacion?.company)
           if (foundByName) {
             instalacionId = foundByName._id
             instalacionObject = foundByName
+            console.log("✅ [setFormValues] Instalación encontrada por nombre, ID:", instalacionId)
           }
         }
       }
@@ -364,7 +376,8 @@ const useWorkOrders = () => {
         instalacion: instalacionObject || undefined,
       }
 
-      console.log("Estableciendo formData a:", updatedFormData)
+      console.log("✅ [setFormValues] FormData final:", updatedFormData)
+      console.log("✅ [setFormValues] instalacionId final:", instalacionId)
       setFormData(updatedFormData)
       setFormErrors({})
     },
