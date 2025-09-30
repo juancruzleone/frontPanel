@@ -627,7 +627,8 @@
     "brand": "العلامة التجارية",
     "model": "الطراز",
     "serialNumber": "الرقم التسلسلي",
-    "template": "القالب",
+    "selectDate": "اختر التاريخ",
+    "fields": "الحقول",
     "assignTemplate": "تعيين القالب إلى {{asset}}",
     "viewDetails": "عرض التفاصيل",
     "nombrePlaceholder": "أدخل اسم الأصل",
@@ -1037,6 +1038,7 @@
   "brand": "العلامة التجارية",
   "model": "الطراز",
   "serialNumber": "الرقم التسلسلي",
+  "selectDate": "اختر التاريخ",
   "fields": {
     "nombre": "الاسم",
     "ubicacion": "الموقع",

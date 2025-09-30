@@ -631,7 +631,8 @@
     "brand": "브랜드",
     "model": "모델",
     "serialNumber": "일련번호",
-    "template": "템플릿",
+    "selectDate": "날짜 선택",
+    "fields": "필드",
     "assignTemplate": "{{asset}}에 템플릿 할당",
     "viewDetails": "세부 정보 보기",
     "nombrePlaceholder": "자산 이름을 입력하세요",
@@ -1042,6 +1043,7 @@
   "brand": "브랜드",
   "model": "모델",
   "serialNumber": "시리얼 번호",
+  "selectDate": "날짜 선택",
   "fields": {
     "nombre": "이름",
     "ubicacion": "위치",

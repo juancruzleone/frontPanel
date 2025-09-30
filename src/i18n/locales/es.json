@@ -1109,6 +1109,7 @@
     "brand": "Marca",
     "model": "Modelo",
     "serialNumber": "N° Serie",
+    "selectDate": "Seleccionar fecha",
     "fields": {
       "nombre": "Nombre",
       "ubicacion": "Ubicación",

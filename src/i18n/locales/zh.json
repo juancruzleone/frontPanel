@@ -704,7 +704,8 @@
     "brand": "品牌",
     "model": "型号",
     "serialNumber": "序列号",
-    "template": "模板",
+    "selectDate": "选择日期",
+    "fields": "字段",
     "create": "创建",
     "assign": "分配",
     "loadingTemplates": "正在加载模板...",
@@ -1091,6 +1092,7 @@
   "brand": "品牌",
   "model": "型号",
   "serialNumber": "序列号",
+  "selectDate": "选择日期",
   "fields": {
     "nombre": "名称",
     "ubicacion": "位置",

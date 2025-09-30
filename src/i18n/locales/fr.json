@@ -1016,14 +1016,15 @@
   "category": "Catégorie",
   "brand": "Marque",
   "model": "Modèle",
-  "serialNumber": "N° de série",
+  "serialNumber": "N° Série",
+  "selectDate": "Sélectionner la date",
   "fields": {
     "nombre": "Nom",
     "ubicacion": "Emplacement",
     "categoria": "Catégorie",
     "marca": "Marque",
     "modelo": "Modèle",
-    "numeroSerie": "N° de série"
+    "numeroSerie": "N° Série"
   },
   "select": "Sélectionner...",
   "options": {},

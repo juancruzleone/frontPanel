@@ -646,7 +646,8 @@
     "brand": "ブランド",
     "model": "モデル",
     "serialNumber": "シリアル番号",
-    "template": "テンプレート",
+    "selectDate": "日付を選択",
+    "fields": "フィールド",
     "create": "作成",
     "assign": "割り当て",
     "assignTemplateTooltip": "テンプレートを割り当て",
@@ -991,6 +992,7 @@
   "brand": "ブランド",
   "model": "モデル",
   "serialNumber": "シリアル番号",
+  "selectDate": "日付を選択",
   "fields": {
     "nombre": "名前",
     "ubicacion": "場所",
