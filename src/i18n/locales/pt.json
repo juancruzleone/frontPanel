@@ -626,6 +626,9 @@
     "cancel": "Cancelar",
     "loadingTemplates": "Carregando modelos...",
     "assignTemplate": "Atribuir modelo a {{asset}}",
+    "assignTemplateTooltip": "Atribuir modelo de formulário",
+    "editTemplate": "Editar modelo de {{asset}}",
+    "editTemplateTooltip": "Editar modelo de formulário",
     "viewDetailsTooltip": "Ver detalhes",
     "basicInfo": "Informações Básicas",
     "config": "Configuração",
@@ -646,7 +649,6 @@
     "serialNumber": "Número de série",
     "template": "Modelo",
     "create": "Criar",
-    "assignTemplateTooltip": "Atribuir modelo",
     "validation": {
       "nameRequired": "O nome é obrigatório",
       "brandRequired": "A marca é obrigatória",

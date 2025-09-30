@@ -47,13 +47,17 @@ const ModalAssignTemplate = ({
         .then(data => {
           setTemplates(data);
           setLoadingTemplates(false);
+          // Establecer la plantilla actual como seleccionada
+          if (asset?.templateId) {
+            setSelectedTemplate(asset.templateId.toString());
+          }
         })
         .catch(err => {
           console.error("Error al cargar plantillas:", err);
           setLoadingTemplates(false);
         });
     }
-  }, [isOpen]);
+  }, [isOpen, asset]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,8 +75,8 @@ const ModalAssignTemplate = ({
       onSubmitSuccess(result.message);
       handleClose();
     } catch (err) {
-      console.error("Error al asignar plantilla:", err);
-      setFormErrors({ general: "Error al asignar la plantilla" });
+      console.error("Error al editar plantilla:", err);
+      setFormErrors({ general: "Error al editar la plantilla" });
     } finally {
       setIsSubmitting(false);
     }
@@ -84,7 +88,7 @@ const ModalAssignTemplate = ({
     <div className={styles.backdrop}>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.title}>{t('assets.assignTemplate', { asset: asset.nombre })}</h2>
+          <h2 className={styles.title}>{t('assets.editTemplate', { asset: asset.nombre })}</h2>
           <button 
             className={styles.closeButton}
             onClick={handleClose}
@@ -140,10 +144,10 @@ const ModalAssignTemplate = ({
                   type="submit"
                   disabled={loadingTemplates || isSubmitting}
                   className={formButtonStyles.submitButton}
-                  aria-label={t('assets.assignTemplateTooltip')}
-                  data-tooltip={t('assets.assignTemplateTooltip')}
+                  aria-label={t('assets.editTemplateTooltip')}
+                  data-tooltip={t('assets.editTemplateTooltip')}
                 >
-                  {isSubmitting ? t('common.saving') : t('assets.assign')}
+                  {isSubmitting ? t('common.saving') : t('assets.edit')}
                 </button>
                 <button
                   type="button"

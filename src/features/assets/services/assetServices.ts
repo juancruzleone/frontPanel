@@ -77,7 +77,13 @@ export const updateAsset = async (id: string, asset: any) => {
     throw new Error(error.message || "Error al actualizar activo")
   }
 
-  const result = await response.json()
+  // Manejar respuesta vacía
+  const text = await response.text()
+  if (!text) {
+    return null
+  }
+  
+  const result = JSON.parse(text)
   return result.success ? result.data : result
 }
 
@@ -92,7 +98,13 @@ export const deleteAsset = async (id: string) => {
     throw new Error(error.message || "Error al eliminar activo")
   }
 
-  const result = await response.json()
+  // Manejar respuesta vacía
+  const text = await response.text()
+  if (!text) {
+    return null
+  }
+  
+  const result = JSON.parse(text)
   return result.success ? result.data : result
 }
 

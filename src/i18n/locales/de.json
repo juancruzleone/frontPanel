@@ -599,9 +599,10 @@
     "brand": "Marke",
     "model": "Modell",
     "serialNumber": "Seriennummer",
-    "template": "Vorlage",
-    "create": "Erstellen",
-    "assignTemplateTooltip": "Vorlage zuweisen",
+    "assignTemplateTooltip": "Formularvorlage zuweisen",
+    "assign": "Zuweisen",
+    "editTemplate": "Vorlage für {{asset}} bearbeiten",
+    "editTemplateTooltip": "Formularvorlage bearbeiten",
     "validation": {
       "nameRequired": "Der Name ist erforderlich",
       "brandRequired": "Die Marke ist erforderlich",

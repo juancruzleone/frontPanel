@@ -238,8 +238,8 @@ const Assets = () => {
                         <button
                           className={styles.iconButton}
                           onClick={() => handleOpenAssignTemplate(asset)}
-                          aria-label={t('assets.assignTemplateTooltip')}
-                          data-tooltip={t('assets.assignTemplateTooltip')}
+                          aria-label={t('assets.editTemplateTooltip')}
+                          data-tooltip={t('assets.editTemplateTooltip')}
                         >
                           <List size={20} />
                         </button>

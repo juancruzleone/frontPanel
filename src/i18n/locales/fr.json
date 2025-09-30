@@ -616,7 +616,7 @@
     "templatePlaceholder": "Sélectionnez un modèle",
     "editAssetTooltip": "Modifier l'actif",
     "deleteAssetTooltip": "Supprimer l'actif",
-    "assignTemplate": "Assigner un modèle à {{asset}}",
+    "assignTemplate": "Attribuer un modèle à {{asset}}",
     "viewDetailsTooltip": "Voir les détails",
     "basicInfo": "Informations de base",
     "config": "Configuration",
@@ -637,7 +637,6 @@
     "create": "Créer",
     "assign": "Assigner",
     "cancel": "Annuler",
-    "assignTemplateTooltip": "Assigner un modèle",
     "validation": {
       "nameRequired": "Le nom est requis",
       "brandRequired": "La marque est requise",

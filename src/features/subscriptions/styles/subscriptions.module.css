@@ -432,7 +432,7 @@
 }
 
 .monthTag {
-  background: var(--color-primary);
+  background: var(--color-secondary);
   color: white;
   padding: 0.125rem 0.5rem;
   border-radius: 12px;
@@ -664,7 +664,7 @@
 }
 
 .monthTag {
-  background: var(--color-primary);
+  background: var(--color-secondary);
   color: white;
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
@@ -816,19 +816,19 @@
 }
 
 .monthTagSelectable {
-  border: 1.5px solid var(--color-primary);
+  border: 1.5px solid var(--color-secondary);
   background: var(--color-bg-light);
-  color: var(--color-primary);
+  color: var(--color-secondary);
   transition: background 0.2s, color 0.2s;
 }
 .monthTagSelectable:hover {
-  background: var(--color-primary);
+  background: var(--color-secondary);
   color: #fff;
 }
 .monthTagSelected {
-  background: var(--color-primary);
+  background: var(--color-secondary);
   color: #fff;
-  border: 1.5px solid var(--color-primary);
+  border: 1.5px solid var(--color-secondary);
 }
 .monthsHelp {
   font-size: 0.95em;
