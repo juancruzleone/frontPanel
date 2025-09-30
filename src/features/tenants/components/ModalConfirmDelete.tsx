@@ -82,19 +82,19 @@ const ModalConfirmDelete: React.FC<ModalConfirmDeleteProps> = ({
           <div className={styles.confirmActions}>
             <button
               type="button"
-              onClick={handleCancel}
-              className={styles.cancelButton}
-              disabled={isLoading}
-            >
-              {t('common.cancel')}
-            </button>
-            <button
-              type="button"
               onClick={handleDelete}
               className={styles.deleteButton}
               disabled={isLoading}
             >
               {isLoading ? t('common.loading') : t('common.delete')}
+            </button>
+            <button
+              type="button"
+              onClick={handleCancel}
+              className={styles.cancelButton}
+              disabled={isLoading}
+            >
+              {t('common.cancel')}
             </button>
           </div>
         </div>

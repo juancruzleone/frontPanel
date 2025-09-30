@@ -43,13 +43,24 @@ export const fetchAssets = async (): Promise<any[]> => {
 };
 
 export const createInstallation = async (installation: any) => {
+  console.log('📤 [CREATE INSTALLATION] Enviando datos:', JSON.stringify(installation, null, 2));
+  
   const response = await fetch(`${API_URL}installations`, {
     method: "POST",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(installation),
   });
-  if (!response.ok) throw new Error("Error al crear instalación");
+  
+  console.log('📥 [CREATE INSTALLATION] Response status:', response.status);
+  
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    console.log('❌ [CREATE INSTALLATION] Error data:', errorData);
+    throw new Error("Error al crear instalación");
+  }
+  
   const result = await response.json();
+  console.log('✅ [CREATE INSTALLATION] Success:', result);
   return result.success ? result.data : result;
 };
 

@@ -42,14 +42,14 @@ const ModalConfirmDelete = ({
           <h2 className={styles.confirmTitle}>{t('assets.confirmDeleteAsset') || title}</h2>
           <p className={styles.confirmDescription}>{t('assets.confirmDeleteAssetDescription') || description}</p>
           <div className={styles.confirmActions}>
-            <button className={styles.cancelButton} onClick={onCancel}>
-              {t('assets.cancel')}
-            </button>
             <button className={styles.deleteButton} onClick={onConfirm}
               aria-label={t('assets.deleteAssetTooltip')}
               data-tooltip={t('assets.deleteAssetTooltip')}
             >
               {t('assets.delete')}
+            </button>
+            <button className={styles.cancelButton} onClick={onCancel}>
+              {t('assets.cancel')}
             </button>
           </div>
         </div>

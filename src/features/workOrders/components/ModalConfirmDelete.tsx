@@ -35,11 +35,11 @@ const ModalConfirmDelete = ({
           <h2 className={styles.confirmTitle}>{title}</h2>
           <p className={styles.confirmDescription}>{description}</p>
           <div className={styles.confirmActions}>
-            <button className={styles.cancelButton} onClick={onCancel}>
-              {t('common.cancel')}
-            </button>
             <button className={styles.deleteButton} onClick={onConfirm}>
               {t('common.delete')}
+            </button>
+            <button className={styles.cancelButton} onClick={onCancel}>
+              {t('common.cancel')}
             </button>
           </div>
         </div>
