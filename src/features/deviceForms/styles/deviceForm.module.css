@@ -449,7 +449,7 @@
 }
 
 .infoIcon {
-  color: var(--color-text-secondary);
+  color: #dc2626;
   flex-shrink: 0;
 }
 

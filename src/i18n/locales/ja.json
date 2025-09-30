@@ -999,10 +999,17 @@
     "categoria": "カテゴリ",
     "marca": "ブランド",
     "modelo": "モデル",
-    "numeroSerie": "シリアル番号"
+    "numeroSerie": "シリアル番号",
+    "estado_revision": "点検状況",
+    "fecha_revision": "点検日",
+    "observaciones_generales": "一般的な所見"
   },
   "select": "選択してください...",
-  "options": {},
+  "options": {
+    "Operativo": "稼働中",
+    "No operativo": "非稼働",
+    "Requiere mantenimiento": "メンテナンスが必要"
+  },
   "sending": "送信中...",
   "sendMaintenance": "メンテナンスを送信",
   "saveMaintenance": "メンテナンスを保存",

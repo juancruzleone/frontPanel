@@ -944,10 +944,17 @@
     "categoria": "Kategorie",
     "marca": "Marke",
     "modelo": "Modell",
-    "numeroSerie": "Seriennr."
+    "numeroSerie": "Seriennr.",
+    "estado_revision": "Prüfstatus",
+    "fecha_revision": "Prüfdatum",
+    "observaciones_generales": "Allgemeine Bemerkungen"
   },
   "select": "Auswählen...",
-  "options": {},
+  "options": {
+    "Operativo": "Betriebsbereit",
+    "No operativo": "Nicht betriebsbereit",
+    "Requiere mantenimiento": "Wartung erforderlich"
+  },
   "sending": "Wird gesendet...",
   "sendMaintenance": "Wartung senden",
   "saveMaintenance": "Wartung speichern",

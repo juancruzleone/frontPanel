@@ -1033,10 +1033,17 @@
     "categoria": "Categoria",
     "marca": "Marca",
     "modelo": "Modelo",
-    "numeroSerie": "N° Série"
+    "numeroSerie": "N° Série",
+    "estado_revision": "Status da revisão",
+    "fecha_revision": "Data da revisão",
+    "observaciones_generales": "Observações gerais"
   },
   "select": "Selecione...",
-  "options": {},
+  "options": {
+    "Operativo": "Operacional",
+    "No operativo": "Não operacional",
+    "Requiere mantenimiento": "Requer manutenção"
+  },
   "sending": "Enviando...",
   "sendMaintenance": "Enviar manutenção",
   "saveMaintenance": "Salvar manutenção",

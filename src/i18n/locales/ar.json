@@ -1045,10 +1045,17 @@
     "categoria": "الفئة",
     "marca": "العلامة التجارية",
     "modelo": "الطراز",
-    "numeroSerie": "الرقم التسلسلي"
+    "numeroSerie": "الرقم التسلسلي",
+    "estado_revision": "حالة المراجعة",
+    "fecha_revision": "تاريخ المراجعة",
+    "observaciones_generales": "ملاحظات عامة"
   },
   "select": "اختر...",
-  "options": {},
+  "options": {
+    "Operativo": "تشغيلي",
+    "No operativo": "غير تشغيلي",
+    "Requiere mantenimiento": "يتطلب صيانة"
+  },
   "sending": "جاري الإرسال...",
   "sendMaintenance": "إرسال الصيانة",
   "saveMaintenance": "حفظ الصيانة",

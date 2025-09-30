@@ -123,7 +123,7 @@ const DeviceForm: React.FC = () => {
               <strong>{t('deviceForm.company')}:</strong> {installationInfo.company}
             </div>
             <div className={styles.infoRow}>
-              <MapPin size={14} className={styles.infoIcon} />
+              <MapPin size={18} className={styles.infoIcon} />
               <span>{installationInfo.fullAddress}</span>
             </div>
             <div className={styles.infoRow}>
@@ -143,7 +143,7 @@ const DeviceForm: React.FC = () => {
             <strong>{t('deviceForm.device')}:</strong> {deviceInfo.nombre}
           </div>
           <div className={styles.infoRow}>
-            <MapPin size={14} className={styles.infoIcon} />
+            <MapPin size={18} className={styles.infoIcon} />
             <span>{deviceInfo.ubicacion}</span>
           </div>
           <div className={styles.infoRow}>

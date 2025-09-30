@@ -1099,10 +1099,17 @@
     "categoria": "类别",
     "marca": "品牌",
     "modelo": "型号",
-    "numeroSerie": "序列号"
+    "numeroSerie": "序列号",
+    "estado_revision": "检查状态",
+    "fecha_revision": "检查日期",
+    "observaciones_generales": "一般观察"
   },
   "select": "请选择...",
-  "options": {},
+  "options": {
+    "Operativo": "运行中",
+    "No operativo": "未运行",
+    "Requiere mantenimiento": "需要维护"
+  },
   "sending": "正在发送...",
   "sendMaintenance": "提交维护",
   "saveMaintenance": "保存维护",

@@ -1123,10 +1123,17 @@
     "categoria": "Category",
     "marca": "Brand",
     "modelo": "Model",
-    "numeroSerie": "Serial No."
+    "numeroSerie": "Serial No.",
+    "estado_revision": "Inspection status",
+    "fecha_revision": "Inspection date",
+    "observaciones_generales": "General observations"
   },
   "select": "Select...",
-  "options": {},
+  "options": {
+    "Operativo": "Operational",
+    "No operativo": "Not operational",
+    "Requiere mantenimiento": "Requires maintenance"
+  },
   "sending": "Sending...",
   "sendMaintenance": "Submit maintenance",
   "saveMaintenance": "Save maintenance",

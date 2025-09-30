@@ -1050,10 +1050,17 @@
     "categoria": "카테고리",
     "marca": "브랜드",
     "modelo": "모델",
-    "numeroSerie": "시리얼 번호"
+    "numeroSerie": "시리얼 번호",
+    "estado_revision": "검사 상태",
+    "fecha_revision": "검사 날짜",
+    "observaciones_generales": "일반 관찰"
   },
   "select": "선택...",
-  "options": {},
+  "options": {
+    "Operativo": "작동 중",
+    "No operativo": "작동 안 함",
+    "Requiere mantenimiento": "유지보수 필요"
+  },
   "sending": "전송중...",
   "sendMaintenance": "유지보수 제출",
   "saveMaintenance": "유지보수 저장",
