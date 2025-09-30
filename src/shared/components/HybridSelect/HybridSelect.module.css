@@ -124,25 +124,25 @@
 
 .hybridOption:hover,
 .hybridOption.highlighted {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-left: 3px solid white;
+  background-color: rgba(16, 185, 129, 0.1);
+  border-left: 3px solid #10b981;
 }
 
 .hybridOption.selected {
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(16, 185, 129, 0.15);
   color: var(--color-text);
   font-weight: 500;
-  border-left: 3px solid white;
+  border-left: 3px solid #10b981;
 }
 
 .hybridOption.selected:hover,
 .hybridOption.selected.highlighted {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-left: 3px solid white;
+  background-color: rgba(16, 185, 129, 0.2);
+  border-left: 3px solid #10b981;
 }
 
 .checkIcon {
-  color: white;
+  color: #10b981;
   margin-left: 8px;
   flex-shrink: 0;
 }
@@ -214,7 +214,17 @@
 
 :root[data-theme="dark"] .hybridOption:hover,
 :root[data-theme="dark"] .hybridOption.highlighted {
-  background-color: var(--color-bg-hover);
+  background-color: rgba(16, 185, 129, 0.15);
+  border-left: 3px solid #10b981;
+}
+
+:root[data-theme="dark"] .hybridOption.selected {
+  background-color: rgba(16, 185, 129, 0.2);
+  border-left: 3px solid #10b981;
+}
+
+:root[data-theme="dark"] .checkIcon {
+  color: #10b981;
 }
 
 /* Custom scrollbar for dropdown */

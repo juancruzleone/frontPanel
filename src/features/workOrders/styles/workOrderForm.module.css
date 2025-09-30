@@ -365,7 +365,7 @@ select.customSelect option:hover {
 
 select.customSelect option:checked,
 select.customSelect option:focus {
-  background-color: white !important;
+  background-color: rgba(16, 185, 129, 0.2) !important;
   color: var(--color-text) !important;
   font-weight: 600 !important;
 }
@@ -377,8 +377,8 @@ select.customSelect option:focus {
   --option-bg: var(--color-card);
   --option-color: var(--color-text);
   --option-hover-bg: rgba(16, 185, 129, 0.1);
-  --option-selected-bg: white;
-  --option-selected-color: white;
+  --option-selected-bg: rgba(16, 185, 129, 0.2);
+  --option-selected-color: var(--color-text);
 }
 
 /* Webkit specific targeting */
@@ -400,8 +400,8 @@ select.customSelect option:focus {
   }
   
   .customSelect option:checked {
-    background: white;
-    color: white;
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--color-text);
     font-weight: 600;
   }
 }
@@ -425,8 +425,8 @@ select.customSelect option:focus {
   }
   
   .customSelect option:checked {
-    background: white !important;
-    color: white !important;
+    background: rgba(16, 185, 129, 0.2) !important;
+    color: var(--color-text) !important;
     font-weight: 600 !important;
   }
 }
@@ -434,8 +434,8 @@ select.customSelect option:focus {
 /* Enhanced focus state */
 .customSelect:focus {
   outline: none;
-  border-color: white;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
 }
 
 /* Hybrid Select Styles */
@@ -500,8 +500,10 @@ select.customSelect option:focus {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   max-height: 300px;
   overflow-y: auto;
+  overflow-x: hidden;
   margin-top: 4px;
   animation: dropdownSlideIn 0.2s ease-out;
+  padding: 0;
 }
 
 @keyframes dropdownSlideIn {
@@ -546,13 +548,14 @@ select.customSelect option:focus {
 }
 
 .customOption.selected {
-  background: linear-gradient(135deg, white 0%, rgba(255, 255, 255, 0.8) 100%);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.2) 100%);
   color: var(--color-text);
   font-weight: 600;
+  border-left: 3px solid #10b981;
 }
 
 .customOption.selected:hover {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, white 100%);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(5, 150, 105, 0.25) 100%);
   transform: translateX(0);
 }
 

@@ -99,13 +99,10 @@ const InstallationForm = ({
 
   const renderField = (field: { name: string; label: string; type: string; placeholder?: string }) => {
     if (field.type === "select" && field.name === "installationType") {
-      const installationTypeOptions = [
-        { value: "", label: t('installations.selectInstallationType') },
-        ...installationTypes.map((type) => ({
-          value: type.nombre,
-          label: type.nombre
-        }))
-      ];
+      const installationTypeOptions = installationTypes.map((type) => ({
+        value: type.nombre,
+        label: type.nombre
+      }));
 
       return (
         <HybridSelect

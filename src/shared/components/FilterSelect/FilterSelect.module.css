@@ -121,18 +121,19 @@
 }
 
 .filterOption.selected {
-  background-color: var(--color-primary-light);
-  color: var(--color-primary);
+  background-color: rgba(16, 185, 129, 0.15);
+  color: var(--color-text);
   font-weight: 500;
+  border-left: 3px solid #10b981;
 }
 
 .filterOption.selected:hover,
 .filterOption.selected.highlighted {
-  background-color: var(--color-primary-light-hover);
+  background-color: rgba(16, 185, 129, 0.2);
 }
 
 .checkIcon {
-  color: var(--color-primary);
+  color: #10b981;
   margin-left: 8px;
   flex-shrink: 0;
 }
@@ -175,7 +176,17 @@
 
 :root[data-theme="dark"] .filterOption:hover,
 :root[data-theme="dark"] .filterOption.highlighted {
-  background-color: var(--color-bg-hover-dark);
+  background-color: rgba(16, 185, 129, 0.15);
+}
+
+:root[data-theme="dark"] .filterOption.selected {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: var(--color-text-dark);
+  border-left: 3px solid #10b981;
+}
+
+:root[data-theme="dark"] .checkIcon {
+  color: #10b981;
 }
 
 /* Custom scrollbar for dropdown */
