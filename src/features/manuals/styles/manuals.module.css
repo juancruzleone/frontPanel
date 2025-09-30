@@ -40,9 +40,15 @@
 
 .backButton:hover {
   background: var(--color-bg-light);
-  border-color: var(--color-primary);
+  border-color: black;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Modo oscuro específico para el hover del botón volver */
+:global(.dark) .backButton:hover {
+  border-color: white;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
 }
 
 .backButton:active {
