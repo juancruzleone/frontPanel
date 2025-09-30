@@ -9,7 +9,6 @@ export const userLogin = async (username: string, password: string) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "X-Tenant-ID": "051935e5-1c2f-4661-82a5-587f78c99e5d", // Tenant ID por defecto para login
     },
     body: JSON.stringify({ userName: username, password }),
   })

@@ -83,7 +83,7 @@ export function useLogin() {
         response.cuenta.userName, 
         response.token, 
         response.cuenta.role,
-        response.tenantId || "051935e5-1c2f-4661-82a5-587f78c99e5d"
+        response.cuenta.tenantId
       )
       // No marcar como autenticado aquí, esperar a que se cierre el modal
       setShowModal(true)

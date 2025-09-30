@@ -34,31 +34,8 @@ export const fetchInstallationTypes = async (includeInactive = false): Promise<a
   console.log('Result:', result)
   console.log('=====================================')
   
-  // FILTRO TEMPORAL EN FRONTEND - Eliminar cuando el backend esté corregido
-  // TODO: El backend debe filtrar por x-tenant-id en el endpoint GET /tipos-instalacion
-  // Por ahora, filtramos en el frontend para evitar mostrar tipos de otros tenants
-  const { tenantId } = useAuthStore.getState()
-  console.log('TenantId del usuario:', tenantId)
-  
-  let filteredResult = Array.isArray(result) ? result : []
-  
-  // Si hay tenantId en el store, filtrar por él
-  if (tenantId) {
-    filteredResult = filteredResult.filter((type: any) => {
-      // Si el tipo tiene tenantId, verificar que coincida
-      if (type.tenantId) {
-        const matches = type.tenantId === tenantId
-        console.log(`Tipo "${type.nombre}": tenantId=${type.tenantId}, matches=${matches}`)
-        return matches
-      }
-      // Si no tiene tenantId, incluir (para compatibilidad con datos existentes)
-      console.log(`Tipo "${type.nombre}": sin tenantId, incluyendo`)
-      return true
-    })
-  }
-  
-  console.log('Resultado filtrado:', filteredResult)
-  return filteredResult
+  // El backend ya filtra por tenantId usando el token JWT
+  return Array.isArray(result) ? result : []
 }
 
 export const createInstallationType = async (typeData: any) => {
