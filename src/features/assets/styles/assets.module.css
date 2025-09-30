@@ -47,17 +47,17 @@
 }
 
 .manualsButton:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: white;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
-}
-
-/* Modo claro específico para el hover del botón manuales */
-:root:not([data-theme="dark"]) .manualsButton:hover {
   background: rgba(0, 0, 0, 0.1);
   border-color: black;
+  transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Modo oscuro específico para el hover del botón manuales */
+:global(.dark) .manualsButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
 }
 
 .manualsButton:active {

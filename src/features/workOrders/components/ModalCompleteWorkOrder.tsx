@@ -1,6 +1,7 @@
 import type React from "react"
 import { useEffect, useState } from "react"
 import styles from "../styles/Modal.module.css"
+import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 import type { WorkOrder } from "../hooks/useWorkOrders"
 
 interface ModalCompleteWorkOrderProps {
@@ -220,12 +221,12 @@ const ModalCompleteWorkOrder = ({
               {error && <p className={styles.generalError}>{error}</p>}
             </div>
 
-            <div className={styles.actions}>
-              <button type="button" onClick={handleClose} disabled={isSubmitting} className={styles.cancelButton}>
-                Cancelar
-              </button>
-              <button type="submit" disabled={isSubmitting} className={styles.submitButton}>
+            <div className={formButtonStyles.actions}>
+              <button type="submit" disabled={isSubmitting} className={formButtonStyles.submitButton}>
                 {isSubmitting ? "Completando..." : "Completar Orden"}
+              </button>
+              <button type="button" onClick={handleClose} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
+                Cancelar
               </button>
             </div>
           </form>
