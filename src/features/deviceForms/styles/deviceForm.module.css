@@ -12,10 +12,15 @@
   
   .title {
     font-size: 28px;
-    color: white;
+    color: black;
     font-weight: 700;
     text-align: center;
     margin-bottom: 8px;
+  }
+
+  /* Modo oscuro para title */
+  :global(.dark) .title {
+    color: white;
   }
   
   .deviceInfoBox {
@@ -389,6 +394,11 @@
   gap: 8px;
   margin-bottom: 12px;
   font-size: 18px;
+  color: black;
+}
+
+/* Modo oscuro para infoHeader */
+:global(.dark) .infoHeader {
   color: white;
 }
 

@@ -82,8 +82,13 @@ html[data-theme="dark"] .installationInfo h4::before {
 }
 
 .installationInfo strong {
-  color: var(--color-text);
+  color: black !important;
   font-weight: 600;
+}
+
+/* Modo oscuro para strong en installationInfo */
+:global(.dark) .installationInfo strong {
+  color: white !important;
 }
 
 .formContent {
@@ -422,8 +427,13 @@ html:not([data-theme="dark"]) .selectWrapper select:focus,
 }
 
 .assetInfo strong {
-  color: var(--color-text);
+  color: black !important;
   font-weight: 600;
+}
+
+/* Modo oscuro para strong en assetInfo */
+:global(.dark) .assetInfo strong {
+  color: white !important;
 }
 
 .retryButton {

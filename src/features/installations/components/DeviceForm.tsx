@@ -45,7 +45,6 @@ const DeviceForm = ({
     if (isEditMode && device) {
       return {
         assetId: device.assetId || "",
-        nombre: device.nombre || "",
         ubicacion: device.ubicacion || "",
         categoria: device.categoria || "",
         estado: device.estado || "Activo",
@@ -140,7 +139,7 @@ const DeviceForm = ({
         }
 
         const deviceData = {
-          nombre: formData.nombre,
+          assetId: formData.assetId, // Mantener el assetId del dispositivo
           ubicacion: formData.ubicacion,
           categoria: formData.categoria,
           estado: formData.estado,
@@ -264,22 +263,6 @@ const DeviceForm = ({
           </>
         )}
 
-        {isEditMode && (
-          <div className={styles.formGroup}>
-            <label>{t('installations.deviceName')}</label>
-            <input
-              type="text"
-              name="nombre"
-              value={formData.nombre}
-              onChange={(e) => handleFieldChange("nombre", e.target.value)}
-              onBlur={() => handleFieldBlur("nombre")}
-              disabled={isSubmitting}
-              className={showError("nombre") ? styles.errorInput : ""}
-              placeholder={t('installations.deviceNamePlaceholder')}
-            />
-            {showError("nombre") && <p className={styles.error}>{getErrorMessage("nombre")}</p>}
-          </div>
-        )}
 
         <div className={styles.formGroup}>
           <label>{t('installations.deviceLocation')}</label>

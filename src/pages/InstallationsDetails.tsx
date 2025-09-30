@@ -143,6 +143,10 @@ const InstallationDetails = () => {
     setDeviceToEdit(null)
     setResponseMessage(message)
     setIsError(false)
+    // Refrescar la lista de dispositivos después de actualizar
+    if (id) {
+      refreshInstallationDevices(id)
+    }
   }
 
   const handleDeleteDevice = async () => {

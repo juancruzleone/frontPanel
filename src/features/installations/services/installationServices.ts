@@ -118,13 +118,21 @@ export const updateDeviceInInstallation = async (
   deviceId: string,
   deviceData: any
 ) => {
+  console.log('🔍 Enviando actualización de dispositivo:', { installationId, deviceId, deviceData });
   const response = await fetch(`${API_URL}installations/${installationId}/dispositivos/${deviceId}`, {
     method: "PUT",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(deviceData),
   });
-  if (!response.ok) throw new Error("Error al actualizar dispositivo");
+  
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({ error: 'Error desconocido' }));
+    console.error('❌ Error del servidor:', errorData);
+    throw new Error(errorData.error || "Error al actualizar dispositivo");
+  }
+  
   const result = await response.json();
+  console.log('✅ Dispositivo actualizado:', result);
   return result.success ? result.data : result;
 };
 
