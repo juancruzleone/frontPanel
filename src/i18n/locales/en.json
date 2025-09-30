@@ -1205,5 +1205,27 @@
     "recentTenants": "Recent Tenants",
     "noTenantsYet": "No tenants registered",
     "createFirstTenant": "Create the first tenant to get started"
+  },
+  "planLimits": {
+    "title": "Plan Limit Reached",
+    "subtitle": "You have reached the maximum limit of your current plan",
+    "currentPlan": "Current Plan",
+    "upgradeMessage": "To continue adding more resources, upgrade your plan to a higher tier.",
+    "upgradeButton": "Upgrade Plan",
+    "close": "Close",
+    "types": {
+      "users": "Users",
+      "installations": "Installations",
+      "assets": "Assets",
+      "formTemplates": "Form Templates",
+      "workOrders": "Work Orders"
+    },
+    "messages": {
+      "usersLimit": "You have reached the maximum number of users for your plan",
+      "installationsLimit": "You have reached the maximum number of installations for your plan",
+      "assetsLimit": "You have reached the maximum number of assets for your plan",
+      "formTemplatesLimit": "You have reached the maximum number of form templates for your plan",
+      "workOrdersLimit": "You have reached the maximum number of work orders for your plan"
+    }
   }
 } 

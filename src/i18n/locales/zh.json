@@ -1189,8 +1189,27 @@
   "selectFourMonths": "选择4个月",
   "selectOneMonth": "选择1个月",
   "selectAllMonths": "请选择所需的月份"
+},
+"planLimits": {
+  "title": "已达到计划限制",
+  "subtitle": "您已达到当前计划的最大限制",
+  "currentPlan": "当前计划",
+  "upgradeMessage": "要继续添加更多资源，请将您的计划升级到更高级别。",
+  "upgradeButton": "升级计划",
+  "close": "关闭",
+  "types": {
+    "users": "用户",
+    "installations": "安装",
+    "assets": "资产",
+    "formTemplates": "表单模板",
+    "workOrders": "工作订单"
+  },
+  "messages": {
+    "usersLimit": "您已达到计划的最大用户数",
+    "installationsLimit": "您已达到计划的最大安装数",
+    "assetsLimit": "您已达到计划的最大资产数",
+    "formTemplatesLimit": "您已达到计划的最大表单模板数",
+    "workOrdersLimit": "您已达到计划的最大工作订单数"
+  }
 }
-
-
-
 } 

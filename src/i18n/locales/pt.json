@@ -1124,9 +1124,27 @@
   "selectFourMonths": "Selecione 4 meses",
   "selectOneMonth": "Selecione 1 mês",
   "selectAllMonths": "Selecione os meses desejados"
+},
+"planLimits": {
+  "title": "Limite do Plano Atingido",
+  "subtitle": "Você atingiu o limite máximo do seu plano atual",
+  "currentPlan": "Plano Atual",
+  "upgradeMessage": "Para continuar adicionando mais recursos, atualize seu plano para um nível superior.",
+  "upgradeButton": "Atualizar Plano",
+  "close": "Fechar",
+  "types": {
+    "users": "Usuários",
+    "installations": "Instalações",
+    "assets": "Ativos",
+    "formTemplates": "Modelos de Formulários",
+    "workOrders": "Ordens de Trabalho"
+  },
+  "messages": {
+    "usersLimit": "Você atingiu o número máximo de usuários para seu plano",
+    "installationsLimit": "Você atingiu o número máximo de instalações para seu plano",
+    "assetsLimit": "Você atingiu o número máximo de ativos para seu plano",
+    "formTemplatesLimit": "Você atingiu o número máximo de modelos de formulários para seu plano",
+    "workOrdersLimit": "Você atingiu o número máximo de ordens de trabalho para seu plano"
+  }
 }
-
-
-
-
-} 
+}

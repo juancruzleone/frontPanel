@@ -1127,9 +1127,27 @@
   "selectFourMonths": "4か月を選択してください",
   "selectOneMonth": "1か月を選択してください",
   "selectAllMonths": "希望する月を選択してください"
+},
+"planLimits": {
+  "title": "プラン制限に達しました",
+  "subtitle": "現在のプランの最大制限に達しました",
+  "currentPlan": "現在のプラン",
+  "upgradeMessage": "より多くのリソースを追加し続けるには、プランをより高いレベルにアップグレードしてください。",
+  "upgradeButton": "プランをアップグレード",
+  "close": "閉じる",
+  "types": {
+    "users": "ユーザー",
+    "installations": "インストール",
+    "assets": "アセット",
+    "formTemplates": "フォームテンプレート",
+    "workOrders": "作業指示書"
+  },
+  "messages": {
+    "usersLimit": "プランの最大ユーザー数に達しました",
+    "installationsLimit": "プランの最大インストール数に達しました",
+    "assetsLimit": "プランの最大アセット数に達しました",
+    "formTemplatesLimit": "プランの最大フォームテンプレート数に達しました",
+    "workOrdersLimit": "プランの最大作業指示書数に達しました"
+  }
 }
-
-
-
-
 } 
