@@ -43,7 +43,7 @@
   .formGroup {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 0;
     margin-bottom: 4px;
     margin-top: 16px;
   }

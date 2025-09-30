@@ -180,6 +180,8 @@
     "editInstallation": "Editar Instalación",
     "companyField": "Empresa",
     "addressField": "Dirección",
+    "company": "Empresa",
+    "address": "Dirección",
     "city": "Ciudad",
     "contact": "Contacto",
     "phone": "Teléfono",
