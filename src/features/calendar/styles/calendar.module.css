@@ -300,35 +300,73 @@
   color: #fff;
 }
 
+/* Modo claro para calendarHeader */
+:root .calendarHeader,
+[data-theme="light"] .calendarHeader {
+  background: linear-gradient(135deg, var(--color-secondary) 0%, #045e58 100%);
+  color: #fff;
+}
+
 .navButton {
   background: none;
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  padding: 8px;
-  border-radius: 50%;
-  transition: all 0.2s ease;
+  padding: 0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-text);
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Modo claro para navButton */
+:root .navButton,
+[data-theme="light"] .navButton {
+  color: #fff;
+}
+
+/* Modo oscuro para navButton */
+[data-theme="dark"] .navButton {
+  color: #fff;
 }
 
 .navButton:hover {
-  background-color: var(--color-bg-light);
-  transform: scale(1.1);
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.navButton:active {
+  transform: translateY(0);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .navButton svg {
-  transition: color 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .navButton .light {
-  color: #111;
+  color: #fff;
 }
 
 .navButton .dark {
-  color: #f5f5f5;
+  color: #fff;
+}
+
+/* Modo claro para navButton svg */
+:root .navButton svg,
+[data-theme="light"] .navButton svg {
+  color: #fff;
+}
+
+/* Modo oscuro para navButton svg */
+[data-theme="dark"] .navButton svg {
+  color: #fff;
 }
 
 .calendarHeader button {
@@ -340,7 +378,18 @@
   font-weight: 600;
   margin: 0;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  color: var(--color-text);
+  color: #fff;
+}
+
+/* Modo claro para monthTitle */
+:root .monthTitle,
+[data-theme="light"] .monthTitle {
+  color: #fff;
+}
+
+/* Modo oscuro para monthTitle */
+[data-theme="dark"] .monthTitle {
+  color: #fff;
 }
 
 .calendarGrid {
@@ -384,6 +433,26 @@
 }
 
 .dayCell.today {
+  background-color: var(--color-secondary);
+  border: 2px solid var(--color-primary);
+  color: #fff;
+}
+
+/* Modo claro para dayCell.today */
+:root .dayCell.today,
+[data-theme="light"] .dayCell.today {
+  background-color: var(--color-secondary);
+  border: 2px solid var(--color-primary);
+  color: #fff !important;
+}
+
+:root .dayCell.today *,
+[data-theme="light"] .dayCell.today * {
+  color: #fff !important;
+}
+
+/* Modo oscuro para dayCell.today */
+[data-theme="dark"] .dayCell.today {
   background-color: var(--color-secondary);
   border: 2px solid var(--color-primary);
   color: #fff;
@@ -516,6 +585,17 @@
   margin-bottom: 4px;
   font-size: 14px;
   color: var(--color-text);
+}
+
+/* Modo claro para dayNumber en día actual */
+:root .dayCell.today .dayNumber,
+[data-theme="light"] .dayCell.today .dayNumber {
+  color: #000;
+}
+
+/* Modo oscuro para dayNumber en día actual */
+[data-theme="dark"] .dayCell.today .dayNumber {
+  color: #fff;
 }
 
 .dayOrders {
