@@ -400,16 +400,52 @@ const useSubscriptions = () => {
   const [responseMessage, setResponseMessage] = useState("")
 
   const handleMonthClick = (month: string) => {
+    const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+    const monthIndex = monthNames.indexOf(month)
+    
+    // Función para verificar si un mes es consecutivo a los ya seleccionados
+    const isConsecutive = (newMonthIndex: number, selectedMonthsArray: string[]): boolean => {
+      for (const selectedMonth of selectedMonthsArray) {
+        const selectedIndex = monthNames.indexOf(selectedMonth)
+        // Verificar consecutividad considerando el ciclo del año (Diciembre -> Enero)
+        const diff = Math.abs(newMonthIndex - selectedIndex)
+        if (diff === 1 || diff === 11) {
+          return true
+        }
+      }
+      return false
+    }
+    
     if (formData.frequency === 'semestral') {
       if (selectedMonths.includes(month)) {
         setSelectedMonths(selectedMonths.filter(m => m !== month))
       } else if (selectedMonths.length < 2) {
+        // Validar que no sea consecutivo
+        if (selectedMonths.length > 0 && isConsecutive(monthIndex, selectedMonths)) {
+          setIsError(true)
+          setResponseMessage(t('subscriptions.errors.consecutiveMonthsNotAllowed') || 'No se pueden seleccionar meses consecutivos para frecuencia semestral')
+          setTimeout(() => {
+            setIsError(false)
+            setResponseMessage('')
+          }, 3000)
+          return
+        }
         setSelectedMonths([...selectedMonths, month])
       }
     } else if (formData.frequency === 'trimestral') {
       if (selectedMonths.includes(month)) {
         setSelectedMonths(selectedMonths.filter(m => m !== month))
       } else if (selectedMonths.length < 4) {
+        // Validar que no sea consecutivo
+        if (selectedMonths.length > 0 && isConsecutive(monthIndex, selectedMonths)) {
+          setIsError(true)
+          setResponseMessage(t('subscriptions.errors.consecutiveMonthsNotAllowed') || 'No se pueden seleccionar meses consecutivos para frecuencia trimestral')
+          setTimeout(() => {
+            setIsError(false)
+            setResponseMessage('')
+          }, 3000)
+          return
+        }
         setSelectedMonths([...selectedMonths, month])
       }
     } else if (formData.frequency === 'anual') {

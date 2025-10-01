@@ -789,6 +789,7 @@
       "startDateRequired": "Start date is required",
       "endDateRequired": "End date is required",
       "endDateAfterStart": "End date must be after the start date",
+      "consecutiveMonthsNotAllowed": "Consecutive months cannot be selected",
       "invalidDate": "The date must be valid",
       "frequencyRequired": "Frequency is required to activate the subscription"
     },

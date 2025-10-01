@@ -781,6 +781,7 @@
       "endDateAfterStart": "La fecha de fin debe ser posterior a la fecha de inicio",
       "invalidDate": "La fecha debe ser válida",
       "frequencyRequired": "La frecuencia es obligatoria para activar la suscripción",
+      "consecutiveMonthsNotAllowed": "No se pueden seleccionar meses consecutivos",
       "startDateRequired": "La fecha de inicio es requerida",
       "endDateRequired": "La fecha de finialización es requerida"
     },

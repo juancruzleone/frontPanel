@@ -251,12 +251,18 @@
 
 .installationType {
   background: var(--color-secondary);
-  color: var(--color-text);
+  color: #fff;
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 500;
   display: inline-block;
+}
+
+/* Modo claro para installationType */
+/* Modo oscuro para installationType */
+[data-theme="dark"] .installationType {
+  color: #fff;
 }
 
 .frequency {
@@ -410,6 +416,18 @@
   z-index: 2;
   pointer-events: none;
   transition: transform 0.2s ease;
+  color: var(--color-text);
+}
+
+/* Modo claro para selectIcon */
+:root .selectIcon,
+[data-theme="light"] .selectIcon {
+  color: #000;
+}
+
+/* Modo oscuro para selectIcon */
+[data-theme="dark"] .selectIcon {
+  color: #fff;
 }
 
 .selectIcon.dark {
@@ -417,7 +435,7 @@
 }
 
 .selectIcon.light {
-  color: var(--color-text);
+  color: #000;
 }
 
 .frequencySelect:focus + .selectIcon {
@@ -616,6 +634,17 @@
   margin: 0 0 0.5rem 0;
   color: white;
   font-size: 1.1rem;
+}
+
+/* Modo claro para subscriptionInfo h3 */
+:root .subscriptionInfo h3,
+[data-theme="light"] .subscriptionInfo h3 {
+  color: #000;
+}
+
+/* Modo oscuro para subscriptionInfo h3 */
+[data-theme="dark"] .subscriptionInfo h3 {
+  color: white;
 }
 
 .subscriptionInfo p {
@@ -887,13 +916,41 @@
   box-shadow: none;
   cursor: pointer;
   z-index: 2;
+  color: var(--color-text);
 }
+
+/* Modo claro para calendarIconButton */
+:root .calendarIconButton,
+[data-theme="light"] .calendarIconButton {
+  color: #000;
+}
+
+/* Modo oscuro para calendarIconButton */
+[data-theme="dark"] .calendarIconButton {
+  color: #fff;
+}
+
 .calendarIconButton:hover, .calendarIconButton:focus, .calendarIconButton:active {
   background: none !important;
-  color: inherit !important;
   box-shadow: none !important;
   transform: translateY(-50%) !important;
   scale: 1 !important;
+}
+
+/* Mantener color en hover/focus/active según el tema */
+:root .calendarIconButton:hover,
+:root .calendarIconButton:focus,
+:root .calendarIconButton:active,
+[data-theme="light"] .calendarIconButton:hover,
+[data-theme="light"] .calendarIconButton:focus,
+[data-theme="light"] .calendarIconButton:active {
+  color: #000 !important;
+}
+
+[data-theme="dark"] .calendarIconButton:hover,
+[data-theme="dark"] .calendarIconButton:focus,
+[data-theme="dark"] .calendarIconButton:active {
+  color: #fff !important;
 }
 
 /* Modo oscuro y claro */
