@@ -168,24 +168,6 @@ html[data-theme="dark"] .formGroup label::before {
   font-family: inherit;
 }
 
-/* Modo claro específico para mejorar contraste de bordes */
-body:not(.dark) .formGroup input,
-body:not(.dark) .formGroup select,
-body:not(.dark) .formGroup textarea,
-html:not(.dark) .formGroup input,
-html:not(.dark) .formGroup select,
-html:not(.dark) .formGroup textarea,
-body:not([data-theme="dark"]) .formGroup input,
-body:not([data-theme="dark"]) .formGroup select,
-body:not([data-theme="dark"]) .formGroup textarea,
-html:not([data-theme="dark"]) .formGroup input,
-html:not([data-theme="dark"]) .formGroup select,
-html:not([data-theme="dark"]) .formGroup textarea,
-:not(.dark) .formGroup input,
-:not(.dark) .formGroup select,
-:not(.dark) .formGroup textarea {
-  border-color: #d1d5db !important;
-}
 
 .formGroup input:focus,
 .formGroup select:focus,
@@ -219,7 +201,7 @@ html:not([data-theme="dark"]) .formGroup textarea:focus,
 .formGroup input:hover,
 .formGroup select:hover,
 .formGroup textarea:hover {
-  border-color: var(--color-card-border);
+  border-color: white;
 }
 
 /* Modo claro específico para hover en inputs, selects y textareas */
@@ -239,6 +221,34 @@ html:not([data-theme="dark"]) .formGroup textarea:hover,
 :not(.dark) .formGroup select:hover,
 :not(.dark) .formGroup textarea:hover {
   border-color: black !important;
+}
+
+/* Modo oscuro específico para hover en inputs, selects y textareas */
+:global(.dark) .formGroup input:hover,
+:global(.dark) .formGroup select:hover,
+:global(.dark) .formGroup textarea:hover,
+:global(body.dark) .formGroup input:hover,
+:global(body.dark) .formGroup select:hover,
+:global(body.dark) .formGroup textarea:hover,
+:global(html.dark) .formGroup input:hover,
+:global(html.dark) .formGroup select:hover,
+:global(html.dark) .formGroup textarea:hover,
+:global([data-theme="dark"]) .formGroup input:hover,
+:global([data-theme="dark"]) .formGroup select:hover,
+:global([data-theme="dark"]) .formGroup textarea:hover,
+body.dark .formGroup input:hover,
+body.dark .formGroup select:hover,
+body.dark .formGroup textarea:hover,
+html.dark .formGroup input:hover,
+html.dark .formGroup select:hover,
+html.dark .formGroup textarea:hover,
+body[data-theme="dark"] .formGroup input:hover,
+body[data-theme="dark"] .formGroup select:hover,
+body[data-theme="dark"] .formGroup textarea:hover,
+html[data-theme="dark"] .formGroup input:hover,
+html[data-theme="dark"] .formGroup select:hover,
+html[data-theme="dark"] .formGroup textarea:hover {
+  border-color: white !important;
 }
 
 .formGroup select {

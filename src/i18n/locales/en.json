@@ -223,6 +223,7 @@
     "selectCategory": "Select a category",
     "selectAsset": "Select an asset",
     "asset": "Asset",
+    "assetName": "Asset name",
     "selectedAssetInfo": "Selected asset information",
     "addDevice": "Add device",
     "updateDevice": "Update device",
