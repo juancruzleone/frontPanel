@@ -38,9 +38,6 @@ const AssetForm = ({
   const { dark } = useTheme()
   const [formData, setFormData] = useState<Omit<Asset, "_id">>({
     nombre: "",
-    marca: "",
-    modelo: "",
-    numeroSerie: "",
     templateId: "",
   })
 
@@ -51,9 +48,6 @@ const AssetForm = ({
 
   const requiredFields = [
     { name: "nombre", label: t('assets.name') },
-    { name: "marca", label: t('assets.brand') },
-    { name: "modelo", label: t('assets.model') },
-    { name: "numeroSerie", label: t('assets.serialNumber') },
     { name: "templateId", label: t('assets.template') },
   ]
 
@@ -62,9 +56,6 @@ const AssetForm = ({
     if (isEditMode && initialData) {
       setFormData({
         nombre: initialData.nombre || "",
-        marca: initialData.marca || "",
-        modelo: initialData.modelo || "",
-        numeroSerie: initialData.numeroSerie || "",
         templateId: initialData.templateId || "",
       })
 
@@ -77,9 +68,6 @@ const AssetForm = ({
       // Resetear formulario para modo crear
       setFormData({
         nombre: "",
-        marca: "",
-        modelo: "",
-        numeroSerie: "",
         templateId: "",
       })
       setSelectedCategory("")
@@ -172,22 +160,20 @@ const AssetForm = ({
         {/* Sección: Información Básica */}
         <h3 className={styles.sectionTitle}>{t('assets.basicInfo')}</h3>
 
-        {requiredFields.slice(0, 4).map(({ name, label }) => (
-          <div className={styles.formGroup} key={name}>
-            <label>{label} *</label>
-            <input
-              type="text"
-              name={name}
-              value={formData[name as keyof typeof formData] || ""}
-              onChange={(e) => handleFieldChange(name, e.target.value)}
-              onBlur={() => handleFieldBlur(name)}
-              disabled={isSubmitting}
-              className={showError(name) ? styles.errorInput : ""}
-              placeholder={t(`assets.${name}Placeholder`)}
-            />
-            {showError(name) && <p className={styles.inputError}>{formErrors[name]}</p>}
-          </div>
-        ))}
+        <div className={styles.formGroup}>
+          <label>{t('assets.name')} *</label>
+          <input
+            type="text"
+            name="nombre"
+            value={formData.nombre || ""}
+            onChange={(e) => handleFieldChange("nombre", e.target.value)}
+            onBlur={() => handleFieldBlur("nombre")}
+            disabled={isSubmitting}
+            className={showError("nombre") ? styles.errorInput : ""}
+            placeholder={t('assets.nombrePlaceholder')}
+          />
+          {showError("nombre") && <p className={styles.inputError}>{formErrors.nombre}</p>}
+        </div>
 
         {/* Sección: Configuración */}
         <h3 className={styles.sectionTitle}>{t('assets.config')}</h3>

@@ -781,6 +781,8 @@
     "noSubscriptions": "No subscriptions available",
     "errorLoading": "Error loading subscriptions",
     "status": {
+      "label": "Status",
+      "placeholder": "Select status",
       "active": "Active",
       "inactive": "Inactive",
       "pending": "Pending"

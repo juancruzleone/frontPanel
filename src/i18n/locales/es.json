@@ -773,6 +773,7 @@
     "errorLoading": "Error al cargar abonos",
     "status": {
       "label": "Estado",
+      "placeholder": "Seleccionar estado",
       "active": "Activo",
       "inactive": "Inactivo",
       "pending": "Pendiente"

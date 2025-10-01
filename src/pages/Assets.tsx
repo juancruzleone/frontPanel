@@ -72,9 +72,6 @@ const Assets = () => {
       // Campos a buscar
       const fieldsToSearch = [
         asset.nombre || "",
-        asset.marca || "",
-        asset.modelo || "",
-        asset.numeroSerie || "",
         template?.nombre || "",
         template?.categoria || "",
       ]
@@ -205,19 +202,15 @@ const Assets = () => {
                     <div className={styles.assetInfo}>
                       <h3 className={styles.assetTitle}>{asset.nombre}</h3>
                       <div className={styles.assetDetails}>
-                        <p>
-                          <strong>{t('assets.brand')}:</strong> {asset.marca}
-                        </p>
-                        <p>
-                          <strong>{t('assets.model')}:</strong> {asset.modelo}
-                        </p>
-                        <p>
-                          <strong>{t('assets.serialNumber')}:</strong> {asset.numeroSerie}
-                        </p>
                         {template && (
-                          <p>
-                            <strong>{t('assets.template')}:</strong> {template.nombre}
-                          </p>
+                          <>
+                            <p>
+                              <strong>{t('assets.template')}:</strong> {template.nombre}
+                            </p>
+                            <p>
+                              <strong>{t('assets.category')}:</strong> {template.categoria}
+                            </p>
+                          </>
                         )}
                       </div>
                     </div>

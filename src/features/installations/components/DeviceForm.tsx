@@ -159,9 +159,6 @@ const DeviceForm = ({
           ubicacion: formData.ubicacion,
           categoria: formData.categoria,
           estado: selectedAsset.estado || "Activo",
-          marca: selectedAsset.marca,
-          modelo: selectedAsset.modelo,
-          numeroSerie: selectedAsset.numeroSerie,
           templateId: selectedAsset.templateId,
         }
 
@@ -234,7 +231,7 @@ const DeviceForm = ({
                   { value: "", label: t('installations.selectAsset') },
                   ...assets.map((asset) => ({
                     value: asset._id,
-                    label: `${asset.nombre} - ${asset.marca} ${asset.modelo}`
+                    label: asset.nombre
                   }))
                 ]}
                 placeholder={t('installations.selectAsset')}
@@ -247,16 +244,7 @@ const DeviceForm = ({
               <div className={styles.assetInfo}>
                 <h4>{t('installations.selectedAssetInfo')}:</h4>
                 <p>
-                  <strong>Nombre:</strong> {selectedAsset.nombre}
-                </p>
-                <p>
-                  <strong>Marca:</strong> {selectedAsset.marca}
-                </p>
-                <p>
-                  <strong>Modelo:</strong> {selectedAsset.modelo}
-                </p>
-                <p>
-                  <strong>N° Serie:</strong> {selectedAsset.numeroSerie}
+                  <strong>{t('installations.assetName')}:</strong> {selectedAsset.nombre}
                 </p>
               </div>
             )}

@@ -3,8 +3,12 @@ import { useAuthStore } from "../../store/authStore"
 export const getAuthHeaders = (includeContentType: boolean = false) => {
   const { token, tenantId } = useAuthStore.getState()
   
-  const headers: Record<string, string> = {
-    "X-Tenant-ID": tenantId || "051935e5-1c2f-4661-82a5-587f78c99e5d", // Fallback al tenant por defecto
+  // IMPORTANTE: No usar fallback hardcodeado
+  // Si no hay tenantId, el backend debe rechazar la petición
+  const headers: Record<string, string> = {}
+  
+  if (tenantId) {
+    headers["X-Tenant-ID"] = tenantId
   }
   
   if (token) {

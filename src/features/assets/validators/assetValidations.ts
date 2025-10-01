@@ -3,9 +3,6 @@ import * as yup from "yup"
 export const getAssetSchema = (t: (key: string) => string) =>
   yup.object({
     nombre: yup.string().trim().required(t("assets.validation.nameRequired")),
-    marca: yup.string().trim().required(t("assets.validation.brandRequired")),
-    modelo: yup.string().trim().required(t("assets.validation.modelRequired")),
-    numeroSerie: yup.string().trim().required(t("assets.validation.serialRequired")),
     templateId: yup.string().trim().required(t("assets.validation.templateRequired")),
   })
 

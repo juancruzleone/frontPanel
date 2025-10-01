@@ -12,9 +12,6 @@ import { fetchFormCategories } from "../../forms/services/formServices"
 export type Asset = {
   _id?: string
   nombre: string
-  marca: string
-  modelo: string
-  numeroSerie: string
   templateId: string
   fechaCreacion?: Date
   fechaActualizacion?: Date

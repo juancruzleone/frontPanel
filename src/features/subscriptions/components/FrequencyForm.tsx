@@ -216,7 +216,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
             { value: 'active', label: t('subscriptions.status.active') },
             { value: 'inactive', label: t('subscriptions.status.inactive') }
           ]}
-          placeholder={t('subscriptions.status.label')}
+          placeholder={t('subscriptions.status.placeholder')}
           disabled={isSubmitting}
           className={styles.statusSelect}
         />
