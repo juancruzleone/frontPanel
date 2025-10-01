@@ -553,6 +553,7 @@
   "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Die Installation wird dauerhaft gelöscht."
   },
   "assets": {
+    "edit": "Bearbeiten",
     "understood": "Schließen",
     "successTitle": "Vorgang erfolgreich!",
     "continue": "Weiter",
@@ -1040,8 +1041,10 @@
   "selectedMonths": "Ausgewählte Monate",
   "frequencyUpdated": "Frequenz erfolgreich aktualisiert",
   "errorUpdating": "Fehler bei der Aktualisierung der Frequenz",
-  "selectTwoMonths": "Wähle 2 Monate",
-  "selectFourMonths": "Wähle 4 Monate",
+  "selectTwoMonths": "Wählen Sie 2 Monate für halbjährliche Häufigkeit",
+  "selectTwoMonthsSemestral": "Wählen Sie 2 Monate im Abstand von 6 Monaten (z.B.: Januar und Juli)",
+  "selectFourMonths": "Wählen Sie 4 Monate für vierteljährliche Häufigkeit",
+  "selectFourMonthsTrimestral": "Wählen Sie 4 Monate im Abstand von 3 Monaten (z.B.: Januar, April, Juli, Oktober)",
   "selectOneMonth": "Wähle 1 Monat",
   "selectAllMonths": "Wähle die gewünschten Monate"
 },

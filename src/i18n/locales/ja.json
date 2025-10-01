@@ -599,6 +599,7 @@
     "confirmDeleteDescription": "この操作は元に戻せません。インストールは完全に削除されます。"
   },
   "assets": {
+    "edit": "編集",
     "understood": "閉じる",
     "successTitle": "操作が成功しました！",
     "continue": "続行",

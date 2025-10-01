@@ -246,8 +246,8 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
             ))}
           </div>
           <div className={styles.monthsHelp}>
-            {formData.frequency === 'semestral' && t('subscriptions.selectTwoMonths')}
-            {formData.frequency === 'trimestral' && t('subscriptions.selectFourMonths')}
+            {formData.frequency === 'semestral' && t('subscriptions.selectTwoMonthsSemestral')}
+            {formData.frequency === 'trimestral' && t('subscriptions.selectFourMonthsTrimestral')}
             {formData.frequency === 'anual' && t('subscriptions.selectOneMonth')}
             {formData.frequency === 'mensual' && t('subscriptions.selectAllMonths')}
           </div>

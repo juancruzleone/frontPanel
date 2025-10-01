@@ -601,6 +601,7 @@
     "confirmDeleteDescription": "이 작업은 취소할 수 없습니다. 설치가 영구적으로 삭제됩니다."
   },
   "assets": {
+    "edit": "편집",
     "understood": "닫기",
     "successTitle": "작업이 성공적으로 완료되었습니다!",
     "continue": "계속하기",

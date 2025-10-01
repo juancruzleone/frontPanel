@@ -658,6 +658,7 @@
     "confirmDeleteDescription": "此操作不可撤销。安装将被永久删除。"
   },
   "assets": {
+    "edit": "编辑",
     "understood": "关闭",
     "successTitle": "操作成功！",
     "continue": "继续",

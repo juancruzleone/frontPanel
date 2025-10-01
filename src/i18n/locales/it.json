@@ -602,6 +602,7 @@
 
   },
   "assets": {
+    "edit": "Modifica",
     "understood": "Chiudi",
     "successTitle": "Operazione riuscita!",
     "continue": "Continua",
@@ -1130,8 +1131,10 @@
   "selectedMonths": "Mesi selezionati",
   "frequencyUpdated": "Frequenza aggiornata con successo",
   "errorUpdating": "Errore durante l'aggiornamento della frequenza",
-  "selectTwoMonths": "Seleziona 2 mesi",
-  "selectFourMonths": "Seleziona 4 mesi",
+  "selectTwoMonths": "Seleziona 2 mesi per frequenza semestrale",
+  "selectTwoMonthsSemestral": "Seleziona 2 mesi distanziati ogni 6 mesi (es: Gennaio e Luglio)",
+  "selectFourMonths": "Seleziona 4 mesi per frequenza trimestrale",
+  "selectFourMonthsTrimestral": "Seleziona 4 mesi distanziati ogni 3 mesi (es: Gennaio, Aprile, Luglio, Ottobre)",
   "selectOneMonth": "Seleziona 1 mese",
   "selectAllMonths": "Seleziona i mesi desiderati"
 },

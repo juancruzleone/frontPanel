@@ -590,6 +590,7 @@
   "confirmDeleteDescription": "Cette action est irréversible. L'installation sera supprimée définitivement."
 },
   "assets": {
+    "edit": "Éditer",
     "understood": "Fermer",
     "successTitle": "Opération réussie !",
     "continue": "Continuer",
@@ -1118,8 +1119,10 @@
   "selectedMonths": "Mois sélectionnés",
   "frequencyUpdated": "Fréquence mise à jour avec succès",
   "errorUpdating": "Erreur lors de la mise à jour de la fréquence",
-  "selectTwoMonths": "Sélectionnez 2 mois",
-  "selectFourMonths": "Sélectionnez 4 mois",
+  "selectTwoMonths": "Sélectionnez 2 mois pour la fréquence semestrielle",
+  "selectTwoMonthsSemestral": "Sélectionnez 2 mois espacés de 6 mois (ex: Janvier et Juillet)",
+  "selectFourMonths": "Sélectionnez 4 mois pour la fréquence trimestrielle",
+  "selectFourMonthsTrimestral": "Sélectionnez 4 mois espacés de 3 mois (ex: Janvier, Avril, Juillet, Octobre)",
   "selectOneMonth": "Sélectionnez 1 mois",
   "selectAllMonths": "Sélectionnez les mois souhaités"
 },

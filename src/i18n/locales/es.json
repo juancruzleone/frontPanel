@@ -481,6 +481,7 @@
     "confirmDeleteDescription": "Esta acción no se puede deshacer. La instalación será eliminada permanentemente."
   },
   "assets": {
+    "edit": "Editar",
     "assign": "Asignar",
     "successTitle": "¡Operación exitosa!",
     "understood": "cerrar",
@@ -804,8 +805,10 @@
     "selectFrequency": "Selecciona una frecuencia",
     "selectedMonths": "Meses seleccionados",
     "frequencyUpdated": "Frecuencia actualizada exitosamente",
-    "selectTwoMonths": "Selecciona 2 meses",
-    "selectFourMonths": "Selecciona 4 meses",
+    "selectTwoMonths": "Selecciona 2 meses para la frecuencia semestral",
+    "selectTwoMonthsSemestral": "Selecciona 2 meses espaciados cada 6 meses (ej: Enero y Julio)",
+    "selectFourMonths": "Selecciona 4 meses para la frecuencia trimestral",
+    "selectFourMonthsTrimestral": "Selecciona 4 meses espaciados cada 3 meses (ej: Enero, Abril, Julio, Octubre)",
     "selectOneMonth": "Selecciona 1 mes",
     "selectAllMonths": "Selecciona los meses deseados"
   },

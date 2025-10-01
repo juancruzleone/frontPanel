@@ -596,6 +596,7 @@
     "confirmDeleteDescription": "لا يمكن التراجع عن هذا الإجراء. سيتم حذف التثبيت نهائيًا."
   },
   "assets": {
+    "edit": "تعديل",
     "understood": "إغلاق",
     "successTitle": "تمت العملية بنجاح!",
     "continue": "متابعة",
