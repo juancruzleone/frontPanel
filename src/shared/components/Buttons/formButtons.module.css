@@ -31,12 +31,25 @@
   width: 184px;
 }
 
-
+/* Modo claro para cancelButton */
+:root .cancelButton,
+[data-theme="light"] .cancelButton {
+  border-color: #000;
+  color: #000;
+}
 
 .cancelButton:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: white;
   transform: translateY(-1px);
+}
+
+/* Modo claro para cancelButton hover */
+:root .cancelButton:hover,
+[data-theme="light"] .cancelButton:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: #000;
+  color: #000;
 }
 
 .cancelButton:active {

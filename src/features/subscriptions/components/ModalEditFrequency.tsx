@@ -59,6 +59,8 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
     handleEndDateSelect,
     resetFrequencyForm,
     validateAllFields,
+    monthsError,
+    setMonthsError,
   } = useSubscriptions()
 
   useEffect(() => {
@@ -201,6 +203,7 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
             onSubmit={handleSubmit}
             onCancel={handleClose}
             getMonthsByFrequency={getMonthsByFrequency}
+            monthsError={monthsError}
           />
         </div>
       </div>

@@ -34,6 +34,7 @@ interface FrequencyFormProps {
   onSubmit: (e: React.FormEvent) => void
   onCancel: () => void
   getMonthsByFrequency: (frequency: string) => string[]
+  monthsError: string
 }
 
 const FrequencyForm: React.FC<FrequencyFormProps> = ({
@@ -58,6 +59,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
   onSubmit,
   onCancel,
   getMonthsByFrequency,
+  monthsError,
 }) => {
   const { t } = useTranslation()
 
@@ -245,6 +247,9 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
               </span>
             ))}
           </div>
+          {monthsError && (
+            <div className={styles.inputError}>{monthsError}</div>
+          )}
           <div className={styles.monthsHelp}>
             {formData.frequency === 'semestral' && t('subscriptions.selectTwoMonthsSemestral')}
             {formData.frequency === 'trimestral' && t('subscriptions.selectFourMonthsTrimestral')}

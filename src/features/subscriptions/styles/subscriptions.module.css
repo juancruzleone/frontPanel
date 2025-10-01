@@ -723,7 +723,22 @@
   font-family: inherit;
 }
 
-.cancelButton:hover:not(:disabled) {
+/* Modo claro para cancelButton */
+:root .cancelButton,
+[data-theme="light"] .cancelButton {
+  border-color: #000;
+  color: #000;
+}
+
+:root .cancelButton:hover:not(:disabled),
+[data-theme="light"] .cancelButton:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: #000;
+  color: #000;
+}
+
+/* Modo oscuro para cancelButton */
+[data-theme="dark"] .cancelButton:hover:not(:disabled) {
   background: var(--color-bg-light);
   border-color: var(--color-card-border);
 }
@@ -863,6 +878,17 @@
   font-size: 0.95em;
   color: var(--color-text-secondary);
   margin-top: 0.25rem;
+}
+
+/* Modo claro para monthsHelp */
+:root .monthsHelp,
+[data-theme="light"] .monthsHelp {
+  color: #333;
+}
+
+/* Modo oscuro para monthsHelp */
+[data-theme="dark"] .monthsHelp {
+  color: var(--color-text-secondary);
 }
 
 /* Estilos para selectIcon solo en elementos select nativos, no en HybridSelect */

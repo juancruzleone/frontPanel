@@ -398,6 +398,7 @@ const useSubscriptions = () => {
   const [isEndDatePickerOpen, setIsEndDatePickerOpen] = useState(false)
   const [isError, setIsError] = useState(false)
   const [responseMessage, setResponseMessage] = useState("")
+  const [monthsError, setMonthsError] = useState("")
 
   const handleMonthClick = (month: string) => {
     const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
@@ -419,34 +420,32 @@ const useSubscriptions = () => {
     if (formData.frequency === 'semestral') {
       if (selectedMonths.includes(month)) {
         setSelectedMonths(selectedMonths.filter(m => m !== month))
+        // Limpiar error al deseleccionar
+        setMonthsError("")
       } else if (selectedMonths.length < 2) {
         // Validar que no sea consecutivo
         if (selectedMonths.length > 0 && isConsecutive(monthIndex, selectedMonths)) {
-          setIsError(true)
-          setResponseMessage(t('subscriptions.errors.consecutiveMonthsNotAllowed') || 'No se pueden seleccionar meses consecutivos para frecuencia semestral')
-          setTimeout(() => {
-            setIsError(false)
-            setResponseMessage('')
-          }, 3000)
+          setMonthsError(t('subscriptions.errors.consecutiveMonthsNotAllowed') || 'No se pueden seleccionar meses consecutivos')
           return
         }
         setSelectedMonths([...selectedMonths, month])
+        // Limpiar error al seleccionar correctamente
+        setMonthsError("")
       }
     } else if (formData.frequency === 'trimestral') {
       if (selectedMonths.includes(month)) {
         setSelectedMonths(selectedMonths.filter(m => m !== month))
+        // Limpiar error al deseleccionar
+        setMonthsError("")
       } else if (selectedMonths.length < 4) {
         // Validar que no sea consecutivo
         if (selectedMonths.length > 0 && isConsecutive(monthIndex, selectedMonths)) {
-          setIsError(true)
-          setResponseMessage(t('subscriptions.errors.consecutiveMonthsNotAllowed') || 'No se pueden seleccionar meses consecutivos para frecuencia trimestral')
-          setTimeout(() => {
-            setIsError(false)
-            setResponseMessage('')
-          }, 3000)
+          setMonthsError(t('subscriptions.errors.consecutiveMonthsNotAllowed') || 'No se pueden seleccionar meses consecutivos')
           return
         }
         setSelectedMonths([...selectedMonths, month])
+        // Limpiar error al seleccionar correctamente
+        setMonthsError("")
       }
     } else if (formData.frequency === 'anual') {
       // Para anual, solo permitir un mes seleccionado
@@ -472,10 +471,7 @@ const useSubscriptions = () => {
   const isMonthSelected = (month: string) => selectedMonths.includes(month)
 
   const canSave = () => {
-    if (formData.frequency === 'semestral') return selectedMonths.length === 2
-    if (formData.frequency === 'trimestral') return selectedMonths.length === 4
-    if (formData.frequency === 'anual') return selectedMonths.length === 1
-    if (formData.frequency === 'mensual') return selectedMonths.length > 0
+    // Siempre permitir guardar - la validación se hace en el submit
     return true
   }
 
@@ -565,6 +561,7 @@ const useSubscriptions = () => {
     setIsEndDatePickerOpen(false)
     setIsError(false)
     setResponseMessage("")
+    setMonthsError("")
   }
 
   return {
@@ -608,6 +605,8 @@ const useSubscriptions = () => {
     setFormErrorState,
     resetFrequencyForm,
     validateAllFields,
+    monthsError,
+    setMonthsError,
   }
 }
 
