@@ -102,7 +102,7 @@ export function useLogin() {
       setAuthenticated(true)
       // Redirigir después de cerrar el modal de éxito
       setTimeout(() => {
-        navigate("/instalaciones", { replace: true })
+        navigate("/inicio", { replace: true })
       }, 100)
     }
   }
