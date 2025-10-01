@@ -147,5 +147,48 @@ html[data-theme="dark"] [class*="cardSeparator"],
   background: white !important;
 }
 
+/* Forzar borde blanco en inputs focus para modo oscuro - MÁXIMA PRIORIDAD */
+body.dark [class*="formGroup"] input:focus,
+html.dark [class*="formGroup"] input:focus,
+body[data-theme="dark"] [class*="formGroup"] input:focus,
+html[data-theme="dark"] [class*="formGroup"] input:focus,
+.dark [class*="formGroup"] input:focus,
+body.dark input:focus,
+html.dark input:focus,
+body[data-theme="dark"] input:focus,
+html[data-theme="dark"] input:focus,
+.dark input:focus {
+  border-color: white !important;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark [class*="formGroup"] textarea:focus,
+html.dark [class*="formGroup"] textarea:focus,
+body[data-theme="dark"] [class*="formGroup"] textarea:focus,
+html[data-theme="dark"] [class*="formGroup"] textarea:focus,
+.dark [class*="formGroup"] textarea:focus,
+body.dark textarea:focus,
+html.dark textarea:focus,
+body[data-theme="dark"] textarea:focus,
+html[data-theme="dark"] textarea:focus,
+.dark textarea:focus {
+  border-color: white !important;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark [class*="formGroup"] select:focus,
+html.dark [class*="formGroup"] select:focus,
+body[data-theme="dark"] [class*="formGroup"] select:focus,
+html[data-theme="dark"] [class*="formGroup"] select:focus,
+.dark [class*="formGroup"] select:focus,
+body.dark select:focus,
+html.dark select:focus,
+body[data-theme="dark"] select:focus,
+html[data-theme="dark"] select:focus,
+.dark select:focus {
+  border-color: white !important;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1) !important;
+}
+
 
 
