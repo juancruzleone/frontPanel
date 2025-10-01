@@ -169,6 +169,12 @@ html[data-theme="dark"] .formGroup label::before {
 }
 
 
+.formGroup input:hover:not(:focus),
+.formGroup select:hover:not(:focus),
+.formGroup textarea:hover:not(:focus) {
+  border-color: white;
+}
+
 .formGroup input:focus,
 .formGroup select:focus,
 .formGroup textarea:focus {
@@ -176,6 +182,54 @@ html[data-theme="dark"] .formGroup label::before {
   border-color: white;
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
   background: var(--color-bg-light);
+}
+
+/* Modo oscuro específico para focus en inputs, selects y textareas */
+:global(.dark) .formGroup input:focus,
+:global(.dark) .formGroup select:focus,
+:global(.dark) .formGroup textarea:focus,
+:global(body.dark) .formGroup input:focus,
+:global(body.dark) .formGroup select:focus,
+:global(body.dark) .formGroup textarea:focus,
+:global(html.dark) .formGroup input:focus,
+:global(html.dark) .formGroup select:focus,
+:global(html.dark) .formGroup textarea:focus,
+:global([data-theme="dark"]) .formGroup input:focus,
+:global([data-theme="dark"]) .formGroup select:focus,
+:global([data-theme="dark"]) .formGroup textarea:focus,
+body.dark .formGroup input:focus,
+body.dark .formGroup select:focus,
+body.dark .formGroup textarea:focus,
+html.dark .formGroup input:focus,
+html.dark .formGroup select:focus,
+html.dark .formGroup textarea:focus,
+body[data-theme="dark"] .formGroup input:focus,
+body[data-theme="dark"] .formGroup select:focus,
+body[data-theme="dark"] .formGroup textarea:focus,
+html[data-theme="dark"] .formGroup input:focus,
+html[data-theme="dark"] .formGroup select:focus,
+html[data-theme="dark"] .formGroup textarea:focus {
+  border-color: white !important;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Modo claro específico para hover en inputs, selects y textareas */
+body:not(.dark) .formGroup input:hover:not(:focus),
+body:not(.dark) .formGroup select:hover:not(:focus),
+body:not(.dark) .formGroup textarea:hover:not(:focus),
+html:not(.dark) .formGroup input:hover:not(:focus),
+html:not(.dark) .formGroup select:hover:not(:focus),
+html:not(.dark) .formGroup textarea:hover:not(:focus),
+body:not([data-theme="dark"]) .formGroup input:hover:not(:focus),
+body:not([data-theme="dark"]) .formGroup select:hover:not(:focus),
+body:not([data-theme="dark"]) .formGroup textarea:hover:not(:focus),
+html:not([data-theme="dark"]) .formGroup input:hover:not(:focus),
+html:not([data-theme="dark"]) .formGroup select:hover:not(:focus),
+html:not([data-theme="dark"]) .formGroup textarea:hover:not(:focus),
+:not(.dark) .formGroup input:hover:not(:focus),
+:not(.dark) .formGroup select:hover:not(:focus),
+:not(.dark) .formGroup textarea:hover:not(:focus) {
+  border-color: black !important;
 }
 
 /* Modo claro específico para focus en inputs, selects y textareas */
@@ -198,56 +252,31 @@ html:not([data-theme="dark"]) .formGroup textarea:focus,
   box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1) !important;
 }
 
-.formGroup input:hover,
-.formGroup select:hover,
-.formGroup textarea:hover {
-  border-color: white;
-}
-
-/* Modo claro específico para hover en inputs, selects y textareas */
-body:not(.dark) .formGroup input:hover,
-body:not(.dark) .formGroup select:hover,
-body:not(.dark) .formGroup textarea:hover,
-html:not(.dark) .formGroup input:hover,
-html:not(.dark) .formGroup select:hover,
-html:not(.dark) .formGroup textarea:hover,
-body:not([data-theme="dark"]) .formGroup input:hover,
-body:not([data-theme="dark"]) .formGroup select:hover,
-body:not([data-theme="dark"]) .formGroup textarea:hover,
-html:not([data-theme="dark"]) .formGroup input:hover,
-html:not([data-theme="dark"]) .formGroup select:hover,
-html:not([data-theme="dark"]) .formGroup textarea:hover,
-:not(.dark) .formGroup input:hover,
-:not(.dark) .formGroup select:hover,
-:not(.dark) .formGroup textarea:hover {
-  border-color: black !important;
-}
-
 /* Modo oscuro específico para hover en inputs, selects y textareas */
-:global(.dark) .formGroup input:hover,
-:global(.dark) .formGroup select:hover,
-:global(.dark) .formGroup textarea:hover,
-:global(body.dark) .formGroup input:hover,
-:global(body.dark) .formGroup select:hover,
-:global(body.dark) .formGroup textarea:hover,
-:global(html.dark) .formGroup input:hover,
-:global(html.dark) .formGroup select:hover,
-:global(html.dark) .formGroup textarea:hover,
-:global([data-theme="dark"]) .formGroup input:hover,
-:global([data-theme="dark"]) .formGroup select:hover,
-:global([data-theme="dark"]) .formGroup textarea:hover,
-body.dark .formGroup input:hover,
-body.dark .formGroup select:hover,
-body.dark .formGroup textarea:hover,
-html.dark .formGroup input:hover,
-html.dark .formGroup select:hover,
-html.dark .formGroup textarea:hover,
-body[data-theme="dark"] .formGroup input:hover,
-body[data-theme="dark"] .formGroup select:hover,
-body[data-theme="dark"] .formGroup textarea:hover,
-html[data-theme="dark"] .formGroup input:hover,
-html[data-theme="dark"] .formGroup select:hover,
-html[data-theme="dark"] .formGroup textarea:hover {
+:global(.dark) .formGroup input:hover:not(:focus),
+:global(.dark) .formGroup select:hover:not(:focus),
+:global(.dark) .formGroup textarea:hover:not(:focus),
+:global(body.dark) .formGroup input:hover:not(:focus),
+:global(body.dark) .formGroup select:hover:not(:focus),
+:global(body.dark) .formGroup textarea:hover:not(:focus),
+:global(html.dark) .formGroup input:hover:not(:focus),
+:global(html.dark) .formGroup select:hover:not(:focus),
+:global(html.dark) .formGroup textarea:hover:not(:focus),
+:global([data-theme="dark"]) .formGroup input:hover:not(:focus),
+:global([data-theme="dark"]) .formGroup select:hover:not(:focus),
+:global([data-theme="dark"]) .formGroup textarea:hover:not(:focus),
+body.dark .formGroup input:hover:not(:focus),
+body.dark .formGroup select:hover:not(:focus),
+body.dark .formGroup textarea:hover:not(:focus),
+html.dark .formGroup input:hover:not(:focus),
+html.dark .formGroup select:hover:not(:focus),
+html.dark .formGroup textarea:hover:not(:focus),
+body[data-theme="dark"] .formGroup input:hover:not(:focus),
+body[data-theme="dark"] .formGroup select:hover:not(:focus),
+body[data-theme="dark"] .formGroup textarea:hover:not(:focus),
+html[data-theme="dark"] .formGroup input:hover:not(:focus),
+html[data-theme="dark"] .formGroup select:hover:not(:focus),
+html[data-theme="dark"] .formGroup textarea:hover:not(:focus) {
   border-color: white !important;
 }
 
@@ -367,13 +396,6 @@ html:not([data-theme="dark"]) .selectWrapper select:focus,
 /* Estilos específicos para selects con error en modo oscuro */
 [data-theme="dark"] .errorInput {
   background: var(--color-card) !important;
-  color: var(--color-text) !important;
-}
-
-/* Estilos específicos para selects con error en modo claro */
-.errorInput {
-  background: var(--color-card) !important;
-  color: var(--color-text) !important;
 }
 
 .error {

@@ -126,6 +126,10 @@ const InstallationDetails = () => {
     setIsAddDeviceModalOpen(false)
     setResponseMessage(message)
     setIsError(false)
+    // Refrescar la lista de dispositivos después de agregar
+    if (id) {
+      refreshInstallationDevices(id)
+    }
   }
 
   const handleUpdateDevice = async (installationId: string, deviceId: string, deviceData: Partial<Device>) => {
