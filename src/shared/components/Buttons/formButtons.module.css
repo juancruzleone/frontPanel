@@ -52,6 +52,20 @@
   color: #000;
 }
 
+/* Modo oscuro para cancelButton */
+[data-theme="dark"] .cancelButton {
+  background: var(--color-card);
+  border-color: var(--color-card-border);
+  color: #fff;
+}
+
+/* Modo oscuro para cancelButton hover */
+[data-theme="dark"] .cancelButton:hover {
+  background: var(--color-bg-light);
+  border-color: var(--color-card-border);
+  color: #fff;
+}
+
 .cancelButton:active {
   transform: translateY(0);
 }
