@@ -550,7 +550,36 @@
     },
     "titlePage": "Installationen | Leonix",
     "confirmDeleteTitle": "Installation löschen?",
-  "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Die Installation wird dauerhaft gelöscht."
+  "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Die Installation wird dauerhaft gelöscht.",
+  "tour": {
+    "welcome": {
+      "title": "Willkommen bei Installationen!",
+      "description": "Wir führen Sie Schritt für Schritt durch die Verwaltung Ihrer Installationen. Zuerst müssen Sie einen Installationstyp erstellen, dann können Sie Installationen erstellen."
+    },
+    "createInstallationType": {
+      "title": "Schritt 1: Installationstyp erstellen",
+      "description": "Bevor Sie eine Installation erstellen, müssen Sie einen Installationstyp definieren (z.B.: Büro, Fabrik, Lager, usw.). Klicken Sie hier, um Ihren ersten Typ zu erstellen."
+    },
+    "viewInstallationTypes": {
+      "title": "Installationstypen anzeigen",
+      "description": "Hier können Sie alle von Ihnen erstellten Installationstypen anzeigen und verwalten."
+    },
+    "createInstallation": {
+      "title": "Schritt 2: Installation erstellen",
+      "description": "Sobald Sie mindestens einen Installationstyp erstellt haben, verwenden Sie diese Schaltfläche, um Ihre erste Installation zu erstellen. Geben Sie Unternehmensdaten, Adresse ein und wählen Sie den Installationstyp."
+    },
+    "searchFilter": {
+      "title": "Suchen und Filtern",
+      "description": "Verwenden Sie diese Leiste, um Installationen nach Name, Adresse oder Stadt zu suchen und nach Installationstyp zu filtern."
+    },
+    "buttons": {
+      "next": "Weiter",
+      "previous": "Zurück",
+      "done": "Fertig",
+      "skip": "Tutorial überspringen",
+      "restart": "Tutorial anzeigen"
+    }
+  }
   },
   "assets": {
     "edit": "Bearbeiten",

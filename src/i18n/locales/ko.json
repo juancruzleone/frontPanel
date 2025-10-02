@@ -598,7 +598,36 @@
       "typeDescriptionMax": "설명은 500자를 초과할 수 없습니다"
     },
     "confirmDeleteTitle": "설치를 삭제하시겠습니까?",
-    "confirmDeleteDescription": "이 작업은 취소할 수 없습니다. 설치가 영구적으로 삭제됩니다."
+    "confirmDeleteDescription": "이 작업은 취소할 수 없습니다. 설치가 영구적으로 삭제됩니다.",
+    "tour": {
+      "welcome": {
+        "title": "설치에 오신 것을 환영합니다!",
+        "description": "설치를 관리하는 방법을 단계별로 안내해 드리겠습니다. 먼저 설치 유형을 만든 다음 설치를 만들 수 있습니다."
+      },
+      "createInstallationType": {
+        "title": "1단계: 설치 유형 만들기",
+        "description": "설치를 만들기 전에 설치 유형을 정의해야 합니다(예: 사무실, 공장, 창고 등). 여기를 클릭하여 첫 번째 유형을 만드십시오."
+      },
+      "viewInstallationTypes": {
+        "title": "설치 유형 보기",
+        "description": "여기에서 생성한 모든 설치 유형을 보고 관리할 수 있습니다."
+      },
+      "createInstallation": {
+        "title": "2단계: 설치 만들기",
+        "description": "최소한 하나의 설치 유형을 만든 후 이 버튼을 사용하여 첫 번째 설치를 만드십시오. 회사 데이터, 주소를 입력하고 설치 유형을 선택하십시오."
+      },
+      "searchFilter": {
+        "title": "검색 및 필터",
+        "description": "이 막대를 사용하여 이름, 주소 또는 도시로 설치를 검색하고 설치 유형별로 필터링하십시오."
+      },
+      "buttons": {
+        "next": "다음",
+        "previous": "이전",
+        "done": "완료",
+        "skip": "튜토리얼 건너뛰기",
+        "restart": "튜토리얼 보기"
+      }
+    }
   },
   "assets": {
     "edit": "편집",

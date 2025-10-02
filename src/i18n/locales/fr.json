@@ -587,7 +587,36 @@
       "typeDescriptionMax": "La description ne peut pas dépasser 500 caractères"
     },
     "confirmDeleteTitle": "Supprimer l'installation ?",
-  "confirmDeleteDescription": "Cette action est irréversible. L'installation sera supprimée définitivement."
+  "confirmDeleteDescription": "Cette action est irréversible. L'installation sera supprimée définitivement.",
+  "tour": {
+    "welcome": {
+      "title": "Bienvenue dans Installations !",
+      "description": "Nous vous guiderons étape par étape pour apprendre à gérer vos installations. Vous devez d'abord créer un type d'installation, puis vous pourrez créer des installations."
+    },
+    "createInstallationType": {
+      "title": "Étape 1 : Créer un Type d'Installation",
+      "description": "Avant de créer une installation, vous devez définir un type d'installation (par exemple : Bureau, Usine, Entrepôt, etc.). Cliquez ici pour créer votre premier type."
+    },
+    "viewInstallationTypes": {
+      "title": "Voir les Types d'Installation",
+      "description": "Ici, vous pouvez voir et gérer tous les types d'installation que vous avez créés."
+    },
+    "createInstallation": {
+      "title": "Étape 2 : Créer une Installation",
+      "description": "Une fois que vous avez créé au moins un type d'installation, utilisez ce bouton pour créer votre première installation. Entrez les données de l'entreprise, l'adresse et sélectionnez le type d'installation."
+    },
+    "searchFilter": {
+      "title": "Rechercher et Filtrer",
+      "description": "Utilisez cette barre pour rechercher des installations par nom, adresse ou ville, et filtrez par type d'installation."
+    },
+    "buttons": {
+      "next": "Suivant",
+      "previous": "Précédent",
+      "done": "Terminer",
+      "skip": "Passer le tutoriel",
+      "restart": "Voir le tutoriel"
+    }
+  }
 },
   "assets": {
     "edit": "Éditer",

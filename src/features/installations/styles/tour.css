@@ -1,0 +1,120 @@
+/* Estilos personalizados para el tour de driver.js */
+
+/* Personalizar el popover del tour */
+.driver-popover {
+  background: var(--color-card-bg) !important;
+  color: var(--color-text) !important;
+  border: 1px solid var(--color-card-border) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Personalizar el título del popover */
+.driver-popover-title {
+  color: var(--color-text) !important;
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.75rem !important;
+}
+
+/* Personalizar la descripción */
+.driver-popover-description {
+  color: var(--color-text-secondary) !important;
+  font-size: 1rem !important;
+  line-height: 1.6 !important;
+}
+
+/* Personalizar los botones */
+.driver-popover-footer button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  border: none !important;
+  padding: 0.5rem 1.25rem !important;
+  border-radius: 8px !important;
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4) !important;
+}
+
+.driver-popover-footer button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.6) !important;
+}
+
+.driver-popover-prev-btn {
+  background: linear-gradient(135deg, #6c757d 0%, #495057 100%) !important;
+  color: white !important;
+  box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3) !important;
+}
+
+.driver-popover-prev-btn:hover {
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.5) !important;
+}
+
+.driver-popover-next-btn,
+.driver-popover-done-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+.driver-popover-close-btn {
+  color: var(--color-text-secondary) !important;
+  opacity: 0.7 !important;
+  transition: opacity 0.3s ease !important;
+}
+
+.driver-popover-close-btn:hover {
+  opacity: 1 !important;
+}
+
+/* Personalizar la flecha del popover */
+.driver-popover-arrow {
+  border-color: var(--color-card-bg) !important;
+}
+
+/* Personalizar el overlay */
+.driver-overlay {
+  background: rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Personalizar el elemento destacado */
+.driver-highlighted-element {
+  outline: 3px solid #667eea !important;
+  border-radius: 8px !important;
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2) !important;
+}
+
+/* Personalizar el indicador de progreso */
+.driver-popover-progress-text {
+  color: var(--color-text-secondary) !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Espaciado del footer */
+.driver-popover-footer {
+  margin-top: 1rem !important;
+  display: flex !important;
+  gap: 0.5rem !important;
+}
+
+/* Botón de cerrar en esquina superior derecha */
+.driver-popover-close-btn {
+  position: absolute !important;
+  top: 0.75rem !important;
+  right: 0.75rem !important;
+  width: 28px !important;
+  height: 28px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer !important;
+  font-size: 1.25rem !important;
+}

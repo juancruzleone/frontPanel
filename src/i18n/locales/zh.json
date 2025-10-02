@@ -655,7 +655,36 @@
       "typeDescriptionMax": "描述不能超过500个字符"
     },
     "confirmDeleteTitle": "删除安装？",
-    "confirmDeleteDescription": "此操作不可撤销。安装将被永久删除。"
+    "confirmDeleteDescription": "此操作不可撤销。安装将被永久删除。",
+    "tour": {
+      "welcome": {
+        "title": "欢迎来到安装！",
+        "description": "我们将逐步指导您学习如何管理安装。首先需要创建安装类型，然后才能创建安装。"
+      },
+      "createInstallationType": {
+        "title": "步骤 1：创建安装类型",
+        "description": "在创建安装之前，您需要定义安装类型（例如：办公室、工厂、仓库等）。点击此处创建您的第一个类型。"
+      },
+      "viewInstallationTypes": {
+        "title": "查看安装类型",
+        "description": "在这里您可以查看和管理您创建的所有安装类型。"
+      },
+      "createInstallation": {
+        "title": "步骤 2：创建安装",
+        "description": "创建至少一个安装类型后，使用此按钮创建您的第一个安装。输入公司数据、地址并选择安装类型。"
+      },
+      "searchFilter": {
+        "title": "搜索和过滤",
+        "description": "使用此栏按名称、地址或城市搜索安装，并按安装类型过滤。"
+      },
+      "buttons": {
+        "next": "下一步",
+        "previous": "上一步",
+        "done": "完成",
+        "skip": "跳过教程",
+        "restart": "查看教程"
+      }
+    }
   },
   "assets": {
     "edit": "编辑",

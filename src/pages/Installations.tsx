@@ -16,10 +16,11 @@ import ModalCreateCategory from "../features/installations/components/ModalCreat
 import ModalCreateInstallationType from "../features/installations/components/ModalCreateInstallationType"
 import ModalViewInstallationTypes from "../features/installations/components/ModalViewInstallationTypes"
 import ModalViewCategories from "../features/installations/components/ModalViewCategories"
-import { Edit, Trash, Plus } from "lucide-react"
+import { Edit, Trash, Plus, HelpCircle } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../store/authStore"
+import { useInstallationsTour } from "../features/installations/hooks/useInstallationsTour"
 
 
 const Installations = () => {
@@ -190,6 +191,7 @@ const Installations = () => {
   const navigate = useNavigate()
   const role = useAuthStore((s) => s.role)
   const isTechnician = role && ["tecnico", "técnico"].includes(role.toLowerCase())
+  const { tourCompleted, startTour, skipTour } = useInstallationsTour()
   
 
 
@@ -215,6 +217,17 @@ const Installations = () => {
     document.title = t("installations.titlePage")
     loadCategories()
   }, [t, i18n.language, loadCategories])
+
+  // Iniciar el tour automáticamente si no se ha completado
+  useEffect(() => {
+    if (!loading && !tourCompleted && !isTechnician) {
+      // Esperar un poco para que el DOM se cargue completamente
+      const timer = setTimeout(() => {
+        startTour()
+      }, 500)
+      return () => clearTimeout(timer)
+    }
+  }, [loading, tourCompleted, startTour, isTechnician])
 
   const dynamicCategories = useMemo(
     () => [
@@ -358,7 +371,7 @@ const Installations = () => {
         <h1 className={styles.title}>{t('installations.title')}</h1>
 
         {!isTechnician && (
-          <div className={styles.positionButton}>
+          <div className={styles.positionButton} data-tour="create-installation-btn">
             <Button title={t('installations.createInstallation')} onClick={handleOpenCreate} />
           </div>
         )}
@@ -366,7 +379,11 @@ const Installations = () => {
         <div className={styles.typeButtons}>
           {!isTechnician && (
             <>
-              <button className={styles.smallButton} onClick={() => setIsCreateInstallationTypeModalOpen(true)}>
+              <button 
+                className={styles.smallButton} 
+                onClick={() => setIsCreateInstallationTypeModalOpen(true)}
+                data-tour="create-installation-type-btn"
+              >
                 + {t('installations.createInstallationType')}
               </button>
               <button className={styles.smallButton} onClick={() => setIsCreateCategoryModalOpen(true)}>
@@ -374,7 +391,11 @@ const Installations = () => {
               </button>
             </>
           )}
-          <button className={styles.manageButton} onClick={() => setIsViewInstallationTypesModalOpen(true)}>
+          <button 
+            className={styles.manageButton} 
+            onClick={() => setIsViewInstallationTypesModalOpen(true)}
+            data-tour="view-installation-types-btn"
+          >
             📋 {t('installations.viewInstallationTypes')}
           </button>
           <button className={styles.manageButton} onClick={() => setIsViewCategoriesModalOpen(true)}>
@@ -382,7 +403,7 @@ const Installations = () => {
           </button>
         </div>
 
-        <div className={styles.searchContainer}>
+        <div className={styles.searchContainer} data-tour="search-filter">
           <SearchInput
             placeholder={t('installations.searchPlaceholder')}
             showSelect
@@ -538,6 +559,42 @@ const Installations = () => {
 
       <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={closeModal} mensaje={responseMessage} />
       <ModalError isOpen={!!responseMessage && isError} onRequestClose={closeModal} mensaje={responseMessage} />
+
+      {/* Botón flotante del tour estilo WhatsApp */}
+      {!isTechnician && (
+        <button
+          onClick={tourCompleted ? startTour : skipTour}
+          style={{
+            position: 'fixed',
+            bottom: '30px',
+            right: '30px',
+            width: '60px',
+            height: '60px',
+            borderRadius: '50%',
+            background: 'var(--color-primary)',
+            color: 'white',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+            transition: 'all 0.3s ease',
+            zIndex: 1000
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.1)';
+            e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.4)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+          }}
+          title={tourCompleted ? t('installations.tour.buttons.restart') : t('installations.tour.buttons.skip')}
+        >
+          <HelpCircle size={28} />
+        </button>
+      )}
     </>
   )
 }

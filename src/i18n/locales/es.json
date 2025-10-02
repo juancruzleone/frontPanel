@@ -480,7 +480,36 @@
     },
     "titlePage": "Instalaciones | Leonix",
     "confirmDeleteTitle": "¿Eliminar instalación?",
-    "confirmDeleteDescription": "Esta acción no se puede deshacer. La instalación será eliminada permanentemente."
+    "confirmDeleteDescription": "Esta acción no se puede deshacer. La instalación será eliminada permanentemente.",
+    "tour": {
+      "welcome": {
+        "title": "¡Bienvenido a Instalaciones!",
+        "description": "Te guiaremos paso a paso para que aprendas a gestionar tus instalaciones. Primero debes crear un tipo de instalación y luego podrás crear instalaciones."
+      },
+      "createInstallationType": {
+        "title": "Paso 1: Crear Tipo de Instalación",
+        "description": "Antes de crear una instalación, necesitas definir un tipo de instalación (por ejemplo: Oficina, Fábrica, Almacén, etc.). Haz clic aquí para crear tu primer tipo."
+      },
+      "viewInstallationTypes": {
+        "title": "Ver Tipos de Instalación",
+        "description": "Aquí puedes ver y gestionar todos los tipos de instalación que has creado."
+      },
+      "createInstallation": {
+        "title": "Paso 2: Crear Instalación",
+        "description": "Una vez que hayas creado al menos un tipo de instalación, usa este botón para crear tu primera instalación. Ingresa los datos de la empresa, dirección y selecciona el tipo de instalación."
+      },
+      "searchFilter": {
+        "title": "Buscar y Filtrar",
+        "description": "Usa esta barra para buscar instalaciones por nombre, dirección o ciudad, y filtra por tipo de instalación."
+      },
+      "buttons": {
+        "next": "Siguiente",
+        "previous": "Anterior",
+        "done": "Finalizar",
+        "skip": "Saltar tutorial",
+        "restart": "Ver tutorial"
+      }
+    }
   },
   "assets": {
     "edit": "Editar",

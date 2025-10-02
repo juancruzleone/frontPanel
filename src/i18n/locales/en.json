@@ -494,7 +494,36 @@
   "typeDescriptionMax": "Description cannot exceed 500 characters"
 },
 "confirmDeleteTitle": "Delete installation?",
-"confirmDeleteDescription": "This action cannot be undone. The installation will be permanently deleted."
+"confirmDeleteDescription": "This action cannot be undone. The installation will be permanently deleted.",
+"tour": {
+  "welcome": {
+    "title": "Welcome to Installations!",
+    "description": "We'll guide you step by step to learn how to manage your installations. First you need to create an installation type, then you can create installations."
+  },
+  "createInstallationType": {
+    "title": "Step 1: Create Installation Type",
+    "description": "Before creating an installation, you need to define an installation type (e.g., Office, Factory, Warehouse, etc.). Click here to create your first type."
+  },
+  "viewInstallationTypes": {
+    "title": "View Installation Types",
+    "description": "Here you can view and manage all the installation types you've created."
+  },
+  "createInstallation": {
+    "title": "Step 2: Create Installation",
+    "description": "Once you've created at least one installation type, use this button to create your first installation. Enter company data, address, and select the installation type."
+  },
+  "searchFilter": {
+    "title": "Search and Filter",
+    "description": "Use this bar to search installations by name, address, or city, and filter by installation type."
+  },
+  "buttons": {
+    "next": "Next",
+    "previous": "Previous",
+    "done": "Done",
+    "skip": "Skip tutorial",
+    "restart": "View tutorial"
+  }
+}
   },
   "assets": {
     "edit": "Edit",
