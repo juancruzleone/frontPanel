@@ -824,7 +824,8 @@
         "done": "Fine",
         "skip": "Salta tutorial",
         "restart": "Visualizza tutorial"
-      }
+      },
+      "progressText": "{{current}} di {{total}}"
     },
     "viewCreatedCategories": "Visualizza categorie create",
     "editTemplateTooltip": "Modifica modello",

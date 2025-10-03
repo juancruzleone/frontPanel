@@ -198,7 +198,8 @@
         "done": "完了",
         "skip": "チュートリアルをスキップ",
         "restart": "チュートリアルを表示"
-      }
+      },
+      "progressText": "{{current}} / {{total}}"
     },
     "titlePlaceholder": "作業指示書のタイトルを入力してください",
     "descriptionPlaceholder": "実施する作業内容を入力してください",
@@ -827,7 +828,8 @@
         "done": "完了",
         "skip": "チュートリアルをスキップ",
         "restart": "チュートリアルを表示"
-      }
+      },
+      "progressText": "{{total}} / {{current}}"
     },
     "viewCreatedCategories": "作成済みカテゴリを見る",
     "deleteTemplate": "テンプレートの削除",
@@ -1023,7 +1025,33 @@
       "tagsMax": "タグは10個までしか追加できません",
       "tagMax": "各タグは30文字以内でなければなりません",
       "unknownError": "不明なバリデーションエラーです"
-    }
+    },
+    "tour": {
+  "welcome": {
+    "title": "マニュアルへようこそ！",
+    "description": "ここでは資産のマニュアルを管理できます。このセクションの使い方をご紹介します。"
+  },
+  "goToAssets": {
+    "title": "資産へ移動",
+    "description": "マニュアルを作成するには、まず少なくとも1つの資産を作成する必要があります。ここをクリックして資産セクションに移動し、最初の資産を作成しましょう。"
+  },
+  "createManual": {
+    "title": "マニュアルを作成",
+    "description": "資産を作成したら、このボタンを使ってマニュアルを作成できます。資産に関連付け、PDFファイルをアップロードし、バージョン、作成者、言語などの情報を追加できます。"
+  },
+  "searchFilter": {
+    "title": "検索とフィルタ",
+    "description": "このバーを使って、名前、説明、作成者、タグでマニュアルを検索し、カテゴリでフィルタできます。"
+  },
+  "buttons": {
+    "next": "次へ",
+    "previous": "前へ",
+    "done": "完了",
+    "skip": "チュートリアルをスキップ",
+    "restart": "チュートリアルを見る"
+  },
+  "progressText": "{{current}} / {{total}}"
+}
 },
   "calendar": {
     "selectYear": "年を選択",
@@ -1231,6 +1259,36 @@
   "noDevicesFound": "この検索用語でデバイスが見つかりませんでした"
 },
 "subscriptions": {
+  "tour": {
+  "welcome": {
+    "title": "定期契約へようこそ！",
+    "description": "ここでは施設の保守契約を管理できます。このセクションの使い方をご紹介します。"
+  },
+  "goToInstallations": {
+    "title": "施設へ移動",
+    "description": "契約を作成する前に、少なくとも1つの施設が作成されていることを確認してください。ここをクリックして施設セクションに移動し、作成しましょう。"
+  },
+  "searchFilter": {
+    "title": "検索とフィルタ",
+    "description": "検索バーを使って、施設、住所、またはタイプで契約を探すことができます。また、月ごとにフィルタして、特定の月に有効な契約を確認することもできます。"
+  },
+  "editFrequency": {
+    "title": "頻度を編集",
+    "description": "このボタンをクリックすると、契約の頻度（毎月、3か月ごと、6か月ごと、または毎年）を変更し、保守を実施する月を調整できます。"
+  },
+  "months": {
+    "title": "選択された月",
+    "description": "ここには設定された頻度に基づいて保守を実施する月が表示されます。選択した頻度に応じて月は自動的に調整されます。"
+  },
+  "buttons": {
+    "next": "次へ",
+    "previous": "前へ",
+    "done": "完了",
+    "skip": "チュートリアルをスキップ",
+    "restart": "チュートリアルを見る"
+  },
+  "progressText": "{{current}} / {{total}}"
+},
   "selectStartDate": "開始日を選択",
   "selectEndDate": "終了日を選択",
   "page": "ページ",
