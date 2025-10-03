@@ -9,11 +9,12 @@ import ModalSuccess from "../features/manuals/components/ModalSuccess";
 import ModalError from "../features/forms/components/ModalError";
 import ModalConfirmDelete from "../features/manuals/components/ModalConfirmDelete";
 import ModalUploadFile from "../features/manuals/components/ModalUploadFile";
-import { Edit, Trash, Upload, FileText, Download, Eye, ArrowLeft } from 'lucide-react';
+import { Edit, Trash, Upload, FileText, Download, Eye, ArrowLeft, HelpCircle } from 'lucide-react';
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../store/authStore";
 import { useNavigate } from "react-router-dom";
+import { useManualsTour } from "../features/manuals/hooks/useManualsTour";
 
 const Manuals = () => {
   const { t, i18n } = useTranslation();
@@ -46,10 +47,22 @@ const Manuals = () => {
 
   const role = useAuthStore((s) => s.role)
   const isTechnician = role && ["tecnico", "técnico"].includes(role.toLowerCase())
+  const { tourCompleted, startTour, skipTour } = useManualsTour()
 
   useEffect(() => {
     document.title = t("manuals.titlePage");
   }, [t, i18n.language]);
+
+  // Iniciar el tour automáticamente si no se ha completado
+  useEffect(() => {
+    if (!loading && !tourCompleted && !isTechnician) {
+      // Esperar un poco para que el DOM se cargue completamente
+      const timer = setTimeout(() => {
+        startTour()
+      }, 500)
+      return () => clearTimeout(timer)
+    }
+  }, [loading, tourCompleted, startTour, isTechnician]);
 
   const dynamicCategories = useMemo(() => [
     { label: t('common.all'), value: "" },
@@ -223,6 +236,7 @@ const Manuals = () => {
             className={styles.backButton}
             onClick={() => navigate('/activos')}
             aria-label={t('common.backToAssets')}
+            data-tour="back-to-assets-btn"
           >
             <ArrowLeft size={20} />
             <span>{t('common.backToAssets')}</span>
@@ -230,12 +244,12 @@ const Manuals = () => {
           <h1 className={styles.title}>{t('manuals.title')}</h1>
         </div>
         {!isTechnician && (
-          <div className={styles.positionButton}>
+          <div className={styles.positionButton} data-tour="create-manual-btn">
             <Button title={t('manuals.createManual')} onClick={handleOpenCreate} />
           </div>
         )}
 
-        <div className={styles.searchContainer}>
+        <div className={styles.searchContainer} data-tour="search-filter">
           <SearchInput
             placeholder={t('manuals.searchPlaceholder')}
             showSelect
@@ -429,6 +443,42 @@ const Manuals = () => {
         onRequestClose={closeModal}
         mensaje={responseMessage}
       />
+
+      {/* Botón flotante del tour estilo WhatsApp */}
+      {!isTechnician && (
+        <button
+          onClick={tourCompleted ? startTour : skipTour}
+          style={{
+            position: 'fixed',
+            bottom: '30px',
+            right: '30px',
+            width: '60px',
+            height: '60px',
+            borderRadius: '50%',
+            background: 'var(--color-primary)',
+            color: 'white',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+            transition: 'all 0.3s ease',
+            zIndex: 1000
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.1)';
+            e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.4)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+          }}
+          title={tourCompleted ? t('manuals.tour.buttons.restart') : t('manuals.tour.buttons.skip')}
+        >
+          <HelpCircle size={28} />
+        </button>
+      )}
     </>
   );
 };

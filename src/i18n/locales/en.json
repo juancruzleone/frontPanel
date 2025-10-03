@@ -62,6 +62,31 @@
       "passwordsDoNotMatch": "Passwords do not match",
       "passwordMinLength": "Password must be at least 6 characters",
       "confirmPasswordRequired": "You must confirm the password"
+    },
+    "tour": {
+      "welcome": {
+        "title": "Welcome to personnel management!",
+        "description": "Here you can manage all the technicians in your company. We'll show you the main features."
+      },
+      "addTechnician": {
+        "title": "Add technician",
+        "description": "Click here to register a new technician in the system. You can assign specific roles and permissions."
+      },
+      "searchTechnicians": {
+        "title": "Search technicians",
+        "description": "Use this search bar to find specific technicians by their username."
+      },
+      "technicianActions": {
+        "title": "Technician actions",
+        "description": "In the table you can view each technician's profile, edit their information or delete users when necessary."
+      },
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous",
+        "done": "Finish",
+        "skip": "Skip tutorial",
+        "restart": "Restart tutorial"
+      }
     }
 },
   "common": {
@@ -860,6 +885,31 @@
       "tagsMax": "You cannot add more than 10 tags",
       "tagMax": "Each tag cannot exceed 30 characters",
       "unknownError": "Unknown validation error"
+    },
+    "tour": {
+      "welcome": {
+        "title": "Welcome to Manuals!",
+        "description": "Here you can manage the manuals for your assets. We'll show you how this section works."
+      },
+      "goToAssets": {
+        "title": "Go to Assets",
+        "description": "To create a manual, you first need to have at least one asset created. Click here to go to the Assets section and create your first asset."
+      },
+      "createManual": {
+        "title": "Create Manual",
+        "description": "Once you have assets created, use this button to create a manual. You can associate it with an asset, upload PDF files, and add information such as version, author, and language."
+      },
+      "searchFilter": {
+        "title": "Search and Filter",
+        "description": "Use this bar to search manuals by name, description, author, or tags, and filter by category."
+      },
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous",
+        "done": "Finish",
+        "skip": "Skip tutorial",
+        "restart": "View tutorial"
+      }
     }
   },
   "subscriptions": {

@@ -15,6 +15,8 @@ import { Trash, User, Search } from "lucide-react"
 import { useTheme } from "../shared/hooks/useTheme"
 import { deleteTechnician } from "../features/auth/register/services/registerServices"
 import { useAuthStore } from "../store/authStore"
+import { usePersonalTour } from "../features/auth/register/hooks/usePersonalTour"
+import { CircleHelp } from "lucide-react"
 
 const Register = () => {
   const { t, i18n } = useTranslation()
@@ -28,6 +30,7 @@ const Register = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [technicianToDelete, setTechnicianToDelete] = useState<any>(null)
   const [searchTerm, setSearchTerm] = useState("")
+  const { tourCompleted, startTour, resetTour, skipTour } = usePersonalTour()
 
   useEffect(() => {
     fetchTechnicians()
@@ -36,6 +39,15 @@ const Register = () => {
     // Aquí asumo que tienes acceso al id del usuario logueado, si no, deberás ajustarlo
     // setUserId(authStore.user?._id)
   }, [fetchTechnicians])
+
+  useEffect(() => {
+    if (!tourCompleted && technicians.length >= 0) {
+      const timer = setTimeout(() => {
+        startTour()
+      }, 500)
+      return () => clearTimeout(timer)
+    }
+  }, [tourCompleted, technicians])
 
   const formatDate = useCallback((dateString: string) => {
     const date = new Date(dateString)
@@ -104,13 +116,13 @@ const Register = () => {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>{t('personal.title')}</h1>
-        <div className={styles.buttonContainer}>
+        <div className={styles.buttonContainer} data-tour="add-technician-btn">
           <Button title={t('personal.addTechnician')} onClick={handleOpenModal} />
         </div>
       </div>
 
       {/* Filtro de búsqueda */}
-      <div className={styles.searchContainer}>
+      <div className={styles.searchContainer} data-tour="search-technicians">
         <div className={styles.searchWrapper}>
           <Search size={20} className={styles.searchIcon} />
           <input
@@ -225,6 +237,40 @@ const Register = () => {
 
       <ModalSuccess isOpen={showModal && !isError} onRequestClose={closeModal} mensaje={responseMessage} />
       <ModalError isOpen={showModal && isError} onRequestClose={closeModal} mensaje={responseMessage} />
+
+      {/* Botón flotante del tour */}
+      <button
+        onClick={tourCompleted ? startTour : skipTour}
+        style={{
+          position: 'fixed',
+          bottom: '30px',
+          right: '30px',
+          width: '60px',
+          height: '60px',
+          borderRadius: '50%',
+          background: 'var(--color-primary)',
+          color: 'white',
+          border: 'none',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+          transition: 'all 0.3s ease',
+          zIndex: 1000
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.1)';
+          e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.4)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+        }}
+        title={tourCompleted ? t('personal.tour.buttons.restart') : t('personal.tour.buttons.skip')}
+      >
+        <CircleHelp size={28} />
+      </button>
     </div>
   )
 }

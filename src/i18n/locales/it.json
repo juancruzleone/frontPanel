@@ -988,6 +988,31 @@
       "tagsMax": "Non è possibile aggiungere più di 10 tag",
       "tagMax": "Ogni tag non può superare i 30 caratteri",
       "unknownError": "Errore di convalida sconosciuto"
+    },
+    "tour": {
+      "welcome": {
+        "title": "Benvenuto in Manuali!",
+        "description": "Qui puoi gestire i manuali delle tue risorse. Ti mostreremo come funziona questa sezione."
+      },
+      "goToAssets": {
+        "title": "Vai a Risorse",
+        "description": "Per creare un manuale, devi prima avere almeno una risorsa creata. Clicca qui per andare alla sezione Risorse e creare la tua prima risorsa."
+      },
+      "createManual": {
+        "title": "Crea Manuale",
+        "description": "Una volta create le risorse, usa questo pulsante per creare un manuale. Potrai associarlo a una risorsa, caricare file PDF e aggiungere informazioni come versione, autore e lingua."
+      },
+      "searchFilter": {
+        "title": "Cerca e Filtra",
+        "description": "Usa questa barra per cercare manuali per nome, descrizione, autore o tag, e filtra per categoria."
+      },
+      "buttons": {
+        "next": "Successivo",
+        "previous": "Precedente",
+        "done": "Termina",
+        "skip": "Salta il tutorial",
+        "restart": "Visualizza tutorial"
+      }
     }
 },
   "calendar": {

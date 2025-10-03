@@ -142,7 +142,7 @@ const Nav = () => {
           )}
           {!isTechnicianUser && !isSuperAdminUser && (
             <>
-              <li>
+              <li data-tour="nav-assets">
                 <NavLink to="/activos" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
                   <Package size={20} /> {t('nav.assets')}
                 </NavLink>

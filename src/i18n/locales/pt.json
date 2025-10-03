@@ -985,6 +985,31 @@
       "tagsMax": "Não é possível adicionar mais de 10 tags",
       "tagMax": "Cada tag não pode exceder 30 caracteres",
       "unknownError": "Erro de validação desconhecido"
+    },
+    "tour": {
+      "welcome": {
+        "title": "Bem-vindo aos Manuais!",
+        "description": "Aqui você pode gerenciar os manuais dos seus ativos. Vamos mostrar como esta seção funciona."
+      },
+      "goToAssets": {
+        "title": "Ir para Ativos",
+        "description": "Para criar um manual, você precisa ter pelo menos um ativo criado. Clique aqui para ir à seção Ativos e criar seu primeiro ativo."
+      },
+      "createManual": {
+        "title": "Criar Manual",
+        "description": "Depois de ter ativos criados, use este botão para criar um manual. Você poderá associá-lo a um ativo, enviar arquivos PDF e adicionar informações como versão, autor e idioma."
+      },
+      "searchFilter": {
+        "title": "Buscar e Filtrar",
+        "description": "Use esta barra para buscar manuais por nome, descrição, autor ou tags, e filtre por categoria."
+      },
+      "buttons": {
+        "next": "Próximo",
+        "previous": "Anterior",
+        "done": "Concluir",
+        "skip": "Pular tutorial",
+        "restart": "Ver tutorial"
+      }
     }
 },
   "calendar": {

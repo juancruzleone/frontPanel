@@ -62,6 +62,31 @@
       "passwordsDoNotMatch": "Las contraseñas no coinciden",
       "passwordMinLength": "La contraseña debe tener al menos 6 caracteres",
       "confirmPasswordRequired": "Debe confirmar la contraseña"
+    },
+    "tour": {
+      "welcome": {
+        "title": "¡Bienvenido a la gestión de personal!",
+        "description": "Aquí puedes administrar todos los técnicos de tu empresa. Te mostraremos las funciones principales."
+      },
+      "addTechnician": {
+        "title": "Agregar técnico",
+        "description": "Haz clic aquí para registrar un nuevo técnico en el sistema. Podrás asignar roles y permisos específicos."
+      },
+      "searchTechnicians": {
+        "title": "Buscar técnicos",
+        "description": "Utiliza esta barra de búsqueda para encontrar técnicos específicos por su nombre de usuario."
+      },
+      "technicianActions": {
+        "title": "Acciones de técnicos",
+        "description": "En la tabla puedes ver el perfil de cada técnico, editar su información o eliminar usuarios cuando sea necesario."
+      },
+      "buttons": {
+        "next": "Siguiente",
+        "previous": "Anterior",
+        "done": "Finalizar",
+        "skip": "Saltar tutorial",
+        "restart": "Reiniciar tutorial"
+      }
     }
   },
   "common": {
@@ -851,6 +876,31 @@
       "tagsMax": "No se pueden agregar más de 10 tags",
       "tagMax": "Cada tag no puede exceder 30 caracteres",
       "unknownError": "Error de validación desconocido"
+    },
+    "tour": {
+      "welcome": {
+        "title": "¡Bienvenido a Manuales!",
+        "description": "Aquí puedes gestionar los manuales de tus activos. Te mostraremos cómo funciona esta sección."
+      },
+      "goToAssets": {
+        "title": "Ir a Activos",
+        "description": "Para crear un manual, primero necesitas tener al menos un activo creado. Haz clic aquí para ir a la sección de Activos y crear tu primer activo."
+      },
+      "createManual": {
+        "title": "Crear Manual",
+        "description": "Una vez que tengas activos creados, usa este botón para crear un manual. Podrás asociarlo a un activo, subir archivos PDF y agregar información como versión, autor e idioma."
+      },
+      "searchFilter": {
+        "title": "Buscar y Filtrar",
+        "description": "Usa esta barra para buscar manuales por nombre, descripción, autor o tags, y filtra por categoría."
+      },
+      "buttons": {
+        "next": "Siguiente",
+        "previous": "Anterior",
+        "done": "Finalizar",
+        "skip": "Saltar tutorial",
+        "restart": "Ver tutorial"
+      }
     }
   },
   "subscriptions": {

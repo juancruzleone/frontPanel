@@ -16,54 +16,41 @@
     "logout": "Déconnexion"
   },
   "personal": {
-  "successTitle": "Opération réussie !",
-  "understood": "Fermer",
-  "title": "Techniciens",
-  "addTechnician": "Ajouter un technicien",
-  "techniciansList": "Liste des techniciens",
-  "loadingTechnicians": "Chargement des techniciens...",
-  "noTechnicians": "Aucun technicien enregistré",
-  "addFirstTechnician": "Ajoutez le premier technicien pour commencer",
-  "id": "ID",
-  "user": "Utilisateur",
-  "role": "Rôle",
-  "registrationDate": "Date d'enregistrement",
-  "registerNewTechnician": "Enregistrer un nouveau technicien",
-  "completeInformation": "Complétez les informations pour créer un nouveau compte",
-  "username": "Nom d'utilisateur",
-  "password": "Mot de passe",
-  "confirmPassword": "Confirmer le mot de passe",
-  "enterField": "Entrez {{field}}",
-  "hidePassword": "Masquer le mot de passe",
-  "showPassword": "Afficher le mot de passe",
-  "registering": "Enregistrement en cours...",
-  "completeAllFields": "Remplissez tous les champs",
-  "registerTechnician": "Enregistrer le technicien",
-  "createTechnician": "Créer un technicien",
-  "roleTechnician": "Technicien",
-  "roleAdmin": "Administrateur",
-  "titlePage": "Personnel | Leonix",
-  "confirmDeleteTechnician": "Êtes-vous sûr de vouloir supprimer cet utilisateur?",
-  "deleteUser": "Supprimer l'utilisateur",
-  "confirmDeleteTitle": "Supprimer le technicien ?",
-  "confirmDeleteDescription": "Cette action est irréversible. Le technicien sera supprimé définitivement.",
-  "technicianDeleted": "Technicien supprimé avec succès",
-  "errorDeletingTechnician": "Erreur lors de la suppression du technicien",
-  "searchPlaceholder": "Rechercher par nom d'utilisateur...",
-  "viewProfile": "Voir le profil",
-  "userProfile": "Profil utilisateur",
-  "actions": "Actions",
-  "noSearchResults": "Aucun résultat trouvé",
-  "tryDifferentSearch": "Essayez un terme de recherche différent",
-  "userNotFound": "Utilisateur introuvable",
-  "validation": {
-    "usernameRequired": "Le nom d'utilisateur est requis",
-    "passwordRequired": "Le mot de passe est requis",
-    "passwordsDoNotMatch": "Les mots de passe ne correspondent pas",
-    "passwordMinLength": "Le mot de passe doit contenir au moins 6 caractères",
-    "confirmPasswordRequired": "Vous devez confirmer le mot de passe"
-  }
-},
+    "successTitle": "Opération réussie !",
+    "understood": "Fermer",
+    "title": "Techniciens",
+    "addTechnician": "Ajouter un technicien",
+    "techniciansList": "Liste des techniciens",
+    "loadingTechnicians": "Chargement des techniciens...",
+    "noTechnicians": "Aucun technicien enregistré",
+    "addFirstTechnician": "Ajoutez le premier technicien pour commencer",
+    "id": "ID",
+    "user": "Utilisateur",
+    "role": "Rôle",
+    "registrationDate": "Date d'enregistrement",
+    "registerNewTechnician": "Enregistrer un nouveau technicien",
+    "completeInformation": "Complétez les informations pour créer un nouveau compte",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "enterField": "Entrez {{field}}",
+    "hidePassword": "Masquer le mot de passe",
+    "showPassword": "Afficher le mot de passe",
+    "registering": "Enregistrement en cours...",
+    "completeAllFields": "Remplissez tous les champs",
+    "registerTechnician": "Enregistrer le technicien",
+    "createTechnician": "Créer un technicien",
+    "roleTechnician": "Technicien",
+    "roleAdmin": "Administrateur",
+    "titlePage": "Personnel | Leonix",
+    "confirmDeleteTechnician": "Êtes-vous sûr de vouloir supprimer cet utilisateur?",
+    "deleteUser": "Supprimer l'utilisateur",
+    "confirmDeleteTitle": "Supprimer le technicien ?",
+    "confirmDeleteDescription": "Cette action est irréversible. Le technicien sera supprimé définitivement.",
+    "technicianDeleted": "Technicien supprimé avec succès",
+    "errorDeletingTechnician": "Erreur lors de la suppression du technicien",
+    "searchPlaceholder": "Rechercher par nom d'utilisateur..."
+  },
   "common": {
     "page": "Page",
     "of": "sur",
@@ -971,6 +958,31 @@
       "tagsMax": "Vous ne pouvez pas ajouter plus de 10 tags",
       "tagMax": "Chaque tag ne peut pas dépasser 30 caractères",
       "unknownError": "Erreur de validation inconnue"
+    },
+    "tour": {
+      "welcome": {
+        "title": "Bienvenue dans Manuels !",
+        "description": "Ici vous pouvez gérer les manuels de vos actifs. Nous allons vous montrer comment cette section fonctionne."
+      },
+      "goToAssets": {
+        "title": "Aller aux Actifs",
+        "description": "Pour créer un manuel, vous devez d'abord avoir au moins un actif créé. Cliquez ici pour aller à la section Actifs et créer votre premier actif."
+      },
+      "createManual": {
+        "title": "Créer un Manuel",
+        "description": "Une fois que vous avez des actifs créés, utilisez ce bouton pour créer un manuel. Vous pourrez l'associer à un actif, téléverser des fichiers PDF et ajouter des informations telles que la version, l'auteur et la langue."
+      },
+      "searchFilter": {
+        "title": "Rechercher et Filtrer",
+        "description": "Utilisez cette barre pour rechercher des manuels par nom, description, auteur ou tags, et filtrez par catégorie."
+      },
+      "buttons": {
+        "next": "Suivant",
+        "previous": "Précédent",
+        "done": "Terminer",
+        "skip": "Passer le tutoriel",
+        "restart": "Voir le tutoriel"
+      }
     }
 },
   "calendar": {
@@ -1249,7 +1261,7 @@
   "selectOneMonth": "Sélectionnez 1 mois",
   "selectAllMonths": "Sélectionnez les mois souhaités"
 },
-"planLimits": {
+  "planLimits": {
   "title": "Limite de Plan Atteinte",
   "subtitle": "Vous avez atteint la limite maximale de votre plan actuel",
   "currentPlan": "Plan Actuel",
@@ -1270,5 +1282,5 @@
     "formTemplatesLimit": "Vous avez atteint le nombre maximum de modèles de formulaires pour votre plan",
     "workOrdersLimit": "Vous avez atteint le nombre maximum d'ordres de travail pour votre plan"
   }
+  }
 }
-} 
