@@ -186,7 +186,8 @@
         "done": "Terminer",
         "skip": "Passer le tutoriel",
         "restart": "Voir le tutoriel"
-      }
+      },
+      "progressText": "{{current}} sur {{total}}"
     },
     "titlePlaceholder": "Entrez le titre de l'ordre de travail",
     "descriptionPlaceholder": "Description du travail à effectuer",
@@ -1346,7 +1347,8 @@
       "done": "Terminé",
       "skip": "Passer le tutoriel",
       "restart": "Voir le tutoriel"
-    }
+    },
+    "progressText": "{{current}} sur {{total}}"
   }
 },
   "planLimits": {
