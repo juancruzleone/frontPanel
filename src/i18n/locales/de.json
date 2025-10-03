@@ -183,7 +183,8 @@
         "done": "Fertig",
         "skip": "Tutorial überspringen",
         "restart": "Tutorial anzeigen"
-      }
+      },
+      "progressText": "{{current}} von {{total}}"
     },
     "titlePlaceholder": "Arbeitsauftrags-Titel eingeben",
     "descriptionPlaceholder": "Beschreibung der auszuführenden Arbeit",
@@ -666,7 +667,8 @@
         "done": "Fertig",
         "skip": "Tutorial überspringen",
         "restart": "Tutorial anzeigen"
-      }
+      },
+      "progressText": "{{current}} von {{total}}"
     },
     "editAsset": "Anlage bearbeiten",
     "assetDetails": "Anlagendetails",
@@ -758,7 +760,8 @@
         "done": "Fertig",
         "skip": "Tutorial überspringen",
         "restart": "Tutorial anzeigen"
-      }
+      },
+      "progressText": "{{current}} von {{total}}"
     },
     "viewCreatedCategories": "Erstellte Kategorien anzeigen",
     "editTemplateTooltip": "Vorlage bearbeiten",
@@ -934,7 +937,8 @@
         "done": "Fertig",
         "skip": "Tutorial überspringen",
         "restart": "Tutorial ansehen"
-      }
+      },
+      "progressText": "{{current}} von {{total}}"
     }
   },
   "calendar": {
@@ -1078,7 +1082,8 @@
       "done": "Fertig",
       "skip": "Tutorial überspringen",
       "restart": "Tutorial ansehen"
-    }
+    },
+    "progressText": "{{current}} von {{total}}"
   }
 },
 "login": {
@@ -1268,7 +1273,8 @@
       "done": "Fertig",
       "skip": "Tutorial überspringen",
       "restart": "Tutorial ansehen"
-    }
+    },
+    "progressText": "{{current}} von {{total}}"
   }
 },
   "planLimits": {
