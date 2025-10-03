@@ -371,8 +371,8 @@ const Installations = () => {
         <h1 className={styles.title}>{t('installations.title')}</h1>
 
         {!isTechnician && (
-          <div className={styles.positionButton} data-tour="create-installation-btn">
-            <Button title={t('installations.createInstallation')} onClick={handleOpenCreate} />
+          <div className={styles.positionButton}>
+            <Button title={t('installations.createInstallation')} onClick={handleOpenCreate} data-tour="create-installation-btn" />
           </div>
         )}
 

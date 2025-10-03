@@ -2,7 +2,7 @@ import React from "react"
 import { Plus } from "lucide-react"
 import styles from "./buttons.module.css"
 
-interface ButtonCreateProps {
+interface ButtonCreateProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   onClick: () => void
   children?: React.ReactNode
   className?: string
@@ -10,11 +10,12 @@ interface ButtonCreateProps {
   title?: string
 }
 
-const ButtonCreate: React.FC<ButtonCreateProps> = ({ onClick, children, className = "", text, title }) => {
+const ButtonCreate: React.FC<ButtonCreateProps> = ({ onClick, children, className = "", text, title, ...rest }) => {
   return (
     <button 
       className={`${styles.createButton} ${className}`} 
       onClick={onClick}
+      {...rest}
     >
       <Plus size={16} />
       {children || title || text || "Crear"}

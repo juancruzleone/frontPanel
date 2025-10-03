@@ -2,11 +2,13 @@
 
 /* Personalizar el popover del tour */
 .driver-popover {
-  background: var(--color-card-bg) !important;
-  color: var(--color-text) !important;
-  border: 1px solid var(--color-card-border) !important;
+  background: #2b2b2b !important;
+  color: #ffffff !important;
+  border: 1px solid #3a3a3a !important;
   border-radius: 12px !important;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+  max-width: 450px !important;
+  min-width: 380px !important;
 }
 
 /* Personalizar el título del popover */
@@ -19,7 +21,7 @@
 
 /* Personalizar la descripción */
 .driver-popover-description {
-  color: var(--color-text-secondary) !important;
+  color: #d0d0d0 !important;
   font-size: 1rem !important;
   line-height: 1.6 !important;
 }
@@ -59,7 +61,7 @@
 }
 
 .driver-popover-close-btn {
-  color: var(--color-text-secondary) !important;
+  color: #d0d0d0 !important;
   opacity: 0.7 !important;
   transition: opacity 0.3s ease !important;
 }
@@ -70,7 +72,7 @@
 
 /* Personalizar la flecha del popover */
 .driver-popover-arrow {
-  border-color: var(--color-card-bg) !important;
+  border-color: #2b2b2b !important;
 }
 
 /* Personalizar el overlay */
@@ -87,13 +89,9 @@
 
 /* Personalizar el indicador de progreso */
 .driver-popover-progress-text {
-  color: var(--color-text-secondary) !important;
+  color: #d0d0d0 !important;
   font-size: 0.85rem !important;
   font-weight: 600 !important;
-  background: linear-gradient(135deg, #057E74 0%, #034F49 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 /* Espaciado del footer */
@@ -108,13 +106,13 @@
   position: absolute !important;
   top: 0.75rem !important;
   right: 0.75rem !important;
-  width: 28px !important;
-  height: 28px !important;
+  width: 36px !important;
+  height: 36px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   background: transparent !important;
   border: none !important;
   cursor: pointer !important;
-  font-size: 1.25rem !important;
+  font-size: 1.75rem !important;
 }

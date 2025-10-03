@@ -177,8 +177,8 @@ const Forms = () => {
     <>
       <div className={styles.containerForms}>
         <h1 className={styles.title}>{t('forms.title')}</h1>
-        <div className={styles.positionButton} data-tour="create-form-template-btn">
-          <Button title={t('forms.createFormTemplate')} onClick={handleOpenCreate} />
+        <div className={styles.positionButton}>
+          <Button title={t('forms.createFormTemplate')} onClick={handleOpenCreate} data-tour="create-form-template-btn" />
         </div>
         
         <div className={styles.typeButtons}>
