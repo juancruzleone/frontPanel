@@ -1144,9 +1144,9 @@
         "skip": "Skip tutorial",
         "restart": "View tutorial"
       }
-    },
-    "understood": "Close",
-    "languageSelector": {
+    }
+  },
+  "languageSelector": {
     "title": "Select Language",
     "spanish": "Spanish",
     "english": "English",
@@ -1368,4 +1368,4 @@
       "workOrdersLimit": "You have reached the maximum number of work orders for your plan"
     }
   }
-} 
+}
