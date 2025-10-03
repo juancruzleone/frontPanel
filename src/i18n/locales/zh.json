@@ -87,7 +87,7 @@
     "skip": "跳过教程",
     "restart": "重新开始教程"
   },
-  "progressText": "{{current}} / {{total}}"
+  "progressText": "{{total}} 中的 {{current}}"
 }
 },
 
@@ -202,7 +202,7 @@
         "skip": "跳过教程",
         "restart": "查看教程"
       },
-      "progressText": "{{current}} / {{total}}"
+      "progressText": "{{total}} 中的 {{current}}"
     },
     "titlePlaceholder": "请输入工单标题",
     "descriptionPlaceholder": "请输入要执行的工作描述",
@@ -744,7 +744,7 @@
         "skip": "跳过教程",
         "restart": "查看教程"
       },
-      "progressText": "{{current}} / {{total}}"
+      "progressText": "{{total}} 中的 {{current}}"
     },
     "editAsset": "编辑资产",
     "assetDetails": "资产详情",
@@ -837,7 +837,7 @@
         "skip": "跳过教程",
         "restart": "查看教程"
       },
-      "progressText": "{{current}} / {{total}}"
+      "progressText": "{{total}} 中的 {{current}}"
     },
     "viewCreatedCategories": "查看已创建的类别",
     "editTemplateTooltip": "编辑模板",
@@ -951,7 +951,7 @@
     "skip": "跳过教程",
     "restart": "查看教程"
   },
-  "progressText": "{{current}} / {{total}}"
+  "progressText": "{{total}} 中的 {{current}}"
 },
     "understood": "关闭",
     "viewFile": "查看文件",
@@ -1298,7 +1298,7 @@
     "skip": "跳过教程",
     "restart": "查看教程"
   },
-  "progressText": "{{current}} / {{total}}"
+  "progressText": "{{total}} 中的 {{current}}"
 },
   "selectStartDate": "选择开始日期",
   "selectEndDate": "选择结束日期",
@@ -1428,7 +1428,7 @@
       "skip": "跳过教程",
       "restart": "查看教程"
     },
-    "progressText": "{{current}} / {{total}}"
+    "progressText": "{{total}} 中的 {{current}}"
   },
   "editAsset": "编辑资产",
   "assetDetails": "资产详情",

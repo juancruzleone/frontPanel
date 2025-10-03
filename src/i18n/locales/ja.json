@@ -87,7 +87,7 @@
     "skip": "チュートリアルをスキップ",
     "restart": "チュートリアルを再開"
   },
-  "progressText": "{{current}} / {{total}}"
+  "progressText": "{{total}} 中 {{current}}"
 }
 },
   "common": {
@@ -199,7 +199,7 @@
         "skip": "チュートリアルをスキップ",
         "restart": "チュートリアルを表示"
       },
-      "progressText": "{{current}} / {{total}}"
+      "progressText": "{{total}} 中 {{current}}"
     },
     "titlePlaceholder": "作業指示書のタイトルを入力してください",
     "descriptionPlaceholder": "実施する作業内容を入力してください",
@@ -685,7 +685,7 @@
     "skip": "チュートリアルをスキップ",
     "restart": "チュートリアルを見る"
   },
-  "progressText": "{{current}} / {{total}}"
+  "progressText": "{{total}} 中 {{current}}"
 }
 
   },
@@ -728,7 +728,7 @@
       "skip": "チュートリアルをスキップ",
       "restart": "チュートリアルを見る"
     },
-    "progressText": "{{current}} / {{total}}"
+    "progressText": "{{total}} 中 {{current}}"
   },
   "editAsset": "資産を編集",
   "assetDetails": "資産の詳細",
@@ -829,7 +829,7 @@
         "skip": "チュートリアルをスキップ",
         "restart": "チュートリアルを表示"
       },
-      "progressText": "{{total}} / {{current}}"
+      "progressText": "{{total}} 中 {{current}}"
     },
     "viewCreatedCategories": "作成済みカテゴリを見る",
     "deleteTemplate": "テンプレートの削除",
@@ -1050,7 +1050,7 @@
     "skip": "チュートリアルをスキップ",
     "restart": "チュートリアルを見る"
   },
-  "progressText": "{{current}} / {{total}}"
+  "progressText": "{{total}} 中 {{current}}"
 }
 },
   "calendar": {
@@ -1287,7 +1287,7 @@
     "skip": "チュートリアルをスキップ",
     "restart": "チュートリアルを見る"
   },
-  "progressText": "{{current}} / {{total}}"
+  "progressText": "{{total}} 中 {{current}}"
 },
   "selectStartDate": "開始日を選択",
   "selectEndDate": "終了日を選択",
