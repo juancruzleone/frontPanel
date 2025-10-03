@@ -51,8 +51,31 @@
     "errorDeletingTechnician": "Fehler beim Löschen des Technikers",
     "searchPlaceholder": "Nach Benutzernamen suchen...",
     "tour": {
-      "progressText": "{{current}} von {{total}}"
-    }
+  "welcome": {
+    "title": "Willkommen im Personalmanagement!",
+    "description": "Hier können Sie alle Techniker Ihres Unternehmens verwalten. Wir zeigen Ihnen die Hauptfunktionen."
+  },
+  "addTechnician": {
+    "title": "Techniker hinzufügen",
+    "description": "Klicken Sie hier, um einen neuen Techniker im System zu registrieren. Sie können bestimmte Rollen und Berechtigungen zuweisen."
+  },
+  "searchTechnicians": {
+    "title": "Techniker suchen",
+    "description": "Verwenden Sie diese Suchleiste, um bestimmte Techniker anhand ihres Benutzernamens zu finden."
+  },
+  "technicianActions": {
+    "title": "Technikeraktionen",
+    "description": "In der Tabelle können Sie das Profil jedes Technikers anzeigen, seine Informationen bearbeiten oder Benutzer bei Bedarf löschen."
+  },
+  "buttons": {
+    "next": "Weiter",
+    "previous": "Zurück",
+    "done": "Fertigstellen",
+    "skip": "Tutorial überspringen",
+    "restart": "Tutorial neu starten"
+  },
+  "progressText": "{{current}} von {{total}}"
+}
   },
   "common": {
     "page": "Seite",

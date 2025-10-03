@@ -64,8 +64,31 @@
     "confirmPasswordRequired": "비밀번호 확인이 필요합니다"
   },
   "tour": {
-    "progressText": "{{current}}/{{total}}"
-  }
+  "welcome": {
+    "title": "인사 관리에 오신 것을 환영합니다!",
+    "description": "여기에서 회사의 모든 기술자를 관리할 수 있습니다. 주요 기능을 보여드리겠습니다."
+  },
+  "addTechnician": {
+    "title": "기술자 추가",
+    "description": "여기를 클릭하여 시스템에 새로운 기술자를 등록하세요. 특정 역할과 권한을 부여할 수 있습니다."
+  },
+  "searchTechnicians": {
+    "title": "기술자 검색",
+    "description": "이 검색창을 사용하여 사용자 이름으로 특정 기술자를 찾으세요."
+  },
+  "technicianActions": {
+    "title": "기술자 작업",
+    "description": "표에서 각 기술자의 프로필을 보고 정보를 수정하거나 필요할 경우 사용자를 삭제할 수 있습니다."
+  },
+  "buttons": {
+    "next": "다음",
+    "previous": "이전",
+    "done": "완료",
+    "skip": "튜토리얼 건너뛰기",
+    "restart": "튜토리얼 다시 시작"
+  },
+  "progressText": "{{current}} / {{total}}"
+}
 },
   "common": {
     "page": "페이지",
@@ -662,7 +685,8 @@
         "done": "완료",
         "skip": "튜토리얼 건너뛰기",
         "restart": "튜토리얼 보기"
-      }
+      },
+      "progressText": "{{current}} / {{total}}"
     }
   },
   "assets": {

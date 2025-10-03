@@ -64,8 +64,31 @@
     "confirmPasswordRequired": "Devi confermare la password"
   },
   "tour": {
-    "progressText": "{{current}} di {{total}}"
-  }
+  "welcome": {
+    "title": "Benvenuto nella gestione del personale!",
+    "description": "Qui puoi gestire tutti i tecnici della tua azienda. Ti mostreremo le funzioni principali."
+  },
+  "addTechnician": {
+    "title": "Aggiungi tecnico",
+    "description": "Clicca qui per registrare un nuovo tecnico nel sistema. Potrai assegnare ruoli e permessi specifici."
+  },
+  "searchTechnicians": {
+    "title": "Cerca tecnici",
+    "description": "Usa questa barra di ricerca per trovare tecnici specifici tramite il loro nome utente."
+  },
+  "technicianActions": {
+    "title": "Azioni dei tecnici",
+    "description": "Nella tabella puoi vedere il profilo di ogni tecnico, modificare le sue informazioni o eliminare utenti quando necessario."
+  },
+  "buttons": {
+    "next": "Avanti",
+    "previous": "Precedente",
+    "done": "Fine",
+    "skip": "Salta tutorial",
+    "restart": "Riavvia tutorial"
+  },
+  "progressText": "{{current}} di {{total}}"
+}
 },
 
   "common": {

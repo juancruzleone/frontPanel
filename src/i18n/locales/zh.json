@@ -64,8 +64,31 @@
     "confirmPasswordRequired": "您必须确认密码"
   },
   "tour": {
-    "progressText": "{{current}}/{{total}}"
-  }
+  "welcome": {
+    "title": "欢迎使用人员管理！",
+    "description": "在这里，您可以管理公司所有的技术人员。我们将向您展示主要功能。"
+  },
+  "addTechnician": {
+    "title": "添加技术人员",
+    "description": "点击此处在系统中注册新技术人员。您可以分配特定的角色和权限。"
+  },
+  "searchTechnicians": {
+    "title": "搜索技术人员",
+    "description": "使用此搜索栏通过用户名查找特定的技术人员。"
+  },
+  "technicianActions": {
+    "title": "技术人员操作",
+    "description": "在表格中，您可以查看每位技术人员的资料，编辑其信息或在需要时删除用户。"
+  },
+  "buttons": {
+    "next": "下一步",
+    "previous": "上一步",
+    "done": "完成",
+    "skip": "跳过教程",
+    "restart": "重新开始教程"
+  },
+  "progressText": "{{current}} / {{total}}"
+}
 },
 
   "common": {
@@ -719,7 +742,8 @@
         "done": "完成",
         "skip": "跳过教程",
         "restart": "查看教程"
-      }
+      },
+      "progressText": "{{current}} / {{total}}"
     },
     "editAsset": "编辑资产",
     "assetDetails": "资产详情",

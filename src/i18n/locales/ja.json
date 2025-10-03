@@ -64,8 +64,31 @@
     "confirmPasswordRequired": "パスワードの確認が必要です"
   },
   "tour": {
-    "progressText": "{{current}}/{{total}}"
-  }
+  "welcome": {
+    "title": "人員管理へようこそ！",
+    "description": "ここでは、会社のすべての技術者を管理できます。主な機能をご紹介します。"
+  },
+  "addTechnician": {
+    "title": "技術者を追加",
+    "description": "ここをクリックして、新しい技術者をシステムに登録します。特定の役割と権限を割り当てることができます。"
+  },
+  "searchTechnicians": {
+    "title": "技術者を検索",
+    "description": "この検索バーを使用して、ユーザー名で特定の技術者を探してください。"
+  },
+  "technicianActions": {
+    "title": "技術者の操作",
+    "description": "表では各技術者のプロフィールを確認し、情報を編集したり、必要に応じてユーザーを削除できます。"
+  },
+  "buttons": {
+    "next": "次へ",
+    "previous": "前へ",
+    "done": "完了",
+    "skip": "チュートリアルをスキップ",
+    "restart": "チュートリアルを再開"
+  },
+  "progressText": "{{current}} / {{total}}"
+}
 },
   "common": {
     "page": "ページ",
@@ -660,7 +683,8 @@
         "done": "完了",
         "skip": "チュートリアルをスキップ",
         "restart": "チュートリアルを表示"
-      }
+      },
+      "progressText": "{{current}}の{{total}}"
     }
   },
   "assets": {

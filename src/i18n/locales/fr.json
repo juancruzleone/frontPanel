@@ -49,7 +49,33 @@
     "confirmDeleteDescription": "Cette action est irréversible. Le technicien sera supprimé définitivement.",
     "technicianDeleted": "Technicien supprimé avec succès",
     "errorDeletingTechnician": "Erreur lors de la suppression du technicien",
-    "searchPlaceholder": "Rechercher par nom d'utilisateur..."
+    "searchPlaceholder": "Rechercher par nom d'utilisateur...",
+    "tour": {
+  "welcome": {
+    "title": "Bienvenue dans la gestion du personnel !",
+    "description": "Ici, vous pouvez gérer tous les techniciens de votre entreprise. Nous vous montrerons les principales fonctionnalités."
+  },
+  "addTechnician": {
+    "title": "Ajouter un technicien",
+    "description": "Cliquez ici pour enregistrer un nouveau technicien dans le système. Vous pourrez attribuer des rôles et des autorisations spécifiques."
+  },
+  "searchTechnicians": {
+    "title": "Rechercher des techniciens",
+    "description": "Utilisez cette barre de recherche pour trouver des techniciens spécifiques par leur nom d’utilisateur."
+  },
+  "technicianActions": {
+    "title": "Actions des techniciens",
+    "description": "Dans le tableau, vous pouvez voir le profil de chaque technicien, modifier ses informations ou supprimer des utilisateurs si nécessaire."
+  },
+  "buttons": {
+    "next": "Suivant",
+    "previous": "Précédent",
+    "done": "Terminer",
+    "skip": "Passer le tutoriel",
+    "restart": "Redémarrer le tutoriel"
+  },
+  "progressText": "{{current}} sur {{total}}"
+}
   },
   "common": {
     "page": "Page",
