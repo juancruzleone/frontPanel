@@ -201,7 +201,8 @@
         "done": "完成",
         "skip": "跳过教程",
         "restart": "查看教程"
-      }
+      },
+      "progressText": "{{current}} / {{total}}"
     },
     "titlePlaceholder": "请输入工单标题",
     "descriptionPlaceholder": "请输入要执行的工作描述",
@@ -835,7 +836,8 @@
         "done": "完成",
         "skip": "跳过教程",
         "restart": "查看教程"
-      }
+      },
+      "progressText": "{{current}} / {{total}}"
     },
     "viewCreatedCategories": "查看已创建的类别",
     "editTemplateTooltip": "编辑模板",
@@ -925,6 +927,32 @@
     }
   },
   "manuals": {
+    "tour": {
+  "welcome": {
+    "title": "欢迎来到手册！",
+    "description": "在这里你可以管理资产的手册。我们将向你展示该部分的功能。"
+  },
+  "goToAssets": {
+    "title": "前往资产",
+    "description": "要创建手册，你需要先创建至少一个资产。点击这里进入资产部分并创建你的第一个资产。"
+  },
+  "createManual": {
+    "title": "创建手册",
+    "description": "一旦你有了资产，就可以使用此按钮创建手册。你可以将其关联到资产，上传 PDF 文件，并添加版本、作者和语言等信息。"
+  },
+  "searchFilter": {
+    "title": "搜索和筛选",
+    "description": "使用此栏按名称、描述、作者或标签搜索手册，并按类别筛选。"
+  },
+  "buttons": {
+    "next": "下一步",
+    "previous": "上一步",
+    "done": "完成",
+    "skip": "跳过教程",
+    "restart": "查看教程"
+  },
+  "progressText": "{{current}} / {{total}}"
+},
     "understood": "关闭",
     "viewFile": "查看文件",
     "titlePage": "手册 | Leonix",
@@ -1242,6 +1270,36 @@
   "serialMax": "序列号不能超过100个字符"
 },
 "subscriptions": {
+  "tour": {
+  "welcome": {
+    "title": "欢迎来到有效订阅！",
+    "description": "在这里，您可以管理安装的维护订阅。我们将向您展示此部分的功能。"
+  },
+  "goToInstallations": {
+    "title": "前往安装",
+    "description": "在创建订阅之前，请确保至少有一个安装已创建。点击此处前往安装部分并创建它。"
+  },
+  "searchFilter": {
+    "title": "搜索与筛选",
+    "description": "使用搜索栏按安装、地址或类型查找订阅。您还可以按月份筛选，以查看特定月份的有效订阅。"
+  },
+  "editFrequency": {
+    "title": "编辑频率",
+    "description": "点击此按钮更改订阅的频率（每月、每季度、每半年或每年），并调整执行维护的月份。"
+  },
+  "months": {
+    "title": "选择的月份",
+    "description": "这里显示根据设置的频率进行维护的月份。月份会根据选择的频率自动调整。"
+  },
+  "buttons": {
+    "next": "下一步",
+    "previous": "上一步",
+    "done": "完成",
+    "skip": "跳过教程",
+    "restart": "查看教程"
+  },
+  "progressText": "{{current}} / {{total}}"
+},
   "selectStartDate": "选择开始日期",
   "selectEndDate": "选择结束日期",
   "page": "页",
