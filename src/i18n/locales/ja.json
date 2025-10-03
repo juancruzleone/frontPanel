@@ -657,131 +657,140 @@
     "confirmDeleteTitle": "インストールを削除しますか？",
     "confirmDeleteDescription": "この操作は元に戻せません。インストールは完全に削除されます。",
     "tour": {
-      "welcome": {
-        "title": "インストールへようこそ！",
-        "description": "インストールの管理方法を段階的に案内します。まずインストールタイプを作成し、次にインストールを作成できます。"
-      },
-      "createInstallationType": {
-        "title": "ステップ 1: インストールタイプを作成",
-        "description": "インストールを作成する前に、インストールタイプを定義する必要があります（例：オフィス、工場、倉庫など）。ここをクリックして最初のタイプを作成します。"
-      },
-      "viewInstallationTypes": {
-        "title": "インストールタイプを表示",
-        "description": "ここで作成したすべてのインストールタイプを表示および管理できます。"
-      },
-      "createInstallation": {
-        "title": "ステップ 2: インストールを作成",
-        "description": "少なくとも1つのインストールタイプを作成したら、このボタンを使用して最初のインストールを作成します。会社情報、住所を入力し、インストールタイプを選択します。"
-      },
-      "searchFilter": {
-        "title": "検索とフィルター",
-        "description": "このバーを使用して、名前、住所、または都市でインストールを検索し、インストールタイプでフィルターします。"
-      },
-      "buttons": {
-        "next": "次へ",
-        "previous": "前へ",
-        "done": "完了",
-        "skip": "チュートリアルをスキップ",
-        "restart": "チュートリアルを表示"
-      },
-      "progressText": "{{current}}の{{total}}"
-    }
+  "welcome": {
+    "title": "施設管理へようこそ！",
+    "description": "施設を管理する方法をステップごとにご案内します。まず施設タイプを作成し、その後に施設を作成してください。"
+  },
+  "createInstallationType": {
+    "title": "ステップ1：施設タイプを作成",
+    "description": "施設を作成する前に、施設タイプ（例：オフィス、工場、倉庫など）を定義する必要があります。最初のタイプを作成するにはここをクリックしてください。"
+  },
+  "viewInstallationTypes": {
+    "title": "施設タイプを表示",
+    "description": "ここでは、作成したすべての施設タイプを表示および管理できます。"
+  },
+  "createInstallation": {
+    "title": "ステップ2：施設を作成",
+    "description": "少なくとも1つの施設タイプを作成したら、このボタンで最初の施設を作成します。企業情報、住所を入力し、施設タイプを選択してください。"
+  },
+  "searchFilter": {
+    "title": "検索とフィルタ",
+    "description": "このバーを使用して名前、住所、または市区町村で施設を検索し、施設タイプで絞り込みます。"
+  },
+  "buttons": {
+    "next": "次へ",
+    "previous": "前へ",
+    "done": "完了",
+    "skip": "チュートリアルをスキップ",
+    "restart": "チュートリアルを見る"
+  },
+  "progressText": "{{current}} / {{total}}"
+}
+
   },
   "assets": {
-    "edit": "編集",
-    "understood": "閉じる",
-    "successTitle": "操作が成功しました！",
-    "continue": "続行",
-    "titlePage": "資産 | Leonix",
-    "title": "資産",
-    "createAsset": "資産作成",
-    "tour": {
-      "welcome": {
-        "title": "資産へようこそ！",
-        "description": "資産の管理方法を段階的に案内します。まずフォームテンプレートを作成し、次に資産を作成できます。"
-      },
-      "goToForms": {
-        "title": "ステップ 1: フォームへ移動",
-        "description": "資産を作成するには、まずフォームテンプレートが必要です。サイドメニューの'フォーム'をクリックして最初のテンプレートを作成します。"
-      },
-      "createFormTemplate": {
-        "title": "ステップ 2: フォームテンプレートを作成",
-        "description": "ここで資産の構造となるフォームテンプレートを作成できます。必要なフィールド（テキスト、数値、日付など）を定義します。"
-      },
-      "viewFormCategories": {
-        "title": "フォームカテゴリを表示",
-        "description": "テンプレートをカテゴリで整理できます。ここをクリックして既存のカテゴリを表示および管理します。"
-      },
-      "createAsset": {
-        "title": "ステップ 3: 資産を作成",
-        "description": "少なくとも1つのフォームテンプレートがあれば、このボタンを使用して最初の資産を作成します。テンプレートを選択し、フィールドを入力します。"
-      },
-      "searchFilter": {
-        "title": "検索とフィルター",
-        "description": "このバーを使用して名前またはテンプレートで資産を検索し、テンプレートカテゴリでフィルターします。"
-      },
-      "buttons": {
-        "next": "次へ",
-        "previous": "前へ",
-        "done": "完了",
-        "skip": "チュートリアルをスキップ",
-        "restart": "チュートリアルを表示"
-      }
+  "edit": "編集",
+  "assign": "割り当て",
+  "successTitle": "操作が成功しました！",
+  "understood": "閉じる",
+  "title": "資産",
+  "createAsset": "資産を作成",
+  "tour": {
+    "welcome": {
+      "title": "資産管理へようこそ！",
+      "description": "資産を管理する方法をステップごとにご案内します。まずフォームテンプレートを作成し、その後資産を作成できます。"
     },
-    "editAsset": "資産編集",
-    "assetDetails": "資産詳細",
-    "name": "名前",
-    "description": "説明",
-    "noDescription": "説明なし",
-    "category": "カテゴリ",
-    "update": "更新",
-    "fields": "フィールド",
-    "fieldsCount": "フィールド",
-    "delete": "削除",
-    "cancel": "キャンセル",
-    "confirmDeleteAsset": "資産を削除しますか？",
-    "confirmDeleteAssetDescription": "この資産を本当に削除しますか？この操作は元に戻せません。",
-    "loadingTemplates": "テンプレートを読み込み中...",
-    "location": "場所",
-    "status": "ステータス",
-    "purchaseDate": "購入日",
-    "warrantyExpiry": "保証期限",
-    "maintenanceSchedule": "メンテナンススケジュール",
-    "searchPlaceholder": "名前、ブランド、モデル、シリアル番号で検索",
-    "filterByTemplateCategory": "テンプレートカテゴリでフィルター",
-    "noAssetsFound": "資産が見つかりません",
-    "viewDetails": "詳細を見る",
-    "nombrePlaceholder": "資産名を入力してください",
-    "marcaPlaceholder": "ブランドを入力してください",
-    "modeloPlaceholder": "モデルを入力してください",
-    "numeroSeriePlaceholder": "シリアル番号を入力してください",
-    "templatePlaceholder": "テンプレートを選択してください",
-    "editAssetTooltip": "資産を編集",
-    "deleteAssetTooltip": "資産を削除",
-    "assignTemplate": "{{asset}} にテンプレートを割り当て",
-    "viewDetailsTooltip": "詳細を見る",
-    "basicInfo": "基本情報",
-    "config": "設定",
-    "allCategories": "すべてのカテゴリ",
-    "selectTemplate": "テンプレートを選択",
-    "selectCategoryPlaceholder": "カテゴリを選択してください",
-    "selectTemplatePlaceholder": "テンプレートを選択してください",
-    "brand": "ブランド",
-    "model": "モデル",
-    "serialNumber": "シリアル番号",
-    "selectDate": "日付を選択",
-    "fields": "フィールド",
-    "create": "作成",
-    "assign": "割り当て",
-    "assignTemplateTooltip": "テンプレートを割り当て",
-    "validation": {
-      "nameRequired": "名前は必須です",
-      "brandRequired": "ブランドは必須です",
-      "modelRequired": "モデルは必須です",
-      "serialRequired": "シリアル番号は必須です",
-      "templateRequired": "フォームテンプレートは必須です"
-    }
+    "goToForms": {
+      "title": "ステップ 1：フォームへ移動",
+      "description": "資産を作成するには、まずフォームテンプレートが必要です。サイドメニューの「フォーム」をクリックして最初のテンプレートを作成しましょう。"
+    },
+    "createFormTemplate": {
+      "title": "ステップ 2：フォームテンプレートを作成",
+      "description": "ここで資産の構造として使用するフォームテンプレートを作成できます。必要なフィールド（テキスト、数値、日付など）を定義してください。"
+    },
+    "viewFormCategories": {
+      "title": "フォームカテゴリを表示",
+      "description": "フォームテンプレートをカテゴリ別に管理できます。ここをクリックして既存のカテゴリを確認・管理してください。"
+    },
+    "createAsset": {
+      "title": "ステップ 3：資産を作成",
+      "description": "少なくとも1つのフォームテンプレートを作成したら、このボタンを使用して最初の資産を作成できます。テンプレートを選択し、フィールドに入力してください。"
+    },
+    "searchFilter": {
+      "title": "検索とフィルタ",
+      "description": "このバーを使用して、名前やテンプレートで資産を検索し、テンプレートカテゴリでフィルタできます。"
+    },
+    "buttons": {
+      "next": "次へ",
+      "previous": "前へ",
+      "done": "完了",
+      "skip": "チュートリアルをスキップ",
+      "restart": "チュートリアルを見る"
+    },
+    "progressText": "{{current}} / {{total}}"
   },
+  "editAsset": "資産を編集",
+  "assetDetails": "資産の詳細",
+  "name": "名称",
+  "category": "カテゴリ",
+  "location": "場所",
+  "status": "ステータス",
+  "purchaseDate": "購入日",
+  "warrantyExpiry": "保証期限",
+  "maintenanceSchedule": "メンテナンス予定",
+  "searchPlaceholder": "名称、ブランド、モデル、シリアル番号、またはテンプレートで検索",
+  "filterByTemplateCategory": "テンプレートカテゴリでフィルタ",
+  "noAssetsFound": "資産が見つかりません",
+  "assetDeleted": "資産が正常に削除されました",
+  "errorDeletingAsset": "資産の削除中にエラーが発生しました",
+  "changeTemplate": "テンプレートを変更",
+  "deleteAsset": "資産を削除",
+  "viewCompleteDetails": "詳細を表示",
+  "page": "ページ",
+  "of": "/",
+  "confirmDeleteAsset": "資産を削除しますか？",
+  "confirmDeleteAssetDescription": "この資産を削除してもよろしいですか？ この操作は取り消せません。",
+  "brand": "ブランド",
+  "model": "モデル",
+  "serialNumber": "シリアル番号",
+  "template": "テンプレート",
+  "assignTemplate": "{{asset}} にテンプレートを割り当て",
+  "assignTemplateTooltip": "フォームテンプレートを割り当て",
+  "editTemplate": "{{asset}} のテンプレートを編集",
+  "editTemplateTooltip": "フォームテンプレートを編集",
+  "nombrePlaceholder": "資産名を入力",
+  "marcaPlaceholder": "ブランドを入力",
+  "modeloPlaceholder": "モデルを入力",
+  "numeroSeriePlaceholder": "シリアル番号を入力",
+  "templatePlaceholder": "テンプレートを選択",
+  "editAssetTooltip": "資産を編集",
+  "deleteAssetTooltip": "資産を削除",
+  "viewDetailsTooltip": "詳細を見る",
+  "basicInfo": "基本情報",
+  "config": "設定",
+  "allCategories": "すべてのカテゴリ",
+  "selectTemplate": "テンプレートを選択",
+  "selectCategoryPlaceholder": "カテゴリを選択",
+  "selectTemplatePlaceholder": "テンプレートを選択",
+  "description": "説明",
+  "noDescription": "説明なし",
+  "fields": "フィールド",
+  "fieldsCount": "項目",
+  "delete": "削除",
+  "cancel": "キャンセル",
+  "loadingTemplates": "テンプレートを読み込み中...",
+  "update": "更新",
+  "create": "作成",
+  "validation": {
+    "nameRequired": "名称は必須項目です",
+    "brandRequired": "ブランドは必須項目です",
+    "modelRequired": "モデルは必須項目です",
+    "serialRequired": "シリアル番号は必須項目です",
+    "templateRequired": "フォームテンプレートは必須項目です"
+  },
+  "titlePage": "資産 | Leonix"
+},
+
   "forms": {
     "templateCreated": "フォームテンプレートが正常に作成されました",
     "understood": "閉じる",

@@ -1330,5 +1330,108 @@
     "formTemplatesLimit": "您已达到计划的最大表单模板数",
     "workOrdersLimit": "您已达到计划的最大工作订单数"
   }
+},
+"assets": {
+  "edit": "编辑",
+  "assign": "分配",
+  "successTitle": "操作成功！",
+  "understood": "关闭",
+  "title": "资产",
+  "createAsset": "创建资产",
+  "tour": {
+    "welcome": {
+      "title": "欢迎来到资产！",
+      "description": "我们将一步步引导你学习如何管理资产。首先需要创建一个表单模板，然后才能创建资产。"
+    },
+    "goToForms": {
+      "title": "步骤 1：前往表单",
+      "description": "要创建资产，首先需要一个表单模板。点击侧边菜单中的“表单”来创建第一个模板。"
+    },
+    "createFormTemplate": {
+      "title": "步骤 2：创建表单模板",
+      "description": "在这里你可以创建一个表单模板，作为资产的结构。定义所需字段（文本、数字、日期等）。"
+    },
+    "viewFormCategories": {
+      "title": "查看表单类别",
+      "description": "你可以将表单模板分类管理。点击此处查看和管理现有类别。"
+    },
+    "createAsset": {
+      "title": "步骤 3：创建资产",
+      "description": "一旦你有至少一个表单模板，就可以使用此按钮创建第一个资产。选择模板并填写字段。"
+    },
+    "searchFilter": {
+      "title": "搜索和筛选",
+      "description": "使用此栏按名称或模板搜索资产，并按模板类别筛选。"
+    },
+    "buttons": {
+      "next": "下一步",
+      "previous": "上一步",
+      "done": "完成",
+      "skip": "跳过教程",
+      "restart": "查看教程"
+    },
+    "progressText": "{{current}} / {{total}}"
+  },
+  "editAsset": "编辑资产",
+  "assetDetails": "资产详情",
+  "name": "名称",
+  "category": "类别",
+  "location": "位置",
+  "status": "状态",
+  "purchaseDate": "购买日期",
+  "warrantyExpiry": "保修到期",
+  "maintenanceSchedule": "维护计划",
+  "searchPlaceholder": "按名称、品牌、型号、序列号或模板搜索",
+  "filterByTemplateCategory": "按模板类别筛选",
+  "noAssetsFound": "未找到资产",
+  "assetDeleted": "资产删除成功",
+  "errorDeletingAsset": "删除资产时出错",
+  "changeTemplate": "更改模板",
+  "deleteAsset": "删除资产",
+  "viewCompleteDetails": "查看完整详情",
+  "page": "页",
+  "of": "的",
+  "confirmDeleteAsset": "删除资产？",
+  "confirmDeleteAssetDescription": "你确定要删除此资产吗？该操作无法撤销。",
+  "brand": "品牌",
+  "model": "型号",
+  "serialNumber": "序列号",
+  "template": "模板",
+  "assignTemplate": "分配模板到 {{asset}}",
+  "assignTemplateTooltip": "分配表单模板",
+  "editTemplate": "编辑 {{asset}} 的模板",
+  "editTemplateTooltip": "编辑表单模板",
+  "nombrePlaceholder": "输入资产名称",
+  "marcaPlaceholder": "输入品牌",
+  "modeloPlaceholder": "输入型号",
+  "numeroSeriePlaceholder": "输入序列号",
+  "templatePlaceholder": "选择模板",
+  "editAssetTooltip": "编辑资产",
+  "deleteAssetTooltip": "删除资产",
+  "viewDetailsTooltip": "查看详情",
+  "basicInfo": "基本信息",
+  "config": "配置",
+  "allCategories": "所有类别",
+  "selectTemplate": "选择模板",
+  "selectCategoryPlaceholder": "选择一个类别",
+  "selectTemplatePlaceholder": "选择一个模板",
+  "description": "描述",
+  "noDescription": "无描述",
+  "fields": "字段",
+  "fieldsCount": "个字段",
+  "delete": "删除",
+  "cancel": "取消",
+  "loadingTemplates": "正在加载模板...",
+  "update": "更新",
+  "create": "创建",
+  "validation": {
+    "nameRequired": "名称为必填项",
+    "brandRequired": "品牌为必填项",
+    "modelRequired": "型号为必填项",
+    "serialRequired": "序列号为必填项",
+    "templateRequired": "表单模板为必填项"
+  },
+  "titlePage": "资产 | Leonix"
 }
+
 } 

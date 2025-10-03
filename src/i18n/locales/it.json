@@ -328,7 +328,8 @@
         "done": "Fine",
         "skip": "Salta tutorial",
         "restart": "Visualizza tutorial"
-      }
+      },
+      "progressText": "{{current}} di {{total}}"
     }
   },
   "installations": {
@@ -728,7 +729,8 @@
         "done": "Fine",
         "skip": "Salta tutorial",
         "restart": "Visualizza tutorial"
-      }
+      },
+      "progressText": "{{current}} di {{total}}"
     },
     "editAsset": "Modifica Bene",
     "assetDetails": "Dettagli Bene",
@@ -1039,7 +1041,8 @@
         "done": "Termina",
         "skip": "Salta il tutorial",
         "restart": "Visualizza tutorial"
-      }
+      },
+      "progressText": "{{current}} di {{total}}"
     }
 },
   "calendar": {
@@ -1182,7 +1185,8 @@
       "done": "Fine",
       "skip": "Salta tutorial",
       "restart": "Visualizza tutorial"
-    }
+    },
+    "progressText": "{{current}} di {{total}}"
   }
 },
     "login": {
@@ -1371,7 +1375,8 @@
       "done": "Fine",
       "skip": "Salta tutorial",
       "restart": "Visualizza tutorial"
-    }
+    },
+    "progressText": "{{current}} di {{total}}"
   }
 },
 "planLimits": {
