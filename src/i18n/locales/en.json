@@ -86,7 +86,8 @@
         "done": "Finish",
         "skip": "Skip tutorial",
         "restart": "Restart tutorial"
-      }
+      },
+      "progressText": "{{current}} of {{total}}"
     }
 },
   "common": {
@@ -547,7 +548,8 @@
     "done": "Done",
     "skip": "Skip tutorial",
     "restart": "View tutorial"
-  }
+  },
+  "progressText": "{{current}} of {{total}}"
 }
   },
   "assets": {
@@ -591,7 +593,8 @@
         "done": "Done",
         "skip": "Skip tutorial",
         "restart": "View tutorial"
-      }
+      },
+      "progressText": "{{current}} of {{total}}"
     },
     "assetDetails": "Asset Details",
     "name": "Name",
@@ -687,7 +690,8 @@
         "done": "Done",
         "skip": "Skip tutorial",
         "restart": "View tutorial"
-      }
+      },
+      "progressText": "{{current}} of {{total}}"
     },
     "viewCreatedCategories": "View created categories",
     "editTemplateTooltip": "Edit template",
@@ -909,7 +913,8 @@
         "done": "Finish",
         "skip": "Skip tutorial",
         "restart": "View tutorial"
-      }
+      },
+      "progressText": "{{current}} of {{total}}"
     }
   },
   "subscriptions": {
@@ -1011,7 +1016,8 @@
         "done": "Done",
         "skip": "Skip tutorial",
         "restart": "View tutorial"
-      }
+      },
+      "progressText": "{{current}} of {{total}}"
     }
   },
   "calendar": {
@@ -1223,7 +1229,8 @@
         "done": "Done",
         "skip": "Skip tutorial",
         "restart": "View tutorial"
-      }
+      },
+      "progressText": "{{current}} of {{total}}"
     }
   },
   "languageSelector": {

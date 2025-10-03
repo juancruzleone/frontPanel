@@ -26,6 +26,7 @@ export const useAssetsTour = () => {
     const driverObj = driver({
       showProgress: true,
       showButtons: ['next', 'previous', 'close'],
+      progressText: t('assets.tour.progressText'),
       steps: [
         {
           popover: {
@@ -66,6 +67,7 @@ export const useAssetsTour = () => {
     const driverObj = driver({
       showProgress: true,
       showButtons: ['next', 'previous', 'close'],
+      progressText: t('assets.tour.progressText'),
       steps: [
         {
           element: '[data-tour="create-form-template-btn"]',
@@ -103,6 +105,7 @@ export const useAssetsTour = () => {
     const driverObj = driver({
       showProgress: true,
       showButtons: ['next', 'previous', 'close'],
+      progressText: t('assets.tour.progressText'),
       steps: [
         {
           element: '[data-tour="create-asset-btn"]',

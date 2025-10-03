@@ -62,6 +62,9 @@
     "passwordsDoNotMatch": "パスワードが一致しません",
     "passwordMinLength": "パスワードは6文字以上である必要があります",
     "confirmPasswordRequired": "パスワードの確認が必要です"
+  },
+  "tour": {
+    "progressText": "{{current}}/{{total}}"
   }
 },
   "common": {

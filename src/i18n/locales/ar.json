@@ -62,6 +62,9 @@
     "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
     "passwordMinLength": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
     "confirmPasswordRequired": "يجب تأكيد كلمة المرور"
+  },
+  "tour": {
+    "progressText": "{{current}} من {{total}}"
   }
 },
   "common": {

@@ -62,6 +62,9 @@
     "passwordsDoNotMatch": "密码不匹配",
     "passwordMinLength": "密码必须至少6个字符",
     "confirmPasswordRequired": "您必须确认密码"
+  },
+  "tour": {
+    "progressText": "{{current}}/{{total}}"
   }
 },
 

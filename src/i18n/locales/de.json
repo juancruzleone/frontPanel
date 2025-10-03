@@ -49,7 +49,10 @@
     "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Der Techniker wird dauerhaft gelöscht.",
     "technicianDeleted": "Techniker erfolgreich gelöscht",
     "errorDeletingTechnician": "Fehler beim Löschen des Technikers",
-    "searchPlaceholder": "Nach Benutzernamen suchen..."
+    "searchPlaceholder": "Nach Benutzernamen suchen...",
+    "tour": {
+      "progressText": "{{current}} von {{total}}"
+    }
   },
   "common": {
     "page": "Seite",
@@ -598,7 +601,8 @@
       "done": "Fertig",
       "skip": "Tutorial überspringen",
       "restart": "Tutorial anzeigen"
-    }
+    },
+    "progressText": "{{current}} von {{total}}"
   }
 },
   "assets": {

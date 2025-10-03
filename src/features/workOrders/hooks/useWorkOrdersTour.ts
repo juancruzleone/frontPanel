@@ -20,6 +20,7 @@ export const useWorkOrdersTour = () => {
     const driverObj = driver({
       showProgress: true,
       showButtons: ['next', 'previous', 'close'],
+      progressText: t('workOrders.tour.progressText'),
       steps: [
         {
           popover: {

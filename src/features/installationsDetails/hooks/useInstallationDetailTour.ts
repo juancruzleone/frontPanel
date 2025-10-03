@@ -20,6 +20,7 @@ export const useInstallationDetailTour = () => {
     const driverObj = driver({
       showProgress: true,
       showButtons: ['next', 'previous', 'close'],
+      progressText: t('installationDetails.tour.progressText'),
       steps: [
         {
           popover: {

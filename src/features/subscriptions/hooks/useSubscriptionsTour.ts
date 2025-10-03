@@ -20,6 +20,7 @@ export const useSubscriptionsTour = () => {
     const driverObj = driver({
       showProgress: true,
       showButtons: ['next', 'previous', 'close'],
+      progressText: t('subscriptions.tour.progressText'),
       steps: [
         {
           popover: {

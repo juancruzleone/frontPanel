@@ -62,6 +62,9 @@
     "passwordsDoNotMatch": "Le password non corrispondono",
     "passwordMinLength": "La password deve avere almeno 6 caratteri",
     "confirmPasswordRequired": "Devi confermare la password"
+  },
+  "tour": {
+    "progressText": "{{current}} di {{total}}"
   }
 },
 
@@ -659,7 +662,8 @@
       "done": "Fine",
       "skip": "Salta tutorial",
       "restart": "Visualizza tutorial"
-    }
+    },
+    "progressText": "{{current}} di {{total}}"
   }
 
   },

@@ -86,7 +86,8 @@
         "done": "Finalizar",
         "skip": "Saltar tutorial",
         "restart": "Reiniciar tutorial"
-      }
+      },
+      "progressText": "{{current}} de {{total}}"
     }
   },
   "common": {
@@ -533,7 +534,8 @@
         "done": "Finalizar",
         "skip": "Saltar tutorial",
         "restart": "Ver tutorial"
-      }
+      },
+      "progressText": "{{current}} de {{total}}"
     }
   },
   "assets": {
@@ -574,7 +576,8 @@
         "done": "Finalizar",
         "skip": "Saltar tutorial",
         "restart": "Ver tutorial"
-      }
+      },
+      "progressText": "{{current}} de {{total}}"
     },
     "editAsset": "Editar Activo",
     "assetDetails": "Detalles del Activo",
@@ -672,7 +675,8 @@
         "done": "Finalizar",
         "skip": "Saltar tutorial",
         "restart": "Ver tutorial"
-      }
+      },
+      "progressText": "{{current}} de {{total}}"
     },
     "createFormTemplate": "Crear plantilla de formulario",
     "editFormTemplate": "Editar Plantilla de Formulario",
@@ -900,7 +904,8 @@
         "done": "Finalizar",
         "skip": "Saltar tutorial",
         "restart": "Ver tutorial"
-      }
+      },
+      "progressText": "{{current}} de {{total}}"
     }
   },
   "subscriptions": {
@@ -985,7 +990,8 @@
         "done": "Finalizar",
         "skip": "Saltar tutorial",
         "restart": "Ver tutorial"
-      }
+      },
+      "progressText": "{{current}} de {{total}}"
     }
   },
   "workOrders": {
@@ -1156,7 +1162,8 @@
         "done": "Finalizar",
         "skip": "Saltar tutorial",
         "restart": "Ver tutorial"
-      }
+      },
+      "progressText": "{{current}} de {{total}}"
     },
     "successTitle": "¡Operación exitosa!",
     "understood": "cerrar",
@@ -1354,7 +1361,8 @@
         "done": "Finalizar",
         "skip": "Saltar tutorial",
         "restart": "Ver tutorial"
-      }
+      },
+      "progressText": "{{current}} de {{total}}"
     }
   },
   "login": {

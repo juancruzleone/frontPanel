@@ -18,6 +18,7 @@ export const usePersonalTour = () => {
     const driverObj = driver({
       showProgress: true,
       showButtons: ['next', 'previous', 'close'],
+      progressText: t('personal.tour.progressText'),
       steps: [
         {
           popover: {

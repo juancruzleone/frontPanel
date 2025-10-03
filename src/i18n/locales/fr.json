@@ -635,7 +635,8 @@
       "done": "Terminer",
       "skip": "Passer le tutoriel",
       "restart": "Voir le tutoriel"
-    }
+    },
+    "progressText": "{{current}} sur {{total}}"
   }
 },
   "assets": {
@@ -677,7 +678,8 @@
         "done": "Terminer",
         "skip": "Passer le tutoriel",
         "restart": "Voir le tutoriel"
-      }
+      },
+      "progressText": "{{current}} sur {{total}}"
     },
     "editAsset": "Modifier l'Actif",
     "assetDetails": "Détails de l'Actif",
@@ -763,7 +765,8 @@
         "done": "Terminer",
         "skip": "Passer le tutoriel",
         "restart": "Voir le tutoriel"
-      }
+      },
+      "progressText": "{{current}} sur {{total}}"
     },
     "viewCreatedCategories": "Voir les catégories créées",
     "editTemplateTooltip": "Modifier le modèle",

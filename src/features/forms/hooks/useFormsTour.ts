@@ -23,6 +23,7 @@ export const useFormsTour = () => {
     const driverObj = driver({
       showProgress: true,
       showButtons: ['next', 'previous', 'close'],
+      progressText: t('forms.tour.progressText'),
       steps: [
         {
           popover: {
