@@ -982,7 +982,37 @@
     "selectFourMonths": "Select 4 months for quarterly frequency",
     "selectFourMonthsTrimestral": "Select 4 months spaced every 3 months (e.g., January, April, July, October)",
     "selectOneMonth": "Select 1 month",
-    "selectAllMonths": "Select the desired months"
+    "selectAllMonths": "Select the desired months",
+    "filterByMonth": "Filter by month",
+    "tour": {
+      "welcome": {
+        "title": "Welcome to Active Subscriptions!",
+        "description": "Here you can manage maintenance subscriptions for your installations. We'll show you how this section works."
+      },
+      "goToInstallations": {
+        "title": "Go to Installations",
+        "description": "Before creating a subscription, make sure you have at least one installation created. Click here to go to the Installations section and create it."
+      },
+      "searchFilter": {
+        "title": "Search and Filter",
+        "description": "Use the search bar to find subscriptions by installation, address, or type. You can also filter by month to see which subscriptions are active in a specific month."
+      },
+      "editFrequency": {
+        "title": "Edit Frequency",
+        "description": "Click this button to change the subscription frequency (monthly, quarterly, semiannual, or annual) and adjust the months when maintenance will be performed."
+      },
+      "months": {
+        "title": "Selected Months",
+        "description": "Here are shown the months when maintenance will be performed according to the configured frequency. Months are automatically adjusted according to the chosen frequency."
+      },
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous",
+        "done": "Done",
+        "skip": "Skip tutorial",
+        "restart": "View tutorial"
+      }
+    }
   },
   "calendar": {
     "selectYear": "Select year",
@@ -1246,7 +1276,36 @@
     "errorLoadingCategories": "Error loading categories",
     "retryLoadCategories": "Retry loading categories",
     "searchDevicesPlaceholder": "Search by device, location or category...",
-    "noDevicesFound": "No devices found with that search term"
+    "noDevicesFound": "No devices found with that search term",
+    "tour": {
+      "welcome": {
+        "title": "Welcome to Installation Details!",
+        "description": "Here you can manage all devices for this installation. We'll show you how this section works."
+      },
+      "goToInstallations": {
+        "title": "Go to Installations",
+        "description": "Before adding devices, make sure to create device categories from the Installations section. Click here to go to that section."
+      },
+      "addDevice": {
+        "title": "Add Device",
+        "description": "Use this button to add a new device to the installation. You'll need to select the category, location, status, and other device details."
+      },
+      "searchFilter": {
+        "title": "Search and Filter",
+        "description": "Use this bar to search for devices by name, location, or category. You can also filter by device status."
+      },
+      "deviceActions": {
+        "title": "Device Actions",
+        "description": "Each device card has buttons to: view QR code, download last maintenance (PDF), edit the device, and delete it."
+      },
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous",
+        "done": "Done",
+        "skip": "Skip tutorial",
+        "restart": "View tutorial"
+      }
+    }
 },
 "login": {
   "understood": "Close",

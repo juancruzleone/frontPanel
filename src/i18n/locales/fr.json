@@ -1098,7 +1098,36 @@
   "device": "Appareil",
   "loadingRequiredData": "Chargement des données nécessaires...",
   "errorLoadingCategories": "Erreur lors du chargement des catégories",
-  "retryLoadCategories": "Réessayer le chargement des catégories"
+  "retryLoadCategories": "Réessayer le chargement des catégories",
+  "tour": {
+    "welcome": {
+      "title": "Bienvenue dans les Détails de l'Installation !",
+      "description": "Ici, vous pouvez gérer tous les appareils de cette installation. Nous allons vous montrer comment cette section fonctionne."
+    },
+    "goToInstallations": {
+      "title": "Aller aux Installations",
+      "description": "Avant d'ajouter des appareils, assurez-vous de créer les catégories d'appareils depuis la section Installations. Cliquez ici pour aller à cette section."
+    },
+    "addDevice": {
+      "title": "Ajouter un Appareil",
+      "description": "Utilisez ce bouton pour ajouter un nouvel appareil à l'installation. Vous devrez sélectionner la catégorie, l'emplacement, le statut et d'autres détails de l'appareil."
+    },
+    "searchFilter": {
+      "title": "Rechercher et Filtrer",
+      "description": "Utilisez cette barre pour rechercher des appareils par nom, emplacement ou catégorie. Vous pouvez également filtrer par statut de l'appareil."
+    },
+    "deviceActions": {
+      "title": "Actions sur les Appareils",
+      "description": "Chaque carte d'appareil dispose de boutons pour : voir le code QR, télécharger la dernière maintenance (PDF), modifier l'appareil et le supprimer."
+    },
+    "buttons": {
+      "next": "Suivant",
+      "previous": "Précédent",
+      "done": "Terminé",
+      "skip": "Passer le tutoriel",
+      "restart": "Voir le tutoriel"
+    }
+  }
 },
 
     "login": {
@@ -1259,7 +1288,37 @@
   "selectFourMonths": "Sélectionnez 4 mois pour la fréquence trimestrielle",
   "selectFourMonthsTrimestral": "Sélectionnez 4 mois espacés de 3 mois (ex: Janvier, Avril, Juillet, Octobre)",
   "selectOneMonth": "Sélectionnez 1 mois",
-  "selectAllMonths": "Sélectionnez les mois souhaités"
+  "selectAllMonths": "Sélectionnez les mois souhaités",
+  "filterByMonth": "Filtrer par mois",
+  "tour": {
+    "welcome": {
+      "title": "Bienvenue dans les Abonnements Actifs !",
+      "description": "Ici, vous pouvez gérer les abonnements de maintenance de vos installations. Nous allons vous montrer comment cette section fonctionne."
+    },
+    "goToInstallations": {
+      "title": "Aller aux Installations",
+      "description": "Avant de créer un abonnement, assurez-vous d'avoir au moins une installation créée. Cliquez ici pour aller à la section Installations et la créer."
+    },
+    "searchFilter": {
+      "title": "Rechercher et Filtrer",
+      "description": "Utilisez la barre de recherche pour trouver des abonnements par installation, adresse ou type. Vous pouvez également filtrer par mois pour voir quels abonnements sont actifs dans un mois spécifique."
+    },
+    "editFrequency": {
+      "title": "Modifier la Fréquence",
+      "description": "Cliquez sur ce bouton pour changer la fréquence de l'abonnement (mensuel, trimestriel, semestriel ou annuel) et ajuster les mois où la maintenance sera effectuée."
+    },
+    "months": {
+      "title": "Mois Sélectionnés",
+      "description": "Ici sont affichés les mois où la maintenance sera effectuée selon la fréquence configurée. Les mois sont ajustés automatiquement selon la fréquence choisie."
+    },
+    "buttons": {
+      "next": "Suivant",
+      "previous": "Précédent",
+      "done": "Terminé",
+      "skip": "Passer le tutoriel",
+      "restart": "Voir le tutoriel"
+    }
+  }
 },
   "planLimits": {
   "title": "Limite de Plan Atteinte",

@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react"
 import { useParams, useNavigate, useLocation } from "react-router-dom"
 import styles from "../features/installationsDetails/styles/installationDetails.module.css"
-import { Trash, Edit, Plus, QrCode, FileText } from "lucide-react"
+import { Trash, Edit, Plus, QrCode, FileText, HelpCircle } from "lucide-react"
 import { FiArrowLeft } from "react-icons/fi"
 import { useTheme } from "../shared/hooks/useTheme"
 import ModalAddDevice from "../features/installations/components/ModalAddDevice"
@@ -18,6 +18,8 @@ import { useTranslation } from "react-i18next"
 import { translateDeviceStatus } from "../shared/utils/backendTranslations"
 import SearchInput from "../shared/components/Inputs/SearchInput"
 import HybridSelect from "../shared/components/HybridSelect/HybridSelect"
+import { useInstallationDetailTour } from "../features/installationsDetails/hooks/useInstallationDetailTour"
+import { useAuthStore } from "../store/authStore"
 
 const InstallationDetails = () => {
   const { t } = useTranslation()
@@ -26,6 +28,9 @@ const InstallationDetails = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const { installationName } = location.state || { installationName: "" }
+  const role = useAuthStore((s) => s.role)
+  const isTechnicalUser = role && ["tecnico", "técnico"].includes(role.toLowerCase())
+  const { tourCompleted, startTour, resetTour, skipTour } = useInstallationDetailTour()
 
   // Opciones de estado para el filtro
   const statusOptions = [
@@ -116,6 +121,17 @@ const InstallationDetails = () => {
       document.title = t("installationDetails.titlePage")
     }
   }, [id, loadInstallationDetails, t])
+
+  // Iniciar el tour automáticamente si no se ha completado
+  useEffect(() => {
+    if (!loading && !tourCompleted && !isTechnicalUser) {
+      // Esperar un poco para que el DOM se cargue completamente
+      const timer = setTimeout(() => {
+        startTour()
+      }, 500)
+      return () => clearTimeout(timer)
+    }
+  }, [loading, tourCompleted, startTour, isTechnicalUser])
 
   // Resetear página cuando cambien los dispositivos, el término de búsqueda o el filtro de estado
   useEffect(() => {
@@ -277,14 +293,14 @@ const InstallationDetails = () => {
           </span>
         )}
         <div className={styles.actions}>
-          <button className={styles.addButton} onClick={() => setIsAddDeviceModalOpen(true)}>
+          <button className={styles.addButton} onClick={() => setIsAddDeviceModalOpen(true)} data-tour="add-device-btn">
             <Plus size={20} />
             <span>{t("installationDetails.addDevice")}</span>
           </button>
         </div>
       </div>
 
-      <div className={styles.searchContainer}>
+      <div className={styles.searchContainer} data-tour="search-filter-devices">
         <div className={styles.filterContainer}>
           <HybridSelect
             value={selectedStatus}
@@ -455,6 +471,42 @@ const InstallationDetails = () => {
 
               <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={closeModal} mensaje={responseMessage} />
         <ModalError isOpen={!!responseMessage && isError} onRequestClose={closeModal} mensaje={responseMessage} />
+
+      {/* Botón flotante del tour estilo WhatsApp */}
+      {!isTechnicalUser && (
+        <button
+          onClick={tourCompleted ? startTour : skipTour}
+          style={{
+            position: 'fixed',
+            bottom: '24px',
+            right: '24px',
+            width: '56px',
+            height: '56px',
+            borderRadius: '50%',
+            backgroundColor: 'var(--color-primary)',
+            color: 'white',
+            border: 'none',
+            cursor: 'pointer',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'all 0.3s ease',
+            zIndex: 1000,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.1)'
+            e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.2)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)'
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)'
+          }}
+          title={tourCompleted ? t('installationDetails.tour.buttons.restart') : t('installationDetails.tour.buttons.skip')}
+        >
+          <HelpCircle size={28} />
+        </button>
+      )}
     </div>
   )
 }

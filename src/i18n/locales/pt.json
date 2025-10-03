@@ -1125,7 +1125,36 @@
   "errorLoadingCategories": "Erro ao carregar categorias",
   "retryLoadCategories": "Tentar novamente carregar categorias",
   "searchDevicesPlaceholder": "Buscar por dispositivo, localização ou categoria...",
-  "noDevicesFound": "Nenhum dispositivo encontrado com esse termo de busca"
+  "noDevicesFound": "Nenhum dispositivo encontrado com esse termo de busca",
+  "tour": {
+    "welcome": {
+      "title": "Bem-vindo aos Detalhes da Instalação!",
+      "description": "Aqui você pode gerenciar todos os dispositivos desta instalação. Vamos mostrar como esta seção funciona."
+    },
+    "goToInstallations": {
+      "title": "Ir para Instalações",
+      "description": "Antes de adicionar dispositivos, certifique-se de criar as categorias de dispositivos na seção Instalações. Clique aqui para ir a essa seção."
+    },
+    "addDevice": {
+      "title": "Adicionar Dispositivo",
+      "description": "Use este botão para adicionar um novo dispositivo à instalação. Você precisará selecionar a categoria, localização, status e outros detalhes do dispositivo."
+    },
+    "searchFilter": {
+      "title": "Buscar e Filtrar",
+      "description": "Use esta barra para buscar dispositivos por nome, localização ou categoria. Você também pode filtrar por status do dispositivo."
+    },
+    "deviceActions": {
+      "title": "Ações de Dispositivos",
+      "description": "Cada cartão de dispositivo possui botões para: visualizar código QR, baixar última manutenção (PDF), editar o dispositivo e excluí-lo."
+    },
+    "buttons": {
+      "next": "Próximo",
+      "previous": "Anterior",
+      "done": "Concluir",
+      "skip": "Pular tutorial",
+      "restart": "Ver tutorial"
+    }
+  }
 },
 "login": {
   "understood": "Fechar",
@@ -1285,7 +1314,37 @@
   "selectFourMonths": "Selecione 4 meses para frequência trimestral",
   "selectFourMonthsTrimestral": "Selecione 4 meses espaçados a cada 3 meses (ex: Janeiro, Abril, Julho, Outubro)",
   "selectOneMonth": "Selecione 1 mês",
-  "selectAllMonths": "Selecione os meses desejados"
+  "selectAllMonths": "Selecione os meses desejados",
+  "filterByMonth": "Filtrar por mês",
+  "tour": {
+    "welcome": {
+      "title": "Bem-vindo às Assinaturas Ativas!",
+      "description": "Aqui você pode gerenciar as assinaturas de manutenção de suas instalações. Vamos mostrar como esta seção funciona."
+    },
+    "goToInstallations": {
+      "title": "Ir para Instalações",
+      "description": "Antes de criar uma assinatura, certifique-se de ter pelo menos uma instalação criada. Clique aqui para ir à seção Instalações e criá-la."
+    },
+    "searchFilter": {
+      "title": "Buscar e Filtrar",
+      "description": "Use a barra de busca para encontrar assinaturas por instalação, endereço ou tipo. Você também pode filtrar por mês para ver quais assinaturas estão ativas em um mês específico."
+    },
+    "editFrequency": {
+      "title": "Editar Frequência",
+      "description": "Clique neste botão para alterar a frequência da assinatura (mensal, trimestral, semestral ou anual) e ajustar os meses em que a manutenção será realizada."
+    },
+    "months": {
+      "title": "Meses Selecionados",
+      "description": "Aqui são mostrados os meses em que a manutenção será realizada de acordo com a frequência configurada. Os meses são ajustados automaticamente de acordo com a frequência escolhida."
+    },
+    "buttons": {
+      "next": "Próximo",
+      "previous": "Anterior",
+      "done": "Concluir",
+      "skip": "Pular tutorial",
+      "restart": "Ver tutorial"
+    }
+  }
 },
 "planLimits": {
   "title": "Limite do Plano Atingido",

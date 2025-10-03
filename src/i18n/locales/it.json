@@ -1127,7 +1127,36 @@
   "errorLoadingCategories": "Errore nel caricamento delle categorie",
   "retryLoadCategories": "Riprova a caricare le categorie",
   "searchDevicesPlaceholder": "Cerca per dispositivo, posizione o categoria...",
-  "noDevicesFound": "Nessun dispositivo trovato con questo termine di ricerca"
+  "noDevicesFound": "Nessun dispositivo trovato con questo termine di ricerca",
+  "tour": {
+    "welcome": {
+      "title": "Benvenuto nei Dettagli dell'Installazione!",
+      "description": "Qui puoi gestire tutti i dispositivi di questa installazione. Ti mostreremo come funziona questa sezione."
+    },
+    "goToInstallations": {
+      "title": "Vai a Installazioni",
+      "description": "Prima di aggiungere dispositivi, assicurati di creare le categorie dei dispositivi dalla sezione Installazioni. Clicca qui per andare a quella sezione."
+    },
+    "addDevice": {
+      "title": "Aggiungi Dispositivo",
+      "description": "Usa questo pulsante per aggiungere un nuovo dispositivo all'installazione. Dovrai selezionare la categoria, la posizione, lo stato e altri dettagli del dispositivo."
+    },
+    "searchFilter": {
+      "title": "Cerca e Filtra",
+      "description": "Usa questa barra per cercare dispositivi per nome, posizione o categoria. Puoi anche filtrare per stato del dispositivo."
+    },
+    "deviceActions": {
+      "title": "Azioni sui Dispositivi",
+      "description": "Ogni scheda dispositivo ha pulsanti per: visualizzare il codice QR, scaricare l'ultima manutenzione (PDF), modificare il dispositivo ed eliminarlo."
+    },
+    "buttons": {
+      "next": "Avanti",
+      "previous": "Precedente",
+      "done": "Fine",
+      "skip": "Salta tutorial",
+      "restart": "Visualizza tutorial"
+    }
+  }
 },
     "login": {
       "understood": "Chiudi",
@@ -1286,7 +1315,37 @@
   "selectFourMonths": "Seleziona 4 mesi per frequenza trimestrale",
   "selectFourMonthsTrimestral": "Seleziona 4 mesi distanziati ogni 3 mesi (es: Gennaio, Aprile, Luglio, Ottobre)",
   "selectOneMonth": "Seleziona 1 mese",
-  "selectAllMonths": "Seleziona i mesi desiderati"
+  "selectAllMonths": "Seleziona i mesi desiderati",
+  "filterByMonth": "Filtra per mese",
+  "tour": {
+    "welcome": {
+      "title": "Benvenuto in Abbonamenti Attivi!",
+      "description": "Qui puoi gestire gli abbonamenti di manutenzione delle tue installazioni. Ti mostreremo come funziona questa sezione."
+    },
+    "goToInstallations": {
+      "title": "Vai a Installazioni",
+      "description": "Prima di creare un abbonamento, assicurati di avere almeno un'installazione creata. Clicca qui per andare alla sezione Installazioni e crearla."
+    },
+    "searchFilter": {
+      "title": "Cerca e Filtra",
+      "description": "Usa la barra di ricerca per trovare abbonamenti per installazione, indirizzo o tipo. Puoi anche filtrare per mese per vedere quali abbonamenti sono attivi in un mese specifico."
+    },
+    "editFrequency": {
+      "title": "Modifica Frequenza",
+      "description": "Clicca su questo pulsante per cambiare la frequenza dell'abbonamento (mensile, trimestrale, semestrale o annuale) e regolare i mesi in cui verrà eseguita la manutenzione."
+    },
+    "months": {
+      "title": "Mesi Selezionati",
+      "description": "Qui sono mostrati i mesi in cui verrà eseguita la manutenzione secondo la frequenza configurata. I mesi vengono regolati automaticamente in base alla frequenza scelta."
+    },
+    "buttons": {
+      "next": "Avanti",
+      "previous": "Precedente",
+      "done": "Fine",
+      "skip": "Salta tutorial",
+      "restart": "Visualizza tutorial"
+    }
+  }
 },
 "planLimits": {
   "title": "Limite del Piano Raggiunto",

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react"
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import { Edit, FilterX } from "lucide-react"
+import { Edit, FilterX, HelpCircle } from "lucide-react"
 import { useAuthStore } from "../store/authStore"
 import { useTheme } from "../shared/hooks/useTheme"
 import SearchInput from "../shared/components/Inputs/SearchInput"
@@ -14,6 +14,7 @@ import { useSubscriptions } from "../features/subscriptions/hooks/useSubscriptio
 import type { Subscription } from "../features/subscriptions/hooks/useSubscriptions"
 import { translateMonthToCurrentLang, translateFrequencyToCurrentLang } from "../shared/utils/backendTranslations"
 import styles from "../features/subscriptions/styles/subscriptions.module.css"
+import { useSubscriptionsTour } from "../features/subscriptions/hooks/useSubscriptionsTour"
 
 const Subscriptions = () => {
   const { t, i18n } = useTranslation()
@@ -21,6 +22,8 @@ const Subscriptions = () => {
   const { subscriptions, frequencyOptions, getMonthsByFrequency, loading, error, refreshSubscriptions, updateSubscription } = useSubscriptions()
   const role = useAuthStore((s) => s.role)
   const navigate = useNavigate()
+  const isTechnician = role && ["tecnico", "técnico"].includes(role.toLowerCase())
+  const { tourCompleted, startTour, skipTour } = useSubscriptionsTour()
 
   // Redirigir a la página anterior si es técnico
   useEffect(() => {
@@ -41,6 +44,17 @@ const Subscriptions = () => {
   useEffect(() => {
     document.title = t("subscriptions.titlePage")
   }, [t, i18n.language])
+
+  // Iniciar el tour automáticamente si no se ha completado
+  useEffect(() => {
+    if (!loading && !tourCompleted && !isTechnician) {
+      // Esperar un poco para que el DOM se cargue completamente
+      const timer = setTimeout(() => {
+        startTour()
+      }, 500)
+      return () => clearTimeout(timer)
+    }
+  }, [loading, tourCompleted, startTour, isTechnician])
 
   // Opciones para el filtro de meses
   const monthOptions = useMemo(() => [
@@ -189,7 +203,7 @@ const Subscriptions = () => {
         <p className={styles.subtitle}>{t('subscriptions.subtitle')}</p>
       </div>
 
-      <div className={styles.filtersContainer}>
+      <div className={styles.filtersContainer} data-tour="search-filter-subscriptions">
         <div className={styles.searchContainer}>
           <SearchInput
             placeholder={t('subscriptions.searchPlaceholder')}
@@ -274,13 +288,14 @@ const Subscriptions = () => {
                           title={t('subscriptions.editFrequency')}
                           type="button"
                           data-tooltip={t('subscriptions.editFrequency')}
+                          data-tour="edit-frequency-btn"
                         >
                           <Edit size={16} />
                         </button>
                       </div>
                     </td>
                     <td className={styles.tableCell}>
-                      <div className={styles.monthsContainer}>
+                      <div className={styles.monthsContainer} data-tour="months-display">
                         {subscription.months.map((month, index) => (
                           <span key={index} className={styles.monthTag}>
                             {translateMonthToCurrentLang(month, i18n.language)}
@@ -343,6 +358,42 @@ const Subscriptions = () => {
       />
       <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={() => setResponseMessage("")} mensaje={responseMessage} />
       <ModalError isOpen={!!responseMessage && isError} onRequestClose={() => setResponseMessage("")} mensaje={responseMessage} />
+
+      {/* Botón flotante del tour estilo WhatsApp */}
+      {!isTechnician && (
+        <button
+          onClick={tourCompleted ? startTour : skipTour}
+          style={{
+            position: 'fixed',
+            bottom: '24px',
+            right: '24px',
+            width: '56px',
+            height: '56px',
+            borderRadius: '50%',
+            backgroundColor: 'var(--color-primary)',
+            color: 'white',
+            border: 'none',
+            cursor: 'pointer',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'all 0.3s ease',
+            zIndex: 1000,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.1)'
+            e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.2)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)'
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)'
+          }}
+          title={tourCompleted ? t('subscriptions.tour.buttons.restart') : t('subscriptions.tour.buttons.skip')}
+        >
+          <HelpCircle size={28} />
+        </button>
+      )}
     </div>
   )
 }

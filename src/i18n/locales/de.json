@@ -1023,7 +1023,36 @@
   "errorLoadingCategories": "Fehler beim Laden der Kategorien",
   "retryLoadCategories": "Laden der Kategorien erneut versuchen",
   "searchDevicesPlaceholder": "Nach Gerät, Standort oder Kategorie suchen...",
-  "noDevicesFound": "Keine Geräte mit diesem Suchbegriff gefunden"
+  "noDevicesFound": "Keine Geräte mit diesem Suchbegriff gefunden",
+  "tour": {
+    "welcome": {
+      "title": "Willkommen bei den Installationsdetails!",
+      "description": "Hier können Sie alle Geräte dieser Installation verwalten. Wir zeigen Ihnen, wie dieser Bereich funktioniert."
+    },
+    "goToInstallations": {
+      "title": "Zu Installationen gehen",
+      "description": "Bevor Sie Geräte hinzufügen, stellen Sie sicher, dass Sie Gerätekategorien im Bereich Installationen erstellt haben. Klicken Sie hier, um zu diesem Bereich zu gehen."
+    },
+    "addDevice": {
+      "title": "Gerät hinzufügen",
+      "description": "Verwenden Sie diese Schaltfläche, um ein neues Gerät zur Installation hinzuzufügen. Sie müssen die Kategorie, den Standort, den Status und andere Gerätedetails auswählen."
+    },
+    "searchFilter": {
+      "title": "Suchen und Filtern",
+      "description": "Verwenden Sie diese Leiste, um nach Geräten nach Name, Standort oder Kategorie zu suchen. Sie können auch nach Gerätestatus filtern."
+    },
+    "deviceActions": {
+      "title": "Geräteaktionen",
+      "description": "Jede Gerätekarte verfügt über Schaltflächen zum: QR-Code anzeigen, letzte Wartung herunterladen (PDF), Gerät bearbeiten und löschen."
+    },
+    "buttons": {
+      "next": "Weiter",
+      "previous": "Zurück",
+      "done": "Fertig",
+      "skip": "Tutorial überspringen",
+      "restart": "Tutorial ansehen"
+    }
+  }
 },
 "login": {
   "understood": "Schließen",
@@ -1183,7 +1212,37 @@
   "selectFourMonths": "Wählen Sie 4 Monate für vierteljährliche Häufigkeit",
   "selectFourMonthsTrimestral": "Wählen Sie 4 Monate im Abstand von 3 Monaten (z.B.: Januar, April, Juli, Oktober)",
   "selectOneMonth": "Wähle 1 Monat",
-  "selectAllMonths": "Wähle die gewünschten Monate"
+  "selectAllMonths": "Wähle die gewünschten Monate",
+  "filterByMonth": "Nach Monat filtern",
+  "tour": {
+    "welcome": {
+      "title": "Willkommen bei Aktive Abonnements!",
+      "description": "Hier können Sie die Wartungsabonnements Ihrer Installationen verwalten. Wir zeigen Ihnen, wie dieser Bereich funktioniert."
+    },
+    "goToInstallations": {
+      "title": "Zu Installationen gehen",
+      "description": "Bevor Sie ein Abonnement erstellen, stellen Sie sicher, dass Sie mindestens eine Installation erstellt haben. Klicken Sie hier, um zum Bereich Installationen zu gehen und diese zu erstellen."
+    },
+    "searchFilter": {
+      "title": "Suchen und Filtern",
+      "description": "Verwenden Sie die Suchleiste, um Abonnements nach Installation, Adresse oder Typ zu finden. Sie können auch nach Monat filtern, um zu sehen, welche Abonnements in einem bestimmten Monat aktiv sind."
+    },
+    "editFrequency": {
+      "title": "Frequenz bearbeiten",
+      "description": "Klicken Sie auf diese Schaltfläche, um die Abonnementfrequenz zu ändern (monatlich, vierteljährlich, halbjährlich oder jährlich) und die Monate anzupassen, in denen die Wartung durchgeführt wird."
+    },
+    "months": {
+      "title": "Ausgewählte Monate",
+      "description": "Hier werden die Monate angezeigt, in denen die Wartung gemäß der konfigurierten Frequenz durchgeführt wird. Die Monate werden automatisch entsprechend der gewählten Frequenz angepasst."
+    },
+    "buttons": {
+      "next": "Weiter",
+      "previous": "Zurück",
+      "done": "Fertig",
+      "skip": "Tutorial überspringen",
+      "restart": "Tutorial ansehen"
+    }
+  }
 },
   "planLimits": {
   "title": "Plan-Limit Erreicht",
