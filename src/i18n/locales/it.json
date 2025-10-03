@@ -637,6 +637,39 @@
     "continue": "Continua",
     "title": "Beni",
     "createAsset": "Crea Bene",
+    "tour": {
+      "welcome": {
+        "title": "Benvenuto in Beni!",
+        "description": "Ti guideremo passo dopo passo per imparare a gestire i tuoi beni. Prima devi creare un modello di modulo, poi potrai creare beni."
+      },
+      "goToForms": {
+        "title": "Passo 1: Vai ai Moduli",
+        "description": "Per creare un bene, hai prima bisogno di un modello di modulo. Clicca su 'Moduli' nel menu laterale per creare il tuo primo modello."
+      },
+      "createFormTemplate": {
+        "title": "Passo 2: Crea Modello di Modulo",
+        "description": "Qui puoi creare un modello di modulo che servirà come struttura per i tuoi beni. Definisci i campi di cui hai bisogno (testo, numero, data, ecc.)."
+      },
+      "viewFormCategories": {
+        "title": "Visualizza Categorie di Moduli",
+        "description": "Puoi organizzare i tuoi modelli in categorie. Clicca qui per visualizzare e gestire le categorie esistenti."
+      },
+      "createAsset": {
+        "title": "Passo 3: Crea Bene",
+        "description": "Una volta che hai almeno un modello di modulo, usa questo pulsante per creare il tuo primo bene. Seleziona il modello e compila i campi."
+      },
+      "searchFilter": {
+        "title": "Cerca e Filtra",
+        "description": "Usa questa barra per cercare beni per nome o modello, e filtra per categoria di modello."
+      },
+      "buttons": {
+        "next": "Avanti",
+        "previous": "Indietro",
+        "done": "Fine",
+        "skip": "Salta tutorial",
+        "restart": "Visualizza tutorial"
+      }
+    },
     "editAsset": "Modifica Bene",
     "assetDetails": "Dettagli Bene",
     "name": "Nome",

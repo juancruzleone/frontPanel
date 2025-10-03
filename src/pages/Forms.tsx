@@ -15,9 +15,13 @@ import type { FormTemplate } from "../features/forms/hooks/useForms"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { translateFormFieldType } from "../shared/utils/backendTranslations"
+import { useLocation } from "react-router-dom"
+import { useAssetsTour } from "../features/assets/hooks/useAssetsTour"
 
 const Forms = () => {
   const { t, i18n } = useTranslation()
+  const location = useLocation()
+  const { continueFormsTour } = useAssetsTour()
   const { templates, loading, categories, loadTemplates, addTemplate, editTemplate, removeTemplate } = useForms()
 
   const [searchTerm, setSearchTerm] = useState("")
@@ -37,6 +41,16 @@ const Forms = () => {
   useEffect(() => {
     document.title = t("forms.titlePage")
   }, [t, i18n.language])
+
+  // Continuar el tour si venimos de activos
+  useEffect(() => {
+    if (location.state?.fromAssetsTour) {
+      const timer = setTimeout(() => {
+        continueFormsTour()
+      }, 500)
+      return () => clearTimeout(timer)
+    }
+  }, [location.state, continueFormsTour])
 
   const filteredTemplates = useMemo(() => {
     const searchTermLower = searchTerm.toLowerCase()
@@ -150,7 +164,7 @@ const Forms = () => {
     <>
       <div className={styles.containerForms}>
         <h1 className={styles.title}>{t('forms.title')}</h1>
-        <div className={styles.positionButton}>
+        <div className={styles.positionButton} data-tour="create-form-template-btn">
           <Button title={t('forms.createFormTemplate')} onClick={handleOpenCreate} />
         </div>
         
@@ -158,7 +172,7 @@ const Forms = () => {
           <button className={styles.smallButton} onClick={() => setIsCreateCategoryModalOpen(true)}>
             + {t('forms.createFormCategory')}
           </button>
-          <button className={styles.manageButton} onClick={() => setIsManageCategoriesModalOpen(true)}>
+          <button className={styles.manageButton} onClick={() => setIsManageCategoriesModalOpen(true)} data-tour="manage-categories-btn">
             📋 {t('forms.viewCreatedCategories')}
           </button>
         </div>

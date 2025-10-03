@@ -535,6 +535,39 @@
     "delete": "delete",
     "title": "Assets",
     "createAsset": "Create Asset",
+    "tour": {
+      "welcome": {
+        "title": "Welcome to Assets!",
+        "description": "We'll guide you step by step to learn how to manage your assets. First you need to create a form template, then you can create assets."
+      },
+      "goToForms": {
+        "title": "Step 1: Go to Forms",
+        "description": "To create an asset, you first need a form template. Click on 'Forms' in the side menu to create your first template."
+      },
+      "createFormTemplate": {
+        "title": "Step 2: Create Form Template",
+        "description": "Here you can create a form template that will serve as a structure for your assets. Define the fields you need (text, number, date, etc.)."
+      },
+      "viewFormCategories": {
+        "title": "View Form Categories",
+        "description": "You can organize your templates into categories. Click here to view and manage existing categories."
+      },
+      "createAsset": {
+        "title": "Step 3: Create Asset",
+        "description": "Once you have at least one form template, use this button to create your first asset. Select the template and fill in the fields."
+      },
+      "searchFilter": {
+        "title": "Search and Filter",
+        "description": "Use this bar to search for assets by name or template, and filter by template category."
+      },
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous",
+        "done": "Done",
+        "skip": "Skip tutorial",
+        "restart": "View tutorial"
+      }
+    },
     "assetDetails": "Asset Details",
     "name": "Name",
     "category": "Category",

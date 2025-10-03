@@ -518,6 +518,39 @@
     "understood": "cerrar",
     "title": "Activos",
     "createAsset": "Crear Activo",
+    "tour": {
+      "welcome": {
+        "title": "¡Bienvenido a Activos!",
+        "description": "Te guiaremos paso a paso para que aprendas a gestionar tus activos. Primero necesitas crear una plantilla de formulario, luego podrás crear activos."
+      },
+      "goToForms": {
+        "title": "Paso 1: Ir a Formularios",
+        "description": "Para crear un activo, primero necesitas una plantilla de formulario. Haz clic en 'Formularios' en el menú lateral para crear tu primera plantilla."
+      },
+      "createFormTemplate": {
+        "title": "Paso 2: Crear Plantilla de Formulario",
+        "description": "Aquí puedes crear una plantilla de formulario que servirá como estructura para tus activos. Define los campos que necesitas (texto, número, fecha, etc.)."
+      },
+      "viewFormCategories": {
+        "title": "Ver Categorías de Formularios",
+        "description": "Puedes organizar tus plantillas en categorías. Haz clic aquí para ver y gestionar las categorías existentes."
+      },
+      "createAsset": {
+        "title": "Paso 3: Crear Activo",
+        "description": "Una vez que tengas al menos una plantilla de formulario, usa este botón para crear tu primer activo. Selecciona la plantilla y completa los campos."
+      },
+      "searchFilter": {
+        "title": "Buscar y Filtrar",
+        "description": "Usa esta barra para buscar activos por nombre o plantilla, y filtra por categoría de plantilla."
+      },
+      "buttons": {
+        "next": "Siguiente",
+        "previous": "Anterior",
+        "done": "Finalizar",
+        "skip": "Saltar tutorial",
+        "restart": "Ver tutorial"
+      }
+    },
     "editAsset": "Editar Activo",
     "assetDetails": "Detalles del Activo",
     "name": "Nombre",

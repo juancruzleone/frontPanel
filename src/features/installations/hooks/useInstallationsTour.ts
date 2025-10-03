@@ -5,7 +5,7 @@ import '../styles/tour.css';
 import { useTranslation } from 'react-i18next';
 
 export const useInstallationsTour = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [tourCompleted, setTourCompleted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -17,6 +17,9 @@ export const useInstallationsTour = () => {
   }, []);
 
   const startTour = () => {
+    // Forzar recreación con el idioma actual
+    const currentLang = i18n.language;
+    
     const driverObj = driver({
       showProgress: true,
       showButtons: ['next', 'previous', 'close'],

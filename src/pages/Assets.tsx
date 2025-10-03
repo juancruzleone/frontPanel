@@ -9,15 +9,18 @@ import ModalSuccess from "../features/assets/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
 import ModalConfirmDelete from "../features/assets/components/ModalConfirmDelete"
 import ModalAssignTemplate from "../features/assets/components/ModalAssignTemplate"
-import { Edit, Trash, List, BookOpen } from "lucide-react"
+import { Edit, Trash, List, BookOpen, HelpCircle } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { translateDeviceStatus } from "../shared/utils/backendTranslations"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
+import { useAssetsTour } from "../features/assets/hooks/useAssetsTour"
 
 const Assets = () => {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
+  const location = useLocation()
+  const { tourCompleted, startTour, continueAssetsTour, skipTour } = useAssetsTour()
   const {
     assets,
     loading,
@@ -48,6 +51,27 @@ const Assets = () => {
   useEffect(() => {
     document.title = t("assets.titlePage")
   }, [t, i18n.language])
+
+  // Iniciar el tour automáticamente si no se ha completado
+  useEffect(() => {
+    if (!loading && !tourCompleted) {
+      // Esperar un poco para que el DOM se cargue completamente
+      const timer = setTimeout(() => {
+        startTour()
+      }, 500)
+      return () => clearTimeout(timer)
+    }
+  }, [loading, tourCompleted, startTour])
+
+  // Continuar el tour si venimos de formularios
+  useEffect(() => {
+    if (location.state?.fromFormsTour && !tourCompleted) {
+      const timer = setTimeout(() => {
+        continueAssetsTour()
+      }, 500)
+      return () => clearTimeout(timer)
+    }
+  }, [location.state, tourCompleted, continueAssetsTour])
 
   const dynamicCategories = useMemo(
     () => [
@@ -160,7 +184,7 @@ const Assets = () => {
     <>
       <div className={styles.containerAssets}>
         <h1 className={styles.title}>{t('assets.title')}</h1>
-        <div className={styles.positionButton}>
+        <div className={styles.positionButton} data-tour="create-asset-btn">
           <Button title={t('assets.createAsset')} onClick={handleOpenCreate} />
           <button 
             className={styles.manualsButton}
@@ -172,7 +196,7 @@ const Assets = () => {
           </button>
         </div>
 
-        <div className={styles.searchContainer}>
+        <div className={styles.searchContainer} data-tour="search-filter">
           <SearchInput
             placeholder={t('assets.searchPlaceholder')}
             showSelect
@@ -317,6 +341,40 @@ const Assets = () => {
         onRequestClose={closeModal}
         mensaje={responseMessage}
       />
+
+      {/* Botón flotante del tour estilo WhatsApp */}
+      <button
+        onClick={tourCompleted ? startTour : skipTour}
+        style={{
+          position: 'fixed',
+          bottom: '30px',
+          right: '30px',
+          width: '60px',
+          height: '60px',
+          borderRadius: '50%',
+          background: 'var(--color-primary)',
+          color: 'white',
+          border: 'none',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+          transition: 'all 0.3s ease',
+          zIndex: 1000
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.1)';
+          e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.4)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+        }}
+        title={tourCompleted ? t('assets.tour.buttons.restart') : t('assets.tour.buttons.skip')}
+      >
+        <HelpCircle size={28} />
+      </button>
     </>
   )
 }

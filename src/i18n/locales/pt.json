@@ -632,6 +632,39 @@
     "continue": "Continuar",
     "title": "Ativos",
     "createAsset": "Criar Ativo",
+    "tour": {
+      "welcome": {
+        "title": "Bem-vindo aos Ativos!",
+        "description": "Vamos guiá-lo passo a passo para aprender a gerenciar seus ativos. Primeiro você precisa criar um modelo de formulário e depois poderá criar ativos."
+      },
+      "goToForms": {
+        "title": "Passo 1: Ir para Formulários",
+        "description": "Para criar um ativo, você precisa primeiro de um modelo de formulário. Clique em 'Formulários' no menu lateral para criar seu primeiro modelo."
+      },
+      "createFormTemplate": {
+        "title": "Passo 2: Criar Modelo de Formulário",
+        "description": "Aqui você pode criar um modelo de formulário que servirá como estrutura para seus ativos. Defina os campos de que precisa (texto, número, data, etc.)."
+      },
+      "viewFormCategories": {
+        "title": "Ver Categorias de Formulários",
+        "description": "Você pode organizar seus modelos em categorias. Clique aqui para ver e gerenciar as categorias existentes."
+      },
+      "createAsset": {
+        "title": "Passo 3: Criar Ativo",
+        "description": "Depois de ter pelo menos um modelo de formulário, use este botão para criar seu primeiro ativo. Selecione o modelo e preencha os campos."
+      },
+      "searchFilter": {
+        "title": "Pesquisar e Filtrar",
+        "description": "Use esta barra para pesquisar ativos por nome ou modelo, e filtre por categoria de modelo."
+      },
+      "buttons": {
+        "next": "Próximo",
+        "previous": "Anterior",
+        "done": "Concluir",
+        "skip": "Pular tutorial",
+        "restart": "Ver tutorial"
+      }
+    },
     "editAsset": "Editar Ativo",
     "assetDetails": "Detalhes do Ativo",
     "name": "Nome",

@@ -684,16 +684,7 @@
         "skip": "跳过教程",
         "restart": "查看教程"
       }
-    }
-  },
-  "assets": {
-    "edit": "编辑",
-    "understood": "关闭",
-    "successTitle": "操作成功！",
-    "continue": "继续",
-    "titlePage": "资产 | Leonix",
-    "title": "资产",
-    "createAsset": "创建资产",
+    },
     "editAsset": "编辑资产",
     "assetDetails": "资产详情",
     "name": "名称",

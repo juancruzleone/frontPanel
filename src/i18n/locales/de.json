@@ -588,6 +588,39 @@
     "continue": "Weiter",
     "title": "Anlagen",
     "createAsset": "Anlage erstellen",
+    "tour": {
+      "welcome": {
+        "title": "Willkommen bei Anlagen!",
+        "description": "Wir führen Sie Schritt für Schritt durch die Verwaltung Ihrer Anlagen. Zuerst müssen Sie eine Formularvorlage erstellen, dann können Sie Anlagen erstellen."
+      },
+      "goToForms": {
+        "title": "Schritt 1: Zu Formularen gehen",
+        "description": "Um eine Anlage zu erstellen, benötigen Sie zuerst eine Formularvorlage. Klicken Sie im Seitenmenü auf 'Formulare', um Ihre erste Vorlage zu erstellen."
+      },
+      "createFormTemplate": {
+        "title": "Schritt 2: Formularvorlage erstellen",
+        "description": "Hier können Sie eine Formularvorlage erstellen, die als Struktur für Ihre Anlagen dient. Definieren Sie die benötigten Felder (Text, Zahl, Datum usw.)."
+      },
+      "viewFormCategories": {
+        "title": "Formularkategorien anzeigen",
+        "description": "Sie können Ihre Vorlagen in Kategorien organisieren. Klicken Sie hier, um vorhandene Kategorien anzuzeigen und zu verwalten."
+      },
+      "createAsset": {
+        "title": "Schritt 3: Anlage erstellen",
+        "description": "Sobald Sie mindestens eine Formularvorlage haben, verwenden Sie diese Schaltfläche, um Ihre erste Anlage zu erstellen. Wählen Sie die Vorlage aus und füllen Sie die Felder aus."
+      },
+      "searchFilter": {
+        "title": "Suchen und Filtern",
+        "description": "Verwenden Sie diese Leiste, um Anlagen nach Name oder Vorlage zu suchen und nach Vorlagenkategorie zu filtern."
+      },
+      "buttons": {
+        "next": "Weiter",
+        "previous": "Zurück",
+        "done": "Fertig",
+        "skip": "Tutorial überspringen",
+        "restart": "Tutorial anzeigen"
+      }
+    },
     "editAsset": "Anlage bearbeiten",
     "assetDetails": "Anlagendetails",
     "name": "Name",

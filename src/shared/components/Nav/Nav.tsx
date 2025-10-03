@@ -147,7 +147,7 @@ const Nav = () => {
                   <Package size={20} /> {t('nav.assets')}
                 </NavLink>
               </li>
-              <li>
+              <li data-tour="nav-forms">
                 <NavLink to="/formularios" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
                   <FileText size={20} /> {t('nav.forms')}
                 </NavLink>

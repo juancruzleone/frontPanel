@@ -626,6 +626,39 @@
     "titlePage": "Actifs | Leonix",
     "title": "Actifs",
     "createAsset": "Créer un Actif",
+    "tour": {
+      "welcome": {
+        "title": "Bienvenue dans Actifs !",
+        "description": "Nous vous guiderons étape par étape pour apprendre à gérer vos actifs. Vous devez d'abord créer un modèle de formulaire, puis vous pourrez créer des actifs."
+      },
+      "goToForms": {
+        "title": "Étape 1 : Aller aux Formulaires",
+        "description": "Pour créer un actif, vous avez d'abord besoin d'un modèle de formulaire. Cliquez sur 'Formulaires' dans le menu latéral pour créer votre premier modèle."
+      },
+      "createFormTemplate": {
+        "title": "Étape 2 : Créer un Modèle de Formulaire",
+        "description": "Ici, vous pouvez créer un modèle de formulaire qui servira de structure pour vos actifs. Définissez les champs dont vous avez besoin (texte, nombre, date, etc.)."
+      },
+      "viewFormCategories": {
+        "title": "Voir les Catégories de Formulaires",
+        "description": "Vous pouvez organiser vos modèles en catégories. Cliquez ici pour voir et gérer les catégories existantes."
+      },
+      "createAsset": {
+        "title": "Étape 3 : Créer un Actif",
+        "description": "Une fois que vous avez au moins un modèle de formulaire, utilisez ce bouton pour créer votre premier actif. Sélectionnez le modèle et remplissez les champs."
+      },
+      "searchFilter": {
+        "title": "Rechercher et Filtrer",
+        "description": "Utilisez cette barre pour rechercher des actifs par nom ou modèle, et filtrez par catégorie de modèle."
+      },
+      "buttons": {
+        "next": "Suivant",
+        "previous": "Précédent",
+        "done": "Terminer",
+        "skip": "Passer le tutoriel",
+        "restart": "Voir le tutoriel"
+      }
+    },
     "editAsset": "Modifier l'Actif",
     "assetDetails": "Détails de l'Actif",
     "name": "Nom",
