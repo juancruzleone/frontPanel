@@ -10,18 +10,20 @@ import ModalError from "../features/forms/components/ModalError"
 import ModalConfirmDelete from "../features/forms/components/ModalConfirmDelete"
 import ModalCreateFormCategory from "../features/forms/components/ModalCreateFormCategory"
 import ModalManageCategories from "../features/forms/components/ModalManageCategories"
-import { Edit, Trash } from "lucide-react"
+import { Edit, Trash, HelpCircle } from "lucide-react"
 import type { FormTemplate } from "../features/forms/hooks/useForms"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { translateFormFieldType } from "../shared/utils/backendTranslations"
 import { useLocation } from "react-router-dom"
 import { useAssetsTour } from "../features/assets/hooks/useAssetsTour"
+import { useFormsTour } from "../features/forms/hooks/useFormsTour"
 
 const Forms = () => {
   const { t, i18n } = useTranslation()
   const location = useLocation()
   const { continueFormsTour } = useAssetsTour()
+  const { tourCompleted, startTour, skipTour } = useFormsTour()
   const { templates, loading, categories, loadTemplates, addTemplate, editTemplate, removeTemplate } = useForms()
 
   const [searchTerm, setSearchTerm] = useState("")
@@ -41,6 +43,17 @@ const Forms = () => {
   useEffect(() => {
     document.title = t("forms.titlePage")
   }, [t, i18n.language])
+
+  // Iniciar el tour automáticamente si no se ha completado
+  useEffect(() => {
+    if (!loading && !tourCompleted && !location.state?.fromAssetsTour) {
+      // Esperar un poco para que el DOM se cargue completamente
+      const timer = setTimeout(() => {
+        startTour()
+      }, 500)
+      return () => clearTimeout(timer)
+    }
+  }, [loading, tourCompleted, startTour, location.state])
 
   // Continuar el tour si venimos de activos
   useEffect(() => {
@@ -169,7 +182,7 @@ const Forms = () => {
         </div>
         
         <div className={styles.typeButtons}>
-          <button className={styles.smallButton} onClick={() => setIsCreateCategoryModalOpen(true)}>
+          <button className={styles.smallButton} onClick={() => setIsCreateCategoryModalOpen(true)} data-tour="create-form-category-btn">
             + {t('forms.createFormCategory')}
           </button>
           <button className={styles.manageButton} onClick={() => setIsManageCategoriesModalOpen(true)} data-tour="manage-categories-btn">
@@ -177,7 +190,7 @@ const Forms = () => {
           </button>
         </div>
         
-        <div className={styles.searchContainer}>
+        <div className={styles.searchContainer} data-tour="search-filter">
           <SearchInput
             placeholder={t('forms.searchPlaceholder')}
             showSelect
@@ -319,6 +332,40 @@ const Forms = () => {
         onRequestClose={closeModal}
         mensaje={responseMessage}
       />
+
+      {/* Botón flotante del tour estilo WhatsApp */}
+      <button
+        onClick={tourCompleted ? startTour : skipTour}
+        style={{
+          position: 'fixed',
+          bottom: '30px',
+          right: '30px',
+          width: '60px',
+          height: '60px',
+          borderRadius: '50%',
+          background: 'var(--color-primary)',
+          color: 'white',
+          border: 'none',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+          transition: 'all 0.3s ease',
+          zIndex: 1000
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.1)';
+          e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.4)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+        }}
+        title={tourCompleted ? t('forms.tour.buttons.restart') : t('forms.tour.buttons.skip')}
+      >
+        <HelpCircle size={28} />
+      </button>
     </>
   )
 }

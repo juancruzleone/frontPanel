@@ -139,6 +139,39 @@
     "successTitle": "Vorgang erfolgreich!",
     "continue": "Weiter",
     "titlePage": "Arbeitsaufträge | Leonix",
+    "tour": {
+      "welcome": {
+        "title": "Willkommen bei Arbeitsaufträgen!",
+        "description": "Arbeitsaufträge ermöglichen es Ihnen, Wartungsaufgaben, Reparaturen und Inspektionen zu verwalten. Zuerst müssen Sie Techniker und Installationen erstellen, um Aufträge zuweisen und lokalisieren zu können."
+      },
+      "createTechnician": {
+        "title": "Schritt 1: Techniker erstellen",
+        "description": "Klicken Sie hier, um zum Personalbereich zu gelangen. Sie müssen Techniker registrieren, die Arbeitsaufträgen zugewiesen werden können."
+      },
+      "createInstallation": {
+        "title": "Schritt 2: Installationen erstellen",
+        "description": "Klicken Sie hier, um zu Installationen zu gelangen. Sie benötigen registrierte Installationen, an denen Arbeitsaufträge ausgeführt werden."
+      },
+      "createWorkOrder": {
+        "title": "Schritt 3: Arbeitsauftrag erstellen",
+        "description": "Sobald Sie Techniker und Installationen haben, verwenden Sie diese Schaltfläche, um Ihren ersten Arbeitsauftrag zu erstellen. Definieren Sie Titel, Beschreibung, Arbeitstyp, Priorität, geplantes Datum und Uhrzeit."
+      },
+      "searchFilter": {
+        "title": "Suchen und Filtern",
+        "description": "Verwenden Sie diese Leiste, um Aufträge nach Titel, Beschreibung, Installation oder Techniker zu suchen und nach Status zu filtern (Ausstehend, Zugewiesen, In Bearbeitung, Abgeschlossen)."
+      },
+      "workOrderActions": {
+        "title": "Arbeitsauftrag-Aktionen",
+        "description": "Jeder Auftrag zeigt unterschiedliche Aktionen je nach Status:\n\n• Ausstehend: Techniker zuweisen, Bearbeiten, Löschen\n• Zugewiesen: Auftrag starten, Bearbeiten, Löschen\n• In Bearbeitung: Auftrag abschließen\n• Abgeschlossen: Nur Ansicht\n\nTechniker können ihre zugewiesenen Aufträge starten und abschließen."
+      },
+      "buttons": {
+        "next": "Weiter",
+        "previous": "Zurück",
+        "done": "Fertig",
+        "skip": "Tutorial überspringen",
+        "restart": "Tutorial anzeigen"
+      }
+    },
     "titlePlaceholder": "Arbeitsauftrags-Titel eingeben",
     "descriptionPlaceholder": "Beschreibung der auszuführenden Arbeit",
     "observationsPlaceholder": "Zusätzliche Hinweise (optional)",
@@ -681,8 +714,38 @@
     "successTitle": "Vorgang erfolgreich!",
     "selectFieldType": "Feldtyp auswählen",
     "continue": "Weiter",
+    "titlePage": "Formulare | Leonix",
     "title": "Formularvorlagen",
     "createFormTemplate": "Formularvorlage erstellen",
+    "tour": {
+      "welcome": {
+        "title": "Willkommen bei Formularvorlagen!",
+        "description": "Wir führen Sie Schritt für Schritt durch die Erstellung und Verwaltung von Formularvorlagen für Ihre Anlagen."
+      },
+      "createCategory": {
+        "title": "Schritt 1: Kategorie erstellen",
+        "description": "Erstellen Sie zuerst eine Kategorie, um Ihre Vorlagen zu organisieren. Kategorien helfen Ihnen, Ihre Formulare zu klassifizieren (z.B. Geräte, Fahrzeuge, Maschinen)."
+      },
+      "viewCategories": {
+        "title": "Erstellte Kategorien anzeigen",
+        "description": "Hier können Sie alle erstellten Kategorien anzeigen und verwalten. Sie können vorhandene Kategorien bearbeiten oder löschen."
+      },
+      "createTemplate": {
+        "title": "Schritt 2: Formularvorlage erstellen",
+        "description": "Sobald Sie Kategorien haben, verwenden Sie diese Schaltfläche, um Ihre erste Vorlage zu erstellen. Definieren Sie die Felder, die Sie für Ihre Anlagen benötigen (Name, Seriennummer, Kaufdatum usw.)."
+      },
+      "searchFilter": {
+        "title": "Suchen und Filtern",
+        "description": "Verwenden Sie diese Leiste, um Vorlagen nach Name oder Beschreibung zu suchen und nach Kategorie zu filtern."
+      },
+      "buttons": {
+        "next": "Weiter",
+        "previous": "Zurück",
+        "done": "Fertig",
+        "skip": "Tutorial überspringen",
+        "restart": "Tutorial anzeigen"
+      }
+    },
     "viewCreatedCategories": "Erstellte Kategorien anzeigen",
     "editTemplateTooltip": "Vorlage bearbeiten",
     "deleteTemplateTooltip": "Vorlage löschen",

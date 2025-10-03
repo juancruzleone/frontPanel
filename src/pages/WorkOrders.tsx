@@ -11,11 +11,12 @@ import ModalError from "../features/forms/components/ModalError"
 import ModalConfirmDelete from "../features/workOrders/components/ModalConfirmDelete"
 import ModalAssignTechnician from "../features/workOrders/components/ModalAssignTechnician"
 import ModalCompleteWorkOrder from "../features/workOrders/components/ModalCompleteWorkOrder"
-import { Edit, Trash, User, Check, Play } from "lucide-react"
+import { Edit, Trash, User, Check, Play, HelpCircle } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { translateWorkOrderStatus, translatePriority, translateWorkType } from "../shared/utils/backendTranslations"
 import { useAuthStore } from "../store/authStore"
+import { useWorkOrdersTour } from "../features/workOrders/hooks/useWorkOrdersTour"
 
 const renderTechnicianInfo = (order: WorkOrder, t: (key: string) => string) => {
   if (order.tecnico && (order.tecnico as any).userName) {
@@ -47,6 +48,7 @@ const renderTechnicianInfo = (order: WorkOrder, t: (key: string) => string) => {
 
 const WorkOrders = () => {
   const { t, i18n } = useTranslation()
+  const { tourCompleted, startTour, skipTour } = useWorkOrdersTour()
   const {
     workOrders,
     loading,
@@ -87,6 +89,16 @@ const WorkOrders = () => {
   useEffect(() => {
     document.title = t("workOrders.titlePage")
   }, [t, i18n.language])
+
+  // Iniciar el tour automáticamente si no se ha completado
+  useEffect(() => {
+    if (!loading && !tourCompleted) {
+      const timer = setTimeout(() => {
+        startTour()
+      }, 500)
+      return () => clearTimeout(timer)
+    }
+  }, [loading, tourCompleted, startTour])
 
   useEffect(() => {
     const loadData = async () => {
@@ -249,14 +261,14 @@ const WorkOrders = () => {
       <div className={styles.containerWorkOrders}>
         <h1 className={styles.title}>{t('workOrders.title')}</h1>
         {!isTechnician && (
-          <div className={styles.positionButton}>
+          <div className={styles.positionButton} data-tour="create-work-order-btn">
             <Button title={t('workOrders.createWorkOrder')} onClick={handleOpenCreate}>
               {t('workOrders.createWorkOrder')}
             </Button>
           </div>
         )}
 
-        <div className={styles.searchContainer}>
+        <div className={styles.searchContainer} data-tour="search-filter">
           <SearchInput
             placeholder={t('workOrders.searchPlaceholder')}
             showSelect
@@ -452,6 +464,40 @@ const WorkOrders = () => {
         onRequestClose={closeModal}
         mensaje={responseMessage}
       />
+
+      {/* Botón flotante del tour estilo WhatsApp */}
+      <button
+        onClick={tourCompleted ? startTour : skipTour}
+        style={{
+          position: 'fixed',
+          bottom: '30px',
+          right: '30px',
+          width: '60px',
+          height: '60px',
+          borderRadius: '50%',
+          background: 'var(--color-primary)',
+          color: 'white',
+          border: 'none',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+          transition: 'all 0.3s ease',
+          zIndex: 1000
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'scale(1.1)';
+          e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.4)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'scale(1)';
+          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+        }}
+        title={tourCompleted ? t('workOrders.tour.buttons.restart') : t('workOrders.tour.buttons.skip')}
+      >
+        <HelpCircle size={28} />
+      </button>
     </>
   )
 }

@@ -616,9 +616,39 @@
     "templateCreated": "Plantilla de formulario creada exitosamente",
     "successTitle": "¡Operación exitosa!",
     "understood": "cerrar",
-    "selectFieldType": "Selecciona el tipo de campo",
+    "selectFieldType":  "Selecciona el tipo de campo",
+    "titlePage": "Formularios | Leonix",
     "title": "Plantillas de Formularios",
-    "createTemplate": "Crear Plantilla de Formulario",
+    "createFormTemplate": "Crear Plantilla de Formulario",
+    "tour": {
+      "welcome": {
+        "title": "¡Bienvenido a Plantillas de Formularios!",
+        "description": "Te guiaremos paso a paso para que aprendas a crear y gestionar plantillas de formularios para tus activos."
+      },
+      "createCategory": {
+        "title": "Paso 1: Crear Categoría",
+        "description": "Primero crea una categoría para organizar tus plantillas. Las categorías te ayudan a clasificar tus formularios (ej: Equipos, Vehículos, Maquinaria)."
+      },
+      "viewCategories": {
+        "title": "Ver Categorías Creadas",
+        "description": "Aquí puedes ver y gestionar todas las categorías que has creado. Puedes editar o eliminar categorías existentes."
+      },
+      "createTemplate": {
+        "title": "Paso 2: Crear Plantilla de Formulario",
+        "description": "Una vez tengas categorías, usa este botón para crear tu primera plantilla. Define los campos que necesitas para tus activos (nombre, número de serie, fecha de compra, etc.)."
+      },
+      "searchFilter": {
+        "title": "Buscar y Filtrar",
+        "description": "Usa esta barra para buscar plantillas por nombre o descripción, y filtra por categoría."
+      },
+      "buttons": {
+        "next": "Siguiente",
+        "previous": "Anterior",
+        "done": "Finalizar",
+        "skip": "Saltar tutorial",
+        "restart": "Ver tutorial"
+      }
+    },
     "createFormTemplate": "Crear plantilla de formulario",
     "editFormTemplate": "Editar Plantilla de Formulario",
     "editTemplate": "Editar Plantilla",
@@ -1014,15 +1044,102 @@
         "deviceStateInvalid": "El estado del dispositivo debe ser válido"
       }
     },
-    "titlePage": "Órdenes de Trabajo | Leonix"
-  },
-  "calendar": {
-    "selectYear": "Seleccionar año",
+    "titlePage": "Órdenes de Trabajo | Leonix",
+    "tour": {
+      "welcome": {
+        "title": "¡Bienvenido a Órdenes de Trabajo!",
+        "description": "Las órdenes de trabajo te permiten gestionar tareas de mantenimiento, reparaciones e inspecciones. Primero necesitas crear técnicos e instalaciones para poder asignar y ubicar las órdenes."
+      },
+      "createTechnician": {
+        "title": "Paso 1: Crear Técnicos",
+        "description": "Haz clic aquí para ir a la sección de Personal. Necesitas registrar técnicos que podrán ser asignados a las órdenes de trabajo."
+      },
+      "createInstallation": {
+        "title": "Paso 2: Crear Instalaciones",
+        "description": "Haz clic aquí para ir a Instalaciones. Necesitas tener instalaciones registradas donde se realizarán las órdenes de trabajo."
+      },
+      "createWorkOrder": {
+        "title": "Paso 3: Crear Orden de Trabajo",
+        "description": "Una vez tengas técnicos e instalaciones, usa este botón para crear tu primera orden de trabajo. Define el título, descripción, tipo de trabajo, prioridad, fecha y hora programada."
+      },
+      "searchFilter": {
+        "title": "Buscar y Filtrar",
+        "description": "Usa esta barra para buscar órdenes por título, descripción, instalación o técnico, y filtra por estado (Pendiente, Asignada, En progreso, Completada)."
+      },
+      "workOrderActions": {
+        "title": "Acciones en Órdenes de Trabajo",
+        "description": "Cada orden muestra diferentes acciones según su estado:\n\n• Pendiente: Asignar técnico, Editar, Eliminar\n• Asignada: Iniciar orden, Editar, Eliminar\n• En progreso: Completar orden\n• Completada: Solo visualización\n\nLos técnicos pueden iniciar y completar sus órdenes asignadas."
+      },
+      "buttons": {
+        "next": "Siguiente",
+        "previous": "Anterior",
+        "done": "Finalizar",
+        "skip": "Saltar tutorial",
+        "restart": "Ver tutorial"
+      }
+    },
     "successTitle": "¡Operación exitosa!",
     "understood": "cerrar",
-    "titlePage": "Calendario | Leonix",
-    "title": "Calendario de Órdenes de Trabajo",
-    "month": "Mes",
+    "titlePlaceholder": "Ingrese el título de la orden de trabajo",
+    "descriptionPlaceholder": "Descripción del trabajo a realizar",
+    "observationsPlaceholder": "Observaciones adicionales (opcional)",
+    "selectInstallation": "Seleccione una instalación",
+    "maintenance": "Mantenimiento",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "update": "Actualizar",
+    "saving": "Guardando...",
+    "description": "Descripción",
+    "selectedInstallation": "Instalación seleccionada:",
+    "address": "Dirección:",
+    "workType": "Tipo de trabajo",
+    "priority": "Prioridad",
+    "scheduledDate": "Fecha programada",
+    "scheduledTime": "Hora programada",
+    "observations": "Observaciones",
+    "selectDate": "Seleccionar fecha",
+    "completeRequiredFields": "Por favor, complete todos los campos obligatorios",
+    "repair": "Reparación",
+    "inspection": "Inspección",
+    "other": "Otro",
+    "low": "Baja",
+    "medium": "Media",
+    "high": "Alta",
+    "critical": "Crítica",
+    "pending": "Pendiente",
+    "assigned": "Asignada",
+    "inProgress": "En progreso",
+    "completed": "Completada",
+    "cancelled": "Cancelada",
+    "title": "Órdenes de trabajo",
+    "createWorkOrder": "Crear orden de trabajo",
+    "searchPlaceholder": "Buscar por título, descripción, instalación o técnico",
+    "filterByStatus": "Filtrar por estado",
+    "noWorkOrdersFound": "No se encontraron órdenes de trabajo",
+    "type": "Tipo",
+    "status": "Estado",
+    "scheduled": "Programada",
+    "at": "a las",
+    "installation": "Instalación",
+    "startOrder": "Iniciar orden",
+    "completeOrder": "Completar orden",
+    "assignTechnician": "Asignar técnico",
+    "editOrder": "Editar orden",
+    "deleteOrder": "Eliminar orden",
+    "viewCompleteDetails": "Ver detalles completos",
+    "page": "Página",
+    "of": "de",
+    "technician": "Técnico",
+    "pendingStart": "Pendiente de inicio",
+    "assignedTechnician": "Técnico asignado",
+    "loadingTechnicianDetails": "Cargando detalles del técnico...",
+    "noTechnicianAssigned": "Sin técnico asignado",
+    "confirmDeleteWorkOrder": "¿Eliminar orden de trabajo?",
+    "confirmDeleteWorkOrderDescription": "Esta acción no se puede deshacer",
+    "workOrderDeleted": "Orden de trabajo eliminada exitosamente",
+    "errorDeletingWorkOrder": "Error al eliminar la orden de trabajo",
+    "workOrderStarted": "Orden de trabajo iniciada exitosamente",
+    "errorStartingWorkOrder": "Error al iniciar la orden de trabajo",
     "week": "Semana",
     "list": "Lista",
     "today": "Hoy",

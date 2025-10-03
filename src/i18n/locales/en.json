@@ -634,7 +634,36 @@
     "successTitle": "Operation successful!",
     "titlePage": "Forms | Leonix",
     "title": "Form Templates",
-    "createFormTemplate": "Create form template",
+    "createFormTemplate": "Create Form Template",
+    "tour": {
+      "welcome": {
+        "title": "Welcome to Form Templates!",
+        "description": "We'll guide you step by step to learn how to create and manage form templates for your assets."
+      },
+      "createCategory": {
+        "title": "Step 1: Create Category",
+        "description": "First create a category to organize your templates. Categories help you classify your forms (e.g., Equipment, Vehicles, Machinery)."
+      },
+      "viewCategories": {
+        "title": "View Created Categories",
+        "description": "Here you can view and manage all the categories you've created. You can edit or delete existing categories."
+      },
+      "createTemplate": {
+        "title": "Step 2: Create Form Template",
+        "description": "Once you have categories, use this button to create your first template. Define the fields you need for your assets (name, serial number, purchase date, etc.)."
+      },
+      "searchFilter": {
+        "title": "Search and Filter",
+        "description": "Use this bar to search templates by name or description, and filter by category."
+      },
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous",
+        "done": "Done",
+        "skip": "Skip tutorial",
+        "restart": "View tutorial"
+      }
+    },
     "viewCreatedCategories": "View created categories",
     "editTemplateTooltip": "Edit template",
     "deleteTemplateTooltip": "Delete template",
@@ -1082,9 +1111,42 @@
         "deviceStateInvalid": "Device state must be valid"
       }
     },
-    "titlePage": "Work Orders | Leonix"
-  },
-  "languageSelector": {
+    "titlePage": "Work Orders | Leonix",
+    "tour": {
+      "welcome": {
+        "title": "Welcome to Work Orders!",
+        "description": "Work orders allow you to manage maintenance tasks, repairs, and inspections. First, you need to create technicians and installations to be able to assign and locate the orders."
+      },
+      "createTechnician": {
+        "title": "Step 1: Create Technicians",
+        "description": "Click here to go to the Personnel section. You need to register technicians who can be assigned to work orders."
+      },
+      "createInstallation": {
+        "title": "Step 2: Create Installations",
+        "description": "Click here to go to Installations. You need to have installations registered where work orders will be performed."
+      },
+      "createWorkOrder": {
+        "title": "Step 3: Create Work Order",
+        "description": "Once you have technicians and installations, use this button to create your first work order. Define the title, description, work type, priority, scheduled date and time."
+      },
+      "searchFilter": {
+        "title": "Search and Filter",
+        "description": "Use this bar to search for orders by title, description, installation or technician, and filter by status (Pending, Assigned, In progress, Completed)."
+      },
+      "workOrderActions": {
+        "title": "Work Order Actions",
+        "description": "Each order shows different actions depending on its status:\n\n• Pending: Assign technician, Edit, Delete\n• Assigned: Start order, Edit, Delete\n• In progress: Complete order\n• Completed: View only\n\nTechnicians can start and complete their assigned orders."
+      },
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous",
+        "done": "Done",
+        "skip": "Skip tutorial",
+        "restart": "View tutorial"
+      }
+    },
+    "understood": "Close",
+    "languageSelector": {
     "title": "Select Language",
     "spanish": "Spanish",
     "english": "English",

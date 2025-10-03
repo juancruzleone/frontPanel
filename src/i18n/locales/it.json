@@ -270,7 +270,40 @@
         "deviceStateInvalid": "Lo stato del dispositivo deve essere valido"
       }
     },
-    "titlePage": "Ordini di Lavoro | Leonix"
+    "titlePage": "Ordini di Lavoro | Leonix",
+    "tour": {
+      "welcome": {
+        "title": "Benvenuto negli Ordini di Lavoro!",
+        "description": "Gli ordini di lavoro ti permettono di gestire attività di manutenzione, riparazioni e ispezioni. Prima devi creare tecnici e installazioni per poter assegnare e localizzare gli ordini."
+      },
+      "createTechnician": {
+        "title": "Passaggio 1: Crea Tecnici",
+        "description": "Fai clic qui per andare alla sezione Personale. Devi registrare tecnici che possono essere assegnati agli ordini di lavoro."
+      },
+      "createInstallation": {
+        "title": "Passaggio 2: Crea Installazioni",
+        "description": "Fai clic qui per andare a Installazioni. Devi avere installazioni registrate dove verranno eseguiti gli ordini di lavoro."
+      },
+      "createWorkOrder": {
+        "title": "Passaggio 3: Crea Ordine di Lavoro",
+        "description": "Una volta che hai tecnici e installazioni, usa questo pulsante per creare il tuo primo ordine di lavoro. Definisci titolo, descrizione, tipo di lavoro, priorità, data e ora programmate."
+      },
+      "searchFilter": {
+        "title": "Cerca e Filtra",
+        "description": "Usa questa barra per cercare ordini per titolo, descrizione, installazione o tecnico, e filtra per stato (In attesa, Assegnato, In corso, Completato)."
+      },
+      "workOrderActions": {
+        "title": "Azioni Ordini di Lavoro",
+        "description": "Ogni ordine mostra diverse azioni a seconda del suo stato:\n\n• In attesa: Assegna tecnico, Modifica, Elimina\n• Assegnato: Avvia ordine, Modifica, Elimina\n• In corso: Completa ordine\n• Completato: Solo visualizzazione\n\nI tecnici possono avviare e completare i loro ordini assegnati."
+      },
+      "buttons": {
+        "next": "Avanti",
+        "previous": "Indietro",
+        "done": "Fine",
+        "skip": "Salta tutorial",
+        "restart": "Visualizza tutorial"
+      }
+    }
   },
   "installations": {
     "deviceNamePlaceholder": "Inserisci il nome del dispositivo",
@@ -732,8 +765,38 @@
     "successTitle": "Operazione riuscita!",
     "selectFieldType": "Seleziona il tipo di campo",
     "continue": "Continua",
-    "title": "Modelli di Formulari",
-    "createFormTemplate": "Crea modello di modulo",
+    "titlePage": "Moduli | Leonix",
+    "title": "Modelli di Moduli",
+    "createFormTemplate": "Crea Modello di Modulo",
+    "tour": {
+      "welcome": {
+        "title": "Benvenuto in Modelli di Moduli!",
+        "description": "Ti guideremo passo dopo passo per imparare a creare e gestire modelli di moduli per i tuoi beni."
+      },
+      "createCategory": {
+        "title": "Passo 1: Crea Categoria",
+        "description": "Crea prima una categoria per organizzare i tuoi modelli. Le categorie ti aiutano a classificare i tuoi moduli (es: Attrezzature, Veicoli, Macchinari)."
+      },
+      "viewCategories": {
+        "title": "Visualizza Categorie Create",
+        "description": "Qui puoi visualizzare e gestire tutte le categorie che hai creato. Puoi modificare o eliminare categorie esistenti."
+      },
+      "createTemplate": {
+        "title": "Passo 2: Crea Modello di Modulo",
+        "description": "Una volta che hai categorie, usa questo pulsante per creare il tuo primo modello. Definisci i campi di cui hai bisogno per i tuoi beni (nome, numero di serie, data di acquisto, ecc.)."
+      },
+      "searchFilter": {
+        "title": "Cerca e Filtra",
+        "description": "Usa questa barra per cercare modelli per nome o descrizione e filtra per categoria."
+      },
+      "buttons": {
+        "next": "Avanti",
+        "previous": "Indietro",
+        "done": "Fine",
+        "skip": "Salta tutorial",
+        "restart": "Visualizza tutorial"
+      }
+    },
     "viewCreatedCategories": "Visualizza categorie create",
     "editTemplateTooltip": "Modifica modello",
     "deleteTemplateTooltip": "Elimina modello",

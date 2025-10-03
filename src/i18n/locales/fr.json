@@ -142,6 +142,39 @@
     "successTitle": "Opération réussie !",
     "continue": "Continuer",
     "titlePage": "Ordres de travail | Leonix",
+    "tour": {
+      "welcome": {
+        "title": "Bienvenue dans les Ordres de Travail !",
+        "description": "Les ordres de travail vous permettent de gérer les tâches de maintenance, les réparations et les inspections. Vous devez d'abord créer des techniciens et des installations pour pouvoir assigner et localiser les ordres."
+      },
+      "createTechnician": {
+        "title": "Étape 1 : Créer des Techniciens",
+        "description": "Cliquez ici pour accéder à la section Personnel. Vous devez enregistrer des techniciens qui pourront être assignés aux ordres de travail."
+      },
+      "createInstallation": {
+        "title": "Étape 2 : Créer des Installations",
+        "description": "Cliquez ici pour accéder aux Installations. Vous devez avoir des installations enregistrées où les ordres de travail seront effectués."
+      },
+      "createWorkOrder": {
+        "title": "Étape 3 : Créer un Ordre de Travail",
+        "description": "Une fois que vous avez des techniciens et des installations, utilisez ce bouton pour créer votre premier ordre de travail. Définissez le titre, la description, le type de travail, la priorité, la date et l'heure prévues."
+      },
+      "searchFilter": {
+        "title": "Rechercher et Filtrer",
+        "description": "Utilisez cette barre pour rechercher des ordres par titre, description, installation ou technicien, et filtrer par statut (En attente, Assignée, En cours, Terminée)."
+      },
+      "workOrderActions": {
+        "title": "Actions sur les Ordres de Travail",
+        "description": "Chaque ordre affiche différentes actions selon son statut :\n\n• En attente : Assigner un technicien, Modifier, Supprimer\n• Assignée : Démarrer l'ordre, Modifier, Supprimer\n• En cours : Terminer l'ordre\n• Terminée : Visualisation uniquement\n\nLes techniciens peuvent démarrer et terminer leurs ordres assignés."
+      },
+      "buttons": {
+        "next": "Suivant",
+        "previous": "Précédent",
+        "done": "Terminer",
+        "skip": "Passer le tutoriel",
+        "restart": "Voir le tutoriel"
+      }
+    },
     "titlePlaceholder": "Entrez le titre de l'ordre de travail",
     "descriptionPlaceholder": "Description du travail à effectuer",
     "observationsPlaceholder": "Remarques supplémentaires (optionnel)",
@@ -712,11 +745,39 @@
     "templateCreated": "Modèle de formulaire créé avec succès",
     "understood": "Fermer",
     "successTitle": "Opération réussie !",
-    "selectFieldType": "Sélectionnez le type de champ",
     "continue": "Continuer",
     "titlePage": "Formulaires | Leonix",
     "title": "Modèles de Formulaires",
-    "createFormTemplate": "Créer un modèle de formulaire",
+    "createFormTemplate": "Créer un Modèle de Formulaire",
+    "tour": {
+      "welcome": {
+        "title": "Bienvenue dans les Modèles de Formulaires !",
+        "description": "Nous vous guiderons étape par étape pour apprendre à créer et gérer des modèles de formulaires pour vos actifs."
+      },
+      "createCategory": {
+        "title": "Étape 1 : Créer une Catégorie",
+        "description": "Créez d'abord une catégorie pour organiser vos modèles. Les catégories vous aident à classer vos formulaires (ex : Équipements, Véhicules, Machinerie)."
+      },
+      "viewCategories": {
+        "title": "Voir les Catégories Créées",
+        "description": "Ici vous pouvez voir et gérer toutes les catégories que vous avez créées. Vous pouvez modifier ou supprimer des catégories existantes."
+      },
+      "createTemplate": {
+        "title": "Étape 2 : Créer un Modèle de Formulaire",
+        "description": "Une fois que vous avez des catégories, utilisez ce bouton pour créer votre premier modèle. Définissez les champs dont vous avez besoin pour vos actifs (nom, numéro de série, date d'achat, etc.)."
+      },
+      "searchFilter": {
+        "title": "Rechercher et Filtrer",
+        "description": "Utilisez cette barre pour rechercher des modèles par nom ou description, et filtrez par catégorie."
+      },
+      "buttons": {
+        "next": "Suivant",
+        "previous": "Précédent",
+        "done": "Terminer",
+        "skip": "Passer le tutoriel",
+        "restart": "Voir le tutoriel"
+      }
+    },
     "viewCreatedCategories": "Voir les catégories créées",
     "editTemplateTooltip": "Modifier le modèle",
     "deleteTemplateTooltip": "Supprimer le modèle",

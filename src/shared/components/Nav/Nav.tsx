@@ -134,7 +134,7 @@ const Nav = () => {
             </li>
           )}
           {!isSuperAdminUser && (
-            <li>
+            <li data-tour="nav-installations">
               <NavLink to="/instalaciones" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
                 <Building size={20} /> {t('nav.installations')}
               </NavLink>
@@ -152,7 +152,7 @@ const Nav = () => {
                   <FileText size={20} /> {t('nav.forms')}
                 </NavLink>
               </li>
-              <li>
+              <li data-tour="nav-personal">
                 <NavLink to="/personal" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
                   <User size={20} /> {t('nav.personal')}
                 </NavLink>

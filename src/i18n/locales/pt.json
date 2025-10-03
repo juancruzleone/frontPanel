@@ -264,7 +264,40 @@
         "deviceStateInvalid": "O estado do dispositivo deve ser válido"
       }
     },
-    "titlePage": "Ordens de Trabalho | Leonix"
+    "titlePage": "Ordens de Trabalho | Leonix",
+    "tour": {
+      "welcome": {
+        "title": "Bem-vindo às Ordens de Trabalho!",
+        "description": "As ordens de trabalho permitem gerenciar tarefas de manutenção, reparos e inspeções. Primeiro, você precisa criar técnicos e instalações para poder atribuir e localizar as ordens."
+      },
+      "createTechnician": {
+        "title": "Passo 1: Criar Técnicos",
+        "description": "Clique aqui para ir à seção de Pessoal. Você precisa registrar técnicos que podem ser atribuídos às ordens de trabalho."
+      },
+      "createInstallation": {
+        "title": "Passo 2: Criar Instalações",
+        "description": "Clique aqui para ir a Instalações. Você precisa ter instalações registradas onde as ordens de trabalho serão realizadas."
+      },
+      "createWorkOrder": {
+        "title": "Passo 3: Criar Ordem de Trabalho",
+        "description": "Depois de ter técnicos e instalações, use este botão para criar sua primeira ordem de trabalho. Defina o título, descrição, tipo de trabalho, prioridade, data e hora programadas."
+      },
+      "searchFilter": {
+        "title": "Pesquisar e Filtrar",
+        "description": "Use esta barra para pesquisar ordens por título, descrição, instalação ou técnico, e filtrar por status (Pendente, Atribuída, Em andamento, Concluída)."
+      },
+      "workOrderActions": {
+        "title": "Ações nas Ordens de Trabalho",
+        "description": "Cada ordem mostra diferentes ações dependendo do seu status:\n\n• Pendente: Atribuir técnico, Editar, Excluir\n• Atribuída: Iniciar ordem, Editar, Excluir\n• Em andamento: Concluir ordem\n• Concluída: Somente visualização\n\nOs técnicos podem iniciar e concluir suas ordens atribuídas."
+      },
+      "buttons": {
+        "next": "Próximo",
+        "previous": "Anterior",
+        "done": "Concluir",
+        "skip": "Pular tutorial",
+        "restart": "Ver tutorial"
+      }
+    }
   },
   "installations": {
     "deviceNamePlaceholder": "Digite o nome do dispositivo",
@@ -730,6 +763,35 @@
     "titlePage": "Formulários | Leonix",
     "title": "Modelos de Formulários",
     "createFormTemplate": "Criar modelo de formulário",
+    "tour": {
+      "welcome": {
+        "title": "Bem-vindo aos Modelos de Formulários!",
+        "description": "Vamos guiá-lo passo a passo para aprender a criar e gerenciar modelos de formulários para seus ativos."
+      },
+      "createCategory": {
+        "title": "Passo 1: Criar Categoria",
+        "description": "Primeiro crie uma categoria para organizar seus modelos. As categorias ajudam a classificar seus formulários (ex: Equipamentos, Veículos, Maquinaria)."
+      },
+      "viewCategories": {
+        "title": "Ver Categorias Criadas",
+        "description": "Aqui você pode ver e gerenciar todas as categorias que criou. Você pode editar ou excluir categorias existentes."
+      },
+      "createTemplate": {
+        "title": "Passo 2: Criar Modelo de Formulário",
+        "description": "Depois de ter categorias, use este botão para criar seu primeiro modelo. Defina os campos de que precisa para seus ativos (nome, número de série, data de compra, etc.)."
+      },
+      "searchFilter": {
+        "title": "Pesquisar e Filtrar",
+        "description": "Use esta barra para pesquisar modelos por nome ou descrição e filtre por categoria."
+      },
+      "buttons": {
+        "next": "Próximo",
+        "previous": "Anterior",
+        "done": "Concluir",
+        "skip": "Pular tutorial",
+        "restart": "Ver tutorial"
+      }
+    },
     "viewCreatedCategories": "Ver categorias criadas",
     "editTemplateTooltip": "Editar modelo",
     "deleteTemplateTooltip": "Excluir modelo",

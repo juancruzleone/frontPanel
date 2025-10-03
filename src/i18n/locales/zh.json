@@ -144,6 +144,39 @@
     "successTitle": "操作成功！",
     "continue": "继续",
     "titlePage": "工单 | Leonix",
+    "tour": {
+      "welcome": {
+        "title": "欢迎使用工作订单！",
+        "description": "工作订单允许您管理维护任务、维修和检查。首先，您需要创建技术人员和安装，以便能够分配和定位订单。"
+      },
+      "createTechnician": {
+        "title": "步骤1：创建技术人员",
+        "description": "点击此处转到人员部分。您需要注册可以分配给工作订单的技术人员。"
+      },
+      "createInstallation": {
+        "title": "步骤2：创建安装",
+        "description": "点击此处转到安装。您需要注册将执行工作订单的安装。"
+      },
+      "createWorkOrder": {
+        "title": "步骤3：创建工作订单",
+        "description": "一旦您有了技术人员和安装，请使用此按钮创建您的第一个工作订单。定义标题、描述、工作类型、优先级、计划日期和时间。"
+      },
+      "searchFilter": {
+        "title": "搜索和筛选",
+        "description": "使用此栏按标题、描述、安装或技术人员搜索订单，并按状态筛选（待处理、已分配、进行中、已完成）。"
+      },
+      "workOrderActions": {
+        "title": "工作订单操作",
+        "description": "每个订单根据其状态显示不同的操作：\n\n• 待处理：分配技术人员、编辑、删除\n• 已分配：开始订单、编辑、删除\n• 进行中：完成订单\n• 已完成：仅查看\n\n技术人员可以开始并完成分配给他们的订单。"
+      },
+      "buttons": {
+        "next": "下一步",
+        "previous": "上一步",
+        "done": "完成",
+        "skip": "跳过教程",
+        "restart": "查看教程"
+      }
+    },
     "titlePlaceholder": "请输入工单标题",
     "descriptionPlaceholder": "请输入要执行的工作描述",
     "observationsPlaceholder": "附加备注（可选）",
@@ -748,6 +781,35 @@
     "titlePage": "表单 | Leonix",
     "title": "表单模板",
     "createFormTemplate": "创建表单模板",
+    "tour": {
+      "welcome": {
+        "title": "欢迎来到表单模板！",
+        "description": "我们将逐步指导您学习如何为资产创建和管理表单模板。"
+      },
+      "createCategory": {
+        "title": "步骤 1：创建类别",
+        "description": "首先创建一个类别来组织您的模板。类别帮助您对表单进行分类（例：设备、车辆、机械）。"
+      },
+      "viewCategories": {
+        "title": "查看已创建的类别",
+        "description": "在这里您可以查看和管理您创建的所有类别。您可以编辑或删除现有类别。"
+      },
+      "createTemplate": {
+        "title": "步骤 2：创建表单模板",
+        "description": "创建类别后，使用此按钮创建您的第一个模板。定义资产所需的字段（名称、序列号、购买日期等）。"
+      },
+      "searchFilter": {
+        "title": "搜索和过滤",
+        "description": "使用此栏按名称或描述搜索模板，并按类别过滤。"
+      },
+      "buttons": {
+        "next": "下一步",
+        "previous": "上一步",
+        "done": "完成",
+        "skip": "跳过教程",
+        "restart": "查看教程"
+      }
+    },
     "viewCreatedCategories": "查看已创建的类别",
     "editTemplateTooltip": "编辑模板",
     "deleteTemplateTooltip": "删除模板",
