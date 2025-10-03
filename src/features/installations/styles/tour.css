@@ -11,7 +11,7 @@
 
 /* Personalizar el título del popover */
 .driver-popover-title {
-  color: var(--color-text) !important;
+  color: #ffffff !important;
   font-size: 1.25rem !important;
   font-weight: 600 !important;
   margin-bottom: 0.75rem !important;
@@ -26,7 +26,7 @@
 
 /* Personalizar los botones */
 .driver-popover-footer button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background: linear-gradient(135deg, #057E74 0%, #034F49 100%) !important;
   color: white !important;
   border: none !important;
   padding: 0.5rem 1.25rem !important;
@@ -35,12 +35,12 @@
   font-weight: 500 !important;
   cursor: pointer !important;
   transition: all 0.3s ease !important;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4) !important;
+  box-shadow: 0 2px 8px rgba(5, 126, 116, 0.4) !important;
 }
 
 .driver-popover-footer button:hover {
   transform: translateY(-2px) !important;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.6) !important;
+  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.6) !important;
 }
 
 .driver-popover-prev-btn {
@@ -55,7 +55,7 @@
 
 .driver-popover-next-btn,
 .driver-popover-done-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  background: linear-gradient(135deg, #057E74 0%, #034F49 100%) !important;
 }
 
 .driver-popover-close-btn {
@@ -80,9 +80,9 @@
 
 /* Personalizar el elemento destacado */
 .driver-highlighted-element {
-  outline: 3px solid #667eea !important;
+  outline: 3px solid #057E74 !important;
   border-radius: 8px !important;
-  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2) !important;
+  box-shadow: 0 0 0 4px rgba(5, 126, 116, 0.2) !important;
 }
 
 /* Personalizar el indicador de progreso */
@@ -90,7 +90,7 @@
   color: var(--color-text-secondary) !important;
   font-size: 0.85rem !important;
   font-weight: 600 !important;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #057E74 0%, #034F49 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

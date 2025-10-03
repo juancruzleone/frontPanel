@@ -370,11 +370,11 @@ const Subscriptions = () => {
             width: '56px',
             height: '56px',
             borderRadius: '50%',
-            backgroundColor: 'var(--color-primary)',
+            backgroundColor: 'var(--color-secondary)',
             color: 'white',
             border: 'none',
             cursor: 'pointer',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+            boxShadow: '0 4px 12px rgba(5, 126, 116, 0.3)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -383,11 +383,11 @@ const Subscriptions = () => {
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = 'scale(1.1)'
-            e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.2)'
+            e.currentTarget.style.boxShadow = '0 6px 16px rgba(5, 126, 116, 0.5)'
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = 'scale(1)'
-            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)'
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(5, 126, 116, 0.3)'
           }}
           title={tourCompleted ? t('subscriptions.tour.buttons.restart') : t('subscriptions.tour.buttons.skip')}
         >

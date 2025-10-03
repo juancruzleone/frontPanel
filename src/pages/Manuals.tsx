@@ -455,24 +455,24 @@ const Manuals = () => {
             width: '60px',
             height: '60px',
             borderRadius: '50%',
-            background: 'var(--color-primary)',
+            background: 'var(--color-secondary)',
             color: 'white',
             border: 'none',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+            boxShadow: '0 4px 12px rgba(5, 126, 116, 0.3)',
             transition: 'all 0.3s ease',
             zIndex: 1000
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = 'scale(1.1)';
-            e.currentTarget.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.4)';
+            e.currentTarget.style.boxShadow = '0 6px 20px rgba(5, 126, 116, 0.5)';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = 'scale(1)';
-            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(5, 126, 116, 0.3)';
           }}
           title={tourCompleted ? t('manuals.tour.buttons.restart') : t('manuals.tour.buttons.skip')}
         >
