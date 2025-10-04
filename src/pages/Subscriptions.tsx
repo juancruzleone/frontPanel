@@ -131,10 +131,18 @@ const Subscriptions = () => {
     months?: string[]
   ) => {
     try {
+      // Convertir fechas string a Date sin problema de zona horaria
+      const parseDateString = (dateStr?: string): Date | undefined => {
+        if (!dateStr) return undefined
+        // Si está en formato YYYY-MM-DD, parsear sin conversión de zona horaria
+        const [year, month, day] = dateStr.split('-').map(Number)
+        return new Date(year, month - 1, day)
+      }
+      
       await updateSubscription(subscriptionId, {
         frequency,
-        startDate: startDate ? new Date(startDate) : undefined,
-        endDate: endDate ? new Date(endDate) : undefined,
+        startDate: parseDateString(startDate),
+        endDate: parseDateString(endDate),
         status,
         months: months || [],
       })

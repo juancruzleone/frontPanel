@@ -78,6 +78,21 @@ const useSubscriptions = () => {
       return statusMap[estado] || 'active'
     }
     
+    // Parsear fecha sin conversión de zona horaria
+    const parseDate = (dateInput: string | Date | undefined): Date | undefined => {
+      if (!dateInput) return undefined
+      // Si ya es un objeto Date, devolverlo
+      if (dateInput instanceof Date) return dateInput
+      // Si el string está en formato ISO (YYYY-MM-DD), parsearlo sin UTC
+      const match = dateInput.match(/^(\d{4})-(\d{2})-(\d{2})/)
+      if (match) {
+        const [, year, month, day] = match
+        return new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
+      }
+      // Si no coincide, intentar parseo normal
+      return new Date(dateInput)
+    }
+    
     return {
       _id: installation._id || '',
       installationId: installation._id || '',
@@ -88,8 +103,8 @@ const useSubscriptions = () => {
       installationType: installation.installationType,
       frequency: installation.frecuencia || '',
       months: installation.mesesFrecuencia || getMonthsByFrequency(installation.frecuencia || ''),
-      startDate: installation.fechaInicio ? new Date(installation.fechaInicio) : undefined,
-      endDate: installation.fechaFin ? new Date(installation.fechaFin) : undefined,
+      startDate: parseDate(installation.fechaInicio),
+      endDate: parseDate(installation.fechaFin),
       status: mapStatusToEnglish(installation.estado || 'Activo'),
       createdAt: installation.fechaCreacion ? new Date(installation.fechaCreacion) : new Date(),
       updatedAt: installation.fechaActualizacion ? new Date(installation.fechaActualizacion) : new Date(),
