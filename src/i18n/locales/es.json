@@ -965,6 +965,7 @@
     "selectDatesFirst": "Por favor, selecciona primero las fechas de inicio y fin",
     "clickToSelectMonths": "Haz clic para seleccionar meses",
     "filterByMonth": "Filtrar por mes",
+    "clearFilter": "Limpiar filtro",
     "tour": {
       "welcome": {
         "title": "¡Bienvenido a Abonos Vigentes!",
@@ -995,6 +996,40 @@
       },
       "progressText": "{{current}} de {{total}}"
     }
+  },
+  "calendar": {
+    "title": "Calendario",
+    "filterByStatus": "Filtrar por estado",
+    "searchPlaceholder": "Buscar por título, instalación o técnico",
+    "allTechnicians": "Todos los técnicos",
+    "allDate": "Todas las fechas",
+    "allDates": "Todas las fechas",
+    "clearFilters": "Limpiar filtros",
+    "selectDate": "Seleccionar fecha",
+    "type": "Tipo",
+    "viewDetails": "Ver detalles",
+    "sun": "Dom",
+    "mon": "Lun",
+    "tue": "Mar",
+    "wed": "Mié",
+    "thu": "Jue",
+    "fri": "Vie",
+    "sat": "Sáb",
+    "month": "Mes",
+    "list": "Lista",
+    "workOrderDetails": "Detalles de la Orden de Trabajo",
+    "description": "Descripción",
+    "scheduledDate": "Fecha Programada",
+    "time": "Hora",
+    "workType": "Tipo de Trabajo",
+    "assignedTechnician": "Técnico Asignado",
+    "observations": "Observaciones",
+    "workDone": "Trabajo Realizado",
+    "additionalInfo": "Información Adicional",
+    "created": "Creada",
+    "assigned": "Asignada",
+    "started": "Iniciada",
+    "completed": "Completada"
   },
   "workOrders": {
     "successTitle": "¡Operación exitosa!",
