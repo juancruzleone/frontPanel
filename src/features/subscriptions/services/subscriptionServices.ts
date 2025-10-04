@@ -12,6 +12,9 @@ export const updateSubscription = async (subscriptionId: string, updateData: any
   }
   
   // Mapear los campos del frontend a los campos esperados por el backend
+  console.log('🔍 [SERVICE] updateData recibido:', updateData)
+  console.log('🔍 [SERVICE] updateData.estado:', updateData.estado)
+  
   const updatePayload = {
     fechaInicio: updateData.fechaInicio,
     fechaFin: updateData.fechaFin,
@@ -19,6 +22,8 @@ export const updateSubscription = async (subscriptionId: string, updateData: any
     mesesFrecuencia: updateData.mesesFrecuencia,
     estado: updateData.estado,
   }
+  
+  console.log('🔍 [SERVICE] updatePayload.estado:', updatePayload.estado)
   
   // Asegurarse de que la URL esté bien formada
   const baseUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL
@@ -38,12 +43,16 @@ export const updateSubscription = async (subscriptionId: string, updateData: any
     
     const data = await response.json()
     
+    console.log('Backend response:', data)
+    console.log('Response status:', response.status)
+    
     if (!response.ok) {
       // Si hay un mensaje de error específico del servidor, usarlo
       console.error('Update error:', data)
       throw new Error(data.error?.message || data.message || "Error al actualizar suscripción")
     }
     
+    console.log('Subscription updated successfully. Response data:', data)
     return data
   } catch (error: any) {
     console.error('Subscription update error:', error)

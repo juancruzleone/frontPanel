@@ -114,7 +114,9 @@ const useSubscriptions = () => {
         'inactive': 'inactive',
         'pending': 'pending'
       }
-      return statusMap[estado] || 'active'
+      const mappedStatus = statusMap[estado] || 'active'
+      console.log(`[DEBUG] Estado del backend para ${installation.company}: "${estado}" -> mapeado a "${mappedStatus}"`)
+      return mappedStatus
     }
     
     // Parsear fecha sin conversión de zona horaria
@@ -177,9 +179,12 @@ const useSubscriptions = () => {
     try {
       setLoading(true)
       setError(null)
+      console.log('[DEBUG] Cargando suscripciones desde el backend...')
       const installationsData = await fetchInstallations()
+      console.log('[DEBUG] Instalaciones recibidas del backend:', installationsData.length)
       setInstallations(installationsData)
       const subscriptionsData = installationsData.map(mapInstallationToSubscription)
+      console.log('[DEBUG] Suscripciones mapeadas:', subscriptionsData.length)
       setSubscriptions(subscriptionsData)
     } catch (err: any) {
       setError(err.message || 'Error al cargar abonos')
@@ -284,8 +289,14 @@ const useSubscriptions = () => {
       estado: data.status ? mapStatus(data.status) : installation.estado || 'Activo',
     }
     
+    console.log('[DEBUG] Enviando al backend - Estado:', updateData.estado, 'Status original:', data.status)
+    console.log('[DEBUG] Update data completo:', updateData)
+    
     await updateSubscriptionService(subscriptionId, updateData)
+    
+    console.log('[DEBUG] Actualización exitosa, recargando suscripciones...')
     await loadSubscriptions()
+    console.log('[DEBUG] Suscripciones recargadas')
   }
 
   const [formData, setFormData] = useState<{
