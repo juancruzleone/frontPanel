@@ -151,7 +151,7 @@ const Subscriptions = () => {
         frequency,
         startDate: parseDateString(startDate),
         endDate: parseDateString(endDate),
-        status,
+        status: status || 'active',
         months: months || [],
       })
       return { message: t('subscriptions.frequencyUpdated') }

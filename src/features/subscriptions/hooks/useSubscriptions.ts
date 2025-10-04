@@ -266,11 +266,22 @@ const useSubscriptions = () => {
       return `${year}-${month}-${day}`
     }
     
+    // Mapear estado de inglés a español
+    const mapStatus = (status: string): string => {
+      const statusMap: Record<string, string> = {
+        'active': 'Activo',
+        'inactive': 'Inactivo',
+        'pending': 'Pendiente'
+      }
+      return statusMap[status] || status
+    }
+    
     const updateData = {
       fechaInicio: data.startDate ? formatDateForBackend(data.startDate) : installation.fechaInicio,
       fechaFin: data.endDate ? formatDateForBackend(data.endDate) : installation.fechaFin,
       frecuencia: data.frequency ? mapFrequency(data.frequency) : installation.frecuencia,
       mesesFrecuencia: monthsToSave,
+      estado: data.status ? mapStatus(data.status) : installation.estado || 'Activo',
     }
     
     await updateSubscriptionService(subscriptionId, updateData)
