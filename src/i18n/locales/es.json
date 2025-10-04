@@ -963,6 +963,7 @@
     "selectOneMonth": "Selecciona 1 mes",
     "selectAllMonths": "Selecciona los meses deseados",
     "selectDatesFirst": "Por favor, selecciona primero las fechas de inicio y fin",
+    "clickToSelectMonths": "Haz clic para seleccionar meses",
     "filterByMonth": "Filtrar por mes",
     "tour": {
       "welcome": {

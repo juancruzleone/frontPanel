@@ -5,7 +5,7 @@ import styles from '../styles/subscriptions.module.css'
 import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
 import DatePickerModal from './DatePickerModal'
 import HybridSelect from '../../../shared/components/HybridSelect'
-import MonthYearSelector from './MonthYearSelector'
+import MonthYearSelectorModal from './MonthYearSelectorModal'
 import type { FrequencyOption } from '../hooks/useSubscriptions'
 
 interface FrequencyFormProps {
@@ -63,6 +63,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
   monthsError,
 }) => {
   const { t } = useTranslation()
+  const [isMonthSelectorOpen, setIsMonthSelectorOpen] = useState(false)
 
   const isMonthSelectable = (month: string) => {
     return formData.frequency === 'semestral' || formData.frequency === 'trimestral' || formData.frequency === 'anual' || formData.frequency === 'mensual'
@@ -228,14 +229,47 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
       
       {(formData.frequency === 'semestral' || formData.frequency === 'trimestral' || formData.frequency === 'anual' || formData.frequency === 'mensual') && (
         <div className={styles.formGroup}>
-          <MonthYearSelector
+          <label className={styles.monthsLabel}>
+            <Calendar size={16} />
+            {t('subscriptions.selectedMonths')}
+          </label>
+          <div 
+            className={styles.monthsPreviewButton}
+            onClick={() => setIsMonthSelectorOpen(true)}
+            style={{ 
+              cursor: 'pointer',
+              padding: '0.875rem 1rem',
+              border: '2px solid var(--color-card-border)',
+              borderRadius: '8px',
+              backgroundColor: 'var(--color-card)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              transition: 'all 0.2s ease',
+              fontSize: '0.95rem'
+            }}
+          >
+            <span style={{ color: selectedMonths.length > 0 ? 'var(--color-text)' : 'var(--color-text-secondary)' }}>
+              {selectedMonths.length > 0 
+                ? `${selectedMonths.length} ${selectedMonths.length === 1 ? 'mes seleccionado' : 'meses seleccionados'}`
+                : (t('subscriptions.clickToSelectMonths') || 'Seleccionar meses')
+              }
+            </span>
+            <Calendar size={18} style={{ color: 'var(--color-text-secondary)' }} />
+          </div>
+          {monthsError && (
+            <div className={styles.inputError}>{monthsError}</div>
+          )}
+          <MonthYearSelectorModal
+            isOpen={isMonthSelectorOpen}
+            onRequestClose={() => setIsMonthSelectorOpen(false)}
             startDate={formData.startDate}
             endDate={formData.endDate}
             selectedMonths={selectedMonths}
             onMonthClick={onMonthClick}
             frequency={formData.frequency}
-            disabled={isSubmitting}
             error={monthsError}
+            onConfirm={() => setIsMonthSelectorOpen(false)}
           />
         </div>
       )}

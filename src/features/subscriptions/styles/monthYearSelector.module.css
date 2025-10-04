@@ -28,9 +28,9 @@
   flex-direction: column;
   gap: 1.5rem;
   padding: 1rem;
-  background-color: var(--background-secondary, #f8f9fa);
+  background-color: var(--color-bg-light, #f7f7f7);
   border-radius: 8px;
-  border: 1px solid var(--border-color, #dee2e6);
+  border: 1px solid var(--color-card-border, #e0e0e0);
   max-height: 400px;
   overflow-y: auto;
 }
