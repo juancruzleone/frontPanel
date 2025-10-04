@@ -71,6 +71,25 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
 
   const isMonthSelected = (month: string) => selectedMonths.includes(month)
 
+  // Obtener el primer mes seleccionado basado en la fecha de inicio
+  const getFirstMonth = () => {
+    if (selectedMonths.length === 0 || !formData.startDate) return null
+    
+    const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+    
+    const startDate = new Date(formData.startDate)
+    const startMonth = startDate.getMonth()
+    
+    // Si la frecuencia es mensual, devolver el mes de inicio
+    if (formData.frequency === 'mensual') {
+      return monthNames[startMonth]
+    }
+    
+    // Para otras frecuencias, devolver el primer mes del array
+    return selectedMonths[0]
+  }
+
   // Handlers para abrir DatePicker sin validación
   const handleDateInputClick = (e: React.MouseEvent, type: 'start' | 'end') => {
     e.preventDefault()
@@ -251,7 +270,9 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
           >
             <span style={{ color: selectedMonths.length > 0 ? 'var(--color-text)' : 'var(--color-text-secondary)' }}>
               {selectedMonths.length > 0 
-                ? `${selectedMonths.length} ${selectedMonths.length === 1 ? 'mes seleccionado' : 'meses seleccionados'}`
+                ? formData.frequency === 'mensual' && getFirstMonth()
+                  ? `${getFirstMonth()} - ${selectedMonths.length} ${selectedMonths.length === 1 ? 'mes' : 'meses'}`
+                  : `${selectedMonths.length} ${selectedMonths.length === 1 ? 'mes seleccionado' : 'meses seleccionados'}`
                 : (t('subscriptions.clickToSelectMonths') || 'Seleccionar meses')
               }
             </span>

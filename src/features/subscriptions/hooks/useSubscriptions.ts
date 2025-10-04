@@ -65,6 +65,19 @@ const useSubscriptions = () => {
   }
 
   const mapInstallationToSubscription = (installation: Installation): Subscription => {
+    // Mapear estado de español a inglés
+    const mapStatusToEnglish = (estado: string): 'active' | 'inactive' | 'pending' => {
+      const statusMap: Record<string, 'active' | 'inactive' | 'pending'> = {
+        'Activo': 'active',
+        'Inactivo': 'inactive',
+        'Pendiente': 'pending',
+        'active': 'active',
+        'inactive': 'inactive',
+        'pending': 'pending'
+      }
+      return statusMap[estado] || 'active'
+    }
+    
     return {
       _id: installation._id || '',
       installationId: installation._id || '',
@@ -77,7 +90,7 @@ const useSubscriptions = () => {
       months: installation.mesesFrecuencia || getMonthsByFrequency(installation.frecuencia || ''),
       startDate: installation.fechaInicio ? new Date(installation.fechaInicio) : undefined,
       endDate: installation.fechaFin ? new Date(installation.fechaFin) : undefined,
-      status: (installation.estado as 'active' | 'inactive' | 'pending') || 'active',
+      status: mapStatusToEnglish(installation.estado || 'Activo'),
       createdAt: installation.fechaCreacion ? new Date(installation.fechaCreacion) : new Date(),
       updatedAt: installation.fechaActualizacion ? new Date(installation.fechaActualizacion) : new Date(),
     }
@@ -137,9 +150,35 @@ const useSubscriptions = () => {
       return frequencyMap[freq] || freq
     }
     
+    // Función para formatear fecha sin conversión de zona horaria
+    const formatDateForBackend = (dateInput: string | Date | undefined) => {
+      if (!dateInput) return null
+      
+      let dateStr: string
+      if (dateInput instanceof Date) {
+        const year = dateInput.getFullYear()
+        const month = String(dateInput.getMonth() + 1).padStart(2, '0')
+        const day = String(dateInput.getDate()).padStart(2, '0')
+        return `${year}-${month}-${day}`
+      }
+      
+      dateStr = dateInput
+      // Si ya está en formato YYYY-MM-DD, devolverlo tal cual
+      if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+        return dateStr
+      }
+      
+      // Parsear y formatear sin conversión de zona horaria
+      const date = new Date(dateStr)
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const day = String(date.getDate()).padStart(2, '0')
+      return `${year}-${month}-${day}`
+    }
+    
     const updateData = {
-      fechaInicio: data.startDate ? new Date(data.startDate).toISOString() : installation.fechaInicio,
-      fechaFin: data.endDate ? new Date(data.endDate).toISOString() : installation.fechaFin,
+      fechaInicio: data.startDate ? formatDateForBackend(data.startDate) : installation.fechaInicio,
+      fechaFin: data.endDate ? formatDateForBackend(data.endDate) : installation.fechaFin,
       frecuencia: data.frequency ? mapFrequency(data.frequency) : installation.frecuencia,
       mesesFrecuencia: monthsToSave,
     }
