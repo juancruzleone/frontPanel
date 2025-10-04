@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react"
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import { Edit, FilterX, HelpCircle } from "lucide-react"
+import { Edit, FilterX, HelpCircle, Eye } from "lucide-react"
 import { useAuthStore } from "../store/authStore"
 import { useTheme } from "../shared/hooks/useTheme"
 import SearchInput from "../shared/components/Inputs/SearchInput"
@@ -9,6 +9,7 @@ import HybridSelect from "../shared/components/HybridSelect"
 import ModalEditFrequency from "../features/subscriptions/components/ModalEditFrequency"
 import ModalSuccess from "../features/subscriptions/components/ModalSuccess"
 import ModalError from "../features/subscriptions/components/ModalError"
+import MonthsDisplayModal from "../features/subscriptions/components/MonthsDisplayModal"
 import Skeleton from "../shared/components/Skeleton"
 import { useSubscriptions } from "../features/subscriptions/hooks/useSubscriptions"
 import type { Subscription } from "../features/subscriptions/hooks/useSubscriptions"
@@ -39,6 +40,8 @@ const Subscriptions = () => {
   const [selectedSubscription, setSelectedSubscription] = useState<Subscription | null>(null)
   const [responseMessage, setResponseMessage] = useState("")
   const [isError, setIsError] = useState(false)
+  const [isMonthsModalOpen, setIsMonthsModalOpen] = useState(false)
+  const [selectedSubscriptionForMonths, setSelectedSubscriptionForMonths] = useState<Subscription | null>(null)
   const itemsPerPage = 5
 
   useEffect(() => {
@@ -120,6 +123,11 @@ const Subscriptions = () => {
   const handleEditFrequency = (subscription: Subscription) => {
     setSelectedSubscription(subscription)
     setIsEditFrequencyModalOpen(true)
+  }
+
+  const handleViewMonths = (subscription: Subscription) => {
+    setSelectedSubscriptionForMonths(subscription)
+    setIsMonthsModalOpen(true)
   }
 
   const handleSaveFrequency = async (
@@ -303,13 +311,17 @@ const Subscriptions = () => {
                       </div>
                     </td>
                     <td className={styles.tableCell}>
-                      <div className={styles.monthsContainer} data-tour="months-display">
-                        {subscription.months.map((month, index) => (
-                          <span key={index} className={styles.monthTag}>
-                            {translateMonthToCurrentLang(month, i18n.language)}
-                          </span>
-                        ))}
-                      </div>
+                      <button
+                        className={styles.viewMonthsButton}
+                        onClick={() => handleViewMonths(subscription)}
+                        aria-label={t('subscriptions.viewMonths')}
+                        title={t('subscriptions.viewMonths')}
+                        type="button"
+                        data-tour="months-display"
+                      >
+                        <Eye size={16} />
+                        {t('subscriptions.viewMonths')}
+                      </button>
                     </td>
                     <td className={styles.tableCell}>
                       <span className={`${styles.status} ${styles[subscription.status]}`}>
@@ -363,6 +375,14 @@ const Subscriptions = () => {
         onSave={handleSaveFrequency}
         onSubmitSuccess={handleSuccessEditFrequency}
         onSubmitError={handleErrorEditFrequency}
+      />
+      <MonthsDisplayModal
+        isOpen={isMonthsModalOpen}
+        onRequestClose={() => setIsMonthsModalOpen(false)}
+        installationName={selectedSubscriptionForMonths?.installationName || ''}
+        startDate={selectedSubscriptionForMonths?.startDate}
+        endDate={selectedSubscriptionForMonths?.endDate}
+        frequency={selectedSubscriptionForMonths?.frequency || ''}
       />
       <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={() => setResponseMessage("")} mensaje={responseMessage} />
       <ModalError isOpen={!!responseMessage && isError} onRequestClose={() => setResponseMessage("")} mensaje={responseMessage} />

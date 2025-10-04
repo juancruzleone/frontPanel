@@ -133,7 +133,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
         <div className={styles.inputError}>{responseMessage}</div>
       )}
       <div className={styles.formGroup} style={{ position: 'relative' }}>
-        <label>{t('subscriptions.newFrequency')}</label>
+        <label>{t('subscriptions.table.frequency')}</label>
         <HybridSelect
           value={formData.frequency || ''}
           onChange={(val) => onFieldChange('frequency', val)}

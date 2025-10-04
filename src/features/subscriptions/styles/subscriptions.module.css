@@ -240,7 +240,7 @@
 
 .installationName {
   font-weight: 600;
-  color: white;
+  color: var(--color-text);
 }
 
 .address {
@@ -336,6 +336,35 @@
 .editFrequencyButton:hover::after,
 .editFrequencyButton:hover::before {
   opacity: 1;
+}
+
+/* Botón para ver meses */
+.viewMonthsButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--color-secondary);
+  color: white;
+  border: 2px solid var(--color-secondary);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.viewMonthsButton:hover {
+  background: var(--color-secondary-hover);
+  border-color: var(--color-secondary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(5, 126, 116, 0.3);
+}
+
+.viewMonthsButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(5, 126, 116, 0.2);
 }
 
 .selectWrapper {

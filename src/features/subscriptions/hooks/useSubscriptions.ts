@@ -59,7 +59,46 @@ const useSubscriptions = () => {
     }
   ]
 
-  const getMonthsByFrequency = (frequency: string): string[] => {
+  // Función para calcular los meses entre dos fechas
+  const getMonthsInRange = (startDate: Date | undefined, endDate: Date | undefined): string[] => {
+    if (!startDate || !endDate) return []
+    
+    const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+    const months: string[] = []
+    
+    const start = new Date(startDate)
+    const end = new Date(endDate)
+    
+    // Asegurar que las fechas sean válidas
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) return []
+    
+    let currentDate = new Date(start.getFullYear(), start.getMonth(), 1)
+    const endMonth = new Date(end.getFullYear(), end.getMonth(), 1)
+    
+    // Iterar por cada mes en el rango
+    while (currentDate <= endMonth) {
+      const monthIndex = currentDate.getMonth()
+      const monthName = monthNames[monthIndex]
+      
+      // Evitar duplicados
+      if (!months.includes(monthName)) {
+        months.push(monthName)
+      }
+      
+      // Avanzar al siguiente mes
+      currentDate.setMonth(currentDate.getMonth() + 1)
+    }
+    
+    return months
+  }
+
+  const getMonthsByFrequency = (frequency: string, startDate?: Date, endDate?: Date): string[] => {
+    // Para frecuencia mensual, calcular los meses en el rango de fechas
+    if (frequency === 'mensual' && startDate && endDate) {
+      return getMonthsInRange(startDate, endDate)
+    }
+    
+    // Para otras frecuencias, retornar todos los meses
     const option = frequencyOptions.find(opt => opt.value === frequency)
     return option ? option.months : []
   }
@@ -93,6 +132,29 @@ const useSubscriptions = () => {
       return new Date(dateInput)
     }
     
+    const startDate = parseDate(installation.fechaInicio)
+    const endDate = parseDate(installation.fechaFin)
+    // Normalizar frecuencia a minúsculas para coincidir con las opciones del select
+    const frequency = installation.frecuencia ? installation.frecuencia.toLowerCase() : ''
+    
+    // Calcular los meses según la frecuencia y las fechas
+    let months: string[] = []
+    
+    // Normalizar frecuencia para comparación (puede venir como 'Mensual' o 'mensual')
+    const normalizedFrequency = frequency.toLowerCase()
+    
+    if (normalizedFrequency === 'mensual') {
+      // Para frecuencia mensual, SIEMPRE calcular basándose en las fechas
+      // No usar los meses guardados porque pueden estar desactualizados
+      months = getMonthsByFrequency(frequency, startDate, endDate)
+    } else if (installation.mesesFrecuencia && installation.mesesFrecuencia.length > 0) {
+      // Para otras frecuencias, usar los meses guardados si existen
+      months = installation.mesesFrecuencia
+    } else {
+      // Si no hay meses guardados, calcularlos según la frecuencia
+      months = getMonthsByFrequency(frequency, startDate, endDate)
+    }
+    
     return {
       _id: installation._id || '',
       installationId: installation._id || '',
@@ -101,10 +163,10 @@ const useSubscriptions = () => {
       city: installation.city || '',
       province: installation.province || '',
       installationType: installation.installationType,
-      frequency: installation.frecuencia || '',
-      months: installation.mesesFrecuencia || getMonthsByFrequency(installation.frecuencia || ''),
-      startDate: parseDate(installation.fechaInicio),
-      endDate: parseDate(installation.fechaFin),
+      frequency: frequency,
+      months: months,
+      startDate: startDate,
+      endDate: endDate,
       status: mapStatusToEnglish(installation.estado || 'Activo'),
       createdAt: installation.fechaCreacion ? new Date(installation.fechaCreacion) : new Date(),
       updatedAt: installation.fechaActualizacion ? new Date(installation.fechaActualizacion) : new Date(),
@@ -142,9 +204,22 @@ const useSubscriptions = () => {
     let monthsToSave = data.months || []
     
     if (data.frequency) {
-      if (data.frequency === 'mensual' || data.frequency === 'anual') {
-        // Para mensual y anual, todos los meses
-        monthsToSave = getMonthsByFrequency(data.frequency)
+      if (data.frequency === 'mensual') {
+        // Para mensual, calcular meses basados en el rango de fechas
+        const startDate = data.startDate || installation.fechaInicio
+        const endDate = data.endDate || installation.fechaFin
+        
+        if (startDate && endDate) {
+          monthsToSave = getMonthsInRange(
+            startDate instanceof Date ? startDate : new Date(startDate),
+            endDate instanceof Date ? endDate : new Date(endDate)
+          )
+        } else {
+          monthsToSave = []
+        }
+      } else if (data.frequency === 'anual') {
+        // Para anual, usar los meses seleccionados o todos los meses
+        monthsToSave = data.months && data.months.length > 0 ? data.months : getMonthsByFrequency(data.frequency)
       } else if (data.months && data.months.length > 0) {
         // Para trimestral y semestral, usar los meses seleccionados
         monthsToSave = data.months
@@ -242,9 +317,15 @@ const useSubscriptions = () => {
     if (name === 'frequency') {
       // Reset selected months when frequency changes
       if (value === 'mensual') {
-        // Para mensual, seleccionar todos los meses a partir de la fecha de inicio
-        const allMonths = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-        setSelectedMonths(allMonths)
+        // Para mensual, calcular meses basados en el rango de fechas
+        if (formData.startDate && formData.endDate) {
+          const start = new Date(formData.startDate)
+          const end = new Date(formData.endDate)
+          const monthsInRange = getMonthsInRange(start, end)
+          setSelectedMonths(monthsInRange)
+        } else {
+          setSelectedMonths([])
+        }
       } else if (value === 'anual') {
         // Para anual, seleccionar solo el mes de la fecha de inicio
         const currentStartDate = formData.startDate
@@ -304,7 +385,15 @@ const useSubscriptions = () => {
     // Si cambia la fecha de inicio, recalcular meses para frecuencias que dependen de ella
     if (name === 'startDate' && value) {
       const currentFrequency = formData.frequency
-      if (currentFrequency === 'anual') {
+      if (currentFrequency === 'mensual') {
+        // Para mensual, recalcular con el rango completo
+        if (formData.endDate) {
+          const start = new Date(value)
+          const end = new Date(formData.endDate)
+          const monthsInRange = getMonthsInRange(start, end)
+          setSelectedMonths(monthsInRange)
+        }
+      } else if (currentFrequency === 'anual') {
         const startDate = new Date(value)
         const monthIndex = startDate.getMonth()
         const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
@@ -337,7 +426,17 @@ const useSubscriptions = () => {
         setSelectedMonths(selectedMonthsArray)
       }
     }
-  }, [formData.frequency, formData.startDate])
+    
+    // Si cambia la fecha de fin y la frecuencia es mensual, recalcular meses
+    if (name === 'endDate' && value && formData.frequency === 'mensual') {
+      if (formData.startDate) {
+        const start = new Date(formData.startDate)
+        const end = new Date(value)
+        const monthsInRange = getMonthsInRange(start, end)
+        setSelectedMonths(monthsInRange)
+      }
+    }
+  }, [formData.frequency, formData.startDate, formData.endDate])
 
   // Función de blur simplificada - solo valida campos vacíos
   const handleFieldBlur = useCallback(async (name: string) => {

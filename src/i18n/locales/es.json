@@ -966,6 +966,10 @@
     "clickToSelectMonths": "Haz clic para seleccionar meses",
     "filterByMonth": "Filtrar por mes",
     "clearFilter": "Limpiar filtro",
+    "viewMonths": "Ver meses",
+    "monthsDetail": "Detalle de Meses",
+    "period": "Período",
+    "noMonthsAvailable": "No hay meses disponibles",
     "tour": {
       "welcome": {
         "title": "¡Bienvenido a Abonos Vigentes!",
