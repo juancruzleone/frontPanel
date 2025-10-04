@@ -962,6 +962,7 @@
     "selectFourMonthsTrimestral": "Selecciona 4 meses espaciados cada 3 meses (ej: Enero, Abril, Julio, Octubre)",
     "selectOneMonth": "Selecciona 1 mes",
     "selectAllMonths": "Selecciona los meses deseados",
+    "selectDatesFirst": "Por favor, selecciona primero las fechas de inicio y fin",
     "filterByMonth": "Filtrar por mes",
     "tour": {
       "welcome": {

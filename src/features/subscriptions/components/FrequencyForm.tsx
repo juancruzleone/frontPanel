@@ -5,6 +5,7 @@ import styles from '../styles/subscriptions.module.css'
 import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
 import DatePickerModal from './DatePickerModal'
 import HybridSelect from '../../../shared/components/HybridSelect'
+import MonthYearSelector from './MonthYearSelector'
 import type { FrequencyOption } from '../hooks/useSubscriptions'
 
 interface FrequencyFormProps {
@@ -227,35 +228,15 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
       
       {(formData.frequency === 'semestral' || formData.frequency === 'trimestral' || formData.frequency === 'anual' || formData.frequency === 'mensual') && (
         <div className={styles.formGroup}>
-          <label className={styles.monthsLabel}>
-            <Calendar size={16} />
-            {t('subscriptions.selectedMonths')}
-          </label>
-          <div className={styles.monthsPreview}>
-            {['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'].map((month, index) => (
-              <span
-                key={index}
-                className={
-                  styles.monthTag +
-                  (isMonthSelected(month) ? ' ' + styles.monthTagSelected : '') +
-                  (isMonthSelectable(month) ? ' ' + styles.monthTagSelectable : '')
-                }
-                onClick={() => isMonthSelectable(month) && onMonthClick(month)}
-                style={{ cursor: isMonthSelectable(month) ? 'pointer' : 'default' }}
-              >
-                {month}
-              </span>
-            ))}
-          </div>
-          {monthsError && (
-            <div className={styles.inputError}>{monthsError}</div>
-          )}
-          <div className={styles.monthsHelp}>
-            {formData.frequency === 'semestral' && t('subscriptions.selectTwoMonthsSemestral')}
-            {formData.frequency === 'trimestral' && t('subscriptions.selectFourMonthsTrimestral')}
-            {formData.frequency === 'anual' && t('subscriptions.selectOneMonth')}
-            {formData.frequency === 'mensual' && t('subscriptions.selectAllMonths')}
-          </div>
+          <MonthYearSelector
+            startDate={formData.startDate}
+            endDate={formData.endDate}
+            selectedMonths={selectedMonths}
+            onMonthClick={onMonthClick}
+            frequency={formData.frequency}
+            disabled={isSubmitting}
+            error={monthsError}
+          />
         </div>
       )}
 
