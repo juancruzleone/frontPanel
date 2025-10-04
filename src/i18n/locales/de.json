@@ -1192,6 +1192,7 @@
   "errorLoading": "Fehler beim Laden der Abonnements",
   "status": {
     "label": "Status",
+    "placeholder": "Status auswählen",
     "active": "Aktiv",
     "inactive": "Inaktiv",
     "pending": "Ausstehend"
@@ -1201,7 +1202,8 @@
     "endDateRequired": "Enddatum ist erforderlich",
     "endDateAfterStart": "Das Enddatum muss nach dem Startdatum liegen",
     "invalidDate": "Das Datum muss gültig sein",
-    "frequencyRequired": "Die Frequenz ist erforderlich, um das Abonnement zu aktivieren"
+    "frequencyRequired": "Die Frequenz ist erforderlich, um das Abonnement zu aktivieren",
+    "consecutiveMonthsNotAllowed": "Aufeinanderfolgende Monate können nicht ausgewählt werden"
   },
   "table": {
     "installation": "Installation",
@@ -1245,7 +1247,14 @@
   "selectFourMonthsTrimestral": "Wählen Sie 4 Monate im Abstand von 3 Monaten (z.B.: Januar, April, Juli, Oktober)",
   "selectOneMonth": "Wähle 1 Monat",
   "selectAllMonths": "Wähle die gewünschten Monate",
+  "selectDatesFirst": "Bitte wählen Sie zuerst Start- und Enddatum",
+  "clickToSelectMonths": "Klicken Sie, um Monate auszuwählen",
   "filterByMonth": "Nach Monat filtern",
+  "clearFilter": "Filter löschen",
+  "viewMonths": "Monate anzeigen",
+  "monthsDetail": "Monatsübersicht",
+  "period": "Zeitraum",
+  "noMonthsAvailable": "Keine Monate verfügbar",
   "tour": {
     "welcome": {
       "title": "Willkommen bei Aktive Abonnements!",

@@ -924,6 +924,8 @@
     "titlePage": "Active Subscriptions | Leonix",
     "subtitle": "Subscription and active billing management",
     "searchPlaceholder": "Search subscriptions...",
+    "startDate": "Start date",
+    "endDate": "End date",
     "noSubscriptionsFound": "No subscriptions found",
     "noSubscriptions": "No subscriptions available",
     "errorLoading": "Error loading subscriptions",
@@ -988,7 +990,14 @@
     "selectFourMonthsTrimestral": "Select 4 months spaced every 3 months (e.g., January, April, July, October)",
     "selectOneMonth": "Select 1 month",
     "selectAllMonths": "Select the desired months",
+    "selectDatesFirst": "Please select start and end dates first",
+    "clickToSelectMonths": "Click to select months",
     "filterByMonth": "Filter by month",
+    "clearFilter": "Clear filter",
+    "viewMonths": "View months",
+    "monthsDetail": "Months Detail",
+    "period": "Period",
+    "noMonthsAvailable": "No months available",
     "tour": {
       "welcome": {
         "title": "Welcome to Active Subscriptions!",

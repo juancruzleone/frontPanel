@@ -597,7 +597,25 @@ export const frequencyTranslations: Record<string, string[]> = {
 };
 
 export function translateFrequencyToCurrentLang(freqES: string, lang: string): string {
-  const idx = frequencyMapES.indexOf(freqES);
+  // Normalizar la entrada para manejar diferentes formatos del backend
+  const normalizedFreq = freqES.charAt(0).toUpperCase() + freqES.slice(1).toLowerCase();
+  
+  // Mapeo de valores en minúsculas a formato capitalizado
+  const frequencyMap: Record<string, string> = {
+    'mensual': 'Mensual',
+    'trimestral': 'Trimestral',
+    'semestral': 'Semestral',
+    'anual': 'Anual',
+    'monthly': 'Mensual',
+    'quarterly': 'Trimestral',
+    'semiannual': 'Semestral',
+    'annual': 'Anual'
+  };
+  
+  // Convertir al formato esperado en español si viene en otro formato
+  const freqInES = frequencyMap[freqES.toLowerCase()] || normalizedFreq;
+  
+  const idx = frequencyMapES.indexOf(freqInES);
   if (idx === -1) return freqES;
   const freqs = frequencyTranslations[lang] || frequencyMapES;
   return freqs[idx] || freqES;

@@ -1304,6 +1304,7 @@
   "errorLoading": "サブスクリプションの読み込みエラー",
   "status": {
     "label": "状態",
+    "placeholder": "状態を選択",
     "active": "アクティブ",
     "inactive": "非アクティブ",
     "pending": "保留中"
@@ -1313,7 +1314,8 @@
     "endDateRequired": "終了日は必須です",
     "endDateAfterStart": "終了日は開始日より後である必要があります",
     "invalidDate": "日付が有効である必要があります",
-    "frequencyRequired": "サブスクリプションを有効にするには頻度が必要です"
+    "frequencyRequired": "サブスクリプションを有効にするには頻度が必要です",
+    "consecutiveMonthsNotAllowed": "連続した月を選択できません"
   },
   "table": {
     "installation": "設置",
@@ -1354,7 +1356,15 @@
   "selectTwoMonths": "2か月を選択してください",
   "selectFourMonths": "4か月を選択してください",
   "selectOneMonth": "1か月を選択してください",
-  "selectAllMonths": "希望する月を選択してください"
+  "selectAllMonths": "希望する月を選択してください",
+  "selectDatesFirst": "まず開始日と終了日を選択してください",
+  "clickToSelectMonths": "クリックして月を選択",
+  "filterByMonth": "月でフィルタ",
+  "clearFilter": "フィルタをクリア",
+  "viewMonths": "月を表示",
+  "monthsDetail": "月の詳細",
+  "period": "期間",
+  "noMonthsAvailable": "利用可能な月がありません"
 },
 "planLimits": {
   "title": "プラン制限に達しました",

@@ -1309,6 +1309,7 @@
   "errorLoading": "구독 로드 오류",
   "status": {
     "label": "상태",
+    "placeholder": "상태 선택",
     "active": "활성",
     "inactive": "비활성",
     "pending": "보류 중"
@@ -1318,7 +1319,8 @@
     "endDateRequired": "종료 날짜는 필수입니다",
     "endDateAfterStart": "종료 날짜는 시작 날짜 이후여야 합니다",
     "invalidDate": "유효한 날짜여야 합니다",
-    "frequencyRequired": "구독을 활성화하려면 빈도가 필요합니다"
+    "frequencyRequired": "구독을 활성화하려면 빈도가 필요합니다",
+    "consecutiveMonthsNotAllowed": "연속된 월을 선택할 수 없습니다"
   },
   "table": {
     "installation": "설치",
@@ -1359,7 +1361,15 @@
   "selectTwoMonths": "2개월을 선택하세요",
   "selectFourMonths": "4개월을 선택하세요",
   "selectOneMonth": "1개월을 선택하세요",
-  "selectAllMonths": "원하는 개월 수를 선택하세요"
+  "selectAllMonths": "원하는 개월 수를 선택하세요",
+  "selectDatesFirst": "먼저 시작 날짜와 종료 날짜를 선택하세요",
+  "clickToSelectMonths": "클릭하여 월 선택",
+  "filterByMonth": "월별 필터링",
+  "clearFilter": "필터 지우기",
+  "viewMonths": "월 보기",
+  "monthsDetail": "월 세부정보",
+  "period": "기간",
+  "noMonthsAvailable": "사용 가능한 월이 없습니다"
 },
 "planLimits": {
   "title": "플랜 한도에 도달했습니다",

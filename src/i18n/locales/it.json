@@ -1295,6 +1295,7 @@
   "errorLoading": "Errore nel caricamento degli abbonamenti",
   "status": {
     "label": "Stato",
+    "placeholder": "Seleziona stato",
     "active": "Attivo",
     "inactive": "Inattivo",
     "pending": "In sospeso"
@@ -1304,7 +1305,8 @@
     "endDateRequired": "La data di fine è obbligatoria",
     "endDateAfterStart": "La data di fine deve essere successiva alla data di inizio",
     "invalidDate": "La data deve essere valida",
-    "frequencyRequired": "La frequenza è obbligatoria per attivare l’abbonamento"
+    "frequencyRequired": "La frequenza è obbligatoria per attivare l'abbonamento",
+    "consecutiveMonthsNotAllowed": "Non è possibile selezionare mesi consecutivi"
   },
   "table": {
     "installation": "Installazione",
@@ -1348,7 +1350,14 @@
   "selectFourMonthsTrimestral": "Seleziona 4 mesi distanziati ogni 3 mesi (es: Gennaio, Aprile, Luglio, Ottobre)",
   "selectOneMonth": "Seleziona 1 mese",
   "selectAllMonths": "Seleziona i mesi desiderati",
+  "selectDatesFirst": "Seleziona prima le date di inizio e fine",
+  "clickToSelectMonths": "Clicca per selezionare i mesi",
   "filterByMonth": "Filtra per mese",
+  "clearFilter": "Cancella filtro",
+  "viewMonths": "Visualizza mesi",
+  "monthsDetail": "Dettaglio Mesi",
+  "period": "Periodo",
+  "noMonthsAvailable": "Nessun mese disponibile",
   "tour": {
     "welcome": {
       "title": "Benvenuto in Abbonamenti Attivi!",

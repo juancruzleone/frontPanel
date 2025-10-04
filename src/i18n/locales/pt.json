@@ -1289,6 +1289,7 @@
   "errorLoading": "Erro ao carregar assinaturas",
   "status": {
     "label": "Status",
+    "placeholder": "Selecionar status",
     "active": "Ativo",
     "inactive": "Inativo",
     "pending": "Pendente"
@@ -1298,7 +1299,8 @@
     "endDateRequired": "A data de término é obrigatória",
       "endDateAfterStart": "A data de término deve ser posterior à data de início",
       "invalidDate": "A data deve ser válida",
-      "frequencyRequired": "A frequência é obrigatória para ativar a assinatura"
+      "frequencyRequired": "A frequência é obrigatória para ativar a assinatura",
+      "consecutiveMonthsNotAllowed": "Não é possível selecionar meses consecutivos"
     },
   "table": {
     "installation": "Instalação",
@@ -1342,7 +1344,14 @@
   "selectFourMonthsTrimestral": "Selecione 4 meses espaçados a cada 3 meses (ex: Janeiro, Abril, Julho, Outubro)",
   "selectOneMonth": "Selecione 1 mês",
   "selectAllMonths": "Selecione os meses desejados",
+  "selectDatesFirst": "Por favor, selecione primeiro as datas de início e fim",
+  "clickToSelectMonths": "Clique para selecionar meses",
   "filterByMonth": "Filtrar por mês",
+  "clearFilter": "Limpar filtro",
+  "viewMonths": "Ver meses",
+  "monthsDetail": "Detalhes dos Meses",
+  "period": "Período",
+  "noMonthsAvailable": "Não há meses disponíveis",
   "tour": {
     "welcome": {
       "title": "Bem-vindo às Assinaturas Ativas!",

@@ -1315,6 +1315,7 @@
   "errorLoading": "加载订阅出错",
   "status": {
     "label": "状态",
+    "placeholder": "选择状态",
     "active": "激活",
     "inactive": "未激活",
     "pending": "待定"
@@ -1324,7 +1325,8 @@
     "endDateRequired": "结束日期是必填项",
     "endDateAfterStart": "结束日期必须晚于开始日期",
     "invalidDate": "日期必须有效",
-    "frequencyRequired": "激活订阅需要填写频率"
+    "frequencyRequired": "激活订阅需要填写频率",
+    "consecutiveMonthsNotAllowed": "不能选择连续的月份"
   },
   "table": {
     "installation": "安装",
@@ -1365,7 +1367,15 @@
   "selectTwoMonths": "选择2个月",
   "selectFourMonths": "选择4个月",
   "selectOneMonth": "选择1个月",
-  "selectAllMonths": "请选择所需的月份"
+  "selectAllMonths": "请选择所需的月份",
+  "selectDatesFirst": "请先选择开始日期和结束日期",
+  "clickToSelectMonths": "点击选择月份",
+  "filterByMonth": "按月筛选",
+  "clearFilter": "清除筛选",
+  "viewMonths": "查看月份",
+  "monthsDetail": "月份详情",
+  "period": "期间",
+  "noMonthsAvailable": "没有可用的月份"
 },
 "planLimits": {
   "title": "已达到计划限制",

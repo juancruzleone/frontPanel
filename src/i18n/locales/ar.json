@@ -1298,7 +1298,11 @@
   "noSubscriptionsFound": "لم يتم العثور على اشتراكات",
   "noSubscriptions": "لا توجد اشتراكات متاحة",
   "errorLoading": "حدث خطأ أثناء تحميل الاشتراكات",
+  "startDate": "تاريخ البدء",
+  "endDate": "تاريخ الانتهاف",
   "status": {
+    "label": "الحالة",
+    "placeholder": "اختر الحالة",
     "active": "نشط",
     "inactive": "غير نشط",
     "pending": "قيد الانتظار"
@@ -1308,7 +1312,8 @@
     "endDateRequired": "تاريخ الانتهاء مطلوب",
     "endDateAfterStart": "يجب أن يكون تاريخ الانتهاء بعد تاريخ البدء",
     "invalidDate": "يجب أن يكون التاريخ صالحًا",
-    "frequencyRequired": "التكرار مطلوب لتفعيل الاشتراك"
+    "frequencyRequired": "التكرار مطلوب لتفعيل الاشتراك",
+    "consecutiveMonthsNotAllowed": "لا يمكن اختيار أشهر متتالية"
   },
   "table": {
     "installation": "التركيب",
@@ -1353,7 +1358,15 @@
   "selectTwoMonths": "اختر شهرين",
   "selectFourMonths": "اختر 4 أشهر",
   "selectOneMonth": "اختر شهرًا واحدًا",
-  "selectAllMonths": "اختر الأشهر المطلوبة"
+  "selectAllMonths": "اختر الأشهر المطلوبة",
+  "selectDatesFirst": "الرجاء اختيار تواريخ البدء والانتهاء أولاً",
+  "clickToSelectMonths": "انقر لاختيار الأشهر",
+  "filterByMonth": "تصفية حسب الشهر",
+  "clearFilter": "مسح التصفية",
+  "viewMonths": "عرض الأشهر",
+  "monthsDetail": "تفاصيل الأشهر",
+  "period": "الفترة",
+  "noMonthsAvailable": "لا توجد أشهر متاحة"
 },
 "planLimits": {
   "title": "تم الوصول إلى حد الخطة",

@@ -1266,6 +1266,7 @@
   "errorLoading": "Erreur lors du chargement des abonnements",
   "status": {
     "label": "Statut",
+    "placeholder": "Sélectionner le statut",
     "active": "Actif",
     "inactive": "Inactif",
     "pending": "En attente"
@@ -1275,7 +1276,8 @@
     "endDateRequired": "La date de fin est requise",
       "endDateAfterStart": "La date de fin doit être postérieure à la date de début",
       "invalidDate": "La date doit être valide",
-      "frequencyRequired": "La fréquence est requise pour activer l’abonnement"
+      "frequencyRequired": "La fréquence est requise pour activer l'abonnement",
+      "consecutiveMonthsNotAllowed": "Les mois consécutifs ne sont pas autorisés"
     },
   "table": {
     "installation": "Installation",
@@ -1319,7 +1321,14 @@
   "selectFourMonthsTrimestral": "Sélectionnez 4 mois espacés de 3 mois (ex: Janvier, Avril, Juillet, Octobre)",
   "selectOneMonth": "Sélectionnez 1 mois",
   "selectAllMonths": "Sélectionnez les mois souhaités",
+  "selectDatesFirst": "Veuillez d'abord sélectionner les dates de début et de fin",
+  "clickToSelectMonths": "Cliquez pour sélectionner les mois",
   "filterByMonth": "Filtrer par mois",
+  "clearFilter": "Effacer le filtre",
+  "viewMonths": "Voir les mois",
+  "monthsDetail": "Détail des Mois",
+  "period": "Période",
+  "noMonthsAvailable": "Aucun mois disponible",
   "tour": {
     "welcome": {
       "title": "Bienvenue dans les Abonnements Actifs !",
