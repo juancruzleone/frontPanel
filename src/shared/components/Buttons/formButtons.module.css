@@ -79,7 +79,6 @@
 }
 
 .submitButton {
-  background: var(--color-primary);
   color: white;
   border: 2px solid transparent;
   padding: 0.875rem 1.75rem;
