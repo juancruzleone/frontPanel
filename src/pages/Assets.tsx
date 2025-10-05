@@ -61,7 +61,8 @@ const Assets = () => {
       }, 500)
       return () => clearTimeout(timer)
     }
-  }, [loading, tourCompleted, startTour])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, tourCompleted])
 
   // Continuar el tour si venimos de formularios
   useEffect(() => {
@@ -71,7 +72,8 @@ const Assets = () => {
       }, 500)
       return () => clearTimeout(timer)
     }
-  }, [location.state, tourCompleted, continueAssetsTour])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.state, tourCompleted])
 
   const dynamicCategories = useMemo(
     () => [
