@@ -13,6 +13,9 @@ export type Asset = {
   _id?: string
   nombre: string
   templateId: string
+  marca?: string
+  modelo?: string
+  numeroSerie?: string
   fechaCreacion?: Date
   fechaActualizacion?: Date
 }

@@ -39,6 +39,9 @@ const AssetForm = ({
   const [formData, setFormData] = useState<Omit<Asset, "_id">>({
     nombre: "",
     templateId: "",
+    marca: "",
+    modelo: "",
+    numeroSerie: "",
   })
 
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
@@ -57,6 +60,9 @@ const AssetForm = ({
       setFormData({
         nombre: initialData.nombre || "",
         templateId: initialData.templateId || "",
+        marca: initialData.marca || "",
+        modelo: initialData.modelo || "",
+        numeroSerie: initialData.numeroSerie || "",
       })
 
       // Encontrar la categoría de la plantilla actual
@@ -69,6 +75,9 @@ const AssetForm = ({
       setFormData({
         nombre: "",
         templateId: "",
+        marca: "",
+        modelo: "",
+        numeroSerie: "",
       })
       setSelectedCategory("")
     }
@@ -173,6 +182,42 @@ const AssetForm = ({
             placeholder={t('assets.nombrePlaceholder')}
           />
           {showError("nombre") && <p className={styles.inputError}>{formErrors.nombre}</p>}
+        </div>
+
+        <div className={styles.formGroup}>
+          <label>{t('assets.brand')} (Opcional)</label>
+          <input
+            type="text"
+            name="marca"
+            value={formData.marca || ""}
+            onChange={(e) => handleFieldChange("marca", e.target.value)}
+            disabled={isSubmitting}
+            placeholder={t('assets.brandPlaceholder')}
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label>{t('assets.model')} (Opcional)</label>
+          <input
+            type="text"
+            name="modelo"
+            value={formData.modelo || ""}
+            onChange={(e) => handleFieldChange("modelo", e.target.value)}
+            disabled={isSubmitting}
+            placeholder={t('assets.modelPlaceholder')}
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label>{t('assets.serialNumber')} (Opcional)</label>
+          <input
+            type="text"
+            name="numeroSerie"
+            value={formData.numeroSerie || ""}
+            onChange={(e) => handleFieldChange("numeroSerie", e.target.value)}
+            disabled={isSubmitting}
+            placeholder={t('assets.serialNumberPlaceholder')}
+          />
         </div>
 
         {/* Sección: Configuración */}

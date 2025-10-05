@@ -4,6 +4,9 @@ export const getAssetSchema = (t: (key: string) => string) =>
   yup.object({
     nombre: yup.string().trim().required(t("assets.validation.nameRequired")),
     templateId: yup.string().trim().required(t("assets.validation.templateRequired")),
+    marca: yup.string().trim().optional(),
+    modelo: yup.string().trim().optional(),
+    numeroSerie: yup.string().trim().optional(),
   })
 
 export const validateAssetForm = async (data: any, t: (key: string) => string) => {
