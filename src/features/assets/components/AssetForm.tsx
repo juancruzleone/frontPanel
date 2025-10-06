@@ -185,7 +185,7 @@ const AssetForm = ({
         </div>
 
         <div className={styles.formGroup}>
-          <label>{t('assets.brand')} (Opcional)</label>
+          <label>{t('assets.brand')} ({t('assets.optional')})</label>
           <input
             type="text"
             name="marca"
@@ -197,7 +197,7 @@ const AssetForm = ({
         </div>
 
         <div className={styles.formGroup}>
-          <label>{t('assets.model')} (Opcional)</label>
+          <label>{t('assets.model')} ({t('assets.optional')})</label>
           <input
             type="text"
             name="modelo"
@@ -209,7 +209,7 @@ const AssetForm = ({
         </div>
 
         <div className={styles.formGroup}>
-          <label>{t('assets.serialNumber')} (Opcional)</label>
+          <label>{t('assets.serialNumber')} ({t('assets.optional')})</label>
           <input
             type="text"
             name="numeroSerie"
