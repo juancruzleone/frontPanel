@@ -1166,52 +1166,116 @@
 
 .datePickerActions {
   display: flex;
-  gap: 12px;
+  gap: 1rem;
+  justify-content: flex-start;
   margin-top: 24px;
-  justify-content: flex-end;
 }
 
 .datePickerCancelButton {
-  padding: 12px 24px;
-  border: 2px solid var(--color-card-border);
-  background: var(--color-card);
+  background: var(--color-bg-light);
   color: var(--color-text);
-  border-radius: 8px;
+  border: 2px solid var(--color-card-border);
+  padding: 0.875rem 1.75rem;
+  border-radius: 12px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 1rem;
   font-weight: 600;
   transition: all 0.2s ease;
+  min-width: 184px;
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 184px;
+}
+
+/* Modo claro para datePickerCancelButton */
+:root .datePickerCancelButton,
+[data-theme="light"] .datePickerCancelButton {
+  border-color: #000;
+  color: #000;
 }
 
 .datePickerCancelButton:hover {
-  border-color: var(--color-danger);
-  background: var(--color-danger);
-  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
+  transform: translateY(-1px);
+}
+
+/* Modo claro para datePickerCancelButton hover */
+:root .datePickerCancelButton:hover,
+[data-theme="light"] .datePickerCancelButton:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: #000;
+  color: #000;
+}
+
+/* Modo oscuro para datePickerCancelButton */
+[data-theme="dark"] .datePickerCancelButton {
+  background: var(--color-card);
+  border-color: var(--color-card-border);
+  color: #fff;
+}
+
+/* Modo oscuro para datePickerCancelButton hover */
+[data-theme="dark"] .datePickerCancelButton:hover {
+  background: var(--color-bg-light);
+  border-color: var(--color-card-border);
+  color: #fff;
+}
+
+.datePickerCancelButton:active {
+  transform: translateY(0);
+}
+
+.datePickerCancelButton:disabled {
+  background: var(--color-skeleton);
+  color: var(--color-skeleton-light);
+  cursor: not-allowed;
+  transform: none;
+  border-color: var(--color-skeleton);
 }
 
 .datePickerConfirmButton {
-  padding: 12px 24px;
-  border: none;
-  background: linear-gradient(135deg, var(--color-secondary) 0%, #057e74 100%);
   color: white;
-  border-radius: 8px;
+  border: 2px solid transparent;
+  padding: 0.875rem 1.75rem;
+  border-radius: 12px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 1rem;
   font-weight: 600;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(5, 126, 116, 0.2);
+  min-width: 184px;
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+  box-sizing: border-box;
+  width: 184px;
 }
 
 .datePickerConfirmButton:hover:not(:disabled) {
-  background: linear-gradient(135deg, #057e74 0%, #046c63 100%);
+  filter: brightness(1.1);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.3);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.datePickerConfirmButton:active {
+  transform: translateY(0);
 }
 
 .datePickerConfirmButton:disabled {
-  opacity: 0.5;
+  background: var(--color-skeleton);
+  color: var(--color-skeleton-light);
   cursor: not-allowed;
   transform: none;
+  box-shadow: none;
 }
 
 /* Dark mode styles for date picker */
@@ -1439,46 +1503,111 @@
 
 .datePickerActions {
   display: flex;
-  justify-content: flex-end;
-  gap: 12px;
+  gap: 1rem;
+  justify-content: flex-start;
   padding: 1.5rem 2.5rem 2rem;
   border-top: 1px solid var(--color-card-border);
-  background: var(--color-bg-light);
+  background: var(--color-card);
+  margin-top: auto;
 }
 
 .datePickerCancelButton {
-  padding: 10px 20px;
   background: var(--color-bg-light);
   color: var(--color-text);
   border: 2px solid var(--color-card-border);
-  border-radius: 8px;
+  padding: 0.875rem 1.75rem;
+  border-radius: 12px;
   cursor: pointer;
-  font-weight: 500;
-  font-size: 14px;
+  font-size: 1rem;
+  font-weight: 600;
   transition: all 0.2s ease;
+  min-width: 184px;
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 184px;
+}
+
+/* Modo claro para datePickerCancelButton */
+:root .datePickerCancelButton,
+[data-theme="light"] .datePickerCancelButton {
+  border-color: #000;
+  color: #000;
 }
 
 .datePickerCancelButton:hover {
-  background: var(--color-card-border);
-  border-color: var(--color-primary);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: white;
   transform: translateY(-1px);
+}
+
+/* Modo claro para datePickerCancelButton hover */
+:root .datePickerCancelButton:hover,
+[data-theme="light"] .datePickerCancelButton:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: #000;
+  color: #000;
+}
+
+/* Modo oscuro para datePickerCancelButton */
+[data-theme="dark"] .datePickerCancelButton {
+  background: var(--color-card);
+  border-color: var(--color-card-border);
+  color: #fff;
+}
+
+/* Modo oscuro para datePickerCancelButton hover */
+[data-theme="dark"] .datePickerCancelButton:hover {
+  background: var(--color-bg-light);
+  border-color: var(--color-card-border);
+  color: #fff;
+}
+
+.datePickerCancelButton:active {
+  transform: translateY(0);
+}
+
+.datePickerCancelButton:disabled {
+  background: var(--color-skeleton);
+  color: var(--color-skeleton-light);
+  cursor: not-allowed;
+  transform: none;
+  border-color: var(--color-skeleton);
 }
 
 .datePickerConfirmButton {
-  padding: 10px 20px;
-  background: var(--color-primary);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
+  color: white;
+  border: 2px solid transparent;
+  padding: 0.875rem 1.75rem;
+  border-radius: 12px;
   cursor: pointer;
-  font-weight: 500;
-  font-size: 14px;
+  font-size: 1rem;
+  font-weight: 600;
   transition: all 0.2s ease;
+  min-width: 184px;
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+  box-sizing: border-box;
+  width: 184px;
 }
 
 .datePickerConfirmButton:hover:not(:disabled) {
-  background: var(--color-secondary);
+  filter: brightness(1.1);
   transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.datePickerConfirmButton:active {
+  transform: translateY(0);
 }
 
 .datePickerConfirmButton:disabled {
@@ -1486,6 +1615,7 @@
   color: var(--color-skeleton-light);
   cursor: not-allowed;
   transform: none;
+  box-shadow: none;
 }
 
 /* Scrollbar personalizado para yearPickerGrid */
