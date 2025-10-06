@@ -1302,6 +1302,10 @@
         "title": "Go to Installations",
         "description": "Before adding devices, make sure to create device categories from the Installations section. Click here to go to that section."
       },
+      "createAssetFirst": {
+        "title": "Important: Create Assets First",
+        "description": "Before adding a device to this installation, you must first create an asset in the Assets section. Assets serve as the base/template for devices in installations."
+      },
       "addDevice": {
         "title": "Add Device",
         "description": "Use this button to add a new device to the installation. You'll need to select the category, location, status, and other device details."

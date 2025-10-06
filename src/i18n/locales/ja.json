@@ -1256,7 +1256,41 @@
   "errorLoadingCategories": "カテゴリの読み込みエラー",
   "retryLoadCategories": "カテゴリの再読み込み",
   "searchDevicesPlaceholder": "デバイス、場所、またはカテゴリで検索...",
-  "noDevicesFound": "この検索用語でデバイスが見つかりませんでした"
+  "noDevicesFound": "この検索用語でデバイスが見つかりませんでした",
+  "tour": {
+    "welcome": {
+      "title": "設置詳細へようこそ！",
+      "description": "ここでこの設置のすべてのデバイスを管理できます。このセクションの使い方をご紹介します。"
+    },
+    "goToInstallations": {
+      "title": "設置に移動",
+      "description": "デバイスを追加する前に、設置セクションからデバイスカテゴリを作成してください。ここをクリックしてそのセクションに移動してください。"
+    },
+    "createAssetFirst": {
+      "title": "重要：まず資産を作成",
+      "description": "この設置にデバイスを追加する前に、まず資産セクションで資産を作成する必要があります。資産は設置内のデバイスのベース/テンプレートとして機能します。"
+    },
+    "addDevice": {
+      "title": "デバイスを追加",
+      "description": "このボタンを使用して設置に新しいデバイスを追加します。カテゴリ、場所、状態、その他のデバイス詳細を選択する必要があります。"
+    },
+    "searchFilter": {
+      "title": "検索とフィルタ",
+      "description": "このバーを使用して名前、場所、またはカテゴリでデバイスを検索します。デバイスの状態でフィルタリングすることもできます。"
+    },
+    "deviceActions": {
+      "title": "デバイスアクション",
+      "description": "各デバイスカードには次のボタンがあります：QRコードの表示、最終メンテナンス（PDF）のダウンロード、デバイスの編集と削除。"
+    },
+    "buttons": {
+      "next": "次へ",
+      "previous": "前へ",
+      "done": "完了",
+      "skip": "チュートリアルをスキップ",
+      "restart": "チュートリアルを見る"
+    },
+    "progressText": "{{current}} / {{total}}"
+  }
 },
 "subscriptions": {
   "tour": {

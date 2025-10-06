@@ -1394,6 +1394,10 @@
         "title": "Ir a Instalaciones",
         "description": "Antes de agregar dispositivos, asegúrate de crear las categorías de dispositivos desde la sección de Instalaciones. Haz clic aquí para ir a esa sección."
       },
+      "createAssetFirst": {
+        "title": "Importante: Crear Activos Primero",
+        "description": "Antes de agregar un dispositivo a esta instalación, debes crear primero un activo en la sección de Activos. Los activos sirven como base/plantilla para los dispositivos en las instalaciones."
+      },
       "addDevice": {
         "title": "Agregar Dispositivo",
         "description": "Usa este botón para agregar un nuevo dispositivo a la instalación. Deberás seleccionar la categoría, ubicación, estado y otros detalles del dispositivo."

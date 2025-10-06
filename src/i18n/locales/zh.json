@@ -1176,7 +1176,41 @@
   "errorLoadingCategories": "加载类别出错",
   "retryLoadCategories": "重试加载类别",
   "searchDevicesPlaceholder": "按设备、位置或类别搜索...",
-  "noDevicesFound": "未找到与此搜索词匹配的设备"
+  "noDevicesFound": "未找到与此搜索词匹配的设备",
+  "tour": {
+    "welcome": {
+      "title": "欢迎来到安装详情！",
+      "description": "在这里您可以管理此安装的所有设备。我们将向您展示此部分的工作原理。"
+    },
+    "goToInstallations": {
+      "title": "转到安装",
+      "description": "在添加设备之前，请确保从安装部分创建设备类别。点击此处转到该部分。"
+    },
+    "createAssetFirst": {
+      "title": "重要：首先创建资产",
+      "description": "在向此安装添加设备之前，您必须首先在资产部分创建资产。资产作为安装中设备的基础/模板。"
+    },
+    "addDevice": {
+      "title": "添加设备",
+      "description": "使用此按钮向安装添加新设备。您需要选择类别、位置、状态和其他设备详细信息。"
+    },
+    "searchFilter": {
+      "title": "搜索和筛选",
+      "description": "使用此栏按名称、位置或类别搜索设备。您还可以按设备状态进行筛选。"
+    },
+    "deviceActions": {
+      "title": "设备操作",
+      "description": "每个设备卡都有以下按钮：查看二维码、下载最后维护（PDF）、编辑设备和删除设备。"
+    },
+    "buttons": {
+      "next": "下一步",
+      "previous": "上一步",
+      "done": "完成",
+      "skip": "跳过教程",
+      "restart": "查看教程"
+    },
+    "progressText": "{{current}} / {{total}}"
+  }
 },
 
   "login": {

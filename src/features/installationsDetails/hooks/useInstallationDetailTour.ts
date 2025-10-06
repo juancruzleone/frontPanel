@@ -29,6 +29,12 @@ export const useInstallationDetailTour = () => {
           }
         },
         {
+          popover: {
+            title: t('installationDetails.tour.createAssetFirst.title'),
+            description: t('installationDetails.tour.createAssetFirst.description')
+          }
+        },
+        {
           element: '[data-tour="nav-installations"]',
           popover: {
             title: t('installationDetails.tour.goToInstallations.title'),
