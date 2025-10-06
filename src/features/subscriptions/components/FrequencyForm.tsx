@@ -271,8 +271,8 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
             <span style={{ color: selectedMonths.length > 0 ? 'var(--color-text)' : 'var(--color-text-secondary)' }}>
               {selectedMonths.length > 0 
                 ? formData.frequency === 'mensual' && getFirstMonth()
-                  ? `${getFirstMonth()} - ${selectedMonths.length} ${selectedMonths.length === 1 ? 'mes' : 'meses'}`
-                  : `${selectedMonths.length} ${selectedMonths.length === 1 ? 'mes seleccionado' : 'meses seleccionados'}`
+                  ? `${getFirstMonth()} - ${selectedMonths.length} ${selectedMonths.length === 1 ? t('subscriptions.month') : t('subscriptions.months')}`
+                  : `${selectedMonths.length} ${selectedMonths.length === 1 ? t('subscriptions.monthSelected') : t('subscriptions.monthsSelected')}`
                 : (t('subscriptions.clickToSelectMonths') || 'Seleccionar meses')
               }
             </span>
