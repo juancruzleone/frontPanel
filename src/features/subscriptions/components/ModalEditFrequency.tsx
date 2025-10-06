@@ -31,7 +31,7 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
   onSubmitSuccess,
   onSubmitError
 }) => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const {
     formData,
     setFormData,
@@ -179,7 +179,7 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
             <h3>{subscription.installationName}</h3>
             <p>{subscription.address}, {subscription.city}, {subscription.province}</p>
             <p><strong>{t('subscriptions.table.type')}:</strong> {subscription.installationType}</p>
-            <p><strong>{t('subscriptions.table.frequency')}:</strong> {translateFrequencyToCurrentLang(subscription.frequency, t('i18n.language'))}</p>
+            <p><strong>{t('subscriptions.table.frequency')}:</strong> {translateFrequencyToCurrentLang(subscription.frequency, i18n.language)}</p>
           </div>
           <FrequencyForm
             formData={formData}
