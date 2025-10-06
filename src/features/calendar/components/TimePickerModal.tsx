@@ -132,17 +132,17 @@ const TimePickerModal = ({
           <div className={styles.datePickerActions}>
             <button
               type="button"
-              onClick={handleClose}
-              className={styles.datePickerCancelButton}
-            >
-              {t('common.cancel')}
-            </button>
-            <button
-              type="button"
               onClick={handleConfirm}
               className={styles.datePickerConfirmButton}
             >
               {t('common.confirm')}
+            </button>
+            <button
+              type="button"
+              onClick={handleClose}
+              className={styles.datePickerCancelButton}
+            >
+              {t('common.cancel')}
             </button>
           </div>
         </div>
