@@ -1033,7 +1033,17 @@
     "created": "Creada",
     "assigned": "Asignada",
     "started": "Iniciada",
-    "completed": "Completada"
+    "completed": "Completada",
+    "noOrders": "No se encontraron órdenes de trabajo",
+    "low": "Baja",
+    "medium": "Media",
+    "high": "Alta",
+    "critical": "Crítica",
+    "today": "Hoy",
+    "thisWeek": "Esta Semana",
+    "thisMonth": "Este Mes",
+    "nextWeek": "Próxima Semana",
+    "nextMonth": "Próximo Mes"
   },
   "workOrders": {
     "successTitle": "¡Operación exitosa!",
