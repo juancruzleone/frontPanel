@@ -1,4 +1,5 @@
 import styles from "../styles/Modal.module.css";
+import buttonStyles from "../../../shared/components/Buttons/formButtons.module.css";
 import { useTranslation } from "react-i18next"
 
 interface ModalConfirmDeleteProps {
@@ -44,7 +45,7 @@ const ModalConfirmDelete = ({
             <button className={styles.deleteButton} onClick={onConfirm}>
               {t('common.delete')}
             </button>
-            <button className={styles.cancelButton} onClick={onCancel}>
+            <button className={buttonStyles.cancelButton} onClick={onCancel}>
               {t('common.cancel')}
             </button>
           </div>
