@@ -16,6 +16,7 @@ interface MonthsDisplayModalProps {
   startDate: Date | undefined
   endDate: Date | undefined
   frequency: string
+  selectedMonths: string[]
 }
 
 const MonthsDisplayModal: React.FC<MonthsDisplayModalProps> = ({
@@ -24,13 +25,14 @@ const MonthsDisplayModal: React.FC<MonthsDisplayModalProps> = ({
   installationName,
   startDate,
   endDate,
-  frequency
+  frequency,
+  selectedMonths
 }) => {
   const { t, i18n } = useTranslation()
 
-  // Calcular los meses con años basándose en las fechas
+  // Calcular los meses con años basándose en los meses seleccionados y las fechas
   const getMonthsWithYears = (): MonthYear[] => {
-    if (!startDate || !endDate) return []
+    if (!startDate || !endDate || !selectedMonths || selectedMonths.length === 0) return []
     
     const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
     const monthsWithYears: MonthYear[] = []
@@ -44,16 +46,19 @@ const MonthsDisplayModal: React.FC<MonthsDisplayModalProps> = ({
     let currentDate = new Date(start.getFullYear(), start.getMonth(), 1)
     const endMonth = new Date(end.getFullYear(), end.getMonth(), 1)
     
-    // Iterar por cada mes en el rango
+    // Iterar por cada mes en el rango y filtrar solo los meses seleccionados
     while (currentDate <= endMonth) {
       const monthIndex = currentDate.getMonth()
       const monthName = monthNames[monthIndex]
       const year = currentDate.getFullYear()
       
-      monthsWithYears.push({
-        month: monthName,
-        year: year
-      })
+      // Solo agregar si el mes está en los meses seleccionados
+      if (selectedMonths.includes(monthName)) {
+        monthsWithYears.push({
+          month: monthName,
+          year: year
+        })
+      }
       
       // Avanzar al siguiente mes
       currentDate.setMonth(currentDate.getMonth() + 1)

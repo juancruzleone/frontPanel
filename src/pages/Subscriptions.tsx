@@ -383,6 +383,7 @@ const Subscriptions = () => {
         startDate={selectedSubscriptionForMonths?.startDate}
         endDate={selectedSubscriptionForMonths?.endDate}
         frequency={selectedSubscriptionForMonths?.frequency || ''}
+        selectedMonths={selectedSubscriptionForMonths?.months || []}
       />
       <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={() => setResponseMessage("")} mensaje={responseMessage} />
       <ModalError isOpen={!!responseMessage && isError} onRequestClose={() => setResponseMessage("")} mensaje={responseMessage} />
