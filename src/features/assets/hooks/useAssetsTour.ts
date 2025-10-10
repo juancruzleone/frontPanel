@@ -53,10 +53,9 @@ export const useAssetsTour = () => {
       prevBtnText: t('assets.tour.buttons.previous'),
       doneBtnText: t('assets.tour.buttons.done'),
       onDestroyed: () => {
-        // Si se destruye antes de completar, no marcar como completado
-        if (location.pathname === '/activos') {
-          // Solo marcar como completado si estamos al final del tour completo
-        }
+        // Marcar el tour como completado cuando se cierra
+        localStorage.setItem('assetsTourCompleted', 'true');
+        setTourCompleted(true);
       }
     });
 
