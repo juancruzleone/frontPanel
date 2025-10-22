@@ -1010,6 +1010,8 @@
     }
   },
   "calendar": {
+    "installation": "Instalación",
+    "titlePage": "Calendario | Leonix",
     "title": "Calendario",
     "filterByStatus": "Filtrar por estado",
     "searchPlaceholder": "Buscar por título, instalación o técnico",
