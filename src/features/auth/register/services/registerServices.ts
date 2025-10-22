@@ -84,3 +84,21 @@ export const getUserById = async (id: string, token: string) => {
 
   return await response.json()
 }
+
+export const updateTechnician = async (id: string, data: { userName?: string; password?: string; name?: string; email?: string }, token: string) => {
+  const headers = getHeadersWithContentType()
+  headers.Authorization = `Bearer ${token}`
+  
+  const response = await fetch(`${API_URL}cuentas/${id}/technician`, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(data),
+  })
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}))
+    throw new Error(errorData.error?.message || "Error al actualizar el técnico")
+  }
+
+  return await response.json()
+}

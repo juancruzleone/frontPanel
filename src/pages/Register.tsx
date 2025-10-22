@@ -4,6 +4,7 @@ import Button from "../../src/shared/components/Buttons/buttonCreate"
 import ModalSuccess from "../features/auth/register/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
 import ModalRegisterTechnician from "../features/auth/register/components/ModalRegisterTechnician"
+import ModalEditTechnician from "../features/auth/register/components/ModalEditTechnician"
 import ModalConfirmDelete from "../features/installations/components/ModalConfirmDelete"
 import styles from "../features/auth/register/styles/register.module.css"
 import { FiUser } from "react-icons/fi"
@@ -11,7 +12,7 @@ import { useRegister } from "../features/auth/register/hooks/useRegister.ts"
 import { useTranslation } from "react-i18next"
 import i18n from "../i18n"
 import { translateUserRole } from "../shared/utils/backendTranslations"
-import { Trash, User, Search } from "lucide-react"
+import { Trash, User, Search, Edit } from "lucide-react"
 import { useTheme } from "../shared/hooks/useTheme"
 import { deleteTechnician } from "../features/auth/register/services/registerServices"
 import { useAuthStore } from "../store/authStore"
@@ -25,10 +26,12 @@ const Register = () => {
   const { showModal, responseMessage, isError, closeModal, technicians, loadingTechnicians, fetchTechnicians, addTechnician, showSuccess, showError } = useRegister()
 
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [userId, setUserId] = useState<string | null>(null)
   const token = useAuthStore((state) => state.token)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [technicianToDelete, setTechnicianToDelete] = useState<any>(null)
+  const [technicianToEdit, setTechnicianToEdit] = useState<any>(null)
   const [searchTerm, setSearchTerm] = useState("")
   const { tourCompleted, startTour, resetTour, skipTour } = usePersonalTour()
 
@@ -67,6 +70,21 @@ const Register = () => {
     },
     [fetchTechnicians, showSuccess],
   )
+
+  const handleSuccessEdit = useCallback(
+    (message: string) => {
+      setIsEditModalOpen(false)
+      setTechnicianToEdit(null)
+      fetchTechnicians()
+      showSuccess(message)
+    },
+    [fetchTechnicians, showSuccess],
+  )
+
+  const handleEditTechnician = useCallback((tech: any) => {
+    setTechnicianToEdit(tech)
+    setIsEditModalOpen(true)
+  }, [])
 
   const handleOpenModal = useCallback(() => {
     setIsRegisterModalOpen(true)
@@ -182,6 +200,14 @@ const Register = () => {
                       <div className={styles.actionButtons}>
                         <button
                           className={styles.iconButton}
+                          title={t('personal.editTechnician', { defaultValue: 'Editar técnico' })}
+                          data-tooltip={t('personal.editTechnician', { defaultValue: 'Editar técnico' })}
+                          onClick={() => handleEditTechnician(tech)}
+                        >
+                          <Edit size={20} />
+                        </button>
+                        <button
+                          className={styles.iconButton}
                           title={t('personal.viewProfile')}
                           data-tooltip={t('personal.viewProfile')}
                           onClick={() => handleViewProfile(tech)}
@@ -216,6 +242,17 @@ const Register = () => {
         onRequestClose={handleCloseModal}
         onSubmitSuccess={handleSuccessRegister}
         onAdd={addTechnician}
+      />
+
+      {/* Modal para editar técnico */}
+      <ModalEditTechnician
+        isOpen={isEditModalOpen}
+        onRequestClose={() => {
+          setIsEditModalOpen(false)
+          setTechnicianToEdit(null)
+        }}
+        onSubmitSuccess={handleSuccessEdit}
+        technician={technicianToEdit}
       />
 
       <ModalConfirmDelete
