@@ -225,7 +225,7 @@ const ManualForm = ({
                 { value: "", label: t('manuals.selectAsset') },
                 ...assets.map((asset) => ({
                   value: asset._id,
-                  label: `${asset.nombre} - ${asset.marca} ${asset.modelo}`
+                  label: asset.nombre
                 }))
               ]}
               placeholder={t('manuals.selectAsset')}
