@@ -16,13 +16,13 @@ export function useUserProfile(userId: string) {
       try {
         setLoading(true);
         setError(null);
-        
+
         // Obtener datos del usuario
         const userResponse = await getUserById(userId, token);
         setUserData(userResponse);
 
         // Obtener órdenes de trabajo asignadas al usuario
-        const ordersResponse = await fetch(`${API_URL}ordenes-trabajo`, {
+        const ordersResponse = await fetch(`${API_URL}ordenes-trabajo?populate=instalacion`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -34,7 +34,7 @@ export function useUserProfile(userId: string) {
 
         const ordersData = await ordersResponse.json();
         const data = ordersData.data || ordersData;
-        
+
         // Filtrar órdenes asignadas al usuario específico
         const assigned = data.filter((order: any) => {
           if (!order.tecnicoAsignado) return false;
@@ -54,12 +54,12 @@ export function useUserProfile(userId: string) {
     }
   }, [userId, token]);
 
-  return { 
-    user: userData?.userName || null, 
-    role: userData?.role || null, 
-    orders, 
-    loading, 
+  return {
+    user: userData?.userName || null,
+    role: userData?.role || null,
+    orders,
+    loading,
     error,
-    userData 
+    userData
   };
 } 

@@ -74,7 +74,7 @@ const UserProfile = () => {
   return (
     <div className={styles.profileContainer}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
-        <button 
+        <button
           onClick={handleGoBack}
           style={{
             background: 'none',
@@ -97,9 +97,6 @@ const UserProfile = () => {
       </div>
 
       <div className={styles.profileHeader}>
-        <div className={styles.profileAvatar}>
-          {user ? user[0] : "?"}
-        </div>
         <div className={styles.profileInfo}>
           <span className={styles.profileName}>{user}</span>
           <span className={styles.profileRole}>{role}</span>
@@ -118,14 +115,14 @@ const UserProfile = () => {
           />
         </div>
         {loading && <div>{t('profile.loadingOrders', { defaultValue: 'Cargando órdenes...' })}</div>}
-        {error && <div style={{color: 'red'}}>{t('profile.errorOrders', { defaultValue: 'Error:' }) + ' ' + error}</div>}
+        {error && <div style={{ color: 'red' }}>{t('profile.errorOrders', { defaultValue: 'Error:' }) + ' ' + error}</div>}
         {!loading && !error && filteredOrders.length === 0 && <div>{t('profile.noAssignedOrders', { defaultValue: 'No tienes órdenes asignadas.' })}</div>}
         <div className={styles.ordersList}>
           {filteredOrders.map((order) => (
             <div key={order._id} className={styles.orderCard}>
               <div className={styles.orderTitle}>{order.titulo}</div>
               <span className={styles.orderStatus}>{t(`workOrders.${order.estado}`, { defaultValue: order.estado })}</span>
-              <div className={styles.orderMeta}>{t('workOrders.installation', { defaultValue: 'Instalación' })}: {order.instalacion?.company || order.instalacionId}</div>
+              <div className={styles.orderMeta}>{t('workOrders.installation', { defaultValue: 'Instalación' })}: {order.instalacion?.company || 'N/A'}</div>
             </div>
           ))}
         </div>

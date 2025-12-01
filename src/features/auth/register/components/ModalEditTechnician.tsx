@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next"
 import { updateTechnician } from "../services/registerServices"
 import { useAuthStore } from "../../../../store/authStore"
 import styles from "../styles/Modal.module.css"
+import buttonStyles from "../../../../shared/components/Buttons/formButtons.module.css"
 
 interface ModalEditTechnicianProps {
   isOpen: boolean
@@ -19,7 +20,7 @@ const ModalEditTechnician = ({
 }: ModalEditTechnicianProps) => {
   const { t } = useTranslation()
   const token = useAuthStore((state) => state.token)
-  
+
   const [userName, setUserName] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
@@ -84,7 +85,7 @@ const ModalEditTechnician = ({
       }
 
       await updateTechnician(technician._id || technician.id, updateData, token)
-      
+
       onSubmitSuccess(t('personal.technicianUpdated', { defaultValue: 'Técnico actualizado exitosamente' }))
       onRequestClose()
     } catch (err: any) {
@@ -115,104 +116,98 @@ const ModalEditTechnician = ({
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className={styles.modalBody}>
-          <div className={styles.formGroup}>
-            <label htmlFor="userName" className={styles.label}>
-              {t('personal.userName', { defaultValue: 'Nombre de Usuario' })} *
-            </label>
-            <input
-              type="text"
-              id="userName"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-              className={styles.input}
-              placeholder={t('personal.userNamePlaceholder', { defaultValue: 'Ingrese nombre de usuario' })}
-              required
-              minLength={4}
-              pattern="[a-zA-Z0-9_]+"
-              title={t('personal.userNamePattern', { defaultValue: 'Solo letras, números y guiones bajos' })}
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="name" className={styles.label}>
-              {t('personal.fullName', { defaultValue: 'Nombre Completo' })}
-            </label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className={styles.input}
-              placeholder={t('personal.fullNamePlaceholder', { defaultValue: 'Ingrese nombre completo' })}
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="email" className={styles.label}>
-              {t('personal.email', { defaultValue: 'Email' })}
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className={styles.input}
-              placeholder={t('personal.emailPlaceholder', { defaultValue: 'Ingrese email' })}
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="password" className={styles.label}>
-              {t('personal.newPassword', { defaultValue: 'Nueva Contraseña' })}
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className={styles.input}
-              placeholder={t('personal.passwordPlaceholder', { defaultValue: 'Dejar en blanco para no cambiar' })}
-              minLength={6}
-            />
-            <small style={{ fontSize: '0.85rem', color: '#888', marginTop: '4px', display: 'block' }}>
-              {t('personal.passwordHint', { defaultValue: 'Dejar en blanco si no desea cambiar la contraseña' })}
-            </small>
-          </div>
-
-          {password && (
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1, overflow: 'hidden' }}>
+          <div className={styles.modalBody}>
             <div className={styles.formGroup}>
-              <label htmlFor="confirmPassword" className={styles.label}>
-                {t('personal.confirmPassword', { defaultValue: 'Confirmar Contraseña' })} *
+              <label htmlFor="userName" className={styles.label}>
+                {t('personal.userName', { defaultValue: 'Nombre de Usuario' })} *
+              </label>
+              <input
+                type="text"
+                id="userName"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                className={styles.input}
+                placeholder={t('personal.userNamePlaceholder', { defaultValue: 'Ingrese nombre de usuario' })}
+                required
+                minLength={4}
+                pattern="[a-zA-Z0-9_]+"
+                title={t('personal.userNamePattern', { defaultValue: 'Solo letras, números y guiones bajos' })}
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="name" className={styles.label}>
+                {t('personal.fullName', { defaultValue: 'Nombre Completo' })}
+              </label>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className={styles.input}
+                placeholder={t('personal.fullNamePlaceholder', { defaultValue: 'Ingrese nombre completo' })}
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="email" className={styles.label}>
+                {t('personal.email', { defaultValue: 'Email' })}
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={styles.input}
+                placeholder={t('personal.emailPlaceholder', { defaultValue: 'Ingrese email' })}
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label htmlFor="password" className={styles.label}>
+                {t('personal.newPassword', { defaultValue: 'Nueva Contraseña' })}
               </label>
               <input
                 type="password"
-                id="confirmPassword"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className={styles.input}
-                placeholder={t('personal.confirmPasswordPlaceholder', { defaultValue: 'Confirme la nueva contraseña' })}
-                required={!!password}
+                placeholder={t('personal.passwordPlaceholder', { defaultValue: 'Dejar en blanco para no cambiar' })}
                 minLength={6}
               />
+              <small style={{ fontSize: '0.85rem', color: '#888', marginTop: '4px', display: 'block' }}>
+                {t('personal.passwordHint', { defaultValue: 'Dejar en blanco si no desea cambiar la contraseña' })}
+              </small>
             </div>
-          )}
 
-          {error && (
-            <div style={{ padding: '12px', background: '#fee', border: '1px solid #fcc', borderRadius: '8px', color: '#c00', marginBottom: '16px' }}>
-              {error}
-            </div>
-          )}
+            {password && (
+              <div className={styles.formGroup}>
+                <label htmlFor="confirmPassword" className={styles.label}>
+                  {t('personal.confirmPassword', { defaultValue: 'Confirmar Contraseña' })} *
+                </label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className={styles.input}
+                  placeholder={t('personal.confirmPasswordPlaceholder', { defaultValue: 'Confirme la nueva contraseña' })}
+                  required={!!password}
+                  minLength={6}
+                />
+              </div>
+            )}
+
+            {error && (
+              <div style={{ padding: '12px', background: '#fee', border: '1px solid #fcc', borderRadius: '8px', color: '#c00', marginBottom: '16px' }}>
+                {error}
+              </div>
+            )}
+          </div>
 
           <div className={styles.modalFooter}>
-            <button
-              type="button"
-              onClick={handleClose}
-              className={styles.cancelButton}
-              disabled={loading}
-            >
-              {t('common.cancel', { defaultValue: 'Cancelar' })}
-            </button>
             <button
               type="submit"
               className={styles.submitButton}
@@ -221,6 +216,14 @@ const ModalEditTechnician = ({
               {loading
                 ? t('common.updating', { defaultValue: 'Actualizando...' })
                 : t('common.update', { defaultValue: 'Actualizar' })}
+            </button>
+            <button
+              type="button"
+              onClick={handleClose}
+              className={buttonStyles.cancelButton}
+              disabled={loading}
+            >
+              {t('common.cancel', { defaultValue: 'Cancelar' })}
             </button>
           </div>
         </form>
