@@ -199,7 +199,7 @@ const ModalManageCategories = ({
                             >
                               {t('common.cancel')}
                             </button>
-                            </div>
+                          </div>
                         </div>
                       ) : (
                         <div className={styles.itemInfo}>
@@ -256,7 +256,7 @@ const ModalManageCategories = ({
               <div className={formButtonStyles.actions}>
                 <button
                   onClick={confirmDelete}
-                  className={formButtonStyles.submitButton}
+                  className={styles.deleteButton}
                 >
                   {t('common.delete')}
                 </button>

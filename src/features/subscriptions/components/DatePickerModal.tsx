@@ -121,15 +121,15 @@ const DatePickerModal = ({
   const monthName = currentDate.toLocaleDateString(currentLanguage, { month: "long", year: "numeric" });
 
   return (
-    <div 
-      className={styles.datePickerBackdrop} 
+    <div
+      className={styles.datePickerBackdrop}
       onClick={handleBackdropClick}
       onKeyDown={e => { if (e.key === 'Enter') e.stopPropagation(); }}
     >
       <div className={styles.datePickerModal}>
         <div className={styles.datePickerHeader}>
           <h2 className={styles.datePickerTitle}>{title || t('calendar.selectDate')}</h2>
-          <button 
+          <button
             type="button"
             className={styles.datePickerCloseButton}
             onClick={handleClose}
@@ -142,17 +142,17 @@ const DatePickerModal = ({
             <div className={styles.calendarPickerHeader}>
               <button type="button" onClick={() => navigateMonth(-1)} className={styles.calendarPickerNavButton}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
               <h3 className={styles.calendarPickerMonthTitle}>{monthName}</h3>
               <button type="button" onClick={() => navigateMonth(1)} className={styles.calendarPickerNavButton}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </button>
             </div>
-            
+
             <div className={styles.calendarPickerGrid}>
               <div className={styles.calendarPickerWeekDays}>
                 <div className={styles.calendarPickerWeekDay}>{t('calendar.sun')}</div>
@@ -182,25 +182,25 @@ const DatePickerModal = ({
                 ))}
               </div>
             </div>
-            
+
             {selectedDateState && (
               <div className={styles.selectedDateInfo}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className={styles.selectedDateIcon}>
-                  <rect x="3" y="4" width="18" height="18" rx="2" fill="#10b981"/>
-                  <line x1="16" y1="2" x2="16" y2="6" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-                  <line x1="8" y1="2" x2="8" y2="6" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-                  <line x1="3" y1="10" x2="21" y2="10" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+                  <rect x="3" y="4" width="18" height="18" rx="2" fill="#10b981" />
+                  <line x1="16" y1="2" x2="16" y2="6" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  <line x1="8" y1="2" x2="8" y2="6" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  <line x1="3" y1="10" x2="21" y2="10" stroke="white" strokeWidth="2" strokeLinecap="round" />
                 </svg>
                 <div className={styles.selectedDateText}>
                   <p className={styles.selectedDateLabel}>{t('calendar.selectedDate')}:</p>
                   <p className={styles.selectedDateValue}>
                     {selectedDateState
                       ? selectedDateState.toLocaleDateString(currentLanguage, {
-                          weekday: "long",
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        })
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })
                       : (placeholder || '')}
                   </p>
                 </div>
@@ -214,15 +214,8 @@ const DatePickerModal = ({
               </div>
             )}
           </div>
-          
+
           <div className={styles.datePickerActions}>
-            <button
-              type="button"
-              onClick={handleClose}
-              className={styles.datePickerCancelButton}
-            >
-              {t('common.cancel')}
-            </button>
             <button
               type="button"
               onClick={handleConfirm}
@@ -230,6 +223,13 @@ const DatePickerModal = ({
               className={styles.datePickerConfirmButton}
             >
               {t('common.confirm')}
+            </button>
+            <button
+              type="button"
+              onClick={handleClose}
+              className={styles.datePickerCancelButton}
+            >
+              {t('common.cancel')}
             </button>
           </div>
         </div>
