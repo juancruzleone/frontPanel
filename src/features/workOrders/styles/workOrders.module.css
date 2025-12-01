@@ -231,9 +231,10 @@
 }
 
 .iconButton:hover {
-  background: var(--color-bg-light);
+  background: var(--color-text);
   transform: scale(1.05);
-  color: var(--color-primary);
+  color: var(--color-card);
+  border: 1px solid var(--color-text);
 }
 
 .iconButton::after {
@@ -374,10 +375,12 @@
   .containerWorkOrders {
     padding: 16px 12px;
   }
+
   .listContainer {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 16px;
   }
+
   .workOrderCard {
     padding: 16px;
   }
@@ -387,14 +390,17 @@
   .containerWorkOrders {
     padding: 12px 8px;
   }
+
   .listContainer {
     grid-template-columns: 1fr;
     gap: 12px;
   }
+
   .title {
     font-size: 28px;
     margin-top: 24px;
   }
+
   .workOrderCard {
     padding: 12px;
   }

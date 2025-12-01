@@ -189,7 +189,6 @@
     "noRecentOrders": "No hay órdenes recientes",
     "ordersWillAppear": "Las órdenes aparecerán aquí cuando se creen"
   },
-
   "installations": {
     "deviceNamePlaceholder": "Escribe el nombre del dispositvo",
     "installation": "Instalación",
@@ -648,7 +647,7 @@
     "templateCreated": "Plantilla de formulario creada exitosamente",
     "successTitle": "¡Operación exitosa!",
     "understood": "cerrar",
-    "selectFieldType":  "Selecciona el tipo de campo",
+    "selectFieldType": "Selecciona el tipo de campo",
     "titlePage": "Formularios | Leonix",
     "title": "Plantillas de Formularios",
     "createFormTemplate": "Crear Plantilla de Formulario",
@@ -1010,6 +1009,7 @@
     }
   },
   "calendar": {
+    "selectYear": "Seleccionar año",
     "installation": "Instalación",
     "titlePage": "Calendario | Leonix",
     "title": "Calendario",
@@ -1461,7 +1461,7 @@
     }
   },
   "deviceForm": {
-    "installation": "Detalle de la instalación", 
+    "installation": "Detalle de la instalación",
     "company": "Nombre de la intalación",
     "installationType": "Tipo de instalación",
     "deviceDetails": "Detalle del dispositivo",
@@ -1600,4 +1600,4 @@
       "workOrdersLimit": "Has alcanzado el límite máximo de órdenes de trabajo para tu plan"
     }
   }
-} 
+}
