@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "../styles/datePickerModal.module.css";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface DatePickerModalProps {
   isOpen: boolean;
@@ -141,15 +142,11 @@ const DatePickerModal = ({
           <div className={styles.calendarPickerContainer}>
             <div className={styles.calendarPickerHeader}>
               <button type="button" onClick={() => navigateMonth(-1)} className={styles.calendarPickerNavButton}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+                <ChevronLeft size={32} strokeWidth={3} />
               </button>
               <h3 className={styles.calendarPickerMonthTitle}>{monthName}</h3>
               <button type="button" onClick={() => navigateMonth(1)} className={styles.calendarPickerNavButton}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+                <ChevronRight size={32} strokeWidth={3} />
               </button>
             </div>
 

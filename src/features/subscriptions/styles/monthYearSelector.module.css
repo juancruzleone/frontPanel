@@ -77,8 +77,9 @@
 }
 
 .monthButton.available:hover {
-  background-color: rgba(5, 126, 116, 0.1);
+  background-color: #f0fdfa;
   border-color: #057E74;
+  color: #057E74;
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(5, 126, 116, 0.2);
 }
@@ -156,6 +157,7 @@
 .container[data-theme="dark"] .monthButton.available:hover {
   background-color: rgba(5, 126, 116, 0.15);
   border-color: #057E74;
+  color: #ffffff;
 }
 
 .container[data-theme="dark"] .monthButton.disabled {
@@ -199,16 +201,16 @@
   .monthsGrid {
     grid-template-columns: repeat(4, 1fr);
   }
-  
+
   .monthButton {
     padding: 0.4rem 0.2rem;
     font-size: 0.75rem;
   }
-  
+
   .yearTitle {
     font-size: 1rem;
   }
-  
+
   .yearsContainer {
     max-height: 300px;
   }
