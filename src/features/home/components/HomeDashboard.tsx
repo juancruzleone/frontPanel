@@ -7,6 +7,7 @@ import useHomeDashboard from "../hooks/useHomeDashboard"
 import styles from "../styles/home.module.css"
 import { LineChart as ReLineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from "recharts"
 import { useTranslation } from "react-i18next"
+import { useTheme } from "../../../shared/hooks/useTheme"
 
 const Skeleton = ({ height = 40, width = '100%', style = {} }) => (
   <div
@@ -18,7 +19,7 @@ const Skeleton = ({ height = 40, width = '100%', style = {} }) => (
 
 const CustomLineChartTooltip = ({ active, payload, label }: any) => {
   const { t } = useTranslation()
-  
+
   if (active && payload && payload.length) {
     return (
       <div className={styles.customTooltip}>
@@ -38,7 +39,8 @@ const LineChart = ({ data }: { data: any[] }) => {
   const total = data.reduce((sum, item) => sum + item.value, 0)
 
   const { t } = useTranslation()
-  
+  const { dark } = useTheme()
+
   if (!data || data.length === 0) {
     return (
       <div className={styles.chartCard} role="region" aria-label={t('home.temporalEvolution')}>
@@ -55,6 +57,8 @@ const LineChart = ({ data }: { data: any[] }) => {
     )
   }
 
+  const lineColor = dark ? 'var(--color-primary)' : '#000'
+
   return (
     <div className={styles.chartCard} role="region" aria-label={t('home.temporalEvolution')}>
       <div className={styles.chartHeader}>
@@ -63,44 +67,44 @@ const LineChart = ({ data }: { data: any[] }) => {
           <span className={styles.chartTotal}>{total} {t('common.total')}</span>
         </div>
       </div>
-      
+
       <div className={styles.lineChartContainer} style={{ height: '320px', width: '100%' }}>
         <ResponsiveContainer width="100%" height="100%">
-          <ReLineChart 
+          <ReLineChart
             data={data}
             margin={{ top: 20, right: 30, left: 0, bottom: 20 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="var(--color-card-border)" opacity={0.3} />
-            <XAxis 
-              dataKey="name" 
+            <XAxis
+              dataKey="name"
               tick={{ fontSize: 12, fill: 'var(--color-text-secondary)' }}
               axisLine={{ stroke: 'var(--color-card-border)' }}
               tickLine={{ stroke: 'var(--color-card-border)' }}
             />
-            <YAxis 
+            <YAxis
               tick={{ fontSize: 12, fill: 'var(--color-text-secondary)' }}
               axisLine={{ stroke: 'var(--color-card-border)' }}
               tickLine={{ stroke: 'var(--color-card-border)' }}
             />
             <Tooltip content={<CustomLineChartTooltip />} />
-            <Line 
-              type="natural" 
-              dataKey="value" 
-              stroke="var(--color-primary)" 
+            <Line
+              type="natural"
+              dataKey="value"
+              stroke={lineColor}
               strokeWidth={3}
               fill="none"
-              dot={{ 
-                fill: 'var(--color-primary)', 
-                strokeWidth: 2, 
+              dot={{
+                fill: lineColor,
+                strokeWidth: 2,
                 r: 5,
                 stroke: 'var(--color-bg)',
                 filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
               }}
-              activeDot={{ 
-                r: 7, 
-                stroke: 'var(--color-primary)', 
-                strokeWidth: 2, 
-                fill: 'var(--color-primary)',
+              activeDot={{
+                r: 7,
+                stroke: lineColor,
+                strokeWidth: 2,
+                fill: lineColor,
                 filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
               }}
               strokeLinecap="round"
@@ -131,25 +135,25 @@ const HomeDashboard: React.FC = () => {
         <h1 className={styles.title}>{t('home.title')}</h1>
         <p className={styles.subtitle}>{t('home.subtitle')}</p>
       </header>
-      
+
       {loading ? (
         <div className={styles.loadingContainer}>
           {/* Skeletons mejorados */}
           <div className={styles.skeletonGrid}>
-            <Skeleton height={160} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
-            <Skeleton height={160} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
-            <Skeleton height={160} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
-            <Skeleton height={160} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
+            <Skeleton height={160} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
+            <Skeleton height={160} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
+            <Skeleton height={160} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
+            <Skeleton height={160} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
           </div>
-          <Skeleton height={220} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
-          <Skeleton height={220} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
-          <Skeleton height={160} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
+          <Skeleton height={220} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
+          <Skeleton height={220} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
+          <Skeleton height={160} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
         </div>
       ) : error ? (
         <div className={styles.errorContainer} role="alert">
           <div className={styles.errorIcon}>⚠️</div>
           <div className={styles.error}>{error}</div>
-          <button 
+          <button
             className={styles.retryButton}
             onClick={() => window.location.reload()}
           >
