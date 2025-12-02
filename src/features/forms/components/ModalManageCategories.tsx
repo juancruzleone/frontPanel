@@ -216,15 +216,13 @@ const ModalManageCategories = ({
                         <div className={styles.itemActions}>
                           <button
                             onClick={() => handleEdit(category)}
-                            className={`${styles.actionButton} ${styles.edit}`}
-                            aria-label={t('common.edit')}
+                            className={styles.actionButton}
                           >
                             <Edit size={16} />
                           </button>
                           <button
                             onClick={() => handleDelete(category)}
-                            className={`${styles.actionButton} ${styles.delete}`}
-                            aria-label={t('common.delete')}
+                            className={styles.actionButton}
                           >
                             <Trash size={16} />
                           </button>
