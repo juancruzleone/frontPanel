@@ -59,7 +59,7 @@ const CustomBarChart: React.FC<BarChartProps> = ({ data }) => {
   const renderTick = (t: (key: string) => string) => (props: any) => {
     const { x, y, payload } = props;
     return (
-      <text x={x} y={y + 10} textAnchor="middle" fontSize={12} fill="var(--color-text-secondary)">
+      <text x={x} y={y + 10} textAnchor="middle" fontSize={12} fill="var(--color-text)">
         {t('workOrders.form.' + payload.value)}
       </text>
     );
@@ -80,17 +80,17 @@ const CustomBarChart: React.FC<BarChartProps> = ({ data }) => {
             data={data}
             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
           >
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--color-card-border)" opacity={0.3} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--color-text)" opacity={0.3} />
             <XAxis
               dataKey="name"
               tick={renderTick(t)}
-              axisLine={{ stroke: 'var(--color-card-border)' }}
-              tickLine={{ stroke: 'var(--color-card-border)' }}
+              axisLine={{ stroke: 'var(--color-text)' }}
+              tickLine={{ stroke: 'var(--color-text)' }}
             />
             <YAxis
-              tick={{ fontSize: 12, fill: 'var(--color-text-secondary)' }}
-              axisLine={{ stroke: 'var(--color-card-border)' }}
-              tickLine={{ stroke: 'var(--color-card-border)' }}
+              tick={{ fontSize: 12, fill: 'var(--color-text)' }}
+              axisLine={{ stroke: 'var(--color-text)' }}
+              tickLine={{ stroke: 'var(--color-text)' }}
             />
             <Tooltip content={<CustomTooltip />} />
             <Bar
