@@ -34,7 +34,7 @@
   content: '';
   width: 3px;
   height: 16px;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  background: var(--color-text);
   border-radius: 2px;
 }
 
