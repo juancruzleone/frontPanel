@@ -38,8 +38,7 @@ const StatsCards: React.FC<StatsCardsProps> = ({ kpis }) => {
               <div
                 className={styles.statsIconContainer}
                 style={{
-                  backgroundColor: `${kpi.color}15`,
-                  borderColor: `${kpi.color}30`
+                  backgroundColor: `${kpi.color}15`
                 }}
               >
                 <Icon size={24} />
