@@ -38,43 +38,47 @@ const useHomeDashboard = () => {
           fetchWorkOrders(),
           fetchTechnicians(),
         ])
-        
+
         // Usar datos reales de la API, sin fallbacks hardcodeados
         const workOrdersData = workOrders || []
-        
+
         const installationsData = installations.length > 0 ? installations : []
         const assetsData = assets.length > 0 ? assets : []
         const techniciansData = technicians.length > 0 ? technicians : []
-        
+
         // KPIs sin tendencias
         const kpisData = [
-          { 
+          {
             label: 'installations.title',
-            value: installationsData.length, 
-            icon: Home, 
-            color: "#1976d2"
+            value: installationsData.length,
+            icon: Home,
+            color: "#1976d2",
+            path: "/instalaciones"
           },
-          { 
+          {
             label: 'assets.title',
-            value: assetsData.length, 
-            icon: Package, 
-            color: "#057E74"
+            value: assetsData.length,
+            icon: Package,
+            color: "#057E74",
+            path: "/activos"
           },
-          { 
+          {
             label: 'workOrders.title',
-            value: workOrdersData.length, 
-            icon: ClipboardList, 
-            color: "#fbc02d"
+            value: workOrdersData.length,
+            icon: ClipboardList,
+            color: "#fbc02d",
+            path: "/ordenes-trabajo"
           },
-          { 
+          {
             label: 'personal.title',
-            value: techniciansData.length, 
-            icon: User, 
-            color: "#e53935"
+            value: techniciansData.length,
+            icon: User,
+            color: "#e53935",
+            path: "/personal"
           },
         ]
         setKpis(kpisData)
-        
+
         // Bar chart: órdenes por tipoTrabajo
         const tipos = Array.from(new Set(workOrdersData.map((o: any) => o.tipoTrabajo || "Otro")))
         const barData = tipos.map((tipo, idx) => {
@@ -97,7 +101,7 @@ const useHomeDashboard = () => {
           }
         })
         setBarChartData(barData)
-        
+
         // Pie chart: órdenes por estado
         const estados = ["pendiente", "asignada", "en_progreso", "completada", "cancelada"]
         const pieData = estados.map((estado, idx) => ({
@@ -106,7 +110,7 @@ const useHomeDashboard = () => {
           color: estadoColors[estado],
         }))
         setPieChartData(pieData)
-        
+
         // Line chart: evolución temporal de órdenes
         const ordersByDate: Record<string, number> = {}
         workOrdersData.forEach((o: any) => {
@@ -116,13 +120,13 @@ const useHomeDashboard = () => {
         const sortedDates = Object.keys(ordersByDate).sort()
         const lineData = sortedDates.map((date) => ({ name: date, value: ordersByDate[date] }))
         setLineChartData(lineData)
-        
+
         // Últimas órdenes
         const recentData = workOrdersData
           .sort((a: any, b: any) => (b.fechaCreacion || "").localeCompare(a.fechaCreacion || ""))
           .slice(0, 6)
         setRecentWorkOrders(recentData)
-        
+
       } catch (e: any) {
         console.error("Error en useHomeDashboard:", e)
         setError(e.message || "Error al cargar el dashboard")
