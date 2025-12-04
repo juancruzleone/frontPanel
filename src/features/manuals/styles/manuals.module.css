@@ -22,7 +22,7 @@
   gap: 0.25rem;
   padding: 4px 4px;
   background: var(--color-card);
-  border: 2px solid var(--color-card-border);
+  border: 2px solid black;
   border-radius: 8px;
   color: var(--color-text);
   font-size: 0.85rem;
@@ -36,6 +36,11 @@
   min-width: 0;
   width: auto;
   margin-bottom: 1.25rem;
+}
+
+/* Modo oscuro específico para el borde del botón volver */
+:global(.dark) .backButton {
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .backButton:hover {
@@ -104,6 +109,10 @@
   left: 0;
   right: 0;
   height: 4px;
+  background: linear-gradient(90deg, black, rgba(0, 0, 0, 0.8));
+}
+
+:global(.dark) .manualCard::before {
   background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
 }
 
@@ -252,9 +261,10 @@
 }
 
 .iconButton:hover {
-  background: var(--color-bg-light);
+  background: var(--color-text);
   transform: scale(1.05);
-  color: var(--color-primary);
+  color: var(--color-card);
+  border: 1px solid var(--color-text);
 }
 
 .iconButton::after {
@@ -386,10 +396,12 @@
   .containerManuals {
     padding: 16px 12px;
   }
+
   .listContainer {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 16px;
   }
+
   .manualCard {
     padding: 16px;
   }
@@ -415,9 +427,11 @@
     grid-template-columns: 1fr;
     gap: 12px;
   }
+
   .title {
     font-size: 28px;
   }
+
   .manualCard {
     padding: 12px;
   }
