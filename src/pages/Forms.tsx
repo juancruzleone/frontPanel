@@ -24,7 +24,7 @@ const Forms = () => {
   const location = useLocation()
   const { continueFormsTour } = useAssetsTour()
   const { tourCompleted, startTour, skipTour } = useFormsTour()
-  const { templates, loading, categories, loadTemplates, addTemplate, editTemplate, removeTemplate } = useForms()
+  const { templates, loading, categories, loadTemplates, loadCategories, addTemplate, editTemplate, removeTemplate } = useForms()
 
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("")
@@ -133,12 +133,14 @@ const Forms = () => {
     setIsCreateCategoryModalOpen(false)
     setResponseMessage(message)
     setIsError(false)
+    loadCategories()
   }
 
   const handleSuccessManageCategories = (message: string) => {
     setIsManageCategoriesModalOpen(false)
     setResponseMessage(message)
     setIsError(false)
+    loadCategories()
   }
 
   const closeModal = () => {
@@ -180,7 +182,7 @@ const Forms = () => {
         <div className={styles.positionButton}>
           <Button title={t('forms.createFormTemplate')} onClick={handleOpenCreate} data-tour="create-form-template-btn" />
         </div>
-        
+
         <div className={styles.typeButtons}>
           <button className={styles.smallButton} onClick={() => setIsCreateCategoryModalOpen(true)} data-tour="create-form-category-btn">
             + {t('forms.createFormCategory')}
@@ -189,7 +191,7 @@ const Forms = () => {
             📋 {t('forms.viewCreatedCategories')}
           </button>
         </div>
-        
+
         <div className={styles.searchContainer} data-tour="search-filter">
           <SearchInput
             placeholder={t('forms.searchPlaceholder')}
@@ -204,9 +206,9 @@ const Forms = () => {
           {loading ? (
             <>
               <div className={styles.cardsRow}>
-                {[1,2,3].map((_,i) => <Skeleton key={i} height={120} width={"100%"} style={{borderRadius:14, marginBottom:16}} />)}
+                {[1, 2, 3].map((_, i) => <Skeleton key={i} height={120} width={"100%"} style={{ borderRadius: 14, marginBottom: 16 }} />)}
               </div>
-              <Skeleton height={220} width={"100%"} style={{borderRadius:14, marginTop:16}} />
+              <Skeleton height={220} width={"100%"} style={{ borderRadius: 14, marginTop: 16 }} />
             </>
           ) : filteredTemplates.length === 0 ? (
             <p className={styles.loader}>{t('forms.noTemplatesFound')}</p>
@@ -241,7 +243,7 @@ const Forms = () => {
                     <div className={styles.cardSeparator}></div>
 
                     <div className={styles.templateActions}>
-                      <button 
+                      <button
                         className={styles.iconButton}
                         onClick={() => handleOpenEdit(template)}
                         aria-label={t('forms.editTemplateTooltip')}
@@ -249,7 +251,7 @@ const Forms = () => {
                       >
                         <Edit size={24} />
                       </button>
-                      <button 
+                      <button
                         className={styles.iconButton}
                         onClick={() => {
                           setTemplateToDelete(template)
