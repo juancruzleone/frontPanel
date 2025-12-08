@@ -26,24 +26,39 @@ const FormularioRedirect = () => {
       if (!token) {
         try {
           const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+          console.log('🔍 Usuario sin login, obteniendo último mantenimiento...')
+          console.log('📍 URL:', `${API_URL}/api/public/dispositivos/${installationId}/${deviceId}/ultimo-mantenimiento`)
+          
           const response = await fetch(
             `${API_URL}/api/public/dispositivos/${installationId}/${deviceId}/ultimo-mantenimiento`
           )
 
+          console.log('📡 Response status:', response.status)
+
           if (!response.ok) {
-            throw new Error('No se encontró el último mantenimiento')
+            const errorData = await response.json().catch(() => ({}))
+            console.error('❌ Error del servidor:', errorData)
+            throw new Error(errorData.error || errorData.message || 'No se encontró el último mantenimiento')
           }
 
           const data = await response.json()
+          console.log('📦 Datos recibidos:', data)
           
-          if (data.success && data.data?.pdfUrl) {
-            // Redirigir DIRECTAMENTE al PDF
-            window.location.href = data.data.pdfUrl
+          // Extraer pdfUrl de diferentes formatos posibles
+          const pdfUrl = data.data?.pdfUrl || data.pdfUrl || data.data?.secure_url
+          
+          console.log('📄 PDF URL extraída:', pdfUrl)
+          
+          if (pdfUrl) {
+            console.log('✅ Redirigiendo a PDF:', pdfUrl)
+            // Redirigir DIRECTAMENTE al PDF (fuera de cmms.leonix.net.ar)
+            window.location.href = pdfUrl
           } else {
-            throw new Error('No hay PDF disponible')
+            console.error('❌ No se encontró pdfUrl en la respuesta:', data)
+            throw new Error('No hay PDF disponible para este dispositivo')
           }
         } catch (err: any) {
-          console.error('Error al obtener último mantenimiento:', err)
+          console.error('❌ Error al obtener último mantenimiento:', err)
           setError(err.message || 'Error al cargar el mantenimiento')
         }
       } else {
