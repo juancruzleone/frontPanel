@@ -43,15 +43,18 @@ const MaintenanceHistoryModal: React.FC<MaintenanceHistoryModalProps> = ({
   if (!isOpen) return null
 
   const formatDate = (dateString: string) => {
-    if (!dateString) return 'N/A'
+    if (!dateString) return { dateStr: 'N/A', timeStr: '' }
     const date = new Date(dateString)
-    return date.toLocaleDateString('es-ES', {
+    const dateStr = date.toLocaleDateString('es-ES', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
+    })
+    const timeStr = date.toLocaleTimeString('es-ES', {
       hour: '2-digit',
       minute: '2-digit',
     })
+    return { dateStr, timeStr }
   }
 
   const handleOpenPDF = (pdfUrl: string) => {
@@ -85,81 +88,106 @@ const MaintenanceHistoryModal: React.FC<MaintenanceHistoryModalProps> = ({
             </div>
           ) : (
             <div className={styles.listContainer}>
-              {maintenances.map((maintenance, index) => (
-                <div key={maintenance._id} className={styles.listItem}>
-                  <div className={styles.itemInfo}>
-                    <h3 className={styles.itemTitle}>
-                      <FileText size={18} style={{ display: 'inline', marginRight: '8px', verticalAlign: 'middle' }} />
-                      {t('maintenanceHistory.maintenanceNumber', 'Mantenimiento #')} {maintenances.length - index}
-                    </h3>
-                    {maintenance.responses?.observaciones && (
-                      <p className={styles.itemDescription}>
-                        {maintenance.responses.observaciones}
-                      </p>
-                    )}
-                    <p className={styles.itemDate}>
-                      <Calendar size={14} style={{ display: 'inline', marginRight: '4px', verticalAlign: 'middle' }} />
-                      {maintenance.formattedDate || formatDate(maintenance.date)}
-                    </p>
-                  </div>
-                  {maintenance.pdfUrl ? (
-                    <button
-                      onClick={() => {
-                        console.log('👆 Click en Ver PDF:', maintenance.pdfUrl)
-                        handleOpenPDF(maintenance.pdfUrl)
-                      }}
-                      style={{
-                        padding: '0.75rem 1.5rem',
-                        background: 'linear-gradient(135deg, var(--color-secondary) 0%, #047857 100%)',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '8px',
-                        cursor: 'pointer',
-                        fontWeight: '600',
-                        fontSize: '0.9rem',
-                        transition: 'all 0.2s ease',
-                        boxShadow: '0 2px 8px rgba(5, 126, 116, 0.3)',
-                        whiteSpace: 'nowrap',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-2px)'
-                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(5, 126, 116, 0.4)'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'translateY(0)'
-                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(5, 126, 116, 0.3)'
-                      }}
-                    >
-                      <FileText size={16} />
-                      {t('maintenanceHistory.viewPDF', 'Ver Reporte PDF')}
-                    </button>
-                  ) : (
-                    <div
-                      style={{
-                        padding: '0.75rem 1rem',
-                        background: 'rgba(239, 68, 68, 0.1)',
-                        color: '#ef4444',
-                        border: '1px solid rgba(239, 68, 68, 0.3)',
-                        borderRadius: '8px',
-                        fontSize: '0.85rem',
-                        fontWeight: '500',
-                        whiteSpace: 'nowrap'
-                      }}
-                    >
-                      ❌ PDF no disponible
+              {maintenances.map((maintenance, index) => {
+                const { dateStr, timeStr } = formatDate(maintenance.date)
+
+                return (
+                  <div key={maintenance._id} className={styles.listItem} style={{ flexDirection: 'column', alignItems: 'stretch', gap: '12px' }}>
+                    <div className={styles.itemInfo} style={{ width: '100%' }}>
+                      <h3 className={styles.itemTitle}>
+                        <FileText size={18} style={{ display: 'inline', marginRight: '8px', verticalAlign: 'middle' }} />
+                        {t('maintenanceHistory.maintenanceNumber', 'Mantenimiento #')} {maintenances.length - index}
+                      </h3>
+                      {maintenance.responses?.observaciones && (
+                        <p className={styles.itemDescription}>
+                          {maintenance.responses.observaciones}
+                        </p>
+                      )}
                     </div>
-                  )}
-                </div>
-              ))}
+
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      width: '100%',
+                      gap: '16px',
+                      flexWrap: 'wrap',
+                      marginTop: '4px',
+                      borderTop: '1px solid var(--color-card-border)',
+                      paddingTop: '12px'
+                    }}>
+                      <p className={styles.itemDate} style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: 0 }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <Calendar size={14} />
+                          {dateStr}
+                        </span>
+                        {timeStr && (
+                          <span style={{ opacity: 0.8, fontSize: '0.9em' }}>
+                            {timeStr} hs
+                          </span>
+                        )}
+                      </p>
+
+                      {maintenance.pdfUrl ? (
+                        <button
+                          onClick={() => {
+                            console.log('👆 Click en Ver PDF:', maintenance.pdfUrl)
+                            handleOpenPDF(maintenance.pdfUrl)
+                          }}
+                          style={{
+                            padding: '0.6rem 1.2rem',
+                            background: 'linear-gradient(135deg, var(--color-secondary) 0%, #047857 100%)',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '8px',
+                            cursor: 'pointer',
+                            fontWeight: '600',
+                            fontSize: '0.85rem',
+                            transition: 'all 0.2s ease',
+                            boxShadow: '0 2px 8px rgba(5, 126, 116, 0.3)',
+                            whiteSpace: 'nowrap',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5rem'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-2px)'
+                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(5, 126, 116, 0.4)'
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0)'
+                            e.currentTarget.style.boxShadow = '0 2px 8px rgba(5, 126, 116, 0.3)'
+                          }}
+                        >
+                          <FileText size={16} />
+                          {t('maintenanceHistory.viewPDF', 'Ver Reporte PDF')}
+                        </button>
+                      ) : (
+                        <div
+                          style={{
+                            padding: '0.6rem 1rem',
+                            background: 'rgba(239, 68, 68, 0.1)',
+                            color: '#ef4444',
+                            border: '1px solid rgba(239, 68, 68, 0.3)',
+                            borderRadius: '8px',
+                            fontSize: '0.85rem',
+                            fontWeight: '500',
+                            whiteSpace: 'nowrap'
+                          }}
+                        >
+                          ❌ PDF no disponible
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           )}
         </div>
 
         <div className={styles.modalFooter}>
-          <button 
+          <button
             className={`${styles.modalButton} ${styles.secondary}`}
             onClick={onRequestClose}
           >
