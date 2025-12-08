@@ -148,11 +148,11 @@ const DeviceForm: React.FC = () => {
               <strong>{t('deviceForm.company')}:</strong> {installationInfo.company}
             </div>
             <div className={styles.infoRow}>
-              <MapPin size={18} className={styles.infoIcon} />
-              <span>{installationInfo.fullAddress}</span>
+              <strong>{t('deviceForm.installationType')}:</strong> {installationInfo.installationType}
             </div>
             <div className={styles.infoRow}>
-              <strong>{t('deviceForm.installationType')}:</strong> {installationInfo.installationType}
+              <MapPin size={18} className={styles.infoIcon} />
+              <span>{installationInfo.fullAddress}</span>
             </div>
           </div>
         </div>
@@ -167,6 +167,13 @@ const DeviceForm: React.FC = () => {
           <div className={styles.infoRow}>
             <strong>{t('deviceForm.device')}:</strong> {deviceInfo.nombre}
           </div>
+          <div className={styles.infoRow}>
+            <strong>{t('deviceForm.category')}:</strong> {deviceInfo.categoria}
+          </div>
+          <div className={styles.infoRow}>
+            <MapPin size={18} className={styles.infoIcon} />
+            <span>{deviceInfo.ubicacion}</span>
+          </div>
           <button
             type="button"
             onClick={handleViewHistory}
@@ -176,22 +183,21 @@ const DeviceForm: React.FC = () => {
             <History size={18} />
             <span>{t('deviceForm.viewHistory', 'Historial')}</span>
           </button>
-          <div className={styles.infoRow}>
-            <MapPin size={18} className={styles.infoIcon} />
-            <span>{deviceInfo.ubicacion}</span>
-          </div>
-          <div className={styles.infoRow}>
-            <strong>{t('deviceForm.category')}:</strong> {deviceInfo.categoria}
-          </div>
-          <div className={styles.infoRow}>
-            <strong>{t('deviceForm.brand')}:</strong> {deviceInfo.marca}
-          </div>
-          <div className={styles.infoRow}>
-            <strong>{t('deviceForm.model')}:</strong> {deviceInfo.modelo}
-          </div>
-          <div className={styles.infoRow}>
-            <strong>{t('deviceForm.serialNumber')}:</strong> {deviceInfo.numeroSerie}
-          </div>
+          {deviceInfo.marca && (
+            <div className={styles.infoRow}>
+              <strong>{t('deviceForm.brand')}:</strong> {deviceInfo.marca}
+            </div>
+          )}
+          {deviceInfo.modelo && (
+            <div className={styles.infoRow}>
+              <strong>{t('deviceForm.model')}:</strong> {deviceInfo.modelo}
+            </div>
+          )}
+          {deviceInfo.numeroSerie && (
+            <div className={styles.infoRow}>
+              <strong>{t('deviceForm.serialNumber')}:</strong> {deviceInfo.numeroSerie}
+            </div>
+          )}
         </div>
       </div>
       <form onSubmit={handleSubmit} className={styles.form} autoComplete="off">
