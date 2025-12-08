@@ -19,7 +19,7 @@ export const getPublicMaintenanceHistory = async (
 ): Promise<MaintenanceRecord[]> => {
   try {
     const response = await fetch(
-      `${API_URL}/api/public/dispositivos/${installationId}/${deviceId}/mantenimientos`
+      `${API_URL}public/dispositivos/${installationId}/${deviceId}/mantenimientos`
     )
 
     if (!response.ok) {
@@ -43,7 +43,7 @@ export const getPublicLastMaintenance = async (
 ): Promise<MaintenanceRecord | null> => {
   try {
     const response = await fetch(
-      `${API_URL}/api/public/dispositivos/${installationId}/${deviceId}/ultimo-mantenimiento`
+      `${API_URL}public/dispositivos/${installationId}/${deviceId}/ultimo-mantenimiento`
     )
 
     if (!response.ok) {
@@ -69,21 +69,48 @@ export const getMaintenanceHistory = async (
   deviceId: string
 ): Promise<MaintenanceRecord[]> => {
   try {
+    console.log('🔍 [FRONTEND] Solicitando historial de mantenimientos...')
+    console.log('📍 installationId:', installationId)
+    console.log('📍 deviceId:', deviceId)
+    
     const response = await fetch(
-      `${API_URL}/api/installations/${installationId}/dispositivos/${deviceId}/mantenimientos`,
+      `${API_URL}installations/${installationId}/dispositivos/${deviceId}/mantenimientos`,
       {
         headers: getAuthHeaders()
       }
     )
 
+    console.log('📡 Response status:', response.status)
+
     if (!response.ok) {
-      throw new Error('Error al obtener el historial de mantenimientos')
+      const errorData = await response.json().catch(() => ({}))
+      console.error('❌ Error del servidor:', errorData)
+      throw new Error(errorData.error || 'Error al obtener el historial de mantenimientos')
     }
 
     const data = await response.json()
+    console.log('📦 Datos recibidos del backend:', data)
+    console.log('✅ Total mantenimientos:', data.data?.length || 0)
+    
+    // Verificar pdfUrl en cada mantenimiento
+    if (data.data && data.data.length > 0) {
+      data.data.forEach((m: any, index: number) => {
+        console.log(`   [${index + 1}] _id:`, m._id)
+        console.log(`   [${index + 1}] date:`, m.date)
+        console.log(`   [${index + 1}] pdfUrl:`, m.pdfUrl || '❌ NO TIENE pdfUrl')
+      })
+      
+      const sinPdf = data.data.filter((m: any) => !m.pdfUrl)
+      if (sinPdf.length > 0) {
+        console.warn(`⚠️ ADVERTENCIA: ${sinPdf.length} mantenimientos SIN pdfUrl en frontend`)
+      }
+    } else {
+      console.log('ℹ️ No hay mantenimientos en la respuesta')
+    }
+    
     return data.data || []
   } catch (error) {
-    console.error('Error en getMaintenanceHistory:', error)
+    console.error('❌ Error en getMaintenanceHistory:', error)
     throw error
   }
 }
@@ -97,7 +124,7 @@ export const getPublicDeviceForm = async (
 ): Promise<any> => {
   try {
     const response = await fetch(
-      `${API_URL}/api/public/dispositivos/${installationId}/${deviceId}/formulario`
+      `${API_URL}public/dispositivos/${installationId}/${deviceId}/formulario`
     )
 
     if (!response.ok) {

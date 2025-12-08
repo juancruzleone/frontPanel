@@ -1,168 +1,172 @@
 .containerDeviceForm {
-    margin: 60px auto;
-    padding: 32px;
-    max-width: 720px;
-    background-color: var(--color-card);
-    border-radius: 16px;
-    box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.08);
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-  }
-  
-  .title {
-    font-size: 28px;
-    color: black;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 8px;
-  }
+  margin: 60px auto;
+  padding: 32px;
+  max-width: 720px;
+  background-color: var(--color-card);
+  border-radius: 16px;
+  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
 
-  /* Modo oscuro para title */
-  :global(.dark) .title {
-    color: white;
-  }
-  
-  .deviceInfoBox {
-    background: var(--color-bg-light);
-    border-radius: 12px;
-    padding: 20px;
-    font-size: 16px;
-    color: var(--color-text);
-    border: 1px solid var(--color-card-border);
-    line-height: 1.6;
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    
-  }
-  
-  .formGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    margin-bottom: 4px;
-    margin-top: 16px;
-  }
+.title {
+  font-size: 28px;
+  color: black;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+}
 
-  .formGroup:first-child {
-    margin-top: 0;
-  }
-  
-  .label {
-    font-weight: 600;
-    color: var(--color-text);
-    font-size: 0.95rem;
-    margin: 0 0 2px 0;
-    padding: 0;
-    display: block;
-    line-height: 1.4;
-  }
-  
-  .required {
-    color: var(--color-danger);
-    margin-left: 4px;
-  }
-  
-  .input, .select, .textarea {
-    border: 2px solid var(--color-card-border);
-    border-radius: 8px;
-    padding: 12px 14px;
-    font-size: 1rem;
-    background: var(--color-bg-light);
-    color: var(--color-text);
-    transition: border 0.2s, box-shadow 0.2s;
-    box-shadow: 0 1px 2px #0001;
-    width: 100%;
-    box-sizing: border-box;
-    margin-top: 0 !important;
-  }
+/* Modo oscuro para title */
+:global(.dark) .title {
+  color: white;
+}
 
-  /* Contenedor de campos con posición relativa (como fecha) */
-  .formGroup > span {
-    margin: 0;
-    padding: 0;
-  }
-  
-  .input:focus, .select:focus, .textarea:focus {
-    border: 2px solid var(--color-secondary);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(5, 126, 116, 0.1);
-    color: var(--color-text);
-  }
+.deviceInfoBox {
+  background: var(--color-bg-light);
+  border-radius: 12px;
+  padding: 20px;
+  font-size: 16px;
+  color: var(--color-text);
+  border: 1px solid var(--color-card-border);
+  line-height: 1.6;
+}
 
-  /* Modo oscuro para focus */
-  :global(.dark) .input:focus,
-  :global(.dark) .select:focus,
-  :global(.dark) .textarea:focus {
-    border: 2px solid white;
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
-  }
-  
-  .checkbox {
-    width: 16px;
-    height: 16px;
-    accent-color: var(--color-secondary);
-    cursor: pointer;
-    border-radius: 3px;
-  }
-  
-  .buttonRow {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
-  }
-  
-  .submitButton {
-    background-color: var(--color-secondary);
-    color: #fff;
-    border: none;
-    padding: 12px 32px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 16px;
-    transition: background-color 0.2s ease;
-  }
-  
-  .submitButton:hover:not(:disabled) {
-    background-color: #045e58;
-  }
-  
-  .submitButton:disabled {
-    background-color: #94a3b8;
-    cursor: not-allowed;
-  }
-  
-  .success {
-    color: #059669;
-    background-color: #ecfdf5;
-    padding: 10px 16px;
-    border-radius: 8px;
-    border: 1px solid #34d399;
-    font-weight: 500;
-  }
-  
-  .error {
-    color: #dc2626;
-    background-color: #fef2f2;
-    padding: 10px 16px;
-    border-radius: 8px;
-    border: 1px solid #f87171;
-    font-weight: 500;
-  }
-  
-  .loader {
-    font-size: 18px;
-    text-align: center;
-    color: var(--color-text);
-    padding: 40px 0;
-  }
-  
-  /* Estado de conexión */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 4px;
+  margin-top: 16px;
+}
+
+.formGroup:first-child {
+  margin-top: 0;
+}
+
+.label {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  margin: 0 0 2px 0;
+  padding: 0;
+  display: block;
+  line-height: 1.4;
+}
+
+.required {
+  color: var(--color-danger);
+  margin-left: 4px;
+}
+
+.input,
+.select,
+.textarea {
+  border: 2px solid var(--color-card-border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 1rem;
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 2px #0001;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 0 !important;
+}
+
+/* Contenedor de campos con posición relativa (como fecha) */
+.formGroup>span {
+  margin: 0;
+  padding: 0;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  border: 2px solid var(--color-secondary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(5, 126, 116, 0.1);
+  color: var(--color-text);
+}
+
+/* Modo oscuro para focus */
+:global(.dark) .input:focus,
+:global(.dark) .select:focus,
+:global(.dark) .textarea:focus {
+  border: 2px solid white;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+}
+
+.checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-secondary);
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.buttonRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.submitButton {
+  background-color: var(--color-secondary);
+  color: #fff;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #045e58;
+}
+
+.submitButton:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.success {
+  color: #059669;
+  background-color: #ecfdf5;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid #34d399;
+  font-weight: 500;
+}
+
+.error {
+  color: #dc2626;
+  background-color: #fef2f2;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid #f87171;
+  font-weight: 500;
+}
+
+.loader {
+  font-size: 18px;
+  text-align: center;
+  color: var(--color-text);
+  padding: 40px 0;
+}
+
+/* Estado de conexión */
 .connectionStatus {
   margin-bottom: 20px;
   padding: 12px 16px;
@@ -278,57 +282,66 @@
   flex-shrink: 0;
 }
 
-  @media (max-width: 900px) {
-    .containerDeviceForm {
-      padding: 18px;
-      max-width: 98vw;
-    }
-    .title {
-      font-size: 22px;
-    }
+@media (max-width: 900px) {
+  .containerDeviceForm {
+    padding: 18px;
+    max-width: 98vw;
   }
-  @media (max-width: 600px) {
-    .containerDeviceForm {
-      padding: 8px;
-      margin: 24px 0;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    .title {
-      font-size: 18px;
-    }
-    .form {
-      gap: 12px;
-    }
-    .formGroup {
-      gap: 4px;
-    }
-    .input, .select, .textarea {
-      padding: 8px 8px;
-      font-size: 0.98rem;
-    }
-    .submitButton {
-      padding: 10px 18px;
-      font-size: 15px;
-    }
+
+  .title {
+    font-size: 22px;
   }
-  
-  /* Responsive */
+}
+
+@media (max-width: 600px) {
+  .containerDeviceForm {
+    padding: 8px;
+    margin: 24px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .form {
+    gap: 12px;
+  }
+
+  .formGroup {
+    gap: 4px;
+  }
+
+  .input,
+  .select,
+  .textarea {
+    padding: 8px 8px;
+    font-size: 0.98rem;
+  }
+
+  .submitButton {
+    padding: 10px 18px;
+    font-size: 15px;
+  }
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .connectionStatus {
     font-size: 13px;
     padding: 10px 12px;
   }
-  
+
   .pendingSubmissions {
     padding: 12px;
   }
-  
+
   .pendingItem {
     font-size: 12px;
     padding: 6px 10px;
   }
-  
+
   .offlineNote {
     font-size: 12px;
     padding: 6px 10px;
@@ -338,17 +351,21 @@
 /* Modal overlay y modal para éxito/error */
 .modalOverlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.18);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.18);
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .modal {
   background: #fff;
   border-radius: 14px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
   padding: 32px 24px 24px 24px;
   min-width: 320px;
   max-width: 90vw;
@@ -357,6 +374,7 @@
   flex-direction: column;
   align-items: center;
 }
+
 .closeButtonIcon {
   position: absolute;
   top: 12px;
@@ -369,9 +387,11 @@
   border-radius: 50%;
   transition: background 0.15s;
 }
+
 .closeButtonIcon:hover {
   background: #f3f4f6;
 }
+
 .modalContent {
   display: flex;
   flex-direction: column;
@@ -395,6 +415,7 @@
   box-shadow: 0 1px 2px #0001;
   padding-right: 40px;
 }
+
 .select:focus {
   border: 1.5px solid white;
   outline: none;
@@ -402,7 +423,7 @@
   color: var(--color-text);
 }
 
-  /* Agregar estos estilos a deviceForm.module.css */
+/* Agregar estos estilos a deviceForm.module.css */
 
 /* Información de la instalación */
 .installationInfoBox {
@@ -472,28 +493,30 @@
 
 /* Responsive para información de instalación */
 @media (max-width: 768px) {
+
   .installationInfoBox,
   .deviceInfoBox {
     padding: 16px;
     font-size: 14px;
   }
-  
+
   .infoHeader {
     font-size: 16px;
   }
-  
+
   .infoRow {
     flex-wrap: wrap;
   }
 }
 
 @media (max-width: 600px) {
+
   .installationInfoBox,
   .deviceInfoBox {
     padding: 12px;
     font-size: 13px;
   }
-  
+
   .infoHeader {
     font-size: 15px;
   }
@@ -503,23 +526,25 @@
 .historyButton {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-left: auto;
-  padding: 8px 16px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  justify-content: center;
+  gap: 4px;
+  width: fit-content;
+  padding: 6px 8px;
+  background-color: var(--color-secondary);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .historyButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  background-color: var(--color-secondary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
 .historyButton:active {
@@ -527,6 +552,8 @@
 }
 
 .historyButton svg {
+  width: 16px;
+  height: 16px;
   transition: transform 0.3s ease;
 }
 
@@ -545,7 +572,7 @@
   .historyButton span {
     display: none;
   }
-  
+
   .historyButton {
     padding: 8px;
   }

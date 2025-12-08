@@ -28,6 +28,18 @@ const MaintenanceHistoryModal: React.FC<MaintenanceHistoryModalProps> = ({
 }) => {
   const { t } = useTranslation()
 
+  // Logging para debugging
+  React.useEffect(() => {
+    if (isOpen && maintenances) {
+      console.log('📝 [MODAL] MaintenanceHistoryModal abierto')
+      console.log('📝 Total mantenimientos:', maintenances.length)
+      maintenances.forEach((m, index) => {
+        console.log(`   [${index + 1}] _id:`, m._id)
+        console.log(`   [${index + 1}] pdfUrl:`, m.pdfUrl || '❌ NO TIENE pdfUrl')
+      })
+    }
+  }, [isOpen, maintenances])
+
   if (!isOpen) return null
 
   const formatDate = (dateString: string) => {
@@ -90,36 +102,56 @@ const MaintenanceHistoryModal: React.FC<MaintenanceHistoryModalProps> = ({
                       {maintenance.formattedDate || formatDate(maintenance.date)}
                     </p>
                   </div>
-                  <button
-                    onClick={() => handleOpenPDF(maintenance.pdfUrl)}
-                    style={{
-                      padding: '0.75rem 1.5rem',
-                      background: 'linear-gradient(135deg, var(--color-secondary) 0%, #047857 100%)',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '8px',
-                      cursor: 'pointer',
-                      fontWeight: '600',
-                      fontSize: '0.9rem',
-                      transition: 'all 0.2s ease',
-                      boxShadow: '0 2px 8px rgba(5, 126, 116, 0.3)',
-                      whiteSpace: 'nowrap',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-2px)'
-                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(5, 126, 116, 0.4)'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)'
-                      e.currentTarget.style.boxShadow = '0 2px 8px rgba(5, 126, 116, 0.3)'
-                    }}
-                  >
-                    <FileText size={16} />
-                    {t('maintenanceHistory.viewPDF', 'Ver Reporte PDF')}
-                  </button>
+                  {maintenance.pdfUrl ? (
+                    <button
+                      onClick={() => {
+                        console.log('👆 Click en Ver PDF:', maintenance.pdfUrl)
+                        handleOpenPDF(maintenance.pdfUrl)
+                      }}
+                      style={{
+                        padding: '0.75rem 1.5rem',
+                        background: 'linear-gradient(135deg, var(--color-secondary) 0%, #047857 100%)',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontWeight: '600',
+                        fontSize: '0.9rem',
+                        transition: 'all 0.2s ease',
+                        boxShadow: '0 2px 8px rgba(5, 126, 116, 0.3)',
+                        whiteSpace: 'nowrap',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-2px)'
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(5, 126, 116, 0.4)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)'
+                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(5, 126, 116, 0.3)'
+                      }}
+                    >
+                      <FileText size={16} />
+                      {t('maintenanceHistory.viewPDF', 'Ver Reporte PDF')}
+                    </button>
+                  ) : (
+                    <div
+                      style={{
+                        padding: '0.75rem 1rem',
+                        background: 'rgba(239, 68, 68, 0.1)',
+                        color: '#ef4444',
+                        border: '1px solid rgba(239, 68, 68, 0.3)',
+                        borderRadius: '8px',
+                        fontSize: '0.85rem',
+                        fontWeight: '500',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      ❌ PDF no disponible
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

@@ -27,10 +27,10 @@ const FormularioRedirect = () => {
         try {
           const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
           console.log('🔍 Usuario sin login, obteniendo último mantenimiento...')
-          console.log('📍 URL:', `${API_URL}/api/public/dispositivos/${installationId}/${deviceId}/ultimo-mantenimiento`)
-          
+          console.log('📍 URL:', `${API_URL}public/dispositivos/${installationId}/${deviceId}/ultimo-mantenimiento`)
+
           const response = await fetch(
-            `${API_URL}/api/public/dispositivos/${installationId}/${deviceId}/ultimo-mantenimiento`
+            `${API_URL}public/dispositivos/${installationId}/${deviceId}/ultimo-mantenimiento`
           )
 
           console.log('📡 Response status:', response.status)
@@ -43,12 +43,12 @@ const FormularioRedirect = () => {
 
           const data = await response.json()
           console.log('📦 Datos recibidos:', data)
-          
+
           // Extraer pdfUrl de diferentes formatos posibles
           const pdfUrl = data.data?.pdfUrl || data.pdfUrl || data.data?.secure_url
-          
+
           console.log('📄 PDF URL extraída:', pdfUrl)
-          
+
           if (pdfUrl) {
             console.log('✅ Redirigiendo a PDF:', pdfUrl)
             // Redirigir DIRECTAMENTE al PDF (fuera de cmms.leonix.net.ar)
@@ -78,12 +78,12 @@ const FormularioRedirect = () => {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
-        padding: '20px'
+        background: 'var(--color-bg)',
+        padding: '20px',
+        color: 'var(--color-text)'
       }}>
         <div style={{
           textAlign: 'center',
-          color: 'white',
           maxWidth: '500px'
         }}>
           <div style={{
@@ -91,7 +91,7 @@ const FormularioRedirect = () => {
             marginBottom: '20px'
           }}>⚠️</div>
           <h2 style={{ fontSize: '1.5rem', fontWeight: '700', marginBottom: '10px' }}>Error</h2>
-          <p style={{ fontSize: '1.1rem', marginBottom: '20px' }}>{error}</p>
+          <p style={{ fontSize: '1.1rem', marginBottom: '20px', color: 'var(--color-danger)' }}>{error}</p>
           <p style={{ fontSize: '0.9rem', opacity: 0.9 }}>Este dispositivo aún no tiene mantenimientos registrados</p>
         </div>
       </div>
@@ -104,17 +104,17 @@ const FormularioRedirect = () => {
       justifyContent: 'center',
       alignItems: 'center',
       height: '100vh',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+      background: 'var(--color-bg)',
+      color: 'var(--color-text)'
     }}>
       <div style={{
-        textAlign: 'center',
-        color: 'white'
+        textAlign: 'center'
       }}>
         <div style={{
           width: '50px',
           height: '50px',
-          border: '4px solid rgba(255, 255, 255, 0.3)',
-          borderTop: '4px solid white',
+          border: '4px solid var(--color-card-border)',
+          borderTop: '4px solid var(--color-primary)',
           borderRadius: '50%',
           animation: 'spin 1s linear infinite',
           margin: '0 auto 20px'

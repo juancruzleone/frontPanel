@@ -72,10 +72,10 @@ const DeviceForm: React.FC = () => {
   // Función para cargar historial de mantenimientos
   const handleViewHistory = async () => {
     if (!installationId || !deviceId) return
-    
+
     setLoadingHistory(true)
     setShowHistoryModal(true)
-    
+
     try {
       const history = await getMaintenanceHistory(installationId, deviceId)
       setMaintenanceHistory(history)
@@ -162,7 +162,12 @@ const DeviceForm: React.FC = () => {
         <div className={styles.infoHeader}>
           <Building2 size={20} />
           <strong>{t('deviceForm.deviceDetails')}</strong>
-          <button 
+        </div>
+        <div className={styles.infoContent}>
+          <div className={styles.infoRow}>
+            <strong>{t('deviceForm.device')}:</strong> {deviceInfo.nombre}
+          </div>
+          <button
             type="button"
             onClick={handleViewHistory}
             className={styles.historyButton}
@@ -171,11 +176,6 @@ const DeviceForm: React.FC = () => {
             <History size={18} />
             <span>{t('deviceForm.viewHistory', 'Historial')}</span>
           </button>
-        </div>
-        <div className={styles.infoContent}>
-          <div className={styles.infoRow}>
-            <strong>{t('deviceForm.device')}:</strong> {deviceInfo.nombre}
-          </div>
           <div className={styles.infoRow}>
             <MapPin size={18} className={styles.infoIcon} />
             <span>{deviceInfo.ubicacion}</span>
