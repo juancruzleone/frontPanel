@@ -1377,6 +1377,7 @@
     "serialNumber": "N° Serie",
     "seeQR": "Ver código QR",
     "downloadLastMaintenance": "Descargar último mantenimiento",
+    "viewMaintenanceHistory": "Ver historial de mantenimientos",
     "editDevice": "Editar dispositivo",
     "deleteDevice": "Eliminar dispositivo",
     "page": "Página",
@@ -1501,7 +1502,8 @@
     "sending": "Enviando...",
     "sendMaintenance": "Enviar mantenimiento",
     "saveMaintenance": "Guardar mantenimiento",
-    "localSaveNote": "Los datos se guardarán localmente y se enviarán cuando haya conexión"
+    "localSaveNote": "Los datos se guardarán localmente y se enviarán cuando haya conexión",
+    "viewHistory": "Historial"
   },
   "validations": {
     "selectAsset": "Debe seleccionar un activo",
@@ -1599,5 +1601,14 @@
       "formTemplatesLimit": "Has alcanzado el límite máximo de plantillas de formularios para tu plan",
       "workOrdersLimit": "Has alcanzado el límite máximo de órdenes de trabajo para tu plan"
     }
+  },
+  "maintenanceHistory": {
+    "title": "Historial de Mantenimientos",
+    "loading": "Cargando historial...",
+    "noMaintenances": "No hay mantenimientos registrados para este dispositivo",
+    "noMaintenancesSubtext": "Este dispositivo aún no tiene registros de mantenimiento",
+    "maintenanceNumber": "Mantenimiento #",
+    "viewPDF": "Ver Reporte PDF",
+    "close": "Cerrar"
   }
 }

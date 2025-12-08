@@ -51,31 +51,31 @@
     "errorDeletingTechnician": "Fehler beim Löschen des Technikers",
     "searchPlaceholder": "Nach Benutzernamen suchen...",
     "tour": {
-  "welcome": {
-    "title": "Willkommen im Personalmanagement!",
-    "description": "Hier können Sie alle Techniker Ihres Unternehmens verwalten. Wir zeigen Ihnen die Hauptfunktionen."
-  },
-  "addTechnician": {
-    "title": "Techniker hinzufügen",
-    "description": "Klicken Sie hier, um einen neuen Techniker im System zu registrieren. Sie können bestimmte Rollen und Berechtigungen zuweisen."
-  },
-  "searchTechnicians": {
-    "title": "Techniker suchen",
-    "description": "Verwenden Sie diese Suchleiste, um bestimmte Techniker anhand ihres Benutzernamens zu finden."
-  },
-  "technicianActions": {
-    "title": "Technikeraktionen",
-    "description": "In der Tabelle können Sie das Profil jedes Technikers anzeigen, seine Informationen bearbeiten oder Benutzer bei Bedarf löschen."
-  },
-  "buttons": {
-    "next": "Weiter",
-    "previous": "Zurück",
-    "done": "Fertigstellen",
-    "skip": "Tutorial überspringen",
-    "restart": "Tutorial neu starten"
-  },
-  "progressText": "{{current}} von {{total}}"
-}
+      "welcome": {
+        "title": "Willkommen im Personalmanagement!",
+        "description": "Hier können Sie alle Techniker Ihres Unternehmens verwalten. Wir zeigen Ihnen die Hauptfunktionen."
+      },
+      "addTechnician": {
+        "title": "Techniker hinzufügen",
+        "description": "Klicken Sie hier, um einen neuen Techniker im System zu registrieren. Sie können bestimmte Rollen und Berechtigungen zuweisen."
+      },
+      "searchTechnicians": {
+        "title": "Techniker suchen",
+        "description": "Verwenden Sie diese Suchleiste, um bestimmte Techniker anhand ihres Benutzernamens zu finden."
+      },
+      "technicianActions": {
+        "title": "Technikeraktionen",
+        "description": "In der Tabelle können Sie das Profil jedes Technikers anzeigen, seine Informationen bearbeiten oder Benutzer bei Bedarf löschen."
+      },
+      "buttons": {
+        "next": "Weiter",
+        "previous": "Zurück",
+        "done": "Fertigstellen",
+        "skip": "Tutorial überspringen",
+        "restart": "Tutorial neu starten"
+      },
+      "progressText": "{{current}} von {{total}}"
+    }
   },
   "common": {
     "page": "Seite",
@@ -599,36 +599,36 @@
     "confirmDeleteTitle": "Installation löschen?",
     "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Die Installation wird dauerhaft gelöscht.",
     "tour": {
-    "welcome": {
-      "title": "Willkommen bei Installationen!",
-      "description": "Wir führen Sie Schritt für Schritt durch die Verwaltung Ihrer Installationen. Zuerst müssen Sie einen Installationstyp erstellen, dann können Sie Installationen erstellen."
-    },
-    "createInstallationType": {
-      "title": "Schritt 1: Installationstyp erstellen",
-      "description": "Bevor Sie eine Installation erstellen, müssen Sie einen Installationstyp definieren (z.B.: Büro, Fabrik, Lager, usw.). Klicken Sie hier, um Ihren ersten Typ zu erstellen."
-    },
-    "viewInstallationTypes": {
-      "title": "Installationstypen anzeigen",
-      "description": "Hier können Sie alle von Ihnen erstellten Installationstypen anzeigen und verwalten."
-    },
-    "createInstallation": {
-      "title": "Schritt 2: Installation erstellen",
-      "description": "Sobald Sie mindestens einen Installationstyp erstellt haben, verwenden Sie diese Schaltfläche, um Ihre erste Installation zu erstellen. Geben Sie Unternehmensdaten, Adresse ein und wählen Sie den Installationstyp."
-    },
-    "searchFilter": {
-      "title": "Suchen und Filtern",
-      "description": "Verwenden Sie diese Leiste, um Installationen nach Name, Adresse oder Stadt zu suchen und nach Installationstyp zu filtern."
-    },
-    "buttons": {
-      "next": "Weiter",
-      "previous": "Zurück",
-      "done": "Fertig",
-      "skip": "Tutorial überspringen",
-      "restart": "Tutorial anzeigen"
-    },
-    "progressText": "{{current}} von {{total}}"
-  }
-},
+      "welcome": {
+        "title": "Willkommen bei Installationen!",
+        "description": "Wir führen Sie Schritt für Schritt durch die Verwaltung Ihrer Installationen. Zuerst müssen Sie einen Installationstyp erstellen, dann können Sie Installationen erstellen."
+      },
+      "createInstallationType": {
+        "title": "Schritt 1: Installationstyp erstellen",
+        "description": "Bevor Sie eine Installation erstellen, müssen Sie einen Installationstyp definieren (z.B.: Büro, Fabrik, Lager, usw.). Klicken Sie hier, um Ihren ersten Typ zu erstellen."
+      },
+      "viewInstallationTypes": {
+        "title": "Installationstypen anzeigen",
+        "description": "Hier können Sie alle von Ihnen erstellten Installationstypen anzeigen und verwalten."
+      },
+      "createInstallation": {
+        "title": "Schritt 2: Installation erstellen",
+        "description": "Sobald Sie mindestens einen Installationstyp erstellt haben, verwenden Sie diese Schaltfläche, um Ihre erste Installation zu erstellen. Geben Sie Unternehmensdaten, Adresse ein und wählen Sie den Installationstyp."
+      },
+      "searchFilter": {
+        "title": "Suchen und Filtern",
+        "description": "Verwenden Sie diese Leiste, um Installationen nach Name, Adresse oder Stadt zu suchen und nach Installationstyp zu filtern."
+      },
+      "buttons": {
+        "next": "Weiter",
+        "previous": "Zurück",
+        "done": "Fertig",
+        "skip": "Tutorial überspringen",
+        "restart": "Tutorial anzeigen"
+      },
+      "progressText": "{{current}} von {{total}}"
+    }
+  },
   "assets": {
     "edit": "Bearbeiten",
     "understood": "Schließen",
@@ -1009,7 +1009,6 @@
     "cancelled": "Storniert",
     "allTechnicians": "Alle Techniker"
   },
-
   "languageSelector": {
     "title": "Sprache auswählen",
     "spanish": "Spanisch",
@@ -1024,293 +1023,304 @@
     "arabic": "Arabisch"
   },
   "installationDetails": {
-  "category": "Kategorie",
-  "installation": "Installation",
-  "deviceNamePlaceholder": "Geben Sie den Gerätenamen ein",
-  "successTitle": "Vorgang erfolgreich!",
-  "understood": "Schließen",
-  "titlePage": "Geräte | Leonix",
-  "loadingDevices": "Geräte werden geladen...",
-  "notFound": "Installation nicht gefunden",
-  "devicesOf": "Geräte von {{name}}",
-  "addDevice": "Gerät hinzufügen",
-  "noDevices": "Keine Geräte in dieser Installation",
-  "type": "Typ",
-  "location": "Standort",
-  "status": "Status",
-  "brand": "Marke",
-  "model": "Modell",
-  "serialNumber": "Seriennummer",
-  "seeQR": "QR-Code anzeigen",
-  "downloadLastMaintenance": "Letzte Wartung herunterladen",
-  "editDevice": "Gerät bearbeiten",
-  "deleteDevice": "Gerät löschen",
-  "page": "Seite {{currentPage}} von {{totalPages}}",
-  "confirmDeleteTitle": "Gerät löschen?",
-  "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden.",
-  "qrCode": "QR-Code",
-  "generatingQR": "QR-Code wird generiert...",
-  "errorGeneratingQR": "Fehler bei der QR-Code-Erstellung",
-  "scanQRDescription": "Scannen Sie diesen Code, um auf das Wartungsformular zuzugreifen",
-  "openForm": "Formular öffnen",
-  "printQR": "QR drucken",
-  "device": "Gerät",
-  "loadingRequiredData": "Erforderliche Daten werden geladen...",
-  "errorLoadingCategories": "Fehler beim Laden der Kategorien",
-  "retryLoadCategories": "Laden der Kategorien erneut versuchen",
-  "searchDevicesPlaceholder": "Nach Gerät, Standort oder Kategorie suchen...",
-  "noDevicesFound": "Keine Geräte mit diesem Suchbegriff gefunden",
-  "tour": {
-    "welcome": {
-      "title": "Willkommen bei den Installationsdetails!",
-      "description": "Hier können Sie alle Geräte dieser Installation verwalten. Wir zeigen Ihnen, wie dieser Bereich funktioniert."
-    },
-    "goToInstallations": {
-      "title": "Zu Installationen gehen",
-      "description": "Bevor Sie Geräte hinzufügen, stellen Sie sicher, dass Sie Gerätekategorien im Bereich Installationen erstellt haben. Klicken Sie hier, um zu diesem Bereich zu gehen."
-    },
-    "addDevice": {
-      "title": "Gerät hinzufügen",
-      "description": "Verwenden Sie diese Schaltfläche, um ein neues Gerät zur Installation hinzuzufügen. Sie müssen die Kategorie, den Standort, den Status und andere Gerätedetails auswählen."
-    },
-    "searchFilter": {
-      "title": "Suchen und Filtern",
-      "description": "Verwenden Sie diese Leiste, um nach Geräten nach Name, Standort oder Kategorie zu suchen. Sie können auch nach Gerätestatus filtern."
-    },
-    "deviceActions": {
-      "title": "Geräteaktionen",
-      "description": "Jede Gerätekarte verfügt über Schaltflächen zum: QR-Code anzeigen, letzte Wartung herunterladen (PDF), Gerät bearbeiten und löschen."
-    },
-    "buttons": {
-      "next": "Weiter",
-      "previous": "Zurück",
-      "done": "Fertig",
-      "skip": "Tutorial überspringen",
-      "restart": "Tutorial ansehen"
-    },
-    "progressText": "{{current}} von {{total}}"
-  }
-},
-"login": {
-  "understood": "Schließen",
-  "successTitle": "Vorgang erfolgreich!",
-  "continue": "Weiter",
-  "titlePage": "Anmelden | Leonix",
-  "title": "Anmelden",
-  "username": "Benutzername",
-  "submit": "Anmelden",
-  "welcome": "Willkommen zurück",
-  "subtitle": "Bitte geben Sie Ihre Zugangsdaten ein, um fortzufahren",
-  "email": "E-Mail",
-  "password": "Passwort",
-  "showPassword": "Passwort anzeigen",
-  "hidePassword": "Passwort verbergen",
-  "loginButton": "Anmelden",
-  "forgotPassword": "Passwort vergessen?",
-  "noAccount": "Noch kein Konto?",
-  "registerHere": "Hier registrieren",
-  "error": "Fehler bei der Anmeldung",
-  "success": "Anmeldung erfolgreich",
-  "loggingIn": "Anmeldung läuft...",
-  "requiredField": "Dieses Feld ist erforderlich",
-  "invalidEmail": "Ungültige E-Mail-Adresse",
-  "minPassword": "Das Passwort muss mindestens 6 Zeichen lang sein",
-  "usernamePlaceholder": "Benutzernamen eingeben",
-  "passwordPlaceholder": "Passwort eingeben",
-  "validation": {
-    "userNameRequired": "Benutzername ist erforderlich",
-    "passwordRequired": "Passwort ist erforderlich"
-  }
-},
+    "category": "Kategorie",
+    "installation": "Installation",
+    "deviceNamePlaceholder": "Geben Sie den Gerätenamen ein",
+    "successTitle": "Vorgang erfolgreich!",
+    "understood": "Schließen",
+    "titlePage": "Geräte | Leonix",
+    "loadingDevices": "Geräte werden geladen...",
+    "notFound": "Installation nicht gefunden",
+    "devicesOf": "Geräte von {{name}}",
+    "addDevice": "Gerät hinzufügen",
+    "noDevices": "Keine Geräte in dieser Installation",
+    "type": "Typ",
+    "location": "Standort",
+    "status": "Status",
+    "brand": "Marke",
+    "model": "Modell",
+    "serialNumber": "Seriennummer",
+    "seeQR": "QR-Code anzeigen",
+    "downloadLastMaintenance": "Letzte Wartung herunterladen",
+    "viewMaintenanceHistory": "Wartungshistorie anzeigen",
+    "editDevice": "Gerät bearbeiten",
+    "deleteDevice": "Gerät löschen",
+    "page": "Seite {{currentPage}} von {{totalPages}}",
+    "confirmDeleteTitle": "Gerät löschen?",
+    "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden.",
+    "qrCode": "QR-Code",
+    "generatingQR": "QR-Code wird generiert...",
+    "errorGeneratingQR": "Fehler bei der QR-Code-Erstellung",
+    "scanQRDescription": "Scannen Sie diesen Code, um auf das Wartungsformular zuzugreifen",
+    "openForm": "Formular öffnen",
+    "printQR": "QR drucken",
+    "device": "Gerät",
+    "loadingRequiredData": "Erforderliche Daten werden geladen...",
+    "errorLoadingCategories": "Fehler beim Laden der Kategorien",
+    "retryLoadCategories": "Laden der Kategorien erneut versuchen",
+    "searchDevicesPlaceholder": "Nach Gerät, Standort oder Kategorie suchen...",
+    "noDevicesFound": "Keine Geräte mit diesem Suchbegriff gefunden",
+    "tour": {
+      "welcome": {
+        "title": "Willkommen bei den Installationsdetails!",
+        "description": "Hier können Sie alle Geräte dieser Installation verwalten. Wir zeigen Ihnen, wie dieser Bereich funktioniert."
+      },
+      "goToInstallations": {
+        "title": "Zu Installationen gehen",
+        "description": "Bevor Sie Geräte hinzufügen, stellen Sie sicher, dass Sie Gerätekategorien im Bereich Installationen erstellt haben. Klicken Sie hier, um zu diesem Bereich zu gehen."
+      },
+      "addDevice": {
+        "title": "Gerät hinzufügen",
+        "description": "Verwenden Sie diese Schaltfläche, um ein neues Gerät zur Installation hinzuzufügen. Sie müssen die Kategorie, den Standort, den Status und andere Gerätedetails auswählen."
+      },
+      "searchFilter": {
+        "title": "Suchen und Filtern",
+        "description": "Verwenden Sie diese Leiste, um nach Geräten nach Name, Standort oder Kategorie zu suchen. Sie können auch nach Gerätestatus filtern."
+      },
+      "deviceActions": {
+        "title": "Geräteaktionen",
+        "description": "Jede Gerätekarte verfügt über Schaltflächen zum: QR-Code anzeigen, letzte Wartung herunterladen (PDF), Gerät bearbeiten und löschen."
+      },
+      "buttons": {
+        "next": "Weiter",
+        "previous": "Zurück",
+        "done": "Fertig",
+        "skip": "Tutorial überspringen",
+        "restart": "Tutorial ansehen"
+      },
+      "progressText": "{{current}} von {{total}}"
+    }
+  },
+  "login": {
+    "understood": "Schließen",
+    "successTitle": "Vorgang erfolgreich!",
+    "continue": "Weiter",
+    "titlePage": "Anmelden | Leonix",
+    "title": "Anmelden",
+    "username": "Benutzername",
+    "submit": "Anmelden",
+    "welcome": "Willkommen zurück",
+    "subtitle": "Bitte geben Sie Ihre Zugangsdaten ein, um fortzufahren",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "showPassword": "Passwort anzeigen",
+    "hidePassword": "Passwort verbergen",
+    "loginButton": "Anmelden",
+    "forgotPassword": "Passwort vergessen?",
+    "noAccount": "Noch kein Konto?",
+    "registerHere": "Hier registrieren",
+    "error": "Fehler bei der Anmeldung",
+    "success": "Anmeldung erfolgreich",
+    "loggingIn": "Anmeldung läuft...",
+    "requiredField": "Dieses Feld ist erforderlich",
+    "invalidEmail": "Ungültige E-Mail-Adresse",
+    "minPassword": "Das Passwort muss mindestens 6 Zeichen lang sein",
+    "usernamePlaceholder": "Benutzernamen eingeben",
+    "passwordPlaceholder": "Passwort eingeben",
+    "validation": {
+      "userNameRequired": "Benutzername ist erforderlich",
+      "passwordRequired": "Passwort ist erforderlich"
+    }
+  },
   "deviceForm": {
     "installation": "Installationsdetails",
     "company": "Name der Installation",
     "installationType": "Installationstyp",
     "deviceDetails": "Gerätedetails",
-  "loading": "Formular wird geladen...",
-  "error": "Fehler: {{error}}",
-  "notFound": "Gerät nicht gefunden.",
-  "maintenanceForm": "Wartungsformular",
-  "connected": "Verbunden",
-  "offline": "Offline – Daten werden lokal gespeichert",
-  "pendingSubmissions": "Ausstehende Einreichungen ({{count}})",
-  "savedAt": "Gespeichert um {{date}}",
-  "retryCount": "Wiederholungen: {{count}}/3",
-  "device": "Gerät",
-  "location": "Standort",
-  "category": "Kategorie",
-  "brand": "Marke",
-  "model": "Modell",
-  "serialNumber": "Seriennr.",
-  "selectDate": "Datum auswählen",
-  "fields": {
-    "nombre": "Name",
-    "ubicacion": "Standort",
-    "categoria": "Kategorie",
-    "marca": "Marke",
-    "modelo": "Modell",
-    "numeroSerie": "Seriennr.",
-    "estado_revision": "Prüfstatus",
-    "fecha_revision": "Prüfdatum",
-    "observaciones_generales": "Allgemeine Bemerkungen"
+    "loading": "Formular wird geladen...",
+    "error": "Fehler: {{error}}",
+    "notFound": "Gerät nicht gefunden.",
+    "maintenanceForm": "Wartungsformular",
+    "connected": "Verbunden",
+    "offline": "Offline – Daten werden lokal gespeichert",
+    "pendingSubmissions": "Ausstehende Einreichungen ({{count}})",
+    "savedAt": "Gespeichert um {{date}}",
+    "retryCount": "Wiederholungen: {{count}}/3",
+    "device": "Gerät",
+    "location": "Standort",
+    "category": "Kategorie",
+    "brand": "Marke",
+    "model": "Modell",
+    "serialNumber": "Seriennr.",
+    "selectDate": "Datum auswählen",
+    "fields": {
+      "nombre": "Name",
+      "ubicacion": "Standort",
+      "categoria": "Kategorie",
+      "marca": "Marke",
+      "modelo": "Modell",
+      "numeroSerie": "Seriennr.",
+      "estado_revision": "Prüfstatus",
+      "fecha_revision": "Prüfdatum",
+      "observaciones_generales": "Allgemeine Bemerkungen"
+    },
+    "select": "Auswählen...",
+    "options": {
+      "Operativo": "Betriebsbereit",
+      "No operativo": "Nicht betriebsbereit",
+      "Requiere mantenimiento": "Wartung erforderlich"
+    },
+    "sending": "Wird gesendet...",
+    "sendMaintenance": "Wartung senden",
+    "saveMaintenance": "Wartung speichern",
+    "localSaveNote": "Daten werden lokal gespeichert und bei Verbindung gesendet",
+    "viewHistory": "Verlauf"
   },
-  "select": "Auswählen...",
-  "options": {
-    "Operativo": "Betriebsbereit",
-    "No operativo": "Nicht betriebsbereit",
-    "Requiere mantenimiento": "Wartung erforderlich"
+  "validations": {
+    "selectAsset": "Sie müssen ein Asset auswählen",
+    "locationRequired": "Standort ist erforderlich",
+    "locationMin": "Standort muss mindestens 1 Zeichen lang sein",
+    "locationMax": "Standort darf nicht länger als 255 Zeichen sein",
+    "categoryRequired": "Kategorie ist erforderlich",
+    "categoryMax": "Kategorie darf nicht länger als 100 Zeichen sein",
+    "deviceNameRequired": "Gerätename ist erforderlich",
+    "deviceNameMin": "Name muss mindestens 1 Zeichen lang sein",
+    "deviceNameMax": "Name darf nicht länger als 100 Zeichen sein",
+    "statusRequired": "Status ist erforderlich",
+    "statusInvalid": "Status muss gültig sein",
+    "brandMax": "Marke darf nicht länger als 100 Zeichen sein",
+    "modelMax": "Modell darf nicht länger als 100 Zeichen sein",
+    "serialMax": "Seriennummer darf nicht länger als 100 Zeichen sein"
   },
-  "sending": "Wird gesendet...",
-  "sendMaintenance": "Wartung senden",
-  "saveMaintenance": "Wartung speichern",
-  "localSaveNote": "Daten werden lokal gespeichert und bei Verbindung gesendet"
-},
-"validations": {
-  "selectAsset": "Sie müssen ein Asset auswählen",
-  "locationRequired": "Standort ist erforderlich",
-  "locationMin": "Standort muss mindestens 1 Zeichen lang sein",
-  "locationMax": "Standort darf nicht länger als 255 Zeichen sein",
-  "categoryRequired": "Kategorie ist erforderlich",
-  "categoryMax": "Kategorie darf nicht länger als 100 Zeichen sein",
-  "deviceNameRequired": "Gerätename ist erforderlich",
-  "deviceNameMin": "Name muss mindestens 1 Zeichen lang sein",
-  "deviceNameMax": "Name darf nicht länger als 100 Zeichen sein",
-  "statusRequired": "Status ist erforderlich",
-  "statusInvalid": "Status muss gültig sein",
-  "brandMax": "Marke darf nicht länger als 100 Zeichen sein",
-  "modelMax": "Modell darf nicht länger als 100 Zeichen sein",
-  "serialMax": "Seriennummer darf nicht länger als 100 Zeichen sein"
-},
-"subscriptions": {
-  "selectStartDate": "Startdatum auswählen",
-  "selectEndDate": "Enddatum auswählen",
-  "page": "Seite",
-  "of": "von",
-  "title": "Aktive Abonnements",
-  "titlePage": "Aktive Abonnements | Leonix",
-  "subtitle": "Verwaltung aktiver Abonnements und Abrechnungen",
-  "searchPlaceholder": "Abonnements suchen...",
-  "startDate": "Startdatum",
-  "endDate": "Enddatum",
-  "noSubscriptionsFound": "Keine Abonnements gefunden",
-  "noSubscriptions": "Keine Abonnements verfügbar",
-  "errorLoading": "Fehler beim Laden der Abonnements",
-  "status": {
-    "label": "Status",
-    "placeholder": "Status auswählen",
-    "active": "Aktiv",
-    "inactive": "Inaktiv",
-    "pending": "Ausstehend"
-  },
-  "errors": {
-    "startDateRequired": "Startdatum ist erforderlich",
-    "endDateRequired": "Enddatum ist erforderlich",
-    "endDateAfterStart": "Das Enddatum muss nach dem Startdatum liegen",
-    "invalidDate": "Das Datum muss gültig sein",
-    "frequencyRequired": "Die Frequenz ist erforderlich, um das Abonnement zu aktivieren",
-    "consecutiveMonthsNotAllowed": "Aufeinanderfolgende Monate können nicht ausgewählt werden"
-  },
-  "table": {
-    "installation": "Installation",
-    "address": "Adresse",
-    "type": "Typ",
-    "frequency": "Frequenz",
-    "months": "Monate",
-    "status": "Status",
+  "subscriptions": {
+    "selectStartDate": "Startdatum auswählen",
+    "selectEndDate": "Enddatum auswählen",
+    "page": "Seite",
+    "of": "von",
+    "title": "Aktive Abonnements",
+    "titlePage": "Aktive Abonnements | Leonix",
+    "subtitle": "Verwaltung aktiver Abonnements und Abrechnungen",
+    "searchPlaceholder": "Abonnements suchen...",
     "startDate": "Startdatum",
-    "endDate": "Enddatum"
-  },
-    "months": {
-    "Enero": "Januar",
-    "Febrero": "Februar",
-    "Marzo": "März",
-    "Abril": "April",
-    "Mayo": "Mai",
-    "Junio": "Juni",
-    "Julio": "Juli",
-    "Agosto": "August",
-    "Septiembre": "September",
-    "Octubre": "Oktober",
-    "Noviembre": "November",
-    "Diciembre": "Dezember"
-  },
-  "frequency": {
-    "monthly": "Monatlich",
-    "quarterly": "Vierteljährlich",
-    "semiannual": "Halbjährlich",
-    "annual": "Jährlich"
-  },
-  "editFrequency": "Frequenz bearbeiten",
-  "newFrequency": "Neue Frequenz",
-  "selectFrequency": "Frequenz auswählen",
-  "selectedMonths": "Ausgewählte Monate",
-  "frequencyUpdated": "Frequenz erfolgreich aktualisiert",
-  "errorUpdating": "Fehler bei der Aktualisierung der Frequenz",
-  "selectTwoMonths": "Wählen Sie 2 Monate für halbjährliche Häufigkeit",
-  "selectTwoMonthsSemestral": "Wählen Sie 2 Monate im Abstand von 6 Monaten (z.B.: Januar und Juli)",
-  "selectFourMonths": "Wählen Sie 4 Monate für vierteljährliche Häufigkeit",
-  "selectFourMonthsTrimestral": "Wählen Sie 4 Monate im Abstand von 3 Monaten (z.B.: Januar, April, Juli, Oktober)",
-  "selectOneMonth": "Wähle 1 Monat",
-  "selectAllMonths": "Wähle die gewünschten Monate",
-  "selectDatesFirst": "Bitte wählen Sie zuerst Start- und Enddatum",
-  "clickToSelectMonths": "Klicken Sie, um Monate auszuwählen",
-  "filterByMonth": "Nach Monat filtern",
-  "clearFilter": "Filter löschen",
-  "viewMonths": "Monate anzeigen",
-  "monthsDetail": "Monatsübersicht",
-  "period": "Zeitraum",
-  "noMonthsAvailable": "Keine Monate verfügbar",
-  "tour": {
-    "welcome": {
-      "title": "Willkommen bei Aktive Abonnements!",
-      "description": "Hier können Sie die Wartungsabonnements Ihrer Installationen verwalten. Wir zeigen Ihnen, wie dieser Bereich funktioniert."
+    "endDate": "Enddatum",
+    "noSubscriptionsFound": "Keine Abonnements gefunden",
+    "noSubscriptions": "Keine Abonnements verfügbar",
+    "errorLoading": "Fehler beim Laden der Abonnements",
+    "status": {
+      "label": "Status",
+      "placeholder": "Status auswählen",
+      "active": "Aktiv",
+      "inactive": "Inaktiv",
+      "pending": "Ausstehend"
     },
-    "goToInstallations": {
-      "title": "Zu Installationen gehen",
-      "description": "Bevor Sie ein Abonnement erstellen, stellen Sie sicher, dass Sie mindestens eine Installation erstellt haben. Klicken Sie hier, um zum Bereich Installationen zu gehen und diese zu erstellen."
+    "errors": {
+      "startDateRequired": "Startdatum ist erforderlich",
+      "endDateRequired": "Enddatum ist erforderlich",
+      "endDateAfterStart": "Das Enddatum muss nach dem Startdatum liegen",
+      "invalidDate": "Das Datum muss gültig sein",
+      "frequencyRequired": "Die Frequenz ist erforderlich, um das Abonnement zu aktivieren",
+      "consecutiveMonthsNotAllowed": "Aufeinanderfolgende Monate können nicht ausgewählt werden"
     },
-    "searchFilter": {
-      "title": "Suchen und Filtern",
-      "description": "Verwenden Sie die Suchleiste, um Abonnements nach Installation, Adresse oder Typ zu finden. Sie können auch nach Monat filtern, um zu sehen, welche Abonnements in einem bestimmten Monat aktiv sind."
-    },
-    "editFrequency": {
-      "title": "Frequenz bearbeiten",
-      "description": "Klicken Sie auf diese Schaltfläche, um die Abonnementfrequenz zu ändern (monatlich, vierteljährlich, halbjährlich oder jährlich) und die Monate anzupassen, in denen die Wartung durchgeführt wird."
+    "table": {
+      "installation": "Installation",
+      "address": "Adresse",
+      "type": "Typ",
+      "frequency": "Frequenz",
+      "months": "Monate",
+      "status": "Status",
+      "startDate": "Startdatum",
+      "endDate": "Enddatum"
     },
     "months": {
-      "title": "Ausgewählte Monate",
-      "description": "Hier werden die Monate angezeigt, in denen die Wartung gemäß der konfigurierten Frequenz durchgeführt wird. Die Monate werden automatisch entsprechend der gewählten Frequenz angepasst."
+      "Enero": "Januar",
+      "Febrero": "Februar",
+      "Marzo": "März",
+      "Abril": "April",
+      "Mayo": "Mai",
+      "Junio": "Juni",
+      "Julio": "Juli",
+      "Agosto": "August",
+      "Septiembre": "September",
+      "Octubre": "Oktober",
+      "Noviembre": "November",
+      "Diciembre": "Dezember"
     },
-    "buttons": {
-      "next": "Weiter",
-      "previous": "Zurück",
-      "done": "Fertig",
-      "skip": "Tutorial überspringen",
-      "restart": "Tutorial ansehen"
+    "frequency": {
+      "monthly": "Monatlich",
+      "quarterly": "Vierteljährlich",
+      "semiannual": "Halbjährlich",
+      "annual": "Jährlich"
     },
-    "progressText": "{{current}} von {{total}}"
-  }
-},
+    "editFrequency": "Frequenz bearbeiten",
+    "newFrequency": "Neue Frequenz",
+    "selectFrequency": "Frequenz auswählen",
+    "selectedMonths": "Ausgewählte Monate",
+    "frequencyUpdated": "Frequenz erfolgreich aktualisiert",
+    "errorUpdating": "Fehler bei der Aktualisierung der Frequenz",
+    "selectTwoMonths": "Wählen Sie 2 Monate für halbjährliche Häufigkeit",
+    "selectTwoMonthsSemestral": "Wählen Sie 2 Monate im Abstand von 6 Monaten (z.B.: Januar und Juli)",
+    "selectFourMonths": "Wählen Sie 4 Monate für vierteljährliche Häufigkeit",
+    "selectFourMonthsTrimestral": "Wählen Sie 4 Monate im Abstand von 3 Monaten (z.B.: Januar, April, Juli, Oktober)",
+    "selectOneMonth": "Wähle 1 Monat",
+    "selectAllMonths": "Wähle die gewünschten Monate",
+    "selectDatesFirst": "Bitte wählen Sie zuerst Start- und Enddatum",
+    "clickToSelectMonths": "Klicken Sie, um Monate auszuwählen",
+    "filterByMonth": "Nach Monat filtern",
+    "clearFilter": "Filter löschen",
+    "viewMonths": "Monate anzeigen",
+    "monthsDetail": "Monatsübersicht",
+    "period": "Zeitraum",
+    "noMonthsAvailable": "Keine Monate verfügbar",
+    "tour": {
+      "welcome": {
+        "title": "Willkommen bei Aktive Abonnements!",
+        "description": "Hier können Sie die Wartungsabonnements Ihrer Installationen verwalten. Wir zeigen Ihnen, wie dieser Bereich funktioniert."
+      },
+      "goToInstallations": {
+        "title": "Zu Installationen gehen",
+        "description": "Bevor Sie ein Abonnement erstellen, stellen Sie sicher, dass Sie mindestens eine Installation erstellt haben. Klicken Sie hier, um zum Bereich Installationen zu gehen und diese zu erstellen."
+      },
+      "searchFilter": {
+        "title": "Suchen und Filtern",
+        "description": "Verwenden Sie die Suchleiste, um Abonnements nach Installation, Adresse oder Typ zu finden. Sie können auch nach Monat filtern, um zu sehen, welche Abonnements in einem bestimmten Monat aktiv sind."
+      },
+      "editFrequency": {
+        "title": "Frequenz bearbeiten",
+        "description": "Klicken Sie auf diese Schaltfläche, um die Abonnementfrequenz zu ändern (monatlich, vierteljährlich, halbjährlich oder jährlich) und die Monate anzupassen, in denen die Wartung durchgeführt wird."
+      },
+      "months": {
+        "title": "Ausgewählte Monate",
+        "description": "Hier werden die Monate angezeigt, in denen die Wartung gemäß der konfigurierten Frequenz durchgeführt wird. Die Monate werden automatisch entsprechend der gewählten Frequenz angepasst."
+      },
+      "buttons": {
+        "next": "Weiter",
+        "previous": "Zurück",
+        "done": "Fertig",
+        "skip": "Tutorial überspringen",
+        "restart": "Tutorial ansehen"
+      },
+      "progressText": "{{current}} von {{total}}"
+    }
+  },
   "planLimits": {
-  "title": "Plan-Limit Erreicht",
-  "subtitle": "Sie haben das maximale Limit Ihres aktuellen Plans erreicht",
-  "currentPlan": "Aktueller Plan",
-  "upgradeMessage": "Um weitere Ressourcen hinzuzufügen, upgraden Sie Ihren Plan auf eine höhere Stufe.",
-  "upgradeButton": "Plan Upgraden",
-  "close": "Schließen",
-  "types": {
-    "users": "Benutzer",
-    "installations": "Installationen",
-    "assets": "Assets",
-    "formTemplates": "Formularvorlagen",
-    "workOrders": "Arbeitsaufträge"
-  },
-  "messages": {
-    "usersLimit": "Sie haben die maximale Anzahl von Benutzern für Ihren Plan erreicht",
-    "installationsLimit": "Sie haben die maximale Anzahl von Installationen für Ihren Plan erreicht",
-    "assetsLimit": "Sie haben die maximale Anzahl von Assets für Ihren Plan erreicht",
-    "formTemplatesLimit": "Sie haben die maximale Anzahl von Formularvorlagen für Ihren Plan erreicht",
-    "workOrdersLimit": "Sie haben die maximale Anzahl von Arbeitsaufträgen für Ihren Plan erreicht"
-  }
+    "title": "Plan-Limit Erreicht",
+    "subtitle": "Sie haben das maximale Limit Ihres aktuellen Plans erreicht",
+    "currentPlan": "Aktueller Plan",
+    "upgradeMessage": "Um weitere Ressourcen hinzuzufügen, upgraden Sie Ihren Plan auf eine höhere Stufe.",
+    "upgradeButton": "Plan Upgraden",
+    "close": "Schließen",
+    "types": {
+      "users": "Benutzer",
+      "installations": "Installationen",
+      "assets": "Assets",
+      "formTemplates": "Formularvorlagen",
+      "workOrders": "Arbeitsaufträge"
+    },
+    "messages": {
+      "usersLimit": "Sie haben die maximale Anzahl von Benutzern für Ihren Plan erreicht",
+      "installationsLimit": "Sie haben die maximale Anzahl von Installationen für Ihren Plan erreicht",
+      "assetsLimit": "Sie haben die maximale Anzahl von Assets für Ihren Plan erreicht",
+      "formTemplatesLimit": "Sie haben die maximale Anzahl von Formularvorlagen für Ihren Plan erreicht",
+      "workOrdersLimit": "Sie haben die maximale Anzahl von Arbeitsaufträgen für Ihren Plan erreicht"
+    },
+    "maintenanceHistory": {
+      "title": "Wartungshistorie",
+      "loading": "Verlauf wird geladen...",
+      "noMaintenances": "Keine Wartungsaufzeichnungen für dieses Gerät",
+      "noMaintenancesSubtext": "Dieses Gerät hat noch keine Wartungsaufzeichnungen",
+      "maintenanceNumber": "Wartung #",
+      "viewPDF": "PDF-Bericht anzeigen",
+      "close": "Schließen"
+    }
   }
 }
