@@ -73,7 +73,7 @@ const InstallationDetails = () => {
   const [isError, setIsError] = useState(false)
   const [loadingPDF, setLoadingPDF] = useState<string | null>(null)
   const [initialLoad, setInitialLoad] = useState(true)
-  
+
   // Estado para búsqueda y filtros
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedStatus, setSelectedStatus] = useState("")
@@ -89,7 +89,7 @@ const InstallationDetails = () => {
     // Filtrar por término de búsqueda
     if (searchTerm.trim()) {
       const term = searchTerm.toLowerCase().trim()
-      filtered = filtered.filter(device => 
+      filtered = filtered.filter(device =>
         device.nombre?.toLowerCase().includes(term) ||
         device.ubicacion?.toLowerCase().includes(term) ||
         device.categoria?.toLowerCase().includes(term)
@@ -289,7 +289,7 @@ const InstallationDetails = () => {
   return (
     <div className={styles.container}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
-        <button 
+        <button
           onClick={handleGoBack}
           style={{
             background: 'none',
@@ -392,9 +392,9 @@ const InstallationDetails = () => {
               <div className={styles.cardSeparator}></div>
 
               <div className={styles.deviceActions}>
-                <button 
-                  className={styles.qrButton} 
-                  onClick={() => handleShowQR(device)} 
+                <button
+                  className={styles.qrButton}
+                  onClick={() => handleShowQR(device)}
                   aria-label={t("installationDetails.seeQR")}
                   data-tooltip={t("installationDetails.seeQR")}
                 >
@@ -403,8 +403,8 @@ const InstallationDetails = () => {
                 <button
                   className={styles.historyButton}
                   onClick={() => handleShowHistory(device)}
-                  aria-label="Ver historial de mantenimientos"
-                  data-tooltip="Ver historial de mantenimientos"
+                  aria-label={t("installationDetails.viewMaintenanceHistory")}
+                  data-tooltip={t("installationDetails.viewMaintenanceHistory")}
                 >
                   <History size={18} />
                 </button>
@@ -417,8 +417,8 @@ const InstallationDetails = () => {
                 >
                   <FileText size={18} />
                 </button>
-                <button 
-                  className={styles.editButton} 
+                <button
+                  className={styles.editButton}
                   onClick={() => handleEditDevice(device)}
                   aria-label={t("installationDetails.editDevice")}
                   data-tooltip={t("installationDetails.editDevice")}
@@ -456,7 +456,7 @@ const InstallationDetails = () => {
           </button>
         </div>
       )}
-      
+
       {/* Información adicional cuando hay paginación */}
       {installationDevices.length > devicesPerPage && (
         <div style={{ textAlign: 'center', marginTop: '8px', color: 'var(--color-text)', opacity: 0.7, fontSize: '14px' }}>
@@ -518,8 +518,8 @@ const InstallationDetails = () => {
         loading={loadingHistory}
       />
 
-              <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={closeModal} mensaje={responseMessage} />
-        <ModalError isOpen={!!responseMessage && isError} onRequestClose={closeModal} mensaje={responseMessage} />
+      <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={closeModal} mensaje={responseMessage} />
+      <ModalError isOpen={!!responseMessage && isError} onRequestClose={closeModal} mensaje={responseMessage} />
 
       {/* Botón flotante del tour estilo WhatsApp */}
       {!isTechnicalUser && (

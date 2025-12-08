@@ -1,10 +1,12 @@
 import { useRef } from "react"
 import QRCode from "qrcode"
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import styles from "../../../features/installationsDetails/styles/modalQr.module.css"
 import { Printer, ExternalLink } from "lucide-react"
 import type { Device, Installation } from "../../installations/hooks/useInstallations"
 import { useTranslation } from "react-i18next"
+import { useAuthStore } from "../../../store/authStore"
 
 interface ModalQRCodeProps {
   isOpen: boolean
@@ -15,6 +17,8 @@ interface ModalQRCodeProps {
 
 const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCodeProps) => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
+  const { token } = useAuthStore()
   const [qrCodeDataURL, setQrCodeDataURL] = useState<string>("")
   const [loading, setLoading] = useState(false)
   const printRef = useRef<HTMLDivElement>(null)
@@ -124,8 +128,19 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
   }
 
   const handleOpenURL = () => {
-    if (device?.codigoQR) {
-      window.open(device.codigoQR, "_blank")
+    if (!device) return
+    
+    // Si el usuario está logeado, navegar al formulario interno
+    if (token && installation?._id && device._id) {
+      console.log('✅ Usuario logeado - Navegando a formulario interno')
+      navigate(`/formulario-interno/${installation._id}/${device._id}`)
+      onRequestClose() // Cerrar el modal
+    } else {
+      // Si NO está logeado, abrir el codigoQR (que mostrará el PDF)
+      console.log('⚠️ Usuario NO logeado - Abriendo codigoQR')
+      if (device.codigoQR) {
+        window.open(device.codigoQR, "_blank")
+      }
     }
   }
 
