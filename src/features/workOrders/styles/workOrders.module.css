@@ -132,32 +132,39 @@
 }
 
 .statusBadge {
-  padding: 6px 12px;
   border-radius: 20px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   text-align: center;
   width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 .statusPending {
   background: #fff3cd;
-  color: #000;
+  color: #856404;
+  border: 1px solid #ffeeba;
 }
 
 .statusInProgress {
   background: #cce5ff;
-  color: #000;
+  color: #004085;
+  border: 1px solid #b8daff;
 }
 
 .statusCompleted {
   background: #d4edda;
-  color: #000;
+  color: #155724;
+  border: 1px solid #c3e6cb;
 }
 
 .statusCancelled {
   background: #f8d7da;
-  color: #000;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
 }
 
 .priorityBadge {
@@ -289,6 +296,13 @@
   gap: 12px;
   font-size: 13px;
   margin: 6px 0;
+  align-items: center;
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .detailItem {

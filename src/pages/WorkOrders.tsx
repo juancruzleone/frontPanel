@@ -283,9 +283,9 @@ const WorkOrders = () => {
           {loading ? (
             <>
               <div className={styles.cardsRow}>
-                {[1,2,3].map((_,i) => <Skeleton key={i} height={120} width={"100%"} style={{borderRadius:14, marginBottom:16}} />)}
+                {[1, 2, 3].map((_, i) => <Skeleton key={i} height={120} width={"100%"} style={{ borderRadius: 14, marginBottom: 16 }} />)}
               </div>
-              <Skeleton height={220} width={"100%"} style={{borderRadius:14, marginTop:16}} />
+              <Skeleton height={220} width={"100%"} style={{ borderRadius: 14, marginTop: 16 }} />
             </>
           ) : filteredWorkOrders.length === 0 ? (
             <p className={styles.loader}>{t('workOrders.noWorkOrdersFound')}</p>
@@ -310,14 +310,14 @@ const WorkOrders = () => {
                       <p>
                         <strong>{t('workOrders.type')}:</strong> {translateWorkType(order.tipoTrabajo)}
                       </p>
-                      <p>
-                        <strong>{t('workOrders.status')}:</strong>{" "}
+                      <div className={styles.statusRow}>
+                        <strong>{t('workOrders.status')}:</strong>
                         <span className={`${styles.statusBadge} ${styles[order.estado]}`}>
                           {translateWorkOrderStatus(order.estado)}
                         </span>
-                      </p>
+                      </div>
                       <p>
-                        <strong>{t('workOrders.scheduled')}:</strong> {new Date(order.fechaProgramada).toLocaleDateString()} {t('workOrders.at')} {order.horaProgramada}
+                        <strong>{t('workOrders.scheduled')}:</strong> {new Date(order.fechaProgramada).getDate()}/{new Date(order.fechaProgramada).getMonth() + 1}/{new Date(order.fechaProgramada).getFullYear()} {t('workOrders.at')} {order.horaProgramada}
                       </p>
                       {order.instalacion && (
                         <p>

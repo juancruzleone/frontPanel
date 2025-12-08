@@ -498,3 +498,55 @@
     font-size: 15px;
   }
 }
+
+/* Botón de historial de mantenimientos */
+.historyButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.historyButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.historyButton:active {
+  transform: translateY(0);
+}
+
+.historyButton svg {
+  transition: transform 0.3s ease;
+}
+
+.historyButton:hover svg {
+  transform: rotate(15deg);
+}
+
+/* Ajustar infoHeader para que sea flex y tenga espacio entre elementos */
+.deviceInfoBox .infoHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .historyButton span {
+    display: none;
+  }
+  
+  .historyButton {
+    padding: 8px;
+  }
+}

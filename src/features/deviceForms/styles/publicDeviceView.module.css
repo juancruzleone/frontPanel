@@ -1,0 +1,438 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  color: white;
+  gap: 20px;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loader p {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  color: white;
+  text-align: center;
+  gap: 16px;
+}
+
+.error svg {
+  opacity: 0.8;
+}
+
+.error h2 {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.error p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.header {
+  text-align: center;
+  color: white;
+  margin-bottom: 32px;
+  padding: 32px 20px;
+}
+
+.headerIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.header h1 {
+  font-size: 2.2rem;
+  margin: 0 0 8px 0;
+  font-weight: 700;
+}
+
+.header p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.cardHeader svg {
+  color: #667eea;
+  flex-shrink: 0;
+}
+
+.cardHeader h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #1f2937;
+  font-weight: 600;
+  flex: 1;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.cardContent {
+  padding: 24px;
+}
+
+.infoRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  font-size: 1rem;
+  color: #374151;
+}
+
+.infoRow:last-child {
+  margin-bottom: 0;
+}
+
+.infoRow svg {
+  color: #dc2626;
+  flex-shrink: 0;
+}
+
+.infoRow strong {
+  font-weight: 600;
+  min-width: 100px;
+  color: #1f2937;
+}
+
+.infoRow span {
+  color: #4b5563;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #9ca3af;
+  gap: 16px;
+}
+
+.empty svg {
+  opacity: 0.3;
+}
+
+.empty p {
+  text-align: center;
+  max-width: 400px;
+  font-size: 1rem;
+}
+
+/* Último mantenimiento destacado */
+.lastMaintenance {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 8px;
+}
+
+.lastMaintenanceDate {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #667eea;
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border-radius: 12px;
+  border-left: 4px solid #667eea;
+}
+
+.lastMaintenanceDate svg {
+  color: #667eea;
+  flex-shrink: 0;
+}
+
+.lastMaintenanceObs {
+  padding: 0 16px;
+}
+
+.lastMaintenanceObs strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #1f2937;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.lastMaintenanceObs p {
+  margin: 0;
+  color: #4b5563;
+  line-height: 1.6;
+  padding: 12px;
+  background: #f9fafb;
+  border-left: 3px solid #667eea;
+  border-radius: 6px;
+}
+
+.lastMaintenancePdfButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px 32px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+  margin-top: 8px;
+}
+
+.lastMaintenancePdfButton:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(102, 126, 234, 0.6);
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46a0 100%);
+}
+
+.lastMaintenancePdfButton:active {
+  transform: translateY(-2px);
+}
+
+.lastMaintenancePdfButton svg {
+  flex-shrink: 0;
+}
+
+.maintenanceList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.maintenanceCard {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.maintenanceCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.maintenanceHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.maintenanceNumber {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #667eea;
+}
+
+.maintenanceNumber svg {
+  color: #667eea;
+}
+
+.maintenanceDate {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.maintenanceDate svg {
+  color: #9ca3af;
+}
+
+.maintenanceBody {
+  padding: 16px 20px;
+}
+
+.maintenanceBody strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.maintenanceBody p {
+  margin: 0;
+  color: #4b5563;
+  line-height: 1.6;
+  padding: 12px;
+  background: white;
+  border-left: 3px solid #667eea;
+  border-radius: 6px;
+}
+
+.pdfButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 0 0 12px 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pdfButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.pdfButton:active {
+  transform: translateY(0);
+}
+
+.footer {
+  text-align: center;
+  padding: 32px 20px;
+  color: white;
+  font-size: 0.95rem;
+  opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 1.8rem;
+  }
+
+  .header p {
+    font-size: 1rem;
+  }
+
+  .card {
+    border-radius: 12px;
+  }
+
+  .cardHeader {
+    padding: 16px 18px;
+  }
+
+  .cardHeader h2 {
+    font-size: 1.1rem;
+  }
+
+  .cardContent {
+    padding: 18px;
+  }
+
+  .infoRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .infoRow strong {
+    min-width: auto;
+  }
+
+  .maintenanceHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 12px;
+  }
+
+  .header {
+    padding: 20px 12px;
+  }
+
+  .headerIcon {
+    width: 64px;
+    height: 64px;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+}

@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react"
 import { useParams, useNavigate, useLocation } from "react-router-dom"
 import styles from "../features/installationsDetails/styles/installationDetails.module.css"
-import { Trash, Edit, Plus, QrCode, FileText, HelpCircle } from "lucide-react"
+import { Trash, Edit, Plus, QrCode, FileText, HelpCircle, History } from "lucide-react"
 import { FiArrowLeft } from "react-icons/fi"
 import { useTheme } from "../shared/hooks/useTheme"
 import ModalAddDevice from "../features/installations/components/ModalAddDevice"
@@ -10,8 +10,10 @@ import ModalConfirmDelete from "../features/installations/components/ModalConfir
 import ModalSuccess from "../features/installations/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
 import ModalQRCode from "../features/installationsDetails/components/ModalQrCode"
+import MaintenanceHistoryModal from "../features/deviceForms/components/MaintenanceHistoryModal"
 import useInstallations from "../features/installations/hooks/useInstallations"
 import { getLastMaintenanceForDevice } from "../features/installationsDetails/services/installationDetailsServices.ts"
+import { getMaintenanceHistory, type MaintenanceRecord } from "../features/deviceForms/services/maintenanceHistoryService"
 import { updateDeviceInInstallation } from "../features/installations/services/installationServices"
 import type { Device } from "../features/installations/hooks/useInstallations"
 import { useTranslation } from "react-i18next"
@@ -60,9 +62,13 @@ const InstallationDetails = () => {
   const [isEditDeviceModalOpen, setIsEditDeviceModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isQRModalOpen, setIsQRModalOpen] = useState(false)
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false)
   const [deviceToDelete, setDeviceToDelete] = useState<Device | null>(null)
   const [deviceToEdit, setDeviceToEdit] = useState<Device | null>(null)
   const [deviceForQR, setDeviceForQR] = useState<Device | null>(null)
+  const [deviceForHistory, setDeviceForHistory] = useState<Device | null>(null)
+  const [maintenanceHistory, setMaintenanceHistory] = useState<MaintenanceRecord[]>([])
+  const [loadingHistory, setLoadingHistory] = useState(false)
   const [responseMessage, setResponseMessage] = useState("")
   const [isError, setIsError] = useState(false)
   const [loadingPDF, setLoadingPDF] = useState<string | null>(null)
@@ -194,6 +200,29 @@ const InstallationDetails = () => {
   const handleShowQR = (device: Device) => {
     setDeviceForQR(device)
     setIsQRModalOpen(true)
+  }
+
+  const handleShowHistory = async (device: Device) => {
+    if (!device._id || !id) return
+
+    setDeviceForHistory(device)
+    setLoadingHistory(true)
+
+    try {
+      const history = await getMaintenanceHistory(id, device._id)
+      setMaintenanceHistory(history)
+      // Solo abrir el modal si la carga fue exitosa
+      setIsHistoryModalOpen(true)
+    } catch (error: any) {
+      console.error('Error al cargar historial:', error)
+      setMaintenanceHistory([])
+      // No abrir el modal de historial, solo mostrar el error
+      setIsHistoryModalOpen(false)
+      setResponseMessage(error.message || 'Error al cargar el historial de mantenimientos')
+      setIsError(true)
+    } finally {
+      setLoadingHistory(false)
+    }
   }
 
   const handleDownloadLastMaintenancePDF = async (device: Device) => {
@@ -372,6 +401,14 @@ const InstallationDetails = () => {
                   <QrCode size={18} />
                 </button>
                 <button
+                  className={styles.historyButton}
+                  onClick={() => handleShowHistory(device)}
+                  aria-label="Ver historial de mantenimientos"
+                  data-tooltip="Ver historial de mantenimientos"
+                >
+                  <History size={18} />
+                </button>
+                <button
                   className={styles.pdfButton}
                   onClick={() => handleDownloadLastMaintenancePDF(device)}
                   disabled={loadingPDF === device._id}
@@ -467,6 +504,18 @@ const InstallationDetails = () => {
         onRequestClose={() => setIsQRModalOpen(false)}
         device={deviceForQR}
         installation={currentInstallation}
+      />
+
+      <MaintenanceHistoryModal
+        isOpen={isHistoryModalOpen}
+        onRequestClose={() => {
+          setIsHistoryModalOpen(false)
+          setDeviceForHistory(null)
+          setMaintenanceHistory([])
+        }}
+        maintenances={maintenanceHistory}
+        deviceName={deviceForHistory?.nombre || ''}
+        loading={loadingHistory}
       />
 
               <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={closeModal} mensaje={responseMessage} />

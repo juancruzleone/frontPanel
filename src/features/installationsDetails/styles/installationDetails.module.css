@@ -320,7 +320,8 @@ html[data-theme="dark"] .cardSeparator {
 .editButton,
 .deleteButton,
 .qrButton,
-.pdfButton {
+.pdfButton,
+.historyButton {
   background: none;
   border: none;
   padding: 8px;
@@ -340,7 +341,8 @@ html[data-theme="dark"] .cardSeparator {
 .editButton:hover,
 .deleteButton:hover,
 .qrButton:hover,
-.pdfButton:hover {
+.pdfButton:hover,
+.historyButton:hover {
   background: var(--color-text);
   transform: scale(1.05);
   color: var(--color-card);
@@ -350,7 +352,8 @@ html[data-theme="dark"] .cardSeparator {
 .editButton::after,
 .deleteButton::after,
 .qrButton::after,
-.pdfButton::after {
+.pdfButton::after,
+.historyButton::after {
   content: attr(data-tooltip);
   position: absolute;
   bottom: 125%;
@@ -373,7 +376,8 @@ html[data-theme="dark"] .cardSeparator {
 .editButton::before,
 .deleteButton::before,
 .qrButton::before,
-.pdfButton::before {
+.pdfButton::before,
+.historyButton::before {
   content: '';
   position: absolute;
   bottom: 115%;
@@ -391,10 +395,12 @@ html[data-theme="dark"] .cardSeparator {
 .deleteButton:hover::after,
 .qrButton:hover::after,
 .pdfButton:hover::after,
+.historyButton:hover::after,
 .editButton:hover::before,
 .deleteButton:hover::before,
 .qrButton:hover::before,
-.pdfButton:hover::before {
+.pdfButton:hover::before,
+.historyButton:hover::before {
   opacity: 1;
 }
 

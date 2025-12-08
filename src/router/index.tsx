@@ -10,6 +10,7 @@ import Subscriptions from "../pages/Subscriptions.tsx"
 import WorkOrders from "../pages/WorkOrders.tsx"
 import Calendar from "../pages/Calendar.tsx"
 import DeviceFormPage from "../pages/DeviceFormPage"
+import PublicDeviceViewPage from "../pages/PublicDeviceViewPage"
 import MainLayout from "../layouts/MainLayout"
 import ProtectedRoute from "./ProtectedRoute"
 import RoleProtectedRoute from "./RoleProtectedRoute"
@@ -23,6 +24,11 @@ import Tenants from '../pages/Tenants';
 import { ROLES } from "../shared/utils/roleUtils"
 
 export const router = createBrowserRouter([
+  // Ruta pública para vista de dispositivos (QR)
+  {
+    path: "/dispositivo/:installationId/:deviceId",
+    element: <PublicDeviceViewPage />,
+  },
   {
     element: <RedirectIfLogged />,
     children: [

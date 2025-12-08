@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useParams } from "react-router-dom"
-import { Wifi, WifiOff, Clock, CheckCircle, Building2, MapPin, ChevronDown, X, Calendar } from "lucide-react"
+import { Wifi, WifiOff, Clock, CheckCircle, Building2, MapPin, ChevronDown, X, Calendar, History } from "lucide-react"
 import useDeviceForm from "../hooks/useDeviceForm"
 import HybridSelect from "../../workOrders/components/HybridSelect"
 import styles from "../styles/deviceForm.module.css"
@@ -9,8 +9,10 @@ import formCheckboxStyles from "../../../shared/components/Buttons/formCheckboxe
 import { useTranslation } from "react-i18next"
 import { useTheme } from "../../../shared/hooks/useTheme"
 import DatePickerModal from "./DatePickerModal"
-import ModalSuccess from "./ModalSuccess";
-import ModalError from "./ModalError";
+import ModalSuccess from "./ModalSuccess"
+import ModalError from "./ModalError"
+import MaintenanceHistoryModal from "./MaintenanceHistoryModal"
+import { getMaintenanceHistory, type MaintenanceRecord } from "../services/maintenanceHistoryService"
 
 
 const DeviceForm: React.FC = () => {
@@ -40,8 +42,13 @@ const DeviceForm: React.FC = () => {
   const [modalMessage, setModalMessage] = useState("")
 
   // Estado para el date picker modal
-  const [datePickerOpen, setDatePickerOpen] = useState<{ [key: string]: boolean }>({});
-  const [datePickerField, setDatePickerField] = useState<string | null>(null);
+  const [datePickerOpen, setDatePickerOpen] = useState<{ [key: string]: boolean }>({})
+  const [datePickerField, setDatePickerField] = useState<string | null>(null)
+
+  // Estado para el historial de mantenimientos
+  const [showHistoryModal, setShowHistoryModal] = useState(false)
+  const [maintenanceHistory, setMaintenanceHistory] = useState<MaintenanceRecord[]>([])
+  const [loadingHistory, setLoadingHistory] = useState(false);
 
   // Función para formatear fecha a dd/mm/yyyy
   const formatDate = (dateStr: string) => {
@@ -61,6 +68,24 @@ const DeviceForm: React.FC = () => {
       setShowError(true)
     }
   }, [success, error])
+
+  // Función para cargar historial de mantenimientos
+  const handleViewHistory = async () => {
+    if (!installationId || !deviceId) return
+    
+    setLoadingHistory(true)
+    setShowHistoryModal(true)
+    
+    try {
+      const history = await getMaintenanceHistory(installationId, deviceId)
+      setMaintenanceHistory(history)
+    } catch (err) {
+      console.error('Error al cargar historial:', err)
+      setMaintenanceHistory([])
+    } finally {
+      setLoadingHistory(false)
+    }
+  }
 
   if (loading) return <div className={styles.loader}>{t('deviceForm.loading')}</div>
   if (!deviceInfo) return <div className={styles.error}>{t('deviceForm.notFound')}</div>
@@ -137,6 +162,15 @@ const DeviceForm: React.FC = () => {
         <div className={styles.infoHeader}>
           <Building2 size={20} />
           <strong>{t('deviceForm.deviceDetails')}</strong>
+          <button 
+            type="button"
+            onClick={handleViewHistory}
+            className={styles.historyButton}
+            title={t('deviceForm.viewHistory', 'Ver historial de mantenimientos')}
+          >
+            <History size={18} />
+            <span>{t('deviceForm.viewHistory', 'Historial')}</span>
+          </button>
         </div>
         <div className={styles.infoContent}>
           <div className={styles.infoRow}>
@@ -282,6 +316,14 @@ const DeviceForm: React.FC = () => {
           mensaje={modalMessage}
         />
       )}
+      {/* Modal de historial de mantenimientos */}
+      <MaintenanceHistoryModal
+        isOpen={showHistoryModal}
+        onRequestClose={() => setShowHistoryModal(false)}
+        maintenances={maintenanceHistory}
+        deviceName={deviceInfo?.nombre || ''}
+        loading={loadingHistory}
+      />
     </div>
   )
 }
