@@ -11,6 +11,7 @@ import WorkOrders from "../pages/WorkOrders.tsx"
 import Calendar from "../pages/Calendar.tsx"
 import DeviceFormPage from "../pages/DeviceFormPage"
 import PublicDeviceViewPage from "../pages/PublicDeviceViewPage"
+import FormularioRedirect from "../pages/FormularioRedirect"
 import MainLayout from "../layouts/MainLayout"
 import ProtectedRoute from "./ProtectedRoute"
 import RoleProtectedRoute from "./RoleProtectedRoute"
@@ -28,6 +29,11 @@ export const router = createBrowserRouter([
   {
     path: "/dispositivo/:installationId/:deviceId",
     element: <PublicDeviceViewPage />,
+  },
+  // Ruta pública que redirige según autenticación (QR antiguos)
+  {
+    path: "/formulario/:installationId/:deviceId",
+    element: <FormularioRedirect />,
   },
   {
     element: <RedirectIfLogged />,
@@ -104,7 +110,7 @@ export const router = createBrowserRouter([
             ],
           },
           {
-            path: "/formulario/:installationId/:deviceId",
+            path: "/formulario-interno/:installationId/:deviceId",
             element: <DeviceFormPage />,
           },
           {
