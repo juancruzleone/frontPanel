@@ -56,6 +56,9 @@
     "noSearchResults": "結果が見つかりません",
     "tryDifferentSearch": "別の検索キーワードを試してください",
     "userNotFound": "ユーザーが見つかりません",
+    "assignedOrders": "割り当てられた注文",
+    "noAssignedOrders": "割り当てられた注文はありません。",
+    "technician": "技術者",
     "validation": {
       "usernameRequired": "ユーザー名は必須です",
       "passwordRequired": "パスワードは必須です",
@@ -89,6 +92,11 @@
       },
       "progressText": "{{total}} 中 {{current}}"
     }
+  },
+  "profile": {
+    "assignedOrders": "割り当てられた注文",
+    "noAssignedOrders": "割り当てられた注文はありません。",
+    "technician": "技術者"
   },
   "common": {
     "page": "ページ",

@@ -56,6 +56,9 @@
     "noSearchResults": "لم يتم العثور على نتائج",
     "tryDifferentSearch": "جرّب مصطلح بحث مختلف",
     "userNotFound": "المستخدم غير موجود",
+    "assignedOrders": "الطلبات المعينة",
+    "noAssignedOrders": "ليس لديك طلبات معينة.",
+    "technician": "فني",
     "validation": {
       "usernameRequired": "اسم المستخدم مطلوب",
       "passwordRequired": "كلمة المرور مطلوبة",
@@ -89,6 +92,11 @@
       },
       "progressText": "{{current}} من {{total}}"
     }
+  },
+  "profile": {
+    "assignedOrders": "الطلبات المعينة",
+    "noAssignedOrders": "ليس لديك طلبات معينة.",
+    "technician": "فني"
   },
   "common": {
     "page": "الصفحة",

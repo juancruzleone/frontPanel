@@ -50,6 +50,9 @@
     "technicianDeleted": "Technicien supprimé avec succès",
     "errorDeletingTechnician": "Erreur lors de la suppression du technicien",
     "searchPlaceholder": "Rechercher par nom d'utilisateur...",
+    "assignedOrders": "Commandes assignées",
+    "noAssignedOrders": "Vous n'avez aucune commande assignée.",
+    "technician": "Technicien",
     "tour": {
       "welcome": {
         "title": "Bienvenue dans la gestion du personnel !",
@@ -76,6 +79,11 @@
       },
       "progressText": "{{current}} sur {{total}}"
     }
+  },
+  "profile": {
+    "assignedOrders": "Commandes assignées",
+    "noAssignedOrders": "Vous n'avez aucune commande assignée.",
+    "technician": "Technicien"
   },
   "common": {
     "page": "Page",

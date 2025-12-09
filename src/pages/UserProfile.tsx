@@ -99,7 +99,7 @@ const UserProfile = () => {
       <div className={styles.profileHeader}>
         <div className={styles.profileInfo}>
           <span className={styles.profileName}>{user}</span>
-          <span className={styles.profileRole}>{role}</span>
+          <span className={styles.profileRole}>{t('profile.technician', { defaultValue: role })}</span>
         </div>
       </div>
       <div className={styles.profileDetails}>

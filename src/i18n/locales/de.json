@@ -50,6 +50,9 @@
     "technicianDeleted": "Techniker erfolgreich gelöscht",
     "errorDeletingTechnician": "Fehler beim Löschen des Technikers",
     "searchPlaceholder": "Nach Benutzernamen suchen...",
+    "assignedOrders": "Zugewiesene Aufträge",
+    "noAssignedOrders": "Sie haben keine zugewiesenen Aufträge.",
+    "technician": "Techniker",
     "tour": {
       "welcome": {
         "title": "Willkommen im Personalmanagement!",
@@ -76,6 +79,11 @@
       },
       "progressText": "{{current}} von {{total}}"
     }
+  },
+  "profile": {
+    "assignedOrders": "Zugewiesene Aufträge",
+    "noAssignedOrders": "Sie haben keine zugewiesenen Aufträge.",
+    "technician": "Techniker"
   },
   "common": {
     "page": "Seite",

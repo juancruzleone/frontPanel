@@ -56,6 +56,9 @@
     "noSearchResults": "Nenhum resultado encontrado",
     "tryDifferentSearch": "Tente um termo de pesquisa diferente",
     "userNotFound": "Usuário não encontrado",
+    "assignedOrders": "Ordens atribuídas",
+    "noAssignedOrders": "Você não tem ordens atribuídas.",
+    "technician": "Técnico",
     "validation": {
       "usernameRequired": "O nome de usuário é obrigatório",
       "passwordRequired": "A senha é obrigatória",
@@ -89,6 +92,11 @@
       },
       "progressText": "{{current}} de {{total}}"
     }
+  },
+  "profile": {
+    "assignedOrders": "Ordens atribuídas",
+    "noAssignedOrders": "Você não tem ordens atribuídas.",
+    "technician": "Técnico"
   },
   "common": {
     "actions": "Ações",

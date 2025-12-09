@@ -427,20 +427,20 @@
 
 /* Información de la instalación */
 .installationInfoBox {
-  background: #f0f0f0;
+  background: var(--color-bg-light);
   border-radius: 12px;
   padding: 20px;
   font-size: 16px;
   color: var(--color-text);
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--color-card-border);
   line-height: 1.6;
   margin-bottom: 16px;
 }
 
 /* Modo oscuro para installationInfoBox */
 :global(.dark) .installationInfoBox {
-  background: rgba(5, 126, 116, 0.15);
-  border: 1px solid rgba(5, 126, 116, 0.3);
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-card-border);
 }
 
 .infoHeader {

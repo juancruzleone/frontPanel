@@ -56,6 +56,9 @@
     "noSearchResults": "No results found",
     "tryDifferentSearch": "Try a different search term",
     "userNotFound": "User not found",
+    "assignedOrders": "Assigned orders",
+    "noAssignedOrders": "You have no assigned orders.",
+    "technician": "Technician",
     "validation": {
       "usernameRequired": "Username is required",
       "passwordRequired": "Password is required",
@@ -89,6 +92,11 @@
       },
       "progressText": "{{current}} of {{total}}"
     }
+  },
+  "profile": {
+    "assignedOrders": "Assigned orders",
+    "noAssignedOrders": "You have no assigned orders.",
+    "technician": "Technician"
   },
   "common": {
     "saving": "Saving",

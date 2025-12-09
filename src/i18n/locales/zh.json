@@ -56,6 +56,9 @@
     "noSearchResults": "未找到结果",
     "tryDifferentSearch": "尝试不同的搜索关键词",
     "userNotFound": "未找到用户",
+    "assignedOrders": "分配的订单",
+    "noAssignedOrders": "您没有分配的订单。",
+    "technician": "技术员",
     "validation": {
       "usernameRequired": "用户名是必需的",
       "passwordRequired": "密码是必需的",
@@ -89,6 +92,11 @@
       },
       "progressText": "{{total}} 中的 {{current}}"
     }
+  },
+  "profile": {
+    "assignedOrders": "分配的订单",
+    "noAssignedOrders": "您没有分配的订单。",
+    "technician": "技术员"
   },
   "common": {
     "page": "页",
