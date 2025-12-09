@@ -90,13 +90,28 @@ export const deleteInstallation = async (id: string) => {
 };
 
 export const addDeviceToInstallation = async (installationId: string, deviceData: any) => {
+  const headers = getHeadersWithContentType();
+  console.log('🔐 [ADD DEVICE] Headers generados:', headers);
+  console.log('🔐 [ADD DEVICE] Token en store:', useAuthStore.getState().token);
+  console.log('🔐 [ADD DEVICE] TenantId en store:', useAuthStore.getState().tenantId);
+  console.log('📤 [ADD DEVICE] Datos del dispositivo:', deviceData);
+  
   const response = await fetch(`${API_URL}installations/${installationId}/dispositivos`, {
     method: "POST",
-    headers: getHeadersWithContentType(),
+    headers: headers,
     body: JSON.stringify(deviceData),
   });
-  if (!response.ok) throw new Error("Error al agregar dispositivo");
+  
+  console.log('📥 [ADD DEVICE] Response status:', response.status);
+  
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    console.error('❌ [ADD DEVICE] Error data:', errorData);
+    throw new Error("Error al agregar dispositivo");
+  }
+  
   const result = await response.json();
+  console.log('✅ [ADD DEVICE] Success:', result);
   return result.success ? result.data : result;
 };
 
