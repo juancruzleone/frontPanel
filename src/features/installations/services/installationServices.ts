@@ -90,28 +90,45 @@ export const deleteInstallation = async (id: string) => {
 };
 
 export const addDeviceToInstallation = async (installationId: string, deviceData: any) => {
+  console.log('\n🚀 [ADD DEVICE] ==================== INICIO ====================');
+  
   const headers = getHeadersWithContentType();
-  console.log('🔐 [ADD DEVICE] Headers generados:', headers);
+  console.log('\n🔐 [ADD DEVICE] Headers después de getHeadersWithContentType():', headers);
+  console.log('🔐 [ADD DEVICE] Headers es un objeto?:', typeof headers === 'object');
+  console.log('🔐 [ADD DEVICE] Headers tiene Authorization?:', 'Authorization' in headers);
   console.log('🔐 [ADD DEVICE] Token en store:', useAuthStore.getState().token);
   console.log('🔐 [ADD DEVICE] TenantId en store:', useAuthStore.getState().tenantId);
   console.log('📤 [ADD DEVICE] Datos del dispositivo:', deviceData);
   
-  const response = await fetch(`${API_URL}installations/${installationId}/dispositivos`, {
+  const url = `${API_URL}installations/${installationId}/dispositivos`;
+  console.log('🌐 [ADD DEVICE] URL completa:', url);
+  
+  const fetchOptions = {
     method: "POST",
     headers: headers,
     body: JSON.stringify(deviceData),
-  });
+  };
   
+  console.log('📦 [ADD DEVICE] Opciones de fetch COMPLETAS:');
+  console.log(JSON.stringify(fetchOptions, null, 2));
+  console.log('\n🌐 [ADD DEVICE] Enviando request...');
+  
+  const response = await fetch(url, fetchOptions);
+  
+  console.log('\n📥 [ADD DEVICE] Response recibida:');
   console.log('📥 [ADD DEVICE] Response status:', response.status);
+  console.log('📥 [ADD DEVICE] Response statusText:', response.statusText);
   
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    console.error('❌ [ADD DEVICE] Error data:', errorData);
+    console.error('\n❌ [ADD DEVICE] Error data:', errorData);
+    console.error('❌ [ADD DEVICE] ==================== FIN CON ERROR ====================\n');
     throw new Error("Error al agregar dispositivo");
   }
   
   const result = await response.json();
-  console.log('✅ [ADD DEVICE] Success:', result);
+  console.log('\n✅ [ADD DEVICE] Success:', result);
+  console.log('✅ [ADD DEVICE] ==================== FIN EXITOSO ====================\n');
   return result.success ? result.data : result;
 };
 
