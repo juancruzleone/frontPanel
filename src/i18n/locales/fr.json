@@ -50,6 +50,8 @@
     "technicianDeleted": "Technicien supprimé avec succès",
     "errorDeletingTechnician": "Erreur lors de la suppression du technicien",
     "searchPlaceholder": "Rechercher par nom d'utilisateur...",
+    "viewProfile": "Voir le profil",
+    "editTechnician": "Éditer le technicien",
     "assignedOrders": "Commandes assignées",
     "noAssignedOrders": "Vous n'avez aucune commande assignée.",
     "technician": "Technicien",

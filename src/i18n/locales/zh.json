@@ -51,6 +51,7 @@
     "errorDeletingTechnician": "删除技术员时出错",
     "searchPlaceholder": "按用户名搜索...",
     "viewProfile": "查看个人资料",
+    "editTechnician": "编辑技术员",
     "userProfile": "用户档案",
     "actions": "操作",
     "noSearchResults": "未找到结果",

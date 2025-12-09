@@ -50,6 +50,8 @@
     "technicianDeleted": "Techniker erfolgreich gelöscht",
     "errorDeletingTechnician": "Fehler beim Löschen des Technikers",
     "searchPlaceholder": "Nach Benutzernamen suchen...",
+    "viewProfile": "Profil anzeigen",
+    "editTechnician": "Techniker bearbeiten",
     "assignedOrders": "Zugewiesene Aufträge",
     "noAssignedOrders": "Sie haben keine zugewiesenen Aufträge.",
     "technician": "Techniker",

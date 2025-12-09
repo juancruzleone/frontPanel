@@ -51,6 +51,7 @@
     "errorDeletingTechnician": "خطأ أثناء حذف الفني",
     "searchPlaceholder": "البحث باسم المستخدم...",
     "viewProfile": "عرض الملف الشخصي",
+    "editTechnician": "تحرير الفني",
     "userProfile": "الملف الشخصي للمستخدم",
     "actions": "إجراءات",
     "noSearchResults": "لم يتم العثور على نتائج",

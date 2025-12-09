@@ -51,6 +51,7 @@
     "errorDeletingTechnician": "Error deleting technician",
     "searchPlaceholder": "Search by username...",
     "viewProfile": "View profile",
+    "editTechnician": "Edit technician",
     "userProfile": "User Profile",
     "actions": "Actions",
     "noSearchResults": "No results found",

@@ -51,6 +51,7 @@
     "errorDeletingTechnician": "기술자 삭제 오류",
     "searchPlaceholder": "사용자 이름으로 검색...",
     "viewProfile": "프로필 보기",
+    "editTechnician": "기술자 편집",
     "userProfile": "사용자 프로필",
     "actions": "작업",
     "noSearchResults": "결과가 없습니다",
