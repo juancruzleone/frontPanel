@@ -96,8 +96,9 @@ const ModalEditTechnician = ({
   useEffect(() => {
     if (!touched.name) return
 
-    // El nombre es opcional, así que solo validamos si hay contenido
-    if (name.trim() && name.trim().length < 2) {
+    if (!name.trim()) {
+      setNameError(t('personal.validation.fullNameRequired', { defaultValue: 'El nombre completo es obligatorio' }))
+    } else if (name.trim().length < 2) {
       setNameError(t('personal.validation.nameMinLength', { defaultValue: 'El nombre debe tener al menos 2 caracteres' }))
     } else {
       setNameError("")
@@ -140,7 +141,9 @@ const ModalEditTechnician = ({
       isValid = false
     }
 
-    if (name.trim() && name.trim().length < 2) {
+    if (!name.trim()) {
+      isValid = false
+    } else if (name.trim().length < 2) {
       isValid = false
     }
 
@@ -164,9 +167,7 @@ const ModalEditTechnician = ({
         userName: userName.trim(),
       }
 
-      if (name.trim()) {
-        updateData.name = name.trim()
-      }
+      updateData.name = name.trim()
 
       // Solo incluir password si se está cambiando
       if (password) {
@@ -251,7 +252,7 @@ const ModalEditTechnician = ({
             <div className={formStyles.formGroup}>
               <label htmlFor="name">
                 <FiUserCheck size={16} />
-                {t('personal.fullName', { defaultValue: 'Nombre Completo' })}
+                {t('personal.fullName', { defaultValue: 'Nombre Completo' })} *
               </label>
               <div className={formStyles.inputWrapper}>
                 <input
@@ -262,6 +263,7 @@ const ModalEditTechnician = ({
                   onBlur={() => handleBlur('name')}
                   className={nameError && touched.name ? formStyles.errorInput : ''}
                   placeholder={t('personal.fullNamePlaceholder', { defaultValue: 'Ingrese nombre completo' })}
+                  required
                 />
               </div>
               {nameError && touched.name && (
