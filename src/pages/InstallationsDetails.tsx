@@ -323,7 +323,6 @@ const InstallationDetails = () => {
         )}
         <div className={styles.actions}>
           <button className={styles.addButton} onClick={() => setIsAddDeviceModalOpen(true)} data-tour="add-device-btn">
-            <Plus size={20} />
             <span>{t("installationDetails.addDevice")}</span>
           </button>
         </div>
