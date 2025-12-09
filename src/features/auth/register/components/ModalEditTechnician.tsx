@@ -3,7 +3,9 @@ import { useTranslation } from "react-i18next"
 import { updateTechnician } from "../services/registerServices"
 import { useAuthStore } from "../../../../store/authStore"
 import styles from "../styles/Modal.module.css"
+import formStyles from "../styles/registerForm.module.css"
 import buttonStyles from "../../../../shared/components/Buttons/formButtons.module.css"
+import { FiUser, FiUserCheck, FiLock, FiShield, FiEye, FiEyeOff } from "react-icons/fi"
 
 interface ModalEditTechnicianProps {
   isOpen: boolean
@@ -25,42 +27,133 @@ const ModalEditTechnician = ({
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+
+  // Estados para visibilidad de contraseña
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+
+  // Estados de validación en tiempo real
+  const [userNameError, setUserNameError] = useState("")
+  const [nameError, setNameError] = useState("")
+  const [passwordError, setPasswordError] = useState("")
+  const [confirmPasswordError, setConfirmPasswordError] = useState("")
+  const [touched, setTouched] = useState({
+    userName: false,
+    name: false,
+    password: false,
+    confirmPassword: false,
+  })
 
   useEffect(() => {
     if (technician) {
       setUserName(technician.userName || "")
       setName(technician.name || "")
-      setEmail(technician.email || "")
       setPassword("")
       setConfirmPassword("")
+      // Reset validation states
+      setUserNameError("")
+      setNameError("")
+      setPasswordError("")
+      setConfirmPasswordError("")
+      setTouched({
+        userName: false,
+        name: false,
+        password: false,
+        confirmPassword: false,
+      })
     }
   }, [technician])
+
+  // Validación de nombre de usuario
+  useEffect(() => {
+    if (!touched.userName) return
+
+    if (!userName.trim()) {
+      setUserNameError(t('personal.validation.usernameRequired'))
+    } else if (userName.length < 4) {
+      setUserNameError(t('personal.userNameMinLength'))
+    } else if (!/^[a-zA-Z0-9_]+$/.test(userName)) {
+      setUserNameError(t('personal.userNamePattern'))
+    } else {
+      setUserNameError("")
+    }
+  }, [userName, touched.userName, t])
+
+  // Validación de contraseña
+  useEffect(() => {
+    if (!touched.password) return
+
+    if (password && password.length < 6) {
+      setPasswordError(t('personal.validation.passwordMinLength'))
+    } else {
+      setPasswordError("")
+    }
+  }, [password, touched.password, t])
+
+  // Validación de nombre completo
+  useEffect(() => {
+    if (!touched.name) return
+
+    // El nombre es opcional, así que solo validamos si hay contenido
+    if (name.trim() && name.trim().length < 2) {
+      setNameError(t('personal.validation.nameMinLength', { defaultValue: 'El nombre debe tener al menos 2 caracteres' }))
+    } else {
+      setNameError("")
+    }
+  }, [name, touched.name, t])
+
+  // Validación de confirmación de contraseña
+  useEffect(() => {
+    if (!touched.confirmPassword) return
+
+    if (password && !confirmPassword) {
+      setConfirmPasswordError(t('personal.validation.confirmPasswordRequired'))
+    } else if (password && confirmPassword && password !== confirmPassword) {
+      setConfirmPasswordError(t('personal.validation.passwordsDoNotMatch'))
+    } else {
+      setConfirmPasswordError("")
+    }
+  }, [password, confirmPassword, touched.confirmPassword, t])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
 
+    // Marcar todos los campos como touched
+    setTouched({
+      userName: true,
+      name: true,
+      password: true,
+      confirmPassword: true,
+    })
+
     // Validaciones
+    let isValid = true
+
     if (!userName.trim()) {
-      setError(t('personal.userNameRequired', { defaultValue: 'El nombre de usuario es requerido' }))
-      return
+      isValid = false
+    } else if (userName.length < 4) {
+      isValid = false
+    } else if (!/^[a-zA-Z0-9_]+$/.test(userName)) {
+      isValid = false
     }
 
-    if (userName.length < 4) {
-      setError(t('personal.userNameMinLength', { defaultValue: 'El nombre de usuario debe tener al menos 4 caracteres' }))
-      return
+    if (name.trim() && name.trim().length < 2) {
+      isValid = false
     }
 
-    if (password && password.length < 6) {
-      setError(t('personal.passwordMinLength', { defaultValue: 'La contraseña debe tener al menos 6 caracteres' }))
-      return
+    if (password) {
+      if (password.length < 6) {
+        isValid = false
+      }
+      if (password !== confirmPassword) {
+        isValid = false
+      }
     }
 
-    if (password && password !== confirmPassword) {
-      setError(t('personal.passwordsDoNotMatch', { defaultValue: 'Las contraseñas no coinciden' }))
+    if (!isValid) {
       return
     }
 
@@ -73,10 +166,6 @@ const ModalEditTechnician = ({
 
       if (name.trim()) {
         updateData.name = name.trim()
-      }
-
-      if (email.trim()) {
-        updateData.email = email.trim()
       }
 
       // Solo incluir password si se está cambiando
@@ -99,7 +188,21 @@ const ModalEditTechnician = ({
     setError("")
     setPassword("")
     setConfirmPassword("")
+    setUserNameError("")
+    setNameError("")
+    setPasswordError("")
+    setConfirmPasswordError("")
+    setTouched({
+      userName: false,
+      name: false,
+      password: false,
+      confirmPassword: false,
+    })
     onRequestClose()
+  }
+
+  const handleBlur = (field: keyof typeof touched) => {
+    setTouched(prev => ({ ...prev, [field]: true }))
   }
 
   if (!isOpen) return null
@@ -117,100 +220,139 @@ const ModalEditTechnician = ({
         </div>
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1, overflow: 'hidden' }}>
-          <div className={styles.modalBody}>
-            <div className={styles.formGroup}>
-              <label htmlFor="userName" className={styles.label}>
+          <div className={styles.modalBody} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div className={formStyles.formGroup}>
+              <label htmlFor="userName">
+                <FiUser size={16} />
                 {t('personal.userName', { defaultValue: 'Nombre de Usuario' })} *
               </label>
-              <input
-                type="text"
-                id="userName"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                className={styles.input}
-                placeholder={t('personal.userNamePlaceholder', { defaultValue: 'Ingrese nombre de usuario' })}
-                required
-                minLength={4}
-                pattern="[a-zA-Z0-9_]+"
-                title={t('personal.userNamePattern', { defaultValue: 'Solo letras, números y guiones bajos' })}
-              />
+              <div className={formStyles.inputWrapper}>
+                <input
+                  type="text"
+                  id="userName"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  onBlur={() => handleBlur('userName')}
+                  className={userNameError && touched.userName ? formStyles.errorInput : ''}
+                  placeholder={t('personal.userNamePlaceholder', { defaultValue: 'Ingrese nombre de usuario' })}
+                  required
+                  minLength={4}
+                  pattern="[a-zA-Z0-9_]+"
+                  title={t('personal.userNamePattern', { defaultValue: 'Solo letras, números y guiones bajos' })}
+                />
+              </div>
+              {userNameError && touched.userName && (
+                <p className={formStyles.inputError}>
+                  {userNameError}
+                </p>
+              )}
             </div>
 
-            <div className={styles.formGroup}>
-              <label htmlFor="name" className={styles.label}>
+            <div className={formStyles.formGroup}>
+              <label htmlFor="name">
+                <FiUserCheck size={16} />
                 {t('personal.fullName', { defaultValue: 'Nombre Completo' })}
               </label>
-              <input
-                type="text"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className={styles.input}
-                placeholder={t('personal.fullNamePlaceholder', { defaultValue: 'Ingrese nombre completo' })}
-              />
+              <div className={formStyles.inputWrapper}>
+                <input
+                  type="text"
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  onBlur={() => handleBlur('name')}
+                  className={nameError && touched.name ? formStyles.errorInput : ''}
+                  placeholder={t('personal.fullNamePlaceholder', { defaultValue: 'Ingrese nombre completo' })}
+                />
+              </div>
+              {nameError && touched.name && (
+                <p className={formStyles.inputError}>
+                  {nameError}
+                </p>
+              )}
             </div>
 
-            <div className={styles.formGroup}>
-              <label htmlFor="email" className={styles.label}>
-                {t('personal.email', { defaultValue: 'Email' })}
-              </label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={styles.input}
-                placeholder={t('personal.emailPlaceholder', { defaultValue: 'Ingrese email' })}
-              />
-            </div>
-
-            <div className={styles.formGroup}>
-              <label htmlFor="password" className={styles.label}>
+            <div className={formStyles.formGroup}>
+              <label htmlFor="password">
+                <FiLock size={16} />
                 {t('personal.newPassword', { defaultValue: 'Nueva Contraseña' })}
               </label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className={styles.input}
-                placeholder={t('personal.passwordPlaceholder', { defaultValue: 'Dejar en blanco para no cambiar' })}
-                minLength={6}
-              />
-              <small style={{ fontSize: '0.85rem', color: '#888', marginTop: '4px', display: 'block' }}>
-                {t('personal.passwordHint', { defaultValue: 'Dejar en blanco si no desea cambiar la contraseña' })}
-              </small>
+              <div className={formStyles.inputWrapper}>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  onBlur={() => handleBlur('password')}
+                  className={passwordError && touched.password ? formStyles.errorInput : ''}
+                  placeholder={t('personal.passwordPlaceholder', { defaultValue: 'Dejar en blanco para no cambiar' })}
+                  minLength={6}
+                />
+                <button
+                  type="button"
+                  className={formStyles.eyesButton}
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? t('personal.hidePassword') : t('personal.showPassword')}
+                >
+                  {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                </button>
+              </div>
+              {passwordError && touched.password ? (
+                <p className={formStyles.inputError}>
+                  {passwordError}
+                </p>
+              ) : (
+                <small style={{ fontSize: '0.85rem', color: '#888', marginTop: '4px', display: 'block' }}>
+                  {t('personal.passwordHint', { defaultValue: 'Dejar en blanco si no desea cambiar la contraseña' })}
+                </small>
+              )}
             </div>
 
             {password && (
-              <div className={styles.formGroup}>
-                <label htmlFor="confirmPassword" className={styles.label}>
+              <div className={formStyles.formGroup}>
+                <label htmlFor="confirmPassword">
+                  <FiShield size={16} />
                   {t('personal.confirmPassword', { defaultValue: 'Confirmar Contraseña' })} *
                 </label>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className={styles.input}
-                  placeholder={t('personal.confirmPasswordPlaceholder', { defaultValue: 'Confirme la nueva contraseña' })}
-                  required={!!password}
-                  minLength={6}
-                />
+                <div className={formStyles.inputWrapper}>
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    id="confirmPassword"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    onBlur={() => handleBlur('confirmPassword')}
+                    className={confirmPasswordError && touched.confirmPassword ? formStyles.errorInput : ''}
+                    placeholder={t('personal.confirmPasswordPlaceholder', { defaultValue: 'Confirme la nueva contraseña' })}
+                    required={!!password}
+                    minLength={6}
+                  />
+                  <button
+                    type="button"
+                    className={formStyles.eyesButton}
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    aria-label={showConfirmPassword ? t('personal.hidePassword') : t('personal.showPassword')}
+                  >
+                    {showConfirmPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                  </button>
+                </div>
+                {confirmPasswordError && touched.confirmPassword && (
+                  <p className={formStyles.inputError}>
+                    {confirmPasswordError}
+                  </p>
+                )}
               </div>
             )}
 
             {error && (
-              <div style={{ padding: '12px', background: '#fee', border: '1px solid #fcc', borderRadius: '8px', color: '#c00', marginBottom: '16px' }}>
-                {error}
+              <div className={formStyles.alertDanger}>
+                <strong>{t('common.error')}:</strong> {error}
               </div>
             )}
           </div>
 
-          <div className={styles.modalFooter}>
+          <div className={buttonStyles.actions}>
             <button
               type="submit"
-              className={styles.submitButton}
+              className={buttonStyles.submitButton}
               disabled={loading}
             >
               {loading

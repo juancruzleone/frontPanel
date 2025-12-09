@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next"
 
 interface RegisterTechnicianFormData {
   username: string
+  fullName: string
   password: string
   confirmPassword: string
 }
@@ -13,6 +14,7 @@ const useRegisterTechnician = () => {
   const { t } = useTranslation()
   const [formData, setFormData] = useState<RegisterTechnicianFormData>({
     username: "",
+    fullName: "",
     password: "",
     confirmPassword: "",
   })
@@ -24,8 +26,8 @@ const useRegisterTechnician = () => {
 
   // Verificar si el formulario está completo
   const isFormComplete = useMemo(() => {
-    return formData.username.trim() !== "" && formData.password.trim() !== "" && formData.confirmPassword.trim() !== ""
-  }, [formData.username, formData.password, formData.confirmPassword])
+    return formData.username.trim() !== "" && formData.fullName.trim() !== "" && formData.password.trim() !== "" && formData.confirmPassword.trim() !== ""
+  }, [formData.username, formData.fullName, formData.password, formData.confirmPassword])
 
   // Verificar si el formulario es válido (sin errores)
   const isFormValid = useMemo(() => {
@@ -47,6 +49,7 @@ const useRegisterTechnician = () => {
 
       const validationData = {
         userName: fieldName === "username" ? value : formData.username,
+        fullName: fieldName === "fullName" ? value : formData.fullName,
         password: fieldName === "password" ? value : formData.password,
         confirmPassword: fieldName === "confirmPassword" ? value : formData.confirmPassword,
       }
@@ -96,13 +99,14 @@ const useRegisterTechnician = () => {
     async (
       e: React.FormEvent,
       onSuccess: (message: string) => void,
-      onAdd: (username: string, password: string) => Promise<{ message: string }>,
+      onAdd: (username: string, password: string, fullName: string) => Promise<{ message: string }>,
     ) => {
       e.preventDefault()
 
       // Marcar todos los campos como tocados
       setTouchedFields({
         username: true,
+        fullName: true,
         password: true,
         confirmPassword: true,
       })
@@ -123,6 +127,7 @@ const useRegisterTechnician = () => {
       try {
         const validation = await validateRegisterFormWithTranslation({
           userName: formData.username,
+          fullName: formData.fullName,
           password: formData.password,
           confirmPassword: formData.confirmPassword,
         }, t)
@@ -133,7 +138,7 @@ const useRegisterTechnician = () => {
           return
         }
 
-        const result = await onAdd(formData.username, formData.password)
+        const result = await onAdd(formData.username, formData.password, formData.fullName)
         onSuccess(result.message)
         resetForm()
       } catch (err: any) {
@@ -148,6 +153,7 @@ const useRegisterTechnician = () => {
   const resetForm = useCallback(() => {
     setFormData({
       username: "",
+      fullName: "",
       password: "",
       confirmPassword: "",
     })

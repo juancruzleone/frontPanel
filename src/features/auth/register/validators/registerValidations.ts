@@ -9,6 +9,12 @@ export const getCuentaRegistroSchema = (t: TFunction) => yup.object({
     .min(6, "El nombre de usuario debe tener al menos 6 caracteres")
     .max(50, "El nombre de usuario no puede tener más de 50 caracteres")
     .matches(/^[a-zA-Z0-9_]+$/, "El nombre de usuario solo puede contener letras, números y guiones bajos"),
+  fullName: yup
+    .string()
+    .trim()
+    .required(t("personal.validation.fullNameRequired", { defaultValue: "El nombre completo es obligatorio" }))
+    .min(3, "El nombre completo debe tener al menos 3 caracteres")
+    .max(100, "El nombre completo no puede tener más de 100 caracteres"),
   password: yup
     .string()
     .required(t("personal.validation.passwordRequired"))
@@ -29,6 +35,12 @@ export const cuentaRegistro = yup.object({
     .min(6, "El nombre de usuario debe tener al menos 6 caracteres")
     .max(50, "El nombre de usuario no puede tener más de 50 caracteres")
     .matches(/^[a-zA-Z0-9_]+$/, "El nombre de usuario solo puede contener letras, números y guiones bajos"),
+  fullName: yup
+    .string()
+    .trim()
+    .required("El nombre completo es obligatorio")
+    .min(3, "El nombre completo debe tener al menos 3 caracteres")
+    .max(100, "El nombre completo no puede tener más de 100 caracteres"),
   password: yup
     .string()
     .required("La contraseña es obligatoria")
@@ -42,6 +54,7 @@ export const cuentaRegistro = yup.object({
 
 export const validateRegisterForm = async (data: {
   userName: string
+  fullName: string
   password: string
   confirmPassword: string
 }) => {
@@ -66,6 +79,7 @@ export const validateRegisterForm = async (data: {
 export const validateRegisterFormWithTranslation = async (
   data: {
     userName: string
+    fullName: string
     password: string
     confirmPassword: string
   },
@@ -95,6 +109,7 @@ export const validateField = async (
   value: string,
   allData: {
     userName: string
+    fullName: string
     password: string
     confirmPassword: string
   },
@@ -109,6 +124,13 @@ export const validateField = async (
           userName: cuentaRegistro.fields.userName,
         })
         await fieldSchema.validate({ userName: value })
+        break
+
+      case "fullName":
+        fieldSchema = yup.object({
+          fullName: cuentaRegistro.fields.fullName,
+        })
+        await fieldSchema.validate({ fullName: value })
         break
 
       case "password":
@@ -143,6 +165,7 @@ export const validateFieldWithTranslation = async (
   value: string,
   allData: {
     userName: string
+    fullName: string
     password: string
     confirmPassword: string
   },
@@ -158,6 +181,13 @@ export const validateFieldWithTranslation = async (
           userName: schema.fields.userName,
         })
         await fieldSchema.validate({ userName: value })
+        break
+
+      case "fullName":
+        fieldSchema = yup.object({
+          fullName: schema.fields.fullName,
+        })
+        await fieldSchema.validate({ fullName: value })
         break
 
       case "password":

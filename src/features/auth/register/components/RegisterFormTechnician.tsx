@@ -1,12 +1,13 @@
 import type React from "react"
 import { useCallback } from "react"
-import { FiEye, FiEyeOff, FiUser, FiLock, FiShield, FiUserPlus } from "react-icons/fi"
+import { FiEye, FiEyeOff, FiUser, FiLock, FiShield, FiUserPlus, FiUserCheck } from "react-icons/fi"
 import styles from "../styles/registerForm.module.css"
 import formButtonStyles from "../../../../shared/components/Buttons/formButtons.module.css"
 import { useTranslation } from "react-i18next"
 
 interface RegisterTechnicianFormData {
   username: string
+  fullName: string
   password: string
   confirmPassword: string
 }
@@ -14,7 +15,7 @@ interface RegisterTechnicianFormData {
 interface RegisterTechnicianFormProps {
   onCancel: () => void
   onSuccess: (message: string) => void
-  onAdd: (username: string, password: string) => Promise<{ message: string }>
+  onAdd: (username: string, password: string, fullName: string) => Promise<{ message: string }>
   formData: RegisterTechnicianFormData
   formErrors: Record<string, string>
   showPassword: boolean
@@ -25,7 +26,7 @@ interface RegisterTechnicianFormProps {
   handleSubmitForm: (
     e: React.FormEvent,
     onSuccess: (message: string) => void,
-    onAdd: (username: string, password: string) => Promise<{ message: string }>,
+    onAdd: (username: string, password: string, fullName: string) => Promise<{ message: string }>,
   ) => void
   isSubmitting: boolean
   togglePasswordVisibility: () => void
@@ -54,6 +55,7 @@ const RegisterTechnicianForm = ({
   
   const fields = [
     { name: "username", label: t('personal.username'), type: "text", icon: FiUser },
+    { name: "fullName", label: t('personal.fullName', { defaultValue: 'Nombre Completo' }), type: "text", icon: FiUserCheck },
     { name: "password", label: t('personal.password'), type: "password", icon: FiLock },
     { name: "confirmPassword", label: t('personal.confirmPassword'), type: "password", icon: FiShield },
   ]

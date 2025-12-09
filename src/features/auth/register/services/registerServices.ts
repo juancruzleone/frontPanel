@@ -3,7 +3,7 @@ import { detectPlanLimitError } from "../../../../shared/utils/planLimitErrorHan
 
 const API_URL = import.meta.env.VITE_API_URL
 
-export const userRegister = async (username: string, password: string, token: string) => {
+export const userRegister = async (username: string, password: string, fullName: string, token: string) => {
   const headers = getHeadersWithContentType()
   headers.Authorization = `Bearer ${token}` // Sobrescribir el token del store con el token pasado como parámetro
   
@@ -13,6 +13,7 @@ export const userRegister = async (username: string, password: string, token: st
     body: JSON.stringify({
       userName: username,
       password: password,
+      name: fullName,
     }),
   })
 

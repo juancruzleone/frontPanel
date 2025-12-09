@@ -20,6 +20,7 @@ const RegisterWithPlanLimits: React.FC<RegisterWithPlanLimitsProps> = ({
   const { token } = useAuthStore();
   const [formData, setFormData] = useState({
     username: '',
+    fullName: '',
     password: '',
     confirmPassword: ''
   });
@@ -46,6 +47,12 @@ const RegisterWithPlanLimits: React.FC<RegisterWithPlanLimitsProps> = ({
   const validateForm = (): boolean => {
     if (!formData.username.trim()) {
       setGeneralError(t('validation.usernameRequired'));
+      setShowGeneralError(true);
+      return false;
+    }
+
+    if (!formData.fullName.trim()) {
+      setGeneralError(t('validation.fullNameRequired', { defaultValue: 'El nombre completo es requerido' }));
       setShowGeneralError(true);
       return false;
     }
@@ -77,11 +84,12 @@ const RegisterWithPlanLimits: React.FC<RegisterWithPlanLimitsProps> = ({
     setShowGeneralError(false);
 
     try {
-      await userRegister(formData.username, formData.password, token || '');
+      await userRegister(formData.username, formData.password, formData.fullName, token || '');
       
       // Éxito: limpiar formulario y ejecutar callback
       setFormData({
         username: '',
+        fullName: '',
         password: '',
         confirmPassword: ''
       });
@@ -126,6 +134,23 @@ const RegisterWithPlanLimits: React.FC<RegisterWithPlanLimitsProps> = ({
             onChange={handleInputChange}
             className={styles.input}
             placeholder={t('auth.usernamePlaceholder')}
+            disabled={isLoading}
+            required
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="fullName" className={styles.label}>
+            {t('auth.fullName', { defaultValue: 'Nombre Completo' })}
+          </label>
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            value={formData.fullName}
+            onChange={handleInputChange}
+            className={styles.input}
+            placeholder={t('auth.fullNamePlaceholder', { defaultValue: 'Ingrese el nombre completo' })}
             disabled={isLoading}
             required
           />

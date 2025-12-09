@@ -636,6 +636,16 @@
   opacity: 0.6;
 }
 
+.inputError {
+  border-color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.05) !important;
+}
+
+.inputError:focus {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.15) !important;
+}
+
 .modalFooter {
   display: flex;
   gap: 1rem;

@@ -31,8 +31,11 @@
     "registerNewTechnician": "Enregistrer un nouveau technicien",
     "completeInformation": "Complétez les informations pour créer un nouveau compte",
     "username": "Nom d'utilisateur",
+    "fullName": "Nom complet",
+    "fullNamePlaceholder": "Entrez le nom complet",
     "password": "Mot de passe",
     "confirmPassword": "Confirmer le mot de passe",
+    "confirmPasswordPlaceholder": "Confirmez le mot de passe",
     "enterField": "Entrez {{field}}",
     "hidePassword": "Masquer le mot de passe",
     "showPassword": "Afficher le mot de passe",
@@ -55,6 +58,21 @@
     "assignedOrders": "Commandes assignées",
     "noAssignedOrders": "Vous n'avez aucune commande assignée.",
     "technician": "Technicien",
+    "userName": "Nom d'utilisateur",
+    "userNamePlaceholder": "Entrez le nom d'utilisateur",
+    "userNamePattern": "Seulement lettres, chiffres et underscores",
+    "userNameRequired": "Le nom d'utilisateur est requis",
+    "userNameMinLength": "Le nom d'utilisateur doit contenir au moins 4 caractères",
+    "newPassword": "Nouveau mot de passe",
+    "passwordPlaceholder": "Laisser vide pour ne pas modifier",
+    "passwordHint": "Laisser vide si vous ne souhaitez pas changer le mot de passe",
+    "technicianUpdated": "Technicien mis à jour avec succès",
+    "errorUpdatingTechnician": "Erreur lors de la mise à jour du technicien",
+    "validation": {
+      "fullNameRequired": "Le nom complet est requis",
+      "fullNameMinLength": "Le nom complet doit contenir au moins 4 caractères",
+      "fullNameMaxLength": "Le nom complet ne peut pas dépasser 255 caractères"
+    },
     "tour": {
       "welcome": {
         "title": "Bienvenue dans la gestion du personnel !",

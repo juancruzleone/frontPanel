@@ -38,13 +38,13 @@ export function useRegister() {
   }, [token])
 
   const addTechnician = useCallback(
-    async (username: string, password: string): Promise<{ message: string }> => {
+    async (username: string, password: string, fullName: string): Promise<{ message: string }> => {
       if (!token) {
         throw new Error(t('personal.noPermission'))
       }
 
       try {
-        const response = await userRegister(username, password, token)
+        const response = await userRegister(username, password, fullName, token)
         const message = response?.message || t('personal.userCreated')
 
         // Actualizar lista de técnicos
