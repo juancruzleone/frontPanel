@@ -18,6 +18,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -41,6 +42,7 @@
     opacity: 0;
     transform: translateY(30px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -125,6 +127,10 @@
   background: var(--color-bg-light);
   color: var(--color-text);
   transform: scale(1.1);
+}
+
+:global([data-theme="light"]) .closeButton:hover {
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .closeButton:disabled {
@@ -256,10 +262,12 @@
 }
 
 @keyframes pulse {
+
   0%,
   100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.05);
   }
@@ -268,4 +276,4 @@
 .successIconLarge svg,
 .warningIcon svg {
   animation: pulse 2s infinite;
-} 
+}

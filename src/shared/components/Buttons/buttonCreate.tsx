@@ -1,5 +1,4 @@
 import React from "react"
-import { Plus } from "lucide-react"
 import styles from "./buttons.module.css"
 
 interface ButtonCreateProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -17,7 +16,6 @@ const ButtonCreate: React.FC<ButtonCreateProps> = ({ onClick, children, classNam
       onClick={onClick}
       {...rest}
     >
-      <Plus size={16} />
       {children || title || text || "Crear"}
     </button>
   )

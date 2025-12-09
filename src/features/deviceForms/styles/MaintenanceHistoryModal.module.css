@@ -17,6 +17,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -39,6 +40,7 @@
     transform: translateY(30px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -83,6 +85,10 @@
 
 .closeButton:hover {
   background: rgba(255, 255, 255, 0.3);
+}
+
+:global([data-theme="light"]) .closeButton:hover {
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .deviceInfo {

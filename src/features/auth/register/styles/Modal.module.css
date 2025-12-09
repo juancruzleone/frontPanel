@@ -128,6 +128,10 @@
   transform: scale(1.1);
 }
 
+:global([data-theme="light"]) .closeButton:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
 .closeButton:disabled {
   opacity: 0.5;
   cursor: not-allowed;

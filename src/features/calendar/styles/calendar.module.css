@@ -1003,6 +1003,10 @@
   transform: scale(1.1);
 }
 
+:global([data-theme="light"]) .datePickerCloseButton:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
 .datePickerContent {
   padding: 0 24px 24px 24px;
 }

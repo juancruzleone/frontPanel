@@ -42,7 +42,7 @@ const Installations = () => {
   // Función para traducir el tipo de instalación
   const translateInstallationType = (type: string) => {
     if (!type) return ''
-    
+
     // Mapeo sin duplicados
     const typeMapping: { [key: string]: string } = {
       // Español
@@ -134,13 +134,13 @@ const Installations = () => {
       'Serviço': 'service',
       'Outro': 'other'
     }
-    
+
     // Buscar en el mapeo primero
     const mappedType = typeMapping[type]
     if (mappedType) {
       return t(`installations.installationTypes.${mappedType}`)
     }
-    
+
     // Si no está en el mapeo, intentar normalizar
     const normalizedType = type.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '')
     const translation = t(`installations.installationTypes.${normalizedType}`, type)
@@ -150,10 +150,10 @@ const Installations = () => {
   // Función para traducir elementos de dirección
   const translateAddressElement = (element: string, type: string) => {
     if (!element) return ''
-    
+
     // Normalizar el elemento para buscar en las traducciones
     const normalizedElement = element.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '')
-    
+
     // Intentar traducir, si no existe la traducción, devolver el original
     const translation = t(`installations.addressTypes.${normalizedElement}`, element)
     return translation === element ? element : translation
@@ -162,27 +162,27 @@ const Installations = () => {
   // Función para traducir la dirección completa
   const translateAddress = (province: string, city: string, address: string, floorSector: string) => {
     const parts = []
-    
+
     if (province) {
       const translatedProvince = translateAddressElement(province, 'province')
       parts.push(translatedProvince)
     }
-    
+
     if (city) {
       const translatedCity = translateAddressElement(city, 'city')
       parts.push(translatedCity)
     }
-    
+
     if (address) {
       const translatedAddress = translateAddressElement(address, 'address')
       parts.push(translatedAddress)
     }
-    
+
     if (floorSector) {
       const translatedFloorSector = translateAddressElement(floorSector, 'floorSector')
       parts.push(translatedFloorSector)
     }
-    
+
     return parts.join(' | ')
   }
 
@@ -192,7 +192,7 @@ const Installations = () => {
   const role = useAuthStore((s) => s.role)
   const isTechnician = role && ["tecnico", "técnico"].includes(role.toLowerCase())
   const { tourCompleted, startTour, skipTour } = useInstallationsTour()
-  
+
 
 
   const [selectedCategory, setSelectedCategory] = useState("")
@@ -379,27 +379,27 @@ const Installations = () => {
         <div className={styles.typeButtons}>
           {!isTechnician && (
             <>
-              <button 
-                className={styles.smallButton} 
+              <button
+                className={styles.smallButton}
                 onClick={() => setIsCreateInstallationTypeModalOpen(true)}
                 data-tour="create-installation-type-btn"
               >
-                + {t('installations.createInstallationType')}
+                {t('installations.createInstallationType')}
               </button>
               <button className={styles.smallButton} onClick={() => setIsCreateCategoryModalOpen(true)}>
-                + {t('installations.createCategory')}
+                {t('installations.createCategory')}
               </button>
             </>
           )}
-          <button 
-            className={styles.manageButton} 
+          <button
+            className={styles.manageButton}
             onClick={() => setIsViewInstallationTypesModalOpen(true)}
             data-tour="view-installation-types-btn"
           >
-            📋 {t('installations.viewInstallationTypes')}
+            {t('installations.viewInstallationTypes')}
           </button>
           <button className={styles.manageButton} onClick={() => setIsViewCategoriesModalOpen(true)}>
-            📋 {t('installations.viewCategories')}
+            {t('installations.viewCategories')}
           </button>
         </div>
 
@@ -418,9 +418,9 @@ const Installations = () => {
           {loading ? (
             <>
               <div className={styles.cardsRow}>
-                {[1,2,3].map((_,i) => <Skeleton key={i} height={120} width={"100%"} style={{borderRadius:14, marginBottom:16}} />)}
+                {[1, 2, 3].map((_, i) => <Skeleton key={i} height={120} width={"100%"} style={{ borderRadius: 14, marginBottom: 16 }} />)}
               </div>
-              <Skeleton height={220} width={"100%"} style={{borderRadius:14, marginTop:16}} />
+              <Skeleton height={220} width={"100%"} style={{ borderRadius: 14, marginTop: 16 }} />
             </>
           ) : filteredInstallations.length === 0 ? (
             <p className={styles.loader}>{t('installations.noInstallationsFound')}</p>

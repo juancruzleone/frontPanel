@@ -18,6 +18,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -42,6 +43,7 @@
     opacity: 0;
     transform: translateY(30px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -126,6 +128,10 @@
   background: var(--color-bg-light);
   color: var(--color-text);
   transform: scale(1.1);
+}
+
+:global([data-theme="light"]) .closeButton:hover {
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .closeButton:disabled {
@@ -415,13 +421,13 @@
     width: 98%;
     max-height: 98vh;
   }
-  
+
   .modalHeader,
   .modalContent,
   .modalFooter {
     padding: 1.5rem;
   }
-  
+
   .title {
     font-size: 1.5rem;
   }
@@ -547,10 +553,12 @@
 }
 
 @keyframes pulse {
+
   0%,
   100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.05);
   }
@@ -718,6 +726,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -765,7 +774,8 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  padding: 1rem 0; /* Solo padding arriba y abajo */
+  padding: 1rem 0;
+  /* Solo padding arriba y abajo */
 }
 
 .listItem {
@@ -777,8 +787,9 @@
   border-radius: 14px;
   border: 1px solid var(--color-card-border);
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  margin: 0 1.5rem; /* Agrega separación lateral solo a los ítems */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  margin: 0 1.5rem;
+  /* Agrega separación lateral solo a los ítems */
 }
 
 .listItem:hover {
@@ -818,7 +829,8 @@
   text-align: center;
   color: var(--color-text);
   padding: 40px 0;
-  margin: 0 1.5rem; /* Igual que los ítems, para que no toque los bordes */
+  margin: 0 1.5rem;
+  /* Igual que los ítems, para que no toque los bordes */
 }
 
 .loaderContainer {
@@ -835,7 +847,7 @@
   font-weight: 500;
   margin: 0;
   text-align: right;
-} 
+}
 
 /* Estilos para ModalError */
 .errorContentBody {
@@ -889,4 +901,4 @@
 
 .errorButtonLarge:active {
   transform: translateY(0);
-} 
+}

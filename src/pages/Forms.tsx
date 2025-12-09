@@ -185,10 +185,10 @@ const Forms = () => {
 
         <div className={styles.typeButtons}>
           <button className={styles.smallButton} onClick={() => setIsCreateCategoryModalOpen(true)} data-tour="create-form-category-btn">
-            + {t('forms.createFormCategory')}
+            {t('forms.createFormCategory')}
           </button>
           <button className={styles.manageButton} onClick={() => setIsManageCategoriesModalOpen(true)} data-tour="manage-categories-btn">
-            📋 {t('forms.viewCreatedCategories')}
+            {t('forms.viewCreatedCategories')}
           </button>
         </div>
 

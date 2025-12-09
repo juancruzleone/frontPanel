@@ -47,13 +47,13 @@ const AutoSizeSelect = ({ value, onChange, options, placeholder, className }: Au
       tempSpan.style.fontFamily = 'Encode Sans, sans-serif';
       tempSpan.style.fontWeight = '500';
       tempSpan.style.padding = '12px 40px 12px 16px';
-      
+
       document.body.appendChild(tempSpan);
-      
+
       // Encontrar el texto más largo
       let maxWidth = 0;
       const allTexts = [placeholder || '', ...options.map(opt => opt.label)];
-      
+
       allTexts.forEach(text => {
         tempSpan.textContent = text;
         const width = tempSpan.offsetWidth;
@@ -61,9 +61,9 @@ const AutoSizeSelect = ({ value, onChange, options, placeholder, className }: Au
           maxWidth = width;
         }
       });
-      
+
       document.body.removeChild(tempSpan);
-      
+
       // Establecer el ancho mínimo de 180px o el ancho calculado, lo que sea mayor
       setSelectWidth(Math.max(180, maxWidth + 20)); // +20 para padding extra
     }
@@ -85,8 +85,8 @@ const AutoSizeSelect = ({ value, onChange, options, placeholder, className }: Au
           </option>
         ))}
       </select>
-      <ChevronDown 
-        size={16} 
+      <ChevronDown
+        size={16}
         className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
       />
     </div>
@@ -202,7 +202,7 @@ const Calendar = () => {
       const nextMonthEnd = new Date(today.getFullYear(), today.getMonth() + 2, 0)
 
       let matchesDate = true
-      
+
       // Si hay un filtro de fecha específica, tiene prioridad sobre otros filtros de fecha
       if (selectedDateFilter) {
         matchesDate = compareDates(order.fechaProgramada, selectedDateFilter);
@@ -358,17 +358,17 @@ const Calendar = () => {
       <div className={styles.calendarContainer}>
         <div className={styles.calendarHeader}>
           <button onClick={() => navigateMonth(-1)} className={styles.navButton}>
-            <ChevronLeft 
-              size={24} 
+            <ChevronLeft
+              size={24}
               className={dark ? styles.dark : styles.light}
             />
           </button>
           <h2 className={styles.monthTitle}>
-            {monthName} <span style={{cursor:'pointer', textDecoration:'underline'}} onClick={() => setIsYearModalOpen(true)}>{year}</span>
+            {monthName} <span style={{ cursor: 'pointer', textDecoration: 'underline' }} onClick={() => setIsYearModalOpen(true)}>{year}</span>
           </h2>
           <button onClick={() => navigateMonth(1)} className={styles.navButton}>
-            <ChevronRight 
-              size={24} 
+            <ChevronRight
+              size={24}
               className={dark ? styles.dark : styles.light}
             />
           </button>
@@ -408,7 +408,7 @@ const Calendar = () => {
                         onClick={() => handleOpenDetails(order)}
                       >
                         <span className={styles.orderTitle}>{order.titulo}</span>
-                        <span style={{fontSize:10}}>{translatePriority(order.prioridad)}</span>
+                        <span style={{ fontSize: 10 }}>{translatePriority(order.prioridad)}</span>
                       </div>
                     ))}
                     {dayOrders.length > 3 && (
@@ -429,7 +429,7 @@ const Calendar = () => {
       // Usar la función utilitaria para normalizar la fecha
       const dateString = formatDateToString(order.fechaProgramada);
       const dateKey = new Date(dateString).toDateString();
-      
+
       if (!acc[dateKey]) {
         acc[dateKey] = []
       }
@@ -556,7 +556,7 @@ const Calendar = () => {
               placeholder={t('calendar.allTechnicians') || 'Todos los técnicos'}
               autoSize={true}
             />
-            
+
             <HybridSelect
               value={selectedPriority}
               onChange={setSelectedPriority}
@@ -579,10 +579,10 @@ const Calendar = () => {
               type="button"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className={styles.dateButtonIcon}>
-                <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
-                <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2" />
+                <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
               </svg>
               {selectedDateFilter ? (
                 <>
@@ -622,9 +622,9 @@ const Calendar = () => {
           {loading ? (
             <>
               <div className={styles.cardsRow}>
-                {[1,2,3].map((_,i) => <Skeleton key={i} height={120} width={"100%"} style={{borderRadius:14, marginBottom:16}} />)}
+                {[1, 2, 3].map((_, i) => <Skeleton key={i} height={120} width={"100%"} style={{ borderRadius: 14, marginBottom: 16 }} />)}
               </div>
-              <Skeleton height={220} width={"100%"} style={{borderRadius:14, marginTop:16}} />
+              <Skeleton height={220} width={"100%"} style={{ borderRadius: 14, marginTop: 16 }} />
             </>
           ) : error ? (
             <p className={styles.error}>Error: {error}</p>
@@ -633,13 +633,13 @@ const Calendar = () => {
 
               {filteredWorkOrders.length === 0 ? (
                 <p className={styles.noResults}>
-                  {selectedDateFilter 
+                  {selectedDateFilter
                     ? `No se encontraron órdenes de trabajo para el ${parseDateString(selectedDateFilter).toLocaleDateString(i18n.language || 'es', {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: '2-digit',
-                        day: '2-digit'
-                      })}`
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: '2-digit',
+                      day: '2-digit'
+                    })}`
                     : t('calendar.noOrders')
                   }
                 </p>
@@ -683,23 +683,16 @@ const Calendar = () => {
         <div className={styles.datePickerBackdrop}>
           <div className={styles.datePickerModal}>
             <div className={styles.datePickerHeader}>
-              <div className={styles.datePickerIcon}>
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-                  <rect x="3" y="4" width="18" height="18" rx="2" fill="#3b82f6"/>
-                  <line x1="16" y1="2" x2="16" y2="6" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-                  <line x1="8" y1="2" x2="8" y2="6" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-                  <line x1="3" y1="10" x2="21" y2="10" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-                </svg>
-              </div>
+
               <h2 className={styles.datePickerTitle}>{t('calendar.selectYear') || 'Selecciona un año'}</h2>
-              <button 
+              <button
                 className={styles.datePickerCloseButton}
                 onClick={() => setIsYearModalOpen(false)}
               >
                 ×
               </button>
             </div>
-            
+
             <div className={styles.datePickerContent}>
               <div className={styles.yearPickerContainer}>
                 <div className={styles.yearPickerGrid}>

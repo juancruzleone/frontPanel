@@ -17,6 +17,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -30,7 +31,7 @@
   width: 95%;
   max-height: 95vh;
   overflow: hidden;
-  box-shadow: 
+  box-shadow:
     0 25px 50px rgba(0, 0, 0, 0.15),
     0 0 0 1px rgba(255, 255, 255, 0.05),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -44,6 +45,7 @@
     opacity: 0;
     transform: translateY(30px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -127,6 +129,10 @@
   background: var(--color-bg-light);
   color: var(--color-text);
   transform: scale(1.1);
+}
+
+:global([data-theme="light"]) .closeButton:hover {
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .closeButton:disabled {
@@ -250,7 +256,8 @@
 
 .formRowFixed .formGroup {
   flex: 1;
-  min-width: 0; /* Permite que los elementos se contraigan */
+  min-width: 0;
+  /* Permite que los elementos se contraigan */
 }
 
 .infoDisplay {
@@ -680,10 +687,12 @@
 }
 
 @keyframes pulse {
+
   0%,
   100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.05);
   }
@@ -694,6 +703,13 @@
   animation: pulse 2s infinite;
 }
 
-.dark .modal, .dark .modalContent, .dark .successMessageLarge, .dark .successMessage, .dark .errorMessage, .dark .modalContentBody, .dark .successContentBody, .dark .errorContentBody {
+.dark .modal,
+.dark .modalContent,
+.dark .successMessageLarge,
+.dark .successMessage,
+.dark .errorMessage,
+.dark .modalContentBody,
+.dark .successContentBody,
+.dark .errorContentBody {
   color: #fff !important;
 }

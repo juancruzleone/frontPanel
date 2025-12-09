@@ -1,6 +1,7 @@
 import React from "react"
 import styles from "../styles/home.module.css"
 import { useTranslation } from "react-i18next"
+import { Building2, Calendar } from "lucide-react"
 
 interface WorkOrder {
   _id: string
@@ -83,10 +84,12 @@ const RecentWorkOrders: React.FC<RecentWorkOrdersProps> = ({ workOrders }) => {
               <div className={styles.orderMeta}>
                 <div className={styles.orderInfo}>
                   <span className={styles.orderInst}>
-                    🏢 {order.instalacion?.company || t('workOrders.noInstallation')}
+                    <Building2 size={16} style={{ marginRight: '6px', verticalAlign: 'middle' }} />
+                    {order.instalacion?.company || t('workOrders.noInstallation')}
                   </span>
                   <span className={styles.orderDate}>
-                    📅 {formatDate(order.fechaCreacion || "")}
+                    <Calendar size={16} style={{ marginRight: '6px', verticalAlign: 'middle' }} />
+                    {formatDate(order.fechaCreacion || "")}
                   </span>
                 </div>
               </div>

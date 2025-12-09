@@ -31,7 +31,7 @@
   gap: 0.5rem;
   padding: 6px 6px;
   background: var(--color-card);
-  border: 2px solid var(--color-card-border);
+  border: 2px solid black;
   border-radius: 12px;
   color: var(--color-text);
   font-size: 0.9rem;
@@ -46,9 +46,12 @@
   white-space: nowrap;
 }
 
+:global(.dark) .manualsButton {
+  border-color: var(--color-card-border);
+}
+
 .manualsButton:hover {
-  background: rgba(0, 0, 0, 0.1);
-  border-color: black;
+  background: var(--color-card);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
@@ -440,10 +443,12 @@
   .containerAssets {
     padding: 16px 12px;
   }
+
   .listContainer {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 16px;
   }
+
   .assetCard {
     padding: 16px;
   }
@@ -453,13 +458,16 @@
   .containerAssets {
     padding: 12px 8px;
   }
+
   .listContainer {
     grid-template-columns: 1fr;
     gap: 12px;
   }
+
   .title {
     font-size: 28px;
   }
+
   .assetCard {
     padding: 12px;
   }
