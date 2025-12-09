@@ -1369,6 +1369,7 @@
     "newFrequency": "Nuova frequenza",
     "selectFrequency": "Seleziona una frequenza",
     "selectedMonths": "Mesi selezionati",
+    "clickToSelectMonths": "Clicca per selezionare i mesi",
     "frequencyUpdated": "Frequenza aggiornata con successo",
     "errorUpdating": "Errore durante l'aggiornamento della frequenza",
     "selectTwoMonths": "Seleziona 2 mesi per frequenza semestrale",

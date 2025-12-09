@@ -178,7 +178,8 @@
   border-color: var(--color-secondary);
   box-shadow: 0 4px 8px rgba(5, 126, 116, 0.15);
   transform: translateY(-1px);
-  background-color: var(--color-card); /* igual que el fondo normal, sin verde */
+  background-color: var(--color-card);
+  /* igual que el fondo normal, sin verde */
   color: var(--color-text);
 }
 
@@ -471,6 +472,7 @@
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   margin-bottom: 2px;
 }
+
 .orderIndicator:hover {
   opacity: 0.8;
   transform: translateY(-1px);
@@ -868,6 +870,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -946,6 +949,7 @@
     opacity: 0;
     transform: translateY(-20px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -1027,8 +1031,8 @@
 }
 
 .calendarPickerNavButton {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border: 2px solid var(--color-card-border);
   background: var(--color-card);
   color: var(--color-text);
@@ -1316,24 +1320,24 @@
     width: 95%;
     max-width: none;
   }
-  
+
   .datePickerContent {
     padding: 0 16px 16px 16px;
   }
-  
+
   .calendarPickerContainer {
     padding: 16px;
   }
-  
+
   .calendarPickerDay {
     height: 36px;
     font-size: 0.8rem;
   }
-  
+
   .datePickerActions {
     flex-direction: column;
   }
-  
+
   .datePickerCancelButton,
   .datePickerConfirmButton {
     width: 100%;
@@ -1446,7 +1450,11 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #3b82f6 0%, #1d4ed8 50%, #1e40af 100%);
+  background: #000000;
+}
+
+:global(.dark) .datePickerHeader::before {
+  background: #ffffff;
 }
 
 .datePickerIcon {
@@ -1943,5 +1951,3 @@
   width: 100%;
   text-align: center;
 }
-
-
