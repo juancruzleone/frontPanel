@@ -90,14 +90,10 @@ export const deleteInstallation = async (id: string) => {
 };
 
 export const addDeviceToInstallation = async (installationId: string, deviceData: any) => {
-  const response = await fetch(`${API_URL}installations/${installationId}/activos`, {
+  const response = await fetch(`${API_URL}installations/${installationId}/dispositivos`, {
     method: "POST",
     headers: getHeadersWithContentType(),
-    body: JSON.stringify({
-      assetId: deviceData.assetId,
-      ubicacion: deviceData.ubicacion,
-      categoria: deviceData.categoria,
-    }),
+    body: JSON.stringify(deviceData),
   });
   if (!response.ok) throw new Error("Error al agregar dispositivo");
   const result = await response.json();
