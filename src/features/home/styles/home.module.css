@@ -414,6 +414,8 @@ html {
   gap: 14px;
   padding: 4px 0;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .orderItem {
@@ -426,7 +428,9 @@ html {
   border: 1px solid black;
   transition: all 0.2s ease;
   min-height: 80px;
-  width: 97%;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 :global(.dark) .orderItem {
@@ -445,6 +449,8 @@ html {
   align-items: flex-start;
   gap: 16px;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .orderTitle {
@@ -454,6 +460,8 @@ html {
   flex: 1;
   line-height: 1.4;
   min-width: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .orderMeta {
@@ -471,22 +479,32 @@ html {
   color: var(--color-text);
   opacity: 0.8;
   width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .orderInst {
-  color: var(--color-secondary);
-  font-weight: 500;
+  color: #000000;
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 4px;
 }
 
+:global(.dark) .orderInst {
+  color: #ffffff;
+}
+
 .orderDate {
-  color: var(--color-text);
-  opacity: 0.7;
+  color: #000000;
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 4px;
+}
+
+:global(.dark) .orderDate {
+  color: #ffffff;
 }
 
 .orderStatus {
