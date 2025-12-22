@@ -247,7 +247,7 @@ const Nav = () => {
                   onClick={toggleTheme}
                   aria-label={t('nav.toggleTheme')}
                 >
-                  {dark ? <Sun size={15} /> : <Moon size={15} />}
+                  {dark ? <Sun size={20} /> : <Moon size={20} />}
                 </button>
               </div>
             </div>
