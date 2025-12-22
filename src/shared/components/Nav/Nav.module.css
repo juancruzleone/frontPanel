@@ -47,8 +47,8 @@
   }
 
   .bottomSection {
-    margin-top: 24px;
-    padding-bottom: 16px;
+    margin-top: 16px;
+    padding-bottom: 20px;
     min-height: fit-content;
   }
 
@@ -62,8 +62,8 @@
   }
 
   .logoArea {
-    margin-bottom: 40px !important;
-    min-height: 36px;
+    margin-bottom: 20px !important;
+    min-height: 32px;
   }
 }
 
@@ -296,7 +296,13 @@
 }
 
 .menu li {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 767px) {
+  .menu li {
+    margin-bottom: 8px;
+  }
 }
 
 @media (min-width: 768px) {
@@ -325,6 +331,14 @@
   border-left: 3px solid transparent;
   transition: all 0.2s ease;
   opacity: 0.9;
+}
+
+@media (max-width: 767px) {
+  .menu li a {
+    padding: 12px 20px;
+    font-size: 15px;
+    gap: 14px;
+  }
 }
 
 .menu li a svg {
@@ -384,6 +398,13 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
   margin-top: 12px;
   transition: all 0.2s ease;
+}
+
+@media (max-width: 767px) {
+  .userInfo {
+    margin-top: 4px;
+    padding: 8px 12px;
+  }
 }
 
 .userInfo:hover {
@@ -521,6 +542,13 @@
   gap: 12px;
   margin-bottom: 16px;
   padding: 0 12px;
+}
+
+@media (max-width: 767px) {
+  .controlsContainer {
+    margin-bottom: 8px;
+    gap: 12px;
+  }
 }
 
 .languageSelectorContainer {
