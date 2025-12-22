@@ -50,9 +50,9 @@ export const canAccessSection = (role: string | null, section: string): boolean 
     return SUPER_ADMIN_ONLY_SECTIONS.includes(section as any) || section === 'perfil'
   }
 
-  // Clientes solo pueden acceder a instalaciones, calendario y activos
+  // Clientes pueden acceder a inicio, instalaciones, calendario y activos
   if (isClient(role)) {
-    const clientAllowedSections = ['instalaciones', 'calendario', 'activos', 'perfil']
+    const clientAllowedSections = ['inicio', 'instalaciones', 'calendario', 'activos', 'perfil']
     return clientAllowedSections.includes(section)
   }
 

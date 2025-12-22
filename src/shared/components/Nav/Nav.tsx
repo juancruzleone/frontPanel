@@ -127,7 +127,7 @@ const Nav = () => {
           </div>
         </div>
         <ul className={styles.menu}>
-          {!isSuperAdminUser && !isClientUser && (
+          {!isSuperAdminUser && (
             <li>
               <NavLink to="/inicio" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
                 <Home size={20} /> {t('nav.home')}
