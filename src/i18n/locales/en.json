@@ -113,6 +113,93 @@
     "noAssignedOrders": "You have no assigned orders.",
     "technician": "Technician"
   },
+  "clients": {
+    "successTitle": "Operation successful!",
+    "understood": "Close",
+    "title": "Clients",
+    "addClient": "Add client",
+    "clientsList": "Clients List",
+    "loadingClients": "Loading clients...",
+    "noClients": "No clients registered",
+    "addFirstClient": "Add the first client to get started",
+    "id": "ID",
+    "user": "User",
+    "role": "Role",
+    "registrationDate": "Registration Date",
+    "registerNewClient": "Register New Client",
+    "completeInformation": "Complete the information to create a new account",
+    "username": "Username",
+    "fullName": "Full Name",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm password",
+    "enterField": "Enter {{field}}",
+    "hidePassword": "Hide password",
+    "showPassword": "Show password",
+    "registering": "Registering...",
+    "completeAllFields": "Complete all fields",
+    "registerClient": "Register Client",
+    "createClient": "Create Client",
+    "titlePage": "Clients | Leonix",
+    "confirmDeleteClient": "Are you sure you want to delete this user?",
+    "deleteClient": "Delete client",
+    "confirmDeleteTitle": "Delete client?",
+    "confirmDeleteDescription": "This action cannot be undone. The client will be permanently deleted.",
+    "clientDeleted": "Client successfully deleted",
+    "errorDeletingClient": "Error deleting client",
+    "searchPlaceholder": "Search by username...",
+    "viewProfile": "View profile",
+    "editClient": "Edit client",
+    "userProfile": "User Profile",
+    "actions": "Actions",
+    "noSearchResults": "No results found",
+    "tryDifferentSearch": "Try a different search term",
+    "clientUpdated": "Client updated successfully",
+    "errorUpdatingClient": "Error updating client",
+    "passwordPlaceholder": "Leave blank to keep unchanged",
+    "passwordHint": "Leave blank if you don't want to change the password",
+    "newPassword": "New Password",
+    "validation": {
+      "usernameRequired": "Username is required",
+      "usernameMinLength": "Username must be at least 4 characters",
+      "usernameMaxLength": "Username cannot be more than 50 characters",
+      "usernameMatches": "Only letters, numbers and underscores",
+      "fullNameRequired": "Full name is required",
+      "fullNameMinLength": "Full name must be at least 3 characters",
+      "fullNameMaxLength": "Full name cannot be more than 100 characters",
+      "passwordRequired": "Password is required",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "passwordMaxLength": "Password cannot be more than 100 characters",
+      "confirmPasswordRequired": "You must confirm the password"
+    },
+    "tour": {
+      "welcome": {
+        "title": "Welcome to client management!",
+        "description": "Here you can manage all the clients in your company. We'll show you the main features."
+      },
+      "addClient": {
+        "title": "Add client",
+        "description": "Click here to register a new client in the system."
+      },
+      "searchClients": {
+        "title": "Search clients",
+        "description": "Use this search bar to find specific clients by their username."
+      },
+      "clientActions": {
+        "title": "Client actions",
+        "description": "In the table you can view each client's profile, edit their information or delete users when necessary."
+      },
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous",
+        "done": "Finish",
+        "skip": "Skip tutorial",
+        "restart": "Restart tutorial"
+      },
+      "progressText": "{{current}} of {{total}}"
+    }
+  },
   "common": {
     "saving": "Saving",
     "successTitle": "Operation successful!",

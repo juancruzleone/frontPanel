@@ -12,7 +12,8 @@
     "toggleTheme": "Cambiar tema",
     "openMenu": "Abrir menú",
     "closeMenu": "Cerrar menú",
-    "logout": "Cerrar Sesión"
+    "logout": "Cerrar Sesión",
+    "clients": "Clientes"
   },
   "personal": {
     "successTitle": "¡Operación exitosa!",
@@ -108,6 +109,102 @@
       "progressText": "{{current}} de {{total}}"
     }
   },
+  "clients": {
+    "successTitle": "¡Operación exitosa!",
+    "understood": "cerrar",
+    "title": "Clientes",
+    "addClient": "Agregar cliente",
+    "clientsList": "Listado de Clientes",
+    "loadingClients": "Cargando clientes...",
+    "noClients": "No hay clientes registrados",
+    "addFirstClient": "Agrega el primer cliente para comenzar",
+    "id": "ID",
+    "user": "Usuario",
+    "role": "Rol",
+    "registrationDate": "Fecha de Registro",
+    "registerNewClient": "Registrar Nuevo Cliente",
+    "completeInformation": "Completa la información para crear una nueva cuenta",
+    "username": "Usuario",
+    "fullName": "Nombre Completo",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "confirmPasswordPlaceholder": "Confirme la contraseña",
+    "enterField": "Ingrese {{field}}",
+    "hidePassword": "Ocultar contraseña",
+    "showPassword": "Mostrar contraseña",
+    "registering": "Registrando...",
+    "completeAllFields": "Complete todos los campos",
+    "registerClient": "Registrar Cliente",
+    "createClient": "Crear Cliente",
+    "titlePage": "Clientes | Leonix",
+    "confirmDeleteClient": "¿Seguro que deseas eliminar este usuario?",
+    "deleteClient": "Eliminar cliente",
+    "confirmDeleteTitle": "¿Eliminar cliente?",
+    "confirmDeleteDescription": "Esta acción no se puede deshacer. El cliente será eliminado permanentemente.",
+    "clientDeleted": "Cliente eliminado con éxito",
+    "errorDeletingClient": "Error al eliminar cliente",
+    "searchPlaceholder": "Buscar por nombre de usuario...",
+    "viewProfile": "Ver perfil",
+    "editClient": "Editar cliente",
+    "assignInstallations": "Asignar instalaciones",
+    "assignInstallationsTitle": "Asignar Instalaciones al Cliente",
+    "assigningTo": "Asignando a",
+    "selectInstallations": "Seleccionar instalaciones",
+    "selectAtLeastOneInstallation": "Debes seleccionar al menos una instalación",
+    "noInstallationsAvailable": "No hay instalaciones disponibles",
+    "installationsAssignedSuccessfully": "Instalaciones asignadas exitosamente",
+    "errorAssigningInstallations": "Error al asignar instalaciones",
+    "invalidClient": "Cliente inválido",
+    "userProfile": "Perfil de Usuario",
+    "actions": "Acciones",
+    "noSearchResults": "No se encontraron resultados",
+    "tryDifferentSearch": "Intenta con un término de búsqueda diferente",
+    "clientUpdated": "Cliente actualizado exitosamente",
+    "errorUpdatingClient": "Error al actualizar el cliente",
+    "passwordPlaceholder": "Dejar en blanco para no cambiar",
+    "passwordHint": "Dejar en blanco si no desea cambiar la contraseña",
+    "newPassword": "Nueva Contraseña",
+    "validation": {
+      "usernameRequired": "El nombre de usuario es obligatorio",
+      "usernameMinLength": "El nombre de usuario debe tener al menos 4 caracteres",
+      "usernameMaxLength": "El nombre de usuario no puede tener más de 50 caracteres",
+      "usernameMatches": "Solo letras, números y guiones bajos",
+      "fullNameRequired": "El nombre completo es obligatorio",
+      "fullNameMinLength": "El nombre completo debe tener al menos 3 caracteres",
+      "fullNameMaxLength": "El nombre completo no puede tener más de 100 caracteres",
+      "passwordRequired": "La contraseña es obligatoria",
+      "passwordsDoNotMatch": "Las contraseñas no coinciden",
+      "passwordMinLength": "La contraseña debe tener al menos 6 caracteres",
+      "passwordMaxLength": "La contraseña no puede tener más de 100 caracteres",
+      "confirmPasswordRequired": "Debe confirmar la contraseña"
+    },
+    "tour": {
+      "welcome": {
+        "title": "¡Bienvenido a la gestión de clientes!",
+        "description": "Aquí puedes administrar todos los clientes de tu empresa. Te mostraremos las funciones principales."
+      },
+      "addClient": {
+        "title": "Agregar cliente",
+        "description": "Haz clic aquí para registrar un nuevo cliente en el sistema."
+      },
+      "searchClients": {
+        "title": "Buscar clientes",
+        "description": "Utiliza esta barra de búsqueda para encontrar clientes específicos por su nombre de usuario."
+      },
+      "clientActions": {
+        "title": "Acciones de clientes",
+        "description": "En la tabla puedes ver el perfil de cada cliente, editar su información o eliminar usuarios cuando sea necesario."
+      },
+      "buttons": {
+        "next": "Siguiente",
+        "previous": "Anterior",
+        "done": "Finalizar",
+        "skip": "Saltar tutorial",
+        "restart": "Reiniciar tutorial"
+      },
+      "progressText": "{{current}} de {{total}}"
+    }
+  },
   "profile": {
     "assignedOrders": "Órdenes asignadas",
     "noAssignedOrders": "No tienes órdenes asignadas.",
@@ -176,7 +273,8 @@
     "adding": "Agregando...",
     "backToAssets": "Volver a activos",
     "page": "Página",
-    "of": "de"
+    "of": "de",
+    "assigning": "Asignando..."
   },
   "auth": {
     "continue": "Continuar",

@@ -3,6 +3,7 @@ import styles from "../styles/profile.module.css";
 import { useProfile } from "../hooks/useProfile";
 import SearchInput from "../../../shared/components/Inputs/SearchInput";
 import { useTranslation } from "react-i18next";
+import { translateUserRole } from "../../../shared/utils/backendTranslations";
 
 const ProfilePage = () => {
   const { t } = useTranslation();
@@ -40,7 +41,7 @@ const ProfilePage = () => {
         </div>
         <div className={styles.profileInfo}>
           <span className={styles.profileName}>{user}</span>
-          <span className={styles.profileRole}>{role}</span>
+          <span className={styles.profileRole}>{role ? translateUserRole(role) : role}</span>
         </div>
       </div>
       <div className={styles.profileDetails}>

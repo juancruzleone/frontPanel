@@ -22,6 +22,7 @@ import UserProfile from '../pages/UserProfile';
 import PanelAdmin from '../pages/PanelAdmin';
 import NotFound from '../pages/NotFound';
 import Tenants from '../pages/Tenants';
+import Clients from '../pages/Clients';
 import { ROLES } from "../shared/utils/roleUtils"
 
 export const router = createBrowserRouter([
@@ -84,6 +85,7 @@ export const router = createBrowserRouter([
               { path: "/activos", element: <Assets /> },
               { path: "/formularios", element: <Forms /> },
               { path: "/personal", element: <Register /> },
+              { path: "/clientes", element: <Clients /> },
               { path: "/perfil/:userId", element: <UserProfile /> },
             ],
           },

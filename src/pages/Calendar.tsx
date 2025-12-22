@@ -21,6 +21,7 @@ import { updateWorkOrder } from "../features/workOrders/services/workOrderServic
 import { formatDateToString, compareDates, parseDateString } from "../features/calendar/utils/dateUtils"
 import { useTimeZone } from "../features/calendar/hooks/useTimeZone"
 import TimeZoneInfo from "../features/calendar/components/TimeZoneInfo"
+import { isClient } from "../shared/utils/roleUtils"
 
 // Componente personalizado para selects que se ajustan automáticamente
 interface AutoSizeSelectProps {
@@ -116,6 +117,7 @@ const Calendar = () => {
   const [isYearModalOpen, setIsYearModalOpen] = useState(false)
   const [yearList, setYearList] = useState<number[]>([])
   const role = useAuthStore((s) => s.role)
+  const isClientUser = role && isClient(role)
 
   useEffect(() => {
     document.title = t("calendar.titlePage")
@@ -655,7 +657,7 @@ const Calendar = () => {
         isOpen={isDetailsModalOpen}
         onRequestClose={() => setIsDetailsModalOpen(false)}
         workOrder={selectedWorkOrder}
-        onStart={handleStart}
+        onStart={!isClientUser ? handleStart : undefined}
         onSuccess={onSuccess}
         onError={onError}
       />

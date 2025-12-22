@@ -21,6 +21,7 @@ import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../store/authStore"
 import { useInstallationsTour } from "../features/installations/hooks/useInstallationsTour"
+import { isClient, isTechnician as checkIsTechnician } from "../shared/utils/roleUtils"
 
 
 const Installations = () => {
@@ -189,8 +190,11 @@ const Installations = () => {
   const { categories, addCategory, loadCategories } = useCategories()
   const { installationTypes, addInstallationType, loadInstallationTypes } = useInstallationTypes()
   const navigate = useNavigate()
+
   const role = useAuthStore((s) => s.role)
-  const isTechnician = role && ["tecnico", "técnico"].includes(role.toLowerCase())
+  const isTechnician = role && checkIsTechnician(role)
+  const isClientUser = role && isClient(role)
+  const isRestricted = isTechnician || isClientUser
   const { tourCompleted, startTour, skipTour } = useInstallationsTour()
 
 
@@ -370,38 +374,40 @@ const Installations = () => {
       <div className={styles.containerInstallations}>
         <h1 className={styles.title}>{t('installations.title')}</h1>
 
-        {!isTechnician && (
+        {!isRestricted && (
           <div className={styles.positionButton}>
             <Button title={t('installations.createInstallation')} onClick={handleOpenCreate} data-tour="create-installation-btn" />
           </div>
         )}
 
-        <div className={styles.typeButtons}>
-          {!isTechnician && (
-            <>
-              <button
-                className={styles.smallButton}
-                onClick={() => setIsCreateInstallationTypeModalOpen(true)}
-                data-tour="create-installation-type-btn"
-              >
-                {t('installations.createInstallationType')}
-              </button>
-              <button className={styles.smallButton} onClick={() => setIsCreateCategoryModalOpen(true)}>
-                {t('installations.createCategory')}
-              </button>
-            </>
-          )}
-          <button
-            className={styles.manageButton}
-            onClick={() => setIsViewInstallationTypesModalOpen(true)}
-            data-tour="view-installation-types-btn"
-          >
-            {t('installations.viewInstallationTypes')}
-          </button>
-          <button className={styles.manageButton} onClick={() => setIsViewCategoriesModalOpen(true)}>
-            {t('installations.viewCategories')}
-          </button>
-        </div>
+        {!isClientUser && (
+          <div className={styles.typeButtons}>
+            {!isRestricted && (
+              <>
+                <button
+                  className={styles.smallButton}
+                  onClick={() => setIsCreateInstallationTypeModalOpen(true)}
+                  data-tour="create-installation-type-btn"
+                >
+                  {t('installations.createInstallationType')}
+                </button>
+                <button className={styles.smallButton} onClick={() => setIsCreateCategoryModalOpen(true)}>
+                  {t('installations.createCategory')}
+                </button>
+              </>
+            )}
+            <button
+              className={styles.manageButton}
+              onClick={() => setIsViewInstallationTypesModalOpen(true)}
+              data-tour="view-installation-types-btn"
+            >
+              {t('installations.viewInstallationTypes')}
+            </button>
+            <button className={styles.manageButton} onClick={() => setIsViewCategoriesModalOpen(true)}>
+              {t('installations.viewCategories')}
+            </button>
+          </div>
+        )}
 
         <div className={styles.searchContainer} data-tour="search-filter">
           <SearchInput
@@ -439,39 +445,41 @@ const Installations = () => {
                   <div className={styles.cardSeparator}></div>
 
                   <div className={styles.cardActions}>
-                    <div className={styles.actionButtons}>
-                      <button
-                        className={styles.iconButton}
-                        onClick={() => handleOpenAddDevice(inst)}
-                        aria-label={t('installations.addDevice')}
-                        data-tooltip={t('installations.addDevice')}
-                      >
-                        <Plus size={24} />
-                      </button>
-                      {!isTechnician && (
-                        <>
-                          <button
-                            className={styles.iconButton}
-                            onClick={() => handleOpenEdit(inst)}
-                            aria-label={t('installations.editInstallation')}
-                            data-tooltip={t('installations.editInstallation')}
-                          >
-                            <Edit size={24} />
-                          </button>
-                          <button
-                            className={styles.iconButton}
-                            onClick={() => {
-                              setInstallationToDelete(inst)
-                              setIsDeleteModalOpen(true)
-                            }}
-                            aria-label={t('installations.deleteInstallation')}
-                            data-tooltip={t('installations.deleteInstallation')}
-                          >
-                            <Trash size={24} />
-                          </button>
-                        </>
-                      )}
-                    </div>
+                    {!isClientUser && (
+                      <div className={styles.actionButtons}>
+                        <button
+                          className={styles.iconButton}
+                          onClick={() => handleOpenAddDevice(inst)}
+                          aria-label={t('installations.addDevice')}
+                          data-tooltip={t('installations.addDevice')}
+                        >
+                          <Plus size={24} />
+                        </button>
+                        {!isRestricted && (
+                          <>
+                            <button
+                              className={styles.iconButton}
+                              onClick={() => handleOpenEdit(inst)}
+                              aria-label={t('installations.editInstallation')}
+                              data-tooltip={t('installations.editInstallation')}
+                            >
+                              <Edit size={24} />
+                            </button>
+                            <button
+                              className={styles.iconButton}
+                              onClick={() => {
+                                setInstallationToDelete(inst)
+                                setIsDeleteModalOpen(true)
+                              }}
+                              aria-label={t('installations.deleteInstallation')}
+                              data-tooltip={t('installations.deleteInstallation')}
+                            >
+                              <Trash size={24} />
+                            </button>
+                          </>
+                        )}
+                      </div>
+                    )}
 
                     <div className={styles.viewDevicesButton}>
                       <button onClick={() => handleViewDevices(inst)}>{t('installations.viewDeviceList')}</button>
@@ -561,7 +569,7 @@ const Installations = () => {
       <ModalError isOpen={!!responseMessage && isError} onRequestClose={closeModal} mensaje={responseMessage} />
 
       {/* Botón flotante del tour estilo WhatsApp */}
-      {!isTechnician && (
+      {!isRestricted && (
         <button
           onClick={tourCompleted ? startTour : skipTour}
           style={{

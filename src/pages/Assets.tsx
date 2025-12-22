@@ -9,7 +9,7 @@ import ModalSuccess from "../features/assets/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
 import ModalConfirmDelete from "../features/assets/components/ModalConfirmDelete"
 import ModalAssignTemplate from "../features/assets/components/ModalAssignTemplate"
-import { Edit, Trash, List, BookOpen, HelpCircle } from "lucide-react"
+import { Edit, Trash, List, BookOpen, HelpCircle, Users } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { translateDeviceStatus } from "../shared/utils/backendTranslations"
@@ -188,13 +188,21 @@ const Assets = () => {
         <h1 className={styles.title}>{t('assets.title')}</h1>
         <div className={styles.positionButton} data-tour="create-asset-btn">
           <Button title={t('assets.createAsset')} onClick={handleOpenCreate} />
-          <button 
+          <button
             className={styles.manualsButton}
             onClick={() => navigate('/manuales')}
             aria-label={t('nav.manuals')}
           >
             <BookOpen size={20} />
             <span>{t('nav.manuals')}</span>
+          </button>
+          <button
+            className={styles.manualsButton}
+            onClick={() => navigate('/clientes')}
+            aria-label={t('nav.clients')}
+          >
+            <Users size={20} />
+            <span>{t('nav.clients')}</span>
           </button>
         </div>
 
@@ -213,9 +221,9 @@ const Assets = () => {
           {loading ? (
             <>
               <div className={styles.cardsRow}>
-                {[1,2,3].map((_,i) => <Skeleton key={i} height={120} width={"100%"} style={{borderRadius:14, marginBottom:16}} />)}
+                {[1, 2, 3].map((_, i) => <Skeleton key={i} height={120} width={"100%"} style={{ borderRadius: 14, marginBottom: 16 }} />)}
               </div>
-              <Skeleton height={220} width={"100%"} style={{borderRadius:14, marginTop:16}} />
+              <Skeleton height={220} width={"100%"} style={{ borderRadius: 14, marginTop: 16 }} />
             </>
           ) : filteredAssets.length === 0 ? (
             <p className={styles.loader}>{t('assets.noAssetsFound')}</p>

@@ -1,0 +1,251 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.formInner {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem 2.5rem;
+    background: var(--color-card);
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    position: relative;
+}
+
+.formGroup label {
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.formGroup label::before {
+    content: "";
+    width: 3px;
+    height: 16px;
+    background: linear-gradient(135deg, white, rgba(255, 255, 255, 0.8));
+    border-radius: 2px;
+}
+
+.inputWrapper {
+    position: relative;
+    width: 100%;
+}
+
+.formGroup input {
+    padding: 0.875rem 1rem;
+    padding-right: 3rem;
+    /* Espacio para el botón del ojo */
+    border: 2px solid var(--color-card-border);
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: var(--color-card);
+    color: var(--color-text);
+    font-family: inherit;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.formGroup input:focus {
+    outline: none;
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 4px rgba(5, 126, 116, 0.1);
+    background: var(--color-bg-light);
+}
+
+.formGroup input:hover:not(:disabled) {
+    border-color: var(--color-card-border);
+}
+
+.formGroup input:disabled {
+    background-color: var(--color-bg-light);
+    color: var(--color-skeleton-light);
+    cursor: not-allowed;
+}
+
+.errorInput {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+}
+
+.eyesButton {
+    position: absolute;
+    right: 0.75rem;
+    top: 60%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--color-icon);
+    padding: 0.5rem;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    width: 2rem;
+    height: 2rem;
+    transition: color 0.2s ease;
+}
+
+.eyesButton:hover {
+    color: var(--color-secondary);
+    background: transparent !important;
+    box-shadow: none !important;
+    transform: translateY(-50%) !important;
+}
+
+.eyesButton svg,
+.eyesButton i {
+    transition: color 0.2s ease;
+    width: 100%;
+    height: 100%;
+    display: block;
+    transform: none !important;
+}
+
+.eyesButton:hover svg,
+.eyesButton:hover i {
+    color: var(--color-secondary);
+    transform: none !important;
+}
+
+.eyesButton:disabled {
+    color: var(--color-skeleton-light);
+    cursor: not-allowed;
+}
+
+.inputError {
+    color: var(--color-danger);
+    font-size: 0.875rem;
+    margin: 0;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.inputError::before {
+    content: "⚠";
+    font-size: 1rem;
+}
+
+.alertDanger {
+    background: var(--color-danger);
+    border: 2px solid var(--color-danger);
+    color: #fff;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    animation: fadeIn 0.3s ease-out;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0.9;
+}
+
+.alertDanger::before {
+    content: "⚠";
+    font-size: 1.25rem;
+    color: #dc2626;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    padding: 1.5rem 2.5rem 2rem;
+    border-top: 1px solid var(--color-card-border);
+    background: var(--color-bg-light);
+    margin-top: auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .formInner {
+        padding: 1.5rem;
+        gap: 1.25rem;
+    }
+
+    .actions {
+        padding: 1.25rem 1.5rem;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .cancelButton,
+    .submitButton {
+        width: 100%;
+    }
+
+    .submitButton {
+        min-width: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .formInner {
+        padding: 1rem;
+    }
+
+    .actions {
+        padding: 1rem;
+    }
+
+    .formGroup label {
+        font-size: 0.9rem;
+    }
+
+    .formGroup input {
+        padding: 0.75rem;
+        padding-right: 2.5rem;
+        font-size: 0.95rem;
+    }
+
+    .eyesButton {
+        right: 0.5rem;
+        width: 1.75rem;
+        height: 1.75rem;
+    }
+
+    .submitButton {
+        min-width: auto;
+        font-size: 0.9rem;
+        padding: 0.75rem 1.5rem;
+    }
+}

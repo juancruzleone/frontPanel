@@ -267,60 +267,80 @@ export const translateUserRole = (role: string): string => {
   const translations: Record<string, Record<string, string>> = {
     es: {
       'tecnico': 'Técnico',
+      'técnico': 'Técnico',
+      'cliente': 'Cliente',
       'admin': 'Administrador',
       'supervisor': 'Supervisor',
       'manager': 'Gerente'
     },
     en: {
       'tecnico': 'Technician',
+      'técnico': 'Technician',
+      'cliente': 'Client',
       'admin': 'Administrator',
       'supervisor': 'Supervisor',
       'manager': 'Manager'
     },
     fr: {
       'tecnico': 'Technicien',
+      'técnico': 'Technicien',
+      'cliente': 'Client',
       'admin': 'Administrateur',
       'supervisor': 'Superviseur',
       'manager': 'Gestionnaire'
     },
     pt: {
       'tecnico': 'Técnico',
+      'técnico': 'Técnico',
+      'cliente': 'Cliente',
       'admin': 'Administrador',
       'supervisor': 'Supervisor',
       'manager': 'Gerente'
     },
     de: {
       'tecnico': 'Techniker',
+      'técnico': 'Techniker',
+      'cliente': 'Kunde',
       'admin': 'Administrator',
       'supervisor': 'Aufseher',
       'manager': 'Manager'
     },
     it: {
       'tecnico': 'Tecnico',
+      'técnico': 'Tecnico',
+      'cliente': 'Cliente',
       'admin': 'Amministratore',
       'supervisor': 'Supervisore',
       'manager': 'Manager'
     },
     ja: {
       'tecnico': '技術者',
+      'técnico': '技術者',
+      'cliente': 'クライアント',
       'admin': '管理者',
       'supervisor': '監督者',
       'manager': 'マネージャー'
     },
     ko: {
       'tecnico': '기술자',
+      'técnico': '기술자',
+      'cliente': '고객',
       'admin': '관리자',
       'supervisor': '감독자',
       'manager': '매니저'
     },
     zh: {
       'tecnico': '技术员',
+      'técnico': '技术员',
+      'cliente': '客户',
       'admin': '管理员',
       'supervisor': '主管',
       'manager': '经理'
     },
     ar: {
       'tecnico': 'فني',
+      'técnico': 'فني',
+      'cliente': 'عميل',
       'admin': 'مدير',
       'supervisor': 'مشرف',
       'manager': 'مدير'

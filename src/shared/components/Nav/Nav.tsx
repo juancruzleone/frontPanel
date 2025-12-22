@@ -8,7 +8,7 @@ import styles from "./Nav.module.css"
 import { useState, useEffect, useRef } from "react"
 import { useTheme } from "../../hooks/useTheme"
 import { useTranslation } from "react-i18next"
-import { isTechnician, isSuperAdmin, canAccessSection } from "../../utils/roleUtils"
+import { isTechnician, isSuperAdmin, canAccessSection, isClient } from "../../utils/roleUtils"
 import esFlag from '../../../../src/assets/flags/es.svg'
 import frFlag from '../../../../src/assets/flags/fr.svg'
 import usFlag from '../../../../src/assets/flags/us.svg'
@@ -54,6 +54,7 @@ const Nav = () => {
   // Usar las utilidades de roles
   const isTechnicianUser = isTechnician(role)
   const isSuperAdminUser = isSuperAdmin(role)
+  const isClientUser = isClient(role)
 
   const languages = [
     { code: 'es', name: t('languageSelector.spanish'), flag: '🇪🇸' },
@@ -126,7 +127,7 @@ const Nav = () => {
           </div>
         </div>
         <ul className={styles.menu}>
-          {!isSuperAdminUser && (
+          {!isSuperAdminUser && !isClientUser && (
             <li>
               <NavLink to="/inicio" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
                 <Home size={20} /> {t('nav.home')}
@@ -141,12 +142,14 @@ const Nav = () => {
             </li>
           )}
           {!isTechnicianUser && !isSuperAdminUser && (
+            <li data-tour="nav-assets">
+              <NavLink to="/activos" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                <Package size={20} /> {t('nav.assets')}
+              </NavLink>
+            </li>
+          )}
+          {!isTechnicianUser && !isSuperAdminUser && !isClientUser && (
             <>
-              <li data-tour="nav-assets">
-                <NavLink to="/activos" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-                  <Package size={20} /> {t('nav.assets')}
-                </NavLink>
-              </li>
               <li data-tour="nav-forms">
                 <NavLink to="/formularios" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
                   <FileText size={20} /> {t('nav.forms')}
@@ -160,15 +163,15 @@ const Nav = () => {
             </>
           )}
 
-          {/* Botón de abonos vigentes solo para no técnicos y no super_admin */}
-          {!isTechnicianUser && !isSuperAdminUser && (
+          {/* Botón de abonos vigentes solo para no técnicos, no super_admin y no clientes */}
+          {!isTechnicianUser && !isSuperAdminUser && !isClientUser && (
             <li>
               <NavLink to="/abonos-vigentes" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
                 <CreditCard size={20} /> {t('nav.subscriptions')}
               </NavLink>
             </li>
           )}
-          {!isSuperAdminUser && (
+          {!isSuperAdminUser && !isClientUser && (
             <li>
               <NavLink to="/ordenes-trabajo" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
                 <ClipboardList size={20} /> {t('nav.workOrders')}

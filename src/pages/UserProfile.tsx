@@ -6,6 +6,7 @@ import { FiArrowLeft } from "react-icons/fi";
 import { useUserProfile } from "../features/profile/hooks/useUserProfile";
 import SearchInput from "../shared/components/Inputs/SearchInput";
 import styles from "../features/profile/styles/profile.module.css";
+import { translateUserRole } from "../shared/utils/backendTranslations";
 
 const UserProfile = () => {
   const { t } = useTranslation();
@@ -99,7 +100,7 @@ const UserProfile = () => {
       <div className={styles.profileHeader}>
         <div className={styles.profileInfo}>
           <span className={styles.profileName}>{user}</span>
-          <span className={styles.profileRole}>{t('profile.technician', { defaultValue: role })}</span>
+          <span className={styles.profileRole}>{role ? translateUserRole(role) : role}</span>
         </div>
       </div>
       <div className={styles.profileDetails}>

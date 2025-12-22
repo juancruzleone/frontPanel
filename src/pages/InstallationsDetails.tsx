@@ -22,6 +22,7 @@ import SearchInput from "../shared/components/Inputs/SearchInput"
 import HybridSelect from "../shared/components/HybridSelect/HybridSelect"
 import { useInstallationDetailTour } from "../features/installationsDetails/hooks/useInstallationDetailTour"
 import { useAuthStore } from "../store/authStore"
+import { isClient, isTechnician as checkIsTechnician } from "../shared/utils/roleUtils"
 
 const InstallationDetails = () => {
   const { t } = useTranslation()
@@ -30,8 +31,11 @@ const InstallationDetails = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const { installationName } = location.state || { installationName: "" }
+
   const role = useAuthStore((s) => s.role)
-  const isTechnicalUser = role && ["tecnico", "técnico"].includes(role.toLowerCase())
+  const isTechnicalUser = role && checkIsTechnician(role)
+  const isClientUser = role && isClient(role)
+  const isRestricted = isTechnicalUser || isClientUser
   const { tourCompleted, startTour, resetTour, skipTour } = useInstallationDetailTour()
 
   // Opciones de estado para el filtro
@@ -322,9 +326,11 @@ const InstallationDetails = () => {
           </span>
         )}
         <div className={styles.actions}>
-          <button className={styles.addButton} onClick={() => setIsAddDeviceModalOpen(true)} data-tour="add-device-btn">
-            <span>{t("installationDetails.addDevice")}</span>
-          </button>
+          {!isRestricted && (
+            <button className={styles.addButton} onClick={() => setIsAddDeviceModalOpen(true)} data-tour="add-device-btn">
+              <span>{t("installationDetails.addDevice")}</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -416,25 +422,29 @@ const InstallationDetails = () => {
                 >
                   <FileText size={18} />
                 </button>
-                <button
-                  className={styles.editButton}
-                  onClick={() => handleEditDevice(device)}
-                  aria-label={t("installationDetails.editDevice")}
-                  data-tooltip={t("installationDetails.editDevice")}
-                >
-                  <Edit size={18} />
-                </button>
-                <button
-                  className={styles.deleteButton}
-                  onClick={() => {
-                    setDeviceToDelete(device)
-                    setIsDeleteModalOpen(true)
-                  }}
-                  aria-label={t("installationDetails.deleteDevice")}
-                  data-tooltip={t("installationDetails.deleteDevice")}
-                >
-                  <Trash size={18} />
-                </button>
+                {!isRestricted && (
+                  <>
+                    <button
+                      className={styles.editButton}
+                      onClick={() => handleEditDevice(device)}
+                      aria-label={t("installationDetails.editDevice")}
+                      data-tooltip={t("installationDetails.editDevice")}
+                    >
+                      <Edit size={18} />
+                    </button>
+                    <button
+                      className={styles.deleteButton}
+                      onClick={() => {
+                        setDeviceToDelete(device)
+                        setIsDeleteModalOpen(true)
+                      }}
+                      aria-label={t("installationDetails.deleteDevice")}
+                      data-tooltip={t("installationDetails.deleteDevice")}
+                    >
+                      <Trash size={18} />
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           ))
@@ -521,7 +531,7 @@ const InstallationDetails = () => {
       <ModalError isOpen={!!responseMessage && isError} onRequestClose={closeModal} mensaje={responseMessage} />
 
       {/* Botón flotante del tour estilo WhatsApp */}
-      {!isTechnicalUser && (
+      {!isRestricted && (
         <button
           onClick={tourCompleted ? startTour : skipTour}
           style={{
