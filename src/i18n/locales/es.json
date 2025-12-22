@@ -209,6 +209,11 @@
   "profile": {
     "assignedOrders": "Órdenes asignadas",
     "noAssignedOrders": "No tienes órdenes asignadas.",
+    "assignedInstallations": "Instalaciones asignadas",
+    "noAssignedInstallations": "No tienes instalaciones asignadas.",
+    "loadingInstallations": "Cargando instalaciones...",
+    "loadingProfile": "Cargando perfil...",
+    "searchInstallationPlaceholder": "Buscar instalación...",
     "technician": "Técnico"
   },
   "common": {

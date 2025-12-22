@@ -7,31 +7,65 @@ import { translateUserRole } from "../../../shared/utils/backendTranslations";
 
 const ProfilePage = () => {
   const { t } = useTranslation();
-  const { user, role, orders, loading, error } = useProfile();
-  const [selectedStatus, setSelectedStatus] = useState("");
+  const { user, role, orders, installations, installationTypes, loading, error } = useProfile();
+  const [selectedFilter, setSelectedFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
-  const statusOptions = useMemo(() => [
-    { label: t('common.all'), value: "" },
-    { label: t('workOrders.pending'), value: "pendiente" },
-    { label: t('workOrders.assigned'), value: "asignada" },
-    { label: t('workOrders.inProgress'), value: "en_progreso" },
-    { label: t('workOrders.completed'), value: "completada" },
-    { label: t('workOrders.cancelled'), value: "cancelada" },
-  ], [t]);
+  const isClient = role === 'cliente';
 
-  const filteredOrders = useMemo(() => {
+  // Opciones de filtro según el rol
+  const filterOptions = useMemo(() => {
+    if (isClient) {
+      // Para clientes: filtrar por tipo de instalación
+      return [
+        { label: t('common.all'), value: "" },
+        ...installationTypes.map((type) => ({
+          label: type.nombre,
+          value: type.nombre,
+        })),
+      ];
+    } else {
+      // Para técnicos/admins: filtrar por estado de orden
+      return [
+        { label: t('common.all'), value: "" },
+        { label: t('workOrders.pending'), value: "pendiente" },
+        { label: t('workOrders.assigned'), value: "asignada" },
+        { label: t('workOrders.inProgress'), value: "en_progreso" },
+        { label: t('workOrders.completed'), value: "completada" },
+        { label: t('workOrders.cancelled'), value: "cancelada" },
+      ];
+    }
+  }, [t, isClient, installationTypes]);
+
+  // Datos filtrados según el rol
+  const filteredData = useMemo(() => {
     const term = searchTerm.toLowerCase();
-    return orders.filter((order) => {
-      const matchesStatus = !selectedStatus || order.estado === selectedStatus;
-      const matchesSearch = [
-        order.titulo,
-        order.instalacion?.company,
-        order.instalacionId,
-      ].some((f) => f?.toLowerCase().includes(term));
-      return matchesStatus && matchesSearch;
-    });
-  }, [orders, selectedStatus, searchTerm]);
+
+    if (isClient) {
+      // Filtrar instalaciones para clientes
+      return installations.filter((inst) => {
+        const matchesFilter = !selectedFilter || inst.installationType === selectedFilter;
+        const matchesSearch = [
+          inst.company,
+          inst.address,
+          inst.city,
+          inst.installationType,
+        ].some((f) => f?.toLowerCase().includes(term));
+        return matchesFilter && matchesSearch;
+      });
+    } else {
+      // Filtrar órdenes para técnicos/admins
+      return orders.filter((order) => {
+        const matchesStatus = !selectedFilter || order.estado === selectedFilter;
+        const matchesSearch = [
+          order.titulo,
+          order.instalacion?.company,
+          order.instalacionId,
+        ].some((f) => f?.toLowerCase().includes(term));
+        return matchesStatus && matchesSearch;
+      });
+    }
+  }, [orders, installations, selectedFilter, searchTerm, isClient]);
 
   return (
     <div className={styles.profileContainer}>
@@ -45,32 +79,65 @@ const ProfilePage = () => {
         </div>
       </div>
       <div className={styles.profileDetails}>
-        <div className={styles.ordersTitle}>{t('profile.assignedOrders', { defaultValue: 'Órdenes asignadas' })}</div>
+        <div className={styles.ordersTitle}>
+          {isClient
+            ? t('profile.assignedInstallations', { defaultValue: 'Instalaciones asignadas' })
+            : t('profile.assignedOrders', { defaultValue: 'Órdenes asignadas' })
+          }
+        </div>
         <div style={{ width: '100%', marginBottom: 24 }}>
           <SearchInput
-            placeholder={t('workOrders.searchPlaceholder', { defaultValue: 'Buscar orden...' })}
+            placeholder={isClient
+              ? t('profile.searchInstallationPlaceholder', { defaultValue: 'Buscar instalación...' })
+              : t('workOrders.searchPlaceholder', { defaultValue: 'Buscar orden...' })
+            }
             showSelect
-            selectPlaceholder={t('workOrders.filterByStatus', { defaultValue: 'Filtrar por estado' })}
-            selectOptions={statusOptions}
+            selectPlaceholder={isClient
+              ? t('installations.filterByInstallationType', { defaultValue: 'Filtrar por tipo' })
+              : t('workOrders.filterByStatus', { defaultValue: 'Filtrar por estado' })
+            }
+            selectOptions={filterOptions}
             onInputChange={setSearchTerm}
-            onSelectChange={setSelectedStatus}
+            onSelectChange={setSelectedFilter}
           />
         </div>
-        {loading && <div>{t('profile.loadingOrders', { defaultValue: 'Cargando órdenes...' })}</div>}
-        {error && <div style={{color: 'red'}}>{t('profile.errorOrders', { defaultValue: 'Error:' }) + ' ' + error}</div>}
-        {!loading && !error && filteredOrders.length === 0 && <div>{t('profile.noAssignedOrders', { defaultValue: 'No tienes órdenes asignadas.' })}</div>}
+        {loading && <div>
+          {isClient
+            ? t('profile.loadingInstallations', { defaultValue: 'Cargando instalaciones...' })
+            : t('profile.loadingOrders', { defaultValue: 'Cargando órdenes...' })
+          }
+        </div>}
+        {error && <div style={{ color: 'red' }}>{t('profile.errorOrders', { defaultValue: 'Error:' }) + ' ' + error}</div>}
+        {!loading && !error && filteredData.length === 0 && <div>
+          {isClient
+            ? t('profile.noAssignedInstallations', { defaultValue: 'No tienes instalaciones asignadas.' })
+            : t('profile.noAssignedOrders', { defaultValue: 'No tienes órdenes asignadas.' })
+          }
+        </div>}
         <div className={styles.ordersList}>
-          {filteredOrders.map((order) => (
-            <div key={order._id} className={styles.orderCard}>
-              <div className={styles.orderTitle}>{order.titulo}</div>
-              <span className={styles.orderStatus}>{t(`workOrders.${order.estado}`, { defaultValue: order.estado })}</span>
-              <div className={styles.orderMeta}>{t('workOrders.installation', { defaultValue: 'Instalación' })}: {order.instalacion?.company || order.instalacionId}</div>
-            </div>
-          ))}
+          {isClient ? (
+            // Renderizar instalaciones para clientes
+            filteredData.map((inst) => (
+              <div key={inst._id} className={styles.orderCard}>
+                <div className={styles.orderTitle}>{inst.company}</div>
+                <span className={styles.orderStatus}>{inst.installationType}</span>
+                <div className={styles.orderMeta}>{inst.address}, {inst.city}</div>
+              </div>
+            ))
+          ) : (
+            // Renderizar órdenes para técnicos/admins
+            filteredData.map((order) => (
+              <div key={order._id} className={styles.orderCard}>
+                <div className={styles.orderTitle}>{order.titulo}</div>
+                <span className={styles.orderStatus}>{t(`workOrders.${order.estado}`, { defaultValue: order.estado })}</span>
+                <div className={styles.orderMeta}>{t('workOrders.installation', { defaultValue: 'Instalación' })}: {order.instalacion?.company || order.instalacionId}</div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default ProfilePage; 
+export default ProfilePage;
