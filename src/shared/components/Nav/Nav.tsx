@@ -2,8 +2,10 @@ import { NavLink, useNavigate } from "react-router-dom"
 import { useAuthStore } from "../../../store/authStore"
 import {
   LogOut, Home, Package, FileText, BookOpen,
-  ClipboardList, Calendar, Sun, Moon, Menu, X, Building, User, Globe, CreditCard, Settings, Database
+  ClipboardList, Calendar, Sun, Moon, Menu, X, Building, User, Globe, CreditCard, Settings, Database,
+  ChevronsLeft, ChevronsRight
 } from "lucide-react"
+import { useLayoutStore } from "../../../store/layoutStore"
 import styles from "./Nav.module.css"
 import { useState, useEffect, useRef } from "react"
 import { useTheme } from "../../hooks/useTheme"
@@ -50,6 +52,7 @@ const Nav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isLanguageOpen, setIsLanguageOpen] = useState(false)
   const languageDropdownRef = useRef<HTMLDivElement>(null)
+  const { isSidebarCollapsed, toggleSidebar } = useLayoutStore()
 
   // Usar las utilidades de roles
   const isTechnicianUser = isTechnician(role)
@@ -119,141 +122,159 @@ const Nav = () => {
         {isMenuOpen ? <X size={28} color="#fff" /> : <Menu size={28} />}
       </button>
 
-      <nav className={`${styles.nav} ${isMenuOpen ? styles.open : ""}`}>
-        <div className={styles.logoArea}>
-          <div className={styles.logoContainer}>
-            <img src="/logo leonix 5.svg" alt="Leonix Logo" className={styles.logoImage} />
-            <span className={styles.logoText}>Leonix</span>
+      <nav className={`${styles.nav} ${isMenuOpen ? styles.open : ""} ${isSidebarCollapsed ? styles.collapsed : ""}`}>
+        <button
+          className={styles.collapseButton}
+          onClick={toggleSidebar}
+          aria-label={isSidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+        >
+          {isSidebarCollapsed ? <ChevronsRight size={20} /> : <ChevronsLeft size={20} />}
+        </button>
+        <div className={styles.navContent}>
+          <div className={styles.logoArea}>
+            <div className={styles.logoContainer}>
+              <img src="/logo leonix 5.svg" alt="Leonix Logo" className={styles.logoImage} />
+              <span className={styles.logoText}>Leonix</span>
+            </div>
           </div>
-        </div>
-        <ul className={styles.menu}>
-          {!isSuperAdminUser && (
-            <li>
-              <NavLink to="/inicio" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-                <Home size={20} /> {t('nav.home')}
-              </NavLink>
-            </li>
-          )}
-          {!isSuperAdminUser && (
-            <li data-tour="nav-installations">
-              <NavLink to="/instalaciones" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-                <Building size={20} /> {t('nav.installations')}
-              </NavLink>
-            </li>
-          )}
-          {!isTechnicianUser && !isSuperAdminUser && (
-            <li data-tour="nav-assets">
-              <NavLink to="/activos" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-                <Package size={20} /> {t('nav.assets')}
-              </NavLink>
-            </li>
-          )}
-          {!isTechnicianUser && !isSuperAdminUser && !isClientUser && (
-            <>
-              <li data-tour="nav-forms">
-                <NavLink to="/formularios" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-                  <FileText size={20} /> {t('nav.forms')}
+          <ul className={styles.menu}>
+            {!isSuperAdminUser && (
+              <li>
+                <NavLink to="/inicio" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                  <Home size={20} /> <span className={styles.linkText}>{t('nav.home')}</span>
                 </NavLink>
               </li>
-              <li data-tour="nav-personal">
-                <NavLink to="/personal" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-                  <User size={20} /> {t('nav.personal')}
+            )}
+            {!isSuperAdminUser && (
+              <li data-tour="nav-installations">
+                <NavLink to="/instalaciones" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                  <Building size={20} /> <span className={styles.linkText}>{t('nav.installations')}</span>
                 </NavLink>
               </li>
-            </>
-          )}
+            )}
+            {!isTechnicianUser && !isSuperAdminUser && (
+              <li data-tour="nav-assets">
+                <NavLink to="/activos" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                  <Package size={20} /> <span className={styles.linkText}>{t('nav.assets')}</span>
+                </NavLink>
+              </li>
+            )}
+            {!isTechnicianUser && !isSuperAdminUser && !isClientUser && (
+              <>
+                <li data-tour="nav-forms">
+                  <NavLink to="/formularios" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                    <FileText size={20} /> <span className={styles.linkText}>{t('nav.forms')}</span>
+                  </NavLink>
+                </li>
+                <li data-tour="nav-personal">
+                  <NavLink to="/personal" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                    <User size={20} /> <span className={styles.linkText}>{t('nav.personal')}</span>
+                  </NavLink>
+                </li>
+              </>
+            )}
 
-          {/* Botón de abonos vigentes solo para no técnicos, no super_admin y no clientes */}
-          {!isTechnicianUser && !isSuperAdminUser && !isClientUser && (
-            <li>
-              <NavLink to="/abonos-vigentes" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-                <CreditCard size={20} /> {t('nav.subscriptions')}
-              </NavLink>
-            </li>
-          )}
-          {!isSuperAdminUser && !isClientUser && (
-            <li>
-              <NavLink to="/ordenes-trabajo" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-                <ClipboardList size={20} /> {t('nav.workOrders')}
-              </NavLink>
-            </li>
-          )}
-          {!isSuperAdminUser && (
-            <li>
-              <NavLink to="/calendario" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-                <Calendar size={20} /> {t('nav.calendar')}
-              </NavLink>
-            </li>
-          )}
-          {/* Panel Admin solo para super_admin */}
-          {isSuperAdminUser && (
-            <li>
-              <NavLink to="/panel-admin" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-                <Settings size={20} /> Panel Admin
-              </NavLink>
-            </li>
-          )}
-          {/* Tenants solo para super_admin */}
-          {isSuperAdminUser && (
-            <li>
-              <NavLink to="/tenants" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-                <Database size={20} /> Tenants
-              </NavLink>
-            </li>
-          )}
-        </ul>
-        <div className={styles.bottomSection}>
-          <div className={styles.controlsContainer}>
-            <div className={styles.languageSelectorContainer} ref={languageDropdownRef}>
-              <button
-                type="button"
-                className={styles.languageButton}
-                onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-                aria-label={t('languageSelector.title')}
-              >
-                <img src={currentFlag} alt={i18n.language} className={styles.flagImg} />
-              </button>
-              {isLanguageOpen && (
-                <div className={styles.languageDropdown}>
-                  {languages.map((language) => (
-                    <button
-                      type="button"
-                      key={language.code}
-                      className={`${styles.languageOption} ${i18n.language === language.code ? styles.active : ''}`}
-                      onClick={() => handleLanguageChange(language.code)}
-                    >
-                      <img src={flagMap[language.code] || esFlag} alt={language.code} className={styles.flagImg} />
-                      <span className={styles.languageName}>{language.name}</span>
-                    </button>
-                  ))}
+            {/* Botón de abonos vigentes solo para no técnicos, no super_admin y no clientes */}
+            {!isTechnicianUser && !isSuperAdminUser && !isClientUser && (
+              <li>
+                <NavLink to="/abonos-vigentes" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                  <CreditCard size={20} /> <span className={styles.linkText}>{t('nav.subscriptions')}</span>
+                </NavLink>
+              </li>
+            )}
+            {!isSuperAdminUser && !isClientUser && (
+              <li>
+                <NavLink to="/ordenes-trabajo" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                  <ClipboardList size={20} /> <span className={styles.linkText}>{t('nav.workOrders')}</span>
+                </NavLink>
+              </li>
+            )}
+            {!isSuperAdminUser && (
+              <li>
+                <NavLink to="/calendario" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                  <Calendar size={20} /> <span className={styles.linkText}>{t('nav.calendar')}</span>
+                </NavLink>
+              </li>
+            )}
+            {/* Panel Admin solo para super_admin */}
+            {isSuperAdminUser && (
+              <li>
+                <NavLink to="/panel-admin" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                  <Settings size={20} /> <span className={styles.linkText}>Panel Admin</span>
+                </NavLink>
+              </li>
+            )}
+            {/* Tenants solo para super_admin */}
+            {isSuperAdminUser && (
+              <li>
+                <NavLink to="/tenants" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                  <Database size={20} /> <span className={styles.linkText}>Tenants</span>
+                </NavLink>
+              </li>
+            )}
+          </ul>
+          <div className={styles.bottomSection}>
+            <div className={styles.controlsContainer}>
+              <div className={styles.languageSelectorContainer} ref={languageDropdownRef}>
+                <button
+                  type="button"
+                  className={styles.languageButton}
+                  onClick={() => setIsLanguageOpen(!isLanguageOpen)}
+                  aria-label={t('languageSelector.title')}
+                >
+                  <img src={currentFlag} alt={i18n.language} className={styles.flagImg} />
+                </button>
+                {isLanguageOpen && (
+                  <div className={styles.languageDropdown}>
+                    {languages.map((language) => (
+                      <button
+                        type="button"
+                        key={language.code}
+                        className={`${styles.languageOption} ${i18n.language === language.code ? styles.active : ''}`}
+                        onClick={() => handleLanguageChange(language.code)}
+                      >
+                        <img src={flagMap[language.code] || esFlag} alt={language.code} className={styles.flagImg} />
+                        <span className={`${styles.languageName} ${styles.linkText}`}>{language.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className={styles.themeBox}>
+                <button
+                  type="button"
+                  className={styles.themeButton}
+                  onClick={toggleTheme}
+                  aria-label={t('nav.toggleTheme')}
+                >
+                  {dark ? <Sun size={15} /> : <Moon size={15} />}
+                </button>
+              </div>
+            </div>
+            <div className={styles.userSection}>
+              {user && (
+                <div className={styles.userInfo}>
+                  <div className={styles.userAvatar}>
+                    {user.substring(0, 2).toUpperCase()}
+                  </div>
+                  <div className={styles.userDetails}>
+                    <span className={styles.userName} onClick={() => { setIsMenuOpen(false); navigate('/perfil'); }}>
+                      {user}
+                    </span>
+                    <span className={styles.userRole}>
+                      {isSuperAdminUser ? 'Admin' : isTechnicianUser ? 'Técnico' : isClientUser ? 'Cliente' : 'Usuario'}
+                    </span>
+                  </div>
+                  <button
+                    className={styles.logoutButton}
+                    onClick={handleLogout}
+                    title={t('nav.logout')}
+                  >
+                    <LogOut size={18} />
+                  </button>
                 </div>
               )}
             </div>
-            <div className={styles.themeBox}>
-              <button
-                type="button"
-                className={styles.themeButton}
-                onClick={toggleTheme}
-                aria-label={t('nav.toggleTheme')}
-              >
-                {dark ? <Sun size={15} /> : <Moon size={15} />}
-              </button>
-            </div>
-          </div>
-          <div className={styles.userSection}>
-            {user && (
-              <div className={styles.userInfo}>
-                <div className={styles.userDetails}>
-                  <span className={styles.userName} style={{ cursor: 'pointer', marginBottom: 10, display: 'inline-block' }} onClick={() => { setIsMenuOpen(false); navigate('/perfil'); }}>
-                    {user}
-                  </span>
-                </div>
-                <button className={styles.logoutButton} onClick={handleLogout}>
-                  <LogOut size={16} />
-                  <span>{t('nav.logout')}</span>
-                </button>
-              </div>
-            )}
           </div>
         </div>
       </nav>

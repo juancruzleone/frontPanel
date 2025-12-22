@@ -7,35 +7,46 @@
   height: 100vh;
   background-color: #0B1C1A !important;
   /* Leonix Dark Green */
-  transition: left 0.3s ease-in-out;
-  padding: 24px 24px;
+  transition: width 0.3s ease-in-out;
+  padding: 0 !important;
   z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: block;
   box-sizing: border-box;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: visible !important;
   min-width: 0;
   word-wrap: break-word;
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
-
-  /* Custom Scrollbar for Nav */
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 255, 174, 0.3) transparent;
 }
 
-.nav::-webkit-scrollbar {
+.navContent {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px 24px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* Custom Scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 255, 174, 0.3) transparent;
+  padding-bottom: 40px;
+  /* Ensure space at bottom */
+}
+
+.navContent::-webkit-scrollbar {
   width: 6px;
 }
 
-.nav::-webkit-scrollbar-track {
+.navContent::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.nav::-webkit-scrollbar-thumb {
+.navContent::-webkit-scrollbar-thumb {
   background-color: rgba(0, 255, 174, 0.3);
   border-radius: 20px;
+
+
 }
 
 .nav.open {
@@ -63,9 +74,8 @@
     max-width: 280px;
     height: 100vh;
     transition: none;
-    padding: 24px 24px;
-    overflow-y: auto;
-    overflow-x: hidden;
+    padding: 0 !important;
+    overflow: visible !important;
     min-width: 0;
     word-wrap: break-word;
   }
@@ -80,9 +90,8 @@
   .nav {
     width: 260px;
     max-width: 280px;
-    padding: 16px 20px;
-    overflow-y: auto;
-    overflow-x: hidden;
+    padding: 0 !important;
+    overflow: visible !important;
   }
 }
 
@@ -321,100 +330,80 @@
 
 
 .userInfo {
-  gap: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   padding: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 12px;
+  transition: all 0.2s ease;
 }
 
-@media (min-width: 768px) {
-  .userInfo {
-    gap: 12px;
-    padding: 14px;
-    border-radius: 12px;
-  }
+.userInfo:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
 }
 
-@media (min-width: 1024px) {
-  .userInfo {
-    gap: 12px;
-    border-radius: 12px;
-  }
+.userAvatar {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #00FFAE 0%, #00c486 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0B1C1A;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
 }
 
-
-@media (min-width: 768px) {
-  .userDetails {
-    gap: 4px;
-  }
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-grow: 1;
+  overflow: hidden;
 }
 
 .userName {
   color: #fff;
   font-weight: 600;
-  font-size: 13px;
-}
-
-@media (min-width: 768px) {
-  .userName {
-    font-size: 12px;
-  }
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
 }
 
 .userRole {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 11px;
   font-weight: 500;
 }
 
-@media (min-width: 768px) {
-  .userRole {
-    font-size: 12px;
-  }
-}
-
 .logoutButton {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  background: transparent;
   border: none;
-  color: #fff;
+  color: rgba(255, 255, 255, 0.6);
   cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 12px;
+  padding: 8px;
   border-radius: 8px;
   transition: all 0.2s ease;
-  width: 100%;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
-  min-height: 40px;
-}
-
-
-
-@media (min-width: 768px) {
-  .logoutButton {
-
-    gap: 6px;
-    padding: 6px 10px;
-    border-radius: 6px;
-    min-height: 32px;
-    max-height: 36px;
-  }
 }
 
 .logoutButton:hover {
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
 }
 
 .logoutButton:active {
-  transform: translateY(0);
+  transform: scale(0.95);
 }
 
 .bottomSection {
@@ -423,6 +412,8 @@
   align-items: stretch;
   gap: 12px;
   margin-top: auto;
+  margin-bottom: 20px;
+  /* Add extra margin from bottom */
 }
 
 @media (min-width: 768px) {}
@@ -641,7 +632,7 @@
 /* Responsive adjustments for smaller heights (laptops) */
 /* Responsive adjustments for smaller heights (laptops) */
 @media (max-height: 900px) {
-  .nav {
+  .navContent {
     padding: 12px 16px !important;
   }
 
@@ -682,4 +673,157 @@
     min-height: 32px !important;
     padding: 6px 10px !important;
   }
+
+  .navContent {
+    padding-bottom: 80px !important;
+    /* Significantly increase padding for small screens */
+  }
+}
+
+/* Collapse Button */
+.collapseButton {
+  position: absolute;
+  top: 32px;
+  right: -12px;
+  width: 24px;
+  height: 24px;
+  background-color: #0B1C1A;
+  border: 1px solid #00FFAE;
+  border-radius: 50%;
+  color: #00FFAE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1100;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.collapseButton svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 3px;
+}
+
+.collapseButton:hover {
+  background-color: rgba(0, 255, 174, 0.1);
+  transform: scale(1.1);
+  color: #fff;
+  border-color: #fff;
+}
+
+/* Hide toggle button on mobile */
+@media (max-width: 1023px) {
+  .collapseButton {
+    display: none;
+  }
+}
+
+/* Collapsed State Styles */
+.nav.collapsed {
+  width: 80px !important;
+}
+
+.nav.collapsed .navContent {
+  padding: 24px 12px !important;
+}
+
+.nav.collapsed .linkText,
+.nav.collapsed .logoText,
+.nav.collapsed .userName,
+.nav.collapsed .userRole,
+.nav.collapsed .languageName {
+  display: none !important;
+}
+
+.nav.collapsed .logoContainer {
+  justify-content: center;
+  padding: 0;
+  gap: 0;
+}
+
+.nav.collapsed .logoArea {
+  justify-content: center;
+  padding-left: 0;
+  margin-bottom: 40px;
+}
+
+.nav.collapsed .menu li a {
+  justify-content: center;
+  padding: 14px !important;
+  gap: 0;
+}
+
+.nav.collapsed .menu li a:hover {
+  transform: none;
+}
+
+.nav.collapsed .userInfo {
+  padding: 8px !important;
+  justify-content: center;
+  background: transparent;
+  border: none;
+}
+
+.nav.collapsed .userDetails {
+  display: none;
+}
+
+.nav.collapsed .logoutButton {
+  padding: 8px !important;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+}
+
+.nav.collapsed .userAvatar {
+  width: 32px;
+  height: 32px;
+  font-size: 12px;
+}
+
+.nav.collapsed .userInfo {
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 8px !important;
+}
+
+.nav.collapsed .controlsContainer {
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nav.collapsed .languageButton,
+.nav.collapsed .themeBox {
+  width: 30px;
+  height: 30px;
+}
+
+.nav.collapsed .logoImage {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+/* Hide scrollbar in collapsed mode */
+.nav.collapsed .navContent {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overflow-x: hidden;
+}
+
+.nav.collapsed .navContent::-webkit-scrollbar {
+  display: none;
+}
+
+/* Resize icons in collapsed mode */
+.nav.collapsed .languageButton .flagImg {
+  width: 20px !important;
+  height: 20px !important;
+  object-fit: contain !important;
+}
+
+.nav.collapsed .themeButton svg {
+  width: 18px !important;
+  height: 18px !important;
 }

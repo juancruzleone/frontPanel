@@ -19,6 +19,10 @@
   .contentArea {
     margin-left: 260px;
   }
+
+  .contentArea.collapsed {
+    margin-left: 80px;
+  }
 }
 
 @media (min-width: 768px) {
@@ -32,11 +36,19 @@
     padding: 24px;
     margin-left: 260px;
   }
+
+  .contentArea.collapsed {
+    margin-left: 80px;
+  }
 }
 
 @media (min-width: 1440px) {
   .contentArea {
     margin-left: 260px;
+  }
+
+  .contentArea.collapsed {
+    margin-left: 80px;
   }
 }
 
