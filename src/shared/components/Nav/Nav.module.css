@@ -5,6 +5,7 @@
   width: 85vw;
   max-width: 280px;
   height: 100vh;
+  height: 100dvh;
   background-color: #0B1C1A !important;
   /* Leonix Dark Green */
   transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
@@ -43,11 +44,11 @@
 
   .menu {
     flex-grow: 0 !important;
-    margin-bottom: auto;
+    margin-bottom: 8px;
   }
 
   .bottomSection {
-    margin-top: 16px;
+    margin-top: 8px;
     padding-bottom: 20px;
     min-height: fit-content;
   }
@@ -62,7 +63,7 @@
   }
 
   .logoArea {
-    margin-bottom: 20px !important;
+    margin-bottom: 12px !important;
     min-height: 32px;
   }
 }
@@ -335,9 +336,9 @@
 
 @media (max-width: 767px) {
   .menu li a {
-    padding: 12px 20px;
-    font-size: 15px;
-    gap: 14px;
+    padding: 10px 20px;
+    font-size: 14px;
+    gap: 12px;
   }
 }
 
