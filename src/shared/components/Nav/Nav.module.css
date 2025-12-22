@@ -708,9 +708,10 @@
 }
 
 .collapseButton:hover {
-  background-color: rgba(0, 255, 174, 0.1);
-  color: #fff;
-  border-color: #fff;
+  background-color: #00FFAE;
+  color: #0B1C1A;
+  border-color: #00FFAE;
+  box-shadow: 0 0 15px rgba(0, 255, 174, 0.3);
 }
 
 /* Hide toggle button on mobile */
