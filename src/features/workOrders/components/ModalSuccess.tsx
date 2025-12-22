@@ -16,7 +16,7 @@ const ModalSuccess = ({ isOpen, onRequestClose, mensaje }: ModalSuccessProps) =>
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
           <h2 className={styles.title}>{t('workOrders.successTitle')}</h2>
-          <button 
+          <button
             className={styles.closeButton}
             onClick={onRequestClose}
           >
@@ -27,16 +27,16 @@ const ModalSuccess = ({ isOpen, onRequestClose, mensaje }: ModalSuccessProps) =>
           <div className={styles.successContentBody}>
             <div className={styles.successIconLarge}>
               <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" fill="#10b981"/>
-                <path d="m9 12 2 2 4-4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <circle cx="12" cy="12" r="10" fill="#10b981" />
+                <path d="m9 12 2 2 4-4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
             <p className={styles.successMessageLarge}>{mensaje || t('workOrders.successMessage')}</p>
-            <button 
-              className={styles.successButtonLarge} 
+            <button
+              className={styles.successButtonLarge}
               onClick={onRequestClose}
             >
-              Continuar
+              {t('common.continue')}
             </button>
           </div>
         </div>

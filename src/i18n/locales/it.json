@@ -52,6 +52,7 @@
     "confirmDeleteTitle": "Eliminare tecnico?",
     "confirmDeleteDescription": "Questa azione non può essere annullata. Il tecnico verrà eliminato definitivamente.",
     "technicianDeleted": "Tecnico eliminato con successo",
+    "userDeleted": "Utente eliminato con successo",
     "errorDeletingTechnician": "Errore durante l'eliminazione del tecnico",
     "searchPlaceholder": "Cerca per nome utente...",
     "viewProfile": "Visualizza profilo",
@@ -74,6 +75,9 @@
     "passwordHint": "Lascia vuoto se non vuoi cambiare la password",
     "technicianUpdated": "Tecnico aggiornato con successo",
     "errorUpdatingTechnician": "Errore durante l'aggiornamento del tecnico",
+    "userCreated": "Account tecnico creato con successo",
+    "noPermission": "Non hai il permesso di eseguire questa azione",
+    "errorCreatingUser": "Errore durante la creazione del tecnico",
     "validation": {
       "usernameRequired": "Il nome utente è obbligatorio",
       "fullNameRequired": "Il nome completo è obbligatorio",
