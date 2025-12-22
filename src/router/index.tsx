@@ -113,8 +113,13 @@ export const router = createBrowserRouter([
             ],
           },
           {
-            path: "/formulario-interno/:installationId/:deviceId",
-            element: <DeviceFormPage />,
+            element: <ProtectedRoute allowedRoles={[ROLES.ADMIN, ROLES.TECHNICIAN, ROLES.TECHNICIAN_ALT]} />,
+            children: [
+              {
+                path: "/formulario-interno/:installationId/:deviceId",
+                element: <DeviceFormPage />
+              },
+            ],
           },
           {
             path: "*",
