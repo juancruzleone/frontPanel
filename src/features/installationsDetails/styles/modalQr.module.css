@@ -1,17 +1,17 @@
 .backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  
-  .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
   background: var(--color-card);
   border-radius: 8px;
   width: 90%;
@@ -21,8 +21,8 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border: 1px solid var(--color-card-border);
 }
-  
-  .modalHeader {
+
+.modalHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -30,8 +30,8 @@
   border-bottom: 1px solid var(--color-card-border);
   position: relative;
 }
-  
-  .title {
+
+.title {
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
@@ -39,8 +39,8 @@
   flex: 1;
   padding-right: 20px;
 }
-  
-  .closeButton {
+
+.closeButton {
   background: none;
   border: none;
   font-size: 2rem;
@@ -57,42 +57,44 @@
   line-height: 1;
   flex-shrink: 0;
 }
+
 .closeButton:hover {
   background: var(--color-bg-light);
   color: var(--color-text);
   transform: scale(1.1);
 }
+
 .closeButton:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }
-  
-  .modalContent {
-    padding: 20px;
-    max-height: calc(90vh - 120px);
-    overflow-y: auto;
-  }
 
-  /* Scrollbar personalizado */
-  .modalContent::-webkit-scrollbar {
-    width: 6px;
-  }
+.modalContent {
+  padding: 20px;
+  max-height: calc(90vh - 120px);
+  overflow-y: auto;
+}
 
-  .modalContent::-webkit-scrollbar-track {
-    background: var(--color-bg-light);
-  }
+/* Scrollbar personalizado */
+.modalContent::-webkit-scrollbar {
+  width: 6px;
+}
 
-  .modalContent::-webkit-scrollbar-thumb {
-    background: var(--color-card-border);
-    border-radius: 3px;
-  }
+.modalContent::-webkit-scrollbar-track {
+  background: var(--color-bg-light);
+}
 
-  .modalContent::-webkit-scrollbar-thumb:hover {
-    background: var(--color-text);
-  }
-  
-  .deviceInfo {
+.modalContent::-webkit-scrollbar-thumb {
+  background: var(--color-card-border);
+  border-radius: 3px;
+}
+
+.modalContent::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text);
+}
+
+.deviceInfo {
   background-color: var(--color-bg-light);
   padding: 15px;
   border-radius: 6px;
@@ -105,8 +107,8 @@
   font-size: 14px;
   color: var(--color-text);
 }
-  
-  .qrContainer {
+
+.qrContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -116,22 +118,22 @@
   border-radius: 8px;
   margin-bottom: 20px;
 }
-  
-  .qrImage {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-  }
-  
-  .qrDescription {
+
+.qrImage {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.qrDescription {
   text-align: center;
   font-size: 14px;
   color: var(--color-text);
   margin-top: 15px;
   margin-bottom: 0;
 }
-  
-  .loading {
+
+.loading {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -139,74 +141,74 @@
   font-size: 16px;
   color: var(--color-text);
 }
-  
-  .error {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 300px;
-    font-size: 16px;
-    color: #dc3545;
-  }
-  
-  .actions {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-  }
-  
-  .openButton,
-  .printButton {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  
-  .openButton {
-    background-color: var(--color-secondary);
-    color: white;
-  }
-  
-  .openButton:hover:not(:disabled) {
-    background-color: #045e58;
-  }
-  
-  .printButton {
-    background-color: #28a745;
-    color: white;
-    border: 2px solid transparent;
-  }
 
-  /* Modo claro - borde más fuerte para mejor contraste */
-  :root:not([data-theme="dark"]) .printButton {
-    border: 2px solid #1e7e34;
-    box-shadow: 0 2px 4px rgba(30, 126, 52, 0.3);
-  }
-  
-  .printButton:hover:not(:disabled) {
-    background-color: #1e7e34;
-  }
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  font-size: 16px;
+  color: #dc3545;
+}
 
-  /* Modo claro - hover con borde más fuerte */
-  :root:not([data-theme="dark"]) .printButton:hover:not(:disabled) {
-    border: 2px solid #155724;
-    box-shadow: 0 4px 8px rgba(21, 87, 36, 0.4);
-    transform: translateY(-1px);
-  }
-  
-  .openButton:disabled,
-  .printButton:disabled {
-    background-color: #6c757d;
-    cursor: not-allowed;
-    opacity: 0.6;
-  }
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.openButton,
+.printButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.openButton {
+  background-color: var(--color-secondary);
+  color: white;
+}
+
+.openButton:hover:not(:disabled) {
+  background-color: #045e58;
+}
+
+.printButton {
+  background-color: #28a745;
+  color: white;
+  border: 2px solid transparent;
+}
+
+/* Modo claro - borde más fuerte para mejor contraste */
+:root:not([data-theme="dark"]) .printButton {
+  border: 2px solid #1e7e34;
+  box-shadow: 0 2px 4px rgba(30, 126, 52, 0.3);
+}
+
+.printButton:hover:not(:disabled) {
+  background-color: #1e7e34;
+}
+
+/* Modo claro - hover con borde más fuerte */
+:root:not([data-theme="dark"]) .printButton:hover:not(:disabled) {
+  border: 2px solid #155724;
+  box-shadow: 0 4px 8px rgba(21, 87, 36, 0.4);
+  transform: translateY(-1px);
+}
+
+.openButton:disabled,
+.printButton:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
 
 .modalButton {
   background: var(--color-secondary);
@@ -219,10 +221,12 @@
   font-size: 14px;
   transition: all 0.2s ease;
 }
+
 .modalButton:hover {
   background: var(--color-secondary);
   transform: translateY(-1px);
 }
+
 .modalButton.secondary {
   background: var(--color-bg-light);
   color: var(--color-text);
@@ -234,8 +238,16 @@
   border: 2px solid #333;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+
 .modalButton.secondary:hover {
   background: var(--color-card-border);
+}
+
+/* Modo oscuro - hover con texto oscuro para contraste */
+[data-theme="dark"] .modalButton.secondary:hover {
+  background: #e0e0e0;
+  color: #1a1a1a;
+  border-color: #ccc;
 }
 
 /* Modo claro - hover mejorado para el botón secundario */
@@ -245,29 +257,28 @@
   background: #f0f0f0;
   transform: translateY(-1px);
 }
-  
-  @media (max-width: 768px) {
-    .modal {
-      width: 95%;
-      margin: 10px;
-    }
-  
-    .modalHeader {
-      padding: 15px;
-    }
-  
-    .modalContent {
-      padding: 15px;
-    }
-  
-    .actions {
-      flex-direction: column;
-    }
-  
-    .openButton,
-    .printButton {
-      width: 100%;
-      justify-content: center;
-    }
+
+@media (max-width: 768px) {
+  .modal {
+    width: 95%;
+    margin: 10px;
   }
-  
+
+  .modalHeader {
+    padding: 15px;
+  }
+
+  .modalContent {
+    padding: 15px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .openButton,
+  .printButton {
+    width: 100%;
+    justify-content: center;
+  }
+}

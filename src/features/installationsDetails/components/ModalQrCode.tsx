@@ -7,6 +7,7 @@ import { Printer, ExternalLink } from "lucide-react"
 import type { Device, Installation } from "../../installations/hooks/useInstallations"
 import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../../../store/authStore"
+import { isClient } from "../../../shared/utils/roleUtils"
 
 interface ModalQRCodeProps {
   isOpen: boolean
@@ -18,10 +19,13 @@ interface ModalQRCodeProps {
 const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCodeProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { token } = useAuthStore()
+  const { token, role } = useAuthStore()
   const [qrCodeDataURL, setQrCodeDataURL] = useState<string>("")
   const [loading, setLoading] = useState(false)
   const printRef = useRef<HTMLDivElement>(null)
+
+  // Verificar si el usuario es cliente
+  const userIsClient = isClient(role)
 
   useEffect(() => {
     if (isOpen && device?.codigoQR) {
@@ -127,10 +131,40 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
     printWindow.close()
   }
 
-  const handleOpenURL = () => {
+  const handleOpenURL = async () => {
     if (!device) return
-    
-    // Si el usuario está logeado, navegar al formulario interno
+
+    // Si el usuario es cliente, redirigir al último mantenimiento (PDF)
+    if (userIsClient && installation?._id && device._id) {
+      console.log('👤 Usuario cliente - Redirigiendo a último mantenimiento')
+      try {
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+        const response = await fetch(
+          `${API_URL}public/dispositivos/${installation._id}/${device._id}/ultimo-mantenimiento`
+        )
+
+        if (response.ok) {
+          const data = await response.json()
+          const pdfUrl = data.data?.pdfUrl || data.pdfUrl || data.data?.secure_url
+
+          if (pdfUrl) {
+            window.open(pdfUrl, '_blank')
+            onRequestClose()
+            return
+          }
+        }
+
+        // Si no hay mantenimiento, mostrar mensaje de error
+        console.log('⚠️ No hay mantenimiento disponible para este dispositivo')
+        alert(t('installationDetails.noMaintenanceAvailable') || 'No hay mantenimiento disponible para este dispositivo')
+      } catch (error) {
+        console.error('Error al obtener último mantenimiento:', error)
+        alert(t('installationDetails.errorLoadingMaintenance') || 'Error al cargar el mantenimiento')
+      }
+      return
+    }
+
+    // Si el usuario está logeado (y no es cliente), navegar al formulario interno
     if (token && installation?._id && device._id) {
       console.log('✅ Usuario logeado - Navegando a formulario interno')
       navigate(`/formulario-interno/${installation._id}/${device._id}`)
@@ -183,10 +217,13 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
           </div>
 
           <div className={styles.actions}>
-            <button className={styles.modalButton} onClick={handleOpenURL} disabled={!device.codigoQR}>
-              <ExternalLink size={16} />
-              {t('installationDetails.openForm')}
-            </button>
+            {/* Ocultar botón "Abrir formulario" para usuarios con rol de cliente */}
+            {!userIsClient && (
+              <button className={styles.modalButton} onClick={handleOpenURL} disabled={!device.codigoQR}>
+                <ExternalLink size={16} />
+                {t('installationDetails.openForm')}
+              </button>
+            )}
             <button className={styles.modalButton + ' ' + styles.secondary} onClick={handlePrint} disabled={!qrCodeDataURL}>
               <Printer size={16} />
               {t('installationDetails.printQR')}
