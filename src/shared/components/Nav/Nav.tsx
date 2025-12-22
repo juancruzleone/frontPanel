@@ -115,7 +115,7 @@ const Nav = () => {
   return (
     <>
       <button
-        className={isMenuOpen ? `${styles.menuToggle} open` : styles.menuToggle}
+        className={`${styles.menuToggle} ${isMenuOpen ? styles.menuToggleOpen : ''}`}
         onClick={() => setIsMenuOpen(prev => !prev)}
         aria-label={isMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
       >
