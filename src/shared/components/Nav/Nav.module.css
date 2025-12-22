@@ -478,8 +478,8 @@
   border-radius: 12px;
   padding: 0;
   margin: 0;
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 }
@@ -509,8 +509,8 @@
 }
 
 .themeButton svg {
-  width: 22px !important;
-  height: 22px !important;
+  width: 18px !important;
+  height: 18px !important;
   stroke-width: 2.5px;
 }
 
@@ -518,7 +518,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 12px;
   margin-bottom: 16px;
   padding: 0 12px;
 }
@@ -547,8 +547,8 @@
   align-items: center;
   justify-content: center;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
   font-size: 12px;
   font-weight: 600;
   margin: 0;
@@ -660,8 +660,8 @@
 
 
 .languageButton .flagImg {
-  width: 22px !important;
-  height: 22px !important;
+  width: 18px !important;
+  height: 18px !important;
   object-fit: contain !important;
   border-radius: 4px !important;
   box-sizing: border-box !important;
@@ -878,8 +878,8 @@
 
 .nav.collapsed .languageButton,
 .nav.collapsed .themeBox {
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   border-radius: 10px;
 }
 
@@ -907,12 +907,12 @@
 
 /* Resize icons in collapsed mode */
 .nav.collapsed .languageButton .flagImg {
-  width: 22px !important;
-  height: 22px !important;
+  width: 18px !important;
+  height: 18px !important;
   object-fit: contain !important;
 }
 
 .nav.collapsed .themeButton svg {
-  width: 20px !important;
-  height: 20px !important;
+  width: 18px !important;
+  height: 18px !important;
 }
