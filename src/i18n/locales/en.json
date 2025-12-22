@@ -13,7 +13,8 @@
     "toggleTheme": "Toggle theme",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
-    "logout": "Logout"
+    "logout": "Logout",
+    "clients": "Clients"
   },
   "personal": {
     "successTitle": "Operation successful!",
@@ -111,6 +112,11 @@
   "profile": {
     "assignedOrders": "Assigned orders",
     "noAssignedOrders": "You have no assigned orders.",
+    "assignedInstallations": "Assigned installations",
+    "noAssignedInstallations": "You have no assigned installations.",
+    "loadingInstallations": "Loading installations...",
+    "loadingProfile": "Loading profile...",
+    "searchInstallationPlaceholder": "Search installation...",
     "technician": "Technician"
   },
   "clients": {
@@ -150,6 +156,16 @@
     "searchPlaceholder": "Search by username...",
     "viewProfile": "View profile",
     "editClient": "Edit client",
+    "assignInstallations": "Assign installations",
+    "assignInstallationsTitle": "Assign installations to client",
+    "assignInstallationsSubtitle": "Select the installations you want to assign to this client",
+    "assigningTo": "Assigning to",
+    "selectInstallations": "Select installations",
+    "selectAtLeastOneInstallation": "You must select at least one installation",
+    "noInstallationsAvailable": "No installations available",
+    "installationsAssignedSuccessfully": "Installations assigned successfully",
+    "errorAssigningInstallations": "Error assigning installations",
+    "invalidClient": "Invalid client",
     "userProfile": "User Profile",
     "actions": "Actions",
     "noSearchResults": "No results found",
@@ -159,6 +175,7 @@
     "passwordPlaceholder": "Leave blank to keep unchanged",
     "passwordHint": "Leave blank if you don't want to change the password",
     "newPassword": "New Password",
+    "fullNamePlaceholder": "Enter full name",
     "validation": {
       "usernameRequired": "Username is required",
       "usernameMinLength": "Username must be at least 4 characters",

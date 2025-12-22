@@ -13,7 +13,8 @@
     "toggleTheme": "Theme umschalten",
     "openMenu": "Menü öffnen",
     "closeMenu": "Menü schließen",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "clients": "Kunden"
   },
   "personal": {
     "successTitle": "Vorgang erfolgreich!",
@@ -88,7 +89,110 @@
   "profile": {
     "assignedOrders": "Zugewiesene Aufträge",
     "noAssignedOrders": "Sie haben keine zugewiesenen Aufträge.",
+    "assignedInstallations": "Zugewiesene Installationen",
+    "noAssignedInstallations": "Sie haben keine zugewiesenen Installationen.",
+    "loadingInstallations": "Installationen werden geladen...",
+    "loadingProfile": "Profil wird geladen...",
+    "searchInstallationPlaceholder": "Installation suchen...",
     "technician": "Techniker"
+  },
+  "clients": {
+    "successTitle": "Vorgang erfolgreich!",
+    "understood": "Schließen",
+    "title": "Kunden",
+    "addClient": "Kunden hinzufügen",
+    "clientsList": "Kundenliste",
+    "loadingClients": "Kunden werden geladen...",
+    "noClients": "Keine Kunden registriert",
+    "addFirstClient": "Fügen Sie den ersten Kunden hinzu, um zu beginnen",
+    "id": "ID",
+    "user": "Benutzer",
+    "role": "Rolle",
+    "registrationDate": "Registrierungsdatum",
+    "registerNewClient": "Neuen Kunden registrieren",
+    "completeInformation": "Vervollständigen Sie die Informationen, um ein neues Konto zu erstellen",
+    "username": "Benutzername",
+    "fullName": "Vollständiger Name",
+    "fullNamePlaceholder": "Vollständigen Namen eingeben",
+    "password": "Passwort",
+    "confirmPassword": "Passwort bestätigen",
+    "confirmPasswordPlaceholder": "Passwort bestätigen",
+    "enterField": "Geben Sie {{field}} ein",
+    "hidePassword": "Passwort verbergen",
+    "showPassword": "Passwort anzeigen",
+    "registering": "Registrierung läuft...",
+    "completeAllFields": "Alle Felder ausfüllen",
+    "registerClient": "Kunden registrieren",
+    "createClient": "Kunden erstellen",
+    "titlePage": "Kunden | Leonix",
+    "confirmDeleteClient": "Sind Sie sicher, dass Sie diesen Kunden löschen möchten?",
+    "deleteClient": "Kunden löschen",
+    "confirmDeleteTitle": "Kunden löschen?",
+    "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Der Kunde wird dauerhaft gelöscht.",
+    "clientDeleted": "Kunde erfolgreich gelöscht",
+    "errorDeletingClient": "Fehler beim Löschen des Kunden",
+    "searchPlaceholder": "Nach Benutzernamen suchen...",
+    "viewProfile": "Profil anzeigen",
+    "editClient": "Kunden bearbeiten",
+    "assignInstallations": "Installationen zuweisen",
+    "assignInstallationsTitle": "Installationen dem Kunden zuweisen",
+    "assignInstallationsSubtitle": "Wählen Sie die Installationen aus, die Sie diesem Kunden zuweisen möchten",
+    "assigningTo": "Zuweisen an",
+    "selectInstallations": "Installationen auswählen",
+    "selectAtLeastOneInstallation": "Sie müssen mindestens eine Installation auswählen",
+    "noInstallationsAvailable": "Keine Installationen verfügbar",
+    "installationsAssignedSuccessfully": "Installationen erfolgreich zugewiesen",
+    "errorAssigningInstallations": "Fehler beim Zuweisen der Installationen",
+    "invalidClient": "Ungültiger Kunde",
+    "userProfile": "Benutzerprofil",
+    "actions": "Aktionen",
+    "noSearchResults": "Keine Ergebnisse gefunden",
+    "tryDifferentSearch": "Versuchen Sie einen anderen Suchbegriff",
+    "clientUpdated": "Kunde erfolgreich aktualisiert",
+    "errorUpdatingClient": "Fehler beim Aktualisieren des Kunden",
+    "passwordPlaceholder": "Leer lassen, um nicht zu ändern",
+    "passwordHint": "Leer lassen, wenn Sie das Passwort nicht ändern möchten",
+    "newPassword": "Neues Passwort",
+    "validation": {
+      "usernameRequired": "Benutzername ist erforderlich",
+      "usernameMinLength": "Benutzername muss mindestens 4 Zeichen haben",
+      "usernameMaxLength": "Benutzername darf nicht mehr als 50 Zeichen haben",
+      "usernameMatches": "Nur Buchstaben, Zahlen und Unterstriche",
+      "fullNameRequired": "Vollständiger Name ist erforderlich",
+      "fullNameMinLength": "Vollständiger Name muss mindestens 3 Zeichen haben",
+      "fullNameMaxLength": "Vollständiger Name darf nicht mehr als 100 Zeichen haben",
+      "passwordRequired": "Passwort ist erforderlich",
+      "passwordsDoNotMatch": "Passwörter stimmen nicht überein",
+      "passwordMinLength": "Passwort muss mindestens 6 Zeichen haben",
+      "passwordMaxLength": "Passwort darf nicht mehr als 100 Zeichen haben",
+      "confirmPasswordRequired": "Sie müssen das Passwort bestätigen"
+    },
+    "tour": {
+      "welcome": {
+        "title": "Willkommen in der Kundenverwaltung!",
+        "description": "Hier können Sie alle Kunden Ihres Unternehmens verwalten. Wir zeigen Ihnen die Hauptfunktionen."
+      },
+      "addClient": {
+        "title": "Kunden hinzufügen",
+        "description": "Klicken Sie hier, um einen neuen Kunden im System zu registrieren."
+      },
+      "searchClients": {
+        "title": "Kunden suchen",
+        "description": "Verwenden Sie diese Suchleiste, um bestimmte Kunden anhand ihres Benutzernamens zu finden."
+      },
+      "clientActions": {
+        "title": "Kundenaktionen",
+        "description": "In der Tabelle können Sie das Profil jedes Kunden anzeigen, seine Informationen bearbeiten oder Benutzer bei Bedarf löschen."
+      },
+      "buttons": {
+        "next": "Weiter",
+        "previous": "Zurück",
+        "done": "Fertigstellen",
+        "skip": "Tutorial überspringen",
+        "restart": "Tutorial neu starten"
+      },
+      "progressText": "{{current}} von {{total}}"
+    }
   },
   "common": {
     "page": "Seite",

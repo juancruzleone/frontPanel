@@ -13,7 +13,8 @@
     "toggleTheme": "Cambia tema",
     "openMenu": "Apri menu",
     "closeMenu": "Chiudi menu",
-    "logout": "Disconnetti"
+    "logout": "Disconnetti",
+    "clients": "Clienti"
   },
   "personal": {
     "successTitle": "Operazione riuscita!",
@@ -111,7 +112,110 @@
   "profile": {
     "assignedOrders": "Ordini assegnati",
     "noAssignedOrders": "Non hai ordini assegnati.",
+    "assignedInstallations": "Installazioni assegnate",
+    "noAssignedInstallations": "Non hai installazioni assegnate.",
+    "loadingInstallations": "Caricamento installazioni...",
+    "loadingProfile": "Caricamento profilo...",
+    "searchInstallationPlaceholder": "Cerca installazione...",
     "technician": "Tecnico"
+  },
+  "clients": {
+    "successTitle": "Operazione riuscita!",
+    "understood": "Chiudi",
+    "title": "Clienti",
+    "addClient": "Aggiungi cliente",
+    "clientsList": "Elenco clienti",
+    "loadingClients": "Caricamento clienti...",
+    "noClients": "Nessun cliente registrato",
+    "addFirstClient": "Aggiungi il primo cliente per iniziare",
+    "id": "ID",
+    "user": "Utente",
+    "role": "Ruolo",
+    "registrationDate": "Data di registrazione",
+    "registerNewClient": "Registra nuovo cliente",
+    "completeInformation": "Completa le informazioni per creare un nuovo account",
+    "username": "Nome utente",
+    "fullName": "Nome completo",
+    "fullNamePlaceholder": "Inserisci nome completo",
+    "password": "Password",
+    "confirmPassword": "Conferma password",
+    "confirmPasswordPlaceholder": "Conferma la password",
+    "enterField": "Inserisci {{field}}",
+    "hidePassword": "Nascondi password",
+    "showPassword": "Mostra password",
+    "registering": "Registrazione in corso...",
+    "completeAllFields": "Compila tutti i campi",
+    "registerClient": "Registra cliente",
+    "createClient": "Crea cliente",
+    "titlePage": "Clienti | Leonix",
+    "confirmDeleteClient": "Sei sicuro di voler eliminare questo cliente?",
+    "deleteClient": "Elimina cliente",
+    "confirmDeleteTitle": "Eliminare cliente?",
+    "confirmDeleteDescription": "Questa azione non può essere annullata. Il cliente verrà eliminato definitivamente.",
+    "clientDeleted": "Cliente eliminato con successo",
+    "errorDeletingClient": "Errore durante l'eliminazione del cliente",
+    "searchPlaceholder": "Cerca per nome utente...",
+    "viewProfile": "Visualizza profilo",
+    "editClient": "Modifica cliente",
+    "assignInstallations": "Assegna installazioni",
+    "assignInstallationsTitle": "Assegna installazioni al cliente",
+    "assignInstallationsSubtitle": "Seleziona le installazioni che desideri assegnare a questo cliente",
+    "assigningTo": "Assegnazione a",
+    "selectInstallations": "Seleziona installazioni",
+    "selectAtLeastOneInstallation": "Devi selezionare almeno un'installazione",
+    "noInstallationsAvailable": "Nessuna installazione disponibile",
+    "installationsAssignedSuccessfully": "Installazioni assegnate con successo",
+    "errorAssigningInstallations": "Errore durante l'assegnazione delle installazioni",
+    "invalidClient": "Cliente non valido",
+    "userProfile": "Profilo utente",
+    "actions": "Azioni",
+    "noSearchResults": "Nessun risultato trovato",
+    "tryDifferentSearch": "Prova con un termine di ricerca diverso",
+    "clientUpdated": "Cliente aggiornato con successo",
+    "errorUpdatingClient": "Errore durante l'aggiornamento del cliente",
+    "passwordPlaceholder": "Lascia vuoto per non modificare",
+    "passwordHint": "Lascia vuoto se non vuoi cambiare la password",
+    "newPassword": "Nuova password",
+    "validation": {
+      "usernameRequired": "Il nome utente è obbligatorio",
+      "usernameMinLength": "Il nome utente deve contenere almeno 4 caratteri",
+      "usernameMaxLength": "Il nome utente non può contenere più di 50 caratteri",
+      "usernameMatches": "Solo lettere, numeri e underscore",
+      "fullNameRequired": "Il nome completo è obbligatorio",
+      "fullNameMinLength": "Il nome completo deve contenere almeno 3 caratteri",
+      "fullNameMaxLength": "Il nome completo non può contenere più di 100 caratteri",
+      "passwordRequired": "La password è obbligatoria",
+      "passwordsDoNotMatch": "Le password non corrispondono",
+      "passwordMinLength": "La password deve contenere almeno 6 caratteri",
+      "passwordMaxLength": "La password non può contenere più di 100 caratteri",
+      "confirmPasswordRequired": "Devi confermare la password"
+    },
+    "tour": {
+      "welcome": {
+        "title": "Benvenuto nella gestione dei clienti!",
+        "description": "Qui puoi gestire tutti i clienti della tua azienda. Ti mostreremo le funzioni principali."
+      },
+      "addClient": {
+        "title": "Aggiungi cliente",
+        "description": "Clicca qui per registrare un nuovo cliente nel sistema."
+      },
+      "searchClients": {
+        "title": "Cerca clienti",
+        "description": "Usa questa barra di ricerca per trovare clienti specifici tramite il loro nome utente."
+      },
+      "clientActions": {
+        "title": "Azioni dei clienti",
+        "description": "Nella tabella puoi vedere il profilo di ogni cliente, modificare le sue informazioni o eliminare utenti quando necessario."
+      },
+      "buttons": {
+        "next": "Avanti",
+        "previous": "Precedente",
+        "done": "Fine",
+        "skip": "Salta tutorial",
+        "restart": "Riavvia tutorial"
+      },
+      "progressText": "{{current}} di {{total}}"
+    }
   },
   "common": {
     "page": "Pagina",

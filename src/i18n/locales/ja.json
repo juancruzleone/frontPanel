@@ -13,7 +13,8 @@
     "toggleTheme": "テーマを切り替え",
     "openMenu": "メニューを開く",
     "closeMenu": "メニューを閉じる",
-    "logout": "ログアウト"
+    "logout": "ログアウト",
+    "clients": "クライアント"
   },
   "personal": {
     "successTitle": "操作が成功しました！",
@@ -111,7 +112,110 @@
   "profile": {
     "assignedOrders": "割り当てられた注文",
     "noAssignedOrders": "割り当てられた注文はありません。",
+    "assignedInstallations": "割り当てられたインストール",
+    "noAssignedInstallations": "割り当てられたインストールはありません。",
+    "loadingInstallations": "インストールを読み込み中...",
+    "loadingProfile": "プロフィールを読み込み中...",
+    "searchInstallationPlaceholder": "インストールを検索...",
     "technician": "技術者"
+  },
+  "clients": {
+    "successTitle": "操作が成功しました！",
+    "understood": "閉じる",
+    "title": "クライアント",
+    "addClient": "クライアントを追加",
+    "clientsList": "クライアント一覧",
+    "loadingClients": "クライアントを読み込み中...",
+    "noClients": "登録されたクライアントがいません",
+    "addFirstClient": "最初のクライアントを追加して始めましょう",
+    "id": "ID",
+    "user": "ユーザー",
+    "role": "役割",
+    "registrationDate": "登録日",
+    "registerNewClient": "新しいクライアントを登録",
+    "completeInformation": "新しいアカウントを作成するために情報を入力してください",
+    "username": "ユーザー名",
+    "fullName": "フルネーム",
+    "fullNamePlaceholder": "フルネームを入力してください",
+    "password": "パスワード",
+    "confirmPassword": "パスワードを確認",
+    "confirmPasswordPlaceholder": "パスワードを確認してください",
+    "enterField": "{{field}} を入力してください",
+    "hidePassword": "パスワードを隠す",
+    "showPassword": "パスワードを表示",
+    "registering": "登録中...",
+    "completeAllFields": "すべてのフィールドを入力してください",
+    "registerClient": "クライアントを登録",
+    "createClient": "クライアントを作成",
+    "titlePage": "クライアント | Leonix",
+    "confirmDeleteClient": "このクライアントを削除してもよろしいですか？",
+    "deleteClient": "クライアントを削除",
+    "confirmDeleteTitle": "クライアントを削除しますか？",
+    "confirmDeleteDescription": "この操作は元に戻せません。クライアントは永久に削除されます。",
+    "clientDeleted": "クライアントが正常に削除されました",
+    "errorDeletingClient": "クライアントの削除中にエラーが発生しました",
+    "searchPlaceholder": "ユーザー名で検索...",
+    "viewProfile": "プロフィールを見る",
+    "editClient": "クライアントを編集",
+    "assignInstallations": "インストールを割り当て",
+    "assignInstallationsTitle": "クライアントにインストールを割り当て",
+    "assignInstallationsSubtitle": "このクライアントに割り当てるインストールを選択してください",
+    "assigningTo": "割り当て先",
+    "selectInstallations": "インストールを選択",
+    "selectAtLeastOneInstallation": "少なくとも1つのインストールを選択する必要があります",
+    "noInstallationsAvailable": "利用可能なインストールがありません",
+    "installationsAssignedSuccessfully": "インストールが正常に割り当てられました",
+    "errorAssigningInstallations": "インストールの割り当て中にエラーが発生しました",
+    "invalidClient": "無効なクライアント",
+    "userProfile": "ユーザープロフィール",
+    "actions": "操作",
+    "noSearchResults": "結果が見つかりません",
+    "tryDifferentSearch": "別の検索キーワードを試してください",
+    "clientUpdated": "クライアントが正常に更新されました",
+    "errorUpdatingClient": "クライアントの更新中にエラーが発生しました",
+    "passwordPlaceholder": "変更しない場合は空白のままにしてください",
+    "passwordHint": "パスワードを変更しない場合は空白のままにしてください",
+    "newPassword": "新しいパスワード",
+    "validation": {
+      "usernameRequired": "ユーザー名は必須です",
+      "usernameMinLength": "ユーザー名は4文字以上である必要があります",
+      "usernameMaxLength": "ユーザー名は50文字以内である必要があります",
+      "usernameMatches": "文字、数字、アンダースコアのみ",
+      "fullNameRequired": "フルネームは必須です",
+      "fullNameMinLength": "フルネームは3文字以上である必要があります",
+      "fullNameMaxLength": "フルネームは100文字以内である必要があります",
+      "passwordRequired": "パスワードは必須です",
+      "passwordsDoNotMatch": "パスワードが一致しません",
+      "passwordMinLength": "パスワードは6文字以上である必要があります",
+      "passwordMaxLength": "パスワードは100文字以内である必要があります",
+      "confirmPasswordRequired": "パスワードの確認が必要です"
+    },
+    "tour": {
+      "welcome": {
+        "title": "クライアント管理へようこそ！",
+        "description": "ここでは、会社のすべてのクライアントを管理できます。主な機能をご紹介します。"
+      },
+      "addClient": {
+        "title": "クライアントを追加",
+        "description": "ここをクリックして、新しいクライアントをシステムに登録します。"
+      },
+      "searchClients": {
+        "title": "クライアントを検索",
+        "description": "この検索バーを使用して、ユーザー名で特定のクライアントを探してください。"
+      },
+      "clientActions": {
+        "title": "クライアントの操作",
+        "description": "表では各クライアントのプロフィールを確認し、情報を編集したり、必要に応じてユーザーを削除できます。"
+      },
+      "buttons": {
+        "next": "次へ",
+        "previous": "前へ",
+        "done": "完了",
+        "skip": "チュートリアルをスキップ",
+        "restart": "チュートリアルを再開"
+      },
+      "progressText": "{{total}} 中 {{current}}"
+    }
   },
   "common": {
     "page": "ページ",

@@ -573,19 +573,29 @@
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
-  color: var(--color-text);
+  color: var(--color-text) !important;
   font-size: 14px;
   text-align: left;
 }
 
+.languageOption .languageName {
+  color: inherit !important;
+}
+
 .languageOption:hover {
   background: var(--color-secondary);
-  color: white;
+  color: white !important;
 }
 
 .languageOption.active {
+  background: rgba(5, 126, 116, 0.15);
+  color: var(--color-text) !important;
+  font-weight: 600;
+}
+
+:global(.dark) .languageOption.active {
   background: var(--color-secondary);
-  color: white;
+  color: white !important;
 }
 
 .flag {
@@ -595,6 +605,7 @@
 
 .languageName {
   font-weight: 500;
+  color: var(--color-text) !important;
 }
 
 /* Responsive adjustments */

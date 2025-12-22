@@ -126,6 +126,7 @@
     "completeInformation": "Completa la información para crear una nueva cuenta",
     "username": "Usuario",
     "fullName": "Nombre Completo",
+    "fullNamePlaceholder": "Ingrese el nombre completo",
     "password": "Contraseña",
     "confirmPassword": "Confirmar Contraseña",
     "confirmPasswordPlaceholder": "Confirme la contraseña",

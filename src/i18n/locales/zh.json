@@ -13,7 +13,8 @@
     "user": "用户",
     "toggleTheme": "切换主题",
     "openMenu": "打开菜单",
-    "closeMenu": "关闭菜单"
+    "closeMenu": "关闭菜单",
+    "clients": "客户"
   },
   "personal": {
     "successTitle": "操作成功！",
@@ -111,7 +112,110 @@
   "profile": {
     "assignedOrders": "分配的订单",
     "noAssignedOrders": "您没有分配的订单。",
+    "assignedInstallations": "分配的安装",
+    "noAssignedInstallations": "您没有分配的安装。",
+    "loadingInstallations": "正在加载安装...",
+    "loadingProfile": "正在加载个人资料...",
+    "searchInstallationPlaceholder": "搜索安装...",
     "technician": "技术员"
+  },
+  "clients": {
+    "successTitle": "操作成功！",
+    "understood": "关闭",
+    "title": "客户",
+    "addClient": "添加客户",
+    "clientsList": "客户列表",
+    "loadingClients": "正在加载客户...",
+    "noClients": "没有注册的客户",
+    "addFirstClient": "添加第一个客户以开始",
+    "id": "ID",
+    "user": "用户",
+    "role": "角色",
+    "registrationDate": "注册日期",
+    "registerNewClient": "注册新的客户",
+    "completeInformation": "填写信息以创建新帐户",
+    "username": "用户名",
+    "fullName": "全名",
+    "fullNamePlaceholder": "请输入全名",
+    "password": "密码",
+    "confirmPassword": "确认密码",
+    "confirmPasswordPlaceholder": "请确认密码",
+    "enterField": "请输入{{field}}",
+    "hidePassword": "隐藏密码",
+    "showPassword": "显示密码",
+    "registering": "注册中...",
+    "completeAllFields": "请填写所有字段",
+    "registerClient": "注册客户",
+    "createClient": "创建客户",
+    "titlePage": "客户 | Leonix",
+    "confirmDeleteClient": "您确定要删除此客户吗？",
+    "deleteClient": "删除客户",
+    "confirmDeleteTitle": "删除客户？",
+    "confirmDeleteDescription": "此操作无法撤销。客户将被永久删除。",
+    "clientDeleted": "客户删除成功",
+    "errorDeletingClient": "删除客户时出错",
+    "searchPlaceholder": "按用户名搜索...",
+    "viewProfile": "查看个人资料",
+    "editClient": "编辑客户",
+    "assignInstallations": "分配安装",
+    "assignInstallationsTitle": "为客户分配安装",
+    "assignInstallationsSubtitle": "选择要分配给此客户的安装",
+    "assigningTo": "正在分配给",
+    "selectInstallations": "选择安装",
+    "selectAtLeastOneInstallation": "您必须选择至少一个安装",
+    "noInstallationsAvailable": "没有可用的安装",
+    "installationsAssignedSuccessfully": "安装分配成功",
+    "errorAssigningInstallations": "分配安装时出错",
+    "invalidClient": "无效的客户",
+    "userProfile": "用户档案",
+    "actions": "操作",
+    "noSearchResults": "未找到结果",
+    "tryDifferentSearch": "尝试不同的搜索关键词",
+    "clientUpdated": "客户更新成功",
+    "errorUpdatingClient": "更新客户时出错",
+    "passwordPlaceholder": "留空以保持不变",
+    "passwordHint": "如果不想更改密码，请留空",
+    "newPassword": "新密码",
+    "validation": {
+      "usernameRequired": "用户名是必需的",
+      "usernameMinLength": "用户名必须至少4个字符",
+      "usernameMaxLength": "用户名不能超过50个字符",
+      "usernameMatches": "仅允许字母、数字和下划线",
+      "fullNameRequired": "全名是必需的",
+      "fullNameMinLength": "全名必须至少3个字符",
+      "fullNameMaxLength": "全名不能超过100个字符",
+      "passwordRequired": "密码是必需的",
+      "passwordsDoNotMatch": "密码不匹配",
+      "passwordMinLength": "密码必须至少6个字符",
+      "passwordMaxLength": "密码不能超过100个字符",
+      "confirmPasswordRequired": "您必须确认密码"
+    },
+    "tour": {
+      "welcome": {
+        "title": "欢迎使用客户管理！",
+        "description": "在这里，您可以管理公司所有的客户。我们将向您展示主要功能。"
+      },
+      "addClient": {
+        "title": "添加客户",
+        "description": "点击此处在系统中注册新客户。"
+      },
+      "searchClients": {
+        "title": "搜索客户",
+        "description": "使用此搜索栏通过用户名查找特定的客户。"
+      },
+      "clientActions": {
+        "title": "客户操作",
+        "description": "在表格中，您可以查看每位客户的资料，编辑其信息或在需要时删除用户。"
+      },
+      "buttons": {
+        "next": "下一步",
+        "previous": "上一步",
+        "done": "完成",
+        "skip": "跳过教程",
+        "restart": "重新开始教程"
+      },
+      "progressText": "{{total}} 中的 {{current}}"
+    }
   },
   "common": {
     "page": "页",

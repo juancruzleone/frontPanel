@@ -13,7 +13,8 @@
     "toggleTheme": "تبديل المظهر",
     "openMenu": "فتح القائمة",
     "closeMenu": "إغلاق القائمة",
-    "logout": "تسجيل الخروج"
+    "logout": "تسجيل الخروج",
+    "clients": "العملاء"
   },
   "personal": {
     "successTitle": "تمت العملية بنجاح!",
@@ -111,7 +112,110 @@
   "profile": {
     "assignedOrders": "الطلبات المعينة",
     "noAssignedOrders": "ليس لديك طلبات معينة.",
+    "assignedInstallations": "التركيبات المعينة",
+    "noAssignedInstallations": "ليس لديك تركيبات معينة.",
+    "loadingInstallations": "جارٍ تحميل التركيبات...",
+    "loadingProfile": "جارٍ تحميل الملف الشخصي...",
+    "searchInstallationPlaceholder": "البحث عن التركيب...",
     "technician": "فني"
+  },
+  "clients": {
+    "successTitle": "تمت العملية بنجاح!",
+    "understood": "إغلاق",
+    "title": "العملاء",
+    "addClient": "إضافة عميل",
+    "clientsList": "قائمة العملاء",
+    "loadingClients": "جارٍ تحميل العملاء...",
+    "noClients": "لا يوجد عملاء مسجلون",
+    "addFirstClient": "أضف أول عميل للبدء",
+    "id": "المعرف",
+    "user": "المستخدم",
+    "role": "الدور",
+    "registrationDate": "تاريخ التسجيل",
+    "registerNewClient": "تسجيل عميل جديد",
+    "completeInformation": "أكمل المعلومات لإنشاء حساب جديد",
+    "username": "اسم المستخدم",
+    "fullName": "الاسم الكامل",
+    "fullNamePlaceholder": "أدخل الاسم الكامل",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "confirmPasswordPlaceholder": "قم بتأكيد كلمة المرور",
+    "enterField": "أدخل {{field}}",
+    "hidePassword": "إخفاء كلمة المرور",
+    "showPassword": "إظهار كلمة المرور",
+    "registering": "جارٍ التسجيل...",
+    "completeAllFields": "أكمل جميع الحقول",
+    "registerClient": "تسجيل عميل",
+    "createClient": "إنشاء عميل",
+    "titlePage": "العملاء | Leonix",
+    "confirmDeleteClient": "هل أنت متأكد أنك تريد حذف هذا العميل؟",
+    "deleteClient": "حذف العميل",
+    "confirmDeleteTitle": "حذف العميل؟",
+    "confirmDeleteDescription": "لا يمكن التراجع عن هذا الإجراء. سيتم حذف العميل نهائيًا.",
+    "clientDeleted": "تم حذف العميل بنجاح",
+    "errorDeletingClient": "خطأ أثناء حذف العميل",
+    "searchPlaceholder": "البحث باسم المستخدم...",
+    "viewProfile": "عرض الملف الشخصي",
+    "editClient": "تحرير العميل",
+    "assignInstallations": "تعيين التركيبات",
+    "assignInstallationsTitle": "تعيين التركيبات للعميل",
+    "assignInstallationsSubtitle": "حدد التركيبات التي تريد تعيينها لهذا العميل",
+    "assigningTo": "التعيين إلى",
+    "selectInstallations": "اختر التركيبات",
+    "selectAtLeastOneInstallation": "يجب اختيار تركيب واحد على الأقل",
+    "noInstallationsAvailable": "لا توجد تركيبات متاحة",
+    "installationsAssignedSuccessfully": "تم تعيين التركيبات بنجاح",
+    "errorAssigningInstallations": "خطأ أثناء تعيين التركيبات",
+    "invalidClient": "عميل غير صالح",
+    "userProfile": "الملف الشخصي للمستخدم",
+    "actions": "إجراءات",
+    "noSearchResults": "لم يتم العثور على نتائج",
+    "tryDifferentSearch": "جرّب مصطلح بحث مختلف",
+    "clientUpdated": "تم تحديث العميل بنجاح",
+    "errorUpdatingClient": "خطأ أثناء تحديث العميل",
+    "passwordPlaceholder": "اتركه فارغًا لعدم التغيير",
+    "passwordHint": "اتركه فارغًا إذا كنت لا تريد تغيير كلمة المرور",
+    "newPassword": "كلمة مرور جديدة",
+    "validation": {
+      "usernameRequired": "اسم المستخدم مطلوب",
+      "usernameMinLength": "يجب أن يكون اسم المستخدم 4 أحرف على الأقل",
+      "usernameMaxLength": "لا يمكن أن يتجاوز اسم المستخدم 50 حرفًا",
+      "usernameMatches": "الحروف والأرقام والشرطة السفلية فقط",
+      "fullNameRequired": "الاسم الكامل مطلوب",
+      "fullNameMinLength": "يجب أن يكون الاسم الكامل 3 أحرف على الأقل",
+      "fullNameMaxLength": "لا يمكن أن يتجاوز الاسم الكامل 100 حرف",
+      "passwordRequired": "كلمة المرور مطلوبة",
+      "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
+      "passwordMinLength": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+      "passwordMaxLength": "لا يمكن أن تتجاوز كلمة المرور 100 حرف",
+      "confirmPasswordRequired": "يجب تأكيد كلمة المرور"
+    },
+    "tour": {
+      "welcome": {
+        "title": "مرحبًا بك في إدارة العملاء!",
+        "description": "هنا يمكنك إدارة جميع العملاء في شركتك. سنعرض لك الميزات الرئيسية."
+      },
+      "addClient": {
+        "title": "إضافة عميل",
+        "description": "انقر هنا لتسجيل عميل جديد في النظام."
+      },
+      "searchClients": {
+        "title": "البحث عن العملاء",
+        "description": "استخدم شريط البحث هذا للعثور على عملاء محددين حسب اسم المستخدم."
+      },
+      "clientActions": {
+        "title": "إجراءات العملاء",
+        "description": "في الجدول يمكنك عرض ملف كل عميل، تعديل معلوماته أو حذف المستخدمين عند الحاجة."
+      },
+      "buttons": {
+        "next": "التالي",
+        "previous": "السابق",
+        "done": "إنهاء",
+        "skip": "تخطي الدليل",
+        "restart": "إعادة تشغيل الدليل"
+      },
+      "progressText": "{{current}} من {{total}}"
+    }
   },
   "common": {
     "page": "الصفحة",

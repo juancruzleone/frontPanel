@@ -13,7 +13,8 @@
     "toggleTheme": "테마 전환",
     "openMenu": "메뉴 열기",
     "closeMenu": "메뉴 닫기",
-    "logout": "로그아웃"
+    "logout": "로그아웃",
+    "clients": "고객"
   },
   "personal": {
     "successTitle": "작업이 성공했습니다!",
@@ -111,7 +112,110 @@
   "profile": {
     "assignedOrders": "할당된 주문",
     "noAssignedOrders": "할당된 주문이 없습니다.",
+    "assignedInstallations": "할당된 설치",
+    "noAssignedInstallations": "할당된 설치가 없습니다.",
+    "loadingInstallations": "설치를 불러오는 중...",
+    "loadingProfile": "프로필을 불러오는 중...",
+    "searchInstallationPlaceholder": "설치 검색...",
     "technician": "기술자"
+  },
+  "clients": {
+    "successTitle": "작업이 성공했습니다!",
+    "understood": "닫기",
+    "title": "고객",
+    "addClient": "고객 추가",
+    "clientsList": "고객 목록",
+    "loadingClients": "고객을 불러오는 중...",
+    "noClients": "등록된 고객이 없습니다",
+    "addFirstClient": "시작하려면 첫 번째 고객을 추가하세요",
+    "id": "ID",
+    "user": "사용자",
+    "role": "역할",
+    "registrationDate": "등록 날짜",
+    "registerNewClient": "새 고객 등록",
+    "completeInformation": "새 계정을 생성하기 위해 정보를 입력하세요",
+    "username": "사용자 이름",
+    "fullName": "전체 이름",
+    "fullNamePlaceholder": "전체 이름을 입력하세요",
+    "password": "비밀번호",
+    "confirmPassword": "비밀번호 확인",
+    "confirmPasswordPlaceholder": "비밀번호를 확인하세요",
+    "enterField": "{{field}} 입력하세요",
+    "hidePassword": "비밀번호 숨기기",
+    "showPassword": "비밀번호 표시",
+    "registering": "등록 중...",
+    "completeAllFields": "모든 필드를 입력하세요",
+    "registerClient": "고객 등록",
+    "createClient": "고객 생성",
+    "titlePage": "고객 | Leonix",
+    "confirmDeleteClient": "이 고객을 삭제하시겠습니까?",
+    "deleteClient": "고객 삭제",
+    "confirmDeleteTitle": "고객을 삭제하시겠습니까?",
+    "confirmDeleteDescription": "이 작업은 되돌릴 수 없습니다. 고객이 영구히 삭제됩니다.",
+    "clientDeleted": "고객이 성공적으로 삭제되었습니다",
+    "errorDeletingClient": "고객 삭제 오류",
+    "searchPlaceholder": "사용자 이름으로 검색...",
+    "viewProfile": "프로필 보기",
+    "editClient": "고객 편집",
+    "assignInstallations": "설치 할당",
+    "assignInstallationsTitle": "고객에게 설치 할당",
+    "assignInstallationsSubtitle": "이 고객에게 할당할 설치를 선택하세요",
+    "assigningTo": "할당 대상",
+    "selectInstallations": "설치 선택",
+    "selectAtLeastOneInstallation": "최소 하나의 설치를 선택해야 합니다",
+    "noInstallationsAvailable": "사용 가능한 설치가 없습니다",
+    "installationsAssignedSuccessfully": "설치가 성공적으로 할당되었습니다",
+    "errorAssigningInstallations": "설치 할당 오류",
+    "invalidClient": "잘못된 고객",
+    "userProfile": "사용자 프로필",
+    "actions": "작업",
+    "noSearchResults": "결과가 없습니다",
+    "tryDifferentSearch": "다른 검색어를 사용해 보세요",
+    "clientUpdated": "고객이 성공적으로 업데이트되었습니다",
+    "errorUpdatingClient": "고객 업데이트 오류",
+    "passwordPlaceholder": "변경하지 않으려면 비워 두세요",
+    "passwordHint": "비밀번호를 변경하지 않으려면 비워 두세요",
+    "newPassword": "새 비밀번호",
+    "validation": {
+      "usernameRequired": "사용자 이름이 필요합니다",
+      "usernameMinLength": "사용자 이름은 최소 4자 이상이어야 합니다",
+      "usernameMaxLength": "사용자 이름은 50자를 초과할 수 없습니다",
+      "usernameMatches": "문자, 숫자 및 밑줄만 가능합니다",
+      "fullNameRequired": "전체 이름이 필요합니다",
+      "fullNameMinLength": "전체 이름은 최소 3자 이상이어야 합니다",
+      "fullNameMaxLength": "전체 이름은 100자를 초과할 수 없습니다",
+      "passwordRequired": "비밀번호가 필요합니다",
+      "passwordsDoNotMatch": "비밀번호가 일치하지 않습니다",
+      "passwordMinLength": "비밀번호는 최소 6자 이상이어야 합니다",
+      "passwordMaxLength": "비밀번호는 100자를 초과할 수 없습니다",
+      "confirmPasswordRequired": "비밀번호 확인이 필요합니다"
+    },
+    "tour": {
+      "welcome": {
+        "title": "고객 관리에 오신 것을 환영합니다!",
+        "description": "여기에서 회사의 모든 고객을 관리할 수 있습니다. 주요 기능을 보여드리겠습니다."
+      },
+      "addClient": {
+        "title": "고객 추가",
+        "description": "여기를 클릭하여 시스템에 새로운 고객을 등록하세요."
+      },
+      "searchClients": {
+        "title": "고객 검색",
+        "description": "이 검색창을 사용하여 사용자 이름으로 특정 고객을 찾으세요."
+      },
+      "clientActions": {
+        "title": "고객 작업",
+        "description": "표에서 각 고객의 프로필을 보고 정보를 수정하거나 필요할 경우 사용자를 삭제할 수 있습니다."
+      },
+      "buttons": {
+        "next": "다음",
+        "previous": "이전",
+        "done": "완료",
+        "skip": "튜토리얼 건너뛰기",
+        "restart": "튜토리얼 다시 시작"
+      },
+      "progressText": "{{total}} 중 {{current}}"
+    }
   },
   "common": {
     "page": "페이지",
