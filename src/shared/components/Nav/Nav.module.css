@@ -684,9 +684,10 @@
 .collapseButton {
   position: absolute;
   top: 32px;
-  right: -12px;
-  width: 24px;
-  height: 24px;
+  right: -16px;
+  height: 32px;
+  width: 32px;
+  min-width: 32px;
   background-color: #0B1C1A;
   border: 1px solid #00FFAE;
   border-radius: 50%;
@@ -701,14 +702,13 @@
 }
 
 .collapseButton svg {
-  width: 16px;
-  height: 16px;
+  width: 20px !important;
+  height: 20px !important;
   stroke-width: 3px;
 }
 
 .collapseButton:hover {
   background-color: rgba(0, 255, 174, 0.1);
-  transform: scale(1.1);
   color: #fff;
   border-color: #fff;
 }

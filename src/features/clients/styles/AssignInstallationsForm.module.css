@@ -1,20 +1,32 @@
 .form {
   display: flex;
   flex-direction: column;
+  height: 100%;
+}
+
+.formInner {
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
+  padding: 2rem 2.5rem;
+  background: var(--color-card);
+  flex: 1;
+  overflow-y: auto;
 }
 
 .clientInfo {
+  margin-top: 0.5rem;
   padding: 1rem;
-  background-color: var(--color-background-secondary);
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-card-border);
   border-radius: 8px;
-  margin-bottom: 0.5rem;
 }
 
 .clientName {
   margin: 0;
   font-size: 1rem;
-  color: var(--color-text-primary);
+  color: var(--color-text);
+  line-height: 1.5;
 }
 
 .error {
@@ -23,50 +35,84 @@
   color: #c33;
   border-radius: 4px;
   font-size: 0.9rem;
+  border: 1px solid #fecaca;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  color: var(--color-text);
+  margin: 0 0 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--color-card-border);
+  font-weight: 700;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sectionTitle::before {
+  content: "";
+  width: 4px;
+  height: 20px;
+  background: var(--color-text);
+  border-radius: 2px;
 }
 
 .installationsList {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  flex: 1;
+  min-height: 0;
+  /* Important for nested flex scroll */
 }
 
 .label {
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--color-text);
   font-size: 1rem;
 }
 
 .noInstallations {
   padding: 2rem;
   text-align: center;
-  color: var(--color-text-secondary);
+  color: var(--color-text);
   font-style: italic;
+  opacity: 0.7;
+  background: var(--color-bg-light);
+  border-radius: 8px;
+  border: 1px solid var(--color-card-border);
 }
 
 .checkboxList {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  max-height: 400px;
   overflow-y: auto;
   padding: 0.5rem;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
+  border: 1px solid var(--color-card-border);
+  border-radius: 12px;
+  background: var(--color-bg-light);
+  max-height: 400px;
 }
 
 .checkboxItem {
   display: flex;
   align-items: flex-start;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  border-radius: 6px;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
 }
 
 .checkboxItem:hover {
-  background-color: var(--color-background-secondary);
+  border-color: var(--color-text);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .checkboxItem input[type="checkbox"] {
@@ -75,6 +121,7 @@
   width: 18px;
   height: 18px;
   flex-shrink: 0;
+  accent-color: var(--color-secondary);
 }
 
 .installationInfo {
@@ -85,54 +132,34 @@
 }
 
 .installationInfo strong {
-  color: var(--color-text-primary);
+  color: var(--color-text);
   font-size: 1rem;
 }
 
 .installationAddress {
-  color: var(--color-text-secondary);
+  color: var(--color-text);
   font-size: 0.875rem;
+  opacity: 0.7;
 }
 
-.buttonGroup {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-  margin-top: 1rem;
+/* Responsive */
+@media (max-width: 768px) {
+  .formInner {
+    padding: 1.5rem;
+    gap: 1.25rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.1rem;
+  }
 }
 
-.cancelButton,
-.submitButton {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s;
-}
+@media (max-width: 480px) {
+  .formInner {
+    padding: 1rem;
+  }
 
-.cancelButton {
-  background-color: var(--color-background-secondary);
-  color: var(--color-text-primary);
-}
-
-.cancelButton:hover:not(:disabled) {
-  background-color: var(--color-border);
-}
-
-.submitButton {
-  background-color: var(--color-secondary);
-  color: white;
-}
-
-.submitButton:hover:not(:disabled) {
-  background-color: var(--color-secondary-dark);
-  transform: translateY(-1px);
-}
-
-.cancelButton:disabled,
-.submitButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+  .sectionTitle {
+    font-size: 1rem;
+  }
 }
