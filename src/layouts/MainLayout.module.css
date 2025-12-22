@@ -36,11 +36,10 @@
 
 @media (min-width: 1440px) {
   .contentArea {
-    margin-left: 280px;
+    margin-left: 260px;
   }
 }
 
 .contentArea main {
   flex: 1;
 }
-  

@@ -16,9 +16,12 @@
   --color-skeleton: #a0a0a0;
   --color-skeleton-light: #909090;
   --color-icon: #111;
-  --color-nav: #034F49; /* Verde original */
-  --color-nav-active: #057E74;
-  --color-nav-hover: #057E74;
+  --color-nav: #0B1C1A;
+  /* Leonix Web Dark Green */
+  --color-nav-text: #00FFAE;
+  /* Leonix Web Turquoise */
+  --color-nav-active: rgba(0, 255, 174, 0.1);
+  --color-nav-hover: rgba(0, 255, 174, 0.05);
   --color-nav-logout: #d40012;
   --color-nav-logout-hover: #b30010;
   --color-themebox-bg: #f0f0f0;
@@ -46,9 +49,12 @@
   --color-skeleton: #23272b;
   --color-skeleton-light: #333;
   --color-icon: #f5f5f5;
-  --color-nav: #034F49; /* Solo en oscuro */
-  --color-nav-active: #057E74;
-  --color-nav-hover: #057E74;
+  --color-nav: #0B1C1A;
+  /* Leonix Web Dark Green */
+  --color-nav-text: #00FFAE;
+  /* Leonix Web Turquoise */
+  --color-nav-active: rgba(0, 255, 174, 0.15);
+  --color-nav-hover: rgba(0, 255, 174, 0.08);
   --color-nav-logout: #b30010;
   --color-nav-logout-hover: #d40012;
   --color-themebox-bg: #23272b;
@@ -69,7 +75,8 @@ body {
 }
 
 
-html, body{
+html,
+body {
   height: 100%;
   padding: 0px;
   overflow-x: hidden;
@@ -87,9 +94,11 @@ html, body{
     color: #213547;
     /* background-color: #ffffff; */
   }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #f9f9f9;
   }
@@ -189,6 +198,3 @@ html[data-theme="dark"] select:focus,
   border-color: white !important;
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1) !important;
 }
-
-
-
