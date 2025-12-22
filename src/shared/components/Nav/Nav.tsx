@@ -205,9 +205,9 @@ const Nav = () => {
         <div className={styles.bottomSection}>
           <div className={styles.controlsContainer}>
             <div className={styles.languageSelectorContainer} ref={languageDropdownRef}>
-              <button 
+              <button
                 type="button"
-                className={styles.languageButton} 
+                className={styles.languageButton}
                 onClick={() => setIsLanguageOpen(!isLanguageOpen)}
                 aria-label={t('languageSelector.title')}
               >
@@ -230,10 +230,10 @@ const Nav = () => {
               )}
             </div>
             <div className={styles.themeBox}>
-              <button 
+              <button
                 type="button"
-                className={styles.themeButton} 
-                onClick={toggleTheme} 
+                className={styles.themeButton}
+                onClick={toggleTheme}
                 aria-label={t('nav.toggleTheme')}
               >
                 {dark ? <Sun size={15} /> : <Moon size={15} />}
@@ -244,7 +244,7 @@ const Nav = () => {
             {user && (
               <div className={styles.userInfo}>
                 <div className={styles.userDetails}>
-                  <span className={styles.userName} style={{cursor: 'pointer', marginBottom: 10, display: 'inline-block'}} onClick={() => { setIsMenuOpen(false); navigate('/perfil'); }}>
+                  <span className={styles.userName} style={{ cursor: 'pointer', marginBottom: 10, display: 'inline-block' }} onClick={() => { setIsMenuOpen(false); navigate('/perfil'); }}>
                     {user}
                   </span>
                 </div>

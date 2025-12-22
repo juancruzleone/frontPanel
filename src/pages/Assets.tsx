@@ -9,7 +9,7 @@ import ModalSuccess from "../features/assets/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
 import ModalConfirmDelete from "../features/assets/components/ModalConfirmDelete"
 import ModalAssignTemplate from "../features/assets/components/ModalAssignTemplate"
-import { Edit, Trash, List, BookOpen, HelpCircle, Users } from "lucide-react"
+import { Edit, Trash, List, BookOpen, HelpCircle } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { translateDeviceStatus } from "../shared/utils/backendTranslations"
@@ -198,16 +198,7 @@ const Assets = () => {
             <BookOpen size={20} />
             <span>{t('nav.manuals')}</span>
           </button>
-          {!isClient(useAuthStore.getState().role) && (
-            <button
-              className={styles.manualsButton}
-              onClick={() => navigate('/clientes')}
-              aria-label={t('nav.clients')}
-            >
-              <Users size={20} />
-              <span>{t('nav.clients')}</span>
-            </button>
-          )}
+
         </div>
 
         <div className={styles.searchContainer} data-tour="search-filter">

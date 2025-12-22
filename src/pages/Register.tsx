@@ -222,7 +222,7 @@ const Register = () => {
                             setTechnicianToDelete(tech)
                             setIsDeleteModalOpen(true)
                           }}
-                          // disabled={userId === (tech._id || tech.id)}
+                        // disabled={userId === (tech._id || tech.id)}
                         >
                           <Trash size={20} />
                         </button>

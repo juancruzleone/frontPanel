@@ -16,7 +16,7 @@ import ModalCreateCategory from "../features/installations/components/ModalCreat
 import ModalCreateInstallationType from "../features/installations/components/ModalCreateInstallationType"
 import ModalViewInstallationTypes from "../features/installations/components/ModalViewInstallationTypes"
 import ModalViewCategories from "../features/installations/components/ModalViewCategories"
-import { Edit, Trash, Plus, HelpCircle } from "lucide-react"
+import { Edit, Trash, Plus, HelpCircle, Users } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../store/authStore"
@@ -377,6 +377,14 @@ const Installations = () => {
         {!isRestricted && (
           <div className={styles.positionButton}>
             <Button title={t('installations.createInstallation')} onClick={handleOpenCreate} data-tour="create-installation-btn" />
+            <button
+              className={styles.clientsButton}
+              onClick={() => navigate('/clientes')}
+              aria-label={t('nav.clients')}
+            >
+              <Users size={20} />
+              <span>{t('nav.clients')}</span>
+            </button>
           </div>
         )}
 
