@@ -26,7 +26,6 @@ const ModalEditClient = ({
     const [userName, setUserName] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
-    const [name, setName] = useState("")
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
 
@@ -36,12 +35,10 @@ const ModalEditClient = ({
 
     // Estados de validación en tiempo real
     const [userNameError, setUserNameError] = useState("")
-    const [nameError, setNameError] = useState("")
     const [passwordError, setPasswordError] = useState("")
     const [confirmPasswordError, setConfirmPasswordError] = useState("")
     const [touched, setTouched] = useState({
         userName: false,
-        name: false,
         password: false,
         confirmPassword: false,
     })
@@ -49,17 +46,14 @@ const ModalEditClient = ({
     useEffect(() => {
         if (client) {
             setUserName(client.userName || "")
-            setName(client.name || "")
             setPassword("")
             setConfirmPassword("")
             // Reset validation states
             setUserNameError("")
-            setNameError("")
             setPasswordError("")
             setConfirmPasswordError("")
             setTouched({
                 userName: false,
-                name: false,
                 password: false,
                 confirmPassword: false,
             })
@@ -92,19 +86,6 @@ const ModalEditClient = ({
         }
     }, [password, touched.password, t])
 
-    // Validación de nombre completo
-    useEffect(() => {
-        if (!touched.name) return
-
-        if (!name.trim()) {
-            setNameError(t('clients.validation.fullNameRequired'))
-        } else if (name.trim().length < 2) {
-            setNameError(t('clients.validation.fullNameMinLength'))
-        } else {
-            setNameError("")
-        }
-    }, [name, touched.name, t])
-
     // Validación de confirmación de contraseña
     useEffect(() => {
         if (!touched.confirmPassword) return
@@ -125,7 +106,6 @@ const ModalEditClient = ({
         // Marcar todos los campos como touched
         setTouched({
             userName: true,
-            name: true,
             password: true,
             confirmPassword: true,
         })
@@ -138,12 +118,6 @@ const ModalEditClient = ({
         } else if (userName.length < 4) {
             isValid = false
         } else if (!/^[a-zA-Z0-9_]+$/.test(userName)) {
-            isValid = false
-        }
-
-        if (!name.trim()) {
-            isValid = false
-        } else if (name.trim().length < 2) {
             isValid = false
         }
 
@@ -165,9 +139,8 @@ const ModalEditClient = ({
         try {
             const updateData: any = {
                 userName: userName.trim(),
+                name: userName.trim(), // Usamos userName como name para cumplir con el backend
             }
-
-            updateData.name = name.trim()
 
             // Solo incluir password si se está cambiando
             if (password) {
@@ -190,12 +163,10 @@ const ModalEditClient = ({
         setPassword("")
         setConfirmPassword("")
         setUserNameError("")
-        setNameError("")
         setPasswordError("")
         setConfirmPasswordError("")
         setTouched({
             userName: false,
-            name: false,
             password: false,
             confirmPassword: false,
         })
@@ -245,30 +216,6 @@ const ModalEditClient = ({
                             {userNameError && touched.userName && (
                                 <p className={formStyles.inputError}>
                                     {userNameError}
-                                </p>
-                            )}
-                        </div>
-
-                        <div className={formStyles.formGroup}>
-                            <label htmlFor="name">
-                                <FiUserCheck size={16} />
-                                {t('clients.fullName')} *
-                            </label>
-                            <div className={formStyles.inputWrapper}>
-                                <input
-                                    type="text"
-                                    id="name"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    onBlur={() => handleBlur('name')}
-                                    className={nameError && touched.name ? formStyles.errorInput : ''}
-                                    placeholder={t('clients.enterField', { field: t('clients.fullName').toLowerCase() })}
-                                    required
-                                />
-                            </div>
-                            {nameError && touched.name && (
-                                <p className={formStyles.inputError}>
-                                    {nameError}
                                 </p>
                             )}
                         </div>

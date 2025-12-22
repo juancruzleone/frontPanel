@@ -55,7 +55,6 @@ const RegisterClientForm = ({
 
     const fields = [
         { name: "username", label: t('clients.username'), type: "text", icon: FiUser },
-        { name: "fullName", label: t('clients.fullName'), type: "text", icon: FiUserCheck },
         { name: "password", label: t('clients.password'), type: "password", icon: FiLock },
         { name: "confirmPassword", label: t('clients.confirmPassword'), type: "password", icon: FiShield },
     ]

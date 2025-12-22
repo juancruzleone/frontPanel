@@ -12,9 +12,8 @@ interface RegisterClientFormData {
 
 const useRegisterClient = () => {
     const { t } = useTranslation()
-    const [formData, setFormData] = useState<RegisterClientFormData>({
+    const [formData, setFormData] = useState<Omit<RegisterClientFormData, 'fullName'>>({
         username: "",
-        fullName: "",
         password: "",
         confirmPassword: "",
     })
@@ -26,8 +25,8 @@ const useRegisterClient = () => {
 
     // Verificar si el formulario está completo
     const isFormComplete = useMemo(() => {
-        return formData.username.trim() !== "" && formData.fullName.trim() !== "" && formData.password.trim() !== "" && formData.confirmPassword.trim() !== ""
-    }, [formData.username, formData.fullName, formData.password, formData.confirmPassword])
+        return formData.username.trim() !== "" && formData.password.trim() !== "" && formData.confirmPassword.trim() !== ""
+    }, [formData.username, formData.password, formData.confirmPassword])
 
     // Verificar si el formulario es válido (sin errores)
     const isFormValid = useMemo(() => {
@@ -49,7 +48,7 @@ const useRegisterClient = () => {
 
             const validationData = {
                 userName: fieldName === "username" ? value : formData.username,
-                fullName: fieldName === "fullName" ? value : formData.fullName,
+                fullName: formData.username, // Usamos username como fullName
                 password: fieldName === "password" ? value : formData.password,
                 confirmPassword: fieldName === "confirmPassword" ? value : formData.confirmPassword,
             }
@@ -89,7 +88,7 @@ const useRegisterClient = () => {
         (fieldName: string) => {
             setTouchedFields((prev) => ({ ...prev, [fieldName]: true }))
 
-            const value = formData[fieldName as keyof RegisterClientFormData]
+            const value = formData[fieldName as keyof typeof formData]
             validateSingleField(fieldName, value ?? "")
         },
         [formData, validateSingleField],
@@ -106,7 +105,6 @@ const useRegisterClient = () => {
             // Marcar todos los campos como tocados
             setTouchedFields({
                 username: true,
-                fullName: true,
                 password: true,
                 confirmPassword: true,
             })
@@ -115,7 +113,7 @@ const useRegisterClient = () => {
             if (!isFormComplete) {
                 // Validar cada campo individualmente para mostrar errores específicos
                 const validationPromises = Object.keys(formData).map(async (fieldName) => {
-                    const value = formData[fieldName as keyof RegisterClientFormData]
+                    const value = formData[fieldName as keyof typeof formData]
                     await validateSingleField(fieldName, value ?? "")
                 })
                 await Promise.all(validationPromises)
@@ -127,7 +125,7 @@ const useRegisterClient = () => {
             try {
                 const validation = await validateRegisterFormWithTranslation({
                     userName: formData.username,
-                    fullName: formData.fullName,
+                    fullName: formData.username, // Usamos username como fullName
                     password: formData.password,
                     confirmPassword: formData.confirmPassword,
                 }, t)
@@ -138,7 +136,7 @@ const useRegisterClient = () => {
                     return
                 }
 
-                const result = await onAdd(formData.username, formData.password, formData.fullName)
+                const result = await onAdd(formData.username, formData.password, formData.username)
                 onSuccess(result.message)
                 resetForm()
             } catch (err: any) {
@@ -153,7 +151,6 @@ const useRegisterClient = () => {
     const resetForm = useCallback(() => {
         setFormData({
             username: "",
-            fullName: "",
             password: "",
             confirmPassword: "",
         })

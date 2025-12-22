@@ -9,12 +9,6 @@ export const getCuentaRegistroSchema = (t: TFunction) => yup.object({
         .min(6, t("clients.validation.usernameMinLength"))
         .max(50, t("clients.validation.usernameMaxLength"))
         .matches(/^[a-zA-Z0-9_]+$/, t("clients.validation.usernameMatches")),
-    fullName: yup
-        .string()
-        .trim()
-        .required(t("clients.validation.fullNameRequired"))
-        .min(3, t("clients.validation.fullNameMinLength"))
-        .max(100, t("clients.validation.fullNameMaxLength")),
     password: yup
         .string()
         .required(t("clients.validation.passwordRequired"))
@@ -75,13 +69,6 @@ export const validateFieldWithTranslation = async (
                     userName: schema.fields.userName,
                 })
                 await fieldSchema.validate({ userName: value })
-                break
-
-            case "fullName":
-                fieldSchema = yup.object({
-                    fullName: schema.fields.fullName,
-                })
-                await fieldSchema.validate({ fullName: value })
                 break
 
             case "password":

@@ -334,6 +334,13 @@
     transform: translateY(-1px);
 }
 
+:global(.dark) .cancelButton:hover,
+:global([data-theme="dark"]) .cancelButton:hover {
+    background: var(--color-card-border);
+    border-color: var(--color-text);
+    color: var(--color-text);
+}
+
 .cancelButton:active {
     transform: translateY(0);
 }

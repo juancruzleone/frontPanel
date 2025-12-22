@@ -52,10 +52,9 @@ const RegisterTechnicianForm = ({
   shouldShowError,
 }: RegisterTechnicianFormProps) => {
   const { t } = useTranslation()
-  
+
   const fields = [
     { name: "username", label: t('personal.username'), type: "text", icon: FiUser },
-    { name: "fullName", label: t('personal.fullName', { defaultValue: 'Nombre Completo' }), type: "text", icon: FiUserCheck },
     { name: "password", label: t('personal.password'), type: "password", icon: FiLock },
     { name: "confirmPassword", label: t('personal.confirmPassword'), type: "password", icon: FiShield },
   ]
