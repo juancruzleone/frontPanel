@@ -15,6 +15,8 @@ import { useTranslation } from "react-i18next"
 import { translateDeviceStatus } from "../shared/utils/backendTranslations"
 import { useNavigate, useLocation } from "react-router-dom"
 import { useAssetsTour } from "../features/assets/hooks/useAssetsTour"
+import { useAuthStore } from "../store/authStore"
+import { isClient } from "../shared/utils/roleUtils"
 
 const Assets = () => {
   const { t, i18n } = useTranslation()
@@ -196,14 +198,16 @@ const Assets = () => {
             <BookOpen size={20} />
             <span>{t('nav.manuals')}</span>
           </button>
-          <button
-            className={styles.manualsButton}
-            onClick={() => navigate('/clientes')}
-            aria-label={t('nav.clients')}
-          >
-            <Users size={20} />
-            <span>{t('nav.clients')}</span>
-          </button>
+          {!isClient(useAuthStore.getState().role) && (
+            <button
+              className={styles.manualsButton}
+              onClick={() => navigate('/clientes')}
+              aria-label={t('nav.clients')}
+            >
+              <Users size={20} />
+              <span>{t('nav.clients')}</span>
+            </button>
+          )}
         </div>
 
         <div className={styles.searchContainer} data-tour="search-filter">
@@ -249,42 +253,46 @@ const Assets = () => {
                       </div>
                     </div>
 
-                    <div className={styles.cardSeparator}></div>
+                    {!isClient(useAuthStore.getState().role) && (
+                      <>
+                        <div className={styles.cardSeparator}></div>
 
-                    <div className={styles.cardActions}>
-                      <div className={styles.actionButtons}>
-                        <button
-                          className={styles.iconButton}
-                          onClick={() => handleOpenEdit(asset)}
-                          aria-label={t('assets.editAssetTooltip')}
-                          data-tooltip={t('assets.editAssetTooltip')}
-                        >
-                          <Edit size={20} />
-                        </button>
+                        <div className={styles.cardActions}>
+                          <div className={styles.actionButtons}>
+                            <button
+                              className={styles.iconButton}
+                              onClick={() => handleOpenEdit(asset)}
+                              aria-label={t('assets.editAssetTooltip')}
+                              data-tooltip={t('assets.editAssetTooltip')}
+                            >
+                              <Edit size={20} />
+                            </button>
 
-                        <button
-                          className={styles.iconButton}
-                          onClick={() => handleOpenAssignTemplate(asset)}
-                          aria-label={t('assets.editTemplateTooltip')}
-                          data-tooltip={t('assets.editTemplateTooltip')}
-                        >
-                          <List size={20} />
-                        </button>
+                            <button
+                              className={styles.iconButton}
+                              onClick={() => handleOpenAssignTemplate(asset)}
+                              aria-label={t('assets.editTemplateTooltip')}
+                              data-tooltip={t('assets.editTemplateTooltip')}
+                            >
+                              <List size={20} />
+                            </button>
 
 
-                        <button
-                          className={styles.iconButton}
-                          onClick={() => {
-                            setAssetToDelete(asset)
-                            setIsDeleteModalOpen(true)
-                          }}
-                          aria-label={t('assets.deleteAssetTooltip')}
-                          data-tooltip={t('assets.deleteAssetTooltip')}
-                        >
-                          <Trash size={20} />
-                        </button>
-                      </div>
-                    </div>
+                            <button
+                              className={styles.iconButton}
+                              onClick={() => {
+                                setAssetToDelete(asset)
+                                setIsDeleteModalOpen(true)
+                              }}
+                              aria-label={t('assets.deleteAssetTooltip')}
+                              data-tooltip={t('assets.deleteAssetTooltip')}
+                            >
+                              <Trash size={20} />
+                            </button>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 )
               })}
