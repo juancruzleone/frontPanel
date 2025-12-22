@@ -34,6 +34,39 @@
   /* Ensure space at bottom */
 }
 
+/* Mobile specific styles to ensure logout button visibility */
+@media (max-width: 767px) {
+  .navContent {
+    padding: 16px 16px 24px 16px;
+    min-height: 100%;
+  }
+
+  .menu {
+    flex-grow: 0 !important;
+    margin-bottom: auto;
+  }
+
+  .bottomSection {
+    margin-top: 24px;
+    padding-bottom: 16px;
+    min-height: fit-content;
+  }
+
+  .userSection {
+    padding-top: 12px;
+    margin-bottom: 0;
+  }
+
+  .userInfo {
+    margin-top: 8px;
+  }
+
+  .logoArea {
+    margin-bottom: 40px !important;
+    min-height: 36px;
+  }
+}
+
 .navContent::-webkit-scrollbar {
   width: 6px;
 }

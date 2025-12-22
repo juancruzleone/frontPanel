@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react"
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import { Edit, FilterX, HelpCircle, Eye } from "lucide-react"
+import { Edit, FilterX, HelpCircle, Eye, FileUp } from "lucide-react"
 import { useAuthStore } from "../store/authStore"
 import { useTheme } from "../shared/hooks/useTheme"
 import SearchInput from "../shared/components/Inputs/SearchInput"
@@ -10,6 +10,7 @@ import ModalEditFrequency from "../features/subscriptions/components/ModalEditFr
 import ModalSuccess from "../features/subscriptions/components/ModalSuccess"
 import ModalError from "../features/subscriptions/components/ModalError"
 import MonthsDisplayModal from "../features/subscriptions/components/MonthsDisplayModal"
+import ModalUploadDocument from "../features/subscriptions/components/ModalUploadDocument"
 import Skeleton from "../shared/components/Skeleton"
 import { useSubscriptions } from "../features/subscriptions/hooks/useSubscriptions"
 import type { Subscription } from "../features/subscriptions/hooks/useSubscriptions"
@@ -42,6 +43,8 @@ const Subscriptions = () => {
   const [isError, setIsError] = useState(false)
   const [isMonthsModalOpen, setIsMonthsModalOpen] = useState(false)
   const [selectedSubscriptionForMonths, setSelectedSubscriptionForMonths] = useState<Subscription | null>(null)
+  const [isUploadDocumentModalOpen, setIsUploadDocumentModalOpen] = useState(false)
+  const [selectedSubscriptionForUpload, setSelectedSubscriptionForUpload] = useState<Subscription | null>(null)
   const itemsPerPage = 5
 
   useEffect(() => {
@@ -79,10 +82,10 @@ const Subscriptions = () => {
   // Filtrar suscripciones por término de búsqueda y mes
   const filteredSubscriptions = useMemo(() => {
     const searchTermLower = searchTerm.toLowerCase()
-    
+
     return subscriptions.filter((subscription) => {
       if (!subscription) return false
-      
+
       const fieldsToSearch = [
         subscription.installationName || '',
         subscription.address || '',
@@ -130,6 +133,23 @@ const Subscriptions = () => {
     setIsMonthsModalOpen(true)
   }
 
+  const handleUploadDocument = (subscription: Subscription) => {
+    setSelectedSubscriptionForUpload(subscription)
+    setIsUploadDocumentModalOpen(true)
+  }
+
+  const handleUploadSuccess = (message: string) => {
+    setIsUploadDocumentModalOpen(false)
+    setSelectedSubscriptionForUpload(null)
+    setResponseMessage(message)
+    setIsError(false)
+  }
+
+  const handleUploadError = (message: string) => {
+    setResponseMessage(message)
+    setIsError(true)
+  }
+
   const handleSaveFrequency = async (
     subscriptionId: string,
     frequency: string,
@@ -146,7 +166,7 @@ const Subscriptions = () => {
         const [year, month, day] = dateStr.split('-').map(Number)
         return new Date(year, month - 1, day)
       }
-      
+
       await updateSubscription(subscriptionId, {
         frequency,
         startDate: parseDateString(startDate),
@@ -261,85 +281,113 @@ const Subscriptions = () => {
           </p>
         ) : (
           <>
-            <table className={styles.table}>
-              <thead className={styles.tableHeader}>
-                <tr>
-                  <th>{t('subscriptions.table.installation')}</th>
-                  <th>{t('subscriptions.table.address')}</th>
-                  <th>{t('subscriptions.table.type')}</th>
-                  <th>{t('subscriptions.table.frequency')}</th>
-                  <th>{t('subscriptions.table.months')}</th>
-                  <th>{t('subscriptions.table.status')}</th>
-                  <th>{t('subscriptions.table.startDate')}</th>
-                  <th>{t('subscriptions.table.endDate')}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {paginatedSubscriptions.map((subscription) => (
-                  <tr key={subscription._id} className={styles.tableRow}>
-                    <td className={styles.tableCell}>
-                      <div className={styles.installationName}>
-                        {subscription.installationName}
-                      </div>
-                    </td>
-                    <td className={styles.tableCell}>
-                      <div className={styles.address}>
-                        {subscription.address}, {subscription.city}, {subscription.province}
-                      </div>
-                    </td>
-                    <td className={styles.tableCell}>
-                      <span className={styles.installationType}>
-                        {subscription.installationType}
-                      </span>
-                    </td>
-                    <td className={styles.tableCell}>
-                      <div className={styles.frequencyCell}>
-                        <span className={styles.frequency}>
-                          {translateFrequencyToCurrentLang(subscription.frequency, i18n.language)}
-                        </span>
-                        <button
-                          className={styles.editFrequencyButton}
-                          onClick={() => handleEditFrequency(subscription)}
-                          aria-label={t('subscriptions.editFrequency')}
-                          title={t('subscriptions.editFrequency')}
-                          type="button"
-                          data-tooltip={t('subscriptions.editFrequency')}
-                          data-tour="edit-frequency-btn"
-                        >
-                          <Edit size={16} />
-                        </button>
-                      </div>
-                    </td>
-                    <td className={styles.tableCell}>
-                      <button
-                        className={styles.viewMonthsButton}
-                        onClick={() => handleViewMonths(subscription)}
-                        aria-label={t('subscriptions.viewMonths')}
-                        title={t('subscriptions.viewMonths')}
-                        type="button"
-                        data-tour="months-display"
-                      >
-                        <Eye size={16} />
-                        {t('subscriptions.viewMonths')}
-                      </button>
-                    </td>
-                    <td className={styles.tableCell}>
-                      <span className={`${styles.status} ${styles[subscription.status]}`}>
-                        {getStatusText(subscription.status)}
-                      </span>
-                    </td>
-                    <td className={styles.tableCell}>
-                      {subscription.startDate instanceof Date && !isNaN(subscription.startDate.getTime()) ?
-                        subscription.startDate.toLocaleDateString(i18n.language || 'es', { year: 'numeric', month: 'short', day: 'numeric' }) : ''}
-                    </td>
-                    <td className={styles.tableCell}>
-                      {subscription.endDate instanceof Date && !isNaN(subscription.endDate.getTime()) ?
-                        subscription.endDate.toLocaleDateString(i18n.language || 'es', { year: 'numeric', month: 'short', day: 'numeric' }) : ''}
-                    </td>
+            <div className={styles.tableWrapper}>
+              <table className={styles.table}>
+                <colgroup>
+                  <col style={{ width: '180px' }} />
+                  <col style={{ width: '220px' }} />
+                  <col style={{ width: '130px' }} />
+                  <col style={{ width: '140px' }} />
+                  <col style={{ width: '120px' }} />
+                  <col style={{ width: '100px' }} />
+                  <col style={{ width: '110px' }} />
+                  <col style={{ width: '110px' }} />
+                  <col style={{ width: '80px' }} />
+                </colgroup>
+                <thead className={styles.tableHeader}>
+                  <tr>
+                    <th>{t('subscriptions.table.installation')}</th>
+                    <th>{t('subscriptions.table.address')}</th>
+                    <th>{t('subscriptions.table.type')}</th>
+                    <th>{t('subscriptions.table.frequency')}</th>
+                    <th>{t('subscriptions.table.months')}</th>
+                    <th>{t('subscriptions.table.status')}</th>
+                    <th>{t('subscriptions.table.startDate')}</th>
+                    <th>{t('subscriptions.table.endDate')}</th>
+                    <th>{t('subscriptions.table.actions')}</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {paginatedSubscriptions.map((subscription) => (
+                    <tr key={subscription._id} className={styles.tableRow}>
+                      <td className={styles.tableCell}>
+                        <div className={styles.installationName}>
+                          {subscription.installationName}
+                        </div>
+                      </td>
+                      <td className={styles.tableCell}>
+                        <div className={styles.address}>
+                          {subscription.address}, {subscription.city}, {subscription.province}
+                        </div>
+                      </td>
+                      <td className={styles.tableCell}>
+                        <span className={styles.installationType}>
+                          {subscription.installationType}
+                        </span>
+                      </td>
+                      <td className={styles.tableCell}>
+                        <div className={styles.frequencyCell}>
+                          <span className={styles.frequency}>
+                            {translateFrequencyToCurrentLang(subscription.frequency, i18n.language)}
+                          </span>
+                          <button
+                            className={styles.editFrequencyButton}
+                            onClick={() => handleEditFrequency(subscription)}
+                            aria-label={t('subscriptions.editFrequency')}
+                            title={t('subscriptions.editFrequency')}
+                            type="button"
+                            data-tooltip={t('subscriptions.editFrequency')}
+                            data-tour="edit-frequency-btn"
+                          >
+                            <Edit size={16} />
+                          </button>
+                        </div>
+                      </td>
+                      <td className={styles.tableCell}>
+                        <button
+                          className={styles.viewMonthsButton}
+                          onClick={() => handleViewMonths(subscription)}
+                          aria-label={t('subscriptions.viewMonths')}
+                          title={t('subscriptions.viewMonths')}
+                          type="button"
+                          data-tour="months-display"
+                        >
+                          <Eye size={16} />
+                          {t('subscriptions.viewMonths')}
+                        </button>
+                      </td>
+                      <td className={styles.tableCell}>
+                        <span className={`${styles.status} ${styles[subscription.status]}`}>
+                          {getStatusText(subscription.status)}
+                        </span>
+                      </td>
+                      <td className={styles.tableCell}>
+                        {subscription.startDate instanceof Date && !isNaN(subscription.startDate.getTime()) ?
+                          subscription.startDate.toLocaleDateString(i18n.language || 'es', { year: 'numeric', month: 'short', day: 'numeric' }) : ''}
+                      </td>
+                      <td className={styles.tableCell}>
+                        {subscription.endDate instanceof Date && !isNaN(subscription.endDate.getTime()) ?
+                          subscription.endDate.toLocaleDateString(i18n.language || 'es', { year: 'numeric', month: 'short', day: 'numeric' }) : ''}
+                      </td>
+                      <td className={styles.tableCell}>
+                        <div className={styles.actionsCell}>
+                          <button
+                            className={styles.uploadDocumentButton}
+                            onClick={() => handleUploadDocument(subscription)}
+                            aria-label={t('subscriptions.documents.uploadTooltip')}
+                            title={t('subscriptions.documents.uploadTooltip')}
+                            type="button"
+                            data-tooltip={t('subscriptions.documents.uploadTooltip')}
+                          >
+                            <FileUp size={18} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
             {totalPages > 1 && (
               <div className={styles.pagination}>
@@ -349,11 +397,11 @@ const Subscriptions = () => {
                 >
                   {t('common.previous')}
                 </button>
-                
+
                 <span>
                   {t('common.page')} {currentPage} {t('common.of')} {totalPages}
                 </span>
-                
+
                 <button
                   onClick={() => handleChangePage(currentPage + 1)}
                   disabled={currentPage === totalPages}
@@ -384,6 +432,17 @@ const Subscriptions = () => {
         endDate={selectedSubscriptionForMonths?.endDate}
         frequency={selectedSubscriptionForMonths?.frequency || ''}
         selectedMonths={selectedSubscriptionForMonths?.months || []}
+      />
+      <ModalUploadDocument
+        isOpen={isUploadDocumentModalOpen}
+        onRequestClose={() => {
+          setIsUploadDocumentModalOpen(false)
+          setSelectedSubscriptionForUpload(null)
+        }}
+        installationId={selectedSubscriptionForUpload?.installationId || ''}
+        installationName={selectedSubscriptionForUpload?.installationName || ''}
+        onUploadSuccess={handleUploadSuccess}
+        onUploadError={handleUploadError}
       />
       <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={() => setResponseMessage("")} mensaje={responseMessage} />
       <ModalError isOpen={!!responseMessage && isError} onRequestClose={() => setResponseMessage("")} mensaje={responseMessage} />

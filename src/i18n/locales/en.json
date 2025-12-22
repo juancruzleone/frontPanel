@@ -1082,7 +1082,8 @@
       "months": "Months",
       "status": "Status",
       "startDate": "Start Date",
-      "endDate": "End Date"
+      "endDate": "End Date",
+      "actions": "Actions"
     },
     "months": {
       "Enero": "January",
@@ -1161,6 +1162,29 @@
         "restart": "View tutorial"
       },
       "progressText": "{{current}} of {{total}}"
+    },
+    "documents": {
+      "uploadTitle": "Upload document",
+      "uploadSubtitle": "Upload a contract or budget for this installation",
+      "uploadTooltip": "Upload contract/budget",
+      "documentType": "Document type",
+      "description": "Description",
+      "descriptionPlaceholder": "Enter an optional document description...",
+      "file": "PDF file",
+      "dragAndDrop": "Drag and drop your PDF file here",
+      "orClickToSelect": "or click to select it",
+      "maxSize": "Maximum size: 10MB",
+      "upload": "Upload document",
+      "uploading": "Uploading...",
+      "uploadSuccess": "Document uploaded successfully",
+      "uploadError": "Error uploading document",
+      "selectFile": "Please select a file",
+      "onlyPdfAllowed": "Only PDF files are allowed",
+      "types": {
+        "contract": "Contract",
+        "budget": "Budget",
+        "other": "Other"
+      }
     }
   },
   "calendar": {

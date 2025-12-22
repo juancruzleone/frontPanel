@@ -10,7 +10,8 @@ h1 {
 form {
   display: flex !important;
   flex-direction: column !important;
-  gap: 0 !important; /* Eliminar cualquier gap aplicado dinámicamente */
+  gap: 0 !important;
+  /* Eliminar cualquier gap aplicado dinámicamente */
   max-width: 480px !important;
   width: 100% !important;
   margin: 0 auto !important;
@@ -86,7 +87,7 @@ button[type="submit"] {
   width: 100%;
   box-sizing: border-box;
   transition: all 0.2s ease;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
 button[type="submit"]:hover {
@@ -243,30 +244,30 @@ input:-webkit-autofill {
     gap: 0;
     padding: 0;
   }
-  
+
   .formLogin {
     width: 130%;
   }
-  
+
   .containerForm {
     max-width: 100%;
     padding: 0;
   }
-  
+
   .inputWrapper {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     margin-bottom: 12px;
   }
-  
+
   .eyesButton {
     width: 20px;
     height: 20px;
     font-size: 16px;
     top: 58%;
   }
-  
+
   form input {
     width: 100%;
     max-width: 100%;
@@ -276,16 +277,16 @@ input:-webkit-autofill {
     margin-top: 8px;
     height: 40px;
   }
-  
-  h1 {
+
+  .containerForm h1 {
     font-size: 1.5rem !important;
     text-align: center !important;
   }
-  
+
   form label {
     font-size: 18px !important;
   }
-  
+
   /* Botón de iniciar sesión con diseño móvil */
   button[type="submit"] {
     font-size: 1rem;
@@ -302,16 +303,16 @@ input:-webkit-autofill {
     width: 100%;
     padding: 0 3rem;
   }
-  
+
   form {
     max-width: 900px;
     width: 100%;
   }
-  
+
   .formLogin {
     width: 130%;
   }
-  
+
   form input {
     font-size: 18px;
     padding: 10px;
@@ -320,23 +321,26 @@ input:-webkit-autofill {
     max-width: 100%;
     margin-top: 10px;
   }
-  
+
   .inputWrapper {
     width: 100%;
-    max-width: 100%; /* Usar todo el ancho disponible */
-    margin-bottom: 15px; /* Reducir espacio entre grupos */
+    max-width: 100%;
+    /* Usar todo el ancho disponible */
+    margin-bottom: 15px;
+    /* Reducir espacio entre grupos */
   }
-  
+
   h1 {
     font-size: 2.2rem !important;
     margin-bottom: 1.5rem;
   }
-  
+
   form label {
     font-size: 22px !important;
-    margin-bottom: 6px; /* Reducir espacio entre label e input */
+    margin-bottom: 6px;
+    /* Reducir espacio entre label e input */
   }
-  
+
   button[type="submit"] {
     font-size: 22px;
     padding: 10px;
@@ -344,23 +348,24 @@ input:-webkit-autofill {
     max-width: 100%;
     height: 44px;
   }
-  
+
   .eyesButton {
     width: 22px;
     height: 22px;
     font-size: 18px;
     top: 58%;
   }
-  
+
   .inputError {
     font-size: 16px;
   }
-  
+
   .alertDanger {
     font-size: 18px;
     padding: 14px 22px;
     width: 100%;
-    max-width: 100%; /* Usar todo el ancho disponible */
+    max-width: 100%;
+    /* Usar todo el ancho disponible */
   }
 }
 
@@ -368,47 +373,53 @@ input:-webkit-autofill {
 @media (min-width: 1367px) {
   .containerForm {
     width: 100% !important;
-    max-width: 480px !important; /* Mantener el ancho original */
+    max-width: 480px !important;
+    /* Mantener el ancho original */
     margin: 0 auto !important;
     padding: 0 15px !important;
     box-sizing: border-box !important;
   }
-  
+
   form,
   .formLogin {
-    max-width: 480px !important; /* Mantener el ancho original */
+    max-width: 480px !important;
+    /* Mantener el ancho original */
   }
-  
+
   .formTopControls {
-    max-width: 480px !important; /* Mantener el ancho original */
+    max-width: 480px !important;
+    /* Mantener el ancho original */
   }
-  
+
   form input,
   .formLogin input {
     width: 100% !important;
     padding: 12px !important;
-    max-width: 480px !important; /* Mantener el ancho original */
+    max-width: 480px !important;
+    /* Mantener el ancho original */
   }
-  
+
   .inputWrapper {
     width: 100% !important;
-    max-width: 480px !important; /* Mantener el ancho original */
+    max-width: 480px !important;
+    /* Mantener el ancho original */
   }
-  
+
   h1 {
     font-size: 2rem !important;
   }
-  
+
   form label,
   .formLogin label {
     font-size: 20px !important;
   }
-  
+
   button[type="submit"] {
     font-size: 20px !important;
     padding: 16px !important;
     width: 100% !important;
-    max-width: 480px !important; /* Mantener el ancho original */
+    max-width: 480px !important;
+    /* Mantener el ancho original */
   }
 }
 
@@ -419,11 +430,13 @@ input:-webkit-autofill {
   }
 
   .formGroup {
-    gap: 0.75rem; /* Reducir gap en mobile - menos distancia entre label e input */
+    gap: 0.75rem;
+    /* Reducir gap en mobile - menos distancia entre label e input */
   }
-  
+
   .formGroup label {
-    margin-bottom: 0.5rem; /* Reducir margen inferior en mobile */
+    margin-bottom: 0.5rem;
+    /* Reducir margen inferior en mobile */
   }
 
   .actions {
@@ -448,12 +461,14 @@ input:-webkit-autofill {
   }
 
   .formGroup {
-    gap: 0.75rem; /* Mantener gap reducido en móviles pequeños */
+    gap: 0.75rem;
+    /* Mantener gap reducido en móviles pequeños */
   }
 
   .formGroup label {
     font-size: 0.9rem;
-    margin-bottom: 0.5rem; /* Mantener margen reducido */
+    margin-bottom: 0.5rem;
+    /* Mantener margen reducido */
   }
 
   .actions {

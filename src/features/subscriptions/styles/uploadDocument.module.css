@@ -1,0 +1,479 @@
+/* Modal Overlay */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 1rem;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Modal Container */
+.modal {
+    background: var(--color-card);
+    border-radius: 16px;
+    border: 1px solid var(--color-card-border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    max-width: 520px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Modal Header */
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--color-card-border);
+}
+
+.modalTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--color-text);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.closeButton:hover {
+    background: var(--color-bg-light);
+    color: var(--color-text);
+    transform: scale(1.1);
+}
+
+.closeButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Modal Content */
+.modalContent {
+    padding: 1.5rem;
+}
+
+.installationInfo {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--color-bg-light);
+    border-radius: 12px;
+    border: 1px solid var(--color-card-border);
+}
+
+.installationInfo h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--color-text);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.installationInfo p {
+    margin: 0;
+    color: var(--color-text);
+    opacity: 0.7;
+    font-size: 0.9rem;
+}
+
+/* Form Styles */
+.uploadForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.label {
+    font-weight: 600;
+    color: var(--color-text);
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.optional {
+    font-weight: 400;
+    opacity: 0.6;
+    font-size: 0.85rem;
+}
+
+.select {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 2px solid var(--color-card-border);
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: var(--color-card);
+    color: var(--color-text);
+    font-family: inherit;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 18px;
+    padding-right: 2.5rem;
+}
+
+.select:focus {
+    outline: none;
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 3px rgba(5, 126, 116, 0.1);
+}
+
+.select:hover:not(:disabled) {
+    border-color: var(--color-secondary);
+}
+
+.select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.textarea {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 2px solid var(--color-card-border);
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: var(--color-card);
+    color: var(--color-text);
+    font-family: inherit;
+    resize: vertical;
+    min-height: 80px;
+}
+
+.textarea:focus {
+    outline: none;
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 0 3px rgba(5, 126, 116, 0.1);
+}
+
+.textarea:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.textarea::placeholder {
+    color: var(--color-text);
+    opacity: 0.5;
+}
+
+/* Drop Zone */
+.dropZone {
+    border: 2px dashed var(--color-card-border);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--color-bg-light);
+}
+
+.dropZone:hover {
+    border-color: var(--color-secondary);
+    background: rgba(5, 126, 116, 0.05);
+}
+
+.dropZoneActive {
+    border-color: var(--color-secondary);
+    background: rgba(5, 126, 116, 0.1);
+    transform: scale(1.01);
+}
+
+.uploadIcon {
+    color: var(--color-secondary);
+    margin-bottom: 1rem;
+}
+
+.dropZoneText {
+    color: var(--color-text);
+    font-weight: 600;
+    font-size: 1rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.dropZoneSubtext {
+    color: var(--color-text);
+    opacity: 0.7;
+    font-size: 0.9rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.dropZoneHint {
+    color: var(--color-text);
+    opacity: 0.5;
+    font-size: 0.8rem;
+    margin: 0;
+}
+
+.fileInput {
+    display: none;
+}
+
+/* Selected File */
+.selectedFile {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: var(--color-bg-light);
+    border: 2px solid var(--color-secondary);
+    border-radius: 12px;
+}
+
+.fileInfo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.fileIcon {
+    color: var(--color-secondary);
+    flex-shrink: 0;
+}
+
+.fileDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+}
+
+.fileName {
+    color: var(--color-text);
+    font-weight: 600;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.fileSize {
+    color: var(--color-text);
+    opacity: 0.6;
+    font-size: 0.85rem;
+}
+
+.removeFileButton {
+    background: none;
+    border: none;
+    color: var(--color-danger);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.removeFileButton:hover {
+    background: rgba(220, 53, 69, 0.1);
+}
+
+.removeFileButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Modal Actions */
+.modalActions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    margin-top: 0.5rem;
+}
+
+.submitButton {
+    padding: 0.875rem 1.5rem;
+    background: var(--color-secondary);
+    border: 2px solid var(--color-secondary);
+    border-radius: 12px;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.submitButton:hover:not(:disabled) {
+    background: var(--color-secondary-hover);
+    border-color: var(--color-secondary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(5, 126, 116, 0.3);
+}
+
+.submitButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.cancelButton {
+    padding: 0.875rem 1.5rem;
+    background: var(--color-card);
+    border: 2px solid var(--color-card-border);
+    border-radius: 12px;
+    color: var(--color-text);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.cancelButton:hover:not(:disabled) {
+    background: var(--color-bg-light);
+    border-color: var(--color-text);
+}
+
+.cancelButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Spinner animation */
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Modo claro */
+:root .cancelButton,
+[data-theme="light"] .cancelButton {
+    border-color: #000;
+    color: #000;
+}
+
+:root .cancelButton:hover:not(:disabled),
+[data-theme="light"] .cancelButton:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: #000;
+    color: #000;
+}
+
+/* Modo oscuro */
+[data-theme="dark"] .cancelButton:hover:not(:disabled) {
+    background: var(--color-bg-light);
+    border-color: var(--color-card-border);
+}
+
+[data-theme="dark"] .select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .modal {
+        max-width: 100%;
+        margin: 0.5rem;
+        max-height: 95vh;
+    }
+
+    .modalHeader {
+        padding: 1rem;
+    }
+
+    .modalContent {
+        padding: 1rem;
+    }
+
+    .modalActions {
+        flex-direction: column;
+    }
+
+    .submitButton,
+    .cancelButton {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .dropZone {
+        padding: 1.5rem 1rem;
+    }
+
+    .selectedFile {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .fileInfo {
+        width: 100%;
+    }
+
+    .removeFileButton {
+        margin-left: auto;
+    }
+}

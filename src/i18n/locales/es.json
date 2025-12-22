@@ -1134,6 +1134,40 @@
         "restart": "Ver tutorial"
       },
       "progressText": "{{current}} de {{total}}"
+    },
+    "documents": {
+      "uploadTitle": "Subir documento",
+      "uploadSubtitle": "Sube un contrato o presupuesto para esta instalación",
+      "uploadTooltip": "Subir contrato/presupuesto",
+      "documentType": "Tipo de documento",
+      "description": "Descripción",
+      "descriptionPlaceholder": "Ingresa una descripción opcional del documento...",
+      "file": "Archivo PDF",
+      "dragAndDrop": "Arrastra y suelta tu archivo PDF aquí",
+      "orClickToSelect": "o haz clic para seleccionarlo",
+      "maxSize": "Tamaño máximo: 10MB",
+      "upload": "Subir documento",
+      "uploading": "Subiendo...",
+      "uploadSuccess": "Documento subido exitosamente",
+      "uploadError": "Error al subir el documento",
+      "selectFile": "Por favor, selecciona un archivo",
+      "onlyPdfAllowed": "Solo se permiten archivos PDF",
+      "types": {
+        "contract": "Contrato",
+        "budget": "Presupuesto",
+        "other": "Otro"
+      }
+    },
+    "table": {
+      "installation": "Instalación",
+      "address": "Dirección",
+      "type": "Tipo",
+      "frequency": "Frecuencia",
+      "months": "Meses",
+      "status": "Estado",
+      "startDate": "Fecha Inicio",
+      "endDate": "Fecha Fin",
+      "actions": "Acciones"
     }
   },
   "calendar": {
