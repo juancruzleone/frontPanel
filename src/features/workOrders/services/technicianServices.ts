@@ -32,7 +32,7 @@ export const fetchTechnicians = async (): Promise<Technician[]> => {
 }
 
 export const createTechnician = async (technicianData: Partial<Technician>) => {
-  const response = await fetch(`${API_URL}/cuenta`, {
+  const response = await fetch(`${API_URL}cuenta`, {
     method: "POST",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(technicianData),
@@ -47,7 +47,7 @@ export const createTechnician = async (technicianData: Partial<Technician>) => {
 }
 
 export const updateTechnician = async (id: string, technicianData: Partial<Technician>) => {
-  const response = await fetch(`${API_URL}/cuentas/${id}`, {
+  const response = await fetch(`${API_URL}cuentas/${id}/technician`, {
     method: "PUT",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(technicianData),
@@ -62,7 +62,7 @@ export const updateTechnician = async (id: string, technicianData: Partial<Techn
 }
 
 export const deleteTechnician = async (id: string) => {
-  const response = await fetch(`${API_URL}/cuentas/${id}`, {
+  const response = await fetch(`${API_URL}cuentas/${id}`, {
     method: "DELETE",
     headers: getAuthHeaders(),
   })
@@ -76,7 +76,7 @@ export const deleteTechnician = async (id: string) => {
 }
 
 export const getTechnicianById = async (id: string): Promise<Technician> => {
-  const response = await fetch(`${API_URL}/cuentas/${id}`, {
+  const response = await fetch(`${API_URL}cuentas/${id}`, {
     headers: getAuthHeaders(),
   })
 
