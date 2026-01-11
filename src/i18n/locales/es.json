@@ -1604,9 +1604,9 @@
     "successTitle": "¡Operación exitosa!",
     "understood": "cerrar",
     "titlePage": "Iniciar Sesión | Leonix",
-    "title": "Inicia sesión",
+    "title": "Iniciar Sesión",
     "username": "Usuario",
-    "submit": "Inciar sesión",
+    "submit": "Iniciar Sesión",
     "welcome": "Bienvenido de nuevo",
     "subtitle": "Por favor, ingresa tus credenciales para continuar",
     "email": "Correo electrónico",
@@ -1623,8 +1623,8 @@
     "requiredField": "Este campo es obligatorio",
     "invalidEmail": "Correo electrónico inválido",
     "minPassword": "La contraseña debe tener al menos 6 caracteres",
-    "usernamePlaceholder": "Ingresa el nombre de usuario",
-    "passwordPlaceholder": "Ingresa la contraseña",
+    "usernamePlaceholder": "Ingresa tu usuario",
+    "passwordPlaceholder": "Ingresa tu contraseña",
     "validation": {
       "userNameRequired": "El nombre de usuario es obligatorio",
       "passwordRequired": "La contraseña es obligatoria"
