@@ -65,7 +65,11 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #057e74 0%, #045e58 100%);
+  background: #ffffff;
+}
+
+:global([data-theme="light"]) .modalHeader::before {
+  background: #000000;
 }
 
 .headerContent {
