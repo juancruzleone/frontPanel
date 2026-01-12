@@ -2,8 +2,8 @@ import i18n from "../../i18n"
 
 // Función para traducir estados de órdenes de trabajo
 export const translateWorkOrderStatus = (status: string): string => {
-  const currentLanguage = i18n.language || 'es'
-  
+  const currentLanguage = (i18n.resolvedLanguage || i18n.language || 'es').split('-')[0]
+
   const translations: Record<string, Record<string, string>> = {
     es: {
       'pendiente': 'Pendiente',
@@ -82,8 +82,8 @@ export const translateWorkOrderStatus = (status: string): string => {
 
 // Función para traducir prioridades
 export const translatePriority = (priority: string): string => {
-  const currentLanguage = i18n.language || 'es'
-  
+  const currentLanguage = (i18n.resolvedLanguage || i18n.language || 'es').split('-')[0]
+
   const translations: Record<string, Record<string, string>> = {
     es: {
       'baja': 'Baja',
@@ -152,8 +152,8 @@ export const translatePriority = (priority: string): string => {
 
 // Función para traducir tipos de trabajo
 export const translateWorkType = (workType: string): string => {
-  const currentLanguage = i18n.language || 'es'
-  
+  const currentLanguage = (i18n.resolvedLanguage || i18n.language || 'es').split('-')[0]
+
   const translations: Record<string, Record<string, string>> = {
     es: {
       'mantenimiento': 'Mantenimiento',
@@ -262,8 +262,8 @@ export const translateWorkType = (workType: string): string => {
 
 // Función para traducir roles de usuario
 export const translateUserRole = (role: string): string => {
-  const currentLanguage = i18n.language || 'es'
-  
+  const currentLanguage = (i18n.resolvedLanguage || i18n.language || 'es').split('-')[0]
+
   const translations: Record<string, Record<string, string>> = {
     es: {
       'tecnico': 'Técnico',
@@ -352,8 +352,8 @@ export const translateUserRole = (role: string): string => {
 
 // Función para traducir tipos de campos de formularios
 export const translateFormFieldType = (fieldType: string): string => {
-  const currentLanguage = i18n.language || 'es'
-  
+  const currentLanguage = (i18n.resolvedLanguage || i18n.language || 'es').split('-')[0]
+
   const translations: Record<string, Record<string, string>> = {
     es: {
       'text': 'Texto',
@@ -462,8 +462,8 @@ export const translateFormFieldType = (fieldType: string): string => {
 
 // Función para traducir estados de dispositivos
 export const translateDeviceStatus = (status: string): string => {
-  const currentLanguage = i18n.language || 'es'
-  
+  const currentLanguage = (i18n.resolvedLanguage || i18n.language || 'es').split('-')[0]
+
   const translations: Record<string, Record<string, string>> = {
     es: {
       'activo': 'Activo',
@@ -538,7 +538,7 @@ export const translateDeviceStatus = (status: string): string => {
   }
 
   return translations[currentLanguage]?.[status] || status
-} 
+}
 
 // Traducción de meses (ES <-> idioma actual)
 export const monthNamesES = [
@@ -619,7 +619,7 @@ export const frequencyTranslations: Record<string, string[]> = {
 export function translateFrequencyToCurrentLang(freqES: string, lang: string): string {
   // Normalizar la entrada para manejar diferentes formatos del backend
   const normalizedFreq = freqES.charAt(0).toUpperCase() + freqES.slice(1).toLowerCase();
-  
+
   // Mapeo de valores en minúsculas a formato capitalizado
   const frequencyMap: Record<string, string> = {
     'mensual': 'Mensual',
@@ -631,10 +631,10 @@ export function translateFrequencyToCurrentLang(freqES: string, lang: string): s
     'semiannual': 'Semestral',
     'annual': 'Anual'
   };
-  
+
   // Convertir al formato esperado en español si viene en otro formato
   const freqInES = frequencyMap[freqES.toLowerCase()] || normalizedFreq;
-  
+
   const idx = frequencyMapES.indexOf(freqInES);
   if (idx === -1) return freqES;
   const freqs = frequencyTranslations[lang] || frequencyMapES;

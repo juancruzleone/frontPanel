@@ -54,15 +54,16 @@ i18n
     resources,
     fallbackLng: 'es',
     debug: false,
-    
+
     interpolation: {
       escapeValue: false, // React ya escapa por defecto
     },
-    
+
     detection: {
       order: ['localStorage', 'navigator', 'htmlTag'],
       caches: ['localStorage'],
     },
+    load: 'languageOnly',
   })
 
 export default i18n 

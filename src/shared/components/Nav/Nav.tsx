@@ -72,8 +72,9 @@ const Nav = () => {
     { code: 'ar', name: t('languageSelector.arabic'), flag: '🇸🇦' }
   ]
 
-  const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0]
-  const currentFlag = flagMap[i18n.language] || esFlag
+  const currentLangCode = (i18n.resolvedLanguage || i18n.language || 'es').split('-')[0]
+  const currentLanguage = languages.find(lang => lang.code === currentLangCode) || languages[0]
+  const currentFlag = flagMap[currentLangCode] || esFlag
 
   const handleLanguageChange = (languageCode: string) => {
     i18n.changeLanguage(languageCode)
@@ -230,7 +231,7 @@ const Nav = () => {
                       <button
                         type="button"
                         key={language.code}
-                        className={`${styles.languageOption} ${i18n.language === language.code ? styles.active : ''}`}
+                        className={`${styles.languageOption} ${currentLangCode === language.code ? styles.active : ''}`}
                         onClick={() => handleLanguageChange(language.code)}
                       >
                         <img src={flagMap[language.code] || esFlag} alt={language.code} className={styles.flagImg} />

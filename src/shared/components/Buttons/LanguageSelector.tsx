@@ -50,10 +50,12 @@ const LanguageSelector = () => {
     { code: 'ar', name: t('languageSelector.arabic'), flag: '🇸🇦' }
   ]
 
-  const currentLanguage =
-    languages.find((lang) => lang.code === i18n.language) || languages[0]
+  const currentLangCode = (i18n.resolvedLanguage || i18n.language || 'es').split('-')[0]
 
-  const currentFlag = flagMap[i18n.language] || esFlag
+  const currentLanguage =
+    languages.find((lang) => lang.code === currentLangCode) || languages[0]
+
+  const currentFlag = flagMap[currentLangCode] || esFlag
 
   const handleLanguageChange = (languageCode: string) => {
     i18n.changeLanguage(languageCode)
@@ -85,9 +87,9 @@ const LanguageSelector = () => {
 
   return (
     <div className={styles.languageSelectorContainer} ref={dropdownRef}>
-      <img 
-        src={currentFlag} 
-        alt={i18n.language} 
+      <img
+        src={currentFlag}
+        alt={i18n.language}
         className={styles.flagImg}
         onClick={toggleDropdown}
         style={{ cursor: 'pointer' }}
@@ -99,9 +101,8 @@ const LanguageSelector = () => {
             <button
               type="button"
               key={language.code}
-              className={`${styles.languageOption} ${
-                i18n.language === language.code ? styles.active : ''
-              }`}
+              className={`${styles.languageOption} ${currentLangCode === language.code ? styles.active : ''
+                }`}
               onClick={() => handleLanguageChange(language.code)}
             >
               <span className={styles.flag}>{language.flag}</span>
