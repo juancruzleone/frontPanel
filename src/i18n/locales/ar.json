@@ -1545,7 +1545,21 @@
     "viewMonths": "عرض الأشهر",
     "monthsDetail": "تفاصيل الأشهر",
     "period": "الفترة",
-    "noMonthsAvailable": "لا توجد أشهر متاحة"
+    "noMonthsAvailable": "لا توجد أشهر متاحة",
+    "documents": {
+      "uploadTitle": "تحميل مستند",
+      "uploadSubtitle": "قم بتحميل عقد أو ميزانية لهذا التركيب",
+      "uploadTooltip": "تحميل العقد/الميزانية",
+      "documentType": "نوع المستند",
+      "description": "الوصف",
+      "selectFile": "اختر ملفاً",
+      "fileSelected": "تم اختيار الملف",
+      "uploadSuccess": "تم تحميل المستند بنجاح",
+      "uploadError": "خطأ في تحميل المستند",
+      "contract": "عقد",
+      "budget": "ميزانية",
+      "other": "أخرى"
+    }
   },
   "planLimits": {
     "title": "تم الوصول إلى حد الخطة",

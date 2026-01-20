@@ -273,7 +273,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
                 ? formData.frequency === 'mensual' && getFirstMonth()
                   ? `${getFirstMonth()} - ${selectedMonths.length} ${selectedMonths.length === 1 ? t('subscriptions.month') : t('subscriptions.months')}`
                   : `${selectedMonths.length} ${selectedMonths.length === 1 ? t('subscriptions.monthSelected') : t('subscriptions.monthsSelected')}`
-                : (t('subscriptions.clickToSelectMonths') || 'Seleccionar meses')
+                : t('subscriptions.clickToSelectMonths')
               }
             </span>
             <Calendar size={18} style={{ color: 'var(--color-text-secondary)' }} />

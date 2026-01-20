@@ -1469,6 +1469,10 @@
     "selectAllMonths": "Sélectionnez les mois souhaités",
     "selectDatesFirst": "Veuillez d'abord sélectionner les dates de début et de fin",
     "clickToSelectMonths": "Cliquez pour sélectionner les mois",
+    "month": "mois",
+    "months": "mois",
+    "monthSelected": "mois sélectionné",
+    "monthsSelected": "mois sélectionnés",
     "filterByMonth": "Filtrer par mois",
     "clearFilter": "Effacer le filtre",
     "viewMonths": "Voir les mois",
@@ -1504,6 +1508,20 @@
         "restart": "Voir le tutoriel"
       },
       "progressText": "{{current}} sur {{total}}"
+    },
+    "documents": {
+      "uploadTitle": "Téléverser un document",
+      "uploadSubtitle": "Téléversez un contrat ou un budget pour cette installation",
+      "uploadTooltip": "Télécharger contrat/budget",
+      "documentType": "Type de document",
+      "description": "Description",
+      "selectFile": "Sélectionner un fichier",
+      "fileSelected": "Fichier sélectionné",
+      "uploadSuccess": "Document téléversé avec succès",
+      "uploadError": "Erreur lors du téléversement du document",
+      "contract": "Contrat",
+      "budget": "Budget",
+      "other": "Autre"
     }
   },
   "planLimits": {

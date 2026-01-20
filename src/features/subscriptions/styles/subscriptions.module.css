@@ -224,7 +224,18 @@
 
 /* Header de la tabla - Estilo moderno */
 .tableHeader {
-  background: linear-gradient(180deg, var(--color-bg-light) 0%, rgba(0, 0, 0, 0.02) 100%);
+  background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-card) 100%);
+  position: relative;
+}
+
+.tableHeader::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.6) 100%);
 }
 
 .tableHeader th {
@@ -236,11 +247,11 @@
   text-transform: uppercase;
   color: var(--color-text);
   opacity: 0.7;
-  border-bottom: 1px solid var(--color-card-border);
+  border-bottom: 2px solid var(--color-text);
   position: sticky;
   top: 0;
   z-index: 10;
-  background: var(--color-bg-light);
+  background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-card) 100%);
   white-space: nowrap;
 }
 
@@ -337,12 +348,10 @@
 }
 
 .tableHeader th:first-child {
-  border-top-left-radius: 20px;
   padding-left: 2rem;
 }
 
 .tableHeader th:last-child {
-  border-top-right-radius: 20px;
   padding-right: 2rem;
 }
 
@@ -351,22 +360,16 @@
   border-bottom: 1px solid var(--color-card-border);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  background: var(--color-card);
 }
 
 .tableRow:hover {
   background: linear-gradient(90deg, rgba(5, 126, 116, 0.05) 0%, rgba(5, 126, 116, 0.02) 50%, transparent 100%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .tableRow:last-child {
   border-bottom: none;
-}
-
-.tableRow:last-child td:first-child {
-  border-bottom-left-radius: 20px;
-}
-
-.tableRow:last-child td:last-child {
-  border-bottom-right-radius: 20px;
 }
 
 /* Celdas de la tabla - Mayor espaciado */
@@ -724,9 +727,19 @@
   gap: 12px;
   margin: 0;
   padding: 1.5rem 2rem;
-  background: var(--color-bg-light);
-  border-top: 1px solid var(--color-card-border);
-  border-radius: 0 0 20px 20px;
+  background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-card) 100%);
+  border-top: 2px solid var(--color-text);
+  position: relative;
+}
+
+.pagination::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.6) 100%);
 }
 
 .pagination button {
@@ -1429,7 +1442,7 @@
   background: none;
   border: none;
   padding: 8px;
-  color: var(--color-secondary);
+  color: var(--color-text);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -1443,9 +1456,10 @@
 }
 
 .uploadDocumentButton:hover {
-  background: var(--color-secondary);
+  background: var(--color-text);
   transform: scale(1.05);
-  color: white;
+  color: var(--color-card);
+  border: 1px solid var(--color-text);
 }
 
 .uploadDocumentButton:active {
@@ -1495,23 +1509,25 @@
 /* Modo claro para uploadDocumentButton */
 :root .uploadDocumentButton,
 [data-theme="light"] .uploadDocumentButton {
-  color: var(--color-secondary);
+  color: var(--color-text);
 }
 
 :root .uploadDocumentButton:hover,
 [data-theme="light"] .uploadDocumentButton:hover {
-  background: var(--color-secondary);
-  color: white;
+  background: var(--color-text);
+  color: var(--color-card);
+  border: 1px solid var(--color-text);
 }
 
 /* Modo oscuro para uploadDocumentButton */
 [data-theme="dark"] .uploadDocumentButton {
-  color: var(--color-secondary);
+  color: var(--color-text);
 }
 
 [data-theme="dark"] .uploadDocumentButton:hover {
-  background: var(--color-secondary);
-  color: white;
+  background: var(--color-text);
+  color: var(--color-card);
+  border: 1px solid var(--color-text);
 }
 
 /* Estilo para celdas de fecha */
@@ -1593,14 +1609,8 @@
 
   .tableHeader th:first-child,
   .tableHeader th:last-child {
-    border-radius: 16px;
     padding-left: 1rem;
     padding-right: 1rem;
-  }
-
-  .tableRow:last-child td:first-child,
-  .tableRow:last-child td:last-child {
-    border-radius: 16px;
   }
 
   .installationName {

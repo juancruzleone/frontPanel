@@ -1538,7 +1538,21 @@
     "viewMonths": "月を表示",
     "monthsDetail": "月の詳細",
     "period": "期間",
-    "noMonthsAvailable": "利用可能な月がありません"
+    "noMonthsAvailable": "利用可能な月がありません",
+    "documents": {
+      "uploadTitle": "ドキュメントをアップロード",
+      "uploadSubtitle": "このインストールの契約書または予算をアップロードします",
+      "uploadTooltip": "契約/見積もりをアップロード",
+      "documentType": "ドキュメントタイプ",
+      "description": "説明",
+      "selectFile": "ファイルを選択",
+      "fileSelected": "ファイルが選択されました",
+      "uploadSuccess": "ドキュメントが正常にアップロードされました",
+      "uploadError": "ドキュメントのアップロード中にエラーが発生しました",
+      "contract": "契約書",
+      "budget": "予算",
+      "other": "その他"
+    }
   },
   "planLimits": {
     "title": "プラン制限に達しました",

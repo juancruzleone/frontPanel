@@ -147,12 +147,15 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
     if (!isOpen) return null
 
     return (
-        <div className={styles.modalOverlay} onClick={handleBackdropClick}>
+        <div className={styles.backdrop} onClick={handleBackdropClick}>
             <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
                 <div className={styles.modalHeader}>
-                    <h2 className={styles.modalTitle}>
-                        {t('subscriptions.documents.uploadTitle')}
-                    </h2>
+                    <div className={styles.titleSection}>
+                        <h2 className={styles.title}>
+                            {t('subscriptions.documents.uploadTitle')}
+                        </h2>
+                        <p className={styles.installationInfo}>{installationName}</p>
+                    </div>
                     <button
                         className={styles.closeButton}
                         onClick={handleClose}
@@ -165,12 +168,7 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
                 </div>
 
                 <div className={styles.modalContent}>
-                    <div className={styles.installationInfo}>
-                        <h3>{installationName}</h3>
-                        <p>{t('subscriptions.documents.uploadSubtitle')}</p>
-                    </div>
-
-                    <form onSubmit={handleSubmit} className={styles.uploadForm}>
+                    <form onSubmit={handleSubmit} className={styles.uploadForm} id="uploadForm">
                         {/* Tipo de documento */}
                         <div className={styles.formGroup}>
                             <label className={styles.label}>
@@ -261,35 +259,38 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
                             )}
                         </div>
 
-                        {/* Botones de acción */}
-                        <div className={styles.modalActions}>
-                            <button
-                                type="submit"
-                                className={styles.submitButton}
-                                disabled={isUploading || !selectedFile}
-                            >
-                                {isUploading ? (
-                                    <>
-                                        <Loader2 size={18} className={styles.spinner} />
-                                        {t('subscriptions.documents.uploading')}
-                                    </>
-                                ) : (
-                                    <>
-                                        <Upload size={18} />
-                                        {t('subscriptions.documents.upload')}
-                                    </>
-                                )}
-                            </button>
-                            <button
-                                type="button"
-                                onClick={handleClose}
-                                className={styles.cancelButton}
-                                disabled={isUploading}
-                            >
-                                {t('common.cancel')}
-                            </button>
-                        </div>
                     </form>
+                </div>
+
+                {/* Botones de acción */}
+                <div className={styles.modalFooter}>
+                    <button
+                        type="button"
+                        onClick={handleClose}
+                        className={styles.cancelButton}
+                        disabled={isUploading}
+                    >
+                        {t('common.cancel')}
+                    </button>
+                    <button
+                        type="submit"
+                        form="uploadForm"
+                        className={styles.submitButton}
+                        disabled={isUploading || !selectedFile}
+                        onClick={handleSubmit}
+                    >
+                        {isUploading ? (
+                            <>
+                                <Loader2 size={18} className={styles.spinner} />
+                                {t('subscriptions.documents.uploading')}
+                            </>
+                        ) : (
+                            <>
+                                <Upload size={18} />
+                                {t('subscriptions.documents.upload')}
+                            </>
+                        )}
+                    </button>
                 </div>
             </div>
         </div>

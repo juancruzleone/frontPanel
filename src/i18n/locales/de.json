@@ -1376,6 +1376,10 @@
     "selectAllMonths": "Wähle die gewünschten Monate",
     "selectDatesFirst": "Bitte wählen Sie zuerst Start- und Enddatum",
     "clickToSelectMonths": "Klicken Sie, um Monate auszuwählen",
+    "month": "Monat",
+    "months": "Monate",
+    "monthSelected": "Monat ausgewählt",
+    "monthsSelected": "Monate ausgewählt",
     "filterByMonth": "Nach Monat filtern",
     "clearFilter": "Filter löschen",
     "viewMonths": "Monate anzeigen",
@@ -1411,6 +1415,20 @@
         "restart": "Tutorial ansehen"
       },
       "progressText": "{{current}} von {{total}}"
+    },
+    "documents": {
+      "uploadTitle": "Dokument hochladen",
+      "uploadSubtitle": "Laden Sie einen Vertrag oder ein Budget für diese Installation hoch",
+      "uploadTooltip": "Vertrag/Budget hochladen",
+      "documentType": "Dokumenttyp",
+      "description": "Beschreibung",
+      "selectFile": "Datei auswählen",
+      "fileSelected": "Datei ausgewählt",
+      "uploadSuccess": "Dokument erfolgreich hochgeladen",
+      "uploadError": "Fehler beim Hochladen des Dokuments",
+      "contract": "Vertrag",
+      "budget": "Budget",
+      "other": "Sonstiges"
     }
   },
   "planLimits": {

@@ -1524,6 +1524,20 @@
         "skip": "Pular tutorial",
         "restart": "Ver tutorial"
       }
+    },
+    "documents": {
+      "uploadTitle": "Enviar documento",
+      "uploadSubtitle": "Envie um contrato ou orçamento para esta instalação",
+      "uploadTooltip": "Carregar contrato/orçamento",
+      "documentType": "Tipo de documento",
+      "description": "Descrição",
+      "selectFile": "Selecionar arquivo",
+      "fileSelected": "Arquivo selecionado",
+      "uploadSuccess": "Documento enviado com sucesso",
+      "uploadError": "Erro ao enviar documento",
+      "contract": "Contrato",
+      "budget": "Orçamento",
+      "other": "Outro"
     }
   },
   "planLimits": {

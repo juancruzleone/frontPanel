@@ -1548,7 +1548,21 @@
     "viewMonths": "查看月份",
     "monthsDetail": "月份详情",
     "period": "期间",
-    "noMonthsAvailable": "没有可用的月份"
+    "noMonthsAvailable": "没有可用的月份",
+    "documents": {
+      "uploadTitle": "上传文档",
+      "uploadSubtitle": "为此安装上传合同或预算",
+      "uploadTooltip": "上传合同/预算",
+      "documentType": "文档类型",
+      "description": "描述",
+      "selectFile": "选择文件",
+      "fileSelected": "已选择文件",
+      "uploadSuccess": "文档上传成功",
+      "uploadError": "上传文档时出错",
+      "contract": "合同",
+      "budget": "预算",
+      "other": "其他"
+    }
   },
   "planLimits": {
     "title": "已达到计划限制",
