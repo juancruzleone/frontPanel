@@ -74,11 +74,11 @@ const CustomBarChart: React.FC<BarChartProps> = ({ data }) => {
         </div>
       </div>
 
-      <div className={styles.barChartContainer} style={{ height: '250px', width: '100%' }}>
+      <div className={styles.barChartContainer}>
         <ResponsiveContainer width="100%" height="100%">
           <ReBarChart
             data={data}
-            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+            margin={{ top: 10, right: 10, left: 0, bottom: 5 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="var(--color-text)" opacity={0.3} />
             <XAxis

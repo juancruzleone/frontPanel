@@ -12,7 +12,7 @@ import { useTheme } from "../../../shared/hooks/useTheme"
 const Skeleton = ({ height = 40, width = '100%', style = {} }) => (
   <div
     className={styles.skeleton}
-    style={{ height, width, ...style }}
+    style={{ height, width, maxWidth: '100%', boxSizing: 'border-box', ...style }}
     aria-hidden="true"
   />
 )
@@ -140,14 +140,16 @@ const HomeDashboard: React.FC = () => {
         <div className={styles.loadingContainer}>
           {/* Skeletons mejorados */}
           <div className={styles.skeletonGrid}>
-            <Skeleton height={160} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
-            <Skeleton height={160} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
-            <Skeleton height={160} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
-            <Skeleton height={160} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
+            {[1, 2, 3, 4].map((i) => (
+              <Skeleton key={i} height={170} width={"100%"} style={{ borderRadius: 16, maxWidth: '100%' }} />
+            ))}
           </div>
-          <Skeleton height={220} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
-          <Skeleton height={220} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
-          <Skeleton height={160} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
+          <div className={styles.chartsRow}>
+            <Skeleton height={280} width={"100%"} style={{ borderRadius: 16, flex: '1 1 320px', minWidth: 0, maxWidth: '100%' }} />
+            <Skeleton height={280} width={"100%"} style={{ borderRadius: 16, flex: '1 1 320px', minWidth: 0, maxWidth: '100%' }} />
+          </div>
+          <Skeleton height={280} width={"100%"} style={{ borderRadius: 16, maxWidth: '100%' }} />
+          <Skeleton height={160} width={"100%"} style={{ borderRadius: 16, maxWidth: '100%' }} />
         </div>
       ) : error ? (
         <div className={styles.errorContainer} role="alert">

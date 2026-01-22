@@ -72,7 +72,7 @@ const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
       </div>
       
       <div className={styles.pieChartFlexContainer}>
-        <div className={styles.pieChartContainer} style={{ height: '250px', width: '60%' }}>
+        <div className={styles.pieChartContainer}>
           <ResponsiveContainer width="100%" height="100%">
             <RePieChart>
               <Pie

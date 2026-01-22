@@ -3,6 +3,13 @@ html {
   background: var(--color-bg);
   color: var(--color-text);
   transition: background 0.3s, color 0.3s;
+  overflow-x: hidden !important;
+  max-width: 100vw;
+  position: relative;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 .dashboardContainer {
@@ -16,8 +23,11 @@ html {
   color: var(--color-text);
   /* background: var(--color-bg); */
   background: transparent;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
+  overflow-y: auto;
   box-sizing: border-box;
+  position: relative;
+  contain: layout;
 }
 
 /* Header del dashboard */
@@ -47,12 +57,30 @@ html {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden !important;
+}
+
+.loadingContainer > * {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 .skeletonGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 24px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden !important;
+}
+
+.skeletonGrid > * {
+  min-width: 0 !important;
+  max-width: 100% !important;
 }
 
 /* Contenedor de error */
@@ -95,7 +123,7 @@ html {
   display: flex;
   flex-direction: column;
   gap: 40px;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
@@ -112,6 +140,22 @@ html {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  overflow-x: hidden !important;
+}
+
+/* Asegurar que lineChartSection y recentSection ocupen todo el ancho */
+.lineChartSection,
+.recentSection {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: 1 1 100% !important;
+}
+
+.lineChartSection > *,
+.recentSection > * {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: 1 1 100% !important;
 }
 
 .sectionTitle {
@@ -125,31 +169,35 @@ html {
 /* Nuevos estilos para las tarjetas de estadísticas modernas */
 .statsCardsRow {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 24px;
   margin-bottom: 12px;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  overflow: hidden;
+  contain: layout;
 }
 
 .statsCard {
   background: var(--color-card);
   border-radius: 16px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  padding: 24px;
+  padding: 20px;
   position: relative;
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid var(--color-card-border);
   cursor: pointer;
-  min-height: 160px;
+  height: 170px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  min-width: 0;
+  contain: layout style paint;
 }
 
 .statsCard::before {
@@ -178,18 +226,20 @@ html {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
+  flex-shrink: 0;
 }
 
 .statsIconContainer {
-  width: 56px;
-  height: 56px;
-  border-radius: 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 2px solid black;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 :global(.dark) .statsIconContainer {
@@ -204,12 +254,13 @@ html {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 6px;
   margin-top: auto;
+  flex-shrink: 0;
 }
 
 .statsValue {
-  font-size: 2.5rem;
+  font-size: 1.9rem;
   font-weight: 800;
   color: var(--color-text);
   line-height: 1;
@@ -217,11 +268,12 @@ html {
 }
 
 .statsLabel {
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: var(--color-text);
   font-weight: 500;
   opacity: 0.8;
   text-transform: capitalize;
+  line-height: 1.2;
 }
 
 /* Estilos para modo oscuro */
@@ -245,12 +297,14 @@ html {
 
 .chartsRow {
   display: flex;
-  gap: 32px;
+  gap: 20px;
   margin-bottom: 12px;
   flex-wrap: wrap;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
+  overflow: hidden !important;
+  contain: layout;
 }
 
 .chartCard {
@@ -259,7 +313,8 @@ html {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   padding: 24px;
   min-width: 0;
-  flex: 1 1 320px;
+  flex: 1 1 calc(50% - 10px);
+  max-width: calc(50% - 10px);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -268,9 +323,16 @@ html {
   border: 1px solid var(--color-card-border);
   transition: all 0.3s ease;
   position: relative;
-  overflow: hidden;
-  max-width: 100%;
+  overflow: hidden !important;
   box-sizing: border-box;
+  contain: layout style paint;
+}
+
+/* Asegurar que chartCard dentro de lineChartSection ocupe 100% */
+.lineChartSection .chartCard {
+  flex: 1 1 100% !important;
+  max-width: 100% !important;
+  width: 100% !important;
 }
 
 .chartCard::before {
@@ -553,6 +615,11 @@ html {
   background-size: 200% 100%;
   animation: skeleton-loading 1.5s infinite;
   border-radius: 8px;
+  will-change: background-position;
+  contain: layout style paint;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
 }
 
 @keyframes skeleton-loading {
@@ -617,7 +684,8 @@ html {
     box-sizing: border-box;
   }
 
-  .statsCardsRow {
+  .statsCardsRow,
+  .skeletonGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
     margin-bottom: 8px;
@@ -630,6 +698,14 @@ html {
 
   .chartsRow {
     gap: 16px;
+    flex-wrap: wrap;
+    overflow: hidden !important;
+  }
+
+  .chartCard {
+    max-width: 100% !important;
+    width: 100% !important;
+    flex: 1 1 100% !important;
   }
 }
 
@@ -642,7 +718,8 @@ html {
     box-sizing: border-box;
   }
 
-  .statsCardsRow {
+  .statsCardsRow,
+  .skeletonGrid {
     grid-template-columns: 1fr 1fr;
     gap: 12px;
     margin-bottom: 8px;
@@ -679,6 +756,18 @@ html {
     height: 32px;
     border-radius: 6px;
   }
+
+  .chartsRow {
+    flex-direction: column !important;
+    gap: 16px !important;
+    overflow: hidden !important;
+  }
+
+  .chartCard {
+    max-width: 100% !important;
+    width: 100% !important;
+    flex: 1 1 100% !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -697,7 +786,8 @@ html {
     gap: 16px;
   }
 
-  .statsCardsRow {
+  .statsCardsRow,
+  .skeletonGrid {
     grid-template-columns: 1fr;
     gap: 12px;
     margin-bottom: 8px;
@@ -735,6 +825,18 @@ html {
     border-radius: 8px;
   }
 
+  .chartsRow {
+    flex-direction: column !important;
+    gap: 16px !important;
+    overflow: hidden !important;
+  }
+
+  .chartCard {
+    max-width: 100% !important;
+    width: 100% !important;
+    flex: 1 1 100% !important;
+  }
+
   .pieChartFlexContainer {
     flex-direction: column !important;
     align-items: stretch !important;
@@ -759,12 +861,16 @@ html {
     min-height: 140px;
     height: 140px;
     width: 100% !important;
-    max-width: 100vw;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
   }
 
   .percentagesContainer {
     margin-bottom: 0;
     padding-bottom: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
   }
 
   .percentageItem {
@@ -929,8 +1035,18 @@ html {
 /* Estilos específicos para gráficos de barras */
 .barChartContainer {
   position: relative;
-  height: 100%;
-  min-height: 280px;
+  height: 250px;
+  min-height: 250px;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  contain: layout style paint !important;
+}
+
+.barChartContainer svg {
+  max-width: 100% !important;
+  overflow: hidden !important;
 }
 
 .barChartContainer .recharts-cartesian-grid-horizontal line,
@@ -993,9 +1109,14 @@ html {
 .pieChartFlexContainer {
   display: flex !important;
   align-items: center !important;
-  gap: 24px !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
   height: 280px !important;
   width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  contain: layout !important;
 }
 
 /* Estilos específicos para gráficos circulares */
@@ -1003,7 +1124,16 @@ html {
   position: relative;
   height: 100%;
   min-height: 280px;
-  flex: 1 !important;
+  flex: 0 0 55% !important;
+  max-width: 55% !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  contain: layout style paint !important;
+}
+
+.pieChartContainer svg {
+  max-width: 100% !important;
+  overflow: hidden !important;
 }
 
 .pieChartContainer .recharts-pie {
@@ -1035,6 +1165,38 @@ html {
   position: relative;
   height: 100%;
   min-height: 280px;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  contain: layout style paint !important;
+}
+
+.lineChartContainer svg {
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+/* Forzar que todos los ResponsiveContainer no excedan el ancho */
+.barChartContainer .recharts-responsive-container,
+.pieChartContainer .recharts-responsive-container,
+.lineChartContainer .recharts-responsive-container {
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+.barChartContainer .recharts-wrapper,
+.pieChartContainer .recharts-wrapper,
+.lineChartContainer .recharts-wrapper {
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+.barChartContainer .recharts-surface,
+.pieChartContainer .recharts-surface,
+.lineChartContainer .recharts-surface {
+  max-width: 100% !important;
+  overflow: hidden !important;
 }
 
 .lineChartContainer .recharts-cartesian-grid-horizontal line,
@@ -1149,8 +1311,13 @@ html {
   flex-direction: column !important;
   gap: 8px !important;
   justify-content: center !important;
-  min-width: 180px !important;
+  min-width: 150px !important;
+  flex: 0 0 40% !important;
+  max-width: 40% !important;
   height: fit-content !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  contain: layout style paint !important;
 }
 
 .percentageItem {
@@ -1163,6 +1330,9 @@ html {
   color: var(--color-text) !important;
   transition: all 0.2s ease !important;
   width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
 }
 
 .percentageItem:hover {
@@ -1188,6 +1358,7 @@ html {
   flex-direction: column !important;
   gap: 2px !important;
   min-width: 80px !important;
+  overflow: hidden !important;
 }
 
 .percentageName {
@@ -1267,6 +1438,16 @@ html {
     gap: 8px;
   }
 
+  .chartsRow {
+    flex-direction: column !important;
+    overflow: hidden !important;
+  }
+
+  .chartCard {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
   .pieChartFlexContainer {
     flex-direction: column !important;
     gap: 16px !important;
@@ -1275,6 +1456,7 @@ html {
 
   .pieChartContainer {
     width: 100% !important;
+    max-width: 100% !important;
     height: 250px !important;
   }
 
@@ -1286,6 +1468,7 @@ html {
     justify-content: center !important;
     gap: 8px !important;
     width: 100% !important;
+    max-width: 100% !important;
   }
 
   .percentageItem {

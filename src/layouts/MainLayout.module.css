@@ -2,7 +2,9 @@
   display: flex;
   min-height: 100vh;
   width: 100%;
-  overflow-x: hidden;
+  max-width: 100vw;
+  overflow-x: hidden !important;
+  position: relative;
 }
 
 .contentArea {
@@ -12,7 +14,10 @@
   padding: 16px;
   margin-left: 0;
   transition: margin-left 0.3s ease-in-out;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 @media (min-width: 1024px) {
@@ -54,4 +59,8 @@
 
 .contentArea main {
   flex: 1;
+  overflow-x: hidden !important;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
 }

@@ -21,7 +21,7 @@ const StatsCards: React.FC<StatsCardsProps> = ({ kpis }) => {
 
   return (
     <div className={styles.statsCardsRow} role="region" aria-label={t('home.mainMetrics')}>
-      {kpis.map((kpi, index) => {
+      {kpis.slice(0, 4).map((kpi, index) => {
         const Icon = kpi.icon
         return (
           <div
