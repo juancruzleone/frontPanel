@@ -56,7 +56,6 @@ const RecentWorkOrders: React.FC<RecentWorkOrdersProps> = ({ workOrders }) => {
       <div className={styles.ordersList}>
         {recentOrders.length === 0 ? (
           <div className={styles.noOrders} role="status">
-            <div className={styles.noOrdersIcon}>📋</div>
             <p>{t('home.noRecentOrders')}</p>
             <small>{t('home.ordersWillAppear')}</small>
           </div>
