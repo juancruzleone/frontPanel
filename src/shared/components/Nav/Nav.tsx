@@ -51,7 +51,7 @@ const Nav = () => {
   const { dark, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isLanguageOpen, setIsLanguageOpen] = useState(false)
-  const [dropdownPosition, setDropdownPosition] = useState<{ top: number; left: number } | null>(null)
+  const [dropdownPosition, setDropdownPosition] = useState<{ top?: number; bottom?: number; left: number } | null>(null)
   const languageDropdownRef = useRef<HTMLDivElement>(null)
   const languageButtonRef = useRef<HTMLButtonElement>(null)
   const { isSidebarCollapsed, toggleSidebar } = useLayoutStore()
@@ -115,14 +115,24 @@ const Nav = () => {
     setIsMenuOpen(false)
   }
 
-  // Calculate dropdown position when opened in collapsed mode
   useEffect(() => {
     if (isLanguageOpen && isSidebarCollapsed && languageButtonRef.current) {
       const rect = languageButtonRef.current.getBoundingClientRect()
-      setDropdownPosition({
-        top: rect.top,
-        left: rect.right + 10
-      })
+      const viewportHeight = window.innerHeight
+      const dropdownHeight = 300 // matches max-height in CSS
+
+      if (rect.top + dropdownHeight > viewportHeight) {
+        // If it would overflow the bottom, align its bottom near the button
+        setDropdownPosition({
+          bottom: viewportHeight - rect.bottom,
+          left: rect.right + 10
+        })
+      } else {
+        setDropdownPosition({
+          top: rect.top,
+          left: rect.right + 10
+        })
+      }
     } else {
       setDropdownPosition(null)
     }
@@ -246,6 +256,7 @@ const Nav = () => {
                     className={`${styles.languageDropdown} ${isSidebarCollapsed ? styles.languageDropdownCollapsed : ''}`}
                     style={isSidebarCollapsed && dropdownPosition ? {
                       top: dropdownPosition.top,
+                      bottom: dropdownPosition.bottom,
                       left: dropdownPosition.left
                     } : undefined}
                   >
@@ -257,7 +268,7 @@ const Nav = () => {
                         onClick={() => handleLanguageChange(language.code)}
                       >
                         <img src={flagMap[language.code] || esFlag} alt={language.code} className={styles.flagImg} />
-                        <span className={`${styles.languageName} ${isSidebarCollapsed ? '' : styles.linkText}`}>{language.name}</span>
+                        <span className={styles.languageName}>{language.name}</span>
                       </button>
                     ))}
                   </div>

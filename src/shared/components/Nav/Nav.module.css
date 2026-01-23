@@ -97,7 +97,6 @@
   }
 }
 
-/* Desktop */
 @media (min-width: 1024px) {
   .nav {
     position: fixed;
@@ -111,6 +110,10 @@
     overflow: visible !important;
     min-width: 0;
     word-wrap: break-word;
+  }
+
+  .navContent {
+    padding-top: 40px;
   }
 
   .menuToggle {
@@ -205,7 +208,8 @@
 
 @media (min-width: 1024px) {
   .logoArea {
-    margin-bottom: 28px;
+    margin-top: 24px;
+    margin-bottom: 40px;
   }
 }
 
@@ -314,7 +318,7 @@
 
 @media (min-width: 1024px) {
   .menu li {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
   }
 }
 
@@ -833,9 +837,14 @@
 .nav.collapsed .linkText,
 .nav.collapsed .logoText,
 .nav.collapsed .userName,
-.nav.collapsed .userRole,
-.nav.collapsed .languageName {
+.nav.collapsed .userRole {
   display: none !important;
+}
+
+/* Ensure language name is visible in the dropdown regardless of nav state */
+.languageDropdown .languageName {
+  display: block !important;
+  color: rgba(255, 255, 255, 0.9) !important;
 }
 
 .nav.collapsed .logoContainer {

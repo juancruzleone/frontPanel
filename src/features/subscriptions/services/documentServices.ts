@@ -66,7 +66,7 @@ export const getBudgetDocuments = async (
 
     const response = await fetch(url, {
         method: 'GET',
-        headers: getHeaders(),
+        headers: getHeadersWithoutContentType(),
     })
 
     const responseData = await response.json()
@@ -88,7 +88,7 @@ export const deleteBudgetDocument = async (
 
     const response = await fetch(url, {
         method: 'DELETE',
-        headers: getHeaders(),
+        headers: getHeadersWithoutContentType(),
     })
 
     const responseData = await response.json()

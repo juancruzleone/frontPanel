@@ -380,9 +380,50 @@
   font-size: 14px;
 }
 
-.loader {
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  padding: 24px 0;
+  align-items: center;
+}
+
+.skeletonGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.loadingText {
+  font-size: 1.1rem;
+  font-weight: 600;
   color: var(--color-text);
+  margin-top: 16px;
+  opacity: 0.8;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
+}
+
+.loader {
+  text-align: center;
+  padding: 40px;
   font-size: 16px;
+  color: #6c757d;
 }
 
 @media (max-width: 900px) {

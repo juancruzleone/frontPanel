@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react"
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import { Edit, FilterX, HelpCircle, Eye, FileUp } from "lucide-react"
+import { Edit, FilterX, HelpCircle, Eye, FileUp, FileText } from "lucide-react"
 import { useAuthStore } from "../store/authStore"
 import { useTheme } from "../shared/hooks/useTheme"
 import SearchInput from "../shared/components/Inputs/SearchInput"
@@ -11,6 +11,7 @@ import ModalSuccess from "../features/subscriptions/components/ModalSuccess"
 import ModalError from "../features/subscriptions/components/ModalError"
 import MonthsDisplayModal from "../features/subscriptions/components/MonthsDisplayModal"
 import ModalUploadDocument from "../features/subscriptions/components/ModalUploadDocument"
+import ModalViewDocuments from "../features/subscriptions/components/ModalViewDocuments"
 import Skeleton from "../shared/components/Skeleton"
 import { useSubscriptions } from "../features/subscriptions/hooks/useSubscriptions"
 import type { Subscription } from "../features/subscriptions/hooks/useSubscriptions"
@@ -45,6 +46,8 @@ const Subscriptions = () => {
   const [selectedSubscriptionForMonths, setSelectedSubscriptionForMonths] = useState<Subscription | null>(null)
   const [isUploadDocumentModalOpen, setIsUploadDocumentModalOpen] = useState(false)
   const [selectedSubscriptionForUpload, setSelectedSubscriptionForUpload] = useState<Subscription | null>(null)
+  const [isViewDocumentsModalOpen, setIsViewDocumentsModalOpen] = useState(false)
+  const [selectedSubscriptionForViewDocs, setSelectedSubscriptionForViewDocs] = useState<Subscription | null>(null)
   const itemsPerPage = 5
 
   useEffect(() => {
@@ -140,6 +143,11 @@ const Subscriptions = () => {
   const handleUploadDocument = (subscription: Subscription) => {
     setSelectedSubscriptionForUpload(subscription)
     setIsUploadDocumentModalOpen(true)
+  }
+
+  const handleViewDocuments = (subscription: Subscription) => {
+    setSelectedSubscriptionForViewDocs(subscription)
+    setIsViewDocumentsModalOpen(true)
   }
 
   const handleUploadSuccess = (message: string) => {
@@ -298,8 +306,9 @@ const Subscriptions = () => {
 
       <div className={styles.tableContainer}>
         {loading ? (
-          <div className={styles.loader}>
+          <div className={styles.loadingContainer}>
             <Skeleton height={400} width="100%" style={{ borderRadius: 16 }} />
+            <p className={styles.loadingText}>{t('subscriptions.loadingSubscriptions') || 'Cargando abonos...'}</p>
           </div>
         ) : filteredSubscriptions.length === 0 ? (
           <div className={styles.emptyState}>
@@ -318,7 +327,7 @@ const Subscriptions = () => {
                   <tr className={styles.tableHeader}>
                     <th style={{ textAlign: 'left' }}>{t('subscriptions.table.installation')}</th>
                     <th>{t('subscriptions.table.type')}</th>
-                    <th>{t('subscriptions.table.frequency')}</th>
+                    <th style={{ textAlign: 'left' }}>{t('subscriptions.table.frequency')}</th>
                     <th>{t('subscriptions.table.status')}</th>
                     <th>{t('subscriptions.table.actions')}</th>
                   </tr>
@@ -339,8 +348,8 @@ const Subscriptions = () => {
                           {subscription.installationType}
                         </div>
                       </td>
-                      <td className={styles.tableCell}>
-                        <div className={styles.frequencyGroup}>
+                      <td className={styles.tableCell} style={{ textAlign: 'left' }}>
+                        <div className={styles.frequencyGroup} style={{ justifyContent: 'flex-start' }}>
                           <span className={styles.frequencyText}>
                             {translateFrequencyToCurrentLang(subscription.frequency, i18n.language)}
                           </span>
@@ -368,6 +377,14 @@ const Subscriptions = () => {
                             data-tooltip={t('common.details')}
                           >
                             <Eye size={18} />
+                          </button>
+                          <button
+                            className={styles.actionBtn}
+                            onClick={() => handleViewDocuments(subscription)}
+                            title={t('subscriptions.documents.viewTooltip') || 'Ver documentos'}
+                            data-tooltip={t('subscriptions.documents.viewTooltip') || 'Ver documentos'}
+                          >
+                            <FileText size={18} />
                           </button>
                           <button
                             className={styles.actionBtn}
@@ -439,6 +456,15 @@ const Subscriptions = () => {
         installationName={selectedSubscriptionForUpload?.installationName || ''}
         onUploadSuccess={handleUploadSuccess}
         onUploadError={handleUploadError}
+      />
+      <ModalViewDocuments
+        isOpen={isViewDocumentsModalOpen}
+        onRequestClose={() => {
+          setIsViewDocumentsModalOpen(false)
+          setSelectedSubscriptionForViewDocs(null)
+        }}
+        installationId={selectedSubscriptionForViewDocs?.installationId || ''}
+        installationName={selectedSubscriptionForViewDocs?.installationName || ''}
       />
       <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={() => setResponseMessage("")} mensaje={responseMessage} />
       <ModalError isOpen={!!responseMessage && isError} onRequestClose={() => setResponseMessage("")} mensaje={responseMessage} />

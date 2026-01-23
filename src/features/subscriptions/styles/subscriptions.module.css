@@ -435,6 +435,39 @@
   cursor: not-allowed;
 }
 
+/* Loading State */
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+  gap: 20px;
+  width: 100%;
+}
+
+.loadingText {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  opacity: 0.8;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
+}
+
 /* Empty State */
 .emptyState {
   padding: 60px 40px;

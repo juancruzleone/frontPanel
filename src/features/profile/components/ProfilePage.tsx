@@ -70,9 +70,6 @@ const ProfilePage = () => {
   return (
     <div className={styles.profileContainer}>
       <div className={styles.profileHeader}>
-        <div className={styles.profileAvatar}>
-          {user ? user[0] : "?"}
-        </div>
         <div className={styles.profileInfo}>
           <span className={styles.profileName}>{user}</span>
           <span className={styles.profileRole}>{role ? translateUserRole(role) : role}</span>
