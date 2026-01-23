@@ -1271,6 +1271,7 @@
     "status": "Status",
     "scheduled": "Scheduled",
     "installation": "Installation",
+    "noInstallation": "No installation",
     "noTechnicianAssigned": "No technician assigned",
     "technician": "Technician",
     "at": "At",

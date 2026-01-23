@@ -1235,6 +1235,7 @@
     "workType": "작업 유형",
     "type": "유형",
     "installation": "설치",
+    "noInstallation": "설치 없음",
     "assignedTechnician": "담당 기술자",
     "observations": "관찰 내용",
     "additionalInfo": "추가 정보",

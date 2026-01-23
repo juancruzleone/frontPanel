@@ -23,7 +23,6 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   padding: 24px 24px;
   overflow-y: auto;
   overflow-x: hidden;
@@ -190,11 +189,12 @@
 }
 
 .logoArea {
-  margin-bottom: 80px;
+  margin-bottom: 32px;
   min-height: 40px;
   padding-left: 12px;
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
 @media (min-width: 768px) {
@@ -280,7 +280,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  flex-grow: 1;
+  flex: 0 0 auto;
   margin-top: 0;
 }
 
@@ -384,8 +384,9 @@
 .userSection {
   padding: 12px 0 0;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
-  margin-bottom: 8px;
-  margin-top: auto;
+  margin-bottom: 0;
+  margin-top: 0;
+  flex-shrink: 0;
 }
 
 
@@ -484,35 +485,32 @@
   gap: 12px;
   margin-top: auto;
   margin-bottom: 0;
-  padding-bottom: 24px;
+  padding-bottom: 0;
+  padding-top: 16px;
   flex-shrink: 0;
+  overflow: visible;
   /* Prevent shrinking and ensure visibility */
 }
 
 @media (min-width: 768px) {}
 
-.themeBox {
+.themeButton,
+.languageButton {
+  background: rgba(255, 255, 255, 0.05);
+  color: #00FFAE;
+  border: 1px solid rgba(0, 255, 174, 0.2);
+  padding: 0;
+  border-radius: 12px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(0, 255, 174, 0.2);
-  border-radius: 12px;
-  padding: 0;
-  margin: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   width: 38px;
   height: 38px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  cursor: pointer;
 }
 
-.themeBox:hover {
-  background: rgba(0, 255, 174, 0.1);
-  border-color: #00FFAE;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 255, 174, 0.15);
-}
-
+.themeButton:hover,
 .languageButton:hover {
   background: rgba(0, 255, 174, 0.1);
   border-color: #00FFAE;
@@ -520,27 +518,21 @@
   box-shadow: 0 4px 12px rgba(0, 255, 174, 0.15);
 }
 
-.themeButton {
-  background: none;
-  color: #00FFAE;
-  border: none;
-  padding: 0;
-  border-radius: 12px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: none;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  pointer-events: none;
+/* themeButton specific SVG styles */
+
+.themeButton:hover svg {
+  fill: rgba(0, 255, 174, 0.2) !important;
+  stroke: #00FFAE !important;
 }
 
 .themeButton svg {
   width: 18px !important;
   height: 18px !important;
-  stroke-width: 2.5px;
+  stroke-width: 2.5px !important;
+  color: #00FFAE !important;
+  stroke: #00FFAE !important;
+  fill: none !important;
+  transition: all 0.3s ease;
 }
 
 .controlsContainer {
@@ -550,6 +542,7 @@
   gap: 12px;
   margin-bottom: 16px;
   padding: 0 12px;
+  overflow: visible;
 }
 
 @media (max-width: 767px) {
@@ -562,6 +555,8 @@
 .languageSelectorContainer {
   position: relative;
   display: inline-block;
+  overflow: visible;
+  z-index: 100;
 }
 
 
@@ -573,18 +568,6 @@
 
 .languageButton {
   position: relative;
-  background: rgba(255, 255, 255, 0.05);
-  color: #00FFAE;
-  border: 1px solid rgba(0, 255, 174, 0.2);
-  padding: 0;
-  border-radius: 12px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  width: 38px;
-  height: 38px;
   font-size: 12px;
   font-weight: 600;
   margin: 0;
@@ -599,7 +582,7 @@
   border: 1px solid rgba(0, 255, 174, 0.3);
   border-radius: 14px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+  z-index: 10000;
   min-width: 180px;
   max-height: 300px;
   overflow-y: auto;
@@ -913,16 +896,30 @@
 }
 
 .nav.collapsed .languageButton,
-.nav.collapsed .themeBox {
+.nav.collapsed .themeButton {
   width: 34px;
   height: 34px;
   border-radius: 10px;
 }
 
+.nav.collapsed .languageSelectorContainer {
+  position: static;
+}
+
 .nav.collapsed .languageDropdown {
-  left: calc(100% + 10px);
-  bottom: 0;
+  position: fixed;
+  left: 90px;
+  bottom: auto;
+  top: auto;
   transform: none;
+  z-index: 10001;
+  min-width: 180px;
+}
+
+.languageDropdownCollapsed {
+  position: fixed !important;
+  z-index: 10001 !important;
+  min-width: 180px !important;
 }
 
 .nav.collapsed .logoImage {

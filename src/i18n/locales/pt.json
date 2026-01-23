@@ -333,6 +333,7 @@
     "scheduled": "Agendada",
     "at": "às",
     "installation": "Instalação",
+    "noInstallation": "Sem instalação",
     "startOrder": "Iniciar ordem",
     "completeOrder": "Concluir ordem",
     "assignTechnician": "Atribuir técnico",

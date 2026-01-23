@@ -368,6 +368,7 @@
     "scheduled": "Planifié",
     "at": "à",
     "installation": "Installation",
+    "noInstallation": "Aucune installation",
     "startOrder": "Démarrer l'ordre",
     "completeOrder": "Terminer l'ordre",
     "assignTechnician": "Assigner un technicien",

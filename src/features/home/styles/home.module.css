@@ -185,9 +185,9 @@ html {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   padding: 20px;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid var(--color-card-border);
+  border: 1px solid black;
   cursor: pointer;
   height: 170px;
   display: flex;
@@ -200,6 +200,10 @@ html {
   contain: layout style paint;
 }
 
+:global(.dark) .statsCard {
+  border-color: white;
+}
+
 .statsCard::before {
   content: '';
   position: absolute;
@@ -210,11 +214,19 @@ html {
   background: linear-gradient(90deg, black, rgba(0, 0, 0, 0.8));
 }
 
+:global(.dark) .statsCard::before {
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
+}
+
 
 .statsCard:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-  border-color: var(--color-card-border);
+  border-color: black;
+}
+
+:global(.dark) .statsCard:hover {
+  border-color: white;
 }
 
 .statsCard:focus {
@@ -279,20 +291,6 @@ html {
 /* Estilos para modo oscuro */
 .dark .statsCard {
   background: var(--color-card);
-  border-color: var(--color-card-border);
-}
-
-:global(.dark) .statsCard::before {
-  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
-}
-
-:global(.dark) .statsCard {
-  border-color: white;
-}
-
-.dark .statsCard:hover {
-  border-color: var(--color-text);
-  background: var(--color-card);
 }
 
 .chartsRow {
@@ -320,12 +318,16 @@ html {
   align-items: flex-start;
   gap: 16px;
   color: var(--color-text);
-  border: 1px solid var(--color-card-border);
+  border: 1px solid black;
   transition: all 0.3s ease;
   position: relative;
-  overflow: hidden !important;
+  overflow: visible;
   box-sizing: border-box;
   contain: layout style paint;
+}
+
+:global(.dark) .chartCard {
+  border-color: white;
 }
 
 /* Asegurar que chartCard dentro de lineChartSection ocupe 100% */
@@ -356,6 +358,11 @@ html {
 .chartCard:hover {
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
   transform: translateY(-2px);
+  border-color: black;
+}
+
+:global(.dark) .chartCard:hover {
+  border-color: white;
 }
 
 .chartHeader {
@@ -1495,12 +1502,6 @@ html {
 /* Modo oscuro específico */
 .dark .chartCard {
   background: var(--color-card);
-  border-color: var(--color-card-border);
-}
-
-.dark .chartCard:hover {
-  border-color: var(--color-primary);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
 }
 
 .dark .customTooltip {

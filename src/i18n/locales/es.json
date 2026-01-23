@@ -1268,6 +1268,7 @@
     "scheduled": "Programada",
     "at": "a las",
     "installation": "Instalación",
+    "noInstallation": "Sin instalación",
     "startOrder": "Iniciar orden",
     "completeOrder": "Completar orden",
     "assignTechnician": "Asignar técnico",

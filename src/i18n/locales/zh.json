@@ -1237,6 +1237,7 @@
     "workType": "工作类型",
     "type": "类型",
     "installation": "安装",
+    "noInstallation": "无安装",
     "assignedTechnician": "指派技术员",
     "observations": "备注",
     "additionalInfo": "附加信息",

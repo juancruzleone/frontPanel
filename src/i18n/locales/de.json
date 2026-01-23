@@ -347,6 +347,7 @@
     "scheduled": "Geplant",
     "at": "um",
     "installation": "Installation",
+    "noInstallation": "Keine Installation",
     "startOrder": "Auftrag starten",
     "completeOrder": "Auftrag abschließen",
     "assignTechnician": "Techniker zuweisen",

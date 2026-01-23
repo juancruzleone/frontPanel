@@ -1232,6 +1232,7 @@
     "workType": "نوع العمل",
     "type": "النوع",
     "installation": "التثبيت",
+    "noInstallation": "لا يوجد تثبيت",
     "assignedTechnician": "الفني المعين",
     "observations": "الملاحظات",
     "additionalInfo": "معلومات إضافية",

@@ -51,7 +51,9 @@ const Nav = () => {
   const { dark, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isLanguageOpen, setIsLanguageOpen] = useState(false)
+  const [dropdownPosition, setDropdownPosition] = useState<{ top: number; left: number } | null>(null)
   const languageDropdownRef = useRef<HTMLDivElement>(null)
+  const languageButtonRef = useRef<HTMLButtonElement>(null)
   const { isSidebarCollapsed, toggleSidebar } = useLayoutStore()
 
   // Usar las utilidades de roles
@@ -112,6 +114,19 @@ const Nav = () => {
     navigate("/", { replace: true })
     setIsMenuOpen(false)
   }
+
+  // Calculate dropdown position when opened in collapsed mode
+  useEffect(() => {
+    if (isLanguageOpen && isSidebarCollapsed && languageButtonRef.current) {
+      const rect = languageButtonRef.current.getBoundingClientRect()
+      setDropdownPosition({
+        top: rect.top,
+        left: rect.right + 10
+      })
+    } else {
+      setDropdownPosition(null)
+    }
+  }, [isLanguageOpen, isSidebarCollapsed])
 
   return (
     <>
@@ -219,6 +234,7 @@ const Nav = () => {
               <div className={styles.languageSelectorContainer} ref={languageDropdownRef}>
                 <button
                   type="button"
+                  ref={languageButtonRef}
                   className={styles.languageButton}
                   onClick={() => setIsLanguageOpen(!isLanguageOpen)}
                   aria-label={t('languageSelector.title')}
@@ -226,7 +242,13 @@ const Nav = () => {
                   <img src={currentFlag} alt={i18n.language} className={styles.flagImg} />
                 </button>
                 {isLanguageOpen && (
-                  <div className={styles.languageDropdown}>
+                  <div
+                    className={`${styles.languageDropdown} ${isSidebarCollapsed ? styles.languageDropdownCollapsed : ''}`}
+                    style={isSidebarCollapsed && dropdownPosition ? {
+                      top: dropdownPosition.top,
+                      left: dropdownPosition.left
+                    } : undefined}
+                  >
                     {languages.map((language) => (
                       <button
                         type="button"
@@ -235,22 +257,20 @@ const Nav = () => {
                         onClick={() => handleLanguageChange(language.code)}
                       >
                         <img src={flagMap[language.code] || esFlag} alt={language.code} className={styles.flagImg} />
-                        <span className={`${styles.languageName} ${styles.linkText}`}>{language.name}</span>
+                        <span className={`${styles.languageName} ${isSidebarCollapsed ? '' : styles.linkText}`}>{language.name}</span>
                       </button>
                     ))}
                   </div>
                 )}
               </div>
-              <div className={styles.themeBox}>
-                <button
-                  type="button"
-                  className={styles.themeButton}
-                  onClick={toggleTheme}
-                  aria-label={t('nav.toggleTheme')}
-                >
-                  {dark ? <Sun size={20} /> : <Moon size={20} />}
-                </button>
-              </div>
+              <button
+                type="button"
+                className={styles.themeButton}
+                onClick={toggleTheme}
+                aria-label={t('nav.toggleTheme')}
+              >
+                {dark ? <Sun size={18} strokeWidth={2.5} /> : <Moon size={18} strokeWidth={2.5} />}
+              </button>
             </div>
             <div className={styles.userSection}>
               {user && (

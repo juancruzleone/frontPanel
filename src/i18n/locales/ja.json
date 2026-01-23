@@ -1228,6 +1228,7 @@
     "workType": "作業タイプ",
     "type": "タイプ",
     "installation": "設置",
+    "noInstallation": "設置なし",
     "assignedTechnician": "担当技術者",
     "observations": "観察事項",
     "additionalInfo": "追加情報",

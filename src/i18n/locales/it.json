@@ -337,6 +337,7 @@
     "scheduled": "Programmato",
     "at": "alle",
     "installation": "Installazione",
+    "noInstallation": "Nessuna installazione",
     "startOrder": "Avvia ordine",
     "completeOrder": "Completa ordine",
     "assignTechnician": "Assegna tecnico",
