@@ -1,478 +1,380 @@
-/* Estilos para la página de Abonos Vigentes */
+/* Subscriptions Page - Fully Integrated Leonix Stark Design */
 .containerSubscriptions {
   margin: 0 auto;
-  padding: 32px 24px 32px 24px;
-  max-width: 1400px;
-  width: 100%;
+  padding: 32px 16px 24px 16px;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  color: var(--color-text);
+  min-height: unset;
+  position: static;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Title matching Installations/Dashboard */
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Main Controls Container - Matching Installation Card Style */
+.mainControls {
+  background: var(--color-card);
+  border-radius: 14px;
+  border: 1px solid black;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  color: var(--color-text);
-  box-sizing: border-box;
-}
-
-.title {
-  font-size: 1.875rem;
-  font-weight: 800;
-  color: var(--color-text);
-  margin: 0 0 0.25rem 0;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  text-align: left;
-}
-
-.subtitle {
-  font-size: 1rem;
-  color: var(--color-text);
-  opacity: 0.6;
-  margin: 0;
-  font-weight: 400;
-}
-
-.searchContainer {
-  width: 100%;
-}
-
-/* Estilos para los filtros */
-.filtersContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  background: var(--color-card);
-  padding: 20px 24px;
-  border-radius: 16px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-  border: 1px solid var(--color-card-border);
-}
-
-.additionalFilters {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  align-items: center;
-  padding-top: 12px;
-  border-top: 1px solid var(--color-card-border);
-}
-
-.filterSelect {
-  padding: 12px 16px;
-  border: 2px solid var(--color-card-border);
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  min-width: 180px;
-  background-color: var(--color-card);
-  color: var(--color-text);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
-
-.filterSelect:hover {
-  border-color: var(--color-secondary);
-  box-shadow: 0 4px 8px rgba(5, 126, 116, 0.15);
-  transform: translateY(-1px);
-}
-
-.filterSelect:focus {
-  outline: none;
-  border-color: var(--color-secondary);
-  box-shadow: 0 0 0 3px rgba(5, 126, 116, 0.1);
-}
-
-.clearFilters {
-  padding: 12px 20px;
-  background: linear-gradient(135deg, var(--color-danger) 0%, #dc3545 100%);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.2);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 140px;
-  justify-content: center;
   position: relative;
-  overflow: hidden;
-  font-family: inherit;
+  overflow: visible;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
-.clearFilters::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-  transition: left 0.5s;
+:global(.dark) .mainControls {
+  border-color: white;
 }
 
-.clearFilters:hover {
-  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(220, 53, 69, 0.3);
-}
-
-.clearFilters:hover::before {
-  left: 100%;
-}
-
-.clearFilters:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.2);
-}
-
-.clearFilters:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.2), 0 2px 8px rgba(220, 53, 69, 0.2);
-}
-
-/* Estilos para modo oscuro */
-.dark .filterSelect {
-  color: #fff;
-  background-color: var(--color-card);
-  border-color: var(--color-card-border);
-}
-
-.dark .clearFilters {
-  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
-}
-
-.dark .clearFilters:hover {
-  background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
-  box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4);
-}
-
-.dark .clearFilters:focus {
-  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.3), 0 2px 8px rgba(220, 53, 69, 0.3);
-}
-
-/* Responsive design para filtros */
-@media (max-width: 768px) {
-  .filtersContainer {
-    padding: 16px;
-  }
-
-  .additionalFilters {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .filterSelect {
-    min-width: 100% !important;
-    width: 100% !important;
-    height: 48px !important;
-    box-sizing: border-box;
-    font-size: 15px;
-  }
-
-  .clearFilters {
-    min-width: 100%;
-    padding: 14px 20px;
-    font-size: 15px;
-  }
-}
-
-.tableContainer {
-  background: var(--color-card);
-  border-radius: 20px;
-  border: 1px solid var(--color-card-border);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
-  overflow: hidden;
-}
-
-/* Wrapper para scroll horizontal en tablas */
-.tableWrapper {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-secondary) var(--color-bg-light);
-}
-
-.tableWrapper::-webkit-scrollbar {
-  height: 8px;
-}
-
-.tableWrapper::-webkit-scrollbar-track {
-  background: var(--color-bg-light);
-  border-radius: 4px;
-}
-
-.tableWrapper::-webkit-scrollbar-thumb {
-  background: var(--color-secondary);
-  border-radius: 4px;
-}
-
-.tableWrapper::-webkit-scrollbar-thumb:hover {
-  background: var(--color-secondary-hover);
-}
-
-.table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  font-size: 0.9rem;
-  min-width: 1100px;
-  table-layout: fixed;
-}
-
-/* Header de la tabla - Estilo moderno */
-.tableHeader {
-  background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-card) 100%);
-  position: relative;
-}
-
-.tableHeader::before {
-  content: "";
+.mainControls::before {
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.6) 100%);
+  background: linear-gradient(90deg, black, rgba(0, 0, 0, 0.8));
+  border-radius: 14px 14px 0 0;
 }
 
-.tableHeader th {
-  padding: 1.25rem 1.5rem;
-  text-align: center;
-  font-weight: 700;
-  font-size: 0.75rem;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+:global(.dark) .mainControls::before {
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
+}
+
+.tabsContainer {
+  display: flex;
+  gap: 8px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-card-border);
+  overflow-x: auto;
+}
+
+.tab {
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid black;
+  background: var(--color-bg-light);
   color: var(--color-text);
-  opacity: 0.7;
-  border-bottom: 2px solid var(--color-text);
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-card) 100%);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   white-space: nowrap;
 }
 
-/* Column widths for proper alignment */
-.tableHeader th:nth-child(1) {
-  width: 180px;
-  min-width: 180px;
+:global(.dark) .tab {
+  border-color: white;
 }
 
-.tableHeader th:nth-child(2) {
-  width: 220px;
-  min-width: 220px;
+.tab:hover {
+  background: var(--color-card);
+  transform: translateY(-1px);
 }
 
-.tableHeader th:nth-child(3) {
-  width: 130px;
-  min-width: 130px;
+.activeTab {
+  background: var(--color-text) !important;
+  color: var(--color-card) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.tableHeader th:nth-child(4) {
-  width: 140px;
-  min-width: 140px;
+.tabBadge {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
 }
 
-.tableHeader th:nth-child(5) {
-  width: 120px;
-  min-width: 120px;
+:global(.dark) .tabBadge {
+  background: rgba(255, 255, 255, 0.1);
 }
 
-.tableHeader th:nth-child(6) {
-  width: 100px;
-  min-width: 100px;
+.activeTab .tabBadge {
+  background: rgba(255, 255, 255, 0.2);
 }
 
-.tableHeader th:nth-child(7) {
-  width: 110px;
-  min-width: 110px;
+/* Filters */
+.filtersWrapper {
+  display: flex;
+  gap: 16px;
+  align-items: center;
 }
 
-.tableHeader th:nth-child(8) {
-  width: 110px;
-  min-width: 110px;
+.searchBox {
+  flex: 1;
 }
 
-.tableHeader th:nth-child(9) {
-  width: 80px;
-  min-width: 80px;
+.filterActions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
-/* Apply same widths to table cells - using table tbody td */
-.table tbody td:nth-child(1) {
-  width: 180px;
-  min-width: 180px;
+.resetButton {
+  padding: 8px;
+  border-radius: 8px;
+  background: var(--color-danger);
+  color: white;
+  border: 1px solid var(--color-danger);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.table tbody td:nth-child(2) {
-  width: 220px;
-  min-width: 220px;
+:global(.dark) .resetButton {
+  border-color: var(--color-danger);
 }
 
-.table tbody td:nth-child(3) {
-  width: 130px;
-  min-width: 130px;
+.resetButton:hover {
+  background: #bd2130;
+  border-color: #bd2130;
+  transform: rotate(90deg);
+  color: white;
 }
 
-.table tbody td:nth-child(4) {
-  width: 140px;
-  min-width: 140px;
+/* Table Container - Stark Design, No Scroll */
+.tableContainer {
+  background: var(--color-card);
+  border-radius: 14px;
+  border: 1px solid black;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-.table tbody td:nth-child(5) {
-  width: 120px;
-  min-width: 120px;
+:global(.dark) .tableContainer {
+  border-color: white;
 }
 
-.table tbody td:nth-child(6) {
-  width: 100px;
-  min-width: 100px;
+.tableContainer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, black, rgba(0, 0, 0, 0.8));
+  z-index: 10;
+  border-radius: 14px 14px 0 0;
 }
 
-.table tbody td:nth-child(7) {
-  width: 110px;
-  min-width: 110px;
+:global(.dark) .tableContainer::before {
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
 }
 
-.table tbody td:nth-child(8) {
-  width: 110px;
-  min-width: 110px;
+.tableWrapper {
+  width: 100%;
 }
 
-.table tbody td:nth-child(9) {
-  width: 80px;
-  min-width: 80px;
+.table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.tableHeader th:first-child {
-  padding-left: 2rem;
+.tableHeader th {
+  padding: 16px 24px;
+  text-align: center;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  color: var(--color-text);
+  background: var(--color-bg-light);
+  border-bottom: 2px solid black;
 }
 
-.tableHeader th:last-child {
-  padding-right: 2rem;
+:global(.dark) .tableHeader th {
+  border-bottom-color: white;
 }
 
-/* Filas de la tabla - Estilo card moderno */
 .tableRow {
   border-bottom: 1px solid var(--color-card-border);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  background: var(--color-card);
-}
-
-.tableRow:hover {
-  background: linear-gradient(90deg, rgba(5, 126, 116, 0.05) 0%, rgba(5, 126, 116, 0.02) 50%, transparent 100%);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: background 0.2s;
 }
 
 .tableRow:last-child {
   border-bottom: none;
 }
 
-/* Celdas de la tabla - Mayor espaciado */
+.tableRow:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="dark"] .tableRow:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
 .tableCell {
-  padding: 1.5rem 1.5rem;
-  color: var(--color-text);
-  vertical-align: middle;
-  line-height: 1.5;
+  padding: 18px 24px;
   text-align: center;
+  vertical-align: middle;
 }
 
-.tableCell:first-child {
-  padding-left: 2rem;
+/* Installation Cell - usually left aligned for better reading */
+.installationCell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
 }
 
-.tableCell:last-child {
-  padding-right: 2rem;
-}
-
-/* Nombre de instalación - Destacado */
 .installationName {
   font-weight: 700;
   font-size: 1rem;
   color: var(--color-text);
-  margin-bottom: 0.25rem;
-  line-height: 1.4;
 }
 
-/* Dirección - Más legible */
-.address {
-  color: var(--color-text);
-  opacity: 0.65;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  max-width: 280px;
-}
-
-/* Badge de tipo de instalación - Más elegante */
-.installationType {
-  background: linear-gradient(135deg, var(--color-secondary) 0%, #048a7f 100%);
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border-radius: 24px;
+.installationAddress {
   font-size: 0.8rem;
-  font-weight: 600;
+  opacity: 0.7;
+}
+
+.typeBadge {
   display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  box-shadow: 0 2px 8px rgba(5, 126, 116, 0.25);
-  white-space: nowrap;
-  letter-spacing: 0.2px;
-}
-
-/* Modo oscuro para installationType */
-[data-theme="dark"] .installationType {
-  color: #fff;
-  box-shadow: 0 2px 12px rgba(5, 126, 116, 0.35);
-}
-
-/* Frecuencia - Mejor legibilidad */
-.frequency {
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: var(--color-secondary);
+  color: white;
   font-weight: 600;
-  font-size: 0.9rem;
-  color: var(--color-text);
-  background: var(--color-bg-light);
-  padding: 0.375rem 0.75rem;
-  border-radius: 8px;
-  display: inline-block;
+  font-size: 0.75rem;
 }
 
-.frequencyCell {
+.frequencyGroup {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.editFrequencyButton {
-  background: none;
-  border: none;
-  padding: 8px;
-  color: var(--color-text);
-  cursor: pointer;
-  display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
-  position: relative;
+  gap: 8px;
+  width: 100%;
+}
+
+.frequencyText {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.actionIcon {
+  width: 36px;
+  height: 36px;
   border-radius: 8px;
-  width: 32px;
-  height: 32px;
-  font-size: 16px;
-  margin-left: 0;
+  border: 1px solid black;
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0;
+  position: relative;
+  flex-shrink: 0;
 }
 
-.editFrequencyButton:hover {
+:global(.dark) .actionIcon {
+  border-color: white;
+}
+
+.actionIcon:hover {
   background: var(--color-text);
-  transform: scale(1.05);
   color: var(--color-card);
-  border: 1px solid var(--color-text);
+  transform: translateY(-2px);
 }
 
-.editFrequencyButton::after {
+.statusPill {
+  display: inline-flex;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.75rem;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+}
+
+/* Integration with global colors for status */
+.active {
+  color: #057E74;
+  background: rgba(5, 126, 116, 0.1);
+}
+
+.pending {
+  color: #B28B00;
+  background: rgba(178, 139, 0, 0.1);
+}
+
+.inactive {
+  color: #D40000;
+  background: rgba(212, 0, 0, 0.1);
+}
+
+/* Actions Group */
+.actionsGroup {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.actionBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid black;
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0;
+  position: relative;
+  flex-shrink: 0;
+}
+
+:global(.dark) .actionBtn {
+  border-color: white;
+}
+
+.actionBtn:hover {
+  background: var(--color-text);
+  color: var(--color-card);
+  transform: translateY(-2px);
+}
+
+/* Tooltip style matching Installations */
+.actionBtn[data-tooltip]::after,
+.actionIcon[data-tooltip]::after {
   content: attr(data-tooltip);
   position: absolute;
   bottom: 125%;
@@ -480,1218 +382,107 @@
   transform: translateX(-50%);
   background-color: var(--color-text);
   color: var(--color-card);
-  padding: 8px 12px;
-  font-size: 12px;
+  padding: 6px 10px;
+  font-size: 11px;
   font-weight: 500;
   white-space: nowrap;
-  border-radius: 8px;
+  border-radius: 6px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
-  z-index: 10;
+  z-index: 100;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.editFrequencyButton::before {
-  content: '';
-  position: absolute;
-  bottom: 115%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 6px solid transparent;
-  border-top-color: var(--color-text);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-  z-index: 10;
-}
-
-.editFrequencyButton:hover::after,
-.editFrequencyButton:hover::before {
+.actionBtn:hover::after,
+.actionIcon:hover::after {
   opacity: 1;
 }
 
-/* Botón para ver meses - Estilo moderno */
-.viewMonthsButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.625rem 1.25rem;
-  background: linear-gradient(135deg, var(--color-secondary) 0%, #048a7f 100%);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(5, 126, 116, 0.25);
-  letter-spacing: 0.2px;
-}
-
-.viewMonthsButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(5, 126, 116, 0.35);
-  background: linear-gradient(135deg, #048a7f 0%, #036b63 100%);
-}
-
-.viewMonthsButton:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(5, 126, 116, 0.25);
-}
-
-.selectWrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-.selectWrapper.small {
-  max-width: 200px;
-}
-
-.selectWrapper.medium {
-  max-width: 300px;
-}
-
-.selectWrapper.large {
-  max-width: 400px;
-}
-
-.selectPrefixIcon {
-  position: absolute;
-  left: 12px;
-  z-index: 2;
-  color: var(--color-primary);
-  opacity: 0.8;
-}
-
-.selectPrefixIcon.dark {
-  color: var(--color-primary-light);
-}
-
-.selectPrefixIcon.light {
-  color: var(--color-primary);
-}
-
-.frequencySelect {
-  width: 100%;
-  padding: 0.875rem 1rem;
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
-  border: 2px solid var(--color-card-border);
-  border-radius: 12px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  background: var(--color-card);
-  color: var(--color-text);
-  font-family: inherit;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  cursor: pointer;
-}
-
-.frequencySelect:focus {
-  outline: none;
-  border-color: white;
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
-  background: var(--color-bg-light);
-}
-
-.frequencySelect:hover:not(:disabled) {
-  border-color: white;
-  background: var(--color-bg-light);
-}
-
-.frequencySelect:disabled {
-  background: var(--color-skeleton);
-  color: var(--color-skeleton-light);
-  cursor: not-allowed;
-  opacity: 0.6;
-}
-
-.selectIcon {
-  position: absolute;
-  right: 12px;
-  z-index: 2;
-  pointer-events: none;
-  transition: transform 0.2s ease;
-  color: var(--color-text);
-}
-
-/* Modo claro para selectIcon */
-:root .selectIcon,
-[data-theme="light"] .selectIcon {
-  color: #000;
-}
-
-/* Modo oscuro para selectIcon */
-[data-theme="dark"] .selectIcon {
-  color: #fff;
-}
-
-.selectIcon.dark {
-  color: var(--color-text-light);
-}
-
-.selectIcon.light {
-  color: #000;
-}
-
-.frequencySelect:focus+.selectIcon {
-  transform: rotate(180deg);
-}
-
-.monthsContainer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-  max-width: 300px;
-}
-
-.monthTag {
-  background: var(--color-secondary);
-  color: white;
-  padding: 0.125rem 0.5rem;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-/* Estados - Badges elegantes con indicador visual */
-.status {
-  padding: 0.5rem 1rem;
-  border-radius: 24px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-align: center;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  letter-spacing: 0.3px;
-  text-transform: capitalize;
-}
-
-.status::before {
-  content: '';
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0.9;
-}
-
-.status.active {
-  background: linear-gradient(135deg, rgba(5, 150, 105, 0.15) 0%, rgba(5, 150, 105, 0.08) 100%);
-  color: #059669;
-  border: 1px solid rgba(5, 150, 105, 0.2);
-}
-
-.status.inactive {
-  background: linear-gradient(135deg, rgba(220, 38, 38, 0.15) 0%, rgba(220, 38, 38, 0.08) 100%);
-  color: #dc2626;
-  border: 1px solid rgba(220, 38, 38, 0.2);
-}
-
-.status.pending {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(245, 158, 11, 0.08) 100%);
-  color: #d97706;
-  border: 1px solid rgba(245, 158, 11, 0.2);
-}
-
-/* Modo oscuro para estados */
-[data-theme="dark"] .status.active {
-  background: linear-gradient(135deg, rgba(5, 150, 105, 0.25) 0%, rgba(5, 150, 105, 0.15) 100%);
-  color: #34d399;
-}
-
-[data-theme="dark"] .status.inactive {
-  background: linear-gradient(135deg, rgba(220, 38, 38, 0.25) 0%, rgba(220, 38, 38, 0.15) 100%);
-  color: #f87171;
-}
-
-[data-theme="dark"] .status.pending {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(245, 158, 11, 0.15) 100%);
-  color: #fbbf24;
-}
-
-/* Paginación - Diseño moderno */
+/* Pagination */
 .pagination {
+  padding: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 12px;
-  margin: 0;
-  padding: 1.5rem 2rem;
-  background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-card) 100%);
-  border-top: 2px solid var(--color-text);
-  position: relative;
-}
-
-.pagination::before {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.6) 100%);
+  gap: 16px;
+  background: var(--color-bg-light);
+  border-top: 1px solid var(--color-card-border);
 }
 
 .pagination button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid black;
   background: var(--color-card);
   color: var(--color-text);
-  border: 1px solid var(--color-card-border);
-  border-radius: 12px;
-  padding: 0.75rem 1.25rem;
-  font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family: inherit;
-  min-width: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+:global(.dark) .pagination button {
+  border-color: white;
 }
 
 .pagination button:hover:not(:disabled) {
-  background: var(--color-secondary);
-  color: white;
-  border-color: var(--color-secondary);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.25);
+  background: var(--color-text);
+  color: var(--color-card);
 }
 
 .pagination button:disabled {
-  background: var(--color-bg-light);
-  color: var(--color-text);
   opacity: 0.4;
   cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
 }
 
-.pagination span {
-  color: var(--color-text);
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.loader {
-  text-align: center;
-  padding: 2rem;
-  font-size: 16px;
-  color: white;
-  font-weight: 600;
-}
-
-.error {
-  text-align: center;
-  padding: 2rem;
-  font-size: 16px;
-  color: var(--color-danger);
-  font-weight: 600;
-}
-
-.emptyMessage {
-  text-align: center;
-  color: var(--color-text);
-  opacity: 0.7;
-  font-size: 16px;
-  padding: 2rem;
-}
-
-/* Estilos para el modal */
-.modalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+/* Empty State */
+.emptyState {
+  padding: 60px 40px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  z-index: 1000;
-  padding: 1rem;
+  gap: 16px;
+  color: var(--color-text-secondary);
 }
 
-.modal {
-  background: var(--color-card);
-  border-radius: 16px;
-  border: 1px solid var(--color-card-border);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-  max-width: 500px;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-.modalHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem;
-  border-bottom: 1px solid var(--color-card-border);
-}
-
-.modalTitle {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--color-text);
-  margin: 0;
-}
-
-.closeButton {
-  background: none;
-  border: none;
-  font-size: 2rem;
-  color: var(--color-text);
-  cursor: pointer;
-  padding: 0.5rem;
+.emptyIcon {
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  background: var(--color-bg-light);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-.closeButton:hover {
-  background: var(--color-bg-light);
   color: var(--color-text);
-  transform: scale(1.1);
+  border: 1px solid black;
 }
 
-.closeButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.modalContent {
-  padding: 1.5rem;
-}
-
-.subscriptionInfo {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background: var(--color-bg-light);
-  border-radius: 12px;
-  border: 1px solid var(--color-card-border);
-}
-
-.subscriptionInfo h3 {
-  margin: 0 0 0.5rem 0;
-  color: white;
-  font-size: 1.1rem;
-}
-
-/* Modo claro para subscriptionInfo h3 */
-:root .subscriptionInfo h3,
-[data-theme="light"] .subscriptionInfo h3 {
-  color: #000;
-}
-
-/* Modo oscuro para subscriptionInfo h3 */
-[data-theme="dark"] .subscriptionInfo h3 {
-  color: white;
-}
-
-.subscriptionInfo p {
-  margin: 0.25rem 0;
-  color: var(--color-text);
-  font-size: 0.95rem;
-}
-
-.frequencyForm {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.formGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.formGroup label {
-  font-weight: 600;
-  color: var(--color-text);
-  font-size: 0.95rem;
-}
-
-.monthsLabel {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 600;
-  color: var(--color-text);
-  font-size: 0.95rem;
-}
-
-.monthsPreview {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  padding: 1rem;
-  background: var(--color-bg-light);
-  border: 1px solid var(--color-card-border);
-  border-radius: 12px;
-  min-height: 60px;
-  align-items: flex-start;
-}
-
-.monthTag {
-  background: var(--color-secondary);
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  white-space: nowrap;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.modalActions {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-  margin-top: 1rem;
-}
-
-.cancelButton {
-  padding: 0.75rem 1.5rem;
-  background: var(--color-card);
-  border: 2px solid var(--color-card-border);
-  border-radius: 12px;
-  color: var(--color-text);
-  font-size: 0.95rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: inherit;
-}
-
-/* Modo claro para cancelButton */
-:root .cancelButton,
-[data-theme="light"] .cancelButton {
-  border-color: #000;
-  color: #000;
-}
-
-:root .cancelButton:hover:not(:disabled),
-[data-theme="light"] .cancelButton:hover:not(:disabled) {
-  background: rgba(0, 0, 0, 0.05);
-  border-color: #000;
-  color: #000;
-}
-
-/* Modo oscuro para cancelButton */
-[data-theme="dark"] .cancelButton:hover:not(:disabled) {
-  background: var(--color-bg-light);
-  border-color: var(--color-card-border);
-}
-
-.saveButton {
-  padding: 0.75rem 1.5rem;
-  background: var(--color-primary);
-  border: 2px solid var(--color-primary);
-  border-radius: 12px;
-  color: white;
-  font-size: 0.95rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: inherit;
-}
-
-.saveButton:hover:not(:disabled) {
-  background: rgba(255, 255, 255, 0.9);
-  color: white;
+:global(.dark) .emptyIcon {
   border-color: white;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.saveButton:disabled {
-  background: var(--color-skeleton);
-  border-color: var(--color-skeleton);
-  cursor: not-allowed;
-  transform: none;
-}
-
-.inputDate {
-  width: 100%;
-  padding: 0.5rem 2.2rem 0.5rem 0.75rem;
-  border-radius: 8px;
-  border: 1px solid var(--color-card-border);
-  background: var(--color-bg-light);
-  color: var(--color-text);
-  font-size: 1rem;
-  margin-top: 0.25rem;
-  margin-bottom: 0.5rem;
-  min-height: 44px;
-  height: 44px;
-  box-sizing: border-box;
-  appearance: none;
-  cursor: pointer;
-}
-
-.inputDate:focus {
-  outline: 2px solid var(--color-primary);
-}
-
-/* Estilos para HybridSelect en formularios de suscripciones */
-.statusSelect {
-  width: 100%;
-  margin-top: 0.25rem;
-  margin-bottom: 0.5rem;
-  position: relative;
-}
-
-/* Sobrescribir estilos del HybridSelect para que coincidan con el diseño del formulario */
-.statusSelect :global(.hybridSelectWrapper) {
-  width: 100% !important;
-  position: relative;
-}
-
-.statusSelect :global(.hybridSelect) {
-  width: 100% !important;
-  padding: 0.5rem 0.75rem !important;
-  border-radius: 8px !important;
-  border: 1px solid var(--color-card-border) !important;
-  background: var(--color-bg-light) !important;
-  color: var(--color-text) !important;
-  font-size: 1rem !important;
-  min-height: 44px !important;
-  height: 44px !important;
-  box-sizing: border-box !important;
-  cursor: pointer !important;
-}
-
-.statusSelect :global(.hybridSelect):focus {
-  outline: 2px solid var(--color-primary) !important;
-  border-color: var(--color-primary) !important;
-}
-
-/* Asegurar que no haya elementos superpuestos */
-.statusSelect::before,
-.statusSelect::after {
-  display: none !important;
-}
-
-.statusSelect * {
-  position: relative;
-}
-
-.closeButtonIcon {
-  background: none;
-  border: none;
-  padding: 4px;
-  margin-left: 8px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s;
-  color: var(--color-text);
-  width: 32px;
-  height: 32px;
-}
-
-.closeButtonIcon:hover:not(:disabled) {
-  background: var(--color-card-border);
-  color: var(--color-primary);
-  box-shadow: none;
-  transform: none;
-}
-
-.closeButtonIcon:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.monthTagSelectable {
-  border: 1.5px solid var(--color-secondary);
-  background: var(--color-bg-light);
-  color: var(--color-secondary);
-  transition: background 0.2s, color 0.2s;
-}
-
-.monthTagSelectable:hover {
-  background: var(--color-secondary);
-  color: #fff;
-}
-
-.monthTagSelected {
-  background: var(--color-secondary);
-  color: #fff;
-  border: 1.5px solid var(--color-secondary);
-}
-
-.monthsHelp {
-  font-size: 0.95em;
-  color: var(--color-text-secondary);
-  margin-top: 0.25rem;
-}
-
-/* Modo claro para monthsHelp */
-:root .monthsHelp,
-[data-theme="light"] .monthsHelp {
-  color: #333;
-}
-
-/* Modo oscuro para monthsHelp */
-[data-theme="dark"] .monthsHelp {
-  color: var(--color-text-secondary);
-}
-
-/* Estilos para selectIcon solo en elementos select nativos, no en HybridSelect */
-.formGroup select+.selectIcon {
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  z-index: 2;
-  height: 20px;
-  width: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.errorInput {
-  border-color: var(--color-danger) !important;
-  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
-  background: var(--color-card) !important;
-  color: var(--color-text) !important;
-}
-
-.inputError {
-  color: var(--color-danger);
-  font-size: 0.875rem;
-  margin: 0;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.inputError::before {
-  content: '⚠';
-  font-size: 1rem;
-}
-
-.calendarIconButton {
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  box-shadow: none;
-  cursor: pointer;
-  z-index: 2;
-  color: var(--color-text);
-}
-
-/* Modo claro para calendarIconButton */
-:root .calendarIconButton,
-[data-theme="light"] .calendarIconButton {
-  color: #000;
-}
-
-/* Modo oscuro para calendarIconButton */
-[data-theme="dark"] .calendarIconButton {
-  color: #fff;
-}
-
-.calendarIconButton:hover,
-.calendarIconButton:focus,
-.calendarIconButton:active {
-  background: none !important;
-  box-shadow: none !important;
-  transform: translateY(-50%) !important;
-  scale: 1 !important;
-}
-
-/* Mantener color en hover/focus/active según el tema */
-:root .calendarIconButton:hover,
-:root .calendarIconButton:focus,
-:root .calendarIconButton:active,
-[data-theme="light"] .calendarIconButton:hover,
-[data-theme="light"] .calendarIconButton:focus,
-[data-theme="light"] .calendarIconButton:active {
-  color: #000 !important;
-}
-
-[data-theme="dark"] .calendarIconButton:hover,
-[data-theme="dark"] .calendarIconButton:focus,
-[data-theme="dark"] .calendarIconButton:active {
-  color: #fff !important;
-}
-
-/* Modo oscuro y claro */
-:root {
-  --color-bg-light: #fff;
-  --color-card: #f8f9fa;
-  --color-card-border: #e0e0e0;
-  --color-text: #222;
-  --color-subscription-primary: #007bff;
-}
-
-[data-theme="dark"] {
-  --color-bg-light: #23272f;
-  --color-card: #23272f;
-  --color-card-border: #353b48;
-  --color-text: #f5f6fa;
-  --color-subscription-primary: #4f8cff;
-}
-
-/* Estilos responsivos */
-@media (max-width: 1200px) {
-  .tableContainer {
-    overflow-x: auto;
-  }
-
-  .table {
-    min-width: 1000px;
-  }
-}
-
+/* Mobile Responsive */
 @media (max-width: 900px) {
-  .containerSubscriptions {
-    padding: 24px 12px 16px 12px;
-    gap: 24px;
+  .filtersWrapper {
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  .title {
-    font-size: 28px;
-  }
-
-  .subtitle {
-    font-size: 16px;
-  }
-
-  .tableHeader th,
-  .tableCell {
-    padding: 0.75rem 0.5rem;
-    font-size: 0.9rem;
-  }
-
-  .monthsContainer {
-    max-width: 200px;
-  }
-
-  .monthTag {
-    font-size: 0.7rem;
-    padding: 0.1rem 0.4rem;
+  .tableHeader th:nth-child(2),
+  .tableHeader th:nth-child(3),
+  .tableCell:nth-child(2),
+  .tableCell:nth-child(3) {
+    display: none;
   }
 }
 
 @media (max-width: 600px) {
   .containerSubscriptions {
-    padding: 16px 8px 12px 8px;
-    gap: 16px;
+    padding: 12px 8px;
   }
 
   .title {
     font-size: 24px;
-    margin-top: 24px;
+    margin-top: 16px;
   }
-
-  .subtitle {
-    font-size: 14px;
-  }
-
-  .tableHeader th,
-  .tableCell {
-    padding: 0.5rem 0.25rem;
-    font-size: 0.85rem;
-  }
-
-  .monthsContainer {
-    max-width: 150px;
-  }
-
-  .monthTag {
-    font-size: 0.65rem;
-    padding: 0.075rem 0.3rem;
-  }
-
-  .pagination {
-    gap: 4px;
-  }
-
-  .pagination button {
-    padding: 6px 12px;
-    font-size: 12px;
-    min-width: 36px;
-  }
-
-  /* Responsive para el selector de frecuencia */
-  .selectWrapper.small,
-  .selectWrapper.medium,
-  .selectWrapper.large {
-    max-width: 100%;
-  }
-
-  .frequencySelect {
-    font-size: 0.9rem;
-    padding: 0.75rem 0.875rem;
-    padding-left: 2.25rem;
-    padding-right: 2.25rem;
-  }
-
-  .selectPrefixIcon {
-    left: 10px;
-  }
-
-  .selectIcon {
-    right: 10px;
-  }
-
-  /* Responsive para el modal */
-  .modal {
-    margin: 1rem;
-    max-width: calc(100vw - 2rem);
-  }
-
-  .modalContent {
-    padding: 1rem;
-  }
-
-  .monthsPreview {
-    padding: 0.75rem;
-    gap: 0.375rem;
-  }
-
-  .monthTag {
-    font-size: 0.8rem;
-    padding: 0.2rem 0.6rem;
-  }
-
-  .modalActions {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .cancelButton,
-  .saveButton {
-    width: 100%;
-    padding: 0.875rem 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .frequencySelect {
-    font-size: 0.85rem;
-    padding: 0.625rem 0.75rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-
-  .selectPrefixIcon {
-    left: 8px;
-  }
-
-  .selectIcon {
-    right: 8px;
-  }
-
-  .monthsPreview {
-    padding: 0.5rem;
-    gap: 0.25rem;
-  }
-
-  .monthTag {
-    font-size: 0.75rem;
-    padding: 0.15rem 0.5rem;
-  }
-}
-
-/* ============================================ */
-/* Estilos para botón de subir documento PDF   */
-/* ============================================ */
-
-.actionsCell {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  justify-content: center;
-}
-
-.uploadDocumentButton {
-  background: none;
-  border: none;
-  padding: 8px;
-  color: var(--color-text);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  position: relative;
-  border-radius: 8px;
-  width: 32px;
-  height: 32px;
-  font-size: 16px;
-}
-
-.uploadDocumentButton:hover {
-  background: var(--color-text);
-  transform: scale(1.05);
-  color: var(--color-card);
-  border: 1px solid var(--color-text);
-}
-
-.uploadDocumentButton:active {
-  transform: scale(0.98);
-}
-
-/* Tooltip para el botón de subir documento */
-.uploadDocumentButton::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  bottom: 125%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--color-text);
-  color: var(--color-card);
-  padding: 8px 12px;
-  font-size: 12px;
-  font-weight: 500;
-  white-space: nowrap;
-  border-radius: 8px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-  z-index: 10;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.uploadDocumentButton::before {
-  content: '';
-  position: absolute;
-  bottom: 115%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 6px solid transparent;
-  border-top-color: var(--color-text);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-  z-index: 10;
-}
-
-.uploadDocumentButton:hover::after,
-.uploadDocumentButton:hover::before {
-  opacity: 1;
-}
-
-/* Modo claro para uploadDocumentButton */
-:root .uploadDocumentButton,
-[data-theme="light"] .uploadDocumentButton {
-  color: var(--color-text);
-}
-
-:root .uploadDocumentButton:hover,
-[data-theme="light"] .uploadDocumentButton:hover {
-  background: var(--color-text);
-  color: var(--color-card);
-  border: 1px solid var(--color-text);
-}
-
-/* Modo oscuro para uploadDocumentButton */
-[data-theme="dark"] .uploadDocumentButton {
-  color: var(--color-text);
-}
-
-[data-theme="dark"] .uploadDocumentButton:hover {
-  background: var(--color-text);
-  color: var(--color-card);
-  border: 1px solid var(--color-text);
-}
-
-/* Estilo para celdas de fecha */
-.dateCell {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--color-text);
-  white-space: nowrap;
-  display: flex;
-  flex-direction: column;
-  gap: 0.125rem;
-}
-
-.dateValue {
-  font-weight: 600;
-  color: var(--color-text);
-}
-
-.dateLabel {
-  font-size: 0.75rem;
-  opacity: 0.6;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* Responsive mejorado para la tabla */
-@media (max-width: 1200px) {
-  .tableCell {
-    padding: 1.25rem 1rem;
-  }
-
-  .tableCell:first-child {
-    padding-left: 1.5rem;
-  }
-
-  .tableCell:last-child {
-    padding-right: 1.5rem;
-  }
-
-  .tableHeader th {
-    padding: 1rem 1rem;
-  }
-
-  .tableHeader th:first-child {
-    padding-left: 1.5rem;
-  }
-
-  .tableHeader th:last-child {
-    padding-right: 1.5rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .tableContainer {
-    border-radius: 16px;
-    margin-top: 1rem;
-  }
-
-  .table {
-    min-width: 800px;
-  }
-
-  .tableCell {
-    padding: 1rem 0.75rem;
-  }
-
-  .tableCell:first-child {
-    padding-left: 1rem;
-  }
-
-  .tableCell:last-child {
-    padding-right: 1rem;
-  }
-
-  .tableHeader th {
-    padding: 0.875rem 0.75rem;
-    font-size: 0.7rem;
-  }
-
-  .tableHeader th:first-child,
-  .tableHeader th:last-child {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-
-  .installationName {
-    font-size: 0.9rem;
-  }
-
-  .address {
-    font-size: 0.8rem;
-    max-width: 200px;
-  }
-
-  .installationType {
-    padding: 0.375rem 0.75rem;
-    font-size: 0.75rem;
-  }
-
-  .viewMonthsButton {
-    padding: 0.5rem 0.875rem;
-    font-size: 0.8rem;
-  }
-
-  .status {
-    padding: 0.375rem 0.75rem;
-    font-size: 0.75rem;
-  }
-
-  .actionsCell {
-    flex-direction: row;
-    gap: 0.5rem;
-    justify-content: center;
-  }
-
-  .uploadDocumentButton {
-    width: 36px;
-    height: 36px;
-  }
-
-  .pagination {
-    padding: 1rem 1.5rem;
-    gap: 8px;
-  }
-
-  .pagination button {
-    padding: 0.625rem 1rem;
-    font-size: 0.8rem;
-    min-width: 40px;
-  }
-}
-
-/* Estilos para mensaje vacío mejorado */
-.emptyState {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 2rem;
-  text-align: center;
-  background: var(--color-card);
-  border-radius: 20px;
-  border: 1px solid var(--color-card-border);
-  margin-top: 1.5rem;
-}
-
-.emptyStateIcon {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 1.5rem;
-  opacity: 0.4;
-  color: var(--color-text);
-}
-
-.emptyStateTitle {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--color-text);
-  margin-bottom: 0.5rem;
-}
-
-.emptyStateText {
-  font-size: 0.95rem;
-  color: var(--color-text);
-  opacity: 0.6;
-  max-width: 400px;
 }

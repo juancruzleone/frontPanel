@@ -512,12 +512,8 @@ const Calendar = () => {
   return (
     <>
       <div className={styles.containerCalendar}>
-        <div className={styles.header}>
-          <h1 className={styles.title}>
-            {t('calendar.title')}
-          </h1>
-
-          <TimeZoneInfo showDetails={true} />
+        <div className={styles.topSection}>
+          <h1 className={styles.title}>{t('calendar.title')}</h1>
 
           <div className={styles.viewModeButtons}>
             <button

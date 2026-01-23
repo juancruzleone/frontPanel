@@ -79,7 +79,9 @@ const Subscriptions = () => {
     { label: translateMonthToCurrentLang('Diciembre', i18n.language), value: "Diciembre" },
   ], [t, i18n.language])
 
-  // Filtrar suscripciones por término de búsqueda y mes
+  const [selectedStatus, setSelectedStatus] = useState<string>("all")
+
+  // Filtrar suscripciones por término de búsqueda, mes y estado
   const filteredSubscriptions = useMemo(() => {
     const searchTermLower = searchTerm.toLowerCase()
 
@@ -93,7 +95,6 @@ const Subscriptions = () => {
         subscription.province || '',
         subscription.installationType || '',
         subscription.frequency || '',
-        ...subscription.months
       ]
 
       const matchesSearch = fieldsToSearch.some(
@@ -103,9 +104,12 @@ const Subscriptions = () => {
       // Filtro por mes
       const matchesMonth = !selectedMonthFilter || subscription.months.includes(selectedMonthFilter)
 
-      return matchesSearch && matchesMonth
+      // Filtro por estado
+      const matchesStatus = selectedStatus === "all" || subscription.status === selectedStatus
+
+      return matchesSearch && matchesMonth && matchesStatus
     })
-  }, [subscriptions, searchTerm, selectedMonthFilter])
+  }, [subscriptions, searchTerm, selectedMonthFilter, selectedStatus])
 
   // Cálculos de paginación
   const totalPages = Math.ceil(filteredSubscriptions.length / itemsPerPage)
@@ -234,39 +238,61 @@ const Subscriptions = () => {
 
   return (
     <div className={styles.containerSubscriptions}>
-      <div>
+      <div className={styles.topSection}>
         <h1 className={styles.title}>{t('subscriptions.title')}</h1>
-        <p className={styles.subtitle}>{t('subscriptions.subtitle')}</p>
       </div>
 
-      <div className={styles.filtersContainer} data-tour="search-filter-subscriptions">
-        <div className={styles.searchContainer}>
-          <SearchInput
-            placeholder={t('subscriptions.searchPlaceholder')}
-            onInputChange={(value) => setSearchTerm(value)}
-          />
+      <div className={styles.mainControls}>
+        <div className={styles.tabsContainer}>
+          {[
+            { id: 'all', label: t('common.all') },
+            { id: 'active', label: t('subscriptions.status.active') },
+            { id: 'pending', label: t('subscriptions.status.pending') },
+            { id: 'inactive', label: t('subscriptions.status.inactive') }
+          ].map(tab => (
+            <button
+              key={tab.id}
+              className={`${styles.tab} ${selectedStatus === tab.id ? styles.activeTab : ''}`}
+              onClick={() => setSelectedStatus(tab.id)}
+            >
+              {tab.label}
+              <span className={styles.tabBadge}>
+                {tab.id === 'all'
+                  ? subscriptions.length
+                  : subscriptions.filter(s => s.status === tab.id).length}
+              </span>
+            </button>
+          ))}
         </div>
 
-        <div className={styles.additionalFilters}>
-          <HybridSelect
-            value={selectedMonthFilter}
-            onChange={setSelectedMonthFilter}
-            options={monthOptions}
-            placeholder={t('subscriptions.filterByMonth')}
-            autoSize={true}
-          />
-
-          <button
-            onClick={() => {
-              setSearchTerm("")
-              setSelectedMonthFilter("")
-              setCurrentPage(1)
-            }}
-            className={styles.clearFilters}
-          >
-            <FilterX size={16} />
-            {t('calendar.clearFilters')}
-          </button>
+        <div className={styles.filtersWrapper}>
+          <div className={styles.searchBox}>
+            <SearchInput
+              placeholder={t('subscriptions.searchPlaceholder')}
+              onInputChange={(value) => setSearchTerm(value)}
+            />
+          </div>
+          <div className={styles.filterActions}>
+            <HybridSelect
+              value={selectedMonthFilter}
+              onChange={setSelectedMonthFilter}
+              options={monthOptions}
+              placeholder={t('subscriptions.filterByMonth')}
+              autoSize={true}
+            />
+            <button
+              onClick={() => {
+                setSearchTerm("")
+                setSelectedMonthFilter("")
+                setSelectedStatus("all")
+                setCurrentPage(1)
+              }}
+              className={styles.resetButton}
+              title={t('calendar.clearFilters')}
+            >
+              <FilterX size={18} />
+            </button>
+          </div>
         </div>
       </div>
 
@@ -276,107 +302,77 @@ const Subscriptions = () => {
             <Skeleton height={400} width="100%" style={{ borderRadius: 16 }} />
           </div>
         ) : filteredSubscriptions.length === 0 ? (
-          <p className={styles.emptyMessage}>
-            {searchTerm.trim() ? t('subscriptions.noSubscriptionsFound') : t('subscriptions.noSubscriptions')}
-          </p>
+          <div className={styles.emptyState}>
+            <div className={styles.emptyIcon}>
+              <FilterX size={48} />
+            </div>
+            <p className={styles.emptyMessage}>
+              {searchTerm.trim() ? t('subscriptions.noSubscriptionsFound') : t('subscriptions.noSubscriptions')}
+            </p>
+          </div>
         ) : (
           <>
             <div className={styles.tableWrapper}>
               <table className={styles.table}>
-                <colgroup>
-                  <col style={{ width: '180px' }} />
-                  <col style={{ width: '220px' }} />
-                  <col style={{ width: '130px' }} />
-                  <col style={{ width: '140px' }} />
-                  <col style={{ width: '120px' }} />
-                  <col style={{ width: '100px' }} />
-                  <col style={{ width: '110px' }} />
-                  <col style={{ width: '110px' }} />
-                  <col style={{ width: '80px' }} />
-                </colgroup>
-                <thead className={styles.tableHeader}>
-                  <tr>
-                    <th>{t('subscriptions.table.installation')}</th>
-                    <th>{t('subscriptions.table.address')}</th>
+                <thead>
+                  <tr className={styles.tableHeader}>
+                    <th style={{ textAlign: 'left' }}>{t('subscriptions.table.installation')}</th>
                     <th>{t('subscriptions.table.type')}</th>
                     <th>{t('subscriptions.table.frequency')}</th>
-                    <th>{t('subscriptions.table.months')}</th>
                     <th>{t('subscriptions.table.status')}</th>
-                    <th>{t('subscriptions.table.startDate')}</th>
-                    <th>{t('subscriptions.table.endDate')}</th>
                     <th>{t('subscriptions.table.actions')}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {paginatedSubscriptions.map((subscription) => (
                     <tr key={subscription._id} className={styles.tableRow}>
-                      <td className={styles.tableCell}>
-                        <div className={styles.installationName}>
-                          {subscription.installationName}
+                      <td className={styles.tableCell} style={{ textAlign: 'left' }}>
+                        <div className={styles.installationCell}>
+                          <div className={styles.installationName}>{subscription.installationName}</div>
+                          <div className={styles.installationAddress}>
+                            {subscription.address}, {subscription.city}
+                          </div>
                         </div>
                       </td>
                       <td className={styles.tableCell}>
-                        <div className={styles.address}>
-                          {subscription.address}, {subscription.city}, {subscription.province}
-                        </div>
-                      </td>
-                      <td className={styles.tableCell}>
-                        <span className={styles.installationType}>
+                        <div className={styles.typeBadge}>
                           {subscription.installationType}
-                        </span>
+                        </div>
                       </td>
                       <td className={styles.tableCell}>
-                        <div className={styles.frequencyCell}>
-                          <span className={styles.frequency}>
+                        <div className={styles.frequencyGroup}>
+                          <span className={styles.frequencyText}>
                             {translateFrequencyToCurrentLang(subscription.frequency, i18n.language)}
                           </span>
                           <button
-                            className={styles.editFrequencyButton}
+                            className={styles.actionIcon}
                             onClick={() => handleEditFrequency(subscription)}
-                            aria-label={t('subscriptions.editFrequency')}
                             title={t('subscriptions.editFrequency')}
-                            type="button"
                             data-tooltip={t('subscriptions.editFrequency')}
-                            data-tour="edit-frequency-btn"
                           >
-                            <Edit size={16} />
+                            <Edit size={14} />
                           </button>
                         </div>
                       </td>
                       <td className={styles.tableCell}>
-                        <button
-                          className={styles.viewMonthsButton}
-                          onClick={() => handleViewMonths(subscription)}
-                          aria-label={t('subscriptions.viewMonths')}
-                          title={t('subscriptions.viewMonths')}
-                          type="button"
-                          data-tour="months-display"
-                        >
-                          <Eye size={16} />
-                          {t('subscriptions.viewMonths')}
-                        </button>
-                      </td>
-                      <td className={styles.tableCell}>
-                        <span className={`${styles.status} ${styles[subscription.status]}`}>
+                        <span className={`${styles.statusPill} ${styles[subscription.status]}`}>
                           {getStatusText(subscription.status)}
                         </span>
                       </td>
                       <td className={styles.tableCell}>
-                        {subscription.startDate instanceof Date && !isNaN(subscription.startDate.getTime()) ?
-                          subscription.startDate.toLocaleDateString(i18n.language || 'es', { year: 'numeric', month: 'short', day: 'numeric' }) : ''}
-                      </td>
-                      <td className={styles.tableCell}>
-                        {subscription.endDate instanceof Date && !isNaN(subscription.endDate.getTime()) ?
-                          subscription.endDate.toLocaleDateString(i18n.language || 'es', { year: 'numeric', month: 'short', day: 'numeric' }) : ''}
-                      </td>
-                      <td className={styles.tableCell}>
-                        <div className={styles.actionsCell}>
+                        <div className={styles.actionsGroup}>
                           <button
-                            className={styles.uploadDocumentButton}
+                            className={styles.actionBtn}
+                            onClick={() => handleViewMonths(subscription)}
+                            title={t('common.details')}
+                            data-tooltip={t('common.details')}
+                          >
+                            <Eye size={18} />
+                          </button>
+                          <button
+                            className={styles.actionBtn}
                             onClick={() => handleUploadDocument(subscription)}
-                            aria-label={t('subscriptions.documents.uploadTooltip')}
                             title={t('subscriptions.documents.uploadTooltip')}
-                            type="button"
                             data-tooltip={t('subscriptions.documents.uploadTooltip')}
                           >
                             <FileUp size={18} />
