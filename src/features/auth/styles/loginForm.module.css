@@ -395,8 +395,7 @@ input:-webkit-autofill {
   .formLogin input {
     width: 100% !important;
     padding: 12px !important;
-    max-width: 480px !important;
-    /* Mantener el ancho original */
+    /* max-width removed */
   }
 
   .inputWrapper {

@@ -51,8 +51,18 @@
 .formGroup {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 0.5rem;
   position: relative;
+  width: 100%;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.fullWidth > div {
+  width: 100% !important;
+  min-width: 0 !important;
 }
 
 .formGroup label {
@@ -84,6 +94,8 @@
   background: var(--color-card);
   color: var(--color-text);
   font-family: inherit;
+  width: 100% !important;
+  box-sizing: border-box;
 }
 
 .formGroup input:focus,

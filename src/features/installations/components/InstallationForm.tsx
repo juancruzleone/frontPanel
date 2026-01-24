@@ -105,30 +105,34 @@ const InstallationForm = ({
       }));
 
       return (
-        <HybridSelect
-          name={field.name}
-          value={formData[field.name] || ""}
-          onChange={(value) => handleFieldChange(field.name, value)}
-          onBlur={() => handleFieldBlur(field.name)}
-          disabled={isSubmitting || loadingTypes}
-          options={installationTypeOptions}
-          placeholder={t('installations.selectInstallationType')}
-          error={!!showError(field.name)}
-        />
+        <div className={styles.fullWidth}>
+          <HybridSelect
+            name={field.name}
+            value={formData[field.name] || ""}
+            onChange={(value) => handleFieldChange(field.name, value)}
+            onBlur={() => handleFieldBlur(field.name)}
+            disabled={isSubmitting || loadingTypes}
+            options={installationTypeOptions}
+            placeholder={t('installations.selectInstallationType')}
+            error={!!showError(field.name)}
+          />
+        </div>
       )
     }
 
     return (
-      <input
-        type="text"
-        name={field.name}
-        value={formData[field.name] || ""}
-        onChange={(e) => handleFieldChange(field.name, e.target.value)}
-        onBlur={() => handleFieldBlur(field.name)}
-        disabled={isSubmitting}
-        className={showError(field.name) ? styles.errorInput : ""}
-        placeholder={field.placeholder || ""}
-      />
+      <div className={styles.fullWidth}>
+        <input
+          type="text"
+          name={field.name}
+          value={formData[field.name as keyof Installation] || ""}
+          onChange={(e) => handleFieldChange(field.name, e.target.value)}
+          onBlur={() => handleFieldBlur(field.name)}
+          disabled={isSubmitting}
+          className={showError(field.name) ? styles.errorInput : ""}
+          placeholder={field.placeholder || ""}
+        />
+      </div>
     )
   }
 

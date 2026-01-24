@@ -226,21 +226,23 @@ const AssetForm = ({
         {/* Filtro por categoría */}
         <div className={styles.formGroup}>
           <label>{t('assets.filterByTemplateCategory')}</label>
-          <HybridSelect
-            name="categoryFilter"
-            value={selectedCategory}
-            onChange={(value) => handleCategoryChange(value)}
-            disabled={isSubmitting || templatesLoading}
-            options={[
-              { value: "", label: t('assets.allCategories') },
-              ...categories.map((categoria) => ({
-                value: String(categoria),
-                label: String(categoria)
-              }))
-            ]}
-            placeholder={t('assets.allCategories')}
-            error={false}
-          />
+          <div className={styles.fullWidth}>
+            <HybridSelect
+              name="categoryFilter"
+              value={selectedCategory}
+              onChange={(value) => handleCategoryChange(value)}
+              disabled={isSubmitting || templatesLoading}
+              options={[
+                { value: "", label: t('assets.allCategories') },
+                ...categories.map((categoria) => ({
+                  value: String(categoria),
+                  label: String(categoria)
+                }))
+              ]}
+              placeholder={t('assets.allCategories')}
+              error={false}
+            />
+          </div>
         </div>
 
         {/* Plantilla de formulario */}
@@ -252,22 +254,24 @@ const AssetForm = ({
               {t('assets.loadingTemplates')}
             </div>
           ) : (
-            <HybridSelect
-              name="templateId"
-              value={formData.templateId || ""}
-              onChange={(value) => handleFieldChange("templateId", value)}
-              onBlur={() => handleFieldBlur("templateId")}
-              disabled={isSubmitting}
-              options={[
-                { value: "", label: t('assets.selectTemplatePlaceholder') },
-                ...filteredTemplates.map((template) => ({
-                  value: String(template._id),
-                  label: `${template.nombre} (${String(template.categoria)})`
-                }))
-              ]}
-              placeholder={t('assets.selectTemplatePlaceholder')}
-              error={!!showError("templateId")}
-            />
+            <div className={styles.fullWidth}>
+              <HybridSelect
+                name="templateId"
+                value={formData.templateId || ""}
+                onChange={(value) => handleFieldChange("templateId", value)}
+                onBlur={() => handleFieldBlur("templateId")}
+                disabled={isSubmitting}
+                options={[
+                  { value: "", label: t('assets.selectTemplatePlaceholder') },
+                  ...filteredTemplates.map((template) => ({
+                    value: String(template._id),
+                    label: `${template.nombre} (${String(template.categoria)})`
+                  }))
+                ]}
+                placeholder={t('assets.selectTemplatePlaceholder')}
+                error={!!showError("templateId")}
+              />
+            </div>
           )}
           {showError("templateId") && <p className={styles.inputError}>{formErrors.templateId}</p>}
 
