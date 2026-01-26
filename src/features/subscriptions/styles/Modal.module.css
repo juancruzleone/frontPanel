@@ -317,14 +317,13 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  position: relative;
 }
 
 .formGroup label {
   font-weight: 600;
   color: var(--color-text);
   font-size: 0.95rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -517,4 +516,245 @@
     padding: 0.75rem;
     font-size: 0.95rem;
   }
+}
+
+/* Estilos específicos para Upload Document */
+.optional {
+  font-weight: 400;
+  opacity: 0.6;
+  font-size: 0.85rem;
+  margin-left: 0.25rem;
+}
+
+.select {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--color-card-border);
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: var(--color-card);
+  color: var(--color-text);
+  font-family: inherit;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 18px;
+  padding-right: 2.5rem;
+}
+
+.select:focus {
+  outline: none;
+  border-color: white;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+  background-color: var(--color-bg-light);
+}
+
+.select:hover:not(:disabled) {
+  border-color: var(--color-card-border);
+}
+
+.select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.textarea {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--color-card-border);
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: var(--color-card);
+  color: var(--color-text);
+  font-family: inherit;
+  resize: vertical;
+  min-height: 80px;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: white;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+  background-color: var(--color-bg-light);
+}
+
+.textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.textarea::placeholder {
+  color: var(--color-text);
+  opacity: 0.5;
+}
+
+/* Drop Zone */
+.dropZone {
+  border: 2px dashed var(--color-card-border);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: var(--color-bg-light);
+}
+
+.dropZone:hover {
+  border-color: var(--color-secondary);
+  background: rgba(5, 126, 116, 0.05);
+}
+
+.dropZoneActive {
+  border-color: var(--color-secondary);
+  background: rgba(5, 126, 116, 0.1);
+  transform: scale(1.01);
+}
+
+.uploadIcon {
+  color: var(--color-text);
+  margin-bottom: 1rem;
+}
+
+.dropZoneText {
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.dropZoneSubtext {
+  color: var(--color-text);
+  opacity: 0.7;
+  font-size: 0.9rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.dropZoneHint {
+  color: var(--color-text);
+  opacity: 0.5;
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.fileInput {
+  display: none;
+}
+
+/* Selected File */
+.selectedFile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: var(--color-bg-light);
+  border: 2px solid var(--color-secondary);
+  border-radius: 12px;
+}
+
+.fileInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.fileIcon {
+  color: var(--color-secondary);
+  flex-shrink: 0;
+}
+
+.fileDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.fileName {
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fileSize {
+  color: var(--color-text);
+  opacity: 0.6;
+  font-size: 0.85rem;
+}
+
+.removeFileButton {
+  background: none;
+  border: none;
+  color: var(--color-danger);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.removeFileButton:hover {
+  background: rgba(220, 53, 69, 0.1);
+}
+
+.removeFileButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Spinner animation */
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Modo oscuro para select */
+[data-theme="dark"] .select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+/* Estilos para HybridSelect dentro del modal */
+.formGroup :global(.hybridSelectWrapper) {
+  width: 100%;
+}
+
+.formGroup :global(.hybridSelect) {
+  border-radius: 12px;
+  border: 2px solid var(--color-card-border);
+  padding: 0.875rem 1rem;
+  min-height: auto;
+  height: auto;
+}
+
+.formGroup :global(.hybridSelect:hover) {
+  border-color: var(--color-card-border);
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.formGroup :global(.hybridSelect:focus) {
+  border-color: white;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+}
+
+.formGroup :global(.hybridDropdown) {
+  border-radius: 12px;
+  margin-top: 0.5rem;
 }

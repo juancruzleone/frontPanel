@@ -1,7 +1,9 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { X, Upload, FileText, Trash2, Loader2 } from 'lucide-react'
-import styles from '../styles/uploadDocument.module.css'
+import styles from '../styles/Modal.module.css'
+import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
+import HybridSelect from '../../workOrders/components/HybridSelect'
 import { uploadBudgetDocument, type UploadDocumentData } from '../services/documentServices'
 
 interface ModalUploadDocumentProps {
@@ -168,129 +170,129 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
                 </div>
 
                 <div className={styles.modalContent}>
-                    <form onSubmit={handleSubmit} className={styles.uploadForm} id="uploadForm">
-                        {/* Tipo de documento */}
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>
-                                {t('subscriptions.documents.documentType')}
-                            </label>
-                            <select
-                                value={tipoDocumento}
-                                onChange={(e) => setTipoDocumento(e.target.value as 'presupuesto' | 'contrato' | 'otro')}
-                                className={styles.select}
+                    <form onSubmit={handleSubmit} className={styles.form} id="uploadForm">
+                        <div className={styles.formInner}>
+                            {/* Tipo de documento */}
+                            <div className={styles.formGroup}>
+                                <label>
+                                    {t('subscriptions.documents.documentType')}
+                                </label>
+                                <HybridSelect
+                                    value={tipoDocumento}
+                                    onChange={(value) => setTipoDocumento(value as 'presupuesto' | 'contrato' | 'otro')}
+                                    options={[
+                                        { value: 'contrato', label: t('subscriptions.documents.types.contract') },
+                                        { value: 'presupuesto', label: t('subscriptions.documents.types.budget') },
+                                        { value: 'otro', label: t('subscriptions.documents.types.other') }
+                                    ]}
+                                    disabled={isUploading}
+                                    placeholder={t('subscriptions.documents.documentType')}
+                                />
+                            </div>
+
+                            {/* Descripción */}
+                            <div className={styles.formGroup}>
+                                <label>
+                                    {t('subscriptions.documents.description')}
+                                    <span className={styles.optional}>({t('common.optional')})</span>
+                                </label>
+                                <textarea
+                                    value={descripcion}
+                                    onChange={(e) => setDescripcion(e.target.value)}
+                                    className={styles.textarea}
+                                    placeholder={t('subscriptions.documents.descriptionPlaceholder')}
+                                    rows={3}
+                                    maxLength={500}
+                                    disabled={isUploading}
+                                />
+                            </div>
+
+                            {/* Zona de arrastrar y soltar */}
+                            <div className={styles.formGroup}>
+                                <label>
+                                    {t('subscriptions.documents.file')}
+                                </label>
+
+                                {!selectedFile ? (
+                                    <div
+                                        className={`${styles.dropZone} ${dragActive ? styles.dropZoneActive : ''}`}
+                                        onDragEnter={handleDrag}
+                                        onDragLeave={handleDrag}
+                                        onDragOver={handleDrag}
+                                        onDrop={handleDrop}
+                                        onClick={() => fileInputRef.current?.click()}
+                                    >
+                                        <Upload size={40} className={styles.uploadIcon} />
+                                        <p className={styles.dropZoneText}>
+                                            {t('subscriptions.documents.dragAndDrop')}
+                                        </p>
+                                        <p className={styles.dropZoneSubtext}>
+                                            {t('subscriptions.documents.orClickToSelect')}
+                                        </p>
+                                        <p className={styles.dropZoneHint}>
+                                            {t('subscriptions.documents.maxSize')}
+                                        </p>
+                                        <input
+                                            ref={fileInputRef}
+                                            type="file"
+                                            accept="application/pdf"
+                                            onChange={handleFileSelect}
+                                            className={styles.fileInput}
+                                            disabled={isUploading}
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className={styles.selectedFile}>
+                                        <div className={styles.fileInfo}>
+                                            <FileText size={24} className={styles.fileIcon} />
+                                            <div className={styles.fileDetails}>
+                                                <span className={styles.fileName}>{selectedFile.name}</span>
+                                                <span className={styles.fileSize}>{formatFileSize(selectedFile.size)}</span>
+                                            </div>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={handleRemoveFile}
+                                            className={styles.removeFileButton}
+                                            disabled={isUploading}
+                                            aria-label={t('common.remove')}
+                                        >
+                                            <Trash2 size={18} />
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Botones de acción */}
+                        <div className={formButtonStyles.actions}>
+                            <button
+                                type="submit"
+                                className={formButtonStyles.submitButton}
+                                disabled={isUploading || !selectedFile}
+                            >
+                                {isUploading ? (
+                                    <>
+                                        <Loader2 size={18} className={styles.spinner} />
+                                        {t('subscriptions.documents.uploading')}
+                                    </>
+                                ) : (
+                                    <>
+                                        <Upload size={18} />
+                                        {t('subscriptions.documents.upload')}
+                                    </>
+                                )}
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleClose}
+                                className={formButtonStyles.cancelButton}
                                 disabled={isUploading}
                             >
-                                <option value="contrato">{t('subscriptions.documents.types.contract')}</option>
-                                <option value="presupuesto">{t('subscriptions.documents.types.budget')}</option>
-                                <option value="otro">{t('subscriptions.documents.types.other')}</option>
-                            </select>
+                                {t('common.cancel')}
+                            </button>
                         </div>
-
-                        {/* Descripción */}
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>
-                                {t('subscriptions.documents.description')}
-                                <span className={styles.optional}>({t('common.optional')})</span>
-                            </label>
-                            <textarea
-                                value={descripcion}
-                                onChange={(e) => setDescripcion(e.target.value)}
-                                className={styles.textarea}
-                                placeholder={t('subscriptions.documents.descriptionPlaceholder')}
-                                rows={3}
-                                maxLength={500}
-                                disabled={isUploading}
-                            />
-                        </div>
-
-                        {/* Zona de arrastrar y soltar */}
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>
-                                {t('subscriptions.documents.file')}
-                            </label>
-
-                            {!selectedFile ? (
-                                <div
-                                    className={`${styles.dropZone} ${dragActive ? styles.dropZoneActive : ''}`}
-                                    onDragEnter={handleDrag}
-                                    onDragLeave={handleDrag}
-                                    onDragOver={handleDrag}
-                                    onDrop={handleDrop}
-                                    onClick={() => fileInputRef.current?.click()}
-                                >
-                                    <Upload size={40} className={styles.uploadIcon} />
-                                    <p className={styles.dropZoneText}>
-                                        {t('subscriptions.documents.dragAndDrop')}
-                                    </p>
-                                    <p className={styles.dropZoneSubtext}>
-                                        {t('subscriptions.documents.orClickToSelect')}
-                                    </p>
-                                    <p className={styles.dropZoneHint}>
-                                        {t('subscriptions.documents.maxSize')}
-                                    </p>
-                                    <input
-                                        ref={fileInputRef}
-                                        type="file"
-                                        accept="application/pdf"
-                                        onChange={handleFileSelect}
-                                        className={styles.fileInput}
-                                        disabled={isUploading}
-                                    />
-                                </div>
-                            ) : (
-                                <div className={styles.selectedFile}>
-                                    <div className={styles.fileInfo}>
-                                        <FileText size={24} className={styles.fileIcon} />
-                                        <div className={styles.fileDetails}>
-                                            <span className={styles.fileName}>{selectedFile.name}</span>
-                                            <span className={styles.fileSize}>{formatFileSize(selectedFile.size)}</span>
-                                        </div>
-                                    </div>
-                                    <button
-                                        type="button"
-                                        onClick={handleRemoveFile}
-                                        className={styles.removeFileButton}
-                                        disabled={isUploading}
-                                        aria-label={t('common.remove')}
-                                    >
-                                        <Trash2 size={18} />
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-
                     </form>
-                </div>
-
-                {/* Botones de acción */}
-                <div className={styles.modalFooter}>
-                    <button
-                        type="submit"
-                        form="uploadForm"
-                        className={styles.submitButton}
-                        disabled={isUploading || !selectedFile}
-                        onClick={handleSubmit}
-                    >
-                        {isUploading ? (
-                            <>
-                                <Loader2 size={18} className={styles.spinner} />
-                                {t('subscriptions.documents.uploading')}
-                            </>
-                        ) : (
-                            <>
-                                <Upload size={18} />
-                                {t('subscriptions.documents.upload')}
-                            </>
-                        )}
-                    </button>
-                    <button
-                        type="button"
-                        onClick={handleClose}
-                        className={styles.cancelButton}
-                        disabled={isUploading}
-                    >
-                        {t('common.cancel')}
-                    </button>
                 </div>
             </div>
         </div>
