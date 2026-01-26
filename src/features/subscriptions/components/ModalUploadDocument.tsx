@@ -265,14 +265,6 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
                 {/* Botones de acción */}
                 <div className={styles.modalFooter}>
                     <button
-                        type="button"
-                        onClick={handleClose}
-                        className={styles.cancelButton}
-                        disabled={isUploading}
-                    >
-                        {t('common.cancel')}
-                    </button>
-                    <button
                         type="submit"
                         form="uploadForm"
                         className={styles.submitButton}
@@ -290,6 +282,14 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
                                 {t('subscriptions.documents.upload')}
                             </>
                         )}
+                    </button>
+                    <button
+                        type="button"
+                        onClick={handleClose}
+                        className={styles.cancelButton}
+                        disabled={isUploading}
+                    >
+                        {t('common.cancel')}
                     </button>
                 </div>
             </div>

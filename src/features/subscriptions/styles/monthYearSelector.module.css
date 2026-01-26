@@ -179,21 +179,40 @@
 
 /* Scrollbar personalizada */
 .yearsContainer::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 .yearsContainer::-webkit-scrollbar-track {
-  background: var(--background-primary, #f1f1f1);
-  border-radius: 4px;
+  background: var(--color-bg-light);
+  border-radius: 5px;
 }
 
 .yearsContainer::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb, #888);
-  border-radius: 4px;
+  background: var(--color-card-border);
+  border-radius: 5px;
+  border: 2px solid var(--color-bg-light);
 }
 
 .yearsContainer::-webkit-scrollbar-thumb:hover {
-  background: var(--scrollbar-thumb-hover, #555);
+  background: var(--color-text);
+}
+
+/* Modo claro - Scrollbar negro */
+:root .yearsContainer::-webkit-scrollbar-thumb {
+  background: #000;
+}
+
+:root .yearsContainer::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+
+/* Modo oscuro - Scrollbar blanco */
+.dark .yearsContainer::-webkit-scrollbar-thumb {
+  background: #fff;
+}
+
+.dark .yearsContainer::-webkit-scrollbar-thumb:hover {
+  background: #e0e0e0;
 }
 
 /* Responsive */

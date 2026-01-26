@@ -1,4 +1,4 @@
-/* Copiado desde src/features/installations/styles/Modal.module.css */
+/* Modal Editar Frecuencia - Patrón Leonix Stark */
 .backdrop {
   position: fixed;
   top: 0;
@@ -144,24 +144,43 @@
   max-height: calc(95vh - 120px);
   overflow-y: auto;
   background: var(--color-card);
-
 }
 
 .modalContent::-webkit-scrollbar {
-  width: 6px;
+  width: 10px;
 }
 
 .modalContent::-webkit-scrollbar-track {
   background: var(--color-bg-light);
+  border-radius: 5px;
 }
 
 .modalContent::-webkit-scrollbar-thumb {
   background: var(--color-card-border);
-  border-radius: 3px;
+  border-radius: 5px;
+  border: 2px solid var(--color-bg-light);
 }
 
 .modalContent::-webkit-scrollbar-thumb:hover {
   background: var(--color-text);
+}
+
+/* Modo claro - Scrollbar negro */
+:root .modalContent::-webkit-scrollbar-thumb {
+  background: #000;
+}
+
+:root .modalContent::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+
+/* Modo oscuro - Scrollbar blanco */
+.dark .modalContent::-webkit-scrollbar-thumb {
+  background: #fff;
+}
+
+.dark .modalContent::-webkit-scrollbar-thumb:hover {
+  background: #e0e0e0;
 }
 
 .modalFooter {
@@ -205,7 +224,7 @@
 }
 
 .modalButton.danger:hover {
-  background: #d32f2f;
+  background: #d32f2f);
 }
 
 .successContentBody {
@@ -276,4 +295,226 @@
 .successIconLarge svg,
 .warningIcon svg {
   animation: pulse 2s infinite;
+}
+
+
+/* Form styles */
+.form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.formInner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem 2.5rem;
+  background: var(--color-card);
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+}
+
+.formGroup label {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.formGroup label::before {
+  content: "";
+  width: 3px;
+  height: 16px;
+  background: var(--color-text);
+  border-radius: 2px;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--color-card-border);
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: var(--color-card);
+  color: var(--color-text);
+  font-family: inherit;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: white;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+  background: var(--color-bg-light);
+}
+
+.formGroup input:hover,
+.formGroup select:hover,
+.formGroup textarea:hover {
+  border-color: var(--color-card-border);
+}
+
+.inputDate {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--color-card-border);
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: var(--color-card);
+  color: var(--color-text);
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.inputDate:focus {
+  outline: none;
+  border-color: white;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+  background: var(--color-bg-light);
+}
+
+.calendarIconButton {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--color-text);
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  pointer-events: all;
+  z-index: 10;
+}
+
+.calendarIconButton:hover {
+  background: var(--color-bg-light);
+  color: var(--color-text);
+}
+
+.statusSelect {
+  width: 100%;
+}
+
+.monthsLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.monthsLabel::before {
+  content: "";
+  width: 3px;
+  height: 16px;
+  background: var(--color-text);
+  border-radius: 2px;
+}
+
+.monthsPreviewButton {
+  cursor: pointer;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--color-card-border);
+  border-radius: 12px;
+  background: var(--color-card);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.monthsPreviewButton:hover {
+  border-color: white;
+  background: var(--color-bg-light);
+}
+
+.inputError {
+  color: var(--color-danger);
+  font-size: 0.875rem;
+  margin: 0;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.inputError::before {
+  content: "⚠";
+  font-size: 1rem;
+}
+
+/* Información de la suscripción */
+.subscriptionInfo {
+  padding: 1.5rem 2.5rem;
+  background: var(--color-bg-light);
+  border-bottom: 1px solid var(--color-card-border);
+}
+
+.subscriptionInfo h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.subscriptionInfo p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .formInner {
+    padding: 1.5rem;
+    gap: 1.25rem;
+  }
+
+  .subscriptionInfo {
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .formInner {
+    padding: 1rem;
+  }
+
+  .subscriptionInfo {
+    padding: 1rem;
+  }
+
+  .formGroup label {
+    font-size: 0.9rem;
+  }
+
+  .formGroup input,
+  .formGroup select,
+  .formGroup textarea {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
 }

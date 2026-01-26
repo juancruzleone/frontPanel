@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Calendar, ChevronDown } from 'lucide-react'
-import styles from '../styles/subscriptions.module.css'
+import styles from '../styles/Modal.module.css'
 import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
 import DatePickerModal from './DatePickerModal'
 import HybridSelect from '../../../shared/components/HybridSelect'
@@ -128,172 +128,174 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
   }
 
   return (
-    <form onSubmit={handleFormSubmit} className={styles.frequencyForm} noValidate>
-      {isError && responseMessage && (
-        <div className={styles.inputError}>{responseMessage}</div>
-      )}
-      <div className={styles.formGroup} style={{ position: 'relative' }}>
-        <label>{t('subscriptions.table.frequency')}</label>
-        <HybridSelect
-          value={formData.frequency || ''}
-          onChange={(val) => onFieldChange('frequency', val)}
-          onBlur={() => onFieldBlur('frequency')}
-          options={frequencyOptions.map(option => ({ value: option.value, label: option.label }))}
-          disabled={isSubmitting}
-          placeholder={t('subscriptions.selectFrequency')}
-          className={styles.statusSelect}
-        />
-        {(!!formErrors['tipo'] && touchedFields['frequency']) && (
-          <div className={styles.inputError}>{formErrors['tipo']}</div>
+    <form onSubmit={handleFormSubmit} className={styles.form} noValidate>
+      <div className={styles.formInner}>
+        {isError && responseMessage && (
+          <div className={styles.inputError}>{responseMessage}</div>
         )}
-      </div>
-      
-      <div className={styles.formGroup}>
-        <label>{t('subscriptions.startDate')}</label>
-        <div style={{ position: 'relative', width: '100%' }}>
-          <input
-            type="text"
-            data-date-input="start"
-            value={
-              formData.startDate && /^\d{4}-\d{2}-\d{2}$/.test(formData.startDate)
-                ? formData.startDate.split('-').reverse().join('/')
-                : ''
-            }
-            onClick={(e) => handleDateInputClick(e, 'start')}
-            onBlur={() => handleFieldBlurIfNotFromDatePicker('startDate')}
-            readOnly
-            className={styles.inputDate}
-            placeholder={t('subscriptions.selectStartDate')}
-            style={{ cursor: 'pointer', paddingRight: 40 }}
-          />
-          <button
-            type="button"
-            onClick={(e) => handleCalendarIconClick(e, 'start')}
-            aria-label={t('subscriptions.selectStartDate')}
-            className={styles.calendarIconButton}
-          >
-            <Calendar size={20} />
-          </button>
-        </div>
-        <DatePickerModal
-          isOpen={isStartDatePickerOpen}
-          onRequestClose={onStartDateClose}
-          onDateSelect={onStartDateSelect}
-          selectedDate={formData.startDate as string}
-          title={t('subscriptions.selectStartDate')}
-          placeholder={t('subscriptions.selectStartDate')}
-        />
-        {(!!formErrors['fechaInicio'] && touchedFields['startDate']) && (
-          <div className={styles.inputError}>{formErrors['fechaInicio']}</div>
-        )}
-      </div>
-      
-      <div className={styles.formGroup}>
-        <label>{t('subscriptions.endDate')}</label>
-        <div style={{ position: 'relative', width: '100%' }}>
-          <input
-            type="text"
-            data-date-input="end"
-            value={
-              formData.endDate && /^\d{4}-\d{2}-\d{2}$/.test(formData.endDate)
-                ? formData.endDate.split('-').reverse().join('/')
-                : ''
-            }
-            onClick={(e) => handleDateInputClick(e, 'end')}
-            onBlur={() => handleFieldBlurIfNotFromDatePicker('endDate')}
-            readOnly
-            className={styles.inputDate}
-            placeholder={t('subscriptions.selectEndDate')}
-            style={{ cursor: 'pointer', paddingRight: 40 }}
-          />
-          <button
-            type="button"
-            onClick={(e) => handleCalendarIconClick(e, 'end')}
-            aria-label={t('subscriptions.selectEndDate')}
-            className={styles.calendarIconButton}
-          >
-            <Calendar size={20} />
-          </button>
-        </div>
-        <DatePickerModal
-          isOpen={isEndDatePickerOpen}
-          onRequestClose={onEndDateClose}
-          onDateSelect={onEndDateSelect}
-          selectedDate={formData.endDate as string}
-          title={t('subscriptions.selectEndDate')}
-          placeholder={t('subscriptions.selectEndDate')}
-        />
-        {(!!formErrors['fechaFin'] && touchedFields['endDate']) && (
-          <div className={styles.inputError}>{formErrors['fechaFin']}</div>
-        )}
-      </div>
-      
-      <div className={styles.formGroup} style={{ position: 'relative' }}>
-        <label>{t('subscriptions.status.label')}</label>
-        <HybridSelect
-          value={formData.status || 'active'}
-          onChange={(value) => onFieldChange('status', value)}
-          options={[
-            { value: 'active', label: t('subscriptions.status.active') },
-            { value: 'inactive', label: t('subscriptions.status.inactive') }
-          ]}
-          placeholder={t('subscriptions.status.placeholder')}
-          disabled={isSubmitting}
-          className={styles.statusSelect}
-        />
-        {(!!formErrors['estado'] && touchedFields['status']) && (
-          <div className={styles.inputError}>{formErrors['estado']}</div>
-        )}
-      </div>
-      
-      {(formData.frequency === 'semestral' || formData.frequency === 'trimestral' || formData.frequency === 'anual' || formData.frequency === 'mensual') && (
         <div className={styles.formGroup}>
-          <label className={styles.monthsLabel}>
-            <Calendar size={16} />
-            {t('subscriptions.selectedMonths')}
-          </label>
-          <div 
-            className={styles.monthsPreviewButton}
-            onClick={() => setIsMonthSelectorOpen(true)}
-            style={{ 
-              cursor: 'pointer',
-              padding: '0.875rem 1rem',
-              border: '2px solid var(--color-card-border)',
-              borderRadius: '8px',
-              backgroundColor: 'var(--color-card)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              transition: 'all 0.2s ease',
-              fontSize: '0.95rem'
-            }}
-          >
-            <span style={{ color: selectedMonths.length > 0 ? 'var(--color-text)' : 'var(--color-text-secondary)' }}>
-              {selectedMonths.length > 0 
-                ? formData.frequency === 'mensual' && getFirstMonth()
-                  ? `${getFirstMonth()} - ${selectedMonths.length} ${selectedMonths.length === 1 ? t('subscriptions.month') : t('subscriptions.months')}`
-                  : `${selectedMonths.length} ${selectedMonths.length === 1 ? t('subscriptions.monthSelected') : t('subscriptions.monthsSelected')}`
-                : t('subscriptions.clickToSelectMonths')
-              }
-            </span>
-            <Calendar size={18} style={{ color: 'var(--color-text-secondary)' }} />
-          </div>
-          {monthsError && (
-            <div className={styles.inputError}>{monthsError}</div>
-          )}
-          <MonthYearSelectorModal
-            isOpen={isMonthSelectorOpen}
-            onRequestClose={() => setIsMonthSelectorOpen(false)}
-            startDate={formData.startDate}
-            endDate={formData.endDate}
-            selectedMonths={selectedMonths}
-            onMonthClick={onMonthClick}
-            frequency={formData.frequency}
-            error={monthsError}
-            onConfirm={() => setIsMonthSelectorOpen(false)}
+          <label>{t('subscriptions.table.frequency')}</label>
+          <HybridSelect
+            value={formData.frequency || ''}
+            onChange={(val) => onFieldChange('frequency', val)}
+            onBlur={() => onFieldBlur('frequency')}
+            options={frequencyOptions.map(option => ({ value: option.value, label: option.label }))}
+            disabled={isSubmitting}
+            placeholder={t('subscriptions.selectFrequency')}
+            className={styles.statusSelect}
           />
+          {(!!formErrors['tipo'] && touchedFields['frequency']) && (
+            <div className={styles.inputError}>{formErrors['tipo']}</div>
+          )}
         </div>
-      )}
+        
+        <div className={styles.formGroup}>
+          <label>{t('subscriptions.startDate')}</label>
+          <div style={{ position: 'relative', width: '100%' }}>
+            <input
+              type="text"
+              data-date-input="start"
+              value={
+                formData.startDate && /^\d{4}-\d{2}-\d{2}$/.test(formData.startDate)
+                  ? formData.startDate.split('-').reverse().join('/')
+                  : ''
+              }
+              onClick={(e) => handleDateInputClick(e, 'start')}
+              onBlur={() => handleFieldBlurIfNotFromDatePicker('startDate')}
+              readOnly
+              className={styles.inputDate}
+              placeholder={t('subscriptions.selectStartDate')}
+              style={{ cursor: 'pointer', paddingRight: 40 }}
+            />
+            <button
+              type="button"
+              onClick={(e) => handleCalendarIconClick(e, 'start')}
+              aria-label={t('subscriptions.selectStartDate')}
+              className={styles.calendarIconButton}
+            >
+              <Calendar size={20} />
+            </button>
+          </div>
+          <DatePickerModal
+            isOpen={isStartDatePickerOpen}
+            onRequestClose={onStartDateClose}
+            onDateSelect={onStartDateSelect}
+            selectedDate={formData.startDate as string}
+            title={t('subscriptions.selectStartDate')}
+            placeholder={t('subscriptions.selectStartDate')}
+          />
+          {(!!formErrors['fechaInicio'] && touchedFields['startDate']) && (
+            <div className={styles.inputError}>{formErrors['fechaInicio']}</div>
+          )}
+        </div>
+        
+        <div className={styles.formGroup}>
+          <label>{t('subscriptions.endDate')}</label>
+          <div style={{ position: 'relative', width: '100%' }}>
+            <input
+              type="text"
+              data-date-input="end"
+              value={
+                formData.endDate && /^\d{4}-\d{2}-\d{2}$/.test(formData.endDate)
+                  ? formData.endDate.split('-').reverse().join('/')
+                  : ''
+              }
+              onClick={(e) => handleDateInputClick(e, 'end')}
+              onBlur={() => handleFieldBlurIfNotFromDatePicker('endDate')}
+              readOnly
+              className={styles.inputDate}
+              placeholder={t('subscriptions.selectEndDate')}
+              style={{ cursor: 'pointer', paddingRight: 40 }}
+            />
+            <button
+              type="button"
+              onClick={(e) => handleCalendarIconClick(e, 'end')}
+              aria-label={t('subscriptions.selectEndDate')}
+              className={styles.calendarIconButton}
+            >
+              <Calendar size={20} />
+            </button>
+          </div>
+          <DatePickerModal
+            isOpen={isEndDatePickerOpen}
+            onRequestClose={onEndDateClose}
+            onDateSelect={onEndDateSelect}
+            selectedDate={formData.endDate as string}
+            title={t('subscriptions.selectEndDate')}
+            placeholder={t('subscriptions.selectEndDate')}
+          />
+          {(!!formErrors['fechaFin'] && touchedFields['endDate']) && (
+            <div className={styles.inputError}>{formErrors['fechaFin']}</div>
+          )}
+        </div>
+        
+        <div className={styles.formGroup}>
+          <label>{t('subscriptions.status.label')}</label>
+          <HybridSelect
+            value={formData.status || 'active'}
+            onChange={(value) => onFieldChange('status', value)}
+            options={[
+              { value: 'active', label: t('subscriptions.status.active') },
+              { value: 'inactive', label: t('subscriptions.status.inactive') }
+            ]}
+            placeholder={t('subscriptions.status.placeholder')}
+            disabled={isSubmitting}
+            className={styles.statusSelect}
+          />
+          {(!!formErrors['estado'] && touchedFields['status']) && (
+            <div className={styles.inputError}>{formErrors['estado']}</div>
+          )}
+        </div>
+        
+        {(formData.frequency === 'semestral' || formData.frequency === 'trimestral' || formData.frequency === 'anual' || formData.frequency === 'mensual') && (
+          <div className={styles.formGroup}>
+            <label className={styles.monthsLabel}>
+              <Calendar size={16} />
+              {t('subscriptions.selectedMonths')}
+            </label>
+            <div 
+              className={styles.monthsPreviewButton}
+              onClick={() => setIsMonthSelectorOpen(true)}
+              style={{ 
+                cursor: 'pointer',
+                padding: '0.875rem 1rem',
+                border: '2px solid var(--color-card-border)',
+                borderRadius: '12px',
+                backgroundColor: 'var(--color-card)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                transition: 'all 0.2s ease',
+                fontSize: '0.95rem'
+              }}
+            >
+              <span style={{ color: selectedMonths.length > 0 ? 'var(--color-text)' : 'var(--color-text-secondary)' }}>
+                {selectedMonths.length > 0 
+                  ? formData.frequency === 'mensual' && getFirstMonth()
+                    ? `${getFirstMonth()} - ${selectedMonths.length} ${selectedMonths.length === 1 ? t('subscriptions.month') : t('subscriptions.months')}`
+                    : `${selectedMonths.length} ${selectedMonths.length === 1 ? t('subscriptions.monthSelected') : t('subscriptions.monthsSelected')}`
+                  : t('subscriptions.clickToSelectMonths')
+                }
+              </span>
+              <Calendar size={18} style={{ color: 'var(--color-text-secondary)' }} />
+            </div>
+            {monthsError && (
+              <div className={styles.inputError}>{monthsError}</div>
+            )}
+            <MonthYearSelectorModal
+              isOpen={isMonthSelectorOpen}
+              onRequestClose={() => setIsMonthSelectorOpen(false)}
+              startDate={formData.startDate}
+              endDate={formData.endDate}
+              selectedMonths={selectedMonths}
+              onMonthClick={onMonthClick}
+              frequency={formData.frequency}
+              error={monthsError}
+              onConfirm={() => setIsMonthSelectorOpen(false)}
+            />
+          </div>
+        )}
+      </div>
 
       <div className={formButtonStyles.actions}>
         <button

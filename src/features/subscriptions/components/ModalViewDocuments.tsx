@@ -167,17 +167,6 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
                         </div>
                     )}
                 </div>
-
-                <div className={styles.modalFooter}>
-                    <button
-                        type="button"
-                        onClick={onRequestClose}
-                        className={styles.cancelButton}
-                        style={{ width: '100%' }}
-                    >
-                        {t('common.close')}
-                    </button>
-                </div>
             </div>
         </div>
     )

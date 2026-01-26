@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { X, Calendar, ChevronDown } from 'lucide-react'
-import styles from '../styles/subscriptions.module.css'
+import styles from '../styles/Modal.module.css'
+import subscriptionStyles from '../styles/subscriptions.module.css'
 import FrequencySelector from './FrequencySelector'
 import type { Subscription, FrequencyOption } from '../hooks/useSubscriptions'
 import DatePickerModal from '../../calendar/components/DatePickerModal'
@@ -158,12 +159,14 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
   if (!isOpen || !subscription) return null
 
   return (
-    <div className={styles.modalOverlay} onClick={handleClose}>
+    <div className={styles.backdrop} onClick={handleClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.modalHeader}>
-          <h2 className={styles.modalTitle}>
-            {t('subscriptions.editFrequency')}
-          </h2>
+          <div className={styles.titleSection}>
+            <h2 className={styles.title}>
+              {t('subscriptions.editFrequency')}
+            </h2>
+          </div>
           <button
             className={styles.closeButton}
             onClick={handleClose}
@@ -175,7 +178,7 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
           </button>
         </div>
         <div className={styles.modalContent}>
-          <div className={styles.subscriptionInfo}>
+          <div className={subscriptionStyles.subscriptionInfo}>
             <h3>{subscription.installationName}</h3>
             <p>{subscription.address}, {subscription.city}, {subscription.province}</p>
             <p><strong>{t('subscriptions.table.type')}:</strong> {subscription.installationType}</p>

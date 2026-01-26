@@ -519,3 +519,409 @@
     margin-top: 16px;
   }
 }
+
+/* Modal Overlay para Editar Frecuencia */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal {
+  background: var(--color-card);
+  border-radius: 20px;
+  max-width: 700px;
+  width: 95%;
+  max-height: 95vh;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  border: 1px solid var(--color-card-border);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 2.5rem 1.5rem;
+  border-bottom: 1px solid var(--color-text);
+  background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-card) 100%);
+  position: relative;
+}
+
+.modalHeader::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.6) 100%);
+}
+
+.modalTitle {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.025em;
+  position: relative;
+}
+
+.modalTitle::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
+  border-radius: 2px;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--color-text);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.closeButton:hover {
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  transform: scale(1.1);
+}
+
+:global([data-theme="light"]) .closeButton:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.closeButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.modalContent {
+  padding: 0;
+  max-height: calc(95vh - 120px);
+  overflow-y: auto;
+  background: var(--color-card);
+}
+
+.modalContent::-webkit-scrollbar {
+  width: 10px;
+}
+
+.modalContent::-webkit-scrollbar-track {
+  background: var(--color-bg-light);
+  border-radius: 5px;
+}
+
+.modalContent::-webkit-scrollbar-thumb {
+  background: var(--color-card-border);
+  border-radius: 5px;
+  border: 2px solid var(--color-bg-light);
+}
+
+.modalContent::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text);
+}
+
+/* Modo claro - Scrollbar negro */
+:root .modalContent::-webkit-scrollbar-thumb {
+  background: #000;
+}
+
+:root .modalContent::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+
+/* Modo oscuro - Scrollbar blanco */
+.dark .modalContent::-webkit-scrollbar-thumb {
+  background: #fff;
+}
+
+.dark .modalContent::-webkit-scrollbar-thumb:hover {
+  background: #e0e0e0;
+}
+
+/* Información de la suscripción */
+.subscriptionInfo {
+  padding: 1.5rem 2.5rem;
+  background: var(--color-bg-light);
+  border-bottom: 1px solid var(--color-card-border);
+}
+
+.subscriptionInfo h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.subscriptionInfo p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  opacity: 0.8;
+}
+
+/* Formulario de Frecuencia */
+.frequencyForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem 2.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+}
+
+.formGroup label {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.formGroup label::before {
+  content: "";
+  width: 3px;
+  height: 16px;
+  background: var(--color-text);
+  border-radius: 2px;
+}
+
+.formGroup input,
+.formGroup select,
+.formGroup textarea {
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--color-card-border);
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: var(--color-card);
+  color: var(--color-text);
+  font-family: inherit;
+}
+
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: white;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+  background: var(--color-bg-light);
+}
+
+.formGroup input:hover,
+.formGroup select:hover,
+.formGroup textarea:hover {
+  border-color: var(--color-card-border);
+}
+
+.inputDate {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--color-card-border);
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: var(--color-card);
+  color: var(--color-text);
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.inputDate:focus {
+  outline: none;
+  border-color: white;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+  background: var(--color-bg-light);
+}
+
+.calendarIconButton {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--color-text);
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  pointer-events: all;
+  z-index: 10;
+}
+
+.calendarIconButton:hover {
+  background: var(--color-bg-light);
+  color: var(--color-text);
+}
+
+.statusSelect {
+  width: 100%;
+}
+
+.monthsLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.monthsLabel::before {
+  content: "";
+  width: 3px;
+  height: 16px;
+  background: var(--color-text);
+  border-radius: 2px;
+}
+
+.monthsPreviewButton {
+  cursor: pointer;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--color-card-border);
+  border-radius: 12px;
+  background: var(--color-card);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.monthsPreviewButton:hover {
+  border-color: white;
+  background: var(--color-bg-light);
+}
+
+.inputError {
+  color: var(--color-danger);
+  font-size: 0.875rem;
+  margin: 0;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.inputError::before {
+  content: "⚠";
+  font-size: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal {
+    width: 95%;
+    max-height: 90vh;
+    border-radius: 16px;
+  }
+
+  .modalHeader {
+    padding: 1.5rem 1.5rem 1rem;
+  }
+
+  .modalTitle {
+    font-size: 1.5rem;
+  }
+
+  .closeButton {
+    width: 36px;
+    height: 36px;
+    font-size: 1.5rem;
+  }
+
+  .subscriptionInfo {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .frequencyForm {
+    padding: 1.5rem;
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    width: 98%;
+    max-height: 95vh;
+  }
+
+  .modalHeader {
+    padding: 1.25rem 1.25rem 0.75rem;
+  }
+
+  .modalTitle {
+    font-size: 1.25rem;
+  }
+
+  .subscriptionInfo {
+    padding: 1rem;
+  }
+
+  .frequencyForm {
+    padding: 1rem;
+  }
+
+  .formGroup label {
+    font-size: 0.9rem;
+  }
+
+  .formGroup input,
+  .formGroup select,
+  .formGroup textarea {
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
+}

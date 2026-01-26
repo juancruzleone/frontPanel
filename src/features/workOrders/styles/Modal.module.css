@@ -150,20 +150,40 @@
 
 /* Scrollbar personalizado */
 .modalContent::-webkit-scrollbar {
-  width: 6px;
+  width: 10px;
 }
 
 .modalContent::-webkit-scrollbar-track {
   background: var(--color-bg-light);
+  border-radius: 5px;
 }
 
 .modalContent::-webkit-scrollbar-thumb {
   background: var(--color-card-border);
-  border-radius: 3px;
+  border-radius: 5px;
+  border: 2px solid var(--color-bg-light);
 }
 
 .modalContent::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, white, rgba(255, 255, 255, 0.8));
+  background: var(--color-text);
+}
+
+/* Modo claro - Scrollbar negro */
+:root .modalContent::-webkit-scrollbar-thumb {
+  background: #000;
+}
+
+:root .modalContent::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+
+/* Modo oscuro - Scrollbar blanco */
+.dark .modalContent::-webkit-scrollbar-thumb {
+  background: #fff;
+}
+
+.dark .modalContent::-webkit-scrollbar-thumb:hover {
+  background: #e0e0e0;
 }
 
 /* Form styles */

@@ -146,20 +146,40 @@
 }
 
 .modalContent::-webkit-scrollbar {
-    width: 6px;
+    width: 10px;
 }
 
 .modalContent::-webkit-scrollbar-track {
     background: var(--color-bg-light);
+    border-radius: 5px;
 }
 
 .modalContent::-webkit-scrollbar-thumb {
     background: var(--color-card-border);
-    border-radius: 3px;
+    border-radius: 5px;
+    border: 2px solid var(--color-bg-light);
 }
 
 .modalContent::-webkit-scrollbar-thumb:hover {
     background: var(--color-text);
+}
+
+/* Modo claro - Scrollbar negro */
+:root .modalContent::-webkit-scrollbar-thumb {
+    background: #000;
+}
+
+:root .modalContent::-webkit-scrollbar-thumb:hover {
+    background: #333;
+}
+
+/* Modo oscuro - Scrollbar blanco */
+.dark .modalContent::-webkit-scrollbar-thumb {
+    background: #fff;
+}
+
+.dark .modalContent::-webkit-scrollbar-thumb:hover {
+    background: #e0e0e0;
 }
 
 /* Form Styles */
@@ -180,6 +200,7 @@
     font-weight: 600;
     color: var(--color-text);
     font-size: 0.95rem;
+    margin-bottom: 0;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -189,7 +210,7 @@
     content: '';
     width: 3px;
     height: 16px;
-    background: linear-gradient(135deg, white, rgba(255, 255, 255, 0.8));
+    background: var(--color-text);
     border-radius: 2px;
 }
 
@@ -288,7 +309,7 @@
 }
 
 .uploadIcon {
-    color: var(--color-secondary);
+    color: var(--color-text);
     margin-bottom: 1rem;
 }
 
@@ -389,10 +410,11 @@
 .modalFooter {
     display: flex;
     gap: 1rem;
-    justify-content: space-between;
+    justify-content: center;
     padding: 1.5rem 2.5rem 2rem;
     border-top: 1px solid var(--color-card-border);
-    background: var(--color-bg-light);
+    background: var(--color-card);
+    margin-top: auto;
 }
 
 .cancelButton {
@@ -405,7 +427,22 @@
     font-size: 1rem;
     font-weight: 600;
     transition: all 0.2s ease;
-    min-width: 120px;
+    min-width: 184px;
+    height: 48px !important;
+    min-height: 48px !important;
+    max-height: 48px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 184px;
+}
+
+/* Modo claro para cancelButton */
+:root .cancelButton,
+[data-theme="light"] .cancelButton {
+  border-color: #000;
+  color: #000;
 }
 
 .cancelButton:hover:not(:disabled) {
@@ -414,18 +451,41 @@
     transform: translateY(-1px);
 }
 
+/* Modo claro para cancelButton hover */
+:root .cancelButton:hover:not(:disabled),
+[data-theme="light"] .cancelButton:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: #000;
+    color: #000;
+}
+
+/* Modo oscuro para cancelButton */
+[data-theme="dark"] .cancelButton {
+    background: var(--color-card);
+    border-color: var(--color-card-border);
+    color: #fff;
+}
+
+/* Modo oscuro para cancelButton hover */
+[data-theme="dark"] .cancelButton:hover:not(:disabled) {
+    background: var(--color-bg-light);
+    border-color: var(--color-card-border);
+    color: #fff;
+}
+
 .cancelButton:active {
     transform: translateY(0);
 }
 
 .cancelButton:disabled {
-    opacity: 0.5;
+    background: var(--color-skeleton);
+    color: var(--color-skeleton-light);
     cursor: not-allowed;
     transform: none;
+    border-color: var(--color-skeleton);
 }
 
 .submitButton {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: white;
     border: 2px solid transparent;
     padding: 0.875rem 1.75rem;
@@ -434,18 +494,25 @@
     font-size: 1rem;
     font-weight: 600;
     transition: all 0.2s ease;
-    min-width: 120px;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    min-width: 184px;
+    height: 48px !important;
+    min-height: 48px !important;
+    max-height: 48px !important;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+    box-sizing: border-box;
+    width: 184px;
     gap: 0.5rem;
 }
 
 .submitButton:hover:not(:disabled) {
-    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    background: rgba(255, 255, 255, 0.9);
+    color: white;
+    border-color: white;
     transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .submitButton:active {
@@ -453,7 +520,8 @@
 }
 
 .submitButton:disabled {
-    background: #9ca3af;
+    background: var(--color-skeleton);
+    color: var(--color-skeleton-light);
     cursor: not-allowed;
     transform: none;
     box-shadow: none;
@@ -519,6 +587,7 @@
     .cancelButton,
     .submitButton {
         width: 100%;
+        min-width: unset;
     }
 
     .dropZone {

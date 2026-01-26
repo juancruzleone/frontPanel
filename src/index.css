@@ -221,3 +221,107 @@ html[data-theme="dark"] select:focus,
   border-color: white !important;
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1) !important;
 }
+
+/* ESTILOS GLOBALES DE SCROLLBAR PARA MODALES */
+/* Scrollbar más grueso (10px) y con colores según el tema */
+
+/* Modo claro - Scrollbar negro */
+:root ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+:root ::-webkit-scrollbar-track {
+  background: var(--color-bg-light);
+  border-radius: 5px;
+}
+
+:root ::-webkit-scrollbar-thumb {
+  background: #000;
+  border-radius: 5px;
+  border: 2px solid var(--color-bg-light);
+}
+
+:root ::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+
+/* Modo oscuro - Scrollbar blanco */
+.dark ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: var(--color-bg-light);
+  border-radius: 5px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #fff;
+  border-radius: 5px;
+  border: 2px solid var(--color-bg-light);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #e0e0e0;
+}
+
+/* Estilos específicos para contenido de modales */
+[class*="modalContent"]::-webkit-scrollbar,
+[class*="datePickerContent"]::-webkit-scrollbar,
+[class*="yearsContainer"]::-webkit-scrollbar,
+[class*="customDropdown"]::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Modo claro para modales */
+:root [class*="modalContent"]::-webkit-scrollbar-track,
+:root [class*="datePickerContent"]::-webkit-scrollbar-track,
+:root [class*="yearsContainer"]::-webkit-scrollbar-track,
+:root [class*="customDropdown"]::-webkit-scrollbar-track {
+  background: var(--color-bg-light);
+  border-radius: 5px;
+}
+
+:root [class*="modalContent"]::-webkit-scrollbar-thumb,
+:root [class*="datePickerContent"]::-webkit-scrollbar-thumb,
+:root [class*="yearsContainer"]::-webkit-scrollbar-thumb,
+:root [class*="customDropdown"]::-webkit-scrollbar-thumb {
+  background: #000;
+  border-radius: 5px;
+  border: 2px solid var(--color-bg-light);
+}
+
+:root [class*="modalContent"]::-webkit-scrollbar-thumb:hover,
+:root [class*="datePickerContent"]::-webkit-scrollbar-thumb:hover,
+:root [class*="yearsContainer"]::-webkit-scrollbar-thumb:hover,
+:root [class*="customDropdown"]::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+
+/* Modo oscuro para modales */
+.dark [class*="modalContent"]::-webkit-scrollbar-track,
+.dark [class*="datePickerContent"]::-webkit-scrollbar-track,
+.dark [class*="yearsContainer"]::-webkit-scrollbar-track,
+.dark [class*="customDropdown"]::-webkit-scrollbar-track {
+  background: var(--color-bg-light);
+  border-radius: 5px;
+}
+
+.dark [class*="modalContent"]::-webkit-scrollbar-thumb,
+.dark [class*="datePickerContent"]::-webkit-scrollbar-thumb,
+.dark [class*="yearsContainer"]::-webkit-scrollbar-thumb,
+.dark [class*="customDropdown"]::-webkit-scrollbar-thumb {
+  background: #fff;
+  border-radius: 5px;
+  border: 2px solid var(--color-bg-light);
+}
+
+.dark [class*="modalContent"]::-webkit-scrollbar-thumb:hover,
+.dark [class*="datePickerContent"]::-webkit-scrollbar-thumb:hover,
+.dark [class*="yearsContainer"]::-webkit-scrollbar-thumb:hover,
+.dark [class*="customDropdown"]::-webkit-scrollbar-thumb:hover {
+  background: #e0e0e0;
+}

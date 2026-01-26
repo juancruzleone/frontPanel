@@ -581,19 +581,38 @@ select.customSelect option:focus {
 
 /* Scrollbar for custom dropdown */
 .customDropdown::-webkit-scrollbar {
-  width: 6px;
+  width: 10px;
 }
 
 .customDropdown::-webkit-scrollbar-track {
   background: var(--color-bg-light);
-  border-radius: 3px;
+  border-radius: 5px;
 }
 
 .customDropdown::-webkit-scrollbar-thumb {
   background: var(--color-card-border);
-  border-radius: 3px;
+  border-radius: 5px;
+  border: 2px solid var(--color-bg-light);
 }
 
 .customDropdown::-webkit-scrollbar-thumb:hover {
-  background: white;
+  background: var(--color-text);
+}
+
+/* Modo claro - Scrollbar negro */
+:root .customDropdown::-webkit-scrollbar-thumb {
+  background: #000;
+}
+
+:root .customDropdown::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+
+/* Modo oscuro - Scrollbar blanco */
+.dark .customDropdown::-webkit-scrollbar-thumb {
+  background: #fff;
+}
+
+.dark .customDropdown::-webkit-scrollbar-thumb:hover {
+  background: #e0e0e0;
 }

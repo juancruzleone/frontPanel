@@ -311,21 +311,40 @@
 
 /* Scrollbar personalizado */
 .datePickerContent::-webkit-scrollbar {
-  width: 6px;
+  width: 10px;
 }
 
 .datePickerContent::-webkit-scrollbar-track {
   background: var(--color-bg-light);
-  border-radius: 3px;
+  border-radius: 5px;
 }
 
 .datePickerContent::-webkit-scrollbar-thumb {
   background: var(--color-card-border);
-  border-radius: 3px;
+  border-radius: 5px;
+  border: 2px solid var(--color-bg-light);
 }
 
 .datePickerContent::-webkit-scrollbar-thumb:hover {
   background: var(--color-text);
+}
+
+/* Modo claro - Scrollbar negro */
+:root .datePickerContent::-webkit-scrollbar-thumb {
+  background: #000;
+}
+
+:root .datePickerContent::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+
+/* Modo oscuro - Scrollbar blanco */
+.dark .datePickerContent::-webkit-scrollbar-thumb {
+  background: #fff;
+}
+
+.dark .datePickerContent::-webkit-scrollbar-thumb:hover {
+  background: #e0e0e0;
 }
 
 /* Estilos para modo oscuro */
