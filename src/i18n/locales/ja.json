@@ -1497,7 +1497,8 @@
       "months": "月",
       "status": "状態",
       "startDate": "開始日",
-      "endDate": "終了日"
+      "endDate": "終了日",
+      "actions": "アクション"
     },
     "months": {
       "Enero": "1月",

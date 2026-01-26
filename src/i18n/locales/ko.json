@@ -1532,7 +1532,8 @@
       "months": "개월",
       "status": "상태",
       "startDate": "시작일",
-      "endDate": "종료일"
+      "endDate": "종료일",
+      "actions": "작업"
     },
     "months": {
       "Enero": "1월",

@@ -1342,7 +1342,8 @@
       "months": "Monate",
       "status": "Status",
       "startDate": "Startdatum",
-      "endDate": "Enddatum"
+      "endDate": "Enddatum",
+      "actions": "Aktionen"
     },
     "months": {
       "Enero": "Januar",

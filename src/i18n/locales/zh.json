@@ -1507,7 +1507,8 @@
       "months": "月数",
       "status": "状态",
       "startDate": "开始日期",
-      "endDate": "结束日期"
+      "endDate": "结束日期",
+      "actions": "操作"
     },
     "months": {
       "Enero": "一月",

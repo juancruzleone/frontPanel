@@ -1435,7 +1435,8 @@
       "months": "Mois",
       "status": "Statut",
       "startDate": "Date de début",
-      "endDate": "Date de fin"
+      "endDate": "Date de fin",
+      "actions": "Actions"
     },
     "months": {
       "Enero": "Janvier",
