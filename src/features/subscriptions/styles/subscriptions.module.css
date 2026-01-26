@@ -760,7 +760,8 @@
   border-color: var(--color-card-border);
 }
 
-.inputDate {
+/* Estilos deprecados - ahora se usa dateSelectButton */
+/* .inputDate {
   width: 100%;
   padding: 0.875rem 1rem;
   border: 2px solid var(--color-card-border);
@@ -802,6 +803,30 @@
 .calendarIconButton:hover {
   background: var(--color-bg-light);
   color: var(--color-text);
+} */
+
+.dateSelectButton {
+  cursor: pointer;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--color-card-border);
+  border-radius: 12px;
+  background: var(--color-card);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  width: 100%;
+}
+
+.dateSelectButton:hover {
+  border-color: var(--color-card-border);
+}
+
+.dateSelectButton:focus {
+  outline: none;
+  border-color: white;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
 }
 
 .statusSelect {

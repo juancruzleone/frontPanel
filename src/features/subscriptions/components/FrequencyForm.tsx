@@ -101,18 +101,6 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
     }
   }
 
-  // Manejador específico para los íconos de calendario
-  const handleCalendarIconClick = (e: React.MouseEvent, type: 'start' | 'end') => {
-    e.preventDefault()
-    e.stopPropagation()
-    
-    if (type === 'start') {
-      onFieldChange('isStartDatePickerOpen', true)
-    } else {
-      onFieldChange('isEndDatePickerOpen', true)
-    }
-  }
-
   // Manejador de envío del formulario
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -151,30 +139,28 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
         
         <div className={styles.formGroup}>
           <label>{t('subscriptions.startDate')}</label>
-          <div style={{ position: 'relative', width: '100%' }}>
-            <input
-              type="text"
-              data-date-input="start"
-              value={
-                formData.startDate && /^\d{4}-\d{2}-\d{2}$/.test(formData.startDate)
-                  ? formData.startDate.split('-').reverse().join('/')
-                  : ''
-              }
-              onClick={(e) => handleDateInputClick(e, 'start')}
-              onBlur={() => handleFieldBlurIfNotFromDatePicker('startDate')}
-              readOnly
-              className={styles.inputDate}
-              placeholder={t('subscriptions.selectStartDate')}
-              style={{ cursor: 'pointer', paddingRight: 40 }}
-            />
-            <button
-              type="button"
-              onClick={(e) => handleCalendarIconClick(e, 'start')}
-              aria-label={t('subscriptions.selectStartDate')}
-              className={styles.calendarIconButton}
-            >
-              <Calendar size={20} />
-            </button>
+          <div 
+            onClick={(e) => handleDateInputClick(e, 'start')}
+            className={styles.dateSelectButton}
+            style={{ 
+              cursor: 'pointer',
+              padding: '0.875rem 1rem',
+              border: '2px solid var(--color-card-border)',
+              borderRadius: '12px',
+              backgroundColor: 'var(--color-card)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              transition: 'all 0.2s ease',
+              fontSize: '0.95rem'
+            }}
+          >
+            <span style={{ color: formData.startDate ? 'var(--color-text)' : 'var(--color-text-secondary)' }}>
+              {formData.startDate && /^\d{4}-\d{2}-\d{2}$/.test(formData.startDate)
+                ? formData.startDate.split('-').reverse().join('/')
+                : t('subscriptions.selectStartDate')}
+            </span>
+            <Calendar size={18} style={{ color: 'var(--color-text-secondary)' }} />
           </div>
           <DatePickerModal
             isOpen={isStartDatePickerOpen}
@@ -191,30 +177,28 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
         
         <div className={styles.formGroup}>
           <label>{t('subscriptions.endDate')}</label>
-          <div style={{ position: 'relative', width: '100%' }}>
-            <input
-              type="text"
-              data-date-input="end"
-              value={
-                formData.endDate && /^\d{4}-\d{2}-\d{2}$/.test(formData.endDate)
-                  ? formData.endDate.split('-').reverse().join('/')
-                  : ''
-              }
-              onClick={(e) => handleDateInputClick(e, 'end')}
-              onBlur={() => handleFieldBlurIfNotFromDatePicker('endDate')}
-              readOnly
-              className={styles.inputDate}
-              placeholder={t('subscriptions.selectEndDate')}
-              style={{ cursor: 'pointer', paddingRight: 40 }}
-            />
-            <button
-              type="button"
-              onClick={(e) => handleCalendarIconClick(e, 'end')}
-              aria-label={t('subscriptions.selectEndDate')}
-              className={styles.calendarIconButton}
-            >
-              <Calendar size={20} />
-            </button>
+          <div 
+            onClick={(e) => handleDateInputClick(e, 'end')}
+            className={styles.dateSelectButton}
+            style={{ 
+              cursor: 'pointer',
+              padding: '0.875rem 1rem',
+              border: '2px solid var(--color-card-border)',
+              borderRadius: '12px',
+              backgroundColor: 'var(--color-card)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              transition: 'all 0.2s ease',
+              fontSize: '0.95rem'
+            }}
+          >
+            <span style={{ color: formData.endDate ? 'var(--color-text)' : 'var(--color-text-secondary)' }}>
+              {formData.endDate && /^\d{4}-\d{2}-\d{2}$/.test(formData.endDate)
+                ? formData.endDate.split('-').reverse().join('/')
+                : t('subscriptions.selectEndDate')}
+            </span>
+            <Calendar size={18} style={{ color: 'var(--color-text-secondary)' }} />
           </div>
           <DatePickerModal
             isOpen={isEndDatePickerOpen}
