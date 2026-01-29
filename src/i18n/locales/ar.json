@@ -1568,6 +1568,7 @@
       "uploadError": "خطأ في تحميل المستند",
       "selectFile": "الرجاء تحديد ملف",
       "onlyPdfAllowed": "يُسمح فقط بملفات PDF",
+      "fileTooLarge": "الملف كبير جداً. الحجم الأقصى هو 10 ميجابايت",
       "noDocumentsFound": "لم يتم العثور على مستندات",
       "errorFetching": "خطأ في تحميل المستندات",
       "errorDeleting": "خطأ في حذف المستند",

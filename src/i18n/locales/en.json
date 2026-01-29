@@ -1190,6 +1190,7 @@
       "uploadError": "Error uploading document",
       "selectFile": "Please select a file",
       "onlyPdfAllowed": "Only PDF files are allowed",
+      "fileTooLarge": "File is too large. Maximum size is 10MB",
       "noDocumentsFound": "No documents found",
       "errorFetching": "Error loading documents",
       "errorDeleting": "Error deleting document",

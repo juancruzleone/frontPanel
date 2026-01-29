@@ -1547,6 +1547,7 @@
       "uploadError": "Erro ao enviar documento",
       "selectFile": "Por favor, selecione um arquivo",
       "onlyPdfAllowed": "Apenas arquivos PDF são permitidos",
+      "fileTooLarge": "O arquivo é muito grande. O tamanho máximo é 10MB",
       "noDocumentsFound": "Nenhum documento encontrado",
       "errorFetching": "Erro ao carregar documentos",
       "errorDeleting": "Erro ao excluir documento",

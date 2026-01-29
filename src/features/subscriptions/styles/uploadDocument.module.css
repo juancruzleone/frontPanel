@@ -395,6 +395,9 @@
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
 }
 
 .removeFileButton:hover {

@@ -72,7 +72,7 @@ const MonthsDisplayModal: React.FC<MonthsDisplayModalProps> = ({
   if (!isOpen) return null
 
   return (
-    <div className={styles.modalOverlay} onClick={onRequestClose}>
+    <div className={styles.modalOverlay} onClick={(e) => e.stopPropagation()}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()} style={{ maxWidth: '600px' }}>
         <div className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>

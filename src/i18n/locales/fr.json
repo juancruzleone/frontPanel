@@ -1531,6 +1531,7 @@
       "uploadError": "Erreur lors du téléversement du document",
       "selectFile": "Veuillez sélectionner un fichier",
       "onlyPdfAllowed": "Seuls les fichiers PDF sont autorisés",
+      "fileTooLarge": "Le fichier est trop volumineux. La taille maximale est de 10MB",
       "noDocumentsFound": "Aucun document trouvé",
       "errorFetching": "Erreur lors du chargement des documents",
       "errorDeleting": "Erreur lors de la suppression du document",

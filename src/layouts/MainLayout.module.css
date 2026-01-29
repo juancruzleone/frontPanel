@@ -22,7 +22,7 @@
 
 @media (min-width: 1024px) {
   .contentArea {
-    margin-left: 260px;
+    margin-left: 280px;
   }
 
   .contentArea.collapsed {
@@ -39,7 +39,7 @@
 @media (min-width: 1024px) {
   .contentArea {
     padding: 24px;
-    margin-left: 260px;
+    margin-left: 280px;
   }
 
   .contentArea.collapsed {
@@ -49,7 +49,7 @@
 
 @media (min-width: 1440px) {
   .contentArea {
-    margin-left: 260px;
+    margin-left: 280px;
   }
 
   .contentArea.collapsed {

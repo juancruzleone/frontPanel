@@ -1561,6 +1561,7 @@
       "uploadError": "ドキュメントのアップロード中にエラーが発生しました",
       "selectFile": "ファイルを選択してください",
       "onlyPdfAllowed": "PDFファイルのみ許可されています",
+      "fileTooLarge": "ファイルが大きすぎます。最大サイズは10MBです",
       "noDocumentsFound": "ドキュメントが見つかりません",
       "errorFetching": "ドキュメントの読み込みエラー",
       "errorDeleting": "ドキュメントの削除エラー",

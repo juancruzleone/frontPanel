@@ -1550,6 +1550,7 @@
       "uploadError": "Errore durante il caricamento del documento",
       "selectFile": "Seleziona un file",
       "onlyPdfAllowed": "Sono consentiti solo file PDF",
+      "fileTooLarge": "Il file è troppo grande. La dimensione massima è 10MB",
       "noDocumentsFound": "Nessun documento trovato",
       "errorFetching": "Errore nel caricamento dei documenti",
       "errorDeleting": "Errore nell'eliminazione del documento",

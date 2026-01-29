@@ -1438,6 +1438,7 @@
       "uploadError": "Fehler beim Hochladen des Dokuments",
       "selectFile": "Bitte wählen Sie eine Datei aus",
       "onlyPdfAllowed": "Nur PDF-Dateien sind erlaubt",
+      "fileTooLarge": "Die Datei ist zu groß. Die maximale Größe beträgt 10MB",
       "noDocumentsFound": "Keine Dokumente gefunden",
       "errorFetching": "Fehler beim Laden der Dokumente",
       "errorDeleting": "Fehler beim Löschen des Dokuments",

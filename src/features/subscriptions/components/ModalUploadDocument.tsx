@@ -31,6 +31,9 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
     const [descripcion, setDescripcion] = useState('')
     const [isUploading, setIsUploading] = useState(false)
     const [dragActive, setDragActive] = useState(false)
+    const [fileError, setFileError] = useState<string>('')
+
+    const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10MB en bytes
 
     // Reset form when modal closes
     useEffect(() => {
@@ -40,6 +43,7 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
             setDescripcion('')
             setIsUploading(false)
             setDragActive(false)
+            setFileError('')
         }
     }, [isOpen])
 
@@ -55,11 +59,11 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
         }
     }, [isOpen])
 
+    // Backdrop click disabled - modal only closes via close button or cancel
     const handleBackdropClick = useCallback((e: React.MouseEvent) => {
-        if (e.target === e.currentTarget && !isUploading) {
-            onRequestClose()
-        }
-    }, [onRequestClose, isUploading])
+        // Do nothing - prevent closing on backdrop click
+        e.stopPropagation()
+    }, [])
 
     const handleDrag = useCallback((e: React.DragEvent) => {
         e.preventDefault()
@@ -78,27 +82,60 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
 
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
             const file = e.dataTransfer.files[0]
-            if (file.type === 'application/pdf') {
-                setSelectedFile(file)
-            } else {
-                onUploadError(t('subscriptions.documents.onlyPdfAllowed'))
+            
+            // Validar tipo de archivo
+            if (file.type !== 'application/pdf') {
+                setFileError(t('subscriptions.documents.onlyPdfAllowed'))
+                return
+            }
+            
+            // Validar tamaño del archivo
+            if (file.size > MAX_FILE_SIZE) {
+                setFileError(t('subscriptions.documents.fileTooLarge'))
+                return
+            }
+            
+            // Limpiar error y establecer archivo
+            setFileError('')
+            setSelectedFile(file)
+            
+            // Auto-fill description with file name if description is empty
+            if (!descripcion.trim()) {
+                setDescripcion(file.name.replace('.pdf', ''))
             }
         }
-    }, [t, onUploadError])
+    }, [t, descripcion, MAX_FILE_SIZE])
 
     const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0]
-            if (file.type === 'application/pdf') {
-                setSelectedFile(file)
-            } else {
-                onUploadError(t('subscriptions.documents.onlyPdfAllowed'))
+            
+            // Validar tipo de archivo
+            if (file.type !== 'application/pdf') {
+                setFileError(t('subscriptions.documents.onlyPdfAllowed'))
+                return
+            }
+            
+            // Validar tamaño del archivo
+            if (file.size > MAX_FILE_SIZE) {
+                setFileError(t('subscriptions.documents.fileTooLarge'))
+                return
+            }
+            
+            // Limpiar error y establecer archivo
+            setFileError('')
+            setSelectedFile(file)
+            
+            // Auto-fill description with file name if description is empty
+            if (!descripcion.trim()) {
+                setDescripcion(file.name.replace('.pdf', ''))
             }
         }
-    }, [t, onUploadError])
+    }, [t, descripcion, MAX_FILE_SIZE])
 
     const handleRemoveFile = useCallback(() => {
         setSelectedFile(null)
+        setFileError('')
         if (fileInputRef.current) {
             fileInputRef.current.value = ''
         }
@@ -108,7 +145,13 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
         e.preventDefault()
 
         if (!selectedFile) {
-            onUploadError(t('subscriptions.documents.selectFile'))
+            setFileError(t('subscriptions.documents.selectFile'))
+            return
+        }
+
+        // Validar tamaño antes de enviar
+        if (selectedFile.size > MAX_FILE_SIZE) {
+            setFileError(t('subscriptions.documents.fileTooLarge'))
             return
         }
 
@@ -178,6 +221,7 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
                                     {t('subscriptions.documents.documentType')}
                                 </label>
                                 <HybridSelect
+                                    name="tipoDocumento"
                                     value={tipoDocumento}
                                     onChange={(value) => setTipoDocumento(value as 'presupuesto' | 'contrato' | 'otro')}
                                     options={[
@@ -260,6 +304,11 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
                                             <Trash2 size={18} />
                                         </button>
                                     </div>
+                                )}
+                                
+                                {/* Mensaje de error de validación */}
+                                {fileError && (
+                                    <p className={styles.inputError}>{fileError}</p>
                                 )}
                             </div>
                         </div>

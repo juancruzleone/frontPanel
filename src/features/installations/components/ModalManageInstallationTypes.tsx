@@ -38,7 +38,7 @@ const ModalManageInstallationTypes: React.FC<ModalManageInstallationTypesProps> 
   }
 
   return (
-    <div className={styles.modalOverlay} onClick={onRequestClose}>
+    <div className={styles.modalOverlay} onClick={(e) => e.stopPropagation()}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <div className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>{t('installations.installationTypes')}</h2>

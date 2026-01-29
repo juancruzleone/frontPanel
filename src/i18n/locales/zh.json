@@ -1571,6 +1571,7 @@
       "uploadError": "上传文档时出错",
       "selectFile": "请选择文件",
       "onlyPdfAllowed": "仅允许PDF文件",
+      "fileTooLarge": "文件太大。最大大小为10MB",
       "noDocumentsFound": "未找到文档",
       "errorFetching": "加载文档时出错",
       "errorDeleting": "删除文档时出错",

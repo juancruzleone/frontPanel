@@ -76,7 +76,7 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
     if (!isOpen) return null
 
     return (
-        <div className={styles.backdrop} onClick={onRequestClose}>
+        <div className={styles.backdrop} onClick={(e) => e.stopPropagation()}>
             <div className={styles.modal} onClick={(e) => e.stopPropagation()} style={{ maxWidth: '700px' }}>
                 <div className={styles.modalHeader}>
                     <div className={styles.titleSection}>

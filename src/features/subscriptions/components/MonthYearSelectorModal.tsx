@@ -38,7 +38,7 @@ const MonthYearSelectorModal: React.FC<MonthYearSelectorModalProps> = ({
   }
 
   return (
-    <div className={styles.modalOverlay} onClick={onRequestClose}>
+    <div className={styles.modalOverlay} onClick={(e) => e.stopPropagation()}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()} style={{ maxWidth: '800px' }}>
         <div className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>
