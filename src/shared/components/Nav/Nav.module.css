@@ -830,6 +830,11 @@
   width: 80px !important;
 }
 
+.nav.collapsed .userSection {
+  margin-top: 8px !important;
+  padding-top: 8px !important;
+}
+
 .nav.collapsed .navContent {
   padding: 24px 12px !important;
 }
@@ -856,13 +861,18 @@
 .nav.collapsed .logoArea {
   justify-content: center;
   padding-left: 0;
-  margin-bottom: 40px;
+  margin-bottom: 20px !important;
+  margin-top: 0 !important;
 }
 
 .nav.collapsed .menu li a {
   justify-content: center;
-  padding: 14px !important;
+  padding: 10px !important;
   gap: 0;
+}
+
+.nav.collapsed .menu li {
+  margin-bottom: 4px !important;
 }
 
 .nav.collapsed .menu li a:hover {
@@ -870,10 +880,13 @@
 }
 
 .nav.collapsed .userInfo {
-  padding: 8px !important;
+  padding: 8px 4px !important;
   justify-content: center;
   background: transparent;
   border: none;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px !important;
 }
 
 .nav.collapsed .userDetails {
@@ -882,9 +895,32 @@
 
 .nav.collapsed .logoutButton {
   padding: 8px !important;
-  width: 36px;
-  height: 36px;
-  margin: 0;
+  width: 36px !important;
+  height: 36px !important;
+  margin: 4px auto !important;
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  color: #00FFAE !important;
+  background: rgba(0, 255, 174, 0.1) !important;
+  border: none !important;
+  border-radius: 10px !important;
+  justify-content: center !important;
+  align-items: center !important;
+  z-index: 10 !important;
+  transition: all 0.2s ease;
+}
+
+.nav.collapsed .logoutButton:hover {
+  color: #ffffff !important;
+  background: #ef4444 !important;
+  transform: scale(1.1);
+}
+
+.nav.collapsed .logoutButton svg {
+  width: 18px !important;
+  height: 18px !important;
+  stroke-width: 2px !important;
 }
 
 .nav.collapsed .userAvatar {
@@ -893,15 +929,12 @@
   font-size: 12px;
 }
 
-.nav.collapsed .userInfo {
-  flex-direction: column;
-  gap: 8px;
-  padding: 12px 8px !important;
-}
+
 
 .nav.collapsed .controlsContainer {
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
+  margin-bottom: 4px !important;
 }
 
 .nav.collapsed .languageButton,
@@ -938,9 +971,10 @@
 
 /* Hide scrollbar in collapsed mode */
 .nav.collapsed .navContent {
+  overflow-y: hidden !important;
+  overflow-x: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  overflow-x: hidden;
 }
 
 .nav.collapsed .navContent::-webkit-scrollbar {
