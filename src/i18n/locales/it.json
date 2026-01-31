@@ -1295,6 +1295,8 @@
     "retryLoadCategories": "Riprova a caricare le categorie",
     "searchDevicesPlaceholder": "Cerca per dispositivo, posizione o categoria...",
     "noDevicesFound": "Nessun dispositivo trovato con questo termine di ricerca",
+    "noMaintenanceAvailable": "Nessuna manutenzione disponibile per questo dispositivo",
+    "errorLoadingMaintenance": "Errore nel caricamento della manutenzione",
     "tour": {
       "welcome": {
         "title": "Benvenuto nei Dettagli dell'Installazione!",
@@ -1500,65 +1502,72 @@
     "viewMonths": "Visualizza mesi",
     "monthsDetail": "Dettaglio Mesi",
     "period": "Periodo",
-    "noMonthsAvailable": "Nessun mese disponibile",
-    "tour": {
-      "welcome": {
-        "title": "Benvenuto in Abbonamenti Attivi!",
-        "description": "Qui puoi gestire gli abbonamenti di manutenzione delle tue installazioni. Ti mostreremo come funziona questa sezione."
-      },
-      "goToInstallations": {
-        "title": "Vai a Installazioni",
-        "description": "Prima di creare un abbonamento, assicurati di avere almeno un'installazione creata. Clicca qui per andare alla sezione Installazioni e crearla."
-      },
-      "searchFilter": {
-        "title": "Cerca e Filtra",
-        "description": "Usa la barra di ricerca per trovare abbonamenti per installazione, indirizzo o tipo. Puoi anche filtrare per mese per vedere quali abbonamenti sono attivi in un mese specifico."
-      },
-      "editFrequency": {
-        "title": "Modifica Frequenza",
-        "description": "Clicca su questo pulsante per cambiare la frequenza dell'abbonamento (mensile, trimestrale, semestrale o annuale) e regolare i mesi in cui verrà eseguita la manutenzione."
-      },
-      "months": {
-        "title": "Mesi Selezionati",
-        "description": "Qui sono mostrati i mesi in cui verrà eseguita la manutenzione secondo la frequenza configurata. I mesi vengono regolati automaticamente in base alla frequenza scelta."
-      },
-      "buttons": {
-        "next": "Avanti",
-        "previous": "Precedente",
-        "done": "Fine",
-        "skip": "Salta tutorial",
-        "restart": "Visualizza tutorial"
-      },
-      "progressText": "{{current}} di {{total}}"
+    "noMonthsAvailable": "Nessun mese disponibile"
+  },
+  "roles": {
+    "superAdmin": "Super Admin",
+    "admin": "Amministratore",
+    "technician": "Tecnico",
+    "client": "Cliente",
+    "user": "Utente"
+  },
+  "tour": {
+    "welcome": {
+      "title": "Benvenuto in Abbonamenti Attivi!",
+      "description": "Qui puoi gestire gli abbonamenti di manutenzione delle tue installazioni. Ti mostreremo come funziona questa sezione."
     },
-    "documents": {
-      "uploadTitle": "Carica documento",
-      "uploadSubtitle": "Carica un contratto o un preventivo per questa installazione",
-      "uploadTooltip": "Carica contratto/preventivo",
-      "viewTitle": "Documenti salvati",
-      "viewTooltip": "Visualizza documenti salvati",
-      "documentType": "Tipo di documento",
-      "description": "Descrizione",
-      "descriptionPlaceholder": "Inserisci una descrizione del documento",
-      "file": "File PDF",
-      "dragAndDrop": "Trascina e rilascia il tuo file PDF qui",
-      "orClickToSelect": "o clicca per selezionarlo",
-      "maxSize": "Dimensione massima: 10MB",
-      "upload": "Carica documento",
-      "uploading": "Caricamento in corso...",
-      "uploadSuccess": "Documento caricato con successo",
-      "uploadError": "Errore durante il caricamento del documento",
-      "selectFile": "Seleziona un file",
-      "onlyPdfAllowed": "Sono consentiti solo file PDF",
-      "fileTooLarge": "Il file è troppo grande. La dimensione massima è 10MB",
-      "noDocumentsFound": "Nessun documento trovato",
-      "errorFetching": "Errore nel caricamento dei documenti",
-      "errorDeleting": "Errore nell'eliminazione del documento",
-      "fileSelected": "File selezionato",
-      "contract": "Contratto",
-      "budget": "Preventivo",
-      "other": "Altro"
-    }
+    "goToInstallations": {
+      "title": "Vai a Installazioni",
+      "description": "Prima di creare un abbonamento, assicurati di avere almeno un'installazione creata. Clicca qui per andare alla sezione Installazioni e crearla."
+    },
+    "searchFilter": {
+      "title": "Cerca e Filtra",
+      "description": "Usa la barra di ricerca per trovare abbonamenti per installazione, indirizzo o tipo. Puoi anche filtrare per mese per vedere quali abbonamenti sono attivi in un mese specifico."
+    },
+    "editFrequency": {
+      "title": "Modifica Frequenza",
+      "description": "Clicca su questo pulsante per cambiare la frequenza dell'abbonamento (mensile, trimestrale, semestrale o annuale) e regolare i mesi in cui verrà eseguita la manutenzione."
+    },
+    "months": {
+      "title": "Mesi Selezionati",
+      "description": "Qui sono mostrati i mesi in cui verrà eseguita la manutenzione secondo la frequenza configurata. I mesi vengono regolati automaticamente in base alla frequenza scelta."
+    },
+    "buttons": {
+      "next": "Avanti",
+      "previous": "Precedente",
+      "done": "Fine",
+      "skip": "Salta tutorial",
+      "restart": "Visualizza tutorial"
+    },
+    "progressText": "{{current}} di {{total}}"
+  },
+  "documents": {
+    "uploadTitle": "Carica documento",
+    "uploadSubtitle": "Carica un contratto o un preventivo per questa installazione",
+    "uploadTooltip": "Carica contratto/preventivo",
+    "viewTitle": "Documenti salvati",
+    "viewTooltip": "Visualizza documenti salvati",
+    "documentType": "Tipo di documento",
+    "description": "Descrizione",
+    "descriptionPlaceholder": "Inserisci una descrizione del documento",
+    "file": "File PDF",
+    "dragAndDrop": "Trascina e rilascia il tuo file PDF qui",
+    "orClickToSelect": "o clicca per selezionarlo",
+    "maxSize": "Dimensione massima: 10MB",
+    "upload": "Carica documento",
+    "uploading": "Caricamento in corso...",
+    "uploadSuccess": "Documento caricato con successo",
+    "uploadError": "Errore durante il caricamento del documento",
+    "selectFile": "Seleziona un file",
+    "onlyPdfAllowed": "Sono consentiti solo file PDF",
+    "fileTooLarge": "Il file è troppo grande. La dimensione massima è 10MB",
+    "noDocumentsFound": "Nessun documento trovato",
+    "errorFetching": "Errore nel caricamento dei documenti",
+    "errorDeleting": "Errore nell'eliminazione del documento",
+    "fileSelected": "File selezionato",
+    "contract": "Contratto",
+    "budget": "Preventivo",
+    "other": "Altro"
   },
   "planLimits": {
     "title": "Limite del Piano Raggiunto",

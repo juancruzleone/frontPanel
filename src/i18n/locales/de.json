@@ -1149,7 +1149,7 @@
     "category": "Kategorie",
     "installation": "Installation",
     "deviceNamePlaceholder": "Geben Sie den Gerätenamen ein",
-    "successTitle": "Vorgang erfolgreich!",
+    "successTitle": "Operation erfolgreich!",
     "understood": "Schließen",
     "titlePage": "Geräte | Leonix",
     "loadingDevices": "Geräte werden geladen...",
@@ -1168,21 +1168,24 @@
     "viewMaintenanceHistory": "Wartungshistorie anzeigen",
     "editDevice": "Gerät bearbeiten",
     "deleteDevice": "Gerät löschen",
-    "page": "Seite {{currentPage}} von {{totalPages}}",
+    "page": "Seite",
+    "of": "von",
     "confirmDeleteTitle": "Gerät löschen?",
     "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden.",
     "qrCode": "QR-Code",
     "generatingQR": "QR-Code wird generiert...",
-    "errorGeneratingQR": "Fehler bei der QR-Code-Erstellung",
+    "errorGeneratingQR": "Fehler beim Generieren des QR-Codes",
     "scanQRDescription": "Scannen Sie diesen Code, um auf das Wartungsformular zuzugreifen",
     "openForm": "Formular öffnen",
     "printQR": "QR drucken",
     "device": "Gerät",
     "loadingRequiredData": "Erforderliche Daten werden geladen...",
     "errorLoadingCategories": "Fehler beim Laden der Kategorien",
-    "retryLoadCategories": "Laden der Kategorien erneut versuchen",
+    "retryLoadCategories": "Kategorien erneut laden",
     "searchDevicesPlaceholder": "Nach Gerät, Standort oder Kategorie suchen...",
     "noDevicesFound": "Keine Geräte mit diesem Suchbegriff gefunden",
+    "noMaintenanceAvailable": "Keine Wartung für dieses Gerät verfügbar",
+    "errorLoadingMaintenance": "Fehler beim Laden der Wartung",
     "tour": {
       "welcome": {
         "title": "Willkommen bei den Installationsdetails!",
@@ -1190,7 +1193,11 @@
       },
       "goToInstallations": {
         "title": "Zu Installationen gehen",
-        "description": "Bevor Sie Geräte hinzufügen, stellen Sie sicher, dass Sie Gerätekategorien im Bereich Installationen erstellt haben. Klicken Sie hier, um zu diesem Bereich zu gehen."
+        "description": "Bevor Sie Geräte hinzufügen, stellen Sie sicher, dass Sie Gerätekategorien im Bereich Installationen erstellt haben. Klicken Sie hier, um zu diesem Bereich zu gelangen."
+      },
+      "createAssetFirst": {
+        "title": "Wichtig: Zuerst Assets erstellen",
+        "description": "Bevor Sie ein Gerät zu dieser Installation hinzufügen, müssen Sie zuerst ein Asset im Bereich Assets erstellen. Assets dienen als Basis/Vorlage für Geräte in Installationen."
       },
       "addDevice": {
         "title": "Gerät hinzufügen",
@@ -1209,7 +1216,7 @@
         "previous": "Zurück",
         "done": "Fertig",
         "skip": "Tutorial überspringen",
-        "restart": "Tutorial ansehen"
+        "restart": "Tutorial anzeigen"
       },
       "progressText": "{{current}} von {{total}}"
     }

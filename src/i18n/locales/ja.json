@@ -1395,6 +1395,9 @@
     "retryLoadCategories": "カテゴリの再読み込み",
     "searchDevicesPlaceholder": "デバイス、場所、またはカテゴリで検索...",
     "noDevicesFound": "この検索用語でデバイスが見つかりませんでした",
+    "noMaintenanceAvailable": "このデバイスには利用可能なメンテナンスがありません",
+    "errorLoadingMaintenance": "メンテナンスの読み込みエラー",
+    "viewMaintenanceHistory": "メンテナンス履歴を表示",
     "tour": {
       "welcome": {
         "title": "設置詳細へようこそ！",
@@ -1571,6 +1574,13 @@
       "other": "その他"
     }
   },
+  "roles": {
+    "superAdmin": "スーパー管理者",
+    "admin": "管理者",
+    "technician": "技術者",
+    "client": "クライアント",
+    "user": "ユーザー"
+  },
   "planLimits": {
     "title": "プラン制限に達しました",
     "subtitle": "現在のプランの最大制限に達しました",
@@ -1586,109 +1596,21 @@
       "workOrders": "作業指示書"
     },
     "messages": {
-      "endDate": "終了日",
-      "noSubscriptionsFound": "サブスクリプションが見つかりません",
-      "noSubscriptions": "利用可能なサブスクリプションはありません",
-      "errorLoading": "サブスクリプションの読み込みエラー",
-      "status": {
-        "label": "状態",
-        "placeholder": "状態を選択",
-        "active": "アクティブ",
-        "inactive": "非アクティブ",
-        "pending": "保留中"
-      },
-      "errors": {
-        "startDateRequired": "開始日は必須です",
-        "endDateRequired": "終了日は必須です",
-        "endDateAfterStart": "終了日は開始日より後である必要があります",
-        "invalidDate": "日付が有効である必要があります",
-        "frequencyRequired": "サブスクリプションを有効にするには頻度が必要です",
-        "consecutiveMonthsNotAllowed": "連続した月を選択できません"
-      },
-      "table": {
-        "installation": "設置",
-        "address": "住所",
-        "type": "タイプ",
-        "frequency": "頻度",
-        "months": "月",
-        "status": "状態",
-        "startDate": "開始日",
-        "endDate": "終了日"
-      },
-      "months": {
-        "Enero": "1月",
-        "Febrero": "2月",
-        "Marzo": "3月",
-        "Abril": "4月",
-        "Mayo": "5月",
-        "Junio": "6月",
-        "Julio": "7月",
-        "Agosto": "8月",
-        "Septiembre": "9月",
-        "Octubre": "10月",
-        "Noviembre": "11月",
-        "Diciembre": "12月"
-      },
-      "frequency": {
-        "monthly": "毎月",
-        "quarterly": "四半期ごと",
-        "semiannual": "半年ごと",
-        "annual": "毎年"
-      },
-      "editFrequency": "頻度を編集",
-      "newFrequency": "新しい頻度",
-      "selectFrequency": "頻度を選択",
-      "selectedMonths": "選択した月",
-      "frequencyUpdated": "頻度が正常に更新されました",
-      "errorUpdating": "頻度の更新エラー",
-      "selectTwoMonths": "2か月を選択してください",
-      "selectFourMonths": "4か月を選択してください",
-      "selectOneMonth": "1か月を選択してください",
-      "selectAllMonths": "希望する月を選択してください",
-      "selectDatesFirst": "まず開始日と終了日を選択してください",
-      "clickToSelectMonths": "クリックして月を選択",
-      "month": "か月",
-      "months": "か月",
-      "monthSelected": "か月選択済み",
-      "monthsSelected": "か月選択済み",
-      "filterByMonth": "月でフィルタ",
-      "clearFilter": "フィルタをクリア",
-      "viewMonths": "月を表示",
-      "monthsDetail": "月の詳細",
-      "period": "期間",
-      "noMonthsAvailable": "利用可能な月がありません"
-    },
-    "planLimits": {
-      "title": "プラン制限に達しました",
-      "subtitle": "現在のプランの最大制限に達しました",
-      "currentPlan": "現在のプラン",
-      "upgradeMessage": "より多くのリソースを追加し続けるには、プランをより高いレベルにアップグレードしてください。",
-      "upgradeButton": "プランをアップグレード",
-      "close": "閉じる",
-      "types": {
-        "users": "ユーザー",
-        "installations": "インストール",
-        "assets": "アセット",
-        "formTemplates": "フォームテンプレート",
-        "workOrders": "作業指示書"
-      },
-      "messages": {
-        "usersLimit": "プランの最大ユーザー数に達しました",
-        "installationsLimit": "プランの最大インストール数に達しました",
-        "assetsLimit": "プランの最大アセット数に達しました",
-        "formTemplatesLimit": "プランの最大フォームテンプレート数に達しました",
-        "workOrdersLimit": "プランの最大作業指示書数に達しました"
-      }
-    },
-    "maintenanceHistory": {
-      "title": "メンテナンス履歴",
-      "loading": "履歴を読み込み中...",
-      "noMaintenances": "このデバイスのメンテナンス記録はありません",
-      "noMaintenancesSubtext": "このデバイスにはまだメンテナンス記録がありません",
-      "maintenanceNumber": "メンテナンス #",
-      "viewPDF": "PDFレポートを表示",
-      "close": "閉じる"
+      "usersLimit": "プランの最大ユーザー数に達しました",
+      "installationsLimit": "プランの最大インストール数に達しました",
+      "assetsLimit": "プランの最大アセット数に達しました",
+      "formTemplatesLimit": "プランの最大フォームテンプレート数に達しました",
+      "workOrdersLimit": "プランの最大作業指示書数に達しました"
     }
+  },
+  "maintenanceHistory": {
+    "title": "メンテナンス履歴",
+    "loading": "履歴を読み込み中...",
+    "noMaintenances": "このデバイスのメンテナンス記録はありません",
+    "noMaintenancesSubtext": "このデバイスにはまだメンテナンス記録がありません",
+    "maintenanceNumber": "メンテナンス #",
+    "viewPDF": "PDFレポートを表示",
+    "close": "閉じる"
   },
   "deviceForm": {
     "viewHistory": "メンテナンス履歴を表示"

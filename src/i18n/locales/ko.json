@@ -1312,6 +1312,8 @@
     "retryLoadCategories": "카테고리 다시 로드",
     "searchDevicesPlaceholder": "장치, 위치 또는 카테고리로 검색...",
     "noDevicesFound": "이 검색어로 장치를 찾을 수 없습니다",
+    "noMaintenanceAvailable": "이 장치에 사용 가능한 유지보수가 없습니다",
+    "errorLoadingMaintenance": "유지보수 로드 오류",
     "tour": {
       "welcome": {
         "title": "설치 상세에 오신 것을 환영합니다!",
@@ -1578,6 +1580,13 @@
     "monthsDetail": "월 세부정보",
     "period": "기간",
     "noMonthsAvailable": "사용 가능한 월이 없습니다"
+  },
+  "roles": {
+    "superAdmin": "슈퍼 관리자",
+    "admin": "관리자",
+    "technician": "기술자",
+    "client": "클라이언트",
+    "user": "사용자"
   },
   "planLimits": {
     "title": "플랜 한도에 도달했습니다",

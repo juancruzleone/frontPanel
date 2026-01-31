@@ -237,7 +237,7 @@
     "search": "Buscar",
     "filter": "Filtrar",
     "clear": "Limpar",
-    "details": "Detalhes",
+    "details": "Ver detalhes",
     "close": "Fechar",
     "back": "Voltar",
     "next": "Próximo",
@@ -1290,6 +1290,8 @@
     "retryLoadCategories": "Tentar novamente carregar categorias",
     "searchDevicesPlaceholder": "Buscar por dispositivo, localização ou categoria...",
     "noDevicesFound": "Nenhum dispositivo encontrado com esse termo de busca",
+    "noMaintenanceAvailable": "Nenhuma manutenção disponível para este dispositivo",
+    "errorLoadingMaintenance": "Erro ao carregar a manutenção",
     "tour": {
       "welcome": {
         "title": "Bem-vindo aos Detalhes da Instalação!",
@@ -1552,10 +1554,14 @@
       "errorFetching": "Erro ao carregar documentos",
       "errorDeleting": "Erro ao excluir documento",
       "fileSelected": "Arquivo selecionado",
-      "contract": "Contrato",
-      "budget": "Orçamento",
-      "other": "Outro"
-    }
+      "types": {
+        "presupuesto": "Orçamento",
+        "contrato": "Contrato",
+        "otro": "Outro"
+      },
+      "unnamedDocument": "Documento sem nome"
+    },
+    "installationDetails": "Detalhes da instalação"
   },
   "planLimits": {
     "title": "Limite do Plano Atingido",
@@ -1587,5 +1593,12 @@
       "viewPDF": "Ver Relatório PDF",
       "close": "Fechar"
     }
+  },
+  "roles": {
+    "superAdmin": "Super Admin",
+    "admin": "Administrador",
+    "technician": "Técnico",
+    "client": "Cliente",
+    "user": "Usuário"
   }
 }

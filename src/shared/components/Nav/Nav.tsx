@@ -10,7 +10,7 @@ import styles from "./Nav.module.css"
 import { useState, useEffect, useRef } from "react"
 import { useTheme } from "../../hooks/useTheme"
 import { useTranslation } from "react-i18next"
-import { isTechnician, isSuperAdmin, canAccessSection, isClient } from "../../utils/roleUtils"
+import { isTechnician, isSuperAdmin, canAccessSection, isClient, isAdmin } from "../../utils/roleUtils"
 import esFlag from '../../../../src/assets/flags/es.svg'
 import frFlag from '../../../../src/assets/flags/fr.svg'
 import usFlag from '../../../../src/assets/flags/us.svg'
@@ -60,6 +60,7 @@ const Nav = () => {
   const isTechnicianUser = isTechnician(role)
   const isSuperAdminUser = isSuperAdmin(role)
   const isClientUser = isClient(role)
+  const isAdminUser = isAdmin(role)
 
   const languages = [
     { code: 'es', name: t('languageSelector.spanish'), flag: '🇪🇸' },
@@ -286,7 +287,12 @@ const Nav = () => {
             <div className={styles.userSection}>
               {user && (
                 <div className={styles.userInfo}>
-                  <div className={styles.userAvatar}>
+                  <div
+                    className={styles.userAvatar}
+                    onClick={() => { setIsMenuOpen(false); navigate('/perfil'); }}
+                    style={{ cursor: 'pointer' }}
+                    title={t('common.viewProfile') || 'Ver perfil'}
+                  >
                     {user.substring(0, 2).toUpperCase()}
                   </div>
                   <div className={styles.userDetails}>
@@ -294,7 +300,9 @@ const Nav = () => {
                       {user}
                     </span>
                     <span className={styles.userRole}>
-                      {isSuperAdminUser ? 'Admin' : isTechnicianUser ? 'Técnico' : isClientUser ? 'Cliente' : 'Usuario'}
+                      <span className={styles.userRole}>
+                        {isSuperAdminUser ? t('roles.superAdmin') : isAdminUser ? t('roles.admin') : isTechnicianUser ? t('roles.technician') : isClientUser ? t('roles.client') : t('roles.user')}
+                      </span>
                     </span>
                   </div>
                   <button

@@ -1314,6 +1314,8 @@
     "retryLoadCategories": "重试加载类别",
     "searchDevicesPlaceholder": "按设备、位置或类别搜索...",
     "noDevicesFound": "未找到与此搜索词匹配的设备",
+    "noMaintenanceAvailable": "此设备没有可用的维护",
+    "errorLoadingMaintenance": "加载维护出错",
     "tour": {
       "welcome": {
         "title": "欢迎来到安装详情！",

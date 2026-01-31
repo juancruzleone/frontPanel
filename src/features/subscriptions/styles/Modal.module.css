@@ -224,7 +224,7 @@
 }
 
 .modalButton.danger:hover {
-  background: #d32f2f);
+  background: #d32f2f;
 }
 
 .successContentBody {
@@ -365,51 +365,6 @@
   border-color: var(--color-card-border);
 }
 
-/* Estilos deprecados - ahora se usa dateSelectButton */
-/* .inputDate {
-  width: 100%;
-  padding: 0.875rem 1rem;
-  border: 2px solid var(--color-card-border);
-  border-radius: 12px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  background: var(--color-card);
-  color: var(--color-text);
-  font-family: inherit;
-  cursor: pointer;
-}
-
-.inputDate:focus {
-  outline: none;
-  border-color: white;
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
-  background: var(--color-bg-light);
-}
-
-.calendarIconButton {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: var(--color-text);
-  cursor: pointer;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  border-radius: 8px;
-  pointer-events: all;
-  z-index: 10;
-}
-
-.calendarIconButton:hover {
-  background: var(--color-bg-light);
-  color: var(--color-text);
-} */
-
 .dateSelectButton {
   cursor: pointer;
   padding: 0.875rem 1rem;
@@ -454,30 +409,6 @@
   height: 16px;
   background: var(--color-text);
   border-radius: 2px;
-}
-
-.dateSelectButton {
-  cursor: pointer;
-  padding: 0.875rem 1rem;
-  border: 2px solid var(--color-card-border);
-  border-radius: 12px;
-  background: var(--color-card);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: all 0.2s ease;
-  font-size: 0.95rem;
-  width: 100%;
-}
-
-.dateSelectButton:hover {
-  border-color: var(--color-card-border);
-}
-
-.dateSelectButton:focus {
-  outline: none;
-  border-color: white;
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
 }
 
 .monthsPreviewButton {
@@ -699,8 +630,16 @@
   justify-content: space-between;
   padding: 1rem;
   background: var(--color-bg-light);
-  border: 2px solid var(--color-secondary);
+  border: 1px solid var(--color-card-border);
   border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.selectedFile:hover {
+  border-color: var(--color-border-hover, #666);
+  /* Fallback or use existing variable if known, otherwise just use a distinct color or opacity */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
 }
 
 .fileInfo {
@@ -712,8 +651,12 @@
 }
 
 .fileIcon {
-  color: var(--color-secondary);
+  color: #000;
   flex-shrink: 0;
+}
+
+:global(.dark) .fileIcon {
+  color: #fff;
 }
 
 .fileDetails {
@@ -738,10 +681,9 @@
   font-size: 0.85rem;
 }
 
-.removeFileButton {
-  background: none;
-  border: none;
-  color: var(--color-danger);
+.fileActionButton {
+  background: transparent;
+  border: 1px solid transparent;
   cursor: pointer;
   padding: 0.5rem;
   border-radius: 8px;
@@ -754,13 +696,31 @@
   height: 36px;
 }
 
-.removeFileButton:hover {
-  background: rgba(220, 53, 69, 0.1);
+.viewFileButton {
+  color: var(--color-text);
 }
 
-.removeFileButton:disabled {
+.viewFileButton:hover {
+  background: var(--color-bg-light);
+  border-color: var(--color-card-border);
+  color: var(--color-text);
+  transform: translateY(-1px);
+}
+
+.deleteFileButton {
+  color: var(--color-danger);
+}
+
+.deleteFileButton:hover {
+  background: rgba(220, 53, 69, 0.1);
+  border-color: rgba(220, 53, 69, 0.2);
+  transform: translateY(-1px);
+}
+
+.deleteFileButton:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
 }
 
 /* Spinner animation */
@@ -772,6 +732,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -808,4 +769,14 @@
 .formGroup :global(.hybridDropdown) {
   border-radius: 12px;
   margin-top: 0.5rem;
+}
+
+.typeBadge {
+  display: inline-flex;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: var(--color-secondary);
+  color: white;
+  font-weight: 600;
+  font-size: 0.75rem;
 }

@@ -1467,6 +1467,8 @@
     "retryLoadCategories": "Retry loading categories",
     "searchDevicesPlaceholder": "Search by device, location or category...",
     "noDevicesFound": "No devices found with that search term",
+    "noMaintenanceAvailable": "No maintenance available for this device",
+    "errorLoadingMaintenance": "Error loading maintenance",
     "tour": {
       "welcome": {
         "title": "Welcome to Installation Details!",

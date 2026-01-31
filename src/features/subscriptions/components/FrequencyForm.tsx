@@ -74,18 +74,18 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
   // Obtener el primer mes seleccionado basado en la fecha de inicio
   const getFirstMonth = () => {
     if (selectedMonths.length === 0 || !formData.startDate) return null
-    
-    const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
-                        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-    
+
+    const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+
     const startDate = new Date(formData.startDate)
     const startMonth = startDate.getMonth()
-    
+
     // Si la frecuencia es mensual, devolver el mes de inicio
     if (formData.frequency === 'mensual') {
       return monthNames[startMonth]
     }
-    
+
     // Para otras frecuencias, devolver el primer mes del array
     return selectedMonths[0]
   }
@@ -136,13 +136,13 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
             <div className={styles.inputError}>{formErrors['tipo']}</div>
           )}
         </div>
-        
+
         <div className={styles.formGroup}>
           <label>{t('subscriptions.startDate')}</label>
-          <div 
+          <div
             onClick={(e) => handleDateInputClick(e, 'start')}
             className={styles.dateSelectButton}
-            style={{ 
+            style={{
               cursor: 'pointer',
               padding: '0.875rem 1rem',
               border: '2px solid var(--color-card-border)',
@@ -174,13 +174,13 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
             <div className={styles.inputError}>{formErrors['fechaInicio']}</div>
           )}
         </div>
-        
+
         <div className={styles.formGroup}>
           <label>{t('subscriptions.endDate')}</label>
-          <div 
+          <div
             onClick={(e) => handleDateInputClick(e, 'end')}
             className={styles.dateSelectButton}
-            style={{ 
+            style={{
               cursor: 'pointer',
               padding: '0.875rem 1rem',
               border: '2px solid var(--color-card-border)',
@@ -212,7 +212,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
             <div className={styles.inputError}>{formErrors['fechaFin']}</div>
           )}
         </div>
-        
+
         <div className={styles.formGroup}>
           <label>{t('subscriptions.status.label')}</label>
           <HybridSelect
@@ -230,17 +230,16 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
             <div className={styles.inputError}>{formErrors['estado']}</div>
           )}
         </div>
-        
+
         {(formData.frequency === 'semestral' || formData.frequency === 'trimestral' || formData.frequency === 'anual' || formData.frequency === 'mensual') && (
           <div className={styles.formGroup}>
             <label className={styles.monthsLabel}>
-              <Calendar size={16} />
               {t('subscriptions.selectedMonths')}
             </label>
-            <div 
+            <div
               className={styles.monthsPreviewButton}
               onClick={() => setIsMonthSelectorOpen(true)}
-              style={{ 
+              style={{
                 cursor: 'pointer',
                 padding: '0.875rem 1rem',
                 border: '2px solid var(--color-card-border)',
@@ -254,7 +253,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
               }}
             >
               <span style={{ color: selectedMonths.length > 0 ? 'var(--color-text)' : 'var(--color-text-secondary)' }}>
-                {selectedMonths.length > 0 
+                {selectedMonths.length > 0
                   ? formData.frequency === 'mensual' && getFirstMonth()
                     ? `${getFirstMonth()} - ${selectedMonths.length} ${selectedMonths.length === 1 ? t('subscriptions.month') : t('subscriptions.months')}`
                     : `${selectedMonths.length} ${selectedMonths.length === 1 ? t('subscriptions.monthSelected') : t('subscriptions.monthsSelected')}`

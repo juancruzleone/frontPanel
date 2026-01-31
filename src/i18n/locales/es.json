@@ -239,7 +239,7 @@
     "search": "Buscar",
     "filter": "Filtrar",
     "clear": "Limpiar",
-    "details": "Detalles",
+    "details": "Ver detalles",
     "close": "Cerrar",
     "back": "Volver",
     "next": "Siguiente",
@@ -1167,11 +1167,13 @@
       "errorFetching": "Error al cargar documentos",
       "errorDeleting": "Error al eliminar documento",
       "types": {
-        "contract": "Contrato",
-        "budget": "Presupuesto",
-        "other": "Otro"
-      }
+        "presupuesto": "Presupuesto",
+        "contrato": "Contrato",
+        "otro": "Otro"
+      },
+      "unnamedDocument": "Documento sin nombre"
     },
+    "installationDetails": "Detalle de la instalación",
     "table": {
       "installation": "Instalación",
       "address": "Dirección",
@@ -1573,6 +1575,8 @@
     "retryLoadCategories": "Reintentar carga de categorías",
     "searchDevicesPlaceholder": "Buscar por dispositivo, ubicación o categoría...",
     "noDevicesFound": "No se encontraron dispositivos con ese término de búsqueda",
+    "noMaintenanceAvailable": "No hay mantenimiento disponible para este dispositivo",
+    "errorLoadingMaintenance": "Error al cargar el mantenimiento",
     "tour": {
       "welcome": {
         "title": "¡Bienvenido al Detalle de Instalación!",

@@ -1247,11 +1247,9 @@
     "understood": "Fermer",
     "titlePage": "Appareils | Leonix",
     "loadingDevices": "Chargement des appareils...",
-    "notFound": "Installation introuvable",
+    "notFound": "Installation non trouvée",
     "devicesOf": "Appareils de {{name}}",
     "addDevice": "Ajouter un appareil",
-    "searchDevicesPlaceholder": "Rechercher par appareil, emplacement ou catégorie...",
-    "noDevicesFound": "Aucun appareil trouvé avec ce terme de recherche",
     "noDevices": "Aucun appareil dans cette installation",
     "type": "Type",
     "location": "Emplacement",
@@ -1264,9 +1262,10 @@
     "viewMaintenanceHistory": "Voir l'historique de maintenance",
     "editDevice": "Modifier l'appareil",
     "deleteDevice": "Supprimer l'appareil",
-    "page": "Page {{currentPage}} sur {{totalPages}}",
+    "page": "Page",
+    "of": "de",
     "confirmDeleteTitle": "Supprimer l'appareil ?",
-    "confirmDeleteDescription": "Cette action est irréversible.",
+    "confirmDeleteDescription": "Cette action ne peut pas être annulée.",
     "qrCode": "Code QR",
     "generatingQR": "Génération du code QR...",
     "errorGeneratingQR": "Erreur lors de la génération du code QR",
@@ -1277,14 +1276,22 @@
     "loadingRequiredData": "Chargement des données nécessaires...",
     "errorLoadingCategories": "Erreur lors du chargement des catégories",
     "retryLoadCategories": "Réessayer le chargement des catégories",
+    "searchDevicesPlaceholder": "Rechercher par appareil, emplacement ou catégorie...",
+    "noDevicesFound": "Aucun appareil trouvé avec ce terme de recherche",
+    "noMaintenanceAvailable": "Aucune maintenance disponible pour cet appareil",
+    "errorLoadingMaintenance": "Erreur lors du chargement de la maintenance",
     "tour": {
       "welcome": {
         "title": "Bienvenue dans les Détails de l'Installation !",
-        "description": "Ici, vous pouvez gérer tous les appareils de cette installation. Nous allons vous montrer comment cette section fonctionne."
+        "description": "Ici, vous pouvez gérer tous les appareils de cette installation. Nous allons vous montrer comment fonctionne cette section."
       },
       "goToInstallations": {
         "title": "Aller aux Installations",
-        "description": "Avant d'ajouter des appareils, assurez-vous de créer les catégories d'appareils depuis la section Installations. Cliquez ici pour aller à cette section."
+        "description": "Avant d'ajouter des appareils, assurez-vous de créer les catégories d'appareils depuis la section Installations. Cliquez ici pour accéder à cette section."
+      },
+      "createAssetFirst": {
+        "title": "Important : Créer d'abord les Actifs",
+        "description": "Avant d'ajouter un appareil à cette installation, vous devez d'abord créer un actif dans la section Actifs. Les actifs servent de base/modèle pour les appareils dans les installations."
       },
       "addDevice": {
         "title": "Ajouter un Appareil",
@@ -1304,7 +1311,8 @@
         "done": "Terminé",
         "skip": "Passer le tutoriel",
         "restart": "Voir le tutoriel"
-      }
+      },
+      "progressText": "{{current}} sur {{total}}"
     }
   },
   "login": {

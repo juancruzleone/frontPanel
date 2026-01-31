@@ -4,18 +4,21 @@ const API_URL = import.meta.env.VITE_API_URL
 
 export interface BudgetDocument {
     _id: string
-    tipoDocumento: 'presupuesto' | 'contrato' | 'otro'
+    name: string
+    url: string
+    type: string
+    size: number
+    public_id?: string
+    tipoDocumento: 'presupuesto' | 'contrato' | 'otro' // Esto quizas no venga en la respuesta directa del archivo pero lo mantenemos por compatibilidad si el front lo usa
     descripcion?: string
-    archivo: {
-        url: string
-        publicId: string
-        nombreOriginal: string
-        tamaño: number
-        formato: string
-        fechaSubida: string
-    }
     uploadedBy: string
     createdAt: string
+    metadata?: {
+        original_filename: string
+        bytes: number
+        format: string
+        secure_url: string
+    }
 }
 
 export interface UploadDocumentData {
@@ -33,7 +36,7 @@ export const uploadBudgetDocument = async (
     const url = `${baseUrl}/installations/${installationId}/documentos`
 
     const formData = new FormData()
-    formData.append('archivo', data.archivo)
+    formData.append('file', data.archivo)
     formData.append('tipoDocumento', data.tipoDocumento)
     if (data.descripcion) {
         formData.append('descripcion', data.descripcion)
@@ -70,6 +73,7 @@ export const getBudgetDocuments = async (
     })
 
     const responseData = await response.json()
+    console.log('📡 [documentServices] Respuesta RAW de getBudgetDocuments:', responseData)
 
     if (!response.ok) {
         throw new Error(responseData.error?.message || responseData.message || 'Error al obtener los documentos')
