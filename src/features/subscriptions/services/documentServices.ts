@@ -9,7 +9,7 @@ export interface BudgetDocument {
     type: string
     size: number
     public_id?: string
-    tipoDocumento: 'presupuesto' | 'contrato' | 'otro' // Esto quizas no venga en la respuesta directa del archivo pero lo mantenemos por compatibilidad si el front lo usa
+    tipoDocumento: string // Esto quizas no venga en la respuesta directa del archivo pero lo mantenemos por compatibilidad si el front lo usa
     descripcion?: string
     uploadedBy: string
     createdAt: string
@@ -22,7 +22,7 @@ export interface BudgetDocument {
 }
 
 export interface UploadDocumentData {
-    tipoDocumento: 'presupuesto' | 'contrato' | 'otro'
+    tipoDocumento: string
     descripcion?: string
     archivo: File
 }

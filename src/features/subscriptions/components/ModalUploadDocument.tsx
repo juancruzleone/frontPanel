@@ -27,7 +27,7 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
-    const [tipoDocumento, setTipoDocumento] = useState<'presupuesto' | 'contrato' | 'otro'>('contrato')
+    const [tipoDocumento, setTipoDocumento] = useState<string>('contrato')
     const [descripcion, setDescripcion] = useState('')
     const [isUploading, setIsUploading] = useState(false)
     const [dragActive, setDragActive] = useState(false)
@@ -82,23 +82,23 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
 
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
             const file = e.dataTransfer.files[0]
-            
+
             // Validar tipo de archivo
             if (file.type !== 'application/pdf') {
                 setFileError(t('subscriptions.documents.onlyPdfAllowed'))
                 return
             }
-            
+
             // Validar tamaño del archivo
             if (file.size > MAX_FILE_SIZE) {
                 setFileError(t('subscriptions.documents.fileTooLarge'))
                 return
             }
-            
+
             // Limpiar error y establecer archivo
             setFileError('')
             setSelectedFile(file)
-            
+
             // Auto-fill description with file name if description is empty
             if (!descripcion.trim()) {
                 setDescripcion(file.name.replace('.pdf', ''))
@@ -109,23 +109,23 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
     const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0]
-            
+
             // Validar tipo de archivo
             if (file.type !== 'application/pdf') {
                 setFileError(t('subscriptions.documents.onlyPdfAllowed'))
                 return
             }
-            
+
             // Validar tamaño del archivo
             if (file.size > MAX_FILE_SIZE) {
                 setFileError(t('subscriptions.documents.fileTooLarge'))
                 return
             }
-            
+
             // Limpiar error y establecer archivo
             setFileError('')
             setSelectedFile(file)
-            
+
             // Auto-fill description with file name if description is empty
             if (!descripcion.trim()) {
                 setDescripcion(file.name.replace('.pdf', ''))
@@ -215,23 +215,42 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
                 <div className={styles.modalContent}>
                     <form onSubmit={handleSubmit} className={styles.form} id="uploadForm">
                         <div className={styles.formInner}>
-                            {/* Tipo de documento */}
                             <div className={styles.formGroup}>
                                 <label>
                                     {t('subscriptions.documents.documentType')}
                                 </label>
-                                <HybridSelect
-                                    name="tipoDocumento"
-                                    value={tipoDocumento}
-                                    onChange={(value) => setTipoDocumento(value as 'presupuesto' | 'contrato' | 'otro')}
-                                    options={[
-                                        { value: 'contrato', label: t('subscriptions.documents.types.contract') },
-                                        { value: 'presupuesto', label: t('subscriptions.documents.types.budget') },
-                                        { value: 'otro', label: t('subscriptions.documents.types.other') }
-                                    ]}
-                                    disabled={isUploading}
-                                    placeholder={t('subscriptions.documents.documentType')}
-                                />
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                                    <HybridSelect
+                                        name="tipoDocumento"
+                                        value={tipoDocumento === 'presupuesto' || tipoDocumento === 'contrato' ? tipoDocumento : 'otro'}
+                                        onChange={(value) => {
+                                            if (value === 'otro') {
+                                                setTipoDocumento('otro');
+                                            } else {
+                                                setTipoDocumento(value);
+                                            }
+                                        }}
+                                        options={[
+                                            { value: 'contrato', label: t('subscriptions.documents.types.contract') },
+                                            { value: 'presupuesto', label: t('subscriptions.documents.types.budget') },
+                                            { value: 'otro', label: t('subscriptions.documents.types.other') }
+                                        ]}
+                                        disabled={isUploading}
+                                        placeholder={t('subscriptions.documents.documentType')}
+                                    />
+
+                                    {(tipoDocumento === 'otro' || (tipoDocumento !== 'presupuesto' && tipoDocumento !== 'contrato')) && (
+                                        <input
+                                            type="text"
+                                            value={tipoDocumento === 'otro' ? '' : tipoDocumento}
+                                            onChange={(e) => setTipoDocumento(e.target.value)}
+                                            placeholder={t('subscriptions.documents.specifyType') || "Especifique el tipo (ej: Factura)"}
+                                            className={styles.textarea}
+                                            style={{ minHeight: 'auto', padding: '0.75rem 1rem' }}
+                                            disabled={isUploading}
+                                        />
+                                    )}
+                                </div>
                             </div>
 
                             {/* Descripción */}
@@ -305,7 +324,7 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
                                         </button>
                                     </div>
                                 )}
-                                
+
                                 {/* Mensaje de error de validación */}
                                 {fileError && (
                                     <p className={styles.inputError}>{fileError}</p>
