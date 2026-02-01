@@ -1543,10 +1543,16 @@
       "noDocumentsFound": "Aucun document trouvé",
       "errorFetching": "Erreur lors du chargement des documents",
       "errorDeleting": "Erreur lors de la suppression du document",
-      "contract": "Contrat",
-      "budget": "Budget",
-      "other": "Autre"
-    }
+      "types": {
+        "presupuesto": "Budget",
+        "contrato": "Contrat",
+        "otro": "Autre"
+      },
+      "unnamedDocument": "Document sans nom",
+      "confirmDeleteTitle": "Supprimer le document ?",
+      "confirmDeleteDescription": "Cette action ne peut pas être annulée. Le document sera définitivement supprimé."
+    },
+    "installationDetails": "Détails de l'installation"
   },
   "planLimits": {
     "title": "Limite de Plan Atteinte",

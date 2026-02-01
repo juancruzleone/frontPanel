@@ -1569,10 +1569,16 @@
       "errorFetching": "ドキュメントの読み込みエラー",
       "errorDeleting": "ドキュメントの削除エラー",
       "fileSelected": "ファイルが選択されました",
-      "contract": "契約書",
-      "budget": "予算",
-      "other": "その他"
-    }
+      "types": {
+        "presupuesto": "予算",
+        "contrato": "契約書",
+        "otro": "その他"
+      },
+      "unnamedDocument": "名前のないドキュメント",
+      "confirmDeleteTitle": "ドキュメントを削除しますか？",
+      "confirmDeleteDescription": "この操作は元に戻せません。ドキュメントは完全に削除されます。"
+    },
+    "installationDetails": "インストールの詳細"
   },
   "roles": {
     "superAdmin": "スーパー管理者",

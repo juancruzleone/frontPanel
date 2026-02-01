@@ -1578,10 +1578,16 @@
       "errorFetching": "加载文档时出错",
       "errorDeleting": "删除文档时出错",
       "fileSelected": "已选择文件",
-      "contract": "合同",
-      "budget": "预算",
-      "other": "其他"
-    }
+      "types": {
+        "presupuesto": "预算",
+        "contrato": "合同",
+        "otro": "其他"
+      },
+      "unnamedDocument": "未命名文档",
+      "confirmDeleteTitle": "删除文档？",
+      "confirmDeleteDescription": "此操作无法撤消。文档将被永久删除。"
+    },
+    "installationDetails": "安装详情"
   },
   "planLimits": {
     "title": "已达到计划限制",

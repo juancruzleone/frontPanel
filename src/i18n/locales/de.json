@@ -1450,10 +1450,16 @@
       "errorFetching": "Fehler beim Laden der Dokumente",
       "errorDeleting": "Fehler beim Löschen des Dokuments",
       "fileSelected": "Datei ausgewählt",
-      "contract": "Vertrag",
-      "budget": "Budget",
-      "other": "Sonstiges"
-    }
+      "types": {
+        "presupuesto": "Budget",
+        "contrato": "Vertrag",
+        "otro": "Sonstiges"
+      },
+      "unnamedDocument": "Unbenanntes Dokument",
+      "confirmDeleteTitle": "Dokument löschen?",
+      "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Das Dokument wird dauerhaft gelöscht."
+    },
+    "installationDetails": "Installationsdetails"
   },
   "planLimits": {
     "title": "Plan-Limit Erreicht",

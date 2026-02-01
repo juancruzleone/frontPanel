@@ -1565,10 +1565,16 @@
     "errorFetching": "Errore nel caricamento dei documenti",
     "errorDeleting": "Errore nell'eliminazione del documento",
     "fileSelected": "File selezionato",
-    "contract": "Contratto",
-    "budget": "Preventivo",
-    "other": "Altro"
+    "types": {
+      "presupuesto": "Preventivo",
+      "contrato": "Contratto",
+      "otro": "Altro"
+    },
+    "unnamedDocument": "Documento senza nome",
+    "confirmDeleteTitle": "Eliminare il documento?",
+    "confirmDeleteDescription": "Questa azione non può essere annullata. Il documento verrà eliminato definitivamente."
   },
+  "installationDetails": "Dettagli dell'installazione",
   "planLimits": {
     "title": "Limite del Piano Raggiunto",
     "subtitle": "Hai raggiunto il limite massimo del tuo piano attuale",
