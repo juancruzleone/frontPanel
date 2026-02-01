@@ -1171,7 +1171,9 @@
         "contrato": "Contrato",
         "otro": "Otro"
       },
-      "unnamedDocument": "Documento sin nombre"
+      "unnamedDocument": "Documento sin nombre",
+      "confirmDeleteTitle": "¿Eliminar documento?",
+      "confirmDeleteDescription": "Esta acción no se puede deshacer. El documento será eliminado permanentemente."
     },
     "installationDetails": "Detalle de la instalación",
     "table": {

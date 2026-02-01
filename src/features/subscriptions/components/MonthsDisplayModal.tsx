@@ -76,7 +76,6 @@ const MonthsDisplayModal: React.FC<MonthsDisplayModalProps> = ({
       <div className={styles.modal} onClick={(e) => e.stopPropagation()} style={{ maxWidth: '600px' }}>
         <div className={styles.modalHeader}>
           <h2 className={styles.modalTitle}>
-            <Calendar size={20} style={{ marginRight: '8px' }} />
             {t('subscriptions.monthsDetail')}
           </h2>
           <button

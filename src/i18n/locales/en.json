@@ -1198,7 +1198,10 @@
         "contract": "Contract",
         "budget": "Budget",
         "other": "Other"
-      }
+      },
+      "unnamedDocument": "Unnamed document",
+      "confirmDeleteTitle": "Delete document?",
+      "confirmDeleteDescription": "This action cannot be undone. The document will be permanently deleted."
     }
   },
   "calendar": {

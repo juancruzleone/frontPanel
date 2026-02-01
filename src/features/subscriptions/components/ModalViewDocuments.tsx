@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { X, FileText, Trash2, Eye, Loader2, AlertCircle } from 'lucide-react'
 import styles from '../styles/Modal.module.css'
 import { getBudgetDocuments, deleteBudgetDocument, type BudgetDocument } from '../services/documentServices'
+import ModalConfirmDelete from './ModalConfirmDelete'
 
 interface ModalViewDocumentsProps {
     isOpen: boolean
@@ -22,6 +23,8 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [deletingId, setDeletingId] = useState<string | null>(null)
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+    const [documentToDelete, setDocumentToDelete] = useState<BudgetDocument | null>(null)
 
     const fetchDocuments = useCallback(async () => {
         if (!installationId) return
@@ -54,18 +57,25 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
         }
     }, [isOpen, fetchDocuments])
 
-    const handleDelete = async (documentId: string) => {
-        if (!window.confirm(t('common.confirmDelete'))) return
+    const handleDeleteClick = (document: BudgetDocument) => {
+        setDocumentToDelete(document)
+        setIsDeleteModalOpen(true)
+    }
 
-        setDeletingId(documentId)
+    const handleConfirmDelete = async () => {
+        if (!documentToDelete) return
+
+        setDeletingId(documentToDelete._id)
+        setIsDeleteModalOpen(false)
         try {
-            await deleteBudgetDocument(installationId, documentId)
-            setDocuments(prev => prev.filter(doc => doc._id !== documentId))
+            await deleteBudgetDocument(installationId, documentToDelete._id)
+            setDocuments(prev => prev.filter(doc => doc._id !== documentToDelete._id))
         } catch (err: any) {
             console.error('Error deleting document:', err)
             alert(err.message || t('subscriptions.documents.errorDeleting'))
         } finally {
             setDeletingId(null)
+            setDocumentToDelete(null)
         }
     }
 
@@ -160,7 +170,7 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
                                             </a>
                                             <button
                                                 type="button"
-                                                onClick={() => handleDelete(doc._id)}
+                                                onClick={() => handleDeleteClick(doc)}
                                                 className={`${styles.fileActionButton} ${styles.deleteFileButton}`}
                                                 disabled={!!deletingId}
                                                 aria-label={t('common.delete')}
@@ -176,6 +186,17 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
                     )}
                 </div>
             </div>
+
+            <ModalConfirmDelete
+                isOpen={isDeleteModalOpen}
+                onCancel={() => {
+                    setIsDeleteModalOpen(false)
+                    setDocumentToDelete(null)
+                }}
+                onConfirm={handleConfirmDelete}
+                title={t('subscriptions.documents.confirmDeleteTitle') || t('common.confirmDelete')}
+                description={t('subscriptions.documents.confirmDeleteDescription') || t('common.confirmDeleteDescription')}
+            />
         </div>
     )
 }
