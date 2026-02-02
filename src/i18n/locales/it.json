@@ -1498,6 +1498,7 @@
     "monthSelected": "mese selezionato",
     "monthsSelected": "mesi selezionati",
     "filterByMonth": "Filtra per mese",
+    "filterByStatus": "Filtra per stato",
     "clearFilter": "Cancella filtro",
     "viewMonths": "Visualizza mesi",
     "monthsDetail": "Dettaglio Mesi",
@@ -1607,5 +1608,12 @@
     "maintenanceNumber": "Manutenzione #",
     "viewPDF": "Visualizza Report PDF",
     "close": "Chiudi"
+  },
+  "roles": {
+    "superAdmin": "Super Admin",
+    "admin": "Amministratore",
+    "technician": "Tecnico",
+    "client": "Cliente",
+    "user": "Utente"
   }
 }

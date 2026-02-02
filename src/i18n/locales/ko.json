@@ -1575,6 +1575,7 @@
     "monthSelected": "개월 선택됨",
     "monthsSelected": "개월 선택됨",
     "filterByMonth": "월별 필터링",
+    "filterByStatus": "상태별 필터링",
     "clearFilter": "필터 지우기",
     "viewMonths": "월 보기",
     "monthsDetail": "월 세부정보",
@@ -1654,5 +1655,12 @@
     "maintenanceNumber": "유지보수 #",
     "viewPDF": "PDF 보고서 보기",
     "close": "닫기"
+  },
+  "roles": {
+    "superAdmin": "슈퍼 관리자",
+    "admin": "관리자",
+    "technician": "기술자",
+    "client": "고객",
+    "user": "사용자"
   }
 }

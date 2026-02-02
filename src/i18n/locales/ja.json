@@ -1540,6 +1540,7 @@
     "monthSelected": "か月選択済み",
     "monthsSelected": "か月選択済み",
     "filterByMonth": "月でフィルタ",
+    "filterByStatus": "ステータスでフィルタ",
     "clearFilter": "フィルタをクリア",
     "viewMonths": "月を表示",
     "monthsDetail": "月の詳細",
@@ -1622,5 +1623,12 @@
   },
   "deviceForm": {
     "viewHistory": "メンテナンス履歴を表示"
+  },
+  "roles": {
+    "superAdmin": "スーパー管理者",
+    "admin": "管理者",
+    "technician": "技術者",
+    "client": "クライアント",
+    "user": "ユーザー"
   }
 }

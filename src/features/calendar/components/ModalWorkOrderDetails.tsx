@@ -210,18 +210,14 @@ const ModalWorkOrderDetails = ({
             )}
           </div>
 
-          <div className={styles.actions}>
-            {workOrder.estado === "asignada" && onStart && (
+          {workOrder.estado === "asignada" && onStart && (
+            <div className={styles.actions}>
               <button className={styles.startButton} onClick={handleStart} disabled={isLoading}>
                 <Play size={16} />
                 {isLoading ? t('calendar.starting') : t('calendar.startOrder')}
               </button>
-            )}
-
-            <button className={styles.closeModalButton} onClick={onRequestClose}>
-              {t('common.close')}
-            </button>
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

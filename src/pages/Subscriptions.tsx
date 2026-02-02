@@ -65,9 +65,8 @@ const Subscriptions = () => {
     }
   }, [loading, tourCompleted, startTour, isTechnician])
 
-  // Opciones para el filtro de meses
+  // Opciones para el filtro de meses (sin la opción "Todas")
   const monthOptions = useMemo(() => [
-    { label: t('common.all'), value: "" },
     { label: translateMonthToCurrentLang('Enero', i18n.language), value: "Enero" },
     { label: translateMonthToCurrentLang('Febrero', i18n.language), value: "Febrero" },
     { label: translateMonthToCurrentLang('Marzo', i18n.language), value: "Marzo" },
@@ -80,9 +79,9 @@ const Subscriptions = () => {
     { label: translateMonthToCurrentLang('Octubre', i18n.language), value: "Octubre" },
     { label: translateMonthToCurrentLang('Noviembre', i18n.language), value: "Noviembre" },
     { label: translateMonthToCurrentLang('Diciembre', i18n.language), value: "Diciembre" },
-  ], [t, i18n.language])
+  ], [i18n.language])
 
-  const [selectedStatus, setSelectedStatus] = useState<string>("all")
+  const [selectedStatus, setSelectedStatus] = useState<string>("")
 
   // Filtrar suscripciones por término de búsqueda, mes y estado
   const filteredSubscriptions = useMemo(() => {
@@ -107,8 +106,8 @@ const Subscriptions = () => {
       // Filtro por mes
       const matchesMonth = !selectedMonthFilter || subscription.months.includes(selectedMonthFilter)
 
-      // Filtro por estado
-      const matchesStatus = selectedStatus === "all" || subscription.status === selectedStatus
+      // Filtro por estado (si no hay filtro seleccionado, mostrar todas)
+      const matchesStatus = !selectedStatus || subscription.status === selectedStatus
 
       return matchesSearch && matchesMonth && matchesStatus
     })
@@ -253,19 +252,19 @@ const Subscriptions = () => {
       <div className={styles.mainControls}>
         <div className={styles.tabsContainer}>
           {[
-            { id: 'all', label: t('common.all') },
+            { id: '', label: t('common.all') },
             { id: 'active', label: t('subscriptions.status.active') },
             { id: 'pending', label: t('subscriptions.status.pending') },
             { id: 'inactive', label: t('subscriptions.status.inactive') }
           ].map(tab => (
             <button
-              key={tab.id}
+              key={tab.id || 'all'}
               className={`${styles.tab} ${selectedStatus === tab.id ? styles.activeTab : ''}`}
               onClick={() => setSelectedStatus(tab.id)}
             >
               {tab.label}
               <span className={styles.tabBadge}>
-                {tab.id === 'all'
+                {tab.id === ''
                   ? subscriptions.length
                   : subscriptions.filter(s => s.status === tab.id).length}
               </span>
@@ -280,6 +279,20 @@ const Subscriptions = () => {
               onInputChange={(value) => setSearchTerm(value)}
             />
           </div>
+
+          <div className={styles.statusSelectContainer}>
+            <HybridSelect
+              value={selectedStatus}
+              onChange={setSelectedStatus}
+              options={[
+                { value: 'active', label: t('subscriptions.status.active') },
+                { value: 'pending', label: t('subscriptions.status.pending') },
+                { value: 'inactive', label: t('subscriptions.status.inactive') }
+              ]}
+              placeholder={t('subscriptions.filterByStatus')}
+              className={styles.fullWidthSelect}
+            />
+          </div>
           <div className={styles.filterActions}>
             <HybridSelect
               value={selectedMonthFilter}
@@ -292,7 +305,7 @@ const Subscriptions = () => {
               onClick={() => {
                 setSearchTerm("")
                 setSelectedMonthFilter("")
-                setSelectedStatus("all")
+                setSelectedStatus("")
                 setCurrentPage(1)
               }}
               className={styles.resetButton}

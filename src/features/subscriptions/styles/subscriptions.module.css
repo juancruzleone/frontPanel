@@ -5,12 +5,13 @@
   max-width: 1200px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 16px;
+  /* Reducido de 32px para compensar el margen de la tabla */
   color: var(--color-text);
   min-height: unset;
   position: static;
   animation: fadeIn 0.3s ease-out;
-  overflow: visible !important;
+  overflow: visible;
   /* Para que los tooltips no se corten */
 }
 
@@ -71,12 +72,36 @@
   background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
 }
 
+/* By default hide select */
+.statusSelectContainer {
+  display: none;
+  width: 100%;
+}
+
+.fullWidthSelect {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
 .tabsContainer {
   display: flex;
   gap: 8px;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--color-card-border);
   overflow-x: auto;
+}
+
+/* ... existing tab styles ... */
+
+@media (max-width: 1100px) {
+  .tabsContainer {
+    display: none;
+  }
+
+  .statusSelectContainer {
+    display: block;
+    margin-bottom: 16px;
+  }
 }
 
 .tab {
@@ -182,8 +207,14 @@
   border: 1px solid black;
   position: relative;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  overflow: visible !important;
+  overflow: visible;
+  /* CRÍTICO: debe ser visible para que los tooltips sobresalgan */
   z-index: 1;
+  /* Margen superior para dar espacio a los tooltips de la primera fila */
+  margin-top: 50px;
+  /* Importante: no usar clip-path ni mask que puedan recortar */
+  isolation: isolate;
+  /* Crear un nuevo contexto de apilamiento */
 }
 
 :global(.dark) .tableContainer {
@@ -198,8 +229,11 @@
   right: 0;
   height: 4px;
   background: linear-gradient(90deg, black, rgba(0, 0, 0, 0.8));
-  z-index: 10;
+  z-index: 1;
+  /* Reducido para que no interfiera con tooltips */
   border-radius: 14px 14px 0 0;
+  pointer-events: none;
+  /* Asegurar que no bloquee interacciones */
 }
 
 :global(.dark) .tableContainer::before {
@@ -208,10 +242,13 @@
 
 .tableWrapper {
   width: 100%;
-  overflow: visible !important;
-  /* Asegurar visibilidad de tooltips */
+  overflow: visible;
+  /* CRÍTICO: Asegurar visibilidad de tooltips */
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  /* Mayor que el ::before del contenedor */
+  border-radius: 14px;
+  /* Heredar el border-radius pero sin recortar */
 }
 
 .table {
@@ -219,7 +256,7 @@
   border-collapse: separate;
   /* Cambiado de collapse a separate para mejor control de z-index */
   border-spacing: 0;
-  overflow: visible !important;
+  overflow: visible;
   position: relative;
 }
 
@@ -233,7 +270,7 @@
   color: var(--color-text);
   background: var(--color-bg-light);
   border-bottom: 2px solid black;
-  overflow: visible !important;
+  overflow: visible;
 }
 
 :global(.dark) .tableHeader th {
@@ -246,13 +283,13 @@
   position: relative;
   /* Contexto de posicionamiento para z-index */
   z-index: 1;
-  overflow: visible !important;
+  overflow: visible;
 }
 
 .tableRow:hover {
   background: rgba(0, 0, 0, 0.02);
-  z-index: 100;
-  /* Elevar fila en hover para que sus tooltips estén encima de todo */
+  z-index: 10000;
+  /* CRÍTICO: Elevar fila en hover para que sus tooltips estén encima de todo */
 }
 
 [data-theme="dark"] .tableRow:hover {
@@ -267,9 +304,12 @@
   padding: 18px 24px;
   text-align: center;
   vertical-align: middle;
-  overflow: visible !important;
+  overflow: visible;
+  /* CRÍTICO: permitir que tooltips sobresalgan */
   position: relative;
   /* Necesario para que los tooltips se posicionen correctamente */
+  z-index: auto;
+  /* Permitir que el z-index del hover de la fila funcione */
 }
 
 /* Installation Cell - usually left aligned for better reading */
@@ -376,6 +416,9 @@
   position: relative;
   /* Contexto para tooltips */
   overflow: visible;
+  /* CRÍTICO: permitir que tooltips sobresalgan */
+  z-index: auto;
+  /* Heredar z-index de la fila */
 }
 
 .actionBtn {
@@ -407,19 +450,22 @@
   /* transform removido para evitar problemas de tooltip */
 }
 
-/* Tooltip style - Solución con position absolute pero sin restricciones */
+/* Tooltip style - Centrado y sobresaliendo de la tabla */
 .actionBtn[data-tooltip],
 .actionIcon[data-tooltip] {
   position: relative;
+  overflow: visible;
+  z-index: auto;
+  /* Heredar del padre */
 }
 
 .actionBtn[data-tooltip]::after,
 .actionIcon[data-tooltip]::after {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: 100%;
+  bottom: calc(100% + 8px);
   left: 50%;
-  transform: translateX(-50%) translateY(-8px);
+  transform: translateX(-50%);
   background-color: var(--color-text);
   color: var(--color-card);
   padding: 8px 12px;
@@ -434,7 +480,8 @@
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.2s ease, visibility 0.2s ease;
-  z-index: 99999;
+  z-index: 999999;
+  /* CRÍTICO: z-index muy alto para estar por encima de todo */
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
@@ -449,9 +496,9 @@
 .actionIcon[data-tooltip]::before {
   content: '';
   position: absolute;
-  bottom: 100%;
+  bottom: calc(100% + 2px);
   left: 50%;
-  transform: translateX(-50%) translateY(-2px);
+  transform: translateX(-50%);
   width: 0;
   height: 0;
   border-left: 6px solid transparent;
@@ -461,7 +508,8 @@
   visibility: hidden;
   pointer-events: none;
   transition: opacity 0.2s ease, visibility 0.2s ease;
-  z-index: 99999;
+  z-index: 999999;
+  /* CRÍTICO: mismo z-index que el tooltip */
 }
 
 .actionBtn:hover::before,
@@ -599,14 +647,48 @@
   }
 }
 
-/* Tablets (768px - 1024px) */
-@media (max-width: 1024px) {
+/* Tablets (768px - 1024px) and iPad Pro */
+@media (max-width: 1100px) {
   .mainControls {
     padding: 16px;
     gap: 16px;
   }
 
+  /* Grid Layout for Search/Status/Month */
+  .filtersWrapper {
+    display: grid;
+    grid-template-areas:
+      "search search"
+      "status months";
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+    align-items: center;
+  }
+
+  .searchBox {
+    grid-area: search;
+    width: 100%;
+  }
+
+  .statusSelectContainer {
+    grid-area: status;
+    display: block;
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  .filterActions {
+    grid-area: months;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    width: 100%;
+  }
+
   .tabsContainer {
+    display: none;
+    /* Ensure tabs are hidden here too if not caught by other query */
     gap: 6px;
     padding-bottom: 12px;
     flex-wrap: nowrap;
@@ -624,16 +706,6 @@
     padding: 6px 12px;
     font-size: 0.8rem;
     flex-shrink: 0;
-  }
-
-  .filtersWrapper {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-
-  .filterActions {
-    justify-content: flex-end;
   }
 
   /* Ocultar columna de tipo en tablet */
@@ -670,6 +742,16 @@
 
   .title {
     font-size: 26px;
+  }
+
+  /* Mobile: Status Top, then Search, then Month */
+  .filtersWrapper {
+    grid-template-areas:
+      "status"
+      "search"
+      "months";
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   /* Ocultar encabezado de tabla */

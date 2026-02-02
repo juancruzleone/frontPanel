@@ -435,7 +435,7 @@ const Installations = () => {
                 {[1, 2, 3].map((_, i) => <Skeleton key={i} height={120} width={"100%"} style={{ borderRadius: 14 }} />)}
               </div>
               <Skeleton height={220} width={"100%"} style={{ borderRadius: 14 }} />
-              <p className={styles.loadingText}>{t('installations.loadingInstallations') || 'Cargando instalaciones...'}</p>
+
             </div>
           ) : filteredInstallations.length === 0 ? (
             <p className={styles.loader}>{t('installations.noInstallationsFound')}</p>

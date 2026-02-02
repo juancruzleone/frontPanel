@@ -286,7 +286,7 @@ const WorkOrders = () => {
                 {[1, 2, 3].map((_, i) => <Skeleton key={i} height={120} width={"100%"} style={{ borderRadius: 14 }} />)}
               </div>
               <Skeleton height={220} width={"100%"} style={{ borderRadius: 14 }} />
-              <p className={styles.loadingText}>{t('workOrders.loadingWorkOrders') || 'Cargando órdenes de trabajo...'}</p>
+
             </div>
           ) : filteredWorkOrders.length === 0 ? (
             <p className={styles.loader}>{t('workOrders.noWorkOrdersFound')}</p>

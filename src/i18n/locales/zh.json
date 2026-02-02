@@ -1549,6 +1549,7 @@
     "monthSelected": "个月已选择",
     "monthsSelected": "个月已选择",
     "filterByMonth": "按月筛选",
+    "filterByStatus": "按状态筛选",
     "clearFilter": "清除筛选",
     "viewMonths": "查看月份",
     "monthsDetail": "月份详情",
@@ -1723,5 +1724,12 @@
     "maintenanceNumber": "维护 #",
     "viewPDF": "查看PDF报告",
     "close": "关闭"
+  },
+  "roles": {
+    "superAdmin": "超级管理员",
+    "admin": "管理员",
+    "technician": "技术员",
+    "client": "客户",
+    "user": "用户"
   }
 }

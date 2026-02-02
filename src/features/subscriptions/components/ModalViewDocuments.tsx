@@ -124,7 +124,7 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
                     {loading ? (
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', gap: '16px' }}>
                             <Loader2 size={40} className={styles.spinner} style={{ color: 'var(--color-secondary)' }} />
-                            <p style={{ color: 'var(--color-text)', opacity: 0.7 }}>{t('common.loading')}</p>
+
                         </div>
                     ) : error ? (
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', gap: '16px', color: 'var(--color-danger)' }}>

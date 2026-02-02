@@ -623,7 +623,7 @@ const Calendar = () => {
                 {[1, 2, 3].map((_, i) => <Skeleton key={i} height={120} width={"100%"} style={{ borderRadius: 14 }} />)}
               </div>
               <Skeleton height={300} width={"100%"} style={{ borderRadius: 14 }} />
-              <p className={styles.loadingText}>{t('calendar.loadingCalendar') || 'Cargando calendario...'}</p>
+
             </div>
           ) : error ? (
             <p className={styles.error}>Error: {error}</p>

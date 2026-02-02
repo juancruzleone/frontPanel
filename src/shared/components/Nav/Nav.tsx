@@ -289,14 +289,28 @@ const Nav = () => {
                 <div className={styles.userInfo}>
                   <div
                     className={styles.userAvatar}
-                    onClick={() => { setIsMenuOpen(false); navigate('/perfil'); }}
-                    style={{ cursor: 'pointer' }}
-                    title={t('common.viewProfile') || 'Ver perfil'}
+                    onClick={() => {
+                      if (!isAdminUser) {
+                        setIsMenuOpen(false);
+                        navigate('/perfil');
+                      }
+                    }}
+                    style={{ cursor: isAdminUser ? 'default' : 'pointer' }}
+                    title={!isAdminUser ? (t('common.viewProfile') || 'Ver perfil') : undefined}
                   >
                     {user.substring(0, 2).toUpperCase()}
                   </div>
                   <div className={styles.userDetails}>
-                    <span className={styles.userName} onClick={() => { setIsMenuOpen(false); navigate('/perfil'); }}>
+                    <span
+                      className={styles.userName}
+                      onClick={() => {
+                        if (!isAdminUser) {
+                          setIsMenuOpen(false);
+                          navigate('/perfil');
+                        }
+                      }}
+                      style={{ cursor: isAdminUser ? 'default' : 'pointer' }}
+                    >
                       {user}
                     </span>
                     <span className={styles.userRole}>

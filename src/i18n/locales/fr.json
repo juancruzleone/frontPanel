@@ -1485,6 +1485,7 @@
     "monthSelected": "mois sélectionné",
     "monthsSelected": "mois sélectionnés",
     "filterByMonth": "Filtrer par mois",
+    "filterByStatus": "Filtrer par statut",
     "clearFilter": "Effacer le filtre",
     "viewMonths": "Voir les mois",
     "monthsDetail": "Détail des Mois",
@@ -1586,5 +1587,12 @@
       "viewPDF": "Voir le Rapport PDF",
       "close": "Fermer"
     }
+  },
+  "roles": {
+    "superAdmin": "Super Admin",
+    "admin": "Administrateur",
+    "technician": "Technicien",
+    "client": "Client",
+    "user": "Utilisateur"
   }
 }

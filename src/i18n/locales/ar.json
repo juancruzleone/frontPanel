@@ -1546,6 +1546,7 @@
     "monthSelected": "شهر واحد محدد",
     "monthsSelected": "أشهر محددة",
     "filterByMonth": "تصفية حسب الشهر",
+    "filterByStatus": "تصفية حسب الحالة",
     "clearFilter": "مسح التصفية",
     "viewMonths": "عرض الأشهر",
     "monthsDetail": "تفاصيل الأشهر",
@@ -1618,5 +1619,12 @@
     "maintenanceNumber": "الصيانة #",
     "viewPDF": "عرض تقرير PDF",
     "close": "إغلاق"
+  },
+  "roles": {
+    "superAdmin": "مدير عام",
+    "admin": "مدير",
+    "technician": "فني",
+    "client": "عميل",
+    "user": "مستخدم"
   }
 }
