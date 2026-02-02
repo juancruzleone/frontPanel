@@ -17,7 +17,7 @@ interface RecentWorkOrdersProps {
 
 const estadoColor: Record<string, string> = {
   pendiente: "#fbc02d",
-  asignada: "#1976d2",
+  asignada: "var(--color-primary)",
   en_progreso: "#ff9800", // Cambiado para coincidir con el gráfico de torta
   completada: "#4caf50",
   cancelada: "#f44336",
@@ -25,7 +25,7 @@ const estadoColor: Record<string, string> = {
 
 const RecentWorkOrders: React.FC<RecentWorkOrdersProps> = ({ workOrders }) => {
   const { t } = useTranslation()
-  
+
   const estadoLabels: Record<string, string> = {
     pendiente: t('workOrders.pending'),
     asignada: t('workOrders.assigned'),
@@ -52,7 +52,7 @@ const RecentWorkOrders: React.FC<RecentWorkOrdersProps> = ({ workOrders }) => {
       <div className={styles.chartStats}>
         <span className={styles.chartTotal}>{recentOrders.length} {t('workOrders.title')}</span>
       </div>
-      
+
       <div className={styles.ordersList}>
         {recentOrders.length === 0 ? (
           <div className={styles.noOrders} role="status">
@@ -61,8 +61,8 @@ const RecentWorkOrders: React.FC<RecentWorkOrdersProps> = ({ workOrders }) => {
           </div>
         ) : (
           recentOrders.map((order, index) => (
-            <div 
-              className={styles.orderItem} 
+            <div
+              className={styles.orderItem}
               key={order._id}
               role="article"
               aria-label={`${t('workOrders.title')}: ${order.titulo}, ${t('workOrders.status')}: ${estadoLabels[order.estado] || order.estado}`}
@@ -71,7 +71,7 @@ const RecentWorkOrders: React.FC<RecentWorkOrdersProps> = ({ workOrders }) => {
                 <div className={styles.orderTitle}>{order.titulo}</div>
                 <span
                   className={styles.orderStatus}
-                  style={{ 
+                  style={{
                     background: estadoColor[order.estado] || "#bdbdbd",
                     color: '#000'
                   }}
@@ -79,7 +79,7 @@ const RecentWorkOrders: React.FC<RecentWorkOrdersProps> = ({ workOrders }) => {
                   {estadoLabels[order.estado] || order.estado}
                 </span>
               </div>
-              
+
               <div className={styles.orderMeta}>
                 <div className={styles.orderInfo}>
                   <span className={styles.orderInst}>

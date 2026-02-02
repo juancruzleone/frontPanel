@@ -26,25 +26,25 @@ const PanelAdmin: React.FC = () => {
         <h1 className={styles.title}>{t('panelAdmin.title')}</h1>
         <p className={styles.subtitle}>{t('panelAdmin.subtitle')}</p>
       </header>
-      
+
       {loading ? (
         <div className={styles.loadingContainer}>
           {/* Skeletons mejorados */}
           <div className={styles.skeletonGrid}>
-            <Skeleton height={160} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
-            <Skeleton height={160} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
-            <Skeleton height={160} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
-            <Skeleton height={160} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
+            <Skeleton height={160} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
+            <Skeleton height={160} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
+            <Skeleton height={160} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
+            <Skeleton height={160} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
           </div>
-          <Skeleton height={220} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
-          <Skeleton height={220} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
-          <Skeleton height={220} width={"100%"} style={{borderRadius: 16, marginBottom: 24}} />
+          <Skeleton height={220} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
+          <Skeleton height={220} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
+          <Skeleton height={220} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
         </div>
       ) : error ? (
         <div className={styles.errorContainer} role="alert">
           <div className={styles.errorIcon}>⚠️</div>
           <div className={styles.error}>{error}</div>
-          <button 
+          <button
             className={styles.retryButton}
             onClick={() => window.location.reload()}
           >
@@ -69,7 +69,7 @@ const PanelAdmin: React.FC = () => {
             <h2 id="charts-title" className={styles.sectionTitle}>Análisis de Datos</h2>
             <div className={styles.chartsRow}>
               <TenantBarChart data={[
-                { name: 'basic', value: stats.planDistribution.basic, color: '#1976d2' },
+                { name: 'basic', value: stats.planDistribution.basic, color: 'var(--color-primary)' },
                 { name: 'professional', value: stats.planDistribution.professional, color: '#057E74' },
                 { name: 'enterprise', value: stats.planDistribution.enterprise, color: '#fbc02d' }
               ]} />

@@ -106,7 +106,7 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
                 <div className={styles.modalHeader}>
                     <div className={styles.titleSection}>
                         <h2 className={styles.title}>
-                            {t('subscriptions.installationDetails') || 'Detalle de la instalación'}
+                            {t('subscriptions.documents.viewTitle') || 'Documentos guardados'}
                         </h2>
                         <p className={styles.installationInfo}>{installationName}</p>
                     </div>
@@ -135,9 +135,9 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
                             </button>
                         </div>
                     ) : documents.length === 0 ? (
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', gap: '16px', color: 'var(--color-text-secondary)' }}>
-                            <FileText size={48} opacity={0.3} />
-                            <p>{t('subscriptions.documents.noDocumentsFound') || 'No se encontraron documentos'}</p>
+                        <div className={styles.emptyStateContainer}>
+                            <FileText size={48} className={styles.emptyStateIcon} />
+                            <p className={styles.emptyStateText}>{t('subscriptions.documents.noDocumentsFound') || 'No se encontraron documentos'}</p>
                         </div>
                     ) : (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '1.5rem 2.5rem' }}>

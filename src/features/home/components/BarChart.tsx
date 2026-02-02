@@ -14,7 +14,7 @@ interface BarChartProps {
   data: BarChartData[]
 }
 
-const COLORS = ["#1976d2", "#057E74", "#fbc02d", "#e53935", "#388e3c"]
+const COLORS = ["var(--color-primary)", "#057E74", "#fbc02d", "#e53935", "#388e3c"]
 const COLORS_LIGHT = ["#000", "#111", "#222", "#333", "#444"]
 
 const CustomTooltip = ({ active, payload, label }: any) => {

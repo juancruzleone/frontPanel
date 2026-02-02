@@ -1,17 +1,3 @@
-<svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50.64 89.57">
-    <defs>
-        <style>
-            .cls-1 { fill: #fff; }
-            @media (prefers-color-scheme: light) {
-                .cls-1 { fill: #000; }
-            }
-        </style>
-    </defs>
-    <title>Leonix Logo</title>
-    <path class="cls-1" d="M83.87,57.08s-3.34,61.67-11.7,68.49L69.36,36C78,39.11,83.56,47.14,83.87,57.08Z" transform="translate(-69.36 -36)"/>
-    <path class="cls-1" d="M95.31,99.05s-1.18,21.8-4.14,24.21l-1-31.67A7.88,7.88,0,0,1,95.31,99.05Z" transform="translate(-69.36 -36)"/>
-    <path class="cls-1" d="M95.17,96.13s6.26,14.4,5.17,16.69L89.54,92.57A6.32,6.32,0,0,1,95.17,96.13Z" transform="translate(-69.36 -36)"/>
-    <path class="cls-1" d="M103.36,87.45s-1.18,21.8-4.14,24.22L98.23,80A7.88,7.88,0,0,1,103.36,87.45Z" transform="translate(-69.36 -36)"/>
-    <path class="cls-1" d="M119,109.31s-7.74,13.24-10.34,14l9.55-19.88C119.77,104.87,120.07,107.1,119,109.31Z" transform="translate(-69.36 -36)"/>
-    <path class="cls-1" d="M109.66,108.94s7.73,13.25,10.34,14l-9.55-19.89A4.81,4.81,0,0,0,109.66,108.94Z" transform="translate(-69.36 -36)"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512"><svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><style>.cls-1{fill:#0b1c1a;}.cls-2{fill:#fff;}</style></defs><title>logo ico</title><rect class="cls-1" width="512" height="512"></rect><path class="cls-2" d="M259,360.34s-6.75,124.59-23.66,138.36l-5.72-181A45.05,45.05,0,0,1,259,360.34Z"></path><path class="cls-2" d="M193.66,120.47S174.57,472.93,126.79,511.9L110.73,0C160.11,17.77,191.89,63.67,193.66,120.47Z"></path><path class="cls-2" d="M258.24,343.65S294,426,287.79,439L226.06,323.3A36.13,36.13,0,0,1,258.24,343.65Z"></path><path class="cls-2" d="M305.05,294s-6.75,124.59-23.67,138.42l-5.65-181A45.05,45.05,0,0,1,305.05,294Z"></path><path class="cls-2" d="M394.43,419s-44.24,75.66-59.09,80l54.57-113.62C398.83,393.6,400.54,406.34,394.43,419Z"></path><path class="cls-2" d="M341.05,416.86s44.18,75.73,59.09,80L345.57,383.2A27.48,27.48,0,0,0,341.05,416.86Z"></path></svg></svg><style>@media (prefers-color-scheme: light) { :root { filter: none; } }
+@media (prefers-color-scheme: dark) { :root { filter: none; } }
+</style></svg>

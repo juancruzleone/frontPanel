@@ -63,7 +63,7 @@ html {
   overflow: hidden !important;
 }
 
-.loadingContainer > * {
+.loadingContainer>* {
   max-width: 100% !important;
   box-sizing: border-box !important;
 }
@@ -78,7 +78,7 @@ html {
   overflow: hidden !important;
 }
 
-.skeletonGrid > * {
+.skeletonGrid>* {
   min-width: 0 !important;
   max-width: 100% !important;
 }
@@ -151,8 +151,8 @@ html {
   flex: 1 1 100% !important;
 }
 
-.lineChartSection > *,
-.recentSection > * {
+.lineChartSection>*,
+.recentSection>* {
   width: 100% !important;
   max-width: 100% !important;
   flex: 1 1 100% !important;
@@ -658,7 +658,12 @@ html {
 
 .manualCard:hover,
 .installationCard:hover {
-  box-shadow: 0 4px 24px #1976d233;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+}
+
+:global(.dark) .manualCard:hover,
+:global(.dark) .installationCard:hover {
+  box-shadow: 0 4px 24px rgba(255, 255, 255, 0.05);
 }
 
 .statsIcon,

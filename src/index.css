@@ -6,8 +6,8 @@
   --color-text-secondary: #666;
   --color-card: #fff;
   --color-card-border: #e0e0e0;
-  --color-primary: #1976d2;
-  --color-primary-hover: #1565c0;
+  --color-primary: #000;
+  --color-primary-hover: #333;
   --color-secondary: #057E74;
   --color-secondary-hover: #046a61;
   --color-accent: #fbc02d;
@@ -50,8 +50,8 @@ html {
   --color-text-secondary: #b0b0b0;
   --color-card: #23272b;
   --color-card-border: #333;
-  --color-primary: #1976d2;
-  --color-primary-hover: #1565c0;
+  --color-primary: #fff;
+  --color-primary-hover: #e0e0e0;
   --color-secondary: #057E74;
   --color-secondary-hover: #046a61;
   --color-accent: #fbc02d;

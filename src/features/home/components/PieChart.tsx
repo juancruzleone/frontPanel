@@ -15,7 +15,7 @@ interface PieChartProps {
 
 // Colores mejorados para diferenciar mejor los estados
 const COLORS = [
-  "#1976d2", // Azul - Pendiente
+  "var(--color-primary)", // Azul - Pendiente
   "#ff9800", // Naranja - En progreso (cambiado de verde a naranja)
   "#4caf50", // Verde - Completada
   "#f44336", // Rojo - Cancelada
@@ -39,7 +39,7 @@ const CustomTooltip = ({ active, payload }: any) => {
 const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
   const { t } = useTranslation()
   const total = data.reduce((sum, item) => sum + item.value, 0)
-  
+
   // Calcular porcentajes para la leyenda personalizada
   const dataWithPercentages = data.map(item => ({
     ...item,
@@ -70,7 +70,7 @@ const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
           <span className={styles.chartTotal}>{total} {t('common.total')}</span>
         </div>
       </div>
-      
+
       <div className={styles.pieChartFlexContainer}>
         <div className={styles.pieChartContainer}>
           <ResponsiveContainer width="100%" height="100%">
@@ -87,8 +87,8 @@ const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
                 paddingAngle={2}
               >
                 {data.map((entry, index) => (
-                  <Cell 
-                    key={`cell-${index}`} 
+                  <Cell
+                    key={`cell-${index}`}
                     fill={entry.color || COLORS[index % COLORS.length]}
                     stroke="var(--color-bg)"
                     strokeWidth={2}
@@ -99,7 +99,7 @@ const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
             </RePieChart>
           </ResponsiveContainer>
         </div>
-        
+
         {/* Porcentajes sin contenedor */}
         <div className={styles.percentagesContainer}>
           {dataWithPercentages.map((item, index) => (

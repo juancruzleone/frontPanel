@@ -9,13 +9,13 @@ import { useTranslation } from "react-i18next"
 
 const estadoColors: Record<string, string> = {
   pendiente: "#fbc02d",
-  asignada: "#1976d2",
+  asignada: "var(--color-primary)",
   en_progreso: "#ff9800", // Cambiado a naranja para diferenciar
   completada: "#388e3c",
   cancelada: "#e53935",
 }
 
-const tipoColors = ["#1976d2", "#057E74", "#fbc02d", "#e53935", "#388e3c"]
+const tipoColors = ["var(--color-primary)", "#057E74", "#fbc02d", "#e53935", "#388e3c"]
 
 const useHomeDashboard = () => {
   const { t, i18n } = useTranslation()
@@ -52,7 +52,7 @@ const useHomeDashboard = () => {
             label: 'installations.title',
             value: installationsData.length,
             icon: Home,
-            color: "#1976d2",
+            color: "var(--color-primary)",
             path: "/instalaciones"
           },
           {

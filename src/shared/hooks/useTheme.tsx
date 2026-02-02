@@ -26,7 +26,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       document.body.classList.add("dark");
       document.body.setAttribute("data-theme", "dark");
       localStorage.setItem("theme", "dark");
-      
+
       // Aplicar variables CSS para modo oscuro
       document.documentElement.style.setProperty('--color-bg', '#121212');
       document.documentElement.style.setProperty('--color-bg-light', '#23272b');
@@ -38,9 +38,9 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       document.documentElement.style.setProperty('--color-icon', '#f5f5f5');
       document.documentElement.style.setProperty('--color-themebox-bg', '#23272b');
       document.documentElement.style.setProperty('--color-themebox-border', '#333');
-      document.documentElement.style.setProperty('--color-primary', '#1976d2');
-      document.documentElement.style.setProperty('--color-primary-dark', '#1565c0');
-      document.documentElement.style.setProperty('--color-primary-light', 'rgba(25, 118, 210, 0.1)');
+      document.documentElement.style.setProperty('--color-primary', '#fff');
+      document.documentElement.style.setProperty('--color-primary-dark', '#e0e0e0');
+      document.documentElement.style.setProperty('--color-primary-light', 'rgba(255, 255, 255, 0.1)');
       document.documentElement.style.setProperty('--color-secondary', '#057E74');
       document.documentElement.style.setProperty('--color-accent', '#fbc02d');
       document.documentElement.style.setProperty('--color-success', '#388e3c');
@@ -58,7 +58,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       document.body.classList.remove("dark");
       document.body.setAttribute("data-theme", "light");
       localStorage.setItem("theme", "light");
-      
+
       // Aplicar variables CSS para modo claro
       document.documentElement.style.setProperty('--color-bg', '#D1D1D1');
       document.documentElement.style.setProperty('--color-bg-light', '#f7f7f7');
@@ -70,9 +70,9 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       document.documentElement.style.setProperty('--color-icon', '#111');
       document.documentElement.style.setProperty('--color-themebox-bg', '#f0f0f0');
       document.documentElement.style.setProperty('--color-themebox-border', '#e0e0e0');
-      document.documentElement.style.setProperty('--color-primary', '#1976d2');
-      document.documentElement.style.setProperty('--color-primary-dark', '#1565c0');
-      document.documentElement.style.setProperty('--color-primary-light', 'rgba(25, 118, 210, 0.1)');
+      document.documentElement.style.setProperty('--color-primary', '#000');
+      document.documentElement.style.setProperty('--color-primary-dark', '#333');
+      document.documentElement.style.setProperty('--color-primary-light', 'rgba(0, 0, 0, 0.1)');
       document.documentElement.style.setProperty('--color-secondary', '#057E74');
       document.documentElement.style.setProperty('--color-accent', '#fbc02d');
       document.documentElement.style.setProperty('--color-success', '#388e3c');

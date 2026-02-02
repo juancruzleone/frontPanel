@@ -12,7 +12,7 @@ interface TenantBarChartProps {
   data: PlanDistributionData[]
 }
 
-const COLORS = ["#1976d2", "#057E74", "#fbc02d", "#e53935", "#388e3c"]
+const COLORS = ["var(--color-primary)", "#057E74", "#fbc02d", "#e53935", "#388e3c"]
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -72,34 +72,34 @@ const TenantBarChart: React.FC<TenantBarChartProps> = ({ data }) => {
           <span className={styles.chartTotal}>{total} total</span>
         </div>
       </div>
-      
+
       <div className={styles.barChartContainer} style={{ height: '250px', width: '100%' }}>
         <ResponsiveContainer width="100%" height="100%">
-          <ReBarChart 
+          <ReBarChart
             data={data}
             margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="var(--color-card-border)" opacity={0.3} />
-            <XAxis 
+            <XAxis
               dataKey="name"
               tick={renderTick}
               axisLine={{ stroke: 'var(--color-card-border)' }}
               tickLine={{ stroke: 'var(--color-card-border)' }}
             />
-            <YAxis 
+            <YAxis
               tick={{ fontSize: 12, fill: 'var(--color-text-secondary)' }}
               axisLine={{ stroke: 'var(--color-card-border)' }}
               tickLine={{ stroke: 'var(--color-card-border)' }}
             />
             <Tooltip content={<CustomTooltip />} />
-            <Bar 
-              dataKey="value" 
+            <Bar
+              dataKey="value"
               radius={[4, 4, 0, 0]}
               barSize={40}
             >
               {data.map((entry, idx) => (
-                <Cell 
-                  key={`cell-${idx}`} 
+                <Cell
+                  key={`cell-${idx}`}
                   fill={entry.color || COLORS[idx % COLORS.length]}
                   opacity={0.9}
                 />

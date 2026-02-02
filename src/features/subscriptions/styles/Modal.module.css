@@ -952,3 +952,37 @@
     font-size: 0.9rem;
   }
 }
+
+/* Empty State Styles */
+.emptyStateContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  gap: 16px;
+}
+
+.emptyStateIcon {
+  color: #333;
+  /* Más oscuro en modo claro */
+  opacity: 0.6;
+}
+
+:global(.dark) .emptyStateIcon {
+  color: #fff;
+  /* Más blanco en modo oscuro */
+  opacity: 0.5;
+}
+
+.emptyStateText {
+  color: #333;
+  /* Más negro en modo claro */
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+:global(.dark) .emptyStateText {
+  color: #fff;
+  /* Más blanco en modo oscuro */
+}

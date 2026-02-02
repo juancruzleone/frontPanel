@@ -66,6 +66,7 @@
   height: 4px;
   background: linear-gradient(90deg, black, rgba(0, 0, 0, 0.8));
   border-radius: 16px 16px 0 0;
+  z-index: 10;
 }
 
 :global(.dark) .mainControls::before {
@@ -229,11 +230,9 @@
   right: 0;
   height: 4px;
   background: linear-gradient(90deg, black, rgba(0, 0, 0, 0.8));
-  z-index: 1;
-  /* Reducido para que no interfiera con tooltips */
+  z-index: 10;
   border-radius: 16px 16px 0 0;
   pointer-events: none;
-  /* Asegurar que no bloquee interacciones */
 }
 
 :global(.dark) .tableContainer::before {
