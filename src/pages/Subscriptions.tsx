@@ -335,7 +335,7 @@ const Subscriptions = () => {
                 <tbody>
                   {paginatedSubscriptions.map((subscription) => (
                     <tr key={subscription._id} className={styles.tableRow}>
-                      <td className={styles.tableCell} style={{ textAlign: 'left' }}>
+                      <td className={styles.tableCell} style={{ textAlign: 'left' }} data-label={t('subscriptions.table.installation')}>
                         <div className={styles.installationCell}>
                           <div className={styles.installationName}>{subscription.installationName}</div>
                           <div className={styles.installationAddress}>
@@ -343,12 +343,12 @@ const Subscriptions = () => {
                           </div>
                         </div>
                       </td>
-                      <td className={styles.tableCell}>
+                      <td className={styles.tableCell} data-label={t('subscriptions.table.type')}>
                         <div className={styles.typeBadge}>
                           {subscription.installationType}
                         </div>
                       </td>
-                      <td className={styles.tableCell} style={{ textAlign: 'left' }}>
+                      <td className={styles.tableCell} style={{ textAlign: 'left' }} data-label={t('subscriptions.table.frequency')}>
                         <div className={styles.frequencyGroup} style={{ justifyContent: 'flex-start' }}>
                           <span className={styles.frequencyText}>
                             {translateFrequencyToCurrentLang(subscription.frequency, i18n.language)}
@@ -363,12 +363,12 @@ const Subscriptions = () => {
                           </button>
                         </div>
                       </td>
-                      <td className={styles.tableCell}>
+                      <td className={styles.tableCell} data-label={t('subscriptions.table.status')}>
                         <span className={`${styles.statusPill} ${styles[subscription.status]}`}>
                           {getStatusText(subscription.status)}
                         </span>
                       </td>
-                      <td className={styles.tableCell}>
+                      <td className={styles.tableCell} data-label={t('subscriptions.table.actions')}>
                         <div className={styles.actionsGroup}>
                           <button
                             className={styles.actionBtn}

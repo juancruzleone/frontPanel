@@ -142,7 +142,11 @@
 }
 
 .resetButton {
-  padding: 8px;
+  padding: 0;
+  width: 42px;
+  /* Ancho fijo */
+  height: 42px;
+  /* Alto fijo */
   border-radius: 8px;
   background: var(--color-danger);
   color: white;
@@ -152,6 +156,8 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s;
+  flex-shrink: 0;
+  /* Evitar que se aplaste */
 }
 
 :global(.dark) .resetButton {
@@ -161,10 +167,13 @@
 .resetButton:hover {
   background: #bd2130;
   border-color: #bd2130;
-  transform: rotate(90deg);
+  transform: scale(1.05);
+  /* Efecto sutil en lugar de rotación */
   color: white;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
 }
 
+/* Table Container - Stark Design, No Scroll */
 /* Table Container - Stark Design, No Scroll */
 .tableContainer {
   background: var(--color-card);
@@ -172,6 +181,9 @@
   border: 1px solid black;
   position: relative;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: visible !important;
+  /* Permitir que los tooltips sobresalgan */
+  z-index: 5;
 }
 
 :global(.dark) .tableContainer {
@@ -196,6 +208,8 @@
 
 .tableWrapper {
   width: 100%;
+  overflow: visible !important;
+  /* Asegurar visibilidad de tooltips */
 }
 
 .table {
@@ -222,18 +236,23 @@
 .tableRow {
   border-bottom: 1px solid var(--color-card-border);
   transition: background 0.2s;
-}
-
-.tableRow:last-child {
-  border-bottom: none;
+  position: relative;
+  /* Contexto de posicionamiento para z-index */
+  z-index: 1;
 }
 
 .tableRow:hover {
   background: rgba(0, 0, 0, 0.02);
+  z-index: 20;
+  /* Elevar fila en hover para que sus tooltips estén encima */
 }
 
 [data-theme="dark"] .tableRow:hover {
   background: rgba(255, 255, 255, 0.02);
+}
+
+.tableRow:last-child {
+  border-bottom: none;
 }
 
 .tableCell {
@@ -390,7 +409,8 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
-  z-index: 100;
+  z-index: 1000;
+  /* Z-index alto para tooltip */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
@@ -494,29 +514,400 @@
   border-color: white;
 }
 
-/* Mobile Responsive */
-@media (max-width: 900px) {
-  .filtersWrapper {
-    flex-direction: column;
-    align-items: stretch;
+/* =====================================================
+   RESPONSIVE DESIGN - Abonos Vigentes Table
+   ===================================================== */
+
+/* iPad Pro y Tablets grandes (1024px - 1366px) */
+@media (max-width: 1100px) {
+  .tableHeader th {
+    padding: 12px 16px;
+    font-size: 0.75rem;
   }
 
-  .tableHeader th:nth-child(2),
-  .tableHeader th:nth-child(3),
-  .tableCell:nth-child(2),
-  .tableCell:nth-child(3) {
-    display: none;
+  .tableCell {
+    padding: 14px 16px;
+  }
+
+  .installationName {
+    font-size: 0.95rem;
+  }
+
+  .installationAddress {
+    font-size: 0.75rem;
+  }
+
+  .actionsGroup {
+    gap: 6px;
+  }
+
+  .actionBtn,
+  .actionIcon {
+    width: 32px;
+    height: 32px;
   }
 }
 
-@media (max-width: 600px) {
+/* Tablets (768px - 1024px) */
+@media (max-width: 1024px) {
+  .mainControls {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .tabsContainer {
+    gap: 6px;
+    padding-bottom: 12px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .tabsContainer::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+
+  .filtersWrapper {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .filterActions {
+    justify-content: flex-end;
+  }
+
+  /* Ocultar columna de tipo en tablet */
+  .tableHeader th:nth-child(2),
+  .tableCell:nth-child(2) {
+    display: none;
+  }
+
+  .tableHeader th {
+    padding: 10px 12px;
+    font-size: 0.7rem;
+  }
+
+  .tableCell {
+    padding: 12px;
+  }
+
+  .frequencyText {
+    font-size: 0.85rem;
+  }
+
+  .statusPill {
+    padding: 3px 8px;
+    font-size: 0.7rem;
+  }
+}
+
+/* Breakpoint para transformar tabla a layout vertical (Mobile) */
+@media (max-width: 768px) {
+  .containerSubscriptions {
+    padding: 16px 12px;
+    gap: 20px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  /* Ocultar encabezado de tabla */
+  .tableHeader {
+    display: none;
+  }
+
+  .table {
+    display: block;
+  }
+
+  .table tbody {
+    display: block;
+    width: 100%;
+    padding: 0;
+  }
+
+  /* Filas continuas con layout vertical */
+  /* Filas continuas con layout vertical */
+  .tableRow {
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--color-card-border);
+    padding: 24px 20px;
+    gap: 32px;
+    /* Más espacio entre filas de datos */
+    border-radius: 0;
+  }
+
+  :global(.dark) .tableRow {
+    border-color: var(--color-card-border);
+  }
+
+  .tableRow:last-child {
+    border-bottom: none;
+  }
+
+  .tableRow:hover {
+    background: rgba(0, 0, 0, 0.02);
+    transform: none;
+    box-shadow: none;
+  }
+
+  [data-theme="dark"] .tableRow:hover {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  /* Resetear estilos de celdas */
+  .tableCell {
+    display: flex;
+    padding: 0;
+    text-align: left !important;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 12px;
+    border: none;
+    width: 100%;
+  }
+
+  /* Nombre de instalación - mantener layout vertical */
+  .tableCell:first-child {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    order: 1;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-card-border);
+  }
+
+  .installationCell {
+    width: 100%;
+  }
+
+  .installationName {
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+
+  .installationAddress {
+    font-size: 0.85rem;
+    opacity: 0.7;
+  }
+
+  /* Mostrar tipo */
+  .tableCell:nth-child(2) {
+    order: 2;
+    display: flex !important;
+    /* Forzar visible en mobile */
+  }
+
+  .tableCell:nth-child(2)::before {
+    content: attr(data-label);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.6;
+    margin: 0;
+    min-width: 80px;
+  }
+
+  .typeBadge {
+    font-size: 0.8rem;
+    padding: 5px 14px;
+  }
+
+  /* Frecuencia */
+  .tableCell:nth-child(3) {
+    order: 3;
+  }
+
+  .tableCell:nth-child(3)::before {
+    content: attr(data-label);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.6;
+    margin: 0;
+    min-width: 80px;
+  }
+
+  .frequencyGroup {
+    justify-content: flex-end !important;
+    /* Alinear contenido a la derecha */
+    width: auto;
+  }
+
+  .frequencyText {
+    font-size: 0.95rem;
+    text-align: right;
+  }
+
+  /* Estado */
+  .tableCell:nth-child(4) {
+    order: 4;
+  }
+
+  .tableCell:nth-child(4)::before {
+    content: attr(data-label);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.6;
+    margin: 0;
+    min-width: 80px;
+  }
+
+  .statusPill {
+    padding: 5px 14px;
+    font-size: 0.8rem;
+  }
+
+  /* Acciones */
+  .tableCell:nth-child(5) {
+    order: 5;
+    flex-direction: row;
+    padding-top: 12px;
+    border-top: 1px solid var(--color-card-border);
+    margin-top: 4px;
+    width: 100%;
+  }
+
+  .actionsGroup {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 12px;
+  }
+
+  .actionBtn,
+  .actionIcon {
+    width: 34px;
+    /* Reducido de 42px */
+    height: 34px;
+    /* Reducido de 42px */
+    border-radius: 8px;
+    /* Ajuste proporcional */
+  }
+
+  .actionBtn svg,
+  .actionIcon svg {
+    width: 16px;
+    /* Reducido de 20px */
+    height: 16px;
+    /* Reducido de 20px */
+  }
+
+  /* Paginación responsive */
+  .pagination {
+    padding: 12px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .pagination button {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+  .pagination span {
+    font-size: 0.85rem;
+    text-align: center;
+  }
+}
+
+/* Mobile pequeño (menos de 480px) */
+@media (max-width: 480px) {
   .containerSubscriptions {
     padding: 12px 8px;
   }
 
   .title {
-    font-size: 24px;
-    margin-top: 16px;
+    font-size: 22px;
+    margin-top: 12px;
+  }
+
+  .mainControls {
+    padding: 12px;
+    gap: 12px;
+    border-radius: 10px;
+  }
+
+  .tab {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+  }
+
+  .tabBadge {
+    padding: 1px 5px;
+    font-size: 0.65rem;
+  }
+
+  .tableContainer {
+    border-radius: 10px;
+  }
+
+  .table tbody {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .tableRow {
+    padding: 14px;
+    /* gap eliminado para heredar o reducir espacio */
+    border-radius: 0;
+    /* Mantener consistencia con diseño de tabla continua */
+  }
+
+  .installationName {
+    font-size: 0.95rem;
+  }
+
+  .installationAddress {
+    font-size: 0.8rem;
+  }
+
+  .actionsGroup {
+    flex-wrap: wrap;
+  }
+
+  .actionBtn,
+  .actionIcon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .actionBtn svg,
+  .actionIcon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Ocultar tooltips en mobile por espacio */
+  .actionBtn[data-tooltip]::after,
+  .actionIcon[data-tooltip]::after {
+    display: none;
+  }
+
+  .pagination {
+    padding: 10px 8px;
+  }
+
+  .pagination button {
+    padding: 6px 10px;
+    font-size: 0.8rem;
   }
 }
 
