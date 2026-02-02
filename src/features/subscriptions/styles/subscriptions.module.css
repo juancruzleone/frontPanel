@@ -224,6 +224,9 @@
   /* Reducido de 50px para subir la tabla */
   isolation: isolate;
   /* Crear un nuevo contexto de apilamiento */
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 :global(.dark) .tableContainer {
@@ -256,6 +259,7 @@
   /* Mayor que el ::before del contenedor */
   border-radius: 16px;
   /* Heredar el border-radius pero sin recortar */
+  flex: 1;
 }
 
 .table {
@@ -535,6 +539,7 @@
   gap: 12px;
   padding: 24px 0;
   border-top: 1px solid var(--color-card-border);
+  background: var(--color-card);
 }
 
 .pagination button {

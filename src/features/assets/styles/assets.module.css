@@ -459,9 +459,6 @@
   .title {
     font-size: 24px;
     justify-content: flex-start;
-    display: flex;
-    align-items: center;
-    gap: 16px;
   }
 
   .listContainer {
@@ -476,7 +473,7 @@
 
 @media (max-width: 600px) {
   .containerAssets {
-    padding: 12px 8px;
+    padding: 60px 4px 24px 4px;
   }
 
   .listContainer {
@@ -486,15 +483,11 @@
 
   .title {
     font-size: 24px;
-    text-align: left !important;
     justify-content: flex-start;
-    display: flex;
-    align-items: center;
-    gap: 16px;
   }
 
   .assetCard {
-    padding: 12px;
+    padding: 8px;
   }
 }
 

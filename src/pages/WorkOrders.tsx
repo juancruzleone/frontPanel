@@ -11,6 +11,7 @@ import ModalError from "../features/forms/components/ModalError"
 import ModalConfirmDelete from "../features/workOrders/components/ModalConfirmDelete"
 import ModalAssignTechnician from "../features/workOrders/components/ModalAssignTechnician"
 import ModalCompleteWorkOrder from "../features/workOrders/components/ModalCompleteWorkOrder"
+
 import { Edit, Trash, User, Check, Play, HelpCircle } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
@@ -150,6 +151,8 @@ const WorkOrders = () => {
     })
   }, [workOrders, selectedStatus, searchTerm])
 
+
+
   const totalPages = Math.ceil(filteredWorkOrders.length / itemsPerPage)
   const paginatedWorkOrders = useMemo(() => {
     const start = (currentPage - 1) * itemsPerPage
@@ -280,6 +283,8 @@ const WorkOrders = () => {
             onSelectChange={setSelectedStatus}
           />
         </div>
+
+
 
         <div className={styles.listContainer}>
           {loading ? (

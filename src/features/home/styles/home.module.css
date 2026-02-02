@@ -295,14 +295,13 @@ html {
 
 .chartsRow {
   display: flex;
-  gap: 20px;
+  gap: 18px;
   margin-bottom: 12px;
   flex-wrap: wrap;
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
-  overflow: hidden !important;
-  contain: layout;
+  overflow: visible;
 }
 
 .chartCard {
@@ -840,7 +839,7 @@ html {
   .chartsRow {
     flex-direction: column !important;
     gap: 16px !important;
-    overflow: hidden !important;
+    overflow: visible !important;
   }
 
   .chartCard {
@@ -851,17 +850,19 @@ html {
 
   .pieChartFlexContainer {
     flex-direction: column !important;
-    align-items: stretch !important;
+    align-items: center !important;
     height: auto !important;
-    gap: 8px !important;
+    gap: 16px !important;
     width: 100% !important;
+    min-height: auto !important;
     box-sizing: border-box;
+    display: flex !important;
   }
 
   .chartCard {
-    padding-bottom: 12px;
-    overflow: hidden;
-    min-height: 0;
+    padding-bottom: 16px;
+    overflow: visible !important;
+    min-height: auto;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -870,11 +871,10 @@ html {
   }
 
   .pieChartContainer {
-    min-height: 140px;
-    height: 140px;
-    width: 100% !important;
-    max-width: 100% !important;
-    flex: 1 1 100% !important;
+    width: 220px !important;
+    /* Fixed width for SVG on mobile */
+    height: 220px !important;
+    margin: 0 auto;
   }
 
   .percentagesContainer {
@@ -882,7 +882,13 @@ html {
     padding-bottom: 0;
     width: 100% !important;
     max-width: 100% !important;
-    flex: 1 1 100% !important;
+    flex: 0 0 auto !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    flex-direction: row !important;
+    /* Force row layout on mobile */
   }
 
   .percentageItem {
@@ -1051,14 +1057,14 @@ html {
   min-height: 250px;
   width: 100%;
   max-width: 100%;
-  overflow: hidden !important;
+  overflow: visible !important;
   box-sizing: border-box !important;
   contain: layout style paint !important;
 }
 
 .barChartContainer svg {
   max-width: 100% !important;
-  overflow: hidden !important;
+  overflow: visible !important;
 }
 
 .barChartContainer .recharts-cartesian-grid-horizontal line,
@@ -1119,57 +1125,65 @@ html {
 
 /* Contenedor flex para gráfico circular y leyenda */
 .pieChartFlexContainer {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 16px !important;
-  height: 280px !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow: hidden !important;
-  box-sizing: border-box !important;
-  contain: layout !important;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  min-height: 280px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0;
 }
 
-/* Estilos específicos para gráficos circulares */
+@media (max-width: 1100px) {
+  .pieChartFlexContainer {
+    flex-direction: column;
+    padding: 10px 0 !important;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+  }
+
+  /* Contenedor del SVG */
+  .pieChartFlexContainer>div:first-child {
+    margin-bottom: 10px;
+    max-height: 240px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Leyenda en Grid horizontal */
+  .percentagesContainer {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+    padding: 0 8px;
+  }
+}
+
+/* Estilos específicos para gráficos circulares SVG */
+.pieChartSvg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
+}
+
+.pieChartCenter {
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
 .pieChartContainer {
   position: relative;
-  height: 100%;
-  min-height: 280px;
-  flex: 0 0 55% !important;
-  max-width: 55% !important;
-  overflow: hidden !important;
-  box-sizing: border-box !important;
-  contain: layout style paint !important;
-}
-
-.pieChartContainer svg {
-  max-width: 100% !important;
-  overflow: hidden !important;
-}
-
-.pieChartContainer .recharts-pie {
-  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.1));
-}
-
-.pieChartContainer .recharts-pie-sector {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  stroke: var(--color-card);
-  stroke-width: 2;
-  opacity: 0.9;
-}
-
-.pieChartContainer .recharts-pie-sector:hover {
-  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.2));
-  transform: scale(1.05);
-  opacity: 1;
-}
-
-/* Mejoras para gráficos circulares */
-.pieChartContainer .recharts-pie-label-text {
-  font-weight: 600 !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
-  font-size: 13px !important;
+  height: 280px;
+  width: 280px !important;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Estilos específicos para gráficos de línea */
@@ -1433,76 +1447,6 @@ html {
 }
 
 /* Los gráficos heredan la animación del chartCard */
-
-/* Responsive design para gráficos */
-@media (max-width: 768px) {
-  .chartCard {
-    padding: 16px;
-    min-height: 280px;
-  }
-
-  .chartTitle {
-    font-size: 1.1rem;
-  }
-
-  .chartStats {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .chartsRow {
-    flex-direction: column !important;
-    overflow: hidden !important;
-  }
-
-  .chartCard {
-    max-width: 100% !important;
-    width: 100% !important;
-  }
-
-  .pieChartFlexContainer {
-    flex-direction: column !important;
-    gap: 16px !important;
-    height: auto !important;
-  }
-
-  .pieChartContainer {
-    width: 100% !important;
-    max-width: 100% !important;
-    height: 250px !important;
-  }
-
-
-
-  .percentagesContainer {
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    gap: 8px !important;
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  .percentageItem {
-    width: auto !important;
-    min-width: 120px !important;
-  }
-
-  .legendContent {
-    min-width: 60px !important;
-  }
-
-  .barChartContainer .recharts-cartesian-axis-tick-value,
-  .lineChartContainer .recharts-cartesian-axis-tick-value {
-    font-size: 10px !important;
-  }
-
-  .customTooltip {
-    max-width: 180px !important;
-    padding: 12px 16px !important;
-    font-size: 0.8rem !important;
-  }
-}
 
 /* Modo oscuro específico */
 .dark .chartCard {

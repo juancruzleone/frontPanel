@@ -2,120 +2,19 @@ import React from "react"
 import StatsCards from "./StatsCards"
 import BarChart from "./BarChart"
 import PieChart from "./PieChart"
+import LineChart from "./LineChart"
 import RecentWorkOrders from "./RecentWorkOrders"
 import useHomeDashboard from "../hooks/useHomeDashboard"
 import styles from "../styles/home.module.css"
-import { LineChart as ReLineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from "recharts"
 import { useTranslation } from "react-i18next"
-import { useTheme } from "../../../shared/hooks/useTheme"
 
-const Skeleton = ({ height = 40, width = '100%', style = {} }) => (
+const Skeleton = ({ height = 40, width = '100%', style = {} }: any) => (
   <div
     className={styles.skeleton}
     style={{ height, width, maxWidth: '100%', boxSizing: 'border-box', ...style }}
     aria-hidden="true"
   />
 )
-
-const CustomLineChartTooltip = ({ active, payload, label }: any) => {
-  const { t } = useTranslation()
-
-  if (active && payload && payload.length) {
-    return (
-      <div className={styles.customTooltip}>
-        <p style={{ margin: '0 0 8px 0', fontWeight: '600', color: 'var(--color-text)' }}>
-          {`${t('common.date')}: ${label}`}
-        </p>
-        <p style={{ margin: '0', color: 'var(--color-text)', opacity: 0.8 }}>
-          {`${t('workOrders.title')}: ${payload[0].value}`}
-        </p>
-      </div>
-    )
-  }
-  return null
-}
-
-const LineChart = ({ data }: { data: any[] }) => {
-  const total = data.reduce((sum, item) => sum + item.value, 0)
-
-  const { t } = useTranslation()
-  const { dark } = useTheme()
-
-  if (!data || data.length === 0) {
-    return (
-      <div className={styles.chartCard} role="region" aria-label={t('home.temporalEvolution')}>
-        <div className={styles.chartHeader}>
-          <h3 className={styles.chartTitle}>{t('home.temporalEvolution')}</h3>
-          <div className={styles.chartStats}>
-            <span className={styles.chartTotal}>0 {t('common.total')}</span>
-          </div>
-        </div>
-        <div className={styles.chartPlaceholder}>
-          <p>{t('common.noDataAvailable')}</p>
-        </div>
-      </div>
-    )
-  }
-
-  const lineColor = dark ? 'var(--color-primary)' : '#000'
-
-  return (
-    <div className={styles.chartCard} role="region" aria-label={t('home.temporalEvolution')}>
-      <div className={styles.chartHeader}>
-        <h3 className={styles.chartTitle}>{t('home.temporalEvolution')}</h3>
-        <div className={styles.chartStats}>
-          <span className={styles.chartTotal}>{total} {t('common.total')}</span>
-        </div>
-      </div>
-
-      <div className={styles.lineChartContainer} style={{ height: '320px', width: '100%' }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <ReLineChart
-            data={data}
-            margin={{ top: 20, right: 30, left: 0, bottom: 20 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--color-text)" opacity={0.3} />
-            <XAxis
-              dataKey="name"
-              tick={{ fontSize: 12, fill: 'var(--color-text)' }}
-              axisLine={{ stroke: 'var(--color-text)' }}
-              tickLine={{ stroke: 'var(--color-text)' }}
-            />
-            <YAxis
-              tick={{ fontSize: 12, fill: 'var(--color-text)' }}
-              axisLine={{ stroke: 'var(--color-text)' }}
-              tickLine={{ stroke: 'var(--color-text)' }}
-            />
-            <Tooltip content={<CustomLineChartTooltip />} />
-            <Line
-              type="natural"
-              dataKey="value"
-              stroke={lineColor}
-              strokeWidth={3}
-              fill="none"
-              dot={{
-                fill: lineColor,
-                strokeWidth: 2,
-                r: 5,
-                stroke: 'var(--color-bg)',
-                filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
-              }}
-              activeDot={{
-                r: 7,
-                stroke: lineColor,
-                strokeWidth: 2,
-                fill: lineColor,
-                filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
-              }}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </ReLineChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
-  )
-}
 
 const HomeDashboard: React.FC = () => {
   const { t } = useTranslation()

@@ -1297,6 +1297,8 @@
     "errorStartingWorkOrder": "Error al iniciar la orden",
     "confirmDeleteWorkOrder": "¿Desea eliminar esta orden de trabajo?",
     "confirmDeleteWorkOrderDescription": "Esta acción no se puede deshacer.",
+    "distributionByStatus": "Distribución por Estado",
+    "noDataAvailable": "No hay datos disponibles",
     "technician": "Técnico",
     "assignedTechnician": "Técnico asignado",
     "loadingTechnicianDetails": "Cargando detalles del técnico...",

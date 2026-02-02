@@ -1385,6 +1385,9 @@
         "deviceStateInvalid": "Device state must be valid"
       }
     },
+    "distributionByStatus": "Distribution by Status",
+    "noDataAvailable": "No data available",
+    "noWorkOrdersFound": "No work orders found",
     "titlePage": "Work Orders | Leonix",
     "tour": {
       "welcome": {
