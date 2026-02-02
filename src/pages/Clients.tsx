@@ -150,7 +150,7 @@ const Clients = () => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
+            <div className={styles.topSection}>
                 <h1 className={styles.title}>{t('clients.title')}</h1>
                 <div className={styles.buttonContainer} data-tour="add-client-btn">
                     <Button title={t('clients.addClient')} onClick={handleOpenModal} />
@@ -205,7 +205,7 @@ const Clients = () => {
                             <tbody>
                                 {filteredClients.map((client) => (
                                     <tr key={client._id || client.id}>
-                                        <td>
+                                        <td data-label={t('clients.user')}>
                                             <div className={styles.userInfo}>
                                                 <div className={styles.userAvatar}>
                                                     <FiUser size={16} />
@@ -213,8 +213,8 @@ const Clients = () => {
                                                 <span>{client.userName}</span>
                                             </div>
                                         </td>
-                                        <td>{formatDate(client.createdAt)}</td>
-                                        <td>
+                                        <td data-label={t('clients.registrationDate')}>{formatDate(client.createdAt)}</td>
+                                        <td data-label={t('common.actions')}>
                                             <div className={styles.actionButtons}>
                                                 <button
                                                     className={styles.iconButton}

@@ -6,9 +6,8 @@
   flex-direction: column;
   gap: 32px;
   color: var(--color-text);
-  min-height: unset;
+  min-height: calc(100vh - 40px);
   position: static;
-  animation: fadeIn 0.3s ease-out;
 }
 
 @keyframes fadeIn {
@@ -191,26 +190,32 @@
 }
 
 .customDateButton {
-  padding: 12px 16px;
+  padding: 16px 12px;
   border: 1px solid black;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
-  width: 180px;
+  width: 150px;
   background-color: var(--color-bg-light);
   color: var(--color-text);
   transition: all 0.3s ease;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
-  justify-content: flex-start;
+  gap: 6px;
+  justify-content: center;
   position: relative;
   overflow: visible;
   box-sizing: border-box;
   white-space: nowrap;
   flex-shrink: 0;
   margin: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.tallSelect div[class*="hybridSelect"] {
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
 
 :global(.dark) .customDateButton {
@@ -830,33 +835,38 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .containerCalendar {
-    padding: 0 16px;
-  }
-
-  .header {
-    flex-direction: column;
-    align-items: stretch;
+    padding: 60px 16px 24px 16px;
   }
 
   .title {
     font-size: 24px;
-    justify-content: center;
+    justify-content: flex-start;
   }
+}
 
+@media (max-width: 768px) {
   .filtersContainer {
     padding: 16px;
   }
 
   .additionalFilters {
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+
+  .selectWrapper {
+    width: 100% !important;
   }
 
   .filterSelect,
   .dateFilter,
-  .selectWrapper .select {
+  .selectWrapper .select,
+  .tallSelect,
+  .tallSelect div[class*="hybridSelect"] {
     min-width: 100% !important;
     width: 100% !important;
     height: 48px !important;
@@ -893,1096 +903,1096 @@
     align-items: flex-start;
     gap: 8px;
   }
-}
 
-/* Animaciones adicionales */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+  /* Animaciones adicionales */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.dateGroup {
-  animation: fadeIn 0.3s ease-out;
-}
-
-.workOrderCard {
-  animation: fadeIn 0.3s ease-out;
-}
-
-/* Estados de focus mejorados para accesibilidad */
-.viewButton:focus,
-.detailsButton:focus,
-.fullDetailsButton:focus,
-.clearFilters:focus {
-  outline: 2px solid #057e74;
-  outline-offset: 2px;
-}
-
-.workOrderInfoRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  align-items: center;
-  font-size: 14px;
-  color: var(--color-text);
-  opacity: 0.8;
-  margin-top: 8px;
-}
-
-.workOrderInfoRow span {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  white-space: nowrap;
-}
-
-.workOrderInfoRow strong {
-  color: var(--color-text);
-  font-weight: 600;
-}
-
-/* Date Picker Modal Styles */
-.datePickerBackdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  backdrop-filter: blur(4px);
-}
-
-.datePickerModal {
-  background: var(--color-card);
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  max-width: 480px;
-  width: 90%;
-  max-height: 90vh;
-  overflow: hidden;
-  border: 1px solid var(--color-card-border);
-  animation: modalSlideIn 0.3s ease-out;
-}
-
-@keyframes modalSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px) scale(0.95);
+  .dateGroup {
+    animation: fadeIn 0.3s ease-out;
   }
 
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+  .workOrderCard {
+    animation: fadeIn 0.3s ease-out;
   }
-}
 
-.datePickerHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 24px 24px 0 24px;
-  position: relative;
-  gap: 16px;
-}
+  /* Estados de focus mejorados para accesibilidad */
+  .viewButton:focus,
+  .detailsButton:focus,
+  .fullDetailsButton:focus,
+  .clearFilters:focus {
+    outline: 2px solid #057e74;
+    outline-offset: 2px;
+  }
 
-.datePickerIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-}
+  .workOrderInfoRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+    font-size: 14px;
+    color: var(--color-text);
+    opacity: 0.8;
+    margin-top: 8px;
+  }
 
-.datePickerCloseButton {
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  width: 40px;
-  height: 40px;
-  border: none;
-  background: none;
-  color: var(--color-text);
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  padding: 0.5rem;
-  line-height: 1;
-  z-index: 10;
-}
+  .workOrderInfoRow span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+  }
 
-.datePickerCloseButton:hover {
-  background: var(--color-bg-light);
-  color: var(--color-text);
-  transform: scale(1.1);
-}
+  .workOrderInfoRow strong {
+    color: var(--color-text);
+    font-weight: 600;
+  }
 
-:global([data-theme="light"]) .datePickerCloseButton:hover {
-  background: rgba(0, 0, 0, 0.1);
-}
+  /* Date Picker Modal Styles */
+  .datePickerBackdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+  }
 
-.datePickerContent {
-  padding: 0 24px 24px 24px;
-}
-
-.datePickerTitle {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--color-text);
-  margin: 0;
-  flex: 1;
-  text-align: center;
-}
-
-.calendarPickerContainer {
-  background: var(--color-card);
-  border-radius: 12px;
-  padding: 20px;
-  border: 1px solid var(--color-card-border);
-}
-
-.calendarPickerHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
-.calendarPickerNavButton {
-  width: 50px;
-  height: 50px;
-  border: 2px solid var(--color-card-border);
-  background: var(--color-card);
-  color: var(--color-text);
-  border-radius: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
-
-.calendarPickerNavButton:hover {
-  border-color: var(--color-secondary);
-  background: var(--color-secondary);
-  color: white;
-  transform: translateY(-1px);
-}
-
-.calendarPickerMonthTitle {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--color-text);
-  margin: 0;
-  text-transform: capitalize;
-}
-
-.calendarPickerGrid {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.calendarPickerWeekDays {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
-}
-
-.calendarPickerWeekDay {
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--color-text-secondary);
-  text-transform: uppercase;
-}
-
-.calendarPickerDays {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
-}
-
-.calendarPickerDay {
-  height: 40px;
-  border: 2px solid transparent;
-  background: var(--color-card);
-  color: var(--color-text);
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.875rem;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
-
-.calendarPickerDay:hover:not(:disabled) {
-  border-color: var(--color-secondary);
-  background: rgba(5, 126, 116, 0.1);
-  transform: translateY(-1px);
-}
-
-.calendarPickerDay.calendarPickerToday {
-  border-color: var(--color-secondary);
-  background: rgba(5, 126, 116, 0.1);
-  font-weight: 700;
-}
-
-.calendarPickerDay.calendarPickerSelected {
-  border-color: var(--color-secondary);
-  background: var(--color-secondary);
-  color: white;
-  font-weight: 700;
-}
-
-.calendarPickerDay.calendarPickerOtherMonth {
-  color: var(--color-text-secondary);
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.calendarPickerDay.calendarPickerOtherMonth:hover {
-  border-color: transparent;
-  background: var(--color-card);
-  transform: none;
-}
-
-.selectedDateInfo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 20px;
-  padding: 16px;
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  border-radius: 8px;
-}
-
-.selectedDateIcon {
-  flex-shrink: 0;
-}
-
-.selectedDateText {
-  flex: 1;
-}
-
-.selectedDateLabel {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--color-text-secondary);
-  margin: 0 0 4px 0;
-}
-
-.selectedDateValue {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-text);
-  margin: 0;
-  text-transform: capitalize;
-}
-
-.datePickerActions {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-start;
-  margin-top: 24px;
-}
-
-.datePickerCancelButton {
-  background: var(--color-bg-light);
-  color: var(--color-text);
-  border: 2px solid var(--color-card-border);
-  padding: 0.875rem 1.75rem;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: all 0.2s ease;
-  min-width: 184px;
-  height: 48px !important;
-  min-height: 48px !important;
-  max-height: 48px !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  width: 184px;
-}
-
-/* Modo claro para datePickerCancelButton */
-:root .datePickerCancelButton,
-[data-theme="light"] .datePickerCancelButton {
-  border-color: #000;
-  color: #000;
-}
-
-.datePickerCancelButton:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: white;
-  transform: translateY(-1px);
-}
-
-/* Modo claro para datePickerCancelButton hover */
-:root .datePickerCancelButton:hover,
-[data-theme="light"] .datePickerCancelButton:hover {
-  background: rgba(0, 0, 0, 0.05);
-  border-color: #000;
-  color: #000;
-}
-
-/* Modo oscuro para datePickerCancelButton */
-[data-theme="dark"] .datePickerCancelButton {
-  background: var(--color-card);
-  border-color: var(--color-card-border);
-  color: #fff;
-}
-
-/* Modo oscuro para datePickerCancelButton hover */
-[data-theme="dark"] .datePickerCancelButton:hover {
-  background: var(--color-bg-light);
-  border-color: var(--color-card-border);
-  color: #fff;
-}
-
-.datePickerCancelButton:active {
-  transform: translateY(0);
-}
-
-.datePickerCancelButton:disabled {
-  background: var(--color-skeleton);
-  color: var(--color-skeleton-light);
-  cursor: not-allowed;
-  transform: none;
-  border-color: var(--color-skeleton);
-}
-
-.datePickerConfirmButton {
-  color: white;
-  border: 2px solid transparent;
-  padding: 0.875rem 1.75rem;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: all 0.2s ease;
-  min-width: 184px;
-  height: 48px !important;
-  min-height: 48px !important;
-  max-height: 48px !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
-  box-sizing: border-box;
-  width: 184px;
-}
-
-.datePickerConfirmButton:hover:not(:disabled) {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-}
-
-.datePickerConfirmButton:active {
-  transform: translateY(0);
-}
-
-.datePickerConfirmButton:disabled {
-  background: var(--color-skeleton);
-  color: var(--color-skeleton-light);
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-/* Dark mode styles for date picker */
-.dark .datePickerModal {
-  background: var(--color-card);
-  border-color: var(--color-card-border);
-}
-
-.dark .datePickerCloseButton {
-  background: var(--color-card);
-  color: var(--color-text);
-}
-
-.dark .calendarPickerNavButton {
-  background: var(--color-card);
-  color: var(--color-text);
-  border-color: var(--color-card-border);
-}
-
-.dark .calendarPickerDay {
-  background: var(--color-card);
-  color: var(--color-text);
-}
-
-.dark .calendarPickerDay.calendarPickerOtherMonth {
-  color: var(--color-text-secondary);
-}
-
-.dark .datePickerCancelButton {
-  background: var(--color-card);
-  color: var(--color-text);
-  border-color: var(--color-card-border);
-}
-
-/* Responsive styles for date picker */
-@media (max-width: 768px) {
   .datePickerModal {
-    width: 95%;
-    max-width: none;
-  }
-
-  .datePickerContent {
-    padding: 0 16px 16px 16px;
-  }
-
-  .calendarPickerContainer {
-    padding: 16px;
-  }
-
-  .calendarPickerDay {
-    height: 36px;
-    font-size: 0.8rem;
-  }
-
-  .datePickerActions {
-    flex-direction: column;
-  }
-
-  .datePickerCancelButton,
-  .datePickerConfirmButton {
-    width: 100%;
-  }
-}
-
-/* Year Picker Modal Styles */
-.yearPickerContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 1rem 0;
-}
-
-.yearPickerGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.75rem;
-  max-height: 300px;
-  overflow-y: auto;
-  padding: 0.5rem;
-}
-
-.yearPickerYear {
-  padding: 1rem 0.75rem;
-  border: 2px solid var(--color-card-border);
-  border-radius: 12px;
-  background: var(--color-card);
-  color: var(--color-text);
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 60px;
-  font-family: inherit;
-}
-
-.yearPickerYear:hover {
-  border-color: var(--color-secondary);
-  background: var(--color-bg-light);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.15);
-}
-
-.yearPickerYear:active {
-  transform: translateY(0);
-}
-
-.yearPickerSelected {
-  background: linear-gradient(135deg, var(--color-secondary) 0%, #045e58 100%);
-  color: white;
-  border-color: var(--color-secondary);
-  font-weight: 600;
-  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.3);
-}
-
-.yearPickerSelected:hover {
-  background: linear-gradient(135deg, #045e58 0%, #034a45 100%);
-  border-color: var(--color-secondary);
-  color: white;
-}
-
-/* Date Picker Modal Styles (si no existen) */
-.datePickerBackdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
-  backdrop-filter: blur(8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  animation: fadeIn 0.3s ease-out;
-  padding: 20px;
-}
-
-.datePickerModal {
-  background: var(--color-card);
-  border-radius: 20px;
-  max-width: 500px;
-  width: 95%;
-  max-height: 90vh;
-  overflow: hidden;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.05);
-  animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  position: relative;
-  border: 1px solid var(--color-card-border);
-}
-
-.datePickerHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2rem 2.5rem 1.5rem;
-  border-bottom: 1px solid var(--color-card-border);
-  background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-card) 100%);
-  position: relative;
-}
-
-.datePickerHeader::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: #000000;
-}
-
-:global(.dark) .datePickerHeader::before {
-  background: #ffffff;
-}
-
-.datePickerIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-}
-
-.datePickerTitle {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--color-text);
-  letter-spacing: -0.025em;
-  flex: 1;
-  text-align: center;
-}
-
-.datePickerCloseButton {
-  background: none;
-  border: none;
-  font-size: 2rem;
-  color: var(--color-text);
-  cursor: pointer;
-  padding: 0.5rem;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-.datePickerCloseButton:hover {
-  background: var(--color-bg-light);
-  color: var(--color-text);
-  transform: scale(1.1);
-}
-
-.datePickerContent {
-  padding: 0;
-  max-height: calc(90vh - 120px);
-  overflow-y: auto;
-  background: var(--color-card);
-}
-
-.datePickerActions {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-start;
-  padding: 1.5rem 2.5rem 2rem;
-  border-top: 1px solid var(--color-card-border);
-  background: var(--color-card);
-  margin-top: auto;
-}
-
-.datePickerCancelButton {
-  background: var(--color-bg-light);
-  color: var(--color-text);
-  border: 2px solid var(--color-card-border);
-  padding: 0.875rem 1.75rem;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: all 0.2s ease;
-  min-width: 184px;
-  height: 48px !important;
-  min-height: 48px !important;
-  max-height: 48px !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  width: 184px;
-}
-
-/* Modo claro para datePickerCancelButton */
-:root .datePickerCancelButton,
-[data-theme="light"] .datePickerCancelButton {
-  border-color: #000;
-  color: #000;
-}
-
-.datePickerCancelButton:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: white;
-  transform: translateY(-1px);
-}
-
-/* Modo claro para datePickerCancelButton hover */
-:root .datePickerCancelButton:hover,
-[data-theme="light"] .datePickerCancelButton:hover {
-  background: rgba(0, 0, 0, 0.05);
-  border-color: #000;
-  color: #000;
-}
-
-/* Modo oscuro para datePickerCancelButton */
-[data-theme="dark"] .datePickerCancelButton {
-  background: var(--color-card);
-  border-color: var(--color-card-border);
-  color: #fff;
-}
-
-/* Modo oscuro para datePickerCancelButton hover */
-[data-theme="dark"] .datePickerCancelButton:hover {
-  background: var(--color-bg-light);
-  border-color: var(--color-card-border);
-  color: #fff;
-}
-
-.datePickerCancelButton:active {
-  transform: translateY(0);
-}
-
-.datePickerCancelButton:disabled {
-  background: var(--color-skeleton);
-  color: var(--color-skeleton-light);
-  cursor: not-allowed;
-  transform: none;
-  border-color: var(--color-skeleton);
-}
-
-.datePickerConfirmButton {
-  color: white;
-  border: 2px solid transparent;
-  padding: 0.875rem 1.75rem;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: all 0.2s ease;
-  min-width: 184px;
-  height: 48px !important;
-  min-height: 48px !important;
-  max-height: 48px !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
-  box-sizing: border-box;
-  width: 184px;
-}
-
-.datePickerConfirmButton:hover:not(:disabled) {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-}
-
-.datePickerConfirmButton:active {
-  transform: translateY(0);
-}
-
-.datePickerConfirmButton:disabled {
-  background: var(--color-skeleton);
-  color: var(--color-skeleton-light);
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-/* Scrollbar personalizado para yearPickerGrid */
-.yearPickerGrid::-webkit-scrollbar {
-  width: 6px;
-}
-
-.yearPickerGrid::-webkit-scrollbar-track {
-  background: var(--color-bg-light);
-  border-radius: 3px;
-}
-
-.yearPickerGrid::-webkit-scrollbar-thumb {
-  background: var(--color-card-border);
-  border-radius: 3px;
-}
-
-.yearPickerGrid::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text);
-}
-
-/* Time Picker Styles */
-.timePickerContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-  padding: 2rem 1rem;
-  background: var(--color-bg-light);
-  border-radius: 12px;
-  margin-bottom: 1.5rem;
-}
-
-.timePickerSection {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.timePickerLabel {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-text);
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.timePickerScroll {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  max-height: 200px;
-  overflow-y: auto;
-  padding: 0.5rem;
-  border-radius: 8px;
-  background: var(--color-card);
-  border: 1px solid var(--color-card-border);
-}
-
-.timePickerScroll::-webkit-scrollbar {
-  width: 6px;
-}
-
-.timePickerScroll::-webkit-scrollbar-track {
-  background: var(--color-bg-light);
-  border-radius: 3px;
-}
-
-.timePickerScroll::-webkit-scrollbar-thumb {
-  background: var(--color-card-border);
-  border-radius: 3px;
-}
-
-.timePickerScroll::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, white, rgba(255, 255, 255, 0.8));
-}
-
-.timePickerItem {
-  padding: 0.75rem 1.5rem;
-  border: none;
-  background: transparent;
-  color: var(--color-text);
-  font-size: 1.1rem;
-  font-weight: 500;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  min-width: 60px;
-  text-align: center;
-}
-
-.timePickerItem:hover {
-  background: var(--color-primary-light);
-  color: var(--color-primary);
-  transform: translateY(-1px);
-}
-
-.timePickerSelected {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-  color: white !important;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-  transform: translateY(-1px);
-}
-
-.timePickerSeparator {
-  font-size: 2rem;
-  font-weight: bold;
-  color: var(--color-text);
-  align-self: center;
-  margin-top: 2rem;
-}
-
-/* Select Dropdown Styles */
-.selectDropdownContainer {
-  padding: 1.5rem;
-  background: var(--color-bg-light);
-  border-radius: 12px;
-  margin-bottom: 1.5rem;
-}
-
-.selectDropdownList {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  max-height: 300px;
-  overflow-y: auto;
-  padding: 0.5rem;
-  border-radius: 8px;
-  background: var(--color-card);
-  border: 1px solid var(--color-card-border);
-}
-
-.selectDropdownList::-webkit-scrollbar {
-  width: 6px;
-}
-
-.selectDropdownList::-webkit-scrollbar-track {
-  background: var(--color-bg-light);
-  border-radius: 3px;
-}
-
-.selectDropdownList::-webkit-scrollbar-thumb {
-  background: var(--color-card-border);
-  border-radius: 3px;
-}
-
-.selectDropdownList::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(135deg, white, rgba(255, 255, 255, 0.8));
-}
-
-.selectDropdownItem {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.5rem;
-  border: none;
-  background: transparent;
-  color: var(--color-text);
-  font-size: 1rem;
-  font-weight: 500;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-align: left;
-  width: 100%;
-}
-
-.selectDropdownItem:hover {
-  background: var(--color-primary-light);
-  color: var(--color-primary);
-  transform: translateY(-1px);
-}
-
-.selectDropdownSelected {
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-  color: white !important;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-  transform: translateY(-1px);
-}
-
-.selectDropdownLabel {
-  flex: 1;
-}
-
-.selectDropdownCheck {
-  flex-shrink: 0;
-  margin-left: 0.5rem;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .datePickerModal {
-    width: 95%;
-    max-height: 95vh;
+    background: var(--color-card);
     border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    max-width: 480px;
+    width: 90%;
+    max-height: 90vh;
+    overflow: hidden;
+    border: 1px solid var(--color-card-border);
+    animation: modalSlideIn 0.3s ease-out;
+  }
+
+  @keyframes modalSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px) scale(0.95);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
   }
 
   .datePickerHeader {
-    padding: 1.5rem 1.5rem 1rem;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 24px 0 24px;
+    position: relative;
+    gap: 16px;
+  }
+
+  .datePickerIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
   }
 
   .datePickerCloseButton {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-    width: 36px;
-    height: 36px;
-    font-size: 1.5rem;
+    top: 24px;
+    right: 24px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: none;
+    color: var(--color-text);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    padding: 0.5rem;
+    line-height: 1;
+    z-index: 10;
+  }
+
+  .datePickerCloseButton:hover {
+    background: var(--color-bg-light);
+    color: var(--color-text);
+    transform: scale(1.1);
+  }
+
+  :global([data-theme="light"]) .datePickerCloseButton:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .datePickerContent {
+    padding: 0 24px 24px 24px;
   }
 
   .datePickerTitle {
     font-size: 1.25rem;
-    margin-right: 3rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+    flex: 1;
+    text-align: center;
   }
 
-  .yearPickerGrid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
+  .calendarPickerContainer {
+    background: var(--color-card);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid var(--color-card-border);
   }
 
-  .yearPickerYear {
-    padding: 0.75rem 0.5rem;
-    font-size: 0.9rem;
-    min-height: 50px;
+  .calendarPickerHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .calendarPickerNavButton {
+    width: 50px;
+    height: 50px;
+    border: 2px solid var(--color-card-border);
+    background: var(--color-card);
+    color: var(--color-text);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .calendarPickerNavButton:hover {
+    border-color: var(--color-secondary);
+    background: var(--color-secondary);
+    color: white;
+    transform: translateY(-1px);
+  }
+
+  .calendarPickerMonthTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+    text-transform: capitalize;
+  }
+
+  .calendarPickerGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .calendarPickerWeekDays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+
+  .calendarPickerWeekDay {
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+  }
+
+  .calendarPickerDays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+
+  .calendarPickerDay {
+    height: 40px;
+    border: 2px solid transparent;
+    background: var(--color-card);
+    color: var(--color-text);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .calendarPickerDay:hover:not(:disabled) {
+    border-color: var(--color-secondary);
+    background: rgba(5, 126, 116, 0.1);
+    transform: translateY(-1px);
+  }
+
+  .calendarPickerDay.calendarPickerToday {
+    border-color: var(--color-secondary);
+    background: rgba(5, 126, 116, 0.1);
+    font-weight: 700;
+  }
+
+  .calendarPickerDay.calendarPickerSelected {
+    border-color: var(--color-secondary);
+    background: var(--color-secondary);
+    color: white;
+    font-weight: 700;
+  }
+
+  .calendarPickerDay.calendarPickerOtherMonth {
+    color: var(--color-text-secondary);
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .calendarPickerDay.calendarPickerOtherMonth:hover {
+    border-color: transparent;
+    background: var(--color-card);
+    transform: none;
+  }
+
+  .selectedDateInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    padding: 16px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 8px;
+  }
+
+  .selectedDateIcon {
+    flex-shrink: 0;
+  }
+
+  .selectedDateText {
+    flex: 1;
+  }
+
+  .selectedDateLabel {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin: 0 0 4px 0;
+  }
+
+  .selectedDateValue {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+    text-transform: capitalize;
   }
 
   .datePickerActions {
-    flex-direction: column;
-    gap: 0.75rem;
-    padding: 1rem 1.5rem 1.5rem;
-  }
-
-  .datePickerCancelButton,
-  .datePickerConfirmButton {
-    width: 100%;
-  }
-
-  .timePickerContainer {
+    display: flex;
     gap: 1rem;
-    padding: 1.5rem 0.5rem;
+    justify-content: flex-start;
+    margin-top: 24px;
   }
 
-  .timePickerScroll {
-    max-height: 150px;
-  }
-
-  .timePickerItem {
-    padding: 0.5rem 1rem;
+  .datePickerCancelButton {
+    background: var(--color-bg-light);
+    color: var(--color-text);
+    border: 2px solid var(--color-card-border);
+    padding: 0.875rem 1.75rem;
+    border-radius: 12px;
+    cursor: pointer;
     font-size: 1rem;
-    min-width: 50px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    min-width: 184px;
+    height: 48px !important;
+    min-height: 48px !important;
+    max-height: 48px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 184px;
   }
 
-  .timePickerSeparator {
-    font-size: 1.5rem;
-    margin-top: 1.5rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .datePickerModal {
-    width: 98%;
-    max-height: 95vh;
+  /* Modo claro para datePickerCancelButton */
+  :root .datePickerCancelButton,
+  [data-theme="light"] .datePickerCancelButton {
+    border-color: #000;
+    color: #000;
   }
 
-  .datePickerHeader {
-    padding: 1.25rem 1.25rem 0.75rem;
+  .datePickerCancelButton:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: white;
+    transform: translateY(-1px);
   }
 
-  .datePickerTitle {
-    font-size: 1.125rem;
+  /* Modo claro para datePickerCancelButton hover */
+  :root .datePickerCancelButton:hover,
+  [data-theme="light"] .datePickerCancelButton:hover {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: #000;
+    color: #000;
+  }
+
+  /* Modo oscuro para datePickerCancelButton */
+  [data-theme="dark"] .datePickerCancelButton {
+    background: var(--color-card);
+    border-color: var(--color-card-border);
+    color: #fff;
+  }
+
+  /* Modo oscuro para datePickerCancelButton hover */
+  [data-theme="dark"] .datePickerCancelButton:hover {
+    background: var(--color-bg-light);
+    border-color: var(--color-card-border);
+    color: #fff;
+  }
+
+  .datePickerCancelButton:active {
+    transform: translateY(0);
+  }
+
+  .datePickerCancelButton:disabled {
+    background: var(--color-skeleton);
+    color: var(--color-skeleton-light);
+    cursor: not-allowed;
+    transform: none;
+    border-color: var(--color-skeleton);
+  }
+
+  .datePickerConfirmButton {
+    color: white;
+    border: 2px solid transparent;
+    padding: 0.875rem 1.75rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    min-width: 184px;
+    height: 48px !important;
+    min-height: 48px !important;
+    max-height: 48px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+    box-sizing: border-box;
+    width: 184px;
+  }
+
+  .datePickerConfirmButton:hover:not(:disabled) {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .datePickerConfirmButton:active {
+    transform: translateY(0);
+  }
+
+  .datePickerConfirmButton:disabled {
+    background: var(--color-skeleton);
+    color: var(--color-skeleton-light);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Dark mode styles for date picker */
+  .dark .datePickerModal {
+    background: var(--color-card);
+    border-color: var(--color-card-border);
+  }
+
+  .dark .datePickerCloseButton {
+    background: var(--color-card);
+    color: var(--color-text);
+  }
+
+  .dark .calendarPickerNavButton {
+    background: var(--color-card);
+    color: var(--color-text);
+    border-color: var(--color-card-border);
+  }
+
+  .dark .calendarPickerDay {
+    background: var(--color-card);
+    color: var(--color-text);
+  }
+
+  .dark .calendarPickerDay.calendarPickerOtherMonth {
+    color: var(--color-text-secondary);
+  }
+
+  .dark .datePickerCancelButton {
+    background: var(--color-card);
+    color: var(--color-text);
+    border-color: var(--color-card-border);
+  }
+
+  /* Responsive styles for date picker */
+  @media (max-width: 768px) {
+    .datePickerModal {
+      width: 95%;
+      max-width: none;
+    }
+
+    .datePickerContent {
+      padding: 0 16px 16px 16px;
+    }
+
+    .calendarPickerContainer {
+      padding: 16px;
+    }
+
+    .calendarPickerDay {
+      height: 36px;
+      font-size: 0.8rem;
+    }
+
+    .datePickerActions {
+      flex-direction: column;
+    }
+
+    .datePickerCancelButton,
+    .datePickerConfirmButton {
+      width: 100%;
+    }
+  }
+
+  /* Year Picker Modal Styles */
+  .yearPickerContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem 0;
   }
 
   .yearPickerGrid {
-    grid-template-columns: repeat(2, 1fr);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 0.5rem;
   }
 
   .yearPickerYear {
-    padding: 0.5rem;
-    font-size: 0.85rem;
-    min-height: 45px;
+    padding: 1rem 0.75rem;
+    border: 2px solid var(--color-card-border);
+    border-radius: 12px;
+    background: var(--color-card);
+    color: var(--color-text);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+    font-family: inherit;
   }
-}
 
-/* Información de zona horaria */
-.timeZoneInfo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 16px;
-  background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 14px;
-  color: #475569;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-  gap: 4px;
-}
+  .yearPickerYear:hover {
+    border-color: var(--color-secondary);
+    background: var(--color-bg-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(5, 126, 116, 0.15);
+  }
 
-.timeZoneInfo span {
-  display: inline-flex;
-  align-items: center;
-}
+  .yearPickerYear:active {
+    transform: translateY(0);
+  }
 
-.timeZoneInfo .timeZoneOffset {
-  color: #64748b;
-  font-weight: 500;
-}
+  .yearPickerSelected {
+    background: linear-gradient(135deg, var(--color-secondary) 0%, #045e58 100%);
+    color: white;
+    border-color: var(--color-secondary);
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(5, 126, 116, 0.3);
+  }
 
-.timeZoneInfo .dstIndicator {
-  color: #10b981;
-  font-weight: 500;
-}
+  .yearPickerSelected:hover {
+    background: linear-gradient(135deg, #045e58 0%, #034a45 100%);
+    border-color: var(--color-secondary);
+    color: white;
+  }
 
-.timeZoneInfo .timeZoneNote {
-  font-size: 12px;
-  color: #94a3b8;
-  font-style: italic;
-  margin-top: 4px;
-  width: 100%;
-  text-align: center;
+  /* Date Picker Modal Styles (si no existen) */
+  .datePickerBackdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeIn 0.3s ease-out;
+    padding: 20px;
+  }
+
+  .datePickerModal {
+    background: var(--color-card);
+    border-radius: 20px;
+    max-width: 500px;
+    width: 95%;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    border: 1px solid var(--color-card-border);
+  }
+
+  .datePickerHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 2.5rem 1.5rem;
+    border-bottom: 1px solid var(--color-card-border);
+    background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-card) 100%);
+    position: relative;
+  }
+
+  .datePickerHeader::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: #000000;
+  }
+
+  :global(.dark) .datePickerHeader::before {
+    background: #ffffff;
+  }
+
+  .datePickerIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+
+  .datePickerTitle {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: -0.025em;
+    flex: 1;
+    text-align: center;
+  }
+
+  .datePickerCloseButton {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--color-text);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .datePickerCloseButton:hover {
+    background: var(--color-bg-light);
+    color: var(--color-text);
+    transform: scale(1.1);
+  }
+
+  .datePickerContent {
+    padding: 0;
+    max-height: calc(90vh - 120px);
+    overflow-y: auto;
+    background: var(--color-card);
+  }
+
+  .datePickerActions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+    padding: 1.5rem 2.5rem 2rem;
+    border-top: 1px solid var(--color-card-border);
+    background: var(--color-card);
+    margin-top: auto;
+  }
+
+  .datePickerCancelButton {
+    background: var(--color-bg-light);
+    color: var(--color-text);
+    border: 2px solid var(--color-card-border);
+    padding: 0.875rem 1.75rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    min-width: 184px;
+    height: 48px !important;
+    min-height: 48px !important;
+    max-height: 48px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 184px;
+  }
+
+  /* Modo claro para datePickerCancelButton */
+  :root .datePickerCancelButton,
+  [data-theme="light"] .datePickerCancelButton {
+    border-color: #000;
+    color: #000;
+  }
+
+  .datePickerCancelButton:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: white;
+    transform: translateY(-1px);
+  }
+
+  /* Modo claro para datePickerCancelButton hover */
+  :root .datePickerCancelButton:hover,
+  [data-theme="light"] .datePickerCancelButton:hover {
+    background: rgba(0, 0, 0, 0.05);
+    border-color: #000;
+    color: #000;
+  }
+
+  /* Modo oscuro para datePickerCancelButton */
+  [data-theme="dark"] .datePickerCancelButton {
+    background: var(--color-card);
+    border-color: var(--color-card-border);
+    color: #fff;
+  }
+
+  /* Modo oscuro para datePickerCancelButton hover */
+  [data-theme="dark"] .datePickerCancelButton:hover {
+    background: var(--color-bg-light);
+    border-color: var(--color-card-border);
+    color: #fff;
+  }
+
+  .datePickerCancelButton:active {
+    transform: translateY(0);
+  }
+
+  .datePickerCancelButton:disabled {
+    background: var(--color-skeleton);
+    color: var(--color-skeleton-light);
+    cursor: not-allowed;
+    transform: none;
+    border-color: var(--color-skeleton);
+  }
+
+  .datePickerConfirmButton {
+    color: white;
+    border: 2px solid transparent;
+    padding: 0.875rem 1.75rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    min-width: 184px;
+    height: 48px !important;
+    min-height: 48px !important;
+    max-height: 48px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+    box-sizing: border-box;
+    width: 184px;
+  }
+
+  .datePickerConfirmButton:hover:not(:disabled) {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .datePickerConfirmButton:active {
+    transform: translateY(0);
+  }
+
+  .datePickerConfirmButton:disabled {
+    background: var(--color-skeleton);
+    color: var(--color-skeleton-light);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Scrollbar personalizado para yearPickerGrid */
+  .yearPickerGrid::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .yearPickerGrid::-webkit-scrollbar-track {
+    background: var(--color-bg-light);
+    border-radius: 3px;
+  }
+
+  .yearPickerGrid::-webkit-scrollbar-thumb {
+    background: var(--color-card-border);
+    border-radius: 3px;
+  }
+
+  .yearPickerGrid::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text);
+  }
+
+  /* Time Picker Styles */
+  .timePickerContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2rem 1rem;
+    background: var(--color-bg-light);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .timePickerSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .timePickerLabel {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .timePickerScroll {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background: var(--color-card);
+    border: 1px solid var(--color-card-border);
+  }
+
+  .timePickerScroll::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .timePickerScroll::-webkit-scrollbar-track {
+    background: var(--color-bg-light);
+    border-radius: 3px;
+  }
+
+  .timePickerScroll::-webkit-scrollbar-thumb {
+    background: var(--color-card-border);
+    border-radius: 3px;
+  }
+
+  .timePickerScroll::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, white, rgba(255, 255, 255, 0.8));
+  }
+
+  .timePickerItem {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    background: transparent;
+    color: var(--color-text);
+    font-size: 1.1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 60px;
+    text-align: center;
+  }
+
+  .timePickerItem:hover {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    transform: translateY(-1px);
+  }
+
+  .timePickerSelected {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    transform: translateY(-1px);
+  }
+
+  .timePickerSeparator {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--color-text);
+    align-self: center;
+    margin-top: 2rem;
+  }
+
+  /* Select Dropdown Styles */
+  .selectDropdownContainer {
+    padding: 1.5rem;
+    background: var(--color-bg-light);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .selectDropdownList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background: var(--color-card);
+    border: 1px solid var(--color-card-border);
+  }
+
+  .selectDropdownList::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .selectDropdownList::-webkit-scrollbar-track {
+    background: var(--color-bg-light);
+    border-radius: 3px;
+  }
+
+  .selectDropdownList::-webkit-scrollbar-thumb {
+    background: var(--color-card-border);
+    border-radius: 3px;
+  }
+
+  .selectDropdownList::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, white, rgba(255, 255, 255, 0.8));
+  }
+
+  .selectDropdownItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border: none;
+    background: transparent;
+    color: var(--color-text);
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    width: 100%;
+  }
+
+  .selectDropdownItem:hover {
+    background: var(--color-primary-light);
+    color: var(--color-primary);
+    transform: translateY(-1px);
+  }
+
+  .selectDropdownSelected {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    transform: translateY(-1px);
+  }
+
+  .selectDropdownLabel {
+    flex: 1;
+  }
+
+  .selectDropdownCheck {
+    flex-shrink: 0;
+    margin-left: 0.5rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .datePickerModal {
+      width: 95%;
+      max-height: 95vh;
+      border-radius: 16px;
+    }
+
+    .datePickerHeader {
+      padding: 1.5rem 1.5rem 1rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .datePickerCloseButton {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 36px;
+      height: 36px;
+      font-size: 1.5rem;
+    }
+
+    .datePickerTitle {
+      font-size: 1.25rem;
+      margin-right: 3rem;
+    }
+
+    .yearPickerGrid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+    }
+
+    .yearPickerYear {
+      padding: 0.75rem 0.5rem;
+      font-size: 0.9rem;
+      min-height: 50px;
+    }
+
+    .datePickerActions {
+      flex-direction: column;
+      gap: 0.75rem;
+      padding: 1rem 1.5rem 1.5rem;
+    }
+
+    .datePickerCancelButton,
+    .datePickerConfirmButton {
+      width: 100%;
+    }
+
+    .timePickerContainer {
+      gap: 1rem;
+      padding: 1.5rem 0.5rem;
+    }
+
+    .timePickerScroll {
+      max-height: 150px;
+    }
+
+    .timePickerItem {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      min-width: 50px;
+    }
+
+    .timePickerSeparator {
+      font-size: 1.5rem;
+      margin-top: 1.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .datePickerModal {
+      width: 98%;
+      max-height: 95vh;
+    }
+
+    .datePickerHeader {
+      padding: 1.25rem 1.25rem 0.75rem;
+    }
+
+    .datePickerTitle {
+      font-size: 1.125rem;
+    }
+
+    .yearPickerGrid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .yearPickerYear {
+      padding: 0.5rem;
+      font-size: 0.85rem;
+      min-height: 45px;
+    }
+  }
+
+  /* Información de zona horaria */
+  .timeZoneInfo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #475569;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .timeZoneInfo span {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .timeZoneInfo .timeZoneOffset {
+    color: #64748b;
+    font-weight: 500;
+  }
+
+  .timeZoneInfo .dstIndicator {
+    color: #10b981;
+    font-weight: 500;
+  }
+
+  .timeZoneInfo .timeZoneNote {
+    font-size: 12px;
+    color: #94a3b8;
+    font-style: italic;
+    margin-top: 4px;
+    width: 100%;
+    text-align: center;
+  }
 }

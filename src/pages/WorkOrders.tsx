@@ -259,14 +259,16 @@ const WorkOrders = () => {
   return (
     <>
       <div className={styles.containerWorkOrders}>
-        <h1 className={styles.title}>{t('workOrders.title')}</h1>
-        {!isTechnician && (
-          <div className={styles.positionButton} data-tour="create-work-order-btn">
-            <Button title={t('workOrders.createWorkOrder')} onClick={handleOpenCreate}>
-              {t('workOrders.createWorkOrder')}
-            </Button>
-          </div>
-        )}
+        <div className={styles.topSection}>
+          <h1 className={styles.title}>{t('workOrders.title')}</h1>
+          {!isTechnician && (
+            <div className={styles.positionButton} data-tour="create-work-order-btn">
+              <Button title={t('workOrders.createWorkOrder')} onClick={handleOpenCreate}>
+                {t('workOrders.createWorkOrder')}
+              </Button>
+            </div>
+          )}
+        </div>
 
         <div className={styles.searchContainer} data-tour="search-filter">
           <SearchInput

@@ -241,13 +241,15 @@ const Manuals = () => {
             <ArrowLeft size={20} />
             <span>{t('common.backToAssets')}</span>
           </button>
-          <h1 className={styles.title}>{t('manuals.title')}</h1>
-        </div>
-        {!isTechnician && (
-          <div className={styles.positionButton} data-tour="create-manual-btn">
-            <Button title={t('manuals.createManual')} onClick={handleOpenCreate} />
+          <div className={styles.topSection}>
+            <h1 className={styles.title}>{t('manuals.title')}</h1>
+            {!isTechnician && (
+              <div className={styles.positionButton} data-tour="create-manual-btn">
+                <Button title={t('manuals.createManual')} onClick={handleOpenCreate} />
+              </div>
+            )}
           </div>
-        )}
+        </div>
 
         <div className={styles.searchContainer} data-tour="search-filter">
           <SearchInput

@@ -16,6 +16,15 @@
   margin-bottom: 1rem;
 }
 
+.topSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  width: 100%;
+}
+
 .backButton {
   display: inline-flex;
   align-items: center;
@@ -66,6 +75,9 @@
   color: var(--color-text);
   margin: 0;
   text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .positionButton {
@@ -392,9 +404,17 @@
   font-size: 16px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .containerManuals {
-    padding: 16px 12px;
+    padding: 60px 16px 24px 16px;
+  }
+
+  .title {
+    font-size: 24px;
+    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 16px;
   }
 
   .listContainer {
@@ -429,7 +449,11 @@
   }
 
   .title {
-    font-size: 28px;
+    font-size: 24px;
+    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 16px;
   }
 
   .manualCard {

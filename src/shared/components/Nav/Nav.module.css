@@ -149,12 +149,24 @@
   cursor: pointer;
   transition: transform 0.3s cubic-bezier(.4, 0, .2, 1), opacity 0.3s cubic-bezier(.4, 0, .2, 1), left 0.3s ease-in-out;
   opacity: 1;
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+.menuToggle:focus,
+.menuToggle:active,
+.menuToggleOpen:focus,
+.menuToggleOpen:active {
+  background: none !important;
+  background-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 /* When sidebar is OPEN - position X inside the sidebar */
 .menuToggleOpen {
-  left: calc(85vw - 48px);
-  top: 12px;
+  left: calc(85vw - 90px);
+  top: 24px;
   z-index: 1101;
 }
 
@@ -165,8 +177,8 @@
   }
 
   .menuToggleOpen {
-    left: calc(320px - 52px);
-    top: 16px;
+    left: calc(320px - 90px);
+    top: 28px;
   }
 }
 

@@ -6,8 +6,16 @@
   flex-direction: column;
   gap: 32px;
   color: var(--color-text);
-  min-height: unset;
+  min-height: calc(100vh - 40px);
   position: static;
+}
+
+.topSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .title {
@@ -15,7 +23,10 @@
   font-weight: 700;
   color: var(--color-text);
   margin: 0;
-  text-align: left !important;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .positionButton {
@@ -339,7 +350,7 @@
   justify-content: center;
   align-items: center;
   gap: 8px;
-  margin: 24px 0 0 0;
+  margin: auto 0 0 0;
   position: sticky;
   bottom: 0;
   background: var(--color-bg);
@@ -426,9 +437,17 @@
   color: #6c757d;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .containerWorkOrders {
-    padding: 16px 12px;
+    padding: 60px 16px 24px 16px;
+  }
+
+  .title {
+    font-size: 24px;
+    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 16px;
   }
 
   .listContainer {
@@ -452,8 +471,12 @@
   }
 
   .title {
-    font-size: 28px;
-    margin-top: 24px;
+    font-size: 24px;
+    text-align: left !important;
+    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 16px;
   }
 
   .workOrderCard {

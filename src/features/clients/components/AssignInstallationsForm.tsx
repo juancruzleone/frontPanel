@@ -18,6 +18,7 @@ interface AssignInstallationsFormProps {
   installations: Installation[]
   isSubmitting: boolean
   clientName: string
+  initialSelectedIds?: string[]
 }
 
 const AssignInstallationsForm = ({
@@ -27,9 +28,10 @@ const AssignInstallationsForm = ({
   installations,
   isSubmitting,
   clientName,
+  initialSelectedIds = [],
 }: AssignInstallationsFormProps) => {
   const { t } = useTranslation()
-  const [selectedInstallations, setSelectedInstallations] = useState<string[]>([])
+  const [selectedInstallations, setSelectedInstallations] = useState<string[]>(initialSelectedIds)
   const [error, setError] = useState("")
 
   const handleToggleInstallation = (installationId: string) => {

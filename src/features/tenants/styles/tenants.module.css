@@ -10,6 +10,14 @@
   position: static;
 }
 
+.topSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
 .title {
   font-size: 32px;
   font-weight: 700;
@@ -234,6 +242,17 @@
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+  .containerTenants {
+    padding: 60px 16px 24px 16px;
+  }
+
+  .title {
+    font-size: 24px;
+    justify-content: flex-start;
+  }
+}
+
 @media (max-width: 768px) {
   .containerTenants {
     padding: 16px;

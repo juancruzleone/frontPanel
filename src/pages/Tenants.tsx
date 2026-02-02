@@ -155,10 +155,12 @@ const Tenants = () => {
 
   return (
     <div className={styles.containerTenants}>
-      <h1 className={styles.title}>{t('tenants.title')}</h1>
+      <div className={styles.topSection}>
+        <h1 className={styles.title}>{t('tenants.title')}</h1>
 
-      <div className={styles.positionButton}>
-        <Button title={t('tenants.createTenant')} onClick={handleCreate} />
+        <div className={styles.positionButton}>
+          <Button title={t('tenants.createTenant')} onClick={handleCreate} />
+        </div>
       </div>
 
       <div className={styles.searchContainer}>

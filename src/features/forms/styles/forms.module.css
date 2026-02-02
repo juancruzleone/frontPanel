@@ -6,6 +6,15 @@
   flex-direction: column;
   gap: 32px;
   color: var(--color-text);
+  min-height: calc(100vh - 40px);
+}
+
+.topSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 .title {
@@ -13,7 +22,10 @@
   font-weight: 700;
   color: var(--color-text);
   margin: 0;
-  text-align: left !important;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .positionButton {
@@ -279,7 +291,7 @@
   justify-content: center;
   align-items: center;
   gap: 8px;
-  margin: 24px 0 0 0;
+  margin: auto 0 0 0;
   position: sticky;
   bottom: 0;
   background: var(--color-bg);
@@ -326,14 +338,24 @@
   font-size: 16px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .containerForms {
-    padding: 16px 12px;
+    padding: 60px 16px 24px 16px;
   }
+
+  .title {
+    font-size: 24px;
+    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
   .templatesGrid {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 16px;
   }
+
   .templateCard {
     padding: 16px;
   }
@@ -343,13 +365,21 @@
   .containerForms {
     padding: 12px 8px;
   }
+
   .templatesGrid {
     grid-template-columns: 1fr;
     gap: 12px;
   }
+
   .title {
-    font-size: 28px;
+    font-size: 24px;
+    text-align: left !important;
+    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 16px;
   }
+
   .templateCard {
     padding: 12px;
   }

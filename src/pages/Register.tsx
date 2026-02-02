@@ -18,6 +18,7 @@ import { deleteTechnician } from "../features/auth/register/services/registerSer
 import { useAuthStore } from "../store/authStore"
 import { usePersonalTour } from "../features/auth/register/hooks/usePersonalTour"
 import { CircleHelp } from "lucide-react"
+import Skeleton from "../shared/components/Skeleton"
 
 const Register = () => {
   const { t, i18n } = useTranslation()
@@ -132,7 +133,7 @@ const Register = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
+      <div className={styles.topSection}>
         <h1 className={styles.title}>{t('personal.title')}</h1>
         <div className={styles.buttonContainer} data-tour="add-technician-btn">
           <Button title={t('personal.addTechnician')} onClick={handleOpenModal} />
@@ -159,8 +160,7 @@ const Register = () => {
 
         {loadingTechnicians ? (
           <div className={styles.loadingContainer}>
-            <div className={styles.spinner}></div>
-            <p>{t('personal.loadingTechnicians')}</p>
+            <Skeleton height={300} width="100%" style={{ borderRadius: 16 }} />
           </div>
         ) : !Array.isArray(technicians) || technicians.length === 0 ? (
           <div className={styles.emptyContainer}>
@@ -187,7 +187,7 @@ const Register = () => {
               <tbody>
                 {filteredTechnicians.map((tech) => (
                   <tr key={tech._id || tech.id}>
-                    <td>
+                    <td data-label={t('personal.user')}>
                       <div className={styles.userInfo}>
                         <div className={styles.userAvatar}>
                           <FiUser size={16} />
@@ -195,8 +195,8 @@ const Register = () => {
                         <span>{tech.userName}</span>
                       </div>
                     </td>
-                    <td>{formatDate(tech.createdAt)}</td>
-                    <td>
+                    <td data-label={t('personal.registrationDate')}>{formatDate(tech.createdAt)}</td>
+                    <td data-label={t('common.actions')}>
                       <div className={styles.actionButtons}>
                         <button
                           className={styles.iconButton}

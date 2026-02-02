@@ -187,18 +187,19 @@ const Assets = () => {
   return (
     <>
       <div className={styles.containerAssets}>
-        <h1 className={styles.title}>{t('assets.title')}</h1>
-        <div className={styles.positionButton} data-tour="create-asset-btn">
-          <Button title={t('assets.createAsset')} onClick={handleOpenCreate} />
-          <button
-            className={styles.manualsButton}
-            onClick={() => navigate('/manuales')}
-            aria-label={t('nav.manuals')}
-          >
-            <BookOpen size={20} />
-            <span>{t('nav.manuals')}</span>
-          </button>
-
+        <div className={styles.topSection}>
+          <h1 className={styles.title}>{t('assets.title')}</h1>
+          <div className={styles.positionButton} data-tour="create-asset-btn">
+            <Button title={t('assets.createAsset')} onClick={handleOpenCreate} />
+            <button
+              className={styles.manualsButton}
+              onClick={() => navigate('/manuales')}
+              aria-label={t('nav.manuals')}
+            >
+              <BookOpen size={20} />
+              <span>{t('nav.manuals')}</span>
+            </button>
+          </div>
         </div>
 
         <div className={styles.searchContainer} data-tour="search-filter">

@@ -105,6 +105,7 @@ const ModalAssignInstallations = ({
             installations={installations}
             isSubmitting={isSubmitting}
             clientName={client.userName}
+            initialSelectedIds={client.instalaciones?.map((inst: any) => inst._id || inst.id || inst) || []}
           />
         </div>
       </div>

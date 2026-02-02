@@ -8,7 +8,7 @@
   gap: 32px;
   /* Reducido de 32px para compensar el margen de la tabla */
   color: var(--color-text);
-  min-height: unset;
+  min-height: calc(100vh - 40px);
   position: static;
   animation: fadeIn 0.3s ease-out;
   overflow: visible;
@@ -28,6 +28,14 @@
 }
 
 /* Title matching Installations/Dashboard */
+.topSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
 .title {
   font-size: 32px;
   font-weight: 700;
@@ -212,8 +220,8 @@
   /* CRÍTICO: debe ser visible para que los tooltips sobresalgan */
   z-index: 1;
   /* Margen superior para dar espacio a los tooltips de la primera fila */
-  margin-top: 50px;
-  /* Importante: no usar clip-path ni mask que puedan recortar */
+  margin-top: 16px;
+  /* Reducido de 50px para subir la tabla */
   isolation: isolate;
   /* Crear un nuevo contexto de apilamiento */
 }
@@ -520,12 +528,12 @@
 
 /* Pagination */
 .pagination {
-  padding: 16px;
+  margin-top: auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 16px;
-  background: var(--color-bg-light);
+  gap: 12px;
+  padding: 24px 0;
   border-top: 1px solid var(--color-card-border);
 }
 
@@ -594,6 +602,10 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  color: #000000;
+}
+
+:global(.dark) .emptyState {
   color: var(--color-text-secondary);
 }
 
@@ -649,6 +661,15 @@
 
 /* Tablets (768px - 1024px) and iPad Pro */
 @media (max-width: 1100px) {
+  .containerSubscriptions {
+    padding-top: 60px;
+  }
+
+  .title {
+    font-size: 24px;
+    justify-content: flex-start;
+  }
+
   .mainControls {
     padding: 16px;
     gap: 16px;
@@ -736,7 +757,7 @@
 /* Breakpoint para transformar tabla a layout vertical (Mobile) */
 @media (max-width: 767px) {
   .containerSubscriptions {
-    padding: 16px 12px;
+    padding: 60px 12px 16px 12px;
     gap: 20px;
   }
 
@@ -968,8 +989,9 @@
   }
 
   .title {
-    font-size: 22px;
-    margin-top: 12px;
+    font-size: 24px;
+    justify-content: flex-start;
+    text-align: left;
   }
 
   .mainControls {
@@ -1471,5 +1493,24 @@
   .formGroup textarea {
     padding: 0.75rem;
     font-size: 0.95rem;
+  }
+}
+
+/* Responsive Design - Title Matching Calendar */
+@media (max-width: 1024px) {
+  .containerSubscriptions {
+    padding: 60px 16px 24px 16px;
+  }
+
+  .title {
+    font-size: 24px;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 24px;
+    justify-content: flex-start;
   }
 }

@@ -372,21 +372,23 @@ const Installations = () => {
   return (
     <>
       <div className={styles.containerInstallations}>
-        <h1 className={styles.title}>{t('installations.title')}</h1>
+        <div className={styles.topSection}>
+          <h1 className={styles.title}>{t('installations.title')}</h1>
 
-        {!isRestricted && (
-          <div className={styles.positionButton}>
-            <Button title={t('installations.createInstallation')} onClick={handleOpenCreate} data-tour="create-installation-btn" />
-            <button
-              className={styles.clientsButton}
-              onClick={() => navigate('/clientes')}
-              aria-label={t('nav.clients')}
-            >
-              <Users size={20} />
-              <span>{t('nav.clients')}</span>
-            </button>
-          </div>
-        )}
+          {!isRestricted && (
+            <div className={styles.positionButton}>
+              <Button title={t('installations.createInstallation')} onClick={handleOpenCreate} data-tour="create-installation-btn" />
+              <button
+                className={styles.clientsButton}
+                onClick={() => navigate('/clientes')}
+                aria-label={t('nav.clients')}
+              >
+                <Users size={20} />
+                <span>{t('nav.clients')}</span>
+              </button>
+            </div>
+          )}
+        </div>
 
         {!isClientUser && (
           <div className={styles.typeButtons}>

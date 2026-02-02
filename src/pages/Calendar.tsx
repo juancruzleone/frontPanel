@@ -553,6 +553,7 @@ const Calendar = () => {
               ]}
               placeholder={t('calendar.allTechnicians') || 'Todos los técnicos'}
               autoSize={true}
+              className={styles.tallSelect}
             />
 
             <HybridSelect
@@ -561,6 +562,7 @@ const Calendar = () => {
               options={priorityOptions}
               placeholder={t('common.all')}
               autoSize={true}
+              className={styles.tallSelect}
             />
 
             <HybridSelect
@@ -569,6 +571,7 @@ const Calendar = () => {
               options={dateOptions}
               placeholder={t('calendar.allDates')}
               autoSize={true}
+              className={styles.tallSelect}
             />
 
             <button
