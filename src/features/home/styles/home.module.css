@@ -855,7 +855,7 @@ html {
     min-height: auto !important;
     box-sizing: border-box;
     display: flex !important;
-    justify-content: center !important;
+
   }
 
   .chartCard {
@@ -883,11 +883,10 @@ html {
     max-width: 100% !important;
     flex: 0 0 auto !important;
     display: flex !important;
-    flex-wrap: wrap !important;
+
     justify-content: center !important;
     gap: 12px !important;
-    flex-direction: row !important;
-    /* Force row layout on mobile */
+
   }
 
   .percentageItem {
@@ -1134,7 +1133,7 @@ html {
   padding: 0;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 850px) {
   .pieChartFlexContainer {
     flex-direction: column;
     padding: 10px 0 !important;
@@ -1183,6 +1182,13 @@ html {
 
   .percentageValue {
     font-size: 0.8rem !important;
+  }
+
+  .percentagesContainer {
+    flex-wrap: wrap !important;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
   }
 }
 
@@ -1357,10 +1363,7 @@ html {
 /* Contenedor de porcentajes sin wrapper */
 /* Contenedor de porcentajes limpio */
 .percentagesContainer {
-  display: flexbox;
-  /* Fallback */
-  display: flex;
-  flex-direction: column;
+  /* display: flex removed */
   gap: 12px;
   justify-content: center;
   min-width: 140px;
