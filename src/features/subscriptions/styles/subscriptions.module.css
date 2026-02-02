@@ -10,6 +10,8 @@
   min-height: unset;
   position: static;
   animation: fadeIn 0.3s ease-out;
+  overflow: visible !important;
+  /* Para que los tooltips no se corten */
 }
 
 @keyframes fadeIn {
@@ -174,7 +176,6 @@
 }
 
 /* Table Container - Stark Design, No Scroll */
-/* Table Container - Stark Design, No Scroll */
 .tableContainer {
   background: var(--color-card);
   border-radius: 14px;
@@ -182,8 +183,7 @@
   position: relative;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   overflow: visible !important;
-  /* Permitir que los tooltips sobresalgan */
-  z-index: 5;
+  z-index: 1;
 }
 
 :global(.dark) .tableContainer {
@@ -210,11 +210,17 @@
   width: 100%;
   overflow: visible !important;
   /* Asegurar visibilidad de tooltips */
+  position: relative;
+  z-index: 1;
 }
 
 .table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  /* Cambiado de collapse a separate para mejor control de z-index */
+  border-spacing: 0;
+  overflow: visible !important;
+  position: relative;
 }
 
 .tableHeader th {
@@ -227,6 +233,7 @@
   color: var(--color-text);
   background: var(--color-bg-light);
   border-bottom: 2px solid black;
+  overflow: visible !important;
 }
 
 :global(.dark) .tableHeader th {
@@ -235,16 +242,17 @@
 
 .tableRow {
   border-bottom: 1px solid var(--color-card-border);
-  transition: background 0.2s;
+  transition: background 0.2s, z-index 0s;
   position: relative;
   /* Contexto de posicionamiento para z-index */
   z-index: 1;
+  overflow: visible !important;
 }
 
 .tableRow:hover {
   background: rgba(0, 0, 0, 0.02);
-  z-index: 20;
-  /* Elevar fila en hover para que sus tooltips estén encima */
+  z-index: 100;
+  /* Elevar fila en hover para que sus tooltips estén encima de todo */
 }
 
 [data-theme="dark"] .tableRow:hover {
@@ -259,6 +267,9 @@
   padding: 18px 24px;
   text-align: center;
   vertical-align: middle;
+  overflow: visible !important;
+  position: relative;
+  /* Necesario para que los tooltips se posicionen correctamente */
 }
 
 /* Installation Cell - usually left aligned for better reading */
@@ -327,7 +338,7 @@
 .actionIcon:hover {
   background: var(--color-text);
   color: var(--color-card);
-  transform: translateY(-2px);
+  /* transform removido para evitar problemas de tooltip */
 }
 
 .statusPill {
@@ -362,6 +373,9 @@
   gap: 8px;
   justify-content: center;
   align-items: center;
+  position: relative;
+  /* Contexto para tooltips */
+  overflow: visible;
 }
 
 .actionBtn {
@@ -379,6 +393,8 @@
   padding: 0;
   position: relative;
   flex-shrink: 0;
+  overflow: visible;
+  /* Permitir que el tooltip sobresalga */
 }
 
 :global(.dark) .actionBtn {
@@ -388,35 +404,70 @@
 .actionBtn:hover {
   background: var(--color-text);
   color: var(--color-card);
-  transform: translateY(-2px);
+  /* transform removido para evitar problemas de tooltip */
 }
 
-/* Tooltip style matching Installations */
+/* Tooltip style - Solución con position absolute pero sin restricciones */
+.actionBtn[data-tooltip],
+.actionIcon[data-tooltip] {
+  position: relative;
+}
+
 .actionBtn[data-tooltip]::after,
 .actionIcon[data-tooltip]::after {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: 125%;
+  bottom: 100%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(-8px);
   background-color: var(--color-text);
   color: var(--color-card);
-  padding: 6px 10px;
-  font-size: 11px;
+  padding: 8px 12px;
+  font-size: 12px;
   font-weight: 500;
   white-space: nowrap;
+  width: max-content;
+  max-width: 250px;
+  text-align: center;
   border-radius: 6px;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.2s ease;
-  z-index: 1000;
-  /* Z-index alto para tooltip */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  z-index: 99999;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
 .actionBtn:hover::after,
 .actionIcon:hover::after {
   opacity: 1;
+  visibility: visible;
+}
+
+/* Flecha del tooltip */
+.actionBtn[data-tooltip]::before,
+.actionIcon[data-tooltip]::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-2px);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--color-text);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  z-index: 99999;
+}
+
+.actionBtn:hover::before,
+.actionIcon:hover::before {
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Pagination */
