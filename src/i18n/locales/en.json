@@ -1141,6 +1141,7 @@
     "monthsDetail": "Months Detail",
     "period": "Period",
     "noMonthsAvailable": "No months available",
+    "monthsIncluded": "Months included",
     "tour": {
       "welcome": {
         "title": "Welcome to Active Subscriptions!",
@@ -1201,7 +1202,8 @@
       },
       "unnamedDocument": "Unnamed document",
       "confirmDeleteTitle": "Delete document?",
-      "confirmDeleteDescription": "This action cannot be undone. The document will be permanently deleted."
+      "confirmDeleteDescription": "This action cannot be undone. The document will be permanently deleted.",
+      "deleteSuccess": "Document deleted successfully"
     }
   },
   "calendar": {

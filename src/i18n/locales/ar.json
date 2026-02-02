@@ -1551,6 +1551,7 @@
     "monthsDetail": "تفاصيل الأشهر",
     "period": "الفترة",
     "noMonthsAvailable": "لا توجد أشهر متاحة",
+    "monthsIncluded": "الأشهر المشمولة",
     "documents": {
       "uploadTitle": "تحميل مستند",
       "uploadSubtitle": "قم بتحميل عقد أو ميزانية لهذا التركيب",
@@ -1576,13 +1577,14 @@
       "errorDeleting": "خطأ في حذف المستند",
       "fileSelected": "تم اختيار الملف",
       "types": {
-        "presupuesto": "ميزانية",
-        "contrato": "عقد",
-        "otro": "أخرى"
+        "contract": "عقد",
+        "budget": "ميزانية",
+        "other": "أخرى"
       },
       "unnamedDocument": "مستند بدون اسم",
       "confirmDeleteTitle": "حذف المستند؟",
-      "confirmDeleteDescription": "لا يمكن التراجع عن هذا الإجراء. سيتم حذف المستند نهائياً."
+      "confirmDeleteDescription": "لا يمكن التراجع عن هذا الإجراء. سيتم حذف المستند نهائياً.",
+      "deleteSuccess": "تم حذف المستند بنجاح"
     },
     "installationDetails": "تفاصيل التركيب"
   },

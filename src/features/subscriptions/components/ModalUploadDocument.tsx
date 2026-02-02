@@ -27,7 +27,7 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
-    const [tipoDocumento, setTipoDocumento] = useState<string>('contrato')
+    const [tipoDocumento, setTipoDocumento] = useState<string>('contract')
     const [descripcion, setDescripcion] = useState('')
     const [isUploading, setIsUploading] = useState(false)
     const [dragActive, setDragActive] = useState(false)
@@ -39,7 +39,7 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
     useEffect(() => {
         if (!isOpen) {
             setSelectedFile(null)
-            setTipoDocumento('contrato')
+            setTipoDocumento('contract')
             setDescripcion('')
             setIsUploading(false)
             setDragActive(false)
@@ -222,27 +222,27 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                                     <HybridSelect
                                         name="tipoDocumento"
-                                        value={tipoDocumento === 'presupuesto' || tipoDocumento === 'contrato' ? tipoDocumento : 'otro'}
+                                        value={tipoDocumento === 'budget' || tipoDocumento === 'contract' ? tipoDocumento : 'other'}
                                         onChange={(value) => {
-                                            if (value === 'otro') {
-                                                setTipoDocumento('otro');
+                                            if (value === 'other') {
+                                                setTipoDocumento('other');
                                             } else {
                                                 setTipoDocumento(value);
                                             }
                                         }}
                                         options={[
-                                            { value: 'contrato', label: t('subscriptions.documents.types.contract') },
-                                            { value: 'presupuesto', label: t('subscriptions.documents.types.budget') },
-                                            { value: 'otro', label: t('subscriptions.documents.types.other') }
+                                            { value: 'contract', label: t('subscriptions.documents.types.contract') },
+                                            { value: 'budget', label: t('subscriptions.documents.types.budget') },
+                                            { value: 'other', label: t('subscriptions.documents.types.other') }
                                         ]}
                                         disabled={isUploading}
                                         placeholder={t('subscriptions.documents.documentType')}
                                     />
 
-                                    {(tipoDocumento === 'otro' || (tipoDocumento !== 'presupuesto' && tipoDocumento !== 'contrato')) && (
+                                    {(tipoDocumento === 'other' || (tipoDocumento !== 'budget' && tipoDocumento !== 'contract')) && (
                                         <input
                                             type="text"
-                                            value={tipoDocumento === 'otro' ? '' : tipoDocumento}
+                                            value={tipoDocumento === 'other' ? '' : tipoDocumento}
                                             onChange={(e) => setTipoDocumento(e.target.value)}
                                             placeholder={t('subscriptions.documents.specifyType') || "Especifique el tipo (ej: Factura)"}
                                             className={styles.textarea}

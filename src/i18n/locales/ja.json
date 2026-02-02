@@ -1545,6 +1545,7 @@
     "monthsDetail": "月の詳細",
     "period": "期間",
     "noMonthsAvailable": "利用可能な月がありません",
+    "monthsIncluded": "含まれる月",
     "documents": {
       "uploadTitle": "ドキュメントをアップロード",
       "uploadSubtitle": "このインストールの契約書または予算をアップロードします",
@@ -1570,13 +1571,14 @@
       "errorDeleting": "ドキュメントの削除エラー",
       "fileSelected": "ファイルが選択されました",
       "types": {
-        "presupuesto": "予算",
-        "contrato": "契約書",
-        "otro": "その他"
+        "contract": "契約書",
+        "budget": "予算",
+        "other": "その他"
       },
       "unnamedDocument": "名前のないドキュメント",
       "confirmDeleteTitle": "ドキュメントを削除しますか？",
-      "confirmDeleteDescription": "この操作は元に戻せません。ドキュメントは完全に削除されます。"
+      "confirmDeleteDescription": "この操作は元に戻せません。ドキュメントは完全に削除されます。",
+      "deleteSuccess": "ドキュメントが正常に削除されました"
     },
     "installationDetails": "インストールの詳細"
   },

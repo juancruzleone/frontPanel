@@ -308,7 +308,7 @@ const Subscriptions = () => {
         {loading ? (
           <div className={styles.loadingContainer}>
             <Skeleton height={400} width="100%" style={{ borderRadius: 16 }} />
-            <p className={styles.loadingText}>{t('subscriptions.loadingSubscriptions') || 'Cargando abonos...'}</p>
+
           </div>
         ) : filteredSubscriptions.length === 0 ? (
           <div className={styles.emptyState}>
@@ -465,6 +465,11 @@ const Subscriptions = () => {
         }}
         installationId={selectedSubscriptionForViewDocs?.installationId || ''}
         installationName={selectedSubscriptionForViewDocs?.installationName || ''}
+        onError={handleUploadError}
+        onSuccess={(message) => {
+          setResponseMessage(message)
+          setIsError(false)
+        }}
       />
       <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={() => setResponseMessage("")} mensaje={responseMessage} />
       <ModalError isOpen={!!responseMessage && isError} onRequestClose={() => setResponseMessage("")} mensaje={responseMessage} />

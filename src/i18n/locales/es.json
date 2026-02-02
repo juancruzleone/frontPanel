@@ -1113,6 +1113,7 @@
     "monthsDetail": "Detalle de Meses",
     "period": "Período",
     "noMonthsAvailable": "No hay meses disponibles",
+    "monthsIncluded": "Meses incluidos",
     "tour": {
       "welcome": {
         "title": "¡Bienvenido a Abonos Vigentes!",
@@ -1167,13 +1168,14 @@
       "errorFetching": "Error al cargar documentos",
       "errorDeleting": "Error al eliminar documento",
       "types": {
-        "presupuesto": "Presupuesto",
-        "contrato": "Contrato",
-        "otro": "Otro"
+        "contract": "Contrato",
+        "budget": "Presupuesto",
+        "other": "Otro"
       },
       "unnamedDocument": "Documento sin nombre",
       "confirmDeleteTitle": "¿Eliminar documento?",
-      "confirmDeleteDescription": "Esta acción no se puede deshacer. El documento será eliminado permanentemente."
+      "confirmDeleteDescription": "Esta acción no se puede deshacer. El documento será eliminado permanentemente.",
+      "deleteSuccess": "Documento eliminado exitosamente"
     },
     "installationDetails": "Detalle de la instalación",
     "table": {

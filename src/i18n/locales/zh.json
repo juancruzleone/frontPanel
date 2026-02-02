@@ -1554,6 +1554,7 @@
     "monthsDetail": "月份详情",
     "period": "期间",
     "noMonthsAvailable": "没有可用的月份",
+    "monthsIncluded": "包含的月份",
     "documents": {
       "uploadTitle": "上传文档",
       "uploadSubtitle": "为此安装上传合同或预算",
@@ -1579,13 +1580,14 @@
       "errorDeleting": "删除文档时出错",
       "fileSelected": "已选择文件",
       "types": {
-        "presupuesto": "预算",
-        "contrato": "合同",
-        "otro": "其他"
+        "contract": "合同",
+        "budget": "预算",
+        "other": "其他"
       },
       "unnamedDocument": "未命名文档",
       "confirmDeleteTitle": "删除文档？",
-      "confirmDeleteDescription": "此操作无法撤消。文档将被永久删除。"
+      "confirmDeleteDescription": "此操作无法撤消。文档将被永久删除。",
+      "deleteSuccess": "文档已成功删除"
     },
     "installationDetails": "安装详情"
   },

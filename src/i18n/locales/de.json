@@ -1396,6 +1396,7 @@
     "monthsDetail": "Monatsübersicht",
     "period": "Zeitraum",
     "noMonthsAvailable": "Keine Monate verfügbar",
+    "monthsIncluded": "Enthaltene Monate",
     "tour": {
       "welcome": {
         "title": "Willkommen bei Aktive Abonnements!",
@@ -1451,13 +1452,14 @@
       "errorDeleting": "Fehler beim Löschen des Dokuments",
       "fileSelected": "Datei ausgewählt",
       "types": {
-        "presupuesto": "Budget",
-        "contrato": "Vertrag",
-        "otro": "Sonstiges"
+        "contract": "Vertrag",
+        "budget": "Budget",
+        "other": "Sonstiges"
       },
       "unnamedDocument": "Unbenanntes Dokument",
       "confirmDeleteTitle": "Dokument löschen?",
-      "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Das Dokument wird dauerhaft gelöscht."
+      "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Das Dokument wird dauerhaft gelöscht.",
+      "deleteSuccess": "Dokument erfolgreich gelöscht"
     },
     "installationDetails": "Installationsdetails"
   },

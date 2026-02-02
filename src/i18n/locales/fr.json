@@ -1490,6 +1490,7 @@
     "monthsDetail": "Détail des Mois",
     "period": "Période",
     "noMonthsAvailable": "Aucun mois disponible",
+    "monthsIncluded": "Mois inclus",
     "tour": {
       "welcome": {
         "title": "Bienvenue dans les Abonnements Actifs !",
@@ -1544,13 +1545,14 @@
       "errorFetching": "Erreur lors du chargement des documents",
       "errorDeleting": "Erreur lors de la suppression du document",
       "types": {
-        "presupuesto": "Budget",
-        "contrato": "Contrat",
-        "otro": "Autre"
+        "contract": "Contrat",
+        "budget": "Budget",
+        "other": "Autre"
       },
       "unnamedDocument": "Document sans nom",
       "confirmDeleteTitle": "Supprimer le document ?",
-      "confirmDeleteDescription": "Cette action ne peut pas être annulée. Le document sera définitivement supprimé."
+      "confirmDeleteDescription": "Cette action ne peut pas être annulée. Le document sera définitivement supprimé.",
+      "deleteSuccess": "Document supprimé avec succès"
     },
     "installationDetails": "Détails de l'installation"
   },

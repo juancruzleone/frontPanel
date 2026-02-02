@@ -10,6 +10,8 @@ interface ModalViewDocumentsProps {
     onRequestClose: () => void
     installationId: string
     installationName: string
+    onError?: (message: string) => void
+    onSuccess?: (message: string) => void
 }
 
 const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
@@ -17,6 +19,8 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
     onRequestClose,
     installationId,
     installationName,
+    onError,
+    onSuccess,
 }) => {
     const { t } = useTranslation()
     const [documents, setDocuments] = useState<BudgetDocument[]>([])
@@ -70,9 +74,16 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
         try {
             await deleteBudgetDocument(installationId, documentToDelete._id)
             setDocuments(prev => prev.filter(doc => doc._id !== documentToDelete._id))
+            if (onSuccess) {
+                onSuccess(t('subscriptions.documents.deleteSuccess') || 'Documento eliminado correctamente')
+            }
         } catch (err: any) {
             console.error('Error deleting document:', err)
-            alert(err.message || t('subscriptions.documents.errorDeleting'))
+            if (onError) {
+                onError(err.message || t('subscriptions.documents.errorDeleting'))
+            } else {
+                alert(err.message || t('subscriptions.documents.errorDeleting'))
+            }
         } finally {
             setDeletingId(null)
             setDocumentToDelete(null)
@@ -149,7 +160,7 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
                                                     <span className={styles.fileSize}>{formatFileSize(fileSize)}</span>
                                                     <span className={styles.typeBadge}>
                                                         {t(`subscriptions.documents.types.${doc.tipoDocumento}`, {
-                                                            defaultValue: doc.tipoDocumento ? doc.tipoDocumento.charAt(0).toUpperCase() + doc.tipoDocumento.slice(1) : t('subscriptions.documents.types.otro')
+                                                            defaultValue: doc.tipoDocumento ? doc.tipoDocumento.charAt(0).toUpperCase() + doc.tipoDocumento.slice(1) : t('subscriptions.documents.types.other')
                                                         })}
                                                     </span>
                                                 </div>

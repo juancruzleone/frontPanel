@@ -33,25 +33,25 @@ const MonthsDisplayModal: React.FC<MonthsDisplayModalProps> = ({
   // Calcular los meses con años basándose en los meses seleccionados y las fechas
   const getMonthsWithYears = (): MonthYear[] => {
     if (!startDate || !endDate || !selectedMonths || selectedMonths.length === 0) return []
-    
+
     const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
     const monthsWithYears: MonthYear[] = []
-    
+
     const start = new Date(startDate)
     const end = new Date(endDate)
-    
+
     // Asegurar que las fechas sean válidas
     if (isNaN(start.getTime()) || isNaN(end.getTime())) return []
-    
+
     let currentDate = new Date(start.getFullYear(), start.getMonth(), 1)
     const endMonth = new Date(end.getFullYear(), end.getMonth(), 1)
-    
+
     // Iterar por cada mes en el rango y filtrar solo los meses seleccionados
     while (currentDate <= endMonth) {
       const monthIndex = currentDate.getMonth()
       const monthName = monthNames[monthIndex]
       const year = currentDate.getFullYear()
-      
+
       // Solo agregar si el mes está en los meses seleccionados
       if (selectedMonths.includes(monthName)) {
         monthsWithYears.push({
@@ -59,11 +59,11 @@ const MonthsDisplayModal: React.FC<MonthsDisplayModalProps> = ({
           year: year
         })
       }
-      
+
       // Avanzar al siguiente mes
       currentDate.setMonth(currentDate.getMonth() + 1)
     }
-    
+
     return monthsWithYears
   }
 
@@ -87,7 +87,7 @@ const MonthsDisplayModal: React.FC<MonthsDisplayModalProps> = ({
             ×
           </button>
         </div>
-        
+
         <div className={styles.modalContent}>
           <div className={styles.subscriptionInfo} style={{ marginBottom: '1.5rem' }}>
             <h3>{installationName}</h3>
@@ -104,47 +104,54 @@ const MonthsDisplayModal: React.FC<MonthsDisplayModalProps> = ({
             )}
           </div>
 
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
-            gap: '0.75rem',
-            maxHeight: '400px',
-            overflowY: 'auto',
-            padding: '0.5rem'
-          }}>
-            {monthsWithYears.map((item, index) => (
-              <div
-                key={`${item.month}-${item.year}-${index}`}
-                style={{
-                  padding: '0.75rem',
-                  backgroundColor: 'var(--color-card)',
-                  border: '1px solid var(--color-card-border)',
-                  borderRadius: '8px',
-                  textAlign: 'center',
-                  transition: 'all 0.2s ease'
-                }}
-              >
-                <div style={{ 
-                  fontSize: '0.95rem', 
-                  fontWeight: '600',
-                  color: 'var(--color-text)',
-                  marginBottom: '0.25rem'
-                }}>
-                  {translateMonthToCurrentLang(item.month, i18n.language)}
+          <div style={{ padding: '0.5rem 2.5rem 2.5rem 2.5rem' }}>
+            <div className={styles.monthsLabel}>
+              {t('subscriptions.monthsIncluded') || 'Meses incluidos'}
+            </div>
+
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
+              gap: '1rem',
+              width: '100%'
+            }}>
+              {monthsWithYears.map((item, index) => (
+                <div
+                  key={`${item.month}-${item.year}-${index}`}
+                  style={{
+                    padding: '1rem',
+                    backgroundColor: 'var(--color-bg-light)',
+                    border: '1px solid var(--color-card-border)',
+                    borderRadius: '12px',
+                    textAlign: 'center',
+                    transition: 'all 0.2s ease',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px'
+                  }}
+                >
+                  <div style={{
+                    fontSize: '1rem',
+                    fontWeight: '700',
+                    color: 'var(--color-text)',
+                  }}>
+                    {translateMonthToCurrentLang(item.month, i18n.language)}
+                  </div>
+                  <div style={{
+                    fontSize: '0.85rem',
+                    color: 'var(--color-text-secondary)',
+                    fontWeight: '500'
+                  }}>
+                    {item.year}
+                  </div>
                 </div>
-                <div style={{ 
-                  fontSize: '0.85rem', 
-                  color: 'var(--color-text-secondary)'
-                }}>
-                  {item.year}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           {monthsWithYears.length === 0 && (
-            <p style={{ 
-              textAlign: 'center', 
+            <p style={{
+              textAlign: 'center',
               color: 'var(--color-text-secondary)',
               padding: '2rem'
             }}>
@@ -152,35 +159,7 @@ const MonthsDisplayModal: React.FC<MonthsDisplayModalProps> = ({
             </p>
           )}
 
-          <div style={{ 
-            marginTop: '1.5rem', 
-            paddingTop: '1rem', 
-            borderTop: '1px solid var(--color-card-border)',
-            textAlign: 'center'
-          }}>
-            <button
-              onClick={onRequestClose}
-              style={{
-                padding: '0.75rem 2rem',
-                backgroundColor: 'var(--color-secondary)',
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontSize: '0.95rem',
-                fontWeight: '500',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'var(--color-secondary-hover)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'var(--color-secondary)'
-              }}
-            >
-              {t('common.close')}
-            </button>
-          </div>
+
         </div>
       </div>
     </div>

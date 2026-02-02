@@ -1501,6 +1501,7 @@
     "monthsDetail": "Detalhes dos Meses",
     "period": "Período",
     "noMonthsAvailable": "Não há meses disponíveis",
+    "monthsIncluded": "Meses incluídos",
     "tour": {
       "welcome": {
         "title": "Bem-vindo às Assinaturas Ativas!",
@@ -1555,13 +1556,14 @@
       "errorDeleting": "Erro ao excluir documento",
       "fileSelected": "Arquivo selecionado",
       "types": {
-        "presupuesto": "Orçamento",
-        "contrato": "Contrato",
-        "otro": "Outro"
+        "contract": "Contrato",
+        "budget": "Orçamento",
+        "other": "Outro"
       },
       "unnamedDocument": "Documento sem nome",
       "confirmDeleteTitle": "Excluir documento?",
-      "confirmDeleteDescription": "Esta ação não pode ser desfeita. O documento será excluído permanentemente."
+      "confirmDeleteDescription": "Esta ação não pode ser desfeita. O documento será excluído permanentemente.",
+      "deleteSuccess": "Documento excluído com sucesso"
     },
     "installationDetails": "Detalhes da instalação"
   },

@@ -1580,6 +1580,7 @@
     "monthsDetail": "월 세부정보",
     "period": "기간",
     "noMonthsAvailable": "사용 가능한 월이 없습니다",
+    "monthsIncluded": "포함된 월",
     "documents": {
       "uploadTitle": "문서 업로드",
       "uploadSubtitle": "이 설치에 대한 계약서 또는 예산을 업로드하세요",
@@ -1605,13 +1606,14 @@
       "errorDeleting": "문서 삭제 중 오류 발생",
       "fileSelected": "파일이 선택되었습니다",
       "types": {
-        "presupuesto": "예산",
-        "contrato": "계약서",
-        "otro": "기타"
+        "contract": "계약서",
+        "budget": "예산",
+        "other": "기타"
       },
       "unnamedDocument": "이름 없는 문서",
       "confirmDeleteTitle": "문서를 삭제하시겠습니까?",
-      "confirmDeleteDescription": "이 작업은 취소할 수 없습니다. 문서가 영구적으로 삭제됩니다."
+      "confirmDeleteDescription": "이 작업은 취소할 수 없습니다. 문서가 영구적으로 삭제됩니다.",
+      "deleteSuccess": "문서가 성공적으로 삭제되었습니다"
     },
     "installationDetails": "설치 세부정보"
   },
