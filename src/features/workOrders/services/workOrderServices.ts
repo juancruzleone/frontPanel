@@ -131,7 +131,7 @@ export const fetchInstallations = async (): Promise<Installation[]> => {
   })
 
   const result = await handleResponse(response)
-  return Array.isArray(result) ? result : []
+  return Array.isArray(result) ? result : (result.data || [])
 }
 
 export const createWorkOrder = async (workOrder: WorkOrder) => {

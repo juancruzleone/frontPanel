@@ -132,7 +132,8 @@ const useSubscriptions = () => {
       setLoading(true)
       setError(null)
 
-      const installationsData = await fetchInstallations()
+      const response = await fetchInstallations()
+      const installationsData = Array.isArray(response) ? response : (response.data || [])
 
       setInstallations(installationsData)
       const subscriptionsData = installationsData.map(mapInstallationToSubscription)

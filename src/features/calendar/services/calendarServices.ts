@@ -7,8 +7,9 @@ const getToken = () => {
   return useAuthStore.getState().token
 }
 
-export const fetchWorkOrders = async (): Promise<any[]> => {
-  const response = await fetch(`${API_URL}ordenes-trabajo`, {
+export const fetchWorkOrders = async (filters: any = {}): Promise<any[]> => {
+  const queryParams = new URLSearchParams(filters).toString()
+  const response = await fetch(`${API_URL}ordenes-trabajo${queryParams ? `?${queryParams}` : ""}`, {
     headers: getAuthHeaders(),
   })
 

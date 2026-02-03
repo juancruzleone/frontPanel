@@ -77,11 +77,11 @@ const useCalendar = () => {
     }
   }, [])
 
-  const loadWorkOrders = useCallback(async () => {
+  const loadWorkOrders = useCallback(async (filters = {}) => {
     setLoading(true)
     setError(null)
     try {
-      const workOrdersData = await fetchWorkOrders()
+      const workOrdersData = await fetchWorkOrders(filters)
       setWorkOrders(workOrdersData)
     } catch (err: any) {
       console.error("Error al cargar órdenes de trabajo:", err)
@@ -122,15 +122,15 @@ const useCalendar = () => {
         prev.map((o) =>
           o._id === id
             ? {
-                ...o,
-                estado: "completada",
-                fechaCompletada: new Date(),
-                trabajoRealizado: data.trabajoRealizado,
-                observaciones: data.observaciones,
-                tiempoTrabajo: data.tiempoTrabajo,
-                estadoDispositivo: data.estadoDispositivo,
-                ...result,
-              }
+              ...o,
+              estado: "completada",
+              fechaCompletada: new Date(),
+              trabajoRealizado: data.trabajoRealizado,
+              observaciones: data.observaciones,
+              tiempoTrabajo: data.tiempoTrabajo,
+              estadoDispositivo: data.estadoDispositivo,
+              ...result,
+            }
             : o,
         ),
       )

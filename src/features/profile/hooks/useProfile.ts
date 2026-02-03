@@ -20,8 +20,8 @@ export function useProfile() {
       try {
         if (role === 'cliente') {
           // Para clientes, cargar instalaciones asignadas
-          const allInstallations = await fetchInstallations();
-          setInstallations(allInstallations);
+          const response = await fetchInstallations();
+          setInstallations(Array.isArray(response) ? response : (response.data || []));
           // Cargar tipos de instalación para el filtro
           const types = await fetchInstallationTypes();
           setInstallationTypes(types);

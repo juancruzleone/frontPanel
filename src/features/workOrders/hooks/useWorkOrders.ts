@@ -13,6 +13,7 @@ import {
 import { fetchTechnicians } from "../services/technicianServices"
 import { validateWorkOrderForm } from "../validators/workOrderValidations"
 import { useTranslation } from 'react-i18next'
+import { useTimeZone } from "../../calendar/hooks/useTimeZone"
 
 export type Technician = {
   _id: string
@@ -149,8 +150,15 @@ const useWorkOrders = () => {
     }
   }, [])
 
+  const { timeZone, offset } = useTimeZone()
+
   const addWorkOrder = async (workOrder: WorkOrder) => {
-    const newOrder = await createWorkOrder(workOrder)
+    const workOrderWithTZ = {
+      ...workOrder,
+      timezone: timeZone,
+      userOffset: offset
+    }
+    const newOrder = await createWorkOrder(workOrderWithTZ)
     setWorkOrders((prev) => [newOrder, ...prev])
     return { message: "Orden de trabajo creada con éxito" }
   }

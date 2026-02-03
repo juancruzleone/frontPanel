@@ -46,17 +46,23 @@ export const normalizeDate = (date: any): Date => {
   if (date && typeof date === 'object' && date.$date) {
     return new Date(date.$date);
   }
-  
-  // Si es un string ISO
+
+  // Si es un string YYYY-MM-DD (solo fecha)
+  if (typeof date === 'string' && date.match(/^\d{4}-\d{2}-\d{2}$/)) {
+    const [year, month, day] = date.split('-').map(Number);
+    return new Date(year, month - 1, day, 12, 0, 0); // Al mediodía para evitar problemas
+  }
+
+  // Si es un string ISO o similar
   if (typeof date === 'string') {
     return new Date(date);
   }
-  
+
   // Si ya es un Date
   if (date instanceof Date) {
     return date;
   }
-  
+
   // Fallback
   return new Date(date);
 };
@@ -72,17 +78,17 @@ export const compareDates = (date1: any, date2: any): boolean => {
   // Normalizar ambas fechas
   const normalizedDate1 = normalizeDate(date1);
   const normalizedDate2 = normalizeDate(date2);
-  
+
   // Si ambas son strings YYYY-MM-DD, comparar directamente
-  if (typeof date1 === 'string' && typeof date2 === 'string' && 
-      date1.match(/^\d{4}-\d{2}-\d{2}$/) && date2.match(/^\d{4}-\d{2}-\d{2}$/)) {
+  if (typeof date1 === 'string' && typeof date2 === 'string' &&
+    date1.match(/^\d{4}-\d{2}-\d{2}$/) && date2.match(/^\d{4}-\d{2}-\d{2}$/)) {
     return date1 === date2;
   }
-  
+
   // Comparar año, mes y día
   return normalizedDate1.getFullYear() === normalizedDate2.getFullYear() &&
-         normalizedDate1.getMonth() === normalizedDate2.getMonth() &&
-         normalizedDate1.getDate() === normalizedDate2.getDate();
+    normalizedDate1.getMonth() === normalizedDate2.getMonth() &&
+    normalizedDate1.getDate() === normalizedDate2.getDate();
 };
 
 /**
@@ -92,12 +98,12 @@ export const compareDates = (date1: any, date2: any): boolean => {
  */
 export const formatDateToString = (date: any): string => {
   const dateObj = normalizeDate(date);
-  
+
   // Usar métodos locales para obtener la fecha en la zona horaria del usuario
   const year = dateObj.getFullYear();
   const month = String(dateObj.getMonth() + 1).padStart(2, '0');
   const day = String(dateObj.getDate()).padStart(2, '0');
-  
+
   return `${year}-${month}-${day}`;
 };
 
@@ -142,7 +148,7 @@ export const getTimeZoneInfo = () => {
   const offset = getUserTimeZoneOffset();
   const offsetHours = Math.abs(offset) / 60;
   const offsetString = `${offset <= 0 ? '+' : '-'}${String(Math.floor(offsetHours)).padStart(2, '0')}:${String(Math.abs(offset) % 60).padStart(2, '0')}`;
-  
+
   return {
     timeZone,
     offset,

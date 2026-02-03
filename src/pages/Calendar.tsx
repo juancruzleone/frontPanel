@@ -18,7 +18,7 @@ import i18n from "../i18n"
 import { translateWorkOrderStatus, translatePriority, translateWorkType } from "../shared/utils/backendTranslations"
 import { useAuthStore } from "../store/authStore"
 import { updateWorkOrder } from "../features/workOrders/services/workOrderServices"
-import { formatDateToString, compareDates, parseDateString } from "../features/calendar/utils/dateUtils"
+import { formatDateToString, compareDates, parseDateString, normalizeDate } from "../features/calendar/utils/dateUtils"
 import { useTimeZone } from "../features/calendar/hooks/useTimeZone"
 import TimeZoneInfo from "../features/calendar/components/TimeZoneInfo"
 import { isClient } from "../shared/utils/roleUtils"
@@ -119,14 +119,44 @@ const Calendar = () => {
   const role = useAuthStore((s) => s.role)
   const isClientUser = role && isClient(role)
 
+  const { timeZone, offset, offsetString } = useTimeZone()
+
   useEffect(() => {
     document.title = t("calendar.titlePage")
     loadTechnicians()
   }, [t, i18n.language])
 
   useEffect(() => {
-    loadWorkOrders()
-  }, [loadWorkOrders])
+    const fetchFilteredData = async () => {
+      // Calcular rango de fechas para el mes actual para asegurar que traemos todo lo visible
+      const year = currentDate.getFullYear()
+      const month = currentDate.getMonth()
+      const firstDay = new Date(year, month, 1)
+      const lastDay = new Date(year, month + 1, 0)
+
+      // Ampliar el rango para cubrir días de meses adyacentes vistos en el calendario
+      const startDate = new Date(firstDay)
+      startDate.setDate(startDate.getDate() - 7)
+      const endDate = new Date(lastDay)
+      endDate.setDate(endDate.getDate() + 7)
+
+      const filters: any = {
+        search: searchTerm,
+        estado: selectedStatus,
+        prioridad: selectedPriority,
+        tecnicoId: selectedTechnician,
+        startDate: selectedDateFilter || startDate.toISOString().split('T')[0],
+        endDate: selectedDateFilter || endDate.toISOString().split('T')[0],
+        timezone: timeZone,
+        offset: offset,
+        limit: 100 // Traer suficientes para la vista mensual
+      }
+
+      await loadWorkOrders(filters)
+    }
+
+    fetchFilteredData()
+  }, [loadWorkOrders, searchTerm, selectedStatus, selectedPriority, selectedTechnician, selectedDateFilter, selectedDate, currentDate, timeZone, offset])
 
   useEffect(() => {
     // Generar lista de años desde 2000 hasta 20 años después del actual
@@ -188,51 +218,58 @@ const Calendar = () => {
         order.tipoTrabajo,
       ].filter(Boolean)
 
-      const orderDate = new Date(order.fechaProgramada)
-      const today = new Date()
-      const startOfWeek = new Date(today)
-      startOfWeek.setDate(today.getDate() - today.getDay())
-      const endOfWeek = new Date(startOfWeek)
-      endOfWeek.setDate(startOfWeek.getDate() + 6)
-      const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1)
-      const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)
-      const nextWeekStart = new Date(startOfWeek)
-      nextWeekStart.setDate(startOfWeek.getDate() + 7)
-      const nextWeekEnd = new Date(nextWeekStart)
-      nextWeekEnd.setDate(nextWeekStart.getDate() + 6)
-      const nextMonthStart = new Date(today.getFullYear(), today.getMonth() + 1, 1)
-      const nextMonthEnd = new Date(today.getFullYear(), today.getMonth() + 2, 0)
-
       let matchesDate = true
 
       // Si hay un filtro de fecha específica, tiene prioridad sobre otros filtros de fecha
       if (selectedDateFilter) {
         matchesDate = compareDates(order.fechaProgramada, selectedDateFilter);
       } else if (selectedDate) {
-        // Solo aplicar filtros de fecha relativa si no hay fecha específica
+        const orderDate = normalizeDate(order.fechaProgramada)
+        const today = new Date()
+
         switch (selectedDate) {
           case "today":
-            matchesDate = compareDates(order.fechaProgramada, today);
+            matchesDate = compareDates(order.fechaProgramada, today)
             break
-          case "thisWeek":
+          case "thisWeek": {
+            const startOfWeek = new Date(today)
+            startOfWeek.setDate(today.getDate() - today.getDay())
+            startOfWeek.setHours(0, 0, 0, 0)
+            const endOfWeek = new Date(startOfWeek)
+            endOfWeek.setDate(startOfWeek.getDate() + 6)
+            endOfWeek.setHours(23, 59, 59, 999)
             matchesDate = orderDate >= startOfWeek && orderDate <= endOfWeek
             break
-          case "thisMonth":
+          }
+          case "thisMonth": {
+            const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1)
+            const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0, 23, 59, 59, 999)
             matchesDate = orderDate >= startOfMonth && orderDate <= endOfMonth
             break
-          case "nextWeek":
+          }
+          case "nextWeek": {
+            const nextWeekStart = new Date(today)
+            nextWeekStart.setDate(today.getDate() - today.getDay() + 7)
+            const nextWeekEnd = new Date(nextWeekStart)
+            nextWeekEnd.setDate(nextWeekStart.getDate() + 6)
             matchesDate = orderDate >= nextWeekStart && orderDate <= nextWeekEnd
             break
-          case "nextMonth":
+          }
+          case "nextMonth": {
+            const nextMonthStart = new Date(today.getFullYear(), today.getMonth() + 1, 1)
+            const nextMonthEnd = new Date(today.getFullYear(), today.getMonth() + 2, 0)
             matchesDate = orderDate >= nextMonthStart && orderDate <= nextMonthEnd
             break
+          }
         }
       }
 
       const matchesStatus = !selectedStatus || order.estado === selectedStatus
       const matchesPriority = !selectedPriority || order.prioridad === selectedPriority
-      const matchesSearch = fields.some((f) => f?.toLowerCase().includes(term))
-      const matchesTechnician = !selectedTechnician || (order.tecnico && typeof order.tecnico === 'object' && (order.tecnico as any)._id === selectedTechnician) || order.tecnicoAsignado === selectedTechnician
+      const matchesSearch = !term || fields.some((f) => f?.toLowerCase().includes(term))
+      const matchesTechnician = !selectedTechnician ||
+        (order.tecnico && typeof order.tecnico === 'object' && (order.tecnico as any)._id === selectedTechnician) ||
+        order.tecnicoAsignado === selectedTechnician
 
       return matchesStatus && matchesPriority && matchesSearch && matchesDate && matchesTechnician
     })
@@ -513,7 +550,10 @@ const Calendar = () => {
     <>
       <div className={styles.containerCalendar}>
         <div className={styles.topSection}>
-          <h1 className={styles.title}>{t('calendar.title')}</h1>
+          <div className={styles.titleContainer}>
+            <h1 className={styles.title}>{t('calendar.title')}</h1>
+            <TimeZoneInfo />
+          </div>
 
           <div className={styles.viewModeButtons}>
             <button

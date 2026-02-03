@@ -12,7 +12,8 @@ export const fetchInstallations = async (): Promise<any[]> => {
     headers: getAuthHeaders(),
   })
   if (!response.ok) throw new Error("Error al obtener instalaciones")
-  return await response.json()
+  const result = await response.json()
+  return Array.isArray(result) ? result : (result.data || [])
 }
 
 export const fetchInstallationById = async (id: string): Promise<any> => {

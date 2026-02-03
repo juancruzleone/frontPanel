@@ -30,6 +30,12 @@
   gap: 16px;
 }
 
+.titleContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .title {
   font-size: 32px;
   font-weight: 700;
