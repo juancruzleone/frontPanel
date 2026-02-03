@@ -6,7 +6,7 @@ const API_URL = import.meta.env.VITE_API_URL
 
 const getToken = () => {
   const token = useAuthStore.getState().token
-  
+
   return token
 }
 
@@ -73,16 +73,16 @@ export type WorkOrder = {
 }
 
 const handleResponse = async (response: Response) => {
-  
+
   if (!response.ok) {
-    
+
     const error = await response.json().catch(() => ({ message: "Error de conexión" }))
-    
+
     throw new Error(error.message || `Error ${response.status}: ${response.statusText}`)
   }
-  
+
   const result = await response.json()
-  
+
   return result
 }
 
@@ -170,14 +170,13 @@ export const deleteWorkOrder = async (id: string) => {
 }
 
 export const assignTechnicianToWorkOrder = async (workOrderId: string, technicianId: string) => {
-  
-   ? "Sí" : "No")
-  
+  // console.log('DEBUG: Assigning technician', { workOrderId, technicianId })
+
   const url = `${API_URL}ordenes-trabajo/${workOrderId}/asignar`
   const body = JSON.stringify({ tecnicoId: technicianId })
-  
-  
-  
+
+
+
   // Usar PATCH según la configuración del backend
   const response = await fetch(url, {
     method: "PATCH",
@@ -185,9 +184,9 @@ export const assignTechnicianToWorkOrder = async (workOrderId: string, technicia
     body: body,
   })
 
-  
-  
-  ))
+
+
+  // console.log('DEBUG: Assign response received')
 
   return handleResponse(response)
 }

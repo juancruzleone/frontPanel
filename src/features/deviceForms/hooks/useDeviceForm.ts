@@ -77,7 +77,7 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
         setDeviceInfo(data.data.deviceInfo)
         setInstallationInfo(data.data.installationInfo)
         setFormFields(data.data.formFields)
-        
+
         // Inicializar formData con valores apropiados según el tipo
         const initialData: Record<string, any> = {}
         data.data.formFields.forEach((field: FormField) => {
@@ -150,7 +150,7 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
     if (!isOnline || pendingSubmissions.length === 0) return
 
     const submissionsToSync = [...pendingSubmissions]
-    
+
     for (const submission of submissionsToSync) {
       try {
         await submitDeviceMaintenance(
@@ -159,7 +159,7 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
           submission.formData
         )
         removePendingSubmission(submission.id)
-        
+
       } catch (error) {
         console.error('❌ Error sincronizando envío:', submission.id, error)
         // Incrementar contador de reintentos
@@ -167,14 +167,14 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
           ...submission,
           retryCount: submission.retryCount + 1
         }
-        
+
         if (updatedSubmission.retryCount >= 3) {
           // Eliminar si ha fallado demasiadas veces
           removePendingSubmission(submission.id)
-          
+
         } else {
           // Actualizar con nuevo contador
-          const updated = pendingSubmissions.map(sub => 
+          const updated = pendingSubmissions.map(sub =>
             sub.id === submission.id ? updatedSubmission : sub
           )
           setPendingSubmissions(updated)
@@ -197,24 +197,24 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
   }
 
   const handleSelectChange = (name: string, value: string) => {
-    
-    
+
+
     setFormData((prev) => {
       const newData = {
         ...prev,
         [name]: value,
       };
-      
+
       return newData;
     })
   }
 
   const handleSelectBlur = (name: string) => {
-    
-    
-    
-    
-    
+
+
+
+
+
     // Aquí puedes agregar validaciones onBlur si es necesario
   }
 
@@ -226,23 +226,21 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
 
     try {
       // Debug: mostrar datos antes de enviar
-      
-      
-      ));
-      
+      // console.log('DEBUG: Submitting form data', formData);
+
       // Verificar campos requeridos vacíos
-      const emptyRequiredFields = formFields.filter(f => 
+      const emptyRequiredFields = formFields.filter(f =>
         f.required && (!formData[f.name] || formData[f.name] === "")
       );
       if (emptyRequiredFields.length > 0) {
-        );
+        throw new Error("Por favor completa todos los campos requeridos");
       }
 
       if (isOnline) {
         // Enviar directamente si hay conexión
         await submitDeviceMaintenance(installationId!, deviceId!, formData)
         setSuccess("¡Mantenimiento registrado exitosamente!")
-        
+
         // Limpiar formulario manteniendo los tipos correctos
         const initialData: Record<string, any> = {}
         formFields.forEach((field: FormField) => {
@@ -263,10 +261,10 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
           timestamp: Date.now(),
           retryCount: 0
         }
-        
+
         savePendingSubmission(submission)
         setSuccess("Mantenimiento guardado. Se enviará automáticamente cuando haya conexión.")
-        
+
         // Limpiar formulario manteniendo los tipos correctos
         const initialData: Record<string, any> = {}
         formFields.forEach((field: FormField) => {

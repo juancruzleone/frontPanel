@@ -43,24 +43,24 @@ export const fetchAssets = async (): Promise<any[]> => {
 };
 
 export const createInstallation = async (installation: any) => {
-  );
-  
+  // console.log('DEBUG: Creating installation', installation);
+
   const response = await fetch(`${API_URL}installations`, {
     method: "POST",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(installation),
   });
-  
-  
-  
+
+
+
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    
+
     throw new Error("Error al crear instalación");
   }
-  
+
   const result = await response.json();
-  
+
   return result.success ? result.data : result;
 };
 
@@ -90,45 +90,45 @@ export const deleteInstallation = async (id: string) => {
 };
 
 export const addDeviceToInstallation = async (installationId: string, deviceData: any) => {
-  
-  
+
+
   const headers = getHeadersWithContentType();
-  :', headers);
-  
-  
-  .token);
-  .tenantId);
-  
-  
+  // console.log('DEBUG: Headers', headers);
+
+
+  // console.log('DEBUG: Token', useAuthStore.getState().token);
+  // console.log('DEBUG: TenantId', useAuthStore.getState().tenantId);
+
+
   const url = `${API_URL}installations/${installationId}/dispositivos`;
-  
-  
+
+
   const fetchOptions = {
     method: "POST",
     headers: headers,
     body: JSON.stringify(deviceData),
   };
-  
-  
-  );
-  
-  
+
+
+  // console.log('DEBUG: Fetch options', fetchOptions);
+
+
   const response = await fetch(url, fetchOptions);
-  
-  
-  
-  
-  
+
+
+
+
+
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
     console.error('\n❌ [ADD DEVICE] Error data:', errorData);
     console.error('❌ [ADD DEVICE] ==================== FIN CON ERROR ====================\n');
     throw new Error("Error al agregar dispositivo");
   }
-  
+
   const result = await response.json();
-  
-  
+
+
   return result.success ? result.data : result;
 };
 
@@ -146,21 +146,21 @@ export const updateDeviceInInstallation = async (
   deviceId: string,
   deviceData: any
 ) => {
-  
+
   const response = await fetch(`${API_URL}installations/${installationId}/dispositivos/${deviceId}`, {
     method: "PUT",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(deviceData),
   });
-  
+
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({ error: 'Error desconocido' }));
     console.error('❌ Error del servidor:', errorData);
     throw new Error(errorData.error || "Error al actualizar dispositivo");
   }
-  
+
   const result = await response.json();
-  
+
   return result.success ? result.data : result;
 };
 

@@ -190,226 +190,224 @@ const WorkOrderForm = ({
         onSubmit={handleSubmit}
         className={styles.form}
       >
-      <div className={styles.formInner}>
-        <div className={styles.formGroup}>
-          <label className="formLabel">{t('workOrders.title')} *</label>
-          <input
-            type="text"
-            name="titulo"
-            value={formData.titulo || ""}
-            onChange={(e) => handleFieldChange("titulo", e.target.value)}
-            onBlur={() => handleFieldBlur("titulo")}
-            disabled={isFieldDisabled("titulo")}
-            className={showError("titulo") ? styles.errorInput : "formInput"}
-            placeholder={t('workOrders.titlePlaceholder')}
-          />
-          {showError("titulo") && <p className={styles.inputError}>{formErrors["titulo"]}</p>}
-        </div>
+        <div className={styles.formInner}>
+          <div className={styles.formGroup}>
+            <label className="formLabel">{t('workOrders.title')} *</label>
+            <input
+              type="text"
+              name="titulo"
+              value={formData.titulo || ""}
+              onChange={(e) => handleFieldChange("titulo", e.target.value)}
+              onBlur={() => handleFieldBlur("titulo")}
+              disabled={isFieldDisabled("titulo")}
+              className={showError("titulo") ? styles.errorInput : "formInput"}
+              placeholder={t('workOrders.titlePlaceholder')}
+            />
+            {showError("titulo") && <p className={styles.inputError}>{formErrors["titulo"]}</p>}
+          </div>
 
-        <div className={styles.formGroup}>
-          <label className="formLabel">{t('workOrders.description')} *</label>
-          <textarea
-            name="descripcion"
-            value={formData.descripcion || ""}
-            onChange={(e) => handleFieldChange("descripcion", e.target.value)}
-            onBlur={() => handleFieldBlur("descripcion")}
-            disabled={isFieldDisabled("descripcion")}
-            className={showError("descripcion") ? styles.errorInput : "formInput"}
-            rows={4}
-            placeholder={t('workOrders.descriptionPlaceholder')}
-          />
-          {showError("descripcion") && <p className={styles.inputError}>{formErrors["descripcion"]}</p>}
-        </div>
+          <div className={styles.formGroup}>
+            <label className="formLabel">{t('workOrders.description')} *</label>
+            <textarea
+              name="descripcion"
+              value={formData.descripcion || ""}
+              onChange={(e) => handleFieldChange("descripcion", e.target.value)}
+              onBlur={() => handleFieldBlur("descripcion")}
+              disabled={isFieldDisabled("descripcion")}
+              className={showError("descripcion") ? styles.errorInput : "formInput"}
+              rows={4}
+              placeholder={t('workOrders.descriptionPlaceholder')}
+            />
+            {showError("descripcion") && <p className={styles.inputError}>{formErrors["descripcion"]}</p>}
+          </div>
 
-        <div className={styles.formGroup}>
-          <label className="formLabel">{t('workOrders.installation')} *</label>
-          {loadingInstallations ? (
-            <p>{t('workOrders.loadingInstallations')}</p>
-          ) : errorLoadingInstallations ? (
-            <p className={styles.inputError}>{errorLoadingInstallations}</p>
-          ) : (
-            <>
-              {}
-              {)}
-              <HybridSelect
-                name="instalacionId"
-                value={formData.instalacionId || ""}
-                onChange={(value) => {
-                  
-                  handleFieldChange("instalacionId", value);
-                  // Si se selecciona una instalación, también actualizar el objeto instalacion
-                  if (value) {
-                    const selectedInst = installations.find((inst) => inst._id === value);
-                    if (selectedInst) {
-                      handleFieldChange("instalacion", selectedInst);
+          <div className={styles.formGroup}>
+            <label className="formLabel">{t('workOrders.installation')} *</label>
+            {loadingInstallations ? (
+              <p>{t('workOrders.loadingInstallations')}</p>
+            ) : errorLoadingInstallations ? (
+              <p className={styles.inputError}>{errorLoadingInstallations}</p>
+            ) : (
+              <>
+                <HybridSelect
+                  name="instalacionId"
+                  value={formData.instalacionId || ""}
+                  onChange={(value) => {
+
+                    handleFieldChange("instalacionId", value);
+                    // Si se selecciona una instalación, también actualizar el objeto instalacion
+                    if (value) {
+                      const selectedInst = installations.find((inst) => inst._id === value);
+                      if (selectedInst) {
+                        handleFieldChange("instalacion", selectedInst);
+                      }
+                    } else {
+                      // Si se deselecciona, limpiar el objeto instalacion
+                      handleFieldChange("instalacion", null);
                     }
-                  } else {
-                    // Si se deselecciona, limpiar el objeto instalacion
-                    handleFieldChange("instalacion", null);
-                  }
-                }}
-                onBlur={() => handleFieldBlur("instalacionId")}
-                disabled={isFieldDisabled("instalacionId")}
-                options={[
-                  { value: "", label: t('workOrders.selectInstallation') },
-                  ...installations.map(inst => ({
-                    value: inst._id,
-                    label: `${inst.company} - ${inst.address} ${inst.city ? `(${inst.city})` : ""}`
-                  }))
-                ]}
-                placeholder={t('workOrders.selectInstallation')}
-                error={!!showError("instalacionId")}
-              />
+                  }}
+                  onBlur={() => handleFieldBlur("instalacionId")}
+                  disabled={isFieldDisabled("instalacionId")}
+                  options={[
+                    { value: "", label: t('workOrders.selectInstallation') },
+                    ...installations.map(inst => ({
+                      value: inst._id,
+                      label: `${inst.company} - ${inst.address} ${inst.city ? `(${inst.city})` : ""}`
+                    }))
+                  ]}
+                  placeholder={t('workOrders.selectInstallation')}
+                  error={!!showError("instalacionId")}
+                />
 
-              {selectedInstallation && (
-                <div className={styles.selectedInstallationDetail}>
-                  <strong>{t('workOrders.selectedInstallation')}</strong> {selectedInstallation.company}
-                  <br />
-                  <strong>{t('workOrders.address')}</strong> {selectedInstallation.address}, {selectedInstallation.city}
-                </div>
-              )}
-            </>
-          )}
-          {showError("instalacionId") && <p className={styles.inputError}>{formErrors["instalacionId"]}</p>}
-        </div>
-
-        <div className={styles.formRow}>
-          <div className={styles.formGroup}>
-            <label className="formLabel">{t('workOrders.workType')} *</label>
-            <HybridSelect
-              name="tipoTrabajo"
-              value={formData.tipoTrabajo || ""}
-              onChange={(value) => handleFieldChange("tipoTrabajo", value)}
-              onBlur={() => handleFieldBlur("tipoTrabajo")}
-              disabled={isFieldDisabled("tipoTrabajo")}
-              options={[
-                { value: "", label: t('workOrders.selectWorkType') },
-                ...workTypes
-              ]}
-              placeholder={t('workOrders.selectWorkType')}
-              error={!!showError("tipoTrabajo")}
-            />
-            {showError("tipoTrabajo") && <p className={styles.inputError}>{formErrors["tipoTrabajo"]}</p>}
-          </div>
-        </div>
-
-        <div className={styles.formRow}>
-          <div className={styles.formGroup}>
-            <label className="formLabel">{t('workOrders.priority')} *</label>
-            <HybridSelect
-              name="prioridad"
-              value={formData.prioridad || "media"}
-              onChange={(value) => handleFieldChange("prioridad", value)}
-              onBlur={() => handleFieldBlur("prioridad")}
-              disabled={isFieldDisabled("prioridad")}
-              options={[
-                { value: "", label: t('workOrders.selectPriority') },
-                ...priorities
-              ]}
-              placeholder={t('workOrders.selectPriority')}
-              error={!!showError("prioridad")}
-            />
-            {showError("prioridad") && <p className={styles.inputError}>{formErrors["prioridad"]}</p>}
-          </div>
-        </div>
-
-        <div className={styles.formRow}>
-          <div className={styles.formGroup}>
-            <label className="formLabel">{t('workOrders.scheduledDate')} *</label>
-            <button
-              type="button"
-              onClick={handleOpenDatePicker}
-              disabled={isFieldDisabled("fechaProgramada")}
-              className={showError("fechaProgramada") ? styles.errorInput : styles.customDateButton}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className={styles.dateButtonIcon}>
-                <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
-                <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-              {formData.fechaProgramada ? (
-                typeof formData.fechaProgramada === 'string'
-                  ? formatLocalDate(formData.fechaProgramada)
-                  : formatLocalDate(formData.fechaProgramada.toISOString().split('T')[0])
-              ) : (
-                t('workOrders.selectDate')
-              )}
-            </button>
-            {isEditMode && ["completada", "en_progreso"].includes(initialData?.estado || "") && (
-              <p className={styles.warningMessage}>
-                No se puede editar una orden {initialData?.estado.replace("_", " ")}
-              </p>
+                {selectedInstallation && (
+                  <div className={styles.selectedInstallationDetail}>
+                    <strong>{t('workOrders.selectedInstallation')}</strong> {selectedInstallation.company}
+                    <br />
+                    <strong>{t('workOrders.address')}</strong> {selectedInstallation.address}, {selectedInstallation.city}
+                  </div>
+                )}
+              </>
             )}
-            {showError("fechaProgramada") && <p className={styles.inputError}>{formErrors["fechaProgramada"]}</p>}
+            {showError("instalacionId") && <p className={styles.inputError}>{formErrors["instalacionId"]}</p>}
+          </div>
+
+          <div className={styles.formRow}>
+            <div className={styles.formGroup}>
+              <label className="formLabel">{t('workOrders.workType')} *</label>
+              <HybridSelect
+                name="tipoTrabajo"
+                value={formData.tipoTrabajo || ""}
+                onChange={(value) => handleFieldChange("tipoTrabajo", value)}
+                onBlur={() => handleFieldBlur("tipoTrabajo")}
+                disabled={isFieldDisabled("tipoTrabajo")}
+                options={[
+                  { value: "", label: t('workOrders.selectWorkType') },
+                  ...workTypes
+                ]}
+                placeholder={t('workOrders.selectWorkType')}
+                error={!!showError("tipoTrabajo")}
+              />
+              {showError("tipoTrabajo") && <p className={styles.inputError}>{formErrors["tipoTrabajo"]}</p>}
+            </div>
+          </div>
+
+          <div className={styles.formRow}>
+            <div className={styles.formGroup}>
+              <label className="formLabel">{t('workOrders.priority')} *</label>
+              <HybridSelect
+                name="prioridad"
+                value={formData.prioridad || "media"}
+                onChange={(value) => handleFieldChange("prioridad", value)}
+                onBlur={() => handleFieldBlur("prioridad")}
+                disabled={isFieldDisabled("prioridad")}
+                options={[
+                  { value: "", label: t('workOrders.selectPriority') },
+                  ...priorities
+                ]}
+                placeholder={t('workOrders.selectPriority')}
+                error={!!showError("prioridad")}
+              />
+              {showError("prioridad") && <p className={styles.inputError}>{formErrors["prioridad"]}</p>}
+            </div>
+          </div>
+
+          <div className={styles.formRow}>
+            <div className={styles.formGroup}>
+              <label className="formLabel">{t('workOrders.scheduledDate')} *</label>
+              <button
+                type="button"
+                onClick={handleOpenDatePicker}
+                disabled={isFieldDisabled("fechaProgramada")}
+                className={showError("fechaProgramada") ? styles.errorInput : styles.customDateButton}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className={styles.dateButtonIcon}>
+                  <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2" />
+                  <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+                {formData.fechaProgramada ? (
+                  typeof formData.fechaProgramada === 'string'
+                    ? formatLocalDate(formData.fechaProgramada)
+                    : formatLocalDate(formData.fechaProgramada.toISOString().split('T')[0])
+                ) : (
+                  t('workOrders.selectDate')
+                )}
+              </button>
+              {isEditMode && ["completada", "en_progreso"].includes(initialData?.estado || "") && (
+                <p className={styles.warningMessage}>
+                  No se puede editar una orden {initialData?.estado.replace("_", " ")}
+                </p>
+              )}
+              {showError("fechaProgramada") && <p className={styles.inputError}>{formErrors["fechaProgramada"]}</p>}
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className="formLabel">{t('workOrders.scheduledTime')} *</label>
+              <button
+                type="button"
+                onClick={handleOpenTimePicker}
+                disabled={isFieldDisabled("horaProgramada")}
+                className={showError("horaProgramada") ? styles.errorInput : styles.customDateButton}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className={styles.dateButtonIcon}>
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+                  <polyline points="12,6 12,12 16,14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                {formData.horaProgramada || t('workOrders.selectTime')}
+              </button>
+              {showError("horaProgramada") && <p className={styles.inputError}>{formErrors["horaProgramada"]}</p>}
+            </div>
           </div>
 
           <div className={styles.formGroup}>
-            <label className="formLabel">{t('workOrders.scheduledTime')} *</label>
-            <button
-              type="button"
-              onClick={handleOpenTimePicker}
-              disabled={isFieldDisabled("horaProgramada")}
-              className={showError("horaProgramada") ? styles.errorInput : styles.customDateButton}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className={styles.dateButtonIcon}>
-                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
-                <polyline points="12,6 12,12 16,14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              {formData.horaProgramada || t('workOrders.selectTime')}
-            </button>
-            {showError("horaProgramada") && <p className={styles.inputError}>{formErrors["horaProgramada"]}</p>}
+            <label className="formLabel">{t('workOrders.observations')}</label>
+            <textarea
+              name="observaciones"
+              value={formData.observaciones || ""}
+              onChange={(e) => handleFieldChange("observaciones", e.target.value)}
+              disabled={isSubmitting}
+              rows={2}
+              placeholder={t('workOrders.observationsPlaceholder')}
+              className="formInput"
+            />
           </div>
+
+          <div className={formButtonStyles.actions}>
+            <button
+              type="submit"
+              disabled={
+                isSubmitting ||
+                (isEditMode && ["completada", "en_progreso"].includes(initialData?.estado || ""))
+              }
+              className={formButtonStyles.submitButton}
+            >
+              {isSubmitting ? t('workOrders.saving') : isEditMode ? t('common.update') : t('common.save')}
+            </button>
+            <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
+              {t('workOrders.cancel')}
+            </button>
+          </div>
+
+          {formErrors.submit && <div className={styles.formError}>{formErrors.submit}</div>}
         </div>
+      </form>
 
-        <div className={styles.formGroup}>
-          <label className="formLabel">{t('workOrders.observations')}</label>
-          <textarea
-            name="observaciones"
-            value={formData.observaciones || ""}
-            onChange={(e) => handleFieldChange("observaciones", e.target.value)}
-            disabled={isSubmitting}
-            rows={2}
-            placeholder={t('workOrders.observationsPlaceholder')}
-            className="formInput"
-          />
-        </div>
+      <DatePickerModal
+        isOpen={isDatePickerOpen}
+        onRequestClose={() => setIsDatePickerOpen(false)}
+        onDateSelect={handleDateSelect}
+        selectedDate={formData.fechaProgramada ? formatDateForInput(formData.fechaProgramada) : undefined}
+        title={t('workOrders.scheduledDate')}
+      />
 
-        <div className={formButtonStyles.actions}>
-          <button
-            type="submit"
-            disabled={
-              isSubmitting ||
-              (isEditMode && ["completada", "en_progreso"].includes(initialData?.estado || ""))
-            }
-            className={formButtonStyles.submitButton}
-          >
-            {isSubmitting ? t('workOrders.saving') : isEditMode ? t('common.update') : t('common.save')}
-          </button>
-          <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
-            {t('workOrders.cancel')}
-          </button>
-        </div>
-
-        {formErrors.submit && <div className={styles.formError}>{formErrors.submit}</div>}
-      </div>
-    </form>
-
-    <DatePickerModal
-      isOpen={isDatePickerOpen}
-      onRequestClose={() => setIsDatePickerOpen(false)}
-      onDateSelect={handleDateSelect}
-      selectedDate={formData.fechaProgramada ? formatDateForInput(formData.fechaProgramada) : undefined}
-      title={t('workOrders.scheduledDate')}
-    />
-
-    <TimePickerModal
-      isOpen={isTimePickerOpen}
-      onRequestClose={() => setIsTimePickerOpen(false)}
-      onTimeSelect={handleTimeSelect}
-      selectedTime={formData.horaProgramada}
-      title={t('workOrders.scheduledTime')}
-    />
+      <TimePickerModal
+        isOpen={isTimePickerOpen}
+        onRequestClose={() => setIsTimePickerOpen(false)}
+        onTimeSelect={handleTimeSelect}
+        selectedTime={formData.horaProgramada}
+        title={t('workOrders.scheduledTime')}
+      />
 
     </>
   )

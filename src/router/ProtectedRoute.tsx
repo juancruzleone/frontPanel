@@ -8,7 +8,8 @@ const ProtectedRoute = ({ allowedRoles }: { allowedRoles?: string[] }) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
 
   // DEBUG: Log para verificar el rol actual
-  ,
+  console.log('DEBUG: ProtectedRoute', {
+    role,
     isAdminResult: isAdmin(role),
     isSuperAdminResult: isSuperAdmin(role)
   })
@@ -23,7 +24,7 @@ const ProtectedRoute = ({ allowedRoles }: { allowedRoles?: string[] }) => {
       if (allowedRole === 'tecnico' || allowedRole === 'técnico') return isTechnician(role)
       return role === allowedRole
     })
-    
+
     if (!hasAccess) {
       // Si es super_admin y no tiene acceso, redirigir al panel admin
       if (isSuperAdmin(role)) {

@@ -36,9 +36,9 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
         setError(null)
         try {
             const docs = await getBudgetDocuments(installationId)
-            
+
             if (docs.length > 0) {
-                )
+                console.log('Documentos encontrados:', docs.length)
             }
             setDocuments(docs)
         } catch (err: any) {
