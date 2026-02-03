@@ -77,23 +77,41 @@ export function useLogin() {
 
     try {
       const response = await userLogin(username, password)
-      setResponseMessage(t('auth.loginSuccess'))
-      setIsError(false)
+      console.log('Login response in hook:', response);
+      
+      // El backend devuelve 'cuenta' en lugar de 'user'
+      const user = response.user || response.cuenta;
+      
+      // Validar que la respuesta tenga la estructura esperada
+      if (!user) {
+        throw new Error('Respuesta del servidor inválida');
+      }
+      
+      console.log('Login successful, showing success modal');
+      
+      // Guardar los datos del usuario pero NO autenticar todavía
       loginStore(response)
-      // No marcar como autenticado aquí, esperar a que se cierre el modal
+      
+      // Establecer el estado del modal
+      setIsError(false)
+      setResponseMessage(t('auth.loginSuccess'))
       setShowModal(true)
+      console.log('Modal state set to true, isError:', false);
     } catch (err: any) {
-      setResponseMessage(err.message || "Error al iniciar sesión")
+      console.error('Login error:', err);
       setIsError(true)
+      setResponseMessage(err.message || "Error al iniciar sesión")
       setShowModal(true)
+      console.log('Modal state set to true, isError:', true);
     }
   }
 
   const closeModal = () => {
+    const wasError = isError; // Guardar el estado antes de resetearlo
     setShowModal(false)
     setIsError(false)
-    // Solo marcar como autenticado si no es un error
-    if (!isError) {
+    // Solo marcar como autenticado y redirigir si no fue un error
+    if (!wasError) {
       setAuthenticated(true)
       // Redirigir después de cerrar el modal de éxito
       setTimeout(() => {

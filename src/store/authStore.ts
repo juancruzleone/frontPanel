@@ -26,14 +26,28 @@ export const useAuthStore = create<AuthState>()(
       permissions: null,
       isAuthenticated: false,
       logoutMessage: null,
-      login: (data) => set({
-        user: data.user.userName || data.user._id,
-        token: data.token,
-        role: data.user.role,
-        tenantId: data.user.tenantId,
-        permissions: data.user.permissions || null,
-        isAuthenticated: true
-      }),
+      login: (data) => {
+        console.log('Login data received:', data);
+        
+        // El backend devuelve 'cuenta' en lugar de 'user'
+        const user = data.user || data.cuenta;
+        console.log('User object:', user);
+        
+        // Validar que los datos necesarios existan
+        if (!user) {
+          console.error('Invalid login data structure:', data);
+          return;
+        }
+        
+        set({
+          user: user.userName || user.username || user._id || null,
+          token: data.token || null,
+          role: user.role || null,
+          tenantId: user.tenantId || null,
+          permissions: user.permissions || null,
+          isAuthenticated: false // No autenticar hasta que se cierre el modal
+        });
+      },
       setAuthenticated: (value) => set({ isAuthenticated: value }),
       setLogoutMessage: (msg) => set({ logoutMessage: msg }),
       setTenantId: (tenantId) => set({ tenantId }),

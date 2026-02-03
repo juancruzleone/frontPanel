@@ -787,6 +787,11 @@
     "titlePage": "Formularios | Leonix",
     "title": "Plantillas de Formularios",
     "createFormTemplate": "Crear Plantilla de Formulario",
+    "confirmDeleteTitle": "¿Eliminar plantilla?",
+    "confirmDeleteDescription": "Esta acción no se puede deshacer. La plantilla {{name}} será eliminada permanentemente.",
+    "manageCategories": "Ver categorías",
+    "createCategory": "Crear categoría",
+    "createTemplate": "Crear plantilla",
     "tour": {
       "welcome": {
         "title": "¡Bienvenido a Plantillas de Formularios!",

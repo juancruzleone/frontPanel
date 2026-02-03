@@ -162,23 +162,26 @@ const Forms = () => {
       <div className={styles.containerForms}>
         <div className={styles.topSection}>
           <h1 className={styles.title}>{t("forms.title")}</h1>
-          <div className={styles.buttonGroup}>
-            <button
-              className={styles.manageBtn}
-              onClick={() => setIsManageCategoriesModalOpen(true)}
-              data-tour="manage-categories-btn"
-            >
-              {t("forms.manageCategories")}
-            </button>
-            <button
-              className={styles.secondaryBtn}
-              onClick={() => setIsCreateCategoryModalOpen(true)}
-              data-tour="create-category-btn"
-            >
-              {t("forms.createCategory")}
-            </button>
+          <div className={styles.positionButton}>
             <Button title={t("forms.createTemplate")} onClick={handleOpenCreate} data-tour="create-template-btn" />
           </div>
+        </div>
+
+        <div className={styles.typeButtons}>
+          <button
+            className={styles.smallButton}
+            onClick={() => setIsCreateCategoryModalOpen(true)}
+            data-tour="create-category-btn"
+          >
+            {t("forms.createCategory")}
+          </button>
+          <button
+            className={styles.manageButton}
+            onClick={() => setIsManageCategoriesModalOpen(true)}
+            data-tour="manage-categories-btn"
+          >
+            {t("forms.manageCategories")}
+          </button>
         </div>
 
         <div className={styles.searchContainer} data-tour="search-filter">
@@ -218,24 +221,33 @@ const Forms = () => {
                         )}
                       </div>
                     </div>
+
+                    <div className={styles.cardSeparator}></div>
+
                     <div className={styles.cardActions}>
-                      <button
-                        className={styles.actionBtn}
-                        onClick={() => handleOpenEdit(template)}
-                        data-tour="edit-template-btn"
-                      >
-                        <Edit size={20} />
-                      </button>
-                      <button
-                        className={`${styles.actionBtn} ${styles.deleteBtn}`}
-                        onClick={() => {
-                          setTemplateToDelete(template)
-                          setIsDeleteModalOpen(true)
-                        }}
-                        data-tour="delete-template-btn"
-                      >
-                        <Trash size={20} />
-                      </button>
+                      <div className={styles.actionButtons}>
+                        <button
+                          className={styles.iconButton}
+                          onClick={() => handleOpenEdit(template)}
+                          aria-label={t('forms.editTemplate')}
+                          data-tooltip={t('forms.editTemplate')}
+                          data-tour="edit-template-btn"
+                        >
+                          <Edit size={24} />
+                        </button>
+                        <button
+                          className={styles.iconButton}
+                          onClick={() => {
+                            setTemplateToDelete(template)
+                            setIsDeleteModalOpen(true)
+                          }}
+                          aria-label={t('forms.deleteTemplate')}
+                          data-tooltip={t('forms.deleteTemplate')}
+                          data-tour="delete-template-btn"
+                        >
+                          <Trash size={24} />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}

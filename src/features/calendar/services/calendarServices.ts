@@ -9,13 +9,23 @@ const getToken = () => {
 
 export const fetchWorkOrders = async (filters: any = {}): Promise<any[]> => {
   const queryParams = new URLSearchParams(filters).toString()
-  const response = await fetch(`${API_URL}ordenes-trabajo${queryParams ? `?${queryParams}` : ""}`, {
+  console.log('Calendar API - Fetching work orders with filters:', filters);
+  console.log('Calendar API - Query params:', queryParams);
+  console.log('Calendar API - Full URL:', `${API_URL}calendario${queryParams ? `?${queryParams}` : ""}`);
+  
+  const response = await fetch(`${API_URL}calendario${queryParams ? `?${queryParams}` : ""}`, {
     headers: getAuthHeaders(),
   })
 
-  if (!response.ok) throw new Error("Error al obtener órdenes de trabajo")
+  if (!response.ok) {
+    console.error('Calendar API - Response not OK:', response.status, response.statusText);
+    throw new Error("Error al obtener órdenes de trabajo")
+  }
 
   const result = await response.json()
+  console.log('Calendar API - Response:', result);
+  console.log('Calendar API - Data length:', result.success ? result.data?.length : result?.length);
+  
   return result.success ? result.data : result
 }
 

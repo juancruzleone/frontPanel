@@ -18,5 +18,7 @@ export const userLogin = async (username: string, password: string) => {
     throw new Error(errorData.error.message || "Error al enviar la solicitud")
   }
 
-  return await response.json()
+  const data = await response.json()
+  console.log('Login response from backend:', data);
+  return data
 }
