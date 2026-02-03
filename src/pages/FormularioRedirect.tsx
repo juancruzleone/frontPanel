@@ -29,14 +29,14 @@ const FormularioRedirect = () => {
       const redirectToLastMaintenance = async () => {
         try {
           const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
-          console.log('🔍 Obteniendo último mantenimiento...')
-          console.log('📍 URL:', `${API_URL}public/dispositivos/${installationId}/${deviceId}/ultimo-mantenimiento`)
+          
+          
 
           const response = await fetch(
             `${API_URL}public/dispositivos/${installationId}/${deviceId}/ultimo-mantenimiento`
           )
 
-          console.log('📡 Response status:', response.status)
+          
 
           if (!response.ok) {
             const errorData = await response.json().catch(() => ({}))
@@ -45,15 +45,15 @@ const FormularioRedirect = () => {
           }
 
           const data = await response.json()
-          console.log('📦 Datos recibidos:', data)
+          
 
           // Extraer pdfUrl de diferentes formatos posibles
           const pdfUrl = data.data?.pdfUrl || data.pdfUrl || data.data?.secure_url
 
-          console.log('📄 PDF URL extraída:', pdfUrl)
+          
 
           if (pdfUrl) {
-            console.log('✅ Redirigiendo a PDF:', pdfUrl)
+            
             // Redirigir DIRECTAMENTE al PDF (fuera de cmms.leonix.net.ar)
             window.location.href = pdfUrl
           } else {
@@ -68,20 +68,20 @@ const FormularioRedirect = () => {
 
       // Si NO hay token → Usuario sin login → Obtener PDF del último mantenimiento
       if (!token) {
-        console.log('⚠️ Usuario sin login - Redirigiendo a último mantenimiento')
+        
         await redirectToLastMaintenance()
         return
       }
 
       // Si hay token Y el usuario es CLIENTE → También redirigir al último mantenimiento
       if (isClient(role)) {
-        console.log('👤 Usuario cliente logueado - Redirigiendo a último mantenimiento')
+        
         await redirectToLastMaintenance()
         return
       }
 
       // Si hay token Y NO es cliente → Usuario logueado → Formulario protegido interno
-      console.log('✅ Usuario logueado (no cliente) - Navegando a formulario interno')
+       - Navegando a formulario interno')
       navigate(`/formulario-interno/${installationId}/${deviceId}`, { replace: true })
     }
 

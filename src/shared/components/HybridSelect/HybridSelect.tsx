@@ -79,7 +79,7 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
         
         // Solo disparar onBlur si el usuario había abierto el dropdown y no seleccionó nada
         if (onBlur && hasBeenOpened && (!value || value === "")) {
-          console.log(`HybridSelect onBlur disparado - usuario abrió dropdown pero no seleccionó`);
+          
           onBlur();
         }
       }
@@ -138,7 +138,7 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
         if (onBlur && hasBeenOpened && (!value || value === "")) {
           // Usar setTimeout para asegurar que el blur se ejecute después del cambio de foco
           setTimeout(() => {
-            console.log(`HybridSelect onBlur disparado por Tab - usuario abrió dropdown pero no seleccionó`);
+            
             onBlur();
           }, 0);
         }

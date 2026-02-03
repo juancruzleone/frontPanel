@@ -229,13 +229,13 @@ const WorkOrderForm = ({
             <p className={styles.inputError}>{errorLoadingInstallations}</p>
           ) : (
             <>
-              {console.log('🔍 [WorkOrderForm] formData.instalacionId:', formData.instalacionId)}
-              {console.log('🔍 [WorkOrderForm] installations:', installations.map(i => i._id))}
+              {}
+              {)}
               <HybridSelect
                 name="instalacionId"
                 value={formData.instalacionId || ""}
                 onChange={(value) => {
-                  console.log('🔍 [WorkOrderForm] HybridSelect onChange:', value);
+                  
                   handleFieldChange("instalacionId", value);
                   // Si se selecciona una instalación, también actualizar el objeto instalacion
                   if (value) {

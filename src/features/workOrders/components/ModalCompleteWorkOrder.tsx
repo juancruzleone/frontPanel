@@ -63,7 +63,7 @@ const ModalCompleteWorkOrder = ({
     e.preventDefault()
     if (!workOrder?._id) return
 
-    console.log("🚀 Iniciando completar orden desde modal:", workOrder._id, completionData)
+    
 
     // Mark all fields as touched
     const allFields = Object.keys(completionData)
@@ -83,9 +83,9 @@ const ModalCompleteWorkOrder = ({
 
     setIsSubmitting(true)
     try {
-      console.log("📤 Enviando datos de completación:", completionData)
+      
       const result = await onComplete(workOrder._id, completionData)
-      console.log("✅ Orden completada exitosamente:", result)
+      
       onSubmitSuccess(result.message)
       handleClose()
     } catch (err: any) {

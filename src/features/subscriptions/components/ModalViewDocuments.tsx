@@ -36,9 +36,9 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
         setError(null)
         try {
             const docs = await getBudgetDocuments(installationId)
-            console.log('📦 [ModalViewDocuments] Documentos recibidos de la API:', docs)
+            
             if (docs.length > 0) {
-                console.log('📄 [ModalViewDocuments] Estructura del primer documento:', JSON.stringify(docs[0], null, 2))
+                )
             }
             setDocuments(docs)
         } catch (err: any) {

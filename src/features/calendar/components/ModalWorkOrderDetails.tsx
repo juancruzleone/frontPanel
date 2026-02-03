@@ -32,7 +32,7 @@ const ModalWorkOrderDetails = ({
   if (!isOpen || !workOrder) return null
 
   // DEBUG: Verificar si trabajoRealizado llega al modal
-  console.log("workOrder en modal:", workOrder)
+  
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {

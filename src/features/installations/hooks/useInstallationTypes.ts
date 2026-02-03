@@ -23,11 +23,11 @@ const useInstallationTypes = () => {
     setLoading(true)
     setError(null)
     try {
-      console.log('=== DEBUG INSTALLATION TYPES ===')
-      console.log('Cargando tipos de instalación...')
+      
+      
       const data = await fetchInstallationTypes()
-      console.log('Tipos de instalación cargados:', data)
-      console.log('===============================')
+      
+      
       setInstallationTypes(data)
     } catch (err: any) {
       console.error("Error al cargar tipos de instalación:", err)

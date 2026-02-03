@@ -31,11 +31,11 @@ const MaintenanceHistoryModal: React.FC<MaintenanceHistoryModalProps> = ({
   // Logging para debugging
   React.useEffect(() => {
     if (isOpen && maintenances) {
-      console.log('📝 [MODAL] MaintenanceHistoryModal abierto')
-      console.log('📝 Total mantenimientos:', maintenances.length)
+      
+      
       maintenances.forEach((m, index) => {
-        console.log(`   [${index + 1}] _id:`, m._id)
-        console.log(`   [${index + 1}] pdfUrl:`, m.pdfUrl || '❌ NO TIENE pdfUrl')
+        
+        
       })
     }
   }, [isOpen, maintenances])
@@ -131,7 +131,7 @@ const MaintenanceHistoryModal: React.FC<MaintenanceHistoryModalProps> = ({
                       {maintenance.pdfUrl ? (
                         <button
                           onClick={() => {
-                            console.log('👆 Click en Ver PDF:', maintenance.pdfUrl)
+                            
                             handleOpenPDF(maintenance.pdfUrl)
                           }}
                           style={{

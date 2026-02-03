@@ -2,11 +2,11 @@ import { useAuthStore } from "../../../store/authStore"
 import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
 
 const API_URL = import.meta.env.VITE_API_URL
-console.log("API_URL:", API_URL)
+
 
 const getToken = () => {
   const token = useAuthStore.getState().token
-  console.log("getToken llamado, token:", token ? "Presente" : "Ausente")
+  
   return token
 }
 
@@ -73,16 +73,16 @@ export type WorkOrder = {
 }
 
 const handleResponse = async (response: Response) => {
-  console.log("handleResponse llamado con status:", response.status)
+  
   if (!response.ok) {
-    console.log("Response no ok, intentando parsear error")
+    
     const error = await response.json().catch(() => ({ message: "Error de conexión" }))
-    console.log("Error parseado:", error)
+    
     throw new Error(error.message || `Error ${response.status}: ${response.statusText}`)
   }
-  console.log("Response ok, parseando JSON")
+  
   const result = await response.json()
-  console.log("Result parseado:", result)
+  
   return result
 }
 
@@ -170,13 +170,13 @@ export const deleteWorkOrder = async (id: string) => {
 }
 
 export const assignTechnicianToWorkOrder = async (workOrderId: string, technicianId: string) => {
-  console.log("assignTechnicianToWorkOrder llamado con:", { workOrderId, technicianId })
-  console.log("Token obtenido:", getToken() ? "Sí" : "No")
+  
+   ? "Sí" : "No")
   
   const url = `${API_URL}ordenes-trabajo/${workOrderId}/asignar`
   const body = JSON.stringify({ tecnicoId: technicianId })
-  console.log("URL:", url)
-  console.log("Body:", body)
+  
+  
   
   // Usar PATCH según la configuración del backend
   const response = await fetch(url, {
@@ -185,9 +185,9 @@ export const assignTechnicianToWorkOrder = async (workOrderId: string, technicia
     body: body,
   })
 
-  console.log("Response status:", response.status)
-  console.log("Response ok:", response.ok)
-  console.log("Response headers:", Object.fromEntries(response.headers.entries()))
+  
+  
+  ))
 
   return handleResponse(response)
 }

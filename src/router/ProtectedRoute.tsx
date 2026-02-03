@@ -8,12 +8,7 @@ const ProtectedRoute = ({ allowedRoles }: { allowedRoles?: string[] }) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
 
   // DEBUG: Log para verificar el rol actual
-  console.log('🔍 [ProtectedRoute] Debug info:', {
-    user,
-    role,
-    isAuthenticated,
-    allowedRoles,
-    isTechnicianResult: isTechnician(role),
+  ,
     isAdminResult: isAdmin(role),
     isSuperAdminResult: isSuperAdmin(role)
   })

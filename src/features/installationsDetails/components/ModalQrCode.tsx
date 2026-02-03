@@ -136,7 +136,7 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
 
     // Si el usuario es cliente, redirigir al último mantenimiento (PDF)
     if (userIsClient && installation?._id && device._id) {
-      console.log('👤 Usuario cliente - Redirigiendo a último mantenimiento')
+      
       try {
         const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
         const response = await fetch(
@@ -155,7 +155,7 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
         }
 
         // Si no hay mantenimiento, mostrar mensaje de error
-        console.log('⚠️ No hay mantenimiento disponible para este dispositivo')
+        
         alert(t('installationDetails.noMaintenanceAvailable') || 'No hay mantenimiento disponible para este dispositivo')
       } catch (error) {
         console.error('Error al obtener último mantenimiento:', error)
@@ -166,12 +166,12 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
 
     // Si el usuario está logeado (y no es cliente), navegar al formulario interno
     if (token && installation?._id && device._id) {
-      console.log('✅ Usuario logeado - Navegando a formulario interno')
+      
       navigate(`/formulario-interno/${installation._id}/${device._id}`)
       onRequestClose() // Cerrar el modal
     } else {
       // Si NO está logeado, abrir el codigoQR (que mostrará el PDF)
-      console.log('⚠️ Usuario NO logeado - Abriendo codigoQR')
+      
       if (device.codigoQR) {
         window.open(device.codigoQR, "_blank")
       }

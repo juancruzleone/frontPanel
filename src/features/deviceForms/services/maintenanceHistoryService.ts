@@ -69,9 +69,9 @@ export const getMaintenanceHistory = async (
   deviceId: string
 ): Promise<MaintenanceRecord[]> => {
   try {
-    console.log('🔍 [FRONTEND] Solicitando historial de mantenimientos...')
-    console.log('📍 installationId:', installationId)
-    console.log('📍 deviceId:', deviceId)
+    
+    
+    
     
     const response = await fetch(
       `${API_URL}installations/${installationId}/dispositivos/${deviceId}/mantenimientos`,
@@ -80,7 +80,7 @@ export const getMaintenanceHistory = async (
       }
     )
 
-    console.log('📡 Response status:', response.status)
+    
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}))
@@ -89,15 +89,15 @@ export const getMaintenanceHistory = async (
     }
 
     const data = await response.json()
-    console.log('📦 Datos recibidos del backend:', data)
-    console.log('✅ Total mantenimientos:', data.data?.length || 0)
+    
+    
     
     // Verificar pdfUrl en cada mantenimiento
     if (data.data && data.data.length > 0) {
       data.data.forEach((m: any, index: number) => {
-        console.log(`   [${index + 1}] _id:`, m._id)
-        console.log(`   [${index + 1}] date:`, m.date)
-        console.log(`   [${index + 1}] pdfUrl:`, m.pdfUrl || '❌ NO TIENE pdfUrl')
+        
+        
+        
       })
       
       const sinPdf = data.data.filter((m: any) => !m.pdfUrl)
@@ -105,7 +105,7 @@ export const getMaintenanceHistory = async (
         console.warn(`⚠️ ADVERTENCIA: ${sinPdf.length} mantenimientos SIN pdfUrl en frontend`)
       }
     } else {
-      console.log('ℹ️ No hay mantenimientos en la respuesta')
+      
     }
     
     return data.data || []

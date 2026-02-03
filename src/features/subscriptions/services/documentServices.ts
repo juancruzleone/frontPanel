@@ -73,7 +73,7 @@ export const getBudgetDocuments = async (
     })
 
     const responseData = await response.json()
-    console.log('📡 [documentServices] Respuesta RAW de getBudgetDocuments:', responseData)
+    
 
     if (!response.ok) {
         throw new Error(responseData.error?.message || responseData.message || 'Error al obtener los documentos')

@@ -17,22 +17,22 @@ const handleResponse = async (response: Response) => {
 }
 
 export const fetchInstallationTypes = async (includeInactive = false): Promise<any[]> => {
-  console.log('=== DEBUG INSTALLATION TYPE SERVICE ===')
-  console.log('API_URL:', API_URL)
-  console.log('Headers:', getAuthHeaders())
-  console.log('URL:', `${API_URL}tipos-instalacion?includeInactive=${includeInactive}`)
+  
+  
+  )
+  
   
   const response = await fetch(`${API_URL}tipos-instalacion?includeInactive=${includeInactive}`, {
     headers: getAuthHeaders(),
   })
   
-  console.log('Response status:', response.status)
-  console.log('Response ok:', response.ok)
-  console.log('Response headers:', Object.fromEntries(response.headers.entries()))
+  
+  
+  ))
   
   const result = await handleResponse(response)
-  console.log('Result:', result)
-  console.log('=====================================')
+  
+  
   
   // El backend ya filtra por tenantId usando el token JWT
   return Array.isArray(result) ? result : []

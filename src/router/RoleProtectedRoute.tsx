@@ -19,7 +19,7 @@ const RoleProtectedRoute: React.FC<RoleProtectedRouteProps> = ({ children, secti
   const canAccess = canAccessSection(role, section)
   
   if (!canAccess) {
-    console.log(`Acceso denegado: Usuario ${user} con rol ${role} intentó acceder a ${section}`)
+    
     
     // Si es super_admin y no tiene acceso, redirigir al panel admin
     if (isSuperAdmin(role)) {

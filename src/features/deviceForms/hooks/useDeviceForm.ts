@@ -159,7 +159,7 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
           submission.formData
         )
         removePendingSubmission(submission.id)
-        console.log('✅ Sincronizado envío pendiente:', submission.id)
+        
       } catch (error) {
         console.error('❌ Error sincronizando envío:', submission.id, error)
         // Incrementar contador de reintentos
@@ -171,7 +171,7 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
         if (updatedSubmission.retryCount >= 3) {
           // Eliminar si ha fallado demasiadas veces
           removePendingSubmission(submission.id)
-          console.log('🗑️ Eliminando envío con demasiados fallos:', submission.id)
+          
         } else {
           // Actualizar con nuevo contador
           const updated = pendingSubmissions.map(sub => 
@@ -197,24 +197,24 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
   }
 
   const handleSelectChange = (name: string, value: string) => {
-    console.log(`Seleccionando ${name}:`, value);
-    console.log('FormData antes del cambio:', formData);
+    
+    
     setFormData((prev) => {
       const newData = {
         ...prev,
         [name]: value,
       };
-      console.log('FormData después del cambio:', newData);
+      
       return newData;
     })
   }
 
   const handleSelectBlur = (name: string) => {
-    console.log(`=== onBlur disparado ===`);
-    console.log(`Campo que perdió el foco: ${name}`);
-    console.log(`Valor actual del campo ${name}:`, formData[name]);
-    console.log(`FormData completo:`, formData);
-    console.log(`========================`);
+    
+    
+    
+    
+    
     // Aquí puedes agregar validaciones onBlur si es necesario
   }
 
@@ -226,22 +226,16 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
 
     try {
       // Debug: mostrar datos antes de enviar
-      console.log("=== ENVIANDO FORMULARIO ===");
-      console.log("FormData completo:", formData);
-      console.log("Campos del formulario:", formFields.map(f => ({
-        name: f.name,
-        type: f.type,
-        required: f.required,
-        value: formData[f.name],
-        isEmpty: !formData[f.name] || formData[f.name] === ""
-      })));
+      
+      
+      ));
       
       // Verificar campos requeridos vacíos
       const emptyRequiredFields = formFields.filter(f => 
         f.required && (!formData[f.name] || formData[f.name] === "")
       );
       if (emptyRequiredFields.length > 0) {
-        console.log("⚠️ CAMPOS REQUERIDOS VACÍOS:", emptyRequiredFields.map(f => f.name));
+        );
       }
 
       if (isOnline) {

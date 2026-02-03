@@ -52,7 +52,7 @@ const ModalEdit = ({
     if (isOpen && initialData && installations.length > 0) {
       // Solo inicializar si es diferente initialData o si no se ha inicializado
       if (!isInitialized || initialDataRef.current?._id !== initialData._id) {
-        console.log("Inicializando formulario con:", initialData)
+        
         setFormValues(initialData, installations)
         setIsInitialized(true)
         initialDataRef.current = initialData

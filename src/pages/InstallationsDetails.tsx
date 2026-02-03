@@ -114,14 +114,7 @@ const InstallationDetails = () => {
   const currentDevices = filteredDevices.slice(startIndex, startIndex + devicesPerPage)
 
   // Debug: Log para verificar la paginación
-  console.log('Paginación debug:', {
-    totalDevices: installationDevices.length,
-    devicesPerPage,
-    totalPages,
-    currentPage,
-    startIndex,
-    currentDevicesLength: currentDevices.length
-  })
+  
 
   useEffect(() => {
     if (id) {
