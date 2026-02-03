@@ -2,7 +2,7 @@
 :root {
   --color-bg: #D1D1D1;
   --color-bg-light: #f7f7f7;
-  --color-text: #111;
+  --color-text: #000;
   --color-text-secondary: #666;
   --color-card: #fff;
   --color-card-border: #e0e0e0;
@@ -15,7 +15,7 @@
   --color-danger: #e53935;
   --color-skeleton: #a0a0a0;
   --color-skeleton-light: #909090;
-  --color-icon: #111;
+  --color-icon: #000;
   --color-nav: #0B1C1A;
   /* Leonix Web Dark Green */
   --color-nav-text: #00FFAE;
@@ -114,7 +114,7 @@ body {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
+    color: #000;
     /* background-color: #ffffff; */
   }
 

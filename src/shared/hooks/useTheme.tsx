@@ -62,12 +62,12 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       // Aplicar variables CSS para modo claro
       document.documentElement.style.setProperty('--color-bg', '#D1D1D1');
       document.documentElement.style.setProperty('--color-bg-light', '#f7f7f7');
-      document.documentElement.style.setProperty('--color-text', '#111');
+      document.documentElement.style.setProperty('--color-text', '#000');
       document.documentElement.style.setProperty('--color-card', '#fff');
       document.documentElement.style.setProperty('--color-card-border', '#e0e0e0');
       document.documentElement.style.setProperty('--color-skeleton', '#a0a0a0');
       document.documentElement.style.setProperty('--color-skeleton-light', '#909090');
-      document.documentElement.style.setProperty('--color-icon', '#111');
+      document.documentElement.style.setProperty('--color-icon', '#000');
       document.documentElement.style.setProperty('--color-themebox-bg', '#f0f0f0');
       document.documentElement.style.setProperty('--color-themebox-border', '#e0e0e0');
       document.documentElement.style.setProperty('--color-primary', '#000');

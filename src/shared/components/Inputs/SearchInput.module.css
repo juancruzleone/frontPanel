@@ -1,37 +1,38 @@
 .wrapper {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    width: 100%;
-    /*padding: 0 30px;*/ 
-    box-sizing: border-box;
-  }
-  
-  .inputWrapper {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  /*padding: 0 30px;*/
+  box-sizing: border-box;
+}
+
+.inputWrapper {
   display: flex;
   align-items: center;
   background-color: var(--color-card);
   border-radius: 4px;
   padding: 12px 12px;
-  width: 100%; /* ahora ocupa todo el ancho disponible */
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  width: 100%;
+  /* ahora ocupa todo el ancho disponible */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
   border: 1px solid var(--color-card-border);
   box-sizing: border-box;
 }
-  
+
 .inputWrapper:focus-within,
 .inputWrapper:hover {
   border-color: var(--color-text);
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
 }
-  
-  .icon {
+
+.icon {
   margin-right: 8px;
   color: var(--color-icon);
 }
-  
-  .input {
+
+.input {
   flex: 1;
   border: none;
   outline: none;
@@ -41,8 +42,8 @@
   font-family: 'Encode Sans', sans-serif;
   font-weight: 400;
 }
-  
-  .select {
+
+.select {
   position: relative;
   padding: 12px;
   border-radius: 4px;
@@ -106,7 +107,7 @@
 }
 
 .selectIcon.light {
-  color: #111;
+  color: #000;
 }
 
 .selectIcon.dark {
@@ -120,7 +121,7 @@
 }
 
 .icon.light {
-  color: #111;
+  color: #000;
 }
 
 .icon.dark {
@@ -138,11 +139,13 @@
     gap: 8px;
     width: 100%;
   }
+
   .selectWrapper {
     width: 100% !important;
     min-width: 0 !important;
     max-width: 100%;
   }
+
   .select {
     width: 100% !important;
     min-width: 0 !important;
@@ -150,18 +153,20 @@
     padding: 12px 8px 12px 12px;
     box-sizing: border-box;
   }
+
   .filterSelectCustom {
     width: 100% !important;
     min-width: 0 !important;
     margin-right: 0;
   }
+
   .inputWrapper {
     width: 100%;
     padding: 12px 8px;
     font-size: 15px;
   }
+
   .input {
     font-size: 15px;
   }
 }
-  

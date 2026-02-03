@@ -8,11 +8,9 @@
   gap: 32px;
   /* Reducido de 32px para compensar el margen de la tabla */
   color: var(--color-text);
-  min-height: calc(100vh - 40px);
   position: static;
   animation: fadeIn 0.3s ease-out;
   overflow: visible;
-  /* Para que los tooltips no se corten */
 }
 
 @keyframes fadeIn {
@@ -226,7 +224,6 @@
   /* Crear un nuevo contexto de apilamiento */
   display: flex;
   flex-direction: column;
-  flex: 1;
 }
 
 :global(.dark) .tableContainer {
@@ -259,7 +256,6 @@
   /* Mayor que el ::before del contenedor */
   border-radius: 16px;
   /* Heredar el border-radius pero sin recortar */
-  flex: 1;
 }
 
 .table {
@@ -538,8 +534,12 @@
   align-items: center;
   gap: 12px;
   padding: 24px 0;
-  border-top: 1px solid var(--color-card-border);
+  border-top: 2px solid black;
   background: var(--color-card);
+}
+
+:global(.dark) .pagination {
+  border-top-color: white;
 }
 
 .pagination button {

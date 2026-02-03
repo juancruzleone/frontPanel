@@ -160,7 +160,7 @@
 .installationAddress {
   font-size: 14px;
   color: var(--color-text);
-  opacity: 0.7;
+  opacity: 1;
   margin: 0;
   line-height: 1.4;
 }
@@ -322,8 +322,12 @@
   bottom: 0;
   background: var(--color-bg);
   padding: 16px 0;
-  border-top: 1px solid var(--color-card-border);
+  border-top: 2px solid black;
   z-index: 10;
+}
+
+:global(.dark) .pagination {
+  border-top-color: white;
 }
 
 .pagination button {
