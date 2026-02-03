@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react"
 import { Home, Package, ClipboardList, User } from "lucide-react"
-import { fetchInstallations, fetchAssets } from "../../installations/services/installationServices"
-import { fetchWorkOrders } from "../../workOrders/services/workOrderServices"
-import { fetchTechnicians } from "../../workOrders/services/technicianServices"
 import { useTranslation } from "react-i18next"
+import { useAuthStore } from "../../../store/authStore"
 
 // Los labels de estado se manejarán dinámicamente con traducciones
 
@@ -19,6 +17,7 @@ const tipoColors = ["var(--color-primary)", "#057E74", "#fbc02d", "#e53935", "#3
 
 const useHomeDashboard = () => {
   const { t } = useTranslation()
+  const token = useAuthStore(state => state.token)
   const [kpis, setKpis] = useState<any[]>([])
   const [barChartData, setBarChartData] = useState<any[]>([])
   const [pieChartData, setPieChartData] = useState<any[]>([])
@@ -29,13 +28,14 @@ const useHomeDashboard = () => {
 
   useEffect(() => {
     const load = async () => {
+      if (!token) return
       setLoading(true)
       setError(null)
       try {
         const API_URL = import.meta.env.VITE_API_URL
         const response = await fetch(`${API_URL}dashboard/stats`, {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`, // Ajustar según el store real
+            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
           }
         })

@@ -6,9 +6,10 @@ interface AuthState {
   token: string | null
   role: string | null
   tenantId: string | null
+  permissions: any | null
   isAuthenticated: boolean
   logoutMessage: string | null
-  setUser: (user: string, token: string, role: string, tenantId: string) => void
+  login: (data: { user: any, token: string }) => void
   setAuthenticated: (value: boolean) => void
   setLogoutMessage: (msg: string | null) => void
   setTenantId: (tenantId: string) => void
@@ -22,9 +23,17 @@ export const useAuthStore = create<AuthState>()(
       token: null,
       role: null,
       tenantId: null,
+      permissions: null,
       isAuthenticated: false,
       logoutMessage: null,
-      setUser: (user, token, role, tenantId) => set({ user, token, role, tenantId }),
+      login: (data) => set({
+        user: data.user.userName || data.user._id,
+        token: data.token,
+        role: data.user.role,
+        tenantId: data.user.tenantId,
+        permissions: data.user.permissions || null,
+        isAuthenticated: true
+      }),
       setAuthenticated: (value) => set({ isAuthenticated: value }),
       setLogoutMessage: (msg) => set({ logoutMessage: msg }),
       setTenantId: (tenantId) => set({ tenantId }),
@@ -34,6 +43,7 @@ export const useAuthStore = create<AuthState>()(
           token: null,
           role: null,
           tenantId: null,
+          permissions: null,
           isAuthenticated: false,
         }),
     }),

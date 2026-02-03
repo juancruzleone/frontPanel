@@ -20,7 +20,7 @@ export function useLogin() {
   const [isError, setIsError] = useState(false)
   const [shouldRedirect, setShouldRedirect] = useState(false)
 
-  const setUserStore = useAuthStore((state) => state.setUser)
+  const loginStore = useAuthStore((state) => state.login)
   const setAuthenticated = useAuthStore((state) => state.setAuthenticated)
 
   const togglePasswordVisibility = () => {
@@ -79,12 +79,7 @@ export function useLogin() {
       const response = await userLogin(username, password)
       setResponseMessage(t('auth.loginSuccess'))
       setIsError(false)
-      setUserStore(
-        response.cuenta.userName, 
-        response.token, 
-        response.cuenta.role,
-        response.cuenta.tenantId
-      )
+      loginStore(response)
       // No marcar como autenticado aquí, esperar a que se cierre el modal
       setShowModal(true)
     } catch (err: any) {

@@ -86,41 +86,39 @@ const handleResponse = async (response: Response) => {
   return result
 }
 
-export const fetchWorkOrders = async (): Promise<WorkOrder[]> => {
+export type PaginatedResponse<T> = {
+  data: T[]
+  pagination: {
+    total: number
+    page: number
+    limit: number
+    totalPages: number
+  }
+}
+
+export const fetchWorkOrders = async (page = 1, limit = 10, filters: any = {}): Promise<PaginatedResponse<WorkOrder>> => {
   try {
-    const ordersResponse = await fetch(`${API_URL}ordenes-trabajo`, {
+    const queryParams = new URLSearchParams({
+      page: page.toString(),
+      limit: limit.toString(),
+      ...filters
+    })
+
+    const ordersResponse = await fetch(`${API_URL}ordenes-trabajo?${queryParams}`, {
       headers: getAuthHeaders(),
     })
 
     const ordersData = await handleResponse(ordersResponse)
-    const workOrders = ordersData.data || ordersData
 
-    if (workOrders.some((order: any) => order.tecnico && order.tecnico.userName)) {
-      return workOrders
-    }
-
-    const techResponse = await fetch(`${API_URL}cuentas/tecnicos`, {
-      headers: getAuthHeaders(),
-    })
-
-    const techData = await handleResponse(techResponse)
-    const allTechnicians = techData.tecnicos || techData || []
-
-    return workOrders.map((order: any) => {
-      if (order.tecnico && order.tecnico.userName) return order
-
-      if (order.tecnicoAsignado) {
-        const foundTech = allTechnicians.find((t: any) => t._id === order.tecnicoAsignado)
-        if (foundTech) {
-          return {
-            ...order,
-            tecnico: foundTech,
-          }
-        }
+    return {
+      data: ordersData.data || [],
+      pagination: ordersData.pagination || {
+        total: (ordersData.data || []).length,
+        page: 1,
+        limit: 10,
+        totalPages: 1
       }
-
-      return order
-    })
+    }
   } catch (error) {
     console.error("Error en fetchWorkOrders:", error)
     throw error

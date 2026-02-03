@@ -78,6 +78,12 @@ export type WorkOrder = {
 
 const useWorkOrders = () => {
   const [workOrders, setWorkOrders] = useState<WorkOrder[]>([])
+  const [pagination, setPagination] = useState({
+    total: 0,
+    page: 1,
+    limit: 10,
+    totalPages: 1
+  })
   const [technicians, setTechnicians] = useState<Technician[]>([])
   const [installations, setInstallations] = useState<Installation[]>([])
   const [loading, setLoading] = useState(false)
@@ -113,12 +119,13 @@ const useWorkOrders = () => {
     }
   }, [])
 
-  const loadWorkOrders = useCallback(async () => {
+  const loadWorkOrders = useCallback(async (page = 1, limit = 10, filters = {}) => {
     setLoading(true)
     setError(null)
     try {
-      const workOrdersData = await fetchWorkOrders()
-      setWorkOrders(workOrdersData)
+      const { data, pagination: pagData } = await fetchWorkOrders(page, limit, filters)
+      setWorkOrders(data)
+      setPagination(pagData)
     } catch (err: any) {
       console.error("Error al cargar órdenes de trabajo:", err)
       setError(err.message)
@@ -160,12 +167,12 @@ const useWorkOrders = () => {
   }
 
   const assignTechnician = async (workOrderId: string, technicianId: string) => {
-    
+
     try {
       await assignTechnicianToWorkOrder(workOrderId, technicianId)
-      
+
       await loadWorkOrders()
-      
+
       return { message: "Técnico asignado con éxito" }
     } catch (error) {
       console.error("Error en assignTechnician:", error)
@@ -180,15 +187,15 @@ const useWorkOrders = () => {
         prev.map((o) =>
           o._id === id
             ? {
-                ...o,
-                estado: "completada",
-                fechaCompletada: new Date(),
-                trabajoRealizado: data.trabajoRealizado,
-                observaciones: data.observaciones,
-                tiempoTrabajo: data.tiempoTrabajo,
-                estadoDispositivo: data.estadoDispositivo,
-                ...result,
-              }
+              ...o,
+              estado: "completada",
+              fechaCompletada: new Date(),
+              trabajoRealizado: data.trabajoRealizado,
+              observaciones: data.observaciones,
+              tiempoTrabajo: data.tiempoTrabajo,
+              estadoDispositivo: data.estadoDispositivo,
+              ...result,
+            }
             : o,
         ),
       )
@@ -215,11 +222,11 @@ const useWorkOrders = () => {
   // Función simplificada para manejar cambios de campo
   const handleFieldChange = useCallback(
     (name: string, value: string | any) => {
-      
+
 
       setFormData((prevFormData) => {
         const updated = { ...prevFormData, [name]: value }
-        
+
         return updated
       })
 
@@ -303,8 +310,8 @@ const useWorkOrders = () => {
 
   const setFormValues = useCallback(
     (data: Partial<WorkOrder>, availableInstallations: Installation[] = []) => {
-      
-      
+
+
 
       let instalacionId = ""
       let instalacionObject = data.instalacion
@@ -312,43 +319,43 @@ const useWorkOrders = () => {
       // Extraer instalacionId
       if (data.instalacionId) {
         instalacionId = extractInstalacionId(data.instalacionId)
-        
+
       } else if (data.instalacion?._id) {
         instalacionId = extractInstalacionId(data.instalacion._id)
-        
+
       }
 
       // Si tenemos instalaciones disponibles, verificar y corregir el instalacionId
       if (availableInstallations.length > 0) {
-        
-        
+
+
         if (instalacionId) {
           const foundInstallation = availableInstallations.find((inst) => inst._id === instalacionId)
-          
-          
+
+
           if (!foundInstallation) {
             // Si no se encuentra por ID, intentar buscar por nombre de empresa
             if (data.instalacion?.company) {
-              
+
               const foundByName = availableInstallations.find((inst) => inst.company === data.instalacion?.company)
               if (foundByName) {
                 instalacionId = foundByName._id
                 instalacionObject = foundByName
-                
+
               }
             }
           } else {
             instalacionObject = foundInstallation
-            
+
           }
         } else if (data.instalacion?.company) {
           // Si no hay instalacionId pero sí hay objeto instalacion, buscar por nombre
-          
+
           const foundByName = availableInstallations.find((inst) => inst.company === data.instalacion?.company)
           if (foundByName) {
             instalacionId = foundByName._id
             instalacionObject = foundByName
-            
+
           }
         }
       }
@@ -376,8 +383,8 @@ const useWorkOrders = () => {
         instalacion: instalacionObject || undefined,
       }
 
-      
-      
+
+
       setFormData(updatedFormData)
       setFormErrors({})
     },
@@ -386,6 +393,7 @@ const useWorkOrders = () => {
 
   return {
     workOrders,
+    pagination,
     technicians,
     installations,
     loading,

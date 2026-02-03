@@ -52,6 +52,7 @@ const WorkOrders = () => {
   const { tourCompleted, startTour, skipTour } = useWorkOrdersTour()
   const {
     workOrders,
+    pagination,
     loading,
     technicians,
     installations,
@@ -70,6 +71,7 @@ const WorkOrders = () => {
 
   const navigate = useNavigate()
   const role = useAuthStore((s) => s.role)
+  const permissions = useAuthStore((s) => s.permissions)
   const isTechnician = role && ["tecnico", "técnico"].includes(role.toLowerCase())
 
   const [selectedStatus, setSelectedStatus] = useState("")
@@ -85,7 +87,7 @@ const WorkOrders = () => {
   const [workOrderToDelete, setWorkOrderToDelete] = useState<WorkOrder | null>(null)
   const [selectedWorkOrder, setSelectedWorkOrder] = useState<WorkOrder | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 5
+  const itemsPerPage = 10
 
   useEffect(() => {
     document.title = t("workOrders.titlePage")
@@ -101,20 +103,20 @@ const WorkOrders = () => {
     }
   }, [loading, tourCompleted, startTour])
 
+  // Cargar catálogos (solo una vez)
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        await Promise.all([
-          loadTechnicians(),
-          loadInstallations(),
-          loadWorkOrders()
-        ])
-      } catch (err) {
-        console.error("Error loading data:", err)
-      }
+    loadTechnicians()
+    loadInstallations()
+  }, [])
+
+  // Cargar órdenes cuando cambian los filtros o la página
+  useEffect(() => {
+    const filters = {
+      estado: selectedStatus,
+      search: searchTerm // El backend debería manejar este filtro para buscar en varios campos
     }
-    loadData()
-  }, [loadTechnicians, loadInstallations, loadWorkOrders])
+    loadWorkOrders(currentPage, itemsPerPage, filters)
+  }, [currentPage, selectedStatus, searchTerm, loadWorkOrders])
 
   const statusOptions = useMemo(
     () => [
@@ -128,36 +130,7 @@ const WorkOrders = () => {
     [t],
   )
 
-  const filteredWorkOrders = useMemo(() => {
-    const term = searchTerm.toLowerCase()
-    return workOrders.filter((order) => {
-      if (!order) return false
-
-      const fields = [
-        order.titulo,
-        order.descripcion,
-        order.instalacion?.company,
-        order.instalacion?.address,
-        order.instalacion?.city,
-        order.tecnico ? (order.tecnico as any).userName : null,
-        order.prioridad,
-        order.tipoTrabajo,
-      ].filter(Boolean)
-
-      const matchesStatus = !selectedStatus || order.estado === selectedStatus
-      const matchesSearch = fields.some((f) => f?.toLowerCase().includes(term))
-
-      return matchesStatus && matchesSearch
-    })
-  }, [workOrders, selectedStatus, searchTerm])
-
-
-
-  const totalPages = Math.ceil(filteredWorkOrders.length / itemsPerPage)
-  const paginatedWorkOrders = useMemo(() => {
-    const start = (currentPage - 1) * itemsPerPage
-    return filteredWorkOrders.slice(start, start + itemsPerPage)
-  }, [filteredWorkOrders, currentPage])
+  const totalPages = pagination.totalPages
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -205,7 +178,7 @@ const WorkOrders = () => {
     setIsEditModalOpen(false)
     setIsAssignModalOpen(false)
     setIsCompleteModalOpen(false)
-    await loadWorkOrders()
+    loadWorkOrders(currentPage, itemsPerPage, { estado: selectedStatus, search: searchTerm })
   }
 
   const onError = async (msg: string) => {
@@ -246,6 +219,7 @@ const WorkOrders = () => {
   }
 
   const shouldShowEditButton = (order: WorkOrder) => {
+    if (!permissions?.canEditWorkOrders) return false
     return ["pendiente", "asignada"].includes(order.estado)
   }
 
@@ -264,7 +238,7 @@ const WorkOrders = () => {
       <div className={styles.containerWorkOrders}>
         <div className={styles.topSection}>
           <h1 className={styles.title}>{t('workOrders.title')}</h1>
-          {!isTechnician && (
+          {permissions?.canCreateWorkOrders && (
             <div className={styles.positionButton} data-tour="create-work-order-btn">
               <Button title={t('workOrders.createWorkOrder')} onClick={handleOpenCreate}>
                 {t('workOrders.createWorkOrder')}
@@ -295,11 +269,11 @@ const WorkOrders = () => {
               <Skeleton height={220} width={"100%"} style={{ borderRadius: 14 }} />
 
             </div>
-          ) : filteredWorkOrders.length === 0 ? (
+          ) : workOrders.length === 0 ? (
             <p className={styles.loader}>{t('workOrders.noWorkOrdersFound')}</p>
           ) : (
             <>
-              {paginatedWorkOrders.map((order) => (
+              {workOrders.map((order) => (
                 <div key={order._id} className={styles.workOrderCard}>
                   <div className={styles.workOrderInfo}>
                     <div className={styles.workOrderHeader}>
@@ -340,7 +314,7 @@ const WorkOrders = () => {
 
                   <div className={styles.cardActions}>
                     <div className={styles.actionButtons}>
-                      {order.estado === "asignada" && (
+                      {order.estado === "asignada" && permissions?.canStartWorkOrder && (
                         <button
                           className={styles.iconButton}
                           onClick={() => handleStart(order._id!)}
@@ -350,7 +324,7 @@ const WorkOrders = () => {
                           <Play size={20} />
                         </button>
                       )}
-                      {order.estado === "en_progreso" && (
+                      {order.estado === "en_progreso" && permissions?.canCompleteWorkOrder && (
                         <button
                           className={styles.iconButton}
                           onClick={() => handleOpenComplete(order)}
@@ -360,7 +334,7 @@ const WorkOrders = () => {
                           <Check size={20} />
                         </button>
                       )}
-                      {!isTechnician && order.estado === "pendiente" && (
+                      {permissions?.canAssignWorkOrders && order.estado === "pendiente" && (
                         <button
                           className={styles.iconButton}
                           onClick={() => handleOpenAssign(order)}
@@ -370,7 +344,7 @@ const WorkOrders = () => {
                           <User size={20} />
                         </button>
                       )}
-                      {!isTechnician && shouldShowEditButton(order) && (
+                      {permissions?.canEditWorkOrders && shouldShowEditButton(order) && (
                         <button
                           className={styles.iconButton}
                           onClick={() => handleOpenEdit(order)}
@@ -380,7 +354,7 @@ const WorkOrders = () => {
                           <Edit size={20} />
                         </button>
                       )}
-                      {!isTechnician && (
+                      {permissions?.canDeleteWorkOrders && (
                         <button
                           className={styles.iconButton}
                           onClick={() => {
