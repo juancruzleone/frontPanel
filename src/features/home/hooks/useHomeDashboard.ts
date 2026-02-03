@@ -4,15 +4,6 @@ import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../../../store/authStore"
 
 // Los labels de estado se manejarán dinámicamente con traducciones
-
-const estadoColors: Record<string, string> = {
-  pendiente: "#fbc02d",
-  asignada: "var(--color-primary)",
-  en_progreso: "#ff9800", // Cambiado a naranja para diferenciar
-  completada: "#388e3c",
-  cancelada: "#e53935",
-}
-
 const tipoColors = ["var(--color-primary)", "#057E74", "#fbc02d", "#e53935", "#388e3c"]
 
 const useHomeDashboard = () => {
@@ -43,7 +34,8 @@ const useHomeDashboard = () => {
         if (!response.ok) throw new Error('Error al cargar datos del dashboard')
 
         const result = await response.json()
-        const { kpis: kpisRaw, charts, recentWorkOrders: recent } = result.data
+        const { kpis: kpisRaw, charts, recentWorkOrders: recent, metadata } = result.data
+        const backendColors = metadata?.suggestedStatusColors || {}
 
         // 1. Mapear KPIs
         const kpisData = [
@@ -94,7 +86,7 @@ const useHomeDashboard = () => {
         const pieData = (charts.byStatus || []).map((item: any) => ({
           name: item.name.toLowerCase(),
           value: item.value,
-          color: estadoColors[item.name.toLowerCase()] || "#ccc"
+          color: backendColors[item.name.toLowerCase()] || "#ccc"
         }))
         setPieChartData(pieData)
 

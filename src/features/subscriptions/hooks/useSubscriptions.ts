@@ -67,49 +67,8 @@ const useSubscriptions = () => {
     months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
   }))
 
-  // Función para calcular los meses entre dos fechas
-  const getMonthsInRange = (startDate: Date | undefined, endDate: Date | undefined): string[] => {
-    if (!startDate || !endDate) return []
-
-    const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-    const months: string[] = []
-
-    const start = new Date(startDate)
-    const end = new Date(endDate)
-
-    // Asegurar que las fechas sean válidas
-    if (isNaN(start.getTime()) || isNaN(end.getTime())) return []
-
-    let currentDate = new Date(start.getFullYear(), start.getMonth(), 1)
-    const endMonth = new Date(end.getFullYear(), end.getMonth(), 1)
-
-    // Iterar por cada mes en el rango
-    while (currentDate <= endMonth) {
-      const monthIndex = currentDate.getMonth()
-      const monthName = monthNames[monthIndex]
-
-      // Evitar duplicados
-      if (!months.includes(monthName)) {
-        months.push(monthName)
-      }
-
-      // Avanzar al siguiente mes
-      currentDate.setMonth(currentDate.getMonth() + 1)
-    }
-
-    return months
-  }
-
-  const getMonthsByFrequency = (frequency: string, startDate?: Date, endDate?: Date): string[] => {
-    // Para frecuencia mensual, calcular los meses en el rango de fechas
-    if (frequency === 'mensual' && startDate && endDate) {
-      return getMonthsInRange(startDate, endDate)
-    }
-
-    // Para otras frecuencias, retornar todos los meses
-    const option = frequencyOptions.find(opt => opt.value === frequency)
-    return option ? option.months : []
-  }
+  // La lógica de cálculo de meses se ha movido al backend.
+  // El frontend ahora solo muestra los meses guardados o permite selección manual.
 
   const mapInstallationToSubscription = (installation: Installation): Subscription => {
     // Mapear estado de español a inglés
@@ -147,23 +106,8 @@ const useSubscriptions = () => {
     // Normalizar frecuencia a minúsculas para coincidir con las opciones del select
     const frequency = installation.frecuencia ? installation.frecuencia.toLowerCase() : ''
 
-    // Calcular los meses según la frecuencia y las fechas
-    let months: string[] = []
-
-    // Normalizar frecuencia para comparación (puede venir como 'Mensual' o 'mensual')
-    const normalizedFrequency = frequency.toLowerCase()
-
-    if (normalizedFrequency === 'mensual') {
-      // Para frecuencia mensual, SIEMPRE calcular basándose en las fechas
-      // No usar los meses guardados porque pueden estar desactualizados
-      months = getMonthsByFrequency(frequency, startDate, endDate)
-    } else if (installation.mesesFrecuencia && installation.mesesFrecuencia.length > 0) {
-      // Para otras frecuencias, usar los meses guardados si existen
-      months = installation.mesesFrecuencia
-    } else {
-      // Si no hay meses guardados, calcularlos según la frecuencia
-      months = getMonthsByFrequency(frequency, startDate, endDate)
-    }
+    // Obtener los meses directamente del objeto de instalación (calculados por el backend)
+    const months = installation.mesesFrecuencia || []
 
     return {
       _id: installation._id || '',
@@ -213,34 +157,8 @@ const useSubscriptions = () => {
     const installation = installations.find(inst => inst._id === subscriptionId)
     if (!installation) throw new Error(t('subscriptions.installationNotFound'))
 
-    // Determinar los meses según la frecuencia
-    let monthsToSave = data.months || []
-
-    if (data.frequency) {
-      if (data.frequency === 'mensual') {
-        // Para mensual, calcular meses basados en el rango de fechas
-        const startDate = data.startDate || installation.fechaInicio
-        const endDate = data.endDate || installation.fechaFin
-
-        if (startDate && endDate) {
-          monthsToSave = getMonthsInRange(
-            startDate instanceof Date ? startDate : new Date(startDate),
-            endDate instanceof Date ? endDate : new Date(endDate)
-          )
-        } else {
-          monthsToSave = []
-        }
-      } else if (data.frequency === 'anual') {
-        // Para anual, usar los meses seleccionados o todos los meses
-        monthsToSave = data.months && data.months.length > 0 ? data.months : getMonthsByFrequency(data.frequency)
-      } else if (data.months && data.months.length > 0) {
-        // Para trimestral y semestral, usar los meses seleccionados
-        monthsToSave = data.months
-      } else {
-        // Si no hay meses seleccionados, mantener los existentes
-        monthsToSave = installation.mesesFrecuencia || []
-      }
-    }
+    // El backend se encarga de determinar los meses si no se envían o de validarlos.
+    const monthsToSave = data.months || []
 
     // Mapear la frecuencia al formato esperado por el backend
     const mapFrequency = (freq: string): string => {
@@ -344,128 +262,8 @@ const useSubscriptions = () => {
       })
     }
 
-    if (name === 'frequency') {
-      // Reset selected months when frequency changes
-      if (value === 'mensual') {
-        // Para mensual, calcular meses basados en el rango de fechas
-        if (formData.startDate && formData.endDate) {
-          const start = new Date(formData.startDate)
-          const end = new Date(formData.endDate)
-          const monthsInRange = getMonthsInRange(start, end)
-          setSelectedMonths(monthsInRange)
-        } else {
-          setSelectedMonths([])
-        }
-      } else if (value === 'anual') {
-        // Para anual, seleccionar solo el mes de la fecha de inicio
-        const currentStartDate = formData.startDate
-        if (currentStartDate) {
-          const startDate = new Date(currentStartDate)
-          const monthIndex = startDate.getMonth()
-          const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-          setSelectedMonths([monthNames[monthIndex]])
-        } else {
-          setSelectedMonths([])
-        }
-      } else if (value === 'trimestral') {
-        // Para trimestral, seleccionar 4 meses alternados a partir del mes de inicio
-        const currentStartDate = formData.startDate
-        if (currentStartDate) {
-          const startDate = new Date(currentStartDate)
-          const monthIndex = startDate.getMonth()
-          const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-
-          let selectedMonthsArray: string[] = []
-          // Seleccionar mes de inicio + cada 3 meses
-          for (let i = 0; i < 4; i++) {
-            const monthToAdd = monthNames[(monthIndex + (i * 3)) % 12]
-            if (!selectedMonthsArray.includes(monthToAdd)) {
-              selectedMonthsArray.push(monthToAdd)
-            }
-          }
-          setSelectedMonths(selectedMonthsArray)
-        } else {
-          setSelectedMonths([])
-        }
-      } else if (value === 'semestral') {
-        // Para semestral, seleccionar 2 meses alternados a partir del mes de inicio
-        const currentStartDate = formData.startDate
-        if (currentStartDate) {
-          const startDate = new Date(currentStartDate)
-          const monthIndex = startDate.getMonth()
-          const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-
-          let selectedMonthsArray: string[] = []
-          // Seleccionar mes de inicio + 6 meses después
-          for (let i = 0; i < 2; i++) {
-            const monthToAdd = monthNames[(monthIndex + (i * 6)) % 12]
-            if (!selectedMonthsArray.includes(monthToAdd)) {
-              selectedMonthsArray.push(monthToAdd)
-            }
-          }
-          setSelectedMonths(selectedMonthsArray)
-        } else {
-          setSelectedMonths([])
-        }
-      } else {
-        setSelectedMonths([])
-      }
-    }
-
-    // Si cambia la fecha de inicio, recalcular meses para frecuencias que dependen de ella
-    if (name === 'startDate' && value) {
-      const currentFrequency = formData.frequency
-      if (currentFrequency === 'mensual') {
-        // Para mensual, recalcular con el rango completo
-        if (formData.endDate) {
-          const start = new Date(value)
-          const end = new Date(formData.endDate)
-          const monthsInRange = getMonthsInRange(start, end)
-          setSelectedMonths(monthsInRange)
-        }
-      } else if (currentFrequency === 'anual') {
-        const startDate = new Date(value)
-        const monthIndex = startDate.getMonth()
-        const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-        setSelectedMonths([monthNames[monthIndex]])
-      } else if (currentFrequency === 'trimestral') {
-        const startDate = new Date(value)
-        const monthIndex = startDate.getMonth()
-        const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-        let selectedMonthsArray: string[] = []
-        // Seleccionar mes de inicio + cada 3 meses
-        for (let i = 0; i < 4; i++) {
-          const monthToAdd = monthNames[(monthIndex + (i * 3)) % 12]
-          if (!selectedMonthsArray.includes(monthToAdd)) {
-            selectedMonthsArray.push(monthToAdd)
-          }
-        }
-        setSelectedMonths(selectedMonthsArray)
-      } else if (currentFrequency === 'semestral') {
-        const startDate = new Date(value)
-        const monthIndex = startDate.getMonth()
-        const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-        let selectedMonthsArray: string[] = []
-        // Seleccionar mes de inicio + 6 meses después
-        for (let i = 0; i < 2; i++) {
-          const monthToAdd = monthNames[(monthIndex + (i * 6)) % 12]
-          if (!selectedMonthsArray.includes(monthToAdd)) {
-            selectedMonthsArray.push(monthToAdd)
-          }
-        }
-        setSelectedMonths(selectedMonthsArray)
-      }
-    }
-
-    // Si cambia la fecha de fin y la frecuencia es mensual, recalcular meses
-    if (name === 'endDate' && value && formData.frequency === 'mensual') {
-      if (formData.startDate) {
-        const start = new Date(formData.startDate)
-        const end = new Date(value)
-        const monthsInRange = getMonthsInRange(start, end)
-        setSelectedMonths(monthsInRange)
-      }
-    }
+    // La actualización de meses ahora es manual o delegada al backend en el guardado
+    // Por simplicidad en la UI, dejamos que el usuario elija los meses sin cálculos automáticos complejos
   }, [formData.frequency, formData.startDate, formData.endDate])
 
   // Función de blur simplificada - solo valida campos vacíos
@@ -584,67 +382,13 @@ const useSubscriptions = () => {
   const [monthsError, setMonthsError] = useState("")
 
   const handleMonthClick = (month: string) => {
-    const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-    const monthIndex = monthNames.indexOf(month)
-
-    // Función para verificar si un mes es consecutivo a los ya seleccionados
-    const isConsecutive = (newMonthIndex: number, selectedMonthsArray: string[]): boolean => {
-      for (const selectedMonth of selectedMonthsArray) {
-        const selectedIndex = monthNames.indexOf(selectedMonth)
-        // Verificar consecutividad considerando el ciclo del año (Diciembre -> Enero)
-        const diff = Math.abs(newMonthIndex - selectedIndex)
-        if (diff === 1 || diff === 11) {
-          return true
-        }
-      }
-      return false
+    // Selección simple de meses, las reglas de negocio complejas las valida el backend
+    if (selectedMonths.includes(month)) {
+      setSelectedMonths(selectedMonths.filter(m => m !== month))
+    } else {
+      setSelectedMonths([...selectedMonths, month])
     }
-
-    if (formData.frequency === 'semestral') {
-      if (selectedMonths.includes(month)) {
-        setSelectedMonths(selectedMonths.filter(m => m !== month))
-        // Limpiar error al deseleccionar
-        setMonthsError("")
-      } else if (selectedMonths.length < 2) {
-        // Validar que no sea consecutivo
-        if (selectedMonths.length > 0 && isConsecutive(monthIndex, selectedMonths)) {
-          setMonthsError(t('subscriptions.errors.consecutiveMonthsNotAllowed') || 'No se pueden seleccionar meses consecutivos')
-          return
-        }
-        setSelectedMonths([...selectedMonths, month])
-        // Limpiar error al seleccionar correctamente
-        setMonthsError("")
-      }
-    } else if (formData.frequency === 'trimestral') {
-      if (selectedMonths.includes(month)) {
-        setSelectedMonths(selectedMonths.filter(m => m !== month))
-        // Limpiar error al deseleccionar
-        setMonthsError("")
-      } else if (selectedMonths.length < 4) {
-        // Validar que no sea consecutivo
-        if (selectedMonths.length > 0 && isConsecutive(monthIndex, selectedMonths)) {
-          setMonthsError(t('subscriptions.errors.consecutiveMonthsNotAllowed') || 'No se pueden seleccionar meses consecutivos')
-          return
-        }
-        setSelectedMonths([...selectedMonths, month])
-        // Limpiar error al seleccionar correctamente
-        setMonthsError("")
-      }
-    } else if (formData.frequency === 'anual') {
-      // Para anual, solo permitir un mes seleccionado
-      if (selectedMonths.includes(month)) {
-        setSelectedMonths([])
-      } else {
-        setSelectedMonths([month])
-      }
-    } else if (formData.frequency === 'mensual') {
-      // Para mensual, permitir seleccionar/deseleccionar cualquier mes
-      if (selectedMonths.includes(month)) {
-        setSelectedMonths(selectedMonths.filter(m => m !== month))
-      } else {
-        setSelectedMonths([...selectedMonths, month])
-      }
-    }
+    setMonthsError("")
   }
 
   const isMonthSelectable = (month: string) => {
@@ -751,7 +495,6 @@ const useSubscriptions = () => {
     subscriptions,
     installations,
     frequencyOptions,
-    getMonthsByFrequency,
     loading,
     error,
     refreshSubscriptions,
