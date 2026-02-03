@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useState, useCallback } from "react"
 import Button from "../../src/shared/components/Buttons/buttonCreate.tsx"
 import SearchInput from "../shared/components/Inputs/SearchInput.tsx"
 import styles from "../features/assets/styles/assets.module.css"
@@ -9,7 +9,7 @@ import ModalSuccess from "../features/assets/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
 import ModalConfirmDelete from "../features/assets/components/ModalConfirmDelete"
 import ModalAssignTemplate from "../features/assets/components/ModalAssignTemplate"
-import { Edit, Trash, List, BookOpen, HelpCircle } from "lucide-react"
+import { Edit, Trash, List, BookOpen, HelpCircle, Plus } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { translateDeviceStatus } from "../shared/utils/backendTranslations"
@@ -25,6 +25,7 @@ const Assets = () => {
   const { tourCompleted, startTour, continueAssetsTour, skipTour } = useAssetsTour()
   const {
     assets,
+    pagination,
     loading,
     templates,
     categories,
@@ -47,8 +48,10 @@ const Assets = () => {
   const [isError, setIsError] = useState(false)
   const [assetToDelete, setAssetToDelete] = useState<Asset | null>(null)
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null)
-  const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 4
+
+  const role = useAuthStore((s) => s.role)
+  const isClientUser = role && isClient(role)
 
   useEffect(() => {
     document.title = t("assets.titlePage")
@@ -63,8 +66,7 @@ const Assets = () => {
       }, 500)
       return () => clearTimeout(timer)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading, tourCompleted])
+  }, [loading, tourCompleted, startTour])
 
   // Continuar el tour si venimos de formularios
   useEffect(() => {
@@ -74,8 +76,7 @@ const Assets = () => {
       }, 500)
       return () => clearTimeout(timer)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.state, tourCompleted])
+  }, [location.state, tourCompleted, continueAssetsTour])
 
   const dynamicCategories = useMemo(
     () => [
@@ -88,38 +89,6 @@ const Assets = () => {
     [categories, t],
   )
 
-  const filteredAssets = useMemo(() => {
-    const searchTermLower = searchTerm.toLowerCase()
-
-    return assets.filter((asset) => {
-      if (!asset) return false
-
-      // Obtener información de la plantilla
-      const template = asset.templateId ? getTemplateById(asset.templateId) : null
-
-      // Campos a buscar
-      const fieldsToSearch = [
-        asset.nombre || "",
-        template?.nombre || "",
-        template?.categoria || "",
-      ]
-
-      // Filtros por categoría de plantilla
-      const matchesCategory = !selectedCategory || template?.categoria === selectedCategory
-
-      // Búsqueda
-      const matchesSearch = fieldsToSearch.some((field) => field.toLowerCase().includes(searchTermLower))
-
-      return matchesCategory && matchesSearch
-    })
-  }, [assets, selectedCategory, searchTerm, getTemplateById])
-
-  const totalPages = Math.ceil(filteredAssets.length / itemsPerPage)
-  const paginatedAssets = useMemo(() => {
-    const start = (currentPage - 1) * itemsPerPage
-    return filteredAssets.slice(start, start + itemsPerPage)
-  }, [filteredAssets, currentPage])
-
   const handleOpenCreate = () => {
     setIsCreateModalOpen(true)
     setInitialData(null)
@@ -130,7 +99,7 @@ const Assets = () => {
     setIsEditModalOpen(true)
   }
 
-  const handleOpenAssignTemplate = (asset: Asset) => {
+  const handleOpenTemplate = (asset: Asset) => {
     setSelectedAsset(asset)
     setIsTemplateModalOpen(true)
   }
@@ -138,16 +107,24 @@ const Assets = () => {
   const handleSuccessCreateOrEdit = (message: string) => {
     setIsCreateModalOpen(false)
     setIsEditModalOpen(false)
-    loadAssets()
+    loadAssets({ page: pagination.page, limit: itemsPerPage, search: searchTerm })
     setResponseMessage(message)
     setIsError(false)
   }
 
   const handleSuccessAssignTemplate = (message: string) => {
     setIsTemplateModalOpen(false)
-    loadAssets()
+    loadAssets({ page: pagination.page, limit: itemsPerPage, search: searchTerm })
     setResponseMessage(message)
     setIsError(false)
+  }
+
+  const handleError = (message: string) => {
+    setResponseMessage(message)
+    setIsError(true)
+    setIsCreateModalOpen(false)
+    setIsEditModalOpen(false)
+    setIsTemplateModalOpen(false)
   }
 
   const closeModal = () => {
@@ -160,12 +137,12 @@ const Assets = () => {
 
     try {
       await removeAsset(assetToDelete._id)
-      loadAssets()
-      setResponseMessage(t('assets.assetDeleted'))
+      loadAssets({ page: pagination.page, limit: itemsPerPage, search: searchTerm })
+      setResponseMessage("Activo eliminado con éxito")
       setIsError(false)
     } catch (err: any) {
       console.error("Error al eliminar activo", err)
-      setResponseMessage(err.message || t('assets.errorDeletingAsset'))
+      setResponseMessage(err.message || "Error al eliminar activo")
       setIsError(true)
     } finally {
       setAssetToDelete(null)
@@ -174,130 +151,124 @@ const Assets = () => {
   }
 
   const handleChangePage = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page)
+    if (page >= 1 && page <= pagination.totalPages) {
+      loadAssets({ page, limit: itemsPerPage, search: searchTerm })
     }
   }
 
-
-  useEffect(() => {
-    setCurrentPage(1)
-  }, [searchTerm, selectedCategory])
+  const handleSearch = (value: string) => {
+    setSearchTerm(value)
+    loadAssets({ page: 1, limit: itemsPerPage, search: value })
+  }
 
   return (
     <>
       <div className={styles.containerAssets}>
         <div className={styles.topSection}>
           <h1 className={styles.title}>{t('assets.title')}</h1>
-          <div className={styles.positionButton} data-tour="create-asset-btn">
-            <Button title={t('assets.createAsset')} onClick={handleOpenCreate} />
-            <button
-              className={styles.manualsButton}
-              onClick={() => navigate('/manuales')}
-              aria-label={t('nav.manuals')}
-            >
-              <BookOpen size={20} />
-              <span>{t('nav.manuals')}</span>
-            </button>
-          </div>
+
+          {!isClientUser && (
+            <div className={styles.positionButton}>
+              <Button title={t('assets.createAsset')} onClick={handleOpenCreate} data-tour="create-asset-btn" />
+              <button
+                className={styles.manualsButton}
+                onClick={() => navigate('/manuales')}
+                aria-label={t('nav.manuals')}
+                data-tour="view-manuals-btn"
+              >
+                <BookOpen size={20} />
+                <span>{t('nav.manuals')}</span>
+              </button>
+            </div>
+          )}
         </div>
 
         <div className={styles.searchContainer} data-tour="search-filter">
           <SearchInput
             placeholder={t('assets.searchPlaceholder')}
-            showSelect
-            selectPlaceholder={t('assets.filterByTemplateCategory')}
-            selectOptions={dynamicCategories}
-            onInputChange={(value) => setSearchTerm(value)}
-            onSelectChange={(value) => setSelectedCategory(value)}
+            showSelect={false}
+            onInputChange={handleSearch}
           />
         </div>
 
         <div className={styles.listContainer}>
           {loading ? (
-            <>
-              <div className={styles.cardsRow}>
-                {[1, 2, 3].map((_, i) => <Skeleton key={i} height={120} width={"100%"} style={{ borderRadius: 14, marginBottom: 16 }} />)}
+            <div className={styles.loadingContainer}>
+              <div className={styles.skeletonGrid}>
+                {[1, 2, 3, 4].map((_, i) => <Skeleton key={i} height={100} width={"100%"} style={{ borderRadius: 14 }} />)}
               </div>
-              <Skeleton height={220} width={"100%"} style={{ borderRadius: 14, marginTop: 16 }} />
-            </>
-          ) : filteredAssets.length === 0 ? (
+            </div>
+          ) : assets.length === 0 ? (
             <p className={styles.loader}>{t('assets.noAssetsFound')}</p>
           ) : (
             <>
-              {paginatedAssets.map((asset) => {
+              {assets.map((asset) => {
                 const template = asset.templateId ? getTemplateById(asset.templateId) : null
+
                 return (
                   <div key={asset._id} className={styles.assetCard}>
                     <div className={styles.assetInfo}>
                       <h3 className={styles.assetTitle}>{asset.nombre}</h3>
-                      <div className={styles.assetDetails}>
-                        {template && (
-                          <>
-                            <p>
-                              <strong>{t('assets.template')}:</strong> {template.nombre}
-                            </p>
-                            <p>
-                              <strong>{t('assets.category')}:</strong> {template.categoria}
-                            </p>
-                          </>
-                        )}
-                      </div>
+                      <p className={styles.assetTemplate}>
+                        <List size={14} style={{ marginRight: 6 }} />
+                        {template ? template.nombre : t('assets.noTemplateAssigned')}
+                      </p>
+                      <p className={styles.assetDetails}>
+                        {asset.marca} {asset.modelo} {asset.numeroSerie && `| SN: ${asset.numeroSerie}`}
+                      </p>
                     </div>
 
-                    {!isClient(useAuthStore.getState().role) && (
-                      <>
-                        <div className={styles.cardSeparator}></div>
+                    <div className={styles.cardSeparator}></div>
 
-                        <div className={styles.cardActions}>
-                          <div className={styles.actionButtons}>
-                            <button
-                              className={styles.iconButton}
-                              onClick={() => handleOpenEdit(asset)}
-                              aria-label={t('assets.editAssetTooltip')}
-                              data-tooltip={t('assets.editAssetTooltip')}
-                            >
-                              <Edit size={20} />
-                            </button>
-
-                            <button
-                              className={styles.iconButton}
-                              onClick={() => handleOpenAssignTemplate(asset)}
-                              aria-label={t('assets.editTemplateTooltip')}
-                              data-tooltip={t('assets.editTemplateTooltip')}
-                            >
-                              <List size={20} />
-                            </button>
-
-
-                            <button
-                              className={styles.iconButton}
-                              onClick={() => {
-                                setAssetToDelete(asset)
-                                setIsDeleteModalOpen(true)
-                              }}
-                              aria-label={t('assets.deleteAssetTooltip')}
-                              data-tooltip={t('assets.deleteAssetTooltip')}
-                            >
-                              <Trash size={20} />
-                            </button>
-                          </div>
+                    {!isClientUser && (
+                      <div className={styles.cardActions}>
+                        <div className={styles.actionButtons}>
+                          <button
+                            className={styles.iconButton}
+                            onClick={() => handleOpenTemplate(asset)}
+                            aria-label={t('assets.assignTemplate')}
+                            data-tooltip={t('assets.assignTemplate')}
+                            data-tour="assign-template-btn"
+                          >
+                            <Plus size={24} />
+                          </button>
+                          <button
+                            className={styles.iconButton}
+                            onClick={() => handleOpenEdit(asset)}
+                            aria-label={t('assets.editAsset')}
+                            data-tooltip={t('assets.editAsset')}
+                            data-tour="edit-asset-btn"
+                          >
+                            <Edit size={24} />
+                          </button>
+                          <button
+                            className={styles.iconButton}
+                            onClick={() => {
+                              setAssetToDelete(asset)
+                              setIsDeleteModalOpen(true)
+                            }}
+                            aria-label={t('assets.deleteAsset')}
+                            data-tooltip={t('assets.deleteAsset')}
+                            data-tour="delete-asset-btn"
+                          >
+                            <Trash size={24} />
+                          </button>
                         </div>
-                      </>
+                      </div>
                     )}
                   </div>
                 )
               })}
 
               <div className={styles.pagination}>
-                <button onClick={() => handleChangePage(currentPage - 1)} disabled={currentPage === 1}>
-                  {"<"}
+                <button onClick={() => handleChangePage(pagination.page - 1)} disabled={pagination.page === 1}>
+                  &lt;
                 </button>
                 <span>
-                  {t('assets.page')} {currentPage} {t('assets.of')} {totalPages}
+                  {t('assets.page')} {pagination.page} {t('assets.of')} {pagination.totalPages}
                 </span>
-                <button onClick={() => handleChangePage(currentPage + 1)} disabled={currentPage === totalPages}>
-                  {">"}
+                <button onClick={() => handleChangePage(pagination.page + 1)} disabled={pagination.page === pagination.totalPages}>
+                  &gt;
                 </button>
               </div>
             </>
@@ -309,10 +280,7 @@ const Assets = () => {
         isOpen={isCreateModalOpen}
         onRequestClose={() => setIsCreateModalOpen(false)}
         onSubmitSuccess={handleSuccessCreateOrEdit}
-        onSubmitError={(message) => {
-          setResponseMessage(message)
-          setIsError(true)
-        }}
+        onSubmitError={handleError}
         onAdd={addAsset}
       />
 
@@ -327,64 +295,57 @@ const Assets = () => {
       <ModalAssignTemplate
         isOpen={isTemplateModalOpen}
         onRequestClose={() => setIsTemplateModalOpen(false)}
-        onSubmitSuccess={handleSuccessAssignTemplate}
         onAssignTemplate={assignTemplateToAsset}
         asset={selectedAsset}
+        onSubmitSuccess={handleSuccessAssignTemplate}
       />
 
       <ModalConfirmDelete
         isOpen={isDeleteModalOpen}
         onCancel={() => setIsDeleteModalOpen(false)}
         onConfirm={handleConfirmDelete}
-        title={t('assets.confirmDeleteAsset')}
-        description={t('assets.confirmDeleteAssetDescription')}
+        title={t('assets.confirmDeleteTitle')}
+        description={t('assets.confirmDeleteDescription')}
       />
 
-      <ModalSuccess
-        isOpen={!!responseMessage && !isError}
-        onRequestClose={closeModal}
-        mensaje={responseMessage}
-      />
-
-      <ModalError
-        isOpen={!!responseMessage && isError}
-        onRequestClose={closeModal}
-        mensaje={responseMessage}
-      />
+      <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={closeModal} mensaje={responseMessage} />
+      <ModalError isOpen={!!responseMessage && isError} onRequestClose={closeModal} mensaje={responseMessage} />
 
       {/* Botón flotante del tour estilo WhatsApp */}
-      <button
-        onClick={tourCompleted ? startTour : skipTour}
-        style={{
-          position: 'fixed',
-          bottom: '30px',
-          right: '30px',
-          width: '60px',
-          height: '60px',
-          borderRadius: '50%',
-          background: 'var(--color-secondary)',
-          color: 'white',
-          border: 'none',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '0 4px 12px rgba(5, 126, 116, 0.3)',
-          transition: 'all 0.3s ease',
-          zIndex: 1000
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'scale(1.1)';
-          e.currentTarget.style.boxShadow = '0 6px 20px rgba(5, 126, 116, 0.5)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'scale(1)';
-          e.currentTarget.style.boxShadow = '0 4px 12px rgba(5, 126, 116, 0.3)';
-        }}
-        title={tourCompleted ? t('assets.tour.buttons.restart') : t('assets.tour.buttons.skip')}
-      >
-        <HelpCircle size={28} />
-      </button>
+      {!isClientUser && (
+        <button
+          onClick={tourCompleted ? startTour : skipTour}
+          style={{
+            position: 'fixed',
+            bottom: '30px',
+            right: '30px',
+            width: '60px',
+            height: '60px',
+            borderRadius: '50%',
+            background: 'var(--color-secondary)',
+            color: 'white',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 4px 12px rgba(5, 126, 116, 0.3)',
+            transition: 'all 0.3s ease',
+            zIndex: 1000
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'scale(1.1)';
+            e.currentTarget.style.boxShadow = '0 6px 20px rgba(5, 126, 116, 0.5)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'scale(1)';
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(5, 126, 116, 0.3)';
+          }}
+          title={tourCompleted ? t('assets.tour.buttons.restart') : t('assets.tour.buttons.skip')}
+        >
+          <HelpCircle size={28} />
+        </button>
+      )}
     </>
   )
 }

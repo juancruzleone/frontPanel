@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import Button from "../../src/shared/components/Buttons/buttonCreate.tsx";
 import SearchInput from "../shared/components/Inputs/SearchInput.tsx";
 import styles from "../features/manuals/styles/manuals.module.css";
@@ -21,6 +21,7 @@ const Manuals = () => {
   const navigate = useNavigate();
   const {
     manuals,
+    pagination,
     loading,
     categories,
     addManual,
@@ -42,7 +43,6 @@ const Manuals = () => {
   const [manualToDelete, setManualToDelete] = useState<Manual | null>(null);
   const [selectedManual, setSelectedManual] = useState<Manual | null>(null);
 
-  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
 
   const role = useAuthStore((s) => s.role)
@@ -72,42 +72,6 @@ const Manuals = () => {
     })),
   ], [categories, t]);
 
-  const filteredManuals = useMemo(() => {
-    const searchTermLower = searchTerm.toLowerCase();
-    
-    return manuals.filter((manual) => {
-      if (!manual) return false;
-      
-      // Normalizar valores de los campos
-      const fieldsToSearch = [
-        manual.nombre || '',
-        manual.descripcion || '',
-        manual.autor || '',
-        manual.version || '',
-        manual.categoria || '',
-        manual.idioma || '',
-        ...(manual.tags || [])
-      ];
-
-      // Verificar coincidencia con categoría
-      const matchesCategory = !selectedCategory || manual.categoria === selectedCategory;
-      
-      // Verificar coincidencia con cualquier campo de búsqueda
-      const matchesSearch = fieldsToSearch.some(
-        field => field.toLowerCase().includes(searchTermLower)
-      );
-
-      return matchesCategory && matchesSearch;
-    });
-  }, [manuals, selectedCategory, searchTerm]);
-
-  const totalPages = Math.ceil(filteredManuals.length / itemsPerPage);
-
-  const paginatedManuals = useMemo(() => {
-    const start = (currentPage - 1) * itemsPerPage;
-    return filteredManuals.slice(start, start + itemsPerPage);
-  }, [filteredManuals, currentPage]);
-
   const handleOpenCreate = () => {
     setIsCreateModalOpen(true);
     setInitialData(null);
@@ -126,18 +90,18 @@ const Manuals = () => {
   const handleSuccessCreateOrEdit = (message: string) => {
     setIsCreateModalOpen(false);
     setIsEditModalOpen(false);
-    loadManuals();
+    loadManuals({ page: pagination.page, limit: itemsPerPage, search: searchTerm, categoria: selectedCategory });
     setResponseMessage(message);
     setIsError(false);
   };
 
   const handleSuccessUploadFile = async (file: File) => {
     if (!selectedManual || !selectedManual._id) return;
-    
+
     try {
       const result = await updateFile(selectedManual._id, file);
       setIsUploadModalOpen(false);
-      loadManuals();
+      loadManuals({ page: pagination.page, limit: itemsPerPage, search: searchTerm, categoria: selectedCategory });
       setResponseMessage(result.message);
       setIsError(false);
     } catch (err: any) {
@@ -164,7 +128,7 @@ const Manuals = () => {
     if (!manualToDelete || !manualToDelete._id) return;
     try {
       await removeManual(manualToDelete._id);
-      loadManuals();
+      loadManuals({ page: pagination.page, limit: itemsPerPage, search: searchTerm, categoria: selectedCategory });
       setResponseMessage(t('manuals.manualDeleted'));
       setIsError(false);
     } catch (err: any) {
@@ -178,22 +142,32 @@ const Manuals = () => {
   };
 
   const handleChangePage = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
+    if (page >= 1 && page <= pagination.totalPages) {
+      loadManuals({ page, limit: itemsPerPage, search: searchTerm, categoria: selectedCategory });
     }
   };
 
+  const handleSearch = (value: string) => {
+    setSearchTerm(value);
+    loadManuals({ page: 1, limit: itemsPerPage, search: value, categoria: selectedCategory });
+  }
+
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value);
+    loadManuals({ page: 1, limit: itemsPerPage, search: searchTerm, categoria: value });
+  }
+
   const handleViewFile = (manual: Manual) => {
-    if (manual.archivo?.url) {
+    if (manual.archivo && 'url' in manual.archivo) {
       window.open(manual.archivo.url, '_blank');
     }
   };
 
   const handleDownloadFile = (manual: Manual) => {
-    if (manual.archivo?.url) {
+    if (manual.archivo && 'url' in manual.archivo) {
       const link = document.createElement('a');
       link.href = manual.archivo.url;
-      link.download = manual.archivo.nombreOriginal || `${manual.nombre}.pdf`;
+      link.download = (manual.archivo as any).nombreOriginal || `${manual.nombre}.pdf`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -224,15 +198,11 @@ const Manuals = () => {
     return categoryMap[category] || category;
   };
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchTerm, selectedCategory]);
-
   return (
     <>
       <div className={styles.containerManuals}>
         <div className={styles.headerContainer}>
-          <button 
+          <button
             className={styles.backButton}
             onClick={() => navigate('/activos')}
             aria-label={t('common.backToAssets')}
@@ -257,8 +227,8 @@ const Manuals = () => {
             showSelect
             selectPlaceholder={t('manuals.filterByCategory')}
             selectOptions={dynamicCategories}
-            onInputChange={(value) => setSearchTerm(value)}
-            onSelectChange={(value) => setSelectedCategory(value)}
+            onInputChange={handleSearch}
+            onSelectChange={handleCategoryChange}
           />
         </div>
 
@@ -266,26 +236,26 @@ const Manuals = () => {
           {loading ? (
             <>
               <div className={styles.cardsRow}>
-                {[1,2,3].map((_,i) => <Skeleton key={i} height={120} width={"100%"} style={{borderRadius:14, marginBottom:16}} />)}
+                {[1, 2, 3].map((_, i) => <Skeleton key={i} height={120} width={"100%"} style={{ borderRadius: 14, marginBottom: 16 }} />)}
               </div>
-              <Skeleton height={220} width={"100%"} style={{borderRadius:14, marginTop:16}} />
+              <Skeleton height={220} width={"100%"} style={{ borderRadius: 14, marginTop: 16 }} />
             </>
-          ) : filteredManuals.length === 0 ? (
+          ) : manuals.length === 0 ? (
             <p className={styles.loader}>{t('manuals.noManualsFound')}</p>
           ) : (
             <>
-              {paginatedManuals.map((manual) => (
+              {manuals.map((manual) => (
                 <div key={manual._id} className={styles.manualCard}>
-                  <div className={styles.manualInfo}>
+                  <div className={manuals.length > 0 ? styles.manualInfo : ""}>
                     <div className={styles.manualHeader}>
                       <h3 className={styles.manualTitle}>{manual.nombre}</h3>
                       <span className={styles.manualCategory}>{translateCategory(manual.categoria)}</span>
                     </div>
-                    
+
                     {manual.descripcion && (
                       <p className={styles.manualDescription}>{manual.descripcion}</p>
                     )}
-                    
+
                     <div className={styles.manualDetails}>
                       <div className={styles.detailItem}>
                         <strong>{t('manuals.version')}:</strong> {manual.version || 'N/A'}
@@ -311,12 +281,12 @@ const Manuals = () => {
                       </div>
                     )}
 
-                    {manual.archivo && (
+                    {manual.archivo && 'url' in manual.archivo && (
                       <div className={styles.fileInfo}>
                         <FileText size={16} />
-                        <span>{manual.archivo.nombreOriginal}</span>
+                        <span>{(manual.archivo as any).nombreOriginal}</span>
                         <span className={styles.fileSize}>
-                          ({formatFileSize(manual.archivo.tamaño)})
+                          ({formatFileSize((manual.archivo as any).tamaño)})
                         </span>
                       </div>
                     )}
@@ -383,17 +353,17 @@ const Manuals = () => {
 
               <div className={styles.pagination}>
                 <button
-                  onClick={() => handleChangePage(currentPage - 1)}
-                  disabled={currentPage === 1}
+                  onClick={() => handleChangePage(pagination.page - 1)}
+                  disabled={pagination.page === 1}
                 >
                   &lt;
                 </button>
                 <span>
-                  {t('manuals.page')} {currentPage} {t('manuals.of')} {totalPages}
+                  {t('manuals.page')} {pagination.page} {t('manuals.of')} {pagination.totalPages}
                 </span>
                 <button
-                  onClick={() => handleChangePage(currentPage + 1)}
-                  disabled={currentPage === totalPages}
+                  onClick={() => handleChangePage(pagination.page + 1)}
+                  disabled={pagination.page === pagination.totalPages}
                 >
                   &gt;
                 </button>
@@ -407,6 +377,7 @@ const Manuals = () => {
         isOpen={isCreateModalOpen}
         onRequestClose={() => setIsCreateModalOpen(false)}
         onSubmitSuccess={handleSuccessCreateOrEdit}
+        onSubmitError={handleError}
         onAdd={addManual}
       />
 
@@ -414,8 +385,9 @@ const Manuals = () => {
         isOpen={isEditModalOpen}
         onRequestClose={() => setIsEditModalOpen(false)}
         onSubmitSuccess={handleSuccessCreateOrEdit}
+        onSubmitError={handleError}
         onEdit={editManual}
-        initialData={initialData}
+        initialData={initialData as Manual}
       />
 
       <ModalUploadFile
@@ -435,7 +407,7 @@ const Manuals = () => {
       />
 
       <ModalSuccess
-        isOpen={!!responseMessage}
+        isOpen={!!responseMessage && !isError}
         onRequestClose={closeModal}
         message={responseMessage}
       />

@@ -40,12 +40,25 @@ const useForms = () => {
   const [error, setError] = useState<string | null>(null)
   const [categories, setCategories] = useState<string[]>([])
 
-  const loadTemplates = useCallback(async () => {
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 10,
+    totalPages: 1,
+    total: 0
+  })
+
+  const loadTemplates = useCallback(async (params: { page?: number, limit?: number, search?: string } = {}) => {
     setLoading(true)
     setError(null)
     try {
-      const data = await fetchFormTemplates()
-      setTemplates(data)
+      const result = await fetchFormTemplates(params)
+      if (result.success && result.pagination) {
+        setTemplates(result.data)
+        setPagination(result.pagination)
+      } else {
+        // Fallback para formato antiguo
+        setTemplates(result)
+      }
     } catch (err: any) {
       setError(err.message)
       console.error("Error loading templates:", err)
@@ -56,15 +69,15 @@ const useForms = () => {
 
   const loadCategories = useCallback(async () => {
     try {
-      
-      
+
+
       const response = await fetchFormCategories()
-      
+
       const fetchedCategories = response.categories || response
-      
+
       const categoryNames = fetchedCategories.map((cat: any) => cat.nombre)
-      
-      
+
+
       setCategories(categoryNames)
     } catch (err: any) {
       console.error("Error loading categories:", err)
@@ -201,6 +214,7 @@ const useForms = () => {
     resetCurrentTemplate,
     setCurrentTemplate,
     clearError,
+    pagination,
   }
 }
 

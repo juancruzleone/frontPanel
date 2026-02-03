@@ -7,8 +7,13 @@ const getToken = () => {
   return useAuthStore.getState().token
 }
 
-export const fetchAssets = async (): Promise<any[]> => {
-  const response = await fetch(`${API_URL}activos`, {
+export const fetchAssets = async (params: { page?: number, limit?: number, search?: string } = {}): Promise<any> => {
+  const queryParams = new URLSearchParams()
+  if (params.page) queryParams.append('page', params.page.toString())
+  if (params.limit) queryParams.append('limit', params.limit.toString())
+  if (params.search) queryParams.append('search', params.search)
+
+  const response = await fetch(`${API_URL}activos?${queryParams.toString()}`, {
     headers: getAuthHeaders(),
   })
 
@@ -18,22 +23,18 @@ export const fetchAssets = async (): Promise<any[]> => {
   }
 
   const result = await response.json()
-  return result.success ? result.data : result
+  return result;
 }
 
-export const fetchTemplates = async (): Promise<any[]> => {
-  console.log('=== DEBUG ASSETS TEMPLATES SERVICE ===')
-  console.log('API_URL:', API_URL)
-  console.log('Headers:', getAuthHeaders())
-  console.log('URL:', `${API_URL}plantillas`)
-  
-  const response = await fetch(`${API_URL}plantillas`, {
+export const fetchTemplates = async (params: { page?: number, limit?: number, search?: string } = {}): Promise<any> => {
+  const queryParams = new URLSearchParams()
+  if (params.page) queryParams.append('page', params.page.toString())
+  if (params.limit) queryParams.append('limit', params.limit.toString())
+  if (params.search) queryParams.append('search', params.search)
+
+  const response = await fetch(`${API_URL}plantillas?${queryParams.toString()}`, {
     headers: getAuthHeaders(),
   })
-
-  console.log('Response status:', response.status)
-  console.log('Response ok:', response.ok)
-  console.log('Response headers:', Object.fromEntries(response.headers.entries()))
 
   if (!response.ok) {
     const error = await response.json()
@@ -41,10 +42,7 @@ export const fetchTemplates = async (): Promise<any[]> => {
   }
 
   const result = await response.json()
-  console.log('Result:', result)
-  console.log('=====================================')
-  
-  return result.success ? result.data : result
+  return result
 }
 
 export const createAsset = async (asset: any) => {
@@ -82,7 +80,7 @@ export const updateAsset = async (id: string, asset: any) => {
   if (!text) {
     return null
   }
-  
+
   const result = JSON.parse(text)
   return result.success ? result.data : result
 }
@@ -103,7 +101,7 @@ export const deleteAsset = async (id: string) => {
   if (!text) {
     return null
   }
-  
+
   const result = JSON.parse(text)
   return result.success ? result.data : result
 }

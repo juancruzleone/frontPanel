@@ -7,12 +7,26 @@ const getToken = () => {
   return useAuthStore.getState().token;
 };
 
-export const fetchInstallations = async (): Promise<any[]> => {
-  const response = await fetch(`${API_URL}installations`, {
+export const fetchInstallations = async (params: { page?: number, limit?: number, search?: string, category?: string } = {}): Promise<any> => {
+  const queryParams = new URLSearchParams()
+  if (params.page) queryParams.append('page', params.page.toString())
+  if (params.limit) queryParams.append('limit', params.limit.toString())
+  if (params.search) queryParams.append('search', params.search)
+  if (params.category) queryParams.append('category', params.category)
+
+  const response = await fetch(`${API_URL}installations?${queryParams.toString()}`, {
     headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error("Error al obtener instalaciones");
-  return await response.json();
+  const result = await response.json();
+
+  // Si viene con el nuevo formato de paginación
+  if (result.success && result.pagination) {
+    return result;
+  }
+
+  // Formato anterior (array simple)
+  return result;
 };
 
 export const fetchInstallationById = async (id: string): Promise<any> => {

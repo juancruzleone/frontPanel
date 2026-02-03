@@ -7,8 +7,15 @@ const getToken = () => {
   return useAuthStore.getState().token;
 };
 
-export const fetchManuals = async (): Promise<any[]> => {
-  const response = await fetch(`${API_URL}manuales`, {
+export const fetchManuals = async (params: { page?: number, limit?: number, search?: string, assetId?: string, categoria?: string } = {}): Promise<any> => {
+  const queryParams = new URLSearchParams()
+  if (params.page) queryParams.append('page', params.page.toString())
+  if (params.limit) queryParams.append('limit', params.limit.toString())
+  if (params.search) queryParams.append('search', params.search)
+  if (params.assetId) queryParams.append('assetId', params.assetId)
+  if (params.categoria) queryParams.append('categoria', params.categoria)
+
+  const response = await fetch(`${API_URL}manuales?${queryParams.toString()}`, {
     headers: getAuthHeaders(),
   });
 

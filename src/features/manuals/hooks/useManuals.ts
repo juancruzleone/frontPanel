@@ -44,6 +44,14 @@ const useManuals = () => {
   const [errorLoadingAssets, setErrorLoadingAssets] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 10,
+    totalPages: 1,
+    total: 0
+  })
+
   const [formData, setFormData] = useState<Omit<Manual, '_id'>>({
     nombre: '',
     descripcion: '',
@@ -71,8 +79,8 @@ const useManuals = () => {
     setLoadingAssets(true);
     setErrorLoadingAssets(null);
     try {
-      const data = await fetchAssets();
-      setAssets(data);
+      const data = await fetchAssets({ page: 1, limit: 1000 }); // All assets for filter/select
+      setAssets(data.success ? data.data : data);
     } catch (err: any) {
       console.error("Error al cargar activos:", err);
       setErrorLoadingAssets(err.message);
@@ -81,12 +89,19 @@ const useManuals = () => {
     }
   }, []);
 
-  const loadManuals = useCallback(async () => {
+  const loadManuals = useCallback(async (params: { page?: number, limit?: number, search?: string, assetId?: string, categoria?: string } = {}) => {
     setLoading(true);
     try {
-      const data = await fetchManuals();
-      setManuals(data);
-      setCategories(extractCategories(data));
+      const result = await fetchManuals(params);
+      if (result.success && result.pagination) {
+        setManuals(result.data);
+        setPagination(result.pagination);
+        setCategories(extractCategories(result.data));
+      } else {
+        // Fallback para formato antiguo
+        setManuals(result);
+        setCategories(extractCategories(result));
+      }
     } catch (err: any) {
       console.error("Error al cargar manuales:", err);
       setError(err.message);
@@ -110,7 +125,7 @@ const useManuals = () => {
   }, []);
 
   useEffect(() => {
-    loadManuals();
+    loadManuals({ page: 1, limit: 10 });
     loadAssets();
   }, [loadManuals, loadAssets]);
 
@@ -277,6 +292,7 @@ const useManuals = () => {
     resetForm,
     setFormValues,
     validateForm,
+    pagination,
   };
 };
 

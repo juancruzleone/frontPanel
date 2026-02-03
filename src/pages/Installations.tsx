@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useState, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 import Button from "../../src/shared/components/Buttons/buttonCreate.tsx"
 import SearchInput from "../shared/components/Inputs/SearchInput.tsx"
@@ -28,6 +28,7 @@ const Installations = () => {
   const { t, i18n } = useTranslation()
   const {
     installations,
+    pagination,
     loading,
     assets,
     loadingAssets,
@@ -41,7 +42,7 @@ const Installations = () => {
   } = useInstallations()
 
   // Función para traducir el tipo de instalación
-  const translateInstallationType = (type: string) => {
+  const translateInstallationType = useCallback((type: string) => {
     if (!type) return ''
 
     // Mapeo sin duplicados
@@ -98,58 +99,25 @@ const Installations = () => {
       'Geschäft': 'store',
       'Krankenhaus': 'hospital',
       'Schule': 'school',
-      'Wohn': 'residential',
-      'Gewerblich': 'commercial',
-      'Industriell': 'industrial',
-      'Medizinisch': 'medical',
+      'Universität': 'university',
+      'Wohnen': 'residential',
+      'Gewerbe': 'commercial',
+      'Industrie': 'industrial',
+      'Medizin': 'medical',
       'Bildung': 'educational',
       'Einzelhandel': 'retail',
       'Logistik': 'logistics',
       'Fertigung': 'manufacturing',
       'Dienstleistung': 'service',
-      'Andere': 'other',
-      // Italiano
-      'Ufficio': 'office',
-      'Fabbrica': 'factory',
-      'Magazzino': 'warehouse',
-      'Negozio': 'store',
-      'Ospedale': 'hospital',
-      'Scuola': 'school',
-      'Residenziale': 'residential',
-      'Industriale': 'industrial',
-      'Medico': 'medical',
-      'Educativo_IT': 'educational',
-      'Dettagliante': 'retail',
-      'Logistica': 'logistics',
-      'Produzione': 'manufacturing',
-      'Servizio': 'service',
-      'Altro': 'other',
-      // Portugués
-      'Escritório': 'office',
-      'Armazém': 'warehouse',
-      'Loja': 'store',
-      'Escola': 'school',
-      'Educacional': 'educational',
-      'Varejista': 'retail',
-      'Manufatura': 'manufacturing',
-      'Serviço': 'service',
-      'Outro': 'other'
+      'Sonstiges': 'other'
     }
 
-    // Buscar en el mapeo primero
-    const mappedType = typeMapping[type]
-    if (mappedType) {
-      return t(`installations.installationTypes.${mappedType}`)
-    }
-
-    // Si no está en el mapeo, intentar normalizar
-    const normalizedType = type.toLowerCase().replace(/\s+/g, '').replace(/[^a-z0-9]/g, '')
-    const translation = t(`installations.installationTypes.${normalizedType}`, type)
-    return translation === type ? type : translation
-  }
+    const key = typeMapping[type] || type.toLowerCase()
+    return t(`installations.types.${key}`, type)
+  }, [t])
 
   // Función para traducir elementos de dirección
-  const translateAddressElement = (element: string, type: string) => {
+  const translateAddressElement = useCallback((element: string, type: string) => {
     if (!element) return ''
 
     // Normalizar el elemento para buscar en las traducciones
@@ -158,10 +126,10 @@ const Installations = () => {
     // Intentar traducir, si no existe la traducción, devolver el original
     const translation = t(`installations.addressTypes.${normalizedElement}`, element)
     return translation === element ? element : translation
-  }
+  }, [t])
 
   // Función para traducir la dirección completa
-  const translateAddress = (province: string, city: string, address: string, floorSector: string) => {
+  const translateAddress = useCallback((province: string, city: string, address: string, floorSector: string) => {
     const parts = []
 
     if (province) {
@@ -185,7 +153,7 @@ const Installations = () => {
     }
 
     return parts.join(' | ')
-  }
+  }, [translateAddressElement])
 
   const { categories, addCategory, loadCategories } = useCategories()
   const { installationTypes, addInstallationType, loadInstallationTypes } = useInstallationTypes()
@@ -196,8 +164,6 @@ const Installations = () => {
   const isClientUser = role && isClient(role)
   const isRestricted = isTechnician || isClientUser
   const { tourCompleted, startTour, skipTour } = useInstallationsTour()
-
-
 
   const [selectedCategory, setSelectedCategory] = useState("")
   const [searchTerm, setSearchTerm] = useState("")
@@ -214,13 +180,13 @@ const Installations = () => {
   const [isError, setIsError] = useState(false)
   const [installationToDelete, setInstallationToDelete] = useState<Installation | null>(null)
   const [selectedInstallation, setSelectedInstallation] = useState<Installation | null>(null)
-  const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 4
 
   useEffect(() => {
     document.title = t("installations.titlePage")
     loadCategories()
-  }, [t, i18n.language, loadCategories])
+    loadInstallations({ page: 1, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
+  }, [t, i18n.language]) // Removido loadCategories y loadInstallations de deps para evitar loops innecesarios
 
   // Iniciar el tour automáticamente si no se ha completado
   useEffect(() => {
@@ -243,34 +209,6 @@ const Installations = () => {
     ],
     [installationTypes, t],
   )
-
-  const filteredInstallations = useMemo(() => {
-    const searchTermLower = searchTerm.toLowerCase()
-    return installations.filter((inst) => {
-      if (!inst) return false
-
-      const fieldsToSearch = [
-        inst.company || "",
-        inst.address || "",
-        inst.city || "",
-        inst.province || "",
-        inst.floorSector || "",
-        inst.installationType || "",
-        inst.postalCode || "",
-      ]
-
-      const matchesCategory = !selectedCategory || inst.installationType === selectedCategory
-      const matchesSearch = fieldsToSearch.some((field) => field.toLowerCase().includes(searchTermLower))
-
-      return matchesCategory && matchesSearch
-    })
-  }, [installations, selectedCategory, searchTerm])
-
-  const totalPages = Math.ceil(filteredInstallations.length / itemsPerPage)
-  const paginatedInstallations = useMemo(() => {
-    const start = (currentPage - 1) * itemsPerPage
-    return filteredInstallations.slice(start, start + itemsPerPage)
-  }, [filteredInstallations, currentPage])
 
   const handleOpenCreate = () => {
     setIsCreateModalOpen(true)
@@ -298,14 +236,14 @@ const Installations = () => {
   const handleSuccessCreateOrEdit = (message: string) => {
     setIsCreateModalOpen(false)
     setIsEditModalOpen(false)
-    loadInstallations()
+    loadInstallations({ page: pagination.page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
     setResponseMessage(message)
     setIsError(false)
   }
 
   const handleSuccessAddDevice = (message: string) => {
     setIsDeviceModalOpen(false)
-    loadInstallations()
+    loadInstallations({ page: pagination.page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
     setResponseMessage(message)
     setIsError(false)
   }
@@ -323,7 +261,7 @@ const Installations = () => {
     // Recargar tipos de instalación para actualizar la lista
     await loadInstallationTypes()
     // Recargar instalaciones para actualizar los tipos
-    loadInstallations()
+    loadInstallations({ page: pagination.page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
   }
 
   const handleError = (message: string) => {
@@ -346,7 +284,7 @@ const Installations = () => {
 
     try {
       await removeInstallation(installationToDelete._id)
-      loadInstallations()
+      loadInstallations({ page: pagination.page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
       setResponseMessage("Instalación eliminada con éxito")
       setIsError(false)
     } catch (err: any) {
@@ -360,14 +298,20 @@ const Installations = () => {
   }
 
   const handleChangePage = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page)
+    if (page >= 1 && page <= pagination.totalPages) {
+      loadInstallations({ page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
     }
   }
 
-  useEffect(() => {
-    setCurrentPage(1)
-  }, [searchTerm, selectedCategory])
+  const handleSearch = (value: string) => {
+    setSearchTerm(value)
+    loadInstallations({ page: 1, limit: itemsPerPage, search: value, category: selectedCategory })
+  }
+
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value)
+    loadInstallations({ page: 1, limit: itemsPerPage, search: searchTerm, category: value })
+  }
 
   return (
     <>
@@ -425,8 +369,8 @@ const Installations = () => {
             showSelect
             selectPlaceholder={t('installations.filterByInstallationType')}
             selectOptions={dynamicCategories}
-            onInputChange={(value) => setSearchTerm(value)}
-            onSelectChange={(value) => setSelectedCategory(value)}
+            onInputChange={handleSearch}
+            onSelectChange={handleCategoryChange}
           />
         </div>
 
@@ -439,17 +383,17 @@ const Installations = () => {
               <Skeleton height={220} width={"100%"} style={{ borderRadius: 14 }} />
 
             </div>
-          ) : filteredInstallations.length === 0 ? (
+          ) : installations.length === 0 ? (
             <p className={styles.loader}>{t('installations.noInstallationsFound')}</p>
           ) : (
             <>
-              {paginatedInstallations.map((inst) => (
+              {installations.map((inst) => (
                 <div key={inst._id} className={styles.installationCard}>
                   <div className={styles.installationInfo}>
                     <h3 className={styles.installationTitle}>{inst.company}</h3>
                     <p className={styles.installationType}>{translateInstallationType(inst.installationType)}</p>
                     <address className={styles.installationAddress}>
-                      {translateAddress(inst.province, inst.city, inst.address, inst.floorSector)}
+                      {translateAddress(inst.province || "", inst.city || "", inst.address, inst.floorSector || "")}
                     </address>
                   </div>
 
@@ -500,13 +444,13 @@ const Installations = () => {
               ))}
 
               <div className={styles.pagination}>
-                <button onClick={() => handleChangePage(currentPage - 1)} disabled={currentPage === 1}>
+                <button onClick={() => handleChangePage(pagination.page - 1)} disabled={pagination.page === 1}>
                   &lt;
                 </button>
                 <span>
-                  {t('installations.page')} {currentPage} {t('installations.of')} {totalPages}
+                  {t('installations.page')} {pagination.page} {t('installations.of')} {pagination.totalPages}
                 </span>
-                <button onClick={() => handleChangePage(currentPage + 1)} disabled={currentPage === totalPages}>
+                <button onClick={() => handleChangePage(pagination.page + 1)} disabled={pagination.page === pagination.totalPages}>
                   &gt;
                 </button>
               </div>

@@ -7,13 +7,18 @@ const getToken = () => {
   return useAuthStore.getState().token
 }
 
-export const fetchFormTemplates = async () => {
-  const response = await fetch(`${API_URL}plantillas`, {
+export const fetchFormTemplates = async (params: { page?: number, limit?: number, search?: string } = {}) => {
+  const queryParams = new URLSearchParams()
+  if (params.page) queryParams.append('page', params.page.toString())
+  if (params.limit) queryParams.append('limit', params.limit.toString())
+  if (params.search) queryParams.append('search', params.search)
+
+  const response = await fetch(`${API_URL}plantillas?${queryParams.toString()}`, {
     headers: getAuthHeaders(),
   })
   if (!response.ok) throw new Error("Error al obtener plantillas")
   const result = await response.json()
-  return result.success ? result.data : result
+  return result
 }
 
 export const fetchFormTemplateById = async (id: string) => {
@@ -78,10 +83,10 @@ export const fetchFormCategories = async () => {
   const response = await fetch(`${API_URL}categorias-formularios`, {
     headers: getAuthHeaders(),
   })
-  
+
   if (!response.ok) throw new Error("Error al obtener categorías")
   const result = await response.json()
-  
+
   // El backend ya filtra por tenantId, devolver resultado directamente
   return result.success ? result.data : result
 }

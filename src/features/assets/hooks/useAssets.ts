@@ -63,15 +63,22 @@ const useAssets = () => {
     }
   }, [templates])
 
-  const loadTemplates = useCallback(async () => {
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 10,
+    totalPages: 1,
+    total: 0
+  })
+
+  const loadTemplates = useCallback(async (params: { page?: number, limit?: number, search?: string } = {}) => {
     setTemplatesLoading(true)
     try {
-      console.log('=== DEBUG ASSETS TEMPLATES ===')
-      console.log('Cargando plantillas...')
-      const data = await fetchTemplates()
-      console.log('Plantillas cargadas:', data)
-      console.log('==============================')
-      setTemplates(data)
+      const result = await fetchTemplates(params)
+      if (result.success && result.pagination) {
+        setTemplates(result.data)
+      } else {
+        setTemplates(result)
+      }
     } catch (err: any) {
       console.error("Error al cargar plantillas:", err)
       setError(err.message)
@@ -80,11 +87,17 @@ const useAssets = () => {
     }
   }, [])
 
-  const loadAssets = useCallback(async () => {
+  const loadAssets = useCallback(async (params: { page?: number, limit?: number, search?: string } = {}) => {
     setLoading(true)
     try {
-      const data = await fetchAssets()
-      setAssets(data)
+      const result = await fetchAssets(params)
+      if (result.success && result.pagination) {
+        setAssets(result.data)
+        setPagination(result.pagination)
+      } else {
+        // Fallback para formato antiguo
+        setAssets(result)
+      }
     } catch (err: any) {
       console.error("Error al cargar activos:", err)
       setError(err.message)
@@ -94,8 +107,8 @@ const useAssets = () => {
   }, [])
 
   useEffect(() => {
-    loadTemplates()
-    loadAssets()
+    loadTemplates({ page: 1, limit: 100 }) // Load all relevant templates for selection
+    loadAssets({ page: 1, limit: 10 })
   }, [loadTemplates, loadAssets])
 
   useEffect(() => {
@@ -169,6 +182,7 @@ const useAssets = () => {
     assignTemplateToAsset,
     getTemplateById,
     getTemplatesByCategory,
+    pagination,
   }
 }
 

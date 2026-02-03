@@ -114,16 +114,31 @@ const useInstallations = () => {
     }
   }, [])
 
-  const loadInstallations = useCallback(async () => {
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 10,
+    totalPages: 1,
+    total: 0
+  })
+
+  const loadInstallations = useCallback(async (params: { page?: number, limit?: number, search?: string, category?: string } = {}) => {
     if (!token || !isAuthenticated) {
       return
     }
-    
+
     setLoading(true)
     try {
-      const data = await fetchInstallations()
-      setInstallations(data)
-      setInstallationTypes(extractInstallationTypes(data))
+      const result = await fetchInstallations(params)
+
+      if (result.success && result.pagination) {
+        setInstallations(result.data)
+        setPagination(result.pagination)
+        setInstallationTypes(extractInstallationTypes(result.data))
+      } else {
+        // Fallback para formato antiguo
+        setInstallations(result)
+        setInstallationTypes(extractInstallationTypes(result))
+      }
     } catch (err: any) {
       console.error("Error al cargar instalaciones:", err)
       setError(err.message)
@@ -270,10 +285,10 @@ const useInstallations = () => {
   const addDeviceToInstallation = useCallback(async (installationId: string, device: Device): Promise<{ message: string }> => {
     try {
       const result = await apiAddDeviceToInstallation(installationId, device)
-      
+
       // Usar el dispositivo devuelto por la API que incluye el _id generado
       const addedDevice = result.success ? result.data : result
-      
+
       // Asegurar que el dispositivo tenga todos los datos necesarios
       const completeDevice = {
         ...device,
@@ -287,16 +302,16 @@ const useInstallations = () => {
         modelo: device.modelo,
         numeroSerie: device.numeroSerie,
       }
-      
+
       setInstallationDevices((prev) => [...prev, completeDevice])
 
       setInstallations((prev) =>
         prev.map((inst) =>
           inst._id === installationId
             ? {
-                ...inst,
-                devices: [...(inst.devices || []), completeDevice],
-              }
+              ...inst,
+              devices: [...(inst.devices || []), completeDevice],
+            }
             : inst,
         ),
       )
@@ -353,6 +368,7 @@ const useInstallations = () => {
     setFormErrors,
     resetForm,
     setFormValues,
+    pagination,
   }
 }
 
