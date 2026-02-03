@@ -36,59 +36,67 @@ const useSubscriptions = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const frequencyOptions: FrequencyOption[] = [
-    {
-      value: 'mensual',
-      label: t('subscriptions.frequency.monthly'),
-      months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-    },
-    {
-      value: 'trimestral',
-      label: t('subscriptions.frequency.quarterly'),
-      months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-    },
-    {
-      value: 'semestral',
-      label: t('subscriptions.frequency.semiannual'),
-      months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-    },
-    {
-      value: 'anual',
-      label: t('subscriptions.frequency.annual'),
-      months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+  const [config, setConfig] = useState<any>(null)
+
+  useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        const API_URL = import.meta.env.VITE_API_URL
+        const response = await fetch(`${API_URL}config/subscriptions`, {
+          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        })
+        if (response.ok) {
+          const result = await response.json()
+          setConfig(result.data)
+        }
+      } catch (err) {
+        console.error("Error fetching subscription config:", err)
+      }
     }
-  ]
+    fetchConfig()
+  }, [])
+
+  const frequencyOptions: FrequencyOption[] = (config?.frequencies || [
+    { value: 'mensual', label: t('subscriptions.frequency.monthly') },
+    { value: 'trimestral', label: t('subscriptions.frequency.quarterly') },
+    { value: 'semestral', label: t('subscriptions.frequency.semiannual') },
+    { value: 'anual', label: t('subscriptions.frequency.annual') }
+  ]).map((f: any) => ({
+    value: f.value || f.id,
+    label: t(`subscriptions.frequency.${f.id || f.value}`),
+    months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+  }))
 
   // Función para calcular los meses entre dos fechas
   const getMonthsInRange = (startDate: Date | undefined, endDate: Date | undefined): string[] => {
     if (!startDate || !endDate) return []
-    
+
     const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
     const months: string[] = []
-    
+
     const start = new Date(startDate)
     const end = new Date(endDate)
-    
+
     // Asegurar que las fechas sean válidas
     if (isNaN(start.getTime()) || isNaN(end.getTime())) return []
-    
+
     let currentDate = new Date(start.getFullYear(), start.getMonth(), 1)
     const endMonth = new Date(end.getFullYear(), end.getMonth(), 1)
-    
+
     // Iterar por cada mes en el rango
     while (currentDate <= endMonth) {
       const monthIndex = currentDate.getMonth()
       const monthName = monthNames[monthIndex]
-      
+
       // Evitar duplicados
       if (!months.includes(monthName)) {
         months.push(monthName)
       }
-      
+
       // Avanzar al siguiente mes
       currentDate.setMonth(currentDate.getMonth() + 1)
     }
-    
+
     return months
   }
 
@@ -97,7 +105,7 @@ const useSubscriptions = () => {
     if (frequency === 'mensual' && startDate && endDate) {
       return getMonthsInRange(startDate, endDate)
     }
-    
+
     // Para otras frecuencias, retornar todos los meses
     const option = frequencyOptions.find(opt => opt.value === frequency)
     return option ? option.months : []
@@ -115,10 +123,10 @@ const useSubscriptions = () => {
         'pending': 'pending'
       }
       const mappedStatus = statusMap[estado] || 'active'
-      
+
       return mappedStatus
     }
-    
+
     // Parsear fecha sin conversión de zona horaria
     const parseDate = (dateInput: string | Date | undefined): Date | undefined => {
       if (!dateInput) return undefined
@@ -133,18 +141,18 @@ const useSubscriptions = () => {
       // Si no coincide, intentar parseo normal
       return new Date(dateInput)
     }
-    
+
     const startDate = parseDate(installation.fechaInicio)
     const endDate = parseDate(installation.fechaFin)
     // Normalizar frecuencia a minúsculas para coincidir con las opciones del select
     const frequency = installation.frecuencia ? installation.frecuencia.toLowerCase() : ''
-    
+
     // Calcular los meses según la frecuencia y las fechas
     let months: string[] = []
-    
+
     // Normalizar frecuencia para comparación (puede venir como 'Mensual' o 'mensual')
     const normalizedFrequency = frequency.toLowerCase()
-    
+
     if (normalizedFrequency === 'mensual') {
       // Para frecuencia mensual, SIEMPRE calcular basándose en las fechas
       // No usar los meses guardados porque pueden estar desactualizados
@@ -156,7 +164,7 @@ const useSubscriptions = () => {
       // Si no hay meses guardados, calcularlos según la frecuencia
       months = getMonthsByFrequency(frequency, startDate, endDate)
     }
-    
+
     return {
       _id: installation._id || '',
       installationId: installation._id || '',
@@ -179,12 +187,12 @@ const useSubscriptions = () => {
     try {
       setLoading(true)
       setError(null)
-      
+
       const installationsData = await fetchInstallations()
-      
+
       setInstallations(installationsData)
       const subscriptionsData = installationsData.map(mapInstallationToSubscription)
-      
+
       setSubscriptions(subscriptionsData)
     } catch (err: any) {
       setError(err.message || 'Error al cargar abonos')
@@ -204,16 +212,16 @@ const useSubscriptions = () => {
   const updateSubscription = async (subscriptionId: string, data: Partial<Subscription>) => {
     const installation = installations.find(inst => inst._id === subscriptionId)
     if (!installation) throw new Error(t('subscriptions.installationNotFound'))
-    
+
     // Determinar los meses según la frecuencia
     let monthsToSave = data.months || []
-    
+
     if (data.frequency) {
       if (data.frequency === 'mensual') {
         // Para mensual, calcular meses basados en el rango de fechas
         const startDate = data.startDate || installation.fechaInicio
         const endDate = data.endDate || installation.fechaFin
-        
+
         if (startDate && endDate) {
           monthsToSave = getMonthsInRange(
             startDate instanceof Date ? startDate : new Date(startDate),
@@ -233,7 +241,7 @@ const useSubscriptions = () => {
         monthsToSave = installation.mesesFrecuencia || []
       }
     }
-    
+
     // Mapear la frecuencia al formato esperado por el backend
     const mapFrequency = (freq: string): string => {
       const frequencyMap: Record<string, string> = {
@@ -244,11 +252,11 @@ const useSubscriptions = () => {
       }
       return frequencyMap[freq] || freq
     }
-    
+
     // Función para formatear fecha sin conversión de zona horaria
     const formatDateForBackend = (dateInput: string | Date | undefined) => {
       if (!dateInput) return null
-      
+
       let dateStr: string
       if (dateInput instanceof Date) {
         const year = dateInput.getFullYear()
@@ -256,13 +264,13 @@ const useSubscriptions = () => {
         const day = String(dateInput.getDate()).padStart(2, '0')
         return `${year}-${month}-${day}`
       }
-      
+
       dateStr = dateInput
       // Si ya está en formato YYYY-MM-DD, devolverlo tal cual
       if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
         return dateStr
       }
-      
+
       // Parsear y formatear sin conversión de zona horaria
       const date = new Date(dateStr)
       const year = date.getFullYear()
@@ -270,7 +278,7 @@ const useSubscriptions = () => {
       const day = String(date.getDate()).padStart(2, '0')
       return `${year}-${month}-${day}`
     }
-    
+
     // Mapear estado de inglés a español
     const mapStatus = (status: string): string => {
       const statusMap: Record<string, string> = {
@@ -280,7 +288,7 @@ const useSubscriptions = () => {
       }
       return statusMap[status] || status
     }
-    
+
     const updateData = {
       fechaInicio: data.startDate ? formatDateForBackend(data.startDate) : installation.fechaInicio,
       fechaFin: data.endDate ? formatDateForBackend(data.endDate) : installation.fechaFin,
@@ -288,15 +296,15 @@ const useSubscriptions = () => {
       mesesFrecuencia: monthsToSave,
       estado: data.status ? mapStatus(data.status) : installation.estado || 'Activo',
     }
-    
-    
-    
-    
+
+
+
+
     await updateSubscriptionService(subscriptionId, updateData)
-    
-    
+
+
     await loadSubscriptions()
-    
+
   }
 
   const [formData, setFormData] = useState<{
@@ -317,7 +325,7 @@ const useSubscriptions = () => {
 
   const handleFieldChange = useCallback((name: string, value: any) => {
     setFormData(prev => ({ ...prev, [name]: value }))
-    
+
     // Limpiar el error del campo específico inmediatamente cuando hay un valor válido
     if (value) {
       const fieldMapping: Record<string, string> = {
@@ -326,16 +334,16 @@ const useSubscriptions = () => {
         'endDate': 'fechaFin',
         'status': 'estado'
       }
-      
+
       const validationFieldName = fieldMapping[name] || name
-      
+
       setFormErrors(prev => {
         const newErrors = { ...prev }
         delete newErrors[validationFieldName]
         return newErrors
       })
     }
-    
+
     if (name === 'frequency') {
       // Reset selected months when frequency changes
       if (value === 'mensual') {
@@ -366,7 +374,7 @@ const useSubscriptions = () => {
           const startDate = new Date(currentStartDate)
           const monthIndex = startDate.getMonth()
           const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-          
+
           let selectedMonthsArray: string[] = []
           // Seleccionar mes de inicio + cada 3 meses
           for (let i = 0; i < 4; i++) {
@@ -386,7 +394,7 @@ const useSubscriptions = () => {
           const startDate = new Date(currentStartDate)
           const monthIndex = startDate.getMonth()
           const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
-          
+
           let selectedMonthsArray: string[] = []
           // Seleccionar mes de inicio + 6 meses después
           for (let i = 0; i < 2; i++) {
@@ -403,7 +411,7 @@ const useSubscriptions = () => {
         setSelectedMonths([])
       }
     }
-    
+
     // Si cambia la fecha de inicio, recalcular meses para frecuencias que dependen de ella
     if (name === 'startDate' && value) {
       const currentFrequency = formData.frequency
@@ -448,7 +456,7 @@ const useSubscriptions = () => {
         setSelectedMonths(selectedMonthsArray)
       }
     }
-    
+
     // Si cambia la fecha de fin y la frecuencia es mensual, recalcular meses
     if (name === 'endDate' && value && formData.frequency === 'mensual') {
       if (formData.startDate) {
@@ -464,35 +472,35 @@ const useSubscriptions = () => {
   const handleFieldBlur = useCallback(async (name: string) => {
     // Marcar el campo como tocado
     setTouchedFields(prev => ({ ...prev, [name]: true }))
-    
+
     // Solo validar si el campo está vacío
     const fieldValue = formData[name as keyof typeof formData]
     if (fieldValue && fieldValue !== '') {
       return // No validar si hay valor
     }
-    
+
     const fieldMapping: Record<string, string> = {
       'frequency': 'tipo',
       'startDate': 'fechaInicio',
       'endDate': 'fechaFin',
       'status': 'estado'
     }
-    
+
     const validationFieldName = fieldMapping[name] || name
-    
+
     // Crear objeto con el campo a validar
     const fieldToValidate: any = {
       [validationFieldName]: ''
     }
-    
+
     // Para fecha fin, incluir fecha inicio para validación cruzada
     if (name === 'endDate' && formData.startDate) {
       fieldToValidate['fechaInicio'] = formData.startDate
     }
-    
+
     try {
       const validation = await validateSubscriptionForm(fieldToValidate, t)
-      
+
       // Actualizar solo el error del campo específico
       setFormErrors(prev => ({
         ...prev,
@@ -516,7 +524,7 @@ const useSubscriptions = () => {
       endDate: true,
       status: true
     })
-    
+
     // Validar todos los campos
     const validation = await validateSubscriptionForm({
       tipo: formData.frequency || '',
@@ -524,7 +532,7 @@ const useSubscriptions = () => {
       fechaFin: formData.endDate || '',
       estado: formData.status || 'active',
     }, t)
-    
+
     setFormErrors(validation.errors)
     return validation.isValid
   }, [formData, t])
@@ -537,10 +545,10 @@ const useSubscriptions = () => {
   ) => {
     e.preventDefault()
     setIsSubmitting(true)
-    
+
     // Validar todos los campos
     const isValid = await validateAllFields()
-    
+
     if (!isValid) {
       setIsSubmitting(false)
       return
@@ -578,7 +586,7 @@ const useSubscriptions = () => {
   const handleMonthClick = (month: string) => {
     const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
     const monthIndex = monthNames.indexOf(month)
-    
+
     // Función para verificar si un mes es consecutivo a los ya seleccionados
     const isConsecutive = (newMonthIndex: number, selectedMonthsArray: string[]): boolean => {
       for (const selectedMonth of selectedMonthsArray) {
@@ -591,7 +599,7 @@ const useSubscriptions = () => {
       }
       return false
     }
-    
+
     if (formData.frequency === 'semestral') {
       if (selectedMonths.includes(month)) {
         setSelectedMonths(selectedMonths.filter(m => m !== month))
@@ -666,17 +674,17 @@ const useSubscriptions = () => {
     // Actualizar el valor usando handleFieldChange para limpiar errores automáticamente
     handleFieldChange('startDate', date)
     setIsStartDatePickerOpen(false)
-    
+
     // Marcar como tocado
     setTouchedFields(prev => ({ ...prev, startDate: true }))
-    
+
     // Validar fecha fin si existe y podría ser inválida
     if (formData.endDate && date > formData.endDate) {
       const validation = await validateSubscriptionForm({
         fechaInicio: date,
         fechaFin: formData.endDate
       }, t)
-      
+
       if (validation.errors['fechaFin']) {
         setFormErrors(prev => ({
           ...prev,
@@ -697,17 +705,17 @@ const useSubscriptions = () => {
     // Actualizar el valor usando handleFieldChange para limpiar errores automáticamente
     handleFieldChange('endDate', date)
     setIsEndDatePickerOpen(false)
-    
+
     // Marcar como tocado
     setTouchedFields(prev => ({ ...prev, endDate: true }))
-    
+
     // Validar si la fecha fin es anterior a la fecha inicio
     if (formData.startDate && date < formData.startDate) {
       const validation = await validateSubscriptionForm({
         fechaInicio: formData.startDate,
         fechaFin: date
       }, t)
-      
+
       if (validation.errors['fechaFin']) {
         setFormErrors(prev => ({
           ...prev,

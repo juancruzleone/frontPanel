@@ -18,7 +18,7 @@ const estadoColors: Record<string, string> = {
 const tipoColors = ["var(--color-primary)", "#057E74", "#fbc02d", "#e53935", "#388e3c"]
 
 const useHomeDashboard = () => {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const [kpis, setKpis] = useState<any[]>([])
   const [barChartData, setBarChartData] = useState<any[]>([])
   const [pieChartData, setPieChartData] = useState<any[]>([])
@@ -32,100 +32,77 @@ const useHomeDashboard = () => {
       setLoading(true)
       setError(null)
       try {
-        const [installations, assets, workOrders, technicians] = await Promise.all([
-          fetchInstallations(),
-          fetchAssets(),
-          fetchWorkOrders(),
-          fetchTechnicians(),
-        ])
+        const API_URL = import.meta.env.VITE_API_URL
+        const response = await fetch(`${API_URL}dashboard/stats`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`, // Ajustar según el store real
+            'Content-Type': 'application/json'
+          }
+        })
 
-        // Usar datos reales de la API, sin fallbacks hardcodeados
-        const workOrdersData = workOrders || []
+        if (!response.ok) throw new Error('Error al cargar datos del dashboard')
 
-        const installationsData = installations.length > 0 ? installations : []
-        const assetsData = assets.length > 0 ? assets : []
-        const techniciansData = technicians.length > 0 ? technicians : []
+        const result = await response.json()
+        const { kpis: kpisRaw, charts, recentWorkOrders: recent } = result.data
 
-        // KPIs sin tendencias
+        // 1. Mapear KPIs
         const kpisData = [
           {
             label: 'installations.title',
-            value: installationsData.length,
+            value: kpisRaw.installations,
             icon: Home,
             color: "var(--color-primary)",
             path: "/instalaciones"
           },
           {
             label: 'assets.title',
-            value: assetsData.length,
+            value: kpisRaw.assets,
             icon: Package,
             color: "#057E74",
             path: "/activos"
           },
           {
             label: 'workOrders.title',
-            value: workOrdersData.length,
+            value: kpisRaw.workOrders,
             icon: ClipboardList,
             color: "#fbc02d",
             path: "/ordenes-trabajo"
           },
           {
             label: 'personal.title',
-            value: techniciansData.length,
+            value: kpisRaw.technicians,
             icon: User,
             color: "#e53935",
             path: "/personal"
-          },
+          }
         ]
         setKpis(kpisData)
 
-        // Bar chart: órdenes por tipoTrabajo
-        const tipos = Array.from(new Set(workOrdersData.map((o: any) => o.tipoTrabajo || "Otro")))
-        const barData = tipos.map((tipo, idx) => {
-          // Mapear tipos de trabajo a claves de traducción
-          const tipoKey = tipo.toLowerCase()
-          let tipoClave = 'other'
-          if (tipoKey === 'mantenimiento') {
-            tipoClave = 'maintenance'
-          } else if (tipoKey === 'reparación' || tipoKey === 'reparacion') {
-            tipoClave = 'repair'
-          } else if (tipoKey === 'instalación' || tipoKey === 'instalacion') {
-            tipoClave = 'installation'
-          } else if (tipoKey === 'inspección' || tipoKey === 'inspeccion') {
-            tipoClave = 'inspection'
-          }
+        // 2. Bar Chart (Órdenes por tipo)
+        const barData = (charts.byType || []).map((item: any) => {
+          let typeClave = item.name.toLowerCase()
+          // Normalización mínima si es necesario
           return {
-            name: tipoClave,
-            value: workOrdersData.filter((o: any) => o.tipoTrabajo === tipo).length,
-            color: tipoColors[idx % tipoColors.length],
+            name: typeClave,
+            value: item.value,
+            color: tipoColors[Math.floor(Math.random() * tipoColors.length)]
           }
         })
         setBarChartData(barData)
 
-        // Pie chart: órdenes por estado
-        const estados = ["pendiente", "asignada", "en_progreso", "completada", "cancelada"]
-        const pieData = estados.map((estado, idx) => ({
-          name: estado, // Guardar la clave, no el texto traducido
-          value: workOrdersData.filter((o: any) => o.estado === estado).length,
-          color: estadoColors[estado],
+        // 3. Pie Chart (Órdenes por estado)
+        const pieData = (charts.byStatus || []).map((item: any) => ({
+          name: item.name.toLowerCase(),
+          value: item.value,
+          color: estadoColors[item.name.toLowerCase()] || "#ccc"
         }))
         setPieChartData(pieData)
 
-        // Line chart: evolución temporal de órdenes
-        const ordersByDate: Record<string, number> = {}
-        workOrdersData.forEach((o: any) => {
-          const date = (o.fechaCreacion || "").slice(0, 10)
-          if (date) ordersByDate[date] = (ordersByDate[date] || 0) + 1
-        })
-        const sortedDates = Object.keys(ordersByDate).sort()
-        const lineData = sortedDates.map((date) => ({ name: date, value: ordersByDate[date] }))
-        setLineChartData(lineData)
+        // 4. Line Chart
+        setLineChartData(charts.evolution || [])
 
-        // Últimas órdenes
-        const recentData = workOrdersData
-          .sort((a: any, b: any) => (b.fechaCreacion || "").localeCompare(a.fechaCreacion || ""))
-          .slice(0, 6)
-        setRecentWorkOrders(recentData)
+        // 5. Órdenes recientes
+        setRecentWorkOrders(recent || [])
 
       } catch (e: any) {
         console.error("Error en useHomeDashboard:", e)
@@ -135,9 +112,9 @@ const useHomeDashboard = () => {
       }
     }
     load()
-  }, []) // <--- Solo al montar, no depende de i18n.language
+  }, [])
 
   return { kpis, barChartData, pieChartData, lineChartData, recentWorkOrders, loading, error }
 }
 
-export default useHomeDashboard 
+export default useHomeDashboard
