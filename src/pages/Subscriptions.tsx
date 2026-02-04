@@ -22,7 +22,7 @@ import { useSubscriptionsTour } from "../features/subscriptions/hooks/useSubscri
 const Subscriptions = () => {
   const { t, i18n } = useTranslation()
   const { dark } = useTheme()
-  const { subscriptions, frequencyOptions, getMonthsByFrequency, loading, error, refreshSubscriptions, updateSubscription } = useSubscriptions()
+  const { subscriptions, frequencyOptions, loading, error, refreshSubscriptions, updateSubscription, getMonthsByFrequency } = useSubscriptions()
   const role = useAuthStore((s) => s.role)
   const navigate = useNavigate()
   const isTechnician = role && ["tecnico", "técnico"].includes(role.toLowerCase())
@@ -273,10 +273,13 @@ const Subscriptions = () => {
         </div>
 
         <div className={styles.filtersWrapper}>
-          <div className={styles.searchBox}>
-            <SearchInput
-              placeholder={t('subscriptions.searchPlaceholder')}
-              onInputChange={(value) => setSearchTerm(value)}
+          <div className={styles.filterActions}>
+            <HybridSelect
+              value={selectedMonthFilter}
+              onChange={setSelectedMonthFilter}
+              options={monthOptions}
+              placeholder={t('subscriptions.filterByMonth')}
+              autoSize={true}
             />
           </div>
 
@@ -293,26 +296,28 @@ const Subscriptions = () => {
               className={styles.fullWidthSelect}
             />
           </div>
-          <div className={styles.filterActions}>
-            <HybridSelect
-              value={selectedMonthFilter}
-              onChange={setSelectedMonthFilter}
-              options={monthOptions}
-              placeholder={t('subscriptions.filterByMonth')}
-              autoSize={true}
-            />
-            <button
-              onClick={() => {
-                setSearchTerm("")
-                setSelectedMonthFilter("")
-                setSelectedStatus("")
-                setCurrentPage(1)
-              }}
-              className={styles.resetButton}
-              title={t('calendar.clearFilters')}
-            >
-              <FilterX size={18} />
-            </button>
+
+          <div className={styles.searchBox}>
+            <div className={styles.searchRow}>
+              <div className={styles.searchContainerInner}>
+                <SearchInput
+                  placeholder={t('subscriptions.searchPlaceholder')}
+                  onInputChange={(value) => setSearchTerm(value)}
+                />
+              </div>
+              <button
+                onClick={() => {
+                  setSearchTerm("")
+                  setSelectedMonthFilter("")
+                  setSelectedStatus("")
+                  setCurrentPage(1)
+                }}
+                className={styles.clearFilters}
+                title={t('calendar.clearFilters')}
+              >
+                <FilterX size={18} />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -321,7 +326,6 @@ const Subscriptions = () => {
         {loading ? (
           <div className={styles.loadingContainer}>
             <Skeleton height={400} width="100%" style={{ borderRadius: 16 }} />
-
           </div>
         ) : filteredSubscriptions.length === 0 ? (
           <div className={styles.emptyState}>

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ChevronDown } from 'lucide-react'
 import { useTheme } from '../../../shared/hooks/useTheme'
 import ButtonCreate from '../../../shared/components/Buttons/buttonCreate'
-import HybridSelect from '../../workOrders/components/HybridSelect'
+import HybridSelect from '../../../shared/components/HybridSelect/HybridSelect'
 import styles from '../styles/assetForm.module.css'
 import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
 import type { Asset, Template } from '../hooks/useAssets'
@@ -259,7 +259,7 @@ const AssetForm = ({
                 name="templateId"
                 value={formData.templateId || ""}
                 onChange={(value) => handleFieldChange("templateId", value)}
-                onBlur={() => handleFieldBlur("templateId")}
+                onBlur={() => { handleFieldBlur("templateId") }}
                 disabled={isSubmitting}
                 options={[
                   { value: "", label: t('assets.selectTemplatePlaceholder') },

@@ -17,6 +17,9 @@ interface HybridSelectProps {
   className?: string;
   disabled?: boolean;
   autoSize?: boolean;
+  name?: string;
+  error?: boolean;
+  required?: boolean;
 }
 
 const HybridSelect: React.FC<HybridSelectProps> = ({
@@ -27,7 +30,10 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
   placeholder = "Seleccionar...",
   className,
   disabled = false,
-  autoSize = false
+  autoSize = false,
+  name,
+  error,
+  required = false
 }) => {
   const { dark } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
@@ -50,12 +56,12 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
       tempSpan.style.fontFamily = 'Encode Sans, sans-serif';
       tempSpan.style.fontWeight = '400';
       tempSpan.style.padding = '12px 44px 12px 12px';
-      
+
       document.body.appendChild(tempSpan);
-      
+
       let maxWidth = 0;
       const allTexts = [placeholder, ...options.map(opt => opt.label)];
-      
+
       allTexts.forEach(text => {
         tempSpan.textContent = text;
         const width = tempSpan.offsetWidth;
@@ -63,9 +69,9 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
           maxWidth = width;
         }
       });
-      
+
       document.body.removeChild(tempSpan);
-      
+
       setSelectWidth(Math.max(180, maxWidth + 20));
     }
   }, [options, placeholder, autoSize]);
@@ -76,10 +82,10 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
         const wasOpen = isOpen;
         setIsOpen(false);
         setHighlightedIndex(-1);
-        
+
         // Solo disparar onBlur si el usuario había abierto el dropdown y no seleccionó nada
         if (onBlur && hasBeenOpened && (!value || value === "")) {
-          
+
           onBlur();
         }
       }
@@ -138,7 +144,7 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
         if (onBlur && hasBeenOpened && (!value || value === "")) {
           // Usar setTimeout para asegurar que el blur se ejecute después del cambio de foco
           setTimeout(() => {
-            
+
             onBlur();
           }, 0);
         }
@@ -149,7 +155,7 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
           setIsOpen(true);
           setHasBeenOpened(true);
         } else {
-          setHighlightedIndex(prev => 
+          setHighlightedIndex(prev =>
             prev < options.length - 1 ? prev + 1 : 0
           );
         }
@@ -157,7 +163,7 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
       case 'ArrowUp':
         event.preventDefault();
         if (isOpen) {
-          setHighlightedIndex(prev => 
+          setHighlightedIndex(prev =>
             prev > 0 ? prev - 1 : options.length - 1
           );
         }
@@ -168,13 +174,22 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
   const wrapperStyle = autoSize ? { width: selectWidth } : {};
 
   return (
-    <div 
-      className={`${styles.hybridSelectWrapper} ${className || ''}`} 
+    <div
+      className={`${styles.hybridSelectWrapper} ${className || ''}`}
       ref={selectRef}
       style={wrapperStyle}
     >
+      {name && (
+        <input
+          type="hidden"
+          name={name}
+          value={value}
+          required={required}
+          onChange={() => { }}
+        />
+      )}
       <div
-        className={`${styles.hybridSelect} ${disabled ? styles.disabled : ''}`}
+        className={`${styles.hybridSelect} ${disabled ? styles.disabled : ''} ${error ? styles.error : ''}`}
         onClick={handleToggle}
         onKeyDown={handleKeyDown}
         tabIndex={disabled ? -1 : 0}
@@ -186,22 +201,20 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
         <span className={styles.hybridSelectValue}>
           {selectedOption ? selectedOption.label : placeholder}
         </span>
-        <ChevronDown 
-          size={18} 
+        <ChevronDown
+          size={18}
           className={`${styles.hybridSelectIcon} ${dark ? styles.dark : styles.light} ${isOpen ? styles.rotated : ''}`}
         />
       </div>
-      
+
       {isOpen && (
         <div className={styles.hybridDropdown} ref={dropdownRef} role="listbox">
           {options.map((option, index) => (
             <div
               key={option.value}
-              className={`${styles.hybridOption} ${
-                highlightedIndex === index ? styles.highlighted : ''
-              } ${
-                value === option.value ? styles.selected : ''
-              }`}
+              className={`${styles.hybridOption} ${highlightedIndex === index ? styles.highlighted : ''
+                } ${value === option.value ? styles.selected : ''
+                }`}
               onClick={() => handleOptionClick(option)}
               onMouseEnter={() => setHighlightedIndex(index)}
               role="option"
@@ -209,14 +222,14 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
             >
               {option.label}
               {value === option.value && (
-                <svg 
-                  width="16" 
-                  height="16" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
                   className={styles.checkIcon}
                 >
-                  <polyline points="20,6 9,17 4,12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <polyline points="20,6 9,17 4,12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               )}
             </div>

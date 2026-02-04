@@ -12,12 +12,12 @@ import { useRegister } from "../features/auth/register/hooks/useRegister.ts"
 import { useTranslation } from "react-i18next"
 import i18n from "../i18n"
 import { translateUserRole } from "../shared/utils/backendTranslations"
-import { Trash, User, Search, Edit } from "lucide-react"
+import { Trash, User, Edit, CircleHelp, Search } from "lucide-react"
+import SearchInput from "../shared/components/Inputs/SearchInput"
 import { useTheme } from "../shared/hooks/useTheme"
 import { deleteTechnician } from "../features/auth/register/services/registerServices"
 import { useAuthStore } from "../store/authStore"
 import { usePersonalTour } from "../features/auth/register/hooks/usePersonalTour"
-import { CircleHelp } from "lucide-react"
 import Skeleton from "../shared/components/Skeleton"
 
 const Register = () => {
@@ -141,17 +141,11 @@ const Register = () => {
       </div>
 
       {/* Filtro de búsqueda */}
-      <div className={styles.searchContainer} data-tour="search-technicians">
-        <div className={styles.searchWrapper}>
-          <Search size={20} className={styles.searchIcon} />
-          <input
-            type="text"
-            placeholder={t('personal.searchPlaceholder')}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className={styles.searchInput}
-          />
-        </div>
+      <div className={styles.searchRow}>
+        <SearchInput
+          placeholder={t('personal.searchPlaceholder')}
+          onInputChange={(value) => setSearchTerm(value)}
+        />
       </div>
 
       {/* Listado de técnicos */}

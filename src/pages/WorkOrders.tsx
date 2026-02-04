@@ -395,15 +395,31 @@ const WorkOrders = () => {
           )}
         </div>
 
-        <div className={styles.searchContainer} data-tour="search-filter">
-          <SearchInput
-            placeholder={t('workOrders.searchPlaceholder')}
-            showSelect
-            selectPlaceholder={t('workOrders.filterByStatus')}
-            selectOptions={statusOptions}
-            onInputChange={setSearchTerm}
-            onSelectChange={setSelectedStatus}
-          />
+        <div className={styles.searchRow} data-tour="search-filter">
+          <div className={styles.searchContainer}>
+            <SearchInput
+              placeholder={t('workOrders.searchPlaceholder')}
+              showSelect
+              selectPlaceholder={t('workOrders.filterByStatus')}
+              selectOptions={statusOptions}
+              onInputChange={setSearchTerm}
+              onSelectChange={setSelectedStatus}
+            />
+          </div>
+          <button
+            onClick={() => {
+              setSelectedStatus("")
+              setSelectedPriority("")
+              setSelectedDate("")
+              setSelectedDateFilter("")
+              setSearchTerm("")
+              setSelectedTechnician("")
+            }}
+            className={styles.clearFilters}
+            title={t('calendar.clearFilters') || 'Limpiar filtros'}
+          >
+            <FilterX size={20} />
+          </button>
         </div>
 
         <div className={styles.filterContainer}>
@@ -464,20 +480,6 @@ const WorkOrders = () => {
             )}
           </button>
 
-          <button
-            onClick={() => {
-              setSelectedStatus("")
-              setSelectedPriority("")
-              setSelectedDate("")
-              setSelectedDateFilter("")
-              setSearchTerm("")
-              setSelectedTechnician("")
-            }}
-            className={styles.clearFilters}
-            title={t('calendar.clearFilters') || 'Limpiar filtros'}
-          >
-            <FilterX size={20} />
-          </button>
         </div>
 
 
@@ -630,7 +632,7 @@ const WorkOrders = () => {
             </>
           )}
         </div>
-      </div>
+      </div >
 
       <ModalCreate
         isOpen={isCreateModalOpen}

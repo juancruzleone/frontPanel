@@ -16,7 +16,7 @@ import ModalCreateCategory from "../features/installations/components/ModalCreat
 import ModalCreateInstallationType from "../features/installations/components/ModalCreateInstallationType"
 import ModalViewInstallationTypes from "../features/installations/components/ModalViewInstallationTypes"
 import ModalViewCategories from "../features/installations/components/ModalViewCategories"
-import { Edit, Trash, Plus, HelpCircle, Users } from "lucide-react"
+import { Edit, Trash, Plus, HelpCircle, Users, FilterX } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../store/authStore"
@@ -363,15 +363,28 @@ const Installations = () => {
           </div>
         )}
 
-        <div className={styles.searchContainer} data-tour="search-filter">
-          <SearchInput
-            placeholder={t('installations.searchPlaceholder')}
-            showSelect
-            selectPlaceholder={t('installations.filterByInstallationType')}
-            selectOptions={dynamicCategories}
-            onInputChange={handleSearch}
-            onSelectChange={handleCategoryChange}
-          />
+        <div className={styles.searchRow}>
+          <div className={styles.searchContainerInner} data-tour="search-filter">
+            <SearchInput
+              placeholder={t('installations.searchPlaceholder')}
+              showSelect
+              selectPlaceholder={t('installations.filterByInstallationType')}
+              selectOptions={dynamicCategories}
+              onInputChange={handleSearch}
+              onSelectChange={handleCategoryChange}
+            />
+          </div>
+          <button
+            onClick={() => {
+              setSearchTerm("");
+              setSelectedCategory("");
+              loadInstallations({ page: 1, limit: itemsPerPage, search: "", category: "" });
+            }}
+            className={styles.clearFilters}
+            title={t('calendar.clearFilters')}
+          >
+            <FilterX size={20} />
+          </button>
         </div>
 
         <div className={styles.listContainer}>

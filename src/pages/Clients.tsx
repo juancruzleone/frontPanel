@@ -12,6 +12,7 @@ import { FiUser } from "react-icons/fi"
 import { useClients } from "../features/clients/hooks/useClients"
 import { useTranslation } from "react-i18next"
 import { Trash, User, Search, Edit, CircleHelp, Building2 } from "lucide-react"
+import SearchInput from "../shared/components/Inputs/SearchInput"
 import { useTheme } from "../shared/hooks/useTheme"
 import { deleteClient, assignInstallationsToClient } from "../features/clients/services/clientServices"
 import { useAuthStore } from "../store/authStore"
@@ -159,17 +160,11 @@ const Clients = () => {
             </div>
 
             {/* Filtro de búsqueda */}
-            <div className={styles.searchContainer} data-tour="search-clients">
-                <div className={styles.searchWrapper}>
-                    <Search size={20} className={styles.searchIcon} />
-                    <input
-                        type="text"
-                        placeholder={t('clients.searchPlaceholder')}
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className={styles.searchInput}
-                    />
-                </div>
+            <div className={styles.searchRow}>
+                <SearchInput
+                    placeholder={t('clients.searchPlaceholder')}
+                    onInputChange={(value) => setSearchTerm(value)}
+                />
             </div>
 
             {/* Listado de clientes */}

@@ -9,7 +9,7 @@ import ModalSuccess from "../features/assets/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
 import ModalConfirmDelete from "../features/assets/components/ModalConfirmDelete"
 import ModalAssignTemplate from "../features/assets/components/ModalAssignTemplate"
-import { Edit, Trash, List, BookOpen, HelpCircle, Plus } from "lucide-react"
+import { Edit, Trash, List, BookOpen, HelpCircle, Plus, FilterX } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { translateDeviceStatus } from "../shared/utils/backendTranslations"
@@ -188,15 +188,28 @@ const Assets = () => {
           )}
         </div>
 
-        <div className={styles.searchContainer} data-tour="search-filter">
-          <SearchInput
-            placeholder={t('assets.searchPlaceholder')}
-            showSelect={true}
-            selectPlaceholder={t('assets.filterByCategory') || "Filtrar por categoría"}
-            selectOptions={dynamicCategories}
-            onInputChange={handleSearch}
-            onSelectChange={handleCategoryChange}
-          />
+        <div className={styles.searchRow}>
+          <div className={styles.searchContainerInner} data-tour="search-filter">
+            <SearchInput
+              placeholder={t('assets.searchPlaceholder')}
+              showSelect={true}
+              selectPlaceholder={t('forms.filterByCategory') || "Filtrar por categoría"}
+              selectOptions={dynamicCategories}
+              onInputChange={handleSearch}
+              onSelectChange={handleCategoryChange}
+            />
+          </div>
+          <button
+            onClick={() => {
+              setSearchTerm("")
+              setSelectedCategory("")
+              loadAssets({ page: 1, limit: itemsPerPage, search: "", category: "" })
+            }}
+            className={styles.clearFilters}
+            title={t('calendar.clearFilters')}
+          >
+            <FilterX size={20} />
+          </button>
         </div>
 
         <div className={styles.listContainer}>

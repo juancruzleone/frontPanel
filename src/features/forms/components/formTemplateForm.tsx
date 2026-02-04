@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import { ChevronDown } from "lucide-react"
 import { useTheme } from "../../../shared/hooks/useTheme"
-import HybridSelect from "../../workOrders/components/HybridSelect"
+import HybridSelect from "../../../shared/components/HybridSelect/HybridSelect"
 import styles from "../styles/formTemplateForm.module.css"
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 import formCheckboxStyles from "../../../shared/components/Buttons/formCheckboxes.module.css"
@@ -261,7 +261,7 @@ const FormTemplateForm = ({
                   });
                 }
               }}
-              onBlur={() => handleFieldBlur("categoria")}
+              onBlur={() => { handleFieldBlur("categoria") }}
               disabled={isSubmitting}
               options={[
                 { value: "", label: t('forms.selectCategory') },
