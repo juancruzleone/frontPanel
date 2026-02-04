@@ -725,12 +725,17 @@ const Calendar = () => {
         title={t('calendar.selectDate')}
       />
       {isYearModalOpen && (
-        <div className={styles.datePickerBackdrop}>
+        <div
+          className={styles.datePickerBackdrop}
+          onClick={(e) => { if (e.target === e.currentTarget) setIsYearModalOpen(false); }}
+          onKeyDown={e => { if (e.key === 'Enter') e.stopPropagation(); }}
+        >
           <div className={styles.datePickerModal}>
             <div className={styles.datePickerHeader}>
-
+              <div style={{ width: 40 }} />
               <h2 className={styles.datePickerTitle}>{t('calendar.selectYear') || 'Selecciona un año'}</h2>
               <button
+                type="button"
                 className={styles.datePickerCloseButton}
                 onClick={() => setIsYearModalOpen(false)}
               >
@@ -744,6 +749,7 @@ const Calendar = () => {
                   {yearList.map(y => (
                     <button
                       key={y}
+                      type="button"
                       className={`${styles.yearPickerYear} ${y === currentDate.getFullYear() ? styles.yearPickerSelected : ''}`}
                       onClick={() => {
                         setCurrentDate(new Date(y, currentDate.getMonth(), 1));
@@ -756,15 +762,6 @@ const Calendar = () => {
                 </div>
               </div>
 
-              <div className={styles.datePickerActions}>
-                <button
-                  type="button"
-                  onClick={() => setIsYearModalOpen(false)}
-                  className={styles.datePickerCancelButton}
-                >
-                  {t('common.cancel') || 'Cancelar'}
-                </button>
-              </div>
             </div>
           </div>
         </div>
