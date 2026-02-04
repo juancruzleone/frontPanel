@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useTimeZone } from '../hooks/useTimeZone';
 import styles from '../styles/calendar.module.css';
 
@@ -8,36 +9,25 @@ interface TimeZoneInfoProps {
 }
 
 const TimeZoneInfo: React.FC<TimeZoneInfoProps> = ({ showDetails = false, className = '' }) => {
-  const { timeZoneInfo, getUserTimeZoneName, isDST, loading } = useTimeZone();
+  const { t } = useTranslation();
+  const { loading } = useTimeZone();
 
   if (loading) {
     return (
       <div className={`${styles.timeZoneInfo} ${className}`}>
-        <span>🌍 Cargando zona horaria...</span>
+        <span>🌍 {t('common.loading') || 'Cargando...'}</span>
       </div>
     );
   }
 
-  if (!timeZoneInfo) {
-    return null;
-  }
-
   return (
     <div className={`${styles.timeZoneInfo} ${className}`}>
-      <span>🌍 {getUserTimeZoneName()}</span>
-      <span className={styles.timeZoneOffset}>
-        ({timeZoneInfo.offsetString})
-      </span>
-      {isDST() && (
-        <span className={styles.dstIndicator}>
-          • Horario de verano
-        </span>
-      )}
-      
+      <span>{t('calendar.timezoneLabel')}</span>
+
       {showDetails && (
-        <div style={{ 
-          fontSize: '12px', 
-          color: '#94a3b8', 
+        <div style={{
+          fontSize: '12px',
+          color: '#94a3b8',
           marginTop: '4px',
           fontStyle: 'italic'
         }}>

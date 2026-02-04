@@ -1748,8 +1748,6 @@
 /* Información de zona horaria */
 .timeZoneInfo {
   display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: transparent;
   border: none;
   border-radius: 8px;

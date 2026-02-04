@@ -741,7 +741,7 @@
     "model": "Modelo",
     "serialNumber": "Número de Serie",
     "template": "Plantilla",
-    "assignTemplate": "Asignar plantilla a {{asset}}",
+    "assignTemplate": "Asignar plantilla",
     "assignTemplateTooltip": "Asignar plantilla de formulario",
     "editTemplate": "Editar plantilla de {{asset}}",
     "editTemplateTooltip": "Editar plantilla de formulario",
@@ -827,7 +827,7 @@
     "createFormTemplate": "Crear plantilla de formulario",
     "editFormTemplate": "Editar Plantilla de Formulario",
     "editTemplate": "Editar Plantilla",
-    "deleteTemplate": "¿Eliminar Plantilla?",
+    "deleteTemplate": "Eliminar Plantilla",
     "templateName": "Nombre de la Plantilla",
     "enterTemplateName": "Ingrese el nombre de la plantilla",
     "templateCategory": "Categoría",
@@ -1246,7 +1246,8 @@
     "thisWeek": "Esta Semana",
     "thisMonth": "Este Mes",
     "nextWeek": "Próxima Semana",
-    "nextMonth": "Próximo Mes"
+    "nextMonth": "Próximo Mes",
+    "timezoneLabel": "🌍 America/Buenos_Aires (-03:00) • Horario de verano"
   },
   "workOrders": {
     "successTitle": "¡Operación exitosa!",

@@ -16,18 +16,6 @@
     "logout": "Abmelden",
     "clients": "Kunden"
   },
-  "calendar": {
-    "selectDate": "Datum auswählen",
-    "selectYear": "Jahr auswählen",
-    "selectedDate": "Ausgewähltes Datum",
-    "sun": "So",
-    "mon": "Mo",
-    "tue": "Di",
-    "wed": "Mi",
-    "thu": "Do",
-    "fri": "Fr",
-    "sat": "Sa"
-  },
   "personal": {
     "successTitle": "Vorgang erfolgreich!",
     "understood": "Schließen",
@@ -488,7 +476,6 @@
     "location": "Standort",
     "saving": "Speichern...",
     "categories": "Kategorien",
-    "installationTypes": "Installationstypen",
     "manageCategories": "Kategorien verwalten",
     "manageInstallationTypes": "Installationstypen verwalten",
     "viewCategories": "Gerätekategorien anzeigen",
@@ -828,8 +815,9 @@
     "optional": "Optional",
     "templatePlaceholder": "Vorlage auswählen",
     "editAssetTooltip": "Asset bearbeiten",
+    "deleteAsset": "Asset löschen",
     "deleteAssetTooltip": "Asset löschen",
-    "assignTemplate": "Vorlage zuweisen an {{asset}}",
+    "assignTemplate": "Vorlage zuweisen",
     "viewDetailsTooltip": "Details anzeigen",
     "basicInfo": "Grundinformationen",
     "config": "Konfiguration",
@@ -873,6 +861,8 @@
     "titlePage": "Formulare | Leonix",
     "title": "Formularvorlagen",
     "createFormTemplate": "Formularvorlage erstellen",
+    "editTemplate": "Vorlage bearbeiten",
+    "deleteTemplate": "Vorlage löschen",
     "confirmDeleteTitle": "Vorlage löschen?",
     "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Die Vorlage {{name}} wird dauerhaft gelöscht.",
     "manageCategories": "Kategorien anzeigen",
@@ -991,8 +981,7 @@
       "fieldOptionsMin": "Es muss mindestens eine Option angegeben werden",
       "fieldOptionsRequired": "Optionen sind erforderlich für Felder vom Typ Select oder Radio",
       "unknownError": "Unbekannter Validierungsfehler"
-    },
-    "titlePage": "Formulare | Leonix"
+    }
   },
   "manuals": {
     "understood": "Schließen",
@@ -1148,7 +1137,8 @@
     "inProgress": "In Bearbeitung",
     "completed": "Abgeschlossen",
     "cancelled": "Storniert",
-    "allTechnicians": "Alle Techniker"
+    "allTechnicians": "Alle Techniker",
+    "timezoneLabel": "🌍 America/Buenos_Aires (-03:00) • Sommerzeit"
   },
   "languageSelector": {
     "title": "Sprache auswählen",
@@ -1405,7 +1395,6 @@
     "selectDatesFirst": "Bitte wählen Sie zuerst Start- und Enddatum",
     "clickToSelectMonths": "Klicken Sie, um Monate auszuwählen",
     "month": "Monat",
-    "months": "Monate",
     "monthSelected": "Monat ausgewählt",
     "monthsSelected": "Monate ausgewählt",
     "filterByMonth": "Nach Monat filtern",

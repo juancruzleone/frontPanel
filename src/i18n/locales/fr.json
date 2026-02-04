@@ -16,18 +16,6 @@
     "logout": "Déconnexion",
     "clients": "Clients"
   },
-  "calendar": {
-    "selectDate": "Sélectionner la date",
-    "selectYear": "Sélectionner l'année",
-    "selectedDate": "Date sélectionnée",
-    "sun": "Dim",
-    "mon": "Lun",
-    "tue": "Mar",
-    "wed": "Mer",
-    "thu": "Jeu",
-    "fri": "Ven",
-    "sat": "Sam"
-  },
   "personal": {
     "successTitle": "Opération réussie !",
     "understood": "Fermer",
@@ -886,8 +874,9 @@
     "optional": "Optionnel",
     "templatePlaceholder": "Sélectionnez un modèle",
     "editAssetTooltip": "Modifier l'actif",
+    "deleteAsset": "Supprimer l'actif",
     "deleteAssetTooltip": "Supprimer l'actif",
-    "assignTemplate": "Attribuer un modèle à {{asset}}",
+    "assignTemplate": "Attribuer un modèle",
     "assignTemplateTooltip": "Attribuer un modèle de formulaire",
     "editTemplate": "Éditer le modèle de {{asset}}",
     "editTemplateTooltip": "Modifier le modèle de formulaire",
@@ -927,6 +916,8 @@
     "titlePage": "Formulaires | Leonix",
     "title": "Modèles de Formulaires",
     "createFormTemplate": "Créer un Modèle de Formulaire",
+    "editTemplate": "Modifier le Modèle",
+    "deleteTemplate": "Supprimer le Modèle",
     "confirmDeleteTitle": "Supprimer le modèle ?",
     "confirmDeleteDescription": "Cette action ne peut pas être annulée. Le modèle {{name}} sera définitivement supprimé.",
     "manageCategories": "Voir les catégories",
@@ -1244,7 +1235,8 @@
     "inProgress": "En cours",
     "completed": "Terminé",
     "cancelled": "Annulé",
-    "allTechnicians": "Tous les techniciens"
+    "allTechnicians": "Tous les techniciens",
+    "timezoneLabel": "🌍 America/Buenos_Aires (-03:00) • Heure d'été"
   },
   "languageSelector": {
     "title": "Sélectionner la Langue",
@@ -1501,7 +1493,6 @@
     "selectDatesFirst": "Veuillez d'abord sélectionner les dates de début et de fin",
     "clickToSelectMonths": "Cliquez pour sélectionner les mois",
     "month": "mois",
-    "months": "mois",
     "monthSelected": "mois sélectionné",
     "monthsSelected": "mois sélectionnés",
     "filterByMonth": "Filtrer par mois",

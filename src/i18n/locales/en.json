@@ -16,18 +16,6 @@
     "logout": "Logout",
     "clients": "Clients"
   },
-  "calendar": {
-    "selectDate": "Select date",
-    "selectYear": "Select year",
-    "selectedDate": "Selected date",
-    "sun": "Sun",
-    "mon": "Mon",
-    "tue": "Tue",
-    "wed": "Wed",
-    "thu": "Thu",
-    "fri": "Fri",
-    "sat": "Sat"
-  },
   "personal": {
     "successTitle": "Operation successful!",
     "understood": "Close",
@@ -445,9 +433,6 @@
       "pendingReview": "Pending review"
     },
     "deviceInstallationInfo": "Installation Information",
-    "company": "Company",
-    "address": "Address",
-    "installationType": "Installation Type",
     "deviceState": "Device State",
     "selectState": "Select state",
     "noAssetsAvailable": "No assets available",
@@ -769,7 +754,7 @@
     "model": "Model",
     "serialNumber": "Serial Number",
     "template": "Template",
-    "assignTemplate": "Assign template to {{asset}}",
+    "assignTemplate": "Assign template",
     "assignTemplateTooltip": "Assign form template",
     "editTemplate": "Edit template for {{asset}}",
     "editTemplateTooltip": "Edit form template",
@@ -815,6 +800,8 @@
     "titlePage": "Forms | Leonix",
     "title": "Form Templates",
     "createFormTemplate": "Create Form Template",
+    "editTemplate": "Edit Template",
+    "deleteTemplate": "Delete Template",
     "confirmDeleteTitle": "Delete template?",
     "confirmDeleteDescription": "This action cannot be undone. The template {{name}} will be permanently deleted.",
     "manageCategories": "View categories",
@@ -1151,7 +1138,6 @@
     "selectDatesFirst": "Please select start and end dates first",
     "clickToSelectMonths": "Click to select months",
     "month": "month",
-    "months": "months",
     "monthSelected": "month selected",
     "monthsSelected": "months selected",
     "filterByMonth": "Filter by month",
@@ -1288,7 +1274,8 @@
     "inProgress": "In Progress",
     "completed": "Completed",
     "cancelled": "Cancelled",
-    "allTechnicians": "All technicians"
+    "allTechnicians": "All technicians",
+    "timezoneLabel": "🌍 America/Buenos_Aires (-03:00) • Daylight Saving Time"
   },
   "workOrders": {
     "understood": "Close",
