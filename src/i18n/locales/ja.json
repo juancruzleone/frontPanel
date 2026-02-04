@@ -938,6 +938,11 @@
     "titlePage": "フォーム | Leonix",
     "title": "フォームテンプレート",
     "createFormTemplate": "フォームテンプレートを作成",
+    "confirmDeleteTitle": "テンプレートを削除しますか？",
+    "confirmDeleteDescription": "この操作は元に戻せません。テンプレート{{name}}は完全に削除されます。",
+    "manageCategories": "カテゴリを表示",
+    "createCategory": "カテゴリを作成",
+    "createTemplate": "テンプレートを作成",
     "tour": {
       "welcome": {
         "title": "フォームテンプレートへようこそ！",

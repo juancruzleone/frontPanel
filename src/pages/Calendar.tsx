@@ -672,21 +672,24 @@ const Calendar = () => {
             <p className={styles.error}>Error: {error}</p>
           ) : (
             <>
-
-              {filteredWorkOrders.length === 0 ? (
-                <p className={styles.noResults}>
-                  {selectedDateFilter
-                    ? `No se encontraron órdenes de trabajo para el ${parseDateString(selectedDateFilter).toLocaleDateString(i18n.language || 'es', {
-                      weekday: 'long',
-                      year: 'numeric',
-                      month: '2-digit',
-                      day: '2-digit'
-                    })}`
-                    : t('calendar.noOrders')
-                  }
-                </p>
+              {viewMode === "month" ? (
+                renderCalendarView()
               ) : (
-                viewMode === "month" ? renderCalendarView() : renderListView()
+                filteredWorkOrders.length === 0 ? (
+                  <p className={styles.noResults}>
+                    {selectedDateFilter
+                      ? `No se encontraron órdenes de trabajo para el ${parseDateString(selectedDateFilter).toLocaleDateString(i18n.language || 'es', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit'
+                      })}`
+                      : t('calendar.noOrders')
+                    }
+                  </p>
+                ) : (
+                  renderListView()
+                )
               )}
             </>
           )}

@@ -939,6 +939,10 @@
     "title": "قوالب النماذج",
     "createTemplate": "إنشاء قالب نموذج",
     "createFormTemplate": "إنشاء قالب نموذج",
+    "confirmDeleteTitle": "حذف القالب؟",
+    "confirmDeleteDescription": "لا يمكن التراجع عن هذا الإجراء. سيتم حذف القالب {{name}} نهائيًا.",
+    "manageCategories": "عرض الفئات",
+    "createCategory": "إنشاء فئة",
     "tour": {
       "welcome": {
         "title": "مرحبًا بك في قوالب النماذج!",

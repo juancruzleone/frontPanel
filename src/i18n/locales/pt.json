@@ -927,6 +927,11 @@
     "titlePage": "Formulários | Leonix",
     "title": "Modelos de Formulários",
     "createFormTemplate": "Criar modelo de formulário",
+    "confirmDeleteTitle": "Excluir modelo?",
+    "confirmDeleteDescription": "Esta ação não pode ser desfeita. O modelo {{name}} será excluído permanentemente.",
+    "manageCategories": "Ver categorias",
+    "createCategory": "Criar categoria",
+    "createTemplate": "Criar modelo",
     "tour": {
       "welcome": {
         "title": "Bem-vindo aos Modelos de Formulários!",

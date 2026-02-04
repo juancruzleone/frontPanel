@@ -913,6 +913,11 @@
     "titlePage": "Formulaires | Leonix",
     "title": "Modèles de Formulaires",
     "createFormTemplate": "Créer un Modèle de Formulaire",
+    "confirmDeleteTitle": "Supprimer le modèle ?",
+    "confirmDeleteDescription": "Cette action ne peut pas être annulée. Le modèle {{name}} sera définitivement supprimé.",
+    "manageCategories": "Voir les catégories",
+    "createCategory": "Créer une catégorie",
+    "createTemplate": "Créer un modèle",
     "tour": {
       "welcome": {
         "title": "Bienvenue dans les Modèles de Formulaires !",

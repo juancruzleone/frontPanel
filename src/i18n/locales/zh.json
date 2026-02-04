@@ -946,6 +946,11 @@
     "titlePage": "表单 | Leonix",
     "title": "表单模板",
     "createFormTemplate": "创建表单模板",
+    "confirmDeleteTitle": "删除模板？",
+    "confirmDeleteDescription": "此操作无法撤消。模板{{name}}将被永久删除。",
+    "manageCategories": "查看类别",
+    "createCategory": "创建类别",
+    "createTemplate": "创建模板",
     "tour": {
       "welcome": {
         "title": "欢迎来到表单模板！",

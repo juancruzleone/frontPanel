@@ -932,6 +932,11 @@
     "titlePage": "Moduli | Leonix",
     "title": "Modelli di Moduli",
     "createFormTemplate": "Crea Modello di Modulo",
+    "confirmDeleteTitle": "Eliminare il modello?",
+    "confirmDeleteDescription": "Questa azione non può essere annullata. Il modello {{name}} sarà eliminato definitivamente.",
+    "manageCategories": "Visualizza categorie",
+    "createCategory": "Crea categoria",
+    "createTemplate": "Crea modello",
     "tour": {
       "welcome": {
         "title": "Benvenuto in Modelli di Moduli!",

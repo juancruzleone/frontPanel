@@ -861,6 +861,11 @@
     "titlePage": "Formulare | Leonix",
     "title": "Formularvorlagen",
     "createFormTemplate": "Formularvorlage erstellen",
+    "confirmDeleteTitle": "Vorlage löschen?",
+    "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Die Vorlage {{name}} wird dauerhaft gelöscht.",
+    "manageCategories": "Kategorien anzeigen",
+    "createCategory": "Kategorie erstellen",
+    "createTemplate": "Vorlage erstellen",
     "tour": {
       "welcome": {
         "title": "Willkommen bei Formularvorlagen!",

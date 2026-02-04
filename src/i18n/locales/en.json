@@ -801,6 +801,11 @@
     "titlePage": "Forms | Leonix",
     "title": "Form Templates",
     "createFormTemplate": "Create Form Template",
+    "confirmDeleteTitle": "Delete template?",
+    "confirmDeleteDescription": "This action cannot be undone. The template {{name}} will be permanently deleted.",
+    "manageCategories": "View categories",
+    "createCategory": "Create category",
+    "createTemplate": "Create template",
     "tour": {
       "welcome": {
         "title": "Welcome to Form Templates!",
