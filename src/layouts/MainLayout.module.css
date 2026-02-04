@@ -14,7 +14,6 @@
   padding: 16px;
   margin-left: 0;
   transition: margin-left 0.3s ease-in-out;
-  overflow-x: hidden !important;
   max-width: 100%;
   width: 100%;
   box-sizing: border-box;
@@ -59,7 +58,6 @@
 
 .contentArea main {
   flex: 1;
-  overflow-x: hidden !important;
   max-width: 100%;
   width: 100%;
   box-sizing: border-box;

@@ -813,6 +813,7 @@
     "warrantyExpiry": "Garantieablauf",
     "maintenanceSchedule": "Wartungsplan",
     "searchPlaceholder": "Suchen nach Name, Marke, Modell, Seriennummer oder Modell",
+    "filterByCategory": "Nach Kategorie filtern",
     "filterByTemplateCategory": "Nach Modellkategorie filtern",
     "filterByCategorieTipo": "Nach Kategorie/Typ filtern",
     "noAssetsFound": "Keine Anlagen gefunden",

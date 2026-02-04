@@ -876,6 +876,7 @@
     "warrantyExpiry": "보증 만료일",
     "maintenanceSchedule": "유지보수 일정",
     "searchPlaceholder": "이름, 브랜드, 모델, 일련번호 또는 템플릿으로 검색",
+    "filterByCategory": "카테고리로 필터링",
     "filterByTemplateCategory": "템플릿 카테고리로 필터링",
     "filterByCategorieTipo": "카테고리/유형으로 필터링",
     "noAssetsFound": "자산을 찾을 수 없습니다",

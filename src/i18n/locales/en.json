@@ -751,6 +751,7 @@
     "warrantyExpiry": "Warranty Expiry",
     "maintenanceSchedule": "Maintenance Schedule",
     "searchPlaceholder": "Search by name, brand, model, serial number or template",
+    "filterByCategory": "Filter by category",
     "filterByTemplateCategory": "Filter by template category",
     "filterByCategorieTipo": "Filter by category/type",
     "noAssetsFound": "No assets found",

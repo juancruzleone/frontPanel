@@ -891,6 +891,7 @@
     "warrantyExpiry": "保修到期",
     "maintenanceSchedule": "维护计划",
     "searchPlaceholder": "按名称、品牌、型号、序列号搜索",
+    "filterByCategory": "按类别筛选",
     "filterByTemplateCategory": "按模板类别筛选",
     "filterByCategorieTipo": "按类别/类型筛选",
     "noAssetsFound": "未找到资产",

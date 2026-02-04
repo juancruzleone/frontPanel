@@ -724,6 +724,7 @@
     "warrantyExpiry": "Vencimiento de Garantía",
     "maintenanceSchedule": "Programa de Mantenimiento",
     "searchPlaceholder": "Buscar por nombre, marca, modelo, número de serie o plantilla",
+    "filterByCategory": "Filtrar por categoría",
     "filterByTemplateCategory": "Filtrar por categoría de plantilla",
     "filterByCategorieTipo": "Filtrar por categoría/tipo",
     "noAssetsFound": "No se encontraron activos",

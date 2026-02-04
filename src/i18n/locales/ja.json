@@ -886,6 +886,7 @@
     "warrantyExpiry": "保証期限",
     "maintenanceSchedule": "メンテナンス予定",
     "searchPlaceholder": "名称、ブランド、モデル、シリアル番号、またはテンプレートで検索",
+    "filterByCategory": "カテゴリでフィルタ",
     "filterByTemplateCategory": "テンプレートカテゴリでフィルタ",
     "filterByCategorieTipo": "カテゴリ/タイプでフィルタ",
     "noAssetsFound": "資産が見つかりません",

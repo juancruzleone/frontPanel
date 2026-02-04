@@ -873,6 +873,7 @@
     "warrantyExpiry": "تاريخ انتهاء الضمان",
     "maintenanceSchedule": "جدول الصيانة",
     "searchPlaceholder": "ابحث بالاسم، العلامة التجارية، الطراز، الرقم التسلسلي أو القالب",
+    "filterByCategory": "تصفية حسب الفئة",
     "filterByTemplateCategory": "تصفية حسب فئة القالب",
     "filterByCategorieTipo": "تصفية حسب الفئة/النوع",
     "noAssetsFound": "لم يتم العثور على أصول",
