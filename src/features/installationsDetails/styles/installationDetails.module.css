@@ -69,24 +69,26 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: var(--color-nav);
+  background-color: var(--color-secondary);
   color: white;
-  border: none;
+  border: 1px solid var(--color-secondary);
   padding: 8px 16px;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
   font-size: 14px;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(3, 79, 73, 0.2);
+  box-shadow: 0 2px 8px rgba(5, 126, 116, 0.2);
   font-family: 'Encode Sans', sans-serif;
 }
 
 .addButton:hover {
-  background-color: var(--color-nav-hover);
+  background-color: var(--color-secondary-hover);
+  border-color: var(--color-secondary-hover);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(4, 120, 87, 0.4);
+  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.4);
 }
+
 
 .addButton span {
   text-align: center;
