@@ -17,6 +17,7 @@ import { useNavigate, useLocation } from "react-router-dom"
 import { useAssetsTour } from "../features/assets/hooks/useAssetsTour"
 import { useAuthStore } from "../store/authStore"
 import { isClient } from "../shared/utils/roleUtils"
+import TourButton from "../shared/components/Buttons/TourButton"
 
 const Assets = () => {
   const { t, i18n } = useTranslation()
@@ -336,38 +337,10 @@ const Assets = () => {
 
       {/* Botón flotante del tour estilo WhatsApp */}
       {!isClientUser && (
-        <button
+        <TourButton
           onClick={tourCompleted ? startTour : skipTour}
-          style={{
-            position: 'fixed',
-            bottom: '30px',
-            right: '30px',
-            width: '60px',
-            height: '60px',
-            borderRadius: '50%',
-            background: 'var(--color-secondary)',
-            color: 'white',
-            border: 'none',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 4px 12px rgba(5, 126, 116, 0.3)',
-            transition: 'all 0.3s ease',
-            zIndex: 1000
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'scale(1.1)';
-            e.currentTarget.style.boxShadow = '0 6px 20px rgba(5, 126, 116, 0.5)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'scale(1)';
-            e.currentTarget.style.boxShadow = '0 4px 12px rgba(5, 126, 116, 0.3)';
-          }}
-          title={tourCompleted ? t('assets.tour.buttons.restart') : t('assets.tour.buttons.skip')}
-        >
-          <HelpCircle size={28} />
-        </button>
+          label={tourCompleted ? t('assets.tour.buttons.restart') : t('assets.tour.buttons.skip')}
+        />
       )}
     </>
   )

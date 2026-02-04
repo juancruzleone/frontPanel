@@ -19,6 +19,7 @@ import { useAuthStore } from "../store/authStore"
 import { useClientsTour } from "../features/clients/hooks/useClientsTour"
 import useInstallations from "../features/installations/hooks/useInstallations"
 import Skeleton from "../shared/components/Skeleton"
+import TourButton from "../shared/components/Buttons/TourButton"
 
 const Clients = () => {
     const { t, i18n } = useTranslation()
@@ -300,38 +301,10 @@ const Clients = () => {
             <ModalError isOpen={showModal && isError} onRequestClose={closeModal} mensaje={responseMessage} />
 
             {/* Botón flotante del tour */}
-            <button
+            <TourButton
                 onClick={tourCompleted ? startTour : skipTour}
-                style={{
-                    position: 'fixed',
-                    bottom: '30px',
-                    right: '30px',
-                    width: '60px',
-                    height: '60px',
-                    borderRadius: '50%',
-                    background: 'var(--color-secondary)',
-                    color: 'white',
-                    border: 'none',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: '0 4px 12px rgba(5, 126, 116, 0.3)',
-                    transition: 'all 0.3s ease',
-                    zIndex: 1000
-                }}
-                onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'scale(1.1)';
-                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(5, 126, 116, 0.5)';
-                }}
-                onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'scale(1)';
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(5, 126, 116, 0.3)';
-                }}
-                title={tourCompleted ? t('clients.tour.buttons.restart') : t('clients.tour.buttons.skip')}
-            >
-                <CircleHelp size={28} />
-            </button>
+                label={tourCompleted ? t('clients.tour.buttons.restart') : t('clients.tour.buttons.skip')}
+            />
         </div>
     )
 }

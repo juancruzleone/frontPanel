@@ -24,6 +24,7 @@ import { useInstallationDetailTour } from "../features/installationsDetails/hook
 import { useAuthStore } from "../store/authStore"
 import { isClient, isTechnician as checkIsTechnician } from "../shared/utils/roleUtils"
 import Skeleton from "../shared/components/Skeleton"
+import TourButton from "../shared/components/Buttons/TourButton"
 
 const InstallationDetails = () => {
   const { t } = useTranslation()
@@ -543,38 +544,10 @@ const InstallationDetails = () => {
 
       {/* Botón flotante del tour estilo WhatsApp */}
       {!isRestricted && (
-        <button
+        <TourButton
           onClick={tourCompleted ? startTour : skipTour}
-          style={{
-            position: 'fixed',
-            bottom: '24px',
-            right: '24px',
-            width: '56px',
-            height: '56px',
-            borderRadius: '50%',
-            backgroundColor: 'var(--color-secondary)',
-            color: 'white',
-            border: 'none',
-            cursor: 'pointer',
-            boxShadow: '0 4px 12px rgba(5, 126, 116, 0.3)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'all 0.3s ease',
-            zIndex: 1000,
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'scale(1.1)'
-            e.currentTarget.style.boxShadow = '0 6px 16px rgba(5, 126, 116, 0.5)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'scale(1)'
-            e.currentTarget.style.boxShadow = '0 4px 12px rgba(5, 126, 116, 0.3)'
-          }}
-          title={tourCompleted ? t('installationDetails.tour.buttons.restart') : t('installationDetails.tour.buttons.skip')}
-        >
-          <HelpCircle size={28} />
-        </button>
+          label={tourCompleted ? t('installationDetails.tour.buttons.restart') : t('installationDetails.tour.buttons.skip')}
+        />
       )}
     </div>
   )

@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../store/authStore";
 import { useNavigate } from "react-router-dom";
 import { useManualsTour } from "../features/manuals/hooks/useManualsTour";
+import TourButton from "../shared/components/Buttons/TourButton";
 
 const Manuals = () => {
   const { t, i18n } = useTranslation();
@@ -435,38 +436,10 @@ const Manuals = () => {
 
       {/* Botón flotante del tour estilo WhatsApp */}
       {!isTechnician && (
-        <button
+        <TourButton
           onClick={tourCompleted ? startTour : skipTour}
-          style={{
-            position: 'fixed',
-            bottom: '30px',
-            right: '30px',
-            width: '60px',
-            height: '60px',
-            borderRadius: '50%',
-            background: 'var(--color-secondary)',
-            color: 'white',
-            border: 'none',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 4px 12px rgba(5, 126, 116, 0.3)',
-            transition: 'all 0.3s ease',
-            zIndex: 1000
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'scale(1.1)';
-            e.currentTarget.style.boxShadow = '0 6px 20px rgba(5, 126, 116, 0.5)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'scale(1)';
-            e.currentTarget.style.boxShadow = '0 4px 12px rgba(5, 126, 116, 0.3)';
-          }}
-          title={tourCompleted ? t('manuals.tour.buttons.restart') : t('manuals.tour.buttons.skip')}
-        >
-          <HelpCircle size={28} />
-        </button>
+          label={tourCompleted ? t('manuals.tour.buttons.restart') : t('manuals.tour.buttons.skip')}
+        />
       )}
     </>
   );
