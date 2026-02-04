@@ -356,6 +356,7 @@ const InstallationDetails = () => {
         <SearchInput
           placeholder={t('installationDetails.searchDevicesPlaceholder')}
           onInputChange={(value) => setSearchTerm(value)}
+          value={searchTerm}
         />
       </div>
 
