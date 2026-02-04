@@ -12,8 +12,13 @@ import ModalConfirmDelete from "../features/workOrders/components/ModalConfirmDe
 import ModalAssignTechnician from "../features/workOrders/components/ModalAssignTechnician"
 import ModalCompleteWorkOrder from "../features/workOrders/components/ModalCompleteWorkOrder"
 
-import { Edit, Trash, User, Check, Play, HelpCircle } from "lucide-react"
+import { Edit, Trash, User, Check, Play, HelpCircle, FilterX, Calendar as CalendarIcon, MapPin, Clock, Eye } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
+import HybridSelect from "../shared/components/HybridSelect"
+import DatePickerModal from "../features/calendar/components/DatePickerModal"
+import ModalWorkOrderDetails from "../features/calendar/components/ModalWorkOrderDetails"
+import { parseDateString } from "../features/calendar/utils/dateUtils"
+import { useTimeZone } from "../features/calendar/hooks/useTimeZone"
 import { useTranslation } from "react-i18next"
 import { translateWorkOrderStatus, translatePriority, translateWorkType } from "../shared/utils/backendTranslations"
 import { useAuthStore } from "../store/authStore"
@@ -94,12 +99,18 @@ const WorkOrders = () => {
   const isTechnician = role && ["tecnico", "técnico"].includes(role.toLowerCase())
 
   const [selectedStatus, setSelectedStatus] = useState("")
+  const [selectedPriority, setSelectedPriority] = useState("")
+  const [selectedDate, setSelectedDate] = useState("")
+  const [selectedDateFilter, setSelectedDateFilter] = useState("")
+  const [selectedTechnician, setSelectedTechnician] = useState("")
   const [searchTerm, setSearchTerm] = useState("")
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isAssignModalOpen, setIsAssignModalOpen] = useState(false)
   const [isCompleteModalOpen, setIsCompleteModalOpen] = useState(false)
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
   const [initialData, setInitialData] = useState<WorkOrder | null>(null)
   const [responseMessage, setResponseMessage] = useState("")
   const [isError, setIsError] = useState(false)
@@ -107,6 +118,8 @@ const WorkOrders = () => {
   const [selectedWorkOrder, setSelectedWorkOrder] = useState<WorkOrder | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 10
+
+  const { timeZone, offset } = useTimeZone()
 
   useEffect(() => {
     document.title = t("workOrders.titlePage")
@@ -130,12 +143,73 @@ const WorkOrders = () => {
 
   // Cargar órdenes cuando cambian los filtros o la página
   useEffect(() => {
-    const filters = {
+    const filters: any = {
       estado: selectedStatus,
-      search: searchTerm // El backend debería manejar este filtro para buscar en varios campos
+      search: searchTerm,
+      prioridad: selectedPriority,
+      tecnicoId: selectedTechnician,
+      timezone: timeZone,
+      offset: offset
     }
+
+    if (selectedDate) {
+      const today = new Date()
+      let startDate: Date | null = null
+      let endDate: Date | null = null
+
+      switch (selectedDate) {
+        case "today":
+          startDate = today
+          endDate = today
+          break
+        case "thisWeek": {
+          const startOfWeek = new Date(today)
+          startOfWeek.setDate(today.getDate() - today.getDay())
+          startDate = startOfWeek
+          const endOfWeek = new Date(startOfWeek)
+          endOfWeek.setDate(startOfWeek.getDate() + 6)
+          endDate = endOfWeek
+          break
+        }
+        case "thisMonth": {
+          const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1)
+          const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0)
+          startDate = startOfMonth
+          endDate = endOfMonth
+          break
+        }
+        case "nextWeek": {
+          const nextWeekStart = new Date(today)
+          nextWeekStart.setDate(today.getDate() - today.getDay() + 7)
+          startDate = nextWeekStart
+          const nextWeekEnd = new Date(nextWeekStart)
+          nextWeekEnd.setDate(nextWeekStart.getDate() + 6)
+          endDate = nextWeekEnd
+          break
+        }
+        case "nextMonth": {
+          const nextMonthStart = new Date(today.getFullYear(), today.getMonth() + 1, 1)
+          startDate = nextMonthStart
+          const nextMonthEnd = new Date(today.getFullYear(), today.getMonth() + 2, 0)
+          endDate = nextMonthEnd
+          break
+        }
+        case "custom":
+          if (selectedDateFilter) {
+            startDate = parseDateString(selectedDateFilter)
+            endDate = parseDateString(selectedDateFilter) // Assuming single day filter for simplicity as per Calendar implementation
+          }
+          break
+      }
+
+      if (startDate && endDate) {
+        filters.startDate = startDate.toISOString().split('T')[0]
+        filters.endDate = endDate.toISOString().split('T')[0]
+      }
+    }
+
     loadWorkOrders(currentPage, itemsPerPage, filters)
-  }, [currentPage, selectedStatus, searchTerm, loadWorkOrders])
+  }, [currentPage, selectedStatus, searchTerm, selectedPriority, selectedTechnician, selectedDate, selectedDateFilter, timeZone, offset, loadWorkOrders])
 
   const statusOptions = useMemo(
     () => [
@@ -148,6 +222,49 @@ const WorkOrders = () => {
     ],
     [t],
   )
+
+  const priorityOptions = useMemo(
+    () => [
+      { label: t('common.all'), value: "" },
+      { label: t('calendar.low') || 'Baja', value: "baja" },
+      { label: t('calendar.medium') || 'Media', value: "media" },
+      { label: t('calendar.high') || 'Alta', value: "alta" },
+      { label: t('calendar.critical') || 'Crítica', value: "critica" },
+    ],
+    [t],
+  )
+
+  const dateOptions = useMemo(
+    () => {
+      const opts = [
+        { label: t('calendar.allDates') || 'Todas las fechas', value: "" },
+        { label: t('calendar.today') || 'Hoy', value: "today" },
+        { label: t('calendar.thisWeek') || 'Esta semana', value: "thisWeek" },
+        { label: t('calendar.thisMonth') || 'Este mes', value: "thisMonth" },
+        { label: t('calendar.nextWeek') || 'Próxima semana', value: "nextWeek" },
+        { label: t('calendar.nextMonth') || 'Próximo mes', value: "nextMonth" },
+        { label: t('calendar.selectDate') || 'Seleccionar fecha', value: "custom" },
+      ]
+
+      if (selectedDate === 'custom' && selectedDateFilter) {
+        const customOpt = opts.find(o => o.value === 'custom')
+        if (customOpt) {
+          customOpt.label = parseDateString(selectedDateFilter).toLocaleDateString(i18n.language || 'es', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+          })
+        }
+      }
+      return opts
+    },
+    [t, selectedDate, selectedDateFilter, i18n.language],
+  )
+
+  const getTechnicianLabel = (tech: any) => {
+    const label = t(`technicians.${tech.userName}`, tech.userName)
+    return typeof label === 'string' ? label : tech.userName
+  }
 
   const totalPages = pagination.totalPages
 
@@ -176,6 +293,11 @@ const WorkOrders = () => {
     setIsEditModalOpen(true)
   }
 
+  const handleOpenDetails = (order: WorkOrder) => {
+    setSelectedWorkOrder(order)
+    setIsDetailsModalOpen(true)
+  }
+
   const handleOpenAssign = (order: WorkOrder) => {
     setSelectedWorkOrder(order)
     setIsAssignModalOpen(true)
@@ -197,6 +319,7 @@ const WorkOrders = () => {
     setIsEditModalOpen(false)
     setIsAssignModalOpen(false)
     setIsCompleteModalOpen(false)
+    setIsDetailsModalOpen(false)
     loadWorkOrders(currentPage, itemsPerPage, { estado: selectedStatus, search: searchTerm })
   }
 
@@ -207,6 +330,7 @@ const WorkOrders = () => {
     setIsEditModalOpen(false)
     setIsAssignModalOpen(false)
     setIsCompleteModalOpen(false)
+    setIsDetailsModalOpen(false)
   }
 
   const closeModal = () => {
@@ -248,9 +372,14 @@ const WorkOrders = () => {
     }
   }
 
+  const handleWrappedStart = async (id: string) => {
+    // Wrapper for the modal that expects void return but our hook returns object
+    await startWorkOrder(id)
+  }
+
   useEffect(() => {
     setCurrentPage(1)
-  }, [searchTerm, selectedStatus])
+  }, [searchTerm, selectedStatus, selectedPriority, selectedDate, selectedDateFilter, selectedTechnician])
 
   return (
     <>
@@ -275,6 +404,80 @@ const WorkOrders = () => {
             onInputChange={setSearchTerm}
             onSelectChange={setSelectedStatus}
           />
+        </div>
+
+        <div className={styles.filterContainer}>
+          <HybridSelect
+            value={selectedTechnician}
+            onChange={setSelectedTechnician}
+            options={[
+              { value: "", label: t('calendar.allTechnicians') || 'Todos los técnicos' },
+              ...technicians.map(tech => ({ label: getTechnicianLabel(tech), value: tech._id }))
+            ]}
+            placeholder={t('calendar.allTechnicians') || 'Todos los técnicos'}
+            autoSize={true}
+            className={styles.technicianSelect}
+          />
+
+          <HybridSelect
+            value={selectedPriority}
+            onChange={setSelectedPriority}
+            options={priorityOptions}
+            placeholder={t('common.all')}
+            autoSize={true}
+            className={styles.prioritySelect}
+          />
+
+          <HybridSelect
+            value={selectedDate}
+            onChange={(val) => {
+              if (val === 'custom') {
+                setIsDatePickerOpen(true)
+                setSelectedDate(val)
+              } else {
+                setSelectedDate(val)
+                setSelectedDateFilter("")
+              }
+            }}
+            options={dateOptions}
+            placeholder={t('calendar.allDates') || 'Todas las fechas'}
+            autoSize={true}
+            className={styles.dateSelect}
+          />
+
+          <button
+            onClick={() => setIsDatePickerOpen(true)}
+            className={styles.customDateButton}
+            type="button"
+          >
+            <CalendarIcon size={18} className={styles.dateButtonIcon} />
+            {selectedDateFilter ? (
+              <span style={{ color: '#10b981', fontWeight: 'bold' }}>
+                {parseDateString(selectedDateFilter).toLocaleDateString(i18n.language || 'es', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric'
+                })}
+              </span>
+            ) : (
+              t('calendar.selectDate') || 'Seleccionar fecha'
+            )}
+          </button>
+
+          <button
+            onClick={() => {
+              setSelectedStatus("")
+              setSelectedPriority("")
+              setSelectedDate("")
+              setSelectedDateFilter("")
+              setSearchTerm("")
+              setSelectedTechnician("")
+            }}
+            className={styles.clearFilters}
+          >
+            <FilterX size={18} />
+            {t('calendar.clearFilters') || 'Limpiar filtros'}
+          </button>
         </div>
 
 
@@ -317,13 +520,21 @@ const WorkOrders = () => {
                           {translateWorkOrderStatus(order.estado)}
                         </span>
                       </div>
-                      <p>
-                        <strong>{t('workOrders.scheduled')}:</strong> {new Date(order.fechaProgramada).getDate()}/{new Date(order.fechaProgramada).getMonth() + 1}/{new Date(order.fechaProgramada).getFullYear()} {t('workOrders.at')} {order.horaProgramada}
-                      </p>
+
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', marginTop: '8px', color: 'var(--color-text-secondary)' }}>
+                        <Clock size={16} />
+                        <span>
+                          {new Date(order.fechaProgramada).toLocaleDateString()} {t('workOrders.at')} {order.horaProgramada}
+                        </span>
+                      </div>
+
                       {order.instalacion && (
-                        <p>
-                          <strong>{t('workOrders.installation')}:</strong> {order.instalacion.company} - {order.instalacion.address}
-                        </p>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', color: 'var(--color-text-secondary)' }}>
+                          <MapPin size={16} />
+                          <span>
+                            {order.instalacion.company} - {order.instalacion.address}
+                          </span>
+                        </div>
                       )}
                       {renderTechnicianInfo(order, t)}
                     </div>
@@ -333,6 +544,14 @@ const WorkOrders = () => {
 
                   <div className={styles.cardActions}>
                     <div className={styles.actionButtons}>
+                      <button
+                        className={styles.iconButton}
+                        onClick={() => handleOpenDetails(order)}
+                        aria-label={t('workOrders.viewDetails') || 'Ver detalles'}
+                        data-tooltip={t('workOrders.viewDetails') || 'Ver detalles'}
+                      >
+                        <Eye size={20} />
+                      </button>
                       {order.estado === "asignada" && permissions?.canStartWorkOrder && (
                         <button
                           className={styles.iconButton}
@@ -454,6 +673,15 @@ const WorkOrders = () => {
         description={t('workOrders.confirmDeleteWorkOrderDescription')}
       />
 
+      <ModalWorkOrderDetails
+        isOpen={isDetailsModalOpen}
+        onRequestClose={() => setIsDetailsModalOpen(false)}
+        workOrder={selectedWorkOrder}
+        onStart={permissions?.canStartWorkOrder ? handleWrappedStart : undefined}
+        onSuccess={onSuccess}
+        onError={onError}
+      />
+
       <ModalSuccess
         isOpen={!!responseMessage && !isError}
         onRequestClose={closeModal}
@@ -499,6 +727,16 @@ const WorkOrders = () => {
       >
         <HelpCircle size={28} />
       </button>
+      <DatePickerModal
+        isOpen={isDatePickerOpen}
+        onRequestClose={() => setIsDatePickerOpen(false)}
+        onDateSelect={(date) => {
+          setSelectedDateFilter(date)
+          setSelectedDate("custom")
+        }}
+        selectedDate={selectedDateFilter}
+        title={t('calendar.selectDate') || 'Seleccionar fecha'}
+      />
     </>
   )
 }

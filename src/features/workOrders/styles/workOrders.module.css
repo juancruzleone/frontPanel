@@ -38,6 +38,31 @@
   width: 100%;
 }
 
+/* New filter container style */
+.filterContainer {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+/* Specific select widths */
+.technicianSelect {
+  min-width: 220px;
+}
+
+.prioritySelect {
+  min-width: 160px;
+}
+
+.dateSelect {
+  min-width: 180px;
+}
+
+
+
 .filtersContainer {
   display: flex;
   flex-direction: column;
@@ -58,35 +83,51 @@
 }
 
 .customDateButton {
-  padding: 12px 20px;
-  background: var(--color-bg-light);
-  border: 1.5px solid var(--color-card-border);
+  padding: 0 12px;
+  border: 1px solid var(--color-card-border);
   border-radius: 8px;
-  cursor: pointer;
   font-size: 14px;
   font-weight: 600;
+  width: 150px;
+  background-color: var(--color-bg-light);
   color: var(--color-text);
+  transition: all 0.3s ease;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 10px;
-  transition: all 0.2s ease;
-  min-width: 160px;
+  gap: 6px;
   justify-content: center;
+  position: relative;
+  overflow: visible;
+  box-sizing: border-box;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   height: 46px;
+  /* Match height of other inputs which seem to be around 46px in WorkOrders */
+}
+
+:global(.dark) .customDateButton {
+  border-color: white;
 }
 
 .customDateButton:hover {
-  border-color: var(--color-primary);
-  background: var(--color-card);
+  background-color: var(--color-card);
   transform: translateY(-1px);
+  border-color: var(--color-primary);
 }
 
 .dateButtonIcon {
-  color: var(--color-primary);
+  flex-shrink: 0;
+  color: var(--color-text);
+  opacity: 0.7;
+  width: 16px;
+  height: 16px;
 }
 
 .clearFilters {
-  padding: 12px 20px;
+  padding: 0 20px;
   background: #b71c1c;
   color: #ffffff !important;
   border: 1px solid #b71c1c;
@@ -98,7 +139,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  min-width: 150px;
+  width: 100%;
   justify-content: center;
   font-family: inherit;
   box-shadow: 0 2px 10px rgba(183, 28, 28, 0.3);

@@ -36,7 +36,7 @@ export type WorkOrder = {
   fechaProgramada: Date | string
   horaProgramada: string
   tecnicoAsignado?: string
-  tecnico?: Technician | string
+  tecnico?: Technician | Technician[] | string
   creadoPor?: string
   fechaCreacion?: Date | string
   fechaAsignacion?: Date | string
