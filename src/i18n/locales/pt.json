@@ -16,6 +16,18 @@
     "logout": "Sair",
     "clients": "Clientes"
   },
+  "calendar": {
+    "selectDate": "Selecionar data",
+    "selectYear": "Selecionar ano",
+    "selectedDate": "Data selecionada",
+    "sun": "Dom",
+    "mon": "Seg",
+    "tue": "Ter",
+    "wed": "Qua",
+    "thu": "Qui",
+    "fri": "Sex",
+    "sat": "Sáb"
+  },
   "personal": {
     "successTitle": "Operação bem-sucedida!",
     "understood": "Fechar",

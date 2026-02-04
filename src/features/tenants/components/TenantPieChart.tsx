@@ -1,11 +1,12 @@
 import React from "react"
 import { PieChart as RePieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts"
+import { TENANT_STATUS_COLORS } from "../../../utils/chartColors"
 import styles from "../styles/panelAdmin.module.css"
 
 interface StatusDistributionData {
   name: string
   value: number
-  color: string
+  color?: string
 }
 
 interface TenantPieChartProps {
@@ -77,7 +78,7 @@ const TenantPieChart: React.FC<TenantPieChartProps> = ({ data }) => {
                 dataKey="value"
               >
                 {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
+                  <Cell key={`cell-${index}`} fill={TENANT_STATUS_COLORS[entry.name] || 'var(--color-primary)'} />
                 ))}
               </Pie>
               <Tooltip content={<CustomTooltip />} />
@@ -99,7 +100,7 @@ const TenantPieChart: React.FC<TenantPieChartProps> = ({ data }) => {
               <div key={entry.name} className={styles.percentageItem}>
                 <div 
                   className={styles.percentageColor} 
-                  style={{ backgroundColor: entry.color }}
+                  style={{ backgroundColor: TENANT_STATUS_COLORS[entry.name] || 'var(--color-primary)' }}
                 />
                 <div className={styles.percentageContent}>
                   <div className={styles.percentageName}>{statusName}</div>

@@ -1,5 +1,6 @@
 import React from "react"
 import { LineChart as ReLineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts"
+import { LINE_CHART_COLOR } from "../../../utils/chartColors"
 import styles from "../styles/panelAdmin.module.css"
 
 interface TenantEvolutionData {
@@ -77,11 +78,11 @@ const TenantLineChart: React.FC<TenantLineChartProps> = ({ data }) => {
             <Line 
               type="natural" 
               dataKey="value" 
-              stroke="var(--color-primary)" 
+              stroke={LINE_CHART_COLOR}
               strokeWidth={3}
               fill="none"
               dot={{ 
-                fill: 'var(--color-primary)', 
+                fill: LINE_CHART_COLOR, 
                 strokeWidth: 2, 
                 r: 5,
                 stroke: 'var(--color-bg)',
@@ -89,9 +90,9 @@ const TenantLineChart: React.FC<TenantLineChartProps> = ({ data }) => {
               }}
               activeDot={{ 
                 r: 7, 
-                stroke: 'var(--color-primary)', 
+                stroke: LINE_CHART_COLOR, 
                 strokeWidth: 2, 
-                fill: 'var(--color-primary)',
+                fill: LINE_CHART_COLOR,
                 filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
               }}
               strokeLinecap="round"

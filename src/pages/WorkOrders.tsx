@@ -71,7 +71,26 @@ const WorkOrders = () => {
 
   const navigate = useNavigate()
   const role = useAuthStore((s) => s.role)
-  const permissions = useAuthStore((s) => s.permissions)
+  const userPermissions = useAuthStore((s) => s.permissions)
+
+  const permissions = useMemo(() => {
+    if (userPermissions && Object.keys(userPermissions).length > 0) return userPermissions;
+
+    // Fallback basado en roles si faltan permisos del backend
+    const isAdmin = role === 'admin' || role === 'super_admin';
+    const isTech = role === 'tecnico' || role === 'técnico' || (role && role.toLowerCase() === 'tecnico');
+
+    return {
+      canCreateWorkOrders: isAdmin,
+      canEditWorkOrders: isAdmin,
+      canDeleteWorkOrders: isAdmin,
+      canAssignWorkOrders: isAdmin,
+      canStartWorkOrder: isTech || isAdmin,
+      canCompleteWorkOrder: isTech || isAdmin,
+      canViewWorkOrders: true
+    };
+  }, [userPermissions, role]);
+
   const isTechnician = role && ["tecnico", "técnico"].includes(role.toLowerCase())
 
   const [selectedStatus, setSelectedStatus] = useState("")

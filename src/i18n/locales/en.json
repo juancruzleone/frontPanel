@@ -16,6 +16,18 @@
     "logout": "Logout",
     "clients": "Clients"
   },
+  "calendar": {
+    "selectDate": "Select date",
+    "selectYear": "Select year",
+    "selectedDate": "Selected date",
+    "sun": "Sun",
+    "mon": "Mon",
+    "tue": "Tue",
+    "wed": "Wed",
+    "thu": "Thu",
+    "fri": "Fri",
+    "sat": "Sat"
+  },
   "personal": {
     "successTitle": "Operation successful!",
     "understood": "Close",

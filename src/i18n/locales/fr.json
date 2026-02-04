@@ -16,6 +16,18 @@
     "logout": "Déconnexion",
     "clients": "Clients"
   },
+  "calendar": {
+    "selectDate": "Sélectionner la date",
+    "selectYear": "Sélectionner l'année",
+    "selectedDate": "Date sélectionnée",
+    "sun": "Dim",
+    "mon": "Lun",
+    "tue": "Mar",
+    "wed": "Mer",
+    "thu": "Jeu",
+    "fri": "Ven",
+    "sat": "Sam"
+  },
   "personal": {
     "successTitle": "Opération réussie !",
     "understood": "Fermer",

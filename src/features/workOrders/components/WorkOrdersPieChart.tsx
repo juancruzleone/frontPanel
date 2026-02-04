@@ -1,12 +1,13 @@
 import React from "react"
 import { PieChart as RePieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts"
 import { useTranslation } from "react-i18next"
+import { WORK_ORDER_STATUS_COLORS } from "../../../utils/chartColors"
 import styles from "../styles/workOrders.module.css"
 
 interface StatusDistributionData {
   name: string
   value: number
-  color: string
+  color?: string
 }
 
 interface WorkOrdersPieChartProps {
@@ -73,7 +74,7 @@ const WorkOrdersPieChart: React.FC<WorkOrdersPieChartProps> = ({ data }) => {
                 dataKey="value"
               >
                 {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
+                  <Cell key={`cell-${index}`} fill={WORK_ORDER_STATUS_COLORS[entry.name] || 'var(--color-primary)'} />
                 ))}
               </Pie>
               <Tooltip content={<CustomTooltip />} />
@@ -89,7 +90,7 @@ const WorkOrdersPieChart: React.FC<WorkOrdersPieChartProps> = ({ data }) => {
               <div key={entry.name} className={styles.percentageItem}>
                 <div 
                   className={styles.percentageColor} 
-                  style={{ backgroundColor: entry.color }}
+                  style={{ backgroundColor: WORK_ORDER_STATUS_COLORS[entry.name] || 'var(--color-primary)' }}
                 />
                 <div className={styles.percentageContent}>
                   <div className={styles.percentageName}>{entry.name}</div>

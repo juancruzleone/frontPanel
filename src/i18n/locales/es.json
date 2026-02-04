@@ -15,6 +15,18 @@
     "logout": "Cerrar Sesión",
     "clients": "Clientes"
   },
+  "calendar": {
+    "selectDate": "Seleccionar fecha",
+    "selectYear": "Seleccionar año",
+    "selectedDate": "Fecha seleccionada",
+    "sun": "Dom",
+    "mon": "Lun",
+    "tue": "Mar",
+    "wed": "Mié",
+    "thu": "Jue",
+    "fri": "Vie",
+    "sat": "Sáb"
+  },
   "personal": {
     "successTitle": "¡Operación exitosa!",
     "understood": "cerrar",
@@ -1504,6 +1516,7 @@
     "thu": "Jue",
     "fri": "Vie",
     "sat": "Sáb",
+    "selectYear": "Seleccionar año",
     "workOrderDetails": "Detalles de la Orden de Trabajo",
     "description": "Descripción",
     "scheduledDate": "Fecha Programada",

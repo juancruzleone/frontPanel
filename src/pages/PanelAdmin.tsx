@@ -69,14 +69,14 @@ const PanelAdmin: React.FC = () => {
             <h2 id="charts-title" className={styles.sectionTitle}>Análisis de Datos</h2>
             <div className={styles.chartsRow}>
               <TenantBarChart data={[
-                { name: 'basic', value: stats.planDistribution.basic, color: 'var(--color-primary)' },
-                { name: 'professional', value: stats.planDistribution.professional, color: '#057E74' },
-                { name: 'enterprise', value: stats.planDistribution.enterprise, color: '#fbc02d' }
+                { name: 'basic', value: stats.planDistribution.basic },
+                { name: 'professional', value: stats.planDistribution.professional },
+                { name: 'enterprise', value: stats.planDistribution.enterprise }
               ]} />
               <TenantPieChart data={[
-                { name: 'active', value: stats.statusDistribution.active, color: '#10b981' },
-                { name: 'suspended', value: stats.statusDistribution.suspended, color: '#f59e0b' },
-                { name: 'cancelled', value: stats.statusDistribution.cancelled, color: '#ef4444' }
+                { name: 'active', value: stats.statusDistribution.active },
+                { name: 'suspended', value: stats.statusDistribution.suspended },
+                { name: 'cancelled', value: stats.statusDistribution.cancelled }
               ]} />
             </div>
           </section>

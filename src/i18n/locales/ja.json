@@ -16,6 +16,18 @@
     "logout": "ログアウト",
     "clients": "クライアント"
   },
+  "calendar": {
+    "selectDate": "日付を選択",
+    "selectYear": "年を選択",
+    "selectedDate": "選択された日付",
+    "sun": "日",
+    "mon": "月",
+    "tue": "火",
+    "wed": "水",
+    "thu": "木",
+    "fri": "金",
+    "sat": "土"
+  },
   "personal": {
     "successTitle": "操作が成功しました！",
     "understood": "閉じる",

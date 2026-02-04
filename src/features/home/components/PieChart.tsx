@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react"
 import styles from "../styles/home.module.css"
 import { useTranslation } from "react-i18next"
+import { WORK_ORDER_STATUS_COLORS } from "../../../utils/chartColors"
 
 interface PieChartData {
   name: string
@@ -10,15 +11,6 @@ interface PieChartData {
 
 interface PieChartProps {
   data: PieChartData[]
-}
-
-// Colores premium para cada estado
-const STATUS_COLORS: Record<string, string> = {
-  pendiente: "#6366f1",    // Indigo vibrante
-  asignada: "#f59e0b",     // Ámbar cálido
-  en_progreso: "#3b82f6",  // Azul brillante
-  completada: "#10b981",   // Esmeralda
-  cancelada: "#ef4444",    // Rojo coral
 }
 
 const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
@@ -44,7 +36,7 @@ const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
         percentage,
         startAngle,
         endAngle,
-        color: item.color || STATUS_COLORS[item.name] || "#8b5cf6"
+        color: item.color || WORK_ORDER_STATUS_COLORS[item.name] || 'var(--color-primary)'
       }
     })
   }, [filteredData, total])
@@ -233,7 +225,7 @@ const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
             // Buscar si este item tiene representación en el gráfico (para hover)
             const segmentIndex = segments.findIndex(s => s.name === item.name)
             const isHovered = hoveredIndex === segmentIndex && segmentIndex !== -1
-            const color = item.color || STATUS_COLORS[item.name] || "#8b5cf6"
+            const color = item.color || WORK_ORDER_STATUS_COLORS[item.name] || 'var(--color-primary)'
             const percentage = total > 0 ? ((item.value / total) * 100).toFixed(0) : "0"
 
             return (

@@ -1,5 +1,6 @@
 import React from "react"
 import { BarChart as ReBarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell } from "recharts"
+import { PLAN_COLORS } from "../../../utils/chartColors"
 import styles from "../styles/panelAdmin.module.css"
 
 interface PlanDistributionData {
@@ -11,8 +12,6 @@ interface PlanDistributionData {
 interface TenantBarChartProps {
   data: PlanDistributionData[]
 }
-
-const COLORS = ["var(--color-primary)", "#057E74", "#fbc02d", "#e53935", "#388e3c"]
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -100,7 +99,7 @@ const TenantBarChart: React.FC<TenantBarChartProps> = ({ data }) => {
               {data.map((entry, idx) => (
                 <Cell
                   key={`cell-${idx}`}
-                  fill={entry.color || COLORS[idx % COLORS.length]}
+                  fill={PLAN_COLORS[entry.name] || 'var(--color-primary)'}
                   opacity={0.9}
                 />
               ))}

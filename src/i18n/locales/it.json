@@ -16,6 +16,18 @@
     "logout": "Disconnetti",
     "clients": "Clienti"
   },
+  "calendar": {
+    "selectDate": "Seleziona data",
+    "selectYear": "Seleziona anno",
+    "selectedDate": "Data selezionata",
+    "sun": "Dom",
+    "mon": "Lun",
+    "tue": "Mar",
+    "wed": "Mer",
+    "thu": "Gio",
+    "fri": "Ven",
+    "sat": "Sab"
+  },
   "personal": {
     "successTitle": "Operazione riuscita!",
     "understood": "Chiudi",

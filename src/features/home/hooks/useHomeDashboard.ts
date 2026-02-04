@@ -2,9 +2,7 @@ import { useEffect, useState } from "react"
 import { Home, Package, ClipboardList, User } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../../../store/authStore"
-
-// Los labels de estado se manejarán dinámicamente con traducciones
-const tipoColors = ["var(--color-primary)", "#057E74", "#fbc02d", "#e53935", "#388e3c"]
+import { WORK_ORDER_TYPE_COLORS, WORK_ORDER_STATUS_COLORS } from "../../../utils/chartColors"
 
 const useHomeDashboard = () => {
   const { t } = useTranslation()
@@ -72,22 +70,56 @@ const useHomeDashboard = () => {
 
         // 2. Bar Chart (Órdenes por tipo)
         const barData = (charts.byType || []).map((item: any) => {
-          let typeClave = item.name.toLowerCase()
-          // Normalización mínima si es necesario
+          // Normalizar el nombre del tipo a minúsculas
+          let typeName = item.name.toLowerCase()
+          
+          // Mapear nombres en español a inglés para las traducciones
+          const typeMapping: { [key: string]: string } = {
+            'mantenimiento': 'maintenance',
+            'reparación': 'repair',
+            'reparacion': 'repair',
+            'instalación': 'installation',
+            'instalacion': 'installation',
+            'inspección': 'inspection',
+            'inspeccion': 'inspection',
+            'otro': 'other'
+          }
+          
+          // Usar el mapeo si existe, sino usar el nombre tal cual
+          const mappedName = typeMapping[typeName] || typeName
+          
           return {
-            name: typeClave,
+            name: mappedName,
             value: item.value,
-            color: tipoColors[Math.floor(Math.random() * tipoColors.length)]
+            color: WORK_ORDER_TYPE_COLORS[mappedName] || 'var(--color-primary)'
           }
         })
         setBarChartData(barData)
 
         // 3. Pie Chart (Órdenes por estado)
-        const pieData = (charts.byStatus || []).map((item: any) => ({
-          name: item.name.toLowerCase(),
-          value: item.value,
-          color: backendColors[item.name.toLowerCase()] || "#ccc"
-        }))
+        const pieData = (charts.byStatus || []).map((item: any) => {
+          // Normalizar el nombre del estado a minúsculas
+          let statusName = item.name.toLowerCase()
+          
+          // Mapear nombres en español a inglés para las traducciones
+          const statusMapping: { [key: string]: string } = {
+            'pendiente': 'pending',
+            'asignada': 'assigned',
+            'en progreso': 'inProgress',
+            'en_progreso': 'inProgress',
+            'completada': 'completed',
+            'cancelada': 'cancelled'
+          }
+          
+          // Usar el mapeo si existe, sino usar el nombre tal cual
+          const mappedName = statusMapping[statusName] || statusName
+          
+          return {
+            name: mappedName,
+            value: item.value,
+            color: WORK_ORDER_STATUS_COLORS[mappedName] || backendColors[statusName] || '#ccc'
+          }
+        })
         setPieChartData(pieData)
 
         // 4. Line Chart

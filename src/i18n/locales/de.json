@@ -16,6 +16,18 @@
     "logout": "Abmelden",
     "clients": "Kunden"
   },
+  "calendar": {
+    "selectDate": "Datum auswählen",
+    "selectYear": "Jahr auswählen",
+    "selectedDate": "Ausgewähltes Datum",
+    "sun": "So",
+    "mon": "Mo",
+    "tue": "Di",
+    "wed": "Mi",
+    "thu": "Do",
+    "fri": "Fr",
+    "sat": "Sa"
+  },
   "personal": {
     "successTitle": "Vorgang erfolgreich!",
     "understood": "Schließen",
@@ -403,8 +415,6 @@
       "assignTechnician": "Techniker zuweisen"
     },
     "form": {
-      "successTitle": "Vorgang erfolgreich!",
-      "continue": "Weiter",
       "maintenance": "Wartung",
       "repair": "Reparatur",
       "installation": "Installation",
