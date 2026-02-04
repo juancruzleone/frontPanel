@@ -197,6 +197,8 @@ const Assets = () => {
               selectOptions={dynamicCategories}
               onInputChange={handleSearch}
               onSelectChange={handleCategoryChange}
+              value={searchTerm}
+              selectValue={selectedCategory}
             />
           </div>
           <button

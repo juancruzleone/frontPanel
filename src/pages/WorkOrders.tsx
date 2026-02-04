@@ -404,6 +404,8 @@ const WorkOrders = () => {
               selectOptions={statusOptions}
               onInputChange={setSearchTerm}
               onSelectChange={setSelectedStatus}
+              value={searchTerm}
+              selectValue={selectedStatus}
             />
           </div>
           <button

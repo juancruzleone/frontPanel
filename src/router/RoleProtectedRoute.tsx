@@ -2,6 +2,7 @@ import React from 'react'
 import { Navigate } from "react-router-dom"
 import { useAuthStore } from "../../src/store/authStore.ts"
 import { isSuperAdmin, isTechnician, isAdmin, canAccessSection } from "../shared/utils/roleUtils"
+import { useTranslatedRoutes } from "./useTranslatedRoutes"
 
 interface RoleProtectedRouteProps {
   children: React.ReactNode
@@ -12,6 +13,7 @@ const RoleProtectedRoute: React.FC<RoleProtectedRouteProps> = ({ children, secti
   const user = useAuthStore((state) => state.user)
   const role = useAuthStore((state) => state.role)
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  const { getRoute } = useTranslatedRoutes()
 
   if (!user || !isAuthenticated) return <Navigate to="/" replace />
 
@@ -23,10 +25,10 @@ const RoleProtectedRoute: React.FC<RoleProtectedRouteProps> = ({ children, secti
     
     // Si es super_admin y no tiene acceso, redirigir al panel admin
     if (isSuperAdmin(role)) {
-      return <Navigate to="/panel-admin" replace />
+      return <Navigate to={getRoute('panelAdmin')} replace />
     }
     // Para otros roles, redirigir al inicio
-    return <Navigate to="/inicio" replace />
+    return <Navigate to={getRoute('home')} replace />
   }
 
   return <>{children}</>

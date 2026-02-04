@@ -17,6 +17,8 @@ interface SearchInputProps {
   selectOptions?: Option[];
   onSelectChange?: (value: string) => void;
   onInputChange?: (value: string) => void;
+  value?: string;
+  selectValue?: string;
 }
 
 const SearchInput = ({
@@ -27,20 +29,20 @@ const SearchInput = ({
   selectOptions = [],
   onSelectChange,
   onInputChange,
+  value,
+  selectValue,
 }: SearchInputProps) => {
   const { dark } = useTheme();
-  const [selectedFilter, setSelectedFilter] = useState("");
 
-  const handleFilterChange = (value: string) => {
-    setSelectedFilter(value);
-    onSelectChange?.(value);
+  const handleFilterChange = (val: string) => {
+    onSelectChange?.(val);
   };
 
   return (
     <div className={styles.wrapper}>
       {showSelect && (
         <HybridSelect
-          value={selectedFilter}
+          value={selectValue || ""}
           onChange={handleFilterChange}
           options={[
             { value: "", label: selectPlaceholder },
@@ -57,6 +59,7 @@ const SearchInput = ({
           type={type}
           placeholder={placeholder}
           className={styles.input}
+          value={value || ""}
           onChange={(e) => onInputChange?.(e.target.value)}
         />
       </div>

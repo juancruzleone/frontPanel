@@ -1,11 +1,19 @@
 import { Navigate, Outlet } from "react-router-dom"
 import { useAuthStore } from "../../src/store/authStore.ts"
 import { isSuperAdmin, isTechnician, isAdmin } from "../shared/utils/roleUtils"
+import { useTranslatedRoutes } from "./useTranslatedRoutes"
+import React from "react"
 
-const ProtectedRoute = ({ allowedRoles }: { allowedRoles?: string[] }) => {
+interface ProtectedRouteProps {
+  allowedRoles?: string[]
+  children?: React.ReactNode
+}
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles, children }) => {
   const user = useAuthStore((state) => state.user)
   const role = useAuthStore((state) => state.role)
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  const { getRoute } = useTranslatedRoutes()
 
   // DEBUG: Log para verificar el rol actual
   console.log('DEBUG: ProtectedRoute', {
@@ -28,24 +36,24 @@ const ProtectedRoute = ({ allowedRoles }: { allowedRoles?: string[] }) => {
     if (!hasAccess) {
       // Si es super_admin y no tiene acceso, redirigir al panel admin
       if (isSuperAdmin(role)) {
-        return <Navigate to="/panel-admin" replace />
+        return <Navigate to={getRoute('panelAdmin')} replace />
       }
       // Si es técnico y no tiene acceso, redirigir al inicio
       if (isTechnician(role)) {
-        return <Navigate to="/inicio" replace />
+        return <Navigate to={getRoute('home')} replace />
       }
       // Si es admin y no tiene acceso, redirigir al inicio
       if (isAdmin(role)) {
-        return <Navigate to="/inicio" replace />
+        return <Navigate to={getRoute('home')} replace />
       }
       // Por defecto, redirigir al inicio
-      return <Navigate to="/inicio" replace />
+      return <Navigate to={getRoute('home')} replace />
     }
   } else if (allowedRoles && !role) {
-    return <Navigate to="/inicio" replace />
+    return <Navigate to={getRoute('home')} replace />
   }
 
-  return <Outlet />
+  return children ? <>{children}</> : <Outlet />
 }
 
 export default ProtectedRoute

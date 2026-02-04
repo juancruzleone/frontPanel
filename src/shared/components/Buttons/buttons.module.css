@@ -17,9 +17,9 @@ button {
 }
 
 .createButton {
-  background: var(--color-nav);
-  color: #fff;
-  border: none;
+  background: rgba(5, 126, 116, 0.06);
+  color: #057E74;
+  border: 1px solid #057E74;
   padding: 8px 16px;
   border-radius: 8px;
   cursor: pointer;
@@ -29,7 +29,7 @@ button {
   align-items: center;
   gap: 8px;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(3, 79, 73, 0.2);
+  box-shadow: 0 2px 8px rgba(5, 126, 116, 0.1);
   min-width: auto;
   width: fit-content;
   font-family: 'Encode Sans', sans-serif;
@@ -38,15 +38,16 @@ button {
 }
 
 .createButton:hover {
-  background: var(--color-nav-hover);
+  background: #057E74;
   color: #fff;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(3, 79, 73, 0.3);
+  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.3);
+  border-color: #057E74;
 }
 
 .createButton:active {
   transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(3, 79, 73, 0.2);
+  box-shadow: 0 2px 8px rgba(5, 126, 116, 0.1);
 }
 
 .createButton:disabled {
@@ -55,17 +56,21 @@ button {
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+  border: none;
 }
 
-/* Asegurar que el color sea consistente en modo oscuro */
+/* Asegurar que el color sea más vibrante en modo oscuro para mejor contraste */
 .dark .createButton {
-  background: var(--color-nav);
-  color: #fff;
+  background: rgba(0, 255, 174, 0.12);
+  color: var(--color-nav-text);
+  border: 1px solid var(--color-nav-text);
+  box-shadow: 0 2px 8px rgba(0, 255, 174, 0.15);
 }
 
 .dark .createButton:hover {
-  background: var(--color-nav-hover);
-  color: #fff;
+  background: rgba(0, 255, 174, 0.2);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 255, 174, 0.3);
 }
 
 .themeButton {

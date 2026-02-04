@@ -351,11 +351,25 @@
 }
 
 .viewDevicesButton button:hover {
-  background: var(--color-text);
+  background: #069b8e;
   transform: translateY(-2px);
-  color: var(--color-card);
-  border-color: var(--color-text);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  color: #fff;
+  border-color: #069b8e;
+  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.3);
+}
+
+/* Modo oscuro - mantener consistencia con colores verdes */
+:global(.dark) .viewDevicesButton button {
+  background: #057E74;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(5, 126, 116, 0.3);
+}
+
+:global(.dark) .viewDevicesButton button:hover {
+  background: #069b8e;
+  color: #fff;
+  border-color: #069b8e;
+  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.4);
 }
 
 /* Información adicional en el footer */
@@ -490,40 +504,71 @@
 }
 
 .smallButton {
-  background: var(--color-primary);
-  color: #fff;
-  border: none;
+  background: rgba(5, 126, 116, 0.06);
+  color: #057E74;
+  border: 1px solid #057E74;
   padding: 8px 16px;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 500;
   font-size: 14px;
   transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(5, 126, 116, 0.1);
 }
 
 .smallButton:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: #057E74;
   transform: translateY(-1px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: var(--color-text);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.3);
+  border-color: #057E74;
+}
+
+:global(.dark) .smallButton {
+  background: rgba(0, 255, 174, 0.12);
+  color: var(--color-nav-text);
+  border: 1px solid var(--color-nav-text);
+  box-shadow: 0 2px 8px rgba(0, 255, 174, 0.2);
+}
+
+:global(.dark) .smallButton:hover {
+  background: rgba(0, 255, 174, 0.2);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 255, 174, 0.4);
 }
 
 .manageButton {
-  background: var(--color-bg-light);
-  color: var(--color-text);
-  border: 1px solid var(--color-card-border);
+  background: rgba(5, 126, 116, 0.06);
+  color: #057E74;
+  border: 1px solid #057E74;
   padding: 8px 16px;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 500;
   font-size: 14px;
   transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(5, 126, 116, 0.1);
 }
 
 .manageButton:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--color-text);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: #057E74;
+  color: #fff;
+  border-color: #057E74;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.3);
+}
+
+:global(.dark) .manageButton {
+  background: rgba(0, 255, 174, 0.12);
+  color: var(--color-nav-text);
+  border: 1px solid var(--color-nav-text);
+  box-shadow: 0 2px 8px rgba(0, 255, 174, 0.2);
+}
+
+:global(.dark) .manageButton:hover {
+  background: rgba(0, 255, 174, 0.2);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 255, 174, 0.4);
 }
 
 .skeleton {

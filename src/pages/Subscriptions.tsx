@@ -303,6 +303,7 @@ const Subscriptions = () => {
                 <SearchInput
                   placeholder={t('subscriptions.searchPlaceholder')}
                   onInputChange={(value) => setSearchTerm(value)}
+                  value={searchTerm}
                 />
               </div>
               <button
