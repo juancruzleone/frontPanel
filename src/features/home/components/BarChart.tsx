@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react"
 import styles from "../styles/home.module.css"
 import { useTranslation } from "react-i18next"
+import { useTheme } from "../../../shared/hooks/useTheme"
 
 interface BarChartData {
   name: string
@@ -14,10 +15,14 @@ interface BarChartProps {
 
 const CustomBarChart: React.FC<BarChartProps> = ({ data }) => {
   const { t } = useTranslation()
+  const { dark } = useTheme()
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   const total = useMemo(() => data.reduce((sum, item) => sum + item.value, 0), [data])
   const maxValue = useMemo(() => Math.max(...data.map(d => d.value), 1), [data])
+
+  // Color: Negro (#000000) en modo claro, Blanco (#FFFFFF) en modo oscuro
+  const gridColor = dark ? "#FFFFFF" : "#000000"
 
   // Crear líneas de guía (Grid) - 4 líneas
   const gridLines = [0, 0.25, 0.5, 0.75, 1].map(p => Math.round(maxValue * p))
@@ -61,17 +66,17 @@ const CustomBarChart: React.FC<BarChartProps> = ({ data }) => {
                     y1={y}
                     x2="300"
                     y2={y}
-                    stroke="var(--color-card-border)"
+                    stroke={gridColor}
                     strokeWidth="1"
                     strokeDasharray="4 4"
-                    opacity="0.5"
+                    opacity="0.15"
                   />
                   <text
                     x="-10"
                     y={y + 4}
                     textAnchor="end"
                     fontSize="10"
-                    fill="var(--color-text)"
+                    fill={gridColor}
                     opacity="0.5"
                   >
                     {val}
@@ -123,8 +128,8 @@ const CustomBarChart: React.FC<BarChartProps> = ({ data }) => {
                     y={215}
                     textAnchor="middle"
                     fontSize="10"
-                    fill="var(--color-text)"
-                    opacity="0.75"
+                    fill={gridColor}
+                    opacity="0.6"
                     fontWeight={isHovered ? "bold" : "500"}
                     style={{ textTransform: 'uppercase', letterSpacing: '0.5px' }}
                   >
@@ -152,7 +157,7 @@ const CustomBarChart: React.FC<BarChartProps> = ({ data }) => {
                         textAnchor="middle"
                         fontSize="11"
                         fontWeight="600"
-                        fill="var(--color-text)"
+                        fill={gridColor}
                         opacity="0.9"
                         style={{ textTransform: 'capitalize' }}
                       >

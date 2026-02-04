@@ -75,8 +75,9 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data }) => {
         )
     }
 
-    // Color: Negro (#000000) en modo claro, Primario en modo oscuro
-    const chartColor = dark ? "var(--color-primary)" : "#000000"
+    // Color: Negro (#000000) en modo claro, Blanco (#FFFFFF) en modo oscuro
+    const chartColor = dark ? "#FFFFFF" : "#000000"
+    const gridColor = dark ? "#FFFFFF" : "#000000"
 
     return (
         <div className={styles.chartCard} role="region" aria-label={t('home.temporalEvolution')}>
@@ -115,18 +116,18 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data }) => {
                                     y1={y}
                                     x2={width - padding.right}
                                     y2={y}
-                                    stroke="var(--color-card-border)"
+                                    stroke={gridColor}
                                     strokeWidth="1"
                                     strokeDasharray="5 5"
-                                    opacity="0.4"
+                                    opacity="0.15"
                                 />
                                 <text
                                     x={padding.left - 10}
                                     y={y + 4}
                                     textAnchor="end"
                                     fontSize="10"
-                                    fill="var(--color-text)"
-                                    opacity="0.6"
+                                    fill={gridColor}
+                                    opacity="0.5"
                                 >
                                     {val}
                                 </text>
@@ -163,10 +164,10 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data }) => {
                                         y1={padding.top}
                                         x2={p[0]}
                                         y2={height - padding.bottom}
-                                        stroke="var(--color-text)"
+                                        stroke={chartColor}
                                         strokeWidth="1"
                                         strokeDasharray="3 3"
-                                        opacity="0.3"
+                                        opacity="0.2"
                                     />
                                 )}
 
@@ -202,8 +203,8 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data }) => {
                                         y={height - 5}
                                         textAnchor="middle"
                                         fontSize="10"
-                                        fill="var(--color-text)"
-                                        opacity="0.6"
+                                        fill={gridColor}
+                                        opacity="0.5"
                                         transform={`rotate(0, ${p[0]}, ${height - 5})`}
                                     >
                                         {data[i].name}
@@ -229,7 +230,7 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data }) => {
                                             textAnchor="middle"
                                             fontSize="10"
                                             fontWeight="bold"
-                                            fill="var(--color-text)"
+                                            fill={gridColor}
                                         >
                                             {data[i].name}
                                         </text>
