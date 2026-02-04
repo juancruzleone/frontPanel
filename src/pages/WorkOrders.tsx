@@ -225,7 +225,7 @@ const WorkOrders = () => {
 
   const priorityOptions = useMemo(
     () => [
-      { label: t('common.all'), value: "" },
+      { label: t('calendar.allPriorities') || 'Todas las prioridades', value: "" },
       { label: t('calendar.low') || 'Baja', value: "baja" },
       { label: t('calendar.medium') || 'Media', value: "media" },
       { label: t('calendar.high') || 'Alta', value: "alta" },
@@ -474,9 +474,9 @@ const WorkOrders = () => {
               setSelectedTechnician("")
             }}
             className={styles.clearFilters}
+            title={t('calendar.clearFilters') || 'Limpiar filtros'}
           >
-            <FilterX size={18} />
-            {t('calendar.clearFilters') || 'Limpiar filtros'}
+            <FilterX size={20} />
           </button>
         </div>
 
@@ -524,16 +524,22 @@ const WorkOrders = () => {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', marginTop: '8px', color: 'var(--color-text-secondary)' }}>
                         <Clock size={16} />
                         <span>
+                          <strong>{t('calendar.scheduledDate') || 'Fecha programada'}: </strong>
                           {new Date(order.fechaProgramada).toLocaleDateString()} {t('workOrders.at')} {order.horaProgramada}
                         </span>
                       </div>
 
                       {order.instalacion && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px', color: 'var(--color-text-secondary)' }}>
-                          <MapPin size={16} />
-                          <span>
-                            {order.instalacion.company} - {order.instalacion.address}
-                          </span>
+                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', marginBottom: '8px', color: 'var(--color-text-secondary)' }}>
+                          <MapPin size={16} style={{ marginTop: '3px', flexShrink: 0 }} />
+                          <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <span style={{ fontWeight: '600', color: 'var(--color-text)' }}>
+                              {order.instalacion.company}
+                            </span>
+                            <span style={{ fontSize: '0.9em' }}>
+                              {order.instalacion.address}
+                            </span>
+                          </div>
                         </div>
                       )}
                       {renderTechnicianInfo(order, t)}
@@ -547,8 +553,8 @@ const WorkOrders = () => {
                       <button
                         className={styles.iconButton}
                         onClick={() => handleOpenDetails(order)}
-                        aria-label={t('workOrders.viewDetails') || 'Ver detalles'}
-                        data-tooltip={t('workOrders.viewDetails') || 'Ver detalles'}
+                        aria-label={t('workOrders.tooltips.viewDetails') || 'Ver detalles'}
+                        data-tooltip={t('workOrders.tooltips.viewDetails') || 'Ver detalles'}
                       >
                         <Eye size={20} />
                       </button>

@@ -10,7 +10,7 @@
   color: var(--color-text);
   position: static;
   animation: fadeIn 0.3s ease-out;
-  overflow: visible;
+  overflow: visible !important;
 }
 
 @keyframes fadeIn {
@@ -214,14 +214,12 @@
   border: 1px solid var(--color-card-border);
   position: relative;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  overflow: visible;
+  overflow: visible !important;
   /* CRÍTICO: debe ser visible para que los tooltips sobresalgan */
-  z-index: 1;
+  z-index: 10;
   /* Margen superior para dar espacio a los tooltips de la primera fila */
   margin-top: 16px;
   /* Reducido de 50px para subir la tabla */
-  isolation: isolate;
-  /* Crear un nuevo contexto de apilamiento */
   display: flex;
   flex-direction: column;
 }
@@ -249,7 +247,7 @@
 
 .tableWrapper {
   width: 100%;
-  overflow: visible;
+  overflow: visible !important;
   /* CRÍTICO: Asegurar visibilidad de tooltips */
   position: relative;
   z-index: 2;
@@ -263,7 +261,7 @@
   border-collapse: separate;
   /* Cambiado de collapse a separate para mejor control de z-index */
   border-spacing: 0;
-  overflow: visible;
+  overflow: visible !important;
   position: relative;
 }
 
@@ -296,7 +294,7 @@
 
 .tableRow:hover {
   background: rgba(0, 0, 0, 0.02);
-  z-index: 10000;
+  z-index: 99999 !important;
   /* CRÍTICO: Elevar fila en hover para que sus tooltips estén encima de todo */
 }
 
@@ -312,7 +310,7 @@
   padding: 18px 24px;
   text-align: center;
   vertical-align: middle;
-  overflow: visible;
+  overflow: visible !important;
   /* CRÍTICO: permitir que tooltips sobresalgan */
   position: relative;
   /* Necesario para que los tooltips se posicionen correctamente */

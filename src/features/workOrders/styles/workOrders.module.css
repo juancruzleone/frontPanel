@@ -8,6 +8,7 @@
   color: var(--color-text);
   min-height: calc(100vh - 40px);
   position: static;
+  overflow: visible !important;
 }
 
 .topSection {
@@ -139,9 +140,10 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  width: 100%;
+  width: 46px;
   justify-content: center;
   font-family: inherit;
+  padding: 0;
   box-shadow: 0 2px 10px rgba(183, 28, 28, 0.3);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   letter-spacing: 0.01em;
@@ -185,6 +187,7 @@
   flex-direction: column;
   gap: 24px;
   flex: 1;
+  overflow: visible !important;
 }
 
 .workOrderCard {
@@ -199,7 +202,7 @@
   flex-direction: column;
   gap: 16px;
   position: relative;
-  overflow: visible;
+  overflow: visible !important;
 }
 
 .workOrderCard::before {
@@ -220,6 +223,7 @@
 .workOrderCard:hover {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   transform: translateY(-2px);
+  z-index: 100 !important;
 }
 
 .workOrderCard button {
@@ -404,7 +408,6 @@
 
 .iconButton:hover {
   background: var(--color-text);
-  transform: scale(1.05);
   color: var(--color-card);
   border: 1px solid var(--color-text);
 }
@@ -425,7 +428,7 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease;
-  z-index: 10;
+  z-index: 1000;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 

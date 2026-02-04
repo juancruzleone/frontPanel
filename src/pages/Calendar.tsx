@@ -106,7 +106,7 @@ const Calendar = () => {
 
   const priorityOptions = useMemo(
     () => [
-      { label: t('common.all'), value: "" },
+      { label: t('calendar.allPriorities') || 'Todas las prioridades', value: "" },
       { label: t('calendar.low'), value: "baja" },
       { label: t('calendar.medium'), value: "media" },
       { label: t('calendar.high'), value: "alta" },
@@ -372,15 +372,32 @@ const Calendar = () => {
         </div>
 
         <div className={styles.filtersContainer}>
-          <div className={styles.searchContainer}>
-            <SearchInput
-              placeholder={t('calendar.searchPlaceholder')}
-              showSelect
-              selectPlaceholder={t('calendar.filterByStatus')}
-              selectOptions={statusOptions}
-              onInputChange={setSearchTerm}
-              onSelectChange={setSelectedStatus}
-            />
+          <div className={styles.searchContainer} style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+            <div style={{ flex: 1 }}>
+              <SearchInput
+                placeholder={t('calendar.searchPlaceholder')}
+                showSelect
+                selectPlaceholder={t('calendar.filterByStatus')}
+                selectOptions={statusOptions}
+                onInputChange={setSearchTerm}
+                onSelectChange={setSelectedStatus}
+              />
+            </div>
+            <button
+              onClick={() => {
+                setSelectedStatus("")
+                setSelectedPriority("")
+                setSelectedDate("")
+                setSelectedDateFilter("")
+                setSearchTerm("")
+                setSelectedTechnician("")
+                setCurrentDate(new Date())
+              }}
+              className={styles.clearFilters}
+              title={t('calendar.clearFilters')}
+            >
+              <FilterX size={22} strokeWidth={3} />
+            </button>
           </div>
 
           <div className={styles.additionalFilters}>
@@ -439,22 +456,6 @@ const Calendar = () => {
               ) : (
                 t('calendar.selectDate')
               )}
-            </button>
-
-            <button
-              onClick={() => {
-                setSelectedStatus("")
-                setSelectedPriority("")
-                setSelectedDate("")
-                setSelectedDateFilter("")
-                setSearchTerm("")
-                setSelectedTechnician("")
-                setCurrentDate(new Date())
-              }}
-              className={styles.clearFilters}
-            >
-              <FilterX size={22} strokeWidth={3} />
-              {t('calendar.clearFilters')}
             </button>
           </div>
         </div>

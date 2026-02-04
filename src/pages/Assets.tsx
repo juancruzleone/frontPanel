@@ -107,14 +107,14 @@ const Assets = () => {
   const handleSuccessCreateOrEdit = (message: string) => {
     setIsCreateModalOpen(false)
     setIsEditModalOpen(false)
-    loadAssets({ page: pagination.page, limit: itemsPerPage, search: searchTerm })
+    loadAssets({ page: pagination.page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
     setResponseMessage(message)
     setIsError(false)
   }
 
   const handleSuccessAssignTemplate = (message: string) => {
     setIsTemplateModalOpen(false)
-    loadAssets({ page: pagination.page, limit: itemsPerPage, search: searchTerm })
+    loadAssets({ page: pagination.page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
     setResponseMessage(message)
     setIsError(false)
   }
@@ -137,7 +137,7 @@ const Assets = () => {
 
     try {
       await removeAsset(assetToDelete._id)
-      loadAssets({ page: pagination.page, limit: itemsPerPage, search: searchTerm })
+      loadAssets({ page: pagination.page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
       setResponseMessage("Activo eliminado con éxito")
       setIsError(false)
     } catch (err: any) {
@@ -152,13 +152,18 @@ const Assets = () => {
 
   const handleChangePage = (page: number) => {
     if (page >= 1 && page <= pagination.totalPages) {
-      loadAssets({ page, limit: itemsPerPage, search: searchTerm })
+      loadAssets({ page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
     }
   }
 
   const handleSearch = (value: string) => {
     setSearchTerm(value)
-    loadAssets({ page: 1, limit: itemsPerPage, search: value })
+    loadAssets({ page: 1, limit: itemsPerPage, search: value, category: selectedCategory })
+  }
+
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value)
+    loadAssets({ page: 1, limit: itemsPerPage, search: searchTerm, category: value })
   }
 
   return (
@@ -186,8 +191,11 @@ const Assets = () => {
         <div className={styles.searchContainer} data-tour="search-filter">
           <SearchInput
             placeholder={t('assets.searchPlaceholder')}
-            showSelect={false}
+            showSelect={true}
+            selectPlaceholder={t('assets.filterByCategory') || "Filtrar por categoría"}
+            selectOptions={dynamicCategories}
             onInputChange={handleSearch}
+            onSelectChange={handleCategoryChange}
           />
         </div>
 

@@ -15,18 +15,6 @@
     "logout": "Cerrar Sesión",
     "clients": "Clientes"
   },
-  "calendar": {
-    "selectDate": "Seleccionar fecha",
-    "selectYear": "Seleccionar año",
-    "selectedDate": "Fecha seleccionada",
-    "sun": "Dom",
-    "mon": "Lun",
-    "tue": "Mar",
-    "wed": "Mié",
-    "thu": "Jue",
-    "fri": "Vie",
-    "sat": "Sáb"
-  },
   "personal": {
     "successTitle": "¡Operación exitosa!",
     "understood": "cerrar",
@@ -737,6 +725,7 @@
     "maintenanceSchedule": "Programa de Mantenimiento",
     "searchPlaceholder": "Buscar por nombre, marca, modelo, número de serie o plantilla",
     "filterByTemplateCategory": "Filtrar por categoría de plantilla",
+    "filterByCategorieTipo": "Filtrar por categoría/tipo",
     "noAssetsFound": "No se encontraron activos",
     "assetDeleted": "Activo eliminado con éxito",
     "errorDeletingAsset": "Error al eliminar activo",
@@ -1209,6 +1198,8 @@
     }
   },
   "calendar": {
+    "selectedDate": "Fecha seleccionada",
+    "allPriorities": "Todas las prioridades",
     "selectYear": "Seleccionar año",
     "installation": "Instalación",
     "titlePage": "Calendario | Leonix",
@@ -1237,6 +1228,7 @@
     "time": "Hora",
     "workType": "Tipo de Trabajo",
     "assignedTechnician": "Técnico Asignado",
+    "noTechnicianAssigned": "Ningún técnico asignado",
     "observations": "Observaciones",
     "workDone": "Trabajo Realizado",
     "additionalInfo": "Información Adicional",

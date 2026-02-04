@@ -32,7 +32,7 @@ const ModalWorkOrderDetails = ({
   if (!isOpen || !workOrder) return null
 
   // DEBUG: Verificar si trabajoRealizado llega al modal
-  
+
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -160,15 +160,17 @@ const ModalWorkOrderDetails = ({
                 </div>
               )}
 
-              {workOrder.tecnico && (
-                <div className={styles.infoItem}>
-                  <User size={20} />
-                  <div>
-                    <strong>{t('calendar.assignedTechnician')}</strong>
-                    <p>{(workOrder.tecnico as any).userName}</p>
-                  </div>
+              <div className={styles.infoItem}>
+                <User size={20} />
+                <div>
+                  <strong>{t('calendar.assignedTechnician')}</strong>
+                  <p>
+                    {workOrder.tecnico
+                      ? (workOrder.tecnico as any).userName
+                      : t('calendar.noTechnicianAssigned') || 'Ninguno asignado'}
+                  </p>
                 </div>
-              )}
+              </div>
             </div>
 
             {workOrder.observaciones && (

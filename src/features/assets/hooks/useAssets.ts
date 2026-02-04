@@ -87,7 +87,7 @@ const useAssets = () => {
     }
   }, [])
 
-  const loadAssets = useCallback(async (params: { page?: number, limit?: number, search?: string } = {}) => {
+  const loadAssets = useCallback(async (params: { page?: number, limit?: number, search?: string, category?: string } = {}) => {
     setLoading(true)
     try {
       const result = await fetchAssets(params)

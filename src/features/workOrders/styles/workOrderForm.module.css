@@ -1,8 +1,8 @@
-/* Revertir a la estructura original, solo mantener variables CSS para colores */
 .form {
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
 }
 
 .formInner {
@@ -11,6 +11,33 @@
   gap: 1.5rem;
   padding: 2rem 2.5rem;
   background: var(--color-card);
+}
+
+.basicInfoSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  color: var(--color-text);
+  margin: 0 0 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--color-card-border);
+  font-weight: 700;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sectionTitle::before {
+  content: '';
+  width: 4px;
+  height: 20px;
+  background: var(--color-text);
+  border-radius: 2px;
 }
 
 .formGroup {
@@ -49,15 +76,60 @@
   background: var(--color-card);
   color: var(--color-text);
   font-family: inherit;
-  height: 48px;
-  box-sizing: border-box;
 }
 
-/* Estilos para select nativo - solo se usan en otros formularios */
+.formGroup input:focus,
+.formGroup select:focus,
+.formGroup textarea:focus {
+  outline: none;
+  border-color: white;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+  background: var(--color-bg-light);
+}
+
+.formGroup input:hover,
+.formGroup select:hover,
+.formGroup textarea:hover {
+  border-color: var(--color-card-border);
+}
+
+/* Estilos para las opciones del select en modo oscuro */
+[data-theme="dark"] .formGroup select option {
+  background-color: var(--color-card);
+  color: var(--color-text);
+}
+
+/* Estilos para las opciones del select en modo claro */
+.formGroup select option {
+  background-color: var(--color-card);
+  color: var(--color-text);
+}
+
 .formGroup select {
   appearance: none;
-  background-image: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 1em;
   padding-right: 40px;
+}
+
+.dark .formGroup select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+}
+
+.formGroup textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+.formGroup input:disabled,
+.formGroup select:disabled,
+.formGroup textarea:disabled {
+  background-color: var(--color-skeleton);
+  color: var(--color-skeleton-light);
+  cursor: not-allowed;
 }
 
 /* Select personalizado con icono */
@@ -65,7 +137,6 @@
   position: relative;
   display: flex;
   align-items: center;
-  margin-top: -3px;
 }
 
 .selectWrapper .select {
@@ -73,31 +144,6 @@
   background-image: none;
   padding-right: 40px;
   width: 100%;
-}
-
-.selectWrapper input[type="time"] {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: none;
-  padding-right: 40px;
-  width: 100%;
-}
-
-.selectWrapper input[type="time"]::-webkit-calendar-picker-indicator {
-  display: none !important;
-  -webkit-appearance: none;
-  opacity: 0;
-  width: 0;
-  height: 0;
-  position: absolute;
-  right: -9999px;
-}
-
-.selectWrapper input[type="time"]::-webkit-inner-spin-button,
-.selectWrapper input[type="time"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
 }
 
 .selectIcon {
@@ -113,58 +159,6 @@
 
 .selectIcon.dark {
   color: #f5f5f5;
-}
-
-/* Estilos para el dropdown personalizado - ELIMINADOS DUPLICADOS */
-
-.formGroup input:focus,
-.formGroup select:focus,
-.formGroup textarea:focus {
-  outline: none;
-  border-color: var(--color-secondary);
-  box-shadow: 0 0 0 4px rgba(5, 126, 116, 0.1);
-  background: var(--color-bg-light);
-}
-
-/* Modo oscuro para formGroup focus */
-:global(.dark) .formGroup input:focus,
-:global(.dark) .formGroup select:focus,
-:global(.dark) .formGroup textarea:focus {
-  border-color: white;
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
-}
-
-/* Estilos para las opciones del select en modo oscuro */
-[data-theme="dark"] .formGroup select option {
-  background-color: var(--color-card);
-  color: var(--color-text);
-}
-
-/* Estilos para las opciones del select en modo claro */
-.formGroup select option {
-  background-color: var(--color-card);
-  color: var(--color-text);
-}
-
-.formGroup input:hover,
-.formGroup select:hover,
-.formGroup textarea:hover {
-  border-color: var(--color-card-border);
-}
-
-.formGroup textarea {
-  resize: vertical;
-  min-height: 100px;
-  font-family: inherit;
-  height: auto;
-}
-
-.formGroup input:disabled,
-.formGroup select:disabled,
-.formGroup textarea:disabled {
-  background-color: var(--color-skeleton);
-  color: var(--color-skeleton-light);
-  cursor: not-allowed;
 }
 
 .errorInput {
@@ -191,28 +185,16 @@
 }
 
 .inputError::before {
-  content: '⚠';
-  font-size: 1rem;
-}
-
-.inputWarning {
-  color: var(--color-accent);
-  font-size: 0.875rem;
-  margin: 0;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.inputWarning::before {
-  content: 'ℹ';
+  content: "⚠";
   font-size: 1rem;
 }
 
 .formRow {
-  display: flex;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  width: 100%;
 }
 
 .formRow .formGroup {
@@ -229,26 +211,89 @@
   margin-top: auto;
 }
 
-.selectedInstallationDetail {
-  margin-top: 8px;
-  padding: 12px 16px;
-  background: var(--color-bg-light);
+/* Los estilos de botones ahora están en formButtons.module.css */
+
+.formError {
+  color: var(--color-danger);
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 1rem;
+  background: var(--color-danger-light);
+  border: 1px solid var(--color-danger-border);
   border-radius: 8px;
-  border: 1.5px solid var(--color-card-border);
-  font-size: 0.97em;
-  color: var(--color-text);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  transition: background 0.2s, color 0.2s;
 }
 
+.selectedInstallationDetail {
+  margin-top: 0.5rem;
+  padding: 1rem;
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-card-border);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+/* Custom Date Button Styles */
+.customDateButton {
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--color-card-border);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  width: 100%;
+  background-color: var(--color-card);
+  color: var(--color-text);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-start;
+  font-family: inherit;
+}
+
+.customDateButton:hover {
+  border-color: var(--color-card-border);
+  transform: translateY(-1px);
+}
+
+.customDateButton:focus {
+  outline: none;
+  border-color: white;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+}
+
+.customDateButton:disabled {
+  background-color: var(--color-skeleton);
+  color: var(--color-skeleton-light);
+  cursor: not-allowed;
+  transform: none;
+}
+
+.dateButtonIcon {
+  width: 16px;
+  height: 16px;
+  color: var(--color-text);
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.customDateButton:hover .dateButtonIcon {
+  opacity: 1;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .formInner {
     padding: 1.5rem;
     gap: 1.25rem;
   }
   .formRow {
-    flex-direction: column;
-    gap: 1.25rem;
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
   .actions {
     padding: 1.25rem 1.5rem;
@@ -279,340 +324,3 @@
   }
 }
 
-/* Custom Date Button Styles */
-.customDateButton {
-  padding: 0.875rem 1rem;
-  border: 2px solid var(--color-card-border);
-  border-radius: 12px;
-  font-size: 1rem;
-  font-weight: 500;
-  width: 100%;
-  background-color: var(--color-card);
-  color: var(--color-text);
-  transition: all 0.3s ease;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  justify-content: flex-start;
-  position: relative;
-  overflow: hidden;
-  box-sizing: border-box;
-  white-space: nowrap;
-  flex-shrink: 0;
-  margin: 0;
-  align-self: flex-start;
-  font-family: inherit;
-}
-
-.customDateButton:hover {
-  border-color: var(--color-card-border);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-  transform: translateY(-1px);
-  color: white;
-}
-
-.customDateButton:focus {
-  outline: none;
-  border-color: var(--color-card-border);
-  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
-}
-
-.customDateButton:disabled {
-  background-color: var(--color-skeleton);
-  color: var(--color-text-muted);
-  cursor: not-allowed;
-  transform: none;
-}
-
-.dateButtonIcon {
-  width: 16px;
-  height: 16px;
-  color: var(--color-text-muted);
-  flex-shrink: 0;
-}
-
-.customDateButton:hover .dateButtonIcon {
-  opacity: 1;
-}
-
-/* Custom select with styled dropdown approach */
-.customSelect {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: none;
-  position: relative;
-  background: var(--color-card) !important;
-  border: 1px solid var(--color-card-border) !important;
-  color: var(--color-text) !important;
-}
-
-/* Force styles on select dropdown - more aggressive approach */
-select.customSelect {
-  background-color: var(--color-card) !important;
-  color: var(--color-text) !important;
-}
-
-select.customSelect option {
-  background-color: var(--color-card) !important;
-  color: var(--color-text) !important;
-  padding: 12px 16px !important;
-  font-size: 1rem !important;
-  font-weight: 500 !important;
-  line-height: 1.5 !important;
-  border: none !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
-}
-
-select.customSelect option:hover {
-  background-color: rgba(16, 185, 129, 0.1) !important;
-  color: var(--color-text) !important;
-}
-
-select.customSelect option:checked,
-select.customSelect option:focus {
-  background-color: rgba(16, 185, 129, 0.2) !important;
-  color: var(--color-text) !important;
-  font-weight: 600 !important;
-}
-
-/* Alternative approach using CSS custom properties */
-.customSelect {
-  --select-bg: var(--color-card);
-  --select-color: var(--color-text);
-  --option-bg: var(--color-card);
-  --option-color: var(--color-text);
-  --option-hover-bg: rgba(16, 185, 129, 0.1);
-  --option-selected-bg: rgba(16, 185, 129, 0.2);
-  --option-selected-color: var(--color-text);
-}
-
-/* Webkit specific targeting */
-@supports (-webkit-appearance: none) {
-  .customSelect {
-    background: var(--color-card);
-    color: var(--color-text);
-  }
-  
-  .customSelect option {
-    background: var(--color-card);
-    color: var(--color-text);
-    padding: 12px 16px;
-    font-weight: 500;
-  }
-  
-  .customSelect option:hover {
-    background: rgba(16, 185, 129, 0.1);
-  }
-  
-  .customSelect option:checked {
-    background: rgba(16, 185, 129, 0.2);
-    color: var(--color-text);
-    font-weight: 600;
-  }
-}
-
-/* Firefox specific */
-@-moz-document url-prefix() {
-  .customSelect {
-    background: var(--color-card) !important;
-    color: var(--color-text) !important;
-  }
-  
-  .customSelect option {
-    background: var(--color-card) !important;
-    color: var(--color-text) !important;
-    padding: 12px 16px !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
-  }
-  
-  .customSelect option:hover {
-    background: rgba(16, 185, 129, 0.15) !important;
-  }
-  
-  .customSelect option:checked {
-    background: rgba(16, 185, 129, 0.2) !important;
-    color: var(--color-text) !important;
-    font-weight: 600 !important;
-  }
-}
-
-/* Enhanced focus state */
-.customSelect:focus {
-  outline: none;
-  border-color: #10b981;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-}
-
-/* Hybrid Select Styles */
-.hybridSelect {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  user-select: none;
-  position: relative;
-  padding: 0.875rem 1rem;
-  border: 2px solid var(--color-card-border);
-  border-radius: 12px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  background: var(--color-card);
-  color: var(--color-text);
-  min-height: 48px;
-  box-sizing: border-box;
-}
-
-.hybridSelect:hover {
-  border-color: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-1px);
-}
-
-.hybridSelect:focus {
-  outline: none;
-  border-color: var(--color-secondary);
-  box-shadow: 0 0 0 4px rgba(5, 126, 116, 0.15);
-}
-
-/* Modo oscuro para hybridSelect focus */
-:global(.dark) .hybridSelect:focus {
-  border-color: white;
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.15);
-}
-
-.hybridSelect:disabled {
-  background-color: var(--color-skeleton);
-  color: var(--color-text-muted);
-  cursor: not-allowed;
-  transform: none;
-}
-
-.selectValue {
-  flex: 1;
-  text-align: left;
-  color: var(--color-text);
-}
-
-.selectIcon.rotated {
-  transform: rotate(180deg);
-  transition: transform 0.2s ease;
-}
-
-/* Custom Dropdown - Versión única y limpia */
-.customDropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  z-index: 10000;
-  background: var(--color-card);
-  border: 2px solid var(--color-card-border);
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-  max-height: 300px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  margin-top: 4px;
-  animation: dropdownSlideIn 0.2s ease-out;
-  padding: 0;
-}
-
-@keyframes dropdownSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.customOption {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  cursor: pointer;
-  color: var(--color-text);
-  font-size: 1rem;
-  font-weight: 500;
-  border-bottom: 1px solid var(--color-card-border);
-  transition: all 0.2s ease;
-  background: var(--color-card);
-}
-
-.customOption:last-child {
-  border-bottom: none;
-  border-radius: 0 0 10px 10px;
-}
-
-.customOption:first-child {
-  border-radius: 10px 10px 0 0;
-}
-
-.customOption:hover,
-.customOption.highlighted {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
-  color: var(--color-text);
-  transform: translateX(2px);
-}
-
-.customOption.selected {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.2) 100%);
-  color: var(--color-text);
-  font-weight: 600;
-  border-left: 3px solid #10b981;
-}
-
-.customOption.selected:hover {
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(5, 150, 105, 0.25) 100%);
-  transform: translateX(0);
-}
-
-.checkIcon {
-  color: currentColor;
-  flex-shrink: 0;
-  margin-left: 8px;
-}
-
-/* Scrollbar for custom dropdown */
-.customDropdown::-webkit-scrollbar {
-  width: 10px;
-}
-
-.customDropdown::-webkit-scrollbar-track {
-  background: var(--color-bg-light);
-  border-radius: 5px;
-}
-
-.customDropdown::-webkit-scrollbar-thumb {
-  background: var(--color-card-border);
-  border-radius: 5px;
-  border: 2px solid var(--color-bg-light);
-}
-
-.customDropdown::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text);
-}
-
-/* Modo claro - Scrollbar negro */
-:root .customDropdown::-webkit-scrollbar-thumb {
-  background: #000;
-}
-
-:root .customDropdown::-webkit-scrollbar-thumb:hover {
-  background: #333;
-}
-
-/* Modo oscuro - Scrollbar blanco */
-.dark .customDropdown::-webkit-scrollbar-thumb {
-  background: #fff;
-}
-
-.dark .customDropdown::-webkit-scrollbar-thumb:hover {
-  background: #e0e0e0;
-}

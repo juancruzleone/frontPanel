@@ -93,7 +93,7 @@ const Forms = () => {
     try {
       await addTemplate(templateData)
       setIsCreateModalOpen(false)
-      loadTemplates({ page: pagination.page, limit: itemsPerPage, search: searchTerm })
+      loadTemplates({ page: pagination.page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
       setResponseMessage(t("forms.createSuccess"))
       setIsError(false)
     } catch (err: any) {
@@ -107,7 +107,7 @@ const Forms = () => {
     try {
       await editTemplate(currentTemplate._id, templateData)
       setIsEditModalOpen(false)
-      loadTemplates({ page: pagination.page, limit: itemsPerPage, search: searchTerm })
+      loadTemplates({ page: pagination.page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
       setResponseMessage(t("forms.editSuccess"))
       setIsError(false)
     } catch (err: any) {
@@ -120,7 +120,7 @@ const Forms = () => {
     if (templateToDelete?._id) {
       try {
         await removeTemplate(templateToDelete._id)
-        loadTemplates({ page: pagination.page, limit: itemsPerPage, search: searchTerm })
+        loadTemplates({ page: pagination.page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
         setResponseMessage(t("forms.deleteSuccess"))
         setIsError(false)
       } catch (err: any) {
@@ -135,13 +135,18 @@ const Forms = () => {
 
   const handleChangePage = (page: number) => {
     if (page >= 1 && page <= pagination.totalPages) {
-      loadTemplates({ page, limit: itemsPerPage, search: searchTerm })
+      loadTemplates({ page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
     }
   }
 
   const handleSearch = (value: string) => {
     setSearchTerm(value)
-    loadTemplates({ page: 1, limit: itemsPerPage, search: value })
+    loadTemplates({ page: 1, limit: itemsPerPage, search: value, category: selectedCategory })
+  }
+
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value)
+    loadTemplates({ page: 1, limit: itemsPerPage, search: searchTerm, category: value })
   }
 
   const closeModal = () => {
@@ -187,8 +192,11 @@ const Forms = () => {
         <div className={styles.searchContainer} data-tour="search-filter">
           <SearchInput
             placeholder={t("forms.searchPlaceholder")}
-            showSelect={false}
+            showSelect={true}
+            selectPlaceholder={t('forms.filterByCategory') || "Filtrar por categoría"}
+            selectOptions={dynamicCategories}
             onInputChange={handleSearch}
+            onSelectChange={handleCategoryChange}
           />
         </div>
 
@@ -272,14 +280,19 @@ const Forms = () => {
       <ModalCreateForm
         isOpen={isCreateModalOpen}
         onRequestClose={() => setIsCreateModalOpen(false)}
-        onSubmit={handleCreateSuccess}
+        onSubmitSuccess={handleCreateSuccess}
+        onSubmitError={(msg) => {
+          setResponseMessage(msg)
+          setIsError(true)
+        }}
+        initialData={null}
         categories={categories}
       />
 
       <ModalEditForm
         isOpen={isEditModalOpen}
         onRequestClose={() => setIsEditModalOpen(false)}
-        onSubmit={handleEditSuccess}
+        onSubmitSuccess={handleEditSuccess}
         initialData={currentTemplate}
         categories={categories}
       />

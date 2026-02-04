@@ -47,7 +47,7 @@ const useForms = () => {
     total: 0
   })
 
-  const loadTemplates = useCallback(async (params: { page?: number, limit?: number, search?: string } = {}) => {
+  const loadTemplates = useCallback(async (params: { page?: number, limit?: number, search?: string, category?: string } = {}) => {
     setLoading(true)
     setError(null)
     try {
