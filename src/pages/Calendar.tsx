@@ -16,7 +16,7 @@ import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import i18n from "../i18n"
 import { translatePriority } from "../shared/utils/backendTranslations"
-import { useAuthStore } from "../store/authstore"
+import { useAuthStore } from "../store/authStore"
 import { compareDates, parseDateString, normalizeDate } from "../features/calendar/utils/dateUtils"
 import { useTimeZone } from "../features/calendar/hooks/useTimeZone"
 import TimeZoneInfo from "../features/calendar/components/TimeZoneInfo"

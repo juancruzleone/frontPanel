@@ -26,7 +26,6 @@
     "noImplicitThis": false,
     "allowUnreachableCode": true,
     "allowUnusedLabels": true,
-    "suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": false
