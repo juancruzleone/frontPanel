@@ -7,6 +7,7 @@ import { useUserProfile } from "../features/profile/hooks/useUserProfile";
 import SearchInput from "../shared/components/Inputs/SearchInput";
 import styles from "../features/profile/styles/profile.module.css";
 import { translateUserRole } from "../shared/utils/backendTranslations";
+import Skeleton from "../shared/components/Skeleton";
 
 const UserProfile = () => {
   const { t } = useTranslation();
@@ -86,8 +87,36 @@ const UserProfile = () => {
   if (loading) {
     return (
       <div className={styles.profileContainer}>
-        <div style={{ textAlign: 'center', padding: '40px' }}>
-          <div>{t('profile.loadingProfile', { defaultValue: 'Cargando perfil...' })}</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+          <button
+            onClick={handleGoBack}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '8px',
+              borderRadius: '6px',
+              color: 'var(--color-text)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.2s ease',
+              width: '36px',
+              height: '36px'
+            }}
+            title={t('common.back')}
+          >
+            <FiArrowLeft size={20} />
+          </button>
+        </div>
+        <div className={styles.loadingContainer}>
+          <Skeleton height={80} width="100%" style={{ borderRadius: 16 }} />
+          <Skeleton height={60} width="100%" style={{ borderRadius: 12 }} />
+          <div className={styles.skeletonGrid}>
+            {[1, 2, 3].map((_, i) => (
+              <Skeleton key={i} height={140} width="100%" style={{ borderRadius: 16 }} />
+            ))}
+          </div>
         </div>
       </div>
     );

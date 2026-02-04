@@ -38,6 +38,104 @@
   width: 100%;
 }
 
+.filtersContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  background: var(--color-card);
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid var(--color-card-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.additionalFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.customDateButton {
+  padding: 12px 20px;
+  background: var(--color-bg-light);
+  border: 1.5px solid var(--color-card-border);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+  min-width: 160px;
+  justify-content: center;
+  height: 46px;
+}
+
+.customDateButton:hover {
+  border-color: var(--color-primary);
+  background: var(--color-card);
+  transform: translateY(-1px);
+}
+
+.dateButtonIcon {
+  color: var(--color-primary);
+}
+
+.clearFilters {
+  padding: 12px 20px;
+  background: #b71c1c;
+  color: #ffffff !important;
+  border: 1px solid #b71c1c;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 800;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 150px;
+  justify-content: center;
+  font-family: inherit;
+  box-shadow: 0 2px 10px rgba(183, 28, 28, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.01em;
+  height: 46px;
+}
+
+:global(.dark) .clearFilters {
+  background: #c62828;
+  border-color: #c62828;
+}
+
+.clearFilters:hover {
+  background: #8e0000;
+  border-color: #8e0000;
+  transform: translateY(-2px);
+  color: #ffffff !important;
+  box-shadow: 0 6px 16px rgba(142, 0, 0, 0.4);
+}
+
+:global(.dark) .clearFilters:hover {
+  background: #b71c1c;
+  border-color: #b71c1c;
+}
+
+.clearFilters svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  stroke-width: 3px !important;
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.8));
+}
+
+.tallSelect {
+  height: 46px !important;
+}
+
 
 
 .listContainer {
@@ -228,10 +326,22 @@
 }
 
 /* Botón "Ver detalles" */
-.viewDetailsButton {
-  margin: 0;
-  display: flex;
-  justify-content: flex-end;
+.detailsButton {
+  padding: 8px 16px !important;
+  background: var(--color-nav);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.detailsButton:hover {
+  background: var(--color-nav-hover);
+  transform: translateY(-1px);
 }
 
 .iconButton {

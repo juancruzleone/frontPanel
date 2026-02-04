@@ -23,6 +23,7 @@ import HybridSelect from "../shared/components/HybridSelect/HybridSelect"
 import { useInstallationDetailTour } from "../features/installationsDetails/hooks/useInstallationDetailTour"
 import { useAuthStore } from "../store/authStore"
 import { isClient, isTechnician as checkIsTechnician } from "../shared/utils/roleUtils"
+import Skeleton from "../shared/components/Skeleton"
 
 const InstallationDetails = () => {
   const { t } = useTranslation()
@@ -114,7 +115,7 @@ const InstallationDetails = () => {
   const currentDevices = filteredDevices.slice(startIndex, startIndex + devicesPerPage)
 
   // Debug: Log para verificar la paginación
-  
+
 
   useEffect(() => {
     if (id) {
@@ -276,7 +277,23 @@ const InstallationDetails = () => {
   }
 
   if (loading || initialLoad) {
-    return <div className={styles.loader}>{t("installationDetails.loadingDevices")}</div>
+    return (
+      <div className={styles.container}>
+        <div className={styles.loadingContainer}>
+          <div className={styles.skeletonGrid}>
+            <Skeleton height={140} width={"100%"} style={{ borderRadius: 16 }} />
+            <Skeleton height={45} width={"100%"} style={{ borderRadius: 8 }} />
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <Skeleton height={45} width={"100%"} style={{ borderRadius: 8 }} />
+              <Skeleton height={45} width={"100%"} style={{ borderRadius: 8 }} />
+            </div>
+            {[1, 2, 3].map((i) => (
+              <Skeleton key={i} height={160} width={"100%"} style={{ borderRadius: 16 }} />
+            ))}
+          </div>
+        </div>
+      </div>
+    )
   }
 
   if (!loading && !currentInstallation && !initialLoad) {

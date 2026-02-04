@@ -58,7 +58,9 @@
 
 .profileRole {
   font-size: 1rem;
-  color: var(--color-secondary);
+  color: var(--color-text);
+  opacity: 0.85;
+  font-weight: 500;
 }
 
 .profileDetails {
@@ -117,14 +119,42 @@
 
 .orderStatus {
   display: inline-block;
-  background: var(--color-secondary);
-  color: #000;
+  background: var(--color-primary);
+  color: var(--color-background);
   text-align: center;
   padding: 6px 14px;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   border-radius: 20px;
   width: fit-content;
   align-self: flex-start;
   margin-bottom: 4px;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--color-skeleton) 25%, var(--color-skeleton-light) 50%, var(--color-skeleton) 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.skeletonGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 } 

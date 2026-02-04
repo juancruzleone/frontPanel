@@ -69,7 +69,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: var(--color-nav-hover);
+  background-color: var(--color-nav);
   color: white;
   border: none;
   padding: 8px 16px;
@@ -83,7 +83,7 @@
 }
 
 .addButton:hover {
-  background-color: #047857;
+  background-color: var(--color-nav-hover);
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(4, 120, 87, 0.4);
 }
@@ -141,7 +141,7 @@
   box-shadow: 0 0 0 3px rgba(5, 126, 116, 0.1);
 }
 
-.statusFilter:focus + .selectIcon {
+.statusFilter:focus+.selectIcon {
   color: var(--color-secondary);
 }
 
@@ -184,19 +184,17 @@
 
 .deviceCard {
   background: var(--color-card);
-  border-radius: 12px;
-  padding: 16px;
+  border-radius: 16px;
+  padding: 20px;
   border: 1px solid var(--color-card-border);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
   color: var(--color-text);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   position: relative;
   overflow: visible;
-  height: 140px;
-  min-height: 140px;
 }
 
 .deviceCard::before {
@@ -206,23 +204,12 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--color-secondary), var(--color-primary));
-}
-
-/* Modo claro específico para el borde superior de deviceCard */
-:root:not([data-theme="dark"]) .deviceCard::before {
   background: linear-gradient(90deg, black, rgba(0, 0, 0, 0.8));
 }
 
-/* Modo oscuro específico para el borde superior de deviceCard - múltiples selectores */
+/* Modo oscuro específico para el borde superior de deviceCard */
 :global(.dark) .deviceCard::before,
-:global(body.dark) .deviceCard::before,
-:global(html.dark) .deviceCard::before,
-:global([data-theme="dark"]) .deviceCard::before,
-body.dark .deviceCard::before,
-html.dark .deviceCard::before,
-body[data-theme="dark"] .deviceCard::before,
-html[data-theme="dark"] .deviceCard::before {
+:global([data-theme="dark"]) .deviceCard::before {
   background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8)) !important;
 }
 
@@ -269,42 +256,7 @@ html[data-theme="dark"] .deviceCard::before {
 .cardSeparator {
   height: 1px;
   background: var(--color-card-border);
-  margin: 4px 0;
-}
-
-/* Modo claro específico para el separador */
-:root:not([data-theme="dark"]) .cardSeparator {
-  background: black;
-}
-
-/* Modo claro específico para cardSeparator con selectores de clase */
-body:not(.dark) [class*="cardSeparator"], 
-html:not(.dark) [class*="cardSeparator"], 
-body:not([data-theme="dark"]) [class*="cardSeparator"], 
-html:not([data-theme="dark"]) [class*="cardSeparator"], 
-:not(.dark) [class*="cardSeparator"] {
-  background: black !important;
-}
-
-/* Modo oscuro específico para cardSeparator con selectores de clase */
-body.dark [class*="cardSeparator"], 
-html.dark [class*="cardSeparator"], 
-body[data-theme="dark"] [class*="cardSeparator"], 
-html[data-theme="dark"] [class*="cardSeparator"], 
-.dark [class*="cardSeparator"] {
-  background: white !important;
-}
-
-/* Modo oscuro específico para el separador - múltiples selectores */
-:global(.dark) .cardSeparator,
-:global(body.dark) .cardSeparator,
-:global(html.dark) .cardSeparator,
-:global([data-theme="dark"]) .cardSeparator,
-body.dark .cardSeparator,
-html.dark .cardSeparator,
-body[data-theme="dark"] .cardSeparator,
-html[data-theme="dark"] .cardSeparator {
-  background: white !important;
+  margin: 8px 0;
 }
 
 /* Acciones en la parte inferior */
@@ -314,8 +266,8 @@ html[data-theme="dark"] .cardSeparator {
   gap: 8px;
   align-items: center;
   margin-top: auto;
-  padding-top: 8px;
 }
+
 
 .editButton,
 .deleteButton,
@@ -406,8 +358,14 @@ html[data-theme="dark"] .cardSeparator {
 
 /* Estados de dispositivos */
 .Activo {
-  color: var(--color-success);
-  font-weight: 500;
+  color: #2e7d32;
+  font-weight: 600;
+}
+
+/* Modo oscuro para estado Activo */
+:global(.dark) .Activo {
+  color: #4caf50;
+  font-weight: 600;
 }
 
 .Inactivo {
@@ -421,13 +379,25 @@ html[data-theme="dark"] .cardSeparator {
 }
 
 .Fueradeservicio {
-  color: var(--color-danger);
-  font-weight: 500;
+  color: #c62828;
+  font-weight: 600;
+}
+
+/* Modo oscuro para estado Fuera de servicio */
+:global(.dark) .Fueradeservicio {
+  color: #ef5350;
+  font-weight: 600;
 }
 
 .Pendientederevisión {
-  color: #9b59b6;
-  font-weight: 500;
+  color: #7b1fa2;
+  font-weight: 600;
+}
+
+/* Modo oscuro para estado Pendiente de revisión */
+:global(.dark) .Pendientederevisión {
+  color: #ba68c8;
+  font-weight: 600;
 }
 
 .emptyMessage {
@@ -474,8 +444,12 @@ html[data-theme="dark"] .loader {
   bottom: 0;
   background: var(--color-bg);
   padding: 16px 0;
-  border-top: 1px solid var(--color-card-border);
+  border-top: 2px solid black;
   z-index: 10;
+}
+
+:global(.dark) .pagination {
+  border-top-color: white;
 }
 
 .pagination button {
@@ -508,6 +482,22 @@ html[data-theme="dark"] .loader {
   color: var(--color-text);
   font-weight: 600;
   font-size: 14px;
+}
+
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  padding: 24px 0;
+}
+
+.skeletonGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
 }
 
 /* Estilos responsivos */

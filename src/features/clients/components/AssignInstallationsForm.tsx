@@ -3,13 +3,7 @@ import { useTranslation } from "react-i18next"
 import styles from "../styles/AssignInstallationsForm.module.css"
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 
-interface Installation {
-  _id: string
-  company: string
-  address: string
-  city?: string
-  province?: string
-}
+import { type Installation } from "../../installations/hooks/useInstallations"
 
 interface AssignInstallationsFormProps {
   onCancel: () => void
@@ -76,24 +70,27 @@ const AssignInstallationsForm = ({
             <p className={styles.noInstallations}>{t('clients.noInstallationsAvailable')}</p>
           ) : (
             <div className={styles.checkboxList}>
-              {installations.map((installation) => (
-                <label key={installation._id} className={styles.checkboxItem}>
-                  <input
-                    type="checkbox"
-                    checked={selectedInstallations.includes(installation._id)}
-                    onChange={() => handleToggleInstallation(installation._id)}
-                    disabled={isSubmitting}
-                  />
-                  <span className={styles.installationInfo}>
-                    <strong>{installation.company}</strong>
-                    <span className={styles.installationAddress}>
-                      {installation.address}
-                      {installation.city && `, ${installation.city}`}
-                      {installation.province && `, ${installation.province}`}
+              {installations.map((installation) => {
+                const id = installation._id || ""
+                return (
+                  <label key={id} className={styles.checkboxItem}>
+                    <input
+                      type="checkbox"
+                      checked={selectedInstallations.includes(id)}
+                      onChange={() => handleToggleInstallation(id)}
+                      disabled={isSubmitting}
+                    />
+                    <span className={styles.installationInfo}>
+                      <strong>{installation.company}</strong>
+                      <span className={styles.installationAddress}>
+                        {installation.address}
+                        {installation.city && `, ${installation.city}`}
+                        {installation.province && `, ${installation.province}`}
+                      </span>
                     </span>
-                  </span>
-                </label>
-              ))}
+                  </label>
+                )
+              })}
             </div>
           )}
         </div>

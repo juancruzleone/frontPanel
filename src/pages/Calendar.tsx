@@ -10,94 +10,22 @@ import ModalWorkOrderDetails from "../features/calendar/components/ModalWorkOrde
 import ModalSuccess from "../features/workOrders/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
 import DatePickerModal from "../features/calendar/components/DatePickerModal"
-import { CalendarIcon, Clock, MapPin, User, AlertCircle, FilterX, ChevronLeft, ChevronRight, ChevronDown } from "lucide-react"
+import { FilterX, ChevronLeft, ChevronRight, ChevronDown, Calendar as CalendarIcon } from "lucide-react"
 import { useTheme } from "../shared/hooks/useTheme"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import i18n from "../i18n"
-import { translateWorkOrderStatus, translatePriority, translateWorkType } from "../shared/utils/backendTranslations"
-import { useAuthStore } from "../store/authStore"
-import { updateWorkOrder } from "../features/workOrders/services/workOrderServices"
-import { formatDateToString, compareDates, parseDateString, normalizeDate } from "../features/calendar/utils/dateUtils"
+import { translatePriority } from "../shared/utils/backendTranslations"
+import { useAuthStore } from "../store/authstore"
+import { compareDates, parseDateString, normalizeDate } from "../features/calendar/utils/dateUtils"
 import { useTimeZone } from "../features/calendar/hooks/useTimeZone"
 import TimeZoneInfo from "../features/calendar/components/TimeZoneInfo"
 import { isClient } from "../shared/utils/roleUtils"
 
-// Componente personalizado para selects que se ajustan automáticamente
-interface AutoSizeSelectProps {
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  options: { label: string; value: string }[];
-  placeholder?: string;
-  className?: string;
-}
-
-const AutoSizeSelect = ({ value, onChange, options, placeholder, className }: AutoSizeSelectProps) => {
-  const { dark } = useTheme();
-  const selectRef = useRef<HTMLSelectElement>(null);
-  const [selectWidth, setSelectWidth] = useState<number>(180);
-
-  // Calcular el ancho necesario basado en el texto más largo
-  useEffect(() => {
-    if (selectRef.current) {
-      const tempSpan = document.createElement('span');
-      tempSpan.style.visibility = 'hidden';
-      tempSpan.style.position = 'absolute';
-      tempSpan.style.whiteSpace = 'nowrap';
-      tempSpan.style.fontSize = '14px';
-      tempSpan.style.fontFamily = 'Encode Sans, sans-serif';
-      tempSpan.style.fontWeight = '500';
-      tempSpan.style.padding = '12px 40px 12px 16px';
-
-      document.body.appendChild(tempSpan);
-
-      // Encontrar el texto más largo
-      let maxWidth = 0;
-      const allTexts = [placeholder || '', ...options.map(opt => opt.label)];
-
-      allTexts.forEach(text => {
-        tempSpan.textContent = text;
-        const width = tempSpan.offsetWidth;
-        if (width > maxWidth) {
-          maxWidth = width;
-        }
-      });
-
-      document.body.removeChild(tempSpan);
-
-      // Establecer el ancho mínimo de 180px o el ancho calculado, lo que sea mayor
-      setSelectWidth(Math.max(180, maxWidth + 20)); // +20 para padding extra
-    }
-  }, [options, placeholder]);
-
-  return (
-    <div className={styles.selectWrapper} style={{ width: selectWidth }}>
-      <select
-        ref={selectRef}
-        value={value}
-        onChange={onChange}
-        className={`${styles.filterSelect} ${styles.select} ${className || ''}`}
-        style={{ width: selectWidth }}
-      >
-        {placeholder && <option value="">{placeholder}</option>}
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-      <ChevronDown
-        size={16}
-        className={`${styles.selectIcon} ${dark ? styles.dark : styles.light}`}
-      />
-    </div>
-  );
-};
-
 const Calendar = () => {
   const { t } = useTranslation()
   const { dark } = useTheme()
-  const { workOrders, loading, error, loadWorkOrders, startWorkOrder, assignTechnician, completeWorkOrder, technicians, loadTechnicians } = useCalendar()
+  const { workOrders, loading, error, loadWorkOrders, startWorkOrder, technicians, loadTechnicians } = useCalendar()
 
   const navigate = useNavigate()
   const [selectedStatus, setSelectedStatus] = useState("")
@@ -107,7 +35,6 @@ const Calendar = () => {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedTechnician, setSelectedTechnician] = useState("")
 
-  const [viewMode, setViewMode] = useState<"month" | "week" | "list">("month")
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
   const [selectedWorkOrder, setSelectedWorkOrder] = useState<WorkOrder | null>(null)
   const [responseMessage, setResponseMessage] = useState("")
@@ -119,22 +46,20 @@ const Calendar = () => {
   const role = useAuthStore((s) => s.role)
   const isClientUser = role && isClient(role)
 
-  const { timeZone, offset, offsetString } = useTimeZone()
+  const { timeZone, offset } = useTimeZone()
 
   useEffect(() => {
     document.title = t("calendar.titlePage")
     loadTechnicians()
-  }, [t, i18n.language])
+  }, [t])
 
   useEffect(() => {
     const fetchFilteredData = async () => {
-      // Calcular rango de fechas para el mes actual para asegurar que traemos todo lo visible
       const year = currentDate.getFullYear()
       const month = currentDate.getMonth()
       const firstDay = new Date(year, month, 1)
       const lastDay = new Date(year, month + 1, 0)
 
-      // Ampliar el rango para cubrir días de meses adyacentes vistos en el calendario
       const startDate = new Date(firstDay)
       startDate.setDate(startDate.getDate() - 7)
       const endDate = new Date(lastDay)
@@ -149,7 +74,7 @@ const Calendar = () => {
         endDate: selectedDateFilter || endDate.toISOString().split('T')[0],
         timezone: timeZone,
         offset: offset,
-        limit: 100 // Traer suficientes para la vista mensual
+        limit: 100
       }
 
       await loadWorkOrders(filters)
@@ -159,7 +84,6 @@ const Calendar = () => {
   }, [loadWorkOrders, searchTerm, selectedStatus, selectedPriority, selectedTechnician, selectedDateFilter, selectedDate, currentDate, timeZone, offset])
 
   useEffect(() => {
-    // Generar lista de años desde 2000 hasta 20 años después del actual
     const current = new Date().getFullYear()
     const years = []
     for (let y = 2000; y <= current + 20; y++) {
@@ -192,15 +116,30 @@ const Calendar = () => {
   )
 
   const dateOptions = useMemo(
-    () => [
-      { label: t('calendar.allDates'), value: "" },
-      { label: t('calendar.today'), value: "today" },
-      { label: t('calendar.thisWeek'), value: "thisWeek" },
-      { label: t('calendar.thisMonth'), value: "thisMonth" },
-      { label: t('calendar.nextWeek'), value: "nextWeek" },
-      { label: t('calendar.nextMonth'), value: "nextMonth" },
-    ],
-    [t],
+    () => {
+      const opts = [
+        { label: t('calendar.allDates'), value: "" },
+        { label: t('calendar.today'), value: "today" },
+        { label: t('calendar.thisWeek'), value: "thisWeek" },
+        { label: t('calendar.thisMonth'), value: "thisMonth" },
+        { label: t('calendar.nextWeek'), value: "nextWeek" },
+        { label: t('calendar.nextMonth'), value: "nextMonth" },
+        { label: t('calendar.selectDate'), value: "custom" },
+      ]
+
+      if (selectedDate === 'custom' && selectedDateFilter) {
+        const customOpt = opts.find(o => o.value === 'custom')
+        if (customOpt) {
+          customOpt.label = parseDateString(selectedDateFilter).toLocaleDateString(i18n.language || 'es', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+          })
+        }
+      }
+      return opts
+    },
+    [t, selectedDate, selectedDateFilter],
   )
 
   const filteredWorkOrders = useMemo(() => {
@@ -220,7 +159,6 @@ const Calendar = () => {
 
       let matchesDate = true
 
-      // Si hay un filtro de fecha específica, tiene prioridad sobre otros filtros de fecha
       if (selectedDateFilter) {
         matchesDate = compareDates(order.fechaProgramada, selectedDateFilter);
       } else if (selectedDate) {
@@ -275,57 +213,20 @@ const Calendar = () => {
     })
   }, [workOrders, selectedStatus, selectedPriority, selectedDate, selectedDateFilter, searchTerm, selectedTechnician])
 
-  // NUEVO: función para color por estado
   const getEventStatusColor = (estado) => {
     switch (estado) {
-      case "pendiente": return "#FFD600";      // Amarillo fuerte
-      case "asignada": return "#00B8D9";       // Celeste
-      case "en_progreso": return "#FF9100";    // Naranja
-      case "completada": return "#00C853";     // Verde
-      case "cancelada": return "#D50000";      // Rojo
-      default: return "#212121";                // Negro por defecto
-    }
-  }
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case "baja":
-        return "#4CAF50"
-      case "media":
-        return "#FFC107"
-      case "alta":
-        return "#FF9800"
-      case "critica":
-        return "#F44336"
-      default:
-        return "#9E9E9E"
-    }
-  }
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "pendiente":
-        return "#9E9E9E"
-      case "asignada":
-        return "#2196F3"
-      case "en_progreso":
-        return "#FF9800"
-      case "completada":
-        return "#4CAF50"
-      case "cancelada":
-        return "#F44336"
-      default:
-        return "#9E9E9E"
+      case "pendiente": return "#FFD600";
+      case "asignada": return "#00B8D9";
+      case "en_progreso": return "#FF9100";
+      case "completada": return "#00C853";
+      case "cancelada": return "#D50000";
+      default: return "#212121";
     }
   }
 
   const handleOpenDetails = (order: WorkOrder) => {
     setSelectedWorkOrder(order)
     setIsDetailsModalOpen(true)
-  }
-
-  const handleViewWorkOrderDetails = (order: WorkOrder) => {
-    if (order._id) navigate(`/ordenes-trabajo/${order._id}`)
   }
 
   const onSuccess = async (msg: string) => {
@@ -361,9 +262,9 @@ const Calendar = () => {
 
   const handleDateSelect = (date: string) => {
     setSelectedDateFilter(date)
+    setSelectedDate("custom")
   }
 
-  // Generar días del mes para la vista de calendario
   const generateCalendarDays = () => {
     const year = currentDate.getFullYear()
     const month = currentDate.getMonth()
@@ -397,28 +298,20 @@ const Calendar = () => {
       <div className={styles.calendarContainer}>
         <div className={styles.calendarHeader}>
           <button onClick={() => navigateMonth(-1)} className={styles.navButton}>
-            <ChevronLeft
-              size={24}
-              className={dark ? styles.dark : styles.light}
-            />
+            <ChevronLeft size={24} className={dark ? styles.dark : styles.light} />
           </button>
           <h2 className={styles.monthTitle}>
             {monthName} <span style={{ cursor: 'pointer', textDecoration: 'underline' }} onClick={() => setIsYearModalOpen(true)}>{year}</span>
           </h2>
           <button onClick={() => navigateMonth(1)} className={styles.navButton}>
-            <ChevronRight
-              size={24}
-              className={dark ? styles.dark : styles.light}
-            />
+            <ChevronRight size={24} className={dark ? styles.dark : styles.light} />
           </button>
         </div>
 
         <div className={styles.calendarGrid}>
           <div className={styles.weekDays}>
             {[t('calendar.sun'), t('calendar.mon'), t('calendar.tue'), t('calendar.wed'), t('calendar.thu'), t('calendar.fri'), t('calendar.sat')].map((day) => (
-              <div key={day} className={styles.weekDay}>
-                {day}
-              </div>
+              <div key={day} className={styles.weekDay}>{day}</div>
             ))}
           </div>
 
@@ -463,84 +356,6 @@ const Calendar = () => {
     )
   }
 
-  const renderListView = () => {
-    const groupedOrders = filteredWorkOrders.reduce((acc, order) => {
-      // Usar la función utilitaria para normalizar la fecha
-      const dateString = formatDateToString(order.fechaProgramada);
-      const dateKey = new Date(dateString).toDateString();
-
-      if (!acc[dateKey]) {
-        acc[dateKey] = []
-      }
-      acc[dateKey].push(order)
-      return acc
-    }, {} as Record<string, WorkOrder[]>)
-
-    return (
-      <div className={styles.listContainer}>
-        {Object.entries(groupedOrders)
-          .sort(([a], [b]) => new Date(a).getTime() - new Date(b).getTime())
-          .map(([date, orders]) => (
-            <div key={date} className={styles.dateGroup}>
-              <h3 className={styles.dateHeader}>
-                {new Date(date).toLocaleDateString(i18n.language || 'es', {
-                  weekday: "long",
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </h3>
-              {orders.map((order) => (
-                <div key={order._id} className={styles.workOrderCard}>
-                  <div className={styles.workOrderInfo}>
-                    <div className={styles.workOrderHeader}>
-                      <h4 className={styles.workOrderTitle}>{order.titulo}</h4>
-                      <div className={styles.badges}>
-                        <span
-                          className={styles.priorityBadge}
-                          style={{ backgroundColor: getPriorityColor(order.prioridad) }}
-                        >
-                          {translatePriority(order.prioridad)}
-                        </span>
-                        <span className={styles.statusBadge} style={{ backgroundColor: getStatusColor(order.estado) }}>
-                          {translateWorkOrderStatus(order.estado)}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Descripción arriba */}
-                    <p className={styles.workOrderDescription}>{order.descripcion}</p>
-
-                    <div className={styles.workOrderDetails}>
-                      <div className={styles.workOrderInfoRow}>
-                        <span>
-                          <strong>{t('calendar.type')}:</strong> {translateWorkType(order.tipoTrabajo)}
-                        </span>
-                        <span>
-                          <strong>{t('calendar.time')}:</strong> {order.horaProgramada}
-                        </span>
-                        {order.instalacion && (
-                          <span>
-                            <strong>{t('calendar.installation')}:</strong> {order.instalacion.company}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={styles.cardActions}>
-                    <button className={styles.detailsButton} onClick={() => handleOpenDetails(order)}>
-                      {t('calendar.viewDetails')}
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ))}
-      </div>
-    )
-  }
-
   const getTechnicianLabel = (tech) => {
     const label = t(`technicians.${tech.userName}`, tech.userName)
     return typeof label === 'string' ? label : tech.userName
@@ -553,21 +368,6 @@ const Calendar = () => {
           <div className={styles.titleContainer}>
             <h1 className={styles.title}>{t('calendar.title')}</h1>
             <TimeZoneInfo />
-          </div>
-
-          <div className={styles.viewModeButtons}>
-            <button
-              className={`${styles.viewButton} ${viewMode === "month" ? styles.active : ""}`}
-              onClick={() => setViewMode("month")}
-            >
-              {t('calendar.month')}
-            </button>
-            <button
-              className={`${styles.viewButton} ${viewMode === "list" ? styles.active : ""}`}
-              onClick={() => setViewMode("list")}
-            >
-              {t('calendar.list')}
-            </button>
           </div>
         </div>
 
@@ -607,7 +407,15 @@ const Calendar = () => {
 
             <HybridSelect
               value={selectedDate}
-              onChange={setSelectedDate}
+              onChange={(val) => {
+                if (val === 'custom') {
+                  setIsDatePickerOpen(true)
+                  setSelectedDate(val)
+                } else {
+                  setSelectedDate(val)
+                  setSelectedDateFilter("")
+                }
+              }}
               options={dateOptions}
               placeholder={t('calendar.allDates')}
               autoSize={true}
@@ -615,27 +423,19 @@ const Calendar = () => {
             />
 
             <button
-              onClick={handleOpenDatePicker}
+              onClick={() => setIsDatePickerOpen(true)}
               className={styles.customDateButton}
               type="button"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className={styles.dateButtonIcon}>
-                <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2" />
-                <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              </svg>
+              <CalendarIcon size={18} className={styles.dateButtonIcon} />
               {selectedDateFilter ? (
-                <>
-                  <span style={{ color: '#10b981', fontWeight: 'bold' }}>
-                    {parseDateString(selectedDateFilter).toLocaleDateString(i18n.language || 'es', {
-                      day: '2-digit',
-                      month: '2-digit',
-                      year: 'numeric'
-                    })}
-                  </span>
-
-                </>
+                <span style={{ color: '#10b981', fontWeight: 'bold' }}>
+                  {parseDateString(selectedDateFilter).toLocaleDateString(i18n.language || 'es', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                  })}
+                </span>
               ) : (
                 t('calendar.selectDate')
               )}
@@ -649,11 +449,11 @@ const Calendar = () => {
                 setSelectedDateFilter("")
                 setSearchTerm("")
                 setSelectedTechnician("")
-                setCurrentDate(new Date()) // Reiniciar el año a la fecha actual
+                setCurrentDate(new Date())
               }}
               className={styles.clearFilters}
             >
-              <FilterX size={16} />
+              <FilterX size={22} strokeWidth={3} />
               {t('calendar.clearFilters')}
             </button>
           </div>
@@ -666,32 +466,11 @@ const Calendar = () => {
                 {[1, 2, 3].map((_, i) => <Skeleton key={i} height={120} width={"100%"} style={{ borderRadius: 14 }} />)}
               </div>
               <Skeleton height={300} width={"100%"} style={{ borderRadius: 14 }} />
-
             </div>
           ) : error ? (
             <p className={styles.error}>Error: {error}</p>
           ) : (
-            <>
-              {viewMode === "month" ? (
-                renderCalendarView()
-              ) : (
-                filteredWorkOrders.length === 0 ? (
-                  <p className={styles.noResults}>
-                    {selectedDateFilter
-                      ? `No se encontraron órdenes de trabajo para el ${parseDateString(selectedDateFilter).toLocaleDateString(i18n.language || 'es', {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: '2-digit',
-                        day: '2-digit'
-                      })}`
-                      : t('calendar.noOrders')
-                    }
-                  </p>
-                ) : (
-                  renderListView()
-                )
-              )}
-            </>
+            renderCalendarView()
           )}
         </div>
       </div>
@@ -724,11 +503,11 @@ const Calendar = () => {
         selectedDate={selectedDateFilter}
         title={t('calendar.selectDate')}
       />
+
       {isYearModalOpen && (
         <div
           className={styles.datePickerBackdrop}
           onClick={(e) => { if (e.target === e.currentTarget) setIsYearModalOpen(false); }}
-          onKeyDown={e => { if (e.key === 'Enter') e.stopPropagation(); }}
         >
           <div className={styles.datePickerModal}>
             <div className={styles.datePickerHeader}>
@@ -742,7 +521,6 @@ const Calendar = () => {
                 ×
               </button>
             </div>
-
             <div className={styles.datePickerContent}>
               <div className={styles.yearPickerContainer}>
                 <div className={styles.yearPickerGrid}>
@@ -761,7 +539,6 @@ const Calendar = () => {
                   ))}
                 </div>
               </div>
-
             </div>
           </div>
         </div>

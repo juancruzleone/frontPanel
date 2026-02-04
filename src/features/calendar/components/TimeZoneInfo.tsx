@@ -25,11 +25,11 @@ const TimeZoneInfo: React.FC<TimeZoneInfoProps> = ({ showDetails = false, classN
   return (
     <div className={`${styles.timeZoneInfo} ${className}`}>
       <span>🌍 {getUserTimeZoneName()}</span>
-      <span style={{ color: '#64748b', marginLeft: '8px' }}>
+      <span className={styles.timeZoneOffset}>
         ({timeZoneInfo.offsetString})
       </span>
       {isDST() && (
-        <span style={{ color: '#10b981', marginLeft: '8px' }}>
+        <span className={styles.dstIndicator}>
           • Horario de verano
         </span>
       )}

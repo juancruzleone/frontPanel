@@ -171,6 +171,10 @@ html[data-theme="dark"] [class*="deviceCard"]::before,
   background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8)) !important;
 }
 
+[class*="cardSeparator"] {
+  background: black;
+}
+
 body.dark [class*="cardSeparator"],
 html.dark [class*="cardSeparator"],
 body[data-theme="dark"] [class*="cardSeparator"],

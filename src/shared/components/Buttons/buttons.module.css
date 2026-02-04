@@ -1,18 +1,18 @@
-.buttons{
-    background-color: black;
-    color: #FFFFFF;
-    font-weight: 200;
-    font-family: 'Encode Sans', sans-serif;
-    font-size: 16px;
-    cursor: pointer;
-    border: 0px;
-    width: 100%;
-    padding: 14px;
-    /*margin-left: 30px;*/
-    border-radius: 4px;
+.buttons {
+  background-color: black;
+  color: #FFFFFF;
+  font-weight: 200;
+  font-family: 'Encode Sans', sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  border: 0px;
+  width: 100%;
+  padding: 14px;
+  /*margin-left: 30px;*/
+  border-radius: 4px;
 }
 
-button{
+button {
   margin-top: 0px;
 }
 
@@ -223,15 +223,18 @@ button{
     padding-top: 0;
     border-radius: 10px;
   }
+
   .languageButton svg {
     width: 16px !important;
     height: 16px !important;
     min-width: 16px !important;
     min-height: 16px !important;
   }
+
   .languageDropdown {
     min-width: 120px;
   }
+
   .languageOption {
     padding: 8px 10px;
     font-size: 13px;

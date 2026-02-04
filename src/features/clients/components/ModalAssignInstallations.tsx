@@ -3,13 +3,7 @@ import styles from "../styles/Modal.module.css"
 import AssignInstallationsForm from "./AssignInstallationsForm"
 import { useTranslation } from "react-i18next"
 
-interface Installation {
-  _id: string
-  company: string
-  address: string
-  city?: string
-  province?: string
-}
+import { type Installation } from "../../installations/hooks/useInstallations"
 
 interface ModalAssignInstallationsProps {
   isOpen: boolean

@@ -1199,7 +1199,16 @@
     }
   },
   "calendar": {
+    "selectDate": "اختر التاريخ",
     "selectYear": "اختر السنة",
+    "selectedDate": "التاريخ المحدد",
+    "sun": "الأحد",
+    "mon": "الإثنين",
+    "tue": "الثلاثاء",
+    "wed": "الأربعاء",
+    "thu": "الخميس",
+    "fri": "الجمعة",
+    "sat": "السبت",
     "successTitle": "تمت العملية بنجاح!",
     "understood": "إغلاق",
     "titlePage": "التقويم | Leonix",

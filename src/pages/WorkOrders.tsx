@@ -44,7 +44,7 @@ const renderTechnicianInfo = (order: WorkOrder, t: (key: string) => string) => {
     )
   }
 
-  return <p style={{ color: "#666", fontStyle: "italic" }}>{t('workOrders.noTechnicianAssigned')}</p>
+  return <p style={{ color: "var(--color-text-secondary)", fontStyle: "italic" }}>{t('workOrders.noTechnicianAssigned')}</p>
 }
 
 const WorkOrders = () => {

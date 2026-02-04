@@ -17,6 +17,7 @@ import { deleteClient, assignInstallationsToClient } from "../features/clients/s
 import { useAuthStore } from "../store/authStore"
 import { useClientsTour } from "../features/clients/hooks/useClientsTour"
 import useInstallations from "../features/installations/hooks/useInstallations"
+import Skeleton from "../shared/components/Skeleton"
 
 const Clients = () => {
     const { t, i18n } = useTranslation()
@@ -177,88 +178,88 @@ const Clients = () => {
 
                 {loadingClients ? (
                     <div className={styles.loadingContainer}>
-                        <div className={styles.spinner}></div>
-                        <p>{t('clients.loadingClients')}</p>
+                        <Skeleton height={300} width="100%" style={{ borderRadius: 16 }} />
                     </div>
-                ) : !Array.isArray(clients) || clients.length === 0 ? (
-                    <div className={styles.emptyContainer}>
-                        <FiUser size={48} className={styles.emptyIcon} />
-                        <p>{t('clients.noClients')}</p>
-                        <span className={styles.emptySubtext}>{t('clients.addFirstClient')}</span>
-                    </div>
-                ) : filteredClients.length === 0 ? (
-                    <div className={styles.emptyContainer}>
-                        <Search size={48} className={styles.emptyIcon} />
-                        <p>{t('clients.noSearchResults')}</p>
-                        <span className={styles.emptySubtext}>{t('clients.tryDifferentSearch')}</span>
-                    </div>
-                ) : (
-                    <div className={styles.tableContainer}>
-                        <table className={styles.clientsTable}>
-                            <thead>
-                                <tr>
-                                    <th>{t('clients.user')}</th>
-                                    <th>{t('clients.registrationDate')}</th>
-                                    <th>{t('common.actions')}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredClients.map((client) => (
-                                    <tr key={client._id || client.id}>
-                                        <td data-label={t('clients.user')}>
-                                            <div className={styles.userInfo}>
-                                                <div className={styles.userAvatar}>
-                                                    <FiUser size={16} />
-                                                </div>
-                                                <span>{client.userName}</span>
-                                            </div>
-                                        </td>
-                                        <td data-label={t('clients.registrationDate')}>{formatDate(client.createdAt)}</td>
-                                        <td data-label={t('common.actions')}>
-                                            <div className={styles.actionButtons}>
-                                                <button
-                                                    className={styles.iconButton}
-                                                    title={t('clients.assignInstallations')}
-                                                    data-tooltip={t('clients.assignInstallations')}
-                                                    onClick={() => handleAssignInstallations(client)}
-                                                >
-                                                    <Building2 size={20} />
-                                                </button>
-                                                <button
-                                                    className={styles.iconButton}
-                                                    title={t('clients.editClient')}
-                                                    data-tooltip={t('clients.editClient')}
-                                                    onClick={() => handleEditClient(client)}
-                                                >
-                                                    <Edit size={20} />
-                                                </button>
-                                                <button
-                                                    className={styles.iconButton}
-                                                    title={t('clients.viewProfile')}
-                                                    data-tooltip={t('clients.viewProfile')}
-                                                    onClick={() => handleViewProfile(client)}
-                                                >
-                                                    <User size={20} />
-                                                </button>
-                                                <button
-                                                    className={styles.iconButton}
-                                                    title={t('common.delete')}
-                                                    data-tooltip={t('clients.deleteClient')}
-                                                    onClick={() => {
-                                                        setClientToDelete(client)
-                                                        setIsDeleteModalOpen(true)
-                                                    }}
-                                                >
-                                                    <Trash size={20} />
-                                                </button>
-                                            </div>
-                                        </td>
+                ) :
+                    !Array.isArray(clients) || clients.length === 0 ? (
+                        <div className={styles.emptyContainer}>
+                            <FiUser size={48} className={styles.emptyIcon} />
+                            <p>{t('clients.noClients')}</p>
+                            <span className={styles.emptySubtext}>{t('clients.addFirstClient')}</span>
+                        </div>
+                    ) : filteredClients.length === 0 ? (
+                        <div className={styles.emptyContainer}>
+                            <Search size={48} className={styles.emptyIcon} />
+                            <p>{t('clients.noSearchResults')}</p>
+                            <span className={styles.emptySubtext}>{t('clients.tryDifferentSearch')}</span>
+                        </div>
+                    ) : (
+                        <div className={styles.tableContainer}>
+                            <table className={styles.clientsTable}>
+                                <thead>
+                                    <tr>
+                                        <th>{t('clients.user')}</th>
+                                        <th>{t('clients.registrationDate')}</th>
+                                        <th>{t('common.actions')}</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                )}
+                                </thead>
+                                <tbody>
+                                    {filteredClients.map((client) => (
+                                        <tr key={client._id || client.id}>
+                                            <td data-label={t('clients.user')}>
+                                                <div className={styles.userInfo}>
+                                                    <div className={styles.userAvatar}>
+                                                        <FiUser size={16} />
+                                                    </div>
+                                                    <span>{client.userName}</span>
+                                                </div>
+                                            </td>
+                                            <td data-label={t('clients.registrationDate')}>{formatDate(client.createdAt)}</td>
+                                            <td data-label={t('common.actions')}>
+                                                <div className={styles.actionButtons}>
+                                                    <button
+                                                        className={styles.iconButton}
+                                                        title={t('clients.assignInstallations')}
+                                                        data-tooltip={t('clients.assignInstallations')}
+                                                        onClick={() => handleAssignInstallations(client)}
+                                                    >
+                                                        <Building2 size={20} />
+                                                    </button>
+                                                    <button
+                                                        className={styles.iconButton}
+                                                        title={t('clients.editClient')}
+                                                        data-tooltip={t('clients.editClient')}
+                                                        onClick={() => handleEditClient(client)}
+                                                    >
+                                                        <Edit size={20} />
+                                                    </button>
+                                                    <button
+                                                        className={styles.iconButton}
+                                                        title={t('clients.viewProfile')}
+                                                        data-tooltip={t('clients.viewProfile')}
+                                                        onClick={() => handleViewProfile(client)}
+                                                    >
+                                                        <User size={20} />
+                                                    </button>
+                                                    <button
+                                                        className={styles.iconButton}
+                                                        title={t('common.delete')}
+                                                        data-tooltip={t('clients.deleteClient')}
+                                                        onClick={() => {
+                                                            setClientToDelete(client)
+                                                            setIsDeleteModalOpen(true)
+                                                        }}
+                                                    >
+                                                        <Trash size={20} />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
             </div>
 
             {/* Modal para registrar cliente */}

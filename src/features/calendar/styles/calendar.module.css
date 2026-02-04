@@ -243,31 +243,48 @@
 
 .clearFilters {
   padding: 12px 20px;
-  background: var(--color-danger);
-  color: white;
-  border: 1px solid var(--color-danger);
+  background: #b71c1c;
+  color: #ffffff !important;
+  border: 1px solid #b71c1c;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 15px;
+  font-weight: 800;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
-  gap: 8px;
-  min-width: 140px;
+  gap: 10px;
+  min-width: 150px;
   justify-content: center;
   font-family: inherit;
+  box-shadow: 0 2px 10px rgba(183, 28, 28, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.01em;
 }
 
 :global(.dark) .clearFilters {
-  border-color: var(--color-danger);
+  background: #c62828;
+  border-color: #c62828;
 }
 
 .clearFilters:hover {
-  background: #bd2130;
-  border-color: #bd2130;
+  background: #8e0000;
+  border-color: #8e0000;
   transform: translateY(-2px);
-  color: white;
+  color: #ffffff !important;
+  box-shadow: 0 6px 16px rgba(142, 0, 0, 0.4);
+}
+
+.clearFilters svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  stroke-width: 3px !important;
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.8));
+}
+
+:global(.dark) .clearFilters:hover {
+  background: #b71c1c;
+  border-color: #b71c1c;
 }
 
 .content {
@@ -609,20 +626,7 @@
   color: var(--color-text);
 }
 
-/* Estilos para el botón de limpiar filtros en modo oscuro */
-.dark .clearFilters {
-  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
-  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
-}
-
-.dark .clearFilters:hover {
-  background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
-  box-shadow: 0 6px 16px rgba(220, 53, 69, 0.4);
-}
-
-.dark .clearFilters:focus {
-  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.3), 0 2px 8px rgba(220, 53, 69, 0.3);
-}
+/* Estilos para el botón de limpiar filtros en modo oscuro (removidos por centralización arriba) */
 
 .dayNumber {
   font-weight: 600;
@@ -1747,14 +1751,18 @@
   align-items: center;
   justify-content: center;
   padding: 8px 16px;
-  background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background-color: transparent;
+  border: none;
   border-radius: 8px;
   font-size: 14px;
-  color: #475569;
+  color: #000;
   margin-bottom: 16px;
   flex-wrap: wrap;
   gap: 4px;
+}
+
+:global(.dark) .timeZoneInfo {
+  color: #fff;
 }
 
 .timeZoneInfo span {
@@ -1763,13 +1771,25 @@
 }
 
 .timeZoneInfo .timeZoneOffset {
-  color: #64748b;
+  color: #000;
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+:global(.dark) .timeZoneInfo .timeZoneOffset {
+  color: #fff;
   font-weight: 500;
 }
 
 .timeZoneInfo .dstIndicator {
-  color: #10b981;
-  font-weight: 500;
+  color: #000;
+  font-weight: 700;
+  margin-left: 8px;
+}
+
+:global(.dark) .timeZoneInfo .dstIndicator {
+  color: #fff;
+  font-weight: 700;
 }
 
 .timeZoneInfo .timeZoneNote {

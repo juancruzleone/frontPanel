@@ -31,11 +31,11 @@ const MaintenanceHistoryModal: React.FC<MaintenanceHistoryModalProps> = ({
   // Logging para debugging
   React.useEffect(() => {
     if (isOpen && maintenances) {
-      
-      
+
+
       maintenances.forEach((m, index) => {
-        
-        
+
+
       })
     }
   }, [isOpen, maintenances])
@@ -131,7 +131,7 @@ const MaintenanceHistoryModal: React.FC<MaintenanceHistoryModalProps> = ({
                       {maintenance.pdfUrl ? (
                         <button
                           onClick={() => {
-                            
+
                             handleOpenPDF(maintenance.pdfUrl)
                           }}
                           style={{
@@ -186,14 +186,6 @@ const MaintenanceHistoryModal: React.FC<MaintenanceHistoryModalProps> = ({
           )}
         </div>
 
-        <div className={styles.modalFooter}>
-          <button
-            className={`${styles.modalButton} ${styles.secondary}`}
-            onClick={onRequestClose}
-          >
-            {t('maintenanceHistory.close', 'Cerrar')}
-          </button>
-        </div>
       </div>
     </div>
   )
