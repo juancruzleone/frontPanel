@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ChevronDown } from 'lucide-react'
 import { useTheme } from '../../../shared/hooks/useTheme'
-import HybridSelect from '../../workOrders/components/HybridSelect'
+import HybridSelect from '../../../shared/components/HybridSelect/HybridSelect'
 import styles from '../styles/deviceForm.module.css'
 import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
 import formCheckboxStyles from '../../../shared/components/Buttons/formCheckboxes.module.css'
@@ -221,22 +221,24 @@ const DeviceForm = ({
           <>
             <div className={styles.formGroup}>
               <label>{t('installations.asset')}</label>
-              <HybridSelect
-                name="assetId"
-                value={formData.assetId}
-                onChange={(value) => handleFieldChange("assetId", value)}
-                onBlur={() => handleFieldBlur("assetId")}
-                disabled={isSubmitting}
-                options={[
-                  { value: "", label: t('installations.selectAsset') },
-                  ...assets.map((asset) => ({
-                    value: asset._id,
-                    label: asset.nombre
-                  }))
-                ]}
-                placeholder={t('installations.selectAsset')}
-                error={!!showError("assetId")}
-              />
+              <div className={styles.fullWidth}>
+                <HybridSelect
+                  name="assetId"
+                  value={formData.assetId}
+                  onChange={(value) => handleFieldChange("assetId", value)}
+                  onBlur={() => handleFieldBlur("assetId")}
+                  disabled={isSubmitting}
+                  options={[
+                    { value: "", label: t('installations.selectAsset') },
+                    ...assets.map((asset) => ({
+                      value: asset._id,
+                      label: asset.nombre
+                    }))
+                  ]}
+                  placeholder={t('installations.selectAsset')}
+                  error={!!showError("assetId")}
+                />
+              </div>
               {showError("assetId") && <p className={styles.error}>{getErrorMessage("assetId")}</p>}
             </div>
 
@@ -287,22 +289,24 @@ const DeviceForm = ({
               {t('installations.noCategoriesAvailable')}. {t('installations.createCategoriesFirst')}.
             </p>
           ) : (
-            <HybridSelect
-              name="categoria"
-              value={formData.categoria}
-              onChange={(value) => handleFieldChange("categoria", value)}
-              onBlur={() => handleFieldBlur("categoria")}
-              disabled={isSubmitting}
-              options={[
-                { value: "", label: t('installations.selectCategory') },
-                ...categories.map((category) => ({
-                  value: category.nombre,
-                  label: `${category.nombre}${category.descripcion ? ` - ${category.descripcion}` : ''}`
-                }))
-              ]}
-              placeholder={t('installations.selectCategory')}
-              error={!!showError("categoria")}
-            />
+            <div className={styles.fullWidth}>
+              <HybridSelect
+                name="categoria"
+                value={formData.categoria}
+                onChange={(value) => handleFieldChange("categoria", value)}
+                onBlur={() => handleFieldBlur("categoria")}
+                disabled={isSubmitting}
+                options={[
+                  { value: "", label: t('installations.selectCategory') },
+                  ...categories.map((category) => ({
+                    value: category.nombre,
+                    label: `${category.nombre}${category.descripcion ? ` - ${category.descripcion}` : ''}`
+                  }))
+                ]}
+                placeholder={t('installations.selectCategory')}
+                error={!!showError("categoria")}
+              />
+            </div>
           )}
           {showError("categoria") && <p className={styles.error}>{getErrorMessage("categoria")}</p>}
         </div>
@@ -310,19 +314,21 @@ const DeviceForm = ({
         {isEditMode && (
           <div className={styles.formGroup}>
             <label>{t('installations.deviceStatu')}</label>
-            <HybridSelect
-              name="estado"
-              value={formData.estado}
-              onChange={(value) => handleFieldChange("estado", value)}
-              onBlur={() => handleFieldBlur("estado")}
-              disabled={isSubmitting}
-              options={estadosDisponibles.map((estado) => ({
-                value: estado,
-                label: estado
-              }))}
-              placeholder={t('installations.deviceStatu')}
-              error={!!showError("estado")}
-            />
+            <div className={styles.fullWidth}>
+              <HybridSelect
+                name="estado"
+                value={formData.estado}
+                onChange={(value) => handleFieldChange("estado", value)}
+                onBlur={() => handleFieldBlur("estado")}
+                disabled={isSubmitting}
+                options={estadosDisponibles.map((estado) => ({
+                  value: estado,
+                  label: estado
+                }))}
+                placeholder={t('installations.deviceStatu')}
+                error={!!showError("estado")}
+              />
+            </div>
             {showError("estado") && <p className={styles.error}>{getErrorMessage("estado")}</p>}
           </div>
         )}

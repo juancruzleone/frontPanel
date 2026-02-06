@@ -5,6 +5,7 @@ import formButtonStyles from "../../../shared/components/Buttons/formButtons.mod
 import useFormCategories from "../hooks/useFormCategories"
 import type { FormCategory } from "../hooks/useFormCategories"
 import { useTranslation } from "react-i18next"
+import ModalSuccess from "./ModalSuccess"
 
 interface ModalManageCategoriesProps {
   isOpen: boolean
@@ -32,6 +33,7 @@ const ModalManageCategories = ({
   const [isEditing, setIsEditing] = useState(false)
   const [deletingCategory, setDeletingCategory] = useState<FormCategory | null>(null)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [successMessage, setSuccessMessage] = useState("")
 
   useEffect(() => {
     if (isOpen) {
@@ -62,7 +64,10 @@ const ModalManageCategories = ({
       await updateCategory(editingCategory._id, editFormData)
       await loadCategories()
       handleCancelEdit()
-      onCategoryCreated(t('forms.categoryUpdated'))
+      // Mostrar modal de éxito
+      setSuccessMessage(t('forms.categoryUpdated'))
+      // Llamar al prop por si el padre necesita actualizar algo más
+      if (onCategoryCreated) onCategoryCreated(t('forms.categoryUpdated'))
     } catch (err: any) {
       console.error("Error al actualizar categoría:", err)
     }
@@ -81,12 +86,17 @@ const ModalManageCategories = ({
     try {
       await removeCategory(deletingCategory._id)
       await loadCategories()
-      onCategoryCreated(t('forms.categoryDeleted'))
+
+      // Mostrar modal de éxito localmente
+      setSuccessMessage(t('forms.categoryDeleted'))
+
+      // Llamar al prop padre
+      if (onCategoryCreated) onCategoryCreated(t('forms.categoryDeleted'))
+
       setShowDeleteConfirm(false)
       setDeletingCategory(null)
     } catch (err: any) {
       console.error("Error al eliminar categoría:", err)
-      // Aquí podrías mostrar un modal de error si quieres
     }
   }
 
@@ -99,6 +109,7 @@ const ModalManageCategories = ({
     handleCancelEdit()
     setShowDeleteConfirm(false)
     setDeletingCategory(null)
+    setSuccessMessage("")
     onRequestClose()
   }
 
@@ -269,6 +280,13 @@ const ModalManageCategories = ({
           </div>
         </div>
       )}
+
+      {/* Modal de éxito */}
+      <ModalSuccess
+        isOpen={!!successMessage}
+        onRequestClose={() => setSuccessMessage("")}
+        mensaje={successMessage}
+      />
     </div>
   )
 }

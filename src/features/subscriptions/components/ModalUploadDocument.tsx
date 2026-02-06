@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { X, Upload, FileText, Trash2, Loader2 } from 'lucide-react'
 import styles from '../styles/Modal.module.css'
 import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
-import HybridSelect from '../../workOrders/components/HybridSelect'
+import HybridSelect from '../../../shared/components/HybridSelect/HybridSelect'
 import { uploadBudgetDocument, type UploadDocumentData } from '../services/documentServices'
 
 interface ModalUploadDocumentProps {
@@ -219,7 +219,7 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
                                 <label>
                                     {t('subscriptions.documents.documentType')}
                                 </label>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                                <div className={styles.fullWidth} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                                     <HybridSelect
                                         name="tipoDocumento"
                                         value={tipoDocumento === 'budget' || tipoDocumento === 'contract' ? tipoDocumento : 'other'}

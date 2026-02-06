@@ -230,6 +230,7 @@
     "success": "Succès",
     "cancel": "Annuler",
     "save": "Enregistrer",
+    "saving": "Enregistrement...",
     "edit": "Modifier",
     "delete": "Supprimer",
     "create": "Créer",
@@ -556,6 +557,7 @@
     "installationCreated": "Installation créée avec succès",
     "installationUpdated": "Installation mise à jour avec succès",
     "installationDeleted": "Installation supprimée avec succès",
+    "errorDeletingInstallation": "Erreur lors de la suppression de l'installation",
     "deviceStatus": {
       "active": "Actif",
       "inactive": "Inactif",
@@ -994,6 +996,7 @@
     "active": "Active",
     "inactive": "Inactive",
     "create": "Créer",
+    "categoryCreateSuccess": "Catégorie créée avec succès",
     "categoryUpdated": "Catégorie mise à jour avec succès",
     "categoryDeleted": "Catégorie supprimée avec succès",
     "confirmDeleteCategory": "Êtes-vous sûr de vouloir supprimer la catégorie \"{{name}}\" ?",
@@ -1400,7 +1403,9 @@
     "sendMaintenance": "Envoyer la maintenance",
     "saveMaintenance": "Enregistrer la maintenance",
     "localSaveNote": "Les données seront enregistrées localement et envoyées lorsqu'elles seront en ligne",
-    "viewHistory": "Historique"
+    "viewHistory": "Historique",
+    "maintenanceRegisteredSuccess": "Maintenance enregistrée avec succès !",
+    "maintenanceSavedOffline": "Maintenance enregistrée. Elle sera envoyée automatiquement lorsque vous serez en ligne."
   },
   "validations": {
     "selectAsset": "Vous devez sélectionner un actif",

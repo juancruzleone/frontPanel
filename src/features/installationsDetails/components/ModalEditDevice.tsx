@@ -62,11 +62,20 @@ const ModalEditDevice = ({
             <div className={styles.loaderContainer}>
               <p>{t('installationDetails.loadingRequiredData')}</p>
             </div>
+          ) : errorLoadingAssets ? (
+            <div className={styles.emptyState}>
+              <p>{errorLoadingAssets.includes("No hay activos") ? errorLoadingAssets : t('installationDetails.errorLoadingAssets')}</p>
+              {!errorLoadingAssets.includes("No hay activos") && <button onClick={onRetryLoadAssets}>{t('installationDetails.retryLoadAssets')}</button>}
+            </div>
           ) : errorLoadingCategories ? (
             <>
               <p>{t('installationDetails.errorLoadingCategories')}</p>
               <button onClick={handleRetryLoadCategories}>{t('installationDetails.retryLoadCategories')}</button>
             </>
+          ) : assets.length === 0 ? (
+            <div className={styles.emptyState}>
+              <p>{t('installationDetails.noAssetsAvailable')}</p>
+            </div>
           ) : (
             <DeviceForm
               installation={installation}

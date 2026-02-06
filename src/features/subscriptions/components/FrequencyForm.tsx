@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Calendar, ChevronDown } from 'lucide-react'
 import styles from '../styles/Modal.module.css'
 import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
-import DatePickerModal from './DatePickerModal'
+import DatePickerModal from '../../calendar/components/DatePickerModal'
 import HybridSelect from '../../../shared/components/HybridSelect'
 import MonthYearSelectorModal from './MonthYearSelectorModal'
 import type { FrequencyOption } from '../hooks/useSubscriptions'
@@ -123,15 +123,17 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
         )}
         <div className={styles.formGroup}>
           <label>{t('subscriptions.table.frequency')}</label>
-          <HybridSelect
-            value={formData.frequency || ''}
-            onChange={(val) => onFieldChange('frequency', val)}
-            onBlur={() => onFieldBlur('frequency')}
-            options={frequencyOptions.map(option => ({ value: option.value, label: option.label }))}
-            disabled={isSubmitting}
-            placeholder={t('subscriptions.selectFrequency')}
-            className={styles.statusSelect}
-          />
+          <div className={styles.fullWidth}>
+            <HybridSelect
+              value={formData.frequency || ''}
+              onChange={(val) => onFieldChange('frequency', val)}
+              onBlur={() => onFieldBlur('frequency')}
+              options={frequencyOptions.map(option => ({ value: option.value, label: option.label }))}
+              disabled={isSubmitting}
+              placeholder={t('subscriptions.selectFrequency')}
+              className={styles.statusSelect}
+            />
+          </div>
           {(!!formErrors['tipo'] && touchedFields['frequency']) && (
             <div className={styles.inputError}>{formErrors['tipo']}</div>
           )}
@@ -215,17 +217,19 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
 
         <div className={styles.formGroup}>
           <label>{t('subscriptions.status.label')}</label>
-          <HybridSelect
-            value={formData.status || 'active'}
-            onChange={(value) => onFieldChange('status', value)}
-            options={[
-              { value: 'active', label: t('subscriptions.status.active') },
-              { value: 'inactive', label: t('subscriptions.status.inactive') }
-            ]}
-            placeholder={t('subscriptions.status.placeholder')}
-            disabled={isSubmitting}
-            className={styles.statusSelect}
-          />
+          <div className={styles.fullWidth}>
+            <HybridSelect
+              value={formData.status || 'active'}
+              onChange={(value) => onFieldChange('status', value)}
+              options={[
+                { value: 'active', label: t('subscriptions.status.active') },
+                { value: 'inactive', label: t('subscriptions.status.inactive') }
+              ]}
+              placeholder={t('subscriptions.status.placeholder')}
+              disabled={isSubmitting}
+              className={styles.statusSelect}
+            />
+          </div>
           {(!!formErrors['estado'] && touchedFields['status']) && (
             <div className={styles.inputError}>{formErrors['estado']}</div>
           )}

@@ -427,6 +427,7 @@
     "installationCreated": "Instalación creada exitosamente",
     "installationUpdated": "Instalación actualizada exitosamente",
     "installationDeleted": "Instalación eliminada exitosamente",
+    "errorDeletingInstallation": "Error al eliminar instalación",
     "deviceStatus": {
       "active": "Activo",
       "inactive": "Inactivo",
@@ -866,6 +867,7 @@
     "active": "Activa",
     "inactive": "Inactiva",
     "create": "Crear",
+    "categoryCreateSuccess": "Categoría creada con éxito",
     "categoryUpdated": "Categoría actualizada con éxito",
     "categoryDeleted": "Categoría eliminada con éxito",
     "confirmDeleteCategory": "¿Estás seguro de que quieres eliminar la categoría \"{{name}}\"?",
@@ -1703,7 +1705,9 @@
     "sendMaintenance": "Enviar mantenimiento",
     "saveMaintenance": "Guardar mantenimiento",
     "localSaveNote": "Los datos se guardarán localmente y se enviarán cuando haya conexión",
-    "viewHistory": "Historial"
+    "viewHistory": "Historial",
+    "maintenanceRegisteredSuccess": "¡Mantenimiento registrado exitosamente!",
+    "maintenanceSavedOffline": "Mantenimiento guardado. Se enviará automáticamente cuando haya conexión."
   },
   "validations": {
     "selectAsset": "Debe seleccionar un activo",

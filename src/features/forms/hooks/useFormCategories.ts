@@ -64,7 +64,7 @@ const useFormCategories = () => {
 
   const handleSubmitForm = async (
     e: React.FormEvent,
-    onSuccess: (message: string) => void,
+    onSuccessCallback: (message: string) => void,
     onCreate: (data: FormCategory) => Promise<{ message: string }>,
   ) => {
     e.preventDefault()
@@ -79,7 +79,9 @@ const useFormCategories = () => {
 
     try {
       const result = await onCreate(formData)
-      onSuccess(result.message)
+      if (typeof onSuccessCallback === 'function') {
+        onSuccessCallback(result.message)
+      }
       resetForm()
       await loadCategories()
     } catch (err) {

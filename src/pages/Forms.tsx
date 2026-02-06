@@ -324,7 +324,7 @@ const Forms = () => {
       <ModalCreateFormCategory
         isOpen={isCreateCategoryModalOpen}
         onRequestClose={() => setIsCreateCategoryModalOpen(false)}
-        onSuccess={() => {
+        onSubmitSuccess={() => {
           loadCategories()
           setResponseMessage(t("forms.categoryCreateSuccess"))
           setIsError(false)
@@ -337,7 +337,7 @@ const Forms = () => {
         onCategoriesChange={loadCategories}
       />
 
-      <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={closeModal} message={responseMessage} />
+      <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={closeModal} mensaje={responseMessage} />
       <ModalError isOpen={!!responseMessage && isError} onRequestClose={closeModal} mensaje={responseMessage} />
 
       {/* Botón flotante del tour estilo WhatsApp */}

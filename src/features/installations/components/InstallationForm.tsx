@@ -6,7 +6,7 @@ import { ChevronDown } from "lucide-react"
 import { useTheme } from "../../../shared/hooks/useTheme"
 import type { Installation } from "../hooks/useInstallations"
 import useInstallationTypes from "../hooks/useInstallationTypes"
-import HybridSelect from "../../workOrders/components/HybridSelect"
+import HybridSelect from "../../../shared/components/HybridSelect/HybridSelect"
 import styles from "../styles/installationForm.module.css"
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 import { validateInstallationForm, validateInstallationField } from '../validators/installationsValidations';
@@ -125,7 +125,7 @@ const InstallationForm = ({
         <input
           type="text"
           name={field.name}
-          value={formData[field.name as keyof Installation] || ""}
+          value={(formData[field.name as keyof Installation] as string) || ""}
           onChange={(e) => handleFieldChange(field.name, e.target.value)}
           onBlur={() => handleFieldBlur(field.name)}
           disabled={isSubmitting}
@@ -147,7 +147,7 @@ const InstallationForm = ({
 
         {/* Sección: Información de la Empresa */}
         <h3 className={styles.sectionTitle}>{t('installations.companyInfo')}</h3>
-        
+
         {fields.slice(0, 2).map((field) => (
           <div className={styles.formGroup} key={field.name}>
             <label>{field.label} *</label>
@@ -158,7 +158,7 @@ const InstallationForm = ({
 
         {/* Sección: Configuración de la Instalación */}
         <h3 className={styles.sectionTitle}>{t('installations.installationConfig')}</h3>
-        
+
         {fields.slice(2, 4).map((field) => (
           <div className={styles.formGroup} key={field.name}>
             <label>{field.label} *</label>
@@ -169,7 +169,7 @@ const InstallationForm = ({
 
         {/* Sección: Ubicación */}
         <h3 className={styles.sectionTitle}>{t('installations.location')}</h3>
-        
+
         {fields.slice(4).map((field) => (
           <div className={styles.formGroup} key={field.name}>
             <label>{field.label} *</label>

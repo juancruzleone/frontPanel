@@ -12,6 +12,29 @@ interface DatePickerModalProps {
   placeholder?: string;
 }
 
+/**
+ * Función para parsear una fecha string YYYY-MM-DD a un objeto Date local
+ * sin desplazamientos de zona horaria (UTC shifts).
+ */
+function parseSafeLocalDate(dateStr: string | undefined): Date | null {
+  if (!dateStr || typeof dateStr !== "string") return null;
+
+  // Si viene con formato ISO completo, intentar parsear partes
+  const parts = dateStr.includes('T') ? dateStr.split('T')[0].split('-') : dateStr.split('-');
+
+  if (parts.length === 3) {
+    const year = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1;
+    const day = parseInt(parts[2], 10);
+    if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+      return new Date(year, month, day);
+    }
+  }
+
+  const date = new Date(dateStr);
+  return isNaN(date.getTime()) ? null : date;
+}
+
 function formatLocalDate(date: Date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -30,22 +53,19 @@ const DatePickerModal = ({
   const { t, i18n } = useTranslation();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDateState, setSelectedDateState] = useState<Date | null>(
-    selectedDate ? new Date(selectedDate) : null
+    parseSafeLocalDate(selectedDate)
   );
-  const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   useEffect(() => {
     if (selectedDate) {
-      setSelectedDateState(new Date(selectedDate));
+      const parsed = parseSafeLocalDate(selectedDate);
+      setSelectedDateState(parsed);
+      // Solo actualizar el mes visual si el modal está abierto o es la primera vez
+      if (parsed) {
+        setCurrentDate(new Date(parsed.getFullYear(), parsed.getMonth(), 1));
+      }
     }
-  }, [selectedDate]);
-
-  // Resetear el estado de interacción cuando se abre el modal
-  useEffect(() => {
-    if (isOpen) {
-      setHasUserInteracted(false);
-    }
-  }, [isOpen]);
+  }, [selectedDate, isOpen]);
 
   const generateCalendarDays = () => {
     const year = currentDate.getFullYear();
@@ -53,12 +73,14 @@ const DatePickerModal = ({
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
     const startDate = new Date(firstDay);
+    // Ajustar al domingo anterior
     startDate.setDate(startDate.getDate() - firstDay.getDay());
 
     const days = [];
     const currentDay = new Date(startDate);
 
-    while (currentDay <= lastDay || days.length < 42) {
+    // Asegurar 6 semanas (42 días) para un grid consistente
+    while (days.length < 42) {
       days.push(new Date(currentDay));
       currentDay.setDate(currentDay.getDate() + 1);
     }
@@ -68,12 +90,10 @@ const DatePickerModal = ({
 
   const navigateMonth = (direction: number) => {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + direction, 1));
-    setHasUserInteracted(true);
   };
 
   const handleDateClick = (date: Date) => {
     setSelectedDateState(date);
-    setHasUserInteracted(true);
   };
 
   const handleConfirm = (e?: React.MouseEvent) => {
@@ -86,20 +106,8 @@ const DatePickerModal = ({
   };
 
   const handleClose = () => {
-    // Si el usuario interactuó pero no seleccionó fecha, resetear el estado
-    if (hasUserInteracted && !selectedDate) {
-      setSelectedDateState(null);
-    } else {
-      setSelectedDateState(selectedDate ? new Date(selectedDate) : null);
-    }
+    setSelectedDateState(parseSafeLocalDate(selectedDate));
     onRequestClose();
-  };
-
-  // Handler para cerrar con click fuera del modal
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      handleClose();
-    }
   };
 
   const isToday = (date: Date) => {
@@ -124,11 +132,12 @@ const DatePickerModal = ({
   return (
     <div
       className={styles.datePickerBackdrop}
-      onClick={handleBackdropClick}
+      onClick={(e) => { if (e.target === e.currentTarget) handleClose(); }}
       onKeyDown={e => { if (e.key === 'Enter') e.stopPropagation(); }}
     >
       <div className={styles.datePickerModal}>
         <div className={styles.datePickerHeader}>
+          <div style={{ width: 40 }} />
           <h2 className={styles.datePickerTitle}>{title || t('calendar.selectDate')}</h2>
           <button
             type="button"
@@ -149,7 +158,6 @@ const DatePickerModal = ({
                 <ChevronRight size={32} strokeWidth={3} />
               </button>
             </div>
-
             <div className={styles.calendarPickerGrid}>
               <div className={styles.calendarPickerWeekDays}>
                 <div className={styles.calendarPickerWeekDay}>{t('calendar.sun')}</div>
@@ -163,23 +171,21 @@ const DatePickerModal = ({
               <div className={styles.calendarPickerDays}>
                 {days.map((day, index) => (
                   <button
-                    key={index}
                     type="button"
+                    key={index}
                     className={`
                       ${styles.calendarPickerDay}
                       ${isOtherMonth(day) ? styles.calendarPickerOtherMonth : ''}
-                      ${isToday(day) ? styles.calendarPickerToday : ''}
                       ${isSelected(day) ? styles.calendarPickerSelected : ''}
+                      ${!isSelected(day) && isToday(day) ? styles.calendarPickerToday : ''}
                     `}
                     onClick={() => handleDateClick(day)}
-                    disabled={isOtherMonth(day)}
                   >
                     {day.getDate()}
                   </button>
                 ))}
               </div>
             </div>
-
             {selectedDateState && (
               <div className={styles.selectedDateInfo}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className={styles.selectedDateIcon}>
@@ -191,14 +197,12 @@ const DatePickerModal = ({
                 <div className={styles.selectedDateText}>
                   <p className={styles.selectedDateLabel}>{t('calendar.selectedDate')}:</p>
                   <p className={styles.selectedDateValue}>
-                    {selectedDateState
-                      ? selectedDateState.toLocaleDateString(currentLanguage, {
-                        weekday: "long",
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })
-                      : (placeholder || '')}
+                    {selectedDateState.toLocaleDateString(currentLanguage, {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
                   </p>
                 </div>
               </div>
@@ -211,7 +215,6 @@ const DatePickerModal = ({
               </div>
             )}
           </div>
-
           <div className={styles.datePickerActions}>
             <button
               type="button"

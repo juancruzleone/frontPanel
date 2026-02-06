@@ -180,7 +180,7 @@ const useInstallations = () => {
     try {
       await deleteDeviceFromInstallation(installationId, deviceId)
       setInstallationDevices((prev) => prev.filter((d) => d._id !== deviceId))
-      return { message: "Dispositivo eliminado con éxito" }
+      return { message: t('installations.deviceDeleted') }
     } catch (err: any) {
       console.error("Error al eliminar dispositivo:", err)
       throw err
@@ -249,7 +249,7 @@ const useInstallations = () => {
         setInstallationTypes((prev) => [...prev, newInstallation.installationType])
       }
 
-      return { message: "Instalación creada con éxito" }
+      return { message: t('installations.installationCreated') }
     } catch (err: any) {
       console.error("Error al crear instalación:", err)
       throw err
@@ -265,7 +265,7 @@ const useInstallations = () => {
         setInstallationTypes((prev) => [...prev, updatedInstallation.installationType])
       }
 
-      return { message: "Instalación actualizada con éxito" }
+      return { message: t('installations.installationUpdated') }
     } catch (err: any) {
       console.error("Error al actualizar instalación:", err)
       throw err
@@ -316,7 +316,7 @@ const useInstallations = () => {
         ),
       )
 
-      return { message: "Dispositivo agregado con éxito" }
+      return { message: t('installations.deviceAdded') }
     } catch (err: any) {
       console.error("Error al agregar dispositivo:", err)
       throw err

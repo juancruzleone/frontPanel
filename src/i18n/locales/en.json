@@ -425,6 +425,7 @@
     "installationCreated": "Installation created successfully",
     "installationUpdated": "Installation updated successfully",
     "installationDeleted": "Installation deleted successfully",
+    "errorDeletingInstallation": "Error deleting installation",
     "deviceStatus": {
       "active": "Active",
       "inactive": "Inactive",
@@ -879,6 +880,7 @@
     "active": "Active",
     "inactive": "Inactive",
     "create": "Create",
+    "categoryCreateSuccess": "Category created successfully",
     "categoryUpdated": "Category updated successfully",
     "categoryDeleted": "Category deleted successfully",
     "confirmDeleteCategory": "Are you sure you want to delete the category \"{{name}}\"?",
@@ -1591,7 +1593,9 @@
     "sendMaintenance": "Submit maintenance",
     "saveMaintenance": "Save maintenance",
     "localSaveNote": "Data will be saved locally and submitted when online",
-    "viewHistory": "History"
+    "viewHistory": "History",
+    "maintenanceRegisteredSuccess": "Maintenance registered successfully!",
+    "maintenanceSavedOffline": "Maintenance saved. It will be sent automatically when online."
   },
   "validations": {
     "selectAsset": "You must select an asset",

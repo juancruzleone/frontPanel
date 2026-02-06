@@ -1,460 +1,74 @@
 .containerDeviceForm {
-  margin: 60px auto;
-  padding: 32px;
-  max-width: 720px;
+  margin: 40px auto;
+  padding: 40px;
+  max-width: 800px;
   background-color: var(--color-card);
-  border-radius: 16px;
-  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   gap: 32px;
-}
-
-.title {
-  font-size: 28px;
-  color: black;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 8px;
-}
-
-/* Modo oscuro para title */
-:global(.dark) .title {
-  color: white;
-}
-
-.deviceInfoBox {
-  background: var(--color-bg-light);
-  border-radius: 12px;
-  padding: 20px;
-  font-size: 16px;
-  color: var(--color-text);
   border: 1px solid var(--color-card-border);
-  line-height: 1.6;
+  position: relative;
+  overflow: hidden;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-
-}
-
-.formGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  margin-bottom: 4px;
-  margin-top: 16px;
-}
-
-.formGroup:first-child {
-  margin-top: 0;
-}
-
-.label {
-  font-weight: 600;
-  color: var(--color-text);
-  font-size: 0.95rem;
-  margin: 0 0 2px 0;
-  padding: 0;
-  display: block;
-  line-height: 1.4;
-}
-
-.required {
-  color: var(--color-danger);
-  margin-left: 4px;
-}
-
-.input,
-.select,
-.textarea {
-  border: 2px solid var(--color-card-border);
-  border-radius: 8px;
-  padding: 12px 14px;
-  font-size: 1rem;
-  background: var(--color-bg-light);
-  color: var(--color-text);
-  transition: border 0.2s, box-shadow 0.2s;
-  box-shadow: 0 1px 2px #0001;
-  width: 100%;
-  box-sizing: border-box;
-  margin-top: 0 !important;
-}
-
-/* Contenedor de campos con posición relativa (como fecha) */
-.formGroup>span {
-  margin: 0;
-  padding: 0;
-}
-
-.input:focus,
-.select:focus,
-.textarea:focus {
-  border: 2px solid var(--color-secondary);
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(5, 126, 116, 0.1);
-  color: var(--color-text);
-}
-
-/* Modo oscuro para focus */
-:global(.dark) .input:focus,
-:global(.dark) .select:focus,
-:global(.dark) .textarea:focus {
-  border: 2px solid white;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
-}
-
-.checkbox {
-  width: 16px;
-  height: 16px;
-  accent-color: var(--color-secondary);
-  cursor: pointer;
-  border-radius: 3px;
-}
-
-.buttonRow {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
-}
-
-.submitButton {
-  background-color: var(--color-secondary);
-  color: #fff;
-  border: none;
-  padding: 12px 32px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 16px;
-  transition: background-color 0.2s ease;
-}
-
-.submitButton:hover:not(:disabled) {
-  background-color: #045e58;
-}
-
-.submitButton:disabled {
-  background-color: #94a3b8;
-  cursor: not-allowed;
-}
-
-.success {
-  color: #059669;
-  background-color: #ecfdf5;
-  padding: 10px 16px;
-  border-radius: 8px;
-  border: 1px solid #34d399;
-  font-weight: 500;
-}
-
-.error {
-  color: #dc2626;
-  background-color: #fef2f2;
-  padding: 10px 16px;
-  border-radius: 8px;
-  border: 1px solid #f87171;
-  font-weight: 500;
-}
-
-.loader {
-  font-size: 18px;
-  text-align: center;
-  color: var(--color-text);
-  padding: 40px 0;
-}
-
-/* Estado de conexión */
-.connectionStatus {
-  margin-bottom: 20px;
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.onlineStatus {
-  background: rgba(56, 142, 60, 0.1);
-  color: var(--color-success);
-  border: 1px solid rgba(56, 142, 60, 0.3);
-}
-
-.offlineStatus {
-  background: rgba(244, 67, 54, 0.1);
-  color: var(--color-danger);
-  border: 1px solid rgba(244, 67, 54, 0.3);
-}
-
-/* Envíos pendientes */
-.pendingSubmissions {
-  margin-bottom: 20px;
-  padding: 16px;
-  background: var(--color-bg-light);
-  border: 1px solid var(--color-card-border);
-  border-radius: 8px;
-}
-
-.pendingSubmissions h3 {
-  margin: 0 0 12px 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--color-text);
-}
-
-.pendingList {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.pendingItem {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  background: var(--color-card);
-  border: 1px solid var(--color-card-border);
-  border-radius: 6px;
-  font-size: 13px;
-  color: var(--color-text);
-}
-
-.pendingItem svg {
-  color: white;
-  flex-shrink: 0;
-}
-
-.retryCount {
-  margin-left: auto;
-  font-size: 12px;
-  color: var(--color-text-secondary);
-  background: var(--color-bg-light);
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-/* Sección de envío */
-.submitSection {
-  margin-top: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.offlineNote {
-  font-size: 13px;
-  color: var(--color-text-secondary);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin: 0;
-  padding: 8px 12px;
-  background: var(--color-bg-light);
-  border-radius: 6px;
-  border: 1px solid var(--color-card-border);
-}
-
-.offlineNote svg {
-  color: var(--color-danger);
-  flex-shrink: 0;
-}
-
-/* Mensaje de éxito mejorado */
-.success {
-  margin-top: 16px;
-  padding: 12px 16px;
-  background: rgba(56, 142, 60, 0.1);
-  color: var(--color-success);
-  border: 1px solid rgba(56, 142, 60, 0.3);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 500;
-}
-
-.success svg {
-  flex-shrink: 0;
-}
-
-@media (max-width: 900px) {
-  .containerDeviceForm {
-    padding: 18px;
-    max-width: 98vw;
-  }
-
-  .title {
-    font-size: 22px;
-  }
-}
-
-@media (max-width: 600px) {
-  .containerDeviceForm {
-    padding: 8px;
-    margin: 24px 0;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  }
-
-  .title {
-    font-size: 18px;
-  }
-
-  .form {
-    gap: 12px;
-  }
-
-  .formGroup {
-    gap: 4px;
-  }
-
-  .input,
-  .select,
-  .textarea {
-    padding: 8px 8px;
-    font-size: 0.98rem;
-  }
-
-  .submitButton {
-    padding: 10px 18px;
-    font-size: 15px;
-  }
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .connectionStatus {
-    font-size: 13px;
-    padding: 10px 12px;
-  }
-
-  .pendingSubmissions {
-    padding: 12px;
-  }
-
-  .pendingItem {
-    font-size: 12px;
-    padding: 6px 10px;
-  }
-
-  .offlineNote {
-    font-size: 12px;
-    padding: 6px 10px;
-  }
-}
-
-/* Modal overlay y modal para éxito/error */
-.modalOverlay {
-  position: fixed;
+.containerDeviceForm::before {
+  content: '';
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.18);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 6px;
+  background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+  z-index: 10;
 }
 
-.modal {
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
-  padding: 32px 24px 24px 24px;
-  min-width: 320px;
-  max-width: 90vw;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.closeButtonIcon {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #888;
-  padding: 4px;
-  border-radius: 50%;
-  transition: background 0.15s;
-}
-
-.closeButtonIcon:hover {
-  background: #f3f4f6;
-}
-
-.modalContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  margin-top: 12px;
-}
-
-/* Ajuste para el select con ícono */
-.select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-color: var(--color-bg-light);
-  border: 1.5px solid var(--color-card-border);
-  border-radius: 8px;
-  padding: 12px 14px;
-  font-size: 1rem;
+.title {
+  font-size: 32px;
   color: var(--color-text);
-  transition: border 0.2s, box-shadow 0.2s;
-  box-shadow: 0 1px 2px #0001;
-  padding-right: 40px;
+  font-weight: 800;
+  text-align: left;
+  margin-bottom: 0;
+  letter-spacing: -0.025em;
 }
 
-.select:focus {
-  border: 1.5px solid white;
-  outline: none;
-  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
-  color: var(--color-text);
-}
-
-/* Agregar estos estilos a deviceForm.module.css */
-
-/* Información de la instalación */
+.deviceInfoBox,
 .installationInfoBox {
   background: var(--color-bg-light);
-  border-radius: 12px;
-  padding: 20px;
-  font-size: 16px;
+  border-radius: 16px;
+  padding: 24px;
+  font-size: 15px;
   color: var(--color-text);
   border: 1px solid var(--color-card-border);
   line-height: 1.6;
-  margin-bottom: 16px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Modo oscuro para installationInfoBox */
-:global(.dark) .installationInfoBox {
-  background: var(--color-bg-light);
-  border: 1px solid var(--color-card-border);
+.deviceInfoBox::after,
+.installationInfoBox::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--color-secondary);
 }
 
 .infoHeader {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-  font-size: 18px;
-  color: black;
-}
-
-/* Modo oscuro para infoHeader */
-:global(.dark) .infoHeader {
-  color: white;
+  gap: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 4px;
 }
 
 .infoContent {
@@ -470,90 +84,104 @@
 }
 
 .infoIcon {
-  color: #dc2626;
+  color: #ef4444;
   flex-shrink: 0;
 }
 
-/* Actualizar estilo del deviceInfoBox para consistencia */
-.deviceInfoBox {
-  background: var(--color-bg-light);
-  border-radius: 12px;
-  padding: 20px;
-  font-size: 16px;
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.fullWidth {
+  width: 100% !important;
+}
+
+.fullWidth>div {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.label {
+  font-weight: 700;
   color: var(--color-text);
+  font-size: 0.95rem;
+  margin: 0;
+  display: block;
+}
+
+.required {
+  color: #ef4444;
+  margin-left: 4px;
+}
+
+.input,
+.textarea {
   border: 1px solid var(--color-card-border);
-  line-height: 1.6;
-}
-
-.deviceInfoBox .infoHeader {
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 1rem;
+  background: var(--color-card);
   color: var(--color-text);
-  margin-bottom: 12px;
-  font-size: 18px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* Responsive para información de instalación */
-@media (max-width: 768px) {
-
-  .installationInfoBox,
-  .deviceInfoBox {
-    padding: 16px;
-    font-size: 14px;
-  }
-
-  .infoHeader {
-    font-size: 16px;
-  }
-
-  .infoRow {
-    flex-wrap: wrap;
-  }
+.input:hover,
+.textarea:hover {
+  border-color: var(--color-secondary);
+  background: var(--color-bg-light);
 }
 
-@media (max-width: 600px) {
-
-  .installationInfoBox,
-  .deviceInfoBox {
-    padding: 12px;
-    font-size: 13px;
-  }
-
-  .infoHeader {
-    font-size: 15px;
-  }
+.input:focus,
+.textarea:focus {
+  border-color: var(--color-secondary);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(5, 126, 116, 0.15);
+  background: var(--color-card);
+  transform: translateY(-1px);
 }
 
-/* Botón de historial de mantenimientos */
+.textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* History Button */
 .historyButton {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 8px;
   width: fit-content;
-  padding: 6px 8px;
-  background-color: var(--color-secondary);
+  padding: 10px 20px;
+  background: linear-gradient(135deg, var(--color-secondary) 0%, #047857 100%);
   color: white;
   border: none;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 500;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.2);
 }
 
 .historyButton:hover {
-  background-color: var(--color-secondary-hover);
-  transform: translateY(-1px);
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
-}
-
-.historyButton:active {
-  transform: translateY(0);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(5, 126, 116, 0.3);
 }
 
 .historyButton svg {
-  width: 16px;
-  height: 16px;
   transition: transform 0.3s ease;
 }
 
@@ -561,19 +189,88 @@
   transform: rotate(15deg);
 }
 
-/* Ajustar infoHeader para que sea flex y tenga espacio entre elementos */
-.deviceInfoBox .infoHeader {
+/* Connection & Pending Stats */
+.connectionStatus {
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.onlineStatus {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.offlineStatus {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.pendingSubmissions {
+  padding: 24px;
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+}
+
+.pendingSubmissions h3 {
+  margin: 0 0 16px 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.pendingList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pendingItem {
   display: flex;
   align-items: center;
   gap: 10px;
+  padding: 10px 14px;
+  background: var(--color-bg-light);
+  border-radius: 8px;
+  font-size: 14px;
 }
 
+.retryCount {
+  margin-left: auto;
+  font-weight: 700;
+  background: #f59e0b;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-  .historyButton span {
-    display: none;
+  .containerDeviceForm {
+    padding: 24px;
+    margin: 20px 10px;
   }
 
-  .historyButton {
-    padding: 8px;
+  .title {
+    font-size: 24px;
+  }
+
+  .deviceInfoBox,
+  .installationInfoBox {
+    padding: 16px;
+  }
+
+  .historyButton span {
+    display: none;
   }
 }

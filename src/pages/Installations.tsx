@@ -286,11 +286,11 @@ const Installations = () => {
     try {
       await removeInstallation(installationToDelete._id)
       loadInstallations({ page: pagination.page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
-      setResponseMessage("Instalación eliminada con éxito")
+      setResponseMessage(t('installations.installationDeleted'))
       setIsError(false)
     } catch (err: any) {
       console.error("Error al eliminar instalación", err)
-      setResponseMessage(err.message || "Error al eliminar instalación")
+      setResponseMessage(err.message || t('installations.errorDeletingInstallation'))
       setIsError(true)
     } finally {
       setInstallationToDelete(null)

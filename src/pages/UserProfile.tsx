@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../store/authStore";
@@ -6,7 +6,7 @@ import { FiArrowLeft } from "react-icons/fi";
 import { useUserProfile } from "../features/profile/hooks/useUserProfile";
 import SearchInput from "../shared/components/Inputs/SearchInput";
 import styles from "../features/profile/styles/profile.module.css";
-import { translateUserRole } from "../shared/utils/backendTranslations";
+import { translateUserRole, translateWorkOrderStatus } from "../shared/utils/backendTranslations";
 import Skeleton from "../shared/components/Skeleton";
 
 const UserProfile = () => {
@@ -17,6 +17,7 @@ const UserProfile = () => {
   const { user, role, orders, installations, installationTypes, loading, error } = useUserProfile(userId || "");
   const [selectedFilter, setSelectedFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [ordersWithInstallations, setOrdersWithInstallations] = useState<any[]>([]);
 
   // Verificar que solo los admins puedan acceder
   if (currentUserRole !== "admin") {
@@ -25,6 +26,85 @@ const UserProfile = () => {
   }
 
   const isClient = role === 'cliente';
+
+  // Cargar detalles de instalación para cada orden
+  useEffect(() => {
+    const loadInstallationsForOrders = async () => {
+      if (orders.length === 0 || isClient) {
+        setOrdersWithInstallations(orders);
+        return;
+      }
+
+      try {
+        const { fetchInstallationById } = await import('../features/installations/services/installationServices');
+        
+        const ordersWithDetails = await Promise.all(
+          orders.map(async (order) => {
+            if (order.instalacion) {
+              return { ...order, instalacion: order.instalacion };
+            } else if (order.instalacionId) {
+              try {
+                const installationData = await fetchInstallationById(order.instalacionId);
+                return { ...order, instalacion: installationData };
+              } catch (err) {
+                console.error("Error fetching installation for profile order:", err);
+                return order;
+              }
+            }
+            return order;
+          })
+        );
+
+        setOrdersWithInstallations(ordersWithDetails);
+      } catch (error) {
+        console.error("Error loading installations for orders:", error);
+        setOrdersWithInstallations(orders);
+      }
+    };
+
+    loadInstallationsForOrders();
+  }, [orders, isClient]);
+
+  // Función para obtener el color según el estado
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "pendiente":
+        return "#9E9E9E";
+      case "asignada":
+        return "#2196F3";
+      case "en_progreso":
+        return "#FF9800";
+      case "completada":
+        return "#4CAF50";
+      case "cancelada":
+        return "#F44336";
+      default:
+        return "#9E9E9E";
+    }
+  };
+
+  // Función para obtener el color según el tipo de instalación
+  const getInstallationTypeColor = (type: string) => {
+    // Generar un color basado en el tipo de instalación
+    const colors = [
+      "#2196F3", // Azul
+      "#4CAF50", // Verde
+      "#FF9800", // Naranja
+      "#9C27B0", // Púrpura
+      "#00BCD4", // Cian
+      "#FF5722", // Rojo-Naranja
+      "#795548", // Marrón
+      "#607D8B", // Gris-Azul
+    ];
+    
+    // Usar el hash del tipo para seleccionar un color consistente
+    let hash = 0;
+    for (let i = 0; i < type.length; i++) {
+      hash = type.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const index = Math.abs(hash) % colors.length;
+    return colors[index];
+  };
 
   // Opciones de filtro según el rol del usuario visualizado
   const filterOptions = useMemo(() => {
@@ -68,7 +148,7 @@ const UserProfile = () => {
       });
     } else {
       // Filtrar órdenes para técnicos/admins
-      return orders.filter((order) => {
+      return ordersWithInstallations.filter((order) => {
         const matchesStatus = !selectedFilter || order.estado === selectedFilter;
         const matchesSearch = [
           order.titulo,
@@ -78,7 +158,7 @@ const UserProfile = () => {
         return matchesStatus && matchesSearch;
       });
     }
-  }, [orders, installations, selectedFilter, searchTerm, isClient]);
+  }, [ordersWithInstallations, installations, selectedFilter, searchTerm, isClient]);
 
   const handleGoBack = () => {
     navigate("/personal");
@@ -201,7 +281,16 @@ const UserProfile = () => {
             filteredData.map((inst) => (
               <div key={inst._id} className={styles.orderCard}>
                 <div className={styles.orderTitle}>{inst.company}</div>
-                <span className={styles.orderStatus}>{inst.installationType}</span>
+                <span 
+                  className={styles.orderStatus}
+                  style={{ 
+                    backgroundColor: getInstallationTypeColor(inst.installationType),
+                    color: '#000',
+                    fontWeight: 700
+                  }}
+                >
+                  {inst.installationType}
+                </span>
                 <div className={styles.orderMeta}>{inst.address}, {inst.city}</div>
               </div>
             ))
@@ -210,8 +299,31 @@ const UserProfile = () => {
             filteredData.map((order) => (
               <div key={order._id} className={styles.orderCard}>
                 <div className={styles.orderTitle}>{order.titulo}</div>
-                <span className={styles.orderStatus}>{t(`workOrders.${order.estado}`, { defaultValue: order.estado })}</span>
-                <div className={styles.orderMeta}>{t('workOrders.installation', { defaultValue: 'Instalación' })}: {order.instalacion?.company || 'N/A'}</div>
+                <span 
+                  className={styles.orderStatus}
+                  style={{ 
+                    backgroundColor: getStatusColor(order.estado),
+                    color: '#000',
+                    fontWeight: 700
+                  }}
+                >
+                  {translateWorkOrderStatus(order.estado)}
+                </span>
+                {order.instalacion && (
+                  <div className={styles.installationInfo}>
+                    <div className={styles.installationName}>
+                      {order.instalacion.company}
+                    </div>
+                    <div className={styles.installationAddress}>
+                      {order.instalacion.address}, {order.instalacion.city}
+                    </div>
+                  </div>
+                )}
+                {!order.instalacion && order.instalacionId && (
+                  <div className={styles.orderMeta}>
+                    {t('workOrders.installation', { defaultValue: 'Instalación' })}: {order.instalacionId}
+                  </div>
+                )}
               </div>
             ))
           )}

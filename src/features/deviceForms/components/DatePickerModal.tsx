@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import styles from "../styles/deviceFormDatePicker.module.css";
+import styles from "../../calendar/styles/calendar.module.css";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface DatePickerModalProps {
   isOpen: boolean;
@@ -9,6 +10,21 @@ interface DatePickerModalProps {
   selectedDate?: string;
   title?: string;
   placeholder?: string;
+}
+
+function parseSafeLocalDate(dateStr: string | undefined): Date | null {
+  if (!dateStr || typeof dateStr !== "string") return null;
+  const parts = dateStr.includes('T') ? dateStr.split('T')[0].split('-') : dateStr.split('-');
+  if (parts.length === 3) {
+    const year = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1;
+    const day = parseInt(parts[2], 10);
+    if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+      return new Date(year, month, day);
+    }
+  }
+  const date = new Date(dateStr);
+  return isNaN(date.getTime()) ? null : date;
 }
 
 function formatLocalDate(date: Date) {
@@ -29,12 +45,12 @@ const DatePickerModal = ({
   const { t, i18n } = useTranslation();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDateState, setSelectedDateState] = useState<Date | null>(
-    selectedDate ? new Date(selectedDate) : null
+    parseSafeLocalDate(selectedDate)
   );
 
   useEffect(() => {
     if (selectedDate) {
-      setSelectedDateState(new Date(selectedDate));
+      setSelectedDateState(parseSafeLocalDate(selectedDate));
     }
   }, [selectedDate]);
 
@@ -75,7 +91,7 @@ const DatePickerModal = ({
   };
 
   const handleClose = () => {
-    setSelectedDateState(selectedDate ? new Date(selectedDate) : null);
+    setSelectedDateState(parseSafeLocalDate(selectedDate));
     onRequestClose();
   };
 
@@ -99,11 +115,16 @@ const DatePickerModal = ({
   const monthName = currentDate.toLocaleDateString(currentLanguage, { month: "long", year: "numeric" });
 
   return (
-    <div className={styles.datePickerBackdrop} onKeyDown={e => { if (e.key === 'Enter') e.stopPropagation(); }}>
+    <div
+      className={styles.datePickerBackdrop}
+      onClick={(e) => { if (e.target === e.currentTarget) onRequestClose(); }}
+      onKeyDown={e => { if (e.key === 'Enter') e.stopPropagation(); }}
+    >
       <div className={styles.datePickerModal}>
         <div className={styles.datePickerHeader}>
+          <div style={{ width: 40 }} />
           <h2 className={styles.datePickerTitle}>{title || t('calendar.selectDate')}</h2>
-          <button 
+          <button
             type="button"
             className={styles.datePickerCloseButton}
             onClick={handleClose}
@@ -115,15 +136,11 @@ const DatePickerModal = ({
           <div className={styles.calendarPickerContainer}>
             <div className={styles.calendarPickerHeader}>
               <button type="button" onClick={() => navigateMonth(-1)} className={styles.calendarPickerNavButton}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <ChevronLeft size={32} strokeWidth={3} />
               </button>
               <h3 className={styles.calendarPickerMonthTitle}>{monthName}</h3>
               <button type="button" onClick={() => navigateMonth(1)} className={styles.calendarPickerNavButton}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+                <ChevronRight size={32} strokeWidth={3} />
               </button>
             </div>
             <div className={styles.calendarPickerGrid}>
@@ -158,21 +175,21 @@ const DatePickerModal = ({
             {selectedDateState && (
               <div className={styles.selectedDateInfo}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className={styles.selectedDateIcon}>
-                  <rect x="3" y="4" width="18" height="18" rx="2" fill="#10b981"/>
-                  <line x1="16" y1="2" x2="16" y2="6" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-                  <line x1="8" y1="2" x2="8" y2="6" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-                  <line x1="3" y1="10" x2="21" y2="10" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+                  <rect x="3" y="4" width="18" height="18" rx="2" fill="#10b981" />
+                  <line x1="16" y1="2" x2="16" y2="6" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  <line x1="8" y1="2" x2="8" y2="6" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                  <line x1="3" y1="10" x2="21" y2="10" stroke="white" strokeWidth="2" strokeLinecap="round" />
                 </svg>
                 <div className={styles.selectedDateText}>
                   <p className={styles.selectedDateLabel}>{t('calendar.selectedDate')}:</p>
                   <p className={styles.selectedDateValue}>
                     {selectedDateState
                       ? selectedDateState.toLocaleDateString(currentLanguage, {
-                          weekday: "long",
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        })
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })
                       : (placeholder || '')}
                   </p>
                 </div>
@@ -189,18 +206,18 @@ const DatePickerModal = ({
           <div className={styles.datePickerActions}>
             <button
               type="button"
-              onClick={handleClose}
-              className={styles.datePickerCancelButton}
-            >
-              {t('common.cancel')}
-            </button>
-            <button
-              type="button"
               onClick={handleConfirm}
               disabled={!selectedDateState}
               className={styles.datePickerConfirmButton}
             >
               {t('common.confirm')}
+            </button>
+            <button
+              type="button"
+              onClick={handleClose}
+              className={styles.datePickerCancelButton}
+            >
+              {t('common.cancel')}
             </button>
           </div>
         </div>

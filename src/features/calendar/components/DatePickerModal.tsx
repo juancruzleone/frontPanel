@@ -12,6 +12,21 @@ interface DatePickerModalProps {
   placeholder?: string;
 }
 
+function parseSafeLocalDate(dateStr: string | undefined): Date | null {
+  if (!dateStr || typeof dateStr !== "string") return null;
+  const parts = dateStr.includes('T') ? dateStr.split('T')[0].split('-') : dateStr.split('-');
+  if (parts.length === 3) {
+    const year = parseInt(parts[0], 10);
+    const month = parseInt(parts[1], 10) - 1;
+    const day = parseInt(parts[2], 10);
+    if (!isNaN(year) && !isNaN(month) && !isNaN(day)) {
+      return new Date(year, month, day);
+    }
+  }
+  const date = new Date(dateStr);
+  return isNaN(date.getTime()) ? null : date;
+}
+
 function formatLocalDate(date: Date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -30,12 +45,12 @@ const DatePickerModal = ({
   const { t, i18n } = useTranslation();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDateState, setSelectedDateState] = useState<Date | null>(
-    selectedDate ? new Date(selectedDate) : null
+    parseSafeLocalDate(selectedDate)
   );
 
   useEffect(() => {
     if (selectedDate) {
-      setSelectedDateState(new Date(selectedDate));
+      setSelectedDateState(parseSafeLocalDate(selectedDate));
     }
   }, [selectedDate]);
 
@@ -76,7 +91,7 @@ const DatePickerModal = ({
   };
 
   const handleClose = () => {
-    setSelectedDateState(selectedDate ? new Date(selectedDate) : null);
+    setSelectedDateState(parseSafeLocalDate(selectedDate));
     onRequestClose();
   };
 

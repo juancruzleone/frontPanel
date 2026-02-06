@@ -53,6 +53,9 @@ export const fetchAssets = async (): Promise<any[]> => {
   });
   if (!response.ok) throw new Error("Error al obtener activos");
   const result = await response.json();
+  if (result.success && Array.isArray(result.data)) {
+    return result.data;
+  }
   return Array.isArray(result) ? result : [];
 };
 

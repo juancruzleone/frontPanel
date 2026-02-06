@@ -234,6 +234,7 @@
     "success": "Successo",
     "cancel": "Annulla",
     "save": "Salva",
+    "saving": "Salvataggio in corso...",
     "edit": "Modifica",
     "delete": "Elimina",
     "create": "Crea",
@@ -558,6 +559,7 @@
     "installationCreated": "Installazione creata con successo",
     "installationUpdated": "Installazione aggiornata con successo",
     "installationDeleted": "Installazione eliminata con successo",
+    "errorDeletingInstallation": "Errore durante l'eliminazione dell'installazione",
     "deviceStatus": {
       "active": "Attivo",
       "inactive": "Inattivo",
@@ -1019,6 +1021,7 @@
     "active": "Attiva",
     "inactive": "Inattiva",
     "create": "Crea",
+    "categoryCreateSuccess": "Categoria creata con successo",
     "categoryUpdated": "Categoria aggiornata con successo",
     "categoryDeleted": "Categoria eliminata con successo",
     "confirmDeleteCategory": "Sei sicuro di voler eliminare la categoria \"{{name}}\"?",
@@ -1406,7 +1409,9 @@
     "sendMaintenance": "Invia manutenzione",
     "saveMaintenance": "Salva manutenzione",
     "localSaveNote": "I dati saranno salvati localmente e inviati quando sei online",
-    "viewHistory": "Cronologia"
+    "viewHistory": "Cronologia",
+    "maintenanceRegisteredSuccess": "Manutenzione registrata con successo!",
+    "maintenanceSavedOffline": "Manutenzione salvata. Sarà inviata automaticamente quando sei online."
   },
   "validations": {
     "selectAsset": "Devi selezionare un asset",

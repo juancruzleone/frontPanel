@@ -1,15 +1,21 @@
 /* Estilos base para la sección de perfil de usuario, inspirado en installations.module.css */
 
 .profileContainer {
-  margin: 0 auto;
-  padding: 32px 16px 24px 16px;
-  max-width: 900px;
+  /* margin: 0 auto; Removed to align left/full width */
+  padding: 32px 32px 32px 32px;
+  /* Increased padding for better spacing */
+  width: 100%;
+  /* Set to full width */
+  max-width: none;
+  /* Remove constraint */
   display: flex;
   flex-direction: column;
   gap: 32px;
   color: var(--color-text);
   min-height: unset;
   position: static;
+  box-sizing: border-box;
+  /* Ensure padding is included in width */
 }
 
 .profileTitle {
@@ -41,7 +47,7 @@
   font-size: 2.5rem;
   color: #888;
   font-weight: 700;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .profileInfo {
@@ -119,16 +125,52 @@
 
 .orderStatus {
   display: inline-block;
-  background: var(--color-primary);
-  color: var(--color-background);
   text-align: center;
   padding: 6px 14px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   border-radius: 20px;
   width: fit-content;
   align-self: flex-start;
   margin-bottom: 4px;
+  color: #000000 !important;
+}
+
+.statusPendiente {
+  background-color: #9E9E9E;
+}
+
+.statusAsignada {
+  background-color: #2196F3;
+}
+
+.statusEnProgreso {
+  background-color: #FF9800;
+}
+
+.statusCompletada {
+  background-color: #4CAF50;
+}
+
+.statusCancelada {
+  background-color: #F44336;
+}
+
+.installationInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.installationName {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.installationAddress {
+  font-size: 12px;
+  opacity: 0.8;
 }
 
 .skeleton {
@@ -142,6 +184,7 @@
   0% {
     background-position: 200% 0;
   }
+
   100% {
     background-position: -200% 0;
   }
@@ -157,4 +200,4 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-} 
+}

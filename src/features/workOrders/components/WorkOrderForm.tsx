@@ -8,7 +8,7 @@ import type { WorkOrder } from '../hooks/useWorkOrders'
 import { validateWorkOrderForm, validateWorkOrderField } from '../validators/workOrderValidations'
 import DatePickerModal from '../../calendar/components/DatePickerModal'
 import TimePickerModal from '../../calendar/components/TimePickerModal'
-import HybridSelect from './HybridSelect'
+import HybridSelect from '../../../shared/components/HybridSelect/HybridSelect'
 
 interface WorkOrderFormProps {
   onCancel: () => void

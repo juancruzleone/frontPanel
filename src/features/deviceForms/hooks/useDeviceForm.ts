@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { fetchDeviceForm, submitDeviceMaintenance } from "../services/deviceFormService"
+import { useTranslation } from "react-i18next"
 
 interface FormField {
   name: string

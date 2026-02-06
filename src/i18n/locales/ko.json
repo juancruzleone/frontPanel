@@ -237,6 +237,7 @@
     "success": "성공",
     "cancel": "취소",
     "save": "저장",
+    "saving": "저장 중...",
     "edit": "편집",
     "delete": "삭제",
     "create": "생성",
@@ -564,6 +565,7 @@
     "installationCreated": "설치가 성공적으로 생성되었습니다",
     "installationUpdated": "설치가 성공적으로 업데이트되었습니다",
     "installationDeleted": "설치가 성공적으로 삭제되었습니다",
+    "errorDeletingInstallation": "설치 삭제 중 오류가 발생했습니다",
     "deviceStatus": {
       "active": "활성",
       "inactive": "비활성",
@@ -1016,6 +1018,7 @@
     "active": "활성",
     "inactive": "비활성",
     "create": "만들기",
+    "categoryCreateSuccess": "카테고리가 성공적으로 생성되었습니다",
     "categoryUpdated": "카테고리가 성공적으로 업데이트되었습니다",
     "categoryDeleted": "카테고리가 성공적으로 삭제되었습니다",
     "confirmDeleteCategory": "\"{{name}}\" 카테고리를 삭제하시겠습니까?",
@@ -1455,7 +1458,9 @@
     "sendMaintenance": "유지보수 제출",
     "saveMaintenance": "유지보수 저장",
     "localSaveNote": "데이터는 로컬에 저장되고 온라인 상태일 때 제출됩니다",
-    "viewHistory": "기록"
+    "viewHistory": "기록",
+    "maintenanceRegisteredSuccess": "유지보수가 성공적으로 등록되었습니다!",
+    "maintenanceSavedOffline": "유지보수가 저장되었습니다. 온라인 상태일 때 자동으로 전송됩니다."
   },
   "validations": {
     "selectAsset": "자산을 선택해야 합니다",

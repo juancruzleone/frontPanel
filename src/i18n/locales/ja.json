@@ -238,6 +238,7 @@
     "success": "成功",
     "cancel": "キャンセル",
     "save": "保存",
+    "saving": "保存中...",
     "edit": "編集",
     "delete": "削除",
     "create": "作成",
@@ -562,6 +563,7 @@
     "installationCreated": "設置が正常に作成されました",
     "installationUpdated": "設置が正常に更新されました",
     "installationDeleted": "設置が正常に削除されました",
+    "errorDeletingInstallation": "設置の削除中にエラーが発生しました",
     "deviceStatus": {
       "active": "アクティブ",
       "inactive": "非アクティブ",
@@ -1029,6 +1031,7 @@
     "active": "アクティブ",
     "inactive": "非アクティブ",
     "create": "作成",
+    "categoryCreateSuccess": "カテゴリが正常に作成されました",
     "categoryUpdated": "カテゴリが正常に更新されました",
     "categoryDeleted": "カテゴリが正常に削除されました",
     "confirmDeleteCategory": "カテゴリ「{{name}}」を削除してもよろしいですか？",
@@ -1349,7 +1352,9 @@
     "sendMaintenance": "メンテナンスを送信",
     "saveMaintenance": "メンテナンスを保存",
     "localSaveNote": "データはローカルに保存され、オンライン時に送信されます",
-    "viewHistory": "履歴"
+    "viewHistory": "履歴",
+    "maintenanceRegisteredSuccess": "メンテナンスが正常に登録されました！",
+    "maintenanceSavedOffline": "メンテナンスが保存されました。オンライン時に自動的に送信されます。"
   },
   "validations": {
     "selectAsset": "アセットを選択する必要があります",

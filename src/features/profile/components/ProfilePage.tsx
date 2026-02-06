@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import styles from "../styles/profile.module.css";
 import { useProfile } from "../hooks/useProfile";
 import SearchInput from "../../../shared/components/Inputs/SearchInput";
@@ -11,6 +11,36 @@ const ProfilePage = () => {
   const { user, role, orders, installations, installationTypes, loading, error } = useProfile();
   const [selectedFilter, setSelectedFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [updatedOrders, setUpdatedOrders] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Cuando las órdenes cambian, verifica si necesitan detalles de instalación
+    const enrichOrders = async () => {
+      if (!orders || orders.length === 0) {
+        setUpdatedOrders([]);
+        return;
+      }
+
+      const enriched = await Promise.all(orders.map(async (order) => {
+        const instId = order.instalacionId || (typeof order.instalacion === 'string' ? order.instalacion : (order.instalacion?._id || null));
+
+        if (instId && (!order.instalacion || typeof order.instalacion === 'string' || !order.instalacion.company)) {
+          try {
+            const { fetchInstallationById } = await import('../../installations/services/installationServices');
+            const installationData = await fetchInstallationById(instId);
+            return { ...order, instalacion: installationData };
+          } catch (err) {
+            console.error("Error fetching installation for profile order:", err);
+            return order;
+          }
+        }
+        return order;
+      }));
+      setUpdatedOrders(enriched);
+    };
+
+    enrichOrders();
+  }, [orders]);
 
   const isClient = role === 'cliente';
 
@@ -56,7 +86,7 @@ const ProfilePage = () => {
       });
     } else {
       // Filtrar órdenes para técnicos/admins
-      return orders.filter((order) => {
+      return updatedOrders.filter((order) => {
         const matchesStatus = !selectedFilter || order.estado === selectedFilter;
         const matchesSearch = [
           order.titulo,
@@ -66,7 +96,7 @@ const ProfilePage = () => {
         return matchesStatus && matchesSearch;
       });
     }
-  }, [orders, installations, selectedFilter, searchTerm, isClient]);
+  }, [updatedOrders, installations, selectedFilter, searchTerm, isClient]);
 
   return (
     <div className={styles.profileContainer}>
@@ -130,13 +160,49 @@ const ProfilePage = () => {
                 ))
               ) : (
                 // Renderizar órdenes para técnicos/admins
-                filteredData.map((order) => (
-                  <div key={order._id} className={styles.orderCard}>
-                    <div className={styles.orderTitle}>{order.titulo}</div>
-                    <span className={styles.orderStatus}>{t(`workOrders.${order.estado}`, { defaultValue: order.estado })}</span>
-                    <div className={styles.orderMeta}>{t('workOrders.installation', { defaultValue: 'Instalación' })}: {order.instalacion?.company || order.instalacionId}</div>
-                  </div>
-                ))
+                filteredData.map((order) => {
+                  const getStatusColor = (status: string) => {
+                    const s = (status || "").toLowerCase();
+                    switch (s) {
+                      case "pendiente": return "#9E9E9E";
+                      case "asignada": return "#2196F3";
+                      case "en_progreso": return "#FF9800";
+                      case "completada": return "#4CAF50";
+                      case "cancelada": return "#F44336";
+                      default: return "var(--color-primary)";
+                    }
+                  };
+
+                  const installation = order.instalacion;
+                  const hasInstallationData = installation && typeof installation === 'object' && installation.company;
+
+                  return (
+                    <div key={order._id} className={styles.orderCard}>
+                      <div className={styles.orderTitle}>{order.titulo}</div>
+                      <span
+                        className={styles.orderStatus}
+                        style={{ backgroundColor: getStatusColor(order.estado) }}
+                      >
+                        {t(`workOrders.${order.estado}`, { defaultValue: order.estado })}
+                      </span>
+                      <div className={styles.orderMeta}>
+                        <div className={styles.installationInfo}>
+                          <strong>{t('workOrders.installation', { defaultValue: 'Instalación' })}:</strong>
+                          {hasInstallationData ? (
+                            <>
+                              <span className={styles.installationName}>{installation.company}</span>
+                              <span className={styles.installationAddress}>
+                                {installation.address}{installation.city ? `, ${installation.city}` : ''}
+                              </span>
+                            </>
+                          ) : (
+                            <span>{order.instalacionId || (typeof order.instalacion === 'string' ? order.instalacion : 'N/A')}</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })
               )}
             </div>
           </div>

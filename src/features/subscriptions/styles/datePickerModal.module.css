@@ -1,4 +1,4 @@
-/* Estilos copiados del date picker de deviceForms */
+/* Estilos sincronizados con el date picker de Calendario para consistencia visual */
 .datePickerBackdrop {
   position: fixed;
   top: 0;
@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 2000;
   backdrop-filter: blur(4px);
 }
 
@@ -78,18 +78,7 @@
 
 .datePickerCloseButton:hover {
   background: var(--color-bg-light);
-  color: var(--color-text);
   transform: scale(1.1);
-}
-
-:global([data-theme="light"]) .datePickerCloseButton:hover {
-  background: rgba(0, 0, 0, 0.1);
-}
-
-.datePickerCloseButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
 }
 
 .datePickerContent {
@@ -151,16 +140,9 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  flex: 1;
 }
 
 .calendarPickerWeekDays {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
-}
-
-.calendarPickerDays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 4px;
@@ -175,6 +157,12 @@
   font-weight: 600;
   color: var(--color-text-secondary);
   text-transform: uppercase;
+}
+
+.calendarPickerDays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
 }
 
 .calendarPickerDay {
@@ -217,12 +205,6 @@
   cursor: not-allowed;
 }
 
-.calendarPickerDay.calendarPickerOtherMonth:hover {
-  border-color: transparent;
-  background: var(--color-card);
-  transform: none;
-}
-
 .selectedDateInfo {
   display: flex;
   align-items: center;
@@ -232,7 +214,6 @@
   background: rgba(16, 185, 129, 0.1);
   border: 1px solid rgba(16, 185, 129, 0.2);
   border-radius: 8px;
-  flex-shrink: 0;
 }
 
 .selectedDateIcon {
@@ -260,156 +241,83 @@
 
 .datePickerActions {
   display: flex;
-  gap: 12px;
+  gap: 1rem;
+  justify-content: center;
   margin-top: 24px;
-  justify-content: flex-end;
-  flex-shrink: 0;
 }
 
 .datePickerCancelButton {
-  padding: 12px 24px;
-  border: 2px solid var(--color-card-border);
   background: var(--color-card);
   color: var(--color-text);
-  border-radius: 8px;
+  border: 2px solid var(--color-card-border);
+  padding: 0.875rem 1.75rem;
+  border-radius: 12px;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 1rem;
+  font-weight: 600;
   transition: all 0.2s ease;
+  min-width: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:global([data-theme="light"]) .datePickerCancelButton {
+  border-color: #000;
+  color: #000;
 }
 
 .datePickerCancelButton:hover {
   background: rgba(255, 255, 255, 0.1);
-  border-color: white;
   transform: translateY(-1px);
+}
+
+:global([data-theme="light"]) .datePickerCancelButton:hover {
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .datePickerConfirmButton {
-  padding: 12px 24px;
+  background: linear-gradient(135deg, var(--color-secondary) 0%, #045e58 100%) !important;
+  color: white !important;
   border: none;
-  background: linear-gradient(135deg, var(--color-secondary) 0%, #057e74 100%);
-  color: white;
-  border-radius: 8px;
+  padding: 0.875rem 1.75rem;
+  border-radius: 12px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 1rem;
   font-weight: 600;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(5, 126, 116, 0.2);
-}
-
-.datePickerConfirmButton:hover:not(:disabled) {
-  background: linear-gradient(135deg, #057e74 0%, #046c63 100%);
-  transform: translateY(-1px);
+  min-width: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: 0 4px 12px rgba(5, 126, 116, 0.3);
 }
 
+.datePickerConfirmButton:hover:not(:disabled) {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
 .datePickerConfirmButton:disabled {
-  opacity: 0.5;
+  background: var(--color-skeleton) !important;
+  color: var(--color-skeleton-light) !important;
   cursor: not-allowed;
   transform: none;
+  box-shadow: none;
 }
 
-/* Scrollbar personalizado */
-.datePickerContent::-webkit-scrollbar {
-  width: 10px;
-}
-
-.datePickerContent::-webkit-scrollbar-track {
-  background: var(--color-bg-light);
-  border-radius: 5px;
-}
-
-.datePickerContent::-webkit-scrollbar-thumb {
-  background: var(--color-card-border);
-  border-radius: 5px;
-  border: 2px solid var(--color-bg-light);
-}
-
-.datePickerContent::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text);
-}
-
-/* Modo claro - Scrollbar negro */
-:root .datePickerContent::-webkit-scrollbar-thumb {
-  background: #000;
-}
-
-:root .datePickerContent::-webkit-scrollbar-thumb:hover {
-  background: #333;
-}
-
-/* Modo oscuro - Scrollbar blanco */
-.dark .datePickerContent::-webkit-scrollbar-thumb {
-  background: #fff;
-}
-
-.dark .datePickerContent::-webkit-scrollbar-thumb:hover {
-  background: #e0e0e0;
-}
-
-/* Estilos para modo oscuro */
-.dark .datePickerModal {
-  background: var(--color-card);
-  border-color: var(--color-card-border);
-}
-
-.dark .datePickerCloseButton {
-  background: var(--color-card);
-  color: var(--color-text);
-}
-
-.dark .calendarPickerNavButton {
-  background: var(--color-card);
-  border-color: var(--color-card-border);
-  color: var(--color-text);
-}
-
-.dark .calendarPickerDay {
-  background: var(--color-card);
-  color: var(--color-text);
-}
-
-.dark .calendarPickerDay.calendarPickerOtherMonth {
-  color: var(--color-text-secondary);
-}
-
-.dark .datePickerCancelButton {
-  background: var(--color-card);
-  border-color: var(--color-card-border);
-  color: var(--color-text);
-}
-
-/* Responsive */
 @media (max-width: 768px) {
   .datePickerModal {
     width: 95%;
-    max-height: 95vh;
-  }
-
-  .datePickerHeader {
-    padding: 16px 16px 0 16px;
-  }
-
-  .datePickerContent {
-    padding: 0 16px 16px 16px;
-  }
-
-  .calendarPickerContainer {
-    padding: 16px;
-  }
-
-  .calendarPickerDay {
-    height: 36px;
-    font-size: 0.8rem;
   }
 
   .datePickerActions {
     flex-direction: column;
-    gap: 8px;
   }
 
   .datePickerCancelButton,
   .datePickerConfirmButton {
-    width: 100%;
+    min-width: 100%;
   }
 }

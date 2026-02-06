@@ -210,6 +210,7 @@
     "success": "Erfolg",
     "cancel": "Abbrechen",
     "save": "Speichern",
+    "saving": "Wird gespeichert...",
     "edit": "Bearbeiten",
     "delete": "Löschen",
     "create": "Erstellen",
@@ -716,6 +717,8 @@
       "typeDescriptionMax": "Die Beschreibung darf nicht länger als 500 Zeichen sein"
     },
     "titlePage": "Installationen | Leonix",
+    "installationDeleted": "Installation erfolgreich gelöscht",
+    "errorDeletingInstallation": "Fehler beim Löschen der Installation",
     "confirmDeleteTitle": "Installation löschen?",
     "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Die Installation wird dauerhaft gelöscht.",
     "tour": {
@@ -938,6 +941,7 @@
     "active": "Aktiv",
     "inactive": "Inaktiv",
     "create": "Erstellen",
+    "categoryCreateSuccess": "Kategorie erfolgreich erstellt",
     "categoryUpdated": "Kategorie erfolgreich aktualisiert",
     "categoryDeleted": "Kategorie erfolgreich gelöscht",
     "confirmDeleteCategory": "Sind Sie sicher, dass Sie die Kategorie \"{{name}}\" löschen möchten?",
@@ -1302,7 +1306,9 @@
     "sendMaintenance": "Wartung senden",
     "saveMaintenance": "Wartung speichern",
     "localSaveNote": "Daten werden lokal gespeichert und bei Verbindung gesendet",
-    "viewHistory": "Verlauf"
+    "viewHistory": "Verlauf",
+    "maintenanceRegisteredSuccess": "Wartung erfolgreich registriert!",
+    "maintenanceSavedOffline": "Wartung gespeichert. Sie wird automatisch gesendet, wenn eine Verbindung besteht."
   },
   "validations": {
     "selectAsset": "Sie müssen ein Asset auswählen",

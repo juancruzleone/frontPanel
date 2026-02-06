@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import styles from "../styles/Modal.module.css"
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 import type { WorkOrder } from "../hooks/useCalendar"
@@ -28,11 +28,35 @@ const ModalWorkOrderDetails = ({
 }: ModalWorkOrderDetailsProps) => {
   const { t } = useTranslation()
   const [isLoading, setIsLoading] = useState(false)
+  const [installationDetails, setInstallationDetails] = useState<any>(null)
+  const [loadingInstallation, setLoadingInstallation] = useState(false)
+
+  useEffect(() => {
+    const loadInstallation = async () => {
+      if (workOrder?.instalacion) {
+        setInstallationDetails(workOrder.instalacion)
+      } else if (workOrder?.instalacionId) {
+        setLoadingInstallation(true)
+        try {
+          const { fetchInstallationById } = await import('../../../features/installations/services/installationServices')
+          const data = await fetchInstallationById(workOrder.instalacionId)
+          setInstallationDetails(data)
+        } catch (error) {
+          console.error("Error loading installation details:", error)
+        } finally {
+          setLoadingInstallation(false)
+        }
+      } else {
+        setInstallationDetails(null)
+      }
+    }
+
+    if (isOpen && workOrder) {
+      loadInstallation()
+    }
+  }, [isOpen, workOrder])
 
   if (!isOpen || !workOrder) return null
-
-  // DEBUG: Verificar si trabajoRealizado llega al modal
-
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
@@ -117,6 +141,15 @@ const ModalWorkOrderDetails = ({
               </div>
             </div>
 
+            {workOrder.estado === "asignada" && onStart && (
+              <div className={styles.actions} style={{ marginTop: '16px', marginBottom: '24px' }}>
+                <button className={styles.startButton} onClick={handleStart} disabled={isLoading}>
+                  <Play size={16} />
+                  {isLoading ? t('calendar.starting') : t('calendar.startOrder')}
+                </button>
+              </div>
+            )}
+
             <div className={styles.section}>
               <h4>{t('calendar.description')}</h4>
               <p>{workOrder.descripcion}</p>
@@ -147,15 +180,21 @@ const ModalWorkOrderDetails = ({
                 </div>
               </div>
 
-              {workOrder.instalacion && (
+              {(installationDetails || loadingInstallation) && (
                 <div className={styles.infoItem}>
                   <MapPin size={20} />
                   <div>
                     <strong>{t('calendar.installation')}</strong>
-                    <p>{workOrder.instalacion.company}</p>
-                    <p className={styles.address}>
-                      {workOrder.instalacion.address}, {workOrder.instalacion.city}
-                    </p>
+                    {loadingInstallation ? (
+                      <p>{t('common.loading') || 'Cargando...'}</p>
+                    ) : (
+                      <>
+                        <p>{installationDetails?.company}</p>
+                        <p className={styles.address}>
+                          {installationDetails?.address}, {installationDetails?.city}
+                        </p>
+                      </>
+                    )}
                   </div>
                 </div>
               )}
@@ -211,15 +250,6 @@ const ModalWorkOrderDetails = ({
               </div>
             )}
           </div>
-
-          {workOrder.estado === "asignada" && onStart && (
-            <div className={styles.actions}>
-              <button className={styles.startButton} onClick={handleStart} disabled={isLoading}>
-                <Play size={16} />
-                {isLoading ? t('calendar.starting') : t('calendar.startOrder')}
-              </button>
-            </div>
-          )}
         </div>
       </div>
     </div>

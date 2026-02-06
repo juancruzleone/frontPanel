@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { useParams } from "react-router-dom"
 import { Wifi, WifiOff, Clock, CheckCircle, Building2, MapPin, ChevronDown, X, Calendar, History } from "lucide-react"
 import useDeviceForm from "../hooks/useDeviceForm"
-import HybridSelect from "../../workOrders/components/HybridSelect"
+import HybridSelect from "../../../shared/components/HybridSelect/HybridSelect"
 import styles from "../styles/deviceForm.module.css"
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 import formCheckboxStyles from "../../../shared/components/Buttons/formCheckboxes.module.css"
@@ -160,7 +160,7 @@ const DeviceForm: React.FC = () => {
       {/* Información del dispositivo (igual estilo que instalación) */}
       <div className={styles.deviceInfoBox}>
         <div className={styles.infoHeader}>
-          <Building2 size={20} />
+          <Building2 size={24} />
           <strong>{t('deviceForm.deviceDetails')}</strong>
         </div>
         <div className={styles.infoContent}>
@@ -216,23 +216,25 @@ const DeviceForm: React.FC = () => {
                 className={styles.textarea}
               />
             ) : field.type === "select" && field.options ? (
-              <HybridSelect
-                name={field.name}
-                value={formData[field.name] || ""}
-                onChange={(value) => handleSelectChange(field.name, value)}
-                onBlur={() => handleSelectBlur(field.name)}
-                disabled={false}
-                options={[
-                  { value: "", label: t('deviceForm.select') },
-                  ...field.options.map((opt) => ({
-                    value: opt,
-                    label: t(`deviceForm.options.${opt}`, opt)
-                  }))
-                ]}
-                placeholder={t('deviceForm.select')}
-                error={false}
-                required={field.required}
-              />
+              <div className={styles.fullWidth}>
+                <HybridSelect
+                  name={field.name}
+                  value={formData[field.name] || ""}
+                  onChange={(value) => handleSelectChange(field.name, value)}
+                  onBlur={() => handleSelectBlur(field.name)}
+                  disabled={false}
+                  options={[
+                    { value: "", label: t('deviceForm.select') },
+                    ...field.options.map((opt) => ({
+                      value: opt,
+                      label: t(`deviceForm.options.${opt}`, opt)
+                    }))
+                  ]}
+                  placeholder={t('deviceForm.select')}
+                  error={false}
+                  required={field.required}
+                />
+              </div>
             ) : field.type === "date" ? (
               <span style={{ position: 'relative', display: 'block', width: '100%' }}>
                 <input
@@ -242,7 +244,7 @@ const DeviceForm: React.FC = () => {
                   readOnly
                   required={field.required}
                   className={styles.input}
-                  style={{ paddingRight: 40, cursor: 'pointer', background: 'var(--color-bg-light)' }}
+                  style={{ paddingRight: 46, cursor: 'pointer' }}
                   placeholder={t('deviceForm.selectDate')}
                   onClick={() => {
                     setDatePickerOpen({ ...datePickerOpen, [field.name]: true });
@@ -250,8 +252,17 @@ const DeviceForm: React.FC = () => {
                   }}
                 />
                 <Calendar
-                  size={20}
-                  style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', color: dark ? '#f5f5f5' : '#111' }}
+                  size={22}
+                  className={styles.calendarIconOverlay}
+                  style={{
+                    position: 'absolute',
+                    right: 14,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    cursor: 'pointer',
+                    color: 'var(--color-text)',
+                    opacity: 0.7
+                  }}
                   onClick={() => {
                     setDatePickerOpen({ ...datePickerOpen, [field.name]: true });
                     setDatePickerField(field.name);

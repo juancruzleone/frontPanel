@@ -27,9 +27,20 @@ export function useUserProfile(userId: string) {
 
         // Verificar si el usuario es cliente
         if (userResponse.role === 'cliente') {
-          // Para clientes, cargar instalaciones asignadas
-          const response = await fetchInstallations();
-          setInstallations(Array.isArray(response) ? response : (response.data || []));
+          // Para clientes, cargar solo las instalaciones asignadas a ese cliente específico
+          const installationsResponse = await fetch(`${API_URL}clientes-usuarios/${userId}/instalaciones`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (!installationsResponse.ok) {
+            throw new Error('Error al obtener instalaciones del cliente');
+          }
+
+          const installationsData = await installationsResponse.json();
+          setInstallations(Array.isArray(installationsData) ? installationsData : (installationsData.data || []));
+          
           // Cargar tipos de instalación para el filtro
           const types = await fetchInstallationTypes();
           setInstallationTypes(types);

@@ -238,6 +238,7 @@
     "success": "نجح",
     "cancel": "إلغاء",
     "save": "حفظ",
+    "saving": "جارٍ الحفظ...",
     "edit": "تعديل",
     "delete": "حذف",
     "create": "إنشاء",
@@ -558,6 +559,7 @@
     "installationCreated": "تم إنشاء التركيبة بنجاح",
     "installationUpdated": "تم تحديث التركيبة بنجاح",
     "installationDeleted": "تم حذف التركيبة بنجاح",
+    "errorDeletingInstallation": "خطأ في حذف التركيبة",
     "deviceStatus": {
       "active": "نشط",
       "inactive": "غير نشط",
@@ -1016,6 +1018,7 @@
     "active": "نشط",
     "inactive": "غير نشط",
     "create": "إنشاء",
+    "categoryCreateSuccess": "تم إنشاء الفئة بنجاح",
     "categoryUpdated": "تم تحديث الفئة بنجاح",
     "categoryDeleted": "تم حذف الفئة بنجاح",
     "confirmDeleteCategory": "هل أنت متأكد من حذف الفئة \"{{name}}\"؟",
@@ -1427,7 +1430,9 @@
     "sendMaintenance": "إرسال الصيانة",
     "saveMaintenance": "حفظ الصيانة",
     "localSaveNote": "سيتم حفظ البيانات محليًا وإرسالها عند توفر الاتصال",
-    "viewHistory": "السجل"
+    "viewHistory": "السجل",
+    "maintenanceRegisteredSuccess": "تم تسجيل الصيانة بنجاح!",
+    "maintenanceSavedOffline": "تم حفظ الصيانة. سيتم إرسالها تلقائيًا عند توفر الاتصال."
   },
   "validations": {
     "selectAsset": "يجب تحديد أصل",

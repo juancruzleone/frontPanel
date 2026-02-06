@@ -64,17 +64,19 @@ const ModalAddDevice = ({
               <p>{t('installations.loadingRequiredData')}</p>
             </div>
           ) : errorLoadingAssets ? (
-            <>
+            <div className={styles.emptyState}>
               <p>{errorLoadingAssets.includes("No hay activos") ? errorLoadingAssets : t('installations.errorLoadingAssets')}</p>
-              <button onClick={onRetryLoadAssets}>{t('installations.retryLoadAssets')}</button>
-            </>
+              {!errorLoadingAssets.includes("No hay activos") && <button onClick={onRetryLoadAssets}>{t('installations.retryLoadAssets')}</button>}
+            </div>
           ) : errorLoadingCategories ? (
             <>
               <p>{t('installations.errorLoadingCategories')}</p>
               <button onClick={handleRetryLoadCategories}>{t('installations.retryLoadCategories')}</button>
             </>
           ) : assets.length === 0 ? (
-            <p>{t('installations.noAssetsAvailable')}. {t('installations.createAssetsFirst')}.</p>
+            <div className={styles.emptyState}>
+              <p>{t('installations.noAssetsAvailable')}</p>
+            </div>
           ) : categories.length === 0 ? (
             <p>{t('installations.noCategoriesAvailable')}. {t('installations.createCategoriesFirst')}.</p>
           ) : (
