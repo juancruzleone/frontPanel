@@ -521,6 +521,7 @@
     "selectAsset": "Sélectionnez un actif",
     "asset": "Actif",
     "selectedAssetInfo": "Informations sur l'actif sélectionné",
+    "quantity": "Quantité",
     "updateDevice": "Mettre à jour l'appareil",
     "typeName": "Nom du type",
     "typeNamePlaceholder": "Entrez le nom du type d'installation",
@@ -758,7 +759,10 @@
       "stoneMarten": "Martre des Pierres",
       "yellowThroatedMarten": "Martre à Gorge Jaune",
       "nilgiriMarten": "Martre de Nilgiri",
-      "japaneseMarten": "Martre Japonaise"
+      "japaneseMarten": "Martre Japonaise",
+      "address": "Adresse",
+      "floorSector": "Étage/Secteur",
+      "quantity": "Quantité"
     },
     "validation": {
       "companyRequired": "Le nom de l'installation est requis",
@@ -774,7 +778,20 @@
       "typeNameRequired": "Le nom du type est requis",
       "typeNameMin": "Le nom doit contenir au moins 2 caractères",
       "typeNameMax": "Le nom ne peut pas dépasser 100 caractères",
-      "typeDescriptionMax": "La description ne peut pas dépasser 500 caractères"
+      "typeDescriptionMax": "La description ne peut pas dépasser 500 caractères",
+      "quantityRequired": "La quantité est requise",
+      "quantityMustBeNumber": "La quantité doit être un nombre",
+      "quantityMustBeInteger": "La quantité doit être un nombre entier",
+      "quantityMin": "La quantité minimale est 1",
+      "quantityMax": "La quantité maximale est 100",
+      "selectAsset": "Vous devez sélectionner un actif",
+      "locationRequired": "L'emplacement est requis",
+      "locationMin": "L'emplacement doit contenir au moins 1 caractère",
+      "locationMax": "L'emplacement ne peut pas dépasser 255 caractères",
+      "categoryRequired": "La catégorie est requise",
+      "categoryMax": "La catégorie ne peut pas dépasser 100 caractères",
+      "statusRequired": "Le statut est requis",
+      "statusInvalid": "Le statut doit être valide"
     },
     "confirmDeleteTitle": "Supprimer l'installation ?",
     "confirmDeleteDescription": "Cette action est irréversible. L'installation sera supprimée définitivement.",

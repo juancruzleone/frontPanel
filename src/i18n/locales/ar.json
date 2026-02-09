@@ -524,6 +524,7 @@
     "selectAsset": "اختر أصلًا",
     "asset": "الأصل",
     "selectedAssetInfo": "معلومات الأصل المحدد",
+    "quantity": "الكمية",
     "updateDevice": "تحديث الجهاز",
     "typeName": "اسم النوع",
     "typeNamePlaceholder": "أدخل اسم نوع التركيب",
@@ -768,7 +769,8 @@
       "nilgiriMarten": "سمور نيلجيري",
       "japaneseMarten": "سمور اليابان",
       "address": "عنوان",
-      "floorSector": "طابق/قطاع"
+      "floorSector": "طابق/قطاع",
+      "quantity": "الكمية"
     },
     "validation": {
       "companyRequired": "اسم التركيب مطلوب",
@@ -784,7 +786,20 @@
       "typeNameRequired": "اسم النوع مطلوب",
       "typeNameMin": "يجب أن يحتوي الاسم على حرفين على الأقل",
       "typeNameMax": "لا يمكن أن يتجاوز الاسم 100 حرف",
-      "typeDescriptionMax": "لا يمكن أن تتجاوز الوصف 500 حرف"
+      "typeDescriptionMax": "لا يمكن أن تتجاوز الوصف 500 حرف",
+      "quantityRequired": "الكمية مطلوبة",
+      "quantityMustBeNumber": "يجب أن تكون الكمية رقمًا",
+      "quantityMustBeInteger": "يجب أن تكون الكمية رقمًا صحيحًا",
+      "quantityMin": "الحد الأدنى للكمية هو 1",
+      "quantityMax": "الحد الأقصى للكمية هو 100",
+      "selectAsset": "يجب عليك تحديد أصل",
+      "locationRequired": "الموقع مطلوب",
+      "locationMin": "يجب أن يحتوي الموقع على حرف واحد على الأقل",
+      "locationMax": "لا يمكن أن يتجاوز الموقع 255 حرفًا",
+      "categoryRequired": "الفئة مطلوبة",
+      "categoryMax": "لا يمكن أن تتجاوز الفئة 100 حرف",
+      "statusRequired": "الحالة مطلوبة",
+      "statusInvalid": "يجب أن تكون الحالة صالحة"
     },
     "titlePage": "التثبيتات | Leonix",
     "confirmDeleteTitle": "هل تريد حذف التثبيت؟",

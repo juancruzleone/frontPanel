@@ -541,6 +541,7 @@
     "selectAsset": "选择资产",
     "asset": "资产",
     "selectedAssetInfo": "所选资产信息",
+    "quantity": "数量",
     "addDevice": "添加设备",
     "updateDevice": "更新设备",
     "typeName": "类型名称",
@@ -791,7 +792,8 @@
       "province": "省",
       "city": "市",
       "address": "地址",
-      "floorSector": "楼层/区域"
+      "floorSector": "楼层/区域",
+      "quantity": "数量"
     },
     "validation": {
       "companyRequired": "设置名称为必填项",
@@ -807,7 +809,20 @@
       "typeNameRequired": "类型名称为必填项",
       "typeNameMin": "名称至少需要2个字符",
       "typeNameMax": "名称不能超过100个字符",
-      "typeDescriptionMax": "描述不能超过500个字符"
+      "typeDescriptionMax": "描述不能超过500个字符",
+      "quantityRequired": "数量为必填项",
+      "quantityMustBeNumber": "数量必须是数字",
+      "quantityMustBeInteger": "数量必须是整数",
+      "quantityMin": "最小数量为1",
+      "quantityMax": "最大数量为100",
+      "selectAsset": "您必须选择一个资产",
+      "locationRequired": "位置为必填项",
+      "locationMin": "位置至少为1个字符",
+      "locationMax": "位置不能超过255个字符",
+      "categoryRequired": "类别为必填项",
+      "categoryMax": "类别不能超过100个字符",
+      "statusRequired": "状态为必填项",
+      "statusInvalid": "状态必须有效"
     },
     "confirmDeleteTitle": "删除安装？",
     "confirmDeleteDescription": "此操作不可撤销。安装将被永久删除。",

@@ -48,6 +48,7 @@ const DeviceForm = ({
         ubicacion: device.ubicacion || "",
         categoria: device.categoria || "",
         estado: device.estado || "Activo",
+        cantidad: 1,
       }
     }
     return {
@@ -56,6 +57,7 @@ const DeviceForm = ({
       ubicacion: "",
       categoria: "",
       estado: "Activo",
+      cantidad: 1,
     }
   })
 
@@ -85,13 +87,14 @@ const DeviceForm = ({
   }, [formData.assetId, assets, isEditMode])
 
   const handleFieldChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
+    const processedValue = field === "cantidad" ? (value === "" ? "" : parseInt(value)) : value
+    setFormData((prev) => ({ ...prev, [field]: processedValue }))
     if (touchedFields[field]) {
-      validateField(field, value)
+      validateField(field, processedValue)
     }
   }
 
-  const validateField = async (field: string, value: string) => {
+  const validateField = async (field: string, value: string | number) => {
     try {
       const schema = isEditMode ? deviceEditSchema : assetSchema
       await schema.validateAt(field, { [field]: value })
@@ -160,6 +163,7 @@ const DeviceForm = ({
           categoria: formData.categoria,
           estado: selectedAsset.estado || "Activo",
           templateId: selectedAsset.templateId,
+          cantidad: formData.cantidad,
         }
 
         const result = await onAddDevice(installation._id!, deviceData)
@@ -174,6 +178,7 @@ const DeviceForm = ({
           ubicacion: "",
           categoria: "",
           estado: "Activo",
+          cantidad: 1,
         })
         setFormErrors({})
         setTouchedFields({})
@@ -194,7 +199,7 @@ const DeviceForm = ({
     const error = formErrors[field]
     if (!error) return null
     // Si el error es una clave de traducción, traducir
-    if (error.startsWith('validations.')) return t(error)
+    if (error.startsWith('installations.validation.')) return t(error)
     return error
   }
 
@@ -268,6 +273,25 @@ const DeviceForm = ({
           />
           {showError("ubicacion") && <p className={styles.error}>{getErrorMessage("ubicacion")}</p>}
         </div>
+
+        {!isEditMode && (
+          <div className={styles.formGroup}>
+            <label>{t('installations.quantity')} ({t('common.optional')})</label>
+            <input
+              type="number"
+              name="cantidad"
+              value={formData.cantidad}
+              onChange={(e) => handleFieldChange("cantidad", e.target.value)}
+              onBlur={() => handleFieldBlur("cantidad")}
+              disabled={isSubmitting}
+              className={showError("cantidad") ? styles.errorInput : ""}
+              placeholder="1"
+              min="1"
+              max="100"
+            />
+            {showError("cantidad") && <p className={styles.error}>{getErrorMessage("cantidad")}</p>}
+          </div>
+        )}
 
         <div className={styles.formGroup}>
           <label>{t('installations.deviceCategory')}</label>

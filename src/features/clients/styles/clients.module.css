@@ -517,10 +517,17 @@
 }
 
 .searchRow [class*="inputWrapper"],
-.searchRow [class*="select"] {
-  height: 52px;
+.searchRow [class*="select"],
+.searchRow [class*="hybridSelect"] {
+  height: 52px !important;
+  min-height: 52px !important;
+  border-radius: 8px !important;
   display: flex;
   align-items: center;
+}
+
+.searchRow [class*="hybridSelect"] {
+  min-width: 150px !important;
 }
 
 .clearFilters {

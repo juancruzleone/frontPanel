@@ -527,6 +527,7 @@
     "selectAsset": "資産を選択",
     "asset": "資産",
     "selectedAssetInfo": "選択された資産情報",
+    "quantity": "数量",
     "updateDevice": "デバイスを更新",
     "typeName": "タイプ名",
     "typeNamePlaceholder": "インストールタイプ名を入力してください",
@@ -772,7 +773,8 @@
       "province": "県",
       "city": "市",
       "address": "住所",
-      "floorSector": "階/セクター"
+      "floorSector": "階/セクター",
+      "quantity": "数量"
     },
     "validation": {
       "companyRequired": "設置名は必須です",
@@ -788,7 +790,20 @@
       "typeNameRequired": "タイプ名は必須です",
       "typeNameMin": "名前は2文字以上である必要があります",
       "typeNameMax": "名前は100文字以内である必要があります",
-      "typeDescriptionMax": "説明は500文字以内である必要があります"
+      "typeDescriptionMax": "説明は500文字以内である必要があります",
+      "quantityRequired": "数量は必須です",
+      "quantityMustBeNumber": "数量は数値である必要があります",
+      "quantityMustBeInteger": "数量は整数である必要があります",
+      "quantityMin": "最小数量は1です",
+      "quantityMax": "最大数量は100です",
+      "selectAsset": "資産を選択する必要があります",
+      "locationRequired": "場所は必須です",
+      "locationMin": "場所は少なくとも1文字である必要があります",
+      "locationMax": "場所は255文字を超えることはできません",
+      "categoryRequired": "カテゴリは必須です",
+      "categoryMax": "カテゴリは100文字を超えることはできません",
+      "statusRequired": "ステータスは必須です",
+      "statusInvalid": "ステータスは有効である必要があります"
     },
     "confirmDeleteTitle": "インストールを削除しますか？",
     "confirmDeleteDescription": "この操作は元に戻せません。インストールは完全に削除されます。",

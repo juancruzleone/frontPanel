@@ -1,29 +1,35 @@
 import * as Yup from "yup"
 
 export const assetSchema = Yup.object().shape({
-  assetId: Yup.string().required('validations.selectAsset'),
+  assetId: Yup.string().required('installations.validation.selectAsset'),
   ubicacion: Yup.string()
-    .required('validations.locationRequired')
-    .min(1, 'validations.locationMin')
-    .max(255, 'validations.locationMax'),
+    .required('installations.validation.locationRequired')
+    .min(1, 'installations.validation.locationMin')
+    .max(255, 'installations.validation.locationMax'),
   categoria: Yup.string()
-    .required('validations.categoryRequired')
-    .max(100, 'validations.categoryMax'),
+    .required('installations.validation.categoryRequired')
+    .max(100, 'installations.validation.categoryMax'),
+  cantidad: Yup.number()
+    .typeError('installations.validation.quantityMustBeNumber')
+    .integer('installations.validation.quantityMustBeInteger')
+    .min(1, 'installations.validation.quantityMin')
+    .max(100, 'installations.validation.quantityMax')
+    .required('installations.validation.quantityRequired'),
 })
 
 export const deviceEditSchema = Yup.object().shape({
   ubicacion: Yup.string()
-    .required('validations.locationRequired')
-    .min(1, 'validations.locationMin')
-    .max(255, 'validations.locationMax'),
+    .required('installations.validation.locationRequired')
+    .min(1, 'installations.validation.locationMin')
+    .max(255, 'installations.validation.locationMax'),
   categoria: Yup.string()
-    .required('validations.categoryRequired')
-    .max(100, 'validations.categoryMax'),
+    .required('installations.validation.categoryRequired')
+    .max(100, 'installations.validation.categoryMax'),
   estado: Yup.string()
-    .required('validations.statusRequired')
+    .required('installations.validation.statusRequired')
     .oneOf(
       ['Activo', 'Inactivo', 'En mantenimiento', 'Fuera de servicio', 'Pendiente de revisión'],
-      'validations.statusInvalid',
+      'installations.validation.statusInvalid',
     ),
 })
 

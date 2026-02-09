@@ -384,6 +384,7 @@
     "selectAsset": "Select an asset",
     "asset": "Asset",
     "assetName": "Asset name",
+    "quantity": "Quantity",
     "selectedAssetInfo": "Selected asset information",
     "addDevice": "Add device",
     "updateDevice": "Update device",
@@ -633,7 +634,8 @@
       "nilgiriMarten": "Nilgiri Marten",
       "japaneseMarten": "Japanese Marten",
       "address": "Address",
-      "floorSector": "Floor/Sector"
+      "floorSector": "Floor/Sector",
+      "quantity": "Quantity"
     },
     "validation": {
       "companyRequired": "Installation name is required",
@@ -649,7 +651,20 @@
       "typeNameRequired": "Type name is required",
       "typeNameMin": "Name must be at least 2 characters",
       "typeNameMax": "Name cannot exceed 100 characters",
-      "typeDescriptionMax": "Description cannot exceed 500 characters"
+      "typeDescriptionMax": "Description cannot exceed 500 characters",
+      "quantityRequired": "Quantity is required",
+      "quantityMustBeNumber": "Quantity must be a number",
+      "quantityMustBeInteger": "Quantity must be an integer",
+      "quantityMin": "Minimum quantity is 1",
+      "quantityMax": "Maximum quantity is 100",
+      "selectAsset": "You must select an asset",
+      "locationRequired": "Location is required",
+      "locationMin": "Location must be at least 1 character",
+      "locationMax": "Location cannot exceed 255 characters",
+      "categoryRequired": "Category is required",
+      "categoryMax": "Category cannot exceed 100 characters",
+      "statusRequired": "Status is required",
+      "statusInvalid": "Status must be valid"
     },
     "confirmDeleteTitle": "Delete installation?",
     "confirmDeleteDescription": "This action cannot be undone. The installation will be permanently deleted.",
@@ -697,7 +712,7 @@
     "tour": {
       "welcome": {
         "title": "Welcome to Assets!",
-        "description": "We'll guide you step by step to learn how to manage your assets. First you need to create a form template, then you can create assets."
+        "description": "Assets are the devices or equipment that serve as a base for the devices you add to installations. For example: pumps, motors, sensors, etc. We'll guide you step by step to learn how to manage them. First you need to create a form template, then you can create assets."
       },
       "goToForms": {
         "title": "Step 1: Go to Forms",

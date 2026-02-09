@@ -37,6 +37,7 @@ export type Device = {
   marca?: string
   modelo?: string
   numeroSerie?: string
+  cantidad?: number
 }
 
 export type Installation = {

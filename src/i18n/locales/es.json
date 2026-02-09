@@ -386,6 +386,7 @@
     "selectAsset": "Seleccione un activo",
     "asset": "Activo",
     "assetName": "Nombre del activo",
+    "quantity": "Cantidad",
     "selectedAssetInfo": "Información del activo seleccionado",
     "updateDevice": "Actualizar dispositivo",
     "installationType": "Tipo de instalación",
@@ -622,7 +623,8 @@
       "japaneseMarten": "Marta Japonesa",
       "city": "Ciudad",
       "address": "Dirección",
-      "floorSector": "Piso/Sector"
+      "floorSector": "Piso/Sector",
+      "quantity": "Cantidad"
     },
     "validation": {
       "companyRequired": "El nombre de la instalación es obligatorio",
@@ -638,7 +640,20 @@
       "typeNameRequired": "El nombre del tipo es obligatorio",
       "typeNameMin": "El nombre debe tener al menos 2 caracteres",
       "typeNameMax": "El nombre no puede tener más de 100 caracteres",
-      "typeDescriptionMax": "La descripción no puede exceder 500 caracteres"
+      "typeDescriptionMax": "La descripción no puede exceder 500 caracteres",
+      "quantityRequired": "La cantidad es obligatoria",
+      "quantityMustBeNumber": "La cantidad debe ser un número",
+      "quantityMustBeInteger": "La cantidad debe ser un número entero",
+      "quantityMin": "La cantidad mínima es 1",
+      "quantityMax": "La cantidad máxima es 100",
+      "selectAsset": "Debe seleccionar un activo",
+      "locationRequired": "La ubicación es requerida",
+      "locationMin": "La ubicación debe tener al menos 1 carácter",
+      "locationMax": "La ubicación no puede tener más de 255 caracteres",
+      "categoryRequired": "La categoría es requerida",
+      "categoryMax": "La categoría no puede tener más de 100 caracteres",
+      "statusRequired": "El estado es requerido",
+      "statusInvalid": "El estado debe ser válido"
     },
     "titlePage": "Instalaciones | Leonix",
     "confirmDeleteTitle": "¿Eliminar instalación?",
@@ -684,7 +699,7 @@
     "tour": {
       "welcome": {
         "title": "¡Bienvenido a Activos!",
-        "description": "Te guiaremos paso a paso para que aprendas a gestionar tus activos. Primero necesitas crear una plantilla de formulario, luego podrás crear activos."
+        "description": "Los activos son los dispositivos o equipos que sirven como base para los dispositivos que agregas en las instalaciones. Por ejemplo: bombas, motores, sensores, etc. Te guiaremos paso a paso para que aprendas a gestionarlos. Primero necesitas crear una plantilla de formulario, luego podrás crear activos."
       },
       "goToForms": {
         "title": "Paso 1: Ir a Formularios",

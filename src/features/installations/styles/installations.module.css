@@ -89,6 +89,18 @@
   flex: 1;
 }
 
+.searchRow [class*="inputWrapper"],
+.searchRow [class*="select"],
+.searchRow [class*="hybridSelect"] {
+  height: 52px !important;
+  min-height: 52px !important;
+  border-radius: 8px !important;
+}
+
+.searchRow [class*="hybridSelect"] {
+  min-width: 150px !important;
+}
+
 .clearFilters {
   padding: 0 20px;
   background: #b71c1c;

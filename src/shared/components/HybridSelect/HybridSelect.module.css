@@ -13,7 +13,7 @@
   background-color: var(--color-card);
   border-radius: 10px;
   /* Better match for modern forms */
-  padding: 18px 16px;
+  padding: 0 16px;
   /* Match form padding */
   border: 1px solid var(--color-card-border);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
@@ -71,6 +71,7 @@
   color: var(--color-text);
   opacity: 0.7;
   flex-shrink: 0;
+  stroke-width: 2px !important;
 }
 
 .hybridSelectIcon.rotated {

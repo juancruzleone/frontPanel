@@ -506,6 +506,7 @@
     "selectAsset": "Wählen Sie ein Asset",
     "asset": "Asset",
     "selectedAssetInfo": "Informationen zum ausgewählten Asset",
+    "quantity": "Menge",
     "addDevice": "Gerät hinzufügen",
     "updateDevice": "Gerät aktualisieren",
     "installationType": "Installationstyp",
@@ -698,7 +699,8 @@
       "japaneseMarten": "Japanischer Marder",
       "city": "Stadt",
       "address": "Adresse",
-      "floorSector": "Etage/Bereich"
+      "floorSector": "Etage/Bereich",
+      "quantity": "Menge"
     },
     "validation": {
       "companyRequired": "Der Installationsname ist erforderlich",
@@ -714,7 +716,20 @@
       "typeNameRequired": "Der Typname ist erforderlich",
       "typeNameMin": "Der Name muss mindestens 2 Zeichen lang sein",
       "typeNameMax": "Der Name darf nicht mehr als 100 Zeichen haben",
-      "typeDescriptionMax": "Die Beschreibung darf nicht länger als 500 Zeichen sein"
+      "typeDescriptionMax": "Die Beschreibung darf nicht länger als 500 Zeichen sein",
+      "quantityRequired": "Die Menge ist erforderlich",
+      "quantityMustBeNumber": "Die Menge muss eine Zahl sein",
+      "quantityMustBeInteger": "Die Menge muss eine ganze Zahl sein",
+      "quantityMin": "Die Mindestmenge ist 1",
+      "quantityMax": "Die Höchstmenge ist 100",
+      "selectAsset": "Sie müssen ein Asset auswählen",
+      "locationRequired": "Der Standort ist erforderlich",
+      "locationMin": "Der Standort muss mindestens 1 Zeichen lang sein",
+      "locationMax": "Der Standort darf nicht länger als 255 Zeichen sein",
+      "categoryRequired": "Die Kategorie ist erforderlich",
+      "categoryMax": "Die Kategorie darf nicht länger als 100 Zeichen sein",
+      "statusRequired": "Der Status ist erforderlich",
+      "statusInvalid": "Der Status muss gültig sein"
     },
     "titlePage": "Installationen | Leonix",
     "installationDeleted": "Installation erfolgreich gelöscht",

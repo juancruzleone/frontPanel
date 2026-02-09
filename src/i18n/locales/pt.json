@@ -518,6 +518,7 @@
     "selectAsset": "Selecione um ativo",
     "asset": "Ativo",
     "selectedAssetInfo": "Informações do ativo selecionado",
+    "quantity": "Quantidade",
     "updateDevice": "Atualizar dispositivo",
     "selectInstallationType": "Selecione o tipo de instalação",
     "typeName": "Nome do tipo",
@@ -766,8 +767,9 @@
       "yellowThroatedMarten": "Marta de Garganta Amarela",
       "nilgiriMarten": "Marta de Nilgiri",
       "japaneseMarten": "Marta Japonesa",
-      "address": "Endereço",
-      "floorSector": "Andar/Setor"
+      "address": "Adresse",
+      "floorSector": "Andar/Setor",
+      "quantity": "Quantidade"
     },
     "validation": {
       "companyRequired": "O nome da instalação é obrigatório",
@@ -783,7 +785,20 @@
       "typeNameRequired": "O nome do tipo é obrigatório",
       "typeNameMin": "O nome deve ter pelo menos 2 caracteres",
       "typeNameMax": "O nome não pode exceder 100 caracteres",
-      "typeDescriptionMax": "A descrição não pode exceder 500 caracteres"
+      "typeDescriptionMax": "A descrição não pode exceder 500 caracteres",
+      "quantityRequired": "A quantidade é obrigatória",
+      "quantityMustBeNumber": "A quantidade deve ser um número",
+      "quantityMustBeInteger": "A quantidade deve ser um número inteiro",
+      "quantityMin": "A quantidade mínima é 1",
+      "quantityMax": "A quantidade máxima é 100",
+      "selectAsset": "Você deve selecionar um ativo",
+      "locationRequired": "A localização é obrigatória",
+      "locationMin": "A localização deve ter pelo menos 1 caractere",
+      "locationMax": "A localização não pode ter mais de 255 caracteres",
+      "categoryRequired": "A categoria é obrigatória",
+      "categoryMax": "A categoria não pode ter mais de 100 caracteres",
+      "statusRequired": "O status é obrigatório",
+      "statusInvalid": "O status deve ser válido"
     },
     "titlePage": "Instalações | Leonix",
     "confirmDeleteTitle": "Excluir instalação?",
@@ -829,7 +844,7 @@
     "tour": {
       "welcome": {
         "title": "Bem-vindo aos Ativos!",
-        "description": "Vamos guiá-lo passo a passo para aprender a gerenciar seus ativos. Primeiro você precisa criar um modelo de formulário e depois poderá criar ativos."
+        "description": "Os ativos são os dispositivos ou equipamentos que servem como base para os dispositivos que você adiciona nas instalações. Por exemplo: bombas, motores, sensores, etc. Vamos guiá-lo passo a passo para aprender a gerenciá-los. Primeiro você precisa criar um modelo de formulário e depois poderá criar ativos."
       },
       "goToForms": {
         "title": "Passo 1: Ir para Formulários",

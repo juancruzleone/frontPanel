@@ -523,6 +523,7 @@
     "selectAsset": "Seleziona un bene",
     "asset": "Bene",
     "selectedAssetInfo": "Informazioni sul bene selezionato",
+    "quantity": "Quantità",
     "updateDevice": "Aggiorna dispositivo",
     "update": "Aggiorna",
     "typeName": "Nome del tipo",
@@ -767,7 +768,8 @@
       "nilgiriMarten": "Marta di Nilgiri",
       "japaneseMarten": "Marta Giapponese",
       "address": "Indirizzo",
-      "floorSector": "Piano/Settore"
+      "floorSector": "Piano/Settore",
+      "quantity": "Quantità"
     },
     "validation": {
       "companyRequired": "Il nome dell'installazione è obbligatorio",
@@ -783,7 +785,20 @@
       "typeNameRequired": "Il nome del tipo è obbligatorio",
       "typeNameMin": "Il nome deve contenere almeno 2 caratteri",
       "typeNameMax": "Il nome non può superare i 100 caratteri",
-      "typeDescriptionMax": "La descrizione non può superare i 500 caratteri"
+      "typeDescriptionMax": "La descrizione non può superare i 500 caratteri",
+      "quantityRequired": "La quantità è obbligatoria",
+      "quantityMustBeNumber": "La quantità deve essere un numero",
+      "quantityMustBeInteger": "La quantità deve essere un numero intero",
+      "quantityMin": "La quantità minima è 1",
+      "quantityMax": "La quantità massima è 100",
+      "selectAsset": "Devi selezionare un bene",
+      "locationRequired": "La posizione è obbligatoria",
+      "locationMin": "La posizione deve contenere almeno 1 carattere",
+      "locationMax": "La posizione non può superare i 255 caratteri",
+      "categoryRequired": "La categoria è obbligatoria",
+      "categoryMax": "La categoria non può superare i 100 caratteri",
+      "statusRequired": "Lo stato è obbligatorio",
+      "statusInvalid": "Lo stato deve essere valido"
     },
     "titlePage": "Impianti | Leonix",
     "confirmDeleteTitle": "Eliminare l'installazione?",
