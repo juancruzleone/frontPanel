@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ChevronDown } from 'lucide-react'
 import { useTheme } from '../../../shared/hooks/useTheme'
 import ButtonCreate from '../../../shared/components/Buttons/buttonCreate'
-import HybridSelect from '../../workOrders/components/HybridSelect'
+import HybridSelect from '../../../shared/components/HybridSelect/HybridSelect'
 import styles from '../styles/manualForm.module.css'
 import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
 import type { Manual } from '../hooks/useManuals'
@@ -215,22 +215,24 @@ const ManualForm = ({
               {t('manuals.noAssetsAvailable')}. {t('manuals.createAssetsFirst')}.
             </p>
           ) : (
-            <HybridSelect
-              name="assetId"
-              value={formData.assetId}
-              onChange={(value) => handleFieldChange('assetId', value)}
-              onBlur={() => handleFieldBlur('assetId')}
-              disabled={isSubmitting}
-              options={[
-                { value: "", label: t('manuals.selectAsset') },
-                ...assets.map((asset) => ({
-                  value: asset._id,
-                  label: asset.nombre
-                }))
-              ]}
-              placeholder={t('manuals.selectAsset')}
-              error={!!showError('assetId')}
-            />
+            <div className={styles.fullWidth}>
+              <HybridSelect
+                name="assetId"
+                value={formData.assetId}
+                onChange={(value) => handleFieldChange('assetId', value)}
+                onBlur={() => handleFieldBlur('assetId')}
+                disabled={isSubmitting}
+                options={[
+                  { value: "", label: t('manuals.selectAsset') },
+                  ...assets.map((asset) => ({
+                    value: asset._id,
+                    label: asset.nombre
+                  }))
+                ]}
+                placeholder={t('manuals.selectAsset')}
+                error={!!showError('assetId')}
+              />
+            </div>
           )}
           {showError('assetId') && (
             <p className={styles.inputError}>{formErrorsState['assetId']}</p>
@@ -239,19 +241,21 @@ const ManualForm = ({
 
         <div className={styles.formGroup}>
           <label>{t('manuals.category')}</label>
-          <HybridSelect
-            name="categoria"
-            value={formData.categoria}
-            onChange={(value) => handleFieldChange('categoria', value)}
-            onBlur={() => handleFieldBlur('categoria')}
-            disabled={isSubmitting}
-            options={categories.map((cat) => ({
-              value: cat,
-              label: cat
-            }))}
-            placeholder={t('manuals.category')}
-            error={false}
-          />
+          <div className={styles.fullWidth}>
+            <HybridSelect
+              name="categoria"
+              value={formData.categoria}
+              onChange={(value) => handleFieldChange('categoria', value)}
+              onBlur={() => handleFieldBlur('categoria')}
+              disabled={isSubmitting}
+              options={categories.map((cat) => ({
+                value: cat,
+                label: cat
+              }))}
+              placeholder={t('manuals.category')}
+              error={false}
+            />
+          </div>
         </div>
 
         <div className={styles.formGroup}>
@@ -269,16 +273,18 @@ const ManualForm = ({
 
         <div className={styles.formGroup}>
           <label>{t('manuals.language')}</label>
-          <HybridSelect
-            name="idioma"
-            value={formData.idioma || 'es'}
-            onChange={(value) => handleFieldChange('idioma', value)}
-            onBlur={() => handleFieldBlur('idioma')}
-            disabled={isSubmitting}
-            options={languages}
-            placeholder={t('manuals.language')}
-            error={false}
-          />
+          <div className={styles.fullWidth}>
+            <HybridSelect
+              name="idioma"
+              value={formData.idioma || 'es'}
+              onChange={(value) => handleFieldChange('idioma', value)}
+              onBlur={() => handleFieldBlur('idioma')}
+              disabled={isSubmitting}
+              options={languages}
+              placeholder={t('manuals.language')}
+              error={false}
+            />
+          </div>
         </div>
 
         <div className={styles.formGroup}>
