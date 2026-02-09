@@ -37,7 +37,7 @@ const ModalManageCategories = ({
 
   useEffect(() => {
     if (isOpen) {
-      loadCategories()
+      loadCategories(true) // Cargar todas las categorías incluyendo inactivas
     }
   }, [isOpen, loadCategories])
 
@@ -62,7 +62,7 @@ const ModalManageCategories = ({
 
     try {
       await updateCategory(editingCategory._id, editFormData)
-      await loadCategories()
+      await loadCategories(true) // Cargar todas las categorías incluyendo inactivas
       handleCancelEdit()
       // Mostrar modal de éxito
       setSuccessMessage(t('forms.categoryUpdated'))
@@ -85,7 +85,7 @@ const ModalManageCategories = ({
 
     try {
       await removeCategory(deletingCategory._id)
-      await loadCategories()
+      await loadCategories(true) // Cargar todas las categorías incluyendo inactivas
 
       // Mostrar modal de éxito localmente
       setSuccessMessage(t('forms.categoryDeleted'))
@@ -264,16 +264,16 @@ const ModalManageCategories = ({
               </p>
               <div className={formButtonStyles.actions}>
                 <button
-                  onClick={confirmDelete}
-                  className={styles.deleteButton}
-                >
-                  {t('common.delete')}
-                </button>
-                <button
                   onClick={cancelDelete}
                   className={formButtonStyles.cancelButton}
                 >
                   {t('common.cancel')}
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  className={styles.deleteButton}
+                >
+                  {t('common.delete')}
                 </button>
               </div>
             </div>

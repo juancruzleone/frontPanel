@@ -30,8 +30,13 @@ const useFormCategories = () => {
     setLoading(true)
     setError(null)
     try {
-      const response = await fetchFormCategories()
+      console.log('Loading categories with includeInactive:', includeInactive)
+      const response = await fetchFormCategories(includeInactive)
+      console.log('Raw response:', response)
       const fetchedCategories = response.categories || response
+      console.log('Fetched categories:', fetchedCategories)
+      console.log('Categories count:', fetchedCategories.length)
+      console.log('Inactive categories:', fetchedCategories.filter((c: FormCategory) => !c.activa))
       setCategories(fetchedCategories)
     } catch (err: any) {
       console.error("Error al cargar categorías:", err)
