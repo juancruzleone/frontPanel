@@ -45,7 +45,8 @@ const ModalAssignTemplate = ({
       setLoadingTemplates(true);
       fetchTemplates()
         .then(data => {
-          setTemplates(data);
+          // Asegurarse de que data sea un array
+          setTemplates(Array.isArray(data) ? data : []);
           setLoadingTemplates(false);
           // Establecer la plantilla actual como seleccionada
           if (asset?.templateId) {
@@ -54,6 +55,7 @@ const ModalAssignTemplate = ({
         })
         .catch(err => {
           console.error("Error al cargar plantillas:", err);
+          setTemplates([]); // Establecer array vacío en caso de error
           setLoadingTemplates(false);
         });
     }

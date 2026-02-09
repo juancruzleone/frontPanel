@@ -423,12 +423,6 @@
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
-.deleteButton:hover {
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
-}
-
 .deleteButton:active {
   transform: translateY(0);
 }
@@ -650,11 +644,6 @@
 .deleteButton {
   background: var(--color-danger);
   color: #fff;
-}
-
-.deleteButton:hover {
-  background: #dc3545;
-  transform: translateY(-1px);
 }
 
 .editForm {

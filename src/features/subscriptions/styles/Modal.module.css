@@ -839,8 +839,15 @@
 
 .confirmContent {
   padding: 1rem 2rem 2rem;
-  text-align: center;
   background: var(--color-card);
+}
+
+.confirmTitle {
+  text-align: center;
+}
+
+.confirmDescription {
+  text-align: center;
 }
 
 .confirmTitle {
@@ -860,7 +867,7 @@
 
 .confirmActions {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 1rem;
 }
 
@@ -906,12 +913,6 @@
   transition: all 0.2s ease;
   min-width: 120px;
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-}
-
-.deleteButton:hover {
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
 }
 
 .deleteButton:active {

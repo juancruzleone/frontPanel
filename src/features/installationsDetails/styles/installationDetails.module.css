@@ -293,7 +293,6 @@
 }
 
 .editButton:hover,
-.deleteButton:hover,
 .qrButton:hover,
 .pdfButton:hover,
 .historyButton:hover {
@@ -304,7 +303,6 @@
 }
 
 .editButton::after,
-.deleteButton::after,
 .qrButton::after,
 .pdfButton::after,
 .historyButton::after {
@@ -328,7 +326,6 @@
 }
 
 .editButton::before,
-.deleteButton::before,
 .qrButton::before,
 .pdfButton::before,
 .historyButton::before {
@@ -346,12 +343,10 @@
 }
 
 .editButton:hover::after,
-.deleteButton:hover::after,
 .qrButton:hover::after,
 .pdfButton:hover::after,
 .historyButton:hover::after,
 .editButton:hover::before,
-.deleteButton:hover::before,
 .qrButton:hover::before,
 .pdfButton:hover::before,
 .historyButton:hover::before {

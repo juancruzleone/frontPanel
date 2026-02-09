@@ -298,7 +298,15 @@ const ModalEditClient = ({
                         )}
                     </div>
 
-                    <div className={buttonStyles.actions}>
+                    <div className={styles.modalFooter}>
+                        <button
+                            type="button"
+                            onClick={handleClose}
+                            className={buttonStyles.cancelButton}
+                            disabled={loading}
+                        >
+                            {t('common.cancel')}
+                        </button>
                         <button
                             type="submit"
                             className={buttonStyles.submitButton}
@@ -307,14 +315,6 @@ const ModalEditClient = ({
                             {loading
                                 ? t('common.updating')
                                 : t('common.update')}
-                        </button>
-                        <button
-                            type="button"
-                            onClick={handleClose}
-                            className={buttonStyles.cancelButton}
-                            disabled={loading}
-                        >
-                            {t('common.cancel')}
                         </button>
                     </div>
                 </form>

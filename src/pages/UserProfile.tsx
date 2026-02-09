@@ -18,6 +18,7 @@ const UserProfile = () => {
   const [selectedFilter, setSelectedFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [ordersWithInstallations, setOrdersWithInstallations] = useState<any[]>([]);
+  const [loadingInstallations, setLoadingInstallations] = useState(false);
 
   // Verificar que solo los admins puedan acceder
   if (currentUserRole !== "admin") {
@@ -32,9 +33,11 @@ const UserProfile = () => {
     const loadInstallationsForOrders = async () => {
       if (orders.length === 0 || isClient) {
         setOrdersWithInstallations(orders);
+        setLoadingInstallations(false);
         return;
       }
 
+      setLoadingInstallations(true);
       try {
         const { fetchInstallationById } = await import('../features/installations/services/installationServices');
         
@@ -59,6 +62,8 @@ const UserProfile = () => {
       } catch (error) {
         console.error("Error loading installations for orders:", error);
         setOrdersWithInstallations(orders);
+      } finally {
+        setLoadingInstallations(false);
       }
     };
 
@@ -164,7 +169,7 @@ const UserProfile = () => {
     navigate("/personal");
   };
 
-  if (loading) {
+  if (loading || loadingInstallations) {
     return (
       <div className={styles.profileContainer}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
@@ -269,7 +274,7 @@ const UserProfile = () => {
             onSelectChange={setSelectedFilter}
           />
         </div>
-        {!loading && !error && filteredData.length === 0 && <div>
+        {!loading && !loadingInstallations && !error && filteredData.length === 0 && <div>
           {isClient
             ? t('profile.noAssignedInstallations', { defaultValue: 'No tienes instalaciones asignadas.' })
             : t('profile.noAssignedOrders', { defaultValue: 'No tienes órdenes asignadas.' })

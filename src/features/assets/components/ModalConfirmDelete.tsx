@@ -1,4 +1,5 @@
 import styles from "../styles/Modal.module.css";
+import buttonStyles from "../../../shared/components/Buttons/formButtons.module.css";
 import { useTranslation } from "react-i18next"
 
 interface ModalConfirmDeleteProps {
@@ -41,15 +42,15 @@ const ModalConfirmDelete = ({
         <div className={styles.confirmContent}>
           <h2 className={styles.confirmTitle}>{t('assets.confirmDeleteAsset') || title}</h2>
           <p className={styles.confirmDescription}>{t('assets.confirmDeleteAssetDescription') || description}</p>
-          <div className={styles.confirmActions}>
-            <button className={styles.deleteButton} onClick={onConfirm}
+          <div className={buttonStyles.actions}>
+            <button className={buttonStyles.cancelButton} onClick={onCancel}>
+              {t('assets.cancel')}
+            </button>
+            <button className={buttonStyles.submitButton} onClick={onConfirm} style={{ background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', borderColor: '#ef4444', color: 'white' }} onMouseEnter={(e) => { e.currentTarget.style.background = 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)'; e.currentTarget.style.color = 'white'; }} onMouseLeave={(e) => { e.currentTarget.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'; e.currentTarget.style.color = 'white'; }}
               aria-label={t('assets.deleteAssetTooltip')}
               data-tooltip={t('assets.deleteAssetTooltip')}
             >
               {t('assets.delete')}
-            </button>
-            <button className={styles.cancelButton} onClick={onCancel}>
-              {t('assets.cancel')}
             </button>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { X, AlertTriangle } from 'lucide-react'
 import { Tenant } from '../types/tenant.types'
 import { tenantServices } from '../services/tenantServices'
 import styles from '../styles/Modal.module.css'
+import buttonStyles from '../../../shared/components/Buttons/formButtons.module.css'
 
 interface ModalConfirmDeleteProps {
   isOpen: boolean
@@ -79,22 +80,25 @@ const ModalConfirmDelete: React.FC<ModalConfirmDeleteProps> = ({
             </p>
           </div>
 
-          <div className={styles.confirmActions}>
-            <button
-              type="button"
-              onClick={handleDelete}
-              className={styles.deleteButton}
-              disabled={isLoading}
-            >
-              {isLoading ? t('common.loading') : t('common.delete')}
-            </button>
+          <div className={buttonStyles.actions}>
             <button
               type="button"
               onClick={handleCancel}
-              className={styles.cancelButton}
+              className={buttonStyles.cancelButton}
               disabled={isLoading}
             >
               {t('common.cancel')}
+            </button>
+            <button
+              type="button"
+              onClick={handleDelete}
+              className={buttonStyles.submitButton}
+              disabled={isLoading}
+              style={{ background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', borderColor: '#ef4444', color: 'white' }}
+              onMouseEnter={(e) => { if (!isLoading) { e.currentTarget.style.background = 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)'; e.currentTarget.style.color = 'white'; }}}
+              onMouseLeave={(e) => { if (!isLoading) { e.currentTarget.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'; e.currentTarget.style.color = 'white'; }}}
+            >
+              {isLoading ? t('common.loading') : t('common.delete')}
             </button>
           </div>
         </div>
