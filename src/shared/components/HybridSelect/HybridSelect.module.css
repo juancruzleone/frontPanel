@@ -45,6 +45,12 @@
 
 .hybridSelect.compact:hover {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  border-color: black;
+}
+
+:global(.dark) .hybridSelect.compact:hover {
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.12);
+  border-color: white;
 }
 
 .hybridSelect.compact:focus,
@@ -53,9 +59,15 @@
 }
 
 .hybridSelect:hover {
-  border-color: var(--color-secondary);
+  border-color: black;
   background-color: var(--color-bg-light);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+:global(.dark) .hybridSelect:hover {
+  border-color: white;
+  background-color: var(--color-bg-light);
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
 }
 
 .hybridSelect:focus,

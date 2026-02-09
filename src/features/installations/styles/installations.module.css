@@ -636,6 +636,13 @@
 
 .filterSelect:hover,
 .filterSelect:focus {
+  border-color: black;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+  outline: none;
+}
+
+:global(.dark) .filterSelect:hover,
+:global(.dark) .filterSelect:focus {
   border-color: white;
   box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
   outline: none;

@@ -247,7 +247,11 @@
 }
 
 .select:hover:not(:disabled) {
-    border-color: var(--color-card-border);
+    border-color: black;
+}
+
+:global(.dark) .select:hover:not(:disabled) {
+    border-color: white;
 }
 
 .select:disabled {

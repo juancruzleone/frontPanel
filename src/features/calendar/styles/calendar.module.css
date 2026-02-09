@@ -157,7 +157,15 @@
 
 .filterSelect:hover,
 .dateFilter:hover {
-  background-color: var(--color-card);
+  background-color: black;
+  color: white;
+  transform: translateY(-1px);
+}
+
+:global(.dark) .filterSelect:hover,
+:global(.dark) .dateFilter:hover {
+  background-color: white;
+  color: black;
   transform: translateY(-1px);
 }
 

@@ -3,6 +3,12 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form * {
+  box-sizing: border-box;
 }
 
 .formInner {
@@ -11,6 +17,8 @@
   gap: 1.5rem;
   padding: 2rem 1.5rem;
   background: var(--color-card);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .formGroup {
@@ -18,6 +26,8 @@
   flex-direction: column;
   gap: 0.75rem;
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .formGroup label {
@@ -49,6 +59,8 @@
   background: var(--color-card);
   color: var(--color-text);
   font-family: inherit;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .formGroup select {
@@ -190,6 +202,8 @@
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .fileInput {
@@ -265,6 +279,8 @@
   display: flex;
   gap: 0.75rem;
   align-items: stretch;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .tagsContainer input {
@@ -315,6 +331,8 @@
   min-height: 60px;
   align-items: flex-start;
   align-content: flex-start;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .tag {
@@ -441,4 +459,208 @@
 
 .fileSelectButton:hover {
   background-color: var(--color-nav-hover);
+}
+
+/* Estilos para drag and drop de archivos */
+.fileDropZone {
+  border: 2px dashed var(--color-card-border);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  background: var(--color-bg-light);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.fileDropZone.dragging {
+  border-color: var(--color-primary);
+  background: var(--color-card);
+  transform: scale(1.02);
+}
+
+.fileDropZone:hover {
+  border-color: var(--color-text);
+  background: var(--color-card);
+}
+
+.fileInputLabel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  color: var(--color-text);
+}
+
+.uploadIcon {
+  color: var(--color-text);
+  opacity: 0.6;
+  transition: all 0.3s ease;
+}
+
+.fileDropZone:hover .uploadIcon {
+  opacity: 1;
+  transform: translateY(-4px);
+}
+
+.fileInputText {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.fileInputSubtext {
+  font-size: 0.875rem;
+  color: var(--color-text);
+  opacity: 0.7;
+}
+
+.fileInputHint {
+  font-size: 0.75rem;
+  color: var(--color-text);
+  opacity: 0.5;
+  margin-top: 0.5rem;
+}
+
+.fileSelected {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.fileSelected:hover {
+  background: var(--color-bg-light);
+}
+
+.fileIcon {
+  color: var(--color-danger);
+  flex-shrink: 0;
+}
+
+.fileInfo {
+  flex: 1;
+  text-align: left;
+}
+
+.fileName {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 0.25rem 0;
+  word-break: break-word;
+}
+
+.fileSize {
+  font-size: 0.8rem;
+  color: var(--color-text);
+  opacity: 0.6;
+  margin: 0;
+}
+
+.removeFileButton {
+  background: var(--color-danger);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.removeFileButton:hover {
+  background: #dc2626;
+  transform: scale(1.1);
+}
+
+.removeFileButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.formDescription {
+  color: var(--color-text);
+  opacity: 0.7;
+  font-size: 0.95rem;
+  margin: 0 0 1rem 0;
+  line-height: 1.5;
+}
+
+.tagsInputContainer {
+  display: flex;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+.tagInput {
+  flex: 1;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--color-card-border);
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: var(--color-card);
+  color: var(--color-text);
+  font-family: inherit;
+}
+
+.tagInput:focus {
+  outline: none;
+  border-color: white;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+  background: var(--color-bg-light);
+}
+
+.tagInput:hover {
+  border-color: var(--color-card-border);
+}
+
+.tagInput:disabled {
+  background-color: var(--color-skeleton);
+  color: var(--color-skeleton-light);
+  cursor: not-allowed;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 1.5rem 0 0.5rem 0;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-card-border);
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.generalError {
+  background: #fef2f2;
+  border: 1px solid #fca5a5;
+  color: #dc2626;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+:global(.dark) .generalError {
+  background: rgba(220, 38, 38, 0.1);
+  border-color: rgba(220, 38, 38, 0.3);
+  color: #fca5a5;
 }

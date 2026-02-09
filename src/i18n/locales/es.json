@@ -1045,6 +1045,11 @@
     "noFileSelected": "Ningún archivo seleccionado",
     "dragDropPdfFile": "Arrastra tu archivo PDF aquí",
     "clickToSelect": "o haz clic para seleccionar",
+    "dragAndDrop": "Arrastra y suelta tu archivo aquí o haz clic para seleccionar",
+    "clickToUpload": "Haz clic para subir o arrastra el archivo aquí",
+    "pdfOnly": "Solo archivos PDF",
+    "maxSize": "Máximo 10MB",
+    "fileTooLarge": "El archivo es demasiado grande. El tamaño máximo es 10MB",
     "validation": {
       "nameRequired": "El nombre del manual es obligatorio",
       "nameMin": "El nombre debe tener al menos 3 caracteres",

@@ -132,8 +132,14 @@
 }
 
 .statusFilter:hover {
-  border-color: var(--color-secondary);
-  box-shadow: 0 4px 8px rgba(5, 126, 116, 0.15);
+  border-color: black;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+:global(.dark) .statusFilter:hover {
+  border-color: white;
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.15);
   transform: translateY(-1px);
 }
 

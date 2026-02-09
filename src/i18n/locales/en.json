@@ -1052,6 +1052,11 @@
     "noFileSelected": "No file selected",
     "dragDropPdfFile": "Drag your PDF file here",
     "clickToSelect": "or click to select",
+    "dragAndDrop": "Drag and drop your file here or click to select",
+    "clickToUpload": "Click to upload or drag file here",
+    "pdfOnly": "PDF files only",
+    "maxSize": "Maximum 10MB",
+    "fileTooLarge": "File is too large. Maximum size is 10MB",
     "validation": {
       "nameRequired": "Manual name is required",
       "nameMin": "Manual name must be at least 3 characters",

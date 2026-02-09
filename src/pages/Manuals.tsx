@@ -84,8 +84,15 @@ const Manuals = () => {
   };
 
   const handleOpenUploadFile = (manual: Manual) => {
-    setSelectedManual(manual);
+    setInitialData(manual);
     setIsUploadModalOpen(true);
+  };
+
+  const handleSuccessUploadFile = (message: string) => {
+    setIsUploadModalOpen(false);
+    loadManuals({ page: pagination.page, limit: itemsPerPage, search: searchTerm, categoria: selectedCategory });
+    setResponseMessage(message);
+    setIsError(false);
   };
 
   const handleSuccessCreateOrEdit = (message: string) => {
@@ -94,22 +101,6 @@ const Manuals = () => {
     loadManuals({ page: pagination.page, limit: itemsPerPage, search: searchTerm, categoria: selectedCategory });
     setResponseMessage(message);
     setIsError(false);
-  };
-
-  const handleSuccessUploadFile = async (file: File) => {
-    if (!selectedManual || !selectedManual._id) return;
-
-    try {
-      const result = await updateFile(selectedManual._id, file);
-      setIsUploadModalOpen(false);
-      loadManuals({ page: pagination.page, limit: itemsPerPage, search: searchTerm, categoria: selectedCategory });
-      setResponseMessage(result.message);
-      setIsError(false);
-    } catch (err: any) {
-      console.error("Error al subir archivo:", err);
-      setResponseMessage(err.message || t('manuals.errorUploadingFile'));
-      setIsError(true);
-    }
   };
 
   const handleError = (message: string) => {
@@ -409,9 +400,10 @@ const Manuals = () => {
       <ModalUploadFile
         isOpen={isUploadModalOpen}
         onRequestClose={() => setIsUploadModalOpen(false)}
-        onSubmit={handleSuccessUploadFile}
-        title={t('manuals.uploadUpdateFile')}
-        description={t('manuals.selectPdfFile')}
+        onSubmitSuccess={handleSuccessUploadFile}
+        onSubmitError={handleError}
+        onEdit={editManual}
+        initialData={initialData as Manual}
       />
 
       <ModalConfirmDelete
