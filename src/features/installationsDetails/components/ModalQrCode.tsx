@@ -217,6 +217,10 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
           </div>
 
           <div className={styles.actions}>
+            <button className={styles.modalButton + ' ' + styles.secondary} onClick={handlePrint} disabled={!qrCodeDataURL}>
+              <Printer size={16} />
+              {t('installationDetails.printQR')}
+            </button>
             {/* Ocultar botón "Abrir formulario" para usuarios con rol de cliente */}
             {!userIsClient && (
               <button className={styles.modalButton} onClick={handleOpenURL} disabled={!device.codigoQR}>
@@ -224,10 +228,6 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
                 {t('installationDetails.openForm')}
               </button>
             )}
-            <button className={styles.modalButton + ' ' + styles.secondary} onClick={handlePrint} disabled={!qrCodeDataURL}>
-              <Printer size={16} />
-              {t('installationDetails.printQR')}
-            </button>
           </div>
         </div>
       </div>

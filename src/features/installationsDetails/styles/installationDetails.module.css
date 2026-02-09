@@ -295,7 +295,8 @@
 .editButton:hover,
 .qrButton:hover,
 .pdfButton:hover,
-.historyButton:hover {
+.historyButton:hover,
+.deleteButton:hover {
   background: var(--color-text);
   transform: scale(1.05);
   color: var(--color-card);
@@ -305,7 +306,8 @@
 .editButton::after,
 .qrButton::after,
 .pdfButton::after,
-.historyButton::after {
+.historyButton::after,
+.deleteButton::after {
   content: attr(data-tooltip);
   position: absolute;
   bottom: 125%;
@@ -328,7 +330,8 @@
 .editButton::before,
 .qrButton::before,
 .pdfButton::before,
-.historyButton::before {
+.historyButton::before,
+.deleteButton::before {
   content: '';
   position: absolute;
   bottom: 115%;
@@ -346,10 +349,12 @@
 .qrButton:hover::after,
 .pdfButton:hover::after,
 .historyButton:hover::after,
+.deleteButton:hover::after,
 .editButton:hover::before,
 .qrButton:hover::before,
 .pdfButton:hover::before,
-.historyButton:hover::before {
+.historyButton:hover::before,
+.deleteButton:hover::before {
   opacity: 1;
 }
 
