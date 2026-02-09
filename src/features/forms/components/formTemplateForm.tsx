@@ -121,19 +121,39 @@ const FormTemplateForm = ({
     return validation.isValid
   }
 
+  const slugify = (text: string) => {
+    return text
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "") // Eliminar acentos
+      .replace(/[^a-z0-9_]/g, "_")    // Reemplazar espacios y caracteres especiales por guiones bajos
+      .replace(/_{2,}/g, "_")          // Eliminar guiones bajos múltiples
+      .replace(/^_+|_+$/g, "")         // Recortar guiones bajos al inicio/final
+  }
+
   const handleFieldChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target as HTMLInputElement
+    const isCheckbox = type === "checkbox"
+    const newValue = isCheckbox ? (e.target as HTMLInputElement).checked : value
 
-    setNewField((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? (e.target as HTMLInputElement).checked : value,
-    }))
+    setNewField((prev) => {
+      const updated = { ...prev, [name]: newValue }
+
+      // Si se está cambiando la etiqueta y el nombre está vacío o era un slug de la etiqueta anterior, lo actualizamos
+      if (name === "label" && (!prev.name || prev.name === slugify(prev.label))) {
+        updated.name = slugify(newValue as string)
+      }
+
+      return updated
+    })
 
     // Limpiar errores del campo inmediatamente
     if (fieldErrors[name]) {
       setFieldErrors((prev) => {
         const newErrors = { ...prev }
         delete newErrors[name]
+        // Si actualizamos el nombre automáticamente, también limpiamos su error
+        if (name === "label") delete newErrors.name
         return newErrors
       })
     }
@@ -331,17 +351,17 @@ const FormTemplateForm = ({
 
             <div className={styles.fieldFormRow}>
               <div className={styles.fieldFormGroup}>
-                <label>{t('forms.fieldName')} *</label>
+                <label>{t('forms.fieldLabel')} *</label>
                 <input
                   type="text"
-                  name="name"
-                  value={newField.name}
+                  name="label"
+                  value={newField.label}
                   onChange={handleFieldChange}
                   disabled={isSubmitting}
-                  className={fieldErrors.name ? styles.errorInput : ""}
-                  placeholder={t('forms.fieldNamePlaceholder')}
+                  className={fieldErrors.label ? styles.errorInput : ""}
+                  placeholder={t('forms.fieldLabelPlaceholder')}
                 />
-                {fieldErrors.name && <span className={styles.inputError}>{fieldErrors.name}</span>}
+                {fieldErrors.label && <span className={styles.inputError}>{fieldErrors.label}</span>}
               </div>
 
               <div className={styles.fieldFormGroup}>
@@ -374,29 +394,19 @@ const FormTemplateForm = ({
               </div>
             </div>
 
-            <div className={styles.fieldFormGroup}>
-              <label>{t('forms.fieldLabel')} *</label>
-              <input
-                type="text"
-                name="label"
-                value={newField.label}
-                onChange={handleFieldChange}
-                disabled={isSubmitting}
-                className={fieldErrors.label ? styles.errorInput : ""}
-                placeholder={t('forms.fieldLabelPlaceholder')}
-              />
-              {fieldErrors.label && <span className={styles.inputError}>{fieldErrors.label}</span>}
-            </div>
-
             <div className={formCheckboxStyles.checkboxGroup}>
               <label className={formCheckboxStyles.checkboxLabel}>
-                <input
-                  type="checkbox"
-                  name="required"
-                  checked={newField.required || false}
-                  onChange={handleFieldChange}
-                  disabled={isSubmitting}
-                />
+                <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                  <input
+                    type="checkbox"
+                    name="required"
+                    checked={newField.required || false}
+                    onChange={handleFieldChange}
+                    disabled={isSubmitting}
+                    className={formCheckboxStyles.checkboxInput}
+                  />
+                  <span className={formCheckboxStyles.checkboxCustom}></span>
+                </div>
                 <span className={formCheckboxStyles.checkboxText}>{t('forms.isFieldRequired')}</span>
               </label>
             </div>

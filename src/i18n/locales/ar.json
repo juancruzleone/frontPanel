@@ -933,6 +933,7 @@
   },
   "forms": {
     "templateCreated": "تم إنشاء قالب النموذج بنجاح",
+    "createSuccess": "تم إنشاء النموذج بنجاح",
     "understood": "إغلاق",
     "successTitle": "تمت العملية بنجاح!",
     "selectFieldType": "اختر نوع الحقل",

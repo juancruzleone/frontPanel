@@ -330,7 +330,7 @@
     "understood": "Close",
     "successTitle": "Operation successful!",
     "titlePage": "Installations | Leonix",
-    "companyPlaceholder": "Enter company name",
+    "companyPlaceholder": "Enter installation name",
     "addressPlaceholder": "Enter address",
     "floorSectorPlaceholder": "Enter floor/sector",
     "postalCodePlaceholder": "Enter postal code",
@@ -340,7 +340,7 @@
     "createInstallation": "Create Installation",
     "editInstallation": "Edit installation",
     "installationDetails": "Installation Details",
-    "company": "Company",
+    "company": "Name",
     "address": "Address",
     "city": "City",
     "contact": "Contact",
@@ -356,7 +356,7 @@
     "floorSector": "Floor/Sector",
     "postalCode": "Postal Code",
     "province": "Province",
-    "companyInfo": "Company Information",
+    "companyInfo": "Installation Information",
     "installationConfig": "Installation Configuration",
     "location": "Location",
     "selectInstallationType": "Select installation type",
@@ -451,7 +451,7 @@
     "errorLoadingAssets": "Error loading assets",
     "retryLoadAssets": "Retry loading assets",
     "createAssetsFirst": "First create assets in the corresponding section",
-    "searchPlaceholder": "Search by company, address, city, province or type",
+    "searchPlaceholder": "Search by name, address, city, province or type",
     "filterByInstallationType": "Filter by installation type",
     "noInstallationsFound": "No installations found",
     "deleteInstallation": "Delete installation",
@@ -636,7 +636,7 @@
       "floorSector": "Floor/Sector"
     },
     "validation": {
-      "companyRequired": "Company name is required",
+      "companyRequired": "Installation name is required",
       "addressRequired": "Address is required",
       "typeRequired": "Installation type is required",
       "floorSectorRequired": "Floor/sector is required",
@@ -668,7 +668,7 @@
       },
       "createInstallation": {
         "title": "Step 2: Create Installation",
-        "description": "Once you've created at least one installation type, use this button to create your first installation. Enter company data, address, and select the installation type."
+        "description": "Once you've created at least one installation type, use this button to create your first installation. Enter installation name, address, and select the installation type."
       },
       "searchFilter": {
         "title": "Search and Filter",
@@ -794,6 +794,7 @@
   },
   "forms": {
     "templateCreated": "Form template created successfully",
+    "createSuccess": "Form created successfully",
     "continue": "Continue",
     "understood": "Close",
     "selectFieldType": "Select field type",

@@ -474,7 +474,7 @@
     "successTitle": "操作が成功しました！",
     "continue": "続行",
     "titlePage": "インストール | Leonix",
-    "companyPlaceholder": "会社名を入力してください",
+    "companyPlaceholder": "設置名を入力してください",
     "addressPlaceholder": "住所を入力してください",
     "floorSectorPlaceholder": "階/セクターを入力してください",
     "postalCodePlaceholder": "郵便番号を入力してください",
@@ -484,7 +484,7 @@
     "createInstallation": "設置作成",
     "editInstallation": "設置編集",
     "installationDetails": "設置詳細",
-    "company": "会社",
+    "company": "名前",
     "address": "住所",
     "city": "都市",
     "contact": "連絡先",
@@ -501,7 +501,7 @@
     "floorSector": "階/セクション",
     "postalCode": "郵便番号",
     "province": "県",
-    "companyInfo": "会社情報",
+    "companyInfo": "設置情報",
     "installationConfig": "設置設定",
     "location": "場所",
     "selectInstallationType": "接続タイプを選択",
@@ -775,7 +775,7 @@
       "floorSector": "階/セクター"
     },
     "validation": {
-      "companyRequired": "会社名は必須です",
+      "companyRequired": "設置名は必須です",
       "addressRequired": "住所は必須です",
       "typeRequired": "設置タイプは必須です",
       "floorSectorRequired": "階/セクターは必須です",
@@ -933,6 +933,7 @@
   },
   "forms": {
     "templateCreated": "フォームテンプレートが正常に作成されました",
+    "createSuccess": "フォームが正常に作成されました",
     "understood": "閉じる",
     "successTitle": "操作が成功しました！",
     "selectFieldType": "フィールドタイプを選択",

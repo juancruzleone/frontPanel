@@ -471,7 +471,7 @@
     "understood": "Chiudi",
     "successTitle": "Operazione riuscita!",
     "continue": "Continua",
-    "companyPlaceholder": "Inserisci il nome dell'azienda",
+    "companyPlaceholder": "Inserisci il nome dell'installazione",
     "addressPlaceholder": "Inserisci l'indirizzo",
     "floorSectorPlaceholder": "Inserisci piano/settore",
     "postalCodePlaceholder": "Inserisci il codice postale",
@@ -481,7 +481,7 @@
     "createInstallation": "Crea Installazione",
     "editInstallation": "Modifica Installazione",
     "installationDetails": "Dettagli Installazione",
-    "company": "Azienda",
+    "company": "Nome",
     "address": "Indirizzo",
     "city": "Città",
     "contact": "Contatto",
@@ -497,7 +497,7 @@
     "floorSector": "Piano/Settore",
     "postalCode": "Codice Postale",
     "province": "Provincia",
-    "companyInfo": "Informazioni Azienda",
+    "companyInfo": "Informazioni Installazione",
     "installationConfig": "Configurazione Installazione",
     "location": "Posizione",
     "selectInstallationType": "Seleziona tipo di installazione",
@@ -770,7 +770,7 @@
       "floorSector": "Piano/Settore"
     },
     "validation": {
-      "companyRequired": "Il nome dell'azienda è obbligatorio",
+      "companyRequired": "Il nome dell'installazione è obbligatorio",
       "addressRequired": "L'indirizzo è obbligatorio",
       "typeRequired": "Il tipo di installazione è obbligatorio",
       "floorSectorRequired": "Il piano/settore è obbligatorio",
@@ -924,6 +924,7 @@
   },
   "forms": {
     "templateCreated": "Modello di modulo creato con successo",
+    "createSuccess": "Modulo creato con successo",
     "understood": "Chiudi",
     "successTitle": "Operazione riuscita!",
     "selectFieldType": "Seleziona il tipo di campo",

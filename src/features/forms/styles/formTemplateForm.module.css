@@ -68,7 +68,7 @@
 .formGroup input,
 .formGroup select,
 .formGroup textarea {
-  padding: 0.875rem 1rem;
+  padding: 1.1rem 1rem;
   border: 2px solid var(--color-card-border);
   border-radius: 12px;
   font-size: 1rem;
@@ -82,9 +82,9 @@
 .formGroup select:focus,
 .formGroup textarea:focus {
   outline: none;
-  border-color: white;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
-  background: var(--color-bg-light);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  background: var(--color-card);
 }
 
 .formGroup input:hover,
@@ -332,7 +332,7 @@
 .fieldFormGroup input,
 .fieldFormGroup select,
 .fieldFormGroup textarea {
-  padding: 0.875rem 1rem;
+  padding: 1.1rem 1rem;
   border: 2px solid var(--color-card-border);
   border-radius: 12px;
   font-size: 1rem;
@@ -346,9 +346,9 @@
 .fieldFormGroup select:focus,
 .fieldFormGroup textarea:focus {
   outline: none;
-  border-color: white;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
-  background: var(--color-bg-light);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  background: var(--color-card);
 }
 
 .fieldFormGroup input:hover,
@@ -441,7 +441,7 @@
 }
 
 .checkboxLabel:hover {
-  background-color: var(--color-primary-light);
+  background-color: rgba(255, 255, 255, 0.03);
 }
 
 .checkboxLabel input[type="checkbox"] {
@@ -521,6 +521,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -571,15 +572,18 @@
     padding: 1.5rem;
     gap: 1.25rem;
   }
+
   .actions {
     padding: 1.25rem 1.5rem;
     flex-direction: column;
     gap: 0.75rem;
   }
+
   .cancelButton,
   .submitButton {
     width: 100%;
   }
+
   .sectionTitle {
     font-size: 1.1rem;
   }
@@ -619,18 +623,22 @@
   .formInner {
     padding: 1rem;
   }
+
   .actions {
     padding: 1rem;
   }
+
   .formGroup label {
     font-size: 0.9rem;
   }
+
   .formGroup input,
   .formGroup select,
   .formGroup textarea {
     padding: 0.75rem;
     font-size: 0.95rem;
   }
+
   .sectionTitle {
     font-size: 1rem;
   }

@@ -104,7 +104,7 @@ html[data-theme="dark"] .installationInfo h4::before {
   width: 100%;
 }
 
-.fullWidth > div {
+.fullWidth>div {
   width: 100% !important;
   min-width: 0 !important;
 }
@@ -167,7 +167,7 @@ html[data-theme="dark"] .formGroup label::before {
 .formGroup input,
 .formGroup select,
 .formGroup textarea {
-  padding: 0.875rem 1rem;
+  padding: 1.1rem 1rem;
   border: 2px solid var(--color-card-border);
   border-radius: 12px;
   font-size: 1rem;
@@ -275,7 +275,7 @@ html[data-theme="dark"] .formGroup textarea:hover:not(:focus) {
 
 .selectWrapper select {
   width: 100%;
-  padding: 0.875rem 1rem;
+  padding: 1.1rem 1rem;
   border: 2px solid var(--color-card-border);
   border-radius: 12px;
   font-size: 1rem;
@@ -453,11 +453,11 @@ html:not([data-theme="dark"]) .selectWrapper select:focus,
   .formContent {
     padding: 1.5rem;
   }
-  
+
   .actions {
     padding: 1.5rem;
   }
-  
+
   .cancelButton,
   .submitButton {
     min-width: 100px;
@@ -482,26 +482,26 @@ html:not([data-theme="dark"]) .selectWrapper select:focus,
   .installationInfo p {
     font-size: 0.9rem;
   }
-  
+
   .actions {
     flex-direction: column;
     gap: 0.75rem;
   }
-  
+
   .cancelButton,
   .submitButton {
     width: 100%;
     min-width: unset;
   }
-  
+
   .formGroup label {
     font-size: 0.9rem;
   }
-  
+
   .formGroup input,
   .formGroup select,
   .formGroup textarea {
     font-size: 0.9rem;
     padding: 0.75rem 0.875rem;
   }
-} 
+}

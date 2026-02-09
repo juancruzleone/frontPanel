@@ -857,6 +857,7 @@
   },
   "forms": {
     "templateCreated": "Formularvorlage erfolgreich erstellt",
+    "createSuccess": "Formular erfolgreich erstellt",
     "understood": "Schließen",
     "successTitle": "Vorgang erfolgreich!",
     "selectFieldType": "Feldtyp auswählen",

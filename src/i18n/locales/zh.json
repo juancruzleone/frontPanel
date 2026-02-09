@@ -903,6 +903,7 @@
   },
   "forms": {
     "templateCreated": "表单模板创建成功",
+    "createSuccess": "表单创建成功",
     "understood": "关闭",
     "successTitle": "操作成功！",
     "selectFieldType": "选择字段类型",

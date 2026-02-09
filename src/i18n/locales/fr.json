@@ -468,7 +468,7 @@
     "successTitle": "Opération réussie !",
     "continue": "Continuer",
     "titlePage": "Installations | Leonix",
-    "companyPlaceholder": "Entrez le nom de l'entreprise",
+    "companyPlaceholder": "Entrez le nom de l'installation",
     "addressPlaceholder": "Entrez l'adresse",
     "floorSectorPlaceholder": "Entrez l'étage/secteur",
     "postalCodePlaceholder": "Entrez le code postal",
@@ -478,7 +478,7 @@
     "createInstallation": "Créer une Installation",
     "editInstallation": "Modifier l'Installation",
     "installationDetails": "Détails de l'Installation",
-    "company": "Entreprise",
+    "company": "Nom",
     "address": "Adresse",
     "city": "Ville",
     "contact": "Contact",
@@ -495,7 +495,7 @@
     "floorSector": "Étage/Secteur",
     "postalCode": "Code Postal",
     "province": "Province",
-    "companyInfo": "Informations de l'Entreprise",
+    "companyInfo": "Informations de l'Installation",
     "installationConfig": "Configuration de l'Installation",
     "location": "Emplacement",
     "selectInstallationType": "Sélectionner le type d'installation",
@@ -761,7 +761,7 @@
       "japaneseMarten": "Martre Japonaise"
     },
     "validation": {
-      "companyRequired": "Le nom de l'entreprise est requis",
+      "companyRequired": "Le nom de l'installation est requis",
       "addressRequired": "L'adresse est requise",
       "typeRequired": "Le type d'installation est requis",
       "floorSectorRequired": "L'étage/le secteur est requis",
@@ -912,6 +912,7 @@
   },
   "forms": {
     "templateCreated": "Modèle de formulaire créé avec succès",
+    "createSuccess": "Formulaire créé avec succès",
     "understood": "Fermer",
     "successTitle": "Opération réussie !",
     "continue": "Continuer",

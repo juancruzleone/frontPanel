@@ -13,7 +13,7 @@
   background-color: var(--color-card);
   border-radius: 10px;
   /* Better match for modern forms */
-  padding: 14px 16px;
+  padding: 18px 16px;
   /* Match form padding */
   border: 1px solid var(--color-card-border);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
@@ -22,7 +22,7 @@
   font-size: 1rem;
   font-family: inherit;
   font-weight: 400;
-  min-height: 52px;
+  min-height: 58px;
   box-sizing: border-box;
 }
 
