@@ -9,7 +9,8 @@ import ModalSuccess from "../features/assets/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
 import ModalConfirmDelete from "../features/assets/components/ModalConfirmDelete"
 import ModalAssignTemplate from "../features/assets/components/ModalAssignTemplate"
-import { Edit, Trash, List, BookOpen, HelpCircle, Plus, FilterX } from "lucide-react"
+import ModalStock from "../features/assets/components/ModalStock"
+import { Edit, Trash, List, BookOpen, HelpCircle, Plus, FilterX, Package } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { translateDeviceStatus } from "../shared/utils/backendTranslations"
@@ -36,6 +37,7 @@ const Assets = () => {
     loadAssets,
     assignTemplateToAsset,
     getTemplateById,
+    updateAssetStock,
   } = useAssets()
 
   const [selectedCategory, setSelectedCategory] = useState("")
@@ -44,6 +46,7 @@ const Assets = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false)
+  const [isStockModalOpen, setIsStockModalOpen] = useState(false)
   const [initialData, setInitialData] = useState<Asset | null>(null)
   const [responseMessage, setResponseMessage] = useState("")
   const [isError, setIsError] = useState(false)
@@ -105,6 +108,11 @@ const Assets = () => {
     setIsTemplateModalOpen(true)
   }
 
+  const handleOpenStock = (asset: Asset) => {
+    setSelectedAsset(asset)
+    setIsStockModalOpen(true)
+  }
+
   const handleSuccessCreateOrEdit = (message: string) => {
     setIsCreateModalOpen(false)
     setIsEditModalOpen(false)
@@ -120,12 +128,20 @@ const Assets = () => {
     setIsError(false)
   }
 
+  const handleSuccessStock = (message: string) => {
+    setIsStockModalOpen(false)
+    loadAssets({ page: pagination.page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
+    setResponseMessage(message)
+    setIsError(false)
+  }
+
   const handleError = (message: string) => {
     setResponseMessage(message)
     setIsError(true)
     setIsCreateModalOpen(false)
     setIsEditModalOpen(false)
     setIsTemplateModalOpen(false)
+    setIsStockModalOpen(false)
   }
 
   const closeModal = () => {
@@ -240,6 +256,12 @@ const Assets = () => {
                       <p className={styles.assetDetails}>
                         {asset.marca} {asset.modelo} {asset.numeroSerie && `| SN: ${asset.numeroSerie}`}
                       </p>
+                      {asset.stock !== undefined && (
+                        <p className={styles.assetStock}>
+                          <Package size={14} style={{ marginRight: 6 }} />
+                          {t('assets.stock.stock')}: <strong>{asset.stock}</strong>
+                        </p>
+                      )}
                     </div>
 
                     <div className={styles.cardSeparator}></div>
@@ -247,6 +269,15 @@ const Assets = () => {
                     {!isClientUser && (
                       <div className={styles.cardActions}>
                         <div className={styles.actionButtons}>
+                          <button
+                            className={styles.iconButton}
+                            onClick={() => handleOpenStock(asset)}
+                            aria-label={t('assets.stock.manageStock')}
+                            data-tooltip={t('assets.stock.manageStock')}
+                            data-tour="manage-stock-btn"
+                          >
+                            <Package size={24} />
+                          </button>
                           <button
                             className={styles.iconButton}
                             onClick={() => handleOpenTemplate(asset)}
@@ -322,6 +353,15 @@ const Assets = () => {
         onAssignTemplate={assignTemplateToAsset}
         asset={selectedAsset}
         onSubmitSuccess={handleSuccessAssignTemplate}
+      />
+
+      <ModalStock
+        isOpen={isStockModalOpen}
+        onRequestClose={() => setIsStockModalOpen(false)}
+        asset={selectedAsset}
+        onUpdateStock={updateAssetStock}
+        onSuccess={handleSuccessStock}
+        onError={handleError}
       />
 
       <ModalConfirmDelete

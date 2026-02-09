@@ -925,6 +925,20 @@
       "modelRequired": "Le modèle est requis",
       "serialRequired": "Le numéro de série est requis",
       "templateRequired": "Le modèle de formulaire est requis"
+    },
+    "stock": {
+      "stock": "Stock",
+      "manageStock": "Gérer le Stock",
+      "currentStock": "Stock actuel",
+      "newStock": "Nouveau stock",
+      "stockPlaceholder": "Entrez la quantité en stock",
+      "stockHint": "Quantité disponible de l'actif",
+      "stockUpdated": "Stock mis à jour avec succès",
+      "errorUpdatingStock": "Erreur lors de la mise à jour du stock",
+      "validation": {
+        "stockMin": "Le stock ne peut pas être négatif",
+        "stockZero": "Le stock doit être supérieur à 0"
+      }
     }
   },
   "forms": {

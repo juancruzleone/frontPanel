@@ -914,6 +914,20 @@
       "modelRequired": "型号为必填项",
       "serialRequired": "序列号为必填项",
       "templateRequired": "表单模板为必填项"
+    },
+    "stock": {
+      "stock": "库存",
+      "manageStock": "管理库存",
+      "currentStock": "当前库存",
+      "newStock": "新库存",
+      "stockPlaceholder": "输入库存数量",
+      "stockHint": "资产的可用数量",
+      "stockUpdated": "库存更新成功",
+      "errorUpdatingStock": "更新库存时出错",
+      "validation": {
+        "stockMin": "库存不能为负数",
+        "stockZero": "库存必须大于0"
+      }
     }
   },
   "forms": {

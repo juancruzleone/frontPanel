@@ -935,6 +935,20 @@
       "serialRequired": "Il numero di serie è obbligatorio",
       "templateRequired": "Il modello del modulo è obbligatorio"
     },
+    "stock": {
+      "stock": "Scorta",
+      "manageStock": "Gestisci Scorta",
+      "currentStock": "Scorta attuale",
+      "newStock": "Nuova scorta",
+      "stockPlaceholder": "Inserisci la quantità in scorta",
+      "stockHint": "Quantità disponibile dell'asset",
+      "stockUpdated": "Scorta aggiornata con successo",
+      "errorUpdatingStock": "Errore nell'aggiornamento della scorta",
+      "validation": {
+        "stockMin": "La scorta non può essere negativa",
+        "stockZero": "La scorta deve essere maggiore di 0"
+      }
+    },
     "titlePage": "Beni | Leonix"
   },
   "forms": {

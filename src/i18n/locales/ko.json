@@ -946,6 +946,20 @@
       "modelRequired": "모델은 필수 항목입니다",
       "serialRequired": "일련번호는 필수 항목입니다",
       "templateRequired": "양식 템플릿은 필수 항목입니다"
+    },
+    "stock": {
+      "stock": "재고",
+      "manageStock": "재고 관리",
+      "currentStock": "현재 재고",
+      "newStock": "새 재고",
+      "stockPlaceholder": "재고 수량 입력",
+      "stockHint": "자산의 사용 가능한 수량",
+      "stockUpdated": "재고가 성공적으로 업데이트되었습니다",
+      "errorUpdatingStock": "재고 업데이트 중 오류 발생",
+      "validation": {
+        "stockMin": "재고는 음수일 수 없습니다",
+        "stockZero": "재고는 0보다 커야 합니다"
+      }
     }
   },
   "forms": {

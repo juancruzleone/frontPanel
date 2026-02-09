@@ -8,6 +8,7 @@ import {
   fetchTemplates,
 } from "../services/assetServices"
 import { fetchFormCategories } from "../../forms/services/formServices"
+import { getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
 
 export type Asset = {
   _id?: string
@@ -16,6 +17,7 @@ export type Asset = {
   marca?: string
   modelo?: string
   numeroSerie?: string
+  stock?: number
   fechaCreacion?: Date
   fechaActualizacion?: Date
 }
@@ -166,6 +168,27 @@ const useAssets = () => {
     return templates.filter((template) => template.categoria === categoria)
   }
 
+  const updateAssetStock = async (assetId: string, stock: number): Promise<void> => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}activos/${assetId}/stock`, {
+        method: "PUT",
+        headers: getHeadersWithContentType(),
+        body: JSON.stringify({ stock }),
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || "Error al actualizar el stock")
+      }
+
+      // Actualizar el estado local
+      setAssets((prev) => prev.map((asset) => (asset._id === assetId ? { ...asset, stock } : asset)))
+    } catch (err: any) {
+      console.error("Error al actualizar stock:", err)
+      throw err
+    }
+  }
+
   return {
     assets,
     templates,
@@ -182,6 +205,7 @@ const useAssets = () => {
     assignTemplateToAsset,
     getTemplateById,
     getTemplatesByCategory,
+    updateAssetStock,
     pagination,
   }
 }

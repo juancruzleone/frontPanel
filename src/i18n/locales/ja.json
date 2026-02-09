@@ -944,6 +944,20 @@
       "serialRequired": "シリアル番号は必須項目です",
       "templateRequired": "フォームテンプレートは必須項目です"
     },
+    "stock": {
+      "stock": "在庫",
+      "manageStock": "在庫管理",
+      "currentStock": "現在の在庫",
+      "newStock": "新しい在庫",
+      "stockPlaceholder": "在庫数を入力",
+      "stockHint": "資産の利用可能数量",
+      "stockUpdated": "在庫が正常に更新されました",
+      "errorUpdatingStock": "在庫の更新中にエラーが発生しました",
+      "validation": {
+        "stockMin": "在庫は負の値にできません",
+        "stockZero": "在庫は0より大きくなければなりません"
+      }
+    },
     "titlePage": "資産 | Leonix"
   },
   "forms": {

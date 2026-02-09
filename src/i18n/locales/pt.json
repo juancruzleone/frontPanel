@@ -935,6 +935,20 @@
       "serialRequired": "O número de série é obrigatório",
       "templateRequired": "O modelo de formulário é obrigatório"
     },
+    "stock": {
+      "stock": "Estoque",
+      "manageStock": "Gerenciar Estoque",
+      "currentStock": "Estoque atual",
+      "newStock": "Novo estoque",
+      "stockPlaceholder": "Digite a quantidade em estoque",
+      "stockHint": "Quantidade disponível do ativo",
+      "stockUpdated": "Estoque atualizado com sucesso",
+      "errorUpdatingStock": "Erro ao atualizar o estoque",
+      "validation": {
+        "stockMin": "O estoque não pode ser negativo",
+        "stockZero": "O estoque deve ser maior que 0"
+      }
+    },
     "titlePage": "Ativos | Leonix"
   },
   "forms": {

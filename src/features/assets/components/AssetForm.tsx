@@ -42,6 +42,7 @@ const AssetForm = ({
     marca: "",
     modelo: "",
     numeroSerie: "",
+    stock: 0,
   })
 
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
@@ -63,6 +64,7 @@ const AssetForm = ({
         marca: initialData.marca || "",
         modelo: initialData.modelo || "",
         numeroSerie: initialData.numeroSerie || "",
+        stock: initialData.stock || 0,
       })
 
       // Encontrar la categoría de la plantilla actual
@@ -78,6 +80,7 @@ const AssetForm = ({
         marca: "",
         modelo: "",
         numeroSerie: "",
+        stock: 0,
       })
       setSelectedCategory("")
     }
@@ -218,6 +221,20 @@ const AssetForm = ({
             disabled={isSubmitting}
             placeholder={t('assets.serialNumberPlaceholder')}
           />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label>{t('assets.stock.stock')} ({t('assets.optional')})</label>
+          <input
+            type="number"
+            name="stock"
+            value={formData.stock || 0}
+            onChange={(e) => handleFieldChange("stock", e.target.value)}
+            disabled={isSubmitting}
+            min="0"
+            placeholder={t('assets.stock.stockPlaceholder')}
+          />
+          <span className={styles.hint}>{t('assets.stock.stockHint')}</span>
         </div>
 
         {/* Sección: Configuración */}

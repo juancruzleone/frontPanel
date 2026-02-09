@@ -944,6 +944,20 @@
       "modelRequired": "الطراز مطلوب",
       "serialRequired": "الرقم التسلسلي مطلوب",
       "templateRequired": "نموذج النموذج مطلوب"
+    },
+    "stock": {
+      "stock": "المخزون",
+      "manageStock": "إدارة المخزون",
+      "currentStock": "المخزون الحالي",
+      "newStock": "مخزون جديد",
+      "stockPlaceholder": "أدخل كمية المخزون",
+      "stockHint": "الكمية المتاحة من الأصل",
+      "stockUpdated": "تم تحديث المخزون بنجاح",
+      "errorUpdatingStock": "خطأ في تحديث المخزون",
+      "validation": {
+        "stockMin": "لا يمكن أن يكون المخزون سالبًا",
+        "stockZero": "يجب أن يكون المخزون أكبر من 0"
+      }
     }
   },
   "forms": {

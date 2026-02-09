@@ -868,6 +868,20 @@
       "serialRequired": "Die Seriennummer ist erforderlich",
       "templateRequired": "Das Formularvorlage ist erforderlich"
     },
+    "stock": {
+      "stock": "Bestand",
+      "manageStock": "Bestand verwalten",
+      "currentStock": "Aktueller Bestand",
+      "newStock": "Neuer Bestand",
+      "stockPlaceholder": "Bestandsmenge eingeben",
+      "stockHint": "Verfügbare Menge des Vermögenswerts",
+      "stockUpdated": "Bestand erfolgreich aktualisiert",
+      "errorUpdatingStock": "Fehler beim Aktualisieren des Bestands",
+      "validation": {
+        "stockMin": "Der Bestand kann nicht negativ sein",
+        "stockZero": "Der Bestand muss größer als 0 sein"
+      }
+    },
     "titlePage": "Vermögenswerte | Leonix"
   },
   "forms": {

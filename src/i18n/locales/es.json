@@ -795,6 +795,20 @@
       "serialRequired": "El número de serie es obligatorio",
       "templateRequired": "La plantilla de formulario es obligatoria"
     },
+    "stock": {
+      "stock": "Stock",
+      "manageStock": "Gestionar Stock",
+      "currentStock": "Stock actual",
+      "newStock": "Nuevo stock",
+      "stockPlaceholder": "Ingrese la cantidad en stock",
+      "stockHint": "Cantidad disponible del activo",
+      "stockUpdated": "Stock actualizado exitosamente",
+      "errorUpdatingStock": "Error al actualizar el stock",
+      "validation": {
+        "stockMin": "El stock no puede ser negativo",
+        "stockZero": "El stock debe ser mayor a 0"
+      }
+    },
     "titlePage": "Activos | Leonix"
   },
   "forms": {

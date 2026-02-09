@@ -227,7 +227,7 @@
   "common": {
     "saving": "Saving",
     "successTitle": "Operation successful!",
-    "understood": "Fermer",
+    "understood": "Close",
     "loading": "Loading...",
     "error": "Error",
     "success": "Success",
@@ -805,6 +805,20 @@
       "modelRequired": "Model is required",
       "serialRequired": "Serial number is required",
       "templateRequired": "Form template is required"
+    },
+    "stock": {
+      "stock": "Stock",
+      "manageStock": "Manage Stock",
+      "currentStock": "Current stock",
+      "newStock": "New stock",
+      "stockPlaceholder": "Enter stock quantity",
+      "stockHint": "Available quantity of the asset",
+      "stockUpdated": "Stock updated successfully",
+      "errorUpdatingStock": "Error updating stock",
+      "validation": {
+        "stockMin": "Stock cannot be negative",
+        "stockZero": "Stock must be greater than 0"
+      }
     }
   },
   "forms": {
