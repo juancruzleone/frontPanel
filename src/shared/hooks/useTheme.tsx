@@ -21,6 +21,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   const applyTheme = (isDark: boolean) => {
     if (isDark) {
       document.documentElement.classList.add("dark");
+      document.documentElement.setAttribute("data-theme", "dark");
       document.body.classList.add("dark");
       document.body.setAttribute("data-theme", "dark");
       localStorage.setItem("theme", "dark");
@@ -41,6 +42,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       document.documentElement.style.setProperty('--color-primary-hover', '#e0e0e0');
     } else {
       document.documentElement.classList.remove("dark");
+      document.documentElement.setAttribute("data-theme", "light");
       document.body.classList.remove("dark");
       document.body.setAttribute("data-theme", "light");
       localStorage.setItem("theme", "light");
