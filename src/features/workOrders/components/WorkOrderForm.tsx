@@ -361,6 +361,9 @@ const WorkOrderForm = ({
           </div>
 
           <div className={formButtonStyles.actions}>
+            <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
+              {t('workOrders.cancel')}
+            </button>
             <button
               type="submit"
               disabled={
@@ -370,9 +373,6 @@ const WorkOrderForm = ({
               className={formButtonStyles.submitButton}
             >
               {isSubmitting ? t('workOrders.saving') : isEditMode ? t('common.update') : t('common.save')}
-            </button>
-            <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
-              {t('workOrders.cancel')}
             </button>
           </div>
 

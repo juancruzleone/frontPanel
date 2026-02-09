@@ -1599,6 +1599,7 @@
       "budget": "Preventivo",
       "other": "Altro"
     },
+    "specifyType": "Specifica il tipo (es: Fattura)",
     "unnamedDocument": "Documento senza nome",
     "confirmDeleteTitle": "Eliminare il documento?",
     "confirmDeleteDescription": "Questa azione non può essere annullata. Il documento verrà eliminato definitivamente.",

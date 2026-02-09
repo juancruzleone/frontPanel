@@ -434,7 +434,7 @@ const WorkOrders = () => {
               ...technicians.map(tech => ({ label: getTechnicianLabel(tech), value: tech._id }))
             ]}
             placeholder={t('calendar.allTechnicians') || 'Todos los técnicos'}
-            autoSize={true}
+            variant="compact"
             className={styles.technicianSelect}
           />
 
@@ -443,7 +443,7 @@ const WorkOrders = () => {
             onChange={setSelectedPriority}
             options={priorityOptions}
             placeholder={t('common.all')}
-            autoSize={true}
+            variant="compact"
             className={styles.prioritySelect}
           />
 
@@ -460,7 +460,7 @@ const WorkOrders = () => {
             }}
             options={dateOptions}
             placeholder={t('calendar.allDates') || 'Todas las fechas'}
-            autoSize={true}
+            variant="compact"
             className={styles.dateSelect}
           />
 

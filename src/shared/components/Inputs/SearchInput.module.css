@@ -1,9 +1,8 @@
 .wrapper {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
   width: 100%;
-  /*padding: 0 30px;*/
   box-sizing: border-box;
 }
 
@@ -13,7 +12,7 @@
   background-color: var(--color-card);
   border-radius: 4px;
   padding: 0 12px;
-  width: 100%;
+  flex: 1;
   height: 52px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
@@ -130,7 +129,7 @@
 }
 
 .filterSelectCustom {
-  margin-right: 12px;
+  flex-shrink: 0;
   min-width: 180px;
 }
 

@@ -76,6 +76,7 @@
   background: var(--color-card);
   color: var(--color-text);
   font-family: inherit;
+  min-height: 58px;
 }
 
 .formGroup input:focus,

@@ -49,6 +49,7 @@ const SearchInput = ({
             ...selectOptions
           ]}
           placeholder={selectPlaceholder}
+          variant="compact"
           className={styles.filterSelectCustom}
         />
       )}

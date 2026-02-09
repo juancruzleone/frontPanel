@@ -69,17 +69,17 @@ const MonthYearSelectorModal: React.FC<MonthYearSelectorModalProps> = ({
         <div className={formButtonStyles.actions}>
           <button
             type="button"
-            onClick={handleConfirm}
-            className={formButtonStyles.submitButton}
-          >
-            {t('common.confirm')}
-          </button>
-          <button
-            type="button"
             onClick={onRequestClose}
             className={formButtonStyles.cancelButton}
           >
             {t('common.cancel')}
+          </button>
+          <button
+            type="button"
+            onClick={handleConfirm}
+            className={formButtonStyles.submitButton}
+          >
+            {t('common.confirm')}
           </button>
         </div>
       </div>

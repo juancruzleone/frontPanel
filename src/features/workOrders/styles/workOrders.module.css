@@ -43,7 +43,7 @@
 
 .searchRow {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
   width: 100%;
 }
@@ -52,18 +52,9 @@
   flex: 1;
 }
 
-.searchContainer [class*="inputWrapper"],
-.searchContainer [class*="select"],
-.searchContainer [class*="hybridSelect"] {
-  height: 52px !important;
-  min-height: 52px !important;
-  border-radius: 8px !important;
-  display: flex;
-  align-items: center;
-}
-
-.searchContainer [class*="hybridSelect"] {
-  min-width: 150px !important;
+/* Remove gap from SearchInput wrapper in WorkOrders */
+.searchContainer [class*="wrapper"] {
+  gap: 0 !important;
 }
 
 /* New filter container style */
@@ -78,29 +69,16 @@
 
 /* Specific select widths */
 .technicianSelect {
-  min-width: 250px;
+  /* min-width: 250px; */
 }
 
 .prioritySelect {
-  min-width: 180px;
+  /* min-width: 180px; */
 }
 
 .dateSelect {
-  min-width: 200px;
+  /* min-width: 200px; */
 }
-
-.technicianSelect [class*="hybridSelect"],
-.prioritySelect [class*="hybridSelect"],
-.dateSelect [class*="hybridSelect"] {
-  height: 52px !important;
-  min-height: 52px !important;
-  border-radius: 8px !important;
-  display: flex;
-  align-items: center;
-  min-width: 150px !important;
-}
-
-
 
 .filtersContainer {
   display: flex;
@@ -124,10 +102,10 @@
 .customDateButton {
   padding: 0 16px;
   border: 1px solid var(--color-card-border);
-  border-radius: 8px;
+  border-radius: 4px;
   font-size: 15px;
   font-weight: 600;
-  width: 200px;
+  width: 180px;
   background-color: var(--color-bg-light);
   color: var(--color-text);
   transition: all 0.3s ease;
@@ -135,7 +113,6 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  justify-content: center;
   position: relative;
   overflow: visible;
   box-sizing: border-box;
@@ -144,7 +121,6 @@
   margin: 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   height: 52px;
-  /* Match height of other inputs which seem to be around 46px in WorkOrders */
 }
 
 :global(.dark) .customDateButton {
@@ -209,7 +185,7 @@
 .clearFilters svg {
   color: #ffffff !important;
   stroke: #ffffff !important;
-  stroke-width: 3px !important;
+  stroke-width: 1.5px !important;
   filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.8));
 }
 

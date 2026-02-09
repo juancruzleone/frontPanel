@@ -79,7 +79,7 @@
 
 .searchRow {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
   width: 100%;
   margin-bottom: 24px;
@@ -87,18 +87,6 @@
 
 .searchContainerInner {
   flex: 1;
-}
-
-.searchRow [class*="inputWrapper"],
-.searchRow [class*="select"],
-.searchRow [class*="hybridSelect"] {
-  height: 52px !important;
-  min-height: 52px !important;
-  border-radius: 8px !important;
-}
-
-.searchRow [class*="hybridSelect"] {
-  min-width: 150px !important;
 }
 
 .clearFilters {
@@ -145,7 +133,7 @@
 .clearFilters svg {
   color: #ffffff !important;
   stroke: #ffffff !important;
-  stroke-width: 3px !important;
+  stroke-width: 1.5px !important;
   filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.8));
 }
 

@@ -222,11 +222,11 @@ const ModalCompleteWorkOrder = ({
             </div>
 
             <div className={formButtonStyles.actions}>
-              <button type="submit" disabled={isSubmitting} className={formButtonStyles.submitButton}>
-                {isSubmitting ? "Completando..." : "Completar Orden"}
-              </button>
               <button type="button" onClick={handleClose} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
                 Cancelar
+              </button>
+              <button type="submit" disabled={isSubmitting} className={formButtonStyles.submitButton}>
+                {isSubmitting ? "Completando..." : "Completar Orden"}
               </button>
             </div>
           </form>

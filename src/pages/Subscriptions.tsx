@@ -274,14 +274,36 @@ const Subscriptions = () => {
         </div>
 
         <div className={styles.filtersWrapper}>
-          <div className={styles.filterActions}>
-            <HybridSelect
-              value={selectedMonthFilter}
-              onChange={setSelectedMonthFilter}
-              options={monthOptions}
-              placeholder={t('subscriptions.filterByMonth')}
-              autoSize={true}
-            />
+          <div className={styles.searchRow}>
+            <div className={styles.filterActions}>
+              <HybridSelect
+                value={selectedMonthFilter}
+                onChange={setSelectedMonthFilter}
+                options={monthOptions}
+                placeholder={t('subscriptions.filterByMonth')}
+                variant="compact"
+              />
+            </div>
+
+            <div className={styles.searchContainerInner}>
+              <SearchInput
+                placeholder={t('subscriptions.searchPlaceholder')}
+                onInputChange={(value) => setSearchTerm(value)}
+                value={searchTerm}
+              />
+            </div>
+            <button
+              onClick={() => {
+                setSearchTerm("")
+                setSelectedMonthFilter("")
+                setSelectedStatus("")
+                setCurrentPage(1)
+              }}
+              className={styles.clearFilters}
+              title={t('calendar.clearFilters')}
+            >
+              <FilterX size={18} />
+            </button>
           </div>
 
           <div className={styles.statusSelectContainer}>
@@ -294,32 +316,9 @@ const Subscriptions = () => {
                 { value: 'inactive', label: t('subscriptions.status.inactive') }
               ]}
               placeholder={t('subscriptions.filterByStatus')}
+              variant="compact"
               className={styles.fullWidthSelect}
             />
-          </div>
-
-          <div className={styles.searchBox}>
-            <div className={styles.searchRow}>
-              <div className={styles.searchContainerInner}>
-                <SearchInput
-                  placeholder={t('subscriptions.searchPlaceholder')}
-                  onInputChange={(value) => setSearchTerm(value)}
-                  value={searchTerm}
-                />
-              </div>
-              <button
-                onClick={() => {
-                  setSearchTerm("")
-                  setSelectedMonthFilter("")
-                  setSelectedStatus("")
-                  setCurrentPage(1)
-                }}
-                className={styles.clearFilters}
-                title={t('calendar.clearFilters')}
-              >
-                <FilterX size={18} />
-              </button>
-            </div>
           </div>
         </div>
       </div>

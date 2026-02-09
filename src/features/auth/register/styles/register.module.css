@@ -838,7 +838,7 @@
 
 .searchRow {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
   width: 100%;
   max-width: 460px;

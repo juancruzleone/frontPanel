@@ -411,7 +411,7 @@ const Calendar = () => {
                 ...technicians.map(tech => ({ label: getTechnicianLabel(tech), value: tech._id }))
               ]}
               placeholder={t('calendar.allTechnicians') || 'Todos los técnicos'}
-              autoSize={true}
+              variant="compact"
               className={styles.tallSelect}
             />
 
@@ -420,7 +420,7 @@ const Calendar = () => {
               onChange={setSelectedPriority}
               options={priorityOptions}
               placeholder={t('common.all')}
-              autoSize={true}
+              variant="compact"
               className={styles.tallSelect}
             />
 
@@ -437,7 +437,7 @@ const Calendar = () => {
               }}
               options={dateOptions}
               placeholder={t('calendar.allDates')}
-              autoSize={true}
+              variant="compact"
               className={styles.tallSelect}
             />
 

@@ -161,18 +161,13 @@
 /* Filters Container */
 .filtersWrapper {
   display: flex;
-  gap: 16px;
   align-items: center;
   width: 100%;
 }
 
-.searchBox {
-  flex: 1;
-}
-
 .searchRow {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
   width: 100%;
 }
@@ -181,21 +176,9 @@
   flex: 1;
 }
 
-/* Ensure SearchInput and HybridSelect have consistent height */
-.searchContainerInner [class*="inputWrapper"],
-.filterActions [class*="hybridSelect"],
-.statusSelectContainer [class*="hybridSelect"] {
-  height: 52px !important;
-  min-height: 52px !important;
-  border-radius: 8px !important;
-  display: flex;
-  align-items: center;
-  min-width: 150px !important;
-}
-
 .filterActions {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
 }
 
@@ -244,7 +227,7 @@
 .clearFilters svg {
   color: #ffffff !important;
   stroke: #ffffff !important;
-  stroke-width: 3px !important;
+  stroke-width: 1.5px !important;
   filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.8));
 }
 

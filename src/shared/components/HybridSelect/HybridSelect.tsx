@@ -20,6 +20,7 @@ interface HybridSelectProps {
   name?: string;
   error?: boolean;
   required?: boolean;
+  variant?: 'default' | 'compact'; // Nueva prop para variante compacta
 }
 
 const HybridSelect: React.FC<HybridSelectProps> = ({
@@ -33,7 +34,8 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
   autoSize = false,
   name,
   error,
-  required = false
+  required = false,
+  variant = 'default' // Valor por defecto
 }) => {
   const { dark } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
@@ -52,10 +54,10 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
       tempSpan.style.visibility = 'hidden';
       tempSpan.style.position = 'absolute';
       tempSpan.style.whiteSpace = 'nowrap';
-      tempSpan.style.fontSize = '16px';
+      tempSpan.style.fontSize = variant === 'compact' ? '0.9rem' : '16px';
       tempSpan.style.fontFamily = 'Encode Sans, sans-serif';
       tempSpan.style.fontWeight = '400';
-      tempSpan.style.padding = '12px 44px 12px 12px';
+      tempSpan.style.padding = variant === 'compact' ? '12px 40px 12px 12px' : '12px 44px 12px 12px';
 
       document.body.appendChild(tempSpan);
 
@@ -72,9 +74,13 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
 
       document.body.removeChild(tempSpan);
 
-      setSelectWidth(Math.max(180, maxWidth + 20));
+      // Para compact, usar el ancho del contenido más un pequeño margen
+      // Para default, mantener el mínimo de 180px
+      const minWidth = variant === 'compact' ? 0 : 180;
+      const extraPadding = variant === 'compact' ? 30 : 20;
+      setSelectWidth(Math.max(minWidth, maxWidth + extraPadding));
     }
-  }, [options, placeholder, autoSize]);
+  }, [options, placeholder, autoSize, variant]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -175,7 +181,7 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
 
   return (
     <div
-      className={`${styles.hybridSelectWrapper} ${className || ''}`}
+      className={`${styles.hybridSelectWrapper} ${variant === 'compact' ? styles.compactWrapper : ''} ${className || ''}`}
       ref={selectRef}
       style={wrapperStyle}
     >
@@ -189,7 +195,7 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
         />
       )}
       <div
-        className={`${styles.hybridSelect} ${disabled ? styles.disabled : ''} ${error ? styles.error : ''}`}
+        className={`${styles.hybridSelect} ${variant === 'compact' ? styles.compact : ''} ${disabled ? styles.disabled : ''} ${error ? styles.error : ''}`}
         onClick={handleToggle}
         onKeyDown={handleKeyDown}
         tabIndex={disabled ? -1 : 0}

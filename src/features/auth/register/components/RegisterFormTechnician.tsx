@@ -165,6 +165,9 @@ const RegisterTechnicianForm = ({
         )}
 
         <div className={formButtonStyles.actions}>
+          <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
+            {t('common.cancel')}
+          </button>
           <button
             type="submit"
             disabled={isButtonDisabled}
@@ -176,14 +179,8 @@ const RegisterTechnicianForm = ({
                 {t('personal.registering')}
               </>
             ) : (
-              <>
-                <FiUserPlus size={16} style={{ marginRight: '8px' }} />
-                {t('personal.createTechnician')}
-              </>
+              t('personal.createTechnician')
             )}
-          </button>
-          <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
-            {t('common.cancel')}
           </button>
         </div>
       </div>

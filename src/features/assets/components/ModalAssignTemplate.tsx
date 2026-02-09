@@ -141,6 +141,14 @@ const ModalAssignTemplate = ({
 
               <div className={formButtonStyles.actions}>
                 <button
+                  type="button"
+                  onClick={handleClose}
+                  disabled={isSubmitting}
+                  className={formButtonStyles.cancelButton}
+                >
+                  {t('common.cancel')}
+                </button>
+                <button
                   type="submit"
                   disabled={loadingTemplates || isSubmitting}
                   className={formButtonStyles.submitButton}
@@ -148,14 +156,6 @@ const ModalAssignTemplate = ({
                   data-tooltip={t('assets.editTemplateTooltip')}
                 >
                   {isSubmitting ? t('common.saving') : t('assets.edit')}
-                </button>
-                <button
-                  type="button"
-                  onClick={handleClose}
-                  disabled={isSubmitting}
-                  className={formButtonStyles.cancelButton}
-                >
-                  {t('common.cancel')}
                 </button>
               </div>
             </div>

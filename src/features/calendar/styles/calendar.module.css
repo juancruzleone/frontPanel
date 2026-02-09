@@ -114,11 +114,16 @@
   width: 100%;
 }
 
+/* Remove gap from SearchInput wrapper in Calendar */
+.searchContainer [class*="wrapper"] {
+  gap: 0 !important;
+}
+
 .searchContainer [class*="inputWrapper"],
 .searchContainer [class*="select"] {
   height: 52px !important;
   min-height: 52px !important;
-  border-radius: 8px !important;
+  border-radius: 4px !important;
 }
 
 .additionalFilters {
@@ -205,7 +210,7 @@
 .customDateButton {
   padding: 0 16px;
   border: 1px solid black;
-  border-radius: 8px;
+  border-radius: 4px;
   font-size: 14px;
   font-weight: 600;
   width: 150px;
@@ -225,15 +230,6 @@
   flex-shrink: 0;
   margin: 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.tallSelect [class*="hybridSelect"] {
-  height: 52px !important;
-  min-height: 52px !important;
-  border-radius: 8px !important;
-  min-width: 150px !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
 }
 
 :global(.dark) .customDateButton {
@@ -290,7 +286,7 @@
 .clearFilters svg {
   color: #ffffff !important;
   stroke: #ffffff !important;
-  stroke-width: 3px !important;
+  stroke-width: 1.5px !important;
   filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.8));
 }
 
@@ -1240,7 +1236,7 @@
 .datePickerActions {
   display: flex;
   gap: 1rem;
-  justify-content: center;
+  justify-content: flex-end;
   margin-top: 24px;
 }
 
@@ -1254,7 +1250,7 @@
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.2s ease;
-  min-width: 184px;
+  min-width: 120px;
   height: 48px !important;
   min-height: 48px !important;
   max-height: 48px !important;
@@ -1262,7 +1258,8 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  width: 184px;
+  flex: 1;
+  max-width: 200px;
 }
 
 /* Modo claro para datePickerCancelButton */
@@ -1323,13 +1320,15 @@
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.2s ease;
-  min-width: 160px;
+  min-width: 120px;
   height: 48px !important;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 12px rgba(5, 126, 116, 0.3);
   box-sizing: border-box;
+  flex: 1;
+  max-width: 200px;
 }
 
 .datePickerConfirmButton:hover:not(:disabled) {
