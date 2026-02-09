@@ -584,7 +584,7 @@
     "errorLoadingAssets": "Erreur lors du chargement des actifs",
     "retryLoadAssets": "Réessayer le chargement des actifs",
     "createAssetsFirst": "Créer d'abord les actifs dans la section correspondante",
-    "searchPlaceholder": "Rechercher par entreprise, adresse, ville, province ou type",
+    "searchPlaceholder": "Rechercher par nom, adresse, ville, province ou type",
     "filterByInstallationType": "Filtrer par type d'installation",
     "noInstallationsFound": "Aucune installation trouvée",
     "deleteInstallation": "Supprimer l'installation",

@@ -590,7 +590,7 @@
     "retryLoadAssets": "資産の再読み込み",
     "retryLoadCategories": "カテゴリの再読み込み",
     "createAssetsFirst": "まず対応するセクションで資産を作成してください",
-    "searchPlaceholder": "会社、住所、都市、県、種別で検索",
+    "searchPlaceholder": "名前、住所、都市、県、種別で検索",
     "filterByInstallationType": "設置種別でフィルター",
     "noInstallationsFound": "設置が見つかりません",
     "deleteInstallation": "設置削除",

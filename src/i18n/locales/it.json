@@ -585,7 +585,7 @@
     "errorLoadingAssets": "Errore nel caricamento dei beni",
     "retryLoadAssets": "Riprova a caricare i beni",
     "createAssetsFirst": "Prima crea i beni nella sezione corrispondente",
-    "searchPlaceholder": "Cerca per azienda, indirizzo, città, provincia o tipo",
+    "searchPlaceholder": "Cerca per nome, indirizzo, città, provincia o tipo",
     "filterByInstallationType": "Filtra per tipo di installazione",
     "noInstallationsFound": "Nessuna installazione trovata",
     "deleteInstallation": "Elimina installazione",
