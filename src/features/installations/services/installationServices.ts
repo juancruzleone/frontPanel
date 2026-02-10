@@ -147,7 +147,8 @@ export const addDeviceToInstallation = async (installationId: string, deviceData
     const errorData = await response.json().catch(() => ({}));
     console.error('\n❌ [ADD DEVICE] Error data:', errorData);
     console.error('❌ [ADD DEVICE] ==================== FIN CON ERROR ====================\n');
-    throw new Error("Error al agregar dispositivo");
+    const errorMessage = errorData.message || errorData.error || "Error al agregar dispositivo";
+    throw new Error(errorMessage);
   }
 
   const result = await response.json();

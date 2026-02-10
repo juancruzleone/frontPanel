@@ -668,7 +668,8 @@
       "categoryRequired": "Category is required",
       "categoryMax": "Category cannot exceed 100 characters",
       "statusRequired": "Status is required",
-      "statusInvalid": "Status must be valid"
+      "statusInvalid": "Status must be valid",
+      "insufficientStock": "Insufficient stock. (Maximum available: {{stock}})"
     },
     "confirmDeleteTitle": "Delete installation?",
     "confirmDeleteDescription": "This action cannot be undone. The installation will be permanently deleted.",

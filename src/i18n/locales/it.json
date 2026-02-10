@@ -802,7 +802,8 @@
       "categoryRequired": "La categoria è obbligatoria",
       "categoryMax": "La categoria non può superare i 100 caratteri",
       "statusRequired": "Lo stato è obbligatorio",
-      "statusInvalid": "Lo stato deve essere valido"
+      "statusInvalid": "Lo stato deve essere valido",
+      "insufficientStock": "Stock insufficiente. (Massimo disponibile: {{stock}})"
     },
     "titlePage": "Impianti | Leonix",
     "confirmDeleteTitle": "Eliminare l'installazione?",

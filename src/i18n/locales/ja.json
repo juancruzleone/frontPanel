@@ -807,7 +807,8 @@
       "categoryRequired": "カテゴリは必須です",
       "categoryMax": "カテゴリは100文字を超えることはできません",
       "statusRequired": "ステータスは必須です",
-      "statusInvalid": "ステータスは有効である必要があります"
+      "statusInvalid": "ステータスは有効である必要があります",
+      "insufficientStock": "在庫不足（最大利用可能数：{{stock}}）"
     },
     "confirmDeleteTitle": "インストールを削除しますか？",
     "confirmDeleteDescription": "この操作は元に戻せません。インストールは完全に削除されます。",

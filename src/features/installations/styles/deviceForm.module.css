@@ -192,6 +192,35 @@ html[data-theme="dark"] .formGroup label::before {
   background: var(--color-bg-light);
 }
 
+/* Modo oscuro específico para focus en inputs, selects y textareas */
+:global(.dark) .formGroup input:focus,
+:global(.dark) .formGroup select:focus,
+:global(.dark) .formGroup textarea:focus,
+:global(body.dark) .formGroup input:focus,
+:global(body.dark) .formGroup select:focus,
+:global(body.dark) .formGroup textarea:focus,
+:global(html.dark) .formGroup input:focus,
+:global(html.dark) .formGroup select:focus,
+:global(html.dark) .formGroup textarea:focus,
+:global([data-theme="dark"]) .formGroup input:focus,
+:global([data-theme="dark"]) .formGroup select:focus,
+:global([data-theme="dark"]) .formGroup textarea:focus,
+body.dark .formGroup input:focus,
+body.dark .formGroup select:focus,
+body.dark .formGroup textarea:focus,
+html.dark .formGroup input:focus,
+html.dark .formGroup select:focus,
+html.dark .formGroup textarea:focus,
+body[data-theme="dark"] .formGroup input:focus,
+body[data-theme="dark"] .formGroup select:focus,
+body[data-theme="dark"] .formGroup textarea:focus,
+html[data-theme="dark"] .formGroup input:focus,
+html[data-theme="dark"] .formGroup select:focus,
+html[data-theme="dark"] .formGroup textarea:focus {
+  background-color: var(--color-card) !important;
+  color: var(--color-text) !important;
+}
+
 /* Modo claro específico para hover en inputs, selects y textareas */
 body:not(.dark) .formGroup input:hover:not(:focus),
 body:not(.dark) .formGroup select:hover:not(:focus),
@@ -390,6 +419,13 @@ html:not([data-theme="dark"]) .selectWrapper select:focus,
   padding: 1.5rem 2.5rem 2rem;
   border-top: 1px solid var(--color-card-border);
   background: var(--color-bg-light);
+}
+
+.deviceFormActions {
+  padding: 1.5rem 0 0 0 !important;
+  background: transparent !important;
+  border-top: 1px solid var(--color-card-border);
+  width: 100%;
 }
 
 .assetInfo {

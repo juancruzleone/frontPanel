@@ -141,6 +141,21 @@ const DeviceForm = ({
       return
     }
 
+    // Validar stock disponible
+    if (!isEditMode && selectedAsset) {
+      const quantity = Number(formData.cantidad) || 1
+      const currentStock = Number(selectedAsset.stock);
+
+      if (!isNaN(currentStock) && quantity > currentStock) {
+        setFormErrors({
+          cantidad: t('installations.validation.insufficientStock', { stock: currentStock })
+        })
+
+        setIsSubmitting(false)
+        return
+      }
+    }
+
     try {
       if (isEditMode) {
         // Modo edición
@@ -391,7 +406,7 @@ const DeviceForm = ({
 
         {formErrors.general && <p className={styles.generalError}>{formErrors.general}</p>}
 
-        <div className={formButtonStyles.actions}>
+        <div className={`${formButtonStyles.actions} ${styles.deviceFormActions}`}>
           <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
             {t('common.cancel')}
           </button>

@@ -657,7 +657,8 @@
       "categoryRequired": "La categoría es requerida",
       "categoryMax": "La categoría no puede tener más de 100 caracteres",
       "statusRequired": "El estado es requerido",
-      "statusInvalid": "El estado debe ser válido"
+      "statusInvalid": "El estado debe ser válido",
+      "insufficientStock": "Stock insuficiente. (Máximo disponible: {{stock}})"
     },
     "titlePage": "Instalaciones | Leonix",
     "confirmDeleteTitle": "¿Eliminar instalación?",

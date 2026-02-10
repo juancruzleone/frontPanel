@@ -795,7 +795,8 @@
       "categoryRequired": "La catégorie est requise",
       "categoryMax": "La catégorie ne peut pas dépasser 100 caractères",
       "statusRequired": "Le statut est requis",
-      "statusInvalid": "Le statut doit être valide"
+      "statusInvalid": "Le statut doit être valide",
+      "insufficientStock": "Stock insuffisant. (Maximum disponible : {{stock}})"
     },
     "confirmDeleteTitle": "Supprimer l'installation ?",
     "confirmDeleteDescription": "Cette action est irréversible. L'installation sera supprimée définitivement.",

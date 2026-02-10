@@ -803,7 +803,8 @@
       "categoryRequired": "الفئة مطلوبة",
       "categoryMax": "لا يمكن أن تتجاوز الفئة 100 حرف",
       "statusRequired": "الحالة مطلوبة",
-      "statusInvalid": "يجب أن تكون الحالة صالحة"
+      "statusInvalid": "يجب أن تكون الحالة صالحة",
+      "insufficientStock": "المخزون غير كاف (الحد الأقصى المتاح: {{stock}})"
     },
     "titlePage": "التثبيتات | Leonix",
     "confirmDeleteTitle": "هل تريد حذف التثبيت؟",
