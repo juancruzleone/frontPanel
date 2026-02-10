@@ -103,6 +103,34 @@
   font-size: inherit;
 }
 
+/* Texto blanco en modo oscuro cuando hay una opción seleccionada */
+:global(.dark) .hybridSelectValue {
+  color: white !important;
+}
+
+/* Texto blanco en modo oscuro en hover */
+:global(.dark) .hybridSelect:hover .hybridSelectValue {
+  color: white !important;
+}
+
+/* Asegurar que el texto sea blanco en modo oscuro para variante compact */
+:global(.dark) .hybridSelect.compact .hybridSelectValue {
+  color: white !important;
+}
+
+:global(.dark) .hybridSelect.compact:hover .hybridSelectValue {
+  color: white !important;
+}
+
+/* Forzar color blanco en el contenedor principal del select en modo oscuro */
+:global(.dark) .hybridSelect {
+  color: white !important;
+}
+
+:global(.dark) .hybridSelect.compact {
+  color: white !important;
+}
+
 .hybridSelectIcon {
   margin-left: 12px;
   transition: transform 0.3s ease, color 0.3s ease;
@@ -110,6 +138,29 @@
   opacity: 0.7;
   flex-shrink: 0;
   stroke-width: 1.5px !important;
+}
+
+/* Icono blanco en modo oscuro */
+:global(.dark) .hybridSelectIcon {
+  color: white !important;
+  opacity: 1 !important;
+}
+
+/* Icono blanco en modo oscuro en hover */
+:global(.dark) .hybridSelect:hover .hybridSelectIcon {
+  color: white !important;
+  opacity: 1 !important;
+}
+
+/* Asegurar que el icono sea blanco en modo oscuro para variante compact */
+:global(.dark) .hybridSelect.compact .hybridSelectIcon {
+  color: white !important;
+  opacity: 1 !important;
+}
+
+:global(.dark) .hybridSelect.compact:hover .hybridSelectIcon {
+  color: white !important;
+  opacity: 1 !important;
 }
 
 .hybridSelectIcon.rotated {
@@ -165,10 +216,21 @@
   color: var(--color-secondary);
 }
 
+/* Texto blanco para opciones en hover en modo oscuro */
+:global(.dark) .hybridOption:hover,
+:global(.dark) .hybridOption.highlighted {
+  color: white !important;
+}
+
 .hybridOption.selected {
   background-color: rgba(16, 185, 129, 0.15);
   color: var(--color-secondary);
   font-weight: 600;
+}
+
+/* Texto blanco para opciones seleccionadas en modo oscuro */
+:global(.dark) .hybridOption.selected {
+  color: white !important;
 }
 
 .checkIcon {

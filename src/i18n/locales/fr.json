@@ -1339,6 +1339,8 @@
     "retryLoadCategories": "Réessayer le chargement des catégories",
     "searchDevicesPlaceholder": "Rechercher par appareil, emplacement ou catégorie...",
     "noDevicesFound": "Aucun appareil trouvé avec ce terme de recherche",
+    "showingDevices": "Affichage de {{start}}-{{end}} sur {{total}} appareils",
+    "of": "de",
     "noMaintenanceAvailable": "Aucune maintenance disponible pour cet appareil",
     "errorLoadingMaintenance": "Erreur lors du chargement de la maintenance",
     "tour": {

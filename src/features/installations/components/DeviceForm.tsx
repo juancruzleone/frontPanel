@@ -384,7 +384,7 @@ const DeviceForm = ({
 
         {isEditMode && (
           <div className={styles.formGroup}>
-            <label>{t('installations.deviceStatu')}</label>
+            <label>{t('installations.deviceStatusLabel')}</label>
             <div className={styles.fullWidth}>
               <HybridSelect
                 name="estado"
@@ -396,7 +396,7 @@ const DeviceForm = ({
                   value: estado,
                   label: estado
                 }))}
-                placeholder={t('installations.deviceStatu')}
+                placeholder={t('installations.deviceStatusLabel')}
                 error={!!showError("estado")}
               />
             </div>

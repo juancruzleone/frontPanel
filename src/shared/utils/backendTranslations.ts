@@ -464,6 +464,25 @@ export const translateFormFieldType = (fieldType: string): string => {
 export const translateDeviceStatus = (status: string): string => {
   const currentLanguage = (i18n.resolvedLanguage || i18n.language || 'es').split('-')[0]
 
+  // Normalizar el estado del backend a la clave de traducción
+  const normalizeStatus = (status: string): string => {
+    if (!status) return ''
+    
+    const statusMap: Record<string, string> = {
+      'activo': 'activo',
+      'inactivo': 'inactivo',
+      'en mantenimiento': 'mantenimiento',
+      'mantenimiento': 'mantenimiento',
+      'fuera de servicio': 'fuera_servicio',
+      'fuera_servicio': 'fuera_servicio',
+      'pendiente de revisión': 'pendiente_revision',
+      'pendiente_revision': 'pendiente_revision'
+    }
+    
+    const normalized = status.toLowerCase().trim()
+    return statusMap[normalized] || normalized
+  }
+
   const translations: Record<string, Record<string, string>> = {
     es: {
       'activo': 'Activo',
@@ -537,7 +556,8 @@ export const translateDeviceStatus = (status: string): string => {
     }
   }
 
-  return translations[currentLanguage]?.[status] || status
+  const normalizedStatus = normalizeStatus(status)
+  return translations[currentLanguage]?.[normalizedStatus] || status
 }
 
 // Traducción de meses (ES <-> idioma actual)

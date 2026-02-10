@@ -434,7 +434,7 @@ const WorkOrders = () => {
               { value: "", label: t('calendar.allTechnicians') || 'Todos los técnicos' },
               ...technicians.map(tech => ({ label: getTechnicianLabel(tech), value: tech._id }))
             ]}
-            placeholder={t('calendar.allTechnicians') || 'Todos los técnicos'}
+            placeholder={t('calendar.filterByTechnician') || 'Filtrar por técnico'}
             variant="compact"
             className={styles.technicianSelect}
           />
@@ -443,7 +443,7 @@ const WorkOrders = () => {
             value={selectedPriority}
             onChange={setSelectedPriority}
             options={priorityOptions}
-            placeholder={t('common.all')}
+            placeholder={t('calendar.filterByPriority') || 'Filtrar por prioridad'}
             variant="compact"
             className={styles.prioritySelect}
           />
@@ -460,7 +460,7 @@ const WorkOrders = () => {
               }
             }}
             options={dateOptions}
-            placeholder={t('calendar.allDates') || 'Todas las fechas'}
+            placeholder={t('calendar.filterByDate') || 'Filtrar por fecha'}
             variant="compact"
             className={styles.dateSelect}
           />

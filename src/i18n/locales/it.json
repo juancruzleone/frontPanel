@@ -505,7 +505,7 @@
     "categories": "Categorie",
     "manageCategories": "Gestisci Categorie di Dispositivi",
     "manageInstallationTypes": "Gestisci Tipi di Installazione",
-    "manageDevices": "Gestisci Categorie",
+    "manageDevices": "Gestisci Categorie Dispositivi",
     "viewCategories": "Visualizza Categorie di Dispositivi",
     "viewInstallationTypes": "Visualizza Tipi di Installazione",
     "createCategory": "Crea Categoria di Dispositivo",
@@ -517,7 +517,7 @@
     "categoryDescriptionPlaceholder": "Descrizione opzionale della categoria",
     "active": "Attiva",
     "deviceCategory": "Categoria del dispositivo",
-    "deviceStatu": "Stato del dispositivo",
+    "deviceStatusLabel": "Stato del dispositivo",
     "deviceLocation": "Posizione del dispositivo",
     "deviceName": "Nome del dispositivo",
     "selectCategory": "Seleziona una categoria",
@@ -1295,6 +1295,9 @@
     "completed": "Completata",
     "cancelled": "Annullata",
     "allTechnicians": "Tutti i tecnici",
+    "filterByTechnician": "Filtra per tecnico",
+    "filterByPriority": "Filtra per priorità",
+    "filterByDate": "Filtra per data",
     "timezoneLabel": "🌍 America/Buenos_Aires (-03:00) • Ora legale"
   },
   "languageSelector": {
@@ -1348,6 +1351,8 @@
     "retryLoadCategories": "Riprova a caricare le categorie",
     "searchDevicesPlaceholder": "Cerca per dispositivo, posizione o categoria...",
     "noDevicesFound": "Nessun dispositivo trovato con questo termine di ricerca",
+    "showingDevices": "Mostrando {{start}}-{{end}} di {{total}} dispositivi",
+    "of": "di",
     "noMaintenanceAvailable": "Nessuna manutenzione disponibile per questo dispositivo",
     "errorLoadingMaintenance": "Errore nel caricamento della manutenzione",
     "tour": {

@@ -1348,6 +1348,8 @@
     "retryLoadCategories": "Tentar novamente carregar categorias",
     "searchDevicesPlaceholder": "Buscar por dispositivo, localização ou categoria...",
     "noDevicesFound": "Nenhum dispositivo encontrado com esse termo de busca",
+    "showingDevices": "Mostrando {{start}}-{{end}} de {{total}} dispositivos",
+    "of": "de",
     "noMaintenanceAvailable": "Nenhuma manutenção disponível para este dispositivo",
     "errorLoadingMaintenance": "Erro ao carregar a manutenção",
     "tour": {

@@ -378,7 +378,7 @@
     "categoryDescriptionPlaceholder": "Optional category description",
     "active": "Active",
     "deviceCategory": "Device Category",
-    "deviceStatu": "Device Status",
+    "deviceStatusLabel": "Device Status",
     "deviceLocation": "Device Location",
     "deviceName": "Device Name",
     "selectCategory": "Select a category",
@@ -1326,6 +1326,9 @@
     "completed": "Completed",
     "cancelled": "Cancelled",
     "allTechnicians": "All technicians",
+    "filterByTechnician": "Filter by technician",
+    "filterByPriority": "Filter by priority",
+    "filterByDate": "Filter by date",
     "timezoneLabel": "🌍 America/Buenos_Aires (-03:00) • Daylight Saving Time"
   },
   "workOrders": {
@@ -1534,6 +1537,8 @@
     "retryLoadCategories": "Retry loading categories",
     "searchDevicesPlaceholder": "Search by device, location or category...",
     "noDevicesFound": "No devices found with that search term",
+    "showingDevices": "Showing {{start}}-{{end}} of {{total}} devices",
+    "of": "of",
     "noMaintenanceAvailable": "No maintenance available for this device",
     "errorLoadingMaintenance": "Error loading maintenance",
     "tour": {

@@ -215,31 +215,38 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
 
       {isOpen && (
         <div className={styles.hybridDropdown} ref={dropdownRef} role="listbox">
-          {options.map((option, index) => (
-            <div
-              key={option.value}
-              className={`${styles.hybridOption} ${highlightedIndex === index ? styles.highlighted : ''
-                } ${value === option.value ? styles.selected : ''
-                }`}
-              onClick={() => handleOptionClick(option)}
-              onMouseEnter={() => setHighlightedIndex(index)}
-              role="option"
-              aria-selected={value === option.value}
-            >
-              {option.label}
-              {value === option.value && (
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className={styles.checkIcon}
+          {options
+            .filter(option => option.label !== placeholder)
+            .map((option, index) => {
+              // No mostrar como seleccionada la opción vacía (placeholder)
+              const isSelected = value === option.value && option.value !== "";
+
+              return (
+                <div
+                  key={option.value}
+                  className={`${styles.hybridOption} ${highlightedIndex === index ? styles.highlighted : ''
+                    } ${isSelected ? styles.selected : ''
+                    }`}
+                  onClick={() => handleOptionClick(option)}
+                  onMouseEnter={() => setHighlightedIndex(index)}
+                  role="option"
+                  aria-selected={isSelected}
                 >
-                  <polyline points="20,6 9,17 4,12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              )}
-            </div>
-          ))}
+                  {option.label}
+                  {isSelected && (
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      className={styles.checkIcon}
+                    >
+                      <polyline points="20,6 9,17 4,12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  )}
+                </div>
+              );
+            })}
         </div>
       )}
     </div>

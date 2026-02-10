@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from "react"
 import { useParams, useNavigate, useLocation } from "react-router-dom"
 import styles from "../features/installationsDetails/styles/installationDetails.module.css"
 import { Trash, Edit, Plus, QrCode, FileText, HelpCircle, History } from "lucide-react"
+import Tooltip from "../shared/components/Tooltip/Tooltip"
 import { FiArrowLeft } from "react-icons/fi"
 import { useTheme } from "../shared/hooks/useTheme"
 import ModalAddDevice from "../features/installations/components/ModalAddDevice"
@@ -429,52 +430,62 @@ const InstallationDetails = () => {
               <div className={styles.cardSeparator}></div>
 
               <div className={styles.deviceActions}>
-                <button
-                  className={styles.qrButton}
-                  onClick={() => handleShowQR(device)}
-                  aria-label={t("installationDetails.seeQR")}
-                  data-tooltip={t("installationDetails.seeQR")}
-                >
-                  <QrCode size={18} />
-                </button>
-                <button
-                  className={styles.historyButton}
-                  onClick={() => handleShowHistory(device)}
-                  aria-label={t("installationDetails.viewMaintenanceHistory")}
-                  data-tooltip={t("installationDetails.viewMaintenanceHistory")}
-                >
-                  <History size={18} />
-                </button>
-                <button
-                  className={styles.pdfButton}
-                  onClick={() => handleDownloadLastMaintenancePDF(device)}
-                  disabled={loadingPDF === device._id}
-                  aria-label={t("installationDetails.downloadLastMaintenance")}
-                  data-tooltip={t("installationDetails.downloadLastMaintenance")}
-                >
-                  <FileText size={18} />
-                </button>
+                <Tooltip content={t("installationDetails.seeQR")}>
+                  <button
+                    className={styles.qrButton}
+                    onClick={() => handleShowQR(device)}
+                    aria-label={t("installationDetails.seeQR")}
+                    data-tooltip={t("installationDetails.seeQR")}
+                  >
+                    <QrCode size={18} />
+                  </button>
+                </Tooltip>
+                <Tooltip content={t("installationDetails.viewMaintenanceHistory")}>
+                  <button
+                    className={styles.historyButton}
+                    onClick={() => handleShowHistory(device)}
+                    aria-label={t("installationDetails.viewMaintenanceHistory")}
+                    data-tooltip={t("installationDetails.viewMaintenanceHistory")}
+                  >
+                    <History size={18} />
+                  </button>
+                </Tooltip>
+                <Tooltip content={t("installationDetails.downloadLastMaintenance")}>
+                  <button
+                    className={styles.pdfButton}
+                    onClick={() => handleDownloadLastMaintenancePDF(device)}
+                    disabled={loadingPDF === device._id}
+                    aria-label={t("installationDetails.downloadLastMaintenance")}
+                    data-tooltip={t("installationDetails.downloadLastMaintenance")}
+                  >
+                    <FileText size={18} />
+                  </button>
+                </Tooltip>
                 {!isRestricted && (
                   <>
-                    <button
-                      className={styles.editButton}
-                      onClick={() => handleEditDevice(device)}
-                      aria-label={t("installationDetails.editDevice")}
-                      data-tooltip={t("installationDetails.editDevice")}
-                    >
-                      <Edit size={18} />
-                    </button>
-                    <button
-                      className={styles.deleteButton}
-                      onClick={() => {
-                        setDeviceToDelete(device)
-                        setIsDeleteModalOpen(true)
-                      }}
-                      aria-label={t("installationDetails.deleteDevice")}
-                      data-tooltip={t("installationDetails.deleteDevice")}
-                    >
-                      <Trash size={18} />
-                    </button>
+                    <Tooltip content={t("installationDetails.editDevice")}>
+                      <button
+                        className={styles.editButton}
+                        onClick={() => handleEditDevice(device)}
+                        aria-label={t("installationDetails.editDevice")}
+                        data-tooltip={t("installationDetails.editDevice")}
+                      >
+                        <Edit size={18} />
+                      </button>
+                    </Tooltip>
+                    <Tooltip content={t("installationDetails.deleteDevice")}>
+                      <button
+                        className={styles.deleteButton}
+                        onClick={() => {
+                          setDeviceToDelete(device)
+                          setIsDeleteModalOpen(true)
+                        }}
+                        aria-label={t("installationDetails.deleteDevice")}
+                        data-tooltip={t("installationDetails.deleteDevice")}
+                      >
+                        <Trash size={18} />
+                      </button>
+                    </Tooltip>
                   </>
                 )}
               </div>
@@ -499,9 +510,13 @@ const InstallationDetails = () => {
       )}
 
       {/* Información adicional cuando hay paginación */}
-      {installationDevices.length > devicesPerPage && (
+      {filteredDevices.length > devicesPerPage && (
         <div style={{ textAlign: 'center', marginTop: '8px', color: 'var(--color-text)', opacity: 0.7, fontSize: '14px' }}>
-          Mostrando {startIndex + 1}-{Math.min(startIndex + devicesPerPage, installationDevices.length)} de {installationDevices.length} dispositivos
+          {t('installationDetails.showingDevices', {
+            start: startIndex + 1,
+            end: Math.min(startIndex + devicesPerPage, filteredDevices.length),
+            total: filteredDevices.length
+          })}
         </div>
       )}
 
