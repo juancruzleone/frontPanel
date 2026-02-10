@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
+import ReactDOM from 'react-dom'
 import styles from './Tooltip.module.css'
 
 interface TooltipProps {
@@ -12,12 +13,25 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
   const triggerRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    if (isVisible && triggerRef.current) {
-      const rect = triggerRef.current.getBoundingClientRect()
-      setPosition({
-        top: rect.top - 8, // 8px arriba del elemento
-        left: rect.left + rect.width / 2, // Centrado horizontalmente
-      })
+    const updatePosition = () => {
+      if (isVisible && triggerRef.current) {
+        const rect = triggerRef.current.getBoundingClientRect()
+        setPosition({
+          top: rect.top - 8,
+          left: rect.left + rect.width / 2,
+        })
+      }
+    }
+
+    if (isVisible) {
+      updatePosition()
+      window.addEventListener('scroll', updatePosition, true)
+      window.addEventListener('resize', updatePosition)
+    }
+
+    return () => {
+      window.removeEventListener('scroll', updatePosition, true)
+      window.removeEventListener('resize', updatePosition)
     }
   }, [isVisible])
 
@@ -29,25 +43,28 @@ const Tooltip: React.FC<TooltipProps> = ({ content, children }) => {
     setIsVisible(false)
   }
 
+  const tooltipElement = isVisible ? (
+    <div
+      className={styles.tooltip}
+      style={{
+        top: `${position.top}px`,
+        left: `${position.left}px`,
+      }}
+    >
+      <div className={styles.tooltipContent}>{content}</div>
+      <div className={styles.tooltipArrow} />
+    </div>
+  ) : null
+
   return (
     <>
-      {React.cloneElement(children, {
+      {React.cloneElement(children as any, {
         ref: triggerRef,
         onMouseEnter: handleMouseEnter,
         onMouseLeave: handleMouseLeave,
       })}
-      {isVisible && (
-        <div
-          className={styles.tooltip}
-          style={{
-            top: `${position.top}px`,
-            left: `${position.left}px`,
-          }}
-        >
-          <div className={styles.tooltipContent}>{content}</div>
-          <div className={styles.tooltipArrow} />
-        </div>
-      )}
+      {/* Use createPortal to render outside the current DOM hierarchy */}
+      {typeof document !== 'undefined' && ReactDOM.createPortal(tooltipElement, document.body)}
     </>
   )
 }

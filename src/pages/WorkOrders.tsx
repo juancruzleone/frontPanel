@@ -24,6 +24,7 @@ import { translateWorkOrderStatus, translatePriority, translateWorkType } from "
 import { useAuthStore } from "../store/authStore"
 import { useWorkOrdersTour } from "../features/workOrders/hooks/useWorkOrdersTour"
 import TourButton from "../shared/components/Buttons/TourButton"
+import Tooltip from "../shared/components/Tooltip/Tooltip"
 
 const renderTechnicianInfo = (order: WorkOrder, t: (key: string) => string) => {
   if (order.tecnico && (order.tecnico as any).userName) {
@@ -555,66 +556,72 @@ const WorkOrders = () => {
 
                   <div className={styles.cardActions}>
                     <div className={styles.actionButtons}>
-                      <button
-                        className={styles.iconButton}
-                        onClick={() => handleOpenDetails(order)}
-                        aria-label={t('workOrders.tooltips.viewDetails') || 'Ver detalles'}
-                        data-tooltip={t('workOrders.tooltips.viewDetails') || 'Ver detalles'}
-                      >
-                        <Eye size={20} />
-                      </button>
-                      {order.estado === "asignada" && permissions?.canStartWorkOrder && (
+                      <Tooltip content={t('workOrders.tooltips.viewDetails') || 'Ver detalles'}>
                         <button
                           className={styles.iconButton}
-                          onClick={() => handleStart(order._id!)}
-                          aria-label={t('workOrders.startOrder')}
-                          data-tooltip={t('workOrders.startOrder')}
+                          onClick={() => handleOpenDetails(order)}
+                          aria-label={t('workOrders.tooltips.viewDetails') || 'Ver detalles'}
                         >
-                          <Play size={20} />
+                          <Eye size={20} />
                         </button>
+                      </Tooltip>
+                      {order.estado === "asignada" && permissions?.canStartWorkOrder && (
+                        <Tooltip content={t('workOrders.startOrder')}>
+                          <button
+                            className={styles.iconButton}
+                            onClick={() => handleStart(order._id!)}
+                            aria-label={t('workOrders.startOrder')}
+                          >
+                            <Play size={20} />
+                          </button>
+                        </Tooltip>
                       )}
                       {order.estado === "en_progreso" && permissions?.canCompleteWorkOrder && (
-                        <button
-                          className={styles.iconButton}
-                          onClick={() => handleOpenComplete(order)}
-                          aria-label={t('workOrders.completeOrder')}
-                          data-tooltip={t('workOrders.completeOrder')}
-                        >
-                          <Check size={20} />
-                        </button>
+                        <Tooltip content={t('workOrders.completeOrder')}>
+                          <button
+                            className={styles.iconButton}
+                            onClick={() => handleOpenComplete(order)}
+                            aria-label={t('workOrders.completeOrder')}
+                          >
+                            <Check size={20} />
+                          </button>
+                        </Tooltip>
                       )}
                       {permissions?.canAssignWorkOrders && order.estado === "pendiente" && (
-                        <button
-                          className={styles.iconButton}
-                          onClick={() => handleOpenAssign(order)}
-                          aria-label={t('workOrders.assignTechnician')}
-                          data-tooltip={t('workOrders.assignTechnician')}
-                        >
-                          <User size={20} />
-                        </button>
+                        <Tooltip content={t('workOrders.assignTechnician')}>
+                          <button
+                            className={styles.iconButton}
+                            onClick={() => handleOpenAssign(order)}
+                            aria-label={t('workOrders.assignTechnician')}
+                          >
+                            <User size={20} />
+                          </button>
+                        </Tooltip>
                       )}
                       {permissions?.canEditWorkOrders && shouldShowEditButton(order) && (
-                        <button
-                          className={styles.iconButton}
-                          onClick={() => handleOpenEdit(order)}
-                          aria-label={t('workOrders.editOrder')}
-                          data-tooltip={t('workOrders.editOrder')}
-                        >
-                          <Edit size={20} />
-                        </button>
+                        <Tooltip content={t('workOrders.editOrder')}>
+                          <button
+                            className={styles.iconButton}
+                            onClick={() => handleOpenEdit(order)}
+                            aria-label={t('workOrders.editOrder')}
+                          >
+                            <Edit size={20} />
+                          </button>
+                        </Tooltip>
                       )}
                       {permissions?.canDeleteWorkOrders && (
-                        <button
-                          className={styles.iconButton}
-                          onClick={() => {
-                            setWorkOrderToDelete(order)
-                            setIsDeleteModalOpen(true)
-                          }}
-                          aria-label={t('workOrders.deleteOrder')}
-                          data-tooltip={t('workOrders.deleteOrder')}
-                        >
-                          <Trash size={20} />
-                        </button>
+                        <Tooltip content={t('workOrders.deleteOrder')}>
+                          <button
+                            className={styles.iconButton}
+                            onClick={() => {
+                              setWorkOrderToDelete(order)
+                              setIsDeleteModalOpen(true)
+                            }}
+                            aria-label={t('workOrders.deleteOrder')}
+                          >
+                            <Trash size={20} />
+                          </button>
+                        </Tooltip>
                       )}
                     </div>
                   </div>
