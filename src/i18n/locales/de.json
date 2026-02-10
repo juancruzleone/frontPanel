@@ -1240,6 +1240,8 @@
     "retryLoadCategories": "Kategorien erneut laden",
     "searchDevicesPlaceholder": "Nach Gerät, Standort oder Kategorie suchen...",
     "noDevicesFound": "Keine Geräte mit diesem Suchbegriff gefunden",
+    "showingDevices": "Zeige {{start}}-{{end}} von {{total}} Geräten",
+    "of": "von",
     "noMaintenanceAvailable": "Keine Wartung für dieses Gerät verfügbar",
     "errorLoadingMaintenance": "Fehler beim Laden der Wartung",
     "tour": {

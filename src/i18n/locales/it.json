@@ -1335,7 +1335,7 @@
     "downloadLastMaintenance": "Scarica ultima manutenzione",
     "viewMaintenanceHistory": "Visualizza storico manutenzioni",
     "editDevice": "Modifica dispositivo",
-    "deleteDevice": "Elimina dispositivo",
+    "deleteDevice": "Rimuovi dispositivo",
     "page": "Pagina {{currentPage}} di {{totalPages}}",
     "confirmDeleteTitle": "Eliminare il dispositivo?",
     "confirmDeleteDescription": "Questa azione non può essere annullata.",
@@ -1638,7 +1638,6 @@
     "confirmDeleteDescription": "Questa azione non può essere annullata. Il documento verrà eliminato definitivamente.",
     "deleteSuccess": "Documento eliminato con successo"
   },
-  "installationDetails": "Dettagli dell'installazione",
   "planLimits": {
     "title": "Limite del Piano Raggiunto",
     "subtitle": "Hai raggiunto il limite massimo del tuo piano attuale",
