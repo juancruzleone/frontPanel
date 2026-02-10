@@ -406,18 +406,18 @@ const DeviceForm = ({
 
         {formErrors.general && <p className={styles.generalError}>{formErrors.general}</p>}
 
-        <div className={`${formButtonStyles.actions} ${styles.deviceFormActions}`}>
-          <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
-            {t('common.cancel')}
-          </button>
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className={formButtonStyles.submitButton}
-          >
-            {isSubmitting ? t('common.saving') : isEditMode ? t('common.update') : t('common.create')}
-          </button>
-        </div>
+      </div>
+      <div className={`${formButtonStyles.actions} ${styles.deviceFormActions}`}>
+        <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
+          {t('common.cancel')}
+        </button>
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className={formButtonStyles.submitButton}
+        >
+          {isSubmitting ? t('common.saving') : isEditMode ? t('common.update') : t('common.create')}
+        </button>
       </div>
     </form>
   )

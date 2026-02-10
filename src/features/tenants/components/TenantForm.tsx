@@ -12,11 +12,11 @@ interface TenantFormProps {
   isLoading?: boolean
 }
 
-const TenantForm: React.FC<TenantFormProps> = ({ 
-  tenant, 
-  onSubmit, 
-  onCancel, 
-  isLoading = false 
+const TenantForm: React.FC<TenantFormProps> = ({
+  tenant,
+  onSubmit,
+  onCancel,
+  isLoading = false
 }) => {
   const { t } = useTranslation()
   const isEdit = !!tenant
@@ -78,7 +78,7 @@ const TenantForm: React.FC<TenantFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     // Validar todos los campos
     const newErrors: ValidationErrors = {}
     Object.keys(formData).forEach(field => {

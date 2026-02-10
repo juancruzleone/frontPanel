@@ -363,8 +363,9 @@
     "saving": "Saving...",
     "categories": "Categories",
     "installationTypes": "Installation types",
-    "manageCategories": "Manage Categories",
+    "manageCategories": "Manage Device Categories",
     "manageInstallationTypes": "Manage Installation Types",
+    "manageDevices": "Manage Categories",
     "viewCategories": "View Device Categories",
     "viewInstallationTypes": "View Installation Types",
     "createCategory": "Create Device Category",
@@ -702,7 +703,15 @@
         "restart": "View tutorial"
       },
       "progressText": "{{current}} of {{total}}"
-    }
+    },
+    "typeUpdatedSuccess": "Installation type updated successfully",
+    "typeDeletedSuccess": "Installation type deleted successfully",
+    "confirmDeleteType": "Delete installation type {{name}}?",
+    "deleteTypeWarning": "This action cannot be undone.",
+    "categoryUpdatedSuccess": "Category updated successfully",
+    "categoryDeletedSuccess": "Category deleted successfully",
+    "confirmDeleteCategoryWithName": "Delete category {{name}}?",
+    "deleteCategoryWarning": "This action cannot be undone."
   },
   "assets": {
     "edit": "Edit",

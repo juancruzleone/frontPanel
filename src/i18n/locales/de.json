@@ -477,8 +477,9 @@
     "location": "Standort",
     "saving": "Speichern...",
     "categories": "Kategorien",
-    "manageCategories": "Kategorien verwalten",
+    "manageCategories": "Gerätekategorien verwalten",
     "manageInstallationTypes": "Installationstypen verwalten",
+    "manageDevices": "Kategorien verwalten",
     "viewCategories": "Gerätekategorien anzeigen",
     "viewInstallationTypes": "Installationstypen anzeigen",
     "createCategory": "Gerätekategorie erstellen",
@@ -770,7 +771,15 @@
         "restart": "Tutorial anzeigen"
       },
       "progressText": "{{current}} von {{total}}"
-    }
+    },
+    "typeUpdatedSuccess": "Installationstyp erfolgreich aktualisiert",
+    "typeDeletedSuccess": "Installationstyp erfolgreich gelöscht",
+    "confirmDeleteType": "Installationstyp {{name}} löschen?",
+    "deleteTypeWarning": "Diese Aktion kann nicht rückgängig gemacht werden.",
+    "categoryUpdatedSuccess": "Kategorie erfolgreich aktualisiert",
+    "categoryDeletedSuccess": "Kategorie erfolgreich gelöscht",
+    "confirmDeleteCategoryWithName": "Kategorie {{name}} löschen?",
+    "deleteCategoryWarning": "Diese Aktion kann nicht rückgängig gemacht werden."
   },
   "assets": {
     "edit": "Bearbeiten",

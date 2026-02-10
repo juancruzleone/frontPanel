@@ -4,7 +4,7 @@
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
-  padding: 1.5rem 1.5rem;
+  padding: 2rem 2.5rem;
   border-top: 1px solid var(--color-card-border);
   background: var(--color-card);
   margin-top: auto;
@@ -29,8 +29,6 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  flex: 1;
-  max-width: 200px;
 }
 
 /* Modo claro para cancelButton */
@@ -99,8 +97,6 @@
   justify-content: center;
   box-shadow: 0 4px 12px rgba(5, 126, 116, 0.1);
   box-sizing: border-box;
-  flex: 1;
-  max-width: 200px;
 }
 
 .submitButton:hover {

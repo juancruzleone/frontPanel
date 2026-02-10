@@ -302,7 +302,6 @@
 
 .confirmDescription {
   font-size: 1rem;
-  margin-bottom: 2rem;
   color: #374151;
   line-height: 1.5;
 }
@@ -592,7 +591,6 @@
 .formGroup {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
   margin-bottom: 1.5rem;
 }
 

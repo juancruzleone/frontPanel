@@ -13,11 +13,11 @@ interface ModalConfirmDeleteProps {
   onSuccess: () => void
 }
 
-const ModalConfirmDelete: React.FC<ModalConfirmDeleteProps> = ({ 
-  isOpen, 
-  tenant, 
-  onClose, 
-  onSuccess 
+const ModalConfirmDelete: React.FC<ModalConfirmDeleteProps> = ({
+  isOpen,
+  tenant,
+  onClose,
+  onSuccess
 }) => {
   const { t } = useTranslation()
   const [isLoading, setIsLoading] = useState(false)
@@ -67,7 +67,7 @@ const ModalConfirmDelete: React.FC<ModalConfirmDeleteProps> = ({
           <p className={styles.confirmDescription}>
             {t('tenants.confirmDeleteDescription')}
           </p>
-          
+
           <div style={{ textAlign: 'left', marginBottom: '2rem' }}>
             <p style={{ margin: '0.5rem 0', fontSize: '0.9rem', color: 'var(--color-text)', opacity: 0.8 }}>
               <strong>{t('tenants.name')}:</strong> {tenant.name}
@@ -79,28 +79,28 @@ const ModalConfirmDelete: React.FC<ModalConfirmDeleteProps> = ({
               <strong>{t('tenants.email')}:</strong> {tenant.email}
             </p>
           </div>
+        </div>
 
-          <div className={buttonStyles.actions}>
-            <button
-              type="button"
-              onClick={handleCancel}
-              className={buttonStyles.cancelButton}
-              disabled={isLoading}
-            >
-              {t('common.cancel')}
-            </button>
-            <button
-              type="button"
-              onClick={handleDelete}
-              className={buttonStyles.submitButton}
-              disabled={isLoading}
-              style={{ background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', borderColor: '#ef4444', color: 'white' }}
-              onMouseEnter={(e) => { if (!isLoading) { e.currentTarget.style.background = 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)'; e.currentTarget.style.color = 'white'; }}}
-              onMouseLeave={(e) => { if (!isLoading) { e.currentTarget.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'; e.currentTarget.style.color = 'white'; }}}
-            >
-              {isLoading ? t('common.loading') : t('common.delete')}
-            </button>
-          </div>
+        <div className={buttonStyles.actions}>
+          <button
+            type="button"
+            onClick={handleCancel}
+            className={buttonStyles.cancelButton}
+            disabled={isLoading}
+          >
+            {t('common.cancel')}
+          </button>
+          <button
+            type="button"
+            onClick={handleDelete}
+            className={buttonStyles.submitButton}
+            disabled={isLoading}
+            style={{ background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', borderColor: '#ef4444', color: 'white' }}
+            onMouseEnter={(e) => { if (!isLoading) { e.currentTarget.style.background = 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)'; e.currentTarget.style.color = 'white'; } }}
+            onMouseLeave={(e) => { if (!isLoading) { e.currentTarget.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'; e.currentTarget.style.color = 'white'; } }}
+          >
+            {isLoading ? t('common.loading') : t('common.delete')}
+          </button>
         </div>
       </div>
     </div>

@@ -509,8 +509,9 @@
     "selectInstallationType": "설치 유형 선택",
     "saving": "저장 중...",
     "categories": "카테고리",
-    "manageCategories": "카테고리 관리",
+    "manageCategories": "장치 카테고리 관리",
     "manageInstallationTypes": "설치 유형 관리",
+    "manageDevices": "카테고리 관리",
     "viewCategories": "디바이스 카테고리 보기",
     "viewInstallationTypes": "설치 유형 보기",
     "createCategory": "장치 카테고리 생성",
@@ -842,7 +843,15 @@
         "restart": "튜토리얼 보기"
       },
       "progressText": "{{total}} 중 {{current}}"
-    }
+    },
+    "typeUpdatedSuccess": "설치 유형이 성공적으로 업데이트되었습니다",
+    "typeDeletedSuccess": "설치 유형이 성공적으로 삭제되었습니다",
+    "confirmDeleteType": "설치 유형 {{name}}을(를) 삭제하시겠습니까?",
+    "deleteTypeWarning": "이 작업은 취소할 수 없습니다.",
+    "categoryUpdatedSuccess": "카테고리가 성공적으로 업데이트되었습니다",
+    "categoryDeletedSuccess": "카테고리가 성공적으로 삭제되었습니다",
+    "confirmDeleteCategoryWithName": "카테고리 {{name}}을(를) 삭제하시겠습니까?",
+    "deleteCategoryWarning": "이 작업은 취소할 수 없습니다."
   },
   "assets": {
     "edit": "편집",

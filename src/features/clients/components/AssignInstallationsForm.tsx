@@ -95,23 +95,23 @@ const AssignInstallationsForm = ({
           )}
         </div>
 
-        <div className={formButtonStyles.actions}>
-          <button
-            type="button"
-            onClick={onCancel}
-            className={formButtonStyles.cancelButton}
-            disabled={isSubmitting}
-          >
-            {t('common.cancel')}
-          </button>
-          <button
-            type="submit"
-            className={formButtonStyles.submitButton}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? t('common.assigning') : t('clients.assignInstallations')}
-          </button>
-        </div>
+      </div>
+      <div className={formButtonStyles.actions}>
+        <button
+          type="button"
+          onClick={onCancel}
+          className={formButtonStyles.cancelButton}
+          disabled={isSubmitting}
+        >
+          {t('common.cancel')}
+        </button>
+        <button
+          type="submit"
+          className={formButtonStyles.submitButton}
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? t('common.assigning') : t('clients.assignInstallations')}
+        </button>
       </div>
     </form>
   )

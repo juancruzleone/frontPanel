@@ -504,8 +504,9 @@
     "selectInstallationType": "اختر نوع التركيبة",
     "saving": "جاري الحفظ...",
     "categories": "الفئات",
-    "manageCategories": "إدارة الفئات",
+    "manageCategories": "إدارة فئات الأجهزة",
     "manageInstallationTypes": "إدارة أنواع التركيبات",
+    "manageDevices": "إدارة الفئات",
     "viewCategories": "عرض فئات الأجهزة",
     "viewInstallationTypes": "عرض أنواع التركيبات",
     "createCategory": "إنشاء فئة أجهزة",
@@ -838,7 +839,15 @@
         "restart": "عرض الدرس"
       },
       "progressText": "{{current}} من {{total}}"
-    }
+    },
+    "typeUpdatedSuccess": "تم تحديث نوع التثبيت بنجاح",
+    "typeDeletedSuccess": "تم حذف نوع التثبيت بنجاح",
+    "confirmDeleteType": "حذف نوع التثبيت {{name}}؟",
+    "deleteTypeWarning": "لا يمكن التراجع عن هذا الإجراء.",
+    "categoryUpdatedSuccess": "تم تحديث الفئة بنجاح",
+    "categoryDeletedSuccess": "تم حذف الفئة بنجاح",
+    "confirmDeleteCategoryWithName": "حذف الفئة {{name}}؟",
+    "deleteCategoryWarning": "لا يمكن التراجع عن هذا الإجراء."
   },
   "assets": {
     "edit": "تعديل",

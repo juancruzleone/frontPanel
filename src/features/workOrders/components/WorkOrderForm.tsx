@@ -360,24 +360,24 @@ const WorkOrderForm = ({
             </div>
           </div>
 
-          <div className={formButtonStyles.actions}>
-            <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
-              {t('workOrders.cancel')}
-            </button>
-            <button
-              type="submit"
-              disabled={
-                isSubmitting ||
-                (isEditMode && ["completada", "en_progreso"].includes(initialData?.estado || ""))
-              }
-              className={formButtonStyles.submitButton}
-            >
-              {isSubmitting ? t('workOrders.saving') : isEditMode ? t('common.update') : t('common.save')}
-            </button>
-          </div>
-
-          {formErrors.submit && <div className={styles.formError}>{formErrors.submit}</div>}
         </div>
+        <div className={formButtonStyles.actions}>
+          <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
+            {t('workOrders.cancel')}
+          </button>
+          <button
+            type="submit"
+            disabled={
+              isSubmitting ||
+              (isEditMode && ["completada", "en_progreso"].includes(initialData?.estado || ""))
+            }
+            className={formButtonStyles.submitButton}
+          >
+            {isSubmitting ? t('workOrders.saving') : isEditMode ? t('common.update') : t('common.save')}
+          </button>
+        </div>
+
+        {formErrors.submit && <div className={styles.formError}>{formErrors.submit}</div>}
       </form>
 
       <DatePickerModal

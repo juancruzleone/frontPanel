@@ -24,3 +24,22 @@ export const createCategory = async (categoryData: any) => {
   if (!response.ok) throw new Error("Error al crear categoría");
   return await response.json();
 };
+
+export const updateCategory = async (id: string, categoryData: any) => {
+  const response = await fetch(`${API_URL}categorias/${id}`, {
+    method: "PUT",
+    headers: getHeadersWithContentType(),
+    body: JSON.stringify(categoryData),
+  });
+  if (!response.ok) throw new Error("Error al actualizar categoría");
+  return await response.json();
+};
+
+export const deleteCategory = async (id: string) => {
+  const response = await fetch(`${API_URL}categorias/${id}`, {
+    method: "DELETE",
+    headers: getAuthHeaders(),
+  });
+  if (!response.ok) throw new Error("Error al eliminar categoría");
+  return await response.json();
+};

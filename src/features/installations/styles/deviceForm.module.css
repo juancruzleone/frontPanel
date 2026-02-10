@@ -112,7 +112,6 @@ html[data-theme="dark"] .installationInfo h4::before {
 .formGroup {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
   position: relative;
   margin-bottom: 1rem;
 }

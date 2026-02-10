@@ -364,8 +364,9 @@
     "saving": "Guardando...",
     "categories": "Categorías",
     "installationTypes": "Tipos de Instalación",
-    "manageCategories": "Gestionar Categorías",
+    "manageCategories": "Gestionar Categoría de Dispositivos",
     "manageInstallationTypes": "Gestionar Tipos de Instalación",
+    "manageDevices": "Gestionar Categorías",
     "viewCategories": "Ver Categorías de Dispositivos",
     "viewInstallationTypes": "Ver Tipos de Instalación",
     "createCategory": "Crear Categoría de Dispositivo",
@@ -692,7 +693,15 @@
         "restart": "Ver tutorial"
       },
       "progressText": "{{current}} de {{total}}"
-    }
+    },
+    "typeUpdatedSuccess": "Tipo de instalación actualizado exitosamente",
+    "typeDeletedSuccess": "Tipo de instalación eliminado exitosamente",
+    "confirmDeleteType": "¿Eliminar tipo de instalación {{name}}?",
+    "deleteTypeWarning": "Esta acción no se puede deshacer.",
+    "categoryUpdatedSuccess": "Categoría actualizada exitosamente",
+    "categoryDeletedSuccess": "Categoría eliminada exitosamente",
+    "confirmDeleteCategoryWithName": "¿Eliminar categoría {{name}}?",
+    "deleteCategoryWarning": "Esta acción no se puede deshacer."
   },
   "assets": {
     "edit": "Editar",

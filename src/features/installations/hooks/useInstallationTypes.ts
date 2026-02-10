@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react"
-import { 
-  fetchInstallationTypes, 
-  createInstallationType, 
+import {
+  fetchInstallationTypes,
+  createInstallationType,
   updateInstallationType as apiUpdateInstallationType,
   deleteInstallationType as apiDeleteInstallationType
 } from "../services/installationTypeServices"
@@ -19,15 +19,15 @@ const useInstallationTypes = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const loadInstallationTypes = useCallback(async () => {
+  const loadInstallationTypes = useCallback(async (includeInactive = false) => {
     setLoading(true)
     setError(null)
     try {
-      
-      
-      const data = await fetchInstallationTypes()
-      
-      
+
+
+      const data = await fetchInstallationTypes(includeInactive)
+
+
       setInstallationTypes(data)
     } catch (err: any) {
       console.error("Error al cargar tipos de instalación:", err)
@@ -59,7 +59,7 @@ const useInstallationTypes = () => {
   const updateInstallationType = async (id: string, data: Partial<InstallationType>): Promise<{ message: string }> => {
     try {
       const updatedType = await apiUpdateInstallationType(id, data)
-      setInstallationTypes(prev => prev.map(type => 
+      setInstallationTypes(prev => prev.map(type =>
         type._id === id ? { ...type, ...updatedType } : type
       ))
       return { message: "Tipo de instalación actualizado con éxito" }

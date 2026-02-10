@@ -1,7 +1,7 @@
 import type React from "react"
 
 import { useState, useCallback } from "react"
-import { createCategory, fetchCategories } from "../services/categoryServices"
+import { createCategory, fetchCategories, updateCategory as apiUpdateCategory, deleteCategory as apiDeleteCategory } from "../services/categoryServices"
 import { useTranslation } from "react-i18next"
 import { validateCategoryForm, validateCategoryField } from "../validators/categoryValidations"
 
@@ -86,9 +86,8 @@ const useCategories = () => {
 
   const updateCategory = async (id: string, data: Partial<Category>): Promise<{ message: string }> => {
     try {
-      // Aquí deberías llamar a un servicio de actualización
-      // Por ahora simulamos la actualización
-      setCategories(prev => prev.map(cat => 
+      await apiUpdateCategory(id, data)
+      setCategories(prev => prev.map(cat =>
         cat._id === id ? { ...cat, ...data } : cat
       ))
       return { message: "Categoría actualizada con éxito" }
@@ -100,8 +99,7 @@ const useCategories = () => {
 
   const removeCategory = async (id: string): Promise<{ message: string }> => {
     try {
-      // Aquí deberías llamar a un servicio de eliminación
-      // Por ahora simulamos la eliminación
+      await apiDeleteCategory(id)
       setCategories(prev => prev.filter(cat => cat._id !== id))
       return { message: "Categoría eliminada con éxito" }
     } catch (err: any) {

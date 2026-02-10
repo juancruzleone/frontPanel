@@ -26,19 +26,19 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
   const [error, setError] = useState("")
   const [touched, setTouched] = useState(false)
 
-  
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!selectedTechnician) {
       setError(t('workOrders.selectTechnician'))
       return
     }
     try {
-      
+
       const result = await onAssign(selectedTechnician)
-      
+
       onSuccess(result.message)
     } catch (err: any) {
       console.error("Error al asignar técnico:", err)
@@ -86,27 +86,27 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
           {error && touched && <p className={styles.inputError}>{error}</p>}
         </div>
 
-        {/* Solo mostrar botones si hay técnicos disponibles */}
-        {technicians.length > 0 && (
-          <div className={formButtonStyles.actions}>
-            <button
-              type="button"
-              onClick={onCancel}
-              disabled={isSubmitting}
-              className={formButtonStyles.cancelButton}
-            >
-              {t('common.cancel')}
-            </button>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className={formButtonStyles.submitButton}
-            >
-              {isSubmitting ? t('workOrders.assigning') : t('workOrders.assign')}
-            </button>
-          </div>
-        )}
       </div>
+      {/* Solo mostrar botones si hay técnicos disponibles */}
+      {technicians.length > 0 && (
+        <div className={formButtonStyles.actions}>
+          <button
+            type="button"
+            onClick={onCancel}
+            disabled={isSubmitting}
+            className={formButtonStyles.cancelButton}
+          >
+            {t('common.cancel')}
+          </button>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className={formButtonStyles.submitButton}
+          >
+            {isSubmitting ? t('workOrders.assigning') : t('workOrders.assign')}
+          </button>
+        </div>
+      )}
     </form>
   )
 }

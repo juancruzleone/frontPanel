@@ -14,8 +14,8 @@ import ModalConfirmDelete from "../features/installations/components/ModalConfir
 import ModalAddDevice from "../features/installations/components/ModalAddDevice"
 import ModalCreateCategory from "../features/installations/components/ModalCreateCategory"
 import ModalCreateInstallationType from "../features/installations/components/ModalCreateInstallationType"
-import ModalViewInstallationTypes from "../features/installations/components/ModalViewInstallationTypes"
-import ModalViewCategories from "../features/installations/components/ModalViewCategories"
+import ModalManageInstallationTypes from "../features/installations/components/ModalManageInstallationTypes"
+import ModalManageCategories from "../features/installations/components/ModalManageCategories"
 import { Edit, Trash, Plus, HelpCircle, Users, FilterX } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
@@ -174,8 +174,8 @@ const Installations = () => {
   const [isDeviceModalOpen, setIsDeviceModalOpen] = useState(false)
   const [isCreateCategoryModalOpen, setIsCreateCategoryModalOpen] = useState(false)
   const [isCreateInstallationTypeModalOpen, setIsCreateInstallationTypeModalOpen] = useState(false)
-  const [isViewInstallationTypesModalOpen, setIsViewInstallationTypesModalOpen] = useState(false)
-  const [isViewCategoriesModalOpen, setIsViewCategoriesModalOpen] = useState(false)
+  const [isManageInstallationTypesModalOpen, setIsManageInstallationTypesModalOpen] = useState(false)
+  const [isManageCategoriesModalOpen, setIsManageCategoriesModalOpen] = useState(false)
   const [initialData, setInitialData] = useState<Installation | null>(null)
   const [responseMessage, setResponseMessage] = useState("")
   const [isError, setIsError] = useState(false)
@@ -353,13 +353,13 @@ const Installations = () => {
             )}
             <button
               className={styles.manageButton}
-              onClick={() => setIsViewInstallationTypesModalOpen(true)}
-              data-tour="view-installation-types-btn"
+              onClick={() => setIsManageInstallationTypesModalOpen(true)}
+              data-tour="manage-installation-types-btn"
             >
-              {t('installations.viewInstallationTypes')}
+              {t('installations.manageInstallationTypes')}
             </button>
-            <button className={styles.manageButton} onClick={() => setIsViewCategoriesModalOpen(true)}>
-              {t('installations.viewCategories')}
+            <button className={styles.manageButton} onClick={() => setIsManageCategoriesModalOpen(true)}>
+              {t('installations.manageCategories')}
             </button>
           </div>
         )}
@@ -526,14 +526,14 @@ const Installations = () => {
         onCreate={addInstallationType}
       />
 
-      <ModalViewInstallationTypes
-        isOpen={isViewInstallationTypesModalOpen}
-        onRequestClose={() => setIsViewInstallationTypesModalOpen(false)}
+      <ModalManageInstallationTypes
+        isOpen={isManageInstallationTypesModalOpen}
+        onRequestClose={() => setIsManageInstallationTypesModalOpen(false)}
       />
 
-      <ModalViewCategories
-        isOpen={isViewCategoriesModalOpen}
-        onRequestClose={() => setIsViewCategoriesModalOpen(false)}
+      <ModalManageCategories
+        isOpen={isManageCategoriesModalOpen}
+        onRequestClose={() => setIsManageCategoriesModalOpen(false)}
       />
 
       <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={closeModal} mensaje={responseMessage} />

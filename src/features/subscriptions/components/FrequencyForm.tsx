@@ -288,15 +288,15 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
         <button
           type="button"
           onClick={onCancel}
-          disabled={isSubmitting}
           className={formButtonStyles.cancelButton}
+          disabled={isSubmitting}
         >
           {t('common.cancel')}
         </button>
         <button
           type="submit"
-          disabled={isSubmitting || !canSave()}
           className={formButtonStyles.submitButton}
+          disabled={isSubmitting || !canSave()}
         >
           {isSubmitting ? t('common.saving') : t('common.save')}
         </button>

@@ -501,8 +501,9 @@
     "selectInstallationType": "Sélectionner le type d'installation",
     "saving": "Enregistrement...",
     "categories": "Catégories",
-    "manageCategories": "Gérer les Catégories",
+    "manageCategories": "Gérer les Catégories d'Appareils",
     "manageInstallationTypes": "Gérer les Types d'Installation",
+    "manageDevices": "Gérer les Catégories",
     "viewCategories": "Voir les Catégories de Dispositifs",
     "viewInstallationTypes": "Voir les Types d'Installation",
     "createCategory": "Créer une Catégorie de Dispositif",
@@ -829,7 +830,15 @@
         "restart": "Voir le tutoriel"
       },
       "progressText": "{{current}} sur {{total}}"
-    }
+    },
+    "typeUpdatedSuccess": "Type d'installation mis à jour avec succès",
+    "typeDeletedSuccess": "Type d'installation supprimé avec succès",
+    "confirmDeleteType": "Supprimer le type d'installation {{name}} ?",
+    "deleteTypeWarning": "Cette action ne peut pas être annulée.",
+    "categoryUpdatedSuccess": "Catégorie mise à jour avec succès",
+    "categoryDeletedSuccess": "Catégorie supprimée avec succès",
+    "confirmDeleteCategoryWithName": "Supprimer la catégorie {{name}} ?",
+    "deleteCategoryWarning": "Cette action ne peut pas être annulée."
   },
   "assets": {
     "edit": "Éditer",

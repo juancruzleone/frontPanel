@@ -507,8 +507,9 @@
     "selectInstallationType": "接続タイプを選択",
     "saving": "保存中...",
     "categories": "カテゴリ",
-    "manageCategories": "カテゴリ管理",
+    "manageCategories": "デバイスカテゴリ管理",
     "manageInstallationTypes": "設置種別管理",
+    "manageDevices": "カテゴリ管理",
     "viewCategories": "デバイスカテゴリ表示",
     "viewInstallationTypes": "設置種別表示",
     "createCategory": "デバイスカテゴリの作成",
@@ -841,7 +842,15 @@
         "restart": "チュートリアルを見る"
       },
       "progressText": "{{total}} 中 {{current}}"
-    }
+    },
+    "typeUpdatedSuccess": "インストールタイプが正常に更新されました",
+    "typeDeletedSuccess": "インストールタイプが正常に削除されました",
+    "confirmDeleteType": "インストールタイプ {{name}} を削除しますか？",
+    "deleteTypeWarning": "この操作は取り消すことができません。",
+    "categoryUpdatedSuccess": "カテゴリが正常に更新されました",
+    "categoryDeletedSuccess": "カテゴリが正常に削除されました",
+    "confirmDeleteCategoryWithName": "カテゴリ {{name}} を削除しますか？",
+    "deleteCategoryWarning": "この操作は取り消すことができません。"
   },
   "assets": {
     "edit": "編集",
