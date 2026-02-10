@@ -1,14 +1,15 @@
 /* Estilos estandarizados para botones de formularios */
 
 .actions {
-  display: flex;
+  display: flex !important;
   gap: 1rem;
-  justify-content: flex-end;
+  justify-content: flex-end !important;
   padding: 2rem 2.5rem;
   border-top: 1px solid var(--color-card-border);
   background: var(--color-card);
   margin-top: auto;
   box-sizing: border-box;
+  width: 100% !important;
 }
 
 .cancelButton {
@@ -21,13 +22,14 @@
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.2s ease;
-  min-width: 120px;
+  width: 140px !important;
+  min-width: 140px !important;
   height: 48px !important;
   min-height: 48px !important;
   max-height: 48px !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   box-sizing: border-box;
 }
 
@@ -88,13 +90,14 @@
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.2s ease;
-  min-width: 120px;
+  width: 140px !important;
+  min-width: 140px !important;
   height: 48px !important;
   min-height: 48px !important;
   max-height: 48px !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   box-shadow: 0 4px 12px rgba(5, 126, 116, 0.1);
   box-sizing: border-box;
 }
@@ -121,8 +124,6 @@
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(5, 126, 116, 0.3);
 }
-
-
 
 .submitButton:active {
   transform: translateY(0);
@@ -156,15 +157,16 @@
     margin-left: -1.5rem;
     margin-right: -1.5rem;
     margin-bottom: -1.5rem;
-    flex-direction: column;
+    flex-direction: row !important;
+    justify-content: flex-end !important;
     gap: 0.75rem;
   }
 
   .cancelButton,
   .submitButton {
-    width: 100%;
-    min-width: unset;
-    max-width: unset;
+    width: 140px !important;
+    min-width: 140px !important;
+    max-width: 140px !important;
   }
 }
 

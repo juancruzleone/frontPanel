@@ -162,37 +162,6 @@
     color: #dc2626;
 }
 
-.actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: flex-end;
-    padding: 1.5rem 2.5rem 2rem;
-    border-top: 1px solid var(--color-card-border);
-    background: var(--color-bg-light);
-    margin-top: auto;
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -200,29 +169,10 @@
         padding: 1.5rem;
         gap: 1.25rem;
     }
-
-    .actions {
-        padding: 1.25rem 1.5rem;
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-
-    .cancelButton,
-    .submitButton {
-        width: 100%;
-    }
-
-    .submitButton {
-        min-width: auto;
-    }
 }
 
 @media (max-width: 480px) {
     .formInner {
-        padding: 1rem;
-    }
-
-    .actions {
         padding: 1rem;
     }
 
@@ -240,11 +190,5 @@
         right: 0.5rem;
         width: 1.75rem;
         height: 1.75rem;
-    }
-
-    .submitButton {
-        min-width: auto;
-        font-size: 0.9rem;
-        padding: 0.75rem 1.5rem;
     }
 }

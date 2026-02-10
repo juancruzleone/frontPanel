@@ -164,28 +164,25 @@ const RegisterClientForm = ({
                     </div>
                 )}
 
-                <div className={formButtonStyles.actions}>
-                    <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
-                        {t('common.cancel')}
-                    </button>
-                    <button
-                        type="submit"
-                        disabled={isButtonDisabled}
-                        className={formButtonStyles.submitButton}
-                    >
-                        {isSubmitting ? (
-                            <>
-                                <div className={styles.buttonSpinner}></div>
-                                {t('clients.registering')}
-                            </>
-                        ) : (
-                            <>
-                                <FiUserPlus size={16} style={{ marginRight: '8px' }} />
-                                {t('clients.createClient')}
-                            </>
-                        )}
-                    </button>
-                </div>
+            </div>
+            <div className={formButtonStyles.actions}>
+                <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
+                    {t('common.cancel')}
+                </button>
+                <button
+                    type="submit"
+                    disabled={isButtonDisabled}
+                    className={formButtonStyles.submitButton}
+                >
+                    {isSubmitting ? (
+                        <>
+                            <div className={styles.buttonSpinner}></div>
+                            {t('clients.registering')}
+                        </>
+                    ) : (
+                        t('clients.createClient')
+                    )}
+                </button>
             </div>
         </form>
     )

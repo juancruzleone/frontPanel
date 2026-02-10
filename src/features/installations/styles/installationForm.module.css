@@ -59,7 +59,7 @@
   width: 100%;
 }
 
-.fullWidth > div {
+.fullWidth>div {
   width: 100% !important;
   min-width: 0 !important;
 }
@@ -233,6 +233,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -253,30 +254,14 @@
   line-height: 1.5;
 }
 
-.actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
-  padding: 1.5rem 2.5rem 2rem;
-  border-top: 1px solid var(--color-card-border);
-  background: var(--color-bg-light);
-  margin-top: auto;
-}
 
+/* Responsive */
 @media (max-width: 768px) {
   .formInner {
     padding: 1.5rem;
     gap: 1.25rem;
   }
-  .actions {
-    padding: 1.25rem 1.5rem;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  .cancelButton,
-  .submitButton {
-    width: 100%;
-  }
+
   .sectionTitle {
     font-size: 1.1rem;
   }
@@ -286,18 +271,18 @@
   .formInner {
     padding: 1rem;
   }
-  .actions {
-    padding: 1rem;
-  }
+
   .formGroup label {
     font-size: 0.9rem;
   }
+
   .formGroup input,
   .formGroup select,
   .formGroup textarea {
     padding: 0.75rem;
     font-size: 0.95rem;
   }
+
   .sectionTitle {
     font-size: 1rem;
   }

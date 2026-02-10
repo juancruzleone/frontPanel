@@ -164,25 +164,25 @@ const RegisterTechnicianForm = ({
           </div>
         )}
 
-        <div className={formButtonStyles.actions}>
-          <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
-            {t('common.cancel')}
-          </button>
-          <button
-            type="submit"
-            disabled={isButtonDisabled}
-            className={formButtonStyles.submitButton}
-          >
-            {isSubmitting ? (
-              <>
-                <div className={styles.buttonSpinner}></div>
-                {t('personal.registering')}
-              </>
-            ) : (
-              t('personal.createTechnician')
-            )}
-          </button>
-        </div>
+      </div>
+      <div className={formButtonStyles.actions}>
+        <button type="button" onClick={onCancel} disabled={isSubmitting} className={formButtonStyles.cancelButton}>
+          {t('common.cancel')}
+        </button>
+        <button
+          type="submit"
+          disabled={isButtonDisabled}
+          className={formButtonStyles.submitButton}
+        >
+          {isSubmitting ? (
+            <>
+              <div className={styles.buttonSpinner}></div>
+              {t('personal.registering')}
+            </>
+          ) : (
+            t('personal.createTechnician')
+          )}
+        </button>
       </div>
     </form>
   )
