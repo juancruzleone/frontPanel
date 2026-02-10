@@ -428,6 +428,32 @@ html:not([data-theme="dark"]) .selectWrapper select:focus,
   color: white !important;
 }
 
+.stockAvailable {
+  color: #10b981;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.stockUnavailable {
+  color: var(--color-danger);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.stockInfo {
+  color: var(--color-text);
+  opacity: 0.7;
+  font-size: 0.85rem;
+}
+
+.fieldHint {
+  color: var(--color-text);
+  opacity: 0.7;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  font-style: italic;
+}
+
 .retryButton {
   padding: 0.75rem 1.5rem;
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);

@@ -13,8 +13,8 @@ export const assetSchema = Yup.object().shape({
     .typeError('installations.validation.quantityMustBeNumber')
     .integer('installations.validation.quantityMustBeInteger')
     .min(1, 'installations.validation.quantityMin')
-    .max(100, 'installations.validation.quantityMax')
-    .required('installations.validation.quantityRequired'),
+    .optional()
+    .default(1),
 })
 
 export const deviceEditSchema = Yup.object().shape({

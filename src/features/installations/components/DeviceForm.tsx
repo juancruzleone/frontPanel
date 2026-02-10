@@ -134,6 +134,13 @@ const DeviceForm = ({
       return
     }
 
+    // Validación básica: verificar que hay un activo seleccionado
+    if (!isEditMode && !selectedAsset) {
+      setFormErrors({ general: t('installations.validation.assetRequired') })
+      setIsSubmitting(false)
+      return
+    }
+
     try {
       if (isEditMode) {
         // Modo edición
@@ -163,8 +170,10 @@ const DeviceForm = ({
           categoria: formData.categoria,
           estado: selectedAsset.estado || "Activo",
           templateId: selectedAsset.templateId,
-          cantidad: formData.cantidad,
+          cantidad: formData.cantidad || 1, // Asegurar que siempre se envíe la cantidad
         }
+
+        console.log('📤 Enviando datos al backend:', deviceData)
 
         const result = await onAddDevice(installation._id!, deviceData)
         onSubmitSuccess(result.message)
@@ -182,8 +191,10 @@ const DeviceForm = ({
         })
         setFormErrors({})
         setTouchedFields({})
+        setSelectedAsset(null)
       }
     } catch (err: any) {
+      console.error('❌ Error al procesar dispositivo:', err)
       setFormErrors({
         general:
           err.message ||
@@ -253,6 +264,18 @@ const DeviceForm = ({
                 <p>
                   <strong>{t('installations.assetName')}:</strong> {selectedAsset.nombre}
                 </p>
+                <p>
+                  <strong>{t('installations.availableStock')}:</strong>{' '}
+                  <span className={selectedAsset.stock > 0 ? styles.stockAvailable : styles.stockUnavailable}>
+                    {selectedAsset.stock || 0}
+                  </span>
+                </p>
+                {/* Stock usado - Oculto pero disponible en el código */}
+                {/* {selectedAsset.stockUsado > 0 && (
+                  <p className={styles.stockInfo}>
+                    <strong>{t('installations.usedStock')}:</strong> {selectedAsset.stockUsado}
+                  </p>
+                )} */}
               </div>
             )}
           </>
@@ -283,12 +306,21 @@ const DeviceForm = ({
               value={formData.cantidad}
               onChange={(e) => handleFieldChange("cantidad", e.target.value)}
               onBlur={() => handleFieldBlur("cantidad")}
-              disabled={isSubmitting}
+              disabled={isSubmitting || !selectedAsset}
               className={showError("cantidad") ? styles.errorInput : ""}
               placeholder="1"
               min="1"
-              max="100"
             />
+            {selectedAsset && selectedAsset.stock > 0 && (
+              <p className={styles.fieldHint}>
+                {t('installations.maxAvailable')}: {selectedAsset.stock}
+              </p>
+            )}
+            {selectedAsset && selectedAsset.stock === 0 && (
+              <p className={styles.error}>
+                {t('installations.noStockAvailable')}
+              </p>
+            )}
             {showError("cantidad") && <p className={styles.error}>{getErrorMessage("cantidad")}</p>}
           </div>
         )}

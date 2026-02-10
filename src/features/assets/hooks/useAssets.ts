@@ -42,28 +42,15 @@ const useAssets = () => {
 
   const loadCategories = useCallback(async () => {
     try {
-      console.log('=== DEBUG ASSETS CATEGORIES ===')
-      console.log('Cargando categorías de formularios...')
       const response = await fetchFormCategories()
-      console.log('Respuesta de categorías:', response)
       const fetchedCategories = response.categories || response
-      console.log('Categorías extraídas:', fetchedCategories)
       const categoryNames = fetchedCategories.map((cat: any) => cat.nombre)
-      console.log('Nombres de categorías:', categoryNames)
-      console.log('================================')
       setCategories(categoryNames)
     } catch (err: any) {
       console.error("Error al cargar categorías:", err)
-      // Si falla la carga de categorías, extraer de las plantillas como fallback
-      const uniqueCategories = new Set<string>()
-      templates.forEach((template) => {
-        if (template.categoria) {
-          uniqueCategories.add(template.categoria)
-        }
-      })
-      setCategories(Array.from(uniqueCategories))
+      setCategories([])
     }
-  }, [templates])
+  }, [])
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -77,13 +64,14 @@ const useAssets = () => {
     try {
       const result = await fetchTemplates(params)
       if (result.success && result.pagination) {
-        setTemplates(result.data)
+        setTemplates(Array.isArray(result.data) ? result.data : [])
       } else {
-        setTemplates(result)
+        setTemplates(Array.isArray(result) ? result : [])
       }
     } catch (err: any) {
       console.error("Error al cargar plantillas:", err)
       setError(err.message)
+      setTemplates([]) // Ensure templates is always an array even on error
     } finally {
       setTemplatesLoading(false)
     }
@@ -93,16 +81,30 @@ const useAssets = () => {
     setLoading(true)
     try {
       const result = await fetchAssets(params)
-      if (result.success && result.pagination) {
-        setAssets(result.data)
-        setPagination(result.pagination)
-      } else {
-        // Fallback para formato antiguo
+      
+      // La API devuelve: {assets: Array, total: number, totalPages: number}
+      if (result.assets && Array.isArray(result.assets)) {
+        setAssets(result.assets)
+        setPagination({
+          page: params.page || 1,
+          limit: params.limit || 10,
+          totalPages: result.totalPages || 1,
+          total: result.total || 0
+        })
+      } else if (result.success && result.data) {
+        // Formato alternativo con success
+        setAssets(Array.isArray(result.data) ? result.data : [])
+        setPagination(result.pagination || pagination)
+      } else if (Array.isArray(result)) {
+        // Fallback para array directo
         setAssets(result)
+      } else {
+        setAssets([])
       }
     } catch (err: any) {
       console.error("Error al cargar activos:", err)
       setError(err.message)
+      setAssets([])
     } finally {
       setLoading(false)
     }

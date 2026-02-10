@@ -81,14 +81,12 @@ export const deleteFormTemplate = async (id: string) => {
 // Funciones para categorías de formularios
 export const fetchFormCategories = async (includeInactive = false) => {
   const queryParams = includeInactive ? '?includeInactive=true' : ''
-  console.log('Fetching categories with URL:', `${API_URL}categorias-formularios${queryParams}`)
   const response = await fetch(`${API_URL}categorias-formularios${queryParams}`, {
     headers: getAuthHeaders(),
   })
 
   if (!response.ok) throw new Error("Error al obtener categorías")
   const result = await response.json()
-  console.log('Categories response:', result)
 
   // El backend ya filtra por tenantId, devolver resultado directamente
   return result.success ? result.data : result

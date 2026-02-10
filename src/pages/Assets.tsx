@@ -242,11 +242,11 @@ const Assets = () => {
             <p className={styles.loader}>{t('assets.noAssetsFound')}</p>
           ) : (
             <>
-              {assets.map((asset) => {
+              {assets.map((asset, index) => {
                 const template = asset.templateId ? getTemplateById(asset.templateId) : null
 
                 return (
-                  <div key={asset._id} className={styles.assetCard}>
+                  <div key={asset._id || `asset-${index}`} className={styles.assetCard}>
                     <div className={styles.assetInfo}>
                       <h3 className={styles.assetTitle}>{asset.nombre}</h3>
                       <p className={styles.assetTemplate}>

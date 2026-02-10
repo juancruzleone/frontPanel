@@ -276,16 +276,16 @@
 }
 
 .addTagButton {
-  background: #000;
-  color: #fff;
-  border: 2px solid #000;
+  background: rgba(5, 126, 116, 0.08);
+  color: #057E74;
+  border: 1px solid #057E74;
   border-radius: 8px;
   padding: 0.75rem 1rem;
   cursor: pointer;
   font-size: 0.95rem;
   font-weight: 600;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(5, 126, 116, 0.15);
   min-width: 90px;
   max-width: 120px;
   white-space: nowrap;
@@ -295,24 +295,26 @@
 }
 
 :global(.dark) .addTagButton {
-  background: #fff;
-  color: #000;
-  border-color: #fff;
-  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.15);
+  background: #057E74;
+  color: white;
+  border-color: #057E74;
+  box-shadow: 0 2px 8px rgba(5, 126, 116, 0.15);
 }
 
 .addTagButton:hover {
-  background: var(--color-secondary);
+  background: #057E74;
   color: white;
-  border-color: var(--color-secondary);
+  border-color: #057E74;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(5, 126, 116, 0.4);
 }
 
 :global(.dark) .addTagButton:hover {
-  background: var(--color-secondary);
+  background: #046860;
   color: white;
-  border-color: var(--color-secondary);
+  border-color: #046860;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.4);
 }
 
 .addTagButton:active {
@@ -614,7 +616,7 @@
 .tagsInputContainer {
   display: flex;
   gap: 0.75rem;
-  align-items: stretch;
+  align-items: flex-end;
   width: 100%;
   box-sizing: border-box;
 }

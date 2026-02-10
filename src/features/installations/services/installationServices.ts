@@ -53,9 +53,16 @@ export const fetchAssets = async (): Promise<any[]> => {
   });
   if (!response.ok) throw new Error("Error al obtener activos");
   const result = await response.json();
+  
+  // La API devuelve: {assets: Array, total: number, totalPages: number}
+  if (result.assets && Array.isArray(result.assets)) {
+    return result.assets;
+  }
+  // Formato alternativo con success
   if (result.success && Array.isArray(result.data)) {
     return result.data;
   }
+  // Fallback para array directo
   return Array.isArray(result) ? result : [];
 };
 
