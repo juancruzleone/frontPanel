@@ -41,7 +41,41 @@ const Login = () => {
   return (
     <>
       <div className={styles.containerAuth}>
-        <div className={styles.positionContent}></div>
+        <div className={styles.positionContent}>
+          <div className={styles.heroMedia}>
+            <div className={styles.heroOverlay}></div>
+            <div className={styles.heroContent}>
+              <div className={styles.heroTopSection}>
+                <span className={styles.heroTagline}>{t("login.heroTagline", { defaultValue: "Gestión simplificada" })}</span>
+                <h2 className={styles.heroTitle}>
+                  {t("login.heroTitle", { defaultValue: "Comienza a gestionar tu mantenimiento" })}
+                </h2>
+                <p className={styles.heroSubtitle}>
+                  {t("login.heroSubtitle", { defaultValue: "Completa estos simples pasos para acceder a tu cuenta." })}
+                </p>
+              </div>
+
+              <div className={styles.heroSteps}>
+                <div className={`${styles.stepCard} ${styles.stepCardActive}`}>
+                  <div className={styles.stepNumber}>1</div>
+                  <span className={styles.stepLabel}>{t("login.step1", { defaultValue: "Inicia sesión en tu cuenta" })}</span>
+                </div>
+                <div className={styles.stepCard}>
+                  <div className={styles.stepNumber}>2</div>
+                  <span className={styles.stepLabel}>{t("login.step2", { defaultValue: "Configura tu espacio de trabajo" })}</span>
+                </div>
+                <div className={styles.stepCard}>
+                  <div className={styles.stepNumber}>3</div>
+                  <span className={styles.stepLabel}>{t("login.step3", { defaultValue: "Gestiona tus operaciones" })}</span>
+                </div>
+              </div>
+
+              <div className={styles.heroBrand}>
+                Leonix — {t("login.heroBrandLine", { defaultValue: "Tu plataforma CMMS integral." })}
+              </div>
+            </div>
+          </div>
+        </div>
         <div className={styles.positionForm}>
           <LoginForm
             username={username}

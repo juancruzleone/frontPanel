@@ -24,12 +24,18 @@ const LoginForm = ({
           <LanguageSelector />
           <ThemeToggle />
         </div>
-        <h1>{t("login.title")}</h1>
-        <label htmlFor="username">{t("login.username")}</label>
+        <div className={styles.formHeader}>
+          <h1 className={styles.formTitle}>{t("login.title")}</h1>
+          <p className={styles.formSubtitle}>
+            {t("login.panelSubtitle", { defaultValue: "Accede al panel CMMS para gestionar mantenimiento y operaciones." })}
+          </p>
+        </div>
+        <label htmlFor="username" className={styles.formLabel}>{t("login.username")}</label>
         <div className={styles.inputWrapper}>
           <input
             type="text"
             id="username"
+            className={styles.loginInput}
             value={username}
             onChange={(e) => handleUsernameChange(e.target.value)}
             placeholder={t("login.usernamePlaceholder")}
@@ -37,14 +43,14 @@ const LoginForm = ({
         </div>
         {errors.userName && <p className={styles.inputError}>{errors.userName}</p>}
 
-        <label htmlFor="password">{t("login.password")}</label>
+        <label htmlFor="password" className={styles.formLabel}>{t("login.password")}</label>
         <div className={styles.inputWrapper}>
           <input
             type={showPassword ? "text" : "password"}
             value={password}
             onChange={(e) => handlePasswordChange(e.target.value)}
             id="password"
-            className={styles.passwordInput}
+            className={styles.loginInput}
             placeholder={t("login.passwordPlaceholder")}
           />
           <button type="button" className={styles.eyesButton} onClick={togglePasswordVisibility}>
@@ -53,7 +59,7 @@ const LoginForm = ({
         </div>
         {errors.password && <p className={styles.inputError}>{errors.password}</p>}
 
-        <button type="submit">{t("login.submit")}</button>
+        <button type="submit" className={styles.submitButton}>{t("login.submit")}</button>
         {errors.general && <div className={styles.alertDanger}>{errors.general}</div>}
       </form>
     </div>
