@@ -1093,8 +1093,7 @@
       "fieldOptionsMin": "Devi fornire almeno un'opzione",
       "fieldOptionsRequired": "Le opzioni sono obbligatorie per i campi di tipo select o radio",
       "unknownError": "Errore di validazione sconosciuto"
-    },
-    "titlePage": "Moduli | Leonix"
+    }
   },
   "manuals": {
     "understood": "Chiudi",
@@ -1296,8 +1295,6 @@
     "cancelled": "Annullata",
     "allTechnicians": "Tutti i tecnici",
     "filterByTechnician": "Filtra per tecnico",
-    "filterByPriority": "Filtra per priorità",
-    "filterByDate": "Filtra per data",
     "timezoneLabel": "🌍 America/Buenos_Aires (-03:00) • Ora legale"
   },
   "languageSelector": {
@@ -1412,6 +1409,15 @@
     "minPassword": "La password deve contenere almeno 6 caratteri",
     "usernamePlaceholder": "Inserisci il nome utente",
     "passwordPlaceholder": "Inserisci la password",
+    "logoText": "CMMS",
+    "heroTagline": "Gestione semplificata",
+    "heroTitle": "Inizia a gestire la tua manutenzione",
+    "heroSubtitle": "Completa questi semplici passaggi per accedere al tuo account.",
+    "step1": "Accedi al tuo account",
+    "step2": "Configura il tuo spazio di lavoro",
+    "step3": "Gestisci le tue operazioni",
+    "heroBrandLine": "La tua piattaforma CMMS integrale.",
+    "panelSubtitle": "Accedi al pannello CMMS per gestire manutenzione e operazioni.",
     "validation": {
       "userNameRequired": "Il nome utente è obbligatorio",
       "passwordRequired": "La password è obbligatoria"
@@ -1552,9 +1558,8 @@
     "selectOneMonth": "Seleziona 1 mese",
     "selectAllMonths": "Seleziona i mesi desiderati",
     "selectDatesFirst": "Seleziona prima le date di inizio e fine",
-    "clickToSelectMonths": "Clicca per selezionare i mesi",
     "month": "mese",
-    "months": "mesi",
+    "monthsLabel": "mesi",
     "monthSelected": "mese selezionato",
     "monthsSelected": "mesi selezionati",
     "filterByMonth": "Filtra per mese",
@@ -1668,12 +1673,5 @@
     "maintenanceNumber": "Manutenzione #",
     "viewPDF": "Visualizza Report PDF",
     "close": "Chiudi"
-  },
-  "roles": {
-    "superAdmin": "Super Admin",
-    "admin": "Amministratore",
-    "technician": "Tecnico",
-    "client": "Cliente",
-    "user": "Utente"
   }
 }

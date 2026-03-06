@@ -79,7 +79,7 @@ button {
   color: var(--color-icon);
   border: 1px solid var(--color-themebox-border);
   padding: 8px;
-  border-radius: 10px;
+  border-radius: 4px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -114,7 +114,7 @@ button {
   color: var(--color-icon);
   border: 1px solid var(--color-themebox-border);
   padding: 0;
-  border-radius: 10px;
+  border-radius: 4px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -209,7 +209,7 @@ button {
   width: 100% !important;
   height: 100% !important;
   object-fit: contain !important;
-  border-radius: 10px !important;
+  border-radius: 4px !important;
   box-sizing: border-box !important;
   display: block !important;
   background: var(--color-themebox-bg);
@@ -227,7 +227,7 @@ button {
     font-size: 1.5rem;
     margin-top: 0;
     padding-top: 0;
-    border-radius: 10px;
+    border-radius: 4px;
   }
 
   .languageButton svg {

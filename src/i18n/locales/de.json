@@ -1241,7 +1241,6 @@
     "searchDevicesPlaceholder": "Nach Gerät, Standort oder Kategorie suchen...",
     "noDevicesFound": "Keine Geräte mit diesem Suchbegriff gefunden",
     "showingDevices": "Zeige {{start}}-{{end}} von {{total}} Geräten",
-    "of": "von",
     "noMaintenanceAvailable": "Keine Wartung für dieses Gerät verfügbar",
     "errorLoadingMaintenance": "Fehler beim Laden der Wartung",
     "tour": {
@@ -1305,6 +1304,15 @@
     "minPassword": "Das Passwort muss mindestens 6 Zeichen lang sein",
     "usernamePlaceholder": "Benutzernamen eingeben",
     "passwordPlaceholder": "Passwort eingeben",
+    "logoText": "CMMS",
+    "heroTagline": "Vereinfachte Verwaltung",
+    "heroTitle": "Beginnen Sie mit der Verwaltung Ihrer Wartung",
+    "heroSubtitle": "Schließen Sie diese einfachen Schritte ab, um auf Ihr Konto zuzugreifen.",
+    "step1": "Melden Sie sich bei Ihrem Konto an",
+    "step2": "Richten Sie Ihren Arbeitsbereich ein",
+    "step3": "Verwalten Sie Ihre Abläufe",
+    "heroBrandLine": "Ihre ganzheitliche CMMS-Plattform.",
+    "panelSubtitle": "Greifen Sie auf das CMMS-Panel zu, um Wartung und Betrieb zu verwalten.",
     "validation": {
       "userNameRequired": "Benutzername ist erforderlich",
       "passwordRequired": "Passwort ist erforderlich"

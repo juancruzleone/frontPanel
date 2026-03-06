@@ -1022,7 +1022,6 @@
       "progressText": "{{total}} 中 {{current}}"
     },
     "viewCreatedCategories": "作成済みカテゴリを見る",
-    "deleteTemplate": "テンプレートの削除",
     "editTemplateTooltip": "テンプレートを編集",
     "deleteTemplateTooltip": "テンプレートを削除",
     "viewTemplateTooltip": "テンプレートを見る",
@@ -1088,7 +1087,6 @@
     "optional": "任意",
     "addAtLeastOneField": "少なくとも1つのフィールドを追加する必要があります",
     "fieldNameInvalid": "フィールド名は英字、数字、アンダースコアのみ使用できます",
-    "selectCategory": "カテゴリを選択してください",
     "category": "カテゴリ",
     "update": "アップデート",
     "validation": {
@@ -1349,6 +1347,15 @@
     "minPassword": "パスワードは6文字以上である必要があります",
     "usernamePlaceholder": "ユーザー名を入力してください",
     "passwordPlaceholder": "パスワードを入力してください",
+    "logoText": "CMMS",
+    "heroTagline": "簡素化された管理",
+    "heroTitle": "メンテナンス管理を開始",
+    "heroSubtitle": "アカウントにアクセスするための簡単な手順を完了してください。",
+    "step1": "アカウントにサインイン",
+    "step2": "ワークスペースの設定",
+    "step3": "業務の管理",
+    "heroBrandLine": "あなたの包括的なCMMSプラットフォーム。",
+    "panelSubtitle": "CMMSパネルにアクセスしてメンテナンスと業務を管理します。",
     "validation": {
       "userNameRequired": "ユーザー名は必須です",
       "passwordRequired": "パスワードは必須です"
@@ -1396,7 +1403,7 @@
     "sendMaintenance": "メンテナンスを送信",
     "saveMaintenance": "メンテナンスを保存",
     "localSaveNote": "データはローカルに保存され、オンライン時に送信されます",
-    "viewHistory": "履歴",
+    "viewHistory": "メンテナンス履歴を表示",
     "maintenanceRegisteredSuccess": "メンテナンスが正常に登録されました！",
     "maintenanceSavedOffline": "メンテナンスが保存されました。オンライン時に自動的に送信されます。"
   },
@@ -1594,7 +1601,7 @@
     "selectDatesFirst": "まず開始日と終了日を選択してください",
     "clickToSelectMonths": "クリックして月を選択",
     "month": "か月",
-    "months": "か月",
+    "monthsLabel": "か月",
     "monthSelected": "か月選択済み",
     "monthsSelected": "か月選択済み",
     "filterByMonth": "月でフィルタ",
@@ -1678,15 +1685,5 @@
     "maintenanceNumber": "メンテナンス #",
     "viewPDF": "PDFレポートを表示",
     "close": "閉じる"
-  },
-  "deviceForm": {
-    "viewHistory": "メンテナンス履歴を表示"
-  },
-  "roles": {
-    "superAdmin": "スーパー管理者",
-    "admin": "管理者",
-    "technician": "技術者",
-    "client": "クライアント",
-    "user": "ユーザー"
   }
 }

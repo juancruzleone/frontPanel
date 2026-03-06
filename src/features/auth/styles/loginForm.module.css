@@ -60,9 +60,9 @@
 
 .loginInput {
   width: 100%;
-  height: 40px;
+  height: 34px;
   border-radius: 6px;
-  border: 2px solid #e0e0e0;
+  border: 2px solid #000;
   background: #fff;
   color: #111;
   font-size: 0.95rem;
@@ -78,13 +78,13 @@
 
 .loginInput:focus {
   outline: none;
-  border-color: white;
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
-  background: #f7f7f7;
+  border-color: #000;
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
+  background: #fff;
 }
 
 .loginInput:hover:not(:disabled) {
-  border-color: #e0e0e0;
+  border-color: #000;
 }
 
 .eyesButton {
@@ -105,7 +105,7 @@
 }
 
 .eyesButton:hover {
-  color: #0b8479;
+  color: #000;
 }
 
 .submitButton {
@@ -148,9 +148,25 @@
   font-weight: 600;
 }
 
-input:-webkit-autofill {
-  box-shadow: 0 0 0 1000px #ffffff inset !important;
-  -webkit-text-fill-color: #102938 !important;
+/* Estilos para el autocompletado del navegador */
+.loginInput:-webkit-autofill,
+.loginInput:-webkit-autofill:hover,
+.loginInput:-webkit-autofill:active,
+.loginInput:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
+  box-shadow: 0 0 0 30px #ffffff inset !important;
+  -webkit-text-fill-color: #111 !important;
+  border: 2px solid #000 !important;
+}
+
+:global(.dark) .loginInput:-webkit-autofill,
+:global(.dark) .loginInput:-webkit-autofill:hover,
+:global(.dark) .loginInput:-webkit-autofill:active,
+:global(.dark) .loginInput:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px #23272b inset !important;
+  box-shadow: 0 0 0 30px #23272b inset !important;
+  -webkit-text-fill-color: #f5f5f5 !important;
+  border: 2px solid #fff !important;
 }
 
 :global(.dark) .formLogin {
@@ -176,7 +192,7 @@ input:-webkit-autofill {
 }
 
 :global(.dark) .loginInput {
-  border-color: #333;
+  border-color: #fff;
   background: #23272b;
   color: #f5f5f5;
 }
@@ -186,9 +202,9 @@ input:-webkit-autofill {
 }
 
 :global(.dark) .loginInput:focus {
-  border-color: white;
+  border-color: #fff;
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
-  background: #23272b;
+  background: #1d2125;
 }
 
 :global(.dark) .eyesButton {
@@ -196,7 +212,7 @@ input:-webkit-autofill {
 }
 
 :global(.dark) .eyesButton:hover {
-  color: #b2bdff;
+  color: #fff;
 }
 
 :global(.dark) .alertDanger {

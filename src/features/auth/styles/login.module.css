@@ -33,6 +33,163 @@
   justify-content: flex-start;
 }
 
+/* Animaciones en la parte superior izquierda */
+.animatedBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.shape1 {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 50vh;
+  height: 50vh;
+  background: radial-gradient(circle, rgba(0, 255, 174, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: float 15s ease-in-out infinite alternate;
+}
+
+.shape2 {
+  position: absolute;
+  bottom: 10%;
+  right: -5%;
+  width: 40vh;
+  height: 40vh;
+  background: radial-gradient(circle, rgba(2, 204, 187, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: float 20s ease-in-out infinite alternate-reverse;
+}
+
+.floatingIcon {
+  position: absolute;
+  color: #00ffae;
+  filter: drop-shadow(0 0 5px rgba(0, 255, 174, 0.4));
+  animation: floatIcon 10s ease-in-out infinite;
+}
+
+.icon1 {
+  top: 15%;
+  left: 15%;
+  font-size: 3rem;
+  color: #00ffae;
+  animation-duration: 25s;
+  animation-delay: 0s;
+}
+
+.icon2 {
+  top: 40%;
+  right: 15%;
+  font-size: 2.5rem;
+  color: #14ffec;
+  animation-duration: 20s;
+  animation-delay: -5s;
+}
+
+.icon3 {
+  bottom: 5%;
+  left: 5%;
+  font-size: 2.5rem;
+  color: #ffffff;
+  animation-duration: 22s;
+  animation-delay: -10s;
+  animation-direction: alternate-reverse;
+}
+
+.icon4 {
+  top: 10%;
+  right: 30%;
+  font-size: 2rem;
+  color: #b3fff2;
+  animation-duration: 18s;
+  animation-delay: -15s;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(5%, 5%) scale(1.1);
+  }
+
+  100% {
+    transform: translate(-5%, 10%) scale(1);
+  }
+}
+
+@keyframes floatIcon {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.3;
+  }
+
+  50% {
+    transform: translateY(-30px) rotate(15deg);
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: translateY(0) rotate(-10deg);
+    opacity: 0.3;
+  }
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.logoItem {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.spinningGear {
+  font-size: 1.4rem;
+  color: #fff;
+  animation: spin 8s linear infinite;
+}
+
+.logoText {
+  color: #fff;
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  font-family: inherit;
+  background: linear-gradient(135deg, #fff 0%, #b3fff2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* Overlay con gradiente oscuro desde abajo para legibilidad */
 .heroOverlay {
   position: absolute;
@@ -187,6 +344,13 @@
 
 /* === RESPONSIVE === */
 @media (max-width: 1180px) {
+  .logoContainer {
+    justify-content: flex-start;
+    flex-direction: row-reverse;
+    width: fit-content;
+    margin-bottom: 2rem;
+  }
+
   .containerAuth {
     grid-template-columns: 1fr;
     min-height: auto;
@@ -194,16 +358,19 @@
 
   .positionContent {
     height: auto;
-    min-height: 320px;
+    min-height: 400px;
+    display: flex !important;
+    /* Asegurar que no se oculte */
   }
 
   .heroContent {
-    padding: 2rem 2rem;
+    padding: 3rem 2rem 2rem;
     gap: 1.5rem;
+    z-index: 10;
   }
 
   .heroTitle {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
   }
 
   .heroSteps {
@@ -216,13 +383,53 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .positionContent {
+    display: flex !important;
+    min-height: 280px;
+    order: -1;
+    /* Poner el hero arriba */
+  }
+
+  .heroContent {
+    padding: 2rem 1.5rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logoContainer {
+    justify-content: center;
+    flex-direction: row;
+    /* Volver a normal en mobile para centrar bien */
+    margin-bottom: 1.5rem;
+  }
+
+  .heroTopSection {
+    align-items: center;
+    text-align: center;
+  }
+
+  .heroTitle {
+    font-size: 1.5rem;
+    max-width: 100%;
+  }
+
+  .heroSubtitle {
+    font-size: 0.85rem;
+    max-width: 100%;
+  }
+
+  .heroSteps {
+    display: none;
+    /* Ocultar pasos en móviles pequeños para ahorrar espacio */
+  }
+
+  .heroBrand {
     display: none;
   }
 
   .positionForm {
-    padding: 1.5rem;
-    min-height: 100vh;
+    padding: 2rem 1rem;
+    min-height: auto;
   }
 }

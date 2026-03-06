@@ -1455,6 +1455,15 @@
     "minPassword": "비밀번호는 최소 6자여야 합니다",
     "usernamePlaceholder": "사용자 이름을 입력하세요",
     "passwordPlaceholder": "비밀번호를 입력하세요",
+    "logoText": "CMMS",
+    "heroTagline": "간소화된 관리",
+    "heroTitle": "유지보수 관리를 시작하세요",
+    "heroSubtitle": "계정에 액세스하려면 다음의 간단한 단계를 완료하세요.",
+    "step1": "계정에 로그인",
+    "step2": "워크스페이스 설정",
+    "step3": "운영 관리",
+    "heroBrandLine": "포괄적인 CMMS 플랫폼.",
+    "panelSubtitle": "유지보수 및 운영을 관리하려면 CMMS 패널에 액세스하세요.",
     "validation": {
       "userNameRequired": "사용자 이름은 필수입니다",
       "passwordRequired": "비밀번호는 필수입니다"
@@ -1625,7 +1634,7 @@
     "selectDatesFirst": "먼저 시작 날짜와 종료 날짜를 선택하세요",
     "clickToSelectMonths": "클릭하여 월 선택",
     "month": "개월",
-    "months": "개월",
+    "monthsLabel": "개월",
     "monthSelected": "개월 선택됨",
     "monthsSelected": "개월 선택됨",
     "filterByMonth": "월별 필터링",
@@ -1709,12 +1718,5 @@
     "maintenanceNumber": "유지보수 #",
     "viewPDF": "PDF 보고서 보기",
     "close": "닫기"
-  },
-  "roles": {
-    "superAdmin": "슈퍼 관리자",
-    "admin": "관리자",
-    "technician": "기술자",
-    "client": "고객",
-    "user": "사용자"
   }
 }

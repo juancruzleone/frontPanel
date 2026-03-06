@@ -945,7 +945,6 @@
     "selectTemplatePlaceholder": "اختر قالبًا",
     "description": "الوصف",
     "noDescription": "بدون وصف",
-    "fields": "الحقول",
     "fieldsCount": "حقول",
     "delete": "حذف",
     "cancel": "إلغاء",
@@ -1022,8 +1021,6 @@
       "progressText": "{{current}} من {{total}}"
     },
     "editFormTemplate": "تعديل قالب النموذج",
-    "editTemplate": "تعديل القالب",
-    "deleteTemplate": "حذف القالب",
     "templateName": "اسم القالب",
     "enterTemplateName": "أدخل اسم القالب",
     "templateCategory": "الفئة",
@@ -1427,6 +1424,15 @@
     "minPassword": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل",
     "usernamePlaceholder": "أدخل اسم المستخدم",
     "passwordPlaceholder": "أدخل كلمة المرور",
+    "logoText": "CMMS",
+    "heroTagline": "إدارة مبسطة",
+    "heroTitle": "ابدأ في إدارة صيانتك",
+    "heroSubtitle": "أكمل هذه الخطوات البسيطة للوصول إلى حسابك.",
+    "step1": "تسجيل الدخول إلى حسابك",
+    "step2": "إعداد مساحة عملك",
+    "step3": "إدارة عملياتك",
+    "heroBrandLine": "منصة CMMS المتكاملة الخاصة بك.",
+    "panelSubtitle": "الوصول إلى لوحة CMMS لإدارة الصيانة والعمليات.",
     "validation": {
       "userNameRequired": "اسم المستخدم مطلوب",
       "passwordRequired": "كلمة المرور مطلوبة"
@@ -1452,7 +1458,6 @@
     "brand": "العلامة التجارية",
     "model": "الطراز",
     "serialNumber": "الرقم التسلسلي",
-    "selectDate": "اختر التاريخ",
     "fields": {
       "nombre": "الاسم",
       "ubicacion": "الموقع",
@@ -1577,10 +1582,6 @@
       "Diciembre": "ديسمبر"
     },
     "frequency": {
-      "Mensual": "شهري",
-      "Trimestral": "ربع سنوي",
-      "Semestral": "نصف سنوي",
-      "Anual": "سنوي",
       "monthly": "شهري",
       "quarterly": "ربع سنوي",
       "semiannual": "نصف سنوي",
@@ -1599,7 +1600,7 @@
     "selectDatesFirst": "الرجاء اختيار تواريخ البدء والانتهاء أولاً",
     "clickToSelectMonths": "انقر لاختيار الأشهر",
     "month": "شهر",
-    "months": "أشهر",
+    "monthsLabel": "أشهر",
     "monthSelected": "شهر واحد محدد",
     "monthsSelected": "أشهر محددة",
     "filterByMonth": "تصفية حسب الشهر",

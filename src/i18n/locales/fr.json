@@ -1340,7 +1340,6 @@
     "searchDevicesPlaceholder": "Rechercher par appareil, emplacement ou catégorie...",
     "noDevicesFound": "Aucun appareil trouvé avec ce terme de recherche",
     "showingDevices": "Affichage de {{start}}-{{end}} sur {{total}} appareils",
-    "of": "de",
     "noMaintenanceAvailable": "Aucune maintenance disponible pour cet appareil",
     "errorLoadingMaintenance": "Erreur lors du chargement de la maintenance",
     "tour": {
@@ -1404,6 +1403,15 @@
     "minPassword": "Le mot de passe doit contenir au moins 6 caractères",
     "usernamePlaceholder": "Entrez le nom d'utilisateur",
     "passwordPlaceholder": "Entrez le mot de passe",
+    "logoText": "CMMS",
+    "heroTagline": "Gestion simplifiée",
+    "heroTitle": "Commencez à gérer votre maintenance",
+    "heroSubtitle": "Complétez ces étapes simples pour accéder à votre compte.",
+    "step1": "Connectez-vous à votre compte",
+    "step2": "Configurez votre espace de travail",
+    "step3": "Gerez vos opérations",
+    "heroBrandLine": "Votre plateforme CMMS intégrale.",
+    "panelSubtitle": "Accédez au panneau CMMS pour gérer la maintenance et les opérations.",
     "validation": {
       "userNameRequired": "Le nom d'utilisateur est obligatoire",
       "passwordRequired": "Le mot de passe est obligatoire"

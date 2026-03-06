@@ -362,7 +362,7 @@
     "selectInstallationType": "Select installation type",
     "saving": "Saving...",
     "categories": "Categories",
-    "installationTypes": "Installation types",
+    "installationTypeLabel": "Installation types",
     "manageCategories": "Manage Device Categories",
     "manageInstallationTypes": "Manage Installation Types",
     "manageDevices": "Manage Categories",
@@ -1327,8 +1327,6 @@
     "cancelled": "Cancelled",
     "allTechnicians": "All technicians",
     "filterByTechnician": "Filter by technician",
-    "filterByPriority": "Filter by priority",
-    "filterByDate": "Filter by date",
     "timezoneLabel": "🌍 America/Buenos_Aires (-03:00) • Daylight Saving Time"
   },
   "workOrders": {
@@ -1538,7 +1536,6 @@
     "searchDevicesPlaceholder": "Search by device, location or category...",
     "noDevicesFound": "No devices found with that search term",
     "showingDevices": "Showing {{start}}-{{end}} of {{total}} devices",
-    "of": "of",
     "noMaintenanceAvailable": "No maintenance available for this device",
     "errorLoadingMaintenance": "Error loading maintenance",
     "tour": {
@@ -1600,6 +1597,15 @@
     "minPassword": "Password must be at least 6 characters",
     "usernamePlaceholder": "Enter username",
     "passwordPlaceholder": "Enter password",
+    "logoText": "CMMS",
+    "heroTagline": "Simplified management",
+    "heroTitle": "Start managing your maintenance",
+    "heroSubtitle": "Complete these simple steps to access your account.",
+    "step1": "Sign in to your account",
+    "step2": "Set up your workspace",
+    "step3": "Manage your operations",
+    "heroBrandLine": "Your comprehensive CMMS platform",
+    "panelSubtitle": "Access the CMMS panel to manage maintenance and operations.",
     "validation": {
       "userNameRequired": "Username is required",
       "passwordRequired": "Password is required"
