@@ -73,17 +73,26 @@ export type WorkOrder = {
 }
 
 const handleResponse = async (response: Response) => {
-
   if (!response.ok) {
+    let error;
+    try {
+      error = await response.json();
+    } catch (e) {
+      error = { message: "Error de conexión", details: await response.text() };
+    }
 
-    const error = await response.json().catch(() => ({ message: "Error de conexión" }))
+    // Construct a more descriptive error message combining error, message, and details
+    let errorMsg = error.message || error.error;
+    if (!errorMsg && error.code) errorMsg = error.code;
 
-    throw new Error(error.message || `Error ${response.status}: ${response.statusText}`)
+    if (error.details && Array.isArray(error.details) && error.details.length > 0) {
+      errorMsg = `${errorMsg ? errorMsg + ': ' : ''}${error.details.join(', ')}`;
+    }
+
+    throw new Error(errorMsg || `Error ${response.status}: ${response.statusText}`);
   }
 
-  const result = await response.json()
-
-  return result
+  return await response.json();
 }
 
 export type PaginatedResponse<T> = {

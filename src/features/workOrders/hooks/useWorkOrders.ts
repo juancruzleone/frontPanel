@@ -153,8 +153,24 @@ const useWorkOrders = () => {
   const { timeZone, offset } = useTimeZone()
 
   const addWorkOrder = async (workOrder: WorkOrder) => {
+    let fechaHoraISO = workOrder.fechaProgramada as string;
+    if (typeof workOrder.fechaProgramada === 'string' && workOrder.horaProgramada) {
+      try {
+        // Combinamos fecha y hora para crear un Date real y que Yup.date().min(new Date()) en el backend
+        // no falle asumiendo que es medianoche UTC (que puede ser en el pasado).
+        const dateStr = workOrder.fechaProgramada.includes('T')
+          ? workOrder.fechaProgramada.split('T')[0]
+          : workOrder.fechaProgramada;
+        const localDate = new Date(`${dateStr}T${workOrder.horaProgramada}`);
+        if (!isNaN(localDate.getTime())) {
+          fechaHoraISO = localDate.toISOString();
+        }
+      } catch (e) { }
+    }
+
     const workOrderWithTZ = {
       ...workOrder,
+      fechaProgramada: fechaHoraISO,
       timezone: timeZone,
       userOffset: offset
     }
@@ -164,7 +180,25 @@ const useWorkOrders = () => {
   }
 
   const editWorkOrder = async (id: string, updatedData: WorkOrder) => {
-    const updated = await updateWorkOrder(id, updatedData)
+    let fechaHoraISO = updatedData.fechaProgramada as string;
+    if (typeof updatedData.fechaProgramada === 'string' && updatedData.horaProgramada) {
+      try {
+        const dateStr = updatedData.fechaProgramada.includes('T')
+          ? updatedData.fechaProgramada.split('T')[0]
+          : updatedData.fechaProgramada;
+        const localDate = new Date(`${dateStr}T${updatedData.horaProgramada}`);
+        if (!isNaN(localDate.getTime())) {
+          fechaHoraISO = localDate.toISOString();
+        }
+      } catch (e) { }
+    }
+
+    const payload = {
+      ...updatedData,
+      fechaProgramada: fechaHoraISO
+    };
+
+    const updated = await updateWorkOrder(id, payload)
     setWorkOrders((prev) => prev.map((o) => (o._id === id ? updated : o)))
     return { message: "Orden de trabajo actualizada con éxito" }
   }
