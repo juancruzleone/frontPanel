@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronDown } from 'lucide-react'
-import { useTheme } from '../../../shared/hooks/useTheme'
 import styles from '../styles/workOrderForm.module.css'
 import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
-import type { WorkOrder } from '../hooks/useWorkOrders'
+import type { Technician, WorkOrder } from '../hooks/useWorkOrders'
 import { validateWorkOrderForm, validateWorkOrderField } from '../validators/workOrderValidations'
 import DatePickerModal from '../../calendar/components/DatePickerModal'
 import TimePickerModal from '../../calendar/components/TimePickerModal'
@@ -20,7 +18,7 @@ interface WorkOrderFormProps {
   initialData?: WorkOrder | null
   formData: WorkOrder
   formErrors: Record<string, string>
-  handleFieldChange: (name: string, value: string) => void
+  handleFieldChange: (name: string, value: any) => void
   handleSubmitForm: (
     e: React.FormEvent,
     isEditMode: boolean,
@@ -32,6 +30,7 @@ interface WorkOrderFormProps {
   ) => void
   isSubmitting: boolean
   installations?: any[]
+  technicians?: Technician[]
   loadingInstallations?: boolean
   errorLoadingInstallations?: string | null
 }
@@ -50,12 +49,12 @@ const WorkOrderForm = ({
   handleSubmitForm,
   isSubmitting,
   installations = [],
+  technicians = [],
   loadingInstallations = false,
   errorLoadingInstallations = null,
   setFormErrors,
 }: WorkOrderFormProps & { setFormErrors: (updater: (prev: Record<string, string>) => Record<string, string>) => void }) => {
-  const { t, i18n } = useTranslation()
-  const { dark } = useTheme()
+  const { t } = useTranslation()
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
   const [isTimePickerOpen, setIsTimePickerOpen] = useState(false)
@@ -150,21 +149,18 @@ const WorkOrderForm = ({
     return installations.find((inst) => inst._id === formData.instalacionId) || null
   }, [formData.instalacionId, installations])
 
-  // Manejar el cambio en el select de instalación
-  const handleInstallationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedId = e.target.value
-    handleFieldChange("instalacionId", selectedId)
+  const selectedTechnicians = useMemo(
+    () => Array.isArray(formData.tecnicosAsignados) ? formData.tecnicosAsignados.map((id) => String(id)) : [],
+    [formData.tecnicosAsignados]
+  )
 
-    // Si se selecciona una instalación, también actualizar el objeto instalacion
-    if (selectedId) {
-      const selectedInst = installations.find((inst) => inst._id === selectedId)
-      if (selectedInst) {
-        handleFieldChange("instalacion", selectedInst)
-      }
-    } else {
-      // Si se deselecciona, limpiar el objeto instalacion
-      handleFieldChange("instalacion", null)
-    }
+  const handleTechnicianToggle = (technicianId: string) => {
+    const updated = selectedTechnicians.includes(technicianId)
+      ? selectedTechnicians.filter((id) => id !== technicianId)
+      : [...selectedTechnicians, technicianId]
+    handleFieldChange("tecnicosAsignados", updated)
+    handleFieldChange("tecnicosIds", updated)
+    handleFieldChange("tecnicoAsignado", updated[0] || "")
   }
 
   const handleOpenDatePicker = () => {
@@ -263,6 +259,27 @@ const WorkOrderForm = ({
                 </>
               )}
               {showError("instalacionId") && <span className={styles.inputError}>{formErrors["instalacionId"]}</span>}
+            </div>
+
+            <div className={styles.formGroup}>
+              <label>{t('workOrders.assignTechnician')}</label>
+              {technicians.length === 0 ? (
+                <p className={styles.readOnlyField}>{t('workOrders.noTechniciansAvailable')}</p>
+              ) : (
+                <div className={styles.multiSelectList}>
+                  {technicians.map((tech) => (
+                    <label key={tech._id} className={styles.multiSelectItem}>
+                      <input
+                        type="checkbox"
+                        checked={selectedTechnicians.includes(tech._id)}
+                        onChange={() => handleTechnicianToggle(tech._id)}
+                        disabled={isFieldDisabled("tecnicosAsignados")}
+                      />
+                      <span>{tech.userName}</span>
+                    </label>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className={styles.formRow}>

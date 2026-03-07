@@ -47,6 +47,15 @@ export const useAssetsTour = () => {
               navigate('/formularios', { state: { fromAssetsTour: true } });
             }
           }
+        },
+        {
+          element: '[data-tour="open-settings"]',
+          popover: {
+            title: t('assets.tour.viewFormCategories.title'),
+            description: t('assets.tour.viewFormCategories.description'),
+            side: "left",
+            align: 'start'
+          }
         }
       ],
       nextBtnText: t('assets.tour.buttons.next'),
@@ -69,7 +78,7 @@ export const useAssetsTour = () => {
       progressText: t('assets.tour.progressText'),
       steps: [
         {
-          element: '[data-tour="create-form-template-btn"]',
+          element: '[data-tour="create-template-btn"]',
           popover: {
             title: t('assets.tour.createFormTemplate.title'),
             description: t('assets.tour.createFormTemplate.description'),
@@ -78,7 +87,7 @@ export const useAssetsTour = () => {
           }
         },
         {
-          element: '[data-tour="manage-categories-btn"]',
+          element: '[data-tour="open-settings"]',
           popover: {
             title: t('assets.tour.viewFormCategories.title'),
             description: t('assets.tour.viewFormCategories.description'),

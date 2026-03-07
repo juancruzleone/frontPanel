@@ -350,3 +350,84 @@ html[data-theme="dark"] select:focus,
 .dark [class*="customDropdown"]::-webkit-scrollbar-thumb:hover {
   background: #e0e0e0;
 }
+
+.appToast {
+  border-radius: 14px !important;
+  border: 1px solid var(--color-card-border) !important;
+  background: var(--color-card) !important;
+  color: var(--color-text) !important;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15) !important;
+  padding: 12px 14px !important;
+}
+
+.dark .appToast {
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.38) !important;
+}
+
+.appToast::before {
+  content: "";
+  width: 4px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, var(--color-secondary), #00c7b1);
+  margin-right: 10px;
+}
+
+.appToastTitle {
+  color: var(--color-text) !important;
+  font-weight: 700 !important;
+}
+
+.appToastDescription {
+  color: var(--color-text-secondary) !important;
+  font-weight: 500 !important;
+}
+
+.driverjs-light-theme.driver-popover {
+  background: #ffffff;
+  color: #101828;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+  border-radius: 14px;
+}
+
+.driverjs-light-theme .driver-popover-title {
+  color: #0f172a;
+}
+
+.driverjs-light-theme .driver-popover-description {
+  color: #475467;
+}
+
+.driverjs-light-theme .driver-popover-next-btn,
+.driverjs-light-theme .driver-popover-prev-btn {
+  background: #0f766e;
+  border: 1px solid #0f766e;
+  color: #ffffff;
+  text-shadow: none;
+  border-radius: 10px;
+}
+
+.driverjs-dark-theme.driver-popover {
+  background: #111827;
+  color: #f8fafc;
+  border: 1px solid #374151;
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.55);
+  border-radius: 14px;
+}
+
+.driverjs-dark-theme .driver-popover-title {
+  color: #f8fafc;
+}
+
+.driverjs-dark-theme .driver-popover-description {
+  color: #d1d5db;
+}
+
+.driverjs-dark-theme .driver-popover-next-btn,
+.driverjs-dark-theme .driver-popover-prev-btn {
+  background: #14b8a6;
+  border: 1px solid #14b8a6;
+  color: #04111a;
+  text-shadow: none;
+  border-radius: 10px;
+}

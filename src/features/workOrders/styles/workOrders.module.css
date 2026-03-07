@@ -94,9 +94,9 @@
   border-radius: 4px;
   font-size: 14px;
   font-weight: 600;
-  min-width: 180px;
-  width: auto;
-  max-width: 220px;
+  min-width: 0;
+  width: 100%;
+  max-width: none;
   background-color: var(--color-bg-light);
   color: var(--color-text);
   transition: all 0.3s ease;
@@ -109,7 +109,7 @@
   box-sizing: border-box;
   white-space: nowrap;
   text-overflow: ellipsis;
-  flex-shrink: 0;
+  flex: 1 1 220px;
   margin: 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   height: 52px;
@@ -568,7 +568,7 @@
 
 @media (max-width: 1024px) {
   .containerWorkOrders {
-    padding: 60px 16px 24px 16px;
+    padding: 24px 16px 24px 16px;
   }
 
   .title {
@@ -588,7 +588,7 @@
 
 @media (max-width: 600px) {
   .containerWorkOrders {
-    padding: 60px 4px 24px 4px;
+    padding: 20px 4px 24px 4px;
   }
 
   .listContainer {

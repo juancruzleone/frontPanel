@@ -11,8 +11,6 @@ import ModalConfirmDelete from "../features/installations/components/ModalConfir
 import ModalSuccess from "../features/installations/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
 import ModalQRCode from "../features/installationsDetails/components/ModalQrCode"
-import ModalManageCategories from "../features/installations/components/ModalManageCategories"
-import ModalManageInstallationTypes from "../features/installations/components/ModalManageInstallationTypes"
 import MaintenanceHistoryModal from "../features/deviceForms/components/MaintenanceHistoryModal"
 import useInstallations from "../features/installations/hooks/useInstallations"
 import { getLastMaintenanceForDevice } from "../features/installationsDetails/services/installationDetailsServices.ts"
@@ -72,8 +70,6 @@ const InstallationDetails = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isQRModalOpen, setIsQRModalOpen] = useState(false)
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false)
-  const [isManageCategoriesModalOpen, setIsManageCategoriesModalOpen] = useState(false)
-  const [isManageTypesModalOpen, setIsManageTypesModalOpen] = useState(false)
   const [deviceToDelete, setDeviceToDelete] = useState<Device | null>(null)
   const [deviceToEdit, setDeviceToEdit] = useState<Device | null>(null)
   const [deviceForQR, setDeviceForQR] = useState<Device | null>(null)
@@ -349,12 +345,6 @@ const InstallationDetails = () => {
           {!isRestricted && (
             <div className={styles.headerActions}>
               <button
-                className={styles.secondaryButton}
-                onClick={() => setIsManageCategoriesModalOpen(true)}
-              >
-                <span>{t('installations.manageDevices')}</span>
-              </button>
-              <button
                 className={styles.addButton}
                 onClick={() => setIsAddDeviceModalOpen(true)}
                 data-tour="add-device-btn"
@@ -572,16 +562,6 @@ const InstallationDetails = () => {
         maintenances={maintenanceHistory}
         deviceName={deviceForHistory?.nombre || ''}
         loading={loadingHistory}
-      />
-
-      <ModalManageCategories
-        isOpen={isManageCategoriesModalOpen}
-        onRequestClose={() => setIsManageCategoriesModalOpen(false)}
-      />
-
-      <ModalManageInstallationTypes
-        isOpen={isManageTypesModalOpen}
-        onRequestClose={() => setIsManageTypesModalOpen(false)}
       />
 
       <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={closeModal} mensaje={responseMessage} />

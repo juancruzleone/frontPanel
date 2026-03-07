@@ -264,6 +264,16 @@
     "all": "الكل",
     "optional": "اختياري"
   },
+  "notifications": {
+    "title": "الإشعارات",
+    "empty": "لا توجد إشعارات جديدة",
+    "markAllAsRead": "تحديد الكل كمقروء",
+    "clearAll": "مسح الكل",
+    "newOrder": "تم تعيين أمر عمل جديد",
+    "newOrderTitle": "تم تعيين أمر عمل جديد",
+    "newOrderMessage": "تم تعيين أمر عمل لك: {{title}}",
+    "justNow": "الآن"
+  },
   "auth": {
     "understood": "إغلاق",
     "login": "تسجيل الدخول",

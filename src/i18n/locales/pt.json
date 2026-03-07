@@ -257,6 +257,16 @@
     "all": "Todas",
     "optional": "opcional"
   },
+  "notifications": {
+    "title": "Notificações",
+    "empty": "Sem novas notificações",
+    "markAllAsRead": "Marcar todas como lidas",
+    "clearAll": "Limpar todas",
+    "newOrder": "Nova ordem de serviço atribuída",
+    "newOrderTitle": "Nova ordem de serviço atribuída",
+    "newOrderMessage": "Uma ordem foi atribuída para você: {{title}}",
+    "justNow": "Agora mesmo"
+  },
   "auth": {
     "understood": "Fechar",
     "successTitle": "Operação bem-sucedida!",

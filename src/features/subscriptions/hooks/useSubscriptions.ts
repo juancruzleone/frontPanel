@@ -3,7 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { fetchInstallations, updateInstallation } from '../../installations/services/installationServices'
 import type { Installation } from '../../installations/hooks/useInstallations'
 import { useAuthStore } from '../../../../src/store/authStore.ts'
-import { updateSubscription as updateSubscriptionService } from '../services/subscriptionServices'
+import {
+  updateSubscription as updateSubscriptionService,
+  triggerAutomaticWorkOrdersGeneration,
+} from '../services/subscriptionServices'
 import { validateSubscriptionForm } from '../validators/subscriptionValidations';
 
 export interface Subscription {
@@ -214,12 +217,20 @@ const useSubscriptions = () => {
       frecuencia: data.frequency ? mapFrequency(data.frequency) : installation.frecuencia,
       mesesFrecuencia: monthsToSave,
       estado: data.status ? mapStatus(data.status) : installation.estado || 'Activo',
+      generacionAutomatica: (data.status ? mapStatus(data.status) : installation.estado || 'Activo') === 'Activo',
     }
 
 
 
 
     await updateSubscriptionService(subscriptionId, updateData)
+    if (updateData.generacionAutomatica) {
+      try {
+        await triggerAutomaticWorkOrdersGeneration()
+      } catch (error) {
+        console.warn('No se pudo disparar la generación automática de órdenes', error)
+      }
+    }
 
 
     await loadSubscriptions()

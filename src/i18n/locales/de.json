@@ -236,6 +236,16 @@
     "all": "Alle",
     "optional": "optional"
   },
+  "notifications": {
+    "title": "Benachrichtigungen",
+    "empty": "Keine neuen Benachrichtigungen",
+    "markAllAsRead": "Alle als gelesen markieren",
+    "clearAll": "Alle löschen",
+    "newOrder": "Neuer Arbeitsauftrag zugewiesen",
+    "newOrderTitle": "Neuer Arbeitsauftrag zugewiesen",
+    "newOrderMessage": "Dir wurde ein Arbeitsauftrag zugewiesen: {{title}}",
+    "justNow": "Gerade eben"
+  },
   "auth": {
     "understood": "Schließen",
     "successTitle": "Vorgang erfolgreich!",

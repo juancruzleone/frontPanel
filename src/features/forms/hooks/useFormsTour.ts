@@ -32,25 +32,16 @@ export const useFormsTour = () => {
           }
         },
         {
-          element: '[data-tour="create-form-category-btn"]',
+          element: '[data-tour="open-settings"]',
           popover: {
             title: t('forms.tour.createCategory.title'),
             description: t('forms.tour.createCategory.description'),
-            side: "bottom",
+            side: "left",
             align: 'start'
           }
         },
         {
-          element: '[data-tour="manage-categories-btn"]',
-          popover: {
-            title: t('forms.tour.viewCategories.title'),
-            description: t('forms.tour.viewCategories.description'),
-            side: "bottom",
-            align: 'start'
-          }
-        },
-        {
-          element: '[data-tour="create-form-template-btn"]',
+          element: '[data-tour="create-template-btn"]',
           popover: {
             title: t('forms.tour.createTemplate.title'),
             description: t('forms.tour.createTemplate.description'),

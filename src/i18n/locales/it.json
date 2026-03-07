@@ -261,6 +261,16 @@
     "update": "Aggiorna",
     "optional": "facoltativo"
   },
+  "notifications": {
+    "title": "Notifiche",
+    "empty": "Nessuna nuova notifica",
+    "markAllAsRead": "Segna tutte come lette",
+    "clearAll": "Cancella tutte",
+    "newOrder": "Nuovo ordine di lavoro assegnato",
+    "newOrderTitle": "Nuovo ordine di lavoro assegnato",
+    "newOrderMessage": "Ti è stato assegnato un ordine di lavoro: {{title}}",
+    "justNow": "Proprio adesso"
+  },
   "auth": {
     "understood": "Chiudi",
     "successTitle": "Operazione riuscita!",

@@ -152,6 +152,10 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data }) => {
                     {/* Puntos interactivos y Etiquetas Eje X */}
                     {points.map((p, i) => {
                         const isHovered = hoveredIndex === i
+                        const tooltipWidth = 112
+                        const tooltipHeight = 38
+                        const tooltipX = Math.min(Math.max(p[0] - tooltipWidth / 2, 8), width - tooltipWidth - 8)
+                        const tooltipY = Math.max(p[1] - 50, 8)
                         // Mostrar etiquetas Eje X solo para algunos puntos
                         const showLabel = data.length < 10 || i % Math.ceil(data.length / 10) === 0
 
@@ -215,18 +219,18 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data }) => {
                                 {isHovered && (
                                     <g pointerEvents="none">
                                         <rect
-                                            x={p[0] - 40}
-                                            y={p[1] - 45}
-                                            width="80"
-                                            height="35"
+                                            x={tooltipX}
+                                            y={tooltipY}
+                                            width={tooltipWidth}
+                                            height={tooltipHeight}
                                             rx="6"
                                             fill="var(--color-card)"
                                             stroke="var(--color-card-border)"
                                             filter="drop-shadow(0 4px 6px rgba(0,0,0,0.15))"
                                         />
                                         <text
-                                            x={p[0]}
-                                            y={p[1] - 30}
+                                            x={tooltipX + tooltipWidth / 2}
+                                            y={tooltipY + 15}
                                             textAnchor="middle"
                                             fontSize="10"
                                             fontWeight="bold"
@@ -235,8 +239,8 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data }) => {
                                             {data[i].name}
                                         </text>
                                         <text
-                                            x={p[0]}
-                                            y={p[1] - 18}
+                                            x={tooltipX + tooltipWidth / 2}
+                                            y={tooltipY + 29}
                                             textAnchor="middle"
                                             fontSize="11"
                                             fill={chartColor}

@@ -299,7 +299,10 @@
     "empty": "No hay notificaciones nuevas",
     "markAllAsRead": "Marcar todas como leídas",
     "clearAll": "Borrar todas",
-    "newOrder": "Nueva Orden Asignada"
+    "newOrder": "Nueva Orden Asignada",
+    "newOrderTitle": "Nueva Orden Asignada",
+    "newOrderMessage": "Se te ha asignado la orden: {{title}}",
+    "justNow": "Hace un momento"
   },
   "auth": {
     "continue": "Continuar",
@@ -669,11 +672,11 @@
     "tour": {
       "welcome": {
         "title": "¡Bienvenido a Instalaciones!",
-        "description": "Te guiaremos paso a paso para que aprendas a gestionar tus instalaciones. Primero debes crear un tipo de instalación y luego podrás crear instalaciones."
+        "description": "Te guiaremos paso a paso para gestionar tus instalaciones. Antes de crear instalaciones, configura tipos y categorías desde la sección Configuración."
       },
       "createInstallationType": {
-        "title": "Paso 1: Crear Tipo de Instalación",
-        "description": "Antes de crear una instalación, necesitas definir un tipo de instalación (por ejemplo: Oficina, Fábrica, Almacén, etc.). Haz clic aquí para crear tu primer tipo."
+        "title": "Paso 1: Configurar Tipos en Configuración",
+        "description": "Antes de crear una instalación, define los tipos y categorías desde Configuración. Abre el icono de configuración para dejar todo preparado."
       },
       "viewInstallationTypes": {
         "title": "Ver Tipos de Instalación",
@@ -719,15 +722,15 @@
       },
       "goToForms": {
         "title": "Paso 1: Ir a Formularios",
-        "description": "Para crear un activo, primero necesitas una plantilla de formulario. Haz clic en 'Formularios' en el menú lateral para crear tu primera plantilla."
+        "description": "Para crear un activo, primero necesitas una plantilla de formulario. Ve a Formularios para crearla una vez que hayas configurado categorías en Configuración."
       },
       "createFormTemplate": {
         "title": "Paso 2: Crear Plantilla de Formulario",
-        "description": "Aquí puedes crear una plantilla de formulario que servirá como estructura para tus activos. Define los campos que necesitas (texto, número, fecha, etc.)."
+        "description": "Crea una plantilla de formulario que servirá como estructura para tus activos. Define los campos que necesitas (texto, número, fecha, etc.)."
       },
       "viewFormCategories": {
-        "title": "Ver Categorías de Formularios",
-        "description": "Puedes organizar tus plantillas en categorías. Haz clic aquí para ver y gestionar las categorías existentes."
+        "title": "Categorías en Configuración",
+        "description": "La gestión de categorías y tipos ahora está centralizada en Configuración. Abre esa sección para crear o editar catálogos."
       },
       "createAsset": {
         "title": "Paso 3: Crear Activo",
@@ -848,15 +851,15 @@
       },
       "createCategory": {
         "title": "Paso 1: Crear Categoría",
-        "description": "Primero crea una categoría para organizar tus plantillas. Las categorías te ayudan a clasificar tus formularios (ej: Equipos, Vehículos, Maquinaria)."
+        "description": "Las categorías ahora se crean desde Configuración. Abre esa sección para definir catálogos antes de crear plantillas."
       },
       "viewCategories": {
         "title": "Ver Categorías Creadas",
-        "description": "Aquí puedes ver y gestionar todas las categorías que has creado. Puedes editar o eliminar categorías existentes."
+        "description": "La visualización y edición de categorías también se hace desde Configuración."
       },
       "createTemplate": {
         "title": "Paso 2: Crear Plantilla de Formulario",
-        "description": "Una vez tengas categorías, usa este botón para crear tu primera plantilla. Define los campos que necesitas para tus activos (nombre, número de serie, fecha de compra, etc.)."
+        "description": "Una vez tengas la configuración lista, usa este botón para crear tu primera plantilla. Define los campos que necesitas para tus activos."
       },
       "searchFilter": {
         "title": "Buscar y Filtrar",
@@ -1658,8 +1661,8 @@
         "description": "Aquí puedes gestionar todos los dispositivos de esta instalación. Te mostraremos cómo funciona esta sección."
       },
       "goToInstallations": {
-        "title": "Ir a Instalaciones",
-        "description": "Antes de agregar dispositivos, asegúrate de crear las categorías de dispositivos desde la sección de Instalaciones. Haz clic aquí para ir a esa sección."
+        "title": "Abrir Configuración",
+        "description": "Antes de agregar dispositivos, configura categorías, tipos y catálogos desde Configuración. Usa este acceso para dejar todo preparado."
       },
       "createAssetFirst": {
         "title": "Importante: Crear Activos Primero",

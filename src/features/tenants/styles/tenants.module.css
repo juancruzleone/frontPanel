@@ -254,7 +254,7 @@
 /* Responsive */
 @media (max-width: 1024px) {
   .containerTenants {
-    padding: 60px 16px 24px 16px;
+    padding: 24px 16px 24px 16px;
   }
 
   .title {

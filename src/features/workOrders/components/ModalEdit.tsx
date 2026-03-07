@@ -11,6 +11,7 @@ interface ModalEditProps {
   onEdit: (id: string, data: WorkOrder) => Promise<{ message: string }>
   initialData: WorkOrder | null
   installations: any[]
+  technicians: any[]
   loadingInstallations: boolean
   errorLoadingInstallations: string | null
 }
@@ -22,6 +23,7 @@ const ModalEdit = ({
   onEdit,
   initialData,
   installations,
+  technicians,
   loadingInstallations,
   errorLoadingInstallations,
 }: ModalEditProps) => {
@@ -114,6 +116,7 @@ const ModalEdit = ({
             handleSubmitForm={handleSubmitForm}
             isSubmitting={isSubmitting}
             installations={installations}
+            technicians={technicians}
             loadingInstallations={loadingInstallations}
             errorLoadingInstallations={errorLoadingInstallations}
             setFormErrors={setFormErrors}

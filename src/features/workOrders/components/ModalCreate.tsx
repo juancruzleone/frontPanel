@@ -12,6 +12,7 @@ interface ModalCreateProps {
   onSubmitError: (message: string) => void;
   onAdd: (data: WorkOrder) => Promise<{ message: string }>;
   installations: any[];
+  technicians: any[];
   loadingInstallations: boolean;
   errorLoadingInstallations: string | null;
 }
@@ -23,6 +24,7 @@ const ModalCreate = ({
   onSubmitError,
   onAdd,
   installations,
+  technicians,
   loadingInstallations,
   errorLoadingInstallations,
 }: ModalCreateProps) => {
@@ -77,6 +79,7 @@ const ModalCreate = ({
             handleSubmitForm={handleSubmitForm}
             isSubmitting={isSubmitting}
             installations={installations}
+            technicians={technicians}
             loadingInstallations={loadingInstallations}
             errorLoadingInstallations={errorLoadingInstallations}
             setFormErrors={setFormErrors}

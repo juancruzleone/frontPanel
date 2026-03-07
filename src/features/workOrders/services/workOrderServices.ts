@@ -47,7 +47,10 @@ export type WorkOrder = {
   fechaProgramada: Date | string
   horaProgramada: string
   tecnicoAsignado?: string
+  tecnicosAsignados?: string[]
+  tecnicosIds?: string[]
   tecnico?: Technician | Technician[] | string
+  tecnicos?: Technician[]
   creadoPor?: string
   fechaCreacion?: Date | string
   fechaAsignacion?: Date | string
@@ -62,6 +65,8 @@ export type WorkOrder = {
   }[]
   tiempoTrabajo?: number
   estadoDispositivo?: string
+  evidenciaFoto?: string
+  firmaTecnico?: string
   formularioRespuestas?: Record<string, any>
   pdfUrl?: string
   historial?: {
@@ -93,6 +98,16 @@ const handleResponse = async (response: Response) => {
   }
 
   return await response.json();
+}
+
+const normalizeTechnicianIds = (workOrder: Partial<WorkOrder>) => {
+  const ids = [
+    ...(Array.isArray(workOrder.tecnicosAsignados) ? workOrder.tecnicosAsignados : []),
+    ...(Array.isArray(workOrder.tecnicosIds) ? workOrder.tecnicosIds : []),
+    workOrder.tecnicoAsignado,
+  ];
+
+  return Array.from(new Set(ids.filter(Boolean).map((id) => String(id))));
 }
 
 export type PaginatedResponse<T> = {
@@ -144,10 +159,17 @@ export const fetchInstallations = async (): Promise<Installation[]> => {
 }
 
 export const createWorkOrder = async (workOrder: WorkOrder) => {
+  const technicianIds = normalizeTechnicianIds(workOrder)
+  const payload = {
+    ...workOrder,
+    tecnicoAsignado: technicianIds[0] || undefined,
+    tecnicosAsignados: technicianIds,
+    tecnicosIds: technicianIds,
+  }
   const response = await fetch(`${API_URL}ordenes-trabajo`, {
     method: "POST",
     headers: getHeadersWithContentType(),
-    body: JSON.stringify(workOrder),
+    body: JSON.stringify(payload),
   })
 
   const result = await handleResponse(response)
@@ -156,11 +178,18 @@ export const createWorkOrder = async (workOrder: WorkOrder) => {
 
 export const updateWorkOrder = async (id: string, workOrder: WorkOrder) => {
   const { _id, ...rest } = workOrder
+  const technicianIds = normalizeTechnicianIds(rest)
+  const payload = {
+    ...rest,
+    tecnicoAsignado: technicianIds[0] || undefined,
+    tecnicosAsignados: technicianIds,
+    tecnicosIds: technicianIds,
+  }
 
   const response = await fetch(`${API_URL}ordenes-trabajo/${id}`, {
     method: "PUT",
     headers: getHeadersWithContentType(),
-    body: JSON.stringify(rest),
+    body: JSON.stringify(payload),
   })
 
   const result = await handleResponse(response)
@@ -176,24 +205,21 @@ export const deleteWorkOrder = async (id: string) => {
   return handleResponse(response)
 }
 
-export const assignTechnicianToWorkOrder = async (workOrderId: string, technicianId: string) => {
-  // console.log('DEBUG: Assigning technician', { workOrderId, technicianId })
-
+export const assignTechnicianToWorkOrder = async (workOrderId: string, technicianIds: string[]) => {
+  const normalizedIds = Array.from(new Set(technicianIds.filter(Boolean).map((id) => String(id))))
   const url = `${API_URL}ordenes-trabajo/${workOrderId}/asignar`
-  const body = JSON.stringify({ tecnicoId: technicianId })
-
-
-
-  // Usar PATCH según la configuración del backend
+  const body = JSON.stringify({
+    tecnicoId: normalizedIds[0] || undefined,
+    tecnicoAsignado: normalizedIds[0] || undefined,
+    tecnicosAsignados: normalizedIds,
+    tecnicosIds: normalizedIds,
+    enviarPush: true,
+  })
   const response = await fetch(url, {
     method: "PATCH",
     headers: getHeadersWithContentType(),
     body: body,
   })
-
-
-
-  // console.log('DEBUG: Assign response received')
 
   return handleResponse(response)
 }

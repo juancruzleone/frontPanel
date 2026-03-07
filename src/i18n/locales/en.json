@@ -291,6 +291,16 @@
     "page": "Page",
     "of": "of"
   },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "No new notifications",
+    "markAllAsRead": "Mark all as read",
+    "clearAll": "Clear all",
+    "newOrder": "New Work Order Assigned",
+    "newOrderTitle": "New Work Order Assigned",
+    "newOrderMessage": "A work order was assigned to you: {{title}}",
+    "justNow": "Just now"
+  },
   "auth": {
     "understood": "Close",
     "login": "Login",

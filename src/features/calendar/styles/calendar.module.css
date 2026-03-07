@@ -863,7 +863,7 @@
 /* Responsive Design */
 @media (max-width: 1024px) {
   .containerCalendar {
-    padding: 60px 16px 24px 16px;
+    padding: 24px 16px 24px 16px;
   }
 
   .title {
@@ -875,6 +875,16 @@
 @media (max-width: 768px) {
   .filtersContainer {
     padding: 16px;
+  }
+
+  .searchContainer {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+
+  .searchContainer > div {
+    width: 100%;
   }
 
   .additionalFilters {
@@ -905,7 +915,8 @@
   }
 
   .clearFilters {
-    min-width: 100%;
+    width: 100%;
+    min-width: 0;
     padding: 14px 20px;
     font-size: 15px;
   }

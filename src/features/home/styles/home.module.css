@@ -166,6 +166,12 @@ html {
   letter-spacing: -0.01em;
 }
 
+.chartsSection .sectionTitle,
+.lineChartSection .sectionTitle,
+.recentSection .sectionTitle {
+  margin-top: 8px;
+}
+
 /* Nuevos estilos para las tarjetas de estadísticas modernas */
 .statsCardsRow {
   display: grid;
@@ -1222,14 +1228,14 @@ html {
   min-height: 280px;
   width: 100% !important;
   max-width: 100% !important;
-  overflow: hidden !important;
+  overflow: visible !important;
   box-sizing: border-box !important;
-  contain: layout style paint !important;
+  contain: layout style !important;
 }
 
 .lineChartContainer svg {
   max-width: 100% !important;
-  overflow: hidden !important;
+  overflow: visible !important;
 }
 
 /* Forzar que todos los ResponsiveContainer no excedan el ancho */
@@ -1237,21 +1243,21 @@ html {
 .pieChartContainer .recharts-responsive-container,
 .lineChartContainer .recharts-responsive-container {
   max-width: 100% !important;
-  overflow: hidden !important;
+  overflow: visible !important;
 }
 
 .barChartContainer .recharts-wrapper,
 .pieChartContainer .recharts-wrapper,
 .lineChartContainer .recharts-wrapper {
   max-width: 100% !important;
-  overflow: hidden !important;
+  overflow: visible !important;
 }
 
 .barChartContainer .recharts-surface,
 .pieChartContainer .recharts-surface,
 .lineChartContainer .recharts-surface {
   max-width: 100% !important;
-  overflow: hidden !important;
+  overflow: visible !important;
 }
 
 .lineChartContainer .recharts-cartesian-grid-horizontal line,

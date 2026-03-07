@@ -488,7 +488,7 @@
 
 @media (max-width: 1024px) {
   .containerManuals {
-    padding: 60px 16px 24px 16px;
+    padding: 24px 16px 24px 16px;
   }
 
   .title {
@@ -508,7 +508,7 @@
 
 @media (max-width: 600px) {
   .containerManuals {
-    padding: 60px 4px 24px 4px;
+    padding: 20px 4px 24px 4px;
   }
 
   .headerContainer {

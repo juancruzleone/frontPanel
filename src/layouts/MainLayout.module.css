@@ -60,18 +60,18 @@
   flex: 1;
   max-width: 100%;
   width: 100%;
-  padding: 16px;
+  padding: 74px 16px 16px;
   box-sizing: border-box;
 }
 
 @media (min-width: 768px) {
   .contentArea main {
-    padding: 20px;
+    padding: 80px 20px 20px;
   }
 }
 
 @media (min-width: 1024px) {
   .contentArea main {
-    padding: 24px;
+    padding: 84px 24px 24px;
   }
 }

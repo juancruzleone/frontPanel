@@ -264,6 +264,16 @@
     "all": "全部",
     "optional": "可选"
   },
+  "notifications": {
+    "title": "通知",
+    "empty": "暂无新通知",
+    "markAllAsRead": "全部标记为已读",
+    "clearAll": "清空全部",
+    "newOrder": "新的工单已分配",
+    "newOrderTitle": "新的工单已分配",
+    "newOrderMessage": "你收到新的工单：{{title}}",
+    "justNow": "刚刚"
+  },
   "auth": {
     "understood": "关闭",
     "successTitle": "操作成功！",

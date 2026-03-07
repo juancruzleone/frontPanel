@@ -119,4 +119,48 @@ async function sendPendingData(data) {
 
 async function removePendingData(id) {
   console.log('Removing sent data:', id);
-} 
+}
+
+self.addEventListener('push', (event) => {
+  if (!event.data) {
+    return;
+  }
+
+  let payload = {};
+  try {
+    payload = event.data.json();
+  } catch {
+    payload = { message: event.data.text() };
+  }
+
+  const title = payload.title || 'Nueva notificación';
+  const options = {
+    body: payload.message || payload.body || '',
+    icon: payload.icon || '/logo leonix 5.svg',
+    badge: payload.badge || '/logo leonix 5.svg',
+    data: payload.data || { url: '/ordenes-trabajo' },
+    tag: payload.tag || 'leonix-push',
+    renotify: true,
+  };
+
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const targetUrl = event.notification?.data?.url || '/ordenes-trabajo';
+
+  event.waitUntil(
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+      for (const client of clientList) {
+        if ('focus' in client) {
+          client.navigate(targetUrl);
+          return client.focus();
+        }
+      }
+      if (clients.openWindow) {
+        return clients.openWindow(targetUrl);
+      }
+    })
+  );
+});

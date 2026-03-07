@@ -265,6 +265,15 @@
     min-height: 48px;
   }
 
+  .hybridSelect.compact {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .compactWrapper {
+    width: 100%;
+  }
+
   .hybridDropdown {
     max-height: 240px;
   }

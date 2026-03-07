@@ -35,11 +35,11 @@ export const useInstallationDetailTour = () => {
           }
         },
         {
-          element: '[data-tour="nav-installations"]',
+          element: '[data-tour="open-settings"]',
           popover: {
             title: t('installationDetails.tour.goToInstallations.title'),
             description: t('installationDetails.tour.goToInstallations.description'),
-            side: "right",
+            side: "left",
             align: 'start'
           }
         },

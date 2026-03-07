@@ -97,7 +97,7 @@ const Nav = () => {
         onClick={() => setIsMenuOpen(prev => !prev)}
         aria-label={isMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
       >
-        {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+        {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
 
       <nav className={`${styles.nav} ${isMenuOpen ? styles.open : ""} ${isSidebarCollapsed ? styles.collapsed : ""}`}>

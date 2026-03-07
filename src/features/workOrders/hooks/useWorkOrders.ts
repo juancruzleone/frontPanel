@@ -52,7 +52,10 @@ export type WorkOrder = {
   fechaProgramada: Date | string
   horaProgramada: string
   tecnicoAsignado?: string
+  tecnicosAsignados?: string[]
+  tecnicosIds?: string[]
   tecnico?: Technician | Technician[] | string
+  tecnicos?: Technician[]
   creadoPor?: string
   fechaCreacion?: Date | string
   fechaAsignacion?: Date | string
@@ -67,6 +70,8 @@ export type WorkOrder = {
   }[]
   tiempoTrabajo?: number
   estadoDispositivo?: string
+  evidenciaFoto?: string
+  firmaTecnico?: string
   formularioRespuestas?: Record<string, any>
   pdfUrl?: string
   historial?: {
@@ -102,11 +107,24 @@ const useWorkOrders = () => {
     fechaProgramada: new Date().toISOString().split('T')[0], // YYYY-MM-DD
     horaProgramada: "09:00",
     observaciones: "",
+    tecnicoAsignado: "",
+    tecnicosAsignados: [],
+    tecnicosIds: [],
   })
 
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { t } = useTranslation();
+
+  const normalizeTechnicianIds = useCallback((data: Partial<WorkOrder> | WorkOrder) => {
+    const candidates = [
+      ...(Array.isArray(data?.tecnicosAsignados) ? data.tecnicosAsignados : []),
+      ...(Array.isArray(data?.tecnicosIds) ? data.tecnicosIds : []),
+      data?.tecnicoAsignado,
+    ];
+
+    return Array.from(new Set(candidates.filter(Boolean).map((id) => String(id))));
+  }, []);
 
   const loadTechnicians = useCallback(async () => {
     try {
@@ -168,8 +186,12 @@ const useWorkOrders = () => {
       } catch (e) { }
     }
 
+    const technicianIds = normalizeTechnicianIds(workOrder);
     const workOrderWithTZ = {
       ...workOrder,
+      tecnicoAsignado: technicianIds[0] || undefined,
+      tecnicosAsignados: technicianIds,
+      tecnicosIds: technicianIds,
       fechaProgramada: fechaHoraISO,
       timezone: timeZone,
       userOffset: offset
@@ -193,8 +215,12 @@ const useWorkOrders = () => {
       } catch (e) { }
     }
 
+    const technicianIds = normalizeTechnicianIds(updatedData);
     const payload = {
       ...updatedData,
+      tecnicoAsignado: technicianIds[0] || undefined,
+      tecnicosAsignados: technicianIds,
+      tecnicosIds: technicianIds,
       fechaProgramada: fechaHoraISO
     };
 
@@ -208,10 +234,10 @@ const useWorkOrders = () => {
     setWorkOrders((prev) => prev.filter((o) => o._id !== id))
   }
 
-  const assignTechnician = async (workOrderId: string, technicianId: string) => {
+  const assignTechnician = async (workOrderId: string, technicianIds: string[]) => {
 
     try {
-      await assignTechnicianToWorkOrder(workOrderId, technicianId)
+      await assignTechnicianToWorkOrder(workOrderId, technicianIds)
 
       await loadWorkOrders()
 
@@ -236,6 +262,8 @@ const useWorkOrders = () => {
               observaciones: data.observaciones,
               tiempoTrabajo: data.tiempoTrabajo,
               estadoDispositivo: data.estadoDispositivo,
+              evidenciaFoto: data.evidenciaFoto,
+              firmaTecnico: data.firmaTecnico,
               ...result,
             }
             : o,
@@ -333,6 +361,9 @@ const useWorkOrders = () => {
       fechaProgramada: new Date().toISOString().split('T')[0], // YYYY-MM-DD
       horaProgramada: "09:00",
       observaciones: "",
+      tecnicoAsignado: "",
+      tecnicosAsignados: [],
+      tecnicosIds: [],
     })
     setFormErrors({})
   }, [])
@@ -422,6 +453,9 @@ const useWorkOrders = () => {
         fechaProgramada,
         horaProgramada: data.horaProgramada || "09:00",
         observaciones: data.observaciones || "",
+        tecnicoAsignado: data.tecnicoAsignado || "",
+        tecnicosAsignados: normalizeTechnicianIds(data),
+        tecnicosIds: normalizeTechnicianIds(data),
         instalacion: instalacionObject || undefined,
       }
 
@@ -430,7 +464,7 @@ const useWorkOrders = () => {
       setFormData(updatedFormData)
       setFormErrors({})
     },
-    [extractInstalacionId],
+    [extractInstalacionId, normalizeTechnicianIds],
   )
 
   return {

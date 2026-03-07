@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import Button from "../shared/components/Buttons/buttonCreate"
 import SearchInput from "../shared/components/Inputs/SearchInput"
@@ -25,12 +25,34 @@ import { useAuthStore } from "../store/authStore"
 import { useWorkOrdersTour } from "../features/workOrders/hooks/useWorkOrdersTour"
 import TourButton from "../shared/components/Buttons/TourButton"
 import Tooltip from "../shared/components/Tooltip/Tooltip"
+import { socketService } from "../shared/services/socketService"
 
 const renderTechnicianInfo = (order: WorkOrder, t: (key: string) => string) => {
-  if (order.tecnico && (order.tecnico as any).userName) {
+  const namesFromTecnicos = Array.isArray(order.tecnicos)
+    ? order.tecnicos.map((tech) => tech.userName).filter(Boolean)
+    : []
+  const namesFromTecnico = Array.isArray(order.tecnico)
+    ? order.tecnico.map((tech: any) => tech?.userName).filter(Boolean)
+    : (order.tecnico as any)?.userName
+      ? [(order.tecnico as any).userName]
+      : []
+  const technicianNames = Array.from(new Set([...namesFromTecnicos, ...namesFromTecnico]))
+  const technicianIds = Array.from(
+    new Set(
+      [
+        ...(Array.isArray(order.tecnicosAsignados) ? order.tecnicosAsignados : []),
+        ...(Array.isArray(order.tecnicosIds) ? order.tecnicosIds : []),
+        order.tecnicoAsignado,
+      ]
+        .filter(Boolean)
+        .map((id) => String(id))
+    )
+  )
+
+  if (technicianNames.length > 0) {
     return (
       <p>
-        <strong>{t('workOrders.technician')}:</strong> {(order.tecnico as any).userName}
+        <strong>{t('workOrders.technician')}:</strong> {technicianNames.join(", ")}
         {order.estado === "asignada" && (
           <span style={{ marginLeft: "8px", color: "#4CAF50", fontSize: "0.8em" }}>({t('workOrders.pendingStart')})</span>
         )}
@@ -41,10 +63,10 @@ const renderTechnicianInfo = (order: WorkOrder, t: (key: string) => string) => {
     )
   }
 
-  if (order.tecnicoAsignado) {
+  if (technicianIds.length > 0) {
     return (
       <p style={{ color: "orange" }}>
-        <strong>{t('workOrders.assignedTechnician')}:</strong> ID {order.tecnicoAsignado}
+        <strong>{t('workOrders.assignedTechnician')}:</strong> ID {technicianIds.join(", ")}
         <br />
         <small>{t('workOrders.loadingTechnicianDetails')}</small>
       </p>
@@ -143,8 +165,7 @@ const WorkOrders = () => {
     loadInstallations()
   }, [])
 
-  // Cargar órdenes cuando cambian los filtros o la página
-  useEffect(() => {
+  const buildFilters = useCallback(() => {
     const filters: any = {
       estado: selectedStatus,
       search: searchTerm,
@@ -210,8 +231,21 @@ const WorkOrders = () => {
       }
     }
 
+    return filters
+  }, [selectedStatus, searchTerm, selectedPriority, selectedTechnician, selectedDate, selectedDateFilter, timeZone, offset])
+
+  useEffect(() => {
+    const filters = buildFilters()
     loadWorkOrders(currentPage, itemsPerPage, filters)
-  }, [currentPage, selectedStatus, searchTerm, selectedPriority, selectedTechnician, selectedDate, selectedDateFilter, timeZone, offset, loadWorkOrders])
+  }, [currentPage, buildFilters, loadWorkOrders])
+
+  useEffect(() => {
+    const unsubscribe = socketService.onWorkOrdersChanged(() => {
+      loadWorkOrders(currentPage, itemsPerPage, buildFilters())
+    })
+
+    return unsubscribe
+  }, [currentPage, buildFilters, loadWorkOrders])
 
   const statusOptions = useMemo(
     () => [
@@ -322,7 +356,7 @@ const WorkOrders = () => {
     setIsAssignModalOpen(false)
     setIsCompleteModalOpen(false)
     setIsDetailsModalOpen(false)
-    loadWorkOrders(currentPage, itemsPerPage, { estado: selectedStatus, search: searchTerm })
+    loadWorkOrders(currentPage, itemsPerPage, buildFilters())
   }
 
   const onError = async (msg: string) => {
@@ -587,7 +621,7 @@ const WorkOrders = () => {
                           </button>
                         </Tooltip>
                       )}
-                      {permissions?.canAssignWorkOrders && order.estado === "pendiente" && (
+                      {permissions?.canAssignWorkOrders && ["pendiente", "asignada"].includes(order.estado) && (
                         <Tooltip content={t('workOrders.assignTechnician')}>
                           <button
                             className={styles.iconButton}
@@ -651,6 +685,7 @@ const WorkOrders = () => {
         onSubmitError={onError}
         onAdd={addWorkOrder}
         installations={installations}
+        technicians={technicians}
         loadingInstallations={loadingInstallations}
         errorLoadingInstallations={errorLoadingInstallations}
       />
@@ -662,6 +697,7 @@ const WorkOrders = () => {
         onEdit={editWorkOrder}
         initialData={initialData}
         installations={installations}
+        technicians={technicians}
         loadingInstallations={loadingInstallations}
         errorLoadingInstallations={errorLoadingInstallations}
       />

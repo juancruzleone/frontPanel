@@ -2,47 +2,44 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import { RouterProvider } from "react-router-dom"
 import { router } from "./router"
-import { ThemeProvider } from "./shared/hooks/useTheme"
+import { ThemeProvider, useTheme } from "./shared/hooks/useTheme"
+import { Toaster } from "sonner"
 import "./index.css"
 import "../src/styles/font.css"
 import "./i18n"
 
-// Registrar Service Worker para PWA - TEMPORALMENTE DESHABILITADO
-/*
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js', {
-      updateViaCache: 'none'
+      updateViaCache: 'none',
+    }).catch((error) => {
+      console.error('Error al registrar service worker', error)
     })
-      .then((registration) => {
-        console.log('SW registered: ', registration);
-        
-        // Verificar actualizaciones del Service Worker
-        registration.addEventListener('updatefound', () => {
-          const newWorker = registration.installing;
-          if (newWorker) {
-            newWorker.addEventListener('statechange', () => {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                // Hay una nueva versión disponible
-                if (confirm('Hay una nueva versión disponible. ¿Deseas actualizar?')) {
-                  newWorker.postMessage({ type: 'SKIP_WAITING' });
-                  window.location.reload();
-                }
-              }
-            });
-          }
-        });
-      })
-      .catch((registrationError) => {
-        console.log('SW registration failed: ', registrationError);
-      });
-  });
+  })
 }
-*/
+
+const ThemedToaster = () => {
+  const { dark } = useTheme()
+
+  return (
+    <Toaster
+      position="bottom-right"
+      theme={dark ? "dark" : "light"}
+      toastOptions={{
+        classNames: {
+          toast: "appToast",
+          title: "appToastTitle",
+          description: "appToastDescription",
+        },
+      }}
+    />
+  )
+}
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ThemeProvider>
+      <ThemedToaster />
       <RouterProvider router={router} />
     </ThemeProvider>
   </React.StrictMode>,

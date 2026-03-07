@@ -2,14 +2,14 @@ import React, { useState } from "react"
 import styles from "../styles/workOrderForm.module.css"
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 import { useTranslation } from "react-i18next"
-import HybridSelect from "../../../shared/components/HybridSelect/HybridSelect"
 
 interface AssignTechnicianFormProps {
   onCancel: () => void
   onSuccess: (message: string) => void
-  onAssign: (technicianId: string) => Promise<{ message: string }>
+  onAssign: (technicianIds: string[]) => Promise<{ message: string }>
   workOrder: { titulo: string }
   technicians: { _id: string; userName: string; role: string }[]
+  initialSelectedTechnicians?: string[]
   isSubmitting: boolean
 }
 
@@ -19,10 +19,11 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
   onAssign,
   workOrder,
   technicians,
+  initialSelectedTechnicians = [],
   isSubmitting,
 }) => {
   const { t } = useTranslation()
-  const [selectedTechnician, setSelectedTechnician] = useState("")
+  const [selectedTechnicians, setSelectedTechnicians] = useState<string[]>(initialSelectedTechnicians)
   const [error, setError] = useState("")
   const [touched, setTouched] = useState(false)
 
@@ -31,13 +32,13 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!selectedTechnician) {
+    if (selectedTechnicians.length === 0) {
       setError(t('workOrders.selectTechnician'))
       return
     }
     try {
 
-      const result = await onAssign(selectedTechnician)
+      const result = await onAssign(selectedTechnicians)
 
       onSuccess(result.message)
     } catch (err: any) {
@@ -48,21 +49,20 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
 
   const handleBlur = () => {
     setTouched(true)
-    if (!selectedTechnician) setError(t('workOrders.selectTechnician'))
+    if (selectedTechnicians.length === 0) setError(t('workOrders.selectTechnician'))
     else setError("")
   }
 
-  const handleTechnicianSelect = (technicianId: string) => {
-    setSelectedTechnician(technicianId)
+  const handleTechnicianToggle = (technicianId: string) => {
+    setSelectedTechnicians((prev) => {
+      if (prev.includes(technicianId)) {
+        return prev.filter((id) => id !== technicianId)
+      }
+      return [...prev, technicianId]
+    })
     setTouched(true)
     if (error) setError("")
   }
-
-  // Convertir técnicos a formato de opciones para HybridSelect
-  const technicianOptions = technicians.map(tech => ({
-    value: tech._id,
-    label: tech.userName
-  }))
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
@@ -74,15 +74,19 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
 
         <div className={styles.formGroup}>
           <label>{t('workOrders.assignTechnician')}</label>
-          <HybridSelect
-            value={selectedTechnician}
-            onChange={handleTechnicianSelect}
-            onBlur={handleBlur}
-            options={technicianOptions}
-            placeholder={t('workOrders.selectTechnician')}
-            disabled={isSubmitting}
-            className={error && touched ? styles.errorInput : ""}
-          />
+          <div className={`${styles.multiSelectList} ${error && touched ? styles.errorInput : ""}`} onBlur={handleBlur}>
+            {technicians.map((tech) => (
+              <label key={tech._id} className={styles.multiSelectItem}>
+                <input
+                  type="checkbox"
+                  checked={selectedTechnicians.includes(tech._id)}
+                  onChange={() => handleTechnicianToggle(tech._id)}
+                  disabled={isSubmitting}
+                />
+                <span>{tech.userName}</span>
+              </label>
+            ))}
+          </div>
           {error && touched && <p className={styles.inputError}>{error}</p>}
         </div>
 

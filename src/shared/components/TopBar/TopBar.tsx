@@ -89,9 +89,9 @@ const TopBar: React.FC = () => {
         try {
             const now = new Date();
             const diffInMinutes = Math.floor((date.getTime() - now.getTime()) / (1000 * 60));
-            return new Intl.RelativeTimeFormat('es', { numeric: 'auto' }).format(diffInMinutes, 'minute');
-        } catch (e) {
-            return "Hace un momento";
+            return new Intl.RelativeTimeFormat(currentLangCode, { numeric: 'auto' }).format(diffInMinutes, 'minute');
+        } catch {
+            return t('notifications.justNow');
         }
     };
 
@@ -146,10 +146,10 @@ const TopBar: React.FC = () => {
                                 <div className={styles.dropdownHeader}>
                                     <h3>{t('notifications.title') || 'Notificaciones'}</h3>
                                     <div className={styles.headerActions}>
-                                        <button onClick={markAllAsRead} title="Marcar todas como leídas">
+                                        <button onClick={markAllAsRead} title={t('notifications.markAllAsRead')}>
                                             <Check size={16} />
                                         </button>
-                                        <button onClick={clearNotifications} title="Borrar todas">
+                                        <button onClick={clearNotifications} title={t('notifications.clearAll')}>
                                             <Trash2 size={16} />
                                         </button>
                                     </div>
@@ -158,7 +158,7 @@ const TopBar: React.FC = () => {
                                     {notifications.length === 0 ? (
                                         <div className={styles.emptyState}>
                                             <Bell size={40} className={styles.emptyIcon} />
-                                            <p>{t('notifications.empty') || 'No hay notificaciones'}</p>
+                                            <p>{t('notifications.empty')}</p>
                                         </div>
                                     ) : (
                                         notifications.map((notif) => (
@@ -187,6 +187,7 @@ const TopBar: React.FC = () => {
                         className={styles.actionButton}
                         aria-label="Configuración"
                         onClick={() => navigate('/configuracion')}
+                        data-tour="open-settings"
                     >
                         <Settings size={20} />
                     </button>

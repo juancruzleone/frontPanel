@@ -1,5 +1,5 @@
 import type React from "react"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import styles from "../styles/Modal.module.css"
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 import type { WorkOrder } from "../hooks/useWorkOrders"
@@ -19,12 +19,18 @@ const ModalCompleteWorkOrder = ({
   onComplete,
   workOrder,
 }: ModalCompleteWorkOrderProps) => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const isDrawingRef = useRef(false)
+  const lastPointRef = useRef<{ x: number; y: number } | null>(null)
   const [completionData, setCompletionData] = useState({
     trabajoRealizado: "",
     observaciones: "",
     tiempoTrabajo: 1,
     materialesUtilizados: [],
     estadoDispositivo: "",
+    evidenciaFoto: "",
+    nombreFoto: "",
+    firmaTecnico: "",
   })
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -37,6 +43,9 @@ const ModalCompleteWorkOrder = ({
       tiempoTrabajo: 1,
       materialesUtilizados: [],
       estadoDispositivo: "",
+      evidenciaFoto: "",
+      nombreFoto: "",
+      firmaTecnico: "",
     })
     setTouchedFields({})
     setError("")
@@ -58,6 +67,75 @@ const ModalCompleteWorkOrder = ({
 
   const showError = (fieldName: string) =>
     touchedFields[fieldName] && !completionData[fieldName as keyof typeof completionData]
+
+  const updateSignatureValue = () => {
+    if (!canvasRef.current) return
+    const dataUrl = canvasRef.current.toDataURL("image/png")
+    setCompletionData((prev) => ({ ...prev, firmaTecnico: dataUrl }))
+  }
+
+  const getCanvasPoint = (clientX: number, clientY: number) => {
+    if (!canvasRef.current) return { x: 0, y: 0 }
+    const rect = canvasRef.current.getBoundingClientRect()
+    return {
+      x: clientX - rect.left,
+      y: clientY - rect.top,
+    }
+  }
+
+  const startDrawing = (clientX: number, clientY: number) => {
+    const point = getCanvasPoint(clientX, clientY)
+    isDrawingRef.current = true
+    lastPointRef.current = point
+  }
+
+  const draw = (clientX: number, clientY: number) => {
+    if (!isDrawingRef.current || !canvasRef.current || !lastPointRef.current) return
+    const context = canvasRef.current.getContext("2d")
+    if (!context) return
+
+    const point = getCanvasPoint(clientX, clientY)
+    context.lineWidth = 2
+    context.lineCap = "round"
+    context.lineJoin = "round"
+    context.strokeStyle = "#0f172a"
+    context.beginPath()
+    context.moveTo(lastPointRef.current.x, lastPointRef.current.y)
+    context.lineTo(point.x, point.y)
+    context.stroke()
+    lastPointRef.current = point
+  }
+
+  const stopDrawing = () => {
+    if (!isDrawingRef.current) return
+    isDrawingRef.current = false
+    lastPointRef.current = null
+    updateSignatureValue()
+  }
+
+  const clearSignature = () => {
+    if (!canvasRef.current) return
+    const context = canvasRef.current.getContext("2d")
+    if (!context) return
+    context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
+    setCompletionData((prev) => ({ ...prev, firmaTecnico: "" }))
+  }
+
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.onload = () => {
+      const result = typeof reader.result === "string" ? reader.result : ""
+      setCompletionData((prev) => ({
+        ...prev,
+        evidenciaFoto: result,
+        nombreFoto: file.name,
+      }))
+    }
+    reader.readAsDataURL(file)
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -81,6 +159,11 @@ const ModalCompleteWorkOrder = ({
       return
     }
 
+    if (!completionData.firmaTecnico) {
+      setError("La firma del técnico es obligatoria")
+      return
+    }
+
     setIsSubmitting(true)
     try {
       
@@ -97,13 +180,26 @@ const ModalCompleteWorkOrder = ({
   }
 
   useEffect(() => {
+    if (!canvasRef.current) return
+    const context = canvasRef.current.getContext("2d")
+    if (!context) return
+    context.fillStyle = "#ffffff"
+    context.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height)
+  }, [isOpen])
+
+  useEffect(() => {
+    const currentDeviceState =
+      (workOrder?.dispositivo as WorkOrder["dispositivo"] & { estado?: string } | undefined)?.estado || "Activo"
     if (isOpen && workOrder) {
       setCompletionData({
         trabajoRealizado: "",
         observaciones: "",
         tiempoTrabajo: 1,
         materialesUtilizados: [],
-        estadoDispositivo: workOrder.dispositivo?.estado || "Activo",
+        estadoDispositivo: currentDeviceState,
+        evidenciaFoto: "",
+        nombreFoto: "",
+        firmaTecnico: "",
       })
       setTouchedFields({})
       setError("")
@@ -144,7 +240,7 @@ const ModalCompleteWorkOrder = ({
                   <div className={styles.infoDisplay}>
                     <strong>{workOrder.dispositivo.nombre}</strong>
                     <p>Ubicación: {workOrder.dispositivo.ubicacion}</p>
-                    <p>Estado actual: {workOrder.dispositivo.estado}</p>
+                    <p>Estado actual: {(workOrder.dispositivo as WorkOrder["dispositivo"] & { estado?: string }).estado || "Activo"}</p>
                   </div>
                 </div>
               )}
@@ -179,6 +275,53 @@ const ModalCompleteWorkOrder = ({
                   className={showError("observaciones") ? styles.errorInput : ""}
                 />
                 {showError("observaciones") && <p className={styles.inputError}>Las observaciones son obligatorias</p>}
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Foto de evidencia</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  capture="environment"
+                  onChange={handlePhotoChange}
+                  disabled={isSubmitting}
+                />
+                {completionData.evidenciaFoto && (
+                  <div className={styles.previewBlock}>
+                    <img src={completionData.evidenciaFoto} alt={completionData.nombreFoto || "Evidencia"} className={styles.previewImage} />
+                  </div>
+                )}
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Firma digital del técnico*</label>
+                <div className={`${styles.signatureBox} ${showError("firmaTecnico") ? styles.errorInput : ""}`}>
+                  <canvas
+                    ref={canvasRef}
+                    width={720}
+                    height={220}
+                    className={styles.signatureCanvas}
+                    onMouseDown={(e) => startDrawing(e.clientX, e.clientY)}
+                    onMouseMove={(e) => draw(e.clientX, e.clientY)}
+                    onMouseUp={stopDrawing}
+                    onMouseLeave={stopDrawing}
+                    onTouchStart={(e) => {
+                      e.preventDefault()
+                      const touch = e.touches[0]
+                      startDrawing(touch.clientX, touch.clientY)
+                    }}
+                    onTouchMove={(e) => {
+                      e.preventDefault()
+                      const touch = e.touches[0]
+                      draw(touch.clientX, touch.clientY)
+                    }}
+                    onTouchEnd={stopDrawing}
+                  />
+                </div>
+                <button type="button" onClick={clearSignature} disabled={isSubmitting} className={styles.clearSignatureButton}>
+                  Limpiar firma
+                </button>
+                {showError("firmaTecnico") && <p className={styles.inputError}>La firma es obligatoria</p>}
               </div>
 
               {/* Fila corregida para alineación */}

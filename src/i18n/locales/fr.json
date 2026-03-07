@@ -256,6 +256,16 @@
     "all": "Toutes",
     "optional": "facultatif"
   },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "Aucune nouvelle notification",
+    "markAllAsRead": "Tout marquer comme lu",
+    "clearAll": "Tout effacer",
+    "newOrder": "Nouvel ordre de travail assigné",
+    "newOrderTitle": "Nouvel ordre de travail assigné",
+    "newOrderMessage": "Un ordre vous a été assigné : {{title}}",
+    "justNow": "À l'instant"
+  },
   "auth": {
     "understood": "Fermer",
     "successTitle": "Opération réussie !",

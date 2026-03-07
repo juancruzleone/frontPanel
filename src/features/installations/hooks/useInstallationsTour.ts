@@ -32,20 +32,11 @@ export const useInstallationsTour = () => {
           }
         },
         {
-          element: '[data-tour="create-installation-type-btn"]',
+          element: '[data-tour="open-settings"]',
           popover: {
             title: t('installations.tour.createInstallationType.title'),
             description: t('installations.tour.createInstallationType.description'),
-            side: "bottom",
-            align: 'start'
-          }
-        },
-        {
-          element: '[data-tour="view-installation-types-btn"]',
-          popover: {
-            title: t('installations.tour.viewInstallationTypes.title'),
-            description: t('installations.tour.viewInstallationTypes.description'),
-            side: "bottom",
+            side: "left",
             align: 'start'
           }
         },

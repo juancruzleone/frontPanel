@@ -8,7 +8,7 @@ interface ModalAssignTechnicianProps {
   isOpen: boolean;
   onRequestClose: () => void;
   onSubmitSuccess: (message: string) => void;
-  onAssign: (workOrderId: string, technicianId: string) => Promise<{ message: string }>;
+  onAssign: (workOrderId: string, technicianIds: string[]) => Promise<{ message: string }>;
   workOrder: WorkOrder | null;
   technicians: any[];
 }
@@ -30,14 +30,14 @@ const ModalAssignTechnician = ({
     }
   };
 
-  const handleAssign = async (technicianId: string) => {
+  const handleAssign = async (technicianIds: string[]) => {
     if (!workOrder?._id) {
       throw new Error(t('workOrders.invalidWorkOrder'))
     }
     
     setIsSubmitting(true);
     try {
-      const result = await onAssign(workOrder._id, technicianId);
+      const result = await onAssign(workOrder._id, technicianIds);
       return result;
     } finally {
       setIsSubmitting(false);
@@ -45,6 +45,18 @@ const ModalAssignTechnician = ({
   };
 
   if (!isOpen || !workOrder) return null;
+
+  const initialSelectedTechnicians = Array.from(
+    new Set(
+      [
+        ...(Array.isArray(workOrder.tecnicosAsignados) ? workOrder.tecnicosAsignados : []),
+        ...(Array.isArray(workOrder.tecnicosIds) ? workOrder.tecnicosIds : []),
+        workOrder.tecnicoAsignado,
+      ]
+        .filter(Boolean)
+        .map((id) => String(id))
+    )
+  );
 
   return (
     <div className={styles.backdrop}>
@@ -67,6 +79,7 @@ const ModalAssignTechnician = ({
             onAssign={handleAssign}
             workOrder={workOrder}
             technicians={technicians}
+            initialSelectedTechnicians={initialSelectedTechnicians}
             isSubmitting={isSubmitting}
           />
         </div>

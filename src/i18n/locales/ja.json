@@ -264,6 +264,16 @@
     "all": "すべて",
     "optional": "任意"
   },
+  "notifications": {
+    "title": "通知",
+    "empty": "新しい通知はありません",
+    "markAllAsRead": "すべて既読にする",
+    "clearAll": "すべて削除",
+    "newOrder": "新しい作業指示が割り当てられました",
+    "newOrderTitle": "新しい作業指示が割り当てられました",
+    "newOrderMessage": "作業指示が割り当てられました: {{title}}",
+    "justNow": "たった今"
+  },
   "auth": {
     "understood": "閉じる",
     "successTitle": "操作が成功しました！",
