@@ -123,6 +123,9 @@ html {
   display: flex;
   flex-direction: column;
   gap: 40px;
+  margin: 0 !important;
+  padding: 0 !important;
+  padding-inline: 0 !important;
   overflow-x: hidden !important;
   width: 100%;
   max-width: 100%;
@@ -584,6 +587,13 @@ html {
   text-transform: capitalize;
   white-space: nowrap;
   flex-shrink: 0;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+:global(.dark) .orderStatus {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 
 .noOrders {

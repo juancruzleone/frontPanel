@@ -136,11 +136,11 @@ const DatePickerModal = ({
           <div className={styles.calendarPickerContainer}>
             <div className={styles.calendarPickerHeader}>
               <button type="button" onClick={() => navigateMonth(-1)} className={styles.calendarPickerNavButton}>
-                <ChevronLeft size={32} strokeWidth={3} />
+                <ChevronLeft size={22} strokeWidth={2.25} />
               </button>
               <h3 className={styles.calendarPickerMonthTitle}>{monthName}</h3>
               <button type="button" onClick={() => navigateMonth(1)} className={styles.calendarPickerNavButton}>
-                <ChevronRight size={32} strokeWidth={3} />
+                <ChevronRight size={22} strokeWidth={2.25} />
               </button>
             </div>
             <div className={styles.calendarPickerGrid}>

@@ -29,6 +29,10 @@ export const validateWorkOrderForm = async (data: any, t: (key: string) => strin
       .string()
       .required(t('workOrders.validation.workTypeRequired'))
       .oneOf(['mantenimiento', 'reparacion', 'instalacion', 'inspeccion', 'otro'], t('workOrders.validation.workTypeInvalid')),
+    tipoOrden: yup
+      .string()
+      .required(t('workOrders.validation.orderTypeRequired'))
+      .oneOf(['preventivo', 'correctivo'], t('workOrders.validation.orderTypeInvalid')),
     observaciones: yup.string().max(500, t('workOrders.validation.observationsMax')),
   });
 
@@ -108,6 +112,10 @@ export const getWorkOrderSchema = (t: (key: string) => string) =>
       .string()
       .required(t('workOrders.validation.workTypeRequired'))
       .oneOf(['mantenimiento', 'reparacion', 'instalacion', 'inspeccion', 'otro'], t('workOrders.validation.workTypeInvalid')),
+    tipoOrden: yup
+      .string()
+      .required(t('workOrders.validation.orderTypeRequired'))
+      .oneOf(['preventivo', 'correctivo'], t('workOrders.validation.orderTypeInvalid')),
     observaciones: yup.string().max(500, t('workOrders.validation.observationsMax')),
   })
 

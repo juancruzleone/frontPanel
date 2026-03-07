@@ -49,6 +49,8 @@ export type WorkOrder = {
   estado: string
   prioridad: string
   tipoTrabajo: string
+  tipoOrden?: string
+  origen?: string
   fechaProgramada: Date | string
   horaProgramada: string
   tecnicoAsignado?: string
@@ -104,6 +106,8 @@ const useWorkOrders = () => {
     estado: "pendiente",
     prioridad: "media",
     tipoTrabajo: "mantenimiento",
+    tipoOrden: "correctivo",
+    origen: "manual",
     fechaProgramada: new Date().toISOString().split('T')[0], // YYYY-MM-DD
     horaProgramada: "09:00",
     observaciones: "",
@@ -189,6 +193,8 @@ const useWorkOrders = () => {
     const technicianIds = normalizeTechnicianIds(workOrder);
     const workOrderWithTZ = {
       ...workOrder,
+      tipoOrden: workOrder.tipoOrden || "correctivo",
+      origen: workOrder.origen || "manual",
       tecnicoAsignado: technicianIds[0] || undefined,
       tecnicosAsignados: technicianIds,
       tecnicosIds: technicianIds,
@@ -218,6 +224,8 @@ const useWorkOrders = () => {
     const technicianIds = normalizeTechnicianIds(updatedData);
     const payload = {
       ...updatedData,
+      tipoOrden: updatedData.tipoOrden || "correctivo",
+      origen: updatedData.origen || "manual",
       tecnicoAsignado: technicianIds[0] || undefined,
       tecnicosAsignados: technicianIds,
       tecnicosIds: technicianIds,
@@ -358,6 +366,8 @@ const useWorkOrders = () => {
       estado: "pendiente",
       prioridad: "media",
       tipoTrabajo: "mantenimiento",
+      tipoOrden: "correctivo",
+      origen: "manual",
       fechaProgramada: new Date().toISOString().split('T')[0], // YYYY-MM-DD
       horaProgramada: "09:00",
       observaciones: "",
@@ -450,6 +460,8 @@ const useWorkOrders = () => {
         estado: data.estado || "pendiente",
         prioridad: data.prioridad || "media",
         tipoTrabajo: data.tipoTrabajo || "mantenimiento",
+        tipoOrden: data.tipoOrden || "correctivo",
+        origen: data.origen || "manual",
         fechaProgramada,
         horaProgramada: data.horaProgramada || "09:00",
         observaciones: data.observaciones || "",

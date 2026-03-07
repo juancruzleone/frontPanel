@@ -1,6 +1,6 @@
 .containerSettings {
   margin: 0 auto;
-  padding: 40px 24px 32px 24px;
+  padding: 88px 24px 32px 24px;
   max-width: 1200px;
   display: flex;
   flex-direction: column;
@@ -52,7 +52,7 @@
   }
 
   .containerSettings {
-    padding: 24px 20px 24px 20px;
+    padding: 82px 20px 24px 20px;
   }
 
   .sidebar {

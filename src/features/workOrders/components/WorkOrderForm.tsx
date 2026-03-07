@@ -74,6 +74,11 @@ const WorkOrderForm = ({
     { value: "critica", label: t('workOrders.critical') },
   ]
 
+  const orderTypes = [
+    { value: "correctivo", label: t('workOrders.orderTypeCorrective') },
+    { value: "preventivo", label: t('workOrders.orderTypePreventive') },
+  ]
+
   const handleFieldBlur = async (fieldName: string) => {
     setTouchedFields((prev) => ({ ...prev, [fieldName]: true }))
     // Validar solo el campo que perdió el foco
@@ -301,6 +306,26 @@ const WorkOrderForm = ({
                 {showError("tipoTrabajo") && <span className={styles.inputError}>{formErrors["tipoTrabajo"]}</span>}
               </div>
 
+              <div className={styles.formGroup}>
+                <label>{t('workOrders.orderType')} *</label>
+                <HybridSelect
+                  name="tipoOrden"
+                  value={formData.tipoOrden || "correctivo"}
+                  onChange={(value) => handleFieldChange("tipoOrden", value)}
+                  onBlur={() => handleFieldBlur("tipoOrden")}
+                  disabled={isFieldDisabled("tipoOrden")}
+                  options={[
+                    { value: "", label: t('workOrders.selectOrderType') },
+                    ...orderTypes
+                  ]}
+                  placeholder={t('workOrders.selectOrderType')}
+                  error={!!showError("tipoOrden")}
+                />
+                {showError("tipoOrden") && <span className={styles.inputError}>{formErrors["tipoOrden"]}</span>}
+              </div>
+            </div>
+
+            <div className={styles.formRow}>
               <div className={styles.formGroup}>
                 <label>{t('workOrders.priority')} *</label>
                 <HybridSelect

@@ -20,7 +20,7 @@ import ModalWorkOrderDetails from "../features/calendar/components/ModalWorkOrde
 import { parseDateString } from "../features/calendar/utils/dateUtils"
 import { useTimeZone } from "../features/calendar/hooks/useTimeZone"
 import { useTranslation } from "react-i18next"
-import { translateWorkOrderStatus, translatePriority, translateWorkType } from "../shared/utils/backendTranslations"
+import { translateWorkOrderStatus, translatePriority, translateWorkType, translateOrderType, translateOrderOrigin } from "../shared/utils/backendTranslations"
 import { useAuthStore } from "../store/authStore"
 import { useWorkOrdersTour } from "../features/workOrders/hooks/useWorkOrdersTour"
 import TourButton from "../shared/components/Buttons/TourButton"
@@ -553,6 +553,12 @@ const WorkOrders = () => {
                     <div className={styles.workOrderDetails}>
                       <p>
                         <strong>{t('workOrders.type')}:</strong> {translateWorkType(order.tipoTrabajo)}
+                      </p>
+                      <p>
+                        <strong>{t('workOrders.orderType')}:</strong> {translateOrderType(order.tipoOrden || "correctivo")}
+                      </p>
+                      <p>
+                        <strong>{t('workOrders.origin')}:</strong> {translateOrderOrigin(order.origen || "manual")}
                       </p>
                       <div className={styles.statusRow}>
                         <strong>{t('workOrders.status')}:</strong>

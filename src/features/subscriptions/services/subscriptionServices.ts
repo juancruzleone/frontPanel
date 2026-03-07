@@ -72,6 +72,7 @@ export const triggerAutomaticWorkOrdersGeneration = async () => {
 
   const baseUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL
   const endpoints = [
+    `${baseUrl}/preventivo/ejecutar`,
     `${baseUrl}/ordenes-trabajo/generar-desde-abonos`,
     `${baseUrl}/ordenes-trabajo/generar-automaticas`,
     `${baseUrl}/subscriptions/generate-work-orders`,

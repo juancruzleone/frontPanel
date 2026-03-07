@@ -7,7 +7,7 @@ import type { WorkOrder } from "../hooks/useCalendar"
 import { Clock, MapPin, User, AlertCircle, Calendar, Play } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import i18n from "../../../i18n"
-import { translatePriority, translateWorkOrderStatus } from "../../../shared/utils/backendTranslations";
+import { translatePriority, translateWorkOrderStatus, translateWorkType, translateOrderType, translateOrderOrigin } from "../../../shared/utils/backendTranslations";
 
 interface ModalWorkOrderDetailsProps {
   isOpen: boolean
@@ -176,7 +176,23 @@ const ModalWorkOrderDetails = ({
                 <AlertCircle size={20} />
                 <div>
                   <strong>{t('calendar.workType')}</strong>
-                  <p>{workOrder.tipoTrabajo}</p>
+                  <p>{translateWorkType(workOrder.tipoTrabajo)}</p>
+                </div>
+              </div>
+
+              <div className={styles.infoItem}>
+                <AlertCircle size={20} />
+                <div>
+                  <strong>{t('workOrders.orderType')}</strong>
+                  <p>{translateOrderType(workOrder.tipoOrden || "correctivo")}</p>
+                </div>
+              </div>
+
+              <div className={styles.infoItem}>
+                <AlertCircle size={20} />
+                <div>
+                  <strong>{t('workOrders.origin')}</strong>
+                  <p>{translateOrderOrigin(workOrder.origen || "manual")}</p>
                 </div>
               </div>
 

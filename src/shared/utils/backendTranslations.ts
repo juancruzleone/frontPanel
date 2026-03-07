@@ -260,6 +260,104 @@ export const translateWorkType = (workType: string): string => {
   return translations[currentLanguage]?.[workType] || workType
 }
 
+export const translateOrderType = (orderType: string): string => {
+  const currentLanguage = (i18n.resolvedLanguage || i18n.language || 'es').split('-')[0]
+
+  const translations: Record<string, Record<string, string>> = {
+    es: {
+      'correctivo': 'Correctivo',
+      'preventivo': 'Preventivo'
+    },
+    en: {
+      'correctivo': 'Corrective',
+      'preventivo': 'Preventive'
+    },
+    fr: {
+      'correctivo': 'Correctif',
+      'preventivo': 'Préventif'
+    },
+    pt: {
+      'correctivo': 'Corretivo',
+      'preventivo': 'Preventivo'
+    },
+    de: {
+      'correctivo': 'Korrektiv',
+      'preventivo': 'Präventiv'
+    },
+    it: {
+      'correctivo': 'Correttivo',
+      'preventivo': 'Preventivo'
+    },
+    ja: {
+      'correctivo': '是正',
+      'preventivo': '予防'
+    },
+    ko: {
+      'correctivo': '교정',
+      'preventivo': '예방'
+    },
+    zh: {
+      'correctivo': '纠正性',
+      'preventivo': '预防性'
+    },
+    ar: {
+      'correctivo': 'تصحيحي',
+      'preventivo': 'وقائي'
+    }
+  }
+
+  return translations[currentLanguage]?.[orderType] || orderType
+}
+
+export const translateOrderOrigin = (origin: string): string => {
+  const currentLanguage = (i18n.resolvedLanguage || i18n.language || 'es').split('-')[0]
+
+  const translations: Record<string, Record<string, string>> = {
+    es: {
+      'manual': 'Manual',
+      'plan_mantenimiento': 'Plan de mantenimiento'
+    },
+    en: {
+      'manual': 'Manual',
+      'plan_mantenimiento': 'Maintenance plan'
+    },
+    fr: {
+      'manual': 'Manuel',
+      'plan_mantenimiento': 'Plan de maintenance'
+    },
+    pt: {
+      'manual': 'Manual',
+      'plan_mantenimiento': 'Plano de manutenção'
+    },
+    de: {
+      'manual': 'Manuell',
+      'plan_mantenimiento': 'Wartungsplan'
+    },
+    it: {
+      'manual': 'Manuale',
+      'plan_mantenimiento': 'Piano di manutenzione'
+    },
+    ja: {
+      'manual': '手動',
+      'plan_mantenimiento': '保守計画'
+    },
+    ko: {
+      'manual': '수동',
+      'plan_mantenimiento': '유지보수 계획'
+    },
+    zh: {
+      'manual': '手动',
+      'plan_mantenimiento': '维护计划'
+    },
+    ar: {
+      'manual': 'يدوي',
+      'plan_mantenimiento': 'خطة الصيانة'
+    }
+  }
+
+  return translations[currentLanguage]?.[origin] || origin
+}
+
 // Función para traducir roles de usuario
 export const translateUserRole = (role: string): string => {
   const currentLanguage = (i18n.resolvedLanguage || i18n.language || 'es').split('-')[0]

@@ -44,6 +44,8 @@ export type WorkOrder = {
   estado: string
   prioridad: string
   tipoTrabajo: string
+  tipoOrden?: string
+  origen?: string
   fechaProgramada: Date | string
   horaProgramada: string
   tecnicoAsignado?: string
@@ -162,6 +164,8 @@ export const createWorkOrder = async (workOrder: WorkOrder) => {
   const technicianIds = normalizeTechnicianIds(workOrder)
   const payload = {
     ...workOrder,
+    tipoOrden: workOrder.tipoOrden || "correctivo",
+    origen: workOrder.origen || "manual",
     tecnicoAsignado: technicianIds[0] || undefined,
     tecnicosAsignados: technicianIds,
     tecnicosIds: technicianIds,
@@ -181,6 +185,8 @@ export const updateWorkOrder = async (id: string, workOrder: WorkOrder) => {
   const technicianIds = normalizeTechnicianIds(rest)
   const payload = {
     ...rest,
+    tipoOrden: rest.tipoOrden || "correctivo",
+    origen: rest.origen || "manual",
     tecnicoAsignado: technicianIds[0] || undefined,
     tecnicosAsignados: technicianIds,
     tecnicosIds: technicianIds,

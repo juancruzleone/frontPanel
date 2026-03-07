@@ -15,6 +15,7 @@ interface WorkOrdersPieChartProps {
 }
 
 const CustomTooltip = ({ active, payload }: any) => {
+  const { t } = useTranslation()
   if (active && payload && payload.length) {
     return (
       <div className={styles.customTooltip}>
@@ -22,7 +23,7 @@ const CustomTooltip = ({ active, payload }: any) => {
           {payload[0].name}
         </p>
         <p style={{ margin: '0', opacity: 0.8 }}>
-          {`Órdenes: ${payload[0].value}`}
+          {`${t('common.orders')}: ${payload[0].value}`}
         </p>
       </div>
     )

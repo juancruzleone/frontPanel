@@ -1,9 +1,9 @@
-import { NavLink, useNavigate } from "react-router-dom"
+import { NavLink, useLocation, useNavigate } from "react-router-dom"
 import { useAuthStore } from "../../../store/authStore"
 import {
   LogOut, Home, Package, FileText, BookOpen,
   ClipboardList, Calendar, Sun, Moon, Menu, X, Building, User, Globe, CreditCard, Settings, Database,
-  ChevronsLeft, ChevronsRight
+  ChevronsLeft, ChevronsRight, ChevronDown
 } from "lucide-react"
 import { useLayoutStore } from "../../../store/layoutStore"
 import styles from "./Nav.module.css"
@@ -11,6 +11,7 @@ import { useState, useEffect, useRef } from "react"
 import { useTheme } from "../../hooks/useTheme"
 import { useTranslation } from "react-i18next"
 import { isTechnician, isSuperAdmin, canAccessSection, isClient, isAdmin } from "../../utils/roleUtils"
+import { useTranslatedRoutes } from "../../../router"
 import esFlag from '../../../../src/assets/flags/es.svg'
 import frFlag from '../../../../src/assets/flags/fr.svg'
 import usFlag from '../../../../src/assets/flags/us.svg'
@@ -48,9 +49,12 @@ const Nav = () => {
   const logout = useAuthStore((s) => s.logout)
   const setLogoutMessage = useAuthStore((s) => s.setLogoutMessage)
   const navigate = useNavigate()
+  const location = useLocation()
   const { dark, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isWorkOrdersMenuOpen, setIsWorkOrdersMenuOpen] = useState(true)
   const { isSidebarCollapsed, toggleSidebar } = useLayoutStore()
+  const { getRoute } = useTranslatedRoutes()
 
   // Usar las utilidades de roles
   const isTechnicianUser = isTechnician(role)
@@ -74,6 +78,13 @@ const Nav = () => {
   const currentLangCode = (i18n.resolvedLanguage || i18n.language || 'es').split('-')[0]
   const currentLanguage = languages.find(lang => lang.code === currentLangCode) || languages[0]
   const currentFlag = flagMap[currentLangCode] || esFlag
+  const workOrdersRoute = getRoute('workOrders')
+  const calendarRoute = getRoute('calendar')
+  const maintenancePlanRoute = getRoute('maintenancePlan')
+  const isWorkOrdersSectionActive =
+    location.pathname.startsWith(workOrdersRoute) ||
+    location.pathname.startsWith(calendarRoute) ||
+    location.pathname.startsWith(maintenancePlanRoute)
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -82,6 +93,12 @@ const Nav = () => {
       document.body.style.overflow = "";
     }
   }, [isMenuOpen])
+
+  useEffect(() => {
+    if (isWorkOrdersSectionActive) {
+      setIsWorkOrdersMenuOpen(true)
+    }
+  }, [isWorkOrdersSectionActive])
 
   const handleLogout = () => {
     setLogoutMessage("Sesión cerrada con éxito.")
@@ -152,26 +169,34 @@ const Nav = () => {
               </>
             )}
 
-            {/* Botón de abonos vigentes solo para no técnicos, no super_admin y no clientes */}
-            {!isTechnicianUser && !isSuperAdminUser && !isClientUser && (
-              <li>
-                <NavLink to="/abonos-vigentes" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-                  <CreditCard size={20} /> <span className={styles.linkText}>{t('nav.subscriptions')}</span>
-                </NavLink>
-              </li>
-            )}
             {!isSuperAdminUser && !isClientUser && (
-              <li>
-                <NavLink to="/ordenes-trabajo" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-                  <ClipboardList size={20} /> <span className={styles.linkText}>{t('nav.workOrders')}</span>
-                </NavLink>
-              </li>
-            )}
-            {!isSuperAdminUser && (
-              <li>
-                <NavLink to="/calendario" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-                  <Calendar size={20} /> <span className={styles.linkText}>{t('nav.calendar')}</span>
-                </NavLink>
+              <li className={styles.menuGroup}>
+                <button
+                  type="button"
+                  className={`${styles.groupButton} ${isWorkOrdersSectionActive ? styles.active : ""}`}
+                  onClick={() => setIsWorkOrdersMenuOpen((prev) => !prev)}
+                >
+                  <span className={styles.groupButtonContent}>
+                    <ClipboardList size={20} /> <span className={styles.linkText}>{t('nav.workOrders')}</span>
+                  </span>
+                  <ChevronDown
+                    size={16}
+                    className={`${styles.groupChevron} ${isWorkOrdersMenuOpen ? styles.groupChevronOpen : ""}`}
+                  />
+                </button>
+                <div className={`${styles.submenu} ${isWorkOrdersMenuOpen ? styles.submenuOpen : ""}`}>
+                  <NavLink to={workOrdersRoute} className={({ isActive }) => `${styles.submenuLink} ${isActive ? styles.active : ""}`} onClick={() => setIsMenuOpen(false)}>
+                    <ClipboardList size={20} /> <span className={styles.linkText}>{t('nav.workOrdersList')}</span>
+                  </NavLink>
+                  <NavLink to={calendarRoute} className={({ isActive }) => `${styles.submenuLink} ${isActive ? styles.active : ""}`} onClick={() => setIsMenuOpen(false)}>
+                    <Calendar size={20} /> <span className={styles.linkText}>{t('nav.calendar')}</span>
+                  </NavLink>
+                  {!isTechnicianUser && !isSuperAdminUser && !isClientUser && (
+                    <NavLink to={maintenancePlanRoute} className={({ isActive }) => `${styles.submenuLink} ${isActive ? styles.active : ""}`} onClick={() => setIsMenuOpen(false)}>
+                      <CreditCard size={20} /> <span className={styles.linkText}>{t('nav.maintenancePlan')}</span>
+                    </NavLink>
+                  )}
+                </div>
               </li>
             )}
             {/* Panel Admin solo para super_admin */}

@@ -103,6 +103,8 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: 8px;
   position: relative;
   overflow: hidden;
@@ -113,6 +115,11 @@
   margin: 0;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   height: 52px;
+}
+
+.customDateButton span {
+  width: 100%;
+  text-align: center;
 }
 
 :global(.dark) .customDateButton {
@@ -127,6 +134,8 @@
 
 .dateButtonIcon {
   flex-shrink: 0;
+  position: absolute;
+  left: 14px;
   color: var(--color-text);
   opacity: 0.7;
   width: 16px;

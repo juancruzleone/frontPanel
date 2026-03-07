@@ -130,6 +130,10 @@ const generateRoleSpecificRoutes = (): RouteObject[] => {
       {
         path: t.subscriptions,
         element: <ProtectedRoute allowedRoles={[ROLES.ADMIN]}><Subscriptions /></ProtectedRoute>,
+      },
+      {
+        path: t.maintenancePlan,
+        element: <ProtectedRoute allowedRoles={[ROLES.ADMIN]}><Subscriptions /></ProtectedRoute>,
       }
     );
 

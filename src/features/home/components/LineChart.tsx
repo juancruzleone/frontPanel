@@ -246,7 +246,7 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data }) => {
                                             fill={chartColor}
                                             fontWeight="800"
                                         >
-                                            {data[i].value} Ordenes
+                                            {data[i].value} {t('common.orders')}
                                         </text>
                                     </g>
                                 )}

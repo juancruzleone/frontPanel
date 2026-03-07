@@ -96,6 +96,9 @@ html {
   display: flex;
   flex-direction: column;
   gap: 40px;
+  margin: 0 !important;
+  padding: 0 !important;
+  padding-inline: 0 !important;
   overflow-x: hidden;
 }
 

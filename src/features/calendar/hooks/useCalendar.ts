@@ -33,6 +33,8 @@ export type WorkOrder = {
   estado: string
   prioridad: string
   tipoTrabajo: string
+  tipoOrden?: string
+  origen?: string
   fechaProgramada: Date | string
   horaProgramada: string
   tecnicoAsignado?: string

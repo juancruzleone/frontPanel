@@ -15,12 +15,12 @@ interface RecentWorkOrdersProps {
   workOrders: WorkOrder[]
 }
 
-const estadoColor: Record<string, string> = {
-  pendiente: "#fbc02d",
-  asignada: "var(--color-primary)",
-  en_progreso: "#ff9800", // Cambiado para coincidir con el gráfico de torta
-  completada: "#4caf50",
-  cancelada: "#f44336",
+const estadoStyle: Record<string, { backgroundColor: string; color: string }> = {
+  pendiente: { backgroundColor: "#FFD600", color: "#111111" },
+  asignada: { backgroundColor: "#00B8D9", color: "#111111" },
+  en_progreso: { backgroundColor: "#FF9100", color: "#111111" },
+  completada: { backgroundColor: "#00C853", color: "#111111" },
+  cancelada: { backgroundColor: "#D50000", color: "#FFFFFF" },
 }
 
 const RecentWorkOrders: React.FC<RecentWorkOrdersProps> = ({ workOrders }) => {
@@ -72,8 +72,7 @@ const RecentWorkOrders: React.FC<RecentWorkOrdersProps> = ({ workOrders }) => {
                 <span
                   className={styles.orderStatus}
                   style={{
-                    background: estadoColor[order.estado] || "#bdbdbd",
-                    color: '#000'
+                    ...(estadoStyle[order.estado] || { backgroundColor: "#212121", color: "#FFFFFF" })
                   }}
                 >
                   {estadoLabels[order.estado] || order.estado}

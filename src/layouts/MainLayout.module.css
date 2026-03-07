@@ -21,11 +21,11 @@
 
 @media (min-width: 1024px) {
   .contentArea {
-    margin-left: 240px;
+    margin-left: 270px;
   }
 
   .contentArea.collapsed {
-    margin-left: 80px;
+    margin-left: 90px;
   }
 }
 
@@ -38,21 +38,21 @@
 @media (min-width: 1024px) {
   .contentArea {
     padding: 0;
-    margin-left: 240px;
+    margin-left: 270px;
   }
 
   .contentArea.collapsed {
-    margin-left: 80px;
+    margin-left: 90px;
   }
 }
 
 @media (min-width: 1440px) {
   .contentArea {
-    margin-left: 240px;
+    margin-left: 270px;
   }
 
   .contentArea.collapsed {
-    margin-left: 80px;
+    margin-left: 90px;
   }
 }
 
@@ -62,6 +62,10 @@
   width: 100%;
   padding: 74px 16px 16px;
   box-sizing: border-box;
+}
+
+.settingsNoMainPadding main {
+  padding: 0;
 }
 
 @media (min-width: 768px) {
