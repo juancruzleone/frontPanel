@@ -78,8 +78,6 @@
 .navContent::-webkit-scrollbar-thumb {
   background-color: rgba(0, 255, 174, 0.3);
   border-radius: 20px;
-
-
 }
 
 .nav.open {
@@ -102,8 +100,8 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 280px;
-    max-width: 300px;
+    width: 240px;
+    max-width: 260px;
     height: 100vh;
     transition: none;
     padding: 0 !important;
@@ -124,8 +122,8 @@
 /* Pantallas muy grandes */
 @media (min-width: 1440px) {
   .nav {
-    width: 280px;
-    max-width: 300px;
+    width: 240px;
+    max-width: 260px;
     padding: 0 !important;
     overflow: visible !important;
   }
@@ -142,7 +140,7 @@
   z-index: 1100;
   width: auto;
   height: auto;
-  color: var(--color-icon);
+  color: #00FFAE;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -199,8 +197,8 @@
 .menuToggleOpen svg {
   transform: rotate(0deg) scale(1);
   opacity: 1;
-  color: #fff;
-  fill: #fff;
+  color: #00FFAE;
+  fill: #00FFAE;
 }
 
 .logoArea {
@@ -226,7 +224,7 @@
 }
 
 .logo {
-  color: #fff;
+  color: #00FFAE;
   font-size: 20px;
   margin: 0;
 }
@@ -361,6 +359,7 @@
 .menu li a svg {
   width: 18px;
   height: 18px;
+  color: #00FFAE;
 }
 
 @media (min-width: 768px) {
@@ -508,210 +507,6 @@
   /* Prevent shrinking and ensure visibility */
 }
 
-@media (min-width: 768px) {}
-
-.themeButton,
-.languageButton {
-  background: rgba(255, 255, 255, 0.05);
-  color: #00FFAE;
-  border: 1px solid rgba(0, 255, 174, 0.2);
-  padding: 0;
-  border-radius: 12px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  width: 38px;
-  height: 38px;
-}
-
-.themeButton:hover,
-.languageButton:hover {
-  background: rgba(0, 255, 174, 0.1);
-  border-color: #00FFAE;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 255, 174, 0.15);
-}
-
-/* themeButton specific SVG styles */
-
-.themeButton:hover svg {
-  fill: rgba(0, 255, 174, 0.2) !important;
-  stroke: #00FFAE !important;
-}
-
-.themeButton svg {
-  width: 18px !important;
-  height: 18px !important;
-  stroke-width: 2.5px !important;
-  color: #00FFAE !important;
-  stroke: #00FFAE !important;
-  fill: none !important;
-  transition: all 0.3s ease;
-}
-
-.controlsContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 16px;
-  padding: 0 12px;
-  overflow: visible;
-}
-
-@media (max-width: 767px) {
-  .controlsContainer {
-    margin-bottom: 8px;
-    gap: 12px;
-  }
-}
-
-.languageSelectorContainer {
-  position: relative;
-  display: inline-block;
-  overflow: visible;
-  z-index: 100;
-}
-
-
-@media (min-width: 768px) {
-  .controlsContainer {
-    gap: 10px;
-  }
-}
-
-.languageButton {
-  position: relative;
-  font-size: 12px;
-  font-weight: 600;
-  margin: 0;
-}
-
-.languageDropdown {
-  position: absolute;
-  bottom: calc(100% + 12px);
-  left: 50%;
-  transform: translateX(-50%);
-  background: #0B1C1A;
-  border: 1px solid rgba(0, 255, 174, 0.3);
-  border-radius: 14px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  z-index: 10000;
-  min-width: 180px;
-  max-height: 300px;
-  overflow-y: auto;
-  display: block;
-  visibility: visible;
-  opacity: 1;
-  padding: 8px;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 255, 174, 0.3) transparent;
-}
-
-.languageDropdown::-webkit-scrollbar {
-  width: 4px;
-}
-
-.languageDropdown::-webkit-scrollbar-thumb {
-  background: rgba(0, 255, 174, 0.3);
-  border-radius: 10px;
-}
-
-.languageOption {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 16px;
-  width: 100%;
-  background: transparent;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: rgba(255, 255, 255, 0.8) !important;
-  font-size: 14px;
-  text-align: left;
-  margin-bottom: 2px;
-}
-
-.languageOption:last-child {
-  margin-bottom: 0;
-}
-
-.languageOption:hover {
-  background: rgba(0, 255, 174, 0.1);
-  color: #00FFAE !important;
-}
-
-.languageOption.active {
-  background: rgba(0, 255, 174, 0.15);
-  color: #00FFAE !important;
-  font-weight: 600;
-  border: 1px solid rgba(0, 255, 174, 0.3);
-}
-
-:global(.dark) .languageOption.active {
-  background: var(--color-secondary);
-  color: white !important;
-}
-
-.flag {
-  font-size: 16px;
-  flex-shrink: 0;
-}
-
-.languageName {
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.9) !important;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .languageDropdown {
-    min-width: 120px;
-    left: 0;
-    transform: none;
-  }
-
-  .languageOption {
-    padding: 8px 10px;
-    font-size: 13px;
-  }
-}
-
-/* Para pantallas muy pequeñas */
-@media (max-width: 480px) {
-  .languageDropdown {
-    min-width: 100px;
-    left: -20px;
-    transform: none;
-  }
-}
-
-/* Estilos de la barra superior fija eliminados */
-
-
-
-.languageButton .flagImg {
-  width: 18px !important;
-  height: 18px !important;
-  object-fit: contain !important;
-  border-radius: 4px !important;
-  box-sizing: border-box !important;
-  display: block !important;
-}
-
-.languageOption .flagImg {
-  width: 20px !important;
-  height: 15px !important;
-  object-fit: cover !important;
-  border-radius: 3px !important;
-  box-sizing: border-box !important;
-  display: block !important;
-}
-
 .logoutButton svg {
   width: 14px !important;
   height: 14px !important;
@@ -805,7 +600,6 @@
   min-width: 32px;
   background-color: #0B1C1A;
   border: 1px solid #00FFAE;
-  border-radius: 50%;
   color: #00FFAE;
   display: flex;
   align-items: center;
@@ -914,7 +708,7 @@
   opacity: 1 !important;
   visibility: visible !important;
   color: #00FFAE !important;
-  background: rgba(0, 255, 174, 0.1) !important;
+  background: rgba(0, 255, 174, 0.15) !important;
   border: none !important;
   border-radius: 10px !important;
   justify-content: center !important;

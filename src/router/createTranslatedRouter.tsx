@@ -26,6 +26,7 @@ import PanelAdmin from '../pages/PanelAdmin';
 import NotFound from '../pages/NotFound';
 import Tenants from '../pages/Tenants';
 import Clients from '../pages/Clients';
+import Settings from '../pages/Settings';
 import { ROLES } from "../shared/utils/roleUtils";
 
 /**
@@ -74,6 +75,11 @@ const generateChildRoutesForAllLanguages = (): RouteObject[] => {
       {
         path: t.manuals,
         element: <Manuals />,
+      },
+      // Configuración
+      {
+        path: t.settings,
+        element: <RoleProtectedRoute section="configuracion"><Settings /></RoleProtectedRoute>,
       }
     );
   });

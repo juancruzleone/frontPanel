@@ -173,23 +173,6 @@ const Forms = () => {
           </div>
         </div>
 
-        <div className={styles.typeButtons}>
-          <button
-            className={styles.smallButton}
-            onClick={() => setIsCreateCategoryModalOpen(true)}
-            data-tour="create-category-btn"
-          >
-            {t("forms.createCategory")}
-          </button>
-          <button
-            className={styles.manageButton}
-            onClick={() => setIsManageCategoriesModalOpen(true)}
-            data-tour="manage-categories-btn"
-          >
-            {t("forms.manageCategories")}
-          </button>
-        </div>
-
         <div className={styles.searchRow}>
           <div className={styles.searchContainerInner} data-tour="search-filter">
             <SearchInput

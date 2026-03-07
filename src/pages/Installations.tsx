@@ -335,34 +335,6 @@ const Installations = () => {
           )}
         </div>
 
-        {!isClientUser && (
-          <div className={styles.typeButtons}>
-            {!isRestricted && (
-              <>
-                <button
-                  className={styles.smallButton}
-                  onClick={() => setIsCreateInstallationTypeModalOpen(true)}
-                  data-tour="create-installation-type-btn"
-                >
-                  {t('installations.createInstallationType')}
-                </button>
-                <button className={styles.smallButton} onClick={() => setIsCreateCategoryModalOpen(true)}>
-                  {t('installations.createCategory')}
-                </button>
-              </>
-            )}
-            <button
-              className={styles.manageButton}
-              onClick={() => setIsManageInstallationTypesModalOpen(true)}
-              data-tour="manage-installation-types-btn"
-            >
-              {t('installations.manageInstallationTypes')}
-            </button>
-            <button className={styles.manageButton} onClick={() => setIsManageCategoriesModalOpen(true)}>
-              {t('installations.manageCategories')}
-            </button>
-          </div>
-        )}
 
         <div className={styles.searchRow}>
           <div className={styles.searchContainerInner} data-tour="search-filter">

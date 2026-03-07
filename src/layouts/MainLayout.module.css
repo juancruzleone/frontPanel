@@ -11,7 +11,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: 16px;
+  padding: 0;
   margin-left: 0;
   transition: margin-left 0.3s ease-in-out;
   max-width: 100%;
@@ -21,7 +21,7 @@
 
 @media (min-width: 1024px) {
   .contentArea {
-    margin-left: 280px;
+    margin-left: 240px;
   }
 
   .contentArea.collapsed {
@@ -31,14 +31,14 @@
 
 @media (min-width: 768px) {
   .contentArea {
-    padding: 20px;
+    padding: 0;
   }
 }
 
 @media (min-width: 1024px) {
   .contentArea {
-    padding: 24px;
-    margin-left: 280px;
+    padding: 0;
+    margin-left: 240px;
   }
 
   .contentArea.collapsed {
@@ -48,7 +48,7 @@
 
 @media (min-width: 1440px) {
   .contentArea {
-    margin-left: 280px;
+    margin-left: 240px;
   }
 
   .contentArea.collapsed {
@@ -60,5 +60,18 @@
   flex: 1;
   max-width: 100%;
   width: 100%;
+  padding: 16px;
   box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .contentArea main {
+    padding: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .contentArea main {
+    padding: 24px;
+  }
 }

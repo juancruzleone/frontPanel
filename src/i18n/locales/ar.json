@@ -1684,5 +1684,26 @@
     "technician": "فني",
     "client": "عميل",
     "user": "مستخدم"
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "titlePage": "الإعدادات | Leonix",
+    "subtitle": "إدارة إعدادات النظام",
+    "manage": "إدارة",
+    "installationTypes": "أنواع التثبيت",
+    "installationTypesDesc": "إدارة فئات أنواع التثبيت المتاحة في النظام",
+    "assetCategories": "فئات الأصول",
+    "assetCategoriesDesc": "إدارة الفئات لتصنيف أصولك",
+    "deviceCategories": "فئات الأجهزة",
+    "deviceCategoriesDesc": "تكوين فئات الأجهزة لتثبيتاتك",
+    "formCategories": "فئات النماذج",
+    "formCategoriesDesc": "تنظيم قوالب النماذج حسب الفئات",
+    "manageInstallationTypes": "إدارة أنواع التثبيت",
+    "manageAssetCategories": "إدارة فئات الأصول",
+    "manageDeviceCategories": "إدارة فئات الأجهزة",
+    "manageFormCategories": "إدارة فئات النماذج",
+    "newCategoryName": "اسم الفئة الجديدة",
+    "newTypeName": "اسم النوع الجديد",
+    "confirmDelete": "هل أنت متأكد من أنك تريد حذف هذا العنصر؟"
   }
 }

@@ -13,7 +13,8 @@
     "openMenu": "Abrir menú",
     "closeMenu": "Cerrar menú",
     "logout": "Cerrar Sesión",
-    "clients": "Clientes"
+    "clients": "Clientes",
+    "settings": "Configuración"
   },
   "personal": {
     "successTitle": "¡Operación exitosa!",
@@ -289,7 +290,16 @@
     "backToAssets": "Volver a activos",
     "page": "Página",
     "of": "de",
-    "assigning": "Asignando..."
+    "of": "de",
+    "assigning": "Asignando...",
+    "hello": "Hola"
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "empty": "No hay notificaciones nuevas",
+    "markAllAsRead": "Marcar todas como leídas",
+    "clearAll": "Borrar todas",
+    "newOrder": "Nueva Orden Asignada"
   },
   "auth": {
     "continue": "Continuar",
@@ -1873,5 +1883,26 @@
     "technician": "Técnico",
     "client": "Cliente",
     "user": "Usuario"
+  },
+  "settings": {
+    "title": "Configuración",
+    "titlePage": "Configuración | Leonix",
+    "subtitle": "Administra las configuraciones del sistema",
+    "manage": "Gestionar",
+    "installationTypes": "Tipos de Instalación",
+    "installationTypesDesc": "Gestiona las categorías de tipos de instalación disponibles en el sistema",
+    "assetCategories": "Categorías de Activos",
+    "assetCategoriesDesc": "Administra las categorías para clasificar tus activos",
+    "deviceCategories": "Categorías de Dispositivos",
+    "deviceCategoriesDesc": "Configura las categorías de dispositivos para tus instalaciones",
+    "formCategories": "Categorías de Formularios",
+    "formCategoriesDesc": "Organiza las plantillas de formularios por categorías",
+    "manageInstallationTypes": "Gestionar Tipos de Instalación",
+    "manageAssetCategories": "Gestionar Categorías de Activos",
+    "manageDeviceCategories": "Gestionar Categorías de Dispositivos",
+    "manageFormCategories": "Gestionar Categorías de Formularios",
+    "newCategoryName": "Nombre de la nueva categoría",
+    "newTypeName": "Nombre del nuevo tipo",
+    "confirmDelete": "¿Estás seguro de que deseas eliminar este elemento?"
   }
 }

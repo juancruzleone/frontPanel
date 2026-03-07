@@ -1718,5 +1718,26 @@
     "maintenanceNumber": "유지보수 #",
     "viewPDF": "PDF 보고서 보기",
     "close": "닫기"
+  },
+  "settings": {
+    "title": "설정",
+    "titlePage": "설정 | Leonix",
+    "subtitle": "시스템 설정 관리",
+    "manage": "관리",
+    "installationTypes": "설치 유형",
+    "installationTypesDesc": "시스템에서 사용 가능한 설치 유형 카테고리 관리",
+    "assetCategories": "자산 카테고리",
+    "assetCategoriesDesc": "자산을 분류하기 위한 카테고리 관리",
+    "deviceCategories": "장치 카테고리",
+    "deviceCategoriesDesc": "설치를 위한 장치 카테고리 구성",
+    "formCategories": "양식 카테고리",
+    "formCategoriesDesc": "카테고리별로 양식 템플릿 구성",
+    "manageInstallationTypes": "설치 유형 관리",
+    "manageAssetCategories": "자산 카테고리 관리",
+    "manageDeviceCategories": "장치 카테고리 관리",
+    "manageFormCategories": "양식 카테고리 관리",
+    "newCategoryName": "새 카테고리 이름",
+    "newTypeName": "새 유형 이름",
+    "confirmDelete": "이 항목을 삭제하시겠습니까?"
   }
 }

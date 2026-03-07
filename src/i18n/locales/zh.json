@@ -1709,5 +1709,26 @@
     "technician": "技术员",
     "client": "客户",
     "user": "用户"
+  },
+  "settings": {
+    "title": "设置",
+    "titlePage": "设置 | Leonix",
+    "subtitle": "管理系统设置",
+    "manage": "管理",
+    "installationTypes": "安装类型",
+    "installationTypesDesc": "管理系统中可用的安装类型类别",
+    "assetCategories": "资产类别",
+    "assetCategoriesDesc": "管理用于分类资产的类别",
+    "deviceCategories": "设备类别",
+    "deviceCategoriesDesc": "配置安装的设备类别",
+    "formCategories": "表单类别",
+    "formCategoriesDesc": "按类别组织表单模板",
+    "manageInstallationTypes": "管理安装类型",
+    "manageAssetCategories": "管理资产类别",
+    "manageDeviceCategories": "管理设备类别",
+    "manageFormCategories": "管理表单类别",
+    "newCategoryName": "新类别名称",
+    "newTypeName": "新类型名称",
+    "confirmDelete": "您确定要删除此项目吗？"
   }
 }

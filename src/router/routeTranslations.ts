@@ -17,6 +17,7 @@ export const routeTranslations = {
     internalForm: 'formulario-interno',
     device: 'dispositivo',
     form: 'formulario',
+    settings: 'configuracion',
   },
   en: {
     home: 'home',
@@ -35,6 +36,7 @@ export const routeTranslations = {
     internalForm: 'internal-form',
     device: 'device',
     form: 'form',
+    settings: 'settings',
   },
   fr: {
     home: 'accueil',
@@ -53,6 +55,7 @@ export const routeTranslations = {
     internalForm: 'formulaire-interne',
     device: 'appareil',
     form: 'formulaire',
+    settings: 'parametres',
   },
   pt: {
     home: 'inicio',
@@ -71,6 +74,7 @@ export const routeTranslations = {
     internalForm: 'formulario-interno',
     device: 'dispositivo',
     form: 'formulario',
+    settings: 'configuracoes',
   },
   de: {
     home: 'startseite',
@@ -89,6 +93,7 @@ export const routeTranslations = {
     internalForm: 'internes-formular',
     device: 'gerat',
     form: 'formular',
+    settings: 'einstellungen',
   },
   it: {
     home: 'home',
@@ -107,6 +112,7 @@ export const routeTranslations = {
     internalForm: 'modulo-interno',
     device: 'dispositivo',
     form: 'modulo',
+    settings: 'impostazioni',
   },
   ja: {
     home: 'homu',
@@ -125,6 +131,7 @@ export const routeTranslations = {
     internalForm: 'naibu-fomu',
     device: 'debaisu',
     form: 'fomu',
+    settings: 'settei',
   },
   ko: {
     home: 'hom',
@@ -143,6 +150,7 @@ export const routeTranslations = {
     internalForm: 'naebu-yangsik',
     device: 'jangchi',
     form: 'yangsik',
+    settings: 'seoljeong',
   },
   zh: {
     home: 'zhuye',
@@ -161,6 +169,7 @@ export const routeTranslations = {
     internalForm: 'neibu-biaodan',
     device: 'shebei',
     form: 'biaodan',
+    settings: 'shezhi',
   },
   ar: {
     home: 'alrayiysyt',
@@ -179,6 +188,7 @@ export const routeTranslations = {
     internalForm: 'nmwdj-dakhly',
     device: 'aljhaz',
     form: 'nmwdj',
+    settings: 'alaedadat',
   },
 } as const;
 

@@ -1673,5 +1673,26 @@
     "maintenanceNumber": "Manutenzione #",
     "viewPDF": "Visualizza Report PDF",
     "close": "Chiudi"
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "titlePage": "Impostazioni | Leonix",
+    "subtitle": "Gestisci le impostazioni del sistema",
+    "manage": "Gestisci",
+    "installationTypes": "Tipi di Installazione",
+    "installationTypesDesc": "Gestisci le categorie di tipi di installazione disponibili nel sistema",
+    "assetCategories": "Categorie di Risorse",
+    "assetCategoriesDesc": "Gestisci le categorie per classificare le tue risorse",
+    "deviceCategories": "Categorie di Dispositivi",
+    "deviceCategoriesDesc": "Configura le categorie di dispositivi per le tue installazioni",
+    "formCategories": "Categorie di Moduli",
+    "formCategoriesDesc": "Organizza i modelli di moduli per categorie",
+    "manageInstallationTypes": "Gestisci Tipi di Installazione",
+    "manageAssetCategories": "Gestisci Categorie di Risorse",
+    "manageDeviceCategories": "Gestisci Categorie di Dispositivi",
+    "manageFormCategories": "Gestisci Categorie di Moduli",
+    "newCategoryName": "Nome della nuova categoria",
+    "newTypeName": "Nome del nuovo tipo",
+    "confirmDelete": "Sei sicuro di voler eliminare questo elemento?"
   }
 }

@@ -1568,5 +1568,26 @@
     "technician": "Techniker",
     "client": "Kunde",
     "user": "Benutzer"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "titlePage": "Einstellungen | Leonix",
+    "subtitle": "Systemeinstellungen verwalten",
+    "manage": "Verwalten",
+    "installationTypes": "Installationstypen",
+    "installationTypesDesc": "Verwalten Sie die im System verfügbaren Installationstyp-Kategorien",
+    "assetCategories": "Anlagenkategorien",
+    "assetCategoriesDesc": "Verwalten Sie Kategorien zur Klassifizierung Ihrer Anlagen",
+    "deviceCategories": "Gerätekategorien",
+    "deviceCategoriesDesc": "Konfigurieren Sie Gerätekategorien für Ihre Installationen",
+    "formCategories": "Formularkategorien",
+    "formCategoriesDesc": "Organisieren Sie Formularvorlagen nach Kategorien",
+    "manageInstallationTypes": "Installationstypen verwalten",
+    "manageAssetCategories": "Anlagenkategorien verwalten",
+    "manageDeviceCategories": "Gerätekategorien verwalten",
+    "manageFormCategories": "Formularkategorien verwalten",
+    "newCategoryName": "Neuer Kategoriename",
+    "newTypeName": "Neuer Typname",
+    "confirmDelete": "Sind Sie sicher, dass Sie dieses Element löschen möchten?"
   }
 }

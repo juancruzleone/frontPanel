@@ -14,7 +14,8 @@
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
     "logout": "Logout",
-    "clients": "Clients"
+    "clients": "Clients",
+    "settings": "Settings"
   },
   "personal": {
     "successTitle": "Operation successful!",
@@ -1769,5 +1770,26 @@
     "technician": "Technician",
     "client": "Client",
     "user": "User"
+  },
+  "settings": {
+    "title": "Settings",
+    "titlePage": "Settings | Leonix",
+    "subtitle": "Manage system settings",
+    "manage": "Manage",
+    "installationTypes": "Installation Types",
+    "installationTypesDesc": "Manage the installation type categories available in the system",
+    "assetCategories": "Asset Categories",
+    "assetCategoriesDesc": "Manage categories to classify your assets",
+    "deviceCategories": "Device Categories",
+    "deviceCategoriesDesc": "Configure device categories for your installations",
+    "formCategories": "Form Categories",
+    "formCategoriesDesc": "Organize form templates by categories",
+    "manageInstallationTypes": "Manage Installation Types",
+    "manageAssetCategories": "Manage Asset Categories",
+    "manageDeviceCategories": "Manage Device Categories",
+    "manageFormCategories": "Manage Form Categories",
+    "newCategoryName": "New category name",
+    "newTypeName": "New type name",
+    "confirmDelete": "Are you sure you want to delete this item?"
   }
 }

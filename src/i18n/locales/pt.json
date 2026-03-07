@@ -1676,5 +1676,26 @@
     "technician": "Técnico",
     "client": "Cliente",
     "user": "Usuário"
+  },
+  "settings": {
+    "title": "Configurações",
+    "titlePage": "Configurações | Leonix",
+    "subtitle": "Gerenciar configurações do sistema",
+    "manage": "Gerenciar",
+    "installationTypes": "Tipos de Instalação",
+    "installationTypesDesc": "Gerenciar as categorias de tipos de instalação disponíveis no sistema",
+    "assetCategories": "Categorias de Ativos",
+    "assetCategoriesDesc": "Gerenciar categorias para classificar seus ativos",
+    "deviceCategories": "Categorias de Dispositivos",
+    "deviceCategoriesDesc": "Configurar categorias de dispositivos para suas instalações",
+    "formCategories": "Categorias de Formulários",
+    "formCategoriesDesc": "Organizar modelos de formulários por categorias",
+    "manageInstallationTypes": "Gerenciar Tipos de Instalação",
+    "manageAssetCategories": "Gerenciar Categorias de Ativos",
+    "manageDeviceCategories": "Gerenciar Categorias de Dispositivos",
+    "manageFormCategories": "Gerenciar Categorias de Formulários",
+    "newCategoryName": "Nome da nova categoria",
+    "newTypeName": "Nome do novo tipo",
+    "confirmDelete": "Tem certeza de que deseja excluir este item?"
   }
 }

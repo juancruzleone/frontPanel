@@ -50,10 +50,6 @@ const Nav = () => {
   const navigate = useNavigate()
   const { dark, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isLanguageOpen, setIsLanguageOpen] = useState(false)
-  const [dropdownPosition, setDropdownPosition] = useState<{ top?: number; bottom?: number; left: number } | null>(null)
-  const languageDropdownRef = useRef<HTMLDivElement>(null)
-  const languageButtonRef = useRef<HTMLButtonElement>(null)
   const { isSidebarCollapsed, toggleSidebar } = useLayoutStore()
 
   // Usar las utilidades de roles
@@ -79,35 +75,13 @@ const Nav = () => {
   const currentLanguage = languages.find(lang => lang.code === currentLangCode) || languages[0]
   const currentFlag = flagMap[currentLangCode] || esFlag
 
-  const handleLanguageChange = (languageCode: string) => {
-    i18n.changeLanguage(languageCode)
-    setIsLanguageOpen(false)
-  }
-
   useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? "hidden" : ""
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
   }, [isMenuOpen])
-
-
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        languageDropdownRef.current &&
-        !languageDropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsLanguageOpen(false)
-      }
-    }
-
-    if (isLanguageOpen) {
-      document.addEventListener('mousedown', handleClickOutside)
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [isLanguageOpen])
 
   const handleLogout = () => {
     setLogoutMessage("Sesión cerrada con éxito.")
@@ -116,29 +90,6 @@ const Nav = () => {
     setIsMenuOpen(false)
   }
 
-  useEffect(() => {
-    if (isLanguageOpen && isSidebarCollapsed && languageButtonRef.current) {
-      const rect = languageButtonRef.current.getBoundingClientRect()
-      const viewportHeight = window.innerHeight
-      const dropdownHeight = 300 // matches max-height in CSS
-
-      if (rect.top + dropdownHeight > viewportHeight) {
-        // If it would overflow the bottom, align its bottom near the button
-        setDropdownPosition({
-          bottom: viewportHeight - rect.bottom,
-          left: rect.right + 10
-        })
-      } else {
-        setDropdownPosition({
-          top: rect.top,
-          left: rect.right + 10
-        })
-      }
-    } else {
-      setDropdownPosition(null)
-    }
-  }, [isLanguageOpen, isSidebarCollapsed])
-
   return (
     <>
       <button
@@ -146,7 +97,7 @@ const Nav = () => {
         onClick={() => setIsMenuOpen(prev => !prev)}
         aria-label={isMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
       >
-        {isMenuOpen ? <X size={28} color="#fff" /> : <Menu size={28} />}
+        {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
       </button>
 
       <nav className={`${styles.nav} ${isMenuOpen ? styles.open : ""} ${isSidebarCollapsed ? styles.collapsed : ""}`}>
@@ -241,49 +192,6 @@ const Nav = () => {
             )}
           </ul>
           <div className={styles.bottomSection}>
-            <div className={styles.controlsContainer}>
-              <div className={styles.languageSelectorContainer} ref={languageDropdownRef}>
-                <button
-                  type="button"
-                  ref={languageButtonRef}
-                  className={styles.languageButton}
-                  onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-                  aria-label={t('languageSelector.title')}
-                >
-                  <img src={currentFlag} alt={i18n.language} className={styles.flagImg} />
-                </button>
-                {isLanguageOpen && (
-                  <div
-                    className={`${styles.languageDropdown} ${isSidebarCollapsed ? styles.languageDropdownCollapsed : ''}`}
-                    style={isSidebarCollapsed && dropdownPosition ? {
-                      top: dropdownPosition.top,
-                      bottom: dropdownPosition.bottom,
-                      left: dropdownPosition.left
-                    } : undefined}
-                  >
-                    {languages.map((language) => (
-                      <button
-                        type="button"
-                        key={language.code}
-                        className={`${styles.languageOption} ${currentLangCode === language.code ? styles.active : ''}`}
-                        onClick={() => handleLanguageChange(language.code)}
-                      >
-                        <img src={flagMap[language.code] || esFlag} alt={language.code} className={styles.flagImg} />
-                        <span className={styles.languageName}>{language.name}</span>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <button
-                type="button"
-                className={styles.themeButton}
-                onClick={toggleTheme}
-                aria-label={t('nav.toggleTheme')}
-              >
-                {dark ? <Sun size={18} strokeWidth={2.5} /> : <Moon size={18} strokeWidth={2.5} />}
-              </button>
-            </div>
             <div className={styles.userSection}>
               {user && (
                 <div className={styles.userInfo}>
