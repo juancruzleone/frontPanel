@@ -1301,6 +1301,7 @@
     "thisMonth": "Este Mes",
     "nextWeek": "Próxima Semana",
     "nextMonth": "Próximo Mes",
+    "selectDate": "Seleccionar fecha",
     "timezoneLabel": "🌍 America/Buenos_Aires (-03:00) • Horario de verano"
   },
   "workOrders": {

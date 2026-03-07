@@ -2,21 +2,30 @@
     height: 70px;
     background-color: #0B1C1A;
     border-bottom: 1px solid rgba(0, 255, 174, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 24px;
     position: sticky;
     top: 0;
     z-index: 900;
     transition: all 0.3s ease;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 :global(.dark) .topBar {
     background-color: #0B1C1A;
     border-bottom-color: rgba(0, 255, 174, 0.1);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.topBarContainer {
+    width: 100%;
+    max-width: 1200px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
 }
 
 .searchContainer {
@@ -72,8 +81,9 @@
 .actions {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
     margin-left: auto;
+    padding-left: 8px;
 }
 
 .actionButton {
@@ -92,6 +102,8 @@
 }
 
 :global(.dark) .actionButton {
+    background: transparent;
+    border: none;
     color: #00FFAE;
 }
 
@@ -357,8 +369,9 @@
 }
 
 :global(.dark) .langDropdown {
-    background-color: #0f172a;
-    border-color: #1e293b;
+    background-color: var(--color-card);
+    border: 1px solid var(--color-card-border);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 .langOption {
@@ -385,13 +398,18 @@
 }
 
 :global(.dark) .langOption:hover {
-    background-color: #1e293b;
+    background-color: var(--color-card-border);
 }
 
 .activeLang {
     background-color: rgba(11, 132, 121, 0.1);
     color: #0b8479;
     font-weight: 600;
+}
+
+:global(.dark) .activeLang {
+    background: linear-gradient(135deg, #057e74 0%, #089b8e 100%);
+    color: white;
 }
 
 .flagImgSmall {

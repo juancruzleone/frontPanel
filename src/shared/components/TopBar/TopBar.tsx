@@ -97,98 +97,100 @@ const TopBar: React.FC = () => {
 
     return (
         <header className={`${styles.topBar} ${isSidebarCollapsed ? styles.expanded : ''}`}>
-            <div className={styles.actions}>
-                <div className={styles.langContainer} ref={langRef}>
+            <div className={styles.topBarContainer}>
+                <div className={styles.actions}>
+                    <div className={styles.langContainer} ref={langRef}>
+                        <button
+                            className={styles.actionButton}
+                            onClick={() => setIsLangOpen(!isLangOpen)}
+                            aria-label="Idioma"
+                        >
+                            <img src={currentFlag} alt={i18n.language} className={styles.flagImg} />
+                        </button>
+                        {isLangOpen && (
+                            <div className={styles.langDropdown}>
+                                {languages.map((language) => (
+                                    <button
+                                        key={language.code}
+                                        className={`${styles.langOption} ${currentLangCode === language.code ? styles.activeLang : ''}`}
+                                        onClick={() => handleLanguageChange(language.code)}
+                                    >
+                                        <img src={flagMap[language.code] || esFlag} alt={language.code} className={styles.flagImgSmall} />
+                                        <span>{language.name}</span>
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
                     <button
                         className={styles.actionButton}
-                        onClick={() => setIsLangOpen(!isLangOpen)}
-                        aria-label="Idioma"
+                        onClick={toggleTheme}
+                        aria-label="Cambiar tema"
                     >
-                        <img src={currentFlag} alt={i18n.language} className={styles.flagImg} />
-                    </button>
-                    {isLangOpen && (
-                        <div className={styles.langDropdown}>
-                            {languages.map((language) => (
-                                <button
-                                    key={language.code}
-                                    className={`${styles.langOption} ${currentLangCode === language.code ? styles.activeLang : ''}`}
-                                    onClick={() => handleLanguageChange(language.code)}
-                                >
-                                    <img src={flagMap[language.code] || esFlag} alt={language.code} className={styles.flagImgSmall} />
-                                    <span>{language.name}</span>
-                                </button>
-                            ))}
-                        </div>
-                    )}
-                </div>
-
-                <button
-                    className={styles.actionButton}
-                    onClick={toggleTheme}
-                    aria-label="Cambiar tema"
-                >
-                    {dark ? <Sun size={20} /> : <Moon size={20} />}
-                </button>
-
-                <div className={styles.notificationsContainer} ref={notifRef}>
-                    <button
-                        className={styles.actionButton}
-                        onClick={() => setIsNotifOpen(!isNotifOpen)}
-                        aria-label="Notificaciones"
-                    >
-                        <Bell size={20} />
-                        {unreadCount > 0 && <span className={styles.badge}>{unreadCount}</span>}
+                        {dark ? <Sun size={20} /> : <Moon size={20} />}
                     </button>
 
-                    {isNotifOpen && (
-                        <div className={styles.dropdown}>
-                            <div className={styles.dropdownHeader}>
-                                <h3>{t('notifications.title') || 'Notificaciones'}</h3>
-                                <div className={styles.headerActions}>
-                                    <button onClick={markAllAsRead} title="Marcar todas como leídas">
-                                        <Check size={16} />
-                                    </button>
-                                    <button onClick={clearNotifications} title="Borrar todas">
-                                        <Trash2 size={16} />
-                                    </button>
+                    <div className={styles.notificationsContainer} ref={notifRef}>
+                        <button
+                            className={styles.actionButton}
+                            onClick={() => setIsNotifOpen(!isNotifOpen)}
+                            aria-label="Notificaciones"
+                        >
+                            <Bell size={20} />
+                            {unreadCount > 0 && <span className={styles.badge}>{unreadCount}</span>}
+                        </button>
+
+                        {isNotifOpen && (
+                            <div className={styles.dropdown}>
+                                <div className={styles.dropdownHeader}>
+                                    <h3>{t('notifications.title') || 'Notificaciones'}</h3>
+                                    <div className={styles.headerActions}>
+                                        <button onClick={markAllAsRead} title="Marcar todas como leídas">
+                                            <Check size={16} />
+                                        </button>
+                                        <button onClick={clearNotifications} title="Borrar todas">
+                                            <Trash2 size={16} />
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className={styles.notificationsList}>
+                                    {notifications.length === 0 ? (
+                                        <div className={styles.emptyState}>
+                                            <Bell size={40} className={styles.emptyIcon} />
+                                            <p>{t('notifications.empty') || 'No hay notificaciones'}</p>
+                                        </div>
+                                    ) : (
+                                        notifications.map((notif) => (
+                                            <div
+                                                key={notif.id}
+                                                className={`${styles.notificationItem} ${!notif.read ? styles.unread : ''}`}
+                                                onClick={() => markAsRead(notif.id)}
+                                            >
+                                                <div className={styles.notifContent}>
+                                                    <h4 className={styles.notifTitle}>{notif.title}</h4>
+                                                    <p className={styles.notifMessage}>{notif.message}</p>
+                                                    <span className={styles.notifTime}>
+                                                        <Clock size={12} /> {formatTime(new Date(notif.date))}
+                                                    </span>
+                                                </div>
+                                                {!notif.read && <div className={styles.unreadIndicator} />}
+                                            </div>
+                                        ))
+                                    )}
                                 </div>
                             </div>
-                            <div className={styles.notificationsList}>
-                                {notifications.length === 0 ? (
-                                    <div className={styles.emptyState}>
-                                        <Bell size={40} className={styles.emptyIcon} />
-                                        <p>{t('notifications.empty') || 'No hay notificaciones'}</p>
-                                    </div>
-                                ) : (
-                                    notifications.map((notif) => (
-                                        <div
-                                            key={notif.id}
-                                            className={`${styles.notificationItem} ${!notif.read ? styles.unread : ''}`}
-                                            onClick={() => markAsRead(notif.id)}
-                                        >
-                                            <div className={styles.notifContent}>
-                                                <h4 className={styles.notifTitle}>{notif.title}</h4>
-                                                <p className={styles.notifMessage}>{notif.message}</p>
-                                                <span className={styles.notifTime}>
-                                                    <Clock size={12} /> {formatTime(new Date(notif.date))}
-                                                </span>
-                                            </div>
-                                            {!notif.read && <div className={styles.unreadIndicator} />}
-                                        </div>
-                                    ))
-                                )}
-                            </div>
-                        </div>
-                    )}
-                </div>
+                        )}
+                    </div>
 
-                <button
-                    className={styles.actionButton}
-                    aria-label="Configuración"
-                    onClick={() => navigate('/configuracion')}
-                >
-                    <Settings size={20} />
-                </button>
+                    <button
+                        className={styles.actionButton}
+                        aria-label="Configuración"
+                        onClick={() => navigate('/configuracion')}
+                    >
+                        <Settings size={20} />
+                    </button>
+                </div>
             </div>
         </header>
     );
