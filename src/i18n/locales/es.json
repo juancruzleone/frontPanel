@@ -1784,7 +1784,11 @@
     "localSaveNote": "Los datos se guardarán localmente y se enviarán cuando haya conexión",
     "viewHistory": "Historial",
     "maintenanceRegisteredSuccess": "¡Mantenimiento registrado exitosamente!",
-    "maintenanceSavedOffline": "Mantenimiento guardado. Se enviará automáticamente cuando haya conexión."
+    "maintenanceSavedOffline": "Mantenimiento guardado. Se enviará automáticamente cuando haya conexión.",
+    "evidencePhotos": "Fotos de Evidencia",
+    "addPhoto": "Agregar Foto",
+    "digitalSignature": "Firma Digital del Técnico",
+    "clearSignature": "Limpiar Firma"
   },
   "validations": {
     "selectAsset": "Debe seleccionar un activo",

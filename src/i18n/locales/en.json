@@ -1676,7 +1676,11 @@
     "localSaveNote": "Data will be saved locally and submitted when online",
     "viewHistory": "History",
     "maintenanceRegisteredSuccess": "Maintenance registered successfully!",
-    "maintenanceSavedOffline": "Maintenance saved. It will be sent automatically when online."
+    "maintenanceSavedOffline": "Maintenance saved. It will be sent automatically when online.",
+    "evidencePhotos": "Evidence Photos",
+    "addPhoto": "Add Photo",
+    "digitalSignature": "Technician's Digital Signature",
+    "clearSignature": "Clear Signature"
   },
   "validations": {
     "selectAsset": "You must select an asset",

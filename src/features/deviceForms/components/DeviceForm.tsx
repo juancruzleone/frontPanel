@@ -1,6 +1,6 @@
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import { useParams } from "react-router-dom"
-import { Wifi, WifiOff, Clock, CheckCircle, Building2, MapPin, ChevronDown, X, Calendar, History } from "lucide-react"
+import { Wifi, WifiOff, Clock, CheckCircle, Building2, MapPin, ChevronDown, X, Calendar, History, Camera, Trash2 } from "lucide-react"
 import useDeviceForm from "../hooks/useDeviceForm"
 import HybridSelect from "../../../shared/components/HybridSelect/HybridSelect"
 import styles from "../styles/deviceForm.module.css"
@@ -33,7 +33,13 @@ const DeviceForm: React.FC = () => {
     handleChange,
     handleSelectChange,
     handleSelectBlur,
-    handleSubmit
+    handleSubmit,
+    handlePhotoUpload,
+    handlePhotoRemove,
+    handleSignatureChange,
+    clearSignature,
+    fotosEvidencia,
+    firmaTecnico
   } = useDeviceForm(installationId, deviceId)
 
   // Estado para mostrar modales
@@ -50,12 +56,79 @@ const DeviceForm: React.FC = () => {
   const [maintenanceHistory, setMaintenanceHistory] = useState<MaintenanceRecord[]>([])
   const [loadingHistory, setLoadingHistory] = useState(false);
 
+  // Refs para firma digital
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const isDrawingRef = useRef(false)
+  const lastPointRef = useRef<{ x: number; y: number } | null>(null)
+
   // Función para formatear fecha a dd/mm/yyyy
   const formatDate = (dateStr: string) => {
     if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return "";
     const [y, m, d] = dateStr.split("-");
     return `${d}/${m}/${y}`;
   };
+
+  // Funciones para manejo de firma digital
+  const getCanvasPoint = (clientX: number, clientY: number) => {
+    if (!canvasRef.current) return { x: 0, y: 0 }
+    const rect = canvasRef.current.getBoundingClientRect()
+    return {
+      x: clientX - rect.left,
+      y: clientY - rect.top,
+    }
+  }
+
+  const startDrawing = (clientX: number, clientY: number) => {
+    const point = getCanvasPoint(clientX, clientY)
+    isDrawingRef.current = true
+    lastPointRef.current = point
+  }
+
+  const draw = (clientX: number, clientY: number) => {
+    if (!isDrawingRef.current || !canvasRef.current || !lastPointRef.current) return
+    const context = canvasRef.current.getContext("2d")
+    if (!context) return
+
+    const point = getCanvasPoint(clientX, clientY)
+    context.lineWidth = 2
+    context.lineCap = "round"
+    context.lineJoin = "round"
+    context.strokeStyle = "#0f172a"
+    context.beginPath()
+    context.moveTo(lastPointRef.current.x, lastPointRef.current.y)
+    context.lineTo(point.x, point.y)
+    context.stroke()
+    lastPointRef.current = point
+  }
+
+  const stopDrawing = () => {
+    if (!isDrawingRef.current) return
+    isDrawingRef.current = false
+    lastPointRef.current = null
+    if (canvasRef.current) {
+      const dataUrl = canvasRef.current.toDataURL("image/png")
+      handleSignatureChange(dataUrl)
+    }
+  }
+
+  const handleClearSignature = () => {
+    if (!canvasRef.current) return
+    const context = canvasRef.current.getContext("2d")
+    if (!context) return
+    context.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
+    context.fillStyle = "#ffffff"
+    context.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height)
+    clearSignature()
+  }
+
+  // Inicializar canvas
+  React.useEffect(() => {
+    if (!canvasRef.current) return
+    const context = canvasRef.current.getContext("2d")
+    if (!context) return
+    context.fillStyle = "#ffffff"
+    context.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height)
+  }, [])
 
   // Mostrar modal según resultado
   React.useEffect(() => {
@@ -305,6 +378,91 @@ const DeviceForm: React.FC = () => {
             )}
           </div>
         ))}
+
+        {/* Campo para subir fotos de evidencia */}
+        <div className={styles.formGroup}>
+          <label className={styles.label}>
+            {t('deviceForm.evidencePhotos', 'Fotos de Evidencia')}
+          </label>
+          <div className={styles.photoUploadContainer}>
+            <input
+              type="file"
+              accept="image/*"
+              capture="environment"
+              multiple
+              onChange={(e) => {
+                const files = Array.from(e.target.files || [])
+                files.forEach(file => handlePhotoUpload(file))
+                e.target.value = '' // Reset input
+              }}
+              className={styles.fileInput}
+              id="photo-upload"
+              disabled={submitting}
+            />
+            <label htmlFor="photo-upload" className={styles.photoUploadButton}>
+              <Camera size={20} />
+              <span>{t('deviceForm.addPhoto', 'Agregar Foto')}</span>
+            </label>
+          </div>
+          
+          {fotosEvidencia.length > 0 && (
+            <div className={styles.photosGrid}>
+              {fotosEvidencia.map((foto, index) => (
+                <div key={index} className={styles.photoPreview}>
+                  <img src={foto} alt={`Evidencia ${index + 1}`} />
+                  <button
+                    type="button"
+                    onClick={() => handlePhotoRemove(index)}
+                    className={styles.removePhotoButton}
+                    disabled={submitting}
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Campo para firma digital */}
+        <div className={styles.formGroup}>
+          <label className={styles.label}>
+            {t('deviceForm.digitalSignature', 'Firma Digital del Técnico')}
+            <span className={styles.required}> *</span>
+          </label>
+          <div className={styles.signatureBox}>
+            <canvas
+              ref={canvasRef}
+              width={720}
+              height={220}
+              className={styles.signatureCanvas}
+              onMouseDown={(e) => startDrawing(e.clientX, e.clientY)}
+              onMouseMove={(e) => draw(e.clientX, e.clientY)}
+              onMouseUp={stopDrawing}
+              onMouseLeave={stopDrawing}
+              onTouchStart={(e) => {
+                e.preventDefault()
+                const touch = e.touches[0]
+                startDrawing(touch.clientX, touch.clientY)
+              }}
+              onTouchMove={(e) => {
+                e.preventDefault()
+                const touch = e.touches[0]
+                draw(touch.clientX, touch.clientY)
+              }}
+              onTouchEnd={stopDrawing}
+            />
+          </div>
+          <button
+            type="button"
+            onClick={handleClearSignature}
+            disabled={submitting}
+            className={styles.clearSignatureButton}
+          >
+            {t('deviceForm.clearSignature', 'Limpiar Firma')}
+          </button>
+        </div>
+
         <div className={formButtonStyles.actions}>
           <button type="submit" disabled={submitting} className={formButtonStyles.submitButton}>
             {submitting ? t('deviceForm.sending') : isOnline ? t('deviceForm.sendMaintenance') : t('deviceForm.saveMaintenance')}

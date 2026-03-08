@@ -277,6 +277,11 @@ const InstallationDetails = () => {
   if (loading || initialLoad) {
     return (
       <div className={styles.container}>
+        {/* Skeleton del botón de volver */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+          <Skeleton height={36} width={36} style={{ borderRadius: 6 }} />
+        </div>
+        
         <div className={styles.loadingContainer}>
           <div className={styles.skeletonGrid}>
             <Skeleton height={140} width={"100%"} style={{ borderRadius: 16 }} />

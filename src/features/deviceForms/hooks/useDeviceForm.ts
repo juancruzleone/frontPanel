@@ -50,6 +50,10 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
   const [submitting, setSubmitting] = useState(false)
   const [isOnline, setIsOnline] = useState(navigator.onLine)
   const [pendingSubmissions, setPendingSubmissions] = useState<OfflineSubmission[]>([])
+  
+  // Estados para fotos y firma
+  const [fotosEvidencia, setFotosEvidencia] = useState<string[]>([])
+  const [firmaTecnico, setFirmaTecnico] = useState<string>("")
 
   // Verificar estado de conexión
   useEffect(() => {
@@ -205,6 +209,29 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
   const handleSelectBlur = (name: string) => {
   }
 
+  // Funciones para manejo de fotos
+  const handlePhotoUpload = (file: File) => {
+    const reader = new FileReader()
+    reader.onload = () => {
+      const result = typeof reader.result === "string" ? reader.result : ""
+      setFotosEvidencia(prev => [...prev, result])
+    }
+    reader.readAsDataURL(file)
+  }
+
+  const handlePhotoRemove = (index: number) => {
+    setFotosEvidencia(prev => prev.filter((_, i) => i !== index))
+  }
+
+  // Funciones para manejo de firma
+  const handleSignatureChange = (dataUrl: string) => {
+    setFirmaTecnico(dataUrl)
+  }
+
+  const clearSignature = () => {
+    setFirmaTecnico("")
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitting(true)
@@ -220,9 +247,21 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
         throw new Error("Por favor completa todos los campos requeridos");
       }
 
+      // Verificar que haya firma
+      if (!firmaTecnico) {
+        throw new Error("La firma digital es obligatoria");
+      }
+
+      // Preparar datos con fotos y firma
+      const dataToSubmit = {
+        ...formData,
+        fotosEvidencia,
+        firmaTecnico
+      }
+
       if (isOnline) {
         // Enviar directamente si hay conexión
-        await submitDeviceMaintenance(installationId!, deviceId!, formData)
+        await submitDeviceMaintenance(installationId!, deviceId!, dataToSubmit)
         setSuccess("¡Mantenimiento registrado exitosamente!")
 
         // Limpiar formulario manteniendo los tipos correctos
@@ -235,13 +274,15 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
           }
         })
         setFormData(initialData)
+        setFotosEvidencia([])
+        setFirmaTecnico("")
       } else {
         // Guardar para envío posterior si no hay conexión
         const submission: OfflineSubmission = {
           id: `submission_${Date.now()}_${Math.random()}`,
           installationId: installationId!,
           deviceId: deviceId!,
-          formData: { ...formData },
+          formData: dataToSubmit,
           timestamp: Date.now(),
           retryCount: 0
         }
@@ -259,6 +300,8 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
           }
         })
         setFormData(initialData)
+        setFotosEvidencia([])
+        setFirmaTecnico("")
       }
     } catch (e: any) {
       if (isOnline) {
@@ -287,6 +330,12 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
     handleSelectBlur,
     handleSubmit,
     syncPendingSubmissions,
+    handlePhotoUpload,
+    handlePhotoRemove,
+    handleSignatureChange,
+    clearSignature,
+    fotosEvidencia,
+    firmaTecnico
   }
 }
 
