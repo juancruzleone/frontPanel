@@ -1810,6 +1810,38 @@
     "manageFormCategories": "Manage Form Categories",
     "newCategoryName": "New category name",
     "newTypeName": "New type name",
-    "confirmDelete": "Are you sure you want to delete this item?"
+    "confirmDelete": "Are you sure you want to delete this item?",
+    "categoryName": "Category Name",
+    "typeName": "Type Name",
+    "editCategory": "Edit Category",
+    "editType": "Edit Type",
+    "confirmDeleteTitle": "Delete item?",
+    "confirmDeleteMessage": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+    "validation": {
+      "nameRequired": "Name is required",
+      "nameTooShort": "Name must be at least 2 characters",
+      "nameTooLong": "Name cannot exceed 50 characters",
+      "nameExists": "An item with this name already exists"
+    },
+    "success": {
+      "categoryAdded": "Category added!",
+      "categoryAddedMessage": "The category has been created successfully",
+      "categoryUpdated": "Category updated!",
+      "categoryUpdatedMessage": "The category has been updated successfully",
+      "categoryDeleted": "Category deleted!",
+      "categoryDeletedMessage": "The category has been deleted successfully",
+      "typeAdded": "Type added!",
+      "typeAddedMessage": "The type has been created successfully",
+      "typeUpdated": "Type updated!",
+      "typeUpdatedMessage": "The type has been updated successfully",
+      "typeDeleted": "Type deleted!",
+      "typeDeletedMessage": "The type has been deleted successfully"
+    },
+    "error": {
+      "createFailed": "Error creating item. Please try again.",
+      "updateFailed": "Error updating item. Please try again.",
+      "deleteFailed": "Error deleting item. Please try again.",
+      "validationFailed": "Error validating data. Please check the information."
+    }
   }
 }

@@ -7,6 +7,7 @@ import useCategories from '../../installations/hooks/useCategories'
 import ConfirmModal from '../../../shared/components/ConfirmModal'
 import EditModal from '../../../shared/components/EditModal'
 import SuccessModal from '../../../shared/components/SuccessModal'
+import validationService from '../services/validationService'
 
 interface Props {
   isOpen: boolean
@@ -41,36 +42,55 @@ const ModalManageDeviceCategories = ({ isOpen, onRequestClose }: Props) => {
     }
   }, [isOpen])
 
-  const validateCategoryName = (name: string): string => {
+  // Validación básica local para feedback inmediato
+  const validateCategoryNameLocal = (name: string): string => {
     if (!name.trim()) {
       return t('settings.validation.nameRequired')
-    }
-    if (name.trim().length < 2) {
-      return t('settings.validation.nameTooShort')
-    }
-    if (name.trim().length > 50) {
-      return t('settings.validation.nameTooLong')
-    }
-    const exists = categories.some(
-      cat => cat.nombre.toLowerCase() === name.trim().toLowerCase() && 
-      cat._id !== editingCategory?.id
-    )
-    if (exists) {
-      return t('settings.validation.nameExists')
     }
     return ''
   }
 
+  // Validación completa con el backend
+  const validateCategoryNameWithBackend = async (name: string, excludeId?: string): Promise<string> => {
+    const localError = validateCategoryNameLocal(name)
+    if (localError) return localError
+
+    try {
+      const result = await validationService.validateDeviceCategory(
+        { nombre: name.trim() },
+        excludeId
+      )
+      
+      if (!result.valid && result.errors && result.errors.length > 0) {
+        return result.errors[0].message
+      }
+      
+      return ''
+    } catch (error: any) {
+      return error.response?.data?.message || t('settings.error.validationFailed')
+    }
+  }
+
   const handleAdd = async () => {
-    const error = validateCategoryName(newCategoryName)
-    if (error) {
-      setValidationError(error)
+    // Validación local inmediata
+    const localError = validateCategoryNameLocal(newCategoryName)
+    if (localError) {
+      setValidationError(localError)
       return
     }
     
     setIsAdding(true)
     setValidationError('')
+    
     try {
+      // Validación con backend antes de crear
+      const backendError = await validateCategoryNameWithBackend(newCategoryName)
+      if (backendError) {
+        setValidationError(backendError)
+        setIsAdding(false)
+        return
+      }
+
       await addCategory({ nombre: newCategoryName.trim() })
       setNewCategoryName('')
       await loadCategories()
@@ -78,8 +98,9 @@ const ModalManageDeviceCategories = ({ isOpen, onRequestClose }: Props) => {
         title: t('settings.success.categoryAdded'),
         message: t('settings.success.categoryAddedMessage')
       })
-    } catch (error) {
-      setValidationError(t('settings.error.createFailed'))
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || t('settings.error.createFailed')
+      setValidationError(errorMessage)
     } finally {
       setIsAdding(false)
     }
@@ -93,15 +114,25 @@ const ModalManageDeviceCategories = ({ isOpen, onRequestClose }: Props) => {
   }
 
   const handleSaveEdit = async () => {
-    const error = validateCategoryName(editName)
-    if (error) {
-      setEditValidationError(error)
+    // Validación local inmediata
+    const localError = validateCategoryNameLocal(editName)
+    if (localError) {
+      setEditValidationError(localError)
       return
     }
 
     setIsSaving(true)
     setEditValidationError('')
+    
     try {
+      // Validación con backend antes de actualizar
+      const backendError = await validateCategoryNameWithBackend(editName, editingCategory?.id)
+      if (backendError) {
+        setEditValidationError(backendError)
+        setIsSaving(false)
+        return
+      }
+
       // Aquí deberías implementar la función de actualización en el hook
       // await updateCategory(editingCategory!.id, { nombre: editName.trim() })
       await loadCategories()
@@ -111,8 +142,9 @@ const ModalManageDeviceCategories = ({ isOpen, onRequestClose }: Props) => {
         title: t('settings.success.categoryUpdated'),
         message: t('settings.success.categoryUpdatedMessage')
       })
-    } catch (error) {
-      setEditValidationError(t('settings.error.updateFailed'))
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || t('settings.error.updateFailed')
+      setEditValidationError(errorMessage)
     } finally {
       setIsSaving(false)
     }

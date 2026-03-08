@@ -1716,6 +1716,38 @@
     "manageFormCategories": "Gerenciar Categorias de Formulários",
     "newCategoryName": "Nome da nova categoria",
     "newTypeName": "Nome do novo tipo",
-    "confirmDelete": "Tem certeza de que deseja excluir este item?"
+    "confirmDelete": "Tem certeza de que deseja excluir este item?",
+    "categoryName": "Nome da Categoria",
+    "typeName": "Nome do Tipo",
+    "editCategory": "Editar Categoria",
+    "editType": "Editar Tipo",
+    "confirmDeleteTitle": "Excluir item?",
+    "confirmDeleteMessage": "Tem certeza de que deseja excluir \"{{name}}\"? Esta ação não pode ser desfeita.",
+    "validation": {
+      "nameRequired": "O nome é obrigatório",
+      "nameTooShort": "O nome deve ter pelo menos 2 caracteres",
+      "nameTooLong": "O nome não pode exceder 50 caracteres",
+      "nameExists": "Já existe um item com este nome"
+    },
+    "success": {
+      "categoryAdded": "Categoria adicionada!",
+      "categoryAddedMessage": "A categoria foi criada com sucesso",
+      "categoryUpdated": "Categoria atualizada!",
+      "categoryUpdatedMessage": "A categoria foi atualizada com sucesso",
+      "categoryDeleted": "Categoria excluída!",
+      "categoryDeletedMessage": "A categoria foi excluída com sucesso",
+      "typeAdded": "Tipo adicionado!",
+      "typeAddedMessage": "O tipo foi criado com sucesso",
+      "typeUpdated": "Tipo atualizado!",
+      "typeUpdatedMessage": "O tipo foi atualizado com sucesso",
+      "typeDeleted": "Tipo excluído!",
+      "typeDeletedMessage": "O tipo foi excluído com sucesso"
+    },
+    "error": {
+      "createFailed": "Erro ao criar o item. Por favor, tente novamente.",
+      "updateFailed": "Erro ao atualizar o item. Por favor, tente novamente.",
+      "deleteFailed": "Erro ao excluir o item. Por favor, tente novamente.",
+      "validationFailed": "Erro ao validar os dados. Por favor, verifique as informações."
+    }
   }
 }

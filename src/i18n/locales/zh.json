@@ -1749,6 +1749,38 @@
     "manageFormCategories": "管理表单类别",
     "newCategoryName": "新类别名称",
     "newTypeName": "新类型名称",
-    "confirmDelete": "您确定要删除此项目吗？"
+    "confirmDelete": "您确定要删除此项目吗？",
+    "categoryName": "类别名称",
+    "typeName": "类型名称",
+    "editCategory": "编辑类别",
+    "editType": "编辑类型",
+    "confirmDeleteTitle": "删除项目？",
+    "confirmDeleteMessage": "您确定要删除 {{name}} 吗？此操作无法撤消。",
+    "validation": {
+      "nameRequired": "名称为必填项",
+      "nameTooShort": "名称至少需要2个字符",
+      "nameTooLong": "名称不能超过50个字符",
+      "nameExists": "已存在具有此名称的项目"
+    },
+    "success": {
+      "categoryAdded": "类别已添加！",
+      "categoryAddedMessage": "类别已成功创建",
+      "categoryUpdated": "类别已更新！",
+      "categoryUpdatedMessage": "类别已成功更新",
+      "categoryDeleted": "类别已删除！",
+      "categoryDeletedMessage": "类别已成功删除",
+      "typeAdded": "类型已添加！",
+      "typeAddedMessage": "类型已成功创建",
+      "typeUpdated": "类型已更新！",
+      "typeUpdatedMessage": "类型已成功更新",
+      "typeDeleted": "类型已删除！",
+      "typeDeletedMessage": "类型已成功删除"
+    },
+    "error": {
+      "createFailed": "创建项目时出错。请重试。",
+      "updateFailed": "更新项目时出错。请重试。",
+      "deleteFailed": "删除项目时出错。请重试。",
+      "validationFailed": "验证数据时出错。请检查信息。"
+    }
   }
 }

@@ -1608,6 +1608,38 @@
     "manageFormCategories": "Formularkategorien verwalten",
     "newCategoryName": "Neuer Kategoriename",
     "newTypeName": "Neuer Typname",
-    "confirmDelete": "Sind Sie sicher, dass Sie dieses Element löschen möchten?"
+    "confirmDelete": "Sind Sie sicher, dass Sie dieses Element löschen möchten?",
+    "categoryName": "Kategoriename",
+    "typeName": "Typname",
+    "editCategory": "Kategorie bearbeiten",
+    "editType": "Typ bearbeiten",
+    "confirmDeleteTitle": "Element löschen?",
+    "confirmDeleteMessage": "Sind Sie sicher, dass Sie \"{{name}}\" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "validation": {
+      "nameRequired": "Der Name ist erforderlich",
+      "nameTooShort": "Der Name muss mindestens 2 Zeichen lang sein",
+      "nameTooLong": "Der Name darf nicht länger als 50 Zeichen sein",
+      "nameExists": "Ein Element mit diesem Namen existiert bereits"
+    },
+    "success": {
+      "categoryAdded": "Kategorie hinzugefügt!",
+      "categoryAddedMessage": "Die Kategorie wurde erfolgreich erstellt",
+      "categoryUpdated": "Kategorie aktualisiert!",
+      "categoryUpdatedMessage": "Die Kategorie wurde erfolgreich aktualisiert",
+      "categoryDeleted": "Kategorie gelöscht!",
+      "categoryDeletedMessage": "Die Kategorie wurde erfolgreich gelöscht",
+      "typeAdded": "Typ hinzugefügt!",
+      "typeAddedMessage": "Der Typ wurde erfolgreich erstellt",
+      "typeUpdated": "Typ aktualisiert!",
+      "typeUpdatedMessage": "Der Typ wurde erfolgreich aktualisiert",
+      "typeDeleted": "Typ gelöscht!",
+      "typeDeletedMessage": "Der Typ wurde erfolgreich gelöscht"
+    },
+    "error": {
+      "createFailed": "Fehler beim Erstellen des Elements. Bitte versuchen Sie es erneut.",
+      "updateFailed": "Fehler beim Aktualisieren des Elements. Bitte versuchen Sie es erneut.",
+      "deleteFailed": "Fehler beim Löschen des Elements. Bitte versuchen Sie es erneut.",
+      "validationFailed": "Fehler bei der Validierung der Daten. Bitte überprüfen Sie die Informationen."
+    }
   }
 }

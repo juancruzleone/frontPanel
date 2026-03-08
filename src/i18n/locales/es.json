@@ -1948,7 +1948,8 @@
     "error": {
       "createFailed": "Error al crear el elemento. Por favor, intenta nuevamente.",
       "updateFailed": "Error al actualizar el elemento. Por favor, intenta nuevamente.",
-      "deleteFailed": "Error al eliminar el elemento. Por favor, intenta nuevamente."
+      "deleteFailed": "Error al eliminar el elemento. Por favor, intenta nuevamente.",
+      "validationFailed": "Error al validar los datos. Por favor, verifica la información."
     }
   }
 }

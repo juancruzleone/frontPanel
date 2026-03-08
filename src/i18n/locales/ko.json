@@ -1758,6 +1758,38 @@
     "manageFormCategories": "양식 카테고리 관리",
     "newCategoryName": "새 카테고리 이름",
     "newTypeName": "새 유형 이름",
-    "confirmDelete": "이 항목을 삭제하시겠습니까?"
+    "confirmDelete": "이 항목을 삭제하시겠습니까?",
+    "categoryName": "카테고리 이름",
+    "typeName": "유형 이름",
+    "editCategory": "카테고리 편집",
+    "editType": "유형 편집",
+    "confirmDeleteTitle": "항목을 삭제하시겠습니까?",
+    "confirmDeleteMessage": "\"{{name}}\"을(를) 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.",
+    "validation": {
+      "nameRequired": "이름은 필수입니다",
+      "nameTooShort": "이름은 최소 2자 이상이어야 합니다",
+      "nameTooLong": "이름은 50자를 초과할 수 없습니다",
+      "nameExists": "이 이름의 항목이 이미 존재합니다"
+    },
+    "success": {
+      "categoryAdded": "카테고리가 추가되었습니다!",
+      "categoryAddedMessage": "카테고리가 성공적으로 생성되었습니다",
+      "categoryUpdated": "카테고리가 업데이트되었습니다!",
+      "categoryUpdatedMessage": "카테고리가 성공적으로 업데이트되었습니다",
+      "categoryDeleted": "카테고리가 삭제되었습니다!",
+      "categoryDeletedMessage": "카테고리가 성공적으로 삭제되었습니다",
+      "typeAdded": "유형이 추가되었습니다!",
+      "typeAddedMessage": "유형이 성공적으로 생성되었습니다",
+      "typeUpdated": "유형이 업데이트되었습니다!",
+      "typeUpdatedMessage": "유형이 성공적으로 업데이트되었습니다",
+      "typeDeleted": "유형이 삭제되었습니다!",
+      "typeDeletedMessage": "유형이 성공적으로 삭제되었습니다"
+    },
+    "error": {
+      "createFailed": "항목 생성 중 오류가 발생했습니다. 다시 시도해 주세요.",
+      "updateFailed": "항목 업데이트 중 오류가 발생했습니다. 다시 시도해 주세요.",
+      "deleteFailed": "항목 삭제 중 오류가 발생했습니다. 다시 시도해 주세요.",
+      "validationFailed": "데이터 검증 중 오류가 발생했습니다. 정보를 확인해 주세요."
+    }
   }
 }

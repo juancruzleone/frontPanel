@@ -1706,6 +1706,38 @@
     "manageFormCategories": "Gérer les Catégories de Formulaires",
     "newCategoryName": "Nom de la nouvelle catégorie",
     "newTypeName": "Nom du nouveau type",
-    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cet élément ?"
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cet élément ?",
+    "categoryName": "Nom de la Catégorie",
+    "typeName": "Nom du Type",
+    "editCategory": "Modifier la Catégorie",
+    "editType": "Modifier le Type",
+    "confirmDeleteTitle": "Supprimer l'élément ?",
+    "confirmDeleteMessage": "Êtes-vous sûr de vouloir supprimer \"{{name}}\" ? Cette action ne peut pas être annulée.",
+    "validation": {
+      "nameRequired": "Le nom est obligatoire",
+      "nameTooShort": "Le nom doit contenir au moins 2 caractères",
+      "nameTooLong": "Le nom ne peut pas dépasser 50 caractères",
+      "nameExists": "Un élément avec ce nom existe déjà"
+    },
+    "success": {
+      "categoryAdded": "Catégorie ajoutée !",
+      "categoryAddedMessage": "La catégorie a été créée avec succès",
+      "categoryUpdated": "Catégorie mise à jour !",
+      "categoryUpdatedMessage": "La catégorie a été mise à jour avec succès",
+      "categoryDeleted": "Catégorie supprimée !",
+      "categoryDeletedMessage": "La catégorie a été supprimée avec succès",
+      "typeAdded": "Type ajouté !",
+      "typeAddedMessage": "Le type a été créé avec succès",
+      "typeUpdated": "Type mis à jour !",
+      "typeUpdatedMessage": "Le type a été mis à jour avec succès",
+      "typeDeleted": "Type supprimé !",
+      "typeDeletedMessage": "Le type a été supprimé avec succès"
+    },
+    "error": {
+      "createFailed": "Erreur lors de la création de l'élément. Veuillez réessayer.",
+      "updateFailed": "Erreur lors de la mise à jour de l'élément. Veuillez réessayer.",
+      "deleteFailed": "Erreur lors de la suppression de l'élément. Veuillez réessayer.",
+      "validationFailed": "Erreur lors de la validation des données. Veuillez vérifier les informations."
+    }
   }
 }

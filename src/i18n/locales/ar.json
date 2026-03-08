@@ -1724,6 +1724,38 @@
     "manageFormCategories": "إدارة فئات النماذج",
     "newCategoryName": "اسم الفئة الجديدة",
     "newTypeName": "اسم النوع الجديد",
-    "confirmDelete": "هل أنت متأكد من أنك تريد حذف هذا العنصر؟"
+    "confirmDelete": "هل أنت متأكد من أنك تريد حذف هذا العنصر؟",
+    "categoryName": "اسم الفئة",
+    "typeName": "اسم النوع",
+    "editCategory": "تحرير الفئة",
+    "editType": "تحرير النوع",
+    "confirmDeleteTitle": "حذف العنصر؟",
+    "confirmDeleteMessage": "هل أنت متأكد من أنك تريد حذف \"{{name}}\"؟ لا يمكن التراجع عن هذا الإجراء.",
+    "validation": {
+      "nameRequired": "الاسم مطلوب",
+      "nameTooShort": "يجب أن يحتوي الاسم على حرفين على الأقل",
+      "nameTooLong": "لا يمكن أن يتجاوز الاسم 50 حرفًا",
+      "nameExists": "يوجد بالفعل عنصر بهذا الاسم"
+    },
+    "success": {
+      "categoryAdded": "تمت إضافة الفئة!",
+      "categoryAddedMessage": "تم إنشاء الفئة بنجاح",
+      "categoryUpdated": "تم تحديث الفئة!",
+      "categoryUpdatedMessage": "تم تحديث الفئة بنجاح",
+      "categoryDeleted": "تم حذف الفئة!",
+      "categoryDeletedMessage": "تم حذف الفئة بنجاح",
+      "typeAdded": "تمت إضافة النوع!",
+      "typeAddedMessage": "تم إنشاء النوع بنجاح",
+      "typeUpdated": "تم تحديث النوع!",
+      "typeUpdatedMessage": "تم تحديث النوع بنجاح",
+      "typeDeleted": "تم حذف النوع!",
+      "typeDeletedMessage": "تم حذف النوع بنجاح"
+    },
+    "error": {
+      "createFailed": "خطأ في إنشاء العنصر. يرجى المحاولة مرة أخرى.",
+      "updateFailed": "خطأ في تحديث العنصر. يرجى المحاولة مرة أخرى.",
+      "deleteFailed": "خطأ في حذف العنصر. يرجى المحاولة مرة أخرى.",
+      "validationFailed": "خطأ في التحقق من البيانات. يرجى التحقق من المعلومات."
+    }
   }
 }

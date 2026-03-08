@@ -1713,6 +1713,38 @@
     "manageFormCategories": "Gestisci Categorie di Moduli",
     "newCategoryName": "Nome della nuova categoria",
     "newTypeName": "Nome del nuovo tipo",
-    "confirmDelete": "Sei sicuro di voler eliminare questo elemento?"
+    "confirmDelete": "Sei sicuro di voler eliminare questo elemento?",
+    "categoryName": "Nome della Categoria",
+    "typeName": "Nome del Tipo",
+    "editCategory": "Modifica Categoria",
+    "editType": "Modifica Tipo",
+    "confirmDeleteTitle": "Eliminare elemento?",
+    "confirmDeleteMessage": "Sei sicuro di voler eliminare \"{{name}}\"? Questa azione non può essere annullata.",
+    "validation": {
+      "nameRequired": "Il nome è obbligatorio",
+      "nameTooShort": "Il nome deve contenere almeno 2 caratteri",
+      "nameTooLong": "Il nome non può superare i 50 caratteri",
+      "nameExists": "Esiste già un elemento con questo nome"
+    },
+    "success": {
+      "categoryAdded": "Categoria aggiunta!",
+      "categoryAddedMessage": "La categoria è stata creata con successo",
+      "categoryUpdated": "Categoria aggiornata!",
+      "categoryUpdatedMessage": "La categoria è stata aggiornata con successo",
+      "categoryDeleted": "Categoria eliminata!",
+      "categoryDeletedMessage": "La categoria è stata eliminata con successo",
+      "typeAdded": "Tipo aggiunto!",
+      "typeAddedMessage": "Il tipo è stato creato con successo",
+      "typeUpdated": "Tipo aggiornato!",
+      "typeUpdatedMessage": "Il tipo è stato aggiornato con successo",
+      "typeDeleted": "Tipo eliminato!",
+      "typeDeletedMessage": "Il tipo è stato eliminato con successo"
+    },
+    "error": {
+      "createFailed": "Errore durante la creazione dell'elemento. Riprova.",
+      "updateFailed": "Errore durante l'aggiornamento dell'elemento. Riprova.",
+      "deleteFailed": "Errore durante l'eliminazione dell'elemento. Riprova.",
+      "validationFailed": "Errore durante la validazione dei dati. Verifica le informazioni."
+    }
   }
 }
