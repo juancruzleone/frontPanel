@@ -1788,7 +1788,12 @@
     "evidencePhotos": "Fotos de Evidencia",
     "addPhoto": "Agregar Foto",
     "digitalSignature": "Firma Digital del Técnico",
-    "clearSignature": "Limpiar Firma"
+    "clearSignature": "Limpiar Firma",
+    "maintenanceDetails": "Detalles del Mantenimiento",
+    "evidenceSection": "Evidencia y Firma",
+    "evidencePhotosDescription": "Agrega fotos que documenten el trabajo realizado",
+    "signatureDescription": "Firma en el recuadro usando tu dedo o mouse",
+    "removePhoto": "Eliminar foto"
   },
   "validations": {
     "selectAsset": "Debe seleccionar un activo",

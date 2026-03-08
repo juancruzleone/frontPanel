@@ -31,6 +31,16 @@
   box-sizing: border-box;
 }
 
+/* Modo claro - Borde negro */
+:root:not([data-theme="dark"]) .hybridSelect {
+  border: 2px solid #000000;
+}
+
+/* Modo oscuro - Borde blanco */
+:global([data-theme="dark"]) .hybridSelect {
+  border: 2px solid #ffffff;
+}
+
 /* Variante compacta para filtros */
 .hybridSelect.compact {
   min-height: 52px;
@@ -43,14 +53,25 @@
   transition: all 0.2s ease;
 }
 
-.hybridSelect.compact:hover {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
-  border-color: black;
+/* Modo claro - Borde negro para compact */
+:root:not([data-theme="dark"]) .hybridSelect.compact {
+  border: 2px solid #000000;
 }
 
-:global(.dark) .hybridSelect.compact:hover {
+/* Modo oscuro - Borde blanco para compact */
+:global([data-theme="dark"]) .hybridSelect.compact {
+  border: 2px solid #ffffff;
+}
+
+.hybridSelect.compact:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  border-color: #000000;
+}
+
+:global(.dark) .hybridSelect.compact:hover,
+:global([data-theme="dark"]) .hybridSelect.compact:hover {
   box-shadow: 0 2px 6px rgba(255, 255, 255, 0.12);
-  border-color: white;
+  border-color: #ffffff;
 }
 
 .hybridSelect.compact:focus,
@@ -59,13 +80,14 @@
 }
 
 .hybridSelect:hover {
-  border-color: black;
+  border-color: #000000;
   background-color: var(--color-bg-light);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
-:global(.dark) .hybridSelect:hover {
-  border-color: white;
+:global(.dark) .hybridSelect:hover,
+:global([data-theme="dark"]) .hybridSelect:hover {
+  border-color: #ffffff;
   background-color: var(--color-bg-light);
   box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
 }
@@ -183,6 +205,16 @@
   overflow-x: hidden;
   padding: 6px;
   animation: dropdownFadeIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Modo claro - Borde negro para dropdown */
+:root:not([data-theme="dark"]) .hybridDropdown {
+  border: 2px solid #000000;
+}
+
+/* Modo oscuro - Borde blanco para dropdown */
+:global([data-theme="dark"]) .hybridDropdown {
+  border: 2px solid #ffffff;
 }
 
 @keyframes dropdownFadeIn {

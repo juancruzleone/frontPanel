@@ -72,16 +72,27 @@ const DeviceForm: React.FC = () => {
   const getCanvasPoint = (clientX: number, clientY: number) => {
     if (!canvasRef.current) return { x: 0, y: 0 }
     const rect = canvasRef.current.getBoundingClientRect()
+    const scaleX = canvasRef.current.width / rect.width
+    const scaleY = canvasRef.current.height / rect.height
     return {
-      x: clientX - rect.left,
-      y: clientY - rect.top,
+      x: (clientX - rect.left) * scaleX,
+      y: (clientY - rect.top) * scaleY,
     }
   }
 
   const startDrawing = (clientX: number, clientY: number) => {
+    if (!canvasRef.current) return
     const point = getCanvasPoint(clientX, clientY)
     isDrawingRef.current = true
     lastPointRef.current = point
+    
+    // Dibujar un punto inicial
+    const context = canvasRef.current.getContext("2d")
+    if (!context) return
+    context.beginPath()
+    context.arc(point.x, point.y, 1, 0, 2 * Math.PI)
+    context.fillStyle = "#0f172a"
+    context.fill()
   }
 
   const draw = (clientX: number, clientY: number) => {
@@ -173,331 +184,401 @@ const DeviceForm: React.FC = () => {
   }
 
   return (
-    <div className={styles.containerDeviceForm}>
-      <h2 className={styles.title}>{t('deviceForm.maintenanceForm')}</h2>
-      {/* Estado de conexión */}
-      <div className={styles.connectionStatus}>
-        {isOnline ? (
-          <div className={styles.onlineStatus}>
-            <Wifi size={16} />
-            <span>{t('deviceForm.connected')}</span>
-          </div>
-        ) : (
-          <div className={styles.offlineStatus}>
-            <WifiOff size={16} />
-            <span>{t('deviceForm.offline')}</span>
-          </div>
-        )}
-      </div>
-      {/* Envíos pendientes */}
-      {pendingSubmissions.length > 0 && (
-        <div className={styles.pendingSubmissions}>
-          <h3>{t('deviceForm.pendingSubmissions', { count: pendingSubmissions.length })}</h3>
-          <div className={styles.pendingList}>
-            {pendingSubmissions.map((submission) => (
-              <div key={submission.id} className={styles.pendingItem}>
-                <Clock size={14} />
-                <span>{t('deviceForm.savedAt', { date: formatTimestamp(submission.timestamp) })}</span>
-                {submission.retryCount > 0 && (
-                  <span className={styles.retryCount}>
-                    {t('deviceForm.retryCount', { count: submission.retryCount })}
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-      {/* Información de la instalación */}
-      {installationInfo && (
-        <div className={styles.installationInfoBox}>
-          <div className={styles.infoHeader}>
-            <Building2 size={20} />
-            <strong>{t('deviceForm.installation')}</strong>
-          </div>
-          <div className={styles.infoContent}>
-            <div className={styles.infoRow}>
-              <strong>{t('deviceForm.company')}:</strong> {installationInfo.company}
-            </div>
-            <div className={styles.infoRow}>
-              <strong>{t('deviceForm.installationType')}:</strong> {installationInfo.installationType}
-            </div>
-            <div className={styles.infoRow}>
-              <MapPin size={18} className={styles.infoIcon} />
-              <span>{installationInfo.fullAddress}</span>
+    <div className={styles.pageWrapper}>
+      <div className={styles.containerDeviceForm}>
+        {/* Header con título y estado de conexión */}
+        <div className={styles.formHeader}>
+          <div className={styles.headerContent}>
+            <h1 className={styles.title}>{t('deviceForm.maintenanceForm')}</h1>
+            <div className={styles.connectionBadge}>
+              {isOnline ? (
+                <div className={styles.onlineStatus}>
+                  <Wifi size={16} />
+                  <span>{t('deviceForm.connected')}</span>
+                </div>
+              ) : (
+                <div className={styles.offlineStatus}>
+                  <WifiOff size={16} />
+                  <span>{t('deviceForm.offline')}</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
-      )}
-      {/* Información del dispositivo (igual estilo que instalación) */}
-      <div className={styles.deviceInfoBox}>
-        <div className={styles.infoHeader}>
-          <Building2 size={24} />
-          <strong>{t('deviceForm.deviceDetails')}</strong>
-        </div>
-        <div className={styles.infoContent}>
-          <div className={styles.infoRow}>
-            <strong>{t('deviceForm.device')}:</strong> {deviceInfo.nombre}
-          </div>
-          <div className={styles.infoRow}>
-            <strong>{t('deviceForm.category')}:</strong> {deviceInfo.categoria}
-          </div>
-          <div className={styles.infoRow}>
-            <MapPin size={18} className={styles.infoIcon} />
-            <span>{deviceInfo.ubicacion}</span>
-          </div>
-          <button
-            type="button"
-            onClick={handleViewHistory}
-            className={styles.historyButton}
-            title={t('deviceForm.viewHistory', 'Ver historial de mantenimientos')}
-          >
-            <History size={18} />
-            <span>{t('deviceForm.viewHistory', 'Historial')}</span>
-          </button>
-          {deviceInfo.marca && (
-            <div className={styles.infoRow}>
-              <strong>{t('deviceForm.brand')}:</strong> {deviceInfo.marca}
+        {/* Envíos pendientes */}
+        {pendingSubmissions.length > 0 && (
+          <div className={styles.pendingAlert}>
+            <div className={styles.alertHeader}>
+              <Clock size={18} />
+              <h3>{t('deviceForm.pendingSubmissions', { count: pendingSubmissions.length })}</h3>
             </div>
-          )}
-          {deviceInfo.modelo && (
-            <div className={styles.infoRow}>
-              <strong>{t('deviceForm.model')}:</strong> {deviceInfo.modelo}
-            </div>
-          )}
-          {deviceInfo.numeroSerie && (
-            <div className={styles.infoRow}>
-              <strong>{t('deviceForm.serialNumber')}:</strong> {deviceInfo.numeroSerie}
-            </div>
-          )}
-        </div>
-      </div>
-      <form onSubmit={handleSubmit} className={styles.form} autoComplete="off">
-        {formFields.map((field) => (
-          <div key={field.name} className={styles.formGroup}>
-            <label className={styles.label}>
-              {t(`deviceForm.fields.${field.name}`, field.label)}
-              {field.required && <span className={styles.required}> *</span>}
-            </label>
-            {field.type === "textarea" ? (
-              <textarea
-                name={field.name}
-                value={formData[field.name] || ""}
-                onChange={handleChange}
-                required={field.required}
-                className={styles.textarea}
-              />
-            ) : field.type === "select" && field.options ? (
-              <div className={styles.fullWidth}>
-                <HybridSelect
-                  name={field.name}
-                  value={formData[field.name] || ""}
-                  onChange={(value) => handleSelectChange(field.name, value)}
-                  onBlur={() => handleSelectBlur(field.name)}
-                  disabled={false}
-                  options={[
-                    { value: "", label: t('deviceForm.select') },
-                    ...field.options.map((opt) => ({
-                      value: opt,
-                      label: t(`deviceForm.options.${opt}`, opt)
-                    }))
-                  ]}
-                  placeholder={t('deviceForm.select')}
-                  error={false}
-                  required={field.required}
-                />
-              </div>
-            ) : field.type === "date" ? (
-              <span style={{ position: 'relative', display: 'block', width: '100%' }}>
-                <input
-                  type="text"
-                  name={field.name}
-                  value={formatDate(formData[field.name])}
-                  readOnly
-                  required={field.required}
-                  className={styles.input}
-                  style={{ paddingRight: 46, cursor: 'pointer' }}
-                  placeholder={t('deviceForm.selectDate')}
-                  onClick={() => {
-                    setDatePickerOpen({ ...datePickerOpen, [field.name]: true });
-                    setDatePickerField(field.name);
-                  }}
-                />
-                <Calendar
-                  size={22}
-                  className={styles.calendarIconOverlay}
-                  style={{
-                    position: 'absolute',
-                    right: 14,
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    cursor: 'pointer',
-                    color: 'var(--color-text)',
-                    opacity: 0.7
-                  }}
-                  onClick={() => {
-                    setDatePickerOpen({ ...datePickerOpen, [field.name]: true });
-                    setDatePickerField(field.name);
-                  }}
-                />
-                <DatePickerModal
-                  isOpen={!!datePickerOpen[field.name]}
-                  onRequestClose={() => setDatePickerOpen({ ...datePickerOpen, [field.name]: false })}
-                  onDateSelect={(date) => {
-                    handleChange({
-                      target: {
-                        name: field.name,
-                        value: date,
-                        type: 'date',
-                      }
-                    } as any);
-                    setDatePickerOpen({ ...datePickerOpen, [field.name]: false });
-                  }}
-                  selectedDate={formData[field.name]}
-                  title={t('deviceForm.selectDate')}
-                  placeholder={t('deviceForm.selectDate')}
-                />
-              </span>
-            ) : field.type === "checkbox" ? (
-              <input
-                type="checkbox"
-                name={field.name}
-                checked={!!formData[field.name]}
-                onChange={handleChange}
-                className={formCheckboxStyles.checkbox}
-              />
-            ) : (
-              <input
-                type={field.type}
-                name={field.name}
-                value={formData[field.name] || ""}
-                onChange={handleChange}
-                required={field.required}
-                className={styles.input}
-              />
-            )}
-          </div>
-        ))}
-
-        {/* Campo para subir fotos de evidencia */}
-        <div className={styles.formGroup}>
-          <label className={styles.label}>
-            {t('deviceForm.evidencePhotos', 'Fotos de Evidencia')}
-          </label>
-          <div className={styles.photoUploadContainer}>
-            <input
-              type="file"
-              accept="image/*"
-              capture="environment"
-              multiple
-              onChange={(e) => {
-                const files = Array.from(e.target.files || [])
-                files.forEach(file => handlePhotoUpload(file))
-                e.target.value = '' // Reset input
-              }}
-              className={styles.fileInput}
-              id="photo-upload"
-              disabled={submitting}
-            />
-            <label htmlFor="photo-upload" className={styles.photoUploadButton}>
-              <Camera size={20} />
-              <span>{t('deviceForm.addPhoto', 'Agregar Foto')}</span>
-            </label>
-          </div>
-          
-          {fotosEvidencia.length > 0 && (
-            <div className={styles.photosGrid}>
-              {fotosEvidencia.map((foto, index) => (
-                <div key={index} className={styles.photoPreview}>
-                  <img src={foto} alt={`Evidencia ${index + 1}`} />
-                  <button
-                    type="button"
-                    onClick={() => handlePhotoRemove(index)}
-                    className={styles.removePhotoButton}
-                    disabled={submitting}
-                  >
-                    <Trash2 size={16} />
-                  </button>
+            <div className={styles.pendingList}>
+              {pendingSubmissions.map((submission) => (
+                <div key={submission.id} className={styles.pendingItem}>
+                  <span className={styles.pendingDate}>{t('deviceForm.savedAt', { date: formatTimestamp(submission.timestamp) })}</span>
+                  {submission.retryCount > 0 && (
+                    <span className={styles.retryBadge}>
+                      {t('deviceForm.retryCount', { count: submission.retryCount })}
+                    </span>
+                  )}
                 </div>
               ))}
             </div>
-          )}
-        </div>
-
-        {/* Campo para firma digital */}
-        <div className={styles.formGroup}>
-          <label className={styles.label}>
-            {t('deviceForm.digitalSignature', 'Firma Digital del Técnico')}
-            <span className={styles.required}> *</span>
-          </label>
-          <div className={styles.signatureBox}>
-            <canvas
-              ref={canvasRef}
-              width={720}
-              height={220}
-              className={styles.signatureCanvas}
-              onMouseDown={(e) => startDrawing(e.clientX, e.clientY)}
-              onMouseMove={(e) => draw(e.clientX, e.clientY)}
-              onMouseUp={stopDrawing}
-              onMouseLeave={stopDrawing}
-              onTouchStart={(e) => {
-                e.preventDefault()
-                const touch = e.touches[0]
-                startDrawing(touch.clientX, touch.clientY)
-              }}
-              onTouchMove={(e) => {
-                e.preventDefault()
-                const touch = e.touches[0]
-                draw(touch.clientX, touch.clientY)
-              }}
-              onTouchEnd={stopDrawing}
-            />
           </div>
-          <button
-            type="button"
-            onClick={handleClearSignature}
-            disabled={submitting}
-            className={styles.clearSignatureButton}
-          >
-            {t('deviceForm.clearSignature', 'Limpiar Firma')}
-          </button>
-        </div>
+        )}
 
-        <div className={formButtonStyles.actions}>
-          <button type="submit" disabled={submitting} className={formButtonStyles.submitButton}>
-            {submitting ? t('deviceForm.sending') : isOnline ? t('deviceForm.sendMaintenance') : t('deviceForm.saveMaintenance')}
-          </button>
-          {!isOnline && (
-            <p className={styles.offlineNote}>
-              <WifiOff size={14} />
-              {t('deviceForm.localSaveNote')}
-            </p>
+        {/* Grid de información */}
+        <div className={styles.infoGrid}>
+          {/* Información de la instalación */}
+          {installationInfo && (
+            <div className={styles.infoCard}>
+              <div className={styles.cardHeader}>
+                <Building2 size={20} />
+                <h3>{t('deviceForm.installation')}</h3>
+              </div>
+              <div className={styles.cardContent}>
+                <div className={styles.infoItem}>
+                  <span className={styles.infoLabel}>{t('deviceForm.company')}:</span>
+                  <span className={styles.infoValue}>{installationInfo.company}</span>
+                </div>
+                <div className={styles.infoItem}>
+                  <span className={styles.infoLabel}>{t('deviceForm.installationType')}:</span>
+                  <span className={styles.infoValue}>{installationInfo.installationType}</span>
+                </div>
+                <div className={styles.infoItem}>
+                  <MapPin size={16} className={styles.locationIcon} />
+                  <span className={styles.infoValue}>{installationInfo.fullAddress}</span>
+                </div>
+              </div>
+            </div>
           )}
+
+          {/* Información del dispositivo */}
+          <div className={styles.infoCard}>
+            <div className={styles.cardHeader}>
+              <Building2 size={20} />
+              <h3>{t('deviceForm.deviceDetails')}</h3>
+            </div>
+            <div className={styles.cardContent}>
+              <div className={styles.infoItem}>
+                <span className={styles.infoLabel}>{t('deviceForm.device')}:</span>
+                <span className={styles.infoValue}>{deviceInfo.nombre}</span>
+              </div>
+              <div className={styles.infoItem}>
+                <span className={styles.infoLabel}>{t('deviceForm.category')}:</span>
+                <span className={styles.infoValue}>{deviceInfo.categoria}</span>
+              </div>
+              <div className={styles.infoItem}>
+                <MapPin size={16} className={styles.locationIcon} />
+                <span className={styles.infoValue}>{deviceInfo.ubicacion}</span>
+              </div>
+              {deviceInfo.marca && (
+                <div className={styles.infoItem}>
+                  <span className={styles.infoLabel}>{t('deviceForm.brand')}:</span>
+                  <span className={styles.infoValue}>{deviceInfo.marca}</span>
+                </div>
+              )}
+              {deviceInfo.modelo && (
+                <div className={styles.infoItem}>
+                  <span className={styles.infoLabel}>{t('deviceForm.model')}:</span>
+                  <span className={styles.infoValue}>{deviceInfo.modelo}</span>
+                </div>
+              )}
+              {deviceInfo.numeroSerie && (
+                <div className={styles.infoItem}>
+                  <span className={styles.infoLabel}>{t('deviceForm.serialNumber')}:</span>
+                  <span className={styles.infoValue}>{deviceInfo.numeroSerie}</span>
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={handleViewHistory}
+                className={styles.historyButton}
+              >
+                <History size={18} />
+                <span>{t('deviceForm.viewHistory', 'Historial')}</span>
+              </button>
+            </div>
+          </div>
         </div>
-      </form>
-      {/* Modales de éxito y error */}
-      {showSuccess && (
-        <ModalSuccess
-          isOpen={showSuccess}
-          onRequestClose={() => setShowSuccess(false)}
-          mensaje={modalMessage}
+        {/* Formulario */}
+        <form onSubmit={handleSubmit} className={styles.form} autoComplete="off">
+          <div className={styles.formSection}>
+            <h2 className={styles.sectionTitle}>{t('deviceForm.maintenanceDetails', 'Detalles del Mantenimiento')}</h2>
+            <div className={styles.fieldsGrid}>
+              {formFields.map((field) => (
+                <div key={field.name} className={styles.formGroup}>
+                  <label className={styles.label}>
+                    {t(`deviceForm.fields.${field.name}`, field.label)}
+                    {field.required && <span className={styles.required}> *</span>}
+                  </label>
+                  {field.type === "textarea" ? (
+                    <textarea
+                      name={field.name}
+                      value={formData[field.name] || ""}
+                      onChange={handleChange}
+                      required={field.required}
+                      className={styles.textarea}
+                      placeholder={t(`deviceForm.fields.${field.name}`, field.label)}
+                    />
+                  ) : field.type === "select" && field.options ? (
+                    <div className={styles.fullWidth}>
+                      <HybridSelect
+                        name={field.name}
+                        value={formData[field.name] || ""}
+                        onChange={(value) => handleSelectChange(field.name, value)}
+                        onBlur={() => handleSelectBlur(field.name)}
+                        disabled={false}
+                        options={[
+                          { value: "", label: t('deviceForm.select') },
+                          ...field.options.map((opt) => ({
+                            value: opt,
+                            label: t(`deviceForm.options.${opt}`, opt)
+                          }))
+                        ]}
+                        placeholder={t('deviceForm.select')}
+                        error={false}
+                        required={field.required}
+                      />
+                    </div>
+                  ) : field.type === "date" ? (
+                    <span style={{ position: 'relative', display: 'block', width: '100%' }}>
+                      <input
+                        type="text"
+                        name={field.name}
+                        value={formatDate(formData[field.name])}
+                        readOnly
+                        required={field.required}
+                        className={styles.input}
+                        style={{ paddingRight: 46, cursor: 'pointer' }}
+                        placeholder={t('deviceForm.selectDate')}
+                        onClick={() => {
+                          setDatePickerOpen({ ...datePickerOpen, [field.name]: true });
+                          setDatePickerField(field.name);
+                        }}
+                      />
+                      <Calendar
+                        size={22}
+                        className={styles.calendarIconOverlay}
+                        style={{
+                          position: 'absolute',
+                          right: 14,
+                          top: '50%',
+                          transform: 'translateY(-50%)',
+                          cursor: 'pointer',
+                          color: 'var(--color-text)',
+                          opacity: 0.7
+                        }}
+                        onClick={() => {
+                          setDatePickerOpen({ ...datePickerOpen, [field.name]: true });
+                          setDatePickerField(field.name);
+                        }}
+                      />
+                      <DatePickerModal
+                        isOpen={!!datePickerOpen[field.name]}
+                        onRequestClose={() => setDatePickerOpen({ ...datePickerOpen, [field.name]: false })}
+                        onDateSelect={(date) => {
+                          handleChange({
+                            target: {
+                              name: field.name,
+                              value: date,
+                              type: 'date',
+                            }
+                          } as any);
+                          setDatePickerOpen({ ...datePickerOpen, [field.name]: false });
+                        }}
+                        selectedDate={formData[field.name]}
+                        title={t('deviceForm.selectDate')}
+                        placeholder={t('deviceForm.selectDate')}
+                      />
+                    </span>
+                  ) : field.type === "checkbox" ? (
+                    <input
+                      type="checkbox"
+                      name={field.name}
+                      checked={!!formData[field.name]}
+                      onChange={handleChange}
+                      className={formCheckboxStyles.checkbox}
+                    />
+                  ) : (
+                    <input
+                      type={field.type}
+                      name={field.name}
+                      value={formData[field.name] || ""}
+                      onChange={handleChange}
+                      required={field.required}
+                      className={styles.input}
+                      placeholder={t(`deviceForm.fields.${field.name}`, field.label)}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Sección de evidencia */}
+          <div className={styles.formSection}>
+            <h2 className={styles.sectionTitle}>{t('deviceForm.evidenceSection', 'Evidencia y Firma')}</h2>
+            
+            {/* Campo para subir fotos de evidencia */}
+            <div className={styles.formGroup}>
+              <label className={styles.label}>
+                {t('deviceForm.evidencePhotos', 'Fotos de Evidencia')}
+              </label>
+              <p className={styles.fieldDescription}>
+                {t('deviceForm.evidencePhotosDescription', 'Agrega fotos que documenten el trabajo realizado')}
+              </p>
+              <div className={styles.photoUploadContainer}>
+                <input
+                  type="file"
+                  accept="image/*"
+                  capture="environment"
+                  multiple
+                  onChange={(e) => {
+                    const files = Array.from(e.target.files || [])
+                    files.forEach(file => handlePhotoUpload(file))
+                    e.target.value = ''
+                  }}
+                  className={styles.fileInput}
+                  id="photo-upload"
+                  disabled={submitting}
+                />
+                <label htmlFor="photo-upload" className={styles.photoUploadButton}>
+                  <Camera size={20} />
+                  <span>{t('deviceForm.addPhoto', 'Agregar Foto')}</span>
+                </label>
+              </div>
+              
+              {fotosEvidencia.length > 0 && (
+                <div className={styles.photosGrid}>
+                  {fotosEvidencia.map((foto, index) => (
+                    <div key={index} className={styles.photoPreview}>
+                      <img src={foto} alt={`Evidencia ${index + 1}`} />
+                      <button
+                        type="button"
+                        onClick={() => handlePhotoRemove(index)}
+                        className={styles.removePhotoButton}
+                        disabled={submitting}
+                        aria-label={t('deviceForm.removePhoto', 'Eliminar foto')}
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Campo para firma digital */}
+            <div className={styles.formGroup}>
+              <label className={styles.label}>
+                {t('deviceForm.digitalSignature', 'Firma Digital del Técnico')}
+                <span className={styles.required}> *</span>
+              </label>
+              <p className={styles.fieldDescription}>
+                {t('deviceForm.signatureDescription', 'Firma en el recuadro usando tu dedo o mouse')}
+              </p>
+              <div className={styles.signatureBox}>
+                <canvas
+                  ref={canvasRef}
+                  width={720}
+                  height={220}
+                  className={styles.signatureCanvas}
+                  onMouseDown={(e) => {
+                    e.preventDefault()
+                    startDrawing(e.clientX, e.clientY)
+                  }}
+                  onMouseMove={(e) => {
+                    e.preventDefault()
+                    draw(e.clientX, e.clientY)
+                  }}
+                  onMouseUp={(e) => {
+                    e.preventDefault()
+                    stopDrawing()
+                  }}
+                  onMouseLeave={(e) => {
+                    e.preventDefault()
+                    stopDrawing()
+                  }}
+                  onTouchStart={(e) => {
+                    e.preventDefault()
+                    const touch = e.touches[0]
+                    if (touch) {
+                      startDrawing(touch.clientX, touch.clientY)
+                    }
+                  }}
+                  onTouchMove={(e) => {
+                    e.preventDefault()
+                    const touch = e.touches[0]
+                    if (touch) {
+                      draw(touch.clientX, touch.clientY)
+                    }
+                  }}
+                  onTouchEnd={(e) => {
+                    e.preventDefault()
+                    stopDrawing()
+                  }}
+                />
+              </div>
+              <button
+                type="button"
+                onClick={handleClearSignature}
+                disabled={submitting}
+                className={styles.clearSignatureButton}
+              >
+                {t('deviceForm.clearSignature', 'Limpiar Firma')}
+              </button>
+            </div>
+          </div>
+
+          {/* Botones de acción */}
+          <div className={styles.formActions}>
+            <button type="submit" disabled={submitting} className={styles.submitButton}>
+              {submitting ? (
+                <>
+                  <div className={styles.spinner}></div>
+                  <span>{t('deviceForm.sending')}</span>
+                </>
+              ) : (
+                <>
+                  <CheckCircle size={20} />
+                  <span>{isOnline ? t('deviceForm.sendMaintenance') : t('deviceForm.saveMaintenance')}</span>
+                </>
+              )}
+            </button>
+            {!isOnline && (
+              <p className={styles.offlineNote}>
+                <WifiOff size={16} />
+                {t('deviceForm.localSaveNote')}
+              </p>
+            )}
+          </div>
+        </form>
+
+        {/* Modales de éxito y error */}
+        {showSuccess && (
+          <ModalSuccess
+            isOpen={showSuccess}
+            onRequestClose={() => setShowSuccess(false)}
+            mensaje={modalMessage}
+          />
+        )}
+        {showError && (
+          <ModalError
+            isOpen={showError}
+            onRequestClose={() => setShowError(false)}
+            mensaje={modalMessage}
+          />
+        )}
+        {/* Modal de historial de mantenimientos */}
+        <MaintenanceHistoryModal
+          isOpen={showHistoryModal}
+          onRequestClose={() => setShowHistoryModal(false)}
+          maintenances={maintenanceHistory}
+          deviceName={deviceInfo?.nombre || ''}
+          loading={loadingHistory}
         />
-      )}
-      {showError && (
-        <ModalError
-          isOpen={showError}
-          onRequestClose={() => setShowError(false)}
-          mensaje={modalMessage}
-        />
-      )}
-      {/* Modal de historial de mantenimientos */}
-      <MaintenanceHistoryModal
-        isOpen={showHistoryModal}
-        onRequestClose={() => setShowHistoryModal(false)}
-        maintenances={maintenanceHistory}
-        deviceName={deviceInfo?.nombre || ''}
-        loading={loadingHistory}
-      />
+      </div>
     </div>
   )
 }

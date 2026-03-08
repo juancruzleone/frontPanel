@@ -368,10 +368,10 @@
 }
 
 .flagImg {
-    width: 20px;
-    height: 20px;
-    object-fit: cover;
-    border-radius: 2px;
+    width: 24px;
+    height: 16px;
+    object-fit: contain;
+    border-radius: 4px;
 }
 
 .themeToggleButton {
@@ -522,10 +522,10 @@
 }
 
 .flagImgSmall {
-    width: 18px;
-    height: 18px;
-    border-radius: 2px;
-    object-fit: cover;
+    width: 20px;
+    height: 14px;
+    border-radius: 4px;
+    object-fit: contain;
 }
 
 @media (max-width: 1024px) {

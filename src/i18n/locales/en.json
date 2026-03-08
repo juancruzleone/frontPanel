@@ -1680,7 +1680,12 @@
     "evidencePhotos": "Evidence Photos",
     "addPhoto": "Add Photo",
     "digitalSignature": "Technician's Digital Signature",
-    "clearSignature": "Clear Signature"
+    "clearSignature": "Clear Signature",
+    "maintenanceDetails": "Maintenance Details",
+    "evidenceSection": "Evidence and Signature",
+    "evidencePhotosDescription": "Add photos documenting the work performed",
+    "signatureDescription": "Sign in the box using your finger or mouse",
+    "removePhoto": "Remove photo"
   },
   "validations": {
     "selectAsset": "You must select an asset",
