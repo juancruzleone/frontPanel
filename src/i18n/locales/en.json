@@ -690,12 +690,12 @@
     "confirmDeleteDescription": "This action cannot be undone. The installation will be permanently deleted.",
     "tour": {
       "welcome": {
-        "title": "Welcome to Installations!",
-        "description": "We'll guide you step by step to learn how to manage your installations. First you need to create an installation type, then you can create installations."
+        "title": "Welcome to Leonix!",
+        "description": "Before you start using the panel, it's important to go to Settings to create the necessary installation types and device categories. We'll guide you step by step."
       },
       "createInstallationType": {
-        "title": "Step 1: Create Installation Type",
-        "description": "Before creating an installation, you need to define an installation type (e.g., Office, Factory, Warehouse, etc.). Click here to create your first type."
+        "title": "Step 1: Go to Settings",
+        "description": "Click on the settings icon (gear) in the top bar. There you must create: 1) Installation types (e.g., Office, Factory, Warehouse), 2) Device categories (e.g., Pump, Motor, Sensor). This is mandatory before creating installations."
       },
       "viewInstallationTypes": {
         "title": "View Installation Types",

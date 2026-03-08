@@ -831,12 +831,12 @@
     "confirmDeleteDescription": "Questa azione non può essere annullata. L'installazione sarà eliminata definitivamente.",
     "tour": {
       "welcome": {
-        "title": "Benvenuto in Installazioni!",
-        "description": "Ti guideremo passo dopo passo per imparare a gestire le tue installazioni. Prima devi creare un tipo di installazione, poi potrai creare installazioni."
+        "title": "Benvenuto in Leonix!",
+        "description": "Prima di iniziare a utilizzare il pannello, è importante andare nelle Impostazioni per creare i tipi di installazione e le categorie di dispositivi necessari. Ti guideremo passo dopo passo."
       },
       "createInstallationType": {
-        "title": "Passo 1: Crea Tipo di Installazione",
-        "description": "Prima di creare un'installazione, devi definire un tipo di installazione (es: Ufficio, Fabbrica, Magazzino, ecc.). Clicca qui per creare il tuo primo tipo."
+        "title": "Passo 1: Vai alle Impostazioni",
+        "description": "Fai clic sull'icona delle impostazioni (ingranaggio) nella barra superiore. Lì devi creare: 1) Tipi di installazione (es: Ufficio, Fabbrica, Magazzino), 2) Categorie di dispositivi (es: Pompa, Motore, Sensore). Questo è obbligatorio prima di creare installazioni."
       },
       "viewInstallationTypes": {
         "title": "Visualizza Tipi di Installazione",
@@ -844,11 +844,11 @@
       },
       "createInstallation": {
         "title": "Passo 2: Crea Installazione",
-        "description": "Una volta creato almeno un tipo di installazione, usa questo pulsante per creare la tua prima installazione. Inserisci i dati dell'azienda, l'indirizzo e seleziona il tipo di installazione."
+        "description": "Una volta creato almeno un tipo di installazione nelle Impostazioni, usa questo pulsante per creare la tua prima installazione. Inserisci il nome, l'indirizzo e seleziona il tipo di installazione."
       },
       "searchFilter": {
         "title": "Cerca e Filtra",
-        "description": "Usa questa barra per cercare installazioni per nome, indirizzo o città, e filtra per tipo di installazione."
+        "description": "Usa questa barra per cercare installazioni per nome, indirizzo o città e filtrare per tipo di installazione."
       },
       "buttons": {
         "next": "Avanti",

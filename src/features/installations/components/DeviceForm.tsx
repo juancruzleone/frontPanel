@@ -57,7 +57,7 @@ const DeviceForm = ({
       ubicacion: "",
       categoria: "",
       estado: "Activo",
-      cantidad: 1,
+      cantidad: "",
     }
   })
 
@@ -136,7 +136,14 @@ const DeviceForm = ({
 
     // Validación básica: verificar que hay un activo seleccionado
     if (!isEditMode && !selectedAsset) {
-      setFormErrors({ general: t('installations.validation.assetRequired') })
+      setFormErrors({ general: t('installations.validation.selectAsset') })
+      setIsSubmitting(false)
+      return
+    }
+
+    // Validación: si hay cantidad ingresada, debe haber un activo seleccionado
+    if (!isEditMode && formData.cantidad && !selectedAsset) {
+      setFormErrors({ cantidad: t('installations.validation.selectAssetFirst') })
       setIsSubmitting(false)
       return
     }
@@ -200,7 +207,7 @@ const DeviceForm = ({
           ubicacion: "",
           categoria: "",
           estado: "Activo",
-          cantidad: 1,
+          cantidad: "",
         })
         setFormErrors({})
         setTouchedFields({})
@@ -311,18 +318,23 @@ const DeviceForm = ({
 
         {!isEditMode && (
           <div className={styles.formGroup}>
-            <label>{t('installations.quantity')} ({t('common.optional')})</label>
+            <label>{t('installations.quantity')}</label>
             <input
               type="number"
               name="cantidad"
               value={formData.cantidad}
               onChange={(e) => handleFieldChange("cantidad", e.target.value)}
               onBlur={() => handleFieldBlur("cantidad")}
-              disabled={isSubmitting || !selectedAsset}
+              disabled={isSubmitting}
               className={showError("cantidad") ? styles.errorInput : ""}
               placeholder="1"
               min="1"
             />
+            {!selectedAsset && formData.cantidad && (
+              <p className={styles.error}>
+                {t('installations.validation.selectAssetFirst')}
+              </p>
+            )}
             {selectedAsset && selectedAsset.stock > 0 && (
               <p className={styles.fieldHint}>
                 {t('installations.maxAvailable')}: {selectedAsset.stock}

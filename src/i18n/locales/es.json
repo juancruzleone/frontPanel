@@ -675,12 +675,12 @@
     "confirmDeleteDescription": "Esta acción no se puede deshacer. La instalación será eliminada permanentemente.",
     "tour": {
       "welcome": {
-        "title": "¡Bienvenido a Instalaciones!",
-        "description": "Te guiaremos paso a paso para gestionar tus instalaciones. Antes de crear instalaciones, configura tipos y categorías desde la sección Configuración."
+        "title": "¡Bienvenido a Leonix!",
+        "description": "Antes de comenzar a usar el panel, es importante que vayas a Configuración para crear los tipos de instalación y categorías de dispositivos necesarios. Te guiaremos paso a paso."
       },
       "createInstallationType": {
-        "title": "Paso 1: Configurar Tipos en Configuración",
-        "description": "Antes de crear una instalación, define los tipos y categorías desde Configuración. Abre el icono de configuración para dejar todo preparado."
+        "title": "Paso 1: Ir a Configuración",
+        "description": "Haz clic en el icono de configuración (engranaje) en la barra superior. Allí deberás crear: 1) Tipos de instalación (ej: Oficina, Fábrica, Almacén), 2) Categorías de dispositivos (ej: Bomba, Motor, Sensor). Esto es obligatorio antes de crear instalaciones."
       },
       "viewInstallationTypes": {
         "title": "Ver Tipos de Instalación",
@@ -1309,7 +1309,8 @@
     "nextWeek": "Próxima Semana",
     "nextMonth": "Próximo Mes",
     "selectDate": "Seleccionar fecha",
-    "timezoneLabel": "🌍 America/Buenos_Aires (-03:00) • Horario de verano"
+    "timezoneLabel": "🌍 America/Buenos_Aires (-03:00) • Horario de verano",
+    "startOrder": "Iniciar orden"
   },
   "workOrders": {
     "successTitle": "¡Operación exitosa!",

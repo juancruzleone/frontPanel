@@ -217,22 +217,40 @@
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
-  background-color: var(--color-success);
-  color: white;
+  background-color: #057E74 !important;
+  color: white !important;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.3);
 }
 
 .startButton:hover:not(:disabled) {
-  background-color: var(--color-success-dark);
+  background-color: #046860 !important;
+  color: white !important;
+  box-shadow: 0 6px 16px rgba(5, 126, 116, 0.4);
+  transform: translateY(-1px);
+}
+
+:global([data-theme="dark"]) .startButton {
+  background-color: #388e3c !important;
+  color: #000 !important;
+}
+
+:global([data-theme="dark"]) .startButton:hover:not(:disabled) {
+  background-color: #2e7d32 !important;
+  color: #000 !important;
 }
 
 .startButton:disabled {
-  background-color: var(--color-skeleton);
+  background-color: var(--color-skeleton) !important;
+  color: var(--color-text) !important;
   cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+  opacity: 0.5;
 }
 
 .closeModalButton {

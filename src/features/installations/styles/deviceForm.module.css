@@ -421,10 +421,14 @@ html:not([data-theme="dark"]) .selectWrapper select:focus,
 }
 
 .deviceFormActions {
-  padding: 1.5rem 0 0 0 !important;
-  background: transparent !important;
-  border-top: 1px solid var(--color-card-border);
-  width: 100%;
+  padding: 2rem 2.5rem !important;
+  background: var(--color-card) !important;
+  border-top: 1px solid var(--color-card-border) !important;
+  width: 100% !important;
+  margin-top: auto !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  gap: 1rem !important;
 }
 
 .assetInfo {

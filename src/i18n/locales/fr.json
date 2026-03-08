@@ -823,12 +823,12 @@
     "confirmDeleteDescription": "Cette action est irréversible. L'installation sera supprimée définitivement.",
     "tour": {
       "welcome": {
-        "title": "Bienvenue dans Installations !",
-        "description": "Nous vous guiderons étape par étape pour apprendre à gérer vos installations. Vous devez d'abord créer un type d'installation, puis vous pourrez créer des installations."
+        "title": "Bienvenue sur Leonix!",
+        "description": "Avant de commencer à utiliser le panneau, il est important d'aller dans Paramètres pour créer les types d'installation et les catégories d'appareils nécessaires. Nous vous guiderons étape par étape."
       },
       "createInstallationType": {
-        "title": "Étape 1 : Créer un Type d'Installation",
-        "description": "Avant de créer une installation, vous devez définir un type d'installation (par exemple : Bureau, Usine, Entrepôt, etc.). Cliquez ici pour créer votre premier type."
+        "title": "Étape 1: Aller dans Paramètres",
+        "description": "Cliquez sur l'icône des paramètres (engrenage) dans la barre supérieure. Vous devez y créer: 1) Types d'installation (ex: Bureau, Usine, Entrepôt), 2) Catégories d'appareils (ex: Pompe, Moteur, Capteur). Ceci est obligatoire avant de créer des installations."
       },
       "viewInstallationTypes": {
         "title": "Voir les Types d'Installation",

@@ -831,12 +831,12 @@
     "confirmDeleteDescription": "Esta ação não pode ser desfeita. A instalação será excluída permanentemente.",
     "tour": {
       "welcome": {
-        "title": "Bem-vindo às Instalações!",
-        "description": "Vamos guiá-lo passo a passo para aprender a gerenciar suas instalações. Primeiro você precisa criar um tipo de instalação e depois poderá criar instalações."
+        "title": "Bem-vindo ao Leonix!",
+        "description": "Antes de começar a usar o painel, é importante ir às Configurações para criar os tipos de instalação e categorias de dispositivos necessários. Vamos guiá-lo passo a passo."
       },
       "createInstallationType": {
-        "title": "Passo 1: Criar Tipo de Instalação",
-        "description": "Antes de criar uma instalação, você precisa definir um tipo de instalação (ex: Escritório, Fábrica, Armazém, etc.). Clique aqui para criar seu primeiro tipo."
+        "title": "Passo 1: Ir para Configurações",
+        "description": "Clique no ícone de configurações (engrenagem) na barra superior. Lá você deve criar: 1) Tipos de instalação (ex: Escritório, Fábrica, Armazém), 2) Categorias de dispositivos (ex: Bomba, Motor, Sensor). Isso é obrigatório antes de criar instalações."
       },
       "viewInstallationTypes": {
         "title": "Ver Tipos de Instalação",

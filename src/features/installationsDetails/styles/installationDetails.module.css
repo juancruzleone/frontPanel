@@ -285,7 +285,50 @@
   justify-content: center;
   align-items: center;
   gap: 8px;
-  margin-top: 24px;
+  margin-top: auto;
+  position: sticky;
+  bottom: 0;
+  background: var(--color-bg);
+  padding: 16px 0;
+  border-top: 2px solid black;
+  z-index: 10;
+}
+
+:global(.dark) .pagination {
+  border-top-color: white;
+}
+
+.pagination button {
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  border: 1px solid var(--color-card-border);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Encode Sans', sans-serif;
+  width: 40px;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: var(--color-text);
+  color: var(--color-card);
+  transform: translateY(-1px);
+  border-color: var(--color-text);
+}
+
+.pagination button:disabled {
+  background: var(--color-skeleton);
+  color: var(--color-skeleton-light);
+  cursor: not-allowed;
+}
+
+.pagination span {
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 14px;
 }
 
 @media (max-width: 768px) {

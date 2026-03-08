@@ -854,24 +854,24 @@
     "confirmDeleteDescription": "此操作不可撤销。安装将被永久删除。",
     "tour": {
       "welcome": {
-        "title": "欢迎来到安装！",
-        "description": "我们将逐步指导您学习如何管理安装。首先需要创建安装类型，然后才能创建安装。"
+        "title": "欢迎来到 Leonix！",
+        "description": "在开始使用面板之前，重要的是转到设置以创建必要的安装类型和设备类别。我们将逐步指导您。"
       },
       "createInstallationType": {
-        "title": "步骤 1：创建安装类型",
-        "description": "在创建安装之前，您需要定义安装类型（例如：办公室、工厂、仓库等）。点击此处创建您的第一个类型。"
+        "title": "步骤1：转到设置",
+        "description": "单击顶部栏中的设置图标（齿轮）。您必须创建：1）安装类型（例如：办公室、工厂、仓库），2）设备类别（例如：泵、电机、传感器）。在创建安装之前，这是必需的。"
       },
       "viewInstallationTypes": {
         "title": "查看安装类型",
-        "description": "在这里您可以查看和管理您创建的所有安装类型。"
+        "description": "在这里，您可以查看和管理您创建的所有安装类型。"
       },
       "createInstallation": {
-        "title": "步骤 2：创建安装",
-        "description": "创建至少一个安装类型后，使用此按钮创建您的第一个安装。输入公司数据、地址并选择安装类型。"
+        "title": "步骤2：创建安装",
+        "description": "在设置中创建至少一个安装类型后，使用此按钮创建您的第一个安装。输入名称、地址并选择安装类型。"
       },
       "searchFilter": {
-        "title": "搜索和过滤",
-        "description": "使用此栏按名称、地址或城市搜索安装，并按安装类型过滤。"
+        "title": "搜索和筛选",
+        "description": "使用此栏按名称、地址或城市搜索安装，并按安装类型筛选。"
       },
       "buttons": {
         "next": "下一步",
@@ -880,7 +880,7 @@
         "skip": "跳过教程",
         "restart": "查看教程"
       },
-      "progressText": "{{total}} 中的 {{current}}"
+      "progressText": "{{current}} / {{total}}"
     }
   },
   "forms": {

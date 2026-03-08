@@ -300,6 +300,14 @@ const ModalEditTechnician = ({
 
           <div className={buttonStyles.actions}>
             <button
+              type="button"
+              onClick={handleClose}
+              className={buttonStyles.cancelButton}
+              disabled={loading}
+            >
+              {t('common.cancel', { defaultValue: 'Cancelar' })}
+            </button>
+            <button
               type="submit"
               className={buttonStyles.submitButton}
               disabled={loading}
@@ -307,14 +315,6 @@ const ModalEditTechnician = ({
               {loading
                 ? t('common.updating', { defaultValue: 'Actualizando...' })
                 : t('common.update', { defaultValue: 'Actualizar' })}
-            </button>
-            <button
-              type="button"
-              onClick={handleClose}
-              className={buttonStyles.cancelButton}
-              disabled={loading}
-            >
-              {t('common.cancel', { defaultValue: 'Cancelar' })}
             </button>
           </div>
         </form>

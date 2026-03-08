@@ -81,8 +81,8 @@
 }
 
 .submitButton {
-  background: rgba(5, 126, 116, 0.08);
-  color: #057E74;
+  background: #057E74;
+  color: white;
   border: 1px solid #057E74;
   padding: 0.875rem 1.75rem;
   border-radius: 12px;
@@ -98,16 +98,16 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.1);
+  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.3);
   box-sizing: border-box;
 }
 
 .submitButton:hover {
-  background: #057E74;
+  background: #046860;
   color: white;
-  border-color: #057E74;
+  border-color: #046860;
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(5, 126, 116, 0.3);
+  box-shadow: 0 6px 16px rgba(5, 126, 116, 0.4);
 }
 
 /* Modo oscuro para submitButton */
