@@ -73,7 +73,6 @@ const useCalendar = () => {
       setTechnicians(data)
       return data
     } catch (err: any) {
-      console.error("Error al cargar técnicos:", err)
       setTechnicians([])
       return []
     }
@@ -86,7 +85,6 @@ const useCalendar = () => {
       const workOrdersData = await fetchWorkOrders(filters)
       setWorkOrders(workOrdersData)
     } catch (err: any) {
-      console.error("Error al cargar órdenes de trabajo:", err)
       setError(err.message)
     } finally {
       setLoading(false)
@@ -101,7 +99,6 @@ const useCalendar = () => {
       )
       return { message: "Orden de trabajo iniciada con éxito" }
     } catch (error) {
-      console.error("Error al iniciar orden:", error)
       throw error
     }
   }
@@ -112,7 +109,6 @@ const useCalendar = () => {
       await loadWorkOrders()
       return { message: "Técnico asignado con éxito" }
     } catch (error) {
-      console.error("Error al asignar técnico:", error)
       throw error
     }
   }
@@ -138,7 +134,6 @@ const useCalendar = () => {
       )
       return { message: "Orden de trabajo completada con éxito" }
     } catch (error) {
-      console.error("Error al completar orden:", error)
       throw error
     }
   }

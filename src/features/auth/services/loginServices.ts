@@ -1,8 +1,6 @@
 import { useAuthStore } from "../../../store/authStore"
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/";
-console.log("API_URL:", API_URL)
-console.log("ENV:", import.meta.env);
 
 export const userLogin = async (username: string, password: string) => {
   const response = await fetch(`${API_URL}cuenta/login`, {
@@ -19,6 +17,5 @@ export const userLogin = async (username: string, password: string) => {
   }
 
   const data = await response.json()
-  console.log('Login response from backend:', data);
   return data
 }

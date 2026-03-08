@@ -35,7 +35,6 @@ const ModalViewInstallationTypes = ({ isOpen, onRequestClose }: ModalViewInstall
       setInstallationTypes(data)
     } catch (err) {
       setError(t('installations.errorLoadingTypes'))
-      console.error("Error loading installation types:", err)
     } finally {
       setLoading(false)
     }

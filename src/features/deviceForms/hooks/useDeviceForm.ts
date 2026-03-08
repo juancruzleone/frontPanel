@@ -122,7 +122,6 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
         setPendingSubmissions(submissions)
       }
     } catch (error) {
-      console.error('Error loading pending submissions:', error)
     }
   }
 
@@ -133,7 +132,6 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
       setPendingSubmissions(updated)
       localStorage.setItem('pendingMaintenanceSubmissions', JSON.stringify(updated))
     } catch (error) {
-      console.error('Error saving pending submission:', error)
     }
   }
 
@@ -143,7 +141,6 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
       setPendingSubmissions(updated)
       localStorage.setItem('pendingMaintenanceSubmissions', JSON.stringify(updated))
     } catch (error) {
-      console.error('Error removing pending submission:', error)
     }
   }
 
@@ -162,7 +159,6 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
         removePendingSubmission(submission.id)
 
       } catch (error) {
-        console.error('❌ Error sincronizando envío:', submission.id, error)
         // Incrementar contador de reintentos
         const updatedSubmission = {
           ...submission,
@@ -170,9 +166,7 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
         }
 
         if (updatedSubmission.retryCount >= 3) {
-          // Eliminar si ha fallado demasiadas veces
           removePendingSubmission(submission.id)
-
         } else {
           // Actualizar con nuevo contador
           const updated = pendingSubmissions.map(sub =>
@@ -198,8 +192,6 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
   }
 
   const handleSelectChange = (name: string, value: string) => {
-
-
     setFormData((prev) => {
       const newData = {
         ...prev,
@@ -211,12 +203,6 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
   }
 
   const handleSelectBlur = (name: string) => {
-
-
-
-
-
-    // Aquí puedes agregar validaciones onBlur si es necesario
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -226,9 +212,6 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
     setSuccess(null)
 
     try {
-      // Debug: mostrar datos antes de enviar
-      // console.log('DEBUG: Submitting form data', formData);
-
       // Verificar campos requeridos vacíos
       const emptyRequiredFields = formFields.filter(f =>
         f.required && (!formData[f.name] || formData[f.name] === "")

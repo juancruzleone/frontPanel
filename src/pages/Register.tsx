@@ -116,7 +116,6 @@ const Register = () => {
       await fetchTechnicians()
       showSuccess(t('personal.userDeleted'))
     } catch (err: any) {
-      console.error('Error al eliminar técnico:', err)
       showError(err.message || t('personal.errorDeletingUser'))
     } finally {
       setTechnicianToDelete(null)

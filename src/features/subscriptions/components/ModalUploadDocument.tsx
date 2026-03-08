@@ -168,7 +168,6 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
             onUploadSuccess(t('subscriptions.documents.uploadSuccess'))
             onRequestClose()
         } catch (error: any) {
-            console.error('Error uploading document:', error)
             onUploadError(error.message || t('subscriptions.documents.uploadError'))
         } finally {
             setIsUploading(false)

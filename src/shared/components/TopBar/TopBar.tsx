@@ -47,6 +47,7 @@ const TopBar: React.FC = () => {
 
     const [isNotifOpen, setIsNotifOpen] = useState(false);
     const [isLangOpen, setIsLangOpen] = useState(false);
+    const [isThemeSpinning, setIsThemeSpinning] = useState(false);
 
     const notifRef = useRef<HTMLDivElement>(null);
     const langRef = useRef<HTMLDivElement>(null);
@@ -61,7 +62,9 @@ const TopBar: React.FC = () => {
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
     }, []);
 
     const languages = [
@@ -83,6 +86,14 @@ const TopBar: React.FC = () => {
     const handleLanguageChange = (languageCode: string) => {
         i18n.changeLanguage(languageCode)
         setIsLangOpen(false)
+    }
+
+    const handleThemeToggle = () => {
+        setIsThemeSpinning(true)
+        toggleTheme()
+        window.setTimeout(() => {
+            setIsThemeSpinning(false)
+        }, 650)
     }
 
     const formatTime = (date: Date) => {
@@ -124,11 +135,14 @@ const TopBar: React.FC = () => {
                     </div>
 
                     <button
-                        className={styles.actionButton}
-                        onClick={toggleTheme}
+                        className={`${styles.actionButton} ${styles.themeToggleButton} ${dark ? styles.themeDark : styles.themeLight} ${isThemeSpinning ? styles.themeSpinActive : ''}`}
+                        onClick={handleThemeToggle}
                         aria-label="Cambiar tema"
                     >
-                        {dark ? <Sun size={20} /> : <Moon size={20} />}
+                        <span className={styles.themeIconStack}>
+                            <Sun size={20} className={`${styles.themeIcon} ${styles.sunIcon}`} />
+                            <Moon size={20} className={`${styles.themeIcon} ${styles.moonIcon}`} />
+                        </span>
                     </button>
 
                     <div className={styles.notificationsContainer} ref={notifRef}>

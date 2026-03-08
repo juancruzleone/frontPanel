@@ -376,7 +376,8 @@
 .menuGroup {
   display: flex;
   flex-direction: column;
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
+  position: relative;
 }
 
 .groupButton {
@@ -385,16 +386,16 @@
   justify-content: flex-start;
   width: 100%;
   padding: 16px 24px;
-  color: #00FFAE;
+  color: #00FFAE !important;
   background: transparent;
   border: none;
   border-left: 3px solid transparent;
   border-radius: 12px;
   cursor: pointer;
   font-family: inherit;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
-  line-height: 1.2;
+  line-height: normal;
   text-decoration: none;
   opacity: 0.9;
   transition: all 0.2s ease;
@@ -411,13 +412,14 @@
 .groupButtonContent {
   display: inline-flex;
   align-items: center;
-  gap: 14px;
+  gap: 18px;
 }
 
 .groupButtonContent svg {
-  width: 16px;
-  height: 16px;
+  width: 18px !important;
+  height: 18px !important;
   color: #00FFAE;
+  flex-shrink: 0;
 }
 
 .groupChevron {
@@ -433,8 +435,8 @@
 .submenu {
   display: none;
   flex-direction: column;
-  gap: 8px;
-  margin-top: 6px;
+  gap: 4px;
+  margin-top: 4px;
   padding-left: 0;
 }
 
@@ -446,12 +448,13 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 14px;
-  padding: 12px 14px;
+  gap: 18px;
+  padding: 16px 24px;
   color: #00FFAE !important;
   text-decoration: none;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
+  line-height: normal;
   border-radius: 12px;
   border-left: 3px solid transparent;
   opacity: 0.9;
@@ -459,9 +462,10 @@
 }
 
 .submenuLink svg {
-  width: 16px;
-  height: 16px;
+  width: 18px !important;
+  height: 18px !important;
   color: #00FFAE;
+  flex-shrink: 0;
 }
 
 .submenuLink:hover {
@@ -500,11 +504,21 @@
     gap: 12px;
   }
 
+  .groupButtonContent svg {
+    width: 16px;
+    height: 16px;
+  }
+
   .submenuLink {
-    padding: 12px 20px;
+    padding: 10px 20px;
     font-size: 14px;
     gap: 12px;
     border-radius: 10px;
+  }
+
+  .submenuLink svg {
+    width: 16px;
+    height: 16px;
   }
 }
 
@@ -521,28 +535,38 @@
 
   .submenuLink {
     gap: 12px;
-    padding: 12px 14px;
+    padding: 10px 14px;
     font-size: 15px;
     border-radius: 8px;
+  }
+
+  .submenuLink svg {
+    width: 18px;
+    height: 18px;
   }
 }
 
 @media (min-width: 1024px) {
   .groupButton {
-    padding: 10px 14px;
-    font-size: 15px;
+    padding: 16px 24px;
+    font-size: 16px;
     border-radius: 12px;
   }
 
   .groupButtonContent {
-    gap: 14px;
+    gap: 18px;
   }
 
   .submenuLink {
-    gap: 14px;
-    padding: 12px 14px;
-    font-size: 15px;
+    gap: 18px;
+    padding: 16px 24px;
+    font-size: 16px;
     border-radius: 12px;
+  }
+
+  .submenuLink svg {
+    width: 18px;
+    height: 18px;
   }
 }
 
@@ -556,6 +580,7 @@
   text-decoration: none;
   font-weight: 500;
   font-size: 16px;
+  line-height: normal;
   border-radius: 12px;
   border-left: 3px solid transparent;
   transition: all 0.2s ease;
@@ -571,9 +596,10 @@
 }
 
 .menu li a svg {
-  width: 18px;
-  height: 18px;
+  width: 18px !important;
+  height: 18px !important;
   color: #00FFAE;
+  flex-shrink: 0;
 }
 
 @media (min-width: 768px) {
@@ -749,6 +775,27 @@
     gap: 12px !important;
   }
 
+  .menu li a svg,
+  .groupButtonContent svg,
+  .submenuLink svg {
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .groupButton {
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+    gap: 12px !important;
+  }
+
+  .submenuLink {
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+    gap: 12px !important;
+  }
+
   .logoImage {
     width: 24px !important;
     height: 24px !important;
@@ -785,6 +832,16 @@
   }
 
   .menu li a {
+    padding: 8px 14px !important;
+    font-size: 13px !important;
+  }
+
+  .groupButton {
+    padding: 8px 14px !important;
+    font-size: 13px !important;
+  }
+
+  .submenuLink {
     padding: 8px 14px !important;
     font-size: 13px !important;
   }
@@ -903,6 +960,7 @@
   justify-content: center;
   padding: 10px !important;
   gap: 0;
+  position: relative;
 }
 
 .nav.collapsed .groupButton:hover {
@@ -913,8 +971,55 @@
   display: none;
 }
 
+.nav.collapsed .menuGroup {
+  position: relative;
+}
+
+.nav.collapsed .menuGroup::after {
+  content: '';
+  position: fixed;
+  left: 70px;
+  width: 30px;
+  height: 100%;
+  top: 0;
+  pointer-events: auto;
+  z-index: 10000;
+  display: none;
+}
+
+.nav.collapsed .menuGroup:hover::after {
+  display: block;
+}
+
 .nav.collapsed .submenu {
   display: none !important;
+  position: fixed;
+  left: 95px;
+  background-color: #0B1C1A;
+  border: 1px solid rgba(0, 255, 174, 0.3);
+  border-radius: 12px;
+  padding: 12px 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  z-index: 10001;
+  min-width: 220px;
+  margin-left: -5px;
+  gap: 4px;
+}
+
+.nav.collapsed .menuGroup:hover .submenu,
+.nav.collapsed .menuGroup:focus-within .submenu,
+.nav.collapsed .submenu:hover {
+  display: flex !important;
+}
+
+.nav.collapsed .submenuLink {
+  padding: 12px 16px !important;
+  gap: 12px !important;
+  justify-content: flex-start !important;
+}
+
+.nav.collapsed .submenuLink .linkText {
+  display: block !important;
 }
 
 .nav.collapsed .userInfo {
@@ -939,10 +1044,10 @@
   display: flex !important;
   opacity: 1 !important;
   visibility: visible !important;
-  color: #00FFAE !important;
-  background: rgba(0, 255, 174, 0.15) !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  background: transparent !important;
   border: none !important;
-  border-radius: 10px !important;
+  border-radius: 8px !important;
   justify-content: center !important;
   align-items: center !important;
   z-index: 10 !important;
@@ -950,14 +1055,18 @@
 }
 
 .nav.collapsed .logoutButton:hover {
-  color: #ffffff !important;
-  background: #ef4444 !important;
+  color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.15) !important;
   transform: scale(1.1);
 }
 
+.nav.collapsed .logoutButton:active {
+  transform: scale(0.95);
+}
+
 .nav.collapsed .logoutButton svg {
-  width: 18px !important;
-  height: 18px !important;
+  width: 14px !important;
+  height: 14px !important;
   stroke-width: 2px !important;
 }
 

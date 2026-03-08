@@ -150,7 +150,6 @@ const AssetForm = ({
 
       onSuccess(message)
     } catch (err: any) {
-      console.error("Error al guardar activo:", err)
       onError(err.message || "Error al guardar el activo")
     } finally {
       setIsSubmitting(false)

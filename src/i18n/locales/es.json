@@ -250,6 +250,7 @@
     "submit": "Enviar",
     "reset": "Restablecer",
     "confirm": "Confirmar",
+    "ok": "Aceptar",
     "yes": "Sí",
     "no": "No",
     "language": "Idioma",
@@ -1917,6 +1918,37 @@
     "manageFormCategories": "Gestionar Categorías de Formularios",
     "newCategoryName": "Nombre de la nueva categoría",
     "newTypeName": "Nombre del nuevo tipo",
-    "confirmDelete": "¿Estás seguro de que deseas eliminar este elemento?"
+    "confirmDelete": "¿Estás seguro de que deseas eliminar este elemento?",
+    "categoryName": "Nombre de la categoría",
+    "typeName": "Nombre del tipo",
+    "editCategory": "Editar Categoría",
+    "editType": "Editar Tipo",
+    "confirmDeleteTitle": "¿Eliminar elemento?",
+    "confirmDeleteMessage": "¿Estás seguro de que deseas eliminar \"{{name}}\"? Esta acción no se puede deshacer.",
+    "validation": {
+      "nameRequired": "El nombre es obligatorio",
+      "nameTooShort": "El nombre debe tener al menos 2 caracteres",
+      "nameTooLong": "El nombre no puede exceder 50 caracteres",
+      "nameExists": "Ya existe un elemento con este nombre"
+    },
+    "success": {
+      "categoryAdded": "¡Categoría agregada!",
+      "categoryAddedMessage": "La categoría se ha creado exitosamente",
+      "categoryUpdated": "¡Categoría actualizada!",
+      "categoryUpdatedMessage": "La categoría se ha actualizado exitosamente",
+      "categoryDeleted": "¡Categoría eliminada!",
+      "categoryDeletedMessage": "La categoría se ha eliminado exitosamente",
+      "typeAdded": "¡Tipo agregado!",
+      "typeAddedMessage": "El tipo se ha creado exitosamente",
+      "typeUpdated": "¡Tipo actualizado!",
+      "typeUpdatedMessage": "El tipo se ha actualizado exitosamente",
+      "typeDeleted": "¡Tipo eliminado!",
+      "typeDeletedMessage": "El tipo se ha eliminado exitosamente"
+    },
+    "error": {
+      "createFailed": "Error al crear el elemento. Por favor, intenta nuevamente.",
+      "updateFailed": "Error al actualizar el elemento. Por favor, intenta nuevamente.",
+      "deleteFailed": "Error al eliminar el elemento. Por favor, intenta nuevamente."
+    }
   }
 }

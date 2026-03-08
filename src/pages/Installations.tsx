@@ -289,7 +289,6 @@ const Installations = () => {
       setResponseMessage(t('installations.installationDeleted'))
       setIsError(false)
     } catch (err: any) {
-      console.error("Error al eliminar instalación", err)
       setResponseMessage(err.message || t('installations.errorDeletingInstallation'))
       setIsError(true)
     } finally {

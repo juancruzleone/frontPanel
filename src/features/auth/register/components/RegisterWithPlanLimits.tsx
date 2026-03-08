@@ -91,8 +91,6 @@ const RegisterWithPlanLimits: React.FC<RegisterWithPlanLimitsProps> = ({
         onSuccess();
       }
     } catch (error) {
-      console.error('Error al registrar técnico:', error);
-
       // Verificar si es un error de límites de plan
       const isLimitError = await handleApiError(error as Error);
 

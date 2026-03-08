@@ -112,7 +112,6 @@ const Clients = () => {
             await fetchClients()
             showSuccess(t('clients.clientDeleted'))
         } catch (err: any) {
-            console.error('Error al eliminar cliente:', err)
             showError(err.message || t('clients.errorDeletingClient'))
         } finally {
             setClientToDelete(null)

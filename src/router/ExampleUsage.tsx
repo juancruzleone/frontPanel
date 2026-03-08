@@ -264,7 +264,7 @@ export function FormWithRedirectExample() {
       // Redirigir después de guardar exitosamente
       navigateToRoute('installations');
     } catch (error) {
-      console.error('Error al guardar:', error);
+      // Error al guardar
     }
   };
 

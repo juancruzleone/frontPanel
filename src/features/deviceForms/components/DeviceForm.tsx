@@ -80,7 +80,6 @@ const DeviceForm: React.FC = () => {
       const history = await getMaintenanceHistory(installationId, deviceId)
       setMaintenanceHistory(history)
     } catch (err) {
-      console.error('Error al cargar historial:', err)
       setMaintenanceHistory([])
     } finally {
       setLoadingHistory(false)

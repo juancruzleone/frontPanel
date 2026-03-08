@@ -29,7 +29,6 @@ export const getPublicMaintenanceHistory = async (
     const data = await response.json()
     return data.data || []
   } catch (error) {
-    console.error('Error en getPublicMaintenanceHistory:', error)
     throw error
   }
 }
@@ -56,7 +55,6 @@ export const getPublicLastMaintenance = async (
     const data = await response.json()
     return data.data || null
   } catch (error) {
-    console.error('Error en getPublicLastMaintenance:', error)
     throw error
   }
 }
@@ -69,10 +67,6 @@ export const getMaintenanceHistory = async (
   deviceId: string
 ): Promise<MaintenanceRecord[]> => {
   try {
-    
-    
-    
-    
     const response = await fetch(
       `${API_URL}installations/${installationId}/dispositivos/${deviceId}/mantenimientos`,
       {
@@ -80,37 +74,15 @@ export const getMaintenanceHistory = async (
       }
     )
 
-    
-
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}))
-      console.error('❌ Error del servidor:', errorData)
       throw new Error(errorData.error || 'Error al obtener el historial de mantenimientos')
     }
 
     const data = await response.json()
     
-    
-    
-    // Verificar pdfUrl en cada mantenimiento
-    if (data.data && data.data.length > 0) {
-      data.data.forEach((m: any, index: number) => {
-        
-        
-        
-      })
-      
-      const sinPdf = data.data.filter((m: any) => !m.pdfUrl)
-      if (sinPdf.length > 0) {
-        console.warn(`⚠️ ADVERTENCIA: ${sinPdf.length} mantenimientos SIN pdfUrl en frontend`)
-      }
-    } else {
-      
-    }
-    
     return data.data || []
   } catch (error) {
-    console.error('❌ Error en getMaintenanceHistory:', error)
     throw error
   }
 }
@@ -134,7 +106,6 @@ export const getPublicDeviceForm = async (
     const data = await response.json()
     return data.data || null
   } catch (error) {
-    console.error('Error en getPublicDeviceForm:', error)
     throw error
   }
 }

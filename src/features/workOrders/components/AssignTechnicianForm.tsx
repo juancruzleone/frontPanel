@@ -27,8 +27,6 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
   const [error, setError] = useState("")
   const [touched, setTouched] = useState(false)
 
-
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -37,12 +35,9 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
       return
     }
     try {
-
       const result = await onAssign(selectedTechnicians)
-
       onSuccess(result.message)
     } catch (err: any) {
-      console.error("Error al asignar técnico:", err)
       setError(err.message || t('workOrders.form.errorAssigningTechnician'))
     }
   }

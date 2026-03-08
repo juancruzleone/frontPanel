@@ -108,7 +108,7 @@ const MainLayout: React.FC = () => {
   return (
     <div className={styles.layoutContainer}>
       <Nav />
-      <div className={`${styles.contentArea} ${isSidebarCollapsed ? styles.collapsed : ''} ${isSettingsRoute ? styles.settingsNoMainPadding : ''}`}>
+      <div className={`${styles.contentArea} ${isSidebarCollapsed ? styles.collapsed : ''}`}>
         <TopBar />
         <main>
           <Outlet />

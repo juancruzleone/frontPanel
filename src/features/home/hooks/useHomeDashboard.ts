@@ -129,7 +129,6 @@ const useHomeDashboard = () => {
         setRecentWorkOrders(recent || [])
 
       } catch (e: any) {
-        console.error("Error en useHomeDashboard:", e)
         setError(e.message || "Error al cargar el dashboard")
       } finally {
         setLoading(false)

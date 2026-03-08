@@ -36,13 +36,8 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
         setError(null)
         try {
             const docs = await getBudgetDocuments(installationId)
-
-            if (docs.length > 0) {
-                console.log('Documentos encontrados:', docs.length)
-            }
             setDocuments(docs)
         } catch (err: any) {
-            console.error('Error fetching documents:', err)
             setError(err.message || t('subscriptions.documents.errorFetching'))
         } finally {
             setLoading(false)
@@ -78,7 +73,6 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
                 onSuccess(t('subscriptions.documents.deleteSuccess') || 'Documento eliminado correctamente')
             }
         } catch (err: any) {
-            console.error('Error deleting document:', err)
             if (onError) {
                 onError(err.message || t('subscriptions.documents.errorDeleting'))
             } else {

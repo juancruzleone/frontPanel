@@ -30,7 +30,6 @@ const ProfilePage = () => {
             const installationData = await fetchInstallationById(instId);
             return { ...order, instalacion: installationData };
           } catch (err) {
-            console.error("Error fetching installation for profile order:", err);
             return order;
           }
         }

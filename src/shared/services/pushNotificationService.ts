@@ -96,7 +96,7 @@ class PushNotificationService {
           break
         }
       } catch (error) {
-        console.error('Error al sincronizar suscripción push', error)
+        // Error al sincronizar suscripción push
       }
     }
 
@@ -150,7 +150,7 @@ class PushNotificationService {
         }
       }
     } catch (error) {
-      console.error('Error al mostrar notificación en primer plano', error)
+      // Error al mostrar notificación en primer plano
     }
   }
 }

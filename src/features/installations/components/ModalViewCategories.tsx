@@ -35,7 +35,6 @@ const ModalViewCategories = ({ isOpen, onRequestClose }: ModalViewCategoriesProp
       setCategories(data)
     } catch (err) {
       setError(t('installations.errorLoadingCategories'))
-      console.error("Error loading categories:", err)
     } finally {
       setLoading(false)
     }

@@ -17,7 +17,6 @@ export const useTimeZone = () => {
       const info = getTimeZoneInfo();
       setTimeZoneInfo(info);
     } catch (error) {
-      console.error('Error al obtener información de zona horaria:', error);
       // Fallback a UTC
       setTimeZoneInfo({
         timeZone: 'UTC',

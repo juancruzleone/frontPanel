@@ -47,7 +47,6 @@ const useAssets = () => {
       const categoryNames = fetchedCategories.map((cat: any) => cat.nombre)
       setCategories(categoryNames)
     } catch (err: any) {
-      console.error("Error al cargar categorías:", err)
       setCategories([])
     }
   }, [])
@@ -69,7 +68,6 @@ const useAssets = () => {
         setTemplates(Array.isArray(result) ? result : [])
       }
     } catch (err: any) {
-      console.error("Error al cargar plantillas:", err)
       setError(err.message)
       setTemplates([]) // Ensure templates is always an array even on error
     } finally {
@@ -102,7 +100,6 @@ const useAssets = () => {
         setAssets([])
       }
     } catch (err: any) {
-      console.error("Error al cargar activos:", err)
       setError(err.message)
       setAssets([])
     } finally {
@@ -125,7 +122,6 @@ const useAssets = () => {
       setAssets((prev) => [newAsset, ...prev])
       return { message: "Activo creado con éxito" }
     } catch (err: any) {
-      console.error("Error al crear activo:", err)
       throw err
     }
   }
@@ -136,7 +132,6 @@ const useAssets = () => {
       setAssets((prev) => prev.map((asset) => (asset._id === id ? updatedAsset : asset)))
       return { message: "Activo actualizado con éxito" }
     } catch (err: any) {
-      console.error("Error al actualizar activo:", err)
       throw err
     }
   }
@@ -146,7 +141,6 @@ const useAssets = () => {
       await deleteAsset(id)
       setAssets((prev) => prev.filter((asset) => asset._id !== id))
     } catch (err: any) {
-      console.error("Error al eliminar activo:", err)
       throw err
     }
   }
@@ -157,7 +151,6 @@ const useAssets = () => {
       setAssets((prev) => prev.map((asset) => (asset._id === assetId ? { ...asset, templateId } : asset)))
       return { message: result.message || "Plantilla asignada con éxito" }
     } catch (err: any) {
-      console.error("Error al asignar plantilla:", err)
       throw err
     }
   }
@@ -186,7 +179,6 @@ const useAssets = () => {
       // Actualizar el estado local
       setAssets((prev) => prev.map((asset) => (asset._id === assetId ? { ...asset, stock } : asset)))
     } catch (err: any) {
-      console.error("Error al actualizar stock:", err)
       throw err
     }
   }

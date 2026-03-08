@@ -141,8 +141,6 @@ const ModalCompleteWorkOrder = ({
     e.preventDefault()
     if (!workOrder?._id) return
 
-    
-
     // Mark all fields as touched
     const allFields = Object.keys(completionData)
     const newTouchedFields = allFields.reduce(
@@ -166,13 +164,10 @@ const ModalCompleteWorkOrder = ({
 
     setIsSubmitting(true)
     try {
-      
       const result = await onComplete(workOrder._id, completionData)
-      
       onSubmitSuccess(result.message)
       handleClose()
     } catch (err: any) {
-      console.error("❌ Error al completar orden:", err)
       setError(err.message || "Error al completar orden de trabajo")
     } finally {
       setIsSubmitting(false)

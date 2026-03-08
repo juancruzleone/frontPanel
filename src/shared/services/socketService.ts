@@ -61,7 +61,6 @@ class SocketService {
         });
 
         this.socket.on('connect', () => {
-            console.log('🔌 [Socket] Conectado al servidor');
             this.identify();
         });
 
@@ -83,11 +82,11 @@ class SocketService {
         this.socket.on('work_order_deleted', () => this.notifyWorkOrdersChanged());
 
         this.socket.on('connect_error', (error: Error) => {
-            console.error('❌ [Socket] Error de conexión:', error.message);
+            // Error de conexión
         });
 
         this.socket.on('disconnect', () => {
-            console.log('🔌 [Socket] Desconectado');
+            // Desconectado
         });
     }
 
@@ -95,7 +94,6 @@ class SocketService {
         const { userId, tenantId, role } = useAuthStore.getState();
 
         if (this.socket && userId) {
-            console.log(`👤 [Socket] Identificando usuario: ${userId}`);
             this.socket.emit('identify', userId);
             this.socket.emit('identify', { userId, tenantId, role });
             this.socket.emit('register-user', { userId, tenantId, role });
@@ -180,7 +178,6 @@ class SocketService {
     }
 
     private handleAssignedOrderEvent(data: any) {
-        console.log('📢 [Socket] Nueva orden recibida:', data);
         this.pushAssignedOrderNotification(data);
         this.notifyWorkOrdersChanged();
     }
@@ -266,7 +263,7 @@ class SocketService {
                 }
             });
         } catch (error) {
-            console.error('❌ [Socket] Error al sincronizar órdenes asignadas:', error);
+            // Error al sincronizar órdenes asignadas
         } finally {
             this.isSyncingAssignedOrders = false;
         }

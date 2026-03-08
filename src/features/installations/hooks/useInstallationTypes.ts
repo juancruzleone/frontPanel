@@ -24,13 +24,9 @@ const useInstallationTypes = () => {
     setError(null)
     try {
 
-
       const data = await fetchInstallationTypes(includeInactive)
-
-
       setInstallationTypes(data)
     } catch (err: any) {
-      console.error("Error al cargar tipos de instalación:", err)
       setError(err.message)
     } finally {
       setLoading(false)
@@ -47,11 +43,9 @@ const useInstallationTypes = () => {
         ...typeData,
         activo: typeData.activo !== undefined ? typeData.activo : true,
       })
-
       setInstallationTypes((prev) => [...prev, newType])
       return { message: "Tipo de instalación creado con éxito" }
     } catch (err: any) {
-      console.error("Error al crear tipo de instalación:", err)
       throw err
     }
   }
@@ -64,7 +58,6 @@ const useInstallationTypes = () => {
       ))
       return { message: "Tipo de instalación actualizado con éxito" }
     } catch (err: any) {
-      console.error("Error al actualizar tipo de instalación:", err)
       throw err
     }
   }
@@ -75,7 +68,6 @@ const useInstallationTypes = () => {
       setInstallationTypes(prev => prev.filter(type => type._id !== id))
       return { message: "Tipo de instalación eliminado con éxito" }
     } catch (err: any) {
-      console.error("Error al eliminar tipo de instalación:", err)
       throw err
     }
   }

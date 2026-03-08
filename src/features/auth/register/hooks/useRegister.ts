@@ -30,7 +30,6 @@ export function useRegister() {
       const data = await getTechnicians(token)
       setTechnicians(Array.isArray(data) ? data : [])
     } catch (error) {
-      console.error("Error al obtener técnicos:", error)
       setTechnicians([])
     } finally {
       setLoadingTechnicians(false)

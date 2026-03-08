@@ -18,9 +18,7 @@ const useTechnicians = () => {
       setError(null)
       const data = await fetchTechnicians()
       setTechnicians(data)
-      
     } catch (err: any) {
-      console.error("Error al cargar técnicos:", err)
       setError(err.message || "Error al cargar técnicos")
       setTechnicians([])
     } finally {

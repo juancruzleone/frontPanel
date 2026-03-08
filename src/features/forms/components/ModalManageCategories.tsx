@@ -69,7 +69,6 @@ const ModalManageCategories = ({
       // Llamar al prop por si el padre necesita actualizar algo más
       if (onCategoryCreated) onCategoryCreated(t('forms.categoryUpdated'))
     } catch (err: any) {
-      console.error("Error al actualizar categoría:", err)
     }
   }
 
@@ -96,7 +95,6 @@ const ModalManageCategories = ({
       setShowDeleteConfirm(false)
       setDeletingCategory(null)
     } catch (err: any) {
-      console.error("Error al eliminar categoría:", err)
     }
   }
 

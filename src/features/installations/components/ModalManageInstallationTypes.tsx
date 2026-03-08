@@ -70,7 +70,6 @@ const ModalManageInstallationTypes: React.FC<ModalManageInstallationTypesProps> 
       handleCancelEdit()
       setSuccessMessage(t('installations.typeUpdatedSuccess'))
     } catch (err: any) {
-      console.error("Error al actualizar tipo:", err)
     }
   }
 
@@ -89,7 +88,6 @@ const ModalManageInstallationTypes: React.FC<ModalManageInstallationTypesProps> 
       setShowDeleteConfirm(false)
       setDeletingType(null)
     } catch (err: any) {
-      console.error("Error al eliminar tipo:", err)
     }
   }
 

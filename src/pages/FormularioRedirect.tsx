@@ -40,7 +40,6 @@ const FormularioRedirect = () => {
 
           if (!response.ok) {
             const errorData = await response.json().catch(() => ({}))
-            console.error('❌ Error del servidor:', errorData)
             throw new Error(errorData.error || errorData.message || 'No se encontró el último mantenimiento')
           }
 
@@ -57,11 +56,9 @@ const FormularioRedirect = () => {
             // Redirigir DIRECTAMENTE al PDF (fuera de cmms.leonix.net.ar)
             window.location.href = pdfUrl
           } else {
-            console.error('❌ No se encontró pdfUrl en la respuesta:', data)
             throw new Error('No hay PDF disponible para este dispositivo')
           }
         } catch (err: any) {
-          console.error('❌ Error al obtener último mantenimiento:', err)
           setError(err.message || 'Error al cargar el mantenimiento')
         }
       }
@@ -81,7 +78,6 @@ const FormularioRedirect = () => {
       }
 
       // Si hay token Y NO es cliente → Usuario logueado → Formulario protegido interno
-      // console.log('DEBUG: Navegando a formulario interno')
       navigate(`/formulario-interno/${installationId}/${deviceId}`, { replace: true })
     }
 

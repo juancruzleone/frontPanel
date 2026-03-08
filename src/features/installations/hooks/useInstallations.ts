@@ -107,7 +107,6 @@ const useInstallations = () => {
         setErrorLoadingAssets("No hay activos disponibles para asignar")
       }
     } catch (err: any) {
-      console.error("Error al cargar activos:", err)
       setErrorLoadingAssets(err.message || "Error al cargar activos")
       setAssets([])
     } finally {
@@ -141,7 +140,6 @@ const useInstallations = () => {
         setInstallationTypes(extractInstallationTypes(result))
       }
     } catch (err: any) {
-      console.error("Error al cargar instalaciones:", err)
       setError(err.message)
     } finally {
       setLoading(false)
@@ -158,7 +156,6 @@ const useInstallations = () => {
       setInstallationDevices(Array.isArray(devices) ? devices : [])
       return { installation, devices }
     } catch (err: any) {
-      console.error("Error al cargar detalles de instalación:", err)
       setError(err.message)
       setCurrentInstallation(null)
       setInstallationDevices([])
@@ -173,7 +170,6 @@ const useInstallations = () => {
       const devices = await fetchInstallationDevices(id)
       setInstallationDevices(Array.isArray(devices) ? devices : [])
     } catch (err: any) {
-      console.error("Error al recargar dispositivos:", err)
     }
   }, [])
 
@@ -183,7 +179,6 @@ const useInstallations = () => {
       setInstallationDevices((prev) => prev.filter((d) => d._id !== deviceId))
       return { message: t('installations.deviceDeleted') }
     } catch (err: any) {
-      console.error("Error al eliminar dispositivo:", err)
       throw err
     }
   }, [])
@@ -234,7 +229,6 @@ const useInstallations = () => {
       onSuccess(message)
       resetForm()
     } catch (err: any) {
-      console.error("Error al guardar instalación:", err)
       onError(err.message || "Error al guardar instalación")
     } finally {
       setIsSubmitting(false)
@@ -252,7 +246,6 @@ const useInstallations = () => {
 
       return { message: t('installations.installationCreated') }
     } catch (err: any) {
-      console.error("Error al crear instalación:", err)
       throw err
     }
   }
@@ -268,7 +261,6 @@ const useInstallations = () => {
 
       return { message: t('installations.installationUpdated') }
     } catch (err: any) {
-      console.error("Error al actualizar instalación:", err)
       throw err
     }
   }
@@ -278,7 +270,6 @@ const useInstallations = () => {
       await deleteInstallation(id)
       setInstallations((prev) => prev.filter((inst) => inst._id !== id))
     } catch (err: any) {
-      console.error("Error al eliminar instalación:", err)
       throw err
     }
   }
@@ -319,7 +310,6 @@ const useInstallations = () => {
 
       return { message: t('installations.deviceAdded') }
     } catch (err: any) {
-      console.error("Error al agregar dispositivo:", err)
       throw err
     }
   }, [])

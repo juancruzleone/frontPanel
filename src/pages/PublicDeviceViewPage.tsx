@@ -56,7 +56,6 @@ const PublicDeviceViewPage: React.FC = () => {
         
         setLoading(false)
       } catch (err) {
-        console.error("Error al cargar datos:", err)
         setError("No se pudo cargar la información del dispositivo")
         setLoading(false)
       }

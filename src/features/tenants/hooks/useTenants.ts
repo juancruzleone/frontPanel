@@ -15,7 +15,6 @@ export const useTenants = () => {
       setTenants(data)
     } catch (err: any) {
       setError(err.message || 'Error al cargar tenants')
-      console.error('Error loading tenants:', err)
     } finally {
       setLoading(false)
     }

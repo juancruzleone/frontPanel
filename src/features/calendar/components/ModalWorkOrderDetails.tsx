@@ -42,7 +42,7 @@ const ModalWorkOrderDetails = ({
           const data = await fetchInstallationById(workOrder.instalacionId)
           setInstallationDetails(data)
         } catch (error) {
-          console.error("Error loading installation details:", error)
+          // Error loading installation details
         } finally {
           setLoadingInstallation(false)
         }

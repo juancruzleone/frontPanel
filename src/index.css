@@ -91,9 +91,57 @@ body {
   max-width: 100vw;
   width: 100%;
   position: relative;
+  background-color: var(--color-bg) !important;
+  color: var(--color-text) !important;
+  transition: background-color 0.5s cubic-bezier(0.22, 1, 0.36, 1), color 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  background-color: var(--color-bg) !important;
+  transition: background-color 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition-property: background-color, color, border-color, outline-color, text-decoration-color, fill, stroke, box-shadow !important;
+  transition-duration: 520ms !important;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+body.theme-syncing::before {
+  content: "";
+  position: fixed;
+  inset: 0;
   background-color: var(--color-bg);
-  color: var(--color-text);
-  transition: background-color 0.2s ease, color 0.2s ease;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  animation: themeSyncFade 0.58s ease;
+}
+
+@keyframes themeSyncFade {
+  0% {
+    opacity: 0;
+  }
+
+  45% {
+    opacity: 0.08;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-transition,
+  .theme-transition *,
+  .theme-transition *::before,
+  .theme-transition *::after {
+    transition-duration: 0ms !important;
+  }
 }
 
 

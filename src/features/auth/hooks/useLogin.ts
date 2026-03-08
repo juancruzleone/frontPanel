@@ -77,7 +77,6 @@ export function useLogin() {
 
     try {
       const response = await userLogin(username, password)
-      console.log('Login response in hook:', response);
       
       // El backend devuelve 'cuenta' en lugar de 'user'
       const user = response.user || response.cuenta;
@@ -87,8 +86,6 @@ export function useLogin() {
         throw new Error('Respuesta del servidor inválida');
       }
       
-      console.log('Login successful, showing success modal');
-      
       // Guardar los datos del usuario pero NO autenticar todavía
       loginStore(response)
       
@@ -96,13 +93,10 @@ export function useLogin() {
       setIsError(false)
       setResponseMessage(t('auth.loginSuccess'))
       setShowModal(true)
-      console.log('Modal state set to true, isError:', false);
     } catch (err: any) {
-      console.error('Login error:', err);
       setIsError(true)
       setResponseMessage(err.message || "Error al iniciar sesión")
       setShowModal(true)
-      console.log('Modal state set to true, isError:', true);
     }
   }
 

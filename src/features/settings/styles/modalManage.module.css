@@ -317,6 +317,85 @@
   transform: scale(0.95);
 }
 
+.editButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-secondary);
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.editButton:hover {
+  background-color: rgba(5, 126, 116, 0.1);
+  transform: scale(1.1);
+}
+
+.editButton:active {
+  transform: scale(0.95);
+}
+
+.itemActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.inputWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.inputError {
+  border-color: var(--color-danger) !important;
+}
+
+.inputError:focus {
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1) !important;
+}
+
+.errorMessage {
+  font-size: 0.875rem;
+  color: var(--color-danger);
+  margin-top: 4px;
+  display: block;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 8px;
+  display: block;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .modal {

@@ -32,7 +32,6 @@ const useCategories = () => {
       const data = await fetchCategories(includeInactive)
       setCategories(data)
     } catch (err: any) {
-      console.error("Error al cargar categorías:", err)
       setError(err.message || "Error al cargar categorías")
     } finally {
       setLoading(false)
@@ -67,7 +66,6 @@ const useCategories = () => {
       resetForm()
       await loadCategories()
     } catch (err) {
-      console.error("Error al guardar categoría:", err)
       setError("Error al guardar categoría")
     } finally {
       setIsSubmitting(false)
@@ -79,7 +77,6 @@ const useCategories = () => {
       await createCategory(category)
       return { message: "Categoría creada con éxito" }
     } catch (err: any) {
-      console.error("Error al crear categoría:", err)
       throw err
     }
   }
@@ -92,7 +89,6 @@ const useCategories = () => {
       ))
       return { message: "Categoría actualizada con éxito" }
     } catch (err: any) {
-      console.error("Error al actualizar categoría:", err)
       throw err
     }
   }
@@ -103,7 +99,6 @@ const useCategories = () => {
       setCategories(prev => prev.filter(cat => cat._id !== id))
       return { message: "Categoría eliminada con éxito" }
     } catch (err: any) {
-      console.error("Error al eliminar categoría:", err)
       throw err
     }
   }

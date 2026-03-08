@@ -185,10 +185,8 @@ const DeviceForm = ({
           categoria: formData.categoria,
           estado: selectedAsset.estado || "Activo",
           templateId: selectedAsset.templateId,
-          cantidad: formData.cantidad || 1, // Asegurar que siempre se envíe la cantidad
+          cantidad: formData.cantidad || 1,
         }
-
-        console.log('📤 Enviando datos al backend:', deviceData)
 
         const result = await onAddDevice(installation._id!, deviceData)
         onSubmitSuccess(result.message)
@@ -209,7 +207,6 @@ const DeviceForm = ({
         setSelectedAsset(null)
       }
     } catch (err: any) {
-      console.error('❌ Error al procesar dispositivo:', err)
       setFormErrors({
         general:
           err.message ||

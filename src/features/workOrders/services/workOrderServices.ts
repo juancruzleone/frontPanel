@@ -146,7 +146,6 @@ export const fetchWorkOrders = async (page = 1, limit = 10, filters: any = {}): 
       }
     }
   } catch (error) {
-    console.error("Error en fetchWorkOrders:", error)
     throw error
   }
 }

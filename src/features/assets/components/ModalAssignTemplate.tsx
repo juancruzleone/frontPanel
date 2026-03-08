@@ -54,7 +54,6 @@ const ModalAssignTemplate = ({
           }
         })
         .catch(err => {
-          console.error("Error al cargar plantillas:", err);
           setTemplates([]); // Establecer array vacío en caso de error
           setLoadingTemplates(false);
         });
@@ -77,7 +76,6 @@ const ModalAssignTemplate = ({
       onSubmitSuccess(result.message);
       handleClose();
     } catch (err) {
-      console.error("Error al editar plantilla:", err);
       setFormErrors({ general: "Error al editar la plantilla" });
     } finally {
       setIsSubmitting(false);

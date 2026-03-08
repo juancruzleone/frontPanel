@@ -28,8 +28,6 @@ export const usePlanLimitsModal = () => {
       
       return true; // Es un error de límites y se manejó
     } catch (planError) {
-      console.error('Error al obtener información del plan:', planError);
-      
       // Fallback: mostrar modal con información básica
       const props = createPlanLimitsModalProps(limitError);
       setModalProps(props);

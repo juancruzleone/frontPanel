@@ -31,7 +31,6 @@ export function useClients() {
             const data = await getClients(token)
             setClients(Array.isArray(data) ? data : [])
         } catch (error) {
-            console.error("Error al obtener clientes:", error)
             setClients([])
         } finally {
             setLoadingClients(false)

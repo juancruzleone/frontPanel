@@ -136,7 +136,6 @@ const useWorkOrders = () => {
       setTechnicians(data)
       return data
     } catch (err: any) {
-      console.error("Error al cargar técnicos:", err)
       setTechnicians([])
       return []
     }
@@ -150,7 +149,6 @@ const useWorkOrders = () => {
       setWorkOrders(data)
       setPagination(pagData)
     } catch (err: any) {
-      console.error("Error al cargar órdenes de trabajo:", err)
       setError(err.message)
     } finally {
       setLoading(false)
@@ -164,7 +162,6 @@ const useWorkOrders = () => {
       const data = await apiFetchInstallations()
       setInstallations(data)
     } catch (err: any) {
-      console.error("Error al cargar instalaciones:", err)
       setErrorLoadingInstallations(err.message || "Error al cargar instalaciones")
       setInstallations([])
     } finally {
@@ -243,15 +240,11 @@ const useWorkOrders = () => {
   }
 
   const assignTechnician = async (workOrderId: string, technicianIds: string[]) => {
-
     try {
       await assignTechnicianToWorkOrder(workOrderId, technicianIds)
-
       await loadWorkOrders()
-
       return { message: "Técnico asignado con éxito" }
     } catch (error) {
-      console.error("Error en assignTechnician:", error)
       throw error
     }
   }
@@ -279,7 +272,6 @@ const useWorkOrders = () => {
       )
       return { message: "Orden de trabajo completada con éxito" }
     } catch (error) {
-      console.error("Error al completar orden:", error)
       throw error
     }
   }
@@ -292,7 +284,6 @@ const useWorkOrders = () => {
       )
       return { message: "Orden de trabajo iniciada con éxito" }
     } catch (error) {
-      console.error("Error al iniciar orden:", error)
       throw error
     }
   }
@@ -300,7 +291,6 @@ const useWorkOrders = () => {
   // Función simplificada para manejar cambios de campo
   const handleFieldChange = useCallback(
     (name: string, value: string | any) => {
-
 
       setFormData((prevFormData) => {
         const updated = { ...prevFormData, [name]: value }
@@ -351,7 +341,6 @@ const useWorkOrders = () => {
       onSuccess(result.message)
       resetForm()
     } catch (err: any) {
-      console.error("Error al guardar orden:", err)
       onError(err.message || "Error al guardar la orden de trabajo")
     } finally {
       setIsSubmitting(false)

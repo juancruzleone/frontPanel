@@ -50,7 +50,6 @@ const UserProfile = () => {
                 const installationData = await fetchInstallationById(order.instalacionId);
                 return { ...order, instalacion: installationData };
               } catch (err) {
-                console.error("Error fetching installation for profile order:", err);
                 return order;
               }
             }
@@ -60,7 +59,6 @@ const UserProfile = () => {
 
         setOrdersWithInstallations(ordersWithDetails);
       } catch (error) {
-        console.error("Error loading installations for orders:", error);
         setOrdersWithInstallations(orders);
       } finally {
         setLoadingInstallations(false);

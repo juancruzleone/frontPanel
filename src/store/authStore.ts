@@ -29,15 +29,11 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
       logoutMessage: null,
       login: (data) => {
-        console.log('Login data received:', data);
-
         // El backend devuelve 'cuenta' en lugar de 'user'
         const user = data.user || data.cuenta;
-        console.log('User object:', user);
 
         // Validar que los datos necesarios existan
         if (!user) {
-          console.error('Invalid login data structure:', data);
           return;
         }
 

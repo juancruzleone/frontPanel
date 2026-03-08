@@ -53,7 +53,6 @@ const useSubscriptions = () => {
           setConfig(result.data)
         }
       } catch (err) {
-        console.error("Error fetching subscription config:", err)
       }
     }
     fetchConfig()
@@ -85,7 +84,6 @@ const useSubscriptions = () => {
         'pending': 'pending'
       }
       const mappedStatus = statusMap[estado] || 'active'
-
       return mappedStatus
     }
 
@@ -220,21 +218,15 @@ const useSubscriptions = () => {
       generacionAutomatica: (data.status ? mapStatus(data.status) : installation.estado || 'Activo') === 'Activo',
     }
 
-
-
-
     await updateSubscriptionService(subscriptionId, updateData)
     if (updateData.generacionAutomatica) {
       try {
         await triggerAutomaticWorkOrdersGeneration()
       } catch (error) {
-        console.warn('No se pudo disparar la generación automática de órdenes', error)
       }
     }
 
-
     await loadSubscriptions()
-
   }
 
   const [formData, setFormData] = useState<{
@@ -317,7 +309,6 @@ const useSubscriptions = () => {
         [validationFieldName]: validation.errors[validationFieldName] || ''
       }))
     } catch (error) {
-      console.error('Error validating field:', error)
     }
   }, [formData, t])
 

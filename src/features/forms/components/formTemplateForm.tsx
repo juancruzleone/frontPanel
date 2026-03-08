@@ -238,7 +238,6 @@ const FormTemplateForm = ({
     try {
       await onSubmitSuccess(formData)
     } catch (err: any) {
-      console.error("Error al guardar plantilla:", err)
       onSubmitError(err.message || "Error al guardar la plantilla. Por favor intente nuevamente.")
     } finally {
       setIsSubmitting(false)

@@ -9,7 +9,6 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('Opened cache');
         return cache.addAll(urlsToCache);
       })
   );
@@ -22,7 +21,6 @@ self.addEventListener('activate', (event) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
           if (cacheName !== CACHE_NAME) {
-            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
@@ -91,7 +89,6 @@ self.addEventListener('sync', (event) => {
 
 async function doBackgroundSync() {
   try {
-    console.log('Background sync triggered');
     const pendingData = await getPendingData();
     
     if (pendingData.length > 0) {
@@ -100,12 +97,12 @@ async function doBackgroundSync() {
           await sendPendingData(data);
           await removePendingData(data.id);
         } catch (error) {
-          console.error('Error syncing data:', error);
+          // Error syncing data
         }
       }
     }
   } catch (error) {
-    console.error('Background sync failed:', error);
+    // Background sync failed
   }
 }
 
@@ -114,11 +111,11 @@ async function getPendingData() {
 }
 
 async function sendPendingData(data) {
-  console.log('Sending pending data:', data);
+  // Send pending data
 }
 
 async function removePendingData(id) {
-  console.log('Removing sent data:', id);
+  // Remove sent data
 }
 
 self.addEventListener('push', (event) => {

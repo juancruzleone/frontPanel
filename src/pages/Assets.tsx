@@ -158,7 +158,6 @@ const Assets = () => {
       setResponseMessage("Activo eliminado con éxito")
       setIsError(false)
     } catch (err: any) {
-      console.error("Error al eliminar activo", err)
       setResponseMessage(err.message || "Error al eliminar activo")
       setIsError(true)
     } finally {

@@ -82,7 +82,6 @@ const useManuals = () => {
       const data = await fetchAssets({ page: 1, limit: 1000 }); // All assets for filter/select
       setAssets(data.success ? data.data : data);
     } catch (err: any) {
-      console.error("Error al cargar activos:", err);
       setErrorLoadingAssets(err.message);
     } finally {
       setLoadingAssets(false);
@@ -103,7 +102,6 @@ const useManuals = () => {
         setCategories(extractCategories(result));
       }
     } catch (err: any) {
-      console.error("Error al cargar manuales:", err);
       setError(err.message);
     } finally {
       setLoading(false);
@@ -116,7 +114,6 @@ const useManuals = () => {
       const data = await fetchManualsByAssetId(assetId);
       return data;
     } catch (err: any) {
-      console.error("Error al cargar manuales del activo:", err);
       setError(err.message);
       return [];
     } finally {
@@ -179,7 +176,6 @@ const useManuals = () => {
       onSuccess(message);
       resetForm();
     } catch (err: any) {
-      console.error("Error al guardar manual:", err);
       if (onError && typeof onError === 'function') {
         onError(err.message || "Error al guardar manual");
       }
@@ -200,7 +196,6 @@ const useManuals = () => {
       });
       return { message: "Manual creado con éxito" };
     } catch (err: any) {
-      console.error("Error al crear manual:", err);
       throw err;
     }
   }, []);
@@ -219,7 +214,6 @@ const useManuals = () => {
       });
       return { message: "Manual actualizado con éxito" };
     } catch (err: any) {
-      console.error("Error al actualizar manual:", err);
       throw err;
     }
   }, []);
@@ -229,7 +223,6 @@ const useManuals = () => {
       await deleteManual(id);
       setManuals((prev) => prev.filter((manual) => manual._id !== id));
     } catch (err: any) {
-      console.error("Error al eliminar manual:", err);
       throw err;
     }
   }, []);
@@ -244,7 +237,6 @@ const useManuals = () => {
       );
       return { message: "Archivo actualizado con éxito" };
     } catch (err: any) {
-      console.error("Error al actualizar archivo:", err);
       throw err;
     }
   }, []);

@@ -1,13 +1,21 @@
 import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
-import { X, Trash, Plus } from 'lucide-react'
+import { X, Trash, Plus, Edit2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import styles from '../styles/modalManage.module.css'
 import useForms from '../../forms/hooks/useForms'
+import ConfirmModal from '../../../shared/components/ConfirmModal'
+import EditModal from '../../../shared/components/EditModal'
+import SuccessModal from '../../../shared/components/SuccessModal'
 
 interface Props {
   isOpen: boolean
   onRequestClose: () => void
+}
+
+interface EditingCategory {
+  id: string
+  nombre: string
 }
 
 const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
@@ -15,24 +23,132 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
   const { categories, loadCategories } = useForms()
   const [newCategoryName, setNewCategoryName] = useState('')
   const [isAdding, setIsAdding] = useState(false)
+  const [validationError, setValidationError] = useState('')
+  const [editingCategory, setEditingCategory] = useState<EditingCategory | null>(null)
+  const [editName, setEditName] = useState('')
+  const [editValidationError, setEditValidationError] = useState('')
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
+  const [deleteConfirm, setDeleteConfirm] = useState<{ id: string; name: string } | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [successModal, setSuccessModal] = useState<{ title: string; message: string } | null>(null)
 
   useEffect(() => {
     if (isOpen) {
       loadCategories()
+      setValidationError('')
+      setNewCategoryName('')
     }
   }, [isOpen])
 
+  const validateCategoryName = (name: string): string => {
+    if (!name.trim()) {
+      return t('settings.validation.nameRequired')
+    }
+    if (name.trim().length < 2) {
+      return t('settings.validation.nameTooShort')
+    }
+    if (name.trim().length > 50) {
+      return t('settings.validation.nameTooLong')
+    }
+    const exists = categories.some(
+      cat => cat.toLowerCase() === name.trim().toLowerCase()
+    )
+    if (exists) {
+      return t('settings.validation.nameExists')
+    }
+    return ''
+  }
+
   const handleAdd = async () => {
-    if (!newCategoryName.trim()) return
+    const error = validateCategoryName(newCategoryName)
+    if (error) {
+      setValidationError(error)
+      return
+    }
+    
     setIsAdding(true)
+    setValidationError('')
     try {
       // Aquí deberías implementar la lógica para agregar categoría de formularios
       setNewCategoryName('')
       await loadCategories()
+      setSuccessModal({
+        title: t('settings.success.categoryAdded'),
+        message: t('settings.success.categoryAddedMessage')
+      })
     } catch (error) {
-      console.error('Error al crear categoría:', error)
+      setValidationError(t('settings.error.createFailed'))
     } finally {
       setIsAdding(false)
+    }
+  }
+
+  const handleEditClick = (category: string, index: number) => {
+    setEditingCategory({ id: index.toString(), nombre: category })
+    setEditName(category)
+    setEditValidationError('')
+    setIsEditModalOpen(true)
+  }
+
+  const handleSaveEdit = async () => {
+    const error = validateCategoryName(editName)
+    if (error) {
+      setEditValidationError(error)
+      return
+    }
+
+    setIsSaving(true)
+    setEditValidationError('')
+    try {
+      // Aquí deberías implementar la función de actualización
+      await loadCategories()
+      setIsEditModalOpen(false)
+      setEditingCategory(null)
+      setSuccessModal({
+        title: t('settings.success.categoryUpdated'),
+        message: t('settings.success.categoryUpdatedMessage')
+      })
+    } catch (error) {
+      setEditValidationError(t('settings.error.updateFailed'))
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  const handleDeleteClick = (category: string, index: number) => {
+    setDeleteConfirm({ id: index.toString(), name: category })
+  }
+
+  const handleConfirmDelete = async () => {
+    if (!deleteConfirm) return
+    
+    setIsDeleting(true)
+    try {
+      // Aquí deberías implementar la función de eliminación
+      await loadCategories()
+      setDeleteConfirm(null)
+      setSuccessModal({
+        title: t('settings.success.categoryDeleted'),
+        message: t('settings.success.categoryDeletedMessage')
+      })
+    } catch (error) {
+    } finally {
+      setIsDeleting(false)
+    }
+  }
+
+  const handleInputChange = (value: string) => {
+    setNewCategoryName(value)
+    if (validationError) {
+      setValidationError('')
+    }
+  }
+
+  const handleEditInputChange = (value: string) => {
+    setEditName(value)
+    if (editValidationError) {
+      setEditValidationError('')
     }
   }
 
@@ -53,14 +169,19 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
 
       <div className={styles.modalBody}>
         <div className={styles.addSection}>
-          <input
-            type="text"
-            value={newCategoryName}
-            onChange={(e) => setNewCategoryName(e.target.value)}
-            placeholder={t('settings.newCategoryName')}
-            className={styles.input}
-            onKeyPress={(e) => e.key === 'Enter' && handleAdd()}
-          />
+          <div className={styles.inputWrapper}>
+            <input
+              type="text"
+              value={newCategoryName}
+              onChange={(e) => handleInputChange(e.target.value)}
+              placeholder={t('settings.newCategoryName')}
+              className={`${styles.input} ${validationError ? styles.inputError : ''}`}
+              onKeyPress={(e) => e.key === 'Enter' && handleAdd()}
+            />
+            {validationError && (
+              <span className={styles.errorMessage}>{validationError}</span>
+            )}
+          </div>
           <button onClick={handleAdd} disabled={isAdding} className={styles.addButton}>
             <Plus size={20} />
           </button>
@@ -70,10 +191,66 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
           {categories.map((category, index) => (
             <div key={index} className={styles.item}>
               <span>{category}</span>
+              <div className={styles.itemActions}>
+                <button
+                  onClick={() => handleEditClick(category, index)}
+                  className={styles.editButton}
+                  title={t('common.edit')}
+                >
+                  <Edit2 size={18} />
+                </button>
+                <button
+                  onClick={() => handleDeleteClick(category, index)}
+                  className={styles.deleteButton}
+                  title={t('common.delete')}
+                >
+                  <Trash size={18} />
+                </button>
+              </div>
             </div>
           ))}
         </div>
       </div>
+
+      <EditModal
+        isOpen={isEditModalOpen}
+        onRequestClose={() => setIsEditModalOpen(false)}
+        onSave={handleSaveEdit}
+        title={t('settings.editCategory')}
+        isLoading={isSaving}
+      >
+        <div className={styles.editForm}>
+          <label className={styles.label}>{t('settings.categoryName')}</label>
+          <input
+            type="text"
+            value={editName}
+            onChange={(e) => handleEditInputChange(e.target.value)}
+            className={`${styles.input} ${editValidationError ? styles.inputError : ''}`}
+            placeholder={t('settings.categoryName')}
+          />
+          {editValidationError && (
+            <span className={styles.errorMessage}>{editValidationError}</span>
+          )}
+        </div>
+      </EditModal>
+
+      <ConfirmModal
+        isOpen={!!deleteConfirm}
+        onRequestClose={() => setDeleteConfirm(null)}
+        onConfirm={handleConfirmDelete}
+        title={t('settings.confirmDeleteTitle')}
+        message={t('settings.confirmDeleteMessage', { name: deleteConfirm?.name })}
+        confirmText={t('common.delete')}
+        isLoading={isDeleting}
+        variant="danger"
+      />
+
+      <SuccessModal
+        isOpen={!!successModal}
+        onRequestClose={() => setSuccessModal(null)}
+        title={successModal?.title || ''}
+        message={successModal?.message || ''}
+      />
     </Modal>
   )
 }

@@ -7,14 +7,10 @@ export const getAuthHeaders = (includeContentType: boolean = false) => {
 
   if (tenantId) {
     headers["X-Tenant-ID"] = tenantId
-  } else {
-    console.warn('⚠️ [API HEADERS] No hay tenantId en el store');
   }
 
   if (token) {
     headers["Authorization"] = `Bearer ${token}`
-  } else {
-    console.error('❌ [API HEADERS] No hay token en el store');
   }
 
   if (includeContentType) {

@@ -70,7 +70,6 @@ const ModalManageCategories: React.FC<ModalManageCategoriesProps> = ({
       setSuccessMessage(t('installations.categoryUpdatedSuccess'))
       loadCategories(true)
     } catch (err: any) {
-      console.error("Error al actualizar categoría:", err)
     }
   }
 
@@ -90,7 +89,6 @@ const ModalManageCategories: React.FC<ModalManageCategoriesProps> = ({
       setDeletingCategory(null)
       loadCategories(true)
     } catch (err: any) {
-      console.error("Error al eliminar categoría:", err)
     }
   }
 

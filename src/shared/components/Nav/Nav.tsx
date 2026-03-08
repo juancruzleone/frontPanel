@@ -53,8 +53,10 @@ const Nav = () => {
   const { dark, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isWorkOrdersMenuOpen, setIsWorkOrdersMenuOpen] = useState(true)
+  const [isWorkOrdersHovered, setIsWorkOrdersHovered] = useState(false)
   const { isSidebarCollapsed, toggleSidebar } = useLayoutStore()
   const { getRoute } = useTranslatedRoutes()
+  const workOrdersTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   // Usar las utilidades de roles
   const isTechnicianUser = isTechnician(role)
@@ -100,11 +102,51 @@ const Nav = () => {
     }
   }, [isWorkOrdersSectionActive])
 
+  useEffect(() => {
+    if (isSidebarCollapsed) {
+      setIsWorkOrdersMenuOpen(false)
+    } else {
+      setIsWorkOrdersMenuOpen(true)
+    }
+  }, [isSidebarCollapsed])
+
   const handleLogout = () => {
     setLogoutMessage("Sesión cerrada con éxito.")
     logout()
     navigate("/", { replace: true })
     setIsMenuOpen(false)
+  }
+
+  const handleWorkOrdersMouseEnter = () => {
+    if (isSidebarCollapsed) {
+      if (workOrdersTimeoutRef.current) {
+        clearTimeout(workOrdersTimeoutRef.current)
+      }
+      setIsWorkOrdersHovered(true)
+    }
+  }
+
+  const handleWorkOrdersMouseLeave = () => {
+    if (isSidebarCollapsed) {
+      workOrdersTimeoutRef.current = setTimeout(() => {
+        setIsWorkOrdersHovered(false)
+      }, 300)
+    }
+  }
+
+  const handleSubmenuMouseEnter = () => {
+    if (isSidebarCollapsed && workOrdersTimeoutRef.current) {
+      clearTimeout(workOrdersTimeoutRef.current)
+      setIsWorkOrdersHovered(true)
+    }
+  }
+
+  const handleSubmenuMouseLeave = () => {
+    if (isSidebarCollapsed) {
+      workOrdersTimeoutRef.current = setTimeout(() => {
+        setIsWorkOrdersHovered(false)
+      }, 300)
+    }
   }
 
   return (
@@ -170,7 +212,10 @@ const Nav = () => {
             )}
 
             {!isSuperAdminUser && !isClientUser && (
-              <li className={styles.menuGroup}>
+              <li className={styles.menuGroup}
+                onMouseEnter={handleWorkOrdersMouseEnter}
+                onMouseLeave={handleWorkOrdersMouseLeave}
+              >
                 <button
                   type="button"
                   className={`${styles.groupButton} ${isWorkOrdersSectionActive ? styles.active : ""}`}
@@ -184,7 +229,11 @@ const Nav = () => {
                     className={`${styles.groupChevron} ${isWorkOrdersMenuOpen ? styles.groupChevronOpen : ""}`}
                   />
                 </button>
-                <div className={`${styles.submenu} ${isWorkOrdersMenuOpen ? styles.submenuOpen : ""}`}>
+                <div 
+                  className={`${styles.submenu} ${(isWorkOrdersMenuOpen || (isSidebarCollapsed && isWorkOrdersHovered)) ? styles.submenuOpen : ""}`}
+                  onMouseEnter={handleSubmenuMouseEnter}
+                  onMouseLeave={handleSubmenuMouseLeave}
+                >
                   <NavLink to={workOrdersRoute} className={({ isActive }) => `${styles.submenuLink} ${isActive ? styles.active : ""}`} onClick={() => setIsMenuOpen(false)}>
                     <ClipboardList size={20} /> <span className={styles.linkText}>{t('nav.workOrdersList')}</span>
                   </NavLink>

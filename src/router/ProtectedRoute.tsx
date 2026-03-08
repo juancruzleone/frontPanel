@@ -15,13 +15,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles, children 
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
   const { getRoute } = useTranslatedRoutes()
 
-  // DEBUG: Log para verificar el rol actual
-  console.log('DEBUG: ProtectedRoute', {
-    role,
-    isAdminResult: isAdmin(role),
-    isSuperAdminResult: isSuperAdmin(role)
-  })
-
   if (!user || !isAuthenticated) return <Navigate to="/" replace />
 
   if (allowedRoles && role) {

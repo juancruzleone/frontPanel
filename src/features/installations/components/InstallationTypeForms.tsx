@@ -99,7 +99,6 @@ const InstallationTypeForms = ({ onCancel, onSuccess, onCreate }: InstallationTy
       })
       onSuccess(result.message)
     } catch (err: any) {
-      console.error("Error al crear tipo de instalación:", err)
       setFormErrors({
         submit: err.message || "Error al crear el tipo de instalación",
       })

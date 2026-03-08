@@ -48,7 +48,6 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
       })
       setQrCodeDataURL(qrDataURL)
     } catch (error) {
-      console.error("Error generating QR code:", error)
     } finally {
       setLoading(false)
     }
@@ -155,10 +154,8 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
         }
 
         // Si no hay mantenimiento, mostrar mensaje de error
-        
         alert(t('installationDetails.noMaintenanceAvailable') || 'No hay mantenimiento disponible para este dispositivo')
       } catch (error) {
-        console.error('Error al obtener último mantenimiento:', error)
         alert(t('installationDetails.errorLoadingMaintenance') || 'Error al cargar el mantenimiento')
       }
       return

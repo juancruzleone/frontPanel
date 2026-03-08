@@ -19,7 +19,6 @@ export const fetchAssets = async (): Promise<any[]> => {
     
     return await response.json();
   } catch (error) {
-    console.error("Error en fetchAssets:", error);
     throw error;
   }
 };
@@ -38,7 +37,6 @@ export const createAsset = async (assetData: any) => {
     
     return await response.json();
   } catch (error) {
-    console.error("Error en createAsset:", error);
     throw error;
   }
 };
@@ -57,7 +55,6 @@ export const updateAsset = async (id: string, assetData: any) => {
     
     return await response.json();
   } catch (error) {
-    console.error("Error en updateAsset:", error);
     throw error;
   }
 };
@@ -75,7 +72,6 @@ export const deleteAsset = async (id: string) => {
     
     return await response.json();
   } catch (error) {
-    console.error("Error en deleteAsset:", error);
     throw error;
   }
 };

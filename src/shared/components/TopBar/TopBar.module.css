@@ -374,6 +374,96 @@
     border-radius: 50%;
 }
 
+.themeToggleButton {
+    overflow: hidden;
+}
+
+.themeIconStack {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.themeIcon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: center;
+    transition:
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.3s ease;
+}
+
+.sunIcon {
+    transform: translate(-50%, -50%) rotate(-75deg) scale(0.45);
+    opacity: 0;
+}
+
+.moonIcon {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+    opacity: 1;
+}
+
+.themeDark .sunIcon {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+    opacity: 1;
+}
+
+.themeDark .moonIcon {
+    transform: translate(-50%, -50%) rotate(80deg) scale(0.4);
+    opacity: 0;
+}
+
+.themeLight .sunIcon {
+    transform: translate(-50%, -50%) rotate(-75deg) scale(0.45);
+    opacity: 0;
+}
+
+.themeLight .moonIcon {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+    opacity: 1;
+}
+
+.themeToggleButton:hover .themeIconStack {
+    transform: scale(1.1);
+}
+
+.themeToggleButton:active .themeIconStack {
+    transform: scale(0.92);
+}
+
+.themeSpinActive .themeIconStack {
+    animation: themeIconSpin 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes themeIconSpin {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+@keyframes langButtonPulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
 .langDropdown {
     position: absolute;
     top: calc(100% + 12px);

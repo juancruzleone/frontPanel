@@ -30,16 +30,10 @@ const useFormCategories = () => {
     setLoading(true)
     setError(null)
     try {
-      console.log('Loading categories with includeInactive:', includeInactive)
       const response = await fetchFormCategories(includeInactive)
-      console.log('Raw response:', response)
       const fetchedCategories = response.categories || response
-      console.log('Fetched categories:', fetchedCategories)
-      console.log('Categories count:', fetchedCategories.length)
-      console.log('Inactive categories:', fetchedCategories.filter((c: FormCategory) => !c.activa))
       setCategories(fetchedCategories)
     } catch (err: any) {
-      console.error("Error al cargar categorías:", err)
       setError(err.message || "Error al cargar categorías")
     } finally {
       setLoading(false)
@@ -90,7 +84,6 @@ const useFormCategories = () => {
       resetForm()
       await loadCategories()
     } catch (err) {
-      console.error("Error al guardar categoría:", err)
       setError("Error al guardar categoría")
     } finally {
       setIsSubmitting(false)
@@ -102,7 +95,6 @@ const useFormCategories = () => {
       const response = await createFormCategory(category)
       return { message: response.message || "Categoría creada con éxito" }
     } catch (err: any) {
-      console.error("Error al crear categoría:", err)
       throw err
     }
   }
@@ -112,7 +104,6 @@ const useFormCategories = () => {
       const response = await updateFormCategory(id, data)
       return { message: response.message || "Categoría actualizada con éxito" }
     } catch (err: any) {
-      console.error("Error al actualizar categoría:", err)
       throw err
     }
   }
@@ -122,7 +113,6 @@ const useFormCategories = () => {
       const response = await deleteFormCategory(id)
       return { message: response.message || "Categoría eliminada con éxito" }
     } catch (err: any) {
-      console.error("Error al eliminar categoría:", err)
       throw err
     }
   }

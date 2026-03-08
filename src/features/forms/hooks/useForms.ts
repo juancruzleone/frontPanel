@@ -61,7 +61,6 @@ const useForms = () => {
       }
     } catch (err: any) {
       setError(err.message)
-      console.error("Error loading templates:", err)
     } finally {
       setLoading(false)
     }
@@ -69,18 +68,14 @@ const useForms = () => {
 
   const loadCategories = useCallback(async () => {
     try {
-
-
       const response = await fetchFormCategories()
 
       const fetchedCategories = response.categories || response
 
       const categoryNames = fetchedCategories.map((cat: any) => cat.nombre)
 
-
       setCategories(categoryNames)
     } catch (err: any) {
-      console.error("Error loading categories:", err)
       // Si falla la carga de categorías, extraer de las plantillas como fallback
       const uniqueCategories = Array.from(new Set(templates.map((t) => t.categoria)))
       setCategories(uniqueCategories)
@@ -96,7 +91,6 @@ const useForms = () => {
       return data
     } catch (err: any) {
       setError(err.message)
-      console.error("Error loading template by ID:", err)
       throw err
     } finally {
       setLoading(false)
@@ -111,7 +105,6 @@ const useForms = () => {
       return data
     } catch (err: any) {
       setError(err.message)
-      console.error("Error loading templates by category:", err)
       return []
     } finally {
       setLoading(false)
@@ -134,7 +127,6 @@ const useForms = () => {
       return newTemplate
     } catch (err: any) {
       setError(err.message)
-      console.error("Error adding template:", err)
       throw err
     }
   }
@@ -155,7 +147,6 @@ const useForms = () => {
       return updatedTemplate
     } catch (err: any) {
       setError(err.message)
-      console.error("Error editing template:", err)
       throw err
     }
   }
@@ -177,7 +168,6 @@ const useForms = () => {
       })
     } catch (err: any) {
       setError(err.message)
-      console.error("Error removing template:", err)
       throw err
     }
   }

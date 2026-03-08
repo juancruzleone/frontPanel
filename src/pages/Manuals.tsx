@@ -124,7 +124,6 @@ const Manuals = () => {
       setResponseMessage(t('manuals.manualDeleted'));
       setIsError(false);
     } catch (err: any) {
-      console.error("Error al eliminar manual", err);
       setResponseMessage(err.message || t('manuals.errorDeletingManual'));
       setIsError(true);
     } finally {

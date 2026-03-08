@@ -159,7 +159,6 @@ const InstallationDetails = () => {
       const result = await updateDeviceInInstallation(installationId, deviceId, deviceData)
       return { message: "Dispositivo actualizado con éxito" }
     } catch (err: any) {
-      console.error("Error al actualizar dispositivo:", err)
       throw err
     }
   }
@@ -183,7 +182,6 @@ const InstallationDetails = () => {
       setResponseMessage("Dispositivo eliminado con éxito")
       setIsError(false)
     } catch (error: any) {
-      console.error("Error deleting device:", error)
       setResponseMessage(error.message || "Error al eliminar dispositivo")
       setIsError(true)
     } finally {
@@ -214,7 +212,6 @@ const InstallationDetails = () => {
       // Solo abrir el modal si la carga fue exitosa
       setIsHistoryModalOpen(true)
     } catch (error: any) {
-      console.error('Error al cargar historial:', error)
       setMaintenanceHistory([])
       // No abrir el modal de historial, solo mostrar el error
       setIsHistoryModalOpen(false)
@@ -250,7 +247,6 @@ const InstallationDetails = () => {
       setResponseMessage("Descargando PDF del último mantenimiento...")
       setIsError(false)
     } catch (error: any) {
-      console.error("Error downloading maintenance PDF:", error)
       setResponseMessage(error.message || "Error al descargar el PDF de mantenimiento")
       setIsError(true)
     } finally {

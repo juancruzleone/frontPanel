@@ -31,7 +31,6 @@ const ModalConfirmDelete: React.FC<ModalConfirmDeleteProps> = ({
       onSuccess()
       onClose()
     } catch (error) {
-      console.error('Error deleting tenant:', error)
       // Aquí podrías mostrar un toast de error
     } finally {
       setIsLoading(false)

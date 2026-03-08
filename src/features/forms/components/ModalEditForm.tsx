@@ -44,7 +44,7 @@ const ModalEditForm = ({ isOpen, onRequestClose, onSubmitSuccess, initialData, c
           <FormTemplateForm
             onCancel={handleClose}
             onSubmitSuccess={onSubmitSuccess}
-            onSubmitError={(message: string) => console.error(message)}
+            onSubmitError={(message: string) => {}}
             isEditMode={true}
             initialData={currentTemplate}
             categories={categories}

@@ -13,7 +13,10 @@
     "build:netlify": "rm -rf dist && npm install --legacy-peer-deps && vite build",
     "build:clean": "rm -rf dist node_modules package-lock.json && npm install --legacy-peer-deps && vite build",
     "lint": "eslint . --max-warnings 999",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed"
   },
   "dependencies": {
     "@types/qrcode": "^1.5.5",
@@ -38,6 +41,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
+    "@playwright/test": "^1.58.2",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@types/react-router-dom": "^5.3.3",
