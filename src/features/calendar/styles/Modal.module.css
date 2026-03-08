@@ -212,45 +212,75 @@
   border-top: 1px solid var(--color-card-border);
 }
 
+/* Botón de iniciar orden - MODO CLARO */
 .startButton {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 10px 20px !important;
   background-color: #057E74 !important;
+  background: #057E74 !important;
   color: white !important;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.3);
+  border: 1px solid #057E74 !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.3) !important;
 }
 
+/* Hover en MODO CLARO - forzar verde oscuro con texto blanco */
 .startButton:hover:not(:disabled) {
   background-color: #046860 !important;
+  background: #046860 !important;
   color: white !important;
-  box-shadow: 0 6px 16px rgba(5, 126, 116, 0.4);
-  transform: translateY(-1px);
+  border-color: #046860 !important;
+  box-shadow: 0 6px 16px rgba(5, 126, 116, 0.4) !important;
+  transform: translateY(-1px) !important;
 }
 
+/* Selectores adicionales para forzar en modo claro */
+:global([data-theme="light"]) .startButton,
+:root .startButton {
+  background-color: #057E74 !important;
+  background: #057E74 !important;
+  color: white !important;
+  border-color: #057E74 !important;
+}
+
+:global([data-theme="light"]) .startButton:hover:not(:disabled),
+:root .startButton:hover:not(:disabled) {
+  background-color: #046860 !important;
+  background: #046860 !important;
+  color: white !important;
+  border-color: #046860 !important;
+}
+
+/* MODO OSCURO */
 :global([data-theme="dark"]) .startButton {
   background-color: #388e3c !important;
+  background: #388e3c !important;
   color: #000 !important;
+  border-color: #388e3c !important;
 }
 
 :global([data-theme="dark"]) .startButton:hover:not(:disabled) {
   background-color: #2e7d32 !important;
+  background: #2e7d32 !important;
   color: #000 !important;
+  border-color: #2e7d32 !important;
 }
 
+/* Estado deshabilitado */
 .startButton:disabled {
   background-color: var(--color-skeleton) !important;
+  background: var(--color-skeleton) !important;
   color: var(--color-text) !important;
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
-  opacity: 0.5;
+  border-color: var(--color-skeleton) !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+  transform: none !important;
+  opacity: 0.5 !important;
 }
 
 .closeModalButton {
