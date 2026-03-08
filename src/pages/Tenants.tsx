@@ -13,6 +13,10 @@ import ModalCreate from "../features/tenants/components/ModalCreate.tsx"
 import ModalEdit from "../features/tenants/components/ModalEdit.tsx"
 import ModalConfirmDelete from "../features/tenants/components/ModalConfirmDelete.tsx"
 import ModalSuccess from "../features/tenants/components/ModalSuccess.tsx"
+import ViewToggle from "../components/ViewToggle/ViewToggle"
+import { useResponsiveView } from "../shared/hooks/useResponsiveView"
+import DataTable from "../components/DataTable/DataTable"
+import Tooltip from "../shared/components/Tooltip/Tooltip"
 
 const Tenants = () => {
   const { t, i18n } = useTranslation()
@@ -32,6 +36,7 @@ const Tenants = () => {
 
   const [searchTerm, setSearchTerm] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
+  const [viewMode, setViewMode, isMobile] = useResponsiveView('tenants-view', 'cards')
   const itemsPerPage = 4
 
   // Estados para los modales
@@ -156,7 +161,15 @@ const Tenants = () => {
   return (
     <div className={styles.containerTenants}>
       <div className={styles.topSection}>
-        <h1 className={styles.title}>{t('tenants.title')}</h1>
+        <div className={styles.headerWithToggle}>
+          <h1 className={styles.title}>{t('tenants.title')}</h1>
+          {!isMobile && (
+            <ViewToggle 
+              view={viewMode} 
+              onViewChange={setViewMode}
+            />
+          )}
+        </div>
 
         <div className={styles.positionButton}>
           <Button title={t('tenants.createTenant')} onClick={handleCreate} />
@@ -174,12 +187,103 @@ const Tenants = () => {
         {loading ? (
           <>
             <div className={styles.cardsRow}>
-              {[1,2,3].map((_,i) => <Skeleton key={i} height={120} width={"100%"} style={{borderRadius:14, marginBottom:16}} />)}
+              {[1,2,3].map((_,i) => <Skeleton key={i} height={120} width={"100%"} style={{borderRadius:12, marginBottom:16}} />)}
             </div>
-            <Skeleton height={220} width={"100%"} style={{borderRadius:14, marginTop:16}} />
+            <Skeleton height={220} width={"100%"} style={{borderRadius:12, marginTop:16}} />
           </>
         ) : filteredTenants.length === 0 ? (
           <p className={styles.loader}>{t('tenants.noTenantsFound')}</p>
+        ) : viewMode === 'table' ? (
+          <>
+            <DataTable
+              data={paginatedTenants}
+              columns={[
+                {
+                  key: 'name',
+                  header: t('tenants.name'),
+                  width: '20%'
+                },
+                {
+                  key: 'subdomain',
+                  header: t('tenants.subdomain'),
+                  width: '15%'
+                },
+                {
+                  key: 'plan',
+                  header: t('tenants.plan'),
+                  width: '12%',
+                  render: (tenant) => translatePlan(tenant.plan)
+                },
+                {
+                  key: 'users',
+                  header: t('tenants.users'),
+                  width: '12%',
+                  align: 'center',
+                  render: (tenant) => `${tenant.stats?.totalUsers || 0} / ${tenant.maxUsers}`
+                },
+                {
+                  key: 'createdAt',
+                  header: t('tenants.createdAt'),
+                  width: '13%',
+                  render: (tenant) => formatDate(tenant.createdAt)
+                },
+                {
+                  key: 'status',
+                  header: t('tenants.status'),
+                  width: '10%',
+                  align: 'center',
+                  render: (tenant) => (
+                    <span 
+                      className={styles.statusBadge}
+                      style={{ backgroundColor: getStatusColor(tenant.status) }}
+                    >
+                      {tenant.status}
+                    </span>
+                  )
+                },
+                {
+                  key: 'actions',
+                  header: t('common.actions'),
+                  width: '18%',
+                  align: 'center',
+                  render: (tenant) => (
+                    <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                      <Tooltip content={t('tenants.editTenant')}>
+                        <button
+                          className={styles.iconButton}
+                          onClick={() => handleEdit(tenant)}
+                          aria-label={t('tenants.editTenant')}
+                        >
+                          <Edit size={20} />
+                        </button>
+                      </Tooltip>
+                      <Tooltip content={t('tenants.deleteTenant')}>
+                        <button
+                          className={styles.iconButton}
+                          onClick={() => handleDelete(tenant)}
+                          aria-label={t('tenants.deleteTenant')}
+                        >
+                          <Trash size={20} />
+                        </button>
+                      </Tooltip>
+                    </div>
+                  )
+                }
+              ]}
+              emptyMessage={t('tenants.noTenantsFound')}
+            />
+            <div className={styles.pagination}>
+              <button onClick={() => handleChangePage(currentPage - 1)} disabled={currentPage === 1}>
+                &lt;
+              </button>
+              <span>
+                {t('tenants.page')} {currentPage} {t('tenants.of')} {totalPages}
+              </span>
+              <button onClick={() => handleChangePage(currentPage + 1)} disabled={currentPage === totalPages}>
+                &gt;
+              </button>
+            </div>
+          </>
         ) : (
           <>
             {paginatedTenants.map((tenant) => (

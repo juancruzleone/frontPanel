@@ -16,13 +16,18 @@ import ModalCreateCategory from "../features/installations/components/ModalCreat
 import ModalCreateInstallationType from "../features/installations/components/ModalCreateInstallationType"
 import ModalManageInstallationTypes from "../features/installations/components/ModalManageInstallationTypes"
 import ModalManageCategories from "../features/installations/components/ModalManageCategories"
-import { Edit, Trash, Plus, HelpCircle, Users, FilterX } from "lucide-react"
+import { Edit, Trash, Plus, HelpCircle, Users, FilterX, List } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../store/authStore"
 import { useInstallationsTour } from "../features/installations/hooks/useInstallationsTour"
 import { isClient, isTechnician as checkIsTechnician } from "../shared/utils/roleUtils"
 import TourButton from "../shared/components/Buttons/TourButton"
+import ViewToggle from "../components/ViewToggle/ViewToggle"
+import { useViewMode } from "../shared/hooks/useViewMode"
+import { useResponsiveView } from "../shared/hooks/useResponsiveView"
+import DataTable from "../components/DataTable/DataTable"
+import Tooltip from "../shared/components/Tooltip/Tooltip"
 
 
 const Installations = () => {
@@ -181,6 +186,7 @@ const Installations = () => {
   const [isError, setIsError] = useState(false)
   const [installationToDelete, setInstallationToDelete] = useState<Installation | null>(null)
   const [selectedInstallation, setSelectedInstallation] = useState<Installation | null>(null)
+  const [viewMode, setViewMode, isMobile] = useResponsiveView('installations-view', 'cards')
   const itemsPerPage = 4
 
   useEffect(() => {
@@ -317,7 +323,15 @@ const Installations = () => {
     <>
       <div className={styles.containerInstallations}>
         <div className={styles.topSection}>
-          <h1 className={styles.title}>{t('installations.title')}</h1>
+          <div className={styles.headerWithToggle}>
+            <h1 className={styles.title}>{t('installations.title')}</h1>
+            {!isMobile && (
+              <ViewToggle 
+                view={viewMode} 
+                onViewChange={setViewMode}
+              />
+            )}
+          </div>
 
           {!isRestricted && (
             <div className={styles.positionButton}>
@@ -372,6 +386,98 @@ const Installations = () => {
             </div>
           ) : installations.length === 0 ? (
             <p className={styles.loader}>{t('installations.noInstallationsFound')}</p>
+          ) : viewMode === 'table' ? (
+            <>
+              <DataTable
+                data={installations}
+                columns={[
+                  {
+                    key: 'company',
+                    header: t('installations.company'),
+                    width: '25%'
+                  },
+                  {
+                    key: 'installationType',
+                    header: t('installations.type'),
+                    width: '15%',
+                    render: (inst) => translateInstallationType(inst.installationType)
+                  },
+                  {
+                    key: 'address',
+                    header: t('installations.address'),
+                    width: '35%',
+                    render: (inst) => translateAddress(inst.province || "", inst.city || "", inst.address, inst.floorSector || "")
+                  },
+                  {
+                    key: 'actions',
+                    header: t('common.actions'),
+                    width: '25%',
+                    align: 'center',
+                    render: (inst) => (
+                      <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                        {!isClientUser && (
+                          <>
+                            <Tooltip content={t('installations.addDevice')}>
+                              <button
+                                className={styles.iconButton}
+                                onClick={() => handleOpenAddDevice(inst)}
+                                aria-label={t('installations.addDevice')}
+                              >
+                                <Plus size={20} />
+                              </button>
+                            </Tooltip>
+                            {!isRestricted && (
+                              <>
+                                <Tooltip content={t('installations.editInstallation')}>
+                                  <button
+                                    className={styles.iconButton}
+                                    onClick={() => handleOpenEdit(inst)}
+                                    aria-label={t('installations.editInstallation')}
+                                  >
+                                    <Edit size={20} />
+                                  </button>
+                                </Tooltip>
+                                <Tooltip content={t('installations.deleteInstallation')}>
+                                  <button
+                                    className={styles.iconButton}
+                                    onClick={() => {
+                                      setInstallationToDelete(inst)
+                                      setIsDeleteModalOpen(true)
+                                    }}
+                                    aria-label={t('installations.deleteInstallation')}
+                                  >
+                                    <Trash size={20} />
+                                  </button>
+                                </Tooltip>
+                              </>
+                            )}
+                          </>
+                        )}
+                        <button 
+                          onClick={() => handleViewDevices(inst)}
+                          className={styles.viewDevicesTableButton}
+                        >
+                          <List size={16} />
+                          <span>{t('installations.viewDeviceList')}</span>
+                        </button>
+                      </div>
+                    )
+                  }
+                ]}
+                emptyMessage={t('installations.noInstallationsFound')}
+              />
+              <div className={styles.pagination}>
+                <button onClick={() => handleChangePage(pagination.page - 1)} disabled={pagination.page === 1}>
+                  &lt;
+                </button>
+                <span>
+                  {t('installations.page')} {pagination.page} {t('installations.of')} {pagination.totalPages}
+                </span>
+                <button onClick={() => handleChangePage(pagination.page + 1)} disabled={pagination.page === pagination.totalPages}>
+                  &gt;
+                </button>
+              </div>
+            </>
           ) : (
             <>
               {installations.map((inst) => (

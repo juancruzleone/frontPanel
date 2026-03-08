@@ -17,15 +17,19 @@
   gap: 16px;
 }
 
+.headerWithToggle {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
 .title {
   font-size: 32px;
   font-weight: 700;
   color: var(--color-text);
   margin: 0;
   text-align: left;
-  display: flex;
-  align-items: center;
-  gap: 16px;
 }
 
 .positionButton {
@@ -152,7 +156,7 @@
 
 .installationCard {
   background: var(--color-card);
-  border-radius: 16px;
+  border-radius: 12px;
   padding: 20px;
   border: 1px solid var(--color-card-border);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
@@ -327,7 +331,7 @@
   opacity: 1;
 }
 
-/* Botón "Ver listado de dispositivos" */
+/* Botón "Ver listado de dispositivos" en cards */
 .viewDevicesButton {
   margin: 0;
   display: flex;
@@ -358,6 +362,40 @@
   box-shadow: 0 4px 12px rgba(5, 126, 116, 0.3);
 }
 
+/* Botón "Ver listado de dispositivos" en tabla - diseño distintivo */
+.viewDevicesTableButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(8, 145, 178, 0.25);
+  margin-left: 12px;
+  white-space: nowrap;
+}
+
+.viewDevicesTableButton:hover {
+  background: linear-gradient(135deg, #0e7490 0%, #0891b2 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(8, 145, 178, 0.4);
+}
+
+.viewDevicesTableButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(8, 145, 178, 0.3);
+}
+
+.viewDevicesTableButton svg {
+  flex-shrink: 0;
+}
+
 /* Modo oscuro - mantener consistencia con colores verdes */
 :global(.dark) .viewDevicesButton button {
   background: #057E74;
@@ -370,6 +408,16 @@
   color: #fff;
   border-color: #069b8e;
   box-shadow: 0 4px 12px rgba(5, 126, 116, 0.4);
+}
+
+:global(.dark) .viewDevicesTableButton {
+  background: linear-gradient(135deg, #057E74 0%, #069b8e 100%);
+  box-shadow: 0 2px 8px rgba(5, 126, 116, 0.4);
+}
+
+:global(.dark) .viewDevicesTableButton:hover {
+  background: linear-gradient(135deg, #046b63 0%, #057E74 100%);
+  box-shadow: 0 4px 16px rgba(5, 126, 116, 0.5);
 }
 
 /* Información adicional en el footer */

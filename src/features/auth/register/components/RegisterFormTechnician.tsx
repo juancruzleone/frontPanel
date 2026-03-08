@@ -1,13 +1,17 @@
 import type React from "react"
 import { useCallback } from "react"
-import { FiEye, FiEyeOff, FiUser, FiLock, FiShield, FiUserPlus, FiUserCheck } from "react-icons/fi"
+import { FiEye, FiEyeOff } from "react-icons/fi"
 import styles from "../styles/registerForm.module.css"
 import formButtonStyles from "../../../../shared/components/Buttons/formButtons.module.css"
 import { useTranslation } from "react-i18next"
 
 interface RegisterTechnicianFormData {
   username: string
-  fullName: string
+  firstName: string
+  lastName: string
+  email: string
+  documento: string
+  profilePhoto?: File | null
   password: string
   confirmPassword: string
 }
@@ -15,18 +19,18 @@ interface RegisterTechnicianFormData {
 interface RegisterTechnicianFormProps {
   onCancel: () => void
   onSuccess: (message: string) => void
-  onAdd: (username: string, password: string, fullName: string) => Promise<{ message: string }>
+  onAdd: (data: FormData) => Promise<{ message: string }>
   formData: RegisterTechnicianFormData
   formErrors: Record<string, string>
   showPassword: boolean
   showConfirmPassword: boolean
   isFormComplete: boolean
-  handleFieldChange: (name: string, value: string) => void
+  handleFieldChange: (name: string, value: string | File | null) => void
   handleFieldBlur: (fieldName: string) => void
   handleSubmitForm: (
     e: React.FormEvent,
     onSuccess: (message: string) => void,
-    onAdd: (username: string, password: string, fullName: string) => Promise<{ message: string }>,
+    onAdd: (data: FormData) => Promise<{ message: string }>,
   ) => void
   isSubmitting: boolean
   togglePasswordVisibility: () => void
@@ -54,15 +58,23 @@ const RegisterTechnicianForm = ({
   const { t } = useTranslation()
 
   const fields = [
-    { name: "username", label: t('personal.username'), type: "text", icon: FiUser },
-    { name: "password", label: t('personal.password'), type: "password", icon: FiLock },
-    { name: "confirmPassword", label: t('personal.confirmPassword'), type: "password", icon: FiShield },
+    { name: "username", label: t('personal.username'), type: "text", placeholder: t('personal.userNamePlaceholder') },
+    { name: "firstName", label: t('personal.firstName'), type: "text", placeholder: t('personal.firstNamePlaceholder') },
+    { name: "lastName", label: t('personal.lastName'), type: "text", placeholder: t('personal.lastNamePlaceholder') },
+    { name: "email", label: t('personal.email'), type: "email", placeholder: t('personal.emailPlaceholder') },
+    { name: "documento", label: t('personal.documento'), type: "text", placeholder: t('personal.documentoPlaceholder') },
+    { name: "password", label: t('personal.password'), type: "password", placeholder: t('personal.passwordPlaceholder') },
+    { name: "confirmPassword", label: t('personal.confirmPassword'), type: "password", placeholder: t('personal.confirmPasswordPlaceholder') },
   ]
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target
-      handleFieldChange(name, value)
+      const { name, value, files } = e.target
+      if (name === "profilePhoto" && files && files[0]) {
+        handleFieldChange(name, files[0])
+      } else {
+        handleFieldChange(name, value)
+      }
     },
     [handleFieldChange],
   )
@@ -116,24 +128,23 @@ const RegisterTechnicianForm = ({
   return (
     <form onSubmit={handleFormSubmit} className={styles.form}>
       <div className={styles.formInner}>
-        {fields.map(({ name, label, type, icon: Icon }) => (
+        {fields.map(({ name, label, type, placeholder }) => (
           <div className={styles.formGroup} key={name}>
             <label htmlFor={name}>
-              <Icon size={16} />
-              {label}
+              {label} *
             </label>
             <div className={styles.inputWrapper}>
               <input
                 type={getInputType(name, type)}
                 id={name}
                 name={name}
-                value={formData[name as keyof RegisterTechnicianFormData] || ""}
+                value={formData[name as keyof RegisterTechnicianFormData] as string || ""}
                 onChange={handleInputChange}
                 onBlur={handleInputBlur}
                 disabled={isSubmitting}
-                placeholder={t('personal.enterField', { field: label.toLowerCase() })}
+                placeholder={placeholder}
                 className={shouldShowError(name) ? styles.errorInput : ""}
-                autoComplete={name === "username" ? "username" : "new-password"}
+                autoComplete={name === "username" ? "username" : name === "email" ? "email" : "new-password"}
               />
               {type === "password" && (
                 <button
@@ -157,6 +168,27 @@ const RegisterTechnicianForm = ({
             {shouldShowError(name) && <p className={styles.inputError}>{formErrors[name]}</p>}
           </div>
         ))}
+
+        {/* Campo de foto de perfil */}
+        <div className={styles.formGroup}>
+          <label htmlFor="profilePhoto">
+            {t('personal.profilePhoto')}
+          </label>
+          <div className={styles.inputWrapper}>
+            <input
+              type="file"
+              id="profilePhoto"
+              name="profilePhoto"
+              accept="image/*"
+              onChange={handleInputChange}
+              onBlur={handleInputBlur}
+              disabled={isSubmitting}
+              className={shouldShowError("profilePhoto") ? styles.errorInput : ""}
+            />
+          </div>
+          {shouldShowError("profilePhoto") && <p className={styles.inputError}>{formErrors.profilePhoto}</p>}
+          <p className={styles.fieldHint}>{t('personal.profilePhotoHint')}</p>
+        </div>
 
         {formErrors.general && (
           <div className={styles.alertDanger}>
@@ -189,3 +221,4 @@ const RegisterTechnicianForm = ({
 }
 
 export default RegisterTechnicianForm
+

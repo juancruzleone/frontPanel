@@ -80,13 +80,31 @@
     "userCreated": "تم إنشاء حساب الفني بنجاح",
     "noPermission": "ليس لديك إذن للقيام بهذا الإجراء",
     "errorCreatingUser": "خطأ في إنشاء الفني",
+    "firstName": "الاسم الأول",
+    "firstNamePlaceholder": "أدخل الاسم الأول",
+    "lastName": "اسم العائلة",
+    "lastNamePlaceholder": "أدخل اسم العائلة",
+    "email": "البريد الإلكتروني",
+    "emailPlaceholder": "example@email.com",
+    "documento": "وثيقة الهوية (DNI/جواز السفر)",
+    "documentoPlaceholder": "أدخل رقم الوثيقة",
+    "profilePhoto": "صورة الملف الشخصي",
+    "profilePhotoHint": "اختياري. التنسيقات المقبولة: JPG، PNG (الحد الأقصى 5 ميجابايت)",
     "validation": {
       "usernameRequired": "اسم المستخدم مطلوب",
       "fullNameRequired": "الاسم الكامل مطلوب",
       "passwordRequired": "كلمة المرور مطلوبة",
       "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
       "passwordMinLength": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
-      "confirmPasswordRequired": "يجب تأكيد كلمة المرور"
+      "confirmPasswordRequired": "يجب تأكيد كلمة المرور",
+      "firstNameRequired": "الاسم الأول مطلوب",
+      "firstNameMinLength": "يجب أن يحتوي الاسم الأول على حرفين على الأقل",
+      "lastNameRequired": "اسم العائلة مطلوب",
+      "lastNameMinLength": "يجب أن يحتوي اسم العائلة على حرفين على الأقل",
+      "emailRequired": "البريد الإلكتروني مطلوب",
+      "emailInvalid": "يجب أن يكون بريدًا إلكترونيًا صالحًا",
+      "documentoRequired": "وثيقة الهوية مطلوبة",
+      "documentoMinLength": "يجب أن تحتوي وثيقة الهوية على 6 أحرف على الأقل"
     },
     "tour": {
       "welcome": {
@@ -936,6 +954,7 @@
     "confirmDeleteAsset": "هل تريد حذف الأصل؟",
     "confirmDeleteAssetDescription": "هل أنت متأكد من رغبتك في حذف هذا الأصل؟ لا يمكن التراجع عن هذا الإجراء.",
     "brand": "العلامة التجارية",
+    "details": "التفاصيل",
     "model": "الطراز",
     "serialNumber": "الرقم التسلسلي",
     "template": "القالب",
@@ -994,6 +1013,7 @@
     }
   },
   "forms": {
+    "category": "الفئة",
     "templateCreated": "تم إنشاء قالب النموذج بنجاح",
     "createSuccess": "تم إنشاء النموذج بنجاح",
     "understood": "إغلاق",
@@ -1757,5 +1777,12 @@
       "deleteFailed": "خطأ في حذف العنصر. يرجى المحاولة مرة أخرى.",
       "validationFailed": "خطأ في التحقق من البيانات. يرجى التحقق من المعلومات."
     }
+  },
+  "viewToggle": {
+    "contentView": "عرض المحتوى",
+    "cardsView": "عرض البطاقات",
+    "tableView": "عرض الجدول",
+    "cards": "بطاقات",
+    "table": "جدول"
   }
 }

@@ -92,7 +92,7 @@ html {
   padding: 48px 24px;
   text-align: center;
   background: var(--color-card);
-  border-radius: 16px;
+  border-radius: 12px;
   border: 1px solid var(--color-card-border);
 }
 
@@ -190,7 +190,7 @@ html {
 
 .statsCard {
   background: var(--color-card);
-  border-radius: 16px;
+  border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   padding: 20px;
   position: relative;
@@ -315,7 +315,7 @@ html {
 
 .chartCard {
   background: var(--color-card);
-  border-radius: 16px;
+  border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   padding: 24px;
   min-width: 0;
@@ -418,7 +418,7 @@ html {
 
 .recentOrdersCard {
   background: var(--color-card);
-  border-radius: 16px;
+  border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   padding: 24px;
   color: var(--color-text);
@@ -1350,7 +1350,7 @@ html {
 .customTooltip {
   background: linear-gradient(135deg, var(--color-card) 0%, var(--color-bg-light) 100%) !important;
   border: 1px solid var(--color-card-border) !important;
-  border-radius: 16px !important;
+  border-radius: 12px !important;
   padding: 16px 20px !important;
   color: var(--color-text) !important;
   font-size: 0.875rem !important;

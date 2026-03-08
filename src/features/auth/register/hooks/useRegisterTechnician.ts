@@ -5,15 +5,24 @@ import { useTranslation } from "react-i18next"
 
 interface RegisterTechnicianFormData {
   username: string
-  fullName: string
+  firstName: string
+  lastName: string
+  email: string
+  documento: string
+  profilePhoto?: File | null
   password: string
   confirmPassword: string
 }
 
 const useRegisterTechnician = () => {
   const { t } = useTranslation()
-  const [formData, setFormData] = useState<Omit<RegisterTechnicianFormData, 'fullName'>>({
+  const [formData, setFormData] = useState<RegisterTechnicianFormData>({
     username: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    documento: "",
+    profilePhoto: null,
     password: "",
     confirmPassword: "",
   })
@@ -25,8 +34,16 @@ const useRegisterTechnician = () => {
 
   // Verificar si el formulario está completo
   const isFormComplete = useMemo(() => {
-    return formData.username.trim() !== "" && formData.password.trim() !== "" && formData.confirmPassword.trim() !== ""
-  }, [formData.username, formData.password, formData.confirmPassword])
+    return (
+      formData.username.trim() !== "" &&
+      formData.firstName.trim() !== "" &&
+      formData.lastName.trim() !== "" &&
+      formData.email.trim() !== "" &&
+      formData.documento.trim() !== "" &&
+      formData.password.trim() !== "" &&
+      formData.confirmPassword.trim() !== ""
+    )
+  }, [formData])
 
   // Verificar si el formulario es válido (sin errores)
   const isFormValid = useMemo(() => {
@@ -43,17 +60,25 @@ const useRegisterTechnician = () => {
 
   // Validación individual de campo
   const validateSingleField = useCallback(
-    async (fieldName: string, value: string) => {
+    async (fieldName: string, value: string | File | null) => {
+      // Saltar validación para el campo de foto
+      if (fieldName === "profilePhoto") {
+        return
+      }
+
       const mappedFieldName = fieldName === "username" ? "userName" : fieldName
 
       const validationData = {
-        userName: fieldName === "username" ? value : formData.username,
-        fullName: formData.username, // Usamos username como fullName
-        password: fieldName === "password" ? value : formData.password,
-        confirmPassword: fieldName === "confirmPassword" ? value : formData.confirmPassword,
+        userName: fieldName === "username" ? (value as string) : formData.username,
+        firstName: fieldName === "firstName" ? (value as string) : formData.firstName,
+        lastName: fieldName === "lastName" ? (value as string) : formData.lastName,
+        email: fieldName === "email" ? (value as string) : formData.email,
+        documento: fieldName === "documento" ? (value as string) : formData.documento,
+        password: fieldName === "password" ? (value as string) : formData.password,
+        confirmPassword: fieldName === "confirmPassword" ? (value as string) : formData.confirmPassword,
       }
 
-      const result = await validateFieldWithTranslation(mappedFieldName, value, validationData, t)
+      const result = await validateFieldWithTranslation(mappedFieldName, value as string, validationData, t)
 
       setFormErrors((prev) => {
         const newErrors = { ...prev }
@@ -69,7 +94,7 @@ const useRegisterTechnician = () => {
   )
 
   const handleFieldChange = useCallback(
-    (name: string, value: string) => {
+    (name: string, value: string | File | null) => {
       setFormData((prev) => ({ ...prev, [name]: value }))
 
       // Limpiar error inmediatamente cuando el usuario empieza a escribir
@@ -98,13 +123,17 @@ const useRegisterTechnician = () => {
     async (
       e: React.FormEvent,
       onSuccess: (message: string) => void,
-      onAdd: (username: string, password: string, fullName: string) => Promise<{ message: string }>,
+      onAdd: (data: FormData) => Promise<{ message: string }>,
     ) => {
       e.preventDefault()
 
       // Marcar todos los campos como tocados
       setTouchedFields({
         username: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+        documento: true,
         password: true,
         confirmPassword: true,
       })
@@ -112,10 +141,12 @@ const useRegisterTechnician = () => {
       // Verificar que el formulario esté completo antes de proceder
       if (!isFormComplete) {
         // Validar cada campo individualmente para mostrar errores específicos
-        const validationPromises = Object.keys(formData).map(async (fieldName) => {
-          const value = formData[fieldName as keyof typeof formData]
-          await validateSingleField(fieldName, value ?? "")
-        })
+        const validationPromises = Object.keys(formData)
+          .filter(key => key !== "profilePhoto")
+          .map(async (fieldName) => {
+            const value = formData[fieldName as keyof typeof formData]
+            await validateSingleField(fieldName, value ?? "")
+          })
         await Promise.all(validationPromises)
         return
       }
@@ -125,7 +156,10 @@ const useRegisterTechnician = () => {
       try {
         const validation = await validateRegisterFormWithTranslation({
           userName: formData.username,
-          fullName: formData.username, // Usamos username como fullName
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          documento: formData.documento,
           password: formData.password,
           confirmPassword: formData.confirmPassword,
         }, t)
@@ -136,7 +170,21 @@ const useRegisterTechnician = () => {
           return
         }
 
-        const result = await onAdd(formData.username, formData.password, formData.username)
+        // Crear FormData para enviar con la foto
+        const submitData = new FormData()
+        submitData.append("userName", formData.username)
+        submitData.append("firstName", formData.firstName)
+        submitData.append("lastName", formData.lastName)
+        submitData.append("email", formData.email)
+        submitData.append("documento", formData.documento)
+        submitData.append("password", formData.password)
+        submitData.append("role", "técnico")
+        
+        if (formData.profilePhoto) {
+          submitData.append("profilePhoto", formData.profilePhoto)
+        }
+
+        const result = await onAdd(submitData)
         onSuccess(result.message)
         resetForm()
       } catch (err: any) {
@@ -145,12 +193,17 @@ const useRegisterTechnician = () => {
         setIsSubmitting(false)
       }
     },
-    [formData, isFormComplete],
+    [formData, isFormComplete, t],
   )
 
   const resetForm = useCallback(() => {
     setFormData({
       username: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      documento: "",
+      profilePhoto: null,
       password: "",
       confirmPassword: "",
     })

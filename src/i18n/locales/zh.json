@@ -80,13 +80,31 @@
     "userCreated": "技术员账户创建成功",
     "noPermission": "您没有执行此操作的权限",
     "errorCreatingUser": "创建技术员时出错",
+    "firstName": "名字",
+    "firstNamePlaceholder": "请输入名字",
+    "lastName": "姓氏",
+    "lastNamePlaceholder": "请输入姓氏",
+    "email": "电子邮件",
+    "emailPlaceholder": "example@email.com",
+    "documento": "身份证件（DNI/护照）",
+    "documentoPlaceholder": "请输入证件号码",
+    "profilePhoto": "个人照片",
+    "profilePhotoHint": "可选。接受的格式：JPG、PNG（最大5MB）",
     "validation": {
       "usernameRequired": "用户名是必需的",
       "fullNameRequired": "全名是必需的",
       "passwordRequired": "密码是必需的",
       "passwordsDoNotMatch": "密码不匹配",
       "passwordMinLength": "密码必须至少6个字符",
-      "confirmPasswordRequired": "您必须确认密码"
+      "confirmPasswordRequired": "您必须确认密码",
+      "firstNameRequired": "名字是必填项",
+      "firstNameMinLength": "名字至少需要2个字符",
+      "lastNameRequired": "姓氏是必填项",
+      "lastNameMinLength": "姓氏至少需要2个字符",
+      "emailRequired": "电子邮件是必填项",
+      "emailInvalid": "必须是有效的电子邮件",
+      "documentoRequired": "身份证件是必填项",
+      "documentoMinLength": "身份证件至少需要6个字符"
     },
     "tour": {
       "welcome": {
@@ -884,6 +902,7 @@
     }
   },
   "forms": {
+    "category": "类别",
     "templateCreated": "表单模板创建成功",
     "createSuccess": "表单创建成功",
     "understood": "关闭",
@@ -1653,6 +1672,7 @@
     "confirmDeleteAsset": "删除资产？",
     "confirmDeleteAssetDescription": "你确定要删除此资产吗？该操作无法撤销。",
     "brand": "品牌",
+    "details": "详情",
     "model": "型号",
     "serialNumber": "序列号",
     "template": "模板",
@@ -1782,5 +1802,12 @@
       "deleteFailed": "删除项目时出错。请重试。",
       "validationFailed": "验证数据时出错。请检查信息。"
     }
+  },
+  "viewToggle": {
+    "contentView": "内容视图",
+    "cardsView": "卡片视图",
+    "tableView": "表格视图",
+    "cards": "卡片",
+    "table": "表格"
   }
 }

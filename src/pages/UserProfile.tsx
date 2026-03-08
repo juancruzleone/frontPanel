@@ -193,11 +193,11 @@ const UserProfile = () => {
           </button>
         </div>
         <div className={styles.loadingContainer}>
-          <Skeleton height={80} width="100%" style={{ borderRadius: 16 }} />
+          <Skeleton height={80} width="100%" style={{ borderRadius: 12 }} />
           <Skeleton height={60} width="100%" style={{ borderRadius: 12 }} />
           <div className={styles.skeletonGrid}>
             {[1, 2, 3].map((_, i) => (
-              <Skeleton key={i} height={140} width="100%" style={{ borderRadius: 16 }} />
+              <Skeleton key={i} height={140} width="100%" style={{ borderRadius: 12 }} />
             ))}
           </div>
         </div>

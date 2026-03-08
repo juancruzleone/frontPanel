@@ -7,6 +7,7 @@ import useCategories from '../../installations/hooks/useCategories'
 import ConfirmModal from '../../../shared/components/ConfirmModal'
 import EditModal from '../../../shared/components/EditModal'
 import SuccessModal from '../../../shared/components/SuccessModal'
+import Tooltip from '../../../shared/components/Tooltip/Tooltip'
 import validationService from '../services/validationService'
 
 interface Props {
@@ -226,20 +227,24 @@ const ModalManageDeviceCategories = ({ isOpen, onRequestClose }: Props) => {
             <div key={category._id} className={styles.item}>
               <span>{category.nombre}</span>
               <div className={styles.itemActions}>
-                <button
-                  onClick={() => handleEditClick(category)}
-                  className={styles.editButton}
-                  title={t('common.edit')}
-                >
-                  <Edit2 size={18} />
-                </button>
-                <button
-                  onClick={() => handleDeleteClick(category)}
-                  className={styles.deleteButton}
-                  title={t('common.delete')}
-                >
-                  <Trash size={18} />
-                </button>
+                <Tooltip content={t('common.edit')}>
+                  <button
+                    onClick={() => handleEditClick(category)}
+                    className={styles.editButton}
+                    aria-label={t('common.edit')}
+                  >
+                    <Edit2 size={18} />
+                  </button>
+                </Tooltip>
+                <Tooltip content={t('common.delete')}>
+                  <button
+                    onClick={() => handleDeleteClick(category)}
+                    className={styles.deleteButton}
+                    aria-label={t('common.delete')}
+                  >
+                    <Trash size={18} />
+                  </button>
+                </Tooltip>
               </div>
             </div>
           ))}

@@ -7,6 +7,7 @@ import useInstallationTypes from '../../installations/hooks/useInstallationTypes
 import ConfirmModal from '../../../shared/components/ConfirmModal'
 import EditModal from '../../../shared/components/EditModal'
 import SuccessModal from '../../../shared/components/SuccessModal'
+import Tooltip from '../../../shared/components/Tooltip/Tooltip'
 import validationService from '../services/validationService'
 
 interface Props {
@@ -227,20 +228,24 @@ const ModalManageInstallationTypes = ({ isOpen, onRequestClose }: Props) => {
             <div key={type._id} className={styles.item}>
               <span>{type.nombre}</span>
               <div className={styles.itemActions}>
-                <button
-                  onClick={() => handleEditClick(type)}
-                  className={styles.editButton}
-                  title={t('common.edit')}
-                >
-                  <Edit2 size={18} />
-                </button>
-                <button
-                  onClick={() => handleDeleteClick(type)}
-                  className={styles.deleteButton}
-                  title={t('common.delete')}
-                >
-                  <Trash size={18} />
-                </button>
+                <Tooltip content={t('common.edit')}>
+                  <button
+                    onClick={() => handleEditClick(type)}
+                    className={styles.editButton}
+                    aria-label={t('common.edit')}
+                  >
+                    <Edit2 size={18} />
+                  </button>
+                </Tooltip>
+                <Tooltip content={t('common.delete')}>
+                  <button
+                    onClick={() => handleDeleteClick(type)}
+                    className={styles.deleteButton}
+                    aria-label={t('common.delete')}
+                  >
+                    <Trash size={18} />
+                  </button>
+                </Tooltip>
               </div>
             </div>
           ))}

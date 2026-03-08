@@ -39,3 +39,23 @@
   border-right: 6px solid transparent;
   border-top: 6px solid var(--color-text);
 }
+
+/* Modo claro */
+:global([data-theme="light"]) .tooltipContent {
+  background-color: #1f2937;
+  color: white;
+}
+
+:global([data-theme="light"]) .tooltipArrow {
+  border-top-color: #1f2937;
+}
+
+/* Modo oscuro */
+:global([data-theme="dark"]) .tooltipContent {
+  background-color: #f3f4f6;
+  color: #1f2937;
+}
+
+:global([data-theme="dark"]) .tooltipArrow {
+  border-top-color: #f3f4f6;
+}

@@ -10,7 +10,7 @@ interface ModalRegisterTechnicianProps {
   isOpen: boolean
   onRequestClose: () => void
   onSubmitSuccess: (message: string) => void
-  onAdd: (username: string, password: string, fullName: string) => Promise<{ message: string }>
+  onAdd: (data: FormData) => Promise<{ message: string }>
 }
 
 const ModalRegisterTechnician = ({ isOpen, onRequestClose, onSubmitSuccess, onAdd }: ModalRegisterTechnicianProps) => {

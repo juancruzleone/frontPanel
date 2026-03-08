@@ -20,6 +20,10 @@ import { useAuthStore } from "../store/authStore"
 import { usePersonalTour } from "../features/auth/register/hooks/usePersonalTour"
 import Skeleton from "../shared/components/Skeleton"
 import TourButton from "../shared/components/Buttons/TourButton"
+import ViewToggle from "../components/ViewToggle/ViewToggle"
+import { useResponsiveView } from "../shared/hooks/useResponsiveView"
+import DataTable from "../components/DataTable/DataTable"
+import Tooltip from "../shared/components/Tooltip/Tooltip"
 
 const Register = () => {
   const { t, i18n } = useTranslation()
@@ -35,6 +39,7 @@ const Register = () => {
   const [technicianToDelete, setTechnicianToDelete] = useState<any>(null)
   const [technicianToEdit, setTechnicianToEdit] = useState<any>(null)
   const [searchTerm, setSearchTerm] = useState("")
+  const [viewMode, setViewMode, isMobile] = useResponsiveView('register-view', 'cards')
   const { tourCompleted, startTour, resetTour, skipTour } = usePersonalTour()
 
   useEffect(() => {
@@ -134,7 +139,15 @@ const Register = () => {
   return (
     <div className={styles.container}>
       <div className={styles.topSection}>
-        <h1 className={styles.title}>{t('personal.title')}</h1>
+        <div className={styles.headerWithToggle}>
+          <h1 className={styles.title}>{t('personal.title')}</h1>
+          {!isMobile && (
+            <ViewToggle 
+              view={viewMode} 
+              onViewChange={setViewMode}
+            />
+          )}
+        </div>
         <div className={styles.buttonContainer} data-tour="add-technician-btn">
           <Button title={t('personal.addTechnician')} onClick={handleOpenModal} />
         </div>
@@ -154,7 +167,7 @@ const Register = () => {
 
         {loadingTechnicians ? (
           <div className={styles.loadingContainer}>
-            <Skeleton height={300} width="100%" style={{ borderRadius: 16 }} />
+            <Skeleton height={300} width="100%" style={{ borderRadius: 12 }} />
           </div>
         ) : !Array.isArray(technicians) || technicians.length === 0 ? (
           <div className={styles.emptyContainer}>
@@ -168,7 +181,7 @@ const Register = () => {
             <p>{t('personal.noSearchResults')}</p>
             <span className={styles.emptySubtext}>{t('personal.tryDifferentSearch')}</span>
           </div>
-        ) : (
+        ) : viewMode === 'table' ? (
           <div className={styles.tableContainer}>
             <table className={styles.techniciansTable}>
               <thead>
@@ -216,7 +229,6 @@ const Register = () => {
                             setTechnicianToDelete(tech)
                             setIsDeleteModalOpen(true)
                           }}
-                        // disabled={userId === (tech._id || tech.id)}
                         >
                           <Trash size={20} />
                         </button>
@@ -226,6 +238,55 @@ const Register = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+        ) : (
+          <div className={styles.cardsGrid}>
+            {filteredTechnicians.map((tech) => (
+              <div key={tech._id || tech.id} className={styles.technicianCard}>
+                <div className={styles.cardHeader}>
+                  <div className={styles.userInfo}>
+                    <div className={styles.userAvatar}>
+                      <FiUser size={20} />
+                    </div>
+                    <span className={styles.technicianName}>{tech.userName}</span>
+                  </div>
+                </div>
+                <div className={styles.cardBody}>
+                  <p className={styles.cardDate}>
+                    <strong>{t('personal.registrationDate')}:</strong> {formatDate(tech.createdAt)}
+                  </p>
+                </div>
+                <div className={styles.cardActions}>
+                  <button
+                    className={styles.iconButton}
+                    title={t('personal.editTechnician', { defaultValue: 'Editar técnico' })}
+                    data-tooltip={t('personal.editTechnician', { defaultValue: 'Editar técnico' })}
+                    onClick={() => handleEditTechnician(tech)}
+                  >
+                    <Edit size={20} />
+                  </button>
+                  <button
+                    className={styles.iconButton}
+                    title={t('personal.viewProfile')}
+                    data-tooltip={t('personal.viewProfile')}
+                    onClick={() => handleViewProfile(tech)}
+                  >
+                    <User size={20} />
+                  </button>
+                  <button
+                    className={styles.iconButton}
+                    title={t('common.delete')}
+                    data-tooltip={t('personal.deleteUser')}
+                    onClick={() => {
+                      setTechnicianToDelete(tech)
+                      setIsDeleteModalOpen(true)
+                    }}
+                  >
+                    <Trash size={20} />
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

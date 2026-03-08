@@ -81,13 +81,31 @@
     "userCreated": "Technician account created successfully",
     "noPermission": "You do not have permission to perform this action",
     "errorCreatingUser": "Error creating technician",
+    "firstName": "First Name",
+    "firstNamePlaceholder": "Enter first name",
+    "lastName": "Last Name",
+    "lastNamePlaceholder": "Enter last name",
+    "email": "Email",
+    "emailPlaceholder": "example@email.com",
+    "documento": "ID Document (DNI/Passport)",
+    "documentoPlaceholder": "Enter document number",
+    "profilePhoto": "Profile Photo",
+    "profilePhotoHint": "Optional. Accepted formats: JPG, PNG (max. 5MB)",
     "validation": {
       "usernameRequired": "Username is required",
       "fullNameRequired": "Full name is required",
       "passwordRequired": "Password is required",
       "passwordsDoNotMatch": "Passwords do not match",
       "passwordMinLength": "Password must be at least 6 characters",
-      "confirmPasswordRequired": "You must confirm the password"
+      "confirmPasswordRequired": "You must confirm the password",
+      "firstNameRequired": "First name is required",
+      "firstNameMinLength": "First name must be at least 2 characters",
+      "lastNameRequired": "Last name is required",
+      "lastNameMinLength": "Last name must be at least 2 characters",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Must be a valid email",
+      "documentoRequired": "ID document is required",
+      "documentoMinLength": "ID document must be at least 6 characters"
     },
     "tour": {
       "welcome": {
@@ -248,6 +266,9 @@
     "next": "Next",
     "previous": "Previous",
     "submit": "Submit",
+    "actions": "Actions",
+    "viewCards": "Card view",
+    "viewTable": "Table view",
     "reset": "Reset",
     "confirm": "Confirm",
     "yes": "Yes",
@@ -795,6 +816,7 @@
     "confirmDeleteAsset": "Delete asset?",
     "confirmDeleteAssetDescription": "Are you sure you want to delete this asset? This action cannot be undone.",
     "brand": "Brand",
+    "details": "Details",
     "model": "Model",
     "serialNumber": "Serial Number",
     "template": "Template",
@@ -850,6 +872,7 @@
     }
   },
   "forms": {
+    "category": "Category",
     "templateCreated": "Form template created successfully",
     "createSuccess": "Form created successfully",
     "continue": "Continue",
@@ -1852,5 +1875,12 @@
       "deleteFailed": "Error deleting item. Please try again.",
       "validationFailed": "Error validating data. Please check the information."
     }
+  },
+  "viewToggle": {
+    "contentView": "Content view",
+    "cardsView": "Cards view",
+    "tableView": "Table view",
+    "cards": "Cards",
+    "table": "Table"
   }
 }

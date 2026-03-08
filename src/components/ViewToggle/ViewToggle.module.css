@@ -1,0 +1,158 @@
+.viewToggleContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.toggleSwitch {
+  position: relative;
+  display: flex;
+  background: var(--color-bg-light);
+  border-radius: 12px;
+  padding: 4px;
+  border: 1px solid var(--color-card-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toggleSwitch:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: var(--color-primary-light);
+}
+
+.toggleButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 2;
+  white-space: nowrap;
+  min-height: 36px;
+  opacity: 0.5;
+}
+
+.toggleButton:hover {
+  color: var(--color-text);
+  transform: translateY(-1px);
+  opacity: 0.7;
+}
+
+.toggleButton:active {
+  transform: translateY(0);
+}
+
+.toggleButton.active {
+  color: white;
+  font-weight: 700;
+  opacity: 1;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.toggleButton svg {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.toggleButton:hover svg {
+  transform: scale(1.1);
+}
+
+.toggleButton.active svg {
+  color: white;
+  transform: scale(1.05);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+}
+
+.slider {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  height: calc(100% - 8px);
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+  z-index: 1;
+}
+
+.slider:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Dark mode */
+:global(.dark) .toggleSwitch {
+  background: var(--color-card);
+  border-color: var(--color-card-border);
+}
+
+:global(.dark) .slider {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+:global(.dark) .toggleSwitch:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+:global(.dark) .toggleButton.active {
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+:global(.dark) .toggleButton.active svg {
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .label {
+    display: none;
+  }
+  
+  .toggleButton span {
+    display: none;
+  }
+  
+  .toggleButton {
+    padding: 8px 12px;
+    min-width: 44px;
+    justify-content: center;
+  }
+  
+  .slider {
+    width: calc(50% - 4px);
+  }
+}
+
+/* Animación de entrada */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.viewToggleContainer {
+  animation: slideIn 0.3s ease-out;
+}

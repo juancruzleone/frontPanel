@@ -16,6 +16,11 @@ import { useAuthStore } from "../store/authStore";
 import { useNavigate } from "react-router-dom";
 import { useManualsTour } from "../features/manuals/hooks/useManualsTour";
 import TourButton from "../shared/components/Buttons/TourButton";
+import ViewToggle from "../components/ViewToggle/ViewToggle";
+import { useViewMode } from "../shared/hooks/useViewMode";
+import { useResponsiveView } from "../shared/hooks/useResponsiveView";
+import DataTable from "../components/DataTable/DataTable";
+import Tooltip from "../shared/components/Tooltip/Tooltip";
 
 const Manuals = () => {
   const { t, i18n } = useTranslation();
@@ -43,6 +48,7 @@ const Manuals = () => {
   const [isError, setIsError] = useState(false);
   const [manualToDelete, setManualToDelete] = useState<Manual | null>(null);
   const [selectedManual, setSelectedManual] = useState<Manual | null>(null);
+  const [viewMode, setViewMode, isMobile] = useResponsiveView('manuals-view', 'cards');
 
   const itemsPerPage = 4;
 
@@ -203,7 +209,15 @@ const Manuals = () => {
             <span>{t('common.backToAssets')}</span>
           </button>
           <div className={styles.topSection}>
-            <h1 className={styles.title}>{t('manuals.title')}</h1>
+            <div className={styles.headerWithToggle}>
+              <h1 className={styles.title}>{t('manuals.title')}</h1>
+              {!isMobile && (
+                <ViewToggle 
+                  view={viewMode} 
+                  onViewChange={setViewMode}
+                />
+              )}
+            </div>
             {!isTechnician && (
               <div className={styles.positionButton} data-tour="create-manual-btn">
                 <Button title={t('manuals.createManual')} onClick={handleOpenCreate} />
@@ -242,12 +256,133 @@ const Manuals = () => {
           {loading ? (
             <>
               <div className={styles.cardsRow}>
-                {[1, 2, 3].map((_, i) => <Skeleton key={i} height={120} width={"100%"} style={{ borderRadius: 14, marginBottom: 16 }} />)}
+                {[1, 2, 3].map((_, i) => <Skeleton key={i} height={120} width={"100%"} style={{ borderRadius: 12, marginBottom: 16 }} />)}
               </div>
-              <Skeleton height={220} width={"100%"} style={{ borderRadius: 14, marginTop: 16 }} />
+              <Skeleton height={220} width={"100%"} style={{ borderRadius: 12, marginTop: 16 }} />
             </>
           ) : manuals.length === 0 ? (
             <p className={styles.loader}>{t('manuals.noManualsFound')}</p>
+          ) : viewMode === 'table' ? (
+            <>
+              <DataTable
+                data={manuals}
+                columns={[
+                  {
+                    key: 'nombre',
+                    header: t('manuals.name'),
+                    width: '20%'
+                  },
+                  {
+                    key: 'categoria',
+                    header: t('manuals.category'),
+                    width: '15%',
+                    render: (manual) => translateCategory(manual.categoria)
+                  },
+                  {
+                    key: 'version',
+                    header: t('manuals.version'),
+                    width: '10%',
+                    render: (manual) => manual.version || 'N/A'
+                  },
+                  {
+                    key: 'autor',
+                    header: t('manuals.author'),
+                    width: '15%',
+                    render: (manual) => manual.autor || 'N/A'
+                  },
+                  {
+                    key: 'fechaCreacion',
+                    header: t('manuals.date'),
+                    width: '12%',
+                    render: (manual) => formatDate(manual.fechaCreacion)
+                  },
+                  {
+                    key: 'actions',
+                    header: t('common.actions'),
+                    width: '18%',
+                    align: 'center',
+                    render: (manual) => (
+                      <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                        {!isTechnician && (
+                          <>
+                            <Tooltip content={t('manuals.uploadUpdateFile')}>
+                              <button
+                                className={styles.iconButton}
+                                onClick={() => handleOpenUploadFile(manual)}
+                                aria-label={t('manuals.uploadFile')}
+                              >
+                                <Upload size={20} />
+                              </button>
+                            </Tooltip>
+                            <Tooltip content={t('manuals.editManual')}>
+                              <button
+                                className={styles.iconButton}
+                                onClick={() => handleOpenEdit(manual)}
+                                aria-label={t('manuals.editManual')}
+                              >
+                                <Edit size={20} />
+                              </button>
+                            </Tooltip>
+                            <Tooltip content={t('manuals.deleteManual')}>
+                              <button
+                                className={styles.iconButton}
+                                onClick={() => {
+                                  setManualToDelete(manual);
+                                  setIsDeleteModalOpen(true);
+                                }}
+                                aria-label={t('manuals.deleteManual')}
+                              >
+                                <Trash size={20} />
+                              </button>
+                            </Tooltip>
+                          </>
+                        )}
+                        {manual.archivo && (
+                          <>
+                            <Tooltip content={t('manuals.viewFile')}>
+                              <button
+                                className={styles.iconButton}
+                                onClick={() => handleViewFile(manual)}
+                                aria-label={t('manuals.viewFile')}
+                              >
+                                <Eye size={20} />
+                              </button>
+                            </Tooltip>
+                            <Tooltip content={t('manuals.downloadFile')}>
+                              <button
+                                className={styles.iconButton}
+                                onClick={() => handleDownloadFile(manual)}
+                                aria-label={t('manuals.downloadFile')}
+                              >
+                                <Download size={20} />
+                              </button>
+                            </Tooltip>
+                          </>
+                        )}
+                      </div>
+                    )
+                  }
+                ]}
+                emptyMessage={t('manuals.noManualsFound')}
+              />
+              <div className={styles.pagination}>
+                <button
+                  onClick={() => handleChangePage(pagination.page - 1)}
+                  disabled={pagination.page === 1}
+                >
+                  &lt;
+                </button>
+                <span>
+                  {t('manuals.page')} {pagination.page} {t('manuals.of')} {pagination.totalPages}
+                </span>
+                <button
+                  onClick={() => handleChangePage(pagination.page + 1)}
+                  disabled={pagination.page === pagination.totalPages}
+                >
+                  &gt;
+                </button>
+              </div>
+            </>
           ) : (
             <>
               {manuals.map((manual) => (

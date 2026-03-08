@@ -19,6 +19,11 @@ import { useAssetsTour } from "../features/assets/hooks/useAssetsTour"
 import { useAuthStore } from "../store/authStore"
 import { isClient } from "../shared/utils/roleUtils"
 import TourButton from "../shared/components/Buttons/TourButton"
+import ViewToggle from "../components/ViewToggle/ViewToggle"
+import { useViewMode } from "../shared/hooks/useViewMode"
+import { useResponsiveView } from "../shared/hooks/useResponsiveView"
+import DataTable from "../components/DataTable/DataTable"
+import Tooltip from "../shared/components/Tooltip/Tooltip"
 
 const Assets = () => {
   const { t, i18n } = useTranslation()
@@ -52,6 +57,7 @@ const Assets = () => {
   const [isError, setIsError] = useState(false)
   const [assetToDelete, setAssetToDelete] = useState<Asset | null>(null)
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null)
+  const [viewMode, setViewMode, isMobile] = useResponsiveView('assets-view', 'cards')
   const itemsPerPage = 4
 
   const role = useAuthStore((s) => s.role)
@@ -186,7 +192,15 @@ const Assets = () => {
     <>
       <div className={styles.containerAssets}>
         <div className={styles.topSection}>
-          <h1 className={styles.title}>{t('assets.title')}</h1>
+          <div className={styles.headerWithToggle}>
+            <h1 className={styles.title}>{t('assets.title')}</h1>
+            {!isMobile && (
+              <ViewToggle 
+                view={viewMode} 
+                onViewChange={setViewMode}
+              />
+            )}
+          </div>
 
           {!isClientUser && (
             <div className={styles.positionButton}>
@@ -239,6 +253,102 @@ const Assets = () => {
             </div>
           ) : assets.length === 0 ? (
             <p className={styles.loader}>{t('assets.noAssetsFound')}</p>
+          ) : viewMode === 'table' ? (
+            <>
+              <DataTable
+                data={assets}
+                columns={[
+                  {
+                    key: 'nombre',
+                    header: t('assets.name'),
+                    width: '20%'
+                  },
+                  {
+                    key: 'templateId',
+                    header: t('assets.template'),
+                    width: '20%',
+                    render: (asset) => {
+                      const template = asset.templateId ? getTemplateById(asset.templateId) : null
+                      return template ? template.nombre : t('assets.noTemplateAssigned')
+                    }
+                  },
+                  {
+                    key: 'details',
+                    header: t('assets.details'),
+                    width: '25%',
+                    render: (asset) => `${asset.marca || '-'} ${asset.modelo || '-'} ${asset.numeroSerie ? `| SN: ${asset.numeroSerie}` : ''}`
+                  },
+                  {
+                    key: 'stock',
+                    header: t('assets.stock.stock'),
+                    width: '10%',
+                    align: 'center',
+                    render: (asset) => asset.stock !== undefined ? <strong>{asset.stock}</strong> : '-'
+                  },
+                  {
+                    key: 'actions',
+                    header: t('common.actions'),
+                    width: '25%',
+                    align: 'center',
+                    render: (asset) => !isClientUser ? (
+                      <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                        <Tooltip content={t('assets.stock.manageStock')}>
+                          <button
+                            className={styles.iconButton}
+                            onClick={() => handleOpenStock(asset)}
+                            aria-label={t('assets.stock.manageStock')}
+                          >
+                            <Package size={20} />
+                          </button>
+                        </Tooltip>
+                        <Tooltip content={t('assets.assignTemplate')}>
+                          <button
+                            className={styles.iconButton}
+                            onClick={() => handleOpenTemplate(asset)}
+                            aria-label={t('assets.assignTemplate')}
+                          >
+                            <Plus size={20} />
+                          </button>
+                        </Tooltip>
+                        <Tooltip content={t('assets.editAsset')}>
+                          <button
+                            className={styles.iconButton}
+                            onClick={() => handleOpenEdit(asset)}
+                            aria-label={t('assets.editAsset')}
+                          >
+                            <Edit size={20} />
+                          </button>
+                        </Tooltip>
+                        <Tooltip content={t('assets.deleteAsset')}>
+                          <button
+                            className={styles.iconButton}
+                            onClick={() => {
+                              setAssetToDelete(asset)
+                              setIsDeleteModalOpen(true)
+                            }}
+                            aria-label={t('assets.deleteAsset')}
+                          >
+                            <Trash size={20} />
+                          </button>
+                        </Tooltip>
+                      </div>
+                    ) : null
+                  }
+                ]}
+                emptyMessage={t('assets.noAssetsFound')}
+              />
+              <div className={styles.pagination}>
+                <button onClick={() => handleChangePage(pagination.page - 1)} disabled={pagination.page === 1}>
+                  &lt;
+                </button>
+                <span>
+                  {t('assets.page')} {pagination.page} {t('assets.of')} {pagination.totalPages}
+                </span>
+                <button onClick={() => handleChangePage(pagination.page + 1)} disabled={pagination.page === pagination.totalPages}>
+                  &gt;
+                </button>
+              </div>
+            </>
           ) : (
             <>
               {assets.map((asset, index) => {
@@ -253,7 +363,7 @@ const Assets = () => {
                         {template ? template.nombre : t('assets.noTemplateAssigned')}
                       </p>
                       <p className={styles.assetDetails}>
-                        {asset.marca} {asset.modelo} {asset.numeroSerie && `| SN: ${asset.numeroSerie}`}
+                        {asset.marca || '-'} {asset.modelo || '-'} {asset.numeroSerie && `| SN: ${asset.numeroSerie}`}
                       </p>
                       {asset.stock !== undefined && (
                         <p className={styles.assetStock}>

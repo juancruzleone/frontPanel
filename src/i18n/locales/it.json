@@ -80,13 +80,31 @@
     "userCreated": "Account tecnico creato con successo",
     "noPermission": "Non hai il permesso di eseguire questa azione",
     "errorCreatingUser": "Errore durante la creazione del tecnico",
+    "firstName": "Nome",
+    "firstNamePlaceholder": "Inserisci il nome",
+    "lastName": "Cognome",
+    "lastNamePlaceholder": "Inserisci il cognome",
+    "email": "E-mail",
+    "emailPlaceholder": "esempio@email.com",
+    "documento": "Documento d'identità (DNI/Passaporto)",
+    "documentoPlaceholder": "Inserisci il numero del documento",
+    "profilePhoto": "Foto del profilo",
+    "profilePhotoHint": "Facoltativo. Formati accettati: JPG, PNG (max. 5MB)",
     "validation": {
       "usernameRequired": "Il nome utente è obbligatorio",
       "fullNameRequired": "Il nome completo è obbligatorio",
       "passwordRequired": "La password è obbligatoria",
       "passwordsDoNotMatch": "Le password non corrispondono",
       "passwordMinLength": "La password deve contenere almeno 6 caratteri",
-      "confirmPasswordRequired": "Devi confermare la password"
+      "confirmPasswordRequired": "Devi confermare la password",
+      "firstNameRequired": "Il nome è obbligatorio",
+      "firstNameMinLength": "Il nome deve contenere almeno 2 caratteri",
+      "lastNameRequired": "Il cognome è obbligatorio",
+      "lastNameMinLength": "Il cognome deve contenere almeno 2 caratteri",
+      "emailRequired": "L'e-mail è obbligatoria",
+      "emailInvalid": "Deve essere un'e-mail valida",
+      "documentoRequired": "Il documento d'identità è obbligatorio",
+      "documentoMinLength": "Il documento d'identità deve contenere almeno 6 caratteri"
     },
     "tour": {
       "welcome": {
@@ -957,6 +975,7 @@
     "loadingTemplates": "Caricamento modelli...",
     "update": "Aggiorna",
     "brand": "Marca",
+    "details": "Dettagli",
     "model": "Modello",
     "serialNumber": "Numero di serie",
     "template": "Modello",
@@ -986,6 +1005,7 @@
     "titlePage": "Beni | Leonix"
   },
   "forms": {
+    "category": "Categoria",
     "templateCreated": "Modello di modulo creato con successo",
     "createSuccess": "Modulo creato con successo",
     "understood": "Chiudi",
@@ -1746,5 +1766,12 @@
       "deleteFailed": "Errore durante l'eliminazione dell'elemento. Riprova.",
       "validationFailed": "Errore durante la validazione dei dati. Verifica le informazioni."
     }
+  },
+  "viewToggle": {
+    "contentView": "Vista del contenuto",
+    "cardsView": "Vista a schede",
+    "tableView": "Vista a tabella",
+    "cards": "Schede",
+    "table": "Tabella"
   }
 }

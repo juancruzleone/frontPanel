@@ -26,6 +26,13 @@
   width: 100%;
 }
 
+.headerWithToggle {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
 .backButton {
   display: inline-flex;
   align-items: center;
@@ -189,7 +196,7 @@
 
 .manualCard {
   background: var(--color-card);
-  border-radius: 16px;
+  border-radius: 12px;
   padding: 20px;
   border: 1px solid var(--color-card-border);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);

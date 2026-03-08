@@ -80,13 +80,31 @@
     "userCreated": "Conta de técnico criada com sucesso",
     "noPermission": "Você não tem permissão para realizar esta ação",
     "errorCreatingUser": "Erro ao criar o técnico",
+    "firstName": "Nome",
+    "firstNamePlaceholder": "Digite o nome",
+    "lastName": "Sobrenome",
+    "lastNamePlaceholder": "Digite o sobrenome",
+    "email": "E-mail",
+    "emailPlaceholder": "exemplo@email.com",
+    "documento": "Documento (CPF/Passaporte)",
+    "documentoPlaceholder": "Digite o número do documento",
+    "profilePhoto": "Foto de Perfil",
+    "profilePhotoHint": "Opcional. Formatos aceitos: JPG, PNG (máx. 5MB)",
     "validation": {
       "usernameRequired": "O nome de usuário é obrigatório",
       "fullNameRequired": "O nome completo é obrigatório",
       "passwordRequired": "A senha é obrigatória",
       "passwordsDoNotMatch": "As senhas não coincidem",
       "passwordMinLength": "A senha deve ter pelo menos 6 caracteres",
-      "confirmPasswordRequired": "Você deve confirmar a senha"
+      "confirmPasswordRequired": "Você deve confirmar a senha",
+      "firstNameRequired": "O nome é obrigatório",
+      "firstNameMinLength": "O nome deve ter pelo menos 2 caracteres",
+      "lastNameRequired": "O sobrenome é obrigatório",
+      "lastNameMinLength": "O sobrenome deve ter pelo menos 2 caracteres",
+      "emailRequired": "O e-mail é obrigatório",
+      "emailInvalid": "Deve ser um e-mail válido",
+      "documentoRequired": "O documento é obrigatório",
+      "documentoMinLength": "O documento deve ter pelo menos 6 caracteres"
     },
     "tour": {
       "welcome": {
@@ -958,6 +976,7 @@
     "confirmDeleteAssetDescription": "Tem certeza de que deseja excluir este ativo? Esta ação não pode ser desfeita.",
     "update": "Atualizar",
     "brand": "Marca",
+    "details": "Detalhes",
     "model": "Modelo",
     "serialNumber": "Número de série",
     "template": "Modelo",
@@ -986,6 +1005,7 @@
     "titlePage": "Ativos | Leonix"
   },
   "forms": {
+    "category": "Categoria",
     "templateCreated": "Modelo de formulário criado com sucesso",
     "createSuccess": "Formulário criado com sucesso",
     "understood": "Fechar",
@@ -1749,5 +1769,12 @@
       "deleteFailed": "Erro ao excluir o item. Por favor, tente novamente.",
       "validationFailed": "Erro ao validar os dados. Por favor, verifique as informações."
     }
+  },
+  "viewToggle": {
+    "contentView": "Visualização de conteúdo",
+    "cardsView": "Visualização de cartões",
+    "tableView": "Visualização de tabela",
+    "cards": "Cartões",
+    "table": "Tabela"
   }
 }

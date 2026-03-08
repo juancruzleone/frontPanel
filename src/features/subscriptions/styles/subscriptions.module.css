@@ -34,6 +34,13 @@
   gap: 16px;
 }
 
+.headerWithToggle {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
 .title {
   font-size: 32px;
   font-weight: 700;
@@ -234,7 +241,7 @@
 /* Table Container - Stark Design, No Scroll */
 .tableContainer {
   background: var(--color-card);
-  border-radius: 16px;
+  border-radius: 8px;
   border: 1px solid var(--color-card-border);
   position: relative;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -261,7 +268,7 @@
   height: 4px;
   background: linear-gradient(90deg, black, rgba(0, 0, 0, 0.8));
   z-index: 10;
-  border-radius: 16px 16px 0 0;
+  border-radius: 8px 8px 0 0;
   pointer-events: none;
 }
 
@@ -276,7 +283,7 @@
   position: relative;
   z-index: 2;
   /* Mayor que el ::before del contenedor */
-  border-radius: 16px;
+  border-radius: 8px;
   /* Heredar el border-radius pero sin recortar */
 }
 
@@ -1559,4 +1566,91 @@
     font-size: 24px;
     justify-content: flex-start;
   }
+}
+
+/* Vista de cards */
+.cardsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.subscriptionCard {
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.subscriptionCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+:global(.dark) .subscriptionCard {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+:global(.dark) .subscriptionCard:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-card-border);
+  gap: 12px;
+}
+
+.installationInfo {
+  flex: 1;
+}
+
+.installationName {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 4px 0;
+}
+
+.installationAddress {
+  font-size: 0.85rem;
+  color: var(--color-text);
+  opacity: 0.7;
+  margin: 0;
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cardRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.cardRow strong {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.cardActions {
+  display: flex;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-card-border);
+  justify-content: flex-start;
 }

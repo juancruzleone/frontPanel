@@ -23,6 +23,13 @@
   gap: 16px;
 }
 
+.headerWithToggle {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
 .title {
   font-size: 32px;
   font-weight: 700;
@@ -100,7 +107,7 @@
 /* Tabla de clientes */
 .tableContainer {
   background-color: var(--color-card);
-  border-radius: 16px;
+  border-radius: 8px;
   border: 1px solid var(--color-card-border);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   overflow: hidden;
@@ -892,4 +899,95 @@
     width: 16px;
     height: 16px;
   }
+}
+
+/* Vista de cards */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.clientCard {
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.clientCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+:global(.dark) .clientCard {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+:global(.dark) .clientCard:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-card-border);
+}
+
+.clientName {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardDate {
+  font-size: 0.9rem;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.cardDate strong {
+  font-weight: 600;
+}
+
+.cardActions {
+  display: flex;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-card-border);
+  justify-content: flex-start;
+}
+
+/* Animaciones adicionales */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tableContainer,
+.loadingContainer,
+.emptyContainer,
+.cardsGrid {
+  animation: fadeIn 0.3s ease-out;
 }

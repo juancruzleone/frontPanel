@@ -11,6 +11,7 @@ import ModalError from "../features/forms/components/ModalError"
 import ModalConfirmDelete from "../features/workOrders/components/ModalConfirmDelete"
 import ModalAssignTechnician from "../features/workOrders/components/ModalAssignTechnician"
 import ModalCompleteWorkOrder from "../features/workOrders/components/ModalCompleteWorkOrder"
+import WorkOrdersTableView from "../features/workOrders/components/WorkOrdersTableView"
 
 import { Edit, Trash, User, Check, Play, HelpCircle, FilterX, Calendar as CalendarIcon, MapPin, Clock, Eye } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
@@ -26,6 +27,9 @@ import { useWorkOrdersTour } from "../features/workOrders/hooks/useWorkOrdersTou
 import TourButton from "../shared/components/Buttons/TourButton"
 import Tooltip from "../shared/components/Tooltip/Tooltip"
 import { socketService } from "../shared/services/socketService"
+import ViewToggle from "../components/ViewToggle/ViewToggle"
+import { useViewMode } from "../shared/hooks/useViewMode"
+import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 
 const renderTechnicianInfo = (order: WorkOrder, t: (key: string) => string) => {
   const namesFromTecnicos = Array.isArray(order.tecnicos)
@@ -141,6 +145,7 @@ const WorkOrders = () => {
   const [workOrderToDelete, setWorkOrderToDelete] = useState<WorkOrder | null>(null)
   const [selectedWorkOrder, setSelectedWorkOrder] = useState<WorkOrder | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
+  const [viewMode, setViewMode, isMobile] = useResponsiveView('workorders-view', 'cards')
   const itemsPerPage = 10
 
   const { timeZone, offset } = useTimeZone()
@@ -421,7 +426,15 @@ const WorkOrders = () => {
     <>
       <div className={styles.containerWorkOrders}>
         <div className={styles.topSection}>
-          <h1 className={styles.title}>{t('workOrders.title')}</h1>
+          <div className={styles.headerWithToggle}>
+            <h1 className={styles.title}>{t('workOrders.title')}</h1>
+            {!isMobile && (
+              <ViewToggle 
+                view={viewMode} 
+                onViewChange={setViewMode}
+              />
+            )}
+          </div>
           {permissions?.canCreateWorkOrders && (
             <div className={styles.positionButton} data-tour="create-work-order-btn">
               <Button title={t('workOrders.createWorkOrder')} onClick={handleOpenCreate}>
@@ -533,6 +546,35 @@ const WorkOrders = () => {
             </div>
           ) : workOrders.length === 0 ? (
             <p className={styles.loader}>{t('workOrders.noWorkOrdersFound')}</p>
+          ) : viewMode === 'table' ? (
+            <>
+              <WorkOrdersTableView
+                workOrders={workOrders}
+                t={t}
+                permissions={permissions}
+                onOpenDetails={handleOpenDetails}
+                onStart={handleStart}
+                onOpenComplete={handleOpenComplete}
+                onOpenAssign={handleOpenAssign}
+                onOpenEdit={handleOpenEdit}
+                onOpenDelete={(order) => {
+                  setWorkOrderToDelete(order)
+                  setIsDeleteModalOpen(true)
+                }}
+                getPriorityColor={getPriorityColor}
+              />
+              <div className={styles.pagination}>
+                <button onClick={() => handleChangePage(currentPage - 1)} disabled={currentPage === 1}>
+                  {"<"}
+                </button>
+                <span>
+                  {t('workOrders.page')} {currentPage} {t('workOrders.of')} {totalPages}
+                </span>
+                <button onClick={() => handleChangePage(currentPage + 1)} disabled={currentPage === totalPages}>
+                  {">"}
+                </button>
+              </div>
+            </>
           ) : (
             <>
               {workOrders.map((order) => (

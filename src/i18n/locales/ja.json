@@ -80,13 +80,31 @@
     "userCreated": "技術者アカウントが正常に作成されました",
     "noPermission": "この操作を実行する権限がありません",
     "errorCreatingUser": "技術者の作成中にエラーが発生しました",
+    "firstName": "名",
+    "firstNamePlaceholder": "名を入力してください",
+    "lastName": "姓",
+    "lastNamePlaceholder": "姓を入力してください",
+    "email": "メール",
+    "emailPlaceholder": "example@email.com",
+    "documento": "身分証明書（DNI/パスポート）",
+    "documentoPlaceholder": "書類番号を入力してください",
+    "profilePhoto": "プロフィール写真",
+    "profilePhotoHint": "オプション。対応形式：JPG、PNG（最大5MB）",
     "validation": {
       "usernameRequired": "ユーザー名は必須です",
       "fullNameRequired": "フルネームは必須です",
       "passwordRequired": "パスワードは必須です",
       "passwordsDoNotMatch": "パスワードが一致しません",
       "passwordMinLength": "パスワードは6文字以上である必要があります",
-      "confirmPasswordRequired": "パスワードの確認が必要です"
+      "confirmPasswordRequired": "パスワードの確認が必要です",
+      "firstNameRequired": "名は必須です",
+      "firstNameMinLength": "名は2文字以上である必要があります",
+      "lastNameRequired": "姓は必須です",
+      "lastNameMinLength": "姓は2文字以上である必要があります",
+      "emailRequired": "メールは必須です",
+      "emailInvalid": "有効なメールアドレスである必要があります",
+      "documentoRequired": "身分証明書は必須です",
+      "documentoMinLength": "身分証明書は6文字以上である必要があります"
     },
     "tour": {
       "welcome": {
@@ -937,6 +955,7 @@
     "confirmDeleteAsset": "資産を削除しますか？",
     "confirmDeleteAssetDescription": "この資産を削除してもよろしいですか？ この操作は取り消せません。",
     "brand": "ブランド",
+    "details": "詳細",
     "model": "モデル",
     "serialNumber": "シリアル番号",
     "template": "テンプレート",
@@ -995,6 +1014,7 @@
     "titlePage": "資産 | Leonix"
   },
   "forms": {
+    "category": "カテゴリー",
     "templateCreated": "フォームテンプレートが正常に作成されました",
     "createSuccess": "フォームが正常に作成されました",
     "understood": "閉じる",
@@ -1758,5 +1778,12 @@
       "deleteFailed": "項目の削除中にエラーが発生しました。もう一度お試しください。",
       "validationFailed": "データの検証中にエラーが発生しました。情報を確認してください。"
     }
+  },
+  "viewToggle": {
+    "contentView": "コンテンツビュー",
+    "cardsView": "カードビュー",
+    "tableView": "テーブルビュー",
+    "cards": "カード",
+    "table": "テーブル"
   }
 }

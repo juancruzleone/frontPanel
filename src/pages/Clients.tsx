@@ -20,6 +20,8 @@ import { useClientsTour } from "../features/clients/hooks/useClientsTour"
 import useInstallations from "../features/installations/hooks/useInstallations"
 import Skeleton from "../shared/components/Skeleton"
 import TourButton from "../shared/components/Buttons/TourButton"
+import ViewToggle from "../components/ViewToggle/ViewToggle"
+import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 
 const Clients = () => {
     const { t, i18n } = useTranslation()
@@ -36,6 +38,7 @@ const Clients = () => {
     const [clientToEdit, setClientToEdit] = useState<any>(null)
     const [clientToAssign, setClientToAssign] = useState<any>(null)
     const [searchTerm, setSearchTerm] = useState("")
+    const [viewMode, setViewMode, isMobile] = useResponsiveView('clients-view', 'cards')
     const { tourCompleted, startTour, resetTour, skipTour } = useClientsTour()
     const { installations, loadInstallations } = useInstallations()
 
@@ -153,7 +156,15 @@ const Clients = () => {
     return (
         <div className={styles.container}>
             <div className={styles.topSection}>
-                <h1 className={styles.title}>{t('clients.title')}</h1>
+                <div className={styles.headerWithToggle}>
+                    <h1 className={styles.title}>{t('clients.title')}</h1>
+                    {!isMobile && (
+                        <ViewToggle 
+                            view={viewMode} 
+                            onViewChange={setViewMode}
+                        />
+                    )}
+                </div>
                 <div className={styles.buttonContainer} data-tour="add-client-btn">
                     <Button title={t('clients.addClient')} onClick={handleOpenModal} />
                 </div>
@@ -173,7 +184,7 @@ const Clients = () => {
 
                 {loadingClients ? (
                     <div className={styles.loadingContainer}>
-                        <Skeleton height={300} width="100%" style={{ borderRadius: 16 }} />
+                        <Skeleton height={300} width="100%" style={{ borderRadius: 12 }} />
                     </div>
                 ) :
                     !Array.isArray(clients) || clients.length === 0 ? (
@@ -188,7 +199,7 @@ const Clients = () => {
                             <p>{t('clients.noSearchResults')}</p>
                             <span className={styles.emptySubtext}>{t('clients.tryDifferentSearch')}</span>
                         </div>
-                    ) : (
+                    ) : viewMode === 'table' ? (
                         <div className={styles.tableContainer}>
                             <table className={styles.clientsTable}>
                                 <thead>
@@ -253,6 +264,63 @@ const Clients = () => {
                                     ))}
                                 </tbody>
                             </table>
+                        </div>
+                    ) : (
+                        <div className={styles.cardsGrid}>
+                            {filteredClients.map((client) => (
+                                <div key={client._id || client.id} className={styles.clientCard}>
+                                    <div className={styles.cardHeader}>
+                                        <div className={styles.userInfo}>
+                                            <div className={styles.userAvatar}>
+                                                <FiUser size={20} />
+                                            </div>
+                                            <span className={styles.clientName}>{client.userName}</span>
+                                        </div>
+                                    </div>
+                                    <div className={styles.cardBody}>
+                                        <p className={styles.cardDate}>
+                                            <strong>{t('clients.registrationDate')}:</strong> {formatDate(client.createdAt)}
+                                        </p>
+                                    </div>
+                                    <div className={styles.cardActions}>
+                                        <button
+                                            className={styles.iconButton}
+                                            title={t('clients.assignInstallations')}
+                                            data-tooltip={t('clients.assignInstallations')}
+                                            onClick={() => handleAssignInstallations(client)}
+                                        >
+                                            <Building2 size={20} />
+                                        </button>
+                                        <button
+                                            className={styles.iconButton}
+                                            title={t('clients.editClient')}
+                                            data-tooltip={t('clients.editClient')}
+                                            onClick={() => handleEditClient(client)}
+                                        >
+                                            <Edit size={20} />
+                                        </button>
+                                        <button
+                                            className={styles.iconButton}
+                                            title={t('clients.viewProfile')}
+                                            data-tooltip={t('clients.viewProfile')}
+                                            onClick={() => handleViewProfile(client)}
+                                        >
+                                            <User size={20} />
+                                        </button>
+                                        <button
+                                            className={styles.iconButton}
+                                            title={t('common.delete')}
+                                            data-tooltip={t('clients.deleteClient')}
+                                            onClick={() => {
+                                                setClientToDelete(client)
+                                                setIsDeleteModalOpen(true)
+                                            }}
+                                        >
+                                            <Trash size={20} />
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     )}
             </div>

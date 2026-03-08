@@ -75,10 +75,28 @@
     "userCreated": "Compte technicien créé avec succès",
     "noPermission": "Vous n'avez pas la permission d'effectuer cette action",
     "errorCreatingUser": "Erreur lors de la création du technicien",
+    "firstName": "Prénom",
+    "firstNamePlaceholder": "Entrez le prénom",
+    "lastName": "Nom de famille",
+    "lastNamePlaceholder": "Entrez le nom de famille",
+    "email": "E-mail",
+    "emailPlaceholder": "exemple@email.com",
+    "documento": "Document d'identité (DNI/Passeport)",
+    "documentoPlaceholder": "Entrez le numéro du document",
+    "profilePhoto": "Photo de profil",
+    "profilePhotoHint": "Facultatif. Formats acceptés : JPG, PNG (max. 5 Mo)",
     "validation": {
       "fullNameRequired": "Le nom complet est requis",
       "fullNameMinLength": "Le nom complet doit contenir au moins 4 caractères",
-      "fullNameMaxLength": "Le nom complet ne peut pas dépasser 255 caractères"
+      "fullNameMaxLength": "Le nom complet ne peut pas dépasser 255 caractères",
+      "firstNameRequired": "Le prénom est obligatoire",
+      "firstNameMinLength": "Le prénom doit contenir au moins 2 caractères",
+      "lastNameRequired": "Le nom de famille est obligatoire",
+      "lastNameMinLength": "Le nom de famille doit contenir au moins 2 caractères",
+      "emailRequired": "L'e-mail est obligatoire",
+      "emailInvalid": "Doit être un e-mail valide",
+      "documentoRequired": "Le document d'identité est obligatoire",
+      "documentoMinLength": "Le document d'identité doit contenir au moins 6 caractères"
     },
     "tour": {
       "welcome": {
@@ -947,6 +965,7 @@
     "loadingTemplates": "Chargement des modèles...",
     "update": "Mettre à jour",
     "brand": "Marque",
+    "details": "Détails",
     "model": "Modèle",
     "serialNumber": "Numéro de série",
     "template": "Modèle",
@@ -976,6 +995,7 @@
     }
   },
   "forms": {
+    "category": "Catégorie",
     "templateCreated": "Modèle de formulaire créé avec succès",
     "createSuccess": "Formulaire créé avec succès",
     "understood": "Fermer",
@@ -1739,5 +1759,12 @@
       "deleteFailed": "Erreur lors de la suppression de l'élément. Veuillez réessayer.",
       "validationFailed": "Erreur lors de la validation des données. Veuillez vérifier les informations."
     }
+  },
+  "viewToggle": {
+    "contentView": "Vue du contenu",
+    "cardsView": "Vue en cartes",
+    "tableView": "Vue en tableau",
+    "cards": "Cartes",
+    "table": "Tableau"
   }
 }

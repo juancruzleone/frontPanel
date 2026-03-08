@@ -19,6 +19,10 @@ import { useLocation } from "react-router-dom"
 import { useAssetsTour } from "../features/assets/hooks/useAssetsTour"
 import { useFormsTour } from "../features/forms/hooks/useFormsTour"
 import TourButton from "../shared/components/Buttons/TourButton"
+import ViewToggle from "../components/ViewToggle/ViewToggle"
+import { useResponsiveView } from "../shared/hooks/useResponsiveView"
+import DataTable from "../components/DataTable/DataTable"
+import Tooltip from "../shared/components/Tooltip/Tooltip"
 
 const Forms = () => {
   const { t, i18n } = useTranslation()
@@ -48,6 +52,7 @@ const Forms = () => {
   const [responseMessage, setResponseMessage] = useState("")
   const [isError, setIsError] = useState(false)
   const [templateToDelete, setTemplateToDelete] = useState<FormTemplate | null>(null)
+  const [viewMode, setViewMode, isMobile] = useResponsiveView('forms-view', 'cards')
 
   const itemsPerPage = 5
 
@@ -167,7 +172,15 @@ const Forms = () => {
     <>
       <div className={styles.containerForms}>
         <div className={styles.topSection}>
-          <h1 className={styles.title}>{t("forms.title")}</h1>
+          <div className={styles.headerWithToggle}>
+            <h1 className={styles.title}>{t("forms.title")}</h1>
+            {!isMobile && (
+              <ViewToggle 
+                view={viewMode} 
+                onViewChange={setViewMode}
+              />
+            )}
+          </div>
           <div className={styles.positionButton}>
             <Button title={t("forms.createTemplate")} onClick={handleOpenCreate} data-tour="create-template-btn" />
           </div>
@@ -208,6 +221,89 @@ const Forms = () => {
             </div>
           ) : templates.length === 0 ? (
             <p className={styles.noData}>{t("forms.noTemplatesFound")}</p>
+          ) : viewMode === 'table' ? (
+            <>
+              <DataTable
+                data={templates}
+                columns={[
+                  {
+                    key: 'nombre',
+                    header: t('forms.name'),
+                    width: '25%'
+                  },
+                  {
+                    key: 'categoria',
+                    header: t('forms.category'),
+                    width: '20%'
+                  },
+                  {
+                    key: 'campos',
+                    header: t('forms.fields'),
+                    width: '35%',
+                    render: (template) => (
+                      <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+                        {template.campos.slice(0, 3).map((campo: any, idx: number) => (
+                          <span key={idx} style={{ 
+                            padding: '2px 8px', 
+                            background: 'var(--color-bg-light)', 
+                            borderRadius: '4px',
+                            fontSize: '12px'
+                          }}>
+                            {translateFormFieldType(campo.type, t)}
+                          </span>
+                        ))}
+                        {template.campos.length > 3 && (
+                          <span style={{ fontSize: '12px', opacity: 0.7 }}>+{template.campos.length - 3}</span>
+                        )}
+                      </div>
+                    )
+                  },
+                  {
+                    key: 'actions',
+                    header: t('common.actions'),
+                    width: '20%',
+                    align: 'center',
+                    render: (template) => (
+                      <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                        <Tooltip content={t('forms.editTemplate')}>
+                          <button
+                            className={styles.iconButton}
+                            onClick={() => handleOpenEdit(template)}
+                            aria-label={t('forms.editTemplate')}
+                          >
+                            <Edit size={20} />
+                          </button>
+                        </Tooltip>
+                        <Tooltip content={t('forms.deleteTemplate')}>
+                          <button
+                            className={styles.iconButton}
+                            onClick={() => {
+                              setTemplateToDelete(template)
+                              setIsDeleteModalOpen(true)
+                            }}
+                            aria-label={t('forms.deleteTemplate')}
+                          >
+                            <Trash size={20} />
+                          </button>
+                        </Tooltip>
+                      </div>
+                    )
+                  }
+                ]}
+                emptyMessage={t('forms.noTemplatesFound')}
+              />
+              <div className={styles.pagination}>
+                <button onClick={() => handleChangePage(pagination.page - 1)} disabled={pagination.page === 1}>
+                  &lt;
+                </button>
+                <span>
+                  {t("forms.page")} {pagination.page} {t("forms.of")} {pagination.totalPages}
+                </span>
+                <button onClick={() => handleChangePage(pagination.page + 1)} disabled={pagination.page === pagination.totalPages}>
+                  &gt;
+                </button>
+              </div>
+            </>
           ) : (
             <>
               <div className={styles.templatesGrid}>

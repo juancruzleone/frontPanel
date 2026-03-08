@@ -19,6 +19,8 @@ import { translateMonthToCurrentLang, translateFrequencyToCurrentLang } from "..
 import styles from "../features/subscriptions/styles/subscriptions.module.css"
 import { useSubscriptionsTour } from "../features/subscriptions/hooks/useSubscriptionsTour"
 import TourButton from "../shared/components/Buttons/TourButton"
+import ViewToggle from "../components/ViewToggle/ViewToggle"
+import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 
 const Subscriptions = () => {
   const { t, i18n } = useTranslation()
@@ -49,6 +51,7 @@ const Subscriptions = () => {
   const [selectedSubscriptionForUpload, setSelectedSubscriptionForUpload] = useState<Subscription | null>(null)
   const [isViewDocumentsModalOpen, setIsViewDocumentsModalOpen] = useState(false)
   const [selectedSubscriptionForViewDocs, setSelectedSubscriptionForViewDocs] = useState<Subscription | null>(null)
+  const [viewMode, setViewMode, isMobile] = useResponsiveView('subscriptions-view', 'cards')
   const itemsPerPage = 5
 
   useEffect(() => {
@@ -247,7 +250,15 @@ const Subscriptions = () => {
   return (
     <div className={styles.containerSubscriptions}>
       <div className={styles.topSection}>
-        <h1 className={styles.title}>{t('subscriptions.title')}</h1>
+        <div className={styles.headerWithToggle}>
+          <h1 className={styles.title}>{t('subscriptions.title')}</h1>
+          {!isMobile && (
+            <ViewToggle 
+              view={viewMode} 
+              onViewChange={setViewMode}
+            />
+          )}
+        </div>
       </div>
 
       <div className={styles.mainControls}>
@@ -326,7 +337,7 @@ const Subscriptions = () => {
       <div className={styles.tableContainer}>
         {loading ? (
           <div className={styles.loadingContainer}>
-            <Skeleton height={400} width="100%" style={{ borderRadius: 16 }} />
+            <Skeleton height={400} width="100%" style={{ borderRadius: 12 }} />
           </div>
         ) : filteredSubscriptions.length === 0 ? (
           <div className={styles.emptyState}>
@@ -337,7 +348,7 @@ const Subscriptions = () => {
               {searchTerm.trim() ? t('subscriptions.noSubscriptionsFound') : t('subscriptions.noSubscriptions')}
             </p>
           </div>
-        ) : (
+        ) : viewMode === 'table' ? (
           <>
             <div className={styles.tableWrapper}>
               <table className={styles.table}>
@@ -418,6 +429,94 @@ const Subscriptions = () => {
                   ))}
                 </tbody>
               </table>
+            </div>
+
+            {totalPages > 1 && (
+              <div className={styles.pagination}>
+                <button
+                  onClick={() => handleChangePage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  {t('common.previous')}
+                </button>
+
+                <span>
+                  {t('common.page')} {currentPage} {t('common.of')} {totalPages}
+                </span>
+
+                <button
+                  onClick={() => handleChangePage(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  {t('common.next')}
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            <div className={styles.cardsGrid}>
+              {paginatedSubscriptions.map((subscription) => (
+                <div key={subscription._id} className={styles.subscriptionCard}>
+                  <div className={styles.cardHeader}>
+                    <div className={styles.installationInfo}>
+                      <h3 className={styles.installationName}>{subscription.installationName}</h3>
+                      <p className={styles.installationAddress}>
+                        {subscription.address}, {subscription.city}
+                      </p>
+                    </div>
+                    <span className={`${styles.statusPill} ${styles[subscription.status]}`}>
+                      {getStatusText(subscription.status)}
+                    </span>
+                  </div>
+                  <div className={styles.cardBody}>
+                    <div className={styles.cardRow}>
+                      <strong>{t('subscriptions.table.type')}:</strong>
+                      <span className={styles.typeBadge}>{subscription.installationType}</span>
+                    </div>
+                    <div className={styles.cardRow}>
+                      <strong>{t('subscriptions.table.frequency')}:</strong>
+                      <span className={styles.frequencyText}>
+                        {translateFrequencyToCurrentLang(subscription.frequency, i18n.language)}
+                      </span>
+                    </div>
+                  </div>
+                  <div className={styles.cardActions}>
+                    <button
+                      className={styles.actionBtn}
+                      onClick={() => handleEditFrequency(subscription)}
+                      title={t('subscriptions.editFrequency')}
+                      data-tooltip={t('subscriptions.editFrequency')}
+                    >
+                      <Edit size={18} />
+                    </button>
+                    <button
+                      className={styles.actionBtn}
+                      onClick={() => handleViewMonths(subscription)}
+                      title={t('common.details')}
+                      data-tooltip={t('common.details')}
+                    >
+                      <Eye size={18} />
+                    </button>
+                    <button
+                      className={styles.actionBtn}
+                      onClick={() => handleViewDocuments(subscription)}
+                      title={t('subscriptions.documents.viewTooltip') || 'Ver documentos'}
+                      data-tooltip={t('subscriptions.documents.viewTooltip') || 'Ver documentos'}
+                    >
+                      <FileText size={18} />
+                    </button>
+                    <button
+                      className={styles.actionBtn}
+                      onClick={() => handleUploadDocument(subscription)}
+                      title={t('subscriptions.documents.uploadTooltip')}
+                      data-tooltip={t('subscriptions.documents.uploadTooltip')}
+                    >
+                      <FileUp size={18} />
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
 
             {totalPages > 1 && (

@@ -31,14 +31,14 @@ const PanelAdmin: React.FC = () => {
         <div className={styles.loadingContainer}>
           {/* Skeletons mejorados */}
           <div className={styles.skeletonGrid}>
-            <Skeleton height={160} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
-            <Skeleton height={160} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
-            <Skeleton height={160} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
-            <Skeleton height={160} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
+            <Skeleton height={160} width={"100%"} style={{ borderRadius: 12, marginBottom: 24 }} />
+            <Skeleton height={160} width={"100%"} style={{ borderRadius: 12, marginBottom: 24 }} />
+            <Skeleton height={160} width={"100%"} style={{ borderRadius: 12, marginBottom: 24 }} />
+            <Skeleton height={160} width={"100%"} style={{ borderRadius: 12, marginBottom: 24 }} />
           </div>
-          <Skeleton height={220} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
-          <Skeleton height={220} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
-          <Skeleton height={220} width={"100%"} style={{ borderRadius: 16, marginBottom: 24 }} />
+          <Skeleton height={220} width={"100%"} style={{ borderRadius: 12, marginBottom: 24 }} />
+          <Skeleton height={220} width={"100%"} style={{ borderRadius: 12, marginBottom: 24 }} />
+          <Skeleton height={220} width={"100%"} style={{ borderRadius: 12, marginBottom: 24 }} />
         </div>
       ) : error ? (
         <div className={styles.errorContainer} role="alert">

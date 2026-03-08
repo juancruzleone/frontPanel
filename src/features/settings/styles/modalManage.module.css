@@ -293,53 +293,97 @@
 }
 
 .deleteButton {
-  background: transparent;
+  background: none;
   border: none;
   cursor: pointer;
   color: var(--color-danger);
-  padding: 0.5rem;
+  padding: 8px;
   border-radius: 8px;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   flex-shrink: 0;
+  position: relative;
 }
 
 .deleteButton:hover {
-  background-color: rgba(239, 68, 68, 0.1);
-  transform: scale(1.1);
+  background: var(--color-danger);
+  color: white;
+  transform: scale(1.05);
 }
 
 .deleteButton:active {
   transform: scale(0.95);
 }
 
+/* Modo claro - botón eliminar */
+:global([data-theme="light"]) .deleteButton {
+  color: #ef4444;
+}
+
+:global([data-theme="light"]) .deleteButton:hover {
+  background: #ef4444;
+  color: white;
+}
+
+/* Modo oscuro - botón eliminar */
+:global([data-theme="dark"]) .deleteButton {
+  color: #ef4444;
+}
+
+:global([data-theme="dark"]) .deleteButton:hover {
+  background: #ef4444;
+  color: white;
+}
+
 .editButton {
-  background: transparent;
+  background: none;
   border: none;
   cursor: pointer;
-  color: var(--color-secondary);
-  padding: 0.5rem;
+  color: var(--color-text);
+  padding: 8px;
   border-radius: 8px;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   flex-shrink: 0;
+  position: relative;
 }
 
 .editButton:hover {
-  background-color: rgba(5, 126, 116, 0.1);
-  transform: scale(1.1);
+  background: var(--color-text);
+  color: var(--color-card);
+  transform: scale(1.05);
 }
 
 .editButton:active {
   transform: scale(0.95);
+}
+
+/* Modo claro - botón editar */
+:global([data-theme="light"]) .editButton {
+  color: #1f2937;
+}
+
+:global([data-theme="light"]) .editButton:hover {
+  background: #1f2937;
+  color: white;
+}
+
+/* Modo oscuro - botón editar */
+:global([data-theme="dark"]) .editButton {
+  color: #f3f4f6;
+}
+
+:global([data-theme="dark"]) .editButton:hover {
+  background: #f3f4f6;
+  color: #1f2937;
 }
 
 .itemActions {

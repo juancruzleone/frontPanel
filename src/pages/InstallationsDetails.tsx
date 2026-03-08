@@ -26,6 +26,8 @@ import { useAuthStore } from "../store/authStore"
 import { isClient, isTechnician as checkIsTechnician } from "../shared/utils/roleUtils"
 import Skeleton from "../shared/components/Skeleton"
 import TourButton from "../shared/components/Buttons/TourButton"
+import ViewToggle from "../components/ViewToggle/ViewToggle"
+import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 
 const InstallationDetails = () => {
   const { t } = useTranslation()
@@ -80,6 +82,7 @@ const InstallationDetails = () => {
   const [isError, setIsError] = useState(false)
   const [loadingPDF, setLoadingPDF] = useState<string | null>(null)
   const [initialLoad, setInitialLoad] = useState(true)
+  const [viewMode, setViewMode, isMobile] = useResponsiveView('installations-details-view', 'cards')
 
   // Estado para búsqueda y filtros
   const [searchTerm, setSearchTerm] = useState("")
@@ -284,14 +287,14 @@ const InstallationDetails = () => {
         
         <div className={styles.loadingContainer}>
           <div className={styles.skeletonGrid}>
-            <Skeleton height={140} width={"100%"} style={{ borderRadius: 16 }} />
+            <Skeleton height={140} width={"100%"} style={{ borderRadius: 12 }} />
             <Skeleton height={45} width={"100%"} style={{ borderRadius: 8 }} />
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
               <Skeleton height={45} width={"100%"} style={{ borderRadius: 8 }} />
               <Skeleton height={45} width={"100%"} style={{ borderRadius: 8 }} />
             </div>
             {[1, 2, 3].map((i) => (
-              <Skeleton key={i} height={160} width={"100%"} style={{ borderRadius: 16 }} />
+              <Skeleton key={i} height={160} width={"100%"} style={{ borderRadius: 12 }} />
             ))}
           </div>
         </div>
@@ -331,9 +334,17 @@ const InstallationDetails = () => {
       <header className={styles.header}>
         <div className={styles.headerFlex}>
           <div className={styles.headerInfo}>
-            <h1 className={styles.title}>
-              {t("installationDetails.devicesOf", { name: installationName || currentInstallation.company })}
-            </h1>
+            <div className={styles.headerWithToggle}>
+              <h1 className={styles.title}>
+                {t("installationDetails.devicesOf", { name: installationName || currentInstallation.company })}
+              </h1>
+              {!isMobile && (
+                <ViewToggle 
+                  view={viewMode} 
+                  onViewChange={setViewMode}
+                />
+              )}
+            </div>
             <p className={styles.address}>
               {currentInstallation.address}, {currentInstallation.city}, {currentInstallation.province}
             </p>
@@ -378,7 +389,7 @@ const InstallationDetails = () => {
           <p className={styles.emptyMessage}>
             {searchTerm.trim() || selectedStatus ? t("installationDetails.noDevicesFound") : t("installationDetails.noDevices")}
           </p>
-        ) : (
+        ) : viewMode === 'cards' ? (
           currentDevices.map((device, index) => (
             <div key={device._id || `device-${startIndex + index}`} className={styles.deviceCard}>
               <div className={styles.deviceInfo}>
@@ -482,6 +493,96 @@ const InstallationDetails = () => {
               </div>
             </div>
           ))
+        ) : (
+          <div className={styles.tableContainer}>
+            <table className={styles.devicesTable}>
+              <thead>
+                <tr>
+                  <th>{t("installationDetails.name")}</th>
+                  <th>{t("installationDetails.type")}</th>
+                  <th>{t("installationDetails.location")}</th>
+                  <th>{t("installationDetails.status")}</th>
+                  <th>{t("common.actions")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentDevices.map((device, index) => (
+                  <tr key={device._id || `device-${startIndex + index}`}>
+                    <td data-label={t("installationDetails.name")}>{device.nombre}</td>
+                    <td data-label={t("installationDetails.type")}>{device.categoria}</td>
+                    <td data-label={t("installationDetails.location")}>{device.ubicacion}</td>
+                    <td data-label={t("installationDetails.status")}>
+                      <span className={styles[device.estado?.replace(/\s/g, "") || ""]}>
+                        {translateDeviceStatus(device.estado)}
+                      </span>
+                    </td>
+                    <td data-label={t("common.actions")}>
+                      <div className={styles.deviceActions}>
+                        <Tooltip content={t("installationDetails.seeQR")}>
+                          <button
+                            className={styles.qrButton}
+                            onClick={() => handleShowQR(device)}
+                            aria-label={t("installationDetails.seeQR")}
+                            data-tooltip={t("installationDetails.seeQR")}
+                          >
+                            <QrCode size={18} />
+                          </button>
+                        </Tooltip>
+                        <Tooltip content={t("installationDetails.viewMaintenanceHistory")}>
+                          <button
+                            className={styles.historyButton}
+                            onClick={() => handleShowHistory(device)}
+                            aria-label={t("installationDetails.viewMaintenanceHistory")}
+                            data-tooltip={t("installationDetails.viewMaintenanceHistory")}
+                          >
+                            <History size={18} />
+                          </button>
+                        </Tooltip>
+                        <Tooltip content={t("installationDetails.downloadLastMaintenance")}>
+                          <button
+                            className={styles.pdfButton}
+                            onClick={() => handleDownloadLastMaintenancePDF(device)}
+                            disabled={loadingPDF === device._id}
+                            aria-label={t("installationDetails.downloadLastMaintenance")}
+                            data-tooltip={t("installationDetails.downloadLastMaintenance")}
+                          >
+                            <FileText size={18} />
+                          </button>
+                        </Tooltip>
+                        {!isRestricted && (
+                          <>
+                            <Tooltip content={t("installationDetails.editDevice")}>
+                              <button
+                                className={styles.editButton}
+                                onClick={() => handleEditDevice(device)}
+                                aria-label={t("installationDetails.editDevice")}
+                                data-tooltip={t("installationDetails.editDevice")}
+                              >
+                                <Edit size={18} />
+                              </button>
+                            </Tooltip>
+                            <Tooltip content={t("installationDetails.deleteDevice")}>
+                              <button
+                                className={styles.deleteButton}
+                                onClick={() => {
+                                  setDeviceToDelete(device)
+                                  setIsDeleteModalOpen(true)
+                                }}
+                                aria-label={t("installationDetails.deleteDevice")}
+                                data-tooltip={t("installationDetails.deleteDevice")}
+                              >
+                                <Trash size={18} />
+                              </button>
+                            </Tooltip>
+                          </>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
 

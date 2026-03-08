@@ -7,6 +7,7 @@ import useForms from '../../forms/hooks/useForms'
 import ConfirmModal from '../../../shared/components/ConfirmModal'
 import EditModal from '../../../shared/components/EditModal'
 import SuccessModal from '../../../shared/components/SuccessModal'
+import Tooltip from '../../../shared/components/Tooltip/Tooltip'
 import validationService from '../services/validationService'
 
 interface Props {
@@ -225,20 +226,24 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
             <div key={index} className={styles.item}>
               <span>{category}</span>
               <div className={styles.itemActions}>
-                <button
-                  onClick={() => handleEditClick(category, index)}
-                  className={styles.editButton}
-                  title={t('common.edit')}
-                >
-                  <Edit2 size={18} />
-                </button>
-                <button
-                  onClick={() => handleDeleteClick(category, index)}
-                  className={styles.deleteButton}
-                  title={t('common.delete')}
-                >
-                  <Trash size={18} />
-                </button>
+                <Tooltip content={t('common.edit')}>
+                  <button
+                    onClick={() => handleEditClick(category, index)}
+                    className={styles.editButton}
+                    aria-label={t('common.edit')}
+                  >
+                    <Edit2 size={18} />
+                  </button>
+                </Tooltip>
+                <Tooltip content={t('common.delete')}>
+                  <button
+                    onClick={() => handleDeleteClick(category, index)}
+                    className={styles.deleteButton}
+                    aria-label={t('common.delete')}
+                  >
+                    <Trash size={18} />
+                  </button>
+                </Tooltip>
               </div>
             </div>
           ))}

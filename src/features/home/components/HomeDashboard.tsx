@@ -40,15 +40,15 @@ const HomeDashboard: React.FC = () => {
           {/* Skeletons mejorados */}
           <div className={styles.skeletonGrid}>
             {[1, 2, 3, 4].map((i) => (
-              <Skeleton key={i} height={170} width={"100%"} style={{ borderRadius: 16, maxWidth: '100%' }} />
+              <Skeleton key={i} height={170} width={"100%"} style={{ borderRadius: 12, maxWidth: '100%' }} />
             ))}
           </div>
           <div className={styles.chartsRow}>
-            <Skeleton height={280} width={"100%"} style={{ borderRadius: 16, flex: '1 1 320px', minWidth: 0, maxWidth: '100%' }} />
-            <Skeleton height={280} width={"100%"} style={{ borderRadius: 16, flex: '1 1 320px', minWidth: 0, maxWidth: '100%' }} />
+            <Skeleton height={280} width={"100%"} style={{ borderRadius: 12, flex: '1 1 320px', minWidth: 0, maxWidth: '100%' }} />
+            <Skeleton height={280} width={"100%"} style={{ borderRadius: 12, flex: '1 1 320px', minWidth: 0, maxWidth: '100%' }} />
           </div>
-          <Skeleton height={280} width={"100%"} style={{ borderRadius: 16, maxWidth: '100%' }} />
-          <Skeleton height={160} width={"100%"} style={{ borderRadius: 16, maxWidth: '100%' }} />
+          <Skeleton height={280} width={"100%"} style={{ borderRadius: 12, maxWidth: '100%' }} />
+          <Skeleton height={160} width={"100%"} style={{ borderRadius: 12, maxWidth: '100%' }} />
         </div>
       ) : error ? (
         <div className={styles.errorContainer} role="alert">
