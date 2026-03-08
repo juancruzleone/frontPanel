@@ -1,6 +1,6 @@
 .containerWorkOrders {
   margin: 0 auto;
-  padding: 32px 16px 24px 16px;
+  padding: 120px 16px 24px 16px;
   max-width: 1200px;
   display: flex;
   flex-direction: column;
@@ -577,7 +577,7 @@
 
 @media (max-width: 1024px) {
   .containerWorkOrders {
-    padding: 24px 16px 24px 16px;
+    padding: 100px 16px 24px 16px;
   }
 
   .title {
@@ -597,7 +597,7 @@
 
 @media (max-width: 600px) {
   .containerWorkOrders {
-    padding: 20px 4px 24px 4px;
+    padding: 100px 16px 24px 16px;
   }
 
   .listContainer {

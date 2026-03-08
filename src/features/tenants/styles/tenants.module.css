@@ -1,6 +1,6 @@
 .containerTenants {
   margin: 0 auto;
-  padding: 32px 16px 24px 16px;
+  padding: 120px 16px 24px 16px;
   max-width: 1200px;
   display: flex;
   flex-direction: column;
@@ -254,7 +254,7 @@
 /* Responsive */
 @media (max-width: 1024px) {
   .containerTenants {
-    padding: 24px 16px 24px 16px;
+    padding: 100px 16px 24px 16px;
   }
 
   .title {
@@ -265,7 +265,7 @@
 
 @media (max-width: 768px) {
   .containerTenants {
-    padding: 16px;
+    padding: 100px 16px 16px 16px;
     gap: 24px;
   }
 

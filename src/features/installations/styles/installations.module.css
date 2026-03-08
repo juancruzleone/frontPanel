@@ -1,6 +1,6 @@
 .containerInstallations {
   margin: 0 auto;
-  padding: 32px 16px 24px 16px;
+  padding: 120px 16px 24px 16px;
   max-width: 1200px;
   display: flex;
   flex-direction: column;
@@ -539,7 +539,7 @@
 
 @media (max-width: 1024px) {
   .containerInstallations {
-    padding: 24px 16px 24px 16px;
+    padding: 100px 16px 24px 16px;
   }
 
   .title {
@@ -559,7 +559,7 @@
 
 @media (max-width: 600px) {
   .containerInstallations {
-    padding: 20px 4px 24px 4px;
+    padding: 100px 16px 24px 16px;
   }
 
   .listContainer {

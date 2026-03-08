@@ -256,7 +256,7 @@
 /* Responsive */
 @media (max-width: 768px) {
   .containerDeviceForm {
-    padding: 24px;
+    padding: 100px 16px 24px 16px;
     margin: 20px 10px;
   }
 

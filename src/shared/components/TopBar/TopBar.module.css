@@ -371,7 +371,7 @@
     width: 20px;
     height: 20px;
     object-fit: cover;
-    border-radius: 50%;
+    border-radius: 2px;
 }
 
 .themeToggleButton {
@@ -524,7 +524,7 @@
 .flagImgSmall {
     width: 18px;
     height: 18px;
-    border-radius: 50%;
+    border-radius: 2px;
     object-fit: cover;
 }
 

@@ -1,7 +1,7 @@
 /* Subscriptions Page - Fully Integrated Leonix Stark Design */
 .containerSubscriptions {
   margin: 0 auto;
-  padding: 32px 16px 24px 16px;
+  padding: 120px 16px 24px 16px;
   max-width: 1200px;
   display: flex;
   flex-direction: column;
@@ -778,7 +778,7 @@
 /* Breakpoint para transformar tabla a layout vertical (Mobile) */
 @media (max-width: 767px) {
   .containerSubscriptions {
-    padding: 20px 12px 16px 12px;
+    padding: 100px 16px 16px 16px;
     gap: 20px;
   }
 
@@ -786,14 +786,40 @@
     font-size: 26px;
   }
 
-  /* Mobile: Status Top, then Search, then Month */
+  /* Mobile: Stack filters vertically */
   .filtersWrapper {
-    grid-template-areas:
-      "search"
-      "status"
-      "months";
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 16px;
+  }
+
+  .searchRow {
+    width: 100%;
+    gap: 8px;
+    flex-direction: column;
+  }
+
+  .filterActions {
+    width: 100%;
+    order: 1;
+  }
+
+  .searchContainerInner {
+    width: 100%;
+    order: 4;
+  }
+
+  .clearFilters {
+    width: 100%;
+    height: 48px;
+    flex-shrink: 0;
+    order: 3;
+    align-self: stretch;
+  }
+
+  .statusSelectContainer {
+    width: 100%;
+    order: 2;
   }
 
   /* Ocultar encabezado de tabla */
@@ -1006,7 +1032,7 @@
 /* Mobile pequeño (menos de 480px) */
 @media (max-width: 480px) {
   .containerSubscriptions {
-    padding: 12px 8px;
+    padding: 100px 16px 16px 16px;
   }
 
   .title {
@@ -1519,7 +1545,7 @@
 /* Responsive Design - Title Matching Calendar */
 @media (max-width: 1024px) {
   .containerSubscriptions {
-    padding: 60px 16px 24px 16px;
+    padding: 100px 16px 24px 16px;
   }
 
   .title {
