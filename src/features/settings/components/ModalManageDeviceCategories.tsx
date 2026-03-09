@@ -258,13 +258,13 @@ const ModalManageDeviceCategories = ({ isOpen, onRequestClose }: Props) => {
         title={t('settings.editCategory')}
         isLoading={isSaving}
       >
-        <div className={styles.editForm}>
-          <label className={styles.label}>{t('settings.categoryName')}</label>
+        <div className={styles.formGroup}>
+          <label>{t('settings.categoryName')} *</label>
           <input
             type="text"
             value={editName}
             onChange={(e) => handleEditInputChange(e.target.value)}
-            className={`${styles.input} ${editValidationError ? styles.inputError : ''}`}
+            className={editValidationError ? styles.inputError : ''}
             placeholder={t('settings.categoryName')}
           />
           {editValidationError && (

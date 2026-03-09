@@ -1,7 +1,6 @@
-import Modal from 'react-modal'
-import { X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import styles from './EditModal.module.css'
+import buttonStyles from './Buttons/formButtons.module.css'
 
 interface Props {
   isOpen: boolean
@@ -26,56 +25,51 @@ const EditModal = ({
 }: Props) => {
   const { t } = useTranslation()
 
+  if (!isOpen) return null
+
   return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      className={styles.modal}
-      overlayClassName={styles.backdrop}
-      ariaHideApp={false}
-    >
-      <div className={styles.modalHeader}>
-        <h2>{title}</h2>
-        <button 
-          onClick={onRequestClose} 
-          className={styles.closeButton} 
-          disabled={isLoading}
-          aria-label={t('common.close')}
-        >
-          <X size={24} />
-        </button>
-      </div>
+    <div className={styles.backdrop}>
+      <div className={styles.modal}>
+        <div className={styles.modalHeader}>
+          <h2 className={styles.title}>{title}</h2>
+          <button 
+            onClick={onRequestClose} 
+            className={styles.closeButton} 
+            disabled={isLoading}
+            aria-label={t('common.close')}
+          >
+            ×
+          </button>
+        </div>
 
-      <div className={styles.modalBody}>
-        {children}
+        <div className={styles.modalContent}>
+          <form className={styles.form} onSubmit={(e) => { e.preventDefault(); onSave(); }}>
+            <div className={styles.formInner}>
+              {children}
+            </div>
+            <div className={buttonStyles.actions}>
+              <button
+                type="button"
+                onClick={onRequestClose}
+                className={buttonStyles.cancelButton}
+                disabled={isLoading}
+                aria-label={cancelText || t('common.cancel')}
+              >
+                {cancelText || t('common.cancel')}
+              </button>
+              <button
+                type="submit"
+                className={buttonStyles.submitButton}
+                disabled={isLoading}
+                aria-label={saveText || t('common.save')}
+              >
+                {isLoading ? t('common.loading') : (saveText || t('common.save'))}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-
-      <div className={styles.modalFooter}>
-        <button
-          onClick={onRequestClose}
-          className={styles.cancelButton}
-          disabled={isLoading}
-          aria-label={cancelText || t('common.cancel')}
-        >
-          {cancelText || t('common.cancel')}
-        </button>
-        <button
-          onClick={onSave}
-          className={styles.saveButton}
-          disabled={isLoading}
-          aria-label={saveText || t('common.save')}
-        >
-          {isLoading ? (
-            <>
-              <span className={styles.spinner}></span>
-              {t('common.loading')}
-            </>
-          ) : (
-            saveText || t('common.save')
-          )}
-        </button>
-      </div>
-    </Modal>
+    </div>
   )
 }
 

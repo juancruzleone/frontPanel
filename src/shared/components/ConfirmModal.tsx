@@ -1,7 +1,6 @@
-import Modal from 'react-modal'
-import { X, AlertTriangle } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import styles from './ConfirmModal.module.css'
+import buttonStyles from './Buttons/formButtons.module.css'
 
 interface Props {
   isOpen: boolean
@@ -24,50 +23,59 @@ const ConfirmModal = ({
   confirmText,
   cancelText,
   isLoading = false,
-  variant = 'warning'
+  variant = 'danger'
 }: Props) => {
   const { t } = useTranslation()
+  
+  if (!isOpen) return null
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      className={styles.modal}
-      overlayClassName={styles.backdrop}
-      ariaHideApp={false}
-    >
-      <div className={styles.modalHeader}>
-        <h2>{title}</h2>
-        <button onClick={onRequestClose} className={styles.closeButton} disabled={isLoading}>
-          <X size={24} />
-        </button>
-      </div>
-
-      <div className={styles.modalBody}>
-        <div className={`${styles.iconContainer} ${styles[variant]}`}>
-          <AlertTriangle size={48} />
+    <div className={styles.backdrop}>
+      <div className={styles.confirmModal}>
+        <div className={styles.confirmHeader}>
+          <div className={styles.warningIcon}>
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" fill="#ef4444" />
+              <path d="M12 8v4" stroke="white" strokeWidth="2" strokeLinecap="round" />
+              <path d="M12 16h.01" stroke="white" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+          </div>
         </div>
-
-        <p className={styles.message}>{message}</p>
+        <div className={styles.confirmContent}>
+          <h2 className={styles.confirmTitle}>{title}</h2>
+          <p className={styles.confirmDescription}>{message}</p>
+        </div>
+        <div className={buttonStyles.actions}>
+          <button 
+            className={buttonStyles.cancelButton} 
+            onClick={onRequestClose}
+            disabled={isLoading}
+          >
+            {cancelText || t('common.cancel')}
+          </button>
+          <button 
+            className={buttonStyles.submitButton} 
+            onClick={onConfirm}
+            disabled={isLoading}
+            style={{ 
+              background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', 
+              borderColor: '#ef4444', 
+              color: 'white' 
+            }} 
+            onMouseEnter={(e) => { 
+              e.currentTarget.style.background = 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)'; 
+              e.currentTarget.style.color = 'white'; 
+            }} 
+            onMouseLeave={(e) => { 
+              e.currentTarget.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'; 
+              e.currentTarget.style.color = 'white'; 
+            }}
+          >
+            {isLoading ? t('common.loading') : confirmText || t('common.delete')}
+          </button>
+        </div>
       </div>
-
-      <div className={styles.modalFooter}>
-        <button
-          onClick={onRequestClose}
-          className={styles.cancelButton}
-          disabled={isLoading}
-        >
-          {cancelText || t('common.cancel')}
-        </button>
-        <button
-          onClick={onConfirm}
-          className={`${styles.confirmButton} ${styles[variant]}`}
-          disabled={isLoading}
-        >
-          {isLoading ? t('common.loading') : confirmText || t('common.confirm')}
-        </button>
-      </div>
-    </Modal>
+    </div>
   )
 }
 

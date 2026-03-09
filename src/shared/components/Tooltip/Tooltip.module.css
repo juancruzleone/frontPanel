@@ -42,12 +42,12 @@
 
 /* Modo claro */
 :global([data-theme="light"]) .tooltipContent {
-  background-color: #1f2937;
+  background-color: #000;
   color: white;
 }
 
 :global([data-theme="light"]) .tooltipArrow {
-  border-top-color: #1f2937;
+  border-top-color: #000;
 }
 
 /* Modo oscuro */

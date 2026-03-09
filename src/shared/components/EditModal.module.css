@@ -25,20 +25,16 @@
 .modal {
   background: var(--color-card);
   border-radius: 20px;
-  padding: 0;
-  max-width: 500px;
-  width: 90%;
-  outline: none;
+  max-width: 900px;
+  width: 95%;
+  max-height: 95vh;
+  overflow: hidden;
   box-shadow:
     0 25px 50px rgba(0, 0, 0, 0.15),
-    0 0 0 1px rgba(255, 255, 255, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    0 0 0 1px rgba(255, 255, 255, 0.05);
   animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  max-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--color-card-border);
 }
 
 @keyframes slideUp {
@@ -57,21 +53,19 @@
   justify-content: space-between;
   align-items: center;
   padding: 2rem 2.5rem 1.5rem;
-  border-bottom: 1px solid var(--color-card-border);
+  border-bottom: 1px solid var(--color-text);
   background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-card) 100%);
   position: relative;
-  border-radius: 20px 20px 0 0;
 }
 
 .modalHeader::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 4px;
   background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.6) 100%);
-  border-radius: 20px 20px 0 0;
 }
 
 /* Modo claro - Barra superior negra */
@@ -79,37 +73,61 @@
   background: linear-gradient(90deg, #000 0%, #1a1a1a 50%, #333 100%);
 }
 
-.modalHeader h2 {
-  margin: 0;
-  font-size: 1.5rem;
+.title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.75rem;
   font-weight: 700;
   color: var(--color-text);
   letter-spacing: -0.025em;
+  position: relative;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
+  border-radius: 2px;
+}
+
+/* Modo claro - Línea decorativa negra */
+:global([data-theme="light"]) .title::after {
+  background: linear-gradient(90deg, #000, rgba(0, 0, 0, 0.8));
+}
+
+/* Modo oscuro - Línea decorativa blanca */
+:global([data-theme="dark"]) .title::after {
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
 }
 
 .closeButton {
   background: none;
   border: none;
-  cursor: pointer;
+  font-size: 2rem;
   color: var(--color-text);
+  cursor: pointer;
   padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 50%;
   width: 40px;
   height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.2s ease;
+  line-height: 1;
   flex-shrink: 0;
 }
 
-.closeButton:hover:not(:disabled) {
+.closeButton:hover {
   background: var(--color-bg-light);
   color: var(--color-text);
   transform: scale(1.1);
 }
 
-:global([data-theme="light"]) .closeButton:hover:not(:disabled) {
+:global([data-theme="light"]) .closeButton:hover {
   background: rgba(0, 0, 0, 0.1);
 }
 
@@ -119,152 +137,92 @@
   transform: none;
 }
 
-.modalBody {
-  padding: 2rem 2.5rem;
+.modalContent {
+  padding: 0;
+  max-height: calc(95vh - 120px);
   overflow-y: auto;
-  flex: 1;
-  background-color: var(--color-card);
+  background: var(--color-card);
 }
 
 /* Scrollbar personalizado */
-.modalBody::-webkit-scrollbar {
+.modalContent::-webkit-scrollbar {
   width: 10px;
 }
 
-.modalBody::-webkit-scrollbar-track {
+.modalContent::-webkit-scrollbar-track {
   background: var(--color-bg-light);
   border-radius: 5px;
 }
 
-.modalBody::-webkit-scrollbar-thumb {
+.modalContent::-webkit-scrollbar-thumb {
   background: var(--color-card-border);
   border-radius: 5px;
   border: 2px solid var(--color-bg-light);
 }
 
-.modalBody::-webkit-scrollbar-thumb:hover {
+.modalContent::-webkit-scrollbar-thumb:hover {
   background: var(--color-text);
 }
 
 /* Modo claro - Scrollbar negro */
-:global([data-theme="light"]) .modalBody::-webkit-scrollbar-thumb {
+:global([data-theme="light"]) .modalContent::-webkit-scrollbar-thumb {
   background: #000;
 }
 
-:global([data-theme="light"]) .modalBody::-webkit-scrollbar-thumb:hover {
+:global([data-theme="light"]) .modalContent::-webkit-scrollbar-thumb:hover {
   background: #333;
 }
 
 /* Modo oscuro - Scrollbar blanco */
-:global([data-theme="dark"]) .modalBody::-webkit-scrollbar-thumb {
+:global([data-theme="dark"]) .modalContent::-webkit-scrollbar-thumb {
   background: #fff;
 }
 
-:global([data-theme="dark"]) .modalBody::-webkit-scrollbar-thumb:hover {
+:global([data-theme="dark"]) .modalContent::-webkit-scrollbar-thumb:hover {
   background: #e0e0e0;
 }
 
-.modalFooter {
+.form {
   display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  padding: 1.5rem 2.5rem;
-  border-top: 1px solid var(--color-card-border);
-  background: var(--color-card);
+  flex-direction: column;
+  height: 100%;
 }
 
-.cancelButton,
-.saveButton {
-  padding: 0.875rem 1.75rem;
-  border-radius: 12px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: none;
+.formInner {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.cancelButton {
-  background: var(--color-bg-light);
-  color: var(--color-text);
-  border: 2px solid var(--color-card-border);
-}
-
-.cancelButton:hover:not(:disabled) {
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem 2.5rem;
   background: var(--color-card);
-  border-color: var(--color-text);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.saveButton {
-  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-secondary-hover) 100%);
-  color: white;
-  box-shadow: 0 4px 12px rgba(5, 126, 116, 0.3);
-}
-
-.saveButton:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(5, 126, 116, 0.4);
-}
-
-.saveButton:active:not(:disabled) {
-  transform: translateY(0);
-}
-
-.cancelButton:disabled,
-.saveButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* Spinner para estado de carga */
-.spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: white;
-  border-radius: 50%;
-  animation: spin 0.6s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .modal {
-    width: 95%;
-    border-radius: 16px;
+    width: 98%;
+    max-height: 98vh;
   }
 
   .modalHeader {
     padding: 1.5rem 1.5rem 1rem;
   }
 
-  .modalHeader h2 {
-    font-size: 1.25rem;
-  }
-
   .closeButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
     width: 36px;
     height: 36px;
+    font-size: 1.5rem;
   }
 
-  .modalBody {
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .formInner {
     padding: 1.5rem;
-  }
-
-  .modalFooter {
-    padding: 1.25rem 1.5rem;
+    gap: 1.25rem;
   }
 }
 
@@ -277,17 +235,11 @@
     padding: 1.25rem 1.25rem 0.75rem;
   }
 
-  .modalBody {
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .formInner {
     padding: 1rem;
-  }
-
-  .modalFooter {
-    padding: 1rem 1.25rem;
-    flex-direction: column;
-  }
-
-  .cancelButton,
-  .saveButton {
-    width: 100%;
   }
 }

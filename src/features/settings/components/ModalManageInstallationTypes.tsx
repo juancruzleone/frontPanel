@@ -302,14 +302,14 @@ const ModalManageInstallationTypes = ({ isOpen, onRequestClose }: Props) => {
         title={t('settings.editType')}
         isLoading={isSaving}
       >
-        <div className={styles.editForm}>
-          <label className={styles.label}>{t('settings.typeName')}</label>
+        <div className={styles.formGroup}>
+          <label>{t('settings.typeName')} *</label>
           <input
             type="text"
             value={editName}
             onChange={(e) => handleEditInputChange(e.target.value)}
             onBlur={handleEditInputBlur}
-            className={`${styles.input} ${editValidationError ? styles.inputError : ''}`}
+            className={editValidationError ? styles.inputError : ''}
             placeholder={t('settings.typeName')}
           />
           {editValidationError && (
