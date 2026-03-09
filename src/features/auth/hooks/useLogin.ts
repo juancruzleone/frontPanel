@@ -109,7 +109,13 @@ export function useLogin() {
       setAuthenticated(true)
       // Redirigir después de cerrar el modal de éxito
       setTimeout(() => {
-        navigate("/inicio", { replace: true })
+        const role = useAuthStore.getState().role;
+        // Si es cliente, redirigir a instalaciones, sino a inicio
+        if (role === 'cliente') {
+          navigate("/instalaciones", { replace: true })
+        } else {
+          navigate("/inicio", { replace: true })
+        }
       }, 100)
     }
   }

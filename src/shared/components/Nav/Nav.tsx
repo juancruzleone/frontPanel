@@ -175,7 +175,7 @@ const Nav = () => {
             </div>
           </div>
           <ul className={styles.menu}>
-            {!isSuperAdminUser && (
+            {!isSuperAdminUser && !isClientUser && (
               <li>
                 <NavLink to="/inicio" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
                   <Home size={20} /> <span className={styles.linkText}>{t('nav.home')}</span>
@@ -189,7 +189,7 @@ const Nav = () => {
                 </NavLink>
               </li>
             )}
-            {!isTechnicianUser && !isSuperAdminUser && (
+            {!isTechnicianUser && !isSuperAdminUser && !isClientUser && (
               <li data-tour="nav-assets">
                 <NavLink to="/activos" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
                   <Package size={20} /> <span className={styles.linkText}>{t('nav.assets')}</span>
