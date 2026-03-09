@@ -86,8 +86,17 @@
   left: 0;
   width: 40px;
   height: 3px;
-  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
   border-radius: 2px;
+}
+
+/* Modo claro - Línea decorativa negra */
+:global([data-theme="light"]) .title::after {
+  background: linear-gradient(90deg, #000, rgba(0, 0, 0, 0.8));
+}
+
+/* Modo oscuro - Línea decorativa blanca */
+:global([data-theme="dark"]) .title::after {
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
 }
 
 .closeButton {

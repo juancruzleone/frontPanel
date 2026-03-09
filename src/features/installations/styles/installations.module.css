@@ -407,7 +407,7 @@
   align-items: center;
   gap: 6px;
   padding: 8px 16px;
-  background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+  background: linear-gradient(135deg, #057E74 0%, #069b8e 100%);
   color: white;
   border: none;
   border-radius: 10px;
@@ -415,24 +415,25 @@
   font-size: 13px;
   font-weight: 600;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px rgba(8, 145, 178, 0.25);
+  box-shadow: 0 2px 8px rgba(5, 126, 116, 0.3);
   margin-left: 12px;
   white-space: nowrap;
 }
 
 .viewDevicesTableButton:hover {
-  background: linear-gradient(135deg, #0e7490 0%, #0891b2 100%);
+  background: linear-gradient(135deg, #046b63 0%, #057E74 100%);
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(8, 145, 178, 0.4);
+  box-shadow: 0 4px 16px rgba(5, 126, 116, 0.4);
 }
 
 .viewDevicesTableButton:active {
   transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(8, 145, 178, 0.3);
+  box-shadow: 0 2px 8px rgba(5, 126, 116, 0.3);
 }
 
 .viewDevicesTableButton svg {
   flex-shrink: 0;
+  display: none;
 }
 
 /* Modo oscuro - mantener consistencia con colores verdes */
@@ -457,6 +458,10 @@
 :global(.dark) .viewDevicesTableButton:hover {
   background: linear-gradient(135deg, #046b63 0%, #057E74 100%);
   box-shadow: 0 4px 16px rgba(5, 126, 116, 0.5);
+}
+
+:global(.dark) .viewDevicesTableButton svg {
+  display: none;
 }
 
 /* Información adicional en el footer */

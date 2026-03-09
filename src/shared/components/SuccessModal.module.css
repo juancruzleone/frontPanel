@@ -118,6 +118,27 @@
   margin: 0 0 12px;
   color: var(--color-text);
   letter-spacing: -0.025em;
+  position: relative;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 40px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+/* Modo claro - Línea decorativa negra */
+:global([data-theme="light"]) .title::after {
+  background: linear-gradient(90deg, #000, rgba(0, 0, 0, 0.8));
+}
+
+/* Modo oscuro - Línea decorativa blanca */
+:global([data-theme="dark"]) .title::after {
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
 }
 
 .message {

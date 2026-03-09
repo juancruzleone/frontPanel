@@ -58,7 +58,7 @@
 }
 
 .toggleButton.active {
-  color: #000000;
+  color: #ffffff;
   font-weight: 700;
   opacity: 1;
   text-shadow: none;
@@ -74,9 +74,9 @@
 }
 
 .toggleButton.active svg {
-  color: #000000;
+  color: #ffffff;
   transform: scale(1.05);
-  filter: drop-shadow(0 1px 2px rgba(255, 255, 255, 0.3));
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 }
 
 .slider {
@@ -85,15 +85,15 @@
   left: 4px;
   width: calc(50% - 4px);
   height: calc(100% - 8px);
-  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
   z-index: 1;
 }
 
 .slider:hover {
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 /* Dark mode */
