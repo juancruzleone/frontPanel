@@ -35,12 +35,12 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
     {
       key: 'titulo',
       header: t('workOrders.title'),
-      width: '20%'
+      width: '18%'
     },
     {
       key: 'prioridad',
       header: t('workOrders.priority'),
-      width: '10%',
+      width: '8%',
       align: 'center',
       render: (order) => (
         <span
@@ -60,7 +60,7 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
     {
       key: 'estado',
       header: t('workOrders.status'),
-      width: '12%',
+      width: '10%',
       align: 'center',
       render: (order) => (
         <span className={`${styles.statusBadge} ${styles[order.estado]}`}>
@@ -71,16 +71,20 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
     {
       key: 'tipoTrabajo',
       header: t('workOrders.type'),
-      width: '12%',
+      width: '10%',
       render: (order) => translateWorkType(order.tipoTrabajo)
     },
     {
       key: 'fechaProgramada',
       header: t('calendar.scheduledDate'),
-      width: '15%',
+      width: '12%',
       render: (order) => (
-        <span>
-          {new Date(order.fechaProgramada).toLocaleDateString()} {order.horaProgramada}
+        <span style={{ fontSize: '13px' }}>
+          {new Date(order.fechaProgramada).toLocaleDateString('es-ES', { 
+            day: '2-digit', 
+            month: '2-digit',
+            year: '2-digit'
+          })}
         </span>
       )
     },
@@ -88,12 +92,16 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
       key: 'instalacion',
       header: t('workOrders.installation'),
       width: '12%',
-      render: (order) => order.instalacion?.company || '-'
+      render: (order) => (
+        <span style={{ fontSize: '13px' }}>
+          {order.instalacion?.company || '-'}
+        </span>
+      )
     },
     {
       key: 'tecnico',
       header: t('workOrders.assignedTechnician'),
-      width: '15%',
+      width: '18%',
       render: (order) => {
         // Soportar múltiples técnicos
         const tecnicos = order.tecnicos && order.tecnicos.length > 0 
@@ -103,20 +111,20 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
             : [];
 
         if (tecnicos.length === 0) {
-          return <span style={{ opacity: 0.6 }}>{t('workOrders.notAssigned')}</span>;
+          return <span style={{ opacity: 0.6, fontSize: '13px' }}>{t('workOrders.notAssigned')}</span>;
         }
 
         return (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            {tecnicos.map((tec: any, idx: number) => (
-              <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+            {tecnicos.slice(0, 2).map((tec: any, idx: number) => (
+              <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 {tec.profilePhoto && (
                   <img 
                     src={tec.profilePhoto} 
                     alt={tec.userName}
                     style={{
-                      width: '24px',
-                      height: '24px',
+                      width: '20px',
+                      height: '20px',
                       borderRadius: '50%',
                       objectFit: 'cover',
                       border: '1px solid var(--color-card-border)'
@@ -126,20 +134,18 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
                     }}
                   />
                 )}
-                <div style={{ display: 'flex', flexDirection: 'column', fontSize: '12px' }}>
-                  <span style={{ fontWeight: 600 }}>
-                    {tec.firstName && tec.lastName 
-                      ? `${tec.firstName} ${tec.lastName}` 
-                      : tec.userName}
-                  </span>
-                  {tec.documento && (
-                    <span style={{ opacity: 0.7, fontSize: '11px' }}>
-                      {t('common.document')}: {tec.documento}
-                    </span>
-                  )}
-                </div>
+                <span style={{ fontSize: '12px', fontWeight: 600 }}>
+                  {tec.firstName && tec.lastName 
+                    ? `${tec.firstName} ${tec.lastName}` 
+                    : tec.userName}
+                </span>
               </div>
             ))}
+            {tecnicos.length > 2 && (
+              <span style={{ fontSize: '11px', opacity: 0.7, marginLeft: '26px' }}>
+                +{tecnicos.length - 2} más
+              </span>
+            )}
           </div>
         );
       }
@@ -147,7 +153,7 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
     {
       key: 'actions',
       header: t('common.actions'),
-      width: '16%',
+      width: '12%',
       align: 'center',
       render: (order) => (
         <div style={{ display: 'flex', gap: '4px', justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -157,7 +163,7 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
               onClick={() => onOpenDetails(order)}
               aria-label={t('workOrders.tooltips.viewDetails')}
             >
-              <Eye size={18} />
+              <Eye size={16} />
             </button>
           </Tooltip>
           {order.estado === "asignada" && permissions?.canStartWorkOrder && (
@@ -167,7 +173,7 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
                 onClick={() => onStart(order._id!)}
                 aria-label={t('workOrders.startOrder')}
               >
-                <Play size={18} />
+                <Play size={16} />
               </button>
             </Tooltip>
           )}
@@ -178,7 +184,7 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
                 onClick={() => onOpenComplete(order)}
                 aria-label={t('workOrders.completeOrder')}
               >
-                <Check size={18} />
+                <Check size={16} />
               </button>
             </Tooltip>
           )}
@@ -189,7 +195,7 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
                 onClick={() => onOpenAssign(order)}
                 aria-label={t('workOrders.assignTechnician')}
               >
-                <User size={18} />
+                <User size={16} />
               </button>
             </Tooltip>
           )}
@@ -200,7 +206,7 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
                 onClick={() => onOpenEdit(order)}
                 aria-label={t('workOrders.editOrder')}
               >
-                <Edit size={18} />
+                <Edit size={16} />
               </button>
             </Tooltip>
           )}
@@ -211,7 +217,7 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
                 onClick={() => onOpenDelete(order)}
                 aria-label={t('workOrders.deleteOrder')}
               >
-                <Trash size={18} />
+                <Trash size={16} />
               </button>
             </Tooltip>
           )}
