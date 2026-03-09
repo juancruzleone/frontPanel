@@ -35,11 +35,14 @@ const ModalManageDeviceCategories = ({ isOpen, onRequestClose }: Props) => {
   const [isDeleting, setIsDeleting] = useState(false)
   const [successModal, setSuccessModal] = useState<{ title: string; message: string } | null>(null)
 
+  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
+
   useEffect(() => {
     if (isOpen) {
       loadCategories()
       setValidationError('')
       setNewCategoryName('')
+      setTouchedFields({})
     }
   }, [isOpen])
 
@@ -47,6 +50,12 @@ const ModalManageDeviceCategories = ({ isOpen, onRequestClose }: Props) => {
   const validateCategoryNameLocal = (name: string): string => {
     if (!name.trim()) {
       return t('settings.validation.nameRequired')
+    }
+    if (name.trim().length < 2) {
+      return t('settings.validation.nameTooShort')
+    }
+    if (name.trim().length > 50) {
+      return t('settings.validation.nameTooLong')
     }
     return ''
   }
@@ -72,7 +81,37 @@ const ModalManageDeviceCategories = ({ isOpen, onRequestClose }: Props) => {
     }
   }
 
+  const handleInputChange = (value: string) => {
+    setNewCategoryName(value)
+    if (validationError && touchedFields.newCategory) {
+      const localError = validateCategoryNameLocal(value)
+      setValidationError(localError)
+    }
+  }
+
+  const handleInputBlur = async () => {
+    setTouchedFields(prev => ({ ...prev, newCategory: true }))
+    
+    if (!newCategoryName.trim()) {
+      setValidationError(t('settings.validation.nameRequired'))
+      return
+    }
+
+    const localError = validateCategoryNameLocal(newCategoryName)
+    if (localError) {
+      setValidationError(localError)
+      return
+    }
+
+    // Validar con backend
+    const backendError = await validateCategoryNameWithBackend(newCategoryName)
+    setValidationError(backendError)
+  }
+
   const handleAdd = async () => {
+    // Marcar campo como tocado
+    setTouchedFields(prev => ({ ...prev, newCategory: true }))
+    
     // Validación local inmediata
     const localError = validateCategoryNameLocal(newCategoryName)
     if (localError) {
@@ -94,6 +133,7 @@ const ModalManageDeviceCategories = ({ isOpen, onRequestClose }: Props) => {
 
       await addCategory({ nombre: newCategoryName.trim() })
       setNewCategoryName('')
+      setTouchedFields({})
       await loadCategories()
       setSuccessModal({
         title: t('settings.success.categoryAdded'),
@@ -173,13 +213,6 @@ const ModalManageDeviceCategories = ({ isOpen, onRequestClose }: Props) => {
     }
   }
 
-  const handleInputChange = (value: string) => {
-    setNewCategoryName(value)
-    if (validationError) {
-      setValidationError('')
-    }
-  }
-
   const handleEditInputChange = (value: string) => {
     setEditName(value)
     if (editValidationError) {
@@ -209,11 +242,12 @@ const ModalManageDeviceCategories = ({ isOpen, onRequestClose }: Props) => {
               type="text"
               value={newCategoryName}
               onChange={(e) => handleInputChange(e.target.value)}
+              onBlur={handleInputBlur}
               placeholder={t('settings.newCategoryName')}
-              className={`${styles.input} ${validationError ? styles.inputError : ''}`}
+              className={`${styles.input} ${validationError && touchedFields.newCategory ? styles.inputError : ''}`}
               onKeyPress={(e) => e.key === 'Enter' && handleAdd()}
             />
-            {validationError && (
+            {validationError && touchedFields.newCategory && (
               <span className={styles.errorMessage}>{validationError}</span>
             )}
           </div>

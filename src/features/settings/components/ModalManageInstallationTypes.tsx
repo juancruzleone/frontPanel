@@ -36,11 +36,14 @@ const ModalManageInstallationTypes = ({ isOpen, onRequestClose }: Props) => {
   const [successModal, setSuccessModal] = useState<{ title: string; message: string } | null>(null)
   const [touched, setTouched] = useState(false)
 
+  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
+
   useEffect(() => {
     if (isOpen) {
       loadInstallationTypes()
       setValidationError('')
       setNewTypeName('')
+      setTouchedFields({})
     }
   }, [isOpen])
 
@@ -48,6 +51,12 @@ const ModalManageInstallationTypes = ({ isOpen, onRequestClose }: Props) => {
   const validateTypeNameLocal = (name: string): string => {
     if (!name.trim()) {
       return t('settings.validation.nameRequired')
+    }
+    if (name.trim().length < 2) {
+      return t('settings.validation.nameTooShort')
+    }
+    if (name.trim().length > 50) {
+      return t('settings.validation.nameTooLong')
     }
     return ''
   }
@@ -73,7 +82,37 @@ const ModalManageInstallationTypes = ({ isOpen, onRequestClose }: Props) => {
     }
   }
 
+  const handleInputChange = (value: string) => {
+    setNewTypeName(value)
+    if (validationError && touchedFields.newType) {
+      const localError = validateTypeNameLocal(value)
+      setValidationError(localError)
+    }
+  }
+
+  const handleInputBlur = async () => {
+    setTouchedFields(prev => ({ ...prev, newType: true }))
+    
+    if (!newTypeName.trim()) {
+      setValidationError(t('settings.validation.nameRequired'))
+      return
+    }
+
+    const localError = validateTypeNameLocal(newTypeName)
+    if (localError) {
+      setValidationError(localError)
+      return
+    }
+
+    // Validar con backend
+    const backendError = await validateTypeNameWithBackend(newTypeName)
+    setValidationError(backendError)
+  }
+
   const handleAdd = async () => {
+    // Marcar campo como tocado
+    setTouchedFields(prev => ({ ...prev, newType: true }))
+    
     // Validación local inmediata
     const localError = validateTypeNameLocal(newTypeName)
     if (localError) {
@@ -95,6 +134,7 @@ const ModalManageInstallationTypes = ({ isOpen, onRequestClose }: Props) => {
 
       await addInstallationType({ nombre: newTypeName.trim() })
       setNewTypeName('')
+      setTouchedFields({})
       await loadInstallationTypes()
       setSuccessModal({
         title: t('settings.success.typeAdded'),
@@ -176,13 +216,6 @@ const ModalManageInstallationTypes = ({ isOpen, onRequestClose }: Props) => {
     }
   }
 
-  const handleInputChange = (value: string) => {
-    setNewTypeName(value)
-    if (validationError) {
-      setValidationError('')
-    }
-  }
-
   const handleEditInputChange = (value: string) => {
     setEditName(value)
     // Limpiar error cuando el usuario empieza a escribir
@@ -253,11 +286,12 @@ const ModalManageInstallationTypes = ({ isOpen, onRequestClose }: Props) => {
               type="text"
               value={newTypeName}
               onChange={(e) => handleInputChange(e.target.value)}
+              onBlur={handleInputBlur}
               placeholder={t('settings.newTypeName')}
-              className={`${styles.input} ${validationError ? styles.inputError : ''}`}
+              className={`${styles.input} ${validationError && touchedFields.newType ? styles.inputError : ''}`}
               onKeyPress={(e) => e.key === 'Enter' && handleAdd()}
             />
-            {validationError && (
+            {validationError && touchedFields.newType && (
               <span className={styles.errorMessage}>{validationError}</span>
             )}
           </div>
