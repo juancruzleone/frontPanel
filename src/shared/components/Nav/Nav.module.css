@@ -919,12 +919,12 @@
 }
 
 .nav.collapsed .userSection {
-  margin-top: 8px !important;
+  margin-top: 60px !important;
   padding-top: 8px !important;
 }
 
 .nav.collapsed .navContent {
-  padding: 24px 12px !important;
+  padding: 24px 12px 0 12px !important;
 }
 
 .nav.collapsed .menu {
@@ -932,7 +932,7 @@
 }
 
 .nav.collapsed .bottomSection {
-  padding-bottom: 24px !important;
+  padding-bottom: 0 !important;
   margin-bottom: 0 !important;
 }
 
@@ -1048,7 +1048,7 @@
   border: none;
   flex-direction: column;
   gap: 4px;
-  margin-top: 4px !important;
+  margin-top: 0 !important;
 }
 
 .nav.collapsed .userDetails {
@@ -1101,6 +1101,7 @@
   flex-direction: column;
   gap: 8px;
   margin-bottom: 4px !important;
+  margin-top: 40px !important;
 }
 
 .nav.collapsed .languageButton,
