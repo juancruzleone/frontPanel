@@ -916,6 +916,15 @@
   padding: 24px 12px !important;
 }
 
+.nav.collapsed .menu {
+  margin-top: 40px !important;
+}
+
+.nav.collapsed .bottomSection {
+  padding-bottom: 24px !important;
+  margin-bottom: 0 !important;
+}
+
 .nav.collapsed .linkText,
 .nav.collapsed .logoText,
 .nav.collapsed .userName,
@@ -938,8 +947,7 @@
 .nav.collapsed .logoArea {
   justify-content: center;
   padding-left: 0;
-  margin-bottom: 20px !important;
-  margin-top: 0 !important;
+  margin-top: 12px !important;
 }
 
 .nav.collapsed .menu li a {
