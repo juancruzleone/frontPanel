@@ -34,8 +34,7 @@
     "security:check": "npm run security:audit && npm outdated",
     "ci": "npm run lint && npm run type-check && npm run test:all && npm run build",
     "ci:test": "npm run test:unit && npm run test:integration && npm run test:security",
-    "ci:e2e": "npm run test:e2e",
-    "prepare": "npm run security:audit"
+    "ci:e2e": "npm run test:e2e"
   },
   "dependencies": {
     "@types/qrcode": "^1.5.5",
