@@ -71,6 +71,11 @@
   background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.6) 100%);
 }
 
+/* Modo claro - Barra superior negra */
+:global([data-theme="light"]) .modalHeader::before {
+  background: linear-gradient(90deg, #000 0%, #1a1a1a 50%, #333 100%);
+}
+
 .modalHeader p {
   color: var(--color-text);
 }
@@ -97,6 +102,16 @@
   height: 3px;
   background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
   border-radius: 2px;
+}
+
+/* Modo claro - Línea decorativa negra */
+:global([data-theme="light"]) .title::after {
+  background: linear-gradient(90deg, #000, rgba(0, 0, 0, 0.8));
+}
+
+/* Modo oscuro - Línea decorativa blanca */
+:global([data-theme="dark"]) .title::after {
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
 }
 
 .installationInfo {

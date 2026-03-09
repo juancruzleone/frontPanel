@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10000;
+  z-index: 9000;
   animation: fadeIn 0.3s ease-out;
 }
 
@@ -58,9 +58,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 2rem 2.5rem 1.5rem;
-  border-bottom: 1px solid var(--color-text);
+  border-bottom: 1px solid var(--color-card-border);
   background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-card) 100%);
   position: relative;
+  border-radius: 20px 20px 0 0;
 }
 
 .modalHeader::before {
@@ -71,6 +72,12 @@
   right: 0;
   height: 4px;
   background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.6) 100%);
+  border-radius: 20px 20px 0 0;
+}
+
+/* Modo claro - Barra superior negra */
+:global([data-theme="light"]) .modalHeader::before {
+  background: linear-gradient(90deg, #000 0%, #1a1a1a 50%, #333 100%);
 }
 
 .modalHeader h2 {
@@ -91,6 +98,16 @@
   height: 3px;
   background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
   border-radius: 2px;
+}
+
+/* Modo claro - Línea decorativa negra */
+:global([data-theme="light"]) .modalHeader h2::after {
+  background: linear-gradient(90deg, #000, rgba(0, 0, 0, 0.8));
+}
+
+/* Modo oscuro - Línea decorativa blanca */
+:global([data-theme="dark"]) .modalHeader h2::after {
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
 }
 
 .closeButton {
@@ -155,20 +172,20 @@
 }
 
 /* Modo claro - Scrollbar negro */
-:root .modalBody::-webkit-scrollbar-thumb {
+:global([data-theme="light"]) .modalBody::-webkit-scrollbar-thumb {
   background: #000;
 }
 
-:root .modalBody::-webkit-scrollbar-thumb:hover {
+:global([data-theme="light"]) .modalBody::-webkit-scrollbar-thumb:hover {
   background: #333;
 }
 
 /* Modo oscuro - Scrollbar blanco */
-.dark .modalBody::-webkit-scrollbar-thumb {
+:global([data-theme="dark"]) .modalBody::-webkit-scrollbar-thumb {
   background: #fff;
 }
 
-.dark .modalBody::-webkit-scrollbar-thumb:hover {
+:global([data-theme="dark"]) .modalBody::-webkit-scrollbar-thumb:hover {
   background: #e0e0e0;
 }
 
@@ -200,15 +217,47 @@
   font-family: inherit;
 }
 
+/* Modo claro - Borde negro por defecto */
+:global([data-theme="light"]) .input {
+  border-color: #000;
+}
+
+/* Modo oscuro - Borde normal */
+:global([data-theme="dark"]) .input {
+  border-color: var(--color-card-border);
+}
+
 .input:focus {
   outline: none;
+  border-color: #000;
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
+  background: var(--color-bg-light);
+}
+
+/* Modo claro - Focus con borde negro */
+:global([data-theme="light"]) .input:focus {
+  border-color: #000;
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Modo oscuro - Focus con borde blanco */
+:global([data-theme="dark"]) .input:focus {
   border-color: white;
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
-  background: var(--color-bg-light);
 }
 
 .input:hover {
   border-color: var(--color-card-border);
+}
+
+/* Modo claro - Hover con borde negro más intenso */
+:global([data-theme="light"]) .input:hover {
+  border-color: #000;
+}
+
+/* Modo oscuro - Hover con borde más claro */
+:global([data-theme="dark"]) .input:hover {
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 .addButton {
@@ -292,54 +341,8 @@
   flex: 1;
 }
 
+.editButton,
 .deleteButton {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--color-danger);
-  padding: 8px;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  flex-shrink: 0;
-  position: relative;
-}
-
-.deleteButton:hover {
-  background: var(--color-danger);
-  color: white;
-  transform: scale(1.05);
-}
-
-.deleteButton:active {
-  transform: scale(0.95);
-}
-
-/* Modo claro - botón eliminar */
-:global([data-theme="light"]) .deleteButton {
-  color: #ef4444;
-}
-
-:global([data-theme="light"]) .deleteButton:hover {
-  background: #ef4444;
-  color: white;
-}
-
-/* Modo oscuro - botón eliminar */
-:global([data-theme="dark"]) .deleteButton {
-  color: #ef4444;
-}
-
-:global([data-theme="dark"]) .deleteButton:hover {
-  background: #ef4444;
-  color: white;
-}
-
-.editButton {
   background: none;
   border: none;
   cursor: pointer;
@@ -356,34 +359,16 @@
   position: relative;
 }
 
-.editButton:hover {
+.editButton:hover,
+.deleteButton:hover {
   background: var(--color-text);
   color: var(--color-card);
   transform: scale(1.05);
 }
 
-.editButton:active {
+.editButton:active,
+.deleteButton:active {
   transform: scale(0.95);
-}
-
-/* Modo claro - botón editar */
-:global([data-theme="light"]) .editButton {
-  color: #1f2937;
-}
-
-:global([data-theme="light"]) .editButton:hover {
-  background: #1f2937;
-  color: white;
-}
-
-/* Modo oscuro - botón editar */
-:global([data-theme="dark"]) .editButton {
-  color: #f3f4f6;
-}
-
-:global([data-theme="dark"]) .editButton:hover {
-  background: #f3f4f6;
-  color: #1f2937;
 }
 
 .itemActions {

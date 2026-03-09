@@ -36,34 +36,36 @@ const ConfirmModal = ({
       overlayClassName={styles.backdrop}
       ariaHideApp={false}
     >
-      <div className={styles.modalContent}>
+      <div className={styles.modalHeader}>
+        <h2>{title}</h2>
         <button onClick={onRequestClose} className={styles.closeButton} disabled={isLoading}>
-          <X size={20} />
+          <X size={24} />
         </button>
+      </div>
 
+      <div className={styles.modalBody}>
         <div className={`${styles.iconContainer} ${styles[variant]}`}>
           <AlertTriangle size={48} />
         </div>
 
-        <h2 className={styles.title}>{title}</h2>
         <p className={styles.message}>{message}</p>
+      </div>
 
-        <div className={styles.actions}>
-          <button
-            onClick={onRequestClose}
-            className={styles.cancelButton}
-            disabled={isLoading}
-          >
-            {cancelText || t('common.cancel')}
-          </button>
-          <button
-            onClick={onConfirm}
-            className={`${styles.confirmButton} ${styles[variant]}`}
-            disabled={isLoading}
-          >
-            {isLoading ? t('common.loading') : confirmText || t('common.confirm')}
-          </button>
-        </div>
+      <div className={styles.modalFooter}>
+        <button
+          onClick={onRequestClose}
+          className={styles.cancelButton}
+          disabled={isLoading}
+        >
+          {cancelText || t('common.cancel')}
+        </button>
+        <button
+          onClick={onConfirm}
+          className={`${styles.confirmButton} ${styles[variant]}`}
+          disabled={isLoading}
+        >
+          {isLoading ? t('common.loading') : confirmText || t('common.confirm')}
+        </button>
       </div>
     </Modal>
   )

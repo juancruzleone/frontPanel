@@ -22,7 +22,7 @@ interface EditingType {
 
 const ModalManageInstallationTypes = ({ isOpen, onRequestClose }: Props) => {
   const { t } = useTranslation()
-  const { installationTypes, loadInstallationTypes, removeInstallationType, addInstallationType } = useInstallationTypes()
+  const { installationTypes, loadInstallationTypes, removeInstallationType, addInstallationType, updateInstallationType } = useInstallationTypes()
   const [newTypeName, setNewTypeName] = useState('')
   const [isAdding, setIsAdding] = useState(false)
   const [validationError, setValidationError] = useState('')
@@ -34,6 +34,7 @@ const ModalManageInstallationTypes = ({ isOpen, onRequestClose }: Props) => {
   const [deleteConfirm, setDeleteConfirm] = useState<{ id: string; name: string } | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
   const [successModal, setSuccessModal] = useState<{ title: string; message: string } | null>(null)
+  const [touched, setTouched] = useState(false)
 
   useEffect(() => {
     if (isOpen) {
@@ -112,6 +113,7 @@ const ModalManageInstallationTypes = ({ isOpen, onRequestClose }: Props) => {
     setEditingType({ id: type._id, nombre: type.nombre })
     setEditName(type.nombre)
     setEditValidationError('')
+    setTouched(false)
     setIsEditModalOpen(true)
   }
 
@@ -135,8 +137,8 @@ const ModalManageInstallationTypes = ({ isOpen, onRequestClose }: Props) => {
         return
       }
 
-      // Aquí deberías implementar la función de actualización en el hook
-      // await updateInstallationType(editingType!.id, { nombre: editName.trim() })
+      // Actualizar el tipo de instalación
+      await updateInstallationType(editingType!.id, { nombre: editName.trim() })
       await loadInstallationTypes()
       setIsEditModalOpen(false)
       setEditingType(null)
@@ -183,9 +185,50 @@ const ModalManageInstallationTypes = ({ isOpen, onRequestClose }: Props) => {
 
   const handleEditInputChange = (value: string) => {
     setEditName(value)
-    if (editValidationError) {
+    // Limpiar error cuando el usuario empieza a escribir
+    if (editValidationError && touched) {
       setEditValidationError('')
     }
+  }
+
+  const handleEditInputBlur = () => {
+    setTouched(true)
+    
+    // Validación local inmediata
+    if (editName.trim() === '') {
+      setEditValidationError(t('settings.validation.nameRequired'))
+      return
+    }
+    
+    // Si el nombre no ha cambiado, no validar
+    if (editName.trim() === editingType?.nombre) {
+      setEditValidationError('')
+      return
+    }
+
+    // Validar longitud mínima
+    if (editName.trim().length < 2) {
+      setEditValidationError(t('settings.validation.nameTooShort'))
+      return
+    }
+
+    // Validar longitud máxima
+    if (editName.trim().length > 50) {
+      setEditValidationError(t('settings.validation.nameTooLong'))
+      return
+    }
+
+    // Validar duplicados localmente
+    const exists = installationTypes.some(
+      type => type._id !== editingType?.id && type.nombre.toLowerCase() === editName.trim().toLowerCase()
+    )
+    if (exists) {
+      setEditValidationError(t('settings.validation.nameExists'))
+      return
+    }
+
+    // Si pasa todas las validaciones locales, limpiar error
+    setEditValidationError('')
   }
 
   return (
@@ -265,6 +308,7 @@ const ModalManageInstallationTypes = ({ isOpen, onRequestClose }: Props) => {
             type="text"
             value={editName}
             onChange={(e) => handleEditInputChange(e.target.value)}
+            onBlur={handleEditInputBlur}
             className={`${styles.input} ${editValidationError ? styles.inputError : ''}`}
             placeholder={t('settings.typeName')}
           />
