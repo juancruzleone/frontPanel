@@ -18,8 +18,10 @@ cd frontGMAO
 ### 2. Instalar dependencias
 
 ```bash
-npm install
+npm install --legacy-peer-deps
 ```
+
+> Nota: Se usa `--legacy-peer-deps` debido a conflictos de peer dependencies en algunas librerías.
 
 ### 3. Configurar variables de entorno
 
