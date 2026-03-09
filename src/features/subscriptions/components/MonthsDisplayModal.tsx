@@ -43,7 +43,7 @@ const MonthsDisplayModal: React.FC<MonthsDisplayModalProps> = ({
     // Asegurar que las fechas sean válidas
     if (isNaN(start.getTime()) || isNaN(end.getTime())) return []
 
-    let currentDate = new Date(start.getFullYear(), start.getMonth(), 1)
+    const currentDate = new Date(start.getFullYear(), start.getMonth(), 1)
     const endMonth = new Date(end.getFullYear(), end.getMonth(), 1)
 
     // Iterar por cada mes en el rango y filtrar solo los meses seleccionados

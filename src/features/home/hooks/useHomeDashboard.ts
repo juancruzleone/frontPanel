@@ -71,7 +71,7 @@ const useHomeDashboard = () => {
         // 2. Bar Chart (Órdenes por tipo)
         const barData = (charts.byType || []).map((item: any) => {
           // Normalizar el nombre del tipo a minúsculas
-          let typeName = item.name.toLowerCase()
+          const typeName = item.name.toLowerCase()
           
           // Mapear nombres en español a inglés para las traducciones
           const typeMapping: { [key: string]: string } = {
@@ -99,7 +99,7 @@ const useHomeDashboard = () => {
         // 3. Pie Chart (Órdenes por estado)
         const pieData = (charts.byStatus || []).map((item: any) => {
           // Normalizar el nombre del estado a minúsculas
-          let statusName = item.name.toLowerCase()
+          const statusName = item.name.toLowerCase()
           
           // Mapear nombres en español a inglés para las traducciones
           const statusMapping: { [key: string]: string } = {

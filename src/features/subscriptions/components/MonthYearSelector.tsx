@@ -58,7 +58,7 @@ const MonthYearSelector: React.FC<MonthYearSelectorProps> = ({
     const startMonth = start.getMonth()
     const endMonth = end.getMonth()
 
-    let availableMonths: number[] = []
+    const availableMonths: number[] = []
 
     if (year === startYear && year === endYear) {
       // Si inicio y fin están en el mismo año

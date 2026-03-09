@@ -17,14 +17,8 @@ const UserProfile = () => {
   const { user, role, orders, installations, installationTypes, loading, error } = useUserProfile(userId || "");
   const [selectedFilter, setSelectedFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [ordersWithInstallations, setOrdersWithInstallations] = useState<any[]>([]);
+  const [ordersWithInstallations, setOrdersWithInstallations] = useState<unknown[]>([]);
   const [loadingInstallations, setLoadingInstallations] = useState(false);
-
-  // Verificar que solo los admins puedan acceder
-  if (currentUserRole !== "admin") {
-    navigate("/inicio");
-    return null;
-  }
 
   const isClient = role === 'cliente';
 
@@ -115,7 +109,7 @@ const UserProfile = () => {
       // Para clientes: filtrar por tipo de instalación
       return [
         { label: t('common.all'), value: "" },
-        ...installationTypes.map((type) => ({
+        ...installationTypes.map((type: { nombre: string }) => ({
           label: type.nombre,
           value: type.nombre,
         })),
@@ -139,7 +133,7 @@ const UserProfile = () => {
 
     if (isClient) {
       // Filtrar instalaciones para clientes
-      return installations.filter((inst) => {
+      return installations.filter((inst: { installationType?: string; company?: string; address?: string; city?: string }) => {
         const matchesFilter = !selectedFilter || inst.installationType === selectedFilter;
         const matchesSearch = [
           inst.company,
@@ -151,7 +145,7 @@ const UserProfile = () => {
       });
     } else {
       // Filtrar órdenes para técnicos/admins
-      return ordersWithInstallations.filter((order) => {
+      return ordersWithInstallations.filter((order: { estado?: string; titulo?: string; instalacion?: { company?: string }; instalacionId?: string }) => {
         const matchesStatus = !selectedFilter || order.estado === selectedFilter;
         const matchesSearch = [
           order.titulo,
@@ -166,6 +160,12 @@ const UserProfile = () => {
   const handleGoBack = () => {
     navigate("/personal");
   };
+
+  // Verificar que solo los admins puedan acceder
+  if (currentUserRole !== "admin") {
+    navigate("/inicio");
+    return null;
+  }
 
   if (loading || loadingInstallations) {
     return (
