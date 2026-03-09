@@ -30,6 +30,7 @@ const ModalEdit = ({ isOpen, onRequestClose, onSubmitSuccess, onEdit, initialDat
           <AssetForm
             onCancel={onRequestClose}
             onSuccess={onSubmitSuccess}
+            onError={onSubmitSuccess}
             onEdit={onEdit}
             isEditMode={true}
             initialData={initialData}

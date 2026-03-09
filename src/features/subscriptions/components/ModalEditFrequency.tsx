@@ -16,7 +16,7 @@ interface ModalEditFrequencyProps {
   onRequestClose: () => void
   subscription: Subscription | null
   frequencyOptions: FrequencyOption[]
-  getMonthsByFrequency: (frequency: string) => string[]
+  getMonthsByFrequency?: (frequency: string) => string[]
   onSave: (subscriptionId: string, frequency: string, startDate?: string, endDate?: string, status?: 'active' | 'inactive' | 'pending', months?: string[]) => Promise<{ message: string }>
   onSubmitSuccess: (message: string) => void
   onSubmitError: (message: string) => void

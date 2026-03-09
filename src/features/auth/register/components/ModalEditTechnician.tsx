@@ -231,22 +231,22 @@ const ModalEditTechnician = ({
     setLoading(true)
 
     try {
-      const formData = new FormData()
-      formData.append('userName', userName.trim())
-      formData.append('firstName', firstName.trim())
-      formData.append('lastName', lastName.trim())
-      formData.append('email', email.trim())
-      formData.append('documento', documento.trim())
+      const updateData: { userName?: string; password?: string; name?: string; email?: string } = {
+        userName: userName,
+        name: `${firstName} ${lastName}`.trim(),
+        email: email,
+      }
       
       if (password) {
-        formData.append('password', password)
+        updateData.password = password
       }
 
-      if (profilePhoto) {
-        formData.append('profilePhoto', profilePhoto)
-      }
+      // Note: profilePhoto is not supported by the current API
+      // if (profilePhoto) {
+      //   formData.append('profilePhoto', profilePhoto)
+      // }
 
-      await updateTechnician(technician._id || technician.id, formData, token)
+      await updateTechnician(technician._id || technician.id, updateData, token)
 
       onSubmitSuccess(t('personal.technicianUpdated'))
       onRequestClose()

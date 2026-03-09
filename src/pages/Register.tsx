@@ -42,6 +42,11 @@ const Register = () => {
   const [viewMode, setViewMode, isMobile] = useResponsiveView('register-view', 'cards')
   const { tourCompleted, startTour, resetTour, skipTour } = usePersonalTour()
 
+  // Wrapper para addTechnician que acepta FormData
+  const handleAddTechnician = async (data: { userName: string; fullName: string; password: string; confirmPassword: string }) => {
+    return await addTechnician(data.userName, data.password, data.fullName)
+  }
+
   useEffect(() => {
     fetchTechnicians()
     document.title = t('personal.titlePage')
@@ -296,7 +301,7 @@ const Register = () => {
         isOpen={isRegisterModalOpen}
         onRequestClose={handleCloseModal}
         onSubmitSuccess={handleSuccessRegister}
-        onAdd={addTechnician}
+        onAdd={handleAddTechnician}
       />
 
       {/* Modal para editar técnico */}

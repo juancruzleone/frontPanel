@@ -12,8 +12,9 @@ interface RegisterClientFormData {
 
 const useRegisterClient = () => {
     const { t } = useTranslation()
-    const [formData, setFormData] = useState<Omit<RegisterClientFormData, 'fullName'>>({
+    const [formData, setFormData] = useState<RegisterClientFormData>({
         username: "",
+        fullName: "",
         password: "",
         confirmPassword: "",
     })
@@ -151,6 +152,7 @@ const useRegisterClient = () => {
     const resetForm = useCallback(() => {
         setFormData({
             username: "",
+            fullName: "",
             password: "",
             confirmPassword: "",
         })

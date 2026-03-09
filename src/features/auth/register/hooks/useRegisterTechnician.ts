@@ -70,8 +70,7 @@ const useRegisterTechnician = () => {
 
       const validationData = {
         userName: fieldName === "username" ? (value as string) : formData.username,
-        firstName: fieldName === "firstName" ? (value as string) : formData.firstName,
-        lastName: fieldName === "lastName" ? (value as string) : formData.lastName,
+        fullName: `${fieldName === "firstName" ? (value as string) : formData.firstName} ${fieldName === "lastName" ? (value as string) : formData.lastName}`.trim(),
         email: fieldName === "email" ? (value as string) : formData.email,
         documento: fieldName === "documento" ? (value as string) : formData.documento,
         password: fieldName === "password" ? (value as string) : formData.password,
@@ -119,11 +118,28 @@ const useRegisterTechnician = () => {
     [formData, validateSingleField],
   )
 
+  const resetForm = useCallback(() => {
+    setFormData({
+      username: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      documento: "",
+      profilePhoto: null,
+      password: "",
+      confirmPassword: "",
+    })
+    setFormErrors({})
+    setTouchedFields({})
+    setShowPassword(false)
+    setShowConfirmPassword(false)
+  }, [])
+
   const handleSubmitForm = useCallback(
     async (
       e: React.FormEvent,
       onSuccess: (message: string) => void,
-      onAdd: (data: FormData) => Promise<{ message: string }>,
+      onAdd: (data: { userName: string; fullName: string; password: string; confirmPassword: string }) => Promise<{ message: string }>,
     ) => {
       e.preventDefault()
 
@@ -156,10 +172,7 @@ const useRegisterTechnician = () => {
       try {
         const validation = await validateRegisterFormWithTranslation({
           userName: formData.username,
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          documento: formData.documento,
+          fullName: `${formData.firstName} ${formData.lastName}`.trim(),
           password: formData.password,
           confirmPassword: formData.confirmPassword,
         }, t)
@@ -170,18 +183,12 @@ const useRegisterTechnician = () => {
           return
         }
 
-        // Crear FormData para enviar con la foto
-        const submitData = new FormData()
-        submitData.append("userName", formData.username)
-        submitData.append("firstName", formData.firstName)
-        submitData.append("lastName", formData.lastName)
-        submitData.append("email", formData.email)
-        submitData.append("documento", formData.documento)
-        submitData.append("password", formData.password)
-        submitData.append("role", "técnico")
-        
-        if (formData.profilePhoto) {
-          submitData.append("profilePhoto", formData.profilePhoto)
+        // Pasar los datos como objeto
+        const submitData = {
+          userName: formData.username,
+          fullName: `${formData.firstName} ${formData.lastName}`.trim(),
+          password: formData.password,
+          confirmPassword: formData.confirmPassword,
         }
 
         const result = await onAdd(submitData)
@@ -193,25 +200,8 @@ const useRegisterTechnician = () => {
         setIsSubmitting(false)
       }
     },
-    [formData, isFormComplete, t],
+    [formData, isFormComplete, t, validateSingleField, resetForm],
   )
-
-  const resetForm = useCallback(() => {
-    setFormData({
-      username: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      documento: "",
-      profilePhoto: null,
-      password: "",
-      confirmPassword: "",
-    })
-    setFormErrors({})
-    setTouchedFields({})
-    setShowPassword(false)
-    setShowConfirmPassword(false)
-  }, [])
 
   // Función corregida que retorna boolean
   const shouldShowError = useCallback(

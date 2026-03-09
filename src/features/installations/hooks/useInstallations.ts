@@ -38,6 +38,7 @@ export type Device = {
   modelo?: string
   numeroSerie?: string
   cantidad?: number
+  codigoQR?: string
 }
 
 export type Installation = {

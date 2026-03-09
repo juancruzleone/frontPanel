@@ -671,9 +671,9 @@ const Installations = () => {
         installations={installations}
         onSubmit={handleSubmitMaintenanceRequest}
         userInfo={{
-          nombre: user?.nombre || user?.username,
-          email: user?.email,
-          telefono: user?.telefono
+          nombre: user || '',
+          email: '',
+          telefono: ''
         }}
       />
 

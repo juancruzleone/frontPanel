@@ -249,7 +249,7 @@ const Forms = () => {
                             borderRadius: '4px',
                             fontSize: '12px'
                           }}>
-                            {translateFormFieldType(campo.type, t)}
+                            {translateFormFieldType(campo.type)}
                           </span>
                         ))}
                         {template.campos.length > 3 && (
@@ -316,7 +316,7 @@ const Forms = () => {
                       <div className={styles.fieldTags}>
                         {template.campos.slice(0, 3).map((campo, idx) => (
                           <span key={idx} className={styles.fieldTag}>
-                            {translateFormFieldType(campo.type, t)}
+                            {translateFormFieldType(campo.type)}
                           </span>
                         ))}
                         {template.campos.length > 3 && (
@@ -413,7 +413,10 @@ const Forms = () => {
       <ModalManageCategories
         isOpen={isManageCategoriesModalOpen}
         onRequestClose={() => setIsManageCategoriesModalOpen(false)}
-        onCategoriesChange={loadCategories}
+        onCategoryCreated={async (message: string) => {
+          await loadCategories()
+          // Optionally show success message
+        }}
       />
 
       <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={closeModal} mensaje={responseMessage} />

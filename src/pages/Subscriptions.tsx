@@ -25,7 +25,7 @@ import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 const Subscriptions = () => {
   const { t, i18n } = useTranslation()
   const { dark } = useTheme()
-  const { subscriptions, frequencyOptions, loading, error, refreshSubscriptions, updateSubscription, getMonthsByFrequency } = useSubscriptions()
+  const { subscriptions, frequencyOptions, loading, error, refreshSubscriptions, updateSubscription } = useSubscriptions()
   const role = useAuthStore((s) => s.role)
   const navigate = useNavigate()
   const isTechnician = role && ["tecnico", "técnico"].includes(role.toLowerCase())
@@ -549,7 +549,6 @@ const Subscriptions = () => {
         onRequestClose={closeModal}
         subscription={selectedSubscription}
         frequencyOptions={frequencyOptions}
-        getMonthsByFrequency={getMonthsByFrequency}
         onSave={handleSaveFrequency}
         onSubmitSuccess={handleSuccessEditFrequency}
         onSubmitError={handleErrorEditFrequency}

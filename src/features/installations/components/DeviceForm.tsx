@@ -192,7 +192,7 @@ const DeviceForm = ({
           categoria: formData.categoria,
           estado: selectedAsset.estado || "Activo",
           templateId: selectedAsset.templateId,
-          cantidad: formData.cantidad || 1,
+          cantidad: typeof formData.cantidad === 'string' ? parseInt(formData.cantidad) || 1 : formData.cantidad || 1,
         }
 
         const result = await onAddDevice(installation._id!, deviceData)
