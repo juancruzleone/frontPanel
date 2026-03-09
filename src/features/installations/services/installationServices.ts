@@ -7,6 +7,17 @@ const getToken = () => {
   return useAuthStore.getState().token;
 };
 
+// Helper para determinar si el usuario es cliente
+const isClientUser = () => {
+  const role = useAuthStore.getState().role;
+  return role === 'cliente' || role === 'client';
+};
+
+// Helper para obtener la ruta correcta según el rol
+const getInstallationsEndpoint = () => {
+  return isClientUser() ? 'mis-instalaciones' : 'installations';
+};
+
 export const fetchInstallations = async (params: { page?: number, limit?: number, search?: string, category?: string } = {}): Promise<any> => {
   const queryParams = new URLSearchParams()
   if (params.page) queryParams.append('page', params.page.toString())
@@ -14,7 +25,8 @@ export const fetchInstallations = async (params: { page?: number, limit?: number
   if (params.search) queryParams.append('search', params.search)
   if (params.category) queryParams.append('category', params.category)
 
-  const response = await fetch(`${API_URL}installations?${queryParams.toString()}`, {
+  const endpoint = getInstallationsEndpoint();
+  const response = await fetch(`${API_URL}${endpoint}?${queryParams.toString()}`, {
     headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error("Error al obtener instalaciones");
@@ -30,7 +42,8 @@ export const fetchInstallations = async (params: { page?: number, limit?: number
 };
 
 export const fetchInstallationById = async (id: string): Promise<any> => {
-  const response = await fetch(`${API_URL}installations/${id}`, {
+  const endpoint = getInstallationsEndpoint();
+  const response = await fetch(`${API_URL}${endpoint}/${id}`, {
     headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error("Error al obtener instalación");
@@ -39,7 +52,8 @@ export const fetchInstallationById = async (id: string): Promise<any> => {
 };
 
 export const fetchInstallationDevices = async (installationId: string): Promise<any[]> => {
-  const response = await fetch(`${API_URL}installations/${installationId}/dispositivos`, {
+  const endpoint = getInstallationsEndpoint();
+  const response = await fetch(`${API_URL}${endpoint}/${installationId}/dispositivos`, {
     headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error("Error al obtener dispositivos");
@@ -67,6 +81,10 @@ export const fetchAssets = async (): Promise<any[]> => {
 };
 
 export const createInstallation = async (installation: any) => {
+  // Solo admin puede crear instalaciones
+  if (isClientUser()) {
+    throw new Error("No tienes permisos para crear instalaciones");
+  }
 
   const response = await fetch(`${API_URL}installations`, {
     method: "POST",
@@ -88,6 +106,11 @@ export const createInstallation = async (installation: any) => {
 };
 
 export const updateInstallation = async (id: string, installation: any) => {
+  // Solo admin puede actualizar instalaciones
+  if (isClientUser()) {
+    throw new Error("No tienes permisos para actualizar instalaciones");
+  }
+
   const { _id, image, ...rest } = installation;
   const updateData = {
     ...rest,
@@ -104,6 +127,11 @@ export const updateInstallation = async (id: string, installation: any) => {
 };
 
 export const deleteInstallation = async (id: string) => {
+  // Solo admin puede eliminar instalaciones
+  if (isClientUser()) {
+    throw new Error("No tienes permisos para eliminar instalaciones");
+  }
+
   const response = await fetch(`${API_URL}installations/${id}`, {
     method: "DELETE",
     headers: getAuthHeaders(),
@@ -113,6 +141,10 @@ export const deleteInstallation = async (id: string) => {
 };
 
 export const addDeviceToInstallation = async (installationId: string, deviceData: any) => {
+  // Solo admin puede agregar dispositivos
+  if (isClientUser()) {
+    throw new Error("No tienes permisos para agregar dispositivos");
+  }
 
   const headers = getHeadersWithContentType();
 
@@ -139,6 +171,11 @@ export const addDeviceToInstallation = async (installationId: string, deviceData
 };
 
 export const deleteDeviceFromInstallation = async (installationId: string, deviceId: string) => {
+  // Solo admin puede eliminar dispositivos
+  if (isClientUser()) {
+    throw new Error("No tienes permisos para eliminar dispositivos");
+  }
+
   const response = await fetch(`${API_URL}installations/${installationId}/dispositivos/${deviceId}`, {
     method: "DELETE",
     headers: getAuthHeaders(),
@@ -152,6 +189,11 @@ export const updateDeviceInInstallation = async (
   deviceId: string,
   deviceData: any
 ) => {
+  // Solo admin puede actualizar dispositivos
+  if (isClientUser()) {
+    throw new Error("No tienes permisos para actualizar dispositivos");
+  }
+
   const response = await fetch(`${API_URL}installations/${installationId}/dispositivos/${deviceId}`, {
     method: "PUT",
     headers: getHeadersWithContentType(),
@@ -173,6 +215,11 @@ export const assignTemplateToDevice = async (
   deviceId: string,
   templateId: string
 ) => {
+  // Solo admin puede asignar plantillas
+  if (isClientUser()) {
+    throw new Error("No tienes permisos para asignar plantillas");
+  }
+
   const response = await fetch(
     `${API_URL}installations/${installationId}/dispositivos/${deviceId}/plantilla`,
     {

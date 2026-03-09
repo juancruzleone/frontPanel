@@ -69,7 +69,9 @@ const handleResponse = async (response: Response) => {
 }
 
 class MaintenanceRequestsService {
-  private baseUrl = `${API_URL}maintenance-requests`
+  // Usar la ruta correcta para clientes
+  private baseUrl = `${API_URL}solicitar-mantenimiento`
+  private ordersUrl = `${API_URL}mis-ordenes-trabajo`
 
   async createRequest(data: CreateMaintenanceRequestData): Promise<{ message: string; workOrder: MaintenanceRequest }> {
     const response = await fetch(this.baseUrl, {
@@ -85,26 +87,32 @@ class MaintenanceRequestsService {
     if (filters?.estado) params.append('estado', filters.estado)
     if (filters?.instalacionId) params.append('instalacionId', filters.instalacionId)
     
-    const response = await fetch(`${this.baseUrl}?${params.toString()}`, {
+    // Usar la ruta de órdenes de trabajo para clientes
+    const response = await fetch(`${this.ordersUrl}?${params.toString()}`, {
       headers: getAuthHeaders()
     })
-    return handleResponse(response)
+    const result = await handleResponse(response)
+    
+    // El backend devuelve directamente un array de órdenes de trabajo
+    const orders = Array.isArray(result) ? result : []
+    
+    return {
+      requests: orders,
+      total: orders.length
+    }
   }
 
   async getRequestById(id: string): Promise<MaintenanceRequest> {
-    const response = await fetch(`${this.baseUrl}/${id}`, {
+    const response = await fetch(`${this.ordersUrl}/${id}`, {
       headers: getAuthHeaders()
     })
     return handleResponse(response)
   }
 
   async cancelRequest(id: string, motivo?: string): Promise<{ message: string }> {
-    const response = await fetch(`${this.baseUrl}/${id}/cancel`, {
-      method: 'PATCH',
-      headers: getHeadersWithContentType(),
-      body: JSON.stringify({ motivo })
-    })
-    return handleResponse(response)
+    // Esta funcionalidad puede no estar disponible para clientes
+    // Verificar con el backend si existe una ruta para cancelar
+    throw new Error("Funcionalidad no disponible. Contacte al administrador para cancelar la solicitud.")
   }
 }
 
