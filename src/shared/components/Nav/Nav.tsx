@@ -272,13 +272,13 @@ const Nav = () => {
                   <div
                     className={styles.userAvatar}
                     onClick={() => {
-                      if (!isAdminUser) {
+                      if (!isClientUser && !isAdminUser) {
                         setIsMenuOpen(false);
                         navigate('/perfil');
                       }
                     }}
-                    style={{ cursor: isAdminUser ? 'default' : 'pointer' }}
-                    title={!isAdminUser ? (t('common.viewProfile') || 'Ver perfil') : undefined}
+                    style={{ cursor: (isClientUser || isAdminUser) ? 'default' : 'pointer' }}
+                    title={(!isClientUser && !isAdminUser) ? (t('common.viewProfile') || 'Ver perfil') : undefined}
                   >
                     {user.substring(0, 2).toUpperCase()}
                   </div>
@@ -286,12 +286,12 @@ const Nav = () => {
                     <span
                       className={styles.userName}
                       onClick={() => {
-                        if (!isAdminUser) {
+                        if (!isClientUser && !isAdminUser) {
                           setIsMenuOpen(false);
                           navigate('/perfil');
                         }
                       }}
-                      style={{ cursor: isAdminUser ? 'default' : 'pointer' }}
+                      style={{ cursor: (isClientUser || isAdminUser) ? 'default' : 'pointer' }}
                     >
                       {user}
                     </span>
