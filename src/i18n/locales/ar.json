@@ -1365,6 +1365,7 @@
     "arabic": "العربية"
   },
   "installationDetails": {
+    "name": "الاسم",
     "category": "الفئة",
     "installation": "التثبيت",
     "deviceNamePlaceholder": "اكتب اسم الجهاز",

@@ -1465,6 +1465,7 @@
     "serialMax": "シリアル番号は100文字を超えることはできません"
   },
   "installationDetails": {
+    "name": "名前",
     "category": "カテゴリ",
     "installation": "インストール",
     "deviceNamePlaceholder": "デバイス名を入力してください",

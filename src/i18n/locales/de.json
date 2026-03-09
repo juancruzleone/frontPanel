@@ -1251,6 +1251,7 @@
                              "arabic":  "Arabisch"
                          },
     "installationDetails":  {
+                                "name":  "Name",
                                 "category":  "Kategorie",
                                 "installation":  "Installation",
                                 "deviceNamePlaceholder":  "Geben Sie den Gerätenamen ein",

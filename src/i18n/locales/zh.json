@@ -1254,6 +1254,7 @@
     "arabic": "阿拉伯语"
   },
   "installationDetails": {
+    "name": "名称",
     "category": "类别",
     "installation": "安装",
     "deviceNamePlaceholder": "输入设备名称",

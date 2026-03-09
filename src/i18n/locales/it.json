@@ -1353,6 +1353,7 @@
     "arabic": "Arabo"
   },
   "installationDetails": {
+    "name": "Nome",
     "category": "Categoria",
     "installation": "Installazione",
     "deviceNamePlaceholder": "Inserisci il nome del dispositivo",

@@ -1368,6 +1368,7 @@
     "arabic": "아랍어"
   },
   "installationDetails": {
+    "name": "이름",
     "category": "카테고리",
     "installation": "설치",
     "deviceNamePlaceholder": "장치 이름을 입력하세요",
