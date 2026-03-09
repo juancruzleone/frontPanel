@@ -533,6 +533,7 @@
     "model": "الموديل",
     "manufacturer": "الشركة المصنعة",
     "installationType": "نوع التركيبة",
+    "type": "نوع التركيب",
     "floorSector": "الطابق/القطاع",
     "postalCode": "الرمز البريدي",
     "province": "المحافظة",
@@ -1784,5 +1785,84 @@
     "tableView": "عرض الجدول",
     "cards": "بطاقات",
     "table": "جدول"
+  },
+  "maintenanceRequests": {
+    "requestMaintenance": "طلب صيانة",
+    "modal": {
+      "title": "طلب صيانة"
+    },
+    "section": {
+      "generalInfo": "معلومات عامة",
+      "location": "الموقع",
+      "schedule": "التاريخ والوقت المفضل",
+      "scheduleDescription": "حدد متى تفضل إجراء الصيانة (اختياري)",
+      "contact": "معلومات الاتصال"
+    },
+    "field": {
+      "title": "العنوان",
+      "description": "وصف المشكلة",
+      "priority": "الأولوية",
+      "problemType": "نوع المشكلة",
+      "installation": "التثبيت",
+      "device": "الجهاز",
+      "preferredDate": "التاريخ المفضل",
+      "preferredTime": "الوقت المفضل",
+      "contactName": "اسم جهة الاتصال",
+      "contactPhone": "هاتف جهة الاتصال",
+      "contactEmail": "البريد الإلكتروني لجهة الاتصال",
+      "observations": "ملاحظات إضافية"
+    },
+    "placeholder": {
+      "title": "مثال: عطل في كاشف الدخان",
+      "description": "صف المشكلة التي تواجهها بالتفصيل...",
+      "selectInstallation": "اختر تثبيتًا",
+      "allInstallation": "التثبيت بالكامل",
+      "contactName": "الاسم الكامل",
+      "contactPhone": "+966 11 123 4567",
+      "contactEmail": "email@example.com",
+      "observations": "معلومات إضافية تعتبرها ذات صلة..."
+    },
+    "priority": {
+      "low": "منخفضة",
+      "medium": "متوسطة",
+      "high": "عالية"
+    },
+    "problemType": {
+      "equipmentFailure": "عطل في المعدات",
+      "preventiveMaintenance": "صيانة وقائية",
+      "generalReview": "مراجعة عامة",
+      "update": "تحديث",
+      "other": "أخرى"
+    },
+    "validation": {
+      "titleMin": "يجب أن يحتوي العنوان على 5 أحرف على الأقل",
+      "descriptionMin": "يجب أن يحتوي الوصف على 20 حرفًا على الأقل",
+      "installationRequired": "يجب اختيار تثبيت",
+      "nameMin": "يجب أن يحتوي الاسم على 3 أحرف على الأقل",
+      "phoneMin": "يجب أن يحتوي الهاتف على 8 أرقام على الأقل",
+      "emailInvalid": "البريد الإلكتروني غير صالح",
+      "selectAssetFirst": "يجب اختيار أصل أولاً"
+    },
+    "action": {
+      "submit": "إرسال الطلب",
+      "cancel": "إلغاء الطلب",
+      "request": "طلب صيانة"
+    },
+    "status": {
+      "pending": "قيد الانتظار",
+      "assigned": "مُعيّن",
+      "inProgress": "قيد التنفيذ",
+      "completed": "مكتمل",
+      "cancelled": "ملغى"
+    },
+    "success": {
+      "created": "تم إنشاء طلب الصيانة بنجاح",
+      "cancelled": "تم إلغاء الطلب بنجاح"
+    },
+    "error": {
+      "createFailed": "خطأ في إنشاء الطلب",
+      "loadFailed": "خطأ في تحميل الطلبات",
+      "cancelFailed": "خطأ في إلغاء الطلب"
+    }
   }
 }

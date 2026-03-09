@@ -536,6 +536,7 @@
     "model": "モデル",
     "manufacturer": "製造元",
     "installationType": "設置種別",
+    "type": "設置タイプ",
     "floorSector": "階/セクション",
     "postalCode": "郵便番号",
     "province": "県",
@@ -1785,5 +1786,84 @@
     "tableView": "テーブルビュー",
     "cards": "カード",
     "table": "テーブル"
+  },
+  "maintenanceRequests": {
+    "requestMaintenance": "メンテナンスをリクエスト",
+    "modal": {
+      "title": "メンテナンスをリクエスト"
+    },
+    "section": {
+      "generalInfo": "一般情報",
+      "location": "場所",
+      "schedule": "希望日時",
+      "scheduleDescription": "メンテナンスを希望する日時を指定してください（任意）",
+      "contact": "連絡先情報"
+    },
+    "field": {
+      "title": "タイトル",
+      "description": "問題の説明",
+      "priority": "優先度",
+      "problemType": "問題の種類",
+      "installation": "設置",
+      "device": "デバイス",
+      "preferredDate": "希望日",
+      "preferredTime": "希望時刻",
+      "contactName": "連絡先名",
+      "contactPhone": "連絡先電話番号",
+      "contactEmail": "連絡先メール",
+      "observations": "追加の備考"
+    },
+    "placeholder": {
+      "title": "例：煙探知器の故障",
+      "description": "発生している問題を詳しく説明してください...",
+      "selectInstallation": "設置を選択",
+      "allInstallation": "設置全体",
+      "contactName": "フルネーム",
+      "contactPhone": "+81 3 1234 5678",
+      "contactEmail": "email@example.jp",
+      "observations": "関連すると思われる追加情報..."
+    },
+    "priority": {
+      "low": "低",
+      "medium": "中",
+      "high": "高"
+    },
+    "problemType": {
+      "equipmentFailure": "機器の故障",
+      "preventiveMaintenance": "予防保守",
+      "generalReview": "一般点検",
+      "update": "更新",
+      "other": "その他"
+    },
+    "validation": {
+      "titleMin": "タイトルは5文字以上である必要があります",
+      "descriptionMin": "説明は20文字以上である必要があります",
+      "installationRequired": "設置を選択する必要があります",
+      "nameMin": "名前は3文字以上である必要があります",
+      "phoneMin": "電話番号は8文字以上である必要があります",
+      "emailInvalid": "メールが無効です",
+      "selectAssetFirst": "最初に資産を選択する必要があります"
+    },
+    "action": {
+      "submit": "リクエストを送信",
+      "cancel": "リクエストをキャンセル",
+      "request": "メンテナンスをリクエスト"
+    },
+    "status": {
+      "pending": "保留中",
+      "assigned": "割り当て済み",
+      "inProgress": "進行中",
+      "completed": "完了",
+      "cancelled": "キャンセル済み"
+    },
+    "success": {
+      "created": "メンテナンスリクエストが正常に作成されました",
+      "cancelled": "リクエストが正常にキャンセルされました"
+    },
+    "error": {
+      "createFailed": "リクエストの作成中にエラーが発生しました",
+      "loadFailed": "リクエストの読み込み中にエラーが発生しました",
+      "cancelFailed": "リクエストのキャンセル中にエラーが発生しました"
+    }
   }
 }

@@ -7,6 +7,8 @@ import { fetchInstallationTypes } from '../../installations/services/installatio
 export function useProfile() {
   const user = useAuthStore((s) => s.user);
   const role = useAuthStore((s) => s.role);
+  const userId = useAuthStore((s) => s.userId);
+  const [userData, setUserData] = useState<any>(null);
   const [orders, setOrders] = useState<any[]>([]);
   const [installations, setInstallations] = useState<any[]>([]);
   const [installationTypes, setInstallationTypes] = useState<any[]>([]);
@@ -18,6 +20,14 @@ export function useProfile() {
       setLoading(true);
       setError(null);
       try {
+        // Cargar datos completos del usuario
+        if (userId) {
+          const { getUserById } = await import('../../auth/register/services/registerServices');
+          const { token } = useAuthStore.getState();
+          const userDataResponse = await getUserById(userId, token);
+          setUserData(userDataResponse);
+        }
+
         if (role === 'cliente') {
           // Para clientes, cargar instalaciones asignadas
           const response = await fetchInstallations();
@@ -38,7 +48,7 @@ export function useProfile() {
     };
 
     loadData();
-  }, [user, role]);
+  }, [user, role, userId]);
 
-  return { user, role, orders, installations, installationTypes, loading, error };
+  return { user, role, orders, installations, installationTypes, loading, error, userData };
 } 

@@ -388,6 +388,7 @@
     "model": "Model",
     "manufacturer": "Manufacturer",
     "installationType": "Installation type",
+    "type": "Installation Type",
     "floorSector": "Floor/Sector",
     "postalCode": "Postal Code",
     "province": "Province",
@@ -819,11 +820,11 @@
     "details": "Details",
     "model": "Model",
     "serialNumber": "Serial Number",
-    "template": "Template",
-    "assignTemplate": "Assign template",
-    "assignTemplateTooltip": "Assign form template",
-    "editTemplate": "Edit template for {{asset}}",
-    "editTemplateTooltip": "Edit form template",
+    "template": "Form",
+    "assignTemplate": "Assign form",
+    "assignTemplateTooltip": "Assign form",
+    "editTemplate": "Edit form for {{asset}}",
+    "editTemplateTooltip": "Edit form",
     "nombrePlaceholder": "Enter asset name",
     "marcaPlaceholder": "Enter brand",
     "modeloPlaceholder": "Enter model",
@@ -832,16 +833,16 @@
     "modelPlaceholder": "Enter the model",
     "serialNumberPlaceholder": "Enter the serial number",
     "optional": "Optional",
-    "templatePlaceholder": "Select a template",
+    "templatePlaceholder": "Select a form",
     "editAssetTooltip": "Edit asset",
     "deleteAssetTooltip": "Delete asset",
     "viewDetailsTooltip": "View details",
     "basicInfo": "Basic Information",
     "config": "Configuration",
     "allCategories": "All categories",
-    "selectTemplate": "Select template",
+    "selectTemplate": "Select form",
     "selectCategoryPlaceholder": "Select a category",
-    "selectTemplatePlaceholder": "Select a template",
+    "selectTemplatePlaceholder": "Select a form",
     "description": "Description",
     "noDescription": "No description",
     "fields": "Fields",
@@ -854,7 +855,7 @@
       "brandRequired": "Brand is required",
       "modelRequired": "Model is required",
       "serialRequired": "Serial number is required",
-      "templateRequired": "Form template is required"
+      "templateRequired": "Form is required"
     },
     "stock": {
       "stock": "Stock",
@@ -1882,5 +1883,84 @@
     "tableView": "Table view",
     "cards": "Cards",
     "table": "Table"
+  },
+  "maintenanceRequests": {
+    "requestMaintenance": "Request Maintenance",
+    "modal": {
+      "title": "Request Maintenance"
+    },
+    "section": {
+      "generalInfo": "General Information",
+      "location": "Location",
+      "schedule": "Preferred Date and Time",
+      "scheduleDescription": "Indicate when you prefer the maintenance to be performed (optional)",
+      "contact": "Contact Information"
+    },
+    "field": {
+      "title": "Title",
+      "description": "Problem Description",
+      "priority": "Priority",
+      "problemType": "Problem Type",
+      "installation": "Installation",
+      "device": "Device",
+      "preferredDate": "Preferred Date",
+      "preferredTime": "Preferred Time",
+      "contactName": "Contact Name",
+      "contactPhone": "Contact Phone",
+      "contactEmail": "Contact Email",
+      "observations": "Additional Observations"
+    },
+    "placeholder": {
+      "title": "E.g.: Smoke detector failure",
+      "description": "Describe in detail the problem you are experiencing...",
+      "selectInstallation": "Select an installation",
+      "allInstallation": "Entire installation",
+      "contactName": "Full name",
+      "contactPhone": "+1 555 123-4567",
+      "contactEmail": "email@example.com",
+      "observations": "Additional information you consider relevant..."
+    },
+    "priority": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
+    },
+    "problemType": {
+      "equipmentFailure": "Equipment Failure",
+      "preventiveMaintenance": "Preventive Maintenance",
+      "generalReview": "General Review",
+      "update": "Update",
+      "other": "Other"
+    },
+    "validation": {
+      "titleMin": "Title must be at least 5 characters",
+      "descriptionMin": "Description must be at least 20 characters",
+      "installationRequired": "You must select an installation",
+      "nameMin": "Name must be at least 3 characters",
+      "phoneMin": "Phone must be at least 8 characters",
+      "emailInvalid": "Email is not valid",
+      "selectAssetFirst": "You must first select an asset"
+    },
+    "action": {
+      "submit": "Submit Request",
+      "cancel": "Cancel Request",
+      "request": "Request Maintenance"
+    },
+    "status": {
+      "pending": "Pending",
+      "assigned": "Assigned",
+      "inProgress": "In Progress",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "success": {
+      "created": "Maintenance request created successfully",
+      "cancelled": "Request cancelled successfully"
+    },
+    "error": {
+      "createFailed": "Error creating request",
+      "loadFailed": "Error loading requests",
+      "cancelFailed": "Error cancelling request"
+    }
   }
 }

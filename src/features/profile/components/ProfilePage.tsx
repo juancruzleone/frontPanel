@@ -5,10 +5,11 @@ import SearchInput from "../../../shared/components/Inputs/SearchInput";
 import { useTranslation } from "react-i18next";
 import { translateUserRole } from "../../../shared/utils/backendTranslations";
 import Skeleton from "../../../shared/components/Skeleton";
+import { User } from "lucide-react";
 
 const ProfilePage = () => {
   const { t } = useTranslation();
-  const { user, role, orders, installations, installationTypes, loading, error } = useProfile();
+  const { user, role, orders, installations, installationTypes, loading, error, userData } = useProfile();
   const [selectedFilter, setSelectedFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [updatedOrders, setUpdatedOrders] = useState<any[]>([]);
@@ -112,6 +113,22 @@ const ProfilePage = () => {
       ) : (
         <>
           <div className={styles.profileHeader}>
+            {(role === 'técnico' || role === 'tecnico') && userData?.profilePhoto && (
+              <div className={styles.profilePhotoContainer}>
+                <img 
+                  src={userData.profilePhoto} 
+                  alt={`${user} profile`}
+                  className={styles.profilePhoto}
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.nextElementSibling?.classList.remove(styles.hidden);
+                  }}
+                />
+                <div className={`${styles.profilePhotoPlaceholder} ${styles.hidden}`}>
+                  <User size={48} />
+                </div>
+              </div>
+            )}
             <div className={styles.profileInfo}>
               <span className={styles.profileName}>{user}</span>
               <span className={styles.profileRole}>{role ? translateUserRole(role) : role}</span>

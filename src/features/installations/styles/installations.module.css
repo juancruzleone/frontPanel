@@ -81,6 +81,45 @@
   transform: translateY(0);
 }
 
+.requestMaintenanceButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 6px 6px;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border: 2px solid #10b981;
+  border-radius: 12px;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  text-decoration: none;
+  height: 32px;
+  min-width: 0;
+  width: auto;
+  white-space: nowrap;
+}
+
+:global(.dark) .requestMaintenanceButton {
+  border-color: #10b981;
+}
+
+.requestMaintenanceButton:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+:global(.dark) .requestMaintenanceButton:hover {
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.6);
+}
+
+.requestMaintenanceButton:active {
+  transform: translateY(0);
+}
+
 .searchRow {
   display: flex;
   gap: 8px;

@@ -298,6 +298,7 @@
     "resume": "Reanudar",
     "approve": "Aprobar",
     "reject": "Rechazar",
+    "document": "Documento",
     "export": "Exportar",
     "import": "Importar",
     "print": "Imprimir",
@@ -433,6 +434,7 @@
     "noStockAvailable": "No hay stock disponible",
     "updateDevice": "Actualizar dispositivo",
     "installationType": "Tipo de instalación",
+    "type": "Tipo de Instalación",
     "typeName": "Nombre del tipo",
     "typeNamePlaceholder": "Ingrese el nombre del tipo de instalación",
     "typeDescription": "Descripción del tipo",
@@ -801,11 +803,11 @@
     "details": "Detalles",
     "model": "Modelo",
     "serialNumber": "Número de Serie",
-    "template": "Plantilla",
-    "assignTemplate": "Asignar plantilla",
-    "assignTemplateTooltip": "Asignar plantilla de formulario",
-    "editTemplate": "Editar plantilla de {{asset}}",
-    "editTemplateTooltip": "Editar plantilla de formulario",
+    "template": "Formulario",
+    "assignTemplate": "Asignar formulario",
+    "assignTemplateTooltip": "Asignar formulario",
+    "editTemplate": "Editar formulario de {{asset}}",
+    "editTemplateTooltip": "Editar formulario",
     "nombrePlaceholder": "Ingrese el nombre del activo",
     "marcaPlaceholder": "Ingrese la marca",
     "modeloPlaceholder": "Ingrese el modelo",
@@ -814,16 +816,16 @@
     "modelPlaceholder": "Escribe el modelo",
     "serialNumberPlaceholder": "Escribe el número de serie",
     "optional": "Opcional",
-    "templatePlaceholder": "Seleccione una plantilla",
+    "templatePlaceholder": "Seleccione un formulario",
     "editAssetTooltip": "Editar activo",
     "deleteAssetTooltip": "Eliminar activo",
     "viewDetailsTooltip": "Ver detalles",
     "basicInfo": "Información Básica",
     "config": "Configuración",
     "allCategories": "Todas las categorías",
-    "selectTemplate": "Seleccionar plantilla",
+    "selectTemplate": "Seleccionar formulario",
     "selectCategoryPlaceholder": "Seleccione una categoría",
-    "selectTemplatePlaceholder": "Seleccione una plantilla",
+    "selectTemplatePlaceholder": "Seleccione un formulario",
     "description": "Descripción",
     "noDescription": "Sin descripción",
     "fields": "Campos",
@@ -838,7 +840,7 @@
       "brandRequired": "La marca es obligatoria",
       "modelRequired": "El modelo es obligatorio",
       "serialRequired": "El número de serie es obligatorio",
-      "templateRequired": "La plantilla de formulario es obligatoria"
+      "templateRequired": "El formulario es obligatorio"
     },
     "stock": {
       "stock": "Stock",
@@ -1402,6 +1404,7 @@
     "noDataAvailable": "No hay datos disponibles",
     "technician": "Técnico",
     "assignedTechnician": "Técnico asignado",
+    "notAssigned": "Sin asignar",
     "loadingTechnicianDetails": "Cargando detalles del técnico...",
     "noTechnicianAssigned": "Ningún técnico asignado",
     "pendiente": "Pendiente",
@@ -1991,5 +1994,84 @@
     "tableView": "Vista de tabla",
     "cards": "Tarjetas",
     "table": "Tabla"
+  },
+  "maintenanceRequests": {
+    "requestMaintenance": "Solicitar Mantenimiento",
+    "modal": {
+      "title": "Solicitar Mantenimiento"
+    },
+    "section": {
+      "generalInfo": "Información General",
+      "location": "Ubicación",
+      "schedule": "Fecha y Hora Preferida",
+      "scheduleDescription": "Indique cuándo prefiere que se realice el mantenimiento (opcional)",
+      "contact": "Información de Contacto"
+    },
+    "field": {
+      "title": "Título",
+      "description": "Descripción del Problema",
+      "priority": "Prioridad",
+      "problemType": "Tipo de Problema",
+      "installation": "Instalación",
+      "device": "Dispositivo",
+      "preferredDate": "Fecha Preferida",
+      "preferredTime": "Hora Preferida",
+      "contactName": "Nombre de Contacto",
+      "contactPhone": "Teléfono de Contacto",
+      "contactEmail": "Email de Contacto",
+      "observations": "Observaciones Adicionales"
+    },
+    "placeholder": {
+      "title": "Ej: Falla en detector de humo",
+      "description": "Describa detalladamente el problema que está experimentando...",
+      "selectInstallation": "Seleccione una instalación",
+      "allInstallation": "Toda la instalación",
+      "contactName": "Nombre completo",
+      "contactPhone": "+54 11 1234-5678",
+      "contactEmail": "email@ejemplo.com",
+      "observations": "Información adicional que considere relevante..."
+    },
+    "priority": {
+      "low": "Baja",
+      "medium": "Media",
+      "high": "Alta"
+    },
+    "problemType": {
+      "equipmentFailure": "Falla de Equipo",
+      "preventiveMaintenance": "Mantenimiento Preventivo",
+      "generalReview": "Revisión General",
+      "update": "Actualización",
+      "other": "Otro"
+    },
+    "validation": {
+      "titleMin": "El título debe tener al menos 5 caracteres",
+      "descriptionMin": "La descripción debe tener al menos 20 caracteres",
+      "installationRequired": "Debe seleccionar una instalación",
+      "nameMin": "El nombre debe tener al menos 3 caracteres",
+      "phoneMin": "El teléfono debe tener al menos 8 caracteres",
+      "emailInvalid": "El email no es válido",
+      "selectAssetFirst": "Primero debe seleccionar un activo"
+    },
+    "action": {
+      "submit": "Enviar Solicitud",
+      "cancel": "Cancelar Solicitud",
+      "request": "Solicitar Mantenimiento"
+    },
+    "status": {
+      "pending": "Pendiente",
+      "assigned": "Asignada",
+      "inProgress": "En Progreso",
+      "completed": "Completada",
+      "cancelled": "Cancelada"
+    },
+    "success": {
+      "created": "Solicitud de mantenimiento creada exitosamente",
+      "cancelled": "Solicitud cancelada exitosamente"
+    },
+    "error": {
+      "createFailed": "Error al crear la solicitud",
+      "loadFailed": "Error al cargar las solicitudes",
+      "cancelFailed": "Error al cancelar la solicitud"
+    }
   }
 }

@@ -207,6 +207,10 @@
   background: #1d2125;
 }
 
+:global(.dark) .loginInput:hover:not(:disabled) {
+  border-color: #fff;
+}
+
 :global(.dark) .eyesButton {
   color: #99a6da;
 }

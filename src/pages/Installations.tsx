@@ -16,7 +16,9 @@ import ModalCreateCategory from "../features/installations/components/ModalCreat
 import ModalCreateInstallationType from "../features/installations/components/ModalCreateInstallationType"
 import ModalManageInstallationTypes from "../features/installations/components/ModalManageInstallationTypes"
 import ModalManageCategories from "../features/installations/components/ModalManageCategories"
-import { Edit, Trash, Plus, HelpCircle, Users, FilterX, List } from "lucide-react"
+import ModalRequestMaintenance from "../features/maintenanceRequests/components/ModalRequestMaintenance"
+import { useMaintenanceRequests } from "../features/maintenanceRequests/hooks/useMaintenanceRequests"
+import { Edit, Trash, Plus, HelpCircle, Users, FilterX, List, Wrench } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../store/authStore"
@@ -181,6 +183,7 @@ const Installations = () => {
   const [isCreateInstallationTypeModalOpen, setIsCreateInstallationTypeModalOpen] = useState(false)
   const [isManageInstallationTypesModalOpen, setIsManageInstallationTypesModalOpen] = useState(false)
   const [isManageCategoriesModalOpen, setIsManageCategoriesModalOpen] = useState(false)
+  const [isRequestMaintenanceModalOpen, setIsRequestMaintenanceModalOpen] = useState(false)
   const [initialData, setInitialData] = useState<Installation | null>(null)
   const [responseMessage, setResponseMessage] = useState("")
   const [isError, setIsError] = useState(false)
@@ -188,6 +191,10 @@ const Installations = () => {
   const [selectedInstallation, setSelectedInstallation] = useState<Installation | null>(null)
   const [viewMode, setViewMode, isMobile] = useResponsiveView('installations-view', 'cards')
   const itemsPerPage = 4
+
+  // Hook para solicitudes de mantenimiento
+  const { createRequest } = useMaintenanceRequests()
+  const user = useAuthStore((s) => s.user)
 
   useEffect(() => {
     document.title = t("installations.titlePage")
@@ -269,6 +276,20 @@ const Installations = () => {
     await loadInstallationTypes()
     // Recargar instalaciones para actualizar los tipos
     loadInstallations({ page: pagination.page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
+  }
+
+  const handleSubmitMaintenanceRequest = async (data: any) => {
+    try {
+      const result = await createRequest(data)
+      setIsRequestMaintenanceModalOpen(false)
+      setResponseMessage(result.message)
+      setIsError(false)
+      return result
+    } catch (error: any) {
+      setIsError(true)
+      setResponseMessage(error.response?.data?.error || t('maintenanceRequests.error.createFailed'))
+      throw error
+    }
   }
 
   const handleError = (message: string) => {
@@ -394,63 +415,73 @@ const Installations = () => {
                   {
                     key: 'company',
                     header: t('installations.company'),
-                    width: '25%'
+                    width: isClientUser ? '35%' : '25%'
                   },
                   {
                     key: 'installationType',
                     header: t('installations.type'),
-                    width: '15%',
+                    width: isClientUser ? '20%' : '15%',
                     render: (inst) => translateInstallationType(inst.installationType)
                   },
                   {
                     key: 'address',
                     header: t('installations.address'),
-                    width: '35%',
+                    width: isClientUser ? '35%' : '35%',
                     render: (inst) => translateAddress(inst.province || "", inst.city || "", inst.address, inst.floorSector || "")
                   },
                   {
                     key: 'actions',
                     header: t('common.actions'),
-                    width: '25%',
-                    align: 'center',
-                    render: (inst) => (
+                    width: isClientUser ? '30%' : '25%',
+                    align: 'center' as const,
+                    render: (inst: any) => (
                       <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                        <Tooltip content={t('maintenanceRequests.requestMaintenance')}>
+                          <button
+                            className={styles.iconButton}
+                            onClick={() => {
+                              setSelectedInstallation(inst)
+                              setIsRequestMaintenanceModalOpen(true)
+                            }}
+                            aria-label={t('maintenanceRequests.requestMaintenance')}
+                          >
+                            <Wrench size={20} />
+                          </button>
+                        </Tooltip>
                         {!isClientUser && (
+                          <Tooltip content={t('installations.addDevice')}>
+                            <button
+                              className={styles.iconButton}
+                              onClick={() => handleOpenAddDevice(inst)}
+                              aria-label={t('installations.addDevice')}
+                            >
+                              <Plus size={20} />
+                            </button>
+                          </Tooltip>
+                        )}
+                        {!isRestricted && (
                           <>
-                            <Tooltip content={t('installations.addDevice')}>
+                            <Tooltip content={t('installations.editInstallation')}>
                               <button
                                 className={styles.iconButton}
-                                onClick={() => handleOpenAddDevice(inst)}
-                                aria-label={t('installations.addDevice')}
+                                onClick={() => handleOpenEdit(inst)}
+                                aria-label={t('installations.editInstallation')}
                               >
-                                <Plus size={20} />
+                                <Edit size={20} />
                               </button>
                             </Tooltip>
-                            {!isRestricted && (
-                              <>
-                                <Tooltip content={t('installations.editInstallation')}>
-                                  <button
-                                    className={styles.iconButton}
-                                    onClick={() => handleOpenEdit(inst)}
-                                    aria-label={t('installations.editInstallation')}
-                                  >
-                                    <Edit size={20} />
-                                  </button>
-                                </Tooltip>
-                                <Tooltip content={t('installations.deleteInstallation')}>
-                                  <button
-                                    className={styles.iconButton}
-                                    onClick={() => {
-                                      setInstallationToDelete(inst)
-                                      setIsDeleteModalOpen(true)
-                                    }}
-                                    aria-label={t('installations.deleteInstallation')}
-                                  >
-                                    <Trash size={20} />
-                                  </button>
-                                </Tooltip>
-                              </>
-                            )}
+                            <Tooltip content={t('installations.deleteInstallation')}>
+                              <button
+                                className={styles.iconButton}
+                                onClick={() => {
+                                  setInstallationToDelete(inst)
+                                  setIsDeleteModalOpen(true)
+                                }}
+                                aria-label={t('installations.deleteInstallation')}
+                              >
+                                <Trash size={20} />
+                              </button>
+                            </Tooltip>
                           </>
                         )}
                         <button 
@@ -493,41 +524,62 @@ const Installations = () => {
                   <div className={styles.cardSeparator}></div>
 
                   <div className={styles.cardActions}>
-                    {!isClientUser && (
-                      <div className={styles.actionButtons}>
+                    <div className={styles.actionButtons}>
+                      <Tooltip content={t('maintenanceRequests.requestMaintenance')}>
                         <button
                           className={styles.iconButton}
-                          onClick={() => handleOpenAddDevice(inst)}
-                          aria-label={t('installations.addDevice')}
-                          data-tooltip={t('installations.addDevice')}
+                          onClick={() => {
+                            setSelectedInstallation(inst)
+                            setIsRequestMaintenanceModalOpen(true)
+                          }}
+                          aria-label={t('maintenanceRequests.requestMaintenance')}
+                          data-tooltip={t('maintenanceRequests.requestMaintenance')}
                         >
-                          <Plus size={24} />
+                          <Wrench size={20} />
                         </button>
-                        {!isRestricted && (
-                          <>
+                      </Tooltip>
+                      {!isClientUser && (
+                        <>
+                          <Tooltip content={t('installations.addDevice')}>
                             <button
                               className={styles.iconButton}
-                              onClick={() => handleOpenEdit(inst)}
-                              aria-label={t('installations.editInstallation')}
-                              data-tooltip={t('installations.editInstallation')}
+                              onClick={() => handleOpenAddDevice(inst)}
+                              aria-label={t('installations.addDevice')}
+                              data-tooltip={t('installations.addDevice')}
                             >
-                              <Edit size={24} />
+                              <Plus size={20} />
                             </button>
-                            <button
-                              className={styles.iconButton}
-                              onClick={() => {
-                                setInstallationToDelete(inst)
-                                setIsDeleteModalOpen(true)
-                              }}
-                              aria-label={t('installations.deleteInstallation')}
-                              data-tooltip={t('installations.deleteInstallation')}
-                            >
-                              <Trash size={24} />
-                            </button>
-                          </>
-                        )}
-                      </div>
-                    )}
+                          </Tooltip>
+                          {!isRestricted && (
+                            <>
+                              <Tooltip content={t('installations.editInstallation')}>
+                                <button
+                                  className={styles.iconButton}
+                                  onClick={() => handleOpenEdit(inst)}
+                                  aria-label={t('installations.editInstallation')}
+                                  data-tooltip={t('installations.editInstallation')}
+                                >
+                                  <Edit size={20} />
+                                </button>
+                              </Tooltip>
+                              <Tooltip content={t('installations.deleteInstallation')}>
+                                <button
+                                  className={styles.iconButton}
+                                  onClick={() => {
+                                    setInstallationToDelete(inst)
+                                    setIsDeleteModalOpen(true)
+                                  }}
+                                  aria-label={t('installations.deleteInstallation')}
+                                  data-tooltip={t('installations.deleteInstallation')}
+                                >
+                                  <Trash size={20} />
+                                </button>
+                              </Tooltip>
+                            </>
+                          )}
+                        </>
+                      )}
+                    </div>
 
                     <div className={styles.viewDevicesButton}>
                       <button onClick={() => handleViewDevices(inst)}>{t('installations.viewDeviceList')}</button>
@@ -611,6 +663,18 @@ const Installations = () => {
       <ModalManageCategories
         isOpen={isManageCategoriesModalOpen}
         onRequestClose={() => setIsManageCategoriesModalOpen(false)}
+      />
+
+      <ModalRequestMaintenance
+        isOpen={isRequestMaintenanceModalOpen}
+        onClose={() => setIsRequestMaintenanceModalOpen(false)}
+        installations={installations}
+        onSubmit={handleSubmitMaintenanceRequest}
+        userInfo={{
+          nombre: user?.nombre || user?.username,
+          email: user?.email,
+          telefono: user?.telefono
+        }}
       />
 
       <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={closeModal} mensaje={responseMessage} />

@@ -532,6 +532,8 @@
     "serialNumber": "Numero di Serie",
     "model": "Modello",
     "manufacturer": "Produttore",
+    "installationType": "Tipo di installazione",
+    "type": "Tipo di Installazione",
     "floorSector": "Piano/Settore",
     "postalCode": "Codice Postale",
     "province": "Provincia",
@@ -1773,5 +1775,84 @@
     "tableView": "Vista a tabella",
     "cards": "Schede",
     "table": "Tabella"
+  },
+  "maintenanceRequests": {
+    "requestMaintenance": "Richiedi Manutenzione",
+    "modal": {
+      "title": "Richiedi Manutenzione"
+    },
+    "section": {
+      "generalInfo": "Informazioni Generali",
+      "location": "Posizione",
+      "schedule": "Data e Ora Preferite",
+      "scheduleDescription": "Indica quando preferisci che venga eseguita la manutenzione (opzionale)",
+      "contact": "Informazioni di Contatto"
+    },
+    "field": {
+      "title": "Titolo",
+      "description": "Descrizione del Problema",
+      "priority": "Priorità",
+      "problemType": "Tipo di Problema",
+      "installation": "Installazione",
+      "device": "Dispositivo",
+      "preferredDate": "Data Preferita",
+      "preferredTime": "Ora Preferita",
+      "contactName": "Nome di Contatto",
+      "contactPhone": "Telefono di Contatto",
+      "contactEmail": "Email di Contatto",
+      "observations": "Osservazioni Aggiuntive"
+    },
+    "placeholder": {
+      "title": "Es: Guasto rilevatore di fumo",
+      "description": "Descrivi dettagliatamente il problema che stai riscontrando...",
+      "selectInstallation": "Seleziona un'installazione",
+      "allInstallation": "Tutta l'installazione",
+      "contactName": "Nome completo",
+      "contactPhone": "+39 02 1234 5678",
+      "contactEmail": "email@esempio.it",
+      "observations": "Informazioni aggiuntive che ritieni rilevanti..."
+    },
+    "priority": {
+      "low": "Bassa",
+      "medium": "Media",
+      "high": "Alta"
+    },
+    "problemType": {
+      "equipmentFailure": "Guasto dell'Attrezzatura",
+      "preventiveMaintenance": "Manutenzione Preventiva",
+      "generalReview": "Revisione Generale",
+      "update": "Aggiornamento",
+      "other": "Altro"
+    },
+    "validation": {
+      "titleMin": "Il titolo deve contenere almeno 5 caratteri",
+      "descriptionMin": "La descrizione deve contenere almeno 20 caratteri",
+      "installationRequired": "Devi selezionare un'installazione",
+      "nameMin": "Il nome deve contenere almeno 3 caratteri",
+      "phoneMin": "Il telefono deve contenere almeno 8 caratteri",
+      "emailInvalid": "L'email non è valida",
+      "selectAssetFirst": "Devi prima selezionare un asset"
+    },
+    "action": {
+      "submit": "Invia Richiesta",
+      "cancel": "Annulla Richiesta",
+      "request": "Richiedi Manutenzione"
+    },
+    "status": {
+      "pending": "In Attesa",
+      "assigned": "Assegnata",
+      "inProgress": "In Corso",
+      "completed": "Completata",
+      "cancelled": "Annullata"
+    },
+    "success": {
+      "created": "Richiesta di manutenzione creata con successo",
+      "cancelled": "Richiesta annullata con successo"
+    },
+    "error": {
+      "createFailed": "Errore nella creazione della richiesta",
+      "loadFailed": "Errore nel caricamento delle richieste",
+      "cancelFailed": "Errore nell'annullamento della richiesta"
+    }
   }
 }

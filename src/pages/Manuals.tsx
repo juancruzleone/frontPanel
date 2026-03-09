@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../store/authStore";
 import { useNavigate } from "react-router-dom";
 import { useManualsTour } from "../features/manuals/hooks/useManualsTour";
+import { isClient } from "../shared/utils/roleUtils";
 import TourButton from "../shared/components/Buttons/TourButton";
 import ViewToggle from "../components/ViewToggle/ViewToggle";
 import { useViewMode } from "../shared/hooks/useViewMode";
@@ -54,6 +55,8 @@ const Manuals = () => {
 
   const role = useAuthStore((s) => s.role)
   const isTechnician = role && ["tecnico", "técnico"].includes(role.toLowerCase())
+  const isClientUser = role && isClient(role)
+  const isRestricted = isTechnician || isClientUser
   const { tourCompleted, startTour, skipTour } = useManualsTour()
 
   useEffect(() => {
@@ -218,7 +221,7 @@ const Manuals = () => {
                 />
               )}
             </div>
-            {!isTechnician && (
+            {!isRestricted && (
               <div className={styles.positionButton} data-tour="create-manual-btn">
                 <Button title={t('manuals.createManual')} onClick={handleOpenCreate} />
               </div>
@@ -303,7 +306,7 @@ const Manuals = () => {
                     align: 'center',
                     render: (manual) => (
                       <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-                        {!isTechnician && (
+                        {!isRestricted && (
                           <>
                             <Tooltip content={t('manuals.uploadUpdateFile')}>
                               <button
@@ -436,7 +439,7 @@ const Manuals = () => {
                   <div className={styles.cardSeparator}></div>
 
                   <div className={styles.cardActions}>
-                    {!isTechnician && (
+                    {!isRestricted && (
                       <>
                         <button
                           className={styles.iconButton}
@@ -561,7 +564,7 @@ const Manuals = () => {
       />
 
       {/* Botón flotante del tour estilo WhatsApp */}
-      {!isTechnician && (
+      {!isRestricted && (
         <TourButton
           onClick={tourCompleted ? startTour : skipTour}
           label={tourCompleted ? t('manuals.tour.buttons.restart') : t('manuals.tour.buttons.skip')}

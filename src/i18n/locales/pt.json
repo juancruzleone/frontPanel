@@ -527,6 +527,7 @@
     "model": "Modelo",
     "manufacturer": "Fabricante",
     "installationType": "Tipo de instalação",
+    "type": "Tipo de Instalação",
     "floorSector": "Andar/Setor",
     "postalCode": "Código Postal",
     "province": "Província",
@@ -949,24 +950,24 @@
     "modelPlaceholder": "Digite o modelo",
     "serialNumberPlaceholder": "Digite o número de série",
     "optional": "Opcional",
-    "templatePlaceholder": "Selecione um modelo",
+    "templatePlaceholder": "Selecione um formulário",
     "editAssetTooltip": "Editar ativo",
     "deleteAsset": "Excluir ativo",
     "deleteAssetTooltip": "Excluir ativo",
     "assign": "Atribuir",
     "cancel": "Cancelar",
-    "loadingTemplates": "Carregando modelos...",
-    "assignTemplate": "Atribuir modelo",
-    "assignTemplateTooltip": "Atribuir modelo de formulário",
-    "editTemplate": "Editar modelo de {{asset}}",
-    "editTemplateTooltip": "Editar modelo de formulário",
+    "loadingTemplates": "Carregando formulários...",
+    "assignTemplate": "Atribuir formulário",
+    "assignTemplateTooltip": "Atribuir formulário",
+    "editTemplate": "Editar formulário de {{asset}}",
+    "editTemplateTooltip": "Editar formulário",
     "viewDetailsTooltip": "Ver detalhes",
     "basicInfo": "Informações Básicas",
     "config": "Configuração",
     "allCategories": "Todas as categorias",
-    "selectTemplate": "Selecionar modelo",
+    "selectTemplate": "Selecionar formulário",
     "selectCategoryPlaceholder": "Selecione uma categoria",
-    "selectTemplatePlaceholder": "Selecione um modelo",
+    "selectTemplatePlaceholder": "Selecione um formulário",
     "description": "Descrição",
     "noDescription": "Sem descrição",
     "fields": "Campos",
@@ -979,14 +980,14 @@
     "details": "Detalhes",
     "model": "Modelo",
     "serialNumber": "Número de série",
-    "template": "Modelo",
+    "template": "Formulário",
     "create": "Criar",
     "validation": {
       "nameRequired": "O nome é obrigatório",
       "brandRequired": "A marca é obrigatória",
       "modelRequired": "O modelo é obrigatório",
       "serialRequired": "O número de série é obrigatório",
-      "templateRequired": "O modelo de formulário é obrigatório"
+      "templateRequired": "O formulário é obrigatório"
     },
     "stock": {
       "stock": "Estoque",
@@ -1776,5 +1777,84 @@
     "tableView": "Visualização de tabela",
     "cards": "Cartões",
     "table": "Tabela"
+  },
+  "maintenanceRequests": {
+    "requestMaintenance": "Solicitar Manutenção",
+    "modal": {
+      "title": "Solicitar Manutenção"
+    },
+    "section": {
+      "generalInfo": "Informação Geral",
+      "location": "Localização",
+      "schedule": "Data e Hora Preferida",
+      "scheduleDescription": "Indique quando prefere que a manutenção seja realizada (opcional)",
+      "contact": "Informação de Contato"
+    },
+    "field": {
+      "title": "Título",
+      "description": "Descrição do Problema",
+      "priority": "Prioridade",
+      "problemType": "Tipo de Problema",
+      "installation": "Instalação",
+      "device": "Dispositivo",
+      "preferredDate": "Data Preferida",
+      "preferredTime": "Hora Preferida",
+      "contactName": "Nome de Contato",
+      "contactPhone": "Telefone de Contato",
+      "contactEmail": "Email de Contato",
+      "observations": "Observações Adicionais"
+    },
+    "placeholder": {
+      "title": "Ex: Falha no detector de fumaça",
+      "description": "Descreva detalhadamente o problema que está enfrentando...",
+      "selectInstallation": "Selecione uma instalação",
+      "allInstallation": "Toda a instalação",
+      "contactName": "Nome completo",
+      "contactPhone": "+55 11 1234-5678",
+      "contactEmail": "email@exemplo.com",
+      "observations": "Informação adicional que considere relevante..."
+    },
+    "priority": {
+      "low": "Baixa",
+      "medium": "Média",
+      "high": "Alta"
+    },
+    "problemType": {
+      "equipmentFailure": "Falha de Equipamento",
+      "preventiveMaintenance": "Manutenção Preventiva",
+      "generalReview": "Revisão Geral",
+      "update": "Atualização",
+      "other": "Outro"
+    },
+    "validation": {
+      "titleMin": "O título deve ter pelo menos 5 caracteres",
+      "descriptionMin": "A descrição deve ter pelo menos 20 caracteres",
+      "installationRequired": "Deve selecionar uma instalação",
+      "nameMin": "O nome deve ter pelo menos 3 caracteres",
+      "phoneMin": "O telefone deve ter pelo menos 8 caracteres",
+      "emailInvalid": "O email não é válido",
+      "selectAssetFirst": "Primeiro deve selecionar um ativo"
+    },
+    "action": {
+      "submit": "Enviar Solicitação",
+      "cancel": "Cancelar Solicitação",
+      "request": "Solicitar Manutenção"
+    },
+    "status": {
+      "pending": "Pendente",
+      "assigned": "Atribuída",
+      "inProgress": "Em Progresso",
+      "completed": "Completada",
+      "cancelled": "Cancelada"
+    },
+    "success": {
+      "created": "Solicitação de manutenção criada com sucesso",
+      "cancelled": "Solicitação cancelada com sucesso"
+    },
+    "error": {
+      "createFailed": "Erro ao criar a solicitação",
+      "loadFailed": "Erro ao carregar as solicitações",
+      "cancelFailed": "Erro ao cancelar a solicitação"
+    }
   }
 }

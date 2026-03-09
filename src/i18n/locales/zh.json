@@ -550,6 +550,7 @@
     "model": "型号",
     "manufacturer": "制造商",
     "installationType": "安装类型",
+    "type": "安装类型",
     "floorSector": "楼层/区域",
     "postalCode": "邮政编码",
     "province": "省份",
@@ -1809,5 +1810,84 @@
     "tableView": "表格视图",
     "cards": "卡片",
     "table": "表格"
+  },
+  "maintenanceRequests": {
+    "requestMaintenance": "请求维护",
+    "modal": {
+      "title": "请求维护"
+    },
+    "section": {
+      "generalInfo": "一般信息",
+      "location": "位置",
+      "schedule": "首选日期和时间",
+      "scheduleDescription": "指明您希望何时进行维护（可选）",
+      "contact": "联系信息"
+    },
+    "field": {
+      "title": "标题",
+      "description": "问题描述",
+      "priority": "优先级",
+      "problemType": "问题类型",
+      "installation": "安装",
+      "device": "设备",
+      "preferredDate": "首选日期",
+      "preferredTime": "首选时间",
+      "contactName": "联系人姓名",
+      "contactPhone": "联系电话",
+      "contactEmail": "联系邮箱",
+      "observations": "附加说明"
+    },
+    "placeholder": {
+      "title": "例如：烟雾探测器故障",
+      "description": "详细描述您遇到的问题...",
+      "selectInstallation": "选择安装",
+      "allInstallation": "整个安装",
+      "contactName": "全名",
+      "contactPhone": "+86 10 1234 5678",
+      "contactEmail": "email@example.com",
+      "observations": "您认为相关的其他信息..."
+    },
+    "priority": {
+      "low": "低",
+      "medium": "中",
+      "high": "高"
+    },
+    "problemType": {
+      "equipmentFailure": "设备故障",
+      "preventiveMaintenance": "预防性维护",
+      "generalReview": "一般检查",
+      "update": "更新",
+      "other": "其他"
+    },
+    "validation": {
+      "titleMin": "标题必须至少包含5个字符",
+      "descriptionMin": "描述必须至少包含20个字符",
+      "installationRequired": "必须选择安装",
+      "nameMin": "姓名必须至少包含3个字符",
+      "phoneMin": "电话必须至少包含8个字符",
+      "emailInvalid": "邮箱无效",
+      "selectAssetFirst": "必须先选择资产"
+    },
+    "action": {
+      "submit": "提交请求",
+      "cancel": "取消请求",
+      "request": "请求维护"
+    },
+    "status": {
+      "pending": "待处理",
+      "assigned": "已分配",
+      "inProgress": "进行中",
+      "completed": "已完成",
+      "cancelled": "已取消"
+    },
+    "success": {
+      "created": "维护请求创建成功",
+      "cancelled": "请求取消成功"
+    },
+    "error": {
+      "createFailed": "创建请求时出错",
+      "loadFailed": "加载请求时出错",
+      "cancelFailed": "取消请求时出错"
+    }
   }
 }

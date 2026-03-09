@@ -530,6 +530,7 @@
     "model": "Modèle",
     "manufacturer": "Fabricant",
     "installationType": "Type d'Installation",
+    "type": "Type d'Installation",
     "floorSector": "Étage/Secteur",
     "postalCode": "Code Postal",
     "province": "Province",
@@ -947,28 +948,28 @@
     "editAssetTooltip": "Modifier l'actif",
     "deleteAsset": "Supprimer l'actif",
     "deleteAssetTooltip": "Supprimer l'actif",
-    "assignTemplate": "Attribuer un modèle",
-    "assignTemplateTooltip": "Attribuer un modèle de formulaire",
-    "editTemplate": "Éditer le modèle de {{asset}}",
-    "editTemplateTooltip": "Modifier le modèle de formulaire",
+    "assignTemplate": "Attribuer formulaire",
+    "assignTemplateTooltip": "Attribuer formulaire",
+    "editTemplate": "Modifier formulaire de {{asset}}",
+    "editTemplateTooltip": "Modifier formulaire",
     "viewDetailsTooltip": "Voir les détails",
     "basicInfo": "Informations de base",
     "config": "Configuration",
     "allCategories": "Toutes les catégories",
-    "selectTemplate": "Sélectionner un modèle",
+    "selectTemplate": "Sélectionner formulaire",
     "selectCategoryPlaceholder": "Sélectionnez une catégorie",
-    "selectTemplatePlaceholder": "Sélectionnez un modèle",
+    "selectTemplatePlaceholder": "Sélectionner un formulaire",
     "description": "Description",
     "noDescription": "Pas de description",
     "fields": "Champs",
     "fieldsCount": "champs",
-    "loadingTemplates": "Chargement des modèles...",
+    "loadingTemplates": "Chargement des formulaires...",
     "update": "Mettre à jour",
     "brand": "Marque",
     "details": "Détails",
     "model": "Modèle",
     "serialNumber": "Numéro de série",
-    "template": "Modèle",
+    "template": "Formulaire",
     "create": "Créer",
     "assign": "Assigner",
     "cancel": "Annuler",
@@ -977,7 +978,7 @@
       "brandRequired": "La marque est requise",
       "modelRequired": "Le modèle est requis",
       "serialRequired": "Le numéro de série est requis",
-      "templateRequired": "Le modèle de formulaire est requis"
+      "templateRequired": "Le formulaire est obligatoire"
     },
     "stock": {
       "stock": "Stock",
@@ -1766,5 +1767,84 @@
     "tableView": "Vue en tableau",
     "cards": "Cartes",
     "table": "Tableau"
+  },
+  "maintenanceRequests": {
+    "requestMaintenance": "Demander une Maintenance",
+    "modal": {
+      "title": "Demander une Maintenance"
+    },
+    "section": {
+      "generalInfo": "Informations Générales",
+      "location": "Emplacement",
+      "schedule": "Date et Heure Préférées",
+      "scheduleDescription": "Indiquez quand vous préférez que la maintenance soit effectuée (optionnel)",
+      "contact": "Informations de Contact"
+    },
+    "field": {
+      "title": "Titre",
+      "description": "Description du Problème",
+      "priority": "Priorité",
+      "problemType": "Type de Problème",
+      "installation": "Installation",
+      "device": "Appareil",
+      "preferredDate": "Date Préférée",
+      "preferredTime": "Heure Préférée",
+      "contactName": "Nom de Contact",
+      "contactPhone": "Téléphone de Contact",
+      "contactEmail": "Email de Contact",
+      "observations": "Observations Supplémentaires"
+    },
+    "placeholder": {
+      "title": "Ex: Panne du détecteur de fumée",
+      "description": "Décrivez en détail le problème que vous rencontrez...",
+      "selectInstallation": "Sélectionnez une installation",
+      "allInstallation": "Toute l'installation",
+      "contactName": "Nom complet",
+      "contactPhone": "+33 1 23 45 67 89",
+      "contactEmail": "email@exemple.com",
+      "observations": "Informations supplémentaires que vous jugez pertinentes..."
+    },
+    "priority": {
+      "low": "Basse",
+      "medium": "Moyenne",
+      "high": "Haute"
+    },
+    "problemType": {
+      "equipmentFailure": "Panne d'Équipement",
+      "preventiveMaintenance": "Maintenance Préventive",
+      "generalReview": "Révision Générale",
+      "update": "Mise à Jour",
+      "other": "Autre"
+    },
+    "validation": {
+      "titleMin": "Le titre doit contenir au moins 5 caractères",
+      "descriptionMin": "La description doit contenir au moins 20 caractères",
+      "installationRequired": "Vous devez sélectionner une installation",
+      "nameMin": "Le nom doit contenir au moins 3 caractères",
+      "phoneMin": "Le téléphone doit contenir au moins 8 caractères",
+      "emailInvalid": "L'email n'est pas valide",
+      "selectAssetFirst": "Vous devez d'abord sélectionner un actif"
+    },
+    "action": {
+      "submit": "Envoyer la Demande",
+      "cancel": "Annuler la Demande",
+      "request": "Demander une Maintenance"
+    },
+    "status": {
+      "pending": "En Attente",
+      "assigned": "Assignée",
+      "inProgress": "En Cours",
+      "completed": "Terminée",
+      "cancelled": "Annulée"
+    },
+    "success": {
+      "created": "Demande de maintenance créée avec succès",
+      "cancelled": "Demande annulée avec succès"
+    },
+    "error": {
+      "createFailed": "Erreur lors de la création de la demande",
+      "loadFailed": "Erreur lors du chargement des demandes",
+      "cancelFailed": "Erreur lors de l'annulation de la demande"
+    }
   }
 }

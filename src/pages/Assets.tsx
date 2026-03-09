@@ -216,6 +216,18 @@ const Assets = () => {
               </button>
             </div>
           )}
+          {isClientUser && (
+            <div className={styles.positionButton}>
+              <button
+                className={styles.manualsButton}
+                onClick={() => navigate('/manuales')}
+                aria-label={t('nav.manuals')}
+              >
+                <BookOpen size={20} />
+                <span>{t('nav.manuals')}</span>
+              </button>
+            </div>
+          )}
         </div>
 
         <div className={styles.searchRow}>
@@ -261,36 +273,36 @@ const Assets = () => {
                   {
                     key: 'nombre',
                     header: t('assets.name'),
-                    width: '20%'
+                    width: isClientUser ? '50%' : '20%'
                   },
                   {
                     key: 'templateId',
                     header: t('assets.template'),
-                    width: '20%',
+                    width: isClientUser ? '50%' : '20%',
                     render: (asset) => {
                       const template = asset.templateId ? getTemplateById(asset.templateId) : null
                       return template ? template.nombre : t('assets.noTemplateAssigned')
                     }
                   },
-                  {
+                  ...(!isClientUser ? [{
                     key: 'details',
                     header: t('assets.details'),
                     width: '25%',
-                    render: (asset) => `${asset.marca || '-'} ${asset.modelo || '-'} ${asset.numeroSerie ? `| SN: ${asset.numeroSerie}` : ''}`
-                  },
-                  {
+                    render: (asset: any) => `${asset.marca || '-'} ${asset.modelo || '-'} ${asset.numeroSerie ? `| SN: ${asset.numeroSerie}` : ''}`
+                  }] : []),
+                  ...(!isClientUser ? [{
                     key: 'stock',
                     header: t('assets.stock.stock'),
                     width: '10%',
-                    align: 'center',
-                    render: (asset) => asset.stock !== undefined ? <strong>{asset.stock}</strong> : '-'
-                  },
-                  {
+                    align: 'center' as const,
+                    render: (asset: any) => asset.stock !== undefined ? <strong>{asset.stock}</strong> : '-'
+                  }] : []),
+                  ...(!isClientUser ? [{
                     key: 'actions',
                     header: t('common.actions'),
                     width: '25%',
-                    align: 'center',
-                    render: (asset) => !isClientUser ? (
+                    align: 'center' as const,
+                    render: (asset: any) => (
                       <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap' }}>
                         <Tooltip content={t('assets.stock.manageStock')}>
                           <button
@@ -332,8 +344,8 @@ const Assets = () => {
                           </button>
                         </Tooltip>
                       </div>
-                    ) : null
-                  }
+                    )
+                  }] : [])
                 ]}
                 emptyMessage={t('assets.noAssetsFound')}
               />
@@ -362,10 +374,7 @@ const Assets = () => {
                         <List size={14} style={{ marginRight: 6 }} />
                         {template ? template.nombre : t('assets.noTemplateAssigned')}
                       </p>
-                      <p className={styles.assetDetails}>
-                        {asset.marca || '-'} {asset.modelo || '-'} {asset.numeroSerie && `| SN: ${asset.numeroSerie}`}
-                      </p>
-                      {asset.stock !== undefined && (
+                      {!isClientUser && asset.stock !== undefined && (
                         <p className={styles.assetStock}>
                           <Package size={14} style={{ marginRight: 6 }} />
                           {t('assets.stock.stock')}: <strong>{asset.stock}</strong>

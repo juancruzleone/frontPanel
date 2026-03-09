@@ -538,6 +538,7 @@
     "model": "모델",
     "manufacturer": "제조사",
     "installationType": "설치 유형",
+    "type": "설치 유형",
     "floorSector": "층/구역",
     "postalCode": "우편번호",
     "province": "도",
@@ -1818,5 +1819,84 @@
     "tableView": "테이블 보기",
     "cards": "카드",
     "table": "테이블"
+  },
+  "maintenanceRequests": {
+    "requestMaintenance": "유지보수 요청",
+    "modal": {
+      "title": "유지보수 요청"
+    },
+    "section": {
+      "generalInfo": "일반 정보",
+      "location": "위치",
+      "schedule": "선호 날짜 및 시간",
+      "scheduleDescription": "유지보수를 원하는 시간을 지정하세요 (선택 사항)",
+      "contact": "연락처 정보"
+    },
+    "field": {
+      "title": "제목",
+      "description": "문제 설명",
+      "priority": "우선순위",
+      "problemType": "문제 유형",
+      "installation": "설치",
+      "device": "장치",
+      "preferredDate": "선호 날짜",
+      "preferredTime": "선호 시간",
+      "contactName": "연락처 이름",
+      "contactPhone": "연락처 전화번호",
+      "contactEmail": "연락처 이메일",
+      "observations": "추가 관찰 사항"
+    },
+    "placeholder": {
+      "title": "예: 연기 감지기 고장",
+      "description": "발생한 문제를 자세히 설명하세요...",
+      "selectInstallation": "설치 선택",
+      "allInstallation": "전체 설치",
+      "contactName": "전체 이름",
+      "contactPhone": "+82 2 1234 5678",
+      "contactEmail": "email@example.kr",
+      "observations": "관련이 있다고 생각되는 추가 정보..."
+    },
+    "priority": {
+      "low": "낮음",
+      "medium": "중간",
+      "high": "높음"
+    },
+    "problemType": {
+      "equipmentFailure": "장비 고장",
+      "preventiveMaintenance": "예방 유지보수",
+      "generalReview": "일반 검토",
+      "update": "업데이트",
+      "other": "기타"
+    },
+    "validation": {
+      "titleMin": "제목은 최소 5자 이상이어야 합니다",
+      "descriptionMin": "설명은 최소 20자 이상이어야 합니다",
+      "installationRequired": "설치를 선택해야 합니다",
+      "nameMin": "이름은 최소 3자 이상이어야 합니다",
+      "phoneMin": "전화번호는 최소 8자 이상이어야 합니다",
+      "emailInvalid": "이메일이 유효하지 않습니다",
+      "selectAssetFirst": "먼저 자산을 선택해야 합니다"
+    },
+    "action": {
+      "submit": "요청 제출",
+      "cancel": "요청 취소",
+      "request": "유지보수 요청"
+    },
+    "status": {
+      "pending": "대기 중",
+      "assigned": "할당됨",
+      "inProgress": "진행 중",
+      "completed": "완료됨",
+      "cancelled": "취소됨"
+    },
+    "success": {
+      "created": "유지보수 요청이 성공적으로 생성되었습니다",
+      "cancelled": "요청이 성공적으로 취소되었습니다"
+    },
+    "error": {
+      "createFailed": "요청 생성 중 오류가 발생했습니다",
+      "loadFailed": "요청 로드 중 오류가 발생했습니다",
+      "cancelFailed": "요청 취소 중 오류가 발생했습니다"
+    }
   }
 }

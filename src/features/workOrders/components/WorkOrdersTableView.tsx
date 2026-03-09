@@ -87,8 +87,62 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
     {
       key: 'instalacion',
       header: t('workOrders.installation'),
-      width: '15%',
+      width: '12%',
       render: (order) => order.instalacion?.company || '-'
+    },
+    {
+      key: 'tecnico',
+      header: t('workOrders.assignedTechnician'),
+      width: '15%',
+      render: (order) => {
+        // Soportar múltiples técnicos
+        const tecnicos = order.tecnicos && order.tecnicos.length > 0 
+          ? order.tecnicos 
+          : order.tecnico 
+            ? [order.tecnico] 
+            : [];
+
+        if (tecnicos.length === 0) {
+          return <span style={{ opacity: 0.6 }}>{t('workOrders.notAssigned')}</span>;
+        }
+
+        return (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            {tecnicos.map((tec: any, idx: number) => (
+              <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {tec.profilePhoto && (
+                  <img 
+                    src={tec.profilePhoto} 
+                    alt={tec.userName}
+                    style={{
+                      width: '24px',
+                      height: '24px',
+                      borderRadius: '50%',
+                      objectFit: 'cover',
+                      border: '1px solid var(--color-card-border)'
+                    }}
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                )}
+                <div style={{ display: 'flex', flexDirection: 'column', fontSize: '12px' }}>
+                  <span style={{ fontWeight: 600 }}>
+                    {tec.firstName && tec.lastName 
+                      ? `${tec.firstName} ${tec.lastName}` 
+                      : tec.userName}
+                  </span>
+                  {tec.documento && (
+                    <span style={{ opacity: 0.7, fontSize: '11px' }}>
+                      {t('common.document')}: {tec.documento}
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        );
+      }
     },
     {
       key: 'actions',
