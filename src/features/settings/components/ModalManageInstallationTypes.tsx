@@ -8,7 +8,6 @@ import ConfirmModal from '../../../shared/components/ConfirmModal'
 import EditModal from '../../../shared/components/EditModal'
 import SuccessModal from '../../../shared/components/SuccessModal'
 import Tooltip from '../../../shared/components/Tooltip/Tooltip'
-import validationService from '../services/validationService'
 
 interface Props {
   isOpen: boolean
@@ -61,25 +60,15 @@ const ModalManageInstallationTypes = ({ isOpen, onRequestClose }: Props) => {
     return ''
   }
 
-  // Validación completa con el backend
-  const validateTypeNameWithBackend = async (name: string, excludeId?: string): Promise<string> => {
-    const localError = validateTypeNameLocal(name)
-    if (localError) return localError
-
-    try {
-      const result = await validationService.validateInstallationType(
-        { nombre: name.trim() },
-        excludeId
-      )
-      
-      if (!result.valid && result.errors && result.errors.length > 0) {
-        return result.errors[0].message
-      }
-      
-      return ''
-    } catch (error: any) {
-      return error.response?.data?.message || t('settings.error.validationFailed')
+  // Validación de duplicados localmente
+  const checkDuplicateName = (name: string, excludeId?: string): string => {
+    const exists = installationTypes.some(
+      type => type._id !== excludeId && type.nombre.toLowerCase() === name.trim().toLowerCase()
+    )
+    if (exists) {
+      return t('settings.validation.nameExists')
     }
+    return ''
   }
 
   const handleInputChange = (value: string) => {
@@ -90,7 +79,7 @@ const ModalManageInstallationTypes = ({ isOpen, onRequestClose }: Props) => {
     }
   }
 
-  const handleInputBlur = async () => {
+  const handleInputBlur = () => {
     setTouchedFields(prev => ({ ...prev, newType: true }))
     
     if (!newTypeName.trim()) {
@@ -104,9 +93,9 @@ const ModalManageInstallationTypes = ({ isOpen, onRequestClose }: Props) => {
       return
     }
 
-    // Validar con backend
-    const backendError = await validateTypeNameWithBackend(newTypeName)
-    setValidationError(backendError)
+    // Validar duplicados localmente
+    const duplicateError = checkDuplicateName(newTypeName)
+    setValidationError(duplicateError)
   }
 
   const handleAdd = async () => {
@@ -120,18 +109,17 @@ const ModalManageInstallationTypes = ({ isOpen, onRequestClose }: Props) => {
       return
     }
     
+    // Validar duplicados
+    const duplicateError = checkDuplicateName(newTypeName)
+    if (duplicateError) {
+      setValidationError(duplicateError)
+      return
+    }
+    
     setIsAdding(true)
     setValidationError('')
     
     try {
-      // Validación con backend antes de crear
-      const backendError = await validateTypeNameWithBackend(newTypeName)
-      if (backendError) {
-        setValidationError(backendError)
-        setIsAdding(false)
-        return
-      }
-
       await addInstallationType({ nombre: newTypeName.trim() })
       setNewTypeName('')
       setTouchedFields({})
@@ -165,18 +153,17 @@ const ModalManageInstallationTypes = ({ isOpen, onRequestClose }: Props) => {
       return
     }
 
+    // Validar duplicados
+    const duplicateError = checkDuplicateName(editName, editingType?.id)
+    if (duplicateError) {
+      setEditValidationError(duplicateError)
+      return
+    }
+
     setIsSaving(true)
     setEditValidationError('')
     
     try {
-      // Validación con backend antes de actualizar
-      const backendError = await validateTypeNameWithBackend(editName, editingType?.id)
-      if (backendError) {
-        setEditValidationError(backendError)
-        setIsSaving(false)
-        return
-      }
-
       // Actualizar el tipo de instalación
       await updateInstallationType(editingType!.id, { nombre: editName.trim() })
       await loadInstallationTypes()

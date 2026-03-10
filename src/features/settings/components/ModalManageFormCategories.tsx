@@ -8,7 +8,6 @@ import ConfirmModal from '../../../shared/components/ConfirmModal'
 import EditModal from '../../../shared/components/EditModal'
 import SuccessModal from '../../../shared/components/SuccessModal'
 import Tooltip from '../../../shared/components/Tooltip/Tooltip'
-import validationService from '../services/validationService'
 
 interface Props {
   isOpen: boolean
@@ -60,25 +59,15 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
     return ''
   }
 
-  // Validación completa con el backend
-  const validateCategoryNameWithBackend = async (name: string, excludeId?: string): Promise<string> => {
-    const localError = validateCategoryNameLocal(name)
-    if (localError) return localError
-
-    try {
-      const result = await validationService.validateFormCategory(
-        { nombre: name.trim() },
-        excludeId
-      )
-      
-      if (!result.valid && result.errors && result.errors.length > 0) {
-        return result.errors[0].message
-      }
-      
-      return ''
-    } catch (error: any) {
-      return error.response?.data?.message || t('settings.error.validationFailed')
+  // Validación de duplicados localmente
+  const checkDuplicateName = (name: string, excludeId?: string): string => {
+    const exists = categories.some(
+      (cat, idx) => idx.toString() !== excludeId && cat.toLowerCase() === name.trim().toLowerCase()
+    )
+    if (exists) {
+      return t('settings.validation.nameExists')
     }
+    return ''
   }
 
   const handleInputChange = (value: string) => {
@@ -89,7 +78,7 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
     }
   }
 
-  const handleInputBlur = async () => {
+  const handleInputBlur = () => {
     setTouchedFields(prev => ({ ...prev, newCategory: true }))
     
     if (!newCategoryName.trim()) {
@@ -103,9 +92,9 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
       return
     }
 
-    // Validar con backend
-    const backendError = await validateCategoryNameWithBackend(newCategoryName)
-    setValidationError(backendError)
+    // Validar duplicados localmente
+    const duplicateError = checkDuplicateName(newCategoryName)
+    setValidationError(duplicateError)
   }
 
   const handleAdd = async () => {
@@ -119,18 +108,17 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
       return
     }
     
+    // Validar duplicados
+    const duplicateError = checkDuplicateName(newCategoryName)
+    if (duplicateError) {
+      setValidationError(duplicateError)
+      return
+    }
+    
     setIsAdding(true)
     setValidationError('')
     
     try {
-      // Validación con backend antes de crear
-      const backendError = await validateCategoryNameWithBackend(newCategoryName)
-      if (backendError) {
-        setValidationError(backendError)
-        setIsAdding(false)
-        return
-      }
-
       // Aquí deberías implementar la lógica para agregar categoría de formularios
       setNewCategoryName('')
       setTouchedFields({})
@@ -162,18 +150,17 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
       return
     }
 
+    // Validar duplicados
+    const duplicateError = checkDuplicateName(editName, editingCategory?.id)
+    if (duplicateError) {
+      setEditValidationError(duplicateError)
+      return
+    }
+
     setIsSaving(true)
     setEditValidationError('')
     
     try {
-      // Validación con backend antes de actualizar
-      const backendError = await validateCategoryNameWithBackend(editName, editingCategory?.id)
-      if (backendError) {
-        setEditValidationError(backendError)
-        setIsSaving(false)
-        return
-      }
-
       // Aquí deberías implementar la función de actualización
       await loadCategories()
       setIsEditModalOpen(false)

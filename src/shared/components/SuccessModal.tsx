@@ -1,5 +1,4 @@
 import Modal from 'react-modal'
-import { CheckCircle, X } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import styles from './SuccessModal.module.css'
 
@@ -28,21 +27,25 @@ const SuccessModal = ({
       overlayClassName={styles.backdrop}
       ariaHideApp={false}
     >
-      <div className={styles.modalContent}>
-        <button onClick={onRequestClose} className={styles.closeButton}>
-          <X size={20} />
-        </button>
-
-        <div className={styles.iconContainer}>
-          <CheckCircle size={64} />
-        </div>
-
+      <div className={styles.modalHeader}>
         <h2 className={styles.title}>{title}</h2>
-        <p className={styles.message}>{message}</p>
-
-        <button onClick={onRequestClose} className={styles.okButton}>
-          {buttonText || t('common.ok')}
+        <button onClick={onRequestClose} className={styles.closeButton}>
+          ×
         </button>
+      </div>
+      <div className={styles.modalContent}>
+        <div className={styles.successContentBody}>
+          <div className={styles.successIconLarge}>
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" fill="#10b981"/>
+              <path d="m9 12 2 2 4-4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          <p className={styles.successMessageLarge}>{message}</p>
+          <button onClick={onRequestClose} className={styles.successButtonLarge}>
+            {buttonText || t('common.continue')}
+          </button>
+        </div>
       </div>
     </Modal>
   )
