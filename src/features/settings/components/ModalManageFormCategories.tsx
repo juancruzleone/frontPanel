@@ -3,7 +3,7 @@ import Modal from 'react-modal'
 import { X, Trash, Plus, Edit2 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import styles from '../styles/modalManage.module.css'
-import useForms from '../../forms/hooks/useForms'
+import useFormCategories from '../../forms/hooks/useFormCategories'
 import ConfirmModal from '../../../shared/components/ConfirmModal'
 import EditModal from '../../../shared/components/EditModal'
 import SuccessModal from '../../../shared/components/SuccessModal'
@@ -21,7 +21,7 @@ interface EditingCategory {
 
 const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
   const { t } = useTranslation()
-  const { categories, loadCategories } = useForms()
+  const { categories, loadCategories, addCategory, updateCategory, removeCategory } = useFormCategories()
   const [newCategoryName, setNewCategoryName] = useState('')
   const [isAdding, setIsAdding] = useState(false)
   const [validationError, setValidationError] = useState('')
@@ -62,7 +62,7 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
   // Validación de duplicados localmente
   const checkDuplicateName = (name: string, excludeId?: string): string => {
     const exists = categories.some(
-      (cat, idx) => idx.toString() !== excludeId && cat.toLowerCase() === name.trim().toLowerCase()
+      (cat) => cat._id !== excludeId && cat.nombre.toLowerCase() === name.trim().toLowerCase()
     )
     if (exists) {
       return t('settings.validation.nameExists')
@@ -119,7 +119,11 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
     setValidationError('')
     
     try {
-      // Aquí deberías implementar la lógica para agregar categoría de formularios
+      await addCategory({
+        nombre: newCategoryName.trim(),
+        descripcion: '',
+        activa: true
+      })
       setNewCategoryName('')
       setTouchedFields({})
       await loadCategories()
@@ -128,21 +132,23 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
         message: t('settings.success.categoryAddedMessage')
       })
     } catch (error: any) {
-      const errorMessage = error.response?.data?.message || t('settings.error.createFailed')
+      const errorMessage = error.response?.data?.message || error.message || t('settings.error.createFailed')
       setValidationError(errorMessage)
     } finally {
       setIsAdding(false)
     }
   }
 
-  const handleEditClick = (category: string, index: number) => {
-    setEditingCategory({ id: index.toString(), nombre: category })
-    setEditName(category)
+  const handleEditClick = (categoryId: string, categoryName: string) => {
+    setEditingCategory({ id: categoryId, nombre: categoryName })
+    setEditName(categoryName)
     setEditValidationError('')
     setIsEditModalOpen(true)
   }
 
   const handleSaveEdit = async () => {
+    if (!editingCategory) return
+
     // Validación local inmediata
     const localError = validateCategoryNameLocal(editName)
     if (localError) {
@@ -151,7 +157,7 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
     }
 
     // Validar duplicados
-    const duplicateError = checkDuplicateName(editName, editingCategory?.id)
+    const duplicateError = checkDuplicateName(editName, editingCategory.id)
     if (duplicateError) {
       setEditValidationError(duplicateError)
       return
@@ -161,7 +167,9 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
     setEditValidationError('')
     
     try {
-      // Aquí deberías implementar la función de actualización
+      await updateCategory(editingCategory.id, {
+        nombre: editName.trim()
+      })
       await loadCategories()
       setIsEditModalOpen(false)
       setEditingCategory(null)
@@ -170,15 +178,15 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
         message: t('settings.success.categoryUpdatedMessage')
       })
     } catch (error: any) {
-      const errorMessage = error.response?.data?.message || t('settings.error.updateFailed')
+      const errorMessage = error.response?.data?.message || error.message || t('settings.error.updateFailed')
       setEditValidationError(errorMessage)
     } finally {
       setIsSaving(false)
     }
   }
 
-  const handleDeleteClick = (category: string, index: number) => {
-    setDeleteConfirm({ id: index.toString(), name: category })
+  const handleDeleteClick = (categoryId: string, categoryName: string) => {
+    setDeleteConfirm({ id: categoryId, name: categoryName })
   }
 
   const handleConfirmDelete = async () => {
@@ -186,14 +194,15 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
     
     setIsDeleting(true)
     try {
-      // Aquí deberías implementar la función de eliminación
+      await removeCategory(deleteConfirm.id)
       await loadCategories()
       setDeleteConfirm(null)
       setSuccessModal({
         title: t('settings.success.categoryDeleted'),
         message: t('settings.success.categoryDeletedMessage')
       })
-    } catch (error) {
+    } catch (error: any) {
+      setValidationError(error.response?.data?.message || error.message || t('settings.error.deleteFailed'))
     } finally {
       setIsDeleting(false)
     }
@@ -243,13 +252,13 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
         </div>
 
         <div className={styles.itemsList}>
-          {categories.map((category, index) => (
-            <div key={index} className={styles.item}>
-              <span>{category}</span>
+          {categories.map((category) => (
+            <div key={category._id} className={styles.item}>
+              <span>{category.nombre}</span>
               <div className={styles.itemActions}>
                 <Tooltip content={t('common.edit')}>
                   <button
-                    onClick={() => handleEditClick(category, index)}
+                    onClick={() => handleEditClick(category._id!, category.nombre)}
                     className={styles.editButton}
                     aria-label={t('common.edit')}
                   >
@@ -258,7 +267,7 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
                 </Tooltip>
                 <Tooltip content={t('common.delete')}>
                   <button
-                    onClick={() => handleDeleteClick(category, index)}
+                    onClick={() => handleDeleteClick(category._id!, category.nombre)}
                     className={styles.deleteButton}
                     aria-label={t('common.delete')}
                   >
