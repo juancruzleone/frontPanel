@@ -143,7 +143,15 @@ const useRegisterTechnician = () => {
     async (
       e: React.FormEvent,
       onSuccess: (message: string) => void,
-      onAdd: (data: { userName: string; fullName: string; password: string; confirmPassword: string }) => Promise<{ message: string }>,
+      onAdd: (data: { 
+        userName: string
+        fullName: string
+        password: string
+        confirmPassword: string
+        email: string
+        documento: string
+        profilePhoto?: File | null
+      }) => Promise<{ message: string }>,
     ) => {
       e.preventDefault()
 

@@ -17,9 +17,6 @@ export const updateSubscription = async (subscriptionId: string, updateData: any
     frecuencia: updateData.frecuencia,
     mesesFrecuencia: updateData.mesesFrecuencia,
     estado: updateData.estado,
-    generacionAutomatica: updateData.generacionAutomatica,
-    fechaInicioGeneracion: updateData.fechaInicio,
-    fechaFinGeneracion: updateData.fechaFin,
   }
   
   // Asegurarse de que la URL esté bien formada
