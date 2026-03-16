@@ -198,22 +198,10 @@ const ManualForm = ({
         <div className={styles.formGroup}>
           <label>{t('manuals.active')} *</label>
           {loadingAssets ? (
-            <p>{t('common.loading')}</p>
-          ) : errorLoadingAssets ? (
-            <div>
-              <p className={styles.error}>
-                {errorLoadingAssets.includes("No hay activos")
-                  ? errorLoadingAssets
-                  : t('manuals.errorLoadingAssets')}
-              </p>
-              <button type="button" onClick={onRetryLoadAssets} className={styles.retryButton}>
-                {t('common.retry')}
-              </button>
+            <div className={styles.loadingMessage}>
+              <div className={styles.spinner}></div>
+              {t('common.loading')}
             </div>
-          ) : assets.length === 0 ? (
-            <p className={styles.error}>
-              {t('manuals.noAssetsAvailable')}. {t('manuals.createAssetsFirst')}.
-            </p>
           ) : (
             <div className={styles.fullWidth}>
               <HybridSelect
@@ -221,13 +209,13 @@ const ManualForm = ({
                 value={formData.assetId}
                 onChange={(value) => handleFieldChange('assetId', value)}
                 onBlur={() => handleFieldBlur('assetId')}
-                disabled={isSubmitting}
+                disabled={isSubmitting || loadingAssets}
                 options={[
                   { value: "", label: t('manuals.selectAsset') },
-                  ...assets.map((asset) => ({
+                  ...(Array.isArray(assets) && assets.length > 0 ? assets.map((asset) => ({
                     value: asset._id,
                     label: asset.nombre
-                  }))
+                  })) : [])
                 ]}
                 placeholder={t('manuals.selectAsset')}
                 error={!!showError('assetId')}
@@ -236,6 +224,16 @@ const ManualForm = ({
           )}
           {showError('assetId') && (
             <p className={styles.inputError}>{formErrorsState['assetId']}</p>
+          )}
+          {!loadingAssets && (!Array.isArray(assets) || assets.length === 0) && (
+            <p className={styles.hint}>
+              {t('manuals.noAssetsAvailable')}. {t('manuals.createAssetsFirst')}.
+            </p>
+          )}
+          {errorLoadingAssets && !loadingAssets && (
+            <p className={styles.hint} style={{ color: 'var(--color-error, #ef4444)' }}>
+              {errorLoadingAssets}
+            </p>
           )}
         </div>
 

@@ -85,6 +85,7 @@
   position: relative;
 }
 
+/* Modo claro - línea negra */
 .header h2::after {
   content: '';
   position: absolute;
@@ -92,8 +93,13 @@
   left: 0;
   width: 40px;
   height: 3px;
-  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
+  background: linear-gradient(90deg, #000, rgba(0, 0, 0, 0.8));
   border-radius: 2px;
+}
+
+/* Modo oscuro - línea blanca */
+:global(.dark) .header h2::after {
+  background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.8));
 }
 
 .closeButton {

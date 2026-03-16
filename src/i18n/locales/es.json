@@ -247,6 +247,8 @@
   },
   "common": {
     "saving": "Guardando...",
+    "sending": "Enviando...",
+    "deleting": "Eliminando...",
     "successTitle": "¡Operación exitosa!",
     "understood": "cerrar",
     "loading": "Cargando...",
@@ -919,6 +921,7 @@
     "fieldType": "Tipo de Campo",
     "fieldLabel": "Nombre del campo",
     "fieldRequired": "Obligatorio",
+    "required": "Obligatorio",
     "fieldOptions": "Opciones (separadas por comas)",
     "removeField": "Eliminar Campo",
     "saveTemplate": "Guardar Plantilla",

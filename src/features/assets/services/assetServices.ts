@@ -13,17 +13,35 @@ export const fetchAssets = async (params: { page?: number, limit?: number, searc
   if (params.limit) queryParams.append('limit', params.limit.toString())
   if (params.search) queryParams.append('search', params.search)
 
-  const response = await fetch(`${API_URL}activos?${queryParams.toString()}`, {
-    headers: getAuthHeaders(),
-  })
+  const url = `${API_URL}activos?${queryParams.toString()}`;
+  console.log('Fetching assets from:', url);
 
-  if (!response.ok) {
-    const error = await response.json()
-    throw new Error(error.message || "Error al obtener activos")
+  try {
+    const response = await fetch(url, {
+      headers: getAuthHeaders(),
+    })
+
+    if (!response.ok) {
+      let errorMessage = "Error al obtener activos";
+      try {
+        const error = await response.json()
+        errorMessage = error.message || errorMessage;
+      } catch (e) {
+        errorMessage = `Error ${response.status}: ${response.statusText}`;
+      }
+      throw new Error(errorMessage)
+    }
+
+    const result = await response.json()
+    console.log('Assets response:', result);
+    
+    // Devolver la respuesta tal cual viene del backend
+    // El backend devuelve: { assets: [...], total, totalPages }
+    return result;
+  } catch (error: any) {
+    console.error('Error fetching assets:', error);
+    throw error;
   }
-
-  const result = await response.json()
-  return result;
 }
 
 export const fetchTemplates = async (params: { page?: number, limit?: number, search?: string } = {}): Promise<any> => {
@@ -42,7 +60,9 @@ export const fetchTemplates = async (params: { page?: number, limit?: number, se
   }
 
   const result = await response.json()
-  return result
+  // El backend devuelve { success: true, data: templates, pagination: {...} }
+  // Extraer solo el array de templates
+  return result.success && result.data ? result.data : []
 }
 
 export const createAsset = async (asset: any) => {

@@ -12,6 +12,7 @@ interface Props {
   cancelText?: string
   isLoading?: boolean
   variant?: 'danger' | 'warning' | 'info'
+  loadingText?: string
 }
 
 const ConfirmModal = ({
@@ -23,7 +24,8 @@ const ConfirmModal = ({
   confirmText,
   cancelText,
   isLoading = false,
-  variant = 'danger'
+  variant = 'danger',
+  loadingText
 }: Props) => {
   const { t } = useTranslation()
   
@@ -71,7 +73,7 @@ const ConfirmModal = ({
               e.currentTarget.style.color = 'white'; 
             }}
           >
-            {isLoading ? t('common.loading') : confirmText || t('common.delete')}
+            {isLoading ? (loadingText || t('common.deleting')) : confirmText || t('common.delete')}
           </button>
         </div>
       </div>

@@ -6,17 +6,39 @@
   background: var(--color-card);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-text) var(--color-bg-light);
+}
+
+.tableWrapper::-webkit-scrollbar {
+  height: 8px;
+}
+
+.tableWrapper::-webkit-scrollbar-track {
+  background: var(--color-bg-light);
+  border-radius: 4px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb {
+  background: var(--color-text);
+  border-radius: 4px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
 }
 
 .tableContainer {
   width: 100%;
-  overflow-x: auto;
+  min-width: 100%;
 }
 
 .table {
   width: 100%;
+  min-width: 900px;
   border-collapse: collapse;
   font-size: 14px;
+  table-layout: fixed;
 }
 
 .thead {
@@ -28,7 +50,7 @@
 }
 
 .th {
-  padding: 16px;
+  padding: 16px 12px;
   text-align: left;
   font-weight: 600;
   color: var(--color-text);
@@ -36,6 +58,8 @@
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tbody {
@@ -56,9 +80,11 @@
 }
 
 .td {
-  padding: 16px;
+  padding: 16px 12px;
   color: var(--color-text);
   vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .emptyCell {
@@ -77,6 +103,10 @@
 }
 
 @media (max-width: 768px) {
+  .table {
+    min-width: 800px;
+  }
+  
   .th,
   .td {
     padding: 12px 8px;
@@ -89,6 +119,10 @@
 }
 
 @media (max-width: 480px) {
+  .table {
+    min-width: 700px;
+  }
+  
   .th,
   .td {
     padding: 10px 6px;

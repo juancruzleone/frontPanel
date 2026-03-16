@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { X, AlertCircle, Wrench } from 'lucide-react'
+import { X, AlertCircle } from 'lucide-react'
 import { useTheme } from '../../../shared/hooks/useTheme'
 import HybridSelect from '../../../shared/components/HybridSelect/HybridSelect'
 import styles from '../styles/modalRequestMaintenance.module.css'
@@ -200,14 +200,13 @@ const ModalRequestMaintenance: React.FC<ModalRequestMaintenanceProps> = ({
   ]
 
   return (
-    <div className={styles.overlay} onClick={handleClose}>
+    <div className={styles.overlay}>
       <div 
         className={`${styles.modal} ${styles.large} ${dark ? styles.dark : ''}`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className={styles.header}>
           <h2>
-            <Wrench size={24} />
             {t('maintenanceRequests.modal.title')}
           </h2>
           <button

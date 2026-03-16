@@ -61,10 +61,10 @@ const AssetForm = ({
       setFormData({
         nombre: initialData.nombre || "",
         templateId: initialData.templateId || "",
-        marca: initialData.marca || "",
-        modelo: initialData.modelo || "",
-        numeroSerie: initialData.numeroSerie || "",
-        stock: initialData.stock || 0,
+        marca: initialData.marca ?? "",
+        modelo: initialData.modelo ?? "",
+        numeroSerie: initialData.numeroSerie ?? "",
+        stock: initialData.stock ?? 0,
       })
 
       // Encontrar la categoría de la plantilla actual

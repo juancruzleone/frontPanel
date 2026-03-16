@@ -84,7 +84,7 @@
 }
 
 .loginInput:hover:not(:disabled) {
-  border-color: #fff;
+  border-color: #000;
 }
 
 .eyesButton {

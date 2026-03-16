@@ -436,18 +436,20 @@ const Installations = () => {
                     align: 'center' as const,
                     render: (inst: any) => (
                       <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                        <Tooltip content={t('maintenanceRequests.requestMaintenance')}>
-                          <button
-                            className={styles.iconButton}
-                            onClick={() => {
-                              setSelectedInstallation(inst)
-                              setIsRequestMaintenanceModalOpen(true)
-                            }}
-                            aria-label={t('maintenanceRequests.requestMaintenance')}
-                          >
-                            <Wrench size={20} />
-                          </button>
-                        </Tooltip>
+                        {isClientUser && (
+                          <Tooltip content={t('maintenanceRequests.requestMaintenance')}>
+                            <button
+                              className={styles.iconButton}
+                              onClick={() => {
+                                setSelectedInstallation(inst)
+                                setIsRequestMaintenanceModalOpen(true)
+                              }}
+                              aria-label={t('maintenanceRequests.requestMaintenance')}
+                            >
+                              <Wrench size={20} />
+                            </button>
+                          </Tooltip>
+                        )}
                         {!isClientUser && (
                           <Tooltip content={t('installations.addDevice')}>
                             <button
@@ -525,19 +527,21 @@ const Installations = () => {
 
                   <div className={styles.cardActions}>
                     <div className={styles.actionButtons}>
-                      <Tooltip content={t('maintenanceRequests.requestMaintenance')}>
-                        <button
-                          className={styles.iconButton}
-                          onClick={() => {
-                            setSelectedInstallation(inst)
-                            setIsRequestMaintenanceModalOpen(true)
-                          }}
-                          aria-label={t('maintenanceRequests.requestMaintenance')}
-                          data-tooltip={t('maintenanceRequests.requestMaintenance')}
-                        >
-                          <Wrench size={20} />
-                        </button>
-                      </Tooltip>
+                      {isClientUser && (
+                        <Tooltip content={t('maintenanceRequests.requestMaintenance')}>
+                          <button
+                            className={styles.iconButton}
+                            onClick={() => {
+                              setSelectedInstallation(inst)
+                              setIsRequestMaintenanceModalOpen(true)
+                            }}
+                            aria-label={t('maintenanceRequests.requestMaintenance')}
+                            data-tooltip={t('maintenanceRequests.requestMaintenance')}
+                          >
+                            <Wrench size={20} />
+                          </button>
+                        </Tooltip>
+                      )}
                       {!isClientUser && (
                         <>
                           <Tooltip content={t('installations.addDevice')}>

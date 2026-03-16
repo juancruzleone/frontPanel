@@ -62,11 +62,8 @@ const useAssets = () => {
     setTemplatesLoading(true)
     try {
       const result = await fetchTemplates(params)
-      if (result.success && result.pagination) {
-        setTemplates(Array.isArray(result.data) ? result.data : [])
-      } else {
-        setTemplates(Array.isArray(result) ? result : [])
-      }
+      // fetchTemplates ahora devuelve directamente el array de templates
+      setTemplates(Array.isArray(result) ? result : [])
     } catch (err: any) {
       setError(err.message)
       setTemplates([]) // Ensure templates is always an array even on error
@@ -110,11 +107,13 @@ const useAssets = () => {
   useEffect(() => {
     loadTemplates({ page: 1, limit: 100 }) // Load all relevant templates for selection
     loadAssets({ page: 1, limit: 10 })
-  }, [loadTemplates, loadAssets])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // Solo ejecutar una vez al montar el componente
 
   useEffect(() => {
     loadCategories()
-  }, [loadCategories])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // Solo ejecutar una vez al montar el componente
 
   const addAsset = async (asset: Asset): Promise<{ message: string }> => {
     try {

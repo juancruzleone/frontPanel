@@ -79,10 +79,36 @@ const useManuals = () => {
     setLoadingAssets(true);
     setErrorLoadingAssets(null);
     try {
-      const data = await fetchAssets({ page: 1, limit: 1000 }); // All assets for filter/select
-      setAssets(data.success ? data.data : data);
+      const result = await fetchAssets({ page: 1, limit: 1000 }); // All assets for filter/select
+      
+      // La API devuelve: {assets: Array, total: number, totalPages: number}
+      if (result.assets && Array.isArray(result.assets)) {
+        setAssets(result.assets);
+        if (result.assets.length === 0) {
+          setErrorLoadingAssets("No hay activos disponibles. Crea activos primero.");
+        }
+      } else if (result.success && result.data) {
+        // Formato alternativo con success
+        const assetsData = Array.isArray(result.data) ? result.data : [];
+        setAssets(assetsData);
+        if (assetsData.length === 0) {
+          setErrorLoadingAssets("No hay activos disponibles. Crea activos primero.");
+        }
+      } else if (Array.isArray(result)) {
+        // Fallback para array directo
+        setAssets(result);
+        if (result.length === 0) {
+          setErrorLoadingAssets("No hay activos disponibles. Crea activos primero.");
+        }
+      } else {
+        setAssets([]);
+        setErrorLoadingAssets("Formato de respuesta inválido del servidor");
+      }
     } catch (err: any) {
-      setErrorLoadingAssets(err.message);
+      console.error("Error al cargar activos:", err);
+      setAssets([]); // Asegurar que assets sea un array vacío en caso de error
+      const errorMessage = err.message || "Error al cargar activos";
+      setErrorLoadingAssets(errorMessage);
     } finally {
       setLoadingAssets(false);
     }
@@ -124,7 +150,8 @@ const useManuals = () => {
   useEffect(() => {
     loadManuals({ page: 1, limit: 10 });
     loadAssets();
-  }, [loadManuals, loadAssets]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Solo ejecutar una vez al montar el componente
 
   const { t } = useTranslation();
   const validateForm = useCallback(async (data: Partial<Manual>) => {

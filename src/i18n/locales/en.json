@@ -247,6 +247,8 @@
   },
   "common": {
     "saving": "Saving",
+    "sending": "Sending...",
+    "deleting": "Deleting...",
     "successTitle": "Operation successful!",
     "understood": "Close",
     "loading": "Loading...",
@@ -937,6 +939,7 @@
     "fieldType": "Field type",
     "fieldLabel": "Field label",
     "fieldRequired": "Required field",
+    "required": "Required",
     "fieldOptions": "Options (comma separated)",
     "removeField": "Remove field",
     "saveTemplate": "Save template",

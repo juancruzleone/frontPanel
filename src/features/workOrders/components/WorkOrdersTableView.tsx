@@ -35,7 +35,7 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
     {
       key: 'titulo',
       header: t('workOrders.title'),
-      width: '18%'
+      width: '15%'
     },
     {
       key: 'prioridad',
@@ -50,7 +50,8 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
             padding: '4px 8px',
             borderRadius: '12px',
             fontSize: '11px',
-            fontWeight: 700
+            fontWeight: 700,
+            whiteSpace: 'nowrap'
           }}
         >
           {translatePriority(order.prioridad)}
@@ -72,14 +73,18 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
       key: 'tipoTrabajo',
       header: t('workOrders.type'),
       width: '10%',
-      render: (order) => translateWorkType(order.tipoTrabajo)
+      render: (order) => (
+        <span style={{ fontSize: '13px' }}>
+          {translateWorkType(order.tipoTrabajo)}
+        </span>
+      )
     },
     {
       key: 'fechaProgramada',
       header: t('calendar.scheduledDate'),
-      width: '12%',
+      width: '10%',
       render: (order) => (
-        <span style={{ fontSize: '13px' }}>
+        <span style={{ fontSize: '13px', whiteSpace: 'nowrap' }}>
           {new Date(order.fechaProgramada).toLocaleDateString('es-ES', { 
             day: '2-digit', 
             month: '2-digit',
@@ -101,7 +106,7 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
     {
       key: 'tecnico',
       header: t('workOrders.assignedTechnician'),
-      width: '18%',
+      width: '15%',
       render: (order) => {
         // Soportar múltiples técnicos
         const tecnicos = order.tecnicos && order.tecnicos.length > 0 
@@ -153,7 +158,7 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
     {
       key: 'actions',
       header: t('common.actions'),
-      width: '12%',
+      width: '20%',
       align: 'center',
       render: (order) => (
         <div style={{ display: 'flex', gap: '4px', justifyContent: 'center', flexWrap: 'wrap' }}>
