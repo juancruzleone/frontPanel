@@ -1,46 +1,20 @@
 import { useAuthStore } from '../../../store/authStore'
 import { getHeadersWithContentType } from '../../../shared/utils/apiHeaders'
+import { updateInstallation } from '../../installations/services/installationServices'
 
 const API_URL = import.meta.env.VITE_API_URL
 
 export const updateSubscription = async (subscriptionId: string, updateData: any) => {
-  // Obtener el token del store
-  const token = useAuthStore.getState().token
+  console.log('🚀 updateSubscription - Usando servicio de installationServices')
   
-  if (!token) {
-    throw new Error('Token de autorización requerido')
-  }
-  
-  const updatePayload = {
-    fechaInicio: updateData.fechaInicio,
-    fechaFin: updateData.fechaFin,
-    frecuencia: updateData.frecuencia,
-    mesesFrecuencia: updateData.mesesFrecuencia,
-    estado: updateData.estado,
-  }
-  
-  // Asegurarse de que la URL esté bien formada
-  const baseUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL
-  // Usar la ruta PATCH de suscripción
-  const url = `${baseUrl}/installations/${subscriptionId}/subscription`
-  
+  // SOLUCIÓN: Usar el servicio updateInstallation que SÍ FUNCIONA
+  // en lugar de hacer fetch directamente
   try {
-    const response = await fetch(url, {
-      method: "PATCH",
-      headers: getHeadersWithContentType(),
-      body: JSON.stringify(updatePayload),
-    })
-    
-    const data = await response.json()
-    
-    if (!response.ok) {
-      // Si hay un mensaje de error específico del servidor, usarlo
-      throw new Error(data.error?.message || data.message || "Error al actualizar suscripción")
-    }
-    
-    return data
+    const result = await updateInstallation(subscriptionId, updateData)
+    console.log('✅ Suscripción actualizada exitosamente')
+    return result
   } catch (error: any) {
-    // Re-lanzar el error para que sea manejado por el componente
+    console.error('❌ Error al actualizar:', error)
     throw error
   }
 }
