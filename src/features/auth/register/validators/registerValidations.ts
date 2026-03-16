@@ -6,14 +6,37 @@ export const getCuentaRegistroSchema = (t: TFunction) => yup.object({
     .string()
     .trim()
     .required(t("personal.validation.usernameRequired"))
-    .min(6, "El nombre de usuario debe tener al menos 6 caracteres")
-    .max(50, "El nombre de usuario no puede tener más de 50 caracteres")
-    .matches(/^[a-zA-Z0-9_]+$/, "El nombre de usuario solo puede contener letras, números y guiones bajos"),
+    .min(6, t("personal.validation.usernameMinLength"))
+    .max(50, t("personal.validation.usernameMaxLength"))
+    .matches(/^[a-zA-Z0-9_]+$/, t("personal.validation.usernameInvalidChars")),
+  firstName: yup
+    .string()
+    .trim()
+    .required(t("personal.validation.firstNameRequired"))
+    .min(2, t("personal.validation.firstNameMinLength"))
+    .max(50, t("personal.validation.firstNameMaxLength")),
+  lastName: yup
+    .string()
+    .trim()
+    .required(t("personal.validation.lastNameRequired"))
+    .min(2, t("personal.validation.lastNameMinLength"))
+    .max(50, t("personal.validation.lastNameMaxLength")),
+  email: yup
+    .string()
+    .trim()
+    .required(t("personal.validation.emailRequired"))
+    .email(t("personal.validation.emailInvalid")),
+  documento: yup
+    .string()
+    .trim()
+    .required(t("personal.validation.documentoRequired"))
+    .min(5, t("personal.validation.documentoMinLength"))
+    .max(20, t("personal.validation.documentoMaxLength")),
   password: yup
     .string()
     .required(t("personal.validation.passwordRequired"))
     .min(6, t("personal.validation.passwordMinLength"))
-    .max(100, "La contraseña no puede tener más de 100 caracteres"),
+    .max(100, t("personal.validation.passwordMaxLength")),
   confirmPassword: yup
     .string()
     .required(t("personal.validation.confirmPasswordRequired"))
@@ -29,6 +52,29 @@ export const cuentaRegistro = yup.object({
     .min(6, "El nombre de usuario debe tener al menos 6 caracteres")
     .max(50, "El nombre de usuario no puede tener más de 50 caracteres")
     .matches(/^[a-zA-Z0-9_]+$/, "El nombre de usuario solo puede contener letras, números y guiones bajos"),
+  firstName: yup
+    .string()
+    .trim()
+    .required("El nombre es obligatorio para técnicos")
+    .min(2, "El nombre debe tener al menos 2 caracteres")
+    .max(50, "El nombre no puede tener más de 50 caracteres"),
+  lastName: yup
+    .string()
+    .trim()
+    .required("El apellido es obligatorio para técnicos")
+    .min(2, "El apellido debe tener al menos 2 caracteres")
+    .max(50, "El apellido no puede tener más de 50 caracteres"),
+  email: yup
+    .string()
+    .trim()
+    .required("El email es obligatorio para técnicos")
+    .email("El email no es válido"),
+  documento: yup
+    .string()
+    .trim()
+    .required("El documento es obligatorio para técnicos")
+    .min(5, "El documento debe tener al menos 5 caracteres")
+    .max(20, "El documento no puede tener más de 20 caracteres"),
   password: yup
     .string()
     .required("La contraseña es obligatoria")
@@ -42,6 +88,10 @@ export const cuentaRegistro = yup.object({
 
 export const validateRegisterForm = async (data: {
   userName: string
+  firstName: string
+  lastName: string
+  email: string
+  documento: string
   fullName: string
   password: string
   confirmPassword: string
@@ -67,6 +117,10 @@ export const validateRegisterForm = async (data: {
 export const validateRegisterFormWithTranslation = async (
   data: {
     userName: string
+    firstName: string
+    lastName: string
+    email: string
+    documento: string
     fullName: string
     password: string
     confirmPassword: string
@@ -97,6 +151,10 @@ export const validateField = async (
   value: string,
   allData: {
     userName: string
+    firstName: string
+    lastName: string
+    email: string
+    documento: string
     fullName: string
     password: string
     confirmPassword: string
@@ -112,6 +170,34 @@ export const validateField = async (
           userName: cuentaRegistro.fields.userName,
         })
         await fieldSchema.validate({ userName: value })
+        break
+
+      case "firstName":
+        fieldSchema = yup.object({
+          firstName: cuentaRegistro.fields.firstName,
+        })
+        await fieldSchema.validate({ firstName: value })
+        break
+
+      case "lastName":
+        fieldSchema = yup.object({
+          lastName: cuentaRegistro.fields.lastName,
+        })
+        await fieldSchema.validate({ lastName: value })
+        break
+
+      case "email":
+        fieldSchema = yup.object({
+          email: cuentaRegistro.fields.email,
+        })
+        await fieldSchema.validate({ email: value })
+        break
+
+      case "documento":
+        fieldSchema = yup.object({
+          documento: cuentaRegistro.fields.documento,
+        })
+        await fieldSchema.validate({ documento: value })
         break
 
       case "password":
@@ -146,6 +232,10 @@ export const validateFieldWithTranslation = async (
   value: string,
   allData: {
     userName: string
+    firstName: string
+    lastName: string
+    email: string
+    documento: string
     fullName: string
     password: string
     confirmPassword: string
@@ -162,6 +252,34 @@ export const validateFieldWithTranslation = async (
           userName: schema.fields.userName,
         })
         await fieldSchema.validate({ userName: value })
+        break
+
+      case "firstName":
+        fieldSchema = yup.object({
+          firstName: schema.fields.firstName,
+        })
+        await fieldSchema.validate({ firstName: value })
+        break
+
+      case "lastName":
+        fieldSchema = yup.object({
+          lastName: schema.fields.lastName,
+        })
+        await fieldSchema.validate({ lastName: value })
+        break
+
+      case "email":
+        fieldSchema = yup.object({
+          email: schema.fields.email,
+        })
+        await fieldSchema.validate({ email: value })
+        break
+
+      case "documento":
+        fieldSchema = yup.object({
+          documento: schema.fields.documento,
+        })
+        await fieldSchema.validate({ documento: value })
         break
 
       case "password":

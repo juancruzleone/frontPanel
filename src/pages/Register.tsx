@@ -43,8 +43,16 @@ const Register = () => {
   const { tourCompleted, startTour, resetTour, skipTour } = usePersonalTour()
 
   // Wrapper para addTechnician que acepta FormData
-  const handleAddTechnician = async (data: { userName: string; fullName: string; password: string; confirmPassword: string }) => {
-    return await addTechnician(data.userName, data.password, data.fullName)
+  const handleAddTechnician = async (data: { 
+    userName: string
+    fullName: string
+    password: string
+    confirmPassword: string
+    email: string
+    documento: string
+    profilePhoto?: File | null
+  }) => {
+    return await addTechnician(data.userName, data.password, data.fullName, data.email, data.documento, data.profilePhoto)
   }
 
   useEffect(() => {

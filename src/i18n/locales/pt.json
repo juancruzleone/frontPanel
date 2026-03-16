@@ -92,19 +92,26 @@
     "profilePhotoHint": "Opcional. Formatos aceitos: JPG, PNG (máx. 5MB)",
     "validation": {
       "usernameRequired": "O nome de usuário é obrigatório",
+      "usernameMinLength": "O nome de usuário deve ter pelo menos 6 caracteres",
+      "usernameMaxLength": "O nome de usuário não pode exceder 50 caracteres",
+      "usernameInvalidChars": "O nome de usuário só pode conter letras, números e sublinhados",
       "fullNameRequired": "O nome completo é obrigatório",
       "passwordRequired": "A senha é obrigatória",
-      "passwordsDoNotMatch": "As senhas não coincidem",
       "passwordMinLength": "A senha deve ter pelo menos 6 caracteres",
+      "passwordMaxLength": "A senha não pode exceder 100 caracteres",
+      "passwordsDoNotMatch": "As senhas não coincidem",
       "confirmPasswordRequired": "Você deve confirmar a senha",
-      "firstNameRequired": "O nome é obrigatório",
+      "firstNameRequired": "O nome é obrigatório para técnicos",
       "firstNameMinLength": "O nome deve ter pelo menos 2 caracteres",
-      "lastNameRequired": "O sobrenome é obrigatório",
+      "firstNameMaxLength": "O nome não pode exceder 50 caracteres",
+      "lastNameRequired": "O sobrenome é obrigatório para técnicos",
       "lastNameMinLength": "O sobrenome deve ter pelo menos 2 caracteres",
-      "emailRequired": "O e-mail é obrigatório",
-      "emailInvalid": "Deve ser um e-mail válido",
-      "documentoRequired": "O documento é obrigatório",
-      "documentoMinLength": "O documento deve ter pelo menos 6 caracteres"
+      "lastNameMaxLength": "O sobrenome não pode exceder 50 caracteres",
+      "emailRequired": "O e-mail é obrigatório para técnicos",
+      "emailInvalid": "O e-mail não é válido",
+      "documentoRequired": "O documento é obrigatório para técnicos",
+      "documentoMinLength": "O documento deve ter pelo menos 5 caracteres",
+      "documentoMaxLength": "O documento não pode exceder 20 caracteres"
     },
     "tour": {
       "welcome": {

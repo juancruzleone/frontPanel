@@ -66,16 +66,20 @@ const useRegisterTechnician = () => {
         return
       }
 
-      const mappedFieldName = fieldName === "username" ? "userName" : fieldName
-
+      // No necesitamos mapear fieldName porque ya coinciden con el esquema de validación
       const validationData = {
         userName: fieldName === "username" ? (value as string) : formData.username,
+        firstName: fieldName === "firstName" ? (value as string) : formData.firstName,
+        lastName: fieldName === "lastName" ? (value as string) : formData.lastName,
         fullName: `${fieldName === "firstName" ? (value as string) : formData.firstName} ${fieldName === "lastName" ? (value as string) : formData.lastName}`.trim(),
         email: fieldName === "email" ? (value as string) : formData.email,
         documento: fieldName === "documento" ? (value as string) : formData.documento,
         password: fieldName === "password" ? (value as string) : formData.password,
         confirmPassword: fieldName === "confirmPassword" ? (value as string) : formData.confirmPassword,
       }
+
+      // Mapear el nombre del campo para la validación
+      const mappedFieldName = fieldName === "username" ? "userName" : fieldName
 
       const result = await validateFieldWithTranslation(mappedFieldName, value as string, validationData, t)
 
@@ -172,7 +176,11 @@ const useRegisterTechnician = () => {
       try {
         const validation = await validateRegisterFormWithTranslation({
           userName: formData.username,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
           fullName: `${formData.firstName} ${formData.lastName}`.trim(),
+          email: formData.email,
+          documento: formData.documento,
           password: formData.password,
           confirmPassword: formData.confirmPassword,
         }, t)
@@ -183,12 +191,15 @@ const useRegisterTechnician = () => {
           return
         }
 
-        // Pasar los datos como objeto
+        // Pasar los datos como objeto incluyendo email, documento y foto
         const submitData = {
           userName: formData.username,
           fullName: `${formData.firstName} ${formData.lastName}`.trim(),
           password: formData.password,
           confirmPassword: formData.confirmPassword,
+          email: formData.email,
+          documento: formData.documento,
+          profilePhoto: formData.profilePhoto,
         }
 
         const result = await onAdd(submitData)

@@ -19,7 +19,15 @@ interface RegisterTechnicianFormData {
 interface RegisterTechnicianFormProps {
   onCancel: () => void
   onSuccess: (message: string) => void
-  onAdd: (data: { userName: string; fullName: string; password: string; confirmPassword: string }) => Promise<{ message: string }>
+  onAdd: (data: { 
+    userName: string
+    fullName: string
+    password: string
+    confirmPassword: string
+    email: string
+    documento: string
+    profilePhoto?: File | null
+  }) => Promise<{ message: string }>
   formData: RegisterTechnicianFormData
   formErrors: Record<string, string>
   showPassword: boolean
@@ -30,7 +38,15 @@ interface RegisterTechnicianFormProps {
   handleSubmitForm: (
     e: React.FormEvent,
     onSuccess: (message: string) => void,
-    onAdd: (data: { userName: string; fullName: string; password: string; confirmPassword: string }) => Promise<{ message: string }>,
+    onAdd: (data: { 
+      userName: string
+      fullName: string
+      password: string
+      confirmPassword: string
+      email: string
+      documento: string
+      profilePhoto?: File | null
+    }) => Promise<{ message: string }>,
   ) => void
   isSubmitting: boolean
   togglePasswordVisibility: () => void

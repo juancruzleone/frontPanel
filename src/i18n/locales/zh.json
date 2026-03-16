@@ -92,19 +92,26 @@
     "profilePhotoHint": "可选。接受的格式：JPG、PNG（最大5MB）",
     "validation": {
       "usernameRequired": "用户名是必需的",
+      "usernameMinLength": "用户名必须至少6个字符",
+      "usernameMaxLength": "用户名不能超过50个字符",
+      "usernameInvalidChars": "用户名只能包含字母、数字和下划线",
       "fullNameRequired": "全名是必需的",
       "passwordRequired": "密码是必需的",
-      "passwordsDoNotMatch": "密码不匹配",
       "passwordMinLength": "密码必须至少6个字符",
+      "passwordMaxLength": "密码不能超过100个字符",
+      "passwordsDoNotMatch": "密码不匹配",
       "confirmPasswordRequired": "您必须确认密码",
-      "firstNameRequired": "名字是必填项",
+      "firstNameRequired": "技术人员必须填写名字",
       "firstNameMinLength": "名字至少需要2个字符",
-      "lastNameRequired": "姓氏是必填项",
+      "firstNameMaxLength": "名字不能超过50个字符",
+      "lastNameRequired": "技术人员必须填写姓氏",
       "lastNameMinLength": "姓氏至少需要2个字符",
-      "emailRequired": "电子邮件是必填项",
-      "emailInvalid": "必须是有效的电子邮件",
-      "documentoRequired": "身份证件是必填项",
-      "documentoMinLength": "身份证件至少需要6个字符"
+      "lastNameMaxLength": "姓氏不能超过50个字符",
+      "emailRequired": "技术人员必须填写电子邮件",
+      "emailInvalid": "电子邮件无效",
+      "documentoRequired": "技术人员必须填写身份证件",
+      "documentoMinLength": "身份证件至少需要5个字符",
+      "documentoMaxLength": "身份证件不能超过20个字符"
     },
     "tour": {
       "welcome": {

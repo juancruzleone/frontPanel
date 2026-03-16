@@ -93,19 +93,26 @@
     "profilePhotoHint": "Optional. Accepted formats: JPG, PNG (max. 5MB)",
     "validation": {
       "usernameRequired": "Username is required",
+      "usernameMinLength": "Username must be at least 6 characters",
+      "usernameMaxLength": "Username cannot exceed 50 characters",
+      "usernameInvalidChars": "Username can only contain letters, numbers and underscores",
       "fullNameRequired": "Full name is required",
       "passwordRequired": "Password is required",
-      "passwordsDoNotMatch": "Passwords do not match",
       "passwordMinLength": "Password must be at least 6 characters",
+      "passwordMaxLength": "Password cannot exceed 100 characters",
+      "passwordsDoNotMatch": "Passwords do not match",
       "confirmPasswordRequired": "You must confirm the password",
-      "firstNameRequired": "First name is required",
+      "firstNameRequired": "First name is required for technicians",
       "firstNameMinLength": "First name must be at least 2 characters",
-      "lastNameRequired": "Last name is required",
+      "firstNameMaxLength": "First name cannot exceed 50 characters",
+      "lastNameRequired": "Last name is required for technicians",
       "lastNameMinLength": "Last name must be at least 2 characters",
-      "emailRequired": "Email is required",
-      "emailInvalid": "Must be a valid email",
-      "documentoRequired": "ID document is required",
-      "documentoMinLength": "ID document must be at least 6 characters"
+      "lastNameMaxLength": "Last name cannot exceed 50 characters",
+      "emailRequired": "Email is required for technicians",
+      "emailInvalid": "Email is not valid",
+      "documentoRequired": "ID document is required for technicians",
+      "documentoMinLength": "ID document must be at least 5 characters",
+      "documentoMaxLength": "ID document cannot exceed 20 characters"
     },
     "tour": {
       "welcome": {

@@ -6,14 +6,21 @@ export const createClient = async (username: string, password: string, fullName:
     const headers = getHeadersWithContentType()
     headers.Authorization = `Bearer ${token}`
 
-    const response = await fetch(`${API_URL}clientes-usuarios`, {
+    // Separar fullName en firstName y lastName
+    const nameParts = fullName.trim().split(' ')
+    const firstName = nameParts[0] || ''
+    const lastName = nameParts.slice(1).join(' ') || ''
+
+    // ✅ USAR LA NUEVA RUTA ESPECÍFICA PARA CLIENTES
+    const response = await fetch(`${API_URL}cuenta/cliente`, {
         method: "POST",
         headers,
         body: JSON.stringify({
             userName: username,
             password: password,
-            nombre: fullName
-            // role: 'cliente' no es necesario, el backend lo asigna automáticamente
+            firstName: firstName,
+            lastName: lastName
+            // ✅ YA NO ES NECESARIO ENVIAR EL ROL - El backend lo establece automáticamente
         }),
     })
 

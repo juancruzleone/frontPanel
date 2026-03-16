@@ -92,19 +92,26 @@
     "profilePhotoHint": "オプション。対応形式：JPG、PNG（最大5MB）",
     "validation": {
       "usernameRequired": "ユーザー名は必須です",
+      "usernameMinLength": "ユーザー名は6文字以上である必要があります",
+      "usernameMaxLength": "ユーザー名は50文字を超えることはできません",
+      "usernameInvalidChars": "ユーザー名には文字、数字、アンダースコアのみを含めることができます",
       "fullNameRequired": "フルネームは必須です",
       "passwordRequired": "パスワードは必須です",
-      "passwordsDoNotMatch": "パスワードが一致しません",
       "passwordMinLength": "パスワードは6文字以上である必要があります",
+      "passwordMaxLength": "パスワードは100文字を超えることはできません",
+      "passwordsDoNotMatch": "パスワードが一致しません",
       "confirmPasswordRequired": "パスワードの確認が必要です",
-      "firstNameRequired": "名は必須です",
+      "firstNameRequired": "技術者には名が必須です",
       "firstNameMinLength": "名は2文字以上である必要があります",
-      "lastNameRequired": "姓は必須です",
+      "firstNameMaxLength": "名は50文字を超えることはできません",
+      "lastNameRequired": "技術者には姓が必須です",
       "lastNameMinLength": "姓は2文字以上である必要があります",
-      "emailRequired": "メールは必須です",
-      "emailInvalid": "有効なメールアドレスである必要があります",
-      "documentoRequired": "身分証明書は必須です",
-      "documentoMinLength": "身分証明書は6文字以上である必要があります"
+      "lastNameMaxLength": "姓は50文字を超えることはできません",
+      "emailRequired": "技術者にはメールが必須です",
+      "emailInvalid": "メールが無効です",
+      "documentoRequired": "技術者には身分証明書が必須です",
+      "documentoMinLength": "身分証明書は5文字以上である必要があります",
+      "documentoMaxLength": "身分証明書は20文字を超えることはできません"
     },
     "tour": {
       "welcome": {

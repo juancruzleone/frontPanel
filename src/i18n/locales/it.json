@@ -92,19 +92,26 @@
     "profilePhotoHint": "Facoltativo. Formati accettati: JPG, PNG (max. 5MB)",
     "validation": {
       "usernameRequired": "Il nome utente è obbligatorio",
+      "usernameMinLength": "Il nome utente deve contenere almeno 6 caratteri",
+      "usernameMaxLength": "Il nome utente non può superare 50 caratteri",
+      "usernameInvalidChars": "Il nome utente può contenere solo lettere, numeri e trattini bassi",
       "fullNameRequired": "Il nome completo è obbligatorio",
       "passwordRequired": "La password è obbligatoria",
-      "passwordsDoNotMatch": "Le password non corrispondono",
       "passwordMinLength": "La password deve contenere almeno 6 caratteri",
+      "passwordMaxLength": "La password non può superare 100 caratteri",
+      "passwordsDoNotMatch": "Le password non corrispondono",
       "confirmPasswordRequired": "Devi confermare la password",
-      "firstNameRequired": "Il nome è obbligatorio",
+      "firstNameRequired": "Il nome è obbligatorio per i tecnici",
       "firstNameMinLength": "Il nome deve contenere almeno 2 caratteri",
-      "lastNameRequired": "Il cognome è obbligatorio",
+      "firstNameMaxLength": "Il nome non può superare 50 caratteri",
+      "lastNameRequired": "Il cognome è obbligatorio per i tecnici",
       "lastNameMinLength": "Il cognome deve contenere almeno 2 caratteri",
-      "emailRequired": "L'e-mail è obbligatoria",
-      "emailInvalid": "Deve essere un'e-mail valida",
-      "documentoRequired": "Il documento d'identità è obbligatorio",
-      "documentoMinLength": "Il documento d'identità deve contenere almeno 6 caratteri"
+      "lastNameMaxLength": "Il cognome non può superare 50 caratteri",
+      "emailRequired": "L'e-mail è obbligatoria per i tecnici",
+      "emailInvalid": "L'e-mail non è valida",
+      "documentoRequired": "Il documento d'identità è obbligatorio per i tecnici",
+      "documentoMinLength": "Il documento d'identità deve contenere almeno 5 caratteri",
+      "documentoMaxLength": "Il documento d'identità non può superare 20 caratteri"
     },
     "tour": {
       "welcome": {

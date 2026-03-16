@@ -3,18 +3,46 @@ import { detectPlanLimitError } from "../../../../shared/utils/planLimitErrorHan
 
 const API_URL = import.meta.env.VITE_API_URL
 
-export const userRegister = async (username: string, password: string, fullName: string, token: string) => {
-  const headers = getHeadersWithContentType()
-  headers.Authorization = `Bearer ${token}` // Sobrescribir el token del store con el token pasado como parámetro
+export const userRegister = async (
+  username: string, 
+  password: string, 
+  fullName: string, 
+  token: string,
+  email?: string,
+  documento?: string,
+  profilePhoto?: File | null
+) => {
+  const headers = getAuthHeaders() // Usar getAuthHeaders en lugar de getHeadersWithContentType
+  headers.Authorization = `Bearer ${token}`
   
-  const response = await fetch(`${API_URL}cuenta`, {
+  // Separar fullName en firstName y lastName
+  const nameParts = fullName.trim().split(' ')
+  const firstName = nameParts[0] || ''
+  const lastName = nameParts.slice(1).join(' ') || ''
+  
+  // Crear FormData para enviar archivos
+  const formData = new FormData()
+  formData.append('userName', username)
+  formData.append('password', password)
+  // ✅ YA NO ES NECESARIO ENVIAR EL ROL - El backend lo establece automáticamente
+  formData.append('firstName', firstName) // ✅ Enviar firstName
+  formData.append('lastName', lastName) // ✅ Enviar lastName
+  
+  if (email) {
+    formData.append('email', email)
+  }
+  if (documento) {
+    formData.append('documento', documento)
+  }
+  if (profilePhoto) {
+    formData.append('profilePhoto', profilePhoto)
+  }
+  
+  // ✅ USAR LA NUEVA RUTA ESPECÍFICA PARA TÉCNICOS
+  const response = await fetch(`${API_URL}cuenta/tecnico`, {
     method: "POST",
-    headers,
-    body: JSON.stringify({
-      userName: username,
-      password: password,
-      name: fullName,
-    }),
+    headers, // No incluir Content-Type, el navegador lo establecerá automáticamente con el boundary
+    body: formData, // Enviar FormData en lugar de JSON
   })
 
   if (!response.ok) {

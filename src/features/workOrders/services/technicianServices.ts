@@ -32,7 +32,8 @@ export const fetchTechnicians = async (): Promise<Technician[]> => {
 }
 
 export const createTechnician = async (technicianData: Partial<Technician>) => {
-  const response = await fetch(`${API_URL}cuenta`, {
+  // ✅ USAR LA NUEVA RUTA ESPECÍFICA PARA TÉCNICOS
+  const response = await fetch(`${API_URL}cuenta/tecnico`, {
     method: "POST",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(technicianData),

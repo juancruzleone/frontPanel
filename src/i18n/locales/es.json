@@ -93,19 +93,26 @@
     "profilePhotoHint": "Opcional. Formatos aceptados: JPG, PNG (máx. 5MB)",
     "validation": {
       "usernameRequired": "El nombre de usuario es obligatorio",
+      "usernameMinLength": "El nombre de usuario debe tener al menos 6 caracteres",
+      "usernameMaxLength": "El nombre de usuario no puede tener más de 50 caracteres",
+      "usernameInvalidChars": "El nombre de usuario solo puede contener letras, números y guiones bajos",
       "fullNameRequired": "El nombre completo es obligatorio",
       "passwordRequired": "La contraseña es obligatoria",
-      "passwordsDoNotMatch": "Las contraseñas no coinciden",
       "passwordMinLength": "La contraseña debe tener al menos 6 caracteres",
+      "passwordMaxLength": "La contraseña no puede tener más de 100 caracteres",
+      "passwordsDoNotMatch": "Las contraseñas no coinciden",
       "confirmPasswordRequired": "Debe confirmar la contraseña",
-      "firstNameRequired": "El nombre es obligatorio",
+      "firstNameRequired": "El nombre es obligatorio para técnicos",
       "firstNameMinLength": "El nombre debe tener al menos 2 caracteres",
-      "lastNameRequired": "El apellido es obligatorio",
+      "firstNameMaxLength": "El nombre no puede tener más de 50 caracteres",
+      "lastNameRequired": "El apellido es obligatorio para técnicos",
       "lastNameMinLength": "El apellido debe tener al menos 2 caracteres",
-      "emailRequired": "El correo electrónico es obligatorio",
-      "emailInvalid": "Debe ser un correo electrónico válido",
-      "documentoRequired": "El documento es obligatorio",
-      "documentoMinLength": "El documento debe tener al menos 6 caracteres"
+      "lastNameMaxLength": "El apellido no puede tener más de 50 caracteres",
+      "emailRequired": "El email es obligatorio para técnicos",
+      "emailInvalid": "El email no es válido",
+      "documentoRequired": "El documento es obligatorio para técnicos",
+      "documentoMinLength": "El documento debe tener al menos 5 caracteres",
+      "documentoMaxLength": "El documento no puede tener más de 20 caracteres"
     },
     "tour": {
       "welcome": {

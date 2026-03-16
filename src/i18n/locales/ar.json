@@ -92,19 +92,26 @@
     "profilePhotoHint": "اختياري. التنسيقات المقبولة: JPG، PNG (الحد الأقصى 5 ميجابايت)",
     "validation": {
       "usernameRequired": "اسم المستخدم مطلوب",
+      "usernameMinLength": "يجب أن يحتوي اسم المستخدم على 6 أحرف على الأقل",
+      "usernameMaxLength": "لا يمكن أن يتجاوز اسم المستخدم 50 حرفًا",
+      "usernameInvalidChars": "يمكن أن يحتوي اسم المستخدم على أحرف وأرقام وشرطات سفلية فقط",
       "fullNameRequired": "الاسم الكامل مطلوب",
       "passwordRequired": "كلمة المرور مطلوبة",
-      "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
       "passwordMinLength": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+      "passwordMaxLength": "لا يمكن أن تتجاوز كلمة المرور 100 حرف",
+      "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
       "confirmPasswordRequired": "يجب تأكيد كلمة المرور",
-      "firstNameRequired": "الاسم الأول مطلوب",
+      "firstNameRequired": "الاسم الأول مطلوب للفنيين",
       "firstNameMinLength": "يجب أن يحتوي الاسم الأول على حرفين على الأقل",
-      "lastNameRequired": "اسم العائلة مطلوب",
+      "firstNameMaxLength": "لا يمكن أن يتجاوز الاسم الأول 50 حرفًا",
+      "lastNameRequired": "اسم العائلة مطلوب للفنيين",
       "lastNameMinLength": "يجب أن يحتوي اسم العائلة على حرفين على الأقل",
-      "emailRequired": "البريد الإلكتروني مطلوب",
-      "emailInvalid": "يجب أن يكون بريدًا إلكترونيًا صالحًا",
-      "documentoRequired": "وثيقة الهوية مطلوبة",
-      "documentoMinLength": "يجب أن تحتوي وثيقة الهوية على 6 أحرف على الأقل"
+      "lastNameMaxLength": "لا يمكن أن يتجاوز اسم العائلة 50 حرفًا",
+      "emailRequired": "البريد الإلكتروني مطلوب للفنيين",
+      "emailInvalid": "البريد الإلكتروني غير صالح",
+      "documentoRequired": "وثيقة الهوية مطلوبة للفنيين",
+      "documentoMinLength": "يجب أن تحتوي وثيقة الهوية على 5 أحرف على الأقل",
+      "documentoMaxLength": "لا يمكن أن تتجاوز وثيقة الهوية 20 حرفًا"
     },
     "tour": {
       "welcome": {
