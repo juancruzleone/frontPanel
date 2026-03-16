@@ -10,6 +10,7 @@ vi.mock('react-i18next', () => ({
       const translations: Record<string, string> = {
         'common.cancel': 'Cancel',
         'common.delete': 'Delete',
+        'common.deleting': 'Loading...',
         'common.loading': 'Loading...',
         'common.ok': 'OK',
       }

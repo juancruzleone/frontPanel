@@ -1,6 +1,6 @@
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import { ChevronDown } from "lucide-react"
 import { useTheme } from "../../../shared/hooks/useTheme"
@@ -53,7 +53,12 @@ const InstallationForm = ({
   const { t } = useTranslation()
   const { dark } = useTheme()
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
-  const { installationTypes, loading: loadingTypes } = useInstallationTypes()
+  const { installationTypes, loading: loadingTypes, error: errorLoadingTypes, loadInstallationTypes } = useInstallationTypes()
+
+  // Recargar tipos de instalación cuando se monta el componente
+  useEffect(() => {
+    loadInstallationTypes()
+  }, [])
 
   const fields = [
     { name: "company", label: t('installations.company'), type: "text", placeholder: t('installations.companyPlaceholder') },
@@ -104,6 +109,39 @@ const InstallationForm = ({
         label: type.nombre
       }));
 
+      // Si hay un error de permisos (403), mostrar mensaje específico
+      if (errorLoadingTypes && errorLoadingTypes.includes('403')) {
+        return (
+          <div className={styles.fullWidth}>
+            <div style={{ padding: '12px', backgroundColor: '#f8d7da', border: '1px solid #f5c6cb', borderRadius: '4px', color: '#721c24' }}>
+              {t('installations.noPermissionTypes', 'No tienes permisos para acceder a los tipos de instalación. Por favor, contacta con el administrador.')}
+            </div>
+          </div>
+        )
+      }
+
+      // Si hay otro tipo de error, mostrar mensaje genérico
+      if (errorLoadingTypes && !loadingTypes) {
+        return (
+          <div className={styles.fullWidth}>
+            <div style={{ padding: '12px', backgroundColor: '#f8d7da', border: '1px solid #f5c6cb', borderRadius: '4px', color: '#721c24' }}>
+              {t('installations.errorLoadingTypes', 'Error al cargar tipos de instalación: ')} {errorLoadingTypes}
+            </div>
+          </div>
+        )
+      }
+
+      // Si no hay tipos de instalación y no está cargando, mostrar mensaje
+      if (!loadingTypes && installationTypes.length === 0 && !errorLoadingTypes) {
+        return (
+          <div className={styles.fullWidth}>
+            <div style={{ padding: '12px', backgroundColor: '#fff3cd', border: '1px solid #ffc107', borderRadius: '4px', color: '#856404' }}>
+              {t('installations.noInstallationTypes', 'No hay tipos de instalación disponibles. Por favor, cree uno en la sección de Configuración.')}
+            </div>
+          </div>
+        )
+      }
+
       return (
         <div className={styles.fullWidth}>
           <HybridSelect
@@ -113,7 +151,7 @@ const InstallationForm = ({
             onBlur={() => handleFieldBlur(field.name)}
             disabled={isSubmitting || loadingTypes}
             options={installationTypeOptions}
-            placeholder={t('installations.selectInstallationType')}
+            placeholder={loadingTypes ? t('common.loading', 'Cargando...') : t('installations.selectInstallationType')}
             error={!!showError(field.name)}
           />
         </div>

@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import {
   fetchInstallationTypes,
   createInstallationType,
   updateInstallationType as apiUpdateInstallationType,
   deleteInstallationType as apiDeleteInstallationType
 } from "../services/installationTypeServices"
+import { useAuthStore } from "../../../store/authStore"
 
 export type InstallationType = {
   _id: string
@@ -18,20 +19,38 @@ const useInstallationTypes = () => {
   const [installationTypes, setInstallationTypes] = useState<InstallationType[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const hasTriedInactiveRef = useRef(false)
+  const initialLoadDoneRef = useRef(false)
+  const { isAuthenticated, token } = useAuthStore()
 
   const loadInstallationTypes = useCallback(async (includeInactive = false) => {
+    // No intentar cargar si no está autenticado
+    if (!isAuthenticated || !token) {
+      console.log('Usuario no autenticado, no se cargarán tipos de instalación')
+      return
+    }
+
     setLoading(true)
     setError(null)
     try {
-
       const data = await fetchInstallationTypes(includeInactive)
       setInstallationTypes(data)
+      initialLoadDoneRef.current = true
+      if (includeInactive) {
+        hasTriedInactiveRef.current = true
+      }
     } catch (err: any) {
+      console.error('Error al cargar tipos de instalación:', err)
       setError(err.message)
+      initialLoadDoneRef.current = true
+      // Marcar como intentado para evitar loops infinitos
+      if (includeInactive) {
+        hasTriedInactiveRef.current = true
+      }
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [isAuthenticated, token])
 
   const addInstallationType = async (typeData: {
     nombre: string
@@ -72,9 +91,28 @@ const useInstallationTypes = () => {
     }
   }
 
+  // Cargar tipos de instalación cuando el usuario se autentica
   useEffect(() => {
-    loadInstallationTypes()
-  }, [loadInstallationTypes])
+    if (isAuthenticated && token && !initialLoadDoneRef.current) {
+      loadInstallationTypes()
+    }
+  }, [isAuthenticated, token, loadInstallationTypes])
+
+  // Si no hay tipos de instalación activos y no hay error, intentar cargar todos incluyendo inactivos (solo una vez)
+  useEffect(() => {
+    if (
+      initialLoadDoneRef.current && 
+      isAuthenticated && 
+      token && 
+      !loading && 
+      !hasTriedInactiveRef.current && 
+      installationTypes.length === 0 && 
+      error === null
+    ) {
+      console.log('No se encontraron tipos de instalación activos, intentando cargar todos...')
+      loadInstallationTypes(true)
+    }
+  }, [isAuthenticated, token, loading, installationTypes.length, error, loadInstallationTypes])
 
   return {
     installationTypes,

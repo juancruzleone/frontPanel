@@ -17,7 +17,6 @@ const handleResponse = async (response: Response) => {
 }
 
 export const fetchInstallationTypes = async (includeInactive = false): Promise<any[]> => {
-
   const response = await fetch(`${API_URL}tipos-instalacion?includeInactive=${includeInactive}`, {
     headers: getAuthHeaders(),
   })
