@@ -219,7 +219,7 @@ const useSubscriptions = () => {
       // Campos de la instalación existente (requeridos por el backend)
       company: installation.company,
       address: installation.address,
-      sectorFloor: installation.sectorFloor,
+      floorSector: installation.floorSector,
       postalCode: installation.postalCode,
       city: installation.city,
       province: installation.province,

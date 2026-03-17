@@ -148,15 +148,17 @@ export const updateTechnician = async (
   }, 
   token: string
 ) => {
-  // ⚠️ NOTA: El backend NO tiene endpoint para que un admin actualice otro usuario
-  // Solo existe PUT /profile para que el usuario actualice su propio perfil
-  // Por ahora, usamos el endpoint genérico de actualización de perfil
+  console.log('🔄 updateTechnician - Iniciando actualización');
+  console.log('🔄 updateTechnician - ID:', id);
+  console.log('🔄 updateTechnician - Data:', data);
+  console.log('🔄 updateTechnician - Has photo:', !!data.profilePhoto);
   
   const headers = getAuthHeaders()
   headers.Authorization = `Bearer ${token}`
   
   // Si hay foto, usar FormData
   if (data.profilePhoto) {
+    console.log('📸 updateTechnician - Usando FormData con foto');
     const formData = new FormData()
     
     if (data.userName) formData.append('userName', data.userName)
@@ -167,37 +169,71 @@ export const updateTechnician = async (
     if (data.documento) formData.append('documento', data.documento)
     formData.append('profilePhoto', data.profilePhoto)
     
-    // Usar el endpoint de perfil (el único que existe)
-    const response = await fetch(`${API_URL}profile`, {
+    // Construir nombre completo si hay firstName y lastName
+    if (data.firstName && data.lastName) {
+      formData.append('name', `${data.firstName} ${data.lastName}`)
+    }
+    
+    console.log('📡 updateTechnician - URL:', `${API_URL}cuentas/${id}/technician`);
+    console.log('📡 updateTechnician - Headers:', headers);
+    
+    const response = await fetch(`${API_URL}cuentas/${id}/technician`, {
       method: "PUT",
       headers, // No incluir Content-Type para FormData
       body: formData,
     })
 
+    console.log('📡 updateTechnician - Response status:', response.status);
+
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}))
-      console.error('❌ updateTechnician - Error:', errorData)
+      console.error('❌ updateTechnician - Error:', errorData);
       throw new Error(errorData.error?.message || errorData.message || "Error al actualizar el técnico")
     }
 
-    return await response.json()
+    const result = await response.json()
+    console.log('✅ updateTechnician - Success:', result);
+    return result
   }
   
   // Si no hay foto, usar JSON
+  console.log('📝 updateTechnician - Usando JSON sin foto');
   const headers2 = getHeadersWithContentType()
   headers2.Authorization = `Bearer ${token}`
   
-  const response = await fetch(`${API_URL}profile`, {
+  // Preparar datos para JSON
+  const jsonData: any = {}
+  if (data.userName) jsonData.userName = data.userName
+  if (data.password) jsonData.password = data.password
+  if (data.firstName) jsonData.firstName = data.firstName
+  if (data.lastName) jsonData.lastName = data.lastName
+  if (data.email) jsonData.email = data.email
+  if (data.documento) jsonData.documento = data.documento
+  
+  // Construir nombre completo si hay firstName y lastName
+  if (data.firstName && data.lastName) {
+    jsonData.name = `${data.firstName} ${data.lastName}`
+  }
+  
+  console.log('📡 updateTechnician - URL:', `${API_URL}cuentas/${id}/technician`);
+  console.log('📡 updateTechnician - Headers:', headers2);
+  console.log('📡 updateTechnician - Body:', jsonData);
+  
+  const response = await fetch(`${API_URL}cuentas/${id}/technician`, {
     method: "PUT",
     headers: headers2,
-    body: JSON.stringify(data),
+    body: JSON.stringify(jsonData),
   })
+
+  console.log('📡 updateTechnician - Response status:', response.status);
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}))
-    console.error('❌ updateTechnician - Error:', errorData)
+    console.error('❌ updateTechnician - Error:', errorData);
     throw new Error(errorData.error?.message || errorData.message || "Error al actualizar el técnico")
   }
 
-  return await response.json()
+  const result = await response.json()
+  console.log('✅ updateTechnician - Success:', result);
+  return result
 }
