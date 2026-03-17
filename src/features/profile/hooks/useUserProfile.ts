@@ -17,16 +17,23 @@ export function useUserProfile(userId: string) {
 
   useEffect(() => {
     const fetchUserData = async () => {
+      console.log('🔄 useUserProfile - Iniciando carga de datos');
+      console.log('🔄 useUserProfile - userId:', userId);
+      console.log('🔄 useUserProfile - token:', token ? 'Presente' : 'Ausente');
+      
       try {
         setLoading(true);
         setError(null);
 
         // Obtener datos del usuario
+        console.log('📞 useUserProfile - Llamando a getUserById...');
         const userResponse = await getUserById(userId, token);
+        console.log('✅ useUserProfile - Usuario obtenido:', userResponse);
         setUserData(userResponse);
 
         // Verificar si el usuario es cliente
         if (userResponse.role === 'cliente') {
+          console.log('👤 useUserProfile - Usuario es cliente, cargando instalaciones...');
           // Para clientes, cargar solo las instalaciones asignadas a ese cliente específico
           const installationsResponse = await fetch(`${API_URL}clientes-usuarios/${userId}/instalaciones`, {
             headers: {
@@ -45,6 +52,7 @@ export function useUserProfile(userId: string) {
           const types = await fetchInstallationTypes();
           setInstallationTypes(types);
         } else {
+          console.log('👷 useUserProfile - Usuario es técnico/admin, cargando órdenes...');
           // Para técnicos/admins, obtener órdenes de trabajo asignadas
           const ordersResponse = await fetch(`${API_URL}ordenes-trabajo?populate=instalacion`, {
             headers: {
@@ -53,6 +61,7 @@ export function useUserProfile(userId: string) {
           });
 
           if (!ordersResponse.ok) {
+            console.error('❌ useUserProfile - Error al obtener órdenes:', ordersResponse.status);
             throw new Error('Error al obtener órdenes de trabajo');
           }
 
@@ -65,17 +74,23 @@ export function useUserProfile(userId: string) {
             return order.tecnico && order.tecnico.userName === userResponse.userName;
           });
 
+          console.log('✅ useUserProfile - Órdenes filtradas:', assigned.length);
           setOrders(assigned);
         }
       } catch (err: any) {
+        console.error('❌ useUserProfile - Error:', err);
         setError(err.message || 'Error al cargar datos del usuario');
       } finally {
         setLoading(false);
+        console.log('✅ useUserProfile - Carga completada');
       }
     };
 
     if (userId && token) {
       fetchUserData();
+    } else {
+      console.warn('⚠️ useUserProfile - Falta userId o token');
+      setLoading(false);
     }
   }, [userId, token]);
 

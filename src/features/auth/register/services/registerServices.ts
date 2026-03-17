@@ -101,32 +101,102 @@ export const getUserById = async (id: string, token: string) => {
   const headers = getAuthHeaders()
   headers.Authorization = `Bearer ${token}` // Sobrescribir el token del store con el token pasado como parámetro
   
+  console.log('🔍 getUserById - ID:', id);
+  console.log('🔍 getUserById - Token:', token ? 'Presente' : 'Ausente');
+  console.log('🔍 getUserById - URL:', `${API_URL}cuentas/${id}`);
+  console.log('🔍 getUserById - Headers:', headers);
+  
   const response = await fetch(`${API_URL}cuentas/${id}`, {
     method: "GET",
     headers,
   })
 
+  console.log('📡 getUserById - Response status:', response.status);
+  console.log('📡 getUserById - Response ok:', response.ok);
+
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}))
-    throw new Error(errorData.error?.message || "Error al obtener datos del usuario")
+    console.error('❌ getUserById - Error data:', errorData);
+    
+    // Mensajes de error más específicos
+    if (response.status === 404) {
+      throw new Error(`Usuario no encontrado (ID: ${id})`)
+    }
+    if (response.status === 401 || response.status === 403) {
+      throw new Error('No tienes permisos para ver este usuario')
+    }
+    
+    throw new Error(errorData.error?.message || errorData.message || "Error al obtener datos del usuario")
   }
 
-  return await response.json()
+  const data = await response.json()
+  console.log('✅ getUserById - Data:', data);
+  
+  return data
 }
 
-export const updateTechnician = async (id: string, data: { userName?: string; password?: string; name?: string; email?: string }, token: string) => {
-  const headers = getHeadersWithContentType()
+export const updateTechnician = async (
+  id: string, 
+  data: { 
+    userName?: string
+    password?: string
+    firstName?: string
+    lastName?: string
+    email?: string
+    documento?: string
+    profilePhoto?: File | null
+  }, 
+  token: string
+) => {
+  // ⚠️ NOTA: El backend NO tiene endpoint para que un admin actualice otro usuario
+  // Solo existe PUT /profile para que el usuario actualice su propio perfil
+  // Por ahora, usamos el endpoint genérico de actualización de perfil
+  
+  const headers = getAuthHeaders()
   headers.Authorization = `Bearer ${token}`
   
-  const response = await fetch(`${API_URL}cuentas/${id}/technician`, {
+  // Si hay foto, usar FormData
+  if (data.profilePhoto) {
+    const formData = new FormData()
+    
+    if (data.userName) formData.append('userName', data.userName)
+    if (data.password) formData.append('password', data.password)
+    if (data.firstName) formData.append('firstName', data.firstName)
+    if (data.lastName) formData.append('lastName', data.lastName)
+    if (data.email) formData.append('email', data.email)
+    if (data.documento) formData.append('documento', data.documento)
+    formData.append('profilePhoto', data.profilePhoto)
+    
+    // Usar el endpoint de perfil (el único que existe)
+    const response = await fetch(`${API_URL}profile`, {
+      method: "PUT",
+      headers, // No incluir Content-Type para FormData
+      body: formData,
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      console.error('❌ updateTechnician - Error:', errorData)
+      throw new Error(errorData.error?.message || errorData.message || "Error al actualizar el técnico")
+    }
+
+    return await response.json()
+  }
+  
+  // Si no hay foto, usar JSON
+  const headers2 = getHeadersWithContentType()
+  headers2.Authorization = `Bearer ${token}`
+  
+  const response = await fetch(`${API_URL}profile`, {
     method: "PUT",
-    headers,
+    headers: headers2,
     body: JSON.stringify(data),
   })
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}))
-    throw new Error(errorData.error?.message || "Error al actualizar el técnico")
+    console.error('❌ updateTechnician - Error:', errorData)
+    throw new Error(errorData.error?.message || errorData.message || "Error al actualizar el técnico")
   }
 
   return await response.json()

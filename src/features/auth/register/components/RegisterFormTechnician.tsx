@@ -1,6 +1,6 @@
 import type React from "react"
-import { useCallback } from "react"
-import { FiEye, FiEyeOff } from "react-icons/fi"
+import { useCallback, useMemo } from "react"
+import { FiEye, FiEyeOff, FiX } from "react-icons/fi"
 import styles from "../styles/registerForm.module.css"
 import formButtonStyles from "../../../../shared/components/Buttons/formButtons.module.css"
 import { useTranslation } from "react-i18next"
@@ -72,6 +72,14 @@ const RegisterTechnicianForm = ({
   shouldShowError,
 }: RegisterTechnicianFormProps) => {
   const { t } = useTranslation()
+
+  // Preview de la foto
+  const photoPreviewUrl = useMemo(() => {
+    if (formData.profilePhoto) {
+      return URL.createObjectURL(formData.profilePhoto)
+    }
+    return null
+  }, [formData.profilePhoto])
 
   const fields = [
     { name: "username", label: t('personal.username'), type: "text", placeholder: t('personal.userNamePlaceholder') },
@@ -190,6 +198,22 @@ const RegisterTechnicianForm = ({
           <label htmlFor="profilePhoto">
             {t('personal.profilePhoto')}
           </label>
+          
+          {/* Preview de la foto */}
+          {photoPreviewUrl && (
+            <div className={styles.photoPreview}>
+              <img src={photoPreviewUrl} alt="Preview" className={styles.photoPreviewImage} />
+              <button
+                type="button"
+                className={styles.photoPreviewRemove}
+                onClick={() => handleFieldChange('profilePhoto', null)}
+                aria-label={t('common.remove')}
+              >
+                <FiX size={16} />
+              </button>
+            </div>
+          )}
+          
           <div className={styles.inputWrapper}>
             <input
               type="file"

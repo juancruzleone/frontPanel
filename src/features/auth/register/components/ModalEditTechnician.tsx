@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import { updateTechnician } from "../services/registerServices"
 import { useAuthStore } from "../../../../store/authStore"
 import styles from "../styles/Modal.module.css"
 import formStyles from "../styles/registerForm.module.css"
 import buttonStyles from "../../../../shared/components/Buttons/formButtons.module.css"
-import { FiEye, FiEyeOff } from "react-icons/fi"
+import { FiEye, FiEyeOff, FiX } from "react-icons/fi"
+import { getProfilePhotoUrl } from "../../../../shared/utils/imageUtils"
 
 interface ModalEditTechnicianProps {
   isOpen: boolean
@@ -31,8 +32,17 @@ const ModalEditTechnician = ({
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [profilePhoto, setProfilePhoto] = useState<File | null>(null)
+  const [currentPhotoUrl, setCurrentPhotoUrl] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+
+  // Preview de la foto nueva
+  const photoPreviewUrl = useMemo(() => {
+    if (profilePhoto) {
+      return URL.createObjectURL(profilePhoto)
+    }
+    return null
+  }, [profilePhoto])
 
   // Estados para visibilidad de contraseña
   const [showPassword, setShowPassword] = useState(false)
@@ -66,6 +76,7 @@ const ModalEditTechnician = ({
       setPassword("")
       setConfirmPassword("")
       setProfilePhoto(null)
+      setCurrentPhotoUrl(getProfilePhotoUrl(technician.profilePhoto))
       // Reset validation states
       setUserNameError("")
       setFirstNameError("")
@@ -231,20 +242,29 @@ const ModalEditTechnician = ({
     setLoading(true)
 
     try {
-      const updateData: { userName?: string; password?: string; name?: string; email?: string } = {
+      const updateData: { 
+        userName?: string
+        password?: string
+        firstName?: string
+        lastName?: string
+        email?: string
+        documento?: string
+        profilePhoto?: File | null
+      } = {
         userName: userName,
-        name: `${firstName} ${lastName}`.trim(),
+        firstName: firstName,
+        lastName: lastName,
         email: email,
+        documento: documento,
       }
       
       if (password) {
         updateData.password = password
       }
 
-      // Note: profilePhoto is not supported by the current API
-      // if (profilePhoto) {
-      //   formData.append('profilePhoto', profilePhoto)
-      // }
+      if (profilePhoto) {
+        updateData.profilePhoto = profilePhoto
+      }
 
       await updateTechnician(technician._id || technician.id, updateData, token)
 
@@ -252,6 +272,7 @@ const ModalEditTechnician = ({
       onRequestClose()
     } catch (err: any) {
       setError(err.message || t('personal.errorUpdatingTechnician'))
+      // NO resetear el formulario para mantener los datos incluyendo la foto
     } finally {
       setLoading(false)
     }
@@ -495,6 +516,28 @@ const ModalEditTechnician = ({
               <label htmlFor="profilePhoto">
                 {t('personal.profilePhoto')}
               </label>
+              
+              {/* Mostrar foto actual o preview de nueva foto */}
+              {(photoPreviewUrl || currentPhotoUrl) && (
+                <div className={formStyles.photoPreview}>
+                  <img 
+                    src={photoPreviewUrl || currentPhotoUrl || ''} 
+                    alt="Preview" 
+                    className={formStyles.photoPreviewImage} 
+                  />
+                  {photoPreviewUrl && (
+                    <button
+                      type="button"
+                      className={formStyles.photoPreviewRemove}
+                      onClick={() => setProfilePhoto(null)}
+                      aria-label={t('common.remove')}
+                    >
+                      <FiX size={16} />
+                    </button>
+                  )}
+                </div>
+              )}
+              
               <div className={formStyles.inputWrapper}>
                 <input
                   type="file"

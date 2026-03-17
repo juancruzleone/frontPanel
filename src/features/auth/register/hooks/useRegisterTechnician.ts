@@ -215,6 +215,7 @@ const useRegisterTechnician = () => {
         resetForm()
       } catch (err: any) {
         setFormErrors({ general: err.message })
+        // NO resetear el formulario en caso de error para mantener los datos incluyendo la foto
       } finally {
         setIsSubmitting(false)
       }

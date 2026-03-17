@@ -10,34 +10,30 @@ export const updateSubscription = async (subscriptionId: string, updateData: any
     throw new Error('Token de autorización requerido')
   }
 
-  console.log('🔍 updateData recibido:', JSON.stringify(updateData, null, 2))
-  console.log('🔍 Tipo de frecuencia:', typeof updateData.frecuencia, updateData.frecuencia)
-
-  // IMPORTANTE: Enviar solo los campos requeridos por validateSubscriptionUpdate
   const updatePayload = {
     fechaInicio: updateData.fechaInicio,
     fechaFin: updateData.fechaFin,
-    frecuencia: updateData.frecuencia?.trim(),
+    frecuencia: updateData.frecuencia,
     mesesFrecuencia: updateData.mesesFrecuencia,
     estado: updateData.estado,
-    // La nueva API no espera generacionAutomatica en este endpoint, pero si es necesario se envía
+    generacionAutomatica: updateData.generacionAutomatica,
+    fechaInicioGeneracion: updateData.fechaInicio,
+    fechaFinGeneracion: updateData.fechaFin,
   }
 
   // Asegurarse de que la URL esté bien formada
   const baseUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL
-  // Usar la nueva ruta PATCH de subscription
-  const url = `${baseUrl}/installations/${subscriptionId}/subscription`
+  // Usar la ruta PUT de installations (la ruta /subscription no existe en el backend)
+  const url = `${baseUrl}/api/installations/${subscriptionId}`
 
   console.log('🚀 updateSubscription - URL completa:', url)
-  console.log('🚀 updateSubscription - Método:', 'PATCH')
+  console.log('🚀 updateSubscription - Método:', 'PUT')
   console.log('🚀 updateSubscription - Headers:', getHeadersWithContentType())
   console.log('🚀 updateSubscription - Payload:', updatePayload)
-  console.log('🔍 FRECUENCIA RECIBIDA:', updateData.frecuencia, '| Tipo:', typeof updateData.frecuencia)
-  console.log('🔍 PAYLOAD COMPLETO:', JSON.stringify(updatePayload, null, 2))
 
   try {
     const response = await fetch(url, {
-      method: "PATCH",
+      method: "PUT",
       headers: getHeadersWithContentType(),
       body: JSON.stringify(updatePayload),
     })
@@ -50,9 +46,7 @@ export const updateSubscription = async (subscriptionId: string, updateData: any
 
     if (!response.ok) {
       // Si hay un mensaje de error específico del servidor, usarlo
-      // El servidor de validación de Yup suele emitir data.error (array) o data.message
-      const errorMsg = data.error ? JSON.stringify(data.error) : data.message
-      throw new Error(errorMsg || "Error al actualizar suscripción")
+      throw new Error(data.error?.message || data.message || "Error al actualizar suscripción")
     }
 
     return data
@@ -95,7 +89,3 @@ export const triggerAutomaticWorkOrdersGeneration = async () => {
 
   throw lastError || new Error('No se pudo generar órdenes automáticas')
 }
-
-
-
-

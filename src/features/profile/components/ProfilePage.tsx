@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { translateUserRole } from "../../../shared/utils/backendTranslations";
 import Skeleton from "../../../shared/components/Skeleton";
 import { User } from "lucide-react";
+import { getProfilePhotoUrl } from "../../../shared/utils/imageUtils";
 
 const ProfilePage = () => {
   const { t } = useTranslation();
@@ -13,6 +14,18 @@ const ProfilePage = () => {
   const [selectedFilter, setSelectedFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [updatedOrders, setUpdatedOrders] = useState<any[]>([]);
+
+  // Debug: Ver los datos del usuario en el componente
+  useEffect(() => {
+    console.log('👤 ProfilePage - userData:', userData);
+    console.log('👤 ProfilePage - role:', role);
+    console.log('📸 ProfilePage - profilePhoto:', userData?.profilePhoto);
+  }, [userData, role]);
+
+  // Obtener la URL completa de la foto de perfil
+  const profilePhotoUrl = useMemo(() => {
+    return getProfilePhotoUrl(userData?.profilePhoto);
+  }, [userData?.profilePhoto]);
 
   useEffect(() => {
     // Cuando las órdenes cambian, verifica si necesitan detalles de instalación
@@ -113,15 +126,20 @@ const ProfilePage = () => {
       ) : (
         <>
           <div className={styles.profileHeader}>
-            {(role === 'técnico' || role === 'tecnico') && userData?.profilePhoto && (
+            {(role === 'técnico' || role === 'tecnico') && profilePhotoUrl && (
               <div className={styles.profilePhotoContainer}>
                 <img 
-                  src={userData.profilePhoto} 
+                  src={profilePhotoUrl} 
                   alt={`${user} profile`}
                   className={styles.profilePhoto}
+                  loading="lazy"
                   onError={(e) => {
+                    console.error('❌ Error al cargar la imagen:', profilePhotoUrl);
                     e.currentTarget.style.display = 'none';
                     e.currentTarget.nextElementSibling?.classList.remove(styles.hidden);
+                  }}
+                  onLoad={() => {
+                    console.log('✅ Imagen cargada correctamente:', profilePhotoUrl);
                   }}
                 />
                 <div className={`${styles.profilePhotoPlaceholder} ${styles.hidden}`}>

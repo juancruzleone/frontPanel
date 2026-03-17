@@ -25,6 +25,11 @@ export function useProfile() {
           const { getUserById } = await import('../../auth/register/services/registerServices');
           const { token } = useAuthStore.getState();
           const userDataResponse = await getUserById(userId, token);
+          
+          // Debug: Ver qué datos recibimos del backend
+          console.log('🔍 Datos del usuario recibidos:', userDataResponse);
+          console.log('📸 Foto de perfil:', userDataResponse?.profilePhoto);
+          
           setUserData(userDataResponse);
         }
 

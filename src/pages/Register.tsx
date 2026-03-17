@@ -102,9 +102,14 @@ const Register = () => {
   )
 
   const handleEditTechnician = useCallback((tech: any) => {
-    setTechnicianToEdit(tech)
-    setIsEditModalOpen(true)
-  }, [])
+    // ⚠️ TEMPORAL: El backend no tiene endpoint para que admin edite otros usuarios
+    // Solo existe PUT /profile para que el usuario edite su propio perfil
+    showError('La edición de técnicos desde el panel de admin aún no está disponible. Cada técnico puede actualizar su perfil desde su cuenta.')
+    
+    // Descomentar cuando el backend implemente PUT /cuentas/:id
+    // setTechnicianToEdit(tech)
+    // setIsEditModalOpen(true)
+  }, [showError])
 
   const handleOpenModal = useCallback(() => {
     setIsRegisterModalOpen(true)

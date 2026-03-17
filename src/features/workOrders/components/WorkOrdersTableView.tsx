@@ -5,6 +5,7 @@ import { translateWorkOrderStatus, translatePriority, translateWorkType } from '
 import { Eye, Play, Check, User, Edit, Trash } from 'lucide-react'
 import Tooltip from '../../../shared/components/Tooltip/Tooltip'
 import styles from '../styles/workOrders.module.css'
+import { getProfilePhotoUrl } from '../../../shared/utils/imageUtils'
 
 interface WorkOrdersTableViewProps {
   workOrders: WorkOrder[]
@@ -121,31 +122,34 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
 
         return (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-            {tecnicos.slice(0, 2).map((tec: any, idx: number) => (
-              <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                {tec.profilePhoto && (
-                  <img 
-                    src={tec.profilePhoto} 
-                    alt={tec.userName}
-                    style={{
-                      width: '20px',
-                      height: '20px',
-                      borderRadius: '50%',
-                      objectFit: 'cover',
-                      border: '1px solid var(--color-card-border)'
-                    }}
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                    }}
-                  />
-                )}
+            {tecnicos.slice(0, 2).map((tec: any, idx: number) => {
+              const photoUrl = getProfilePhotoUrl(tec.profilePhoto);
+              return (
+                <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  {photoUrl && (
+                    <img 
+                      src={photoUrl} 
+                      alt={tec.userName}
+                      style={{
+                        width: '20px',
+                        height: '20px',
+                        borderRadius: '50%',
+                        objectFit: 'cover',
+                        border: '1px solid var(--color-card-border)'
+                      }}
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                  )}
                 <span style={{ fontSize: '12px', fontWeight: 600 }}>
                   {tec.firstName && tec.lastName 
                     ? `${tec.firstName} ${tec.lastName}` 
                     : tec.userName}
                 </span>
               </div>
-            ))}
+              );
+            })}
             {tecnicos.length > 2 && (
               <span style={{ fontSize: '11px', opacity: 0.7, marginLeft: '26px' }}>
                 +{tecnicos.length - 2} más

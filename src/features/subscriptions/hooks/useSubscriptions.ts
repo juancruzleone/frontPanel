@@ -164,14 +164,19 @@ const useSubscriptions = () => {
 
     // Mapear la frecuencia al formato esperado por el backend
     const mapFrequency = (freq: string): string => {
-      const frequencyMap: Record<string, string> = {
-        'mensual': 'Mensual',
-        'trimestral': 'Trimestral',
-        'semestral': 'Semestral',
-        'anual': 'Anual'
+        const frequencyMap: Record<string, string> = {
+          'mensual': 'Mensual',
+          'trimestral': 'Trimestral',
+          'semestral': 'Semestral',
+          'anual': 'Anual',
+          // Mapeo desde inglés (por si viene del backend en inglés)
+          'monthly': 'Mensual',
+          'quarterly': 'Trimestral',
+          'semiannual': 'Semestral',
+          'annual': 'Anual'
+        }
+        return frequencyMap[freq?.toLowerCase()] || freq
       }
-      return frequencyMap[freq] || freq
-    }
 
     // Función para formatear fecha sin conversión de zona horaria
     const formatDateForBackend = (dateInput: string | Date | undefined) => {
@@ -209,7 +214,17 @@ const useSubscriptions = () => {
       return statusMap[status] || status
     }
 
+    // IMPORTANTE: Enviar TODOS los campos de la instalación para evitar errores de validación
     const updateData = {
+      // Campos de la instalación existente (requeridos por el backend)
+      company: installation.company,
+      address: installation.address,
+      sectorFloor: installation.sectorFloor,
+      postalCode: installation.postalCode,
+      city: installation.city,
+      province: installation.province,
+      installationType: installation.installationType,
+      // Campos que estamos actualizando
       fechaInicio: data.startDate ? formatDateForBackend(data.startDate) : installation.fechaInicio,
       fechaFin: data.endDate ? formatDateForBackend(data.endDate) : installation.fechaFin,
       frecuencia: data.frequency ? mapFrequency(data.frequency) : installation.frecuencia,
@@ -540,3 +555,5 @@ const useSubscriptions = () => {
 }
 
 export { useSubscriptions }
+
+

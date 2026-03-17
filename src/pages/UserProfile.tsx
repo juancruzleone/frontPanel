@@ -8,19 +8,25 @@ import SearchInput from "../shared/components/Inputs/SearchInput";
 import styles from "../features/profile/styles/profile.module.css";
 import { translateUserRole, translateWorkOrderStatus } from "../shared/utils/backendTranslations";
 import Skeleton from "../shared/components/Skeleton";
+import { getProfilePhotoUrl } from "../shared/utils/imageUtils";
 
 const UserProfile = () => {
   const { t } = useTranslation();
   const { userId } = useParams();
   const navigate = useNavigate();
   const { role: currentUserRole } = useAuthStore();
-  const { user, role, orders, installations, installationTypes, loading, error } = useUserProfile(userId || "");
+  const { user, role, orders, installations, installationTypes, loading, error, userData } = useUserProfile(userId || "");
   const [selectedFilter, setSelectedFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [ordersWithInstallations, setOrdersWithInstallations] = useState<unknown[]>([]);
   const [loadingInstallations, setLoadingInstallations] = useState(false);
 
   const isClient = role === 'cliente';
+
+  // Obtener la URL completa de la foto de perfil
+  const profilePhotoUrl = useMemo(() => {
+    return getProfilePhotoUrl(userData?.profilePhoto);
+  }, [userData?.profilePhoto]);
 
   // Cargar detalles de instalación para cada orden
   useEffect(() => {
@@ -167,7 +173,10 @@ const UserProfile = () => {
     return null;
   }
 
-  if (loading || loadingInstallations) {
+  // Mostrar skeleton solo mientras está cargando
+  const isLoading = loading || loadingInstallations;
+
+  if (isLoading) {
     return (
       <div className={styles.profileContainer}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
@@ -208,9 +217,59 @@ const UserProfile = () => {
   if (error) {
     return (
       <div className={styles.profileContainer}>
-        <div style={{ textAlign: 'center', padding: '40px', color: 'red' }}>
-          <div>{error}</div>
-          <button onClick={handleGoBack} style={{ marginTop: '16px', padding: '8px 16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '16px' }}>
+          <button
+            onClick={handleGoBack}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '8px',
+              borderRadius: '6px',
+              color: 'var(--color-text)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.2s ease',
+              width: '36px',
+              height: '36px'
+            }}
+            title={t('common.back')}
+          >
+            <FiArrowLeft size={20} />
+          </button>
+        </div>
+        <div style={{ 
+          textAlign: 'center', 
+          padding: '40px', 
+          background: 'var(--color-card)',
+          borderRadius: '12px',
+          border: '2px solid var(--color-danger)'
+        }}>
+          <div style={{ 
+            color: 'var(--color-danger)', 
+            fontSize: '1.2rem', 
+            fontWeight: '600',
+            marginBottom: '1rem'
+          }}>
+            {t('common.error')}
+          </div>
+          <div style={{ color: 'var(--color-text)', marginBottom: '1rem' }}>
+            {error}
+          </div>
+          <button 
+            onClick={handleGoBack} 
+            style={{ 
+              marginTop: '16px', 
+              padding: '10px 20px',
+              background: 'var(--color-primary)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontWeight: '600'
+            }}
+          >
             {t('common.back')}
           </button>
         </div>
@@ -244,6 +303,27 @@ const UserProfile = () => {
       </div>
 
       <div className={styles.profileHeader}>
+        <div className={styles.profileAvatar}>
+          {profilePhotoUrl ? (
+            <img 
+              src={profilePhotoUrl} 
+              alt={`${user} profile`}
+              className={styles.profilePhoto}
+              loading="lazy"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                if (fallback) fallback.style.display = 'flex';
+              }}
+            />
+          ) : null}
+          <div 
+            className={styles.profileInitials}
+            style={{ display: profilePhotoUrl ? 'none' : 'flex' }}
+          >
+            {user?.substring(0, 2).toUpperCase()}
+          </div>
+        </div>
         <div className={styles.profileInfo}>
           <span className={styles.profileName}>{user}</span>
           <span className={styles.profileRole}>{role ? translateUserRole(role) : role}</span>
