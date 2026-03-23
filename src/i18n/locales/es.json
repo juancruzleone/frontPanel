@@ -1158,9 +1158,9 @@
     "searchPlaceholder": "Buscar abonos...",
     "startDate": "Fecha de inicio",
     "endDate": "Fecha de finalización",
-    "noSubscriptionsFound": "No se encontraron abonos",
-    "noSubscriptions": "No hay abonos disponibles",
-    "errorLoading": "Error al cargar abonos",
+    "noSubscriptionsFound": "No se encontraron planes de mantenimiento",
+    "noSubscriptions": "No hay planes de mantenimiento disponibles",
+    "errorLoading": "Error al cargar planes de mantenimiento",
     "status": {
       "label": "Estado",
       "placeholder": "Seleccionar estado",

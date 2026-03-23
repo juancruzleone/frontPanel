@@ -1482,9 +1482,9 @@
     "searchPlaceholder": "搜索订阅...",
     "startDate": "开始日期",
     "endDate": "结束日期",
-    "noSubscriptionsFound": "未找到订阅",
-    "noSubscriptions": "无可用订阅",
-    "errorLoading": "加载订阅出错",
+    "noSubscriptionsFound": "未找到维护计划",
+    "noSubscriptions": "无可用维护计划",
+    "errorLoading": "加载维护计划出错",
     "status": {
       "label": "状态",
       "placeholder": "选择状态",

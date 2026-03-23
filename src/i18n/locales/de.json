@@ -1455,9 +1455,9 @@
                           "searchPlaceholder":  "Abonnements suchen...",
                           "startDate":  "Startdatum",
                           "endDate":  "Enddatum",
-                          "noSubscriptionsFound":  "Keine Abonnements gefunden",
-                          "noSubscriptions":  "Keine Abonnements verfügbar",
-                          "errorLoading":  "Fehler beim Laden der Abonnements",
+                          "noSubscriptionsFound":  "Keine Wartungspläne gefunden",
+                          "noSubscriptions":  "Keine Wartungspläne verfügbar",
+                          "errorLoading":  "Fehler beim Laden der Wartungspläne",
                           "status":  {
                                          "label":  "Status",
                                          "placeholder":  "Status auswählen",

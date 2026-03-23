@@ -1591,9 +1591,9 @@
     "searchPlaceholder": "サブスクリプションを検索...",
     "startDate": "開始日",
     "endDate": "終了日",
-    "noSubscriptionsFound": "サブスクリプションが見つかりません",
-    "noSubscriptions": "利用可能なサブスクリプションはありません",
-    "errorLoading": "サブスクリプションの読み込みエラー",
+    "noSubscriptionsFound": "メンテナンスプランが見つかりません",
+    "noSubscriptions": "利用可能なメンテナンスプランはありません",
+    "errorLoading": "メンテナンスプランの読み込みエラー",
     "status": {
       "label": "状態",
       "placeholder": "状態を選択",

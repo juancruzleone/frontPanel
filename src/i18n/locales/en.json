@@ -1169,9 +1169,9 @@
     "searchPlaceholder": "Search subscriptions...",
     "startDate": "Start date",
     "endDate": "End date",
-    "noSubscriptionsFound": "No subscriptions found",
-    "noSubscriptions": "No subscriptions available",
-    "errorLoading": "Error loading subscriptions",
+    "noSubscriptionsFound": "No maintenance plans found",
+    "noSubscriptions": "No maintenance plans available",
+    "errorLoading": "Error loading maintenance plans",
     "status": {
       "label": "Status",
       "placeholder": "Select status",

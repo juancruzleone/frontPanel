@@ -1548,9 +1548,9 @@
     "searchPlaceholder": "Cerca abbonamenti...",
     "startDate": "Data inizio",
     "endDate": "Data fine",
-    "noSubscriptionsFound": "Nessun abbonamento trovato",
-    "noSubscriptions": "Nessun abbonamento disponibile",
-    "errorLoading": "Errore nel caricamento degli abbonamenti",
+    "noSubscriptionsFound": "Nessun piano di manutenzione trovato",
+    "noSubscriptions": "Nessun piano di manutenzione disponibile",
+    "errorLoading": "Errore nel caricamento dei piani di manutenzione",
     "status": {
       "label": "Stato",
       "placeholder": "Seleziona stato",

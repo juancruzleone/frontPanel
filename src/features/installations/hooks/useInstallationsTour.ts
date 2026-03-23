@@ -4,8 +4,10 @@ import 'driver.js/dist/driver.css';
 import '../styles/tour.css';
 import { useTranslation } from 'react-i18next';
 
+const ONBOARDING_TOUR_KEY = 'onboarding-tour-v2-shown';
+
 export const useInstallationsTour = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [tourCompleted, setTourCompleted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -17,8 +19,8 @@ export const useInstallationsTour = () => {
   }, []);
 
   const startTour = () => {
-    // Forzar recreación con el idioma actual
-    const currentLang = i18n.language;
+    // Verificar si el tour de onboarding global ya se completó
+    const onboardingCompleted = localStorage.getItem(ONBOARDING_TOUR_KEY);
     
     const driverObj = driver({
       showProgress: true,

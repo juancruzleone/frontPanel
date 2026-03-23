@@ -1588,9 +1588,9 @@
     "titlePage": "خطة الصيانة | Leonix",
     "subtitle": "إدارة خطط الصيانة",
     "searchPlaceholder": "ابحث عن الاشتراكات...",
-    "noSubscriptionsFound": "لم يتم العثور على اشتراكات",
-    "noSubscriptions": "لا توجد اشتراكات متاحة",
-    "errorLoading": "حدث خطأ أثناء تحميل الاشتراكات",
+    "noSubscriptionsFound": "لم يتم العثور على خطط صيانة",
+    "noSubscriptions": "لا توجد خطط صيانة متاحة",
+    "errorLoading": "حدث خطأ أثناء تحميل خطط الصيانة",
     "startDate": "تاريخ البدء",
     "endDate": "تاريخ الانتهاف",
     "status": {

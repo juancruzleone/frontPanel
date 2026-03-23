@@ -4,7 +4,7 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import { userLogin } from "../services/loginServices"
 import { validateLoginForm } from "../validators/loginValidations"
-import { useAuthStore, selectRole } from "@/store/authStore"
+import { useAuthStore } from "@/store/authStore"
 import { useCSRFStore } from "@/store/csrfStore"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
@@ -24,7 +24,7 @@ export function useLogin() {
   // Use named actions from store
   const login = useAuthStore((state) => state.login)
   const setAuthenticated = useAuthStore((state) => state.setAuthenticated)
-  const role = useAuthStore(selectRole)
+  const role = useAuthStore((state) => state.role)
   const fetchCsrfToken = useCSRFStore((state) => state.fetchToken)
 
   const togglePasswordVisibility = () => {

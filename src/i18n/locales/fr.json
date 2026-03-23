@@ -1547,9 +1547,9 @@
     "searchPlaceholder": "Rechercher des abonnements...",
     "startDate": "Date de début",
     "endDate": "Date de fin",
-    "noSubscriptionsFound": "Aucun abonnement trouvé",
-    "noSubscriptions": "Aucun abonnement disponible",
-    "errorLoading": "Erreur lors du chargement des abonnements",
+    "noSubscriptionsFound": "Aucun plan de maintenance trouvé",
+    "noSubscriptions": "Aucun plan de maintenance disponible",
+    "errorLoading": "Erreur lors du chargement des plans de maintenance",
     "status": {
       "label": "Statut",
       "placeholder": "Sélectionner le statut",

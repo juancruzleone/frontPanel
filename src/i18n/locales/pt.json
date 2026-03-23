@@ -1551,9 +1551,9 @@
     "searchPlaceholder": "Buscar assinaturas...",
     "startDate": "Data de início",
     "endDate": "Data de término",
-    "noSubscriptionsFound": "Nenhuma assinatura encontrada",
-    "noSubscriptions": "Nenhuma assinatura disponível",
-    "errorLoading": "Erro ao carregar assinaturas",
+    "noSubscriptionsFound": "Nenhum plano de manutenção encontrado",
+    "noSubscriptions": "Nenhum plano de manutenção disponível",
+    "errorLoading": "Erro ao carregar planos de manutenção",
     "status": {
       "label": "Status",
       "placeholder": "Selecionar status",

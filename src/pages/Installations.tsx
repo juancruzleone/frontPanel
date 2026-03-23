@@ -204,14 +204,17 @@ const Installations = () => {
 
   // Iniciar el tour automáticamente si no se ha completado
   useEffect(() => {
-    if (!loading && !tourCompleted && !isTechnician) {
+    // Verificar si el tour de onboarding global ya se completó
+    const onboardingCompleted = localStorage.getItem('onboarding-tour-v2-shown');
+    
+    if (!loading && !tourCompleted && !isRestricted && onboardingCompleted === 'true') {
       // Esperar un poco para que el DOM se cargue completamente
       const timer = setTimeout(() => {
         startTour()
       }, 500)
       return () => clearTimeout(timer)
     }
-  }, [loading, tourCompleted, startTour, isTechnician])
+  }, [loading, tourCompleted, startTour, isRestricted])
 
   const dynamicCategories = useMemo(
     () => [

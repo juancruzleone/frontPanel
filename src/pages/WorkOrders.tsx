@@ -4,6 +4,7 @@ import Button from "../shared/components/Buttons/buttonCreate"
 import SearchInput from "../shared/components/Inputs/SearchInput"
 import styles from "../features/workOrders/styles/workOrders.module.css"
 import useWorkOrders, { type WorkOrder } from "../features/workOrders/hooks/useWorkOrders"
+import { type UserPermissions } from "../store/authStore"
 import ModalCreate from "../features/workOrders/components/ModalCreate"
 import ModalEdit from "../features/workOrders/components/ModalEdit"
 import ModalSuccess from "../features/workOrders/components/ModalSuccess"
@@ -107,7 +108,7 @@ const WorkOrders = () => {
   const userPermissions = useAuthStore((s) => s.permissions)
 
   const permissions = useMemo(() => {
-    if (userPermissions && Object.keys(userPermissions).length > 0) return userPermissions;
+    if (userPermissions && Object.keys(userPermissions).length > 0) return userPermissions as UserPermissions
 
     // Fallback basado en roles si faltan permisos del backend
     const isAdmin = role === 'admin' || role === 'super_admin';
@@ -403,7 +404,8 @@ const WorkOrders = () => {
   }
 
   const shouldShowEditButton = (order: WorkOrder) => {
-    if (!permissions?.canEditWorkOrders) return false
+    const perms = permissions as UserPermissions | null
+    if (!perms?.canEditWorkOrders) return false
     return ["pendiente", "asignada"].includes(order.estado)
   }
 

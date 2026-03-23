@@ -1624,9 +1624,9 @@
     "searchPlaceholder": "구독 검색...",
     "startDate": "시작일",
     "endDate": "종료일",
-    "noSubscriptionsFound": "구독을 찾을 수 없습니다",
-    "noSubscriptions": "사용 가능한 구독이 없습니다",
-    "errorLoading": "구독 로드 오류",
+    "noSubscriptionsFound": "유지보수 계획을 찾을 수 없습니다",
+    "noSubscriptions": "사용 가능한 유지보수 계획이 없습니다",
+    "errorLoading": "유지보수 계획 로드 오류",
     "status": {
       "label": "상태",
       "placeholder": "상태 선택",

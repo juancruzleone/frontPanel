@@ -261,91 +261,97 @@ const Subscriptions = () => {
         </div>
       </div>
 
-      <div className={styles.mainControls}>
-        <div className={styles.tabsContainer}>
-          {[
-            { id: '', label: t('common.all') },
-            { id: 'active', label: t('subscriptions.status.active') },
-            { id: 'pending', label: t('subscriptions.status.pending') },
-            { id: 'inactive', label: t('subscriptions.status.inactive') }
-          ].map(tab => (
-            <button
-              key={tab.id || 'all'}
-              className={`${styles.tab} ${selectedStatus === tab.id ? styles.activeTab : ''}`}
-              onClick={() => setSelectedStatus(tab.id)}
-            >
-              {tab.label}
-              <span className={styles.tabBadge}>
-                {tab.id === ''
-                  ? subscriptions.length
-                  : subscriptions.filter(s => s.status === tab.id).length}
-              </span>
-            </button>
-          ))}
-        </div>
+      {/* Solo mostrar controles si hay subscripciones */}
+      {!loading && subscriptions.length > 0 && (
+        <div className={styles.mainControls}>
+          <div className={styles.tabsContainer}>
+            {[
+              { id: '', label: t('common.all') },
+              { id: 'active', label: t('subscriptions.status.active') },
+              { id: 'pending', label: t('subscriptions.status.pending') },
+              { id: 'inactive', label: t('subscriptions.status.inactive') }
+            ].map(tab => (
+              <button
+                key={tab.id || 'all'}
+                className={`${styles.tab} ${selectedStatus === tab.id ? styles.activeTab : ''}`}
+                onClick={() => setSelectedStatus(tab.id)}
+              >
+                {tab.label}
+                <span className={styles.tabBadge}>
+                  {tab.id === ''
+                    ? subscriptions.length
+                    : subscriptions.filter(s => s.status === tab.id).length}
+                </span>
+              </button>
+            ))}
+          </div>
 
-        <div className={styles.filtersWrapper}>
-          <div className={styles.searchRow}>
-            <div className={styles.filterActions}>
+          <div className={styles.filtersWrapper}>
+            <div className={styles.searchRow}>
+              <div className={styles.filterActions}>
+                <HybridSelect
+                  value={selectedMonthFilter}
+                  onChange={setSelectedMonthFilter}
+                  options={monthOptions}
+                  placeholder={t('subscriptions.filterByMonth')}
+                  variant="compact"
+                />
+              </div>
+
+              <div className={styles.searchContainerInner}>
+                <SearchInput
+                  placeholder={t('subscriptions.searchPlaceholder')}
+                  onInputChange={(value) => setSearchTerm(value)}
+                  value={searchTerm}
+                />
+              </div>
+              <button
+                onClick={() => {
+                  setSearchTerm("")
+                  setSelectedMonthFilter("")
+                  setSelectedStatus("")
+                  setCurrentPage(1)
+                }}
+                className={styles.clearFilters}
+                title={t('calendar.clearFilters')}
+              >
+                <FilterX size={18} />
+              </button>
+            </div>
+
+            <div className={styles.statusSelectContainer}>
               <HybridSelect
-                value={selectedMonthFilter}
-                onChange={setSelectedMonthFilter}
-                options={monthOptions}
-                placeholder={t('subscriptions.filterByMonth')}
+                value={selectedStatus}
+                onChange={setSelectedStatus}
+                options={[
+                  { value: 'active', label: t('subscriptions.status.active') },
+                  { value: 'pending', label: t('subscriptions.status.pending') },
+                  { value: 'inactive', label: t('subscriptions.status.inactive') }
+                ]}
+                placeholder={t('subscriptions.filterByStatus')}
                 variant="compact"
+                className={styles.fullWidthSelect}
               />
             </div>
-
-            <div className={styles.searchContainerInner}>
-              <SearchInput
-                placeholder={t('subscriptions.searchPlaceholder')}
-                onInputChange={(value) => setSearchTerm(value)}
-                value={searchTerm}
-              />
-            </div>
-            <button
-              onClick={() => {
-                setSearchTerm("")
-                setSelectedMonthFilter("")
-                setSelectedStatus("")
-                setCurrentPage(1)
-              }}
-              className={styles.clearFilters}
-              title={t('calendar.clearFilters')}
-            >
-              <FilterX size={18} />
-            </button>
-          </div>
-
-          <div className={styles.statusSelectContainer}>
-            <HybridSelect
-              value={selectedStatus}
-              onChange={setSelectedStatus}
-              options={[
-                { value: 'active', label: t('subscriptions.status.active') },
-                { value: 'pending', label: t('subscriptions.status.pending') },
-                { value: 'inactive', label: t('subscriptions.status.inactive') }
-              ]}
-              placeholder={t('subscriptions.filterByStatus')}
-              variant="compact"
-              className={styles.fullWidthSelect}
-            />
           </div>
         </div>
-      </div>
+      )}
 
       <div className={styles.tableContainer}>
         {loading ? (
           <div className={styles.loadingContainer}>
             <Skeleton height={400} width="100%" style={{ borderRadius: 12 }} />
           </div>
+        ) : subscriptions.length === 0 ? (
+          <div className={styles.emptyState}>
+            <p className={styles.emptyMessage}>
+              {t('subscriptions.noSubscriptions')}
+            </p>
+          </div>
         ) : filteredSubscriptions.length === 0 ? (
           <div className={styles.emptyState}>
-            <div className={styles.emptyIcon}>
-              <FilterX size={48} />
-            </div>
             <p className={styles.emptyMessage}>
-              {searchTerm.trim() ? t('subscriptions.noSubscriptionsFound') : t('subscriptions.noSubscriptions')}
+              {t('subscriptions.noSubscriptionsFound')}
             </p>
           </div>
         ) : viewMode === 'table' ? (

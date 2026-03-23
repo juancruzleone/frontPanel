@@ -83,7 +83,10 @@ export const updateClient = async (id: string, data: { userName?: string; passwo
     if (data.userName) backendData.userName = data.userName
     if (data.password) backendData.password = data.password
     if (data.name) backendData.nombre = data.name
-    if (data.email) backendData.email = data.email
+    if (data.email) {
+        // ✅ Normalizar email a minúsculas
+        backendData.email = data.email.toLowerCase().trim()
+    }
 
     const response = await fetch(`${API_URL}clientes-usuarios/${id}`, {
         method: "PUT",

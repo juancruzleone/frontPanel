@@ -29,7 +29,8 @@ export const userRegister = async (
   formData.append('lastName', lastName) // ✅ Enviar lastName
   
   if (email) {
-    formData.append('email', email)
+    // ✅ Normalizar email a minúsculas
+    formData.append('email', email.toLowerCase().trim())
   }
   if (documento) {
     formData.append('documento', documento)
@@ -165,7 +166,10 @@ export const updateTechnician = async (
     if (data.password) formData.append('password', data.password)
     if (data.firstName) formData.append('firstName', data.firstName)
     if (data.lastName) formData.append('lastName', data.lastName)
-    if (data.email) formData.append('email', data.email)
+    if (data.email) {
+      // ✅ Normalizar email a minúsculas
+      formData.append('email', data.email.toLowerCase().trim())
+    }
     if (data.documento) formData.append('documento', data.documento)
     formData.append('profilePhoto', data.profilePhoto)
     
@@ -207,7 +211,10 @@ export const updateTechnician = async (
   if (data.password) jsonData.password = data.password
   if (data.firstName) jsonData.firstName = data.firstName
   if (data.lastName) jsonData.lastName = data.lastName
-  if (data.email) jsonData.email = data.email
+  if (data.email) {
+    // ✅ Normalizar email a minúsculas
+    jsonData.email = data.email.toLowerCase().trim()
+  }
   if (data.documento) jsonData.documento = data.documento
   
   // Construir nombre completo si hay firstName y lastName
