@@ -1,5 +1,32 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
+import { useCSRFStore } from "./csrfStore"
+
+interface UserData {
+  userName?: string
+  username?: string
+  _id?: string
+  role?: string
+  tenantId?: string
+  permissions?: string[]
+}
+
+interface LoginData {
+  user?: UserData
+  cuenta?: UserData
+  token: string
+}
+
+export interface UserPermissions {
+  canCreateWorkOrders?: boolean
+  canEditWorkOrders?: boolean
+  canDeleteWorkOrders?: boolean
+  canAssignWorkOrders?: boolean
+  canStartWorkOrder?: boolean
+  canCompleteWorkOrder?: boolean
+  canViewWorkOrders?: boolean
+  [key: string]: boolean | undefined
+}
 
 interface AuthState {
   user: string | null
@@ -7,10 +34,10 @@ interface AuthState {
   token: string | null
   role: string | null
   tenantId: string | null
-  permissions: any | null
+  permissions: string[] | UserPermissions | null
   isAuthenticated: boolean
   logoutMessage: string | null
-  login: (data: { user?: any, cuenta?: any, token: string }) => void
+  login: (data: LoginData) => void
   setAuthenticated: (value: boolean) => void
   setLogoutMessage: (msg: string | null) => void
   setTenantId: (tenantId: string) => void
@@ -19,7 +46,7 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       user: null,
       userId: null,
       token: null,
@@ -30,11 +57,11 @@ export const useAuthStore = create<AuthState>()(
       logoutMessage: null,
       login: (data) => {
         // El backend devuelve 'cuenta' en lugar de 'user'
-        const user = data.user || data.cuenta;
+        const user = data.user || data.cuenta
 
         // Validar que los datos necesarios existan
         if (!user) {
-          return;
+          return
         }
 
         set({
@@ -44,13 +71,16 @@ export const useAuthStore = create<AuthState>()(
           role: user.role || null,
           tenantId: user.tenantId || null,
           permissions: user.permissions || null,
-          isAuthenticated: false // No autenticar hasta que se cierre el modal
-        });
+          isAuthenticated: false, // No autenticar hasta que se cierre el modal
+        })
       },
       setAuthenticated: (value) => set({ isAuthenticated: value }),
       setLogoutMessage: (msg) => set({ logoutMessage: msg }),
       setTenantId: (tenantId) => set({ tenantId }),
-      logout: () =>
+      logout: () => {
+        // Clear CSRF token on logout using action
+        useCSRFStore.getState().clearToken()
+        
         set({
           user: null,
           userId: null,
@@ -59,10 +89,14 @@ export const useAuthStore = create<AuthState>()(
           tenantId: null,
           permissions: null,
           isAuthenticated: false,
-        }),
+        })
+      },
     }),
     {
       name: "auth-storage",
     }
   )
 )
+
+// Selector para obtener el rol
+export const selectRole = (state: AuthState) => state.role

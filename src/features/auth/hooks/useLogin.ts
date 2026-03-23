@@ -4,13 +4,14 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import { userLogin } from "../services/loginServices"
 import { validateLoginForm } from "../validators/loginValidations"
-import { useAuthStore } from "../../../../src/store/authStore.ts"
+import { useAuthStore, selectRole } from "@/store/authStore"
+import { useCSRFStore } from "@/store/csrfStore"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
 
 export function useLogin() {
-  const { t, i18n } = useTranslation();
-  const navigate = useNavigate();
+  const { t, i18n } = useTranslation()
+  const navigate = useNavigate()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
@@ -20,8 +21,11 @@ export function useLogin() {
   const [isError, setIsError] = useState(false)
   const [shouldRedirect, setShouldRedirect] = useState(false)
 
-  const loginStore = useAuthStore((state) => state.login)
+  // Use named actions from store
+  const login = useAuthStore((state) => state.login)
   const setAuthenticated = useAuthStore((state) => state.setAuthenticated)
+  const role = useAuthStore(selectRole)
+  const fetchCsrfToken = useCSRFStore((state) => state.fetchToken)
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword)
@@ -87,21 +91,25 @@ export function useLogin() {
       }
       
       // Guardar los datos del usuario pero NO autenticar todavía
-      loginStore(response)
+      login(response)
+      
+      // Fetch CSRF token after successful login
+      fetchCsrfToken()
       
       // Establecer el estado del modal
       setIsError(false)
       setResponseMessage(t('auth.loginSuccess'))
       setShowModal(true)
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Error al iniciar sesión"
       setIsError(true)
-      setResponseMessage(err.message || "Error al iniciar sesión")
+      setResponseMessage(message)
       setShowModal(true)
     }
   }
 
   const closeModal = () => {
-    const wasError = isError; // Guardar el estado antes de resetearlo
+    const wasError = isError // Guardar el estado antes de resetearlo
     setShowModal(false)
     setIsError(false)
     // Solo marcar como autenticado y redirigir si no fue un error
@@ -109,7 +117,6 @@ export function useLogin() {
       setAuthenticated(true)
       // Redirigir después de cerrar el modal de éxito
       setTimeout(() => {
-        const role = useAuthStore.getState().role;
         // Si es cliente, redirigir a instalaciones, sino a inicio
         if (role === 'cliente') {
           navigate("/instalaciones", { replace: true })

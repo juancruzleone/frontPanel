@@ -7,16 +7,8 @@ import { Toaster } from "sonner"
 import "./index.css"
 import "../src/styles/font.css"
 import "./i18n"
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js', {
-      updateViaCache: 'none',
-    }).catch(() => {
-      // Error al registrar service worker
-    })
-  })
-}
+import { useAuthStore } from "@/store/authStore"
+import { useCSRFStore } from "@/store/csrfStore"
 
 const ThemedToaster = () => {
   const { dark } = useTheme()
@@ -36,11 +28,30 @@ const ThemedToaster = () => {
   )
 }
 
+// App initialization component
+const AppInitializer = ({ children }: { children: React.ReactNode }) => {
+  const token = useAuthStore((state) => state.token)
+  const fetchToken = useCSRFStore((state) => state.fetchToken)
+  const csrfToken = useCSRFStore((state) => state.token)
+  const csrfIsLoading = useCSRFStore((state) => state.isLoading)
+  
+  React.useEffect(() => {
+    // Fetch CSRF token when user is authenticated and no token exists
+    if (token && !csrfToken && !csrfIsLoading) {
+      fetchToken()
+    }
+  }, [token, csrfToken, csrfIsLoading, fetchToken])
+
+  return <>{children}</>
+}
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ThemeProvider>
       <ThemedToaster />
-      <RouterProvider router={router} />
+      <AppInitializer>
+        <RouterProvider router={router} />
+      </AppInitializer>
     </ThemeProvider>
   </React.StrictMode>,
 )

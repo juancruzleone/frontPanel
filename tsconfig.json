@@ -11,6 +11,13 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@/store/*": ["src/store/*"],
+      "@/shared/*": ["src/shared/*"],
+      "@/features/*": ["src/features/*"]
+    },
 
     // 🔥 CONFIGURACIÓN SÚPER PERMISIVA
     "strict": false,
