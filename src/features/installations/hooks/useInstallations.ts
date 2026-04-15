@@ -123,7 +123,7 @@ const useInstallations = () => {
   })
 
   const loadInstallations = useCallback(async (params: { page?: number, limit?: number, search?: string, category?: string } = {}) => {
-    if (!token || !isAuthenticated) {
+    if (!isAuthenticated) {
       return
     }
 
@@ -137,15 +137,16 @@ const useInstallations = () => {
         setInstallationTypes(extractInstallationTypes(result.data))
       } else {
         // Fallback para formato antiguo
-        setInstallations(result)
-        setInstallationTypes(extractInstallationTypes(result))
+        const installations = Array.isArray(result) ? result : [];
+        setInstallations(installations)
+        setInstallationTypes(extractInstallationTypes(installations))
       }
     } catch (err: any) {
       setError(err.message)
     } finally {
       setLoading(false)
     }
-  }, [extractInstallationTypes, token, isAuthenticated])
+  }, [extractInstallationTypes, isAuthenticated])
 
   const loadInstallationDetails = useCallback(async (id: string) => {
     setLoading(true)
@@ -182,11 +183,9 @@ const useInstallations = () => {
     } catch (err: any) {
       throw err
     }
-  }, [])
+  }, [t])
 
-  useEffect(() => {
-    loadInstallations()
-  }, [loadInstallations])
+  // Removido useEffect automático - el componente controla cuándo cargar
 
   const handleFieldChange = async (name: string, value: string) => {
     const updatedData = { ...formData, [name]: value }

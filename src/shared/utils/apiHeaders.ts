@@ -6,7 +6,7 @@ const CSRF_REQUIRED_METHODS = ['POST', 'PUT', 'DELETE', 'PATCH']
 
 export const getAuthHeaders = (includeContentType: boolean = false) => {
   const authState = useAuthStore.getState()
-  const { token, tenantId } = authState
+  const { tenantId } = authState
 
   const headers: Record<string, string> = {}
 
@@ -14,9 +14,7 @@ export const getAuthHeaders = (includeContentType: boolean = false) => {
     headers["X-Tenant-ID"] = tenantId
   }
 
-  if (token) {
-    headers["Authorization"] = `Bearer ${token}`
-  }
+  // Ya no enviamos Authorization header - el backend usa cookies HTTP-only
 
   if (includeContentType) {
     headers["Content-Type"] = "application/json"

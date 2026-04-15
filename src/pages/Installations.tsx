@@ -195,12 +195,19 @@ const Installations = () => {
   // Hook para solicitudes de mantenimiento
   const { createRequest } = useMaintenanceRequests()
   const user = useAuthStore((s) => s.user)
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
+
+  // Cargar instalaciones cuando esté autenticado (ya no necesitamos token en localStorage)
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadInstallations({ page: 1, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
+    }
+  }, [isAuthenticated])
 
   useEffect(() => {
     document.title = t("installations.titlePage")
     loadCategories()
-    loadInstallations({ page: 1, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
-  }, [t, i18n.language]) // Removido loadCategories y loadInstallations de deps para evitar loops innecesarios
+  }, [t, i18n.language])
 
   // Iniciar el tour automáticamente si no se ha completado
   useEffect(() => {
