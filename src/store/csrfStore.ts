@@ -1,6 +1,13 @@
 import { create } from "zustand"
-import { persist } from "zustand/middleware"
+import { createJSONStorage, persist } from "zustand/middleware"
 import { fetchCsrfToken } from "@/shared/services/csrfServices"
+
+const CSRF_STORAGE_KEY = "csrf-storage"
+
+const clearLegacyCsrfStorage = () => {
+  if (typeof window === "undefined") return
+  window.localStorage.removeItem(CSRF_STORAGE_KEY)
+}
 
 interface CSRFState {
   token: string | null
@@ -32,8 +39,11 @@ export const useCSRFStore = create<CSRFState>()(
       clearToken: () => set({ token: null, error: null }),
     }),
     {
-      name: "csrf-storage",
+      name: CSRF_STORAGE_KEY,
+      storage: createJSONStorage(() => sessionStorage),
       partialize: (state) => ({ token: state.token }),
     }
   )
 )
+
+clearLegacyCsrfStorage()

@@ -22,11 +22,11 @@ const resolveSocketUrl = () => {
         try {
             return new URL(normalizedApiUrl).origin;
         } catch {
-            return 'http://localhost:2023';
+            return typeof window !== 'undefined' ? window.location.origin : '';
         }
     }
 
-    return 'http://localhost:2023';
+    return typeof window !== 'undefined' ? window.location.origin : '';
 };
 
 const SOCKET_URL = resolveSocketUrl();
@@ -43,21 +43,15 @@ class SocketService {
         if (this.socket) return;
         this.startAssignedOrdersPolling();
 
-        const { token, userId, tenantId, role } = useAuthStore.getState();
+        const { isAuthenticated } = useAuthStore.getState();
+        if (!isAuthenticated) {
+            return;
+        }
 
         this.socket = io(SOCKET_URL, {
-            transports: ['websocket'],
+            transports: ['polling', 'websocket'],
             autoConnect: true,
-            auth: {
-                token,
-                userId,
-                tenantId,
-                role
-            },
-            query: {
-                userId: userId || '',
-                tenantId: tenantId || ''
-            }
+            withCredentials: true,
         });
 
         this.socket.on('connect', () => {
@@ -200,8 +194,8 @@ class SocketService {
     }
 
     private async fetchAssignedOrders() {
-        const { token, role, userId, user } = useAuthStore.getState();
-        if (!token || !isTechnician(role)) {
+        const { isAuthenticated, role, userId, user } = useAuthStore.getState();
+        if (!isAuthenticated || !isTechnician(role)) {
             return [];
         }
 

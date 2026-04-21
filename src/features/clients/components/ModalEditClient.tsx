@@ -21,7 +21,7 @@ const ModalEditClient = ({
     client,
 }: ModalEditClientProps) => {
     const { t } = useTranslation()
-    const token = useAuthStore((state) => state.token)
+    useAuthStore((state) => state.isAuthenticated)
 
     const [userName, setUserName] = useState("")
     const [password, setPassword] = useState("")
@@ -147,7 +147,7 @@ const ModalEditClient = ({
                 updateData.password = password
             }
 
-            await updateClient(client._id || client.id, updateData, token)
+            await updateClient(client._id || client.id, updateData)
 
             onSubmitSuccess(t('clients.clientUpdated'))
             onRequestClose()

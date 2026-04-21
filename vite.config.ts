@@ -43,6 +43,19 @@ export default defineConfig({
     include: ["react", "react-dom"],
   },
   server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+        secure: false,
+      },
+      "/socket.io": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+        secure: false,
+        ws: true,
+      },
+    },
     hmr: {
       protocol: 'ws',
       host: 'localhost',

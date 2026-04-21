@@ -12,6 +12,8 @@ import { useTheme } from "../../hooks/useTheme"
 import { useTranslation } from "react-i18next"
 import { isTechnician, isSuperAdmin, canAccessSection, isClient, isAdmin } from "../../utils/roleUtils"
 import { useTranslatedRoutes } from "../../../router"
+import { logoutSession } from "../../../features/auth/services/loginServices"
+import { useCSRFStore } from "../../../store/csrfStore"
 import esFlag from '../../../../src/assets/flags/es.svg'
 import frFlag from '../../../../src/assets/flags/fr.svg'
 import usFlag from '../../../../src/assets/flags/us.svg'
@@ -112,9 +114,15 @@ const Nav = () => {
 
   const handleLogout = () => {
     setLogoutMessage("Sesión cerrada con éxito.")
-    logout()
-    navigate("/", { replace: true })
-    setIsMenuOpen(false)
+    const csrfToken = useCSRFStore.getState().token
+
+    logoutSession(csrfToken)
+      .catch(() => null)
+      .finally(() => {
+        logout()
+        navigate("/", { replace: true })
+        setIsMenuOpen(false)
+      })
   }
 
   const handleWorkOrdersMouseEnter = () => {

@@ -212,19 +212,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
+      - name: Deploy to Vercel (Staging)
+        uses: amondnet/vercel-action@v20
         with:
-          name: dist
-          path: dist/
-
-      - name: Deploy to Netlify (Staging)
-        uses: netlify/actions/cli@master
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_STAGING_SITE_ID }}
-        with:
-          args: deploy --dir=dist --prod
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ./
         continue-on-error: true
 
   # Job 9: Deploy to Production (solo en main)
@@ -241,19 +235,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
+      - name: Deploy to Vercel (Production)
+        uses: amondnet/vercel-action@v20
         with:
-          name: dist
-          path: dist/
-
-      - name: Deploy to Netlify (Production)
-        uses: netlify/actions/cli@master
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        with:
-          args: deploy --dir=dist --prod
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          working-directory: ./
         continue-on-error: true
 
       - name: Create Release

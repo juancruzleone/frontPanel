@@ -1,5 +1,5 @@
 import { useAuthStore } from "../../../store/authStore"
-import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
+import { getAuthHeaders, getHeadersWithContentType, fetchWithCsrf } from "../../../shared/utils/apiHeaders"
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -17,7 +17,7 @@ const handleResponse = async (response: Response) => {
 }
 
 export const fetchInstallationTypes = async (includeInactive = false): Promise<any[]> => {
-  const response = await fetch(`${API_URL}tipos-instalacion?includeInactive=${includeInactive}`, {
+  const response = await fetchWithCsrf(`${API_URL}tipos-instalacion?includeInactive=${includeInactive}`, {
     headers: getAuthHeaders(),
   })
 
@@ -28,7 +28,7 @@ export const fetchInstallationTypes = async (includeInactive = false): Promise<a
 }
 
 export const createInstallationType = async (typeData: any) => {
-  const response = await fetch(`${API_URL}tipos-instalacion`, {
+  const response = await fetchWithCsrf(`${API_URL}tipos-instalacion`, {
     method: "POST",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(typeData),
@@ -37,7 +37,7 @@ export const createInstallationType = async (typeData: any) => {
 }
 
 export const updateInstallationType = async (id: string, typeData: any) => {
-  const response = await fetch(`${API_URL}tipos-instalacion/${id}`, {
+  const response = await fetchWithCsrf(`${API_URL}tipos-instalacion/${id}`, {
     method: "PUT",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(typeData),
@@ -46,7 +46,7 @@ export const updateInstallationType = async (id: string, typeData: any) => {
 }
 
 export const deleteInstallationType = async (id: string) => {
-  const response = await fetch(`${API_URL}tipos-instalacion/${id}`, {
+  const response = await fetchWithCsrf(`${API_URL}tipos-instalacion/${id}`, {
     method: "DELETE",
     headers: getAuthHeaders(),
   })
@@ -54,7 +54,7 @@ export const deleteInstallationType = async (id: string) => {
 }
 
 export const getInstallationTypeById = async (id: string) => {
-  const response = await fetch(`${API_URL}tipos-instalacion/${id}`, {
+  const response = await fetchWithCsrf(`${API_URL}tipos-instalacion/${id}`, {
     headers: getAuthHeaders(),
   })
   return handleResponse(response)

@@ -22,6 +22,7 @@ import { useViewMode } from "../shared/hooks/useViewMode";
 import { useResponsiveView } from "../shared/hooks/useResponsiveView";
 import DataTable from "../components/DataTable/DataTable";
 import Tooltip from "../shared/components/Tooltip/Tooltip";
+import { openSafeUrl, sanitizeFilename, sanitizeUrl } from "../utils/sanitizer";
 
 const Manuals = () => {
   const { t, i18n } = useTranslation();
@@ -159,15 +160,21 @@ const Manuals = () => {
 
   const handleViewFile = (manual: Manual) => {
     if (manual.archivo && 'url' in manual.archivo) {
-      window.open(manual.archivo.url, '_blank');
+      openSafeUrl(manual.archivo.url);
     }
   };
 
   const handleDownloadFile = (manual: Manual) => {
     if (manual.archivo && 'url' in manual.archivo) {
+      const safeUrl = sanitizeUrl(manual.archivo.url);
+      if (safeUrl === 'about:blank') {
+        return;
+      }
+
       const link = document.createElement('a');
-      link.href = manual.archivo.url;
-      link.download = (manual.archivo as any).nombreOriginal || `${manual.nombre}.pdf`;
+      link.href = safeUrl;
+      link.rel = 'noopener noreferrer';
+      link.download = sanitizeFilename((manual.archivo as any).nombreOriginal || `${manual.nombre}.pdf`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

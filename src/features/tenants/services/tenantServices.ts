@@ -1,7 +1,7 @@
 import { Tenant, CreateTenantData, EditTenantData, TenantsResponse } from '../types/tenant.types'
 import { getAuthHeaders } from '../../../shared/utils/apiHeaders'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:2023/api/'
+const API_URL = import.meta.env.VITE_API_URL || '/api/'
 
 export const tenantServices = {
   async getTenants(): Promise<Tenant[]> {
@@ -21,7 +21,7 @@ export const tenantServices = {
   async createTenant(tenantData: CreateTenantData): Promise<Tenant> {
     const response = await fetch(`${API_URL}tenants`, {
       method: 'POST',
-      headers: getAuthHeaders(),
+      headers: getAuthHeaders(true),
       body: JSON.stringify(tenantData),
     })
 
@@ -37,7 +37,7 @@ export const tenantServices = {
   async updateTenant(tenantData: EditTenantData): Promise<Tenant> {
     const response = await fetch(`${API_URL}tenants/${tenantData._id}`, {
       method: 'PUT',
-      headers: getAuthHeaders(),
+      headers: getAuthHeaders(true),
       body: JSON.stringify(tenantData),
     })
 

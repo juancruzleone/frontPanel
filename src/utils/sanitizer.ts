@@ -25,18 +25,46 @@ export const escapeHtml = (text: string): string => {
  * Sanitiza una URL para prevenir javascript: y data: URIs peligrosos
  */
 export const sanitizeUrl = (url: string): string => {
-  const trimmed = url.trim().toLowerCase()
-  
-  // Bloquear protocolos peligrosos
-  if (
-    trimmed.startsWith('javascript:') ||
-    trimmed.startsWith('data:text/html') ||
-    trimmed.startsWith('vbscript:')
-  ) {
+  const trimmed = url.trim()
+
+  if (!trimmed) {
     return 'about:blank'
   }
-  
-  return url
+
+  try {
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://frontend.local'
+    const parsed = new URL(trimmed, baseUrl)
+
+    if (!['http:', 'https:'].includes(parsed.protocol)) {
+      return 'about:blank'
+    }
+
+    return parsed.toString()
+  } catch {
+    return 'about:blank'
+  }
+}
+
+export const openSafeUrl = (url: string, target: '_blank' | '_self' = '_blank'): boolean => {
+  const safeUrl = sanitizeUrl(url)
+
+  if (safeUrl === 'about:blank' || typeof window === 'undefined') {
+    return false
+  }
+
+  window.open(safeUrl, target, 'noopener,noreferrer')
+  return true
+}
+
+export const redirectToSafeUrl = (url: string): boolean => {
+  const safeUrl = sanitizeUrl(url)
+
+  if (safeUrl === 'about:blank' || typeof window === 'undefined') {
+    return false
+  }
+
+  window.location.assign(safeUrl)
+  return true
 }
 
 /**
@@ -187,6 +215,8 @@ export const sanitizeHtml = (html: string): string => {
 export default {
   escapeHtml,
   sanitizeUrl,
+  openSafeUrl,
+  redirectToSafeUrl,
   sanitizeInput,
   sanitizeObject,
   sanitizeFormData,

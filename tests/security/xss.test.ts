@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { sanitizeInput, escapeHtml, sanitizeUrl } from '../../src/utils/sanitizer'
+import { describe, it, expect, vi } from 'vitest'
+import { escapeHtml, openSafeUrl, redirectToSafeUrl, sanitizeInput, sanitizeUrl } from '../../src/utils/sanitizer'
 
 describe('XSS Protection Tests', () => {
   describe('Script Injection Prevention', () => {
@@ -114,6 +114,30 @@ describe('XSS Protection Tests', () => {
         const sanitized = sanitizeUrl(protocol)
         expect(sanitized).toBe('about:blank')
       })
+    })
+
+    it('should allow safe https URLs', () => {
+      expect(sanitizeUrl('https://example.com/manual.pdf')).toBe('https://example.com/manual.pdf')
+    })
+
+    it('should normalize relative URLs safely', () => {
+      expect(sanitizeUrl('/manuales/archivo.pdf')).toContain('/manuales/archivo.pdf')
+    })
+  })
+
+  describe('Safe navigation helpers', () => {
+    it('should open only safe URLs', () => {
+      const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null)
+
+      expect(openSafeUrl('javascript:alert(1)')).toBe(false)
+      expect(openSpy).not.toHaveBeenCalled()
+
+      expect(openSafeUrl('https://example.com')).toBe(true)
+      expect(openSpy).toHaveBeenCalledWith('https://example.com/', '_blank', 'noopener,noreferrer')
+    })
+
+    it('should redirect only safe URLs', () => {
+      expect(redirectToSafeUrl('data:text/html,<script>alert(1)</script>')).toBe(false)
     })
   })
 

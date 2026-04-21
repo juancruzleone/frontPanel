@@ -2,9 +2,8 @@ import { getHeadersWithContentType, getAuthHeaders } from "../../../shared/utils
 
 const API_URL = import.meta.env.VITE_API_URL
 
-export const createClient = async (username: string, password: string, fullName: string, token: string) => {
+export const createClient = async (username: string, password: string, fullName: string) => {
     const headers = getHeadersWithContentType()
-    headers.Authorization = `Bearer ${token}`
 
     // Separar fullName en firstName y lastName
     const nameParts = fullName.trim().split(' ')
@@ -37,9 +36,8 @@ export const createClient = async (username: string, password: string, fullName:
     return await response.json()
 }
 
-export const getClients = async (token: string) => {
+export const getClients = async () => {
     const headers = getAuthHeaders()
-    headers.Authorization = `Bearer ${token}`
 
     // Usar el endpoint específico para clientes-usuarios
     const response = await fetch(`${API_URL}clientes-usuarios`, {
@@ -57,9 +55,8 @@ export const getClients = async (token: string) => {
     return Array.isArray(data) ? data : []
 }
 
-export const deleteClient = async (id: string, token: string) => {
+export const deleteClient = async (id: string) => {
     const headers = getAuthHeaders()
-    headers.Authorization = `Bearer ${token}`
 
     const response = await fetch(`${API_URL}clientes-usuarios/${id}`, {
         method: "DELETE",
@@ -74,9 +71,8 @@ export const deleteClient = async (id: string, token: string) => {
     return await response.json()
 }
 
-export const updateClient = async (id: string, data: { userName?: string; password?: string; name?: string; email?: string }, token: string) => {
+export const updateClient = async (id: string, data: { userName?: string; password?: string; name?: string; email?: string }) => {
     const headers = getHeadersWithContentType()
-    headers.Authorization = `Bearer ${token}`
 
     // Mapear 'name' a 'nombre' para coincidir con el backend
     const backendData: any = {}
@@ -102,9 +98,8 @@ export const updateClient = async (id: string, data: { userName?: string; passwo
     return await response.json()
 }
 
-export const assignInstallationsToClient = async (clientId: string, installationIds: string[], token: string) => {
+export const assignInstallationsToClient = async (clientId: string, installationIds: string[]) => {
     const headers = getHeadersWithContentType()
-    headers.Authorization = `Bearer ${token}`
 
     const response = await fetch(`${API_URL}clientes-usuarios/${clientId}/instalaciones`, {
         method: "POST",

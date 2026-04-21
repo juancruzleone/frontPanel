@@ -16,6 +16,8 @@ export const getAuthHeaders = (includeContentType: boolean = false) => {
 
   // Ya no enviamos Authorization header - el backend usa cookies HTTP-only
 
+  headers["X-Requested-With"] = "XMLHttpRequest"
+
   if (includeContentType) {
     headers["Content-Type"] = "application/json"
   }
@@ -55,13 +57,27 @@ export const getHeadersWithCsrf = (includeContentType: boolean = true) => {
   return getApiHeaders(includeContentType, 'POST')
 }
 
-export const getHeadersWithContentType = () => {
-  return getAuthHeaders(true)
+export const getHeadersWithContentType = (method: string = 'POST') => {
+  return getApiHeaders(true, method)
 }
 
-export const getHeadersWithoutContentType = () => {
-  return getAuthHeaders(false)
+export const getHeadersWithoutContentType = (method: string = 'GET') => {
+  return getApiHeaders(false, method)
 } 
+
+const hasJsonContentType = (headers?: HeadersInit): boolean => {
+  if (!headers) return false
+
+  if (headers instanceof Headers) {
+    return headers.has("Content-Type")
+  }
+
+  if (Array.isArray(headers)) {
+    return headers.some(([key]) => key.toLowerCase() === "content-type")
+  }
+
+  return Object.keys(headers).some((key) => key.toLowerCase() === "content-type")
+}
 
 /**
  * Fetch wrapper that handles CSRF 403 errors with automatic token refresh and retry.
@@ -81,14 +97,21 @@ export const fetchWithCsrf = async (
   
   // Only add CSRF for mutating methods
   if (CSRF_REQUIRED_METHODS.includes(method)) {
+    const csrfStore = useCSRFStore.getState()
+
+    if (!csrfStore.token) {
+      await csrfStore.fetchToken()
+    }
+
     // Get current headers with CSRF token
     const headers = getApiHeaders(
-      options.headers?.['Content-Type'] !== undefined,
+      hasJsonContentType(options.headers),
       method
     )
     
     const fetchOptions: RequestInit = {
       ...options,
+      credentials: options.credentials ?? "include",
       headers: {
         ...headers,
         ...options.headers,
@@ -114,7 +137,7 @@ export const fetchWithCsrf = async (
         
         // Get new headers with refreshed CSRF token
         const newHeaders = getApiHeaders(
-          options.headers?.['Content-Type'] !== undefined,
+          hasJsonContentType(options.headers),
           method
         )
         
@@ -139,5 +162,8 @@ export const fetchWithCsrf = async (
   }
   
   // Non-mutating request - just fetch normally
-  return fetch(url, options)
+  return fetch(url, {
+    ...options,
+    credentials: options.credentials ?? "include",
+  })
 }

@@ -11,6 +11,7 @@ export const fetchCsrfToken = async (): Promise<CSRFServiceResponse> => {
   
   const response = await fetch(`${API_URL}csrf-token`, {
     method: "GET",
+    credentials: "include",
     headers: {
       ...headers,
     },

@@ -13,7 +13,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles, children 
   const user = useAuthStore((state) => state.user)
   const role = useAuthStore((state) => state.role)
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  const isAuthResolved = useAuthStore((state) => state.isAuthResolved)
   const { getRoute } = useTranslatedRoutes()
+
+  if (!isAuthResolved) return null
 
   if (!user || !isAuthenticated) return <Navigate to="/" replace />
 

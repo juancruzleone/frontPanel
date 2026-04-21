@@ -9,6 +9,8 @@ import "../src/styles/font.css"
 import "./i18n"
 import { useAuthStore } from "@/store/authStore"
 import { useCSRFStore } from "@/store/csrfStore"
+import { verifySession } from "./features/auth/services/loginServices"
+import { installFetchCredentials } from "./shared/services/fetchCredentials"
 
 const ThemedToaster = () => {
   const { dark } = useTheme()
@@ -30,17 +32,49 @@ const ThemedToaster = () => {
 
 // App initialization component
 const AppInitializer = ({ children }: { children: React.ReactNode }) => {
-  const token = useAuthStore((state) => state.token)
+  const hydrateSession = useAuthStore((state) => state.hydrateSession)
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  const isAuthResolved = useAuthStore((state) => state.isAuthResolved)
+  const setAuthResolved = useAuthStore((state) => state.setAuthResolved)
   const fetchToken = useCSRFStore((state) => state.fetchToken)
   const csrfToken = useCSRFStore((state) => state.token)
   const csrfIsLoading = useCSRFStore((state) => state.isLoading)
+
+  React.useEffect(() => {
+    installFetchCredentials()
+  }, [])
+
+  React.useEffect(() => {
+    let cancelled = false
+
+    const bootstrapSession = async () => {
+      try {
+        const response = await verifySession()
+        if (!cancelled) {
+          hydrateSession(response)
+        }
+      } catch {
+        if (!cancelled) {
+          setAuthResolved(true)
+        }
+      }
+    }
+
+    if (!isAuthResolved) {
+      bootstrapSession()
+    }
+
+    return () => {
+      cancelled = true
+    }
+  }, [hydrateSession, isAuthResolved, setAuthResolved])
   
   React.useEffect(() => {
     // Fetch CSRF token when user is authenticated and no token exists
-    if (token && !csrfToken && !csrfIsLoading) {
+    if (isAuthenticated && !csrfToken && !csrfIsLoading) {
       fetchToken()
     }
-  }, [token, csrfToken, csrfIsLoading, fetchToken])
+  }, [isAuthenticated, csrfToken, csrfIsLoading, fetchToken])
 
   return <>{children}</>
 }

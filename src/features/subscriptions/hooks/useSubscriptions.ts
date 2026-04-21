@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { fetchInstallations, updateInstallation } from '../../installations/services/installationServices'
 import type { Installation } from '../../installations/hooks/useInstallations'
 import { useAuthStore } from '../../../../src/store/authStore.ts'
+import { getAuthHeaders } from '@/shared/utils/apiHeaders'
 import {
   updateSubscription as updateSubscriptionService,
   triggerAutomaticWorkOrdersGeneration,
@@ -38,6 +39,7 @@ const useSubscriptions = () => {
   const [installations, setInstallations] = useState<Installation[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
 
   const [config, setConfig] = useState<any>(null)
 
@@ -45,8 +47,10 @@ const useSubscriptions = () => {
     const fetchConfig = async () => {
       try {
         const API_URL = import.meta.env.VITE_API_URL
+        if (!isAuthenticated) return
+
         const response = await fetch(`${API_URL}config/subscriptions`, {
-          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+          headers: getAuthHeaders()
         })
         if (response.ok) {
           const result = await response.json()
@@ -56,7 +60,7 @@ const useSubscriptions = () => {
       }
     }
     fetchConfig()
-  }, [])
+  }, [isAuthenticated])
 
   const frequencyOptions: FrequencyOption[] = (config?.frequencies || [
     { value: 'mensual', label: t('subscriptions.frequency.monthly') },
@@ -555,5 +559,3 @@ const useSubscriptions = () => {
 }
 
 export { useSubscriptions }
-
-

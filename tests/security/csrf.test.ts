@@ -1,51 +1,32 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { getAuthHeaders, getHeadersWithContentType } from '../../src/shared/utils/apiHeaders'
+import { useCSRFStore } from '../../src/store/csrfStore'
 
 describe('CSRF Protection Tests', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    useCSRFStore.setState({ token: 'csrf-test-token', isLoading: false, error: null })
   })
 
   describe('Token Validation', () => {
     it('should include CSRF token in state-changing requests', async () => {
-      const csrfToken = 'test-csrf-token'
-      
-      global.fetch = vi.fn().mockResolvedValue({
-        ok: true,
-        json: async () => ({ success: true }),
-      })
-
-      await fetch('/api/data', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': csrfToken,
-        },
-        body: JSON.stringify({ data: 'test' }),
-      })
-
-      expect(global.fetch).toHaveBeenCalledWith(
-        '/api/data',
+      expect(getHeadersWithContentType('POST')).toEqual(
         expect.objectContaining({
-          headers: expect.objectContaining({
-            'X-CSRF-Token': csrfToken,
-          }),
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': 'csrf-test-token',
+          'X-Requested-With': 'XMLHttpRequest',
         })
       )
     })
 
-    it('should not require CSRF token for GET requests', async () => {
-      global.fetch = vi.fn().mockResolvedValue({
-        ok: true,
-        json: async () => ({ data: [] }),
-      })
-
-      await fetch('/api/data', {
-        method: 'GET',
-      })
-
-      const call = vi.mocked(global.fetch).mock.calls[0]
-      const headers = call[1]?.headers as Record<string, string> || {}
-      expect(headers['X-CSRF-Token']).toBeUndefined()
+    it('should keep ajax and csrf headers available on authenticated requests', async () => {
+      const { getApiHeaders } = await import('../../src/shared/utils/apiHeaders')
+      expect(getApiHeaders(false, 'POST')).toEqual(
+        expect.objectContaining({
+          'X-CSRF-Token': 'csrf-test-token',
+          'X-Requested-With': 'XMLHttpRequest',
+        })
+      )
     })
   })
 

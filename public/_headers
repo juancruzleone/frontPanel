@@ -17,7 +17,10 @@
   Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()
   
   # Content Security Policy
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://api.leonix.net.ar wss://api.leonix.net.ar; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://api.leonix.net.ar wss://api.leonix.net.ar; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;
+  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-site
   
   # HSTS (HTTP Strict Transport Security)
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload

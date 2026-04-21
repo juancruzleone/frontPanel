@@ -32,7 +32,7 @@ const Clients = () => {
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
     const [isAssignModalOpen, setIsAssignModalOpen] = useState(false)
-    const token = useAuthStore((state) => state.token)
+    useAuthStore((state) => state.isAuthenticated)
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
     const [clientToDelete, setClientToDelete] = useState<any>(null)
     const [clientToEdit, setClientToEdit] = useState<any>(null)
@@ -101,7 +101,7 @@ const Clients = () => {
 
     const handleDeleteClient = async (id: string) => {
         try {
-            await deleteClient(id, token)
+            await deleteClient(id)
             await fetchClients()
         } catch (err: any) {
             alert(err.message || 'Error al eliminar cliente')
@@ -111,7 +111,7 @@ const Clients = () => {
     const handleConfirmDelete = async () => {
         if (!clientToDelete) return
         try {
-            await deleteClient(clientToDelete._id || clientToDelete.id, token)
+            await deleteClient(clientToDelete._id || clientToDelete.id)
             await fetchClients()
             showSuccess(t('clients.clientDeleted'))
         } catch (err: any) {
@@ -142,7 +142,7 @@ const Clients = () => {
 
     const handleAssign = async (clientId: string, installationIds: string[]) => {
         try {
-            await assignInstallationsToClient(clientId, installationIds, token)
+            await assignInstallationsToClient(clientId, installationIds)
             return { message: t('clients.installationsAssignedSuccessfully') }
         } catch (err: any) {
             throw err

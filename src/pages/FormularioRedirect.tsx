@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuthStore } from '../store/authStore'
 import { isClient } from '../shared/utils/roleUtils'
+import { redirectToSafeUrl } from '../utils/sanitizer'
 
 /**
  * Componente que redirige automáticamente según el estado de autenticación:
@@ -15,7 +16,7 @@ import { isClient } from '../shared/utils/roleUtils'
 const FormularioRedirect = () => {
   const navigate = useNavigate()
   const { installationId, deviceId } = useParams()
-  const { token, role } = useAuthStore()
+  const { isAuthenticated, role } = useAuthStore()
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -28,7 +29,7 @@ const FormularioRedirect = () => {
       // Función para obtener y redirigir al último mantenimiento
       const redirectToLastMaintenance = async () => {
         try {
-          const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+          const API_URL = import.meta.env.VITE_API_URL || '/api/'
 
 
 
@@ -51,12 +52,10 @@ const FormularioRedirect = () => {
 
 
 
-          if (pdfUrl) {
-
-            // Redirigir DIRECTAMENTE al PDF (fuera de cmms.leonix.net.ar)
-            window.location.href = pdfUrl
+          if (pdfUrl && redirectToSafeUrl(pdfUrl)) {
+            return
           } else {
-            throw new Error('No hay PDF disponible para este dispositivo')
+            throw new Error('No hay PDF disponible para este dispositivo o la URL no es segura')
           }
         } catch (err: any) {
           setError(err.message || 'Error al cargar el mantenimiento')
@@ -64,7 +63,7 @@ const FormularioRedirect = () => {
       }
 
       // Si NO hay token → Usuario sin login → Obtener PDF del último mantenimiento
-      if (!token) {
+      if (!isAuthenticated) {
 
         await redirectToLastMaintenance()
         return
@@ -82,7 +81,7 @@ const FormularioRedirect = () => {
     }
 
     handleRedirect()
-  }, [token, role, installationId, deviceId, navigate])
+  }, [isAuthenticated, role, installationId, deviceId, navigate])
 
   // Mostrar loader o error
   if (error) {
@@ -134,7 +133,7 @@ const FormularioRedirect = () => {
           margin: '0 auto 20px'
         }} />
         <p style={{ fontSize: '1.2rem', fontWeight: '600' }}>
-          {!token ? 'Cargando último mantenimiento...' : 'Redirigiendo...'}
+          {!isAuthenticated ? 'Cargando último mantenimiento...' : 'Redirigiendo...'}
         </p>
       </div>
       <style>{`

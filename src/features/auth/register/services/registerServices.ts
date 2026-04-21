@@ -7,13 +7,11 @@ export const userRegister = async (
   username: string, 
   password: string, 
   fullName: string, 
-  token: string,
   email?: string,
   documento?: string,
   profilePhoto?: File | null
 ) => {
   const headers = getAuthHeaders() // Usar getAuthHeaders en lugar de getHeadersWithContentType
-  headers.Authorization = `Bearer ${token}`
   
   // Separar fullName en firstName y lastName
   const nameParts = fullName.trim().split(' ')
@@ -60,9 +58,8 @@ export const userRegister = async (
   return await response.json()
 }
 
-export const getTechnicians = async (token: string) => {
+export const getTechnicians = async () => {
   const headers = getAuthHeaders()
-  headers.Authorization = `Bearer ${token}` // Sobrescribir el token del store con el token pasado como parámetro
   
   const response = await fetch(`${API_URL}cuentas/tecnicos`, {
     method: "GET",
@@ -81,9 +78,8 @@ export const getTechnicians = async (token: string) => {
   return data.tecnicos || []
 }
 
-export const deleteTechnician = async (id: string, token: string) => {
+export const deleteTechnician = async (id: string) => {
   const headers = getAuthHeaders()
-  headers.Authorization = `Bearer ${token}` // Sobrescribir el token del store con el token pasado como parámetro
   
   const response = await fetch(`${API_URL}cuentas/${id}`, {
     method: "DELETE",
@@ -98,26 +94,16 @@ export const deleteTechnician = async (id: string, token: string) => {
   return await response.json()
 }
 
-export const getUserById = async (id: string, token: string) => {
+export const getUserById = async (id: string, _token?: string | null) => {
   const headers = getAuthHeaders()
-  headers.Authorization = `Bearer ${token}` // Sobrescribir el token del store con el token pasado como parámetro
-  
-  console.log('🔍 getUserById - ID:', id);
-  console.log('🔍 getUserById - Token:', token ? 'Presente' : 'Ausente');
-  console.log('🔍 getUserById - URL:', `${API_URL}cuentas/${id}`);
-  console.log('🔍 getUserById - Headers:', headers);
-  
+
   const response = await fetch(`${API_URL}cuentas/${id}`, {
     method: "GET",
     headers,
   })
 
-  console.log('📡 getUserById - Response status:', response.status);
-  console.log('📡 getUserById - Response ok:', response.ok);
-
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}))
-    console.error('❌ getUserById - Error data:', errorData);
     
     // Mensajes de error más específicos
     if (response.status === 404) {
@@ -131,8 +117,7 @@ export const getUserById = async (id: string, token: string) => {
   }
 
   const data = await response.json()
-  console.log('✅ getUserById - Data:', data);
-  
+
   return data
 }
 
@@ -147,19 +132,12 @@ export const updateTechnician = async (
     documento?: string
     profilePhoto?: File | null
   }, 
-  token: string
+  _token?: string | null
 ) => {
-  console.log('🔄 updateTechnician - Iniciando actualización');
-  console.log('🔄 updateTechnician - ID:', id);
-  console.log('🔄 updateTechnician - Data:', data);
-  console.log('🔄 updateTechnician - Has photo:', !!data.profilePhoto);
-  
   const headers = getAuthHeaders()
-  headers.Authorization = `Bearer ${token}`
   
   // Si hay foto, usar FormData
   if (data.profilePhoto) {
-    console.log('📸 updateTechnician - Usando FormData con foto');
     const formData = new FormData()
     
     if (data.userName) formData.append('userName', data.userName)
@@ -178,32 +156,23 @@ export const updateTechnician = async (
       formData.append('name', `${data.firstName} ${data.lastName}`)
     }
     
-    console.log('📡 updateTechnician - URL:', `${API_URL}cuentas/${id}/technician`);
-    console.log('📡 updateTechnician - Headers:', headers);
-    
     const response = await fetch(`${API_URL}cuentas/${id}/technician`, {
       method: "PUT",
       headers, // No incluir Content-Type para FormData
       body: formData,
     })
 
-    console.log('📡 updateTechnician - Response status:', response.status);
-
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}))
-      console.error('❌ updateTechnician - Error:', errorData);
       throw new Error(errorData.error?.message || errorData.message || "Error al actualizar el técnico")
     }
 
     const result = await response.json()
-    console.log('✅ updateTechnician - Success:', result);
     return result
   }
   
   // Si no hay foto, usar JSON
-  console.log('📝 updateTechnician - Usando JSON sin foto');
-  const headers2 = getHeadersWithContentType()
-  headers2.Authorization = `Bearer ${token}`
+  const headers2 = getHeadersWithContentType('PUT')
   
   // Preparar datos para JSON
   const jsonData: any = {}
@@ -222,25 +191,17 @@ export const updateTechnician = async (
     jsonData.name = `${data.firstName} ${data.lastName}`
   }
   
-  console.log('📡 updateTechnician - URL:', `${API_URL}cuentas/${id}/technician`);
-  console.log('📡 updateTechnician - Headers:', headers2);
-  console.log('📡 updateTechnician - Body:', jsonData);
-  
   const response = await fetch(`${API_URL}cuentas/${id}/technician`, {
     method: "PUT",
     headers: headers2,
     body: JSON.stringify(jsonData),
   })
 
-  console.log('📡 updateTechnician - Response status:', response.status);
-
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}))
-    console.error('❌ updateTechnician - Error:', errorData);
     throw new Error(errorData.error?.message || errorData.message || "Error al actualizar el técnico")
   }
 
   const result = await response.json()
-  console.log('✅ updateTechnician - Success:', result);
   return result
 }

@@ -6,7 +6,7 @@ import { WORK_ORDER_TYPE_COLORS, WORK_ORDER_STATUS_COLORS } from "../../../utils
 
 const useHomeDashboard = () => {
   const { t } = useTranslation()
-  const token = useAuthStore(state => state.token)
+  const isAuthenticated = useAuthStore(state => state.isAuthenticated)
   const [kpis, setKpis] = useState<any[]>([])
   const [barChartData, setBarChartData] = useState<any[]>([])
   const [pieChartData, setPieChartData] = useState<any[]>([])
@@ -17,14 +17,13 @@ const useHomeDashboard = () => {
 
   useEffect(() => {
     const load = async () => {
-      if (!token) return
+      if (!isAuthenticated) return
       setLoading(true)
       setError(null)
       try {
         const API_URL = import.meta.env.VITE_API_URL
         const response = await fetch(`${API_URL}dashboard/stats`, {
           headers: {
-            'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'
           }
         })
@@ -135,7 +134,7 @@ const useHomeDashboard = () => {
       }
     }
     load()
-  }, [])
+  }, [isAuthenticated])
 
   return { kpis, barChartData, pieChartData, lineChartData, recentWorkOrders, loading, error }
 }

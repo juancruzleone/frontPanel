@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { useCSRFStore } from '../../../src/store/csrfStore'
-import { useAuthStore } from '../../../src/store/authStore'
 import * as csrfServices from '../../../src/shared/services/csrfServices'
 
 // Mock del servicio de CSRF
@@ -21,7 +20,7 @@ vi.mock('../../../src/store/authStore', () => ({
 describe('CSRF Store', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    localStorage.clear()
+    sessionStorage.clear()
     // Reset store state
     useCSRFStore.setState({
       token: null,
@@ -111,26 +110,26 @@ describe('CSRF Store', () => {
   })
 
   describe('Persistence', () => {
-    it('should persist token to localStorage', async () => {
+    it('should persist token to sessionStorage', async () => {
       const mockResponse = { token: 'persisted-token-123' }
       vi.mocked(csrfServices.fetchCsrfToken).mockResolvedValue(mockResponse)
 
       await useCSRFStore.getState().fetchToken()
 
-      const stored = localStorage.getItem('csrf-storage')
+      const stored = sessionStorage.getItem('csrf-storage')
       expect(stored).toBeTruthy()
 
       const parsed = JSON.parse(stored!)
       expect(parsed.state.token).toBe('persisted-token-123')
     })
 
-    it('should persist token to localStorage and restore on new store instance', async () => {
+    it('should persist token to sessionStorage and restore on new store instance', async () => {
       const mockResponse = { token: 'persisted-token-123' }
       vi.mocked(csrfServices.fetchCsrfToken).mockResolvedValue(mockResponse)
 
       await useCSRFStore.getState().fetchToken()
 
-      const stored = localStorage.getItem('csrf-storage')
+      const stored = sessionStorage.getItem('csrf-storage')
       expect(stored).toBeTruthy()
 
       const parsed = JSON.parse(stored!)

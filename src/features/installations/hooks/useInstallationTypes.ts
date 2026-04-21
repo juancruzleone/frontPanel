@@ -21,11 +21,11 @@ const useInstallationTypes = () => {
   const [error, setError] = useState<string | null>(null)
   const hasTriedInactiveRef = useRef(false)
   const initialLoadDoneRef = useRef(false)
-  const { isAuthenticated, token } = useAuthStore()
+  const { isAuthenticated } = useAuthStore()
 
   const loadInstallationTypes = useCallback(async (includeInactive = false) => {
     // No intentar cargar si no está autenticado
-    if (!isAuthenticated || !token) {
+    if (!isAuthenticated) {
       console.log('Usuario no autenticado, no se cargarán tipos de instalación')
       return
     }
@@ -50,7 +50,7 @@ const useInstallationTypes = () => {
     } finally {
       setLoading(false)
     }
-  }, [isAuthenticated, token])
+  }, [isAuthenticated])
 
   const addInstallationType = async (typeData: {
     nombre: string
@@ -93,17 +93,16 @@ const useInstallationTypes = () => {
 
   // Cargar tipos de instalación cuando el usuario se autentica
   useEffect(() => {
-    if (isAuthenticated && token && !initialLoadDoneRef.current) {
+    if (isAuthenticated && !initialLoadDoneRef.current) {
       loadInstallationTypes()
     }
-  }, [isAuthenticated, token, loadInstallationTypes])
+  }, [isAuthenticated, loadInstallationTypes])
 
   // Si no hay tipos de instalación activos y no hay error, intentar cargar todos incluyendo inactivos (solo una vez)
   useEffect(() => {
     if (
       initialLoadDoneRef.current && 
       isAuthenticated && 
-      token && 
       !loading && 
       !hasTriedInactiveRef.current && 
       installationTypes.length === 0 && 
@@ -112,7 +111,7 @@ const useInstallationTypes = () => {
       console.log('No se encontraron tipos de instalación activos, intentando cargar todos...')
       loadInstallationTypes(true)
     }
-  }, [isAuthenticated, token, loading, installationTypes.length, error, loadInstallationTypes])
+  }, [isAuthenticated, loading, installationTypes.length, error, loadInstallationTypes])
 
   return {
     installationTypes,

@@ -34,7 +34,7 @@ const Register = () => {
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [userId, setUserId] = useState<string | null>(null)
-  const token = useAuthStore((state) => state.token)
+  useAuthStore((state) => state.isAuthenticated)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [technicianToDelete, setTechnicianToDelete] = useState<any>(null)
   const [technicianToEdit, setTechnicianToEdit] = useState<any>(null)
@@ -120,7 +120,7 @@ const Register = () => {
 
   const handleDeleteTechnician = async (id: string) => {
     try {
-      await deleteTechnician(id, token)
+      await deleteTechnician(id)
       await fetchTechnicians()
     } catch (err: any) {
       alert(err.message || 'Error al eliminar usuario')
@@ -130,7 +130,7 @@ const Register = () => {
   const handleConfirmDelete = async () => {
     if (!technicianToDelete) return
     try {
-      await deleteTechnician(technicianToDelete._id || technicianToDelete.id, token)
+      await deleteTechnician(technicianToDelete._id || technicianToDelete.id)
       await fetchTechnicians()
       showSuccess(t('personal.userDeleted'))
     } catch (err: any) {

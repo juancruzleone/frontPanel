@@ -15,13 +15,6 @@ const ProfilePage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [updatedOrders, setUpdatedOrders] = useState<any[]>([]);
 
-  // Debug: Ver los datos del usuario en el componente
-  useEffect(() => {
-    console.log('👤 ProfilePage - userData:', userData);
-    console.log('👤 ProfilePage - role:', role);
-    console.log('📸 ProfilePage - profilePhoto:', userData?.profilePhoto);
-  }, [userData, role]);
-
   // Obtener la URL completa de la foto de perfil
   const profilePhotoUrl = useMemo(() => {
     return getProfilePhotoUrl(userData?.profilePhoto);
@@ -134,12 +127,8 @@ const ProfilePage = () => {
                   className={styles.profilePhoto}
                   loading="lazy"
                   onError={(e) => {
-                    console.error('❌ Error al cargar la imagen:', profilePhotoUrl);
                     e.currentTarget.style.display = 'none';
                     e.currentTarget.nextElementSibling?.classList.remove(styles.hidden);
-                  }}
-                  onLoad={() => {
-                    console.log('✅ Imagen cargada correctamente:', profilePhotoUrl);
                   }}
                 />
                 <div className={`${styles.profilePhotoPlaceholder} ${styles.hidden}`}>

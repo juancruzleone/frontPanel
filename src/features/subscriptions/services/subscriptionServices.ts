@@ -5,13 +5,10 @@ const API_URL = import.meta.env.VITE_API_URL
 
 export const updateSubscription = async (subscriptionId: string, updateData: any) => {
   // Obtener el token del store
-  const token = useAuthStore.getState().token
-  if (!token) {
+  const isAuthenticated = useAuthStore.getState().isAuthenticated
+  if (!isAuthenticated) {
     throw new Error('Token de autorización requerido')
   }
-
-  console.log('🔍 updateData recibido:', JSON.stringify(updateData, null, 2))
-  console.log('🔍 Tipo de frecuencia:', typeof updateData.frecuencia, updateData.frecuencia)
 
   // IMPORTANTE: Enviar solo los campos requeridos por validateSubscriptionUpdate
   const updatePayload = {
@@ -28,25 +25,14 @@ export const updateSubscription = async (subscriptionId: string, updateData: any
   // Usar la nueva ruta PATCH de subscription
   const url = `${baseUrl}/installations/${subscriptionId}/subscription`
 
-  console.log('🚀 updateSubscription - URL completa:', url)
-  console.log('🚀 updateSubscription - Método:', 'PATCH')
-  console.log('🚀 updateSubscription - Headers:', getHeadersWithContentType())
-  console.log('🚀 updateSubscription - Payload:', updatePayload)
-  console.log('🔍 FRECUENCIA RECIBIDA:', updateData.frecuencia, '| Tipo:', typeof updateData.frecuencia)
-  console.log('🔍 PAYLOAD COMPLETO:', JSON.stringify(updatePayload, null, 2))
-
   try {
     const response = await fetch(url, {
       method: "PATCH",
-      headers: getHeadersWithContentType(),
+      headers: getHeadersWithContentType('PATCH'),
       body: JSON.stringify(updatePayload),
     })
 
-    console.log('📡 Response status:', response.status)
-    console.log('📡 Response ok:', response.ok)
-
     const data = await response.json()
-    console.log('📡 Response data:', data)
 
     if (!response.ok) {
       // Si hay un mensaje de error específico del servidor, usarlo
@@ -57,15 +43,14 @@ export const updateSubscription = async (subscriptionId: string, updateData: any
 
     return data
   } catch (error: any) {
-    console.error('❌ Error en updateSubscription:', error)
     // Re-lanzar el error para que sea manejado por el componente
     throw error
   }
 }
 
 export const triggerAutomaticWorkOrdersGeneration = async () => {
-  const token = useAuthStore.getState().token
-  if (!token) {
+  const isAuthenticated = useAuthStore.getState().isAuthenticated
+  if (!isAuthenticated) {
     throw new Error('Token de autorización requerido')
   }
 
@@ -82,7 +67,7 @@ export const triggerAutomaticWorkOrdersGeneration = async () => {
     try {
       const response = await fetch(url, {
         method: "POST",
-        headers: getHeadersWithContentType(),
+        headers: getHeadersWithContentType('POST'),
       })
       if (response.ok) {
         return await response.json()
@@ -95,7 +80,5 @@ export const triggerAutomaticWorkOrdersGeneration = async () => {
 
   throw lastError || new Error('No se pudo generar órdenes automáticas')
 }
-
-
 
 

@@ -21,30 +21,30 @@ export function useClients() {
     const [clients, setClients] = useState<Client[]>([])
     const [loadingClients, setLoadingClients] = useState(true)
 
-    const token = useAuthStore((state) => state.token)
+    const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
 
     const fetchClients = useCallback(async () => {
-        if (!token) return
+        if (!isAuthenticated) return
 
         setLoadingClients(true)
         try {
-            const data = await getClients(token)
+            const data = await getClients()
             setClients(Array.isArray(data) ? data : [])
         } catch (error) {
             setClients([])
         } finally {
             setLoadingClients(false)
         }
-    }, [token])
+    }, [isAuthenticated])
 
     const addClient = useCallback(
         async (username: string, password: string, fullName: string): Promise<{ message: string }> => {
-            if (!token) {
+            if (!isAuthenticated) {
                 throw new Error(t('clients.noPermission'))
             }
 
             try {
-                const response = await createClient(username, password, fullName, token)
+                const response = await createClient(username, password, fullName)
                 const message = t('clients.clientCreated')
 
                 await fetchClients()
@@ -61,7 +61,7 @@ export function useClients() {
                 throw new Error(err.message)
             }
         },
-        [token, fetchClients, t],
+        [isAuthenticated, fetchClients, t],
     )
 
     const closeModal = useCallback(() => {

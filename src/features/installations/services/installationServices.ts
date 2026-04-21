@@ -1,5 +1,5 @@
 import { useAuthStore } from "../../../store/authStore";
-import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders";
+import { getAuthHeaders, getHeadersWithContentType, fetchWithCsrf } from "../../../shared/utils/apiHeaders";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -26,12 +26,8 @@ export const fetchInstallations = async (params: { page?: number, limit?: number
   if (params.category) queryParams.append('category', params.category)
 
   const endpoint = getInstallationsEndpoint();
-  const fullUrl = `${API_URL}${endpoint}?${queryParams.toString()}`;
-  const headers = getAuthHeaders();
-
-  const response = await fetch(fullUrl, {
-    headers,
-    credentials: 'include', // Importante: enviar cookies HTTP-only
+  const response = await fetchWithCsrf(`${API_URL}${endpoint}?${queryParams.toString()}`, {
+    headers: getAuthHeaders(),
   });
   
   if (!response.ok) throw new Error("Error al obtener instalaciones");
@@ -103,7 +99,7 @@ export const fetchInstallations = async (params: { page?: number, limit?: number
 
 export const fetchInstallationById = async (id: string): Promise<any> => {
   const endpoint = getInstallationsEndpoint();
-  const response = await fetch(`${API_URL}${endpoint}/${id}`, {
+  const response = await fetchWithCsrf(`${API_URL}${endpoint}/${id}`, {
     headers: getAuthHeaders(),
     credentials: 'include',
   });
@@ -114,7 +110,7 @@ export const fetchInstallationById = async (id: string): Promise<any> => {
 
 export const fetchInstallationDevices = async (installationId: string): Promise<any[]> => {
   const endpoint = getInstallationsEndpoint();
-  const response = await fetch(`${API_URL}${endpoint}/${installationId}/dispositivos`, {
+  const response = await fetchWithCsrf(`${API_URL}${endpoint}/${installationId}/dispositivos`, {
     headers: getAuthHeaders(),
     credentials: 'include',
   });
@@ -124,7 +120,7 @@ export const fetchInstallationDevices = async (installationId: string): Promise<
 };
 
 export const fetchAssets = async (): Promise<any[]> => {
-  const response = await fetch(`${API_URL}activos`, {
+  const response = await fetchWithCsrf(`${API_URL}activos`, {
     headers: getAuthHeaders(),
     credentials: 'include',
   });
@@ -149,7 +145,7 @@ export const createInstallation = async (installation: any) => {
     throw new Error("No tienes permisos para crear instalaciones");
   }
 
-  const response = await fetch(`${API_URL}installations`, {
+  const response = await fetchWithCsrf(`${API_URL}installations`, {
     method: "POST",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(installation),
@@ -180,7 +176,7 @@ export const updateInstallation = async (id: string, installation: any) => {
     ...rest,
     ...(typeof image === "string" ? { image } : {}),
   };
-  const response = await fetch(`${API_URL}installations/${id}`, {
+  const response = await fetchWithCsrf(`${API_URL}installations/${id}`, {
     method: "PUT",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(updateData),
@@ -197,7 +193,7 @@ export const deleteInstallation = async (id: string) => {
     throw new Error("No tienes permisos para eliminar instalaciones");
   }
 
-  const response = await fetch(`${API_URL}installations/${id}`, {
+  const response = await fetchWithCsrf(`${API_URL}installations/${id}`, {
     method: "DELETE",
     headers: getAuthHeaders(),
     credentials: 'include',
@@ -223,7 +219,7 @@ export const addDeviceToInstallation = async (installationId: string, deviceData
     credentials: 'include' as RequestCredentials,
   };
 
-  const response = await fetch(url, fetchOptions);
+  const response = await fetchWithCsrf(url, fetchOptions);
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
@@ -243,7 +239,7 @@ export const deleteDeviceFromInstallation = async (installationId: string, devic
     throw new Error("No tienes permisos para eliminar dispositivos");
   }
 
-  const response = await fetch(`${API_URL}installations/${installationId}/dispositivos/${deviceId}`, {
+  const response = await fetchWithCsrf(`${API_URL}installations/${installationId}/dispositivos/${deviceId}`, {
     method: "DELETE",
     headers: getAuthHeaders(),
     credentials: 'include',
@@ -262,7 +258,7 @@ export const updateDeviceInInstallation = async (
     throw new Error("No tienes permisos para actualizar dispositivos");
   }
 
-  const response = await fetch(`${API_URL}installations/${installationId}/dispositivos/${deviceId}`, {
+  const response = await fetchWithCsrf(`${API_URL}installations/${installationId}/dispositivos/${deviceId}`, {
     method: "PUT",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(deviceData),
@@ -289,7 +285,7 @@ export const assignTemplateToDevice = async (
     throw new Error("No tienes permisos para asignar plantillas");
   }
 
-  const response = await fetch(
+  const response = await fetchWithCsrf(
     `${API_URL}installations/${installationId}/dispositivos/${deviceId}/plantilla`,
     {
       method: "PATCH",

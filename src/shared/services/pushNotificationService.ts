@@ -1,5 +1,6 @@
 import { useAuthStore } from '../../store/authStore'
 import { getHeadersWithContentType } from '../utils/apiHeaders'
+import { redirectToSafeUrl } from '../../utils/sanitizer'
 
 const API_URL = import.meta.env.VITE_API_URL
 const VAPID_PUBLIC_KEY = import.meta.env.VITE_VAPID_PUBLIC_KEY
@@ -142,13 +143,13 @@ class PushNotificationService {
     }
 
     try {
-      const notification = new Notification(title, options)
-      notification.onclick = () => {
-        window.focus()
-        if (options?.data?.url) {
-          window.location.href = String(options.data.url)
+        const notification = new Notification(title, options)
+        notification.onclick = () => {
+          window.focus()
+          if (options?.data?.url) {
+            redirectToSafeUrl(String(options.data.url))
+          }
         }
-      }
     } catch (error) {
       // Error al mostrar notificación en primer plano
     }

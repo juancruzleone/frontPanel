@@ -8,6 +8,7 @@ import type { Device, Installation } from "../../installations/hooks/useInstalla
 import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../../../store/authStore"
 import { isClient } from "../../../shared/utils/roleUtils"
+import { escapeHtml, openSafeUrl } from "@/utils/sanitizer"
 
 interface ModalQRCodeProps {
   isOpen: boolean
@@ -19,7 +20,7 @@ interface ModalQRCodeProps {
 const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCodeProps) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { token, role } = useAuthStore()
+  const { isAuthenticated, role } = useAuthStore()
   const [qrCodeDataURL, setQrCodeDataURL] = useState<string>("")
   const [loading, setLoading] = useState(false)
   const printRef = useRef<HTMLDivElement>(null)
@@ -57,11 +58,21 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
     const printWindow = window.open("", "_blank")
     if (!printWindow) return
 
+    const safeDeviceName = escapeHtml(device?.nombre || "")
+    const safeCompany = escapeHtml(installation?.company || "")
+    const safeLocation = escapeHtml(device?.ubicacion || "")
+    const safeCategory = escapeHtml(device?.categoria || "")
+    const safeQrLabel = escapeHtml(t('installationDetails.qrCode'))
+    const safeInstallationLabel = escapeHtml(t('installationDetails.installation'))
+    const safeLocationLabel = escapeHtml(t('installationDetails.location'))
+    const safeCategoryLabel = escapeHtml(t('installationDetails.category'))
+    const safeScanLabel = escapeHtml(t('installationDetails.scanQRDescription'))
+
     const printContent = `
       <!DOCTYPE html>
       <html>
         <head>
-          <title>${t('installationDetails.qrCode')} - ${device?.nombre}</title>
+          <title>${safeQrLabel} - ${safeDeviceName}</title>
           <style>
             body {
               font-family: Arial, sans-serif;
@@ -106,17 +117,17 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
         </head>
         <body>
           <div class="qr-container">
-            <div class="qr-title">${device?.nombre}</div>
+            <div class="qr-title">${safeDeviceName}</div>
             <div class="qr-info">
-              <strong>${t('installationDetails.installation')}:</strong> ${installation?.company}<br>
-              <strong>${t('installationDetails.location')}:</strong> ${device?.ubicacion}<br>
-              <strong>${t('installationDetails.category')}:</strong> ${device?.categoria}
+              <strong>${safeInstallationLabel}:</strong> ${safeCompany}<br>
+              <strong>${safeLocationLabel}:</strong> ${safeLocation}<br>
+              <strong>${safeCategoryLabel}:</strong> ${safeCategory}
             </div>
             <div class="qr-code">
-              <img src="${qrCodeDataURL}" alt="${t('installationDetails.qrCode')}" />
+              <img src="${qrCodeDataURL}" alt="${safeQrLabel}" />
             </div>
             <div class="qr-url">
-              ${t('installationDetails.scanQRDescription')}
+              ${safeScanLabel}
             </div>
           </div>
         </body>
@@ -137,7 +148,7 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
     if (userIsClient && installation?._id && device._id) {
       
       try {
-        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+        const API_URL = import.meta.env.VITE_API_URL || '/api/'
         const response = await fetch(
           `${API_URL}public/dispositivos/${installation._id}/${device._id}/ultimo-mantenimiento`
         )
@@ -146,8 +157,7 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
           const data = await response.json()
           const pdfUrl = data.data?.pdfUrl || data.pdfUrl || data.data?.secure_url
 
-          if (pdfUrl) {
-            window.open(pdfUrl, '_blank')
+          if (pdfUrl && openSafeUrl(pdfUrl)) {
             onRequestClose()
             return
           }
@@ -162,7 +172,7 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
     }
 
     // Si el usuario está logeado (y no es cliente), navegar al formulario interno
-    if (token && installation?._id && device._id) {
+    if (isAuthenticated && installation?._id && device._id) {
       
       navigate(`/formulario-interno/${installation._id}/${device._id}`)
       onRequestClose() // Cerrar el modal
@@ -170,7 +180,7 @@ const ModalQRCode = ({ isOpen, onRequestClose, device, installation }: ModalQRCo
       // Si NO está logeado, abrir el codigoQR (que mostrará el PDF)
       
       if (device.codigoQR) {
-        window.open(device.codigoQR, "_blank")
+        openSafeUrl(device.codigoQR)
       }
     }
   }

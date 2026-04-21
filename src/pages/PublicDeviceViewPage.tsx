@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import { FileText, Calendar, Building2, MapPin, Wrench, History, ExternalLink } from "lucide-react"
 import { getPublicDeviceForm, getPublicMaintenanceHistory, type MaintenanceRecord } from "../features/deviceForms/services/maintenanceHistoryService"
 import styles from "../features/deviceForms/styles/publicDeviceView.module.css"
+import { openSafeUrl } from "../utils/sanitizer"
 
 interface DeviceInfo {
   _id: string
@@ -77,7 +78,7 @@ const PublicDeviceViewPage: React.FC = () => {
   }
 
   const handleOpenPDF = (pdfUrl: string) => {
-    window.open(pdfUrl, '_blank', 'noopener,noreferrer')
+    openSafeUrl(pdfUrl)
   }
 
   if (loading) {

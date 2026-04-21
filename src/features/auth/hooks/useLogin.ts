@@ -94,7 +94,7 @@ export function useLogin() {
       login(response)
       
       // Fetch CSRF token after successful login
-      fetchCsrfToken()
+      await fetchCsrfToken()
       
       // Establecer el estado del modal
       setIsError(false)

@@ -1,5 +1,5 @@
 import { useAuthStore } from "../../../store/authStore"
-import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
+import { getAuthHeaders, getHeadersWithContentType, fetchWithCsrf } from "../../../shared/utils/apiHeaders"
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -8,7 +8,7 @@ const getToken = () => {
 }
 
 export const fetchInstallations = async (): Promise<any[]> => {
-  const response = await fetch(`${API_URL}installations`, {
+  const response = await fetchWithCsrf(`${API_URL}installations`, {
     headers: getAuthHeaders(),
   })
   if (!response.ok) throw new Error("Error al obtener instalaciones")
@@ -17,7 +17,7 @@ export const fetchInstallations = async (): Promise<any[]> => {
 }
 
 export const fetchInstallationById = async (id: string): Promise<any> => {
-  const response = await fetch(`${API_URL}installations/${id}`, {
+  const response = await fetchWithCsrf(`${API_URL}installations/${id}`, {
     headers: getAuthHeaders(),
   })
   if (!response.ok) throw new Error("Error al obtener instalación")
@@ -26,7 +26,7 @@ export const fetchInstallationById = async (id: string): Promise<any> => {
 }
 
 export const fetchInstallationDevices = async (installationId: string): Promise<any[]> => {
-  const response = await fetch(`${API_URL}installations/${installationId}/dispositivos`, {
+  const response = await fetchWithCsrf(`${API_URL}installations/${installationId}/dispositivos`, {
     headers: getAuthHeaders(),
   })
   if (!response.ok) throw new Error("Error al obtener dispositivos")
@@ -35,7 +35,7 @@ export const fetchInstallationDevices = async (installationId: string): Promise<
 }
 
 export const createInstallation = async (installation: any) => {
-  const response = await fetch(`${API_URL}installations`, {
+  const response = await fetchWithCsrf(`${API_URL}installations`, {
     method: "POST",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(installation),
@@ -52,7 +52,7 @@ export const updateInstallation = async (id: string, installation: any) => {
     ...(typeof image === "string" ? { image } : {}),
   }
 
-  const response = await fetch(`${API_URL}installations/${id}`, {
+  const response = await fetchWithCsrf(`${API_URL}installations/${id}`, {
     method: "PUT",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(updateData),
@@ -63,7 +63,7 @@ export const updateInstallation = async (id: string, installation: any) => {
 }
 
 export const deleteInstallation = async (id: string) => {
-  const response = await fetch(`${API_URL}installations/${id}`, {
+  const response = await fetchWithCsrf(`${API_URL}installations/${id}`, {
     method: "DELETE",
     headers: getAuthHeaders(),
   })
@@ -72,7 +72,7 @@ export const deleteInstallation = async (id: string) => {
 }
 
 export const addDeviceToInstallation = async (installationId: string, deviceData: any) => {
-  const response = await fetch(`${API_URL}installations/${installationId}/dispositivos`, {
+  const response = await fetchWithCsrf(`${API_URL}installations/${installationId}/dispositivos`, {
     method: "POST",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(deviceData),
@@ -83,7 +83,7 @@ export const addDeviceToInstallation = async (installationId: string, deviceData
 }
 
 export const deleteDeviceFromInstallation = async (installationId: string, deviceId: string) => {
-  const response = await fetch(`${API_URL}installations/${installationId}/dispositivos/${deviceId}`, {
+  const response = await fetchWithCsrf(`${API_URL}installations/${installationId}/dispositivos/${deviceId}`, {
     method: "DELETE",
     headers: getAuthHeaders(),
   })
@@ -92,7 +92,7 @@ export const deleteDeviceFromInstallation = async (installationId: string, devic
 }
 
 export const updateDeviceInInstallation = async (installationId: string, deviceId: string, deviceData: any) => {
-  const response = await fetch(`${API_URL}installations/${installationId}/dispositivos/${deviceId}`, {
+  const response = await fetchWithCsrf(`${API_URL}installations/${installationId}/dispositivos/${deviceId}`, {
     method: "PUT",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(deviceData),
@@ -103,7 +103,7 @@ export const updateDeviceInInstallation = async (installationId: string, deviceI
 }
 
 export const assignTemplateToDevice = async (installationId: string, deviceId: string, templateId: string) => {
-  const response = await fetch(`${API_URL}installations/${installationId}/dispositivos/${deviceId}/plantilla`, {
+  const response = await fetchWithCsrf(`${API_URL}installations/${installationId}/dispositivos/${deviceId}/plantilla`, {
     method: "PATCH",
     headers: getHeadersWithContentType(),
     body: JSON.stringify({ templateId }),
@@ -114,7 +114,7 @@ export const assignTemplateToDevice = async (installationId: string, deviceId: s
 }
 
 export const fetchAssets = async (): Promise<any[]> => {
-  const response = await fetch(`${API_URL}assets`, {
+  const response = await fetchWithCsrf(`${API_URL}assets`, {
     headers: getAuthHeaders(),
   })
   if (!response.ok) throw new Error("Error al obtener activos")
@@ -123,7 +123,7 @@ export const fetchAssets = async (): Promise<any[]> => {
 }
 
 export const getLastMaintenanceForDevice = async (installationId: string, deviceId: string) => {
-  const response = await fetch(
+  const response = await fetchWithCsrf(
     `${API_URL}installations/${installationId}/dispositivos/${deviceId}/ultimo-mantenimiento`,
     {
       headers: getAuthHeaders(),

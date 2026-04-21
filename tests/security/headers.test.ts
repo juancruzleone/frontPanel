@@ -1,29 +1,24 @@
 import { describe, it, expect } from 'vitest'
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
+
+const readProjectFile = (relativePath: string) =>
+  readFileSync(resolve(process.cwd(), relativePath), 'utf8')
 
 describe('Security Headers Tests', () => {
   describe('Content Security Policy', () => {
     it('should have CSP meta tag configured', () => {
-      const expectedCSP = {
-        'default-src': "'self'",
-        'script-src': "'self' 'unsafe-inline'",
-        'style-src': "'self' 'unsafe-inline'",
-        'img-src': "'self' data: https:",
-        'connect-src': "'self' https://api.leonix.net.ar",
-        'frame-ancestors': "'none'",
-      }
+      const indexHtml = readProjectFile('index.html')
 
-      // Verificar que las políticas están definidas
-      expect(expectedCSP['default-src']).toBe("'self'")
-      expect(expectedCSP['frame-ancestors']).toBe("'none'")
+      expect(indexHtml).toContain("default-src 'self'")
+      expect(indexHtml).toContain("script-src 'self'")
+      expect(indexHtml).not.toContain("script-src 'self' 'unsafe-inline'")
+      expect(indexHtml).toContain("frame-ancestors 'none'")
     })
 
     it('should block inline scripts when CSP is strict', () => {
-      const strictCSP = {
-        'script-src': "'self'",
-      }
-
-      // En un CSP estricto, no debe permitir 'unsafe-inline'
-      expect(strictCSP['script-src']).not.toContain('unsafe-inline')
+      const netlifyHeaders = readProjectFile('public/_headers')
+      expect(netlifyHeaders).toContain("Content-Security-Policy: default-src 'self'; script-src 'self';")
     })
   })
 
@@ -97,19 +92,11 @@ describe('Security Headers Tests', () => {
 
   describe('Cross-Origin Policies', () => {
     it('should configure CORS properly', () => {
-      const corsConfig = {
-        origin: [
-          'https://leonix.net.ar',
-          'https://www.leonix.net.ar',
-          'https://api.leonix.net.ar',
-        ],
-        credentials: true,
-        methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-      }
+      const netlifyToml = readProjectFile('netlify.toml')
 
-      expect(corsConfig.credentials).toBe(true)
-      expect(corsConfig.methods).toContain('GET')
-      expect(corsConfig.methods).toContain('POST')
+      expect(netlifyToml).toContain('Cross-Origin-Embedder-Policy = "require-corp"')
+      expect(netlifyToml).toContain('Cross-Origin-Opener-Policy = "same-origin"')
+      expect(netlifyToml).toContain('Cross-Origin-Resource-Policy = "same-site"')
     })
   })
 })

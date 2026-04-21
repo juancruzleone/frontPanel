@@ -31,7 +31,7 @@ describe('Sanitizer Utils', () => {
   describe('sanitizeUrl', () => {
     it('should allow https URLs', () => {
       const url = 'https://example.com'
-      expect(sanitizeUrl(url)).toBe(url)
+      expect(sanitizeUrl(url)).toBe(url + '/')
     })
 
     it('should block javascript: protocol', () => {

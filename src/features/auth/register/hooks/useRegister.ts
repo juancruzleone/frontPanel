@@ -20,21 +20,21 @@ export function useRegister() {
   const [technicians, setTechnicians] = useState<Technician[]>([])
   const [loadingTechnicians, setLoadingTechnicians] = useState(true)
 
-  const token = useAuthStore((state) => state.token)
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
 
   const fetchTechnicians = useCallback(async () => {
-    if (!token) return
+    if (!isAuthenticated) return
 
     setLoadingTechnicians(true)
     try {
-      const data = await getTechnicians(token)
+      const data = await getTechnicians()
       setTechnicians(Array.isArray(data) ? data : [])
     } catch (error) {
       setTechnicians([])
     } finally {
       setLoadingTechnicians(false)
     }
-  }, [token])
+  }, [isAuthenticated])
 
   const addTechnician = useCallback(
     async (
@@ -45,12 +45,12 @@ export function useRegister() {
       documento?: string,
       profilePhoto?: File | null
     ): Promise<{ message: string }> => {
-      if (!token) {
+      if (!isAuthenticated) {
         throw new Error(t('personal.noPermission'))
       }
 
       try {
-        const response = await userRegister(username, password, fullName, token, email, documento, profilePhoto)
+        const response = await userRegister(username, password, fullName, email, documento, profilePhoto)
         const message = response?.message || t('personal.userCreated')
 
         // Actualizar lista de técnicos
@@ -69,7 +69,7 @@ export function useRegister() {
         throw new Error(err.message)
       }
     },
-    [token, fetchTechnicians, t],
+    [isAuthenticated, fetchTechnicians, t],
   )
 
   const closeModal = useCallback(() => {

@@ -106,10 +106,10 @@ describe('apiHeaders - CSRF Logic', () => {
       expect(headers['X-CSRF-Token']).toBeUndefined()
     })
 
-    it('should include Authorization header', () => {
+    it('should not include Authorization header when auth uses cookies', () => {
       const headers = getApiHeaders(false, 'GET')
 
-      expect(headers['Authorization']).toBe('Bearer test-auth-token')
+      expect(headers['Authorization']).toBeUndefined()
     })
 
     it('should include X-Tenant-ID header', () => {
