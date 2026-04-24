@@ -1,12 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { X, Calendar, ChevronDown } from 'lucide-react'
 import styles from '../styles/Modal.module.css'
 import subscriptionStyles from '../styles/subscriptions.module.css'
-import FrequencySelector from './FrequencySelector'
 import type { Subscription, FrequencyOption } from '../hooks/useSubscriptions'
-import DatePickerModal from '../../calendar/components/DatePickerModal'
-import { validateSubscriptionForm } from '../validators/subscriptionValidations'
 import { useSubscriptions } from '../hooks/useSubscriptions'
 import FrequencyForm from './FrequencyForm'
 import { translateFrequencyToCurrentLang } from '../../../shared/utils/backendTranslations';
@@ -61,12 +57,11 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
     resetFrequencyForm,
     validateAllFields,
     monthsError,
-    setMonthsError,
   } = useSubscriptions()
 
   useEffect(() => {
     if (isOpen && subscription) {
-      const normalizeDate = (date: any) => {
+      const normalizeDate = (date: string | Date | null | undefined) => {
         if (!date) return '';
         // Si es string y parece una fecha ISO, extraer la parte de fecha
         if (typeof date === 'string') {
@@ -109,7 +104,7 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
     if (!isOpen) {
       resetFrequencyForm();
     }
-  }, [isOpen, subscription?._id]);
+  }, [isOpen, subscription, resetFrequencyForm, setFormData, setIsEndDatePickerOpen, setIsError, setIsStartDatePickerOpen, setResponseMessage, setSelectedMonths]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -151,9 +146,9 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
 
       onSubmitSuccess(result.message || t('subscriptions.frequencyUpdated'))
       onRequestClose()
-    } catch (error: any) {
+    } catch (error: unknown) {
       setIsError(true)
-      const errorMessage = error.message || t('subscriptions.errorUpdating')
+      const errorMessage = (error as Error).message || t('subscriptions.errorUpdating')
       setResponseMessage(errorMessage)
       onSubmitError(errorMessage)
     }

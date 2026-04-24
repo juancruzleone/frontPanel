@@ -85,7 +85,6 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
-        const wasOpen = isOpen;
         setIsOpen(false);
         setHighlightedIndex(-1);
 

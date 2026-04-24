@@ -31,8 +31,8 @@ const useCategories = () => {
     try {
       const data = await fetchCategories(includeInactive)
       setCategories(data)
-    } catch (err: any) {
-      setError(err.message || "Error al cargar categorías")
+    } catch (err: unknown) {
+      setError((err as Error).message || "Error al cargar categorías")
     } finally {
       setLoading(false)
     }
@@ -76,7 +76,7 @@ const useCategories = () => {
     try {
       await createCategory(category)
       return { message: "Categoría creada con éxito" }
-    } catch (err: any) {
+    } catch (err: unknown) {
       throw err
     }
   }
@@ -88,7 +88,7 @@ const useCategories = () => {
         cat._id === id ? { ...cat, ...data } : cat
       ))
       return { message: "Categoría actualizada con éxito" }
-    } catch (err: any) {
+    } catch (err: unknown) {
       throw err
     }
   }
@@ -98,7 +98,7 @@ const useCategories = () => {
       await apiDeleteCategory(id)
       setCategories(prev => prev.filter(cat => cat._id !== id))
       return { message: "Categoría eliminada con éxito" }
-    } catch (err: any) {
+    } catch (err: unknown) {
       throw err
     }
   }

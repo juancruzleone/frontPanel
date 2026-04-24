@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { X, FileText, Trash2, Eye, Loader2, AlertCircle } from 'lucide-react'
+import { FileText, Trash2, Eye, Loader2, AlertCircle } from 'lucide-react'
 import styles from '../styles/Modal.module.css'
 import { getBudgetDocuments, deleteBudgetDocument, type BudgetDocument } from '../services/documentServices'
 import ModalConfirmDelete from './ModalConfirmDelete'
@@ -37,8 +37,8 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
         try {
             const docs = await getBudgetDocuments(installationId)
             setDocuments(docs)
-        } catch (err: any) {
-            setError(err.message || t('subscriptions.documents.errorFetching'))
+        } catch (err: unknown) {
+            setError((err as Error).message || t('subscriptions.documents.errorFetching'))
         } finally {
             setLoading(false)
         }
@@ -72,11 +72,11 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
             if (onSuccess) {
                 onSuccess(t('subscriptions.documents.deleteSuccess') || 'Documento eliminado correctamente')
             }
-        } catch (err: any) {
+        } catch (err: unknown) {
             if (onError) {
-                onError(err.message || t('subscriptions.documents.errorDeleting'))
+                onError((err as Error).message || t('subscriptions.documents.errorDeleting'))
             } else {
-                alert(err.message || t('subscriptions.documents.errorDeleting'))
+                alert((err as Error).message || t('subscriptions.documents.errorDeleting'))
             }
         } finally {
             setDeletingId(null)

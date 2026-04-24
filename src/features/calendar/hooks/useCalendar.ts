@@ -20,7 +20,7 @@ export type Installation = {
   _id: string
   company: string
   address: string
-  city: string
+  city?: string
 }
 
 export type WorkOrder = {

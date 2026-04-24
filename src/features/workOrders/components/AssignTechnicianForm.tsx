@@ -37,8 +37,8 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
     try {
       const result = await onAssign(selectedTechnicians)
       onSuccess(result.message)
-    } catch (err: any) {
-      setError(err.message || t('workOrders.form.errorAssigningTechnician'))
+    } catch (err: unknown) {
+      setError((err as Error).message || t('workOrders.form.errorAssigningTechnician'))
     }
   }
 

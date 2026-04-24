@@ -10,8 +10,8 @@ interface ModalEditProps {
   onSubmitSuccess: (message: string) => void
   onEdit: (id: string, data: WorkOrder) => Promise<{ message: string }>
   initialData: WorkOrder | null
-  installations: any[]
-  technicians: any[]
+  installations: { _id: string; company: string; address: string; city?: string }[]
+  technicians: { _id: string; userName: string; role: string }[]
   loadingInstallations: boolean
   errorLoadingInstallations: string | null
 }
@@ -67,7 +67,7 @@ const ModalEdit = ({
       setIsInitialized(false)
       initialDataRef.current = null
     }
-  }, [isOpen, initialData, installations]) // Solo depender de isOpen, el ID de initialData y la longitud de installations
+  }, [isOpen, initialData, installations, isInitialized, resetForm, setFormValues]) // Solo depender de isOpen, el ID de initialData y la longitud de installations
 
   if (!isOpen) return null
 

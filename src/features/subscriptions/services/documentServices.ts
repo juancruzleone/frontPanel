@@ -1,4 +1,4 @@
-import { getHeadersWithContentType, getHeadersWithoutContentType } from '../../../shared/utils/apiHeaders'
+import { getHeadersWithoutContentType } from '../../../shared/utils/apiHeaders'
 
 const API_URL = import.meta.env.VITE_API_URL
 

@@ -5,7 +5,7 @@ import '../../installations/styles/tour.css';
 import { useTranslation } from 'react-i18next';
 
 export const useWorkOrdersTour = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [tourCompleted, setTourCompleted] = useState<boolean>(false);
 
   useEffect(() => {

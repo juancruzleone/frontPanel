@@ -23,6 +23,7 @@ const ModalCreate: React.FC<ModalCreateProps> = ({ isOpen, onClose, onSuccess })
       onSuccess()
       onClose()
     } catch (error) {
+      console.error('Error creating tenant:', error);
       // Aquí podrías mostrar un toast de error
     } finally {
       setIsLoading(false)

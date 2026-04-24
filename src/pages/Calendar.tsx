@@ -1,16 +1,15 @@
 "use client"
 
-import { useEffect, useMemo, useState, useRef } from "react"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useMemo, useState } from "react"
 import SearchInput from "../shared/components/Inputs/SearchInput.tsx"
 import HybridSelect from "../shared/components/HybridSelect"
 import styles from "../features/calendar/styles/calendar.module.css"
-import useCalendar, { type WorkOrder } from "../features/calendar/hooks/useCalendar"
+import useCalendar, { type WorkOrder, type Technician } from "../features/calendar/hooks/useCalendar"
 import ModalWorkOrderDetails from "../features/calendar/components/ModalWorkOrderDetails"
 import ModalSuccess from "../features/workOrders/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
 import DatePickerModal from "../features/calendar/components/DatePickerModal"
-import { FilterX, ChevronLeft, ChevronRight, ChevronDown, Calendar as CalendarIcon } from "lucide-react"
+import { FilterX, ChevronLeft, ChevronRight, Calendar as CalendarIcon } from "lucide-react"
 import { useTheme } from "../shared/hooks/useTheme"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
@@ -27,7 +26,6 @@ const Calendar = () => {
   const { dark } = useTheme()
   const { workOrders, loading, error, loadWorkOrders, startWorkOrder, technicians, loadTechnicians } = useCalendar()
 
-  const navigate = useNavigate()
   const [selectedStatus, setSelectedStatus] = useState("")
   const [selectedPriority, setSelectedPriority] = useState("")
   const [selectedDate, setSelectedDate] = useState("")
@@ -51,7 +49,7 @@ const Calendar = () => {
   useEffect(() => {
     document.title = t("calendar.titlePage")
     loadTechnicians()
-  }, [t])
+  }, [t, loadTechnicians])
 
   useEffect(() => {
     const fetchFilteredData = async () => {
@@ -65,7 +63,7 @@ const Calendar = () => {
       const endDate = new Date(lastDay)
       endDate.setDate(endDate.getDate() + 7)
 
-      const filters: any = {
+      const filters: Record<string, string | number> = {
         search: searchTerm,
         estado: selectedStatus,
         prioridad: selectedPriority,
@@ -153,7 +151,7 @@ const Calendar = () => {
         order.instalacion?.company,
         order.instalacion?.address,
         order.instalacion?.city,
-        order.tecnico ? (order.tecnico as any).userName : null,
+        order.tecnico && typeof order.tecnico === 'object' ? (order.tecnico as Technician).userName : null,
         order.tipoTrabajo,
       ].filter(Boolean)
 
@@ -206,14 +204,14 @@ const Calendar = () => {
       const matchesPriority = !selectedPriority || order.prioridad === selectedPriority
       const matchesSearch = !term || fields.some((f) => f?.toLowerCase().includes(term))
       const matchesTechnician = !selectedTechnician ||
-        (order.tecnico && typeof order.tecnico === 'object' && (order.tecnico as any)._id === selectedTechnician) ||
+        (order.tecnico && typeof order.tecnico === 'object' && (order.tecnico as Technician)._id === selectedTechnician) ||
         order.tecnicoAsignado === selectedTechnician
 
       return matchesStatus && matchesPriority && matchesSearch && matchesDate && matchesTechnician
     })
   }, [workOrders, selectedStatus, selectedPriority, selectedDate, selectedDateFilter, searchTerm, selectedTechnician])
 
-  const getEventStatusColor = (estado) => {
+  const getEventStatusColor = (estado: string) => {
     switch (estado) {
       case "pendiente": return "#FFD600";
       case "asignada": return "#00B8D9";
@@ -251,8 +249,8 @@ const Calendar = () => {
     try {
       await startWorkOrder(id)
       onSuccess(t('calendar.orderStarted'))
-    } catch (err: any) {
-      onError(err.message || t('calendar.errorStartingOrder'))
+    } catch (err: unknown) {
+      onError((err as Error).message || t('calendar.errorStartingOrder'))
     }
   }
 
@@ -442,7 +440,7 @@ const Calendar = () => {
             />
 
             <button
-              onClick={() => setIsDatePickerOpen(true)}
+              onClick={handleOpenDatePicker}
               className={styles.customDateButton}
               type="button"
             >
@@ -489,14 +487,14 @@ const Calendar = () => {
 
       <ModalSuccess
         isOpen={!!responseMessage && !isError}
-        onRequestClose={closeModal}
-        mensaje={responseMessage}
+        onClose={closeModal}
+        message={responseMessage}
       />
 
       <ModalError
         isOpen={!!responseMessage && isError}
-        onRequestClose={closeModal}
-        mensaje={responseMessage}
+        onClose={closeModal}
+        message={responseMessage}
       />
 
       <DatePickerModal

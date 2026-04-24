@@ -1,6 +1,5 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { X, Calendar } from 'lucide-react'
 import styles from '../styles/subscriptions.module.css'
 import { translateMonthToCurrentLang } from '../../../shared/utils/backendTranslations'
 

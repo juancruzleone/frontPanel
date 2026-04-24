@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { X, CheckCircle } from 'lucide-react'
+import { CheckCircle } from 'lucide-react'
 import styles from '../styles/Modal.module.css'
 
 interface ModalSuccessProps {

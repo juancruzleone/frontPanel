@@ -1,6 +1,5 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { X } from 'lucide-react'
 import MonthYearSelector from './MonthYearSelector'
 import styles from '../styles/subscriptions.module.css'
 import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'

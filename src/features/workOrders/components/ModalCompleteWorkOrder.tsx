@@ -8,7 +8,7 @@ interface ModalCompleteWorkOrderProps {
   isOpen: boolean
   onRequestClose: () => void
   onSubmitSuccess: (message: string) => void
-  onComplete: (workOrderId: string, completionData: any) => Promise<{ message: string }>
+  onComplete: (workOrderId: string, completionData: Record<string, unknown>) => Promise<{ message: string }>
   workOrder: WorkOrder | null
 }
 
@@ -22,7 +22,16 @@ const ModalCompleteWorkOrder = ({
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const isDrawingRef = useRef(false)
   const lastPointRef = useRef<{ x: number; y: number } | null>(null)
-  const [completionData, setCompletionData] = useState({
+  const [completionData, setCompletionData] = useState<{
+    trabajoRealizado: string
+    observaciones: string
+    tiempoTrabajo: number
+    materialesUtilizados: string[]
+    estadoDispositivo: string
+    evidenciaFoto: string
+    nombreFoto: string
+    firmaTecnico: string
+  }>({
     trabajoRealizado: "",
     observaciones: "",
     tiempoTrabajo: 1,
@@ -164,11 +173,11 @@ const ModalCompleteWorkOrder = ({
 
     setIsSubmitting(true)
     try {
-      const result = await onComplete(workOrder._id, completionData)
+      const result = await onComplete(workOrder._id, completionData as unknown as Record<string, unknown>)
       onSubmitSuccess(result.message)
       handleClose()
-    } catch (err: any) {
-      setError(err.message || "Error al completar orden de trabajo")
+    } catch (err: unknown) {
+      setError((err as Error).message || "Error al completar orden de trabajo")
     } finally {
       setIsSubmitting(false)
     }

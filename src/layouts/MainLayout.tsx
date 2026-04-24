@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from "react-router-dom"
+import { Outlet } from "react-router-dom"
 import Nav from "../shared/components/Nav/Nav"
 import TopBar from "../shared/components/TopBar/TopBar"
 import Footer from "../shared/components/Footer"
@@ -13,7 +13,6 @@ import { useAuthStore } from "../store/authStore";
 import { socketService } from "../shared/services/socketService";
 import { pushNotificationService } from "../shared/services/pushNotificationService";
 import { useTheme } from "../shared/hooks/useTheme";
-import { routeTranslations } from "../router";
 
 const ONBOARDING_TOUR_KEY = 'onboarding-tour-v2-shown'
 
@@ -22,10 +21,6 @@ const MainLayout: React.FC = () => {
   const { isAuthenticated, userId } = useAuthStore();
   const { t } = useTranslation();
   const { dark } = useTheme();
-  const location = useLocation();
-  const firstSegment = location.pathname.split('/').filter(Boolean)[0] || '';
-  const settingsSegments = Object.values(routeTranslations).map((translations) => translations.settings) as string[];
-  const isSettingsRoute = settingsSegments.includes(firstSegment);
 
   useEffect(() => {
     if (isAuthenticated && userId) {

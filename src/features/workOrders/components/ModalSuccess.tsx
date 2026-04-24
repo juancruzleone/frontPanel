@@ -3,13 +3,18 @@ import { useTranslation } from "react-i18next"
 
 type ModalSuccessProps = {
   isOpen: boolean;
-  onRequestClose: () => void;
-  mensaje: string;
+  onRequestClose?: () => void;
+  onClose?: () => void;
+  mensaje?: string;
+  message?: string;
 }
 
-const ModalSuccess = ({ isOpen, onRequestClose, mensaje }: ModalSuccessProps) => {
+const ModalSuccess = ({ isOpen, onRequestClose, onClose, mensaje, message }: ModalSuccessProps) => {
   const { t } = useTranslation()
   if (!isOpen) return null;
+
+  const handleClose = onRequestClose ?? onClose ?? (() => {})
+  const modalMessage = mensaje ?? message ?? ""
 
   return (
     <div className={styles.backdrop}>
@@ -18,7 +23,7 @@ const ModalSuccess = ({ isOpen, onRequestClose, mensaje }: ModalSuccessProps) =>
           <h2 className={styles.title}>{t('workOrders.successTitle')}</h2>
           <button
             className={styles.closeButton}
-            onClick={onRequestClose}
+            onClick={handleClose}
           >
             ×
           </button>
@@ -31,10 +36,10 @@ const ModalSuccess = ({ isOpen, onRequestClose, mensaje }: ModalSuccessProps) =>
                 <path d="m9 12 2 2 4-4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
-            <p className={styles.successMessageLarge}>{mensaje || t('workOrders.successMessage')}</p>
+            <p className={styles.successMessageLarge}>{modalMessage || t('workOrders.successMessage')}</p>
             <button
               className={styles.successButtonLarge}
-              onClick={onRequestClose}
+              onClick={handleClose}
             >
               {t('common.continue')}
             </button>

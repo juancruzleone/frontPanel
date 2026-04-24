@@ -3,9 +3,63 @@ import { getAuthHeaders, getHeadersWithContentType, fetchWithCsrf } from "../../
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const getToken = () => {
-  return useAuthStore.getState().token;
-};
+export interface InstallationDeviceResponse {
+  _id?: string;
+  assetId: string;
+  nombre: string;
+  ubicacion: string;
+  categoria: string;
+  templateId?: string;
+  estado: string;
+  marca?: string;
+  modelo?: string;
+  numeroSerie?: string;
+  cantidad?: number;
+  codigoQR?: string;
+}
+
+export interface InstallationResponse {
+  _id?: string;
+  company: string;
+  address: string;
+  floorSector?: string;
+  postalCode?: string;
+  city?: string;
+  province?: string;
+  installationType: string;
+  image?: File | null | string;
+  devices?: InstallationDeviceResponse[];
+  frecuencia?: string;
+  fechaInicio?: string | Date;
+  fechaFin?: string | Date;
+  estado?: 'active' | 'inactive' | 'pending';
+  fechaCreacion?: string | Date;
+  fechaActualizacion?: string | Date;
+  mesesFrecuencia?: string[];
+}
+
+export interface InstallationsPagination {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface PaginatedInstallationsResponse {
+  success: boolean;
+  data: InstallationResponse[];
+  pagination: InstallationsPagination;
+}
+
+export interface AssetResponse {
+  _id: string;
+  nombre: string;
+  marca?: string;
+  modelo?: string;
+  numeroSerie?: string;
+  estado: string;
+  fechaCreacion: string;
+}
 
 // Helper para determinar si el usuario es cliente
 const isClientUser = () => {
@@ -18,7 +72,7 @@ const getInstallationsEndpoint = () => {
   return isClientUser() ? 'mis-instalaciones' : 'installations';
 };
 
-export const fetchInstallations = async (params: { page?: number, limit?: number, search?: string, category?: string } = {}): Promise<any> => {
+export const fetchInstallations = async (params: { page?: number, limit?: number, search?: string, category?: string } = {}): Promise<PaginatedInstallationsResponse> => {
   const queryParams = new URLSearchParams()
   if (params.page) queryParams.append('page', params.page.toString())
   if (params.limit) queryParams.append('limit', params.limit.toString())
@@ -37,12 +91,12 @@ export const fetchInstallations = async (params: { page?: number, limit?: number
   // Si es cliente, el endpoint devuelve un array simple sin paginación
   if (isClientUser() && Array.isArray(result)) {
     // Aplicar filtros manualmente en el cliente
-    let filteredData = result;
+      let filteredData = result as InstallationResponse[];
     
     // Filtrar por búsqueda
     if (params.search) {
       const searchLower = params.search.toLowerCase();
-      filteredData = filteredData.filter((inst: any) => 
+      filteredData = filteredData.filter((inst: { company?: string, address?: string, city?: string }) => 
         inst.company?.toLowerCase().includes(searchLower) ||
         inst.address?.toLowerCase().includes(searchLower) ||
         inst.city?.toLowerCase().includes(searchLower)
@@ -51,7 +105,7 @@ export const fetchInstallations = async (params: { page?: number, limit?: number
     
     // Filtrar por categoría
     if (params.category) {
-      filteredData = filteredData.filter((inst: any) => 
+      filteredData = filteredData.filter((inst: { installationType?: string }) => 
         inst.installationType === params.category
       );
     }
@@ -97,7 +151,7 @@ export const fetchInstallations = async (params: { page?: number, limit?: number
   return result;
 };
 
-export const fetchInstallationById = async (id: string): Promise<any> => {
+export const fetchInstallationById = async (id: string): Promise<InstallationResponse> => {
   const endpoint = getInstallationsEndpoint();
   const response = await fetchWithCsrf(`${API_URL}${endpoint}/${id}`, {
     headers: getAuthHeaders(),
@@ -108,7 +162,7 @@ export const fetchInstallationById = async (id: string): Promise<any> => {
   return result.success ? result.data : result;
 };
 
-export const fetchInstallationDevices = async (installationId: string): Promise<any[]> => {
+export const fetchInstallationDevices = async (installationId: string): Promise<InstallationDeviceResponse[]> => {
   const endpoint = getInstallationsEndpoint();
   const response = await fetchWithCsrf(`${API_URL}${endpoint}/${installationId}/dispositivos`, {
     headers: getAuthHeaders(),
@@ -119,7 +173,7 @@ export const fetchInstallationDevices = async (installationId: string): Promise<
   return result.success ? result.data : result;
 };
 
-export const fetchAssets = async (): Promise<any[]> => {
+export const fetchAssets = async (): Promise<AssetResponse[]> => {
   const response = await fetchWithCsrf(`${API_URL}activos`, {
     headers: getAuthHeaders(),
     credentials: 'include',
@@ -139,7 +193,7 @@ export const fetchAssets = async (): Promise<any[]> => {
   return Array.isArray(result) ? result : [];
 };
 
-export const createInstallation = async (installation: any) => {
+export const createInstallation = async (installation: Record<string, unknown>): Promise<InstallationResponse> => {
   // Solo admin puede crear instalaciones
   if (isClientUser()) {
     throw new Error("No tienes permisos para crear instalaciones");
@@ -155,8 +209,6 @@ export const createInstallation = async (installation: any) => {
 
 
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-
     throw new Error("Error al crear instalación");
   }
 
@@ -165,13 +217,13 @@ export const createInstallation = async (installation: any) => {
   return result.success ? result.data : result;
 };
 
-export const updateInstallation = async (id: string, installation: any) => {
+export const updateInstallation = async (id: string, installation: { _id?: string, image?: File | null | string } & Record<string, unknown>): Promise<InstallationResponse> => {
   // Solo admin puede actualizar instalaciones
   if (isClientUser()) {
     throw new Error("No tienes permisos para actualizar instalaciones");
   }
 
-  const { _id, image, ...rest } = installation;
+  const { _id: _, image, ...rest } = installation;
   const updateData = {
     ...rest,
     ...(typeof image === "string" ? { image } : {}),
@@ -202,7 +254,7 @@ export const deleteInstallation = async (id: string) => {
   return await response.json();
 };
 
-export const addDeviceToInstallation = async (installationId: string, deviceData: any) => {
+export const addDeviceToInstallation = async (installationId: string, deviceData: Record<string, unknown>) => {
   // Solo admin puede agregar dispositivos
   if (isClientUser()) {
     throw new Error("No tienes permisos para agregar dispositivos");
@@ -251,7 +303,7 @@ export const deleteDeviceFromInstallation = async (installationId: string, devic
 export const updateDeviceInInstallation = async (
   installationId: string,
   deviceId: string,
-  deviceData: any
+  deviceData: Record<string, unknown>
 ) => {
   // Solo admin puede actualizar dispositivos
   if (isClientUser()) {

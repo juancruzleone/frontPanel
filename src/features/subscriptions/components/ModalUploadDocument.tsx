@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { X, Upload, FileText, Trash2, Loader2 } from 'lucide-react'
+import { Upload, FileText, Trash2, Loader2 } from 'lucide-react'
 import styles from '../styles/Modal.module.css'
 import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
 import HybridSelect from '../../../shared/components/HybridSelect/HybridSelect'
@@ -167,8 +167,8 @@ const ModalUploadDocument: React.FC<ModalUploadDocumentProps> = ({
             await uploadBudgetDocument(installationId, data)
             onUploadSuccess(t('subscriptions.documents.uploadSuccess'))
             onRequestClose()
-        } catch (error: any) {
-            onUploadError(error.message || t('subscriptions.documents.uploadError'))
+        } catch (error: unknown) {
+            onUploadError((error as Error).message || t('subscriptions.documents.uploadError'))
         } finally {
             setIsUploading(false)
         }

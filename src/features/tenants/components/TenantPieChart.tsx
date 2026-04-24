@@ -1,5 +1,5 @@
 import React from "react"
-import { PieChart as RePieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts"
+import { PieChart as RePieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts"
 import { TENANT_STATUS_COLORS } from "../../../utils/chartColors"
 import styles from "../styles/panelAdmin.module.css"
 
@@ -13,7 +13,12 @@ interface TenantPieChartProps {
   data: StatusDistributionData[]
 }
 
-const CustomTooltip = ({ active, payload }: any) => {
+interface CustomTooltipProps {
+  active?: boolean
+  payload?: any[]
+}
+
+const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     const statusNames: { [key: string]: string } = {
       'active': 'Activo',
@@ -72,7 +77,7 @@ const TenantPieChart: React.FC<TenantPieChartProps> = ({ data }) => {
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`}
+                label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
                 outerRadius={80}
                 fill="#8884d8"
                 dataKey="value"
@@ -87,7 +92,7 @@ const TenantPieChart: React.FC<TenantPieChartProps> = ({ data }) => {
         </div>
         
         <div className={styles.percentagesContainer}>
-          {data.map((entry, index) => {
+          {data.map((entry) => {
             const percentage = total > 0 ? ((entry.value / total) * 100).toFixed(1) : '0';
             const statusNames: { [key: string]: string } = {
               'active': 'Activo',

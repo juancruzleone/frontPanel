@@ -11,8 +11,8 @@ interface ModalCreateProps {
   onSubmitSuccess: (message: string) => void;
   onSubmitError: (message: string) => void;
   onAdd: (data: WorkOrder) => Promise<{ message: string }>;
-  installations: any[];
-  technicians: any[];
+  installations: { _id: string; company: string; address: string; city?: string }[];
+  technicians: { _id: string; userName: string; role: string }[];
   loadingInstallations: boolean;
   errorLoadingInstallations: string | null;
 }
@@ -49,7 +49,7 @@ const ModalCreate = ({
       resetForm();
       setFormErrors({});
     }
-  }, [isOpen]);
+  }, [isOpen, resetForm, setFormErrors]);
 
   if (!isOpen) return null;
 

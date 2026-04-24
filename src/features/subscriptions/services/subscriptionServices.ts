@@ -3,7 +3,7 @@ import { getHeadersWithContentType } from '../../../shared/utils/apiHeaders'
 
 const API_URL = import.meta.env.VITE_API_URL
 
-export const updateSubscription = async (subscriptionId: string, updateData: any) => {
+export const updateSubscription = async (subscriptionId: string, updateData: Record<string, any>) => {
   // Obtener el token del store
   const isAuthenticated = useAuthStore.getState().isAuthenticated
   if (!isAuthenticated) {
@@ -25,27 +25,22 @@ export const updateSubscription = async (subscriptionId: string, updateData: any
   // Usar la nueva ruta PATCH de subscription
   const url = `${baseUrl}/installations/${subscriptionId}/subscription`
 
-  try {
-    const response = await fetch(url, {
-      method: "PATCH",
-      headers: getHeadersWithContentType('PATCH'),
-      body: JSON.stringify(updatePayload),
-    })
+  const response = await fetch(url, {
+    method: "PATCH",
+    headers: getHeadersWithContentType('PATCH'),
+    body: JSON.stringify(updatePayload),
+  })
 
-    const data = await response.json()
+  const data = await response.json()
 
-    if (!response.ok) {
-      // Si hay un mensaje de error específico del servidor, usarlo
-      // El servidor de validación de Yup suele emitir data.error (array) o data.message
-      const errorMsg = data.error ? JSON.stringify(data.error) : data.message
-      throw new Error(errorMsg || "Error al actualizar suscripción")
-    }
-
-    return data
-  } catch (error: any) {
-    // Re-lanzar el error para que sea manejado por el componente
-    throw error
+  if (!response.ok) {
+    // Si hay un mensaje de error específico del servidor, usarlo
+    // El servidor de validación de Yup suele emitir data.error (array) o data.message
+    const errorMsg = data.error ? JSON.stringify(data.error) : data.message
+    throw new Error(errorMsg || "Error al actualizar suscripción")
   }
+
+  return data
 }
 
 export const triggerAutomaticWorkOrdersGeneration = async () => {
@@ -73,8 +68,8 @@ export const triggerAutomaticWorkOrdersGeneration = async () => {
         return await response.json()
       }
       lastError = new Error(`Error ${response.status}: ${response.statusText}`)
-    } catch (error: any) {
-      lastError = error
+    } catch (error: unknown) {
+      lastError = error as Error
     }
   }
 

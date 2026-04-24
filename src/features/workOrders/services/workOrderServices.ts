@@ -1,14 +1,7 @@
-import { useAuthStore } from "../../../store/authStore"
 import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
 
 const API_URL = import.meta.env.VITE_API_URL
 
-
-const getToken = () => {
-  const token = useAuthStore.getState().token
-
-  return token
-}
 
 export type Technician = {
   _id: string
@@ -21,7 +14,7 @@ export type Installation = {
   _id: string
   company: string
   address: string
-  city: string
+  city?: string
   devices?: Device[]
 }
 
@@ -84,7 +77,7 @@ const handleResponse = async (response: Response) => {
     let error;
     try {
       error = await response.json();
-    } catch (e) {
+    } catch {
       error = { message: "Error de conexión", details: await response.text() };
     }
 
@@ -122,12 +115,11 @@ export type PaginatedResponse<T> = {
   }
 }
 
-export const fetchWorkOrders = async (page = 1, limit = 10, filters: any = {}): Promise<PaginatedResponse<WorkOrder>> => {
-  try {
+export const fetchWorkOrders = async (page = 1, limit = 10, filters: Record<string, string | number> = {}): Promise<PaginatedResponse<WorkOrder>> => {
     const queryParams = new URLSearchParams({
       page: page.toString(),
       limit: limit.toString(),
-      ...filters
+      ...(filters as Record<string, string>)
     })
 
     const ordersResponse = await fetch(`${API_URL}ordenes-trabajo?${queryParams}`, {
@@ -145,9 +137,6 @@ export const fetchWorkOrders = async (page = 1, limit = 10, filters: any = {}): 
         totalPages: 1
       }
     }
-  } catch (error) {
-    throw error
-  }
 }
 
 export const fetchInstallations = async (): Promise<Installation[]> => {
@@ -180,7 +169,7 @@ export const createWorkOrder = async (workOrder: WorkOrder) => {
 }
 
 export const updateWorkOrder = async (id: string, workOrder: WorkOrder) => {
-  const { _id, ...rest } = workOrder
+  const { _id: _, ...rest } = workOrder
   const technicianIds = normalizeTechnicianIds(rest)
   const payload = {
     ...rest,

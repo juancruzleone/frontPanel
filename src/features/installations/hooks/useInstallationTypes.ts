@@ -39,9 +39,9 @@ const useInstallationTypes = () => {
       if (includeInactive) {
         hasTriedInactiveRef.current = true
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error al cargar tipos de instalación:', err)
-      setError(err.message)
+      setError((err as Error).message)
       initialLoadDoneRef.current = true
       // Marcar como intentado para evitar loops infinitos
       if (includeInactive) {
@@ -64,7 +64,7 @@ const useInstallationTypes = () => {
       })
       setInstallationTypes((prev) => [...prev, newType])
       return { message: "Tipo de instalación creado con éxito" }
-    } catch (err: any) {
+    } catch (err: unknown) {
       throw err
     }
   }
@@ -76,7 +76,7 @@ const useInstallationTypes = () => {
         type._id === id ? { ...type, ...updatedType } : type
       ))
       return { message: "Tipo de instalación actualizado con éxito" }
-    } catch (err: any) {
+    } catch (err: unknown) {
       throw err
     }
   }
@@ -86,7 +86,7 @@ const useInstallationTypes = () => {
       await apiDeleteInstallationType(id)
       setInstallationTypes(prev => prev.filter(type => type._id !== id))
       return { message: "Tipo de instalación eliminado con éxito" }
-    } catch (err: any) {
+    } catch (err: unknown) {
       throw err
     }
   }

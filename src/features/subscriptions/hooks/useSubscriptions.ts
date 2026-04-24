@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { fetchInstallations, updateInstallation } from '../../installations/services/installationServices'
+import { fetchInstallations } from '../../installations/services/installationServices'
 import type { Installation } from '../../installations/hooks/useInstallations'
 import { useAuthStore } from '../../../../src/store/authStore.ts'
 import { getAuthHeaders } from '@/shared/utils/apiHeaders'
@@ -41,7 +41,7 @@ const useSubscriptions = () => {
   const [error, setError] = useState<string | null>(null)
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
 
-  const [config, setConfig] = useState<any>(null)
+  const [config, setConfig] = useState<{ frequencies: { id?: string, value?: string }[] } | null>(null)
 
   useEffect(() => {
     const fetchConfig = async () => {
@@ -57,6 +57,7 @@ const useSubscriptions = () => {
           setConfig(result.data)
         }
       } catch (err) {
+        console.error('Error fetching subscription config:', err);
       }
     }
     fetchConfig()
@@ -67,8 +68,8 @@ const useSubscriptions = () => {
     { value: 'trimestral', label: t('subscriptions.frequency.quarterly') },
     { value: 'semestral', label: t('subscriptions.frequency.semiannual') },
     { value: 'anual', label: t('subscriptions.frequency.annual') }
-  ]).map((f: any) => ({
-    value: f.value || f.id,
+  ]).map((f) => ({
+    value: f.value || f.id || '',
     label: t(`subscriptions.frequency.${f.id || f.value}`),
     months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
   }))
@@ -138,22 +139,22 @@ const useSubscriptions = () => {
       setError(null)
 
       const response = await fetchInstallations()
-      const installationsData = Array.isArray(response) ? response : (response.data || [])
+      const installationsData = response.data || []
 
       setInstallations(installationsData)
       const subscriptionsData = installationsData.map(mapInstallationToSubscription)
 
       setSubscriptions(subscriptionsData)
-    } catch (err: any) {
-      setError(err.message || 'Error al cargar abonos')
+    } catch (err: unknown) {
+      setError((err as Error).message || 'Error al cargar abonos')
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [t])
 
   useEffect(() => {
     loadSubscriptions()
-  }, [])
+  }, [loadSubscriptions])
 
   const refreshSubscriptions = useCallback(() => {
     loadSubscriptions()
@@ -186,7 +187,6 @@ const useSubscriptions = () => {
     const formatDateForBackend = (dateInput: string | Date | undefined) => {
       if (!dateInput) return null
 
-      let dateStr: string
       if (dateInput instanceof Date) {
         const year = dateInput.getFullYear()
         const month = String(dateInput.getMonth() + 1).padStart(2, '0')
@@ -194,7 +194,7 @@ const useSubscriptions = () => {
         return `${year}-${month}-${day}`
       }
 
-      dateStr = dateInput
+      const dateStr = dateInput
       // Si ya está en formato YYYY-MM-DD, devolverlo tal cual
       if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
         return dateStr
@@ -242,6 +242,7 @@ const useSubscriptions = () => {
       try {
         await triggerAutomaticWorkOrdersGeneration()
       } catch (error) {
+        console.error('Error triggering automatic WO generation:', error);
       }
     }
 
@@ -264,7 +265,7 @@ const useSubscriptions = () => {
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleFieldChange = useCallback((name: string, value: any) => {
+  const handleFieldChange = useCallback((name: string, value: string | 'active' | 'inactive' | 'pending') => {
     setFormData(prev => ({ ...prev, [name]: value }))
 
     // Limpiar el error del campo específico inmediatamente cuando hay un valor válido
@@ -287,7 +288,8 @@ const useSubscriptions = () => {
 
     // La actualización de meses ahora es manual o delegada al backend en el guardado
     // Por simplicidad en la UI, dejamos que el usuario elija los meses sin cálculos automáticos complejos
-  }, [formData.frequency, formData.startDate, formData.endDate])
+    // Por eso quitamos formData.frequency, formData.startDate, formData.endDate de las dependencias
+  }, [])
 
   // Función de blur simplificada - solo valida campos vacíos
   const handleFieldBlur = useCallback(async (name: string) => {
@@ -310,7 +312,7 @@ const useSubscriptions = () => {
     const validationFieldName = fieldMapping[name] || name
 
     // Crear objeto con el campo a validar
-    const fieldToValidate: any = {
+    const fieldToValidate: Record<string, string> = {
       [validationFieldName]: ''
     }
 
@@ -328,6 +330,7 @@ const useSubscriptions = () => {
         [validationFieldName]: validation.errors[validationFieldName] || ''
       }))
     } catch (error) {
+      console.error('Error in field validation:', error);
     }
   }, [formData, t])
 
@@ -383,8 +386,8 @@ const useSubscriptions = () => {
         months: selectedMonths,
       })
       onSuccess(t('subscriptions.frequencyUpdated'))
-    } catch (err: any) {
-      onError(err.message || t('subscriptions.errorUpdating'))
+    } catch (err: unknown) {
+      onError((err as Error).message || t('subscriptions.errorUpdating'))
     } finally {
       setIsSubmitting(false)
     }
@@ -413,7 +416,7 @@ const useSubscriptions = () => {
     setMonthsError("")
   }
 
-  const isMonthSelectable = (month: string) => {
+  const isMonthSelectable = (_month: string) => {
     return formData.frequency === 'semestral' || formData.frequency === 'trimestral'
   }
 

@@ -6,11 +6,21 @@ import { Eye, Play, Check, User, Edit, Trash } from 'lucide-react'
 import Tooltip from '../../../shared/components/Tooltip/Tooltip'
 import styles from '../styles/workOrders.module.css'
 import { getProfilePhotoUrl } from '../../../shared/utils/imageUtils'
+import { UserPermissions } from '../../../store/authStore'
+
+type TechnicianLike = {
+  profilePhoto?: string
+  userName?: string
+  firstName?: string
+  lastName?: string
+}
+
+const isTechnicianLike = (value: unknown): value is TechnicianLike => typeof value === 'object' && value !== null
 
 interface WorkOrdersTableViewProps {
   workOrders: WorkOrder[]
   t: (key: string) => string
-  permissions: any
+  permissions: UserPermissions | null
   onOpenDetails: (order: WorkOrder) => void
   onStart: (id: string) => void
   onOpenComplete: (order: WorkOrder) => void
@@ -122,7 +132,11 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
 
         return (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-            {tecnicos.slice(0, 2).map((tec: any, idx: number) => {
+            {tecnicos.slice(0, 2).map((tec, idx) => {
+              if (!isTechnicianLike(tec)) {
+                return null
+              }
+
               const photoUrl = getProfilePhotoUrl(tec.profilePhoto);
               return (
                 <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>

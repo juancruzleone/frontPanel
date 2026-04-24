@@ -32,7 +32,7 @@ export function useProfile() {
         if (role === 'cliente') {
           // Para clientes, cargar instalaciones asignadas
           const response = await fetchInstallations();
-          setInstallations(Array.isArray(response) ? response : (response.data || []));
+          setInstallations(response.data || []);
           // Cargar tipos de instalación para el filtro
           const types = await fetchInstallationTypes();
           setInstallationTypes(types);
@@ -41,8 +41,8 @@ export function useProfile() {
           const workOrders = await fetchAssignedWorkOrders();
           setOrders(workOrders);
         }
-      } catch (e: any) {
-        setError(e.message);
+      } catch (e: unknown) {
+        setError((e as Error).message);
       } finally {
         setLoading(false);
       }

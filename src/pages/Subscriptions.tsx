@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useMemo } from "react"
 import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import { Edit, FilterX, HelpCircle, Eye, FileUp, FileText } from "lucide-react"
+import { Edit, FilterX, Eye, FileUp, FileText } from "lucide-react"
 import { useAuthStore } from "../store/authStore"
 import { useTheme } from "../shared/hooks/useTheme"
 import SearchInput from "../shared/components/Inputs/SearchInput"
 import HybridSelect from "../shared/components/HybridSelect"
 import ModalEditFrequency from "../features/subscriptions/components/ModalEditFrequency"
-import ModalSuccess from "../features/subscriptions/components/ModalSuccess"
-import ModalError from "../features/subscriptions/components/ModalError"
+import { ModalSuccess } from "../features/subscriptions/components/ModalSuccess"
+import { ModalError } from "../features/subscriptions/components/ModalError"
 import MonthsDisplayModal from "../features/subscriptions/components/MonthsDisplayModal"
 import ModalUploadDocument from "../features/subscriptions/components/ModalUploadDocument"
 import ModalViewDocuments from "../features/subscriptions/components/ModalViewDocuments"
@@ -24,7 +24,7 @@ import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 
 const Subscriptions = () => {
   const { t, i18n } = useTranslation()
-  const { dark } = useTheme()
+  useTheme()
   const { subscriptions, frequencyOptions, loading, error, refreshSubscriptions, updateSubscription } = useSubscriptions()
   const role = useAuthStore((s) => s.role)
   const navigate = useNavigate()
@@ -56,7 +56,7 @@ const Subscriptions = () => {
 
   useEffect(() => {
     document.title = t("subscriptions.titlePage")
-  }, [t, i18n.language])
+  }, [t])
 
   // Iniciar el tour automáticamente si no se ha completado
   useEffect(() => {
@@ -173,7 +173,6 @@ const Subscriptions = () => {
     status?: 'active' | 'inactive' | 'pending',
     months?: string[]
   ) => {
-    try {
       // Convertir fechas string a Date sin problema de zona horaria
       const parseDateString = (dateStr?: string): Date | undefined => {
         if (!dateStr) return undefined
@@ -190,10 +189,6 @@ const Subscriptions = () => {
         months: months || [],
       })
       return { message: t('subscriptions.frequencyUpdated') }
-    } catch (error: any) {
-      // Propagar el error para que sea manejado por el modal
-      throw error
-    }
   }
 
   const handleSuccessEditFrequency = (message: string) => {
@@ -212,14 +207,6 @@ const Subscriptions = () => {
   const closeModal = () => {
     setIsEditFrequencyModalOpen(false)
     setSelectedSubscription(null)
-  }
-
-  const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('es-ES', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    }).format(date)
   }
 
   const getStatusText = (status: string) => {
@@ -593,8 +580,8 @@ const Subscriptions = () => {
           setIsError(false)
         }}
       />
-      <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={() => setResponseMessage("")} mensaje={responseMessage} />
-      <ModalError isOpen={!!responseMessage && isError} onRequestClose={() => setResponseMessage("")} mensaje={responseMessage} />
+      <ModalSuccess isOpen={!!responseMessage && !isError} onClose={() => setResponseMessage("")} message={responseMessage} />
+      <ModalError isOpen={!!responseMessage && isError} onClose={() => setResponseMessage("")} message={responseMessage} />
 
       {/* Botón flotante del tour estilo WhatsApp */}
       {!isTechnician && (

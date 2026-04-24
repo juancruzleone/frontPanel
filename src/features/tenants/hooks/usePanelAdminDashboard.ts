@@ -118,6 +118,7 @@ const usePanelAdminDashboard = () => {
           recentTenants
         })
       } catch (err) {
+        console.error('Error loading dashboard data:', err);
         setError('Error al cargar los datos del panel')
       } finally {
         setLoading(false)

@@ -13,8 +13,8 @@ export const useTenants = () => {
     try {
       const data = await tenantServices.getTenants()
       setTenants(data)
-    } catch (err: any) {
-      setError(err.message || 'Error al cargar tenants')
+    } catch (err: unknown) {
+      setError((err as Error).message || 'Error al cargar tenants')
     } finally {
       setLoading(false)
     }
@@ -25,8 +25,8 @@ export const useTenants = () => {
       const newTenant = await tenantServices.createTenant(tenantData)
       setTenants(prev => [...prev, newTenant])
       return newTenant
-    } catch (err: any) {
-      throw new Error(err.message || 'Error al crear tenant')
+    } catch (err: unknown) {
+      throw new Error((err as Error).message || 'Error al crear tenant')
     }
   }, [])
 
@@ -37,8 +37,8 @@ export const useTenants = () => {
         tenant._id === tenantData._id ? updatedTenant : tenant
       ))
       return updatedTenant
-    } catch (err: any) {
-      throw new Error(err.message || 'Error al actualizar tenant')
+    } catch (err: unknown) {
+      throw new Error((err as Error).message || 'Error al actualizar tenant')
     }
   }, [])
 
@@ -46,8 +46,8 @@ export const useTenants = () => {
     try {
       await tenantServices.deleteTenant(tenantId)
       setTenants(prev => prev.filter(tenant => tenant._id !== tenantId))
-    } catch (err: any) {
-      throw new Error(err.message || 'Error al eliminar tenant')
+    } catch (err: unknown) {
+      throw new Error((err as Error).message || 'Error al eliminar tenant')
     }
   }, [])
 

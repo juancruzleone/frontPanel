@@ -20,13 +20,16 @@ export type Technician = {
   userName: string
   email?: string
   role: string
+  firstName?: string
+  lastName?: string
+  profilePhoto?: string
 }
 
 export type Installation = {
   _id: string
   company: string
   address: string
-  city: string
+  city?: string
   devices?: Device[]
 }
 
@@ -74,7 +77,7 @@ export type WorkOrder = {
   estadoDispositivo?: string
   evidenciaFoto?: string
   firmaTecnico?: string
-  formularioRespuestas?: Record<string, any>
+  formularioRespuestas?: Record<string, unknown>
   pdfUrl?: string
   historial?: {
     accion: string
@@ -135,7 +138,8 @@ const useWorkOrders = () => {
       const data = await fetchTechnicians()
       setTechnicians(data)
       return data
-    } catch (err: any) {
+    } catch (err) {
+      console.error('Error loading technicians:', err);
       setTechnicians([])
       return []
     }
@@ -148,8 +152,8 @@ const useWorkOrders = () => {
       const { data, pagination: pagData } = await fetchWorkOrders(page, limit, filters)
       setWorkOrders(data)
       setPagination(pagData)
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      setError((err as Error).message)
     } finally {
       setLoading(false)
     }
@@ -161,8 +165,8 @@ const useWorkOrders = () => {
     try {
       const data = await apiFetchInstallations()
       setInstallations(data)
-    } catch (err: any) {
-      setErrorLoadingInstallations(err.message || "Error al cargar instalaciones")
+    } catch (err: unknown) {
+      setErrorLoadingInstallations((err as Error).message || "Error al cargar instalaciones")
       setInstallations([])
     } finally {
       setLoadingInstallations(false)
@@ -184,7 +188,9 @@ const useWorkOrders = () => {
         if (!isNaN(localDate.getTime())) {
           fechaHoraISO = localDate.toISOString();
         }
-      } catch (e) { }
+      } catch (_e) { 
+        console.error('Error parsing date/time for work order:', _e);
+      }
     }
 
     const technicianIds = normalizeTechnicianIds(workOrder);
@@ -215,7 +221,9 @@ const useWorkOrders = () => {
         if (!isNaN(localDate.getTime())) {
           fechaHoraISO = localDate.toISOString();
         }
-      } catch (e) { }
+      } catch (_e) {
+        console.error('Error parsing date/time for editing work order:', _e);
+      }
     }
 
     const technicianIds = normalizeTechnicianIds(updatedData);
@@ -240,57 +248,45 @@ const useWorkOrders = () => {
   }
 
   const assignTechnician = async (workOrderId: string, technicianIds: string[]) => {
-    try {
-      await assignTechnicianToWorkOrder(workOrderId, technicianIds)
-      await loadWorkOrders()
-      return { message: "Técnico asignado con éxito" }
-    } catch (error) {
-      throw error
-    }
+    await assignTechnicianToWorkOrder(workOrderId, technicianIds)
+    await loadWorkOrders()
+    return { message: "Técnico asignado con éxito" }
   }
 
-  const completeWorkOrder = async (id: string, data: any) => {
-    try {
-      const result = await apiCompleteWorkOrder(id, data)
-      setWorkOrders((prev) =>
-        prev.map((o) =>
-          o._id === id
-            ? {
-              ...o,
-              estado: "completada",
-              fechaCompletada: new Date(),
-              trabajoRealizado: data.trabajoRealizado,
-              observaciones: data.observaciones,
-              tiempoTrabajo: data.tiempoTrabajo,
-              estadoDispositivo: data.estadoDispositivo,
-              evidenciaFoto: data.evidenciaFoto,
-              firmaTecnico: data.firmaTecnico,
-              ...result,
-            }
-            : o,
-        ),
-      )
-      return { message: "Orden de trabajo completada con éxito" }
-    } catch (error) {
-      throw error
-    }
+  const completeWorkOrder = async (id: string, data: Record<string, unknown>) => {
+    const result = await apiCompleteWorkOrder(id, data)
+    setWorkOrders((prev) =>
+      prev.map((o) =>
+        o._id === id
+          ? {
+            ...o,
+            estado: "completada",
+            fechaCompletada: new Date(),
+            trabajoRealizado: data.trabajoRealizado as string,
+            observaciones: data.observaciones as string,
+            tiempoTrabajo: data.tiempoTrabajo as number,
+            estadoDispositivo: data.estadoDispositivo as string,
+            evidenciaFoto: data.evidenciaFoto as string,
+            firmaTecnico: data.firmaTecnico as string,
+            ...result,
+          }
+          : o,
+      ),
+    )
+    return { message: "Orden de trabajo completada con éxito" }
   }
 
   const startWorkOrder = async (id: string) => {
-    try {
-      await apiStartWorkOrder(id)
-      setWorkOrders((prev) =>
-        prev.map((o) => (o._id === id ? { ...o, estado: "en_progreso", fechaInicio: new Date() } : o)),
-      )
-      return { message: "Orden de trabajo iniciada con éxito" }
-    } catch (error) {
-      throw error
-    }
+    await apiStartWorkOrder(id)
+    setWorkOrders((prev) =>
+      prev.map((o) => (o._id === id ? { ...o, estado: "en_progreso", fechaInicio: new Date() } : o)),
+    )
+    return { message: "Orden de trabajo iniciada con éxito" }
   }
 
   // Función simplificada para manejar cambios de campo
   const handleFieldChange = useCallback(
-    (name: string, value: string | any) => {
+    (name: string, value: unknown) => {
 
       setFormData((prevFormData) => {
         const updated = { ...prevFormData, [name]: value }
@@ -322,7 +318,7 @@ const useWorkOrders = () => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    const validation = await validateWorkOrderForm(formData, t)
+    const validation = await validateWorkOrderForm(formData as unknown as Record<string, unknown>, t)
 
     if (!validation.isValid) {
       setFormErrors(validation.errors)
@@ -340,8 +336,8 @@ const useWorkOrders = () => {
 
       onSuccess(result.message)
       resetForm()
-    } catch (err: any) {
-      onError(err.message || "Error al guardar la orden de trabajo")
+    } catch (err: unknown) {
+      onError((err as Error).message || "Error al guardar la orden de trabajo")
     } finally {
       setIsSubmitting(false)
     }
@@ -367,12 +363,12 @@ const useWorkOrders = () => {
     setFormErrors({})
   }, [])
 
-  const extractInstalacionId = useCallback((data: any): string => {
+  const extractInstalacionId = useCallback((data: unknown): string => {
     if (typeof data === "string") {
       return data
     }
-    if (data && typeof data === "object" && data.$oid) {
-      return data.$oid
+    if (data && typeof data === "object" && (data as { $oid?: string }).$oid) {
+      return (data as { $oid: string }).$oid
     }
     if (data && typeof data === "object" && typeof data.toString === "function") {
       return data.toString()

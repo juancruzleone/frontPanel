@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "../styles/Modal.module.css";
 import { WorkOrder } from "../hooks/useWorkOrders";
 import AssignTechnicianForm from "./AssignTechnicianForm";
@@ -10,7 +10,7 @@ interface ModalAssignTechnicianProps {
   onSubmitSuccess: (message: string) => void;
   onAssign: (workOrderId: string, technicianIds: string[]) => Promise<{ message: string }>;
   workOrder: WorkOrder | null;
-  technicians: any[];
+  technicians: { _id: string; userName: string; role: string }[];
 }
 
 const ModalAssignTechnician = ({

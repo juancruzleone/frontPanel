@@ -1,15 +1,6 @@
-import { useAuthStore } from "../../../store/authStore"
 import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
 
 const API_URL = import.meta.env.VITE_API_URL
-
-const getToken = (): string => {
-  const isAuthenticated = useAuthStore.getState().isAuthenticated
-  if (!isAuthenticated) {
-    throw new Error("No authentication token found")
-  }
-  return 'session-authenticated'
-}
 
 export interface Technician {
   _id: string

@@ -14,7 +14,12 @@ interface WorkOrdersPieChartProps {
   data: StatusDistributionData[]
 }
 
-const CustomTooltip = ({ active, payload }: any) => {
+interface CustomTooltipProps {
+  active?: boolean
+  payload?: any[]
+}
+
+const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
   const { t } = useTranslation()
   if (active && payload && payload.length) {
     return (

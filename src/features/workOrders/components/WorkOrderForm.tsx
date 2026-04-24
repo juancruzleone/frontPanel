@@ -18,7 +18,7 @@ interface WorkOrderFormProps {
   initialData?: WorkOrder | null
   formData: WorkOrder
   formErrors: Record<string, string>
-  handleFieldChange: (name: string, value: any) => void
+  handleFieldChange: (name: string, value: unknown) => void
   handleSubmitForm: (
     e: React.FormEvent,
     isEditMode: boolean,
@@ -29,7 +29,7 @@ interface WorkOrderFormProps {
     onEdit?: (id: string, data: WorkOrder) => Promise<{ message: string }>,
   ) => void
   isSubmitting: boolean
-  installations?: any[]
+  installations?: { _id: string; company: string; address: string; city?: string }[]
   technicians?: Technician[]
   loadingInstallations?: boolean
   errorLoadingInstallations?: string | null
@@ -127,16 +127,6 @@ const WorkOrderForm = ({
     const [year, month, day] = dateStr.split("-");
     return `${day}/${month}/${year}`;
   }
-
-  const isFormValid = useMemo(() => {
-    const hasTitulo = formData.titulo?.trim().length > 0
-    const hasDescripcion = formData.descripcion?.trim().length > 0
-    const hasInstalacion = formData.instalacionId?.trim().length > 0
-    const hasFecha = formData.fechaProgramada !== null && formData.fechaProgramada !== undefined
-    const hasHora = formData.horaProgramada?.trim().length > 0
-    const hasNoErrors = !Object.values(formErrors).some((error) => error && error.trim().length > 0)
-    return hasTitulo && hasDescripcion && hasInstalacion && hasFecha && hasHora && hasNoErrors
-  }, [formData, formErrors])
 
   const isFieldDisabled = (fieldName: string) => {
     return (

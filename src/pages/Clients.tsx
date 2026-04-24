@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 import Button from "../shared/components/Buttons/buttonCreate"
-import ModalSuccess from "../features/auth/register/components/ModalSuccess"
-import ModalError from "../features/forms/components/ModalError"
+import { ModalSuccess } from "../features/auth/register/components/ModalSuccess"
+import { ModalError } from "../features/forms/components/ModalError"
 import ModalRegisterClient from "../features/clients/components/ModalRegisterClient"
 import ModalEditClient from "../features/clients/components/ModalEditClient"
 import ModalConfirmDelete from "../features/clients/components/ModalConfirmDelete"
@@ -11,9 +11,8 @@ import styles from "../features/clients/styles/clients.module.css"
 import { FiUser } from "react-icons/fi"
 import { useClients } from "../features/clients/hooks/useClients"
 import { useTranslation } from "react-i18next"
-import { Trash, User, Search, Edit, CircleHelp, Building2 } from "lucide-react"
+import { Trash, User, Search, Edit, Building2 } from "lucide-react"
 import SearchInput from "../shared/components/Inputs/SearchInput"
-import { useTheme } from "../shared/hooks/useTheme"
 import { deleteClient, assignInstallationsToClient } from "../features/clients/services/clientServices"
 import { useAuthStore } from "../store/authStore"
 import { useClientsTour } from "../features/clients/hooks/useClientsTour"
@@ -25,7 +24,6 @@ import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 
 const Clients = () => {
     const { t, i18n } = useTranslation()
-    const { dark } = useTheme()
     const navigate = useNavigate()
     const { showModal, responseMessage, isError, closeModal, clients, loadingClients, fetchClients, addClient, showSuccess, showError } = useClients()
 
@@ -34,19 +32,19 @@ const Clients = () => {
     const [isAssignModalOpen, setIsAssignModalOpen] = useState(false)
     useAuthStore((state) => state.isAuthenticated)
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
-    const [clientToDelete, setClientToDelete] = useState<any>(null)
-    const [clientToEdit, setClientToEdit] = useState<any>(null)
-    const [clientToAssign, setClientToAssign] = useState<any>(null)
+    const [clientToDelete, setClientToDelete] = useState<{ _id?: string, id?: string, userName?: string } | null>(null)
+    const [clientToEdit, setClientToEdit] = useState<unknown | null>(null)
+    const [clientToAssign, setClientToAssign] = useState<unknown | null>(null)
     const [searchTerm, setSearchTerm] = useState("")
     const [viewMode, setViewMode, isMobile] = useResponsiveView('clients-view', 'cards')
-    const { tourCompleted, startTour, resetTour, skipTour } = useClientsTour()
+    const { tourCompleted, startTour, skipTour } = useClientsTour()
     const { installations, loadInstallations } = useInstallations()
 
     useEffect(() => {
         fetchClients()
         loadInstallations()
         document.title = t('clients.titlePage')
-    }, [fetchClients, loadInstallations])
+    }, [fetchClients, loadInstallations, t])
 
     useEffect(() => {
         if (!tourCompleted && clients.length >= 0) {
@@ -55,7 +53,7 @@ const Clients = () => {
             }, 500)
             return () => clearTimeout(timer)
         }
-    }, [tourCompleted, clients])
+    }, [tourCompleted, clients, startTour])
 
     const formatDate = useCallback((dateString: string) => {
         const date = new Date(dateString)
@@ -65,7 +63,7 @@ const Clients = () => {
             month: "2-digit",
             year: "numeric",
         })
-    }, [])
+    }, [i18n.language])
 
     const handleSuccessRegister = useCallback(
         (message: string) => {
@@ -86,7 +84,7 @@ const Clients = () => {
         [fetchClients, showSuccess],
     )
 
-    const handleEditClient = useCallback((client: any) => {
+    const handleEditClient = useCallback((client: unknown) => {
         setClientToEdit(client)
         setIsEditModalOpen(true)
     }, [])
@@ -99,34 +97,25 @@ const Clients = () => {
         setIsRegisterModalOpen(false)
     }, [])
 
-    const handleDeleteClient = async (id: string) => {
-        try {
-            await deleteClient(id)
-            await fetchClients()
-        } catch (err: any) {
-            alert(err.message || 'Error al eliminar cliente')
-        }
-    }
-
     const handleConfirmDelete = async () => {
         if (!clientToDelete) return
         try {
-            await deleteClient(clientToDelete._id || clientToDelete.id)
+            await deleteClient(clientToDelete._id || clientToDelete.id || '')
             await fetchClients()
             showSuccess(t('clients.clientDeleted'))
-        } catch (err: any) {
-            showError(err.message || t('clients.errorDeletingClient'))
+        } catch (err: unknown) {
+            showError((err as Error).message || t('clients.errorDeletingClient'))
         } finally {
             setClientToDelete(null)
             setIsDeleteModalOpen(false)
         }
     }
 
-    const handleViewProfile = (client: any) => {
+    const handleViewProfile = (client: { _id?: string, id?: string }) => {
         navigate(`/perfil/${client._id || client.id}`)
     }
 
-    const handleAssignInstallations = (client: any) => {
+    const handleAssignInstallations = (client: unknown) => {
         setClientToAssign(client)
         setIsAssignModalOpen(true)
     }
@@ -144,12 +133,12 @@ const Clients = () => {
         try {
             await assignInstallationsToClient(clientId, installationIds)
             return { message: t('clients.installationsAssignedSuccessfully') }
-        } catch (err: any) {
+        } catch (err: unknown) {
             throw err
         }
     }
 
-    const filteredClients = clients.filter((client: any) =>
+    const filteredClients = (clients as { userName: string, _id?: string, id?: string, createdAt: string }[]).filter((client) =>
         client.userName.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
@@ -364,8 +353,8 @@ const Clients = () => {
                 installations={installations}
             />
 
-            <ModalSuccess isOpen={showModal && !isError} onRequestClose={closeModal} mensaje={responseMessage} />
-            <ModalError isOpen={showModal && isError} onRequestClose={closeModal} mensaje={responseMessage} />
+            <ModalSuccess isOpen={showModal && !isError} onClose={closeModal} message={responseMessage} />
+            <ModalError isOpen={showModal && isError} onClose={closeModal} message={responseMessage} />
 
             {/* Botón flotante del tour */}
             <TourButton

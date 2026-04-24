@@ -1,13 +1,16 @@
-import { useAuthStore } from "../../../store/authStore";
 import { getAuthHeaders, getHeadersWithContentType, fetchWithCsrf } from "../../../shared/utils/apiHeaders";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const getToken = () => {
-  return useAuthStore.getState().token;
-};
+export interface CategoryResponse {
+  _id: string;
+  nombre: string;
+  descripcion?: string;
+  activa?: boolean;
+  fechaCreacion: string;
+}
 
-export const fetchCategories = async (includeInactive = false): Promise<any[]> => {
+export const fetchCategories = async (includeInactive = false): Promise<CategoryResponse[]> => {
   const response = await fetchWithCsrf(`${API_URL}categorias?includeInactive=${includeInactive}`, {
     headers: getAuthHeaders(),
   });
@@ -15,7 +18,7 @@ export const fetchCategories = async (includeInactive = false): Promise<any[]> =
   return await response.json();
 };
 
-export const createCategory = async (categoryData: any) => {
+export const createCategory = async (categoryData: Record<string, unknown>) => {
   const response = await fetchWithCsrf(`${API_URL}categorias`, {
     method: "POST",
     headers: getHeadersWithContentType(),
@@ -25,7 +28,7 @@ export const createCategory = async (categoryData: any) => {
   return await response.json();
 };
 
-export const updateCategory = async (id: string, categoryData: any) => {
+export const updateCategory = async (id: string, categoryData: Record<string, unknown>) => {
   const response = await fetchWithCsrf(`${API_URL}categorias/${id}`, {
     method: "PUT",
     headers: getHeadersWithContentType(),

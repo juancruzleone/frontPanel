@@ -13,7 +13,13 @@ interface TenantBarChartProps {
   data: PlanDistributionData[]
 }
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+interface CustomTooltipProps {
+  active?: boolean
+  payload?: any[]
+  label?: string
+}
+
+const CustomTooltip = ({ active, payload, label: _label }: CustomTooltipProps) => {
   if (active && payload && payload.length) {
     const planName = payload[0]?.payload?.name
     return (

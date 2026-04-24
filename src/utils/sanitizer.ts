@@ -73,6 +73,7 @@ export const redirectToSafeUrl = (url: string): boolean => {
 export const sanitizeInput = (input: string): string => {
   // Remover caracteres de control y caracteres especiales peligrosos
   return input
+    // eslint-disable-next-line no-control-regex
     .replace(/[\x00-\x1F\x7F]/g, '') // Caracteres de control
     .replace(/<script[^>]*>.*?<\/script>/gi, '') // Tags de script
     .replace(/<iframe[^>]*>.*?<\/iframe>/gi, '') // iframes
@@ -106,18 +107,18 @@ export const isValidUrl = (url: string): boolean => {
 /**
  * Sanitiza un objeto completo recursivamente
  */
-export const sanitizeObject = <T extends Record<string, any>>(obj: T): T => {
-  const sanitized: any = {}
+export const sanitizeObject = <T extends Record<string, unknown>>(obj: T): T => {
+  const sanitized: Record<string, unknown> = {}
   
   for (const [key, value] of Object.entries(obj)) {
     if (typeof value === 'string') {
       sanitized[key] = sanitizeInput(value)
     } else if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-      sanitized[key] = sanitizeObject(value)
+      sanitized[key] = sanitizeObject(value as Record<string, unknown>)
     } else if (Array.isArray(value)) {
       sanitized[key] = value.map(item => 
         typeof item === 'string' ? sanitizeInput(item) :
-        typeof item === 'object' && item !== null ? sanitizeObject(item) :
+        typeof item === 'object' && item !== null ? sanitizeObject(item as Record<string, unknown>) :
         item
       )
     } else {
@@ -131,7 +132,7 @@ export const sanitizeObject = <T extends Record<string, any>>(obj: T): T => {
 /**
  * Valida y sanitiza datos de formulario
  */
-export const sanitizeFormData = <T extends Record<string, any>>(data: T): T => {
+export const sanitizeFormData = <T extends Record<string, unknown>>(data: T): T => {
   return sanitizeObject(data)
 }
 
@@ -194,14 +195,8 @@ export const isValidJWT = (token: string): boolean => {
  * NOTA: Preferir siempre React's JSX sobre renderizar HTML directamente
  */
 export const sanitizeHtml = (html: string): string => {
-  // Lista blanca de tags permitidos
-  const allowedTags = ['b', 'i', 'em', 'strong', 'p', 'br', 'span']
-  
-  // Remover todos los tags excepto los permitidos
-  let sanitized = html
-  
   // Remover scripts
-  sanitized = sanitized.replace(/<script[^>]*>.*?<\/script>/gi, '')
+  let sanitized = html.replace(/<script[^>]*>.*?<\/script>/gi, '')
   
   // Remover event handlers
   sanitized = sanitized.replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')

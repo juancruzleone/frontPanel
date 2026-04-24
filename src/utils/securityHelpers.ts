@@ -71,7 +71,7 @@ export class RateLimiter {
 /**
  * Debounce para prevenir múltiples requests
  */
-export const debounce = <T extends (...args: any[]) => any>(
+export const debounce = <T extends (...args: unknown[]) => unknown>(
   func: T,
   wait: number
 ): ((...args: Parameters<T>) => void) => {
@@ -86,7 +86,7 @@ export const debounce = <T extends (...args: any[]) => any>(
 /**
  * Throttle para limitar frecuencia de ejecución
  */
-export const throttle = <T extends (...args: any[]) => any>(
+export const throttle = <T extends (...args: unknown[]) => unknown>(
   func: T,
   limit: number
 ): ((...args: Parameters<T>) => void) => {
@@ -125,7 +125,7 @@ export const checkSecurityFeatures = () => {
 /**
  * Limpia datos sensibles de objetos antes de logging
  */
-export const sanitizeForLogging = (obj: any): any => {
+export const sanitizeForLogging = (obj: unknown): unknown => {
   const sensitiveKeys = ['password', 'token', 'secret', 'apikey', 'authorization']
   
   if (typeof obj !== 'object' || obj === null) {
@@ -136,8 +136,8 @@ export const sanitizeForLogging = (obj: any): any => {
     return obj.map(item => sanitizeForLogging(item))
   }
   
-  const sanitized: any = {}
-  for (const [key, value] of Object.entries(obj)) {
+  const sanitized: Record<string, unknown> = {}
+  for (const [key, value] of Object.entries(obj as Record<string, unknown>)) {
     const keyLower = key.toLowerCase()
     if (sensitiveKeys.some(sensitive => keyLower.includes(sensitive))) {
       sanitized[key] = '[REDACTED]'

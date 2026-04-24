@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronDown, Calendar } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 import { useTheme } from '../../../shared/hooks/useTheme'
 import styles from '../styles/subscriptions.module.css'
 import type { FrequencyOption } from '../hooks/useSubscriptions'
@@ -25,7 +25,7 @@ const FrequencySelector: React.FC<FrequencySelectorProps> = ({
   disabled = false,
   placeholder,
   showIcon = true,
-  size = 'medium',
+  size: _size = 'medium',
   className = '',
   onBlur,
   onFocus,
@@ -71,10 +71,12 @@ const FrequencySelector: React.FC<FrequencySelectorProps> = ({
           </option>
         ))}
       </select>
-      <ChevronDown 
-        size={20} 
-        className={styles.selectIcon + ' ' + (dark ? styles.dark : styles.light)}
-      />
+      {showIcon && (
+        <ChevronDown 
+          size={20} 
+          className={styles.selectIcon + ' ' + (dark ? styles.dark : styles.light)}
+        />
+      )}
     </span>
   )
 }

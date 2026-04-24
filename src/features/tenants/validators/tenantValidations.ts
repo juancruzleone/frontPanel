@@ -145,14 +145,14 @@ export const validateEditTenant = (data: EditTenantData): ValidationErrors => {
 }
 
 // Validación individual para onBlur
-export const validateField = (field: string, value: any, isEdit: boolean = false): string => {
+export const validateField = (field: string, value: string | number, isEdit: boolean = false): string => {
   const fieldData = { [field]: value }
   
   if (isEdit) {
-    const errors = validateEditTenant(fieldData as EditTenantData)
+    const errors = validateEditTenant(fieldData as unknown as EditTenantData)
     return errors[field] || ''
   } else {
-    const errors = validateCreateTenant(fieldData as CreateTenantData)
+    const errors = validateCreateTenant(fieldData as unknown as CreateTenantData)
     return errors[field] || ''
   }
-} 
+}

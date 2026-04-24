@@ -29,6 +29,7 @@ const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, tenant, onClose, onSucces
       onSuccess()
       onClose()
     } catch (error) {
+      console.error('Error updating tenant:', error);
       // Aquí podrías mostrar un toast de error
     } finally {
       setIsLoading(false)

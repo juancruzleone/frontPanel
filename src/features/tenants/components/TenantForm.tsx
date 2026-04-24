@@ -51,7 +51,7 @@ const TenantForm: React.FC<TenantFormProps> = ({
     }
   }, [tenant])
 
-  const handleInputChange = (field: string, value: any) => {
+  const handleInputChange = (field: string, value: string | number) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
@@ -67,7 +67,7 @@ const TenantForm: React.FC<TenantFormProps> = ({
   }
 
   const handleBlur = (field: string) => {
-    const error = validateField(field, formData[field as keyof typeof formData], isEdit)
+    const error = validateField(field, formData[field as keyof typeof formData] as string | number, isEdit)
     if (error) {
       setErrors(prev => ({
         ...prev,
@@ -82,7 +82,7 @@ const TenantForm: React.FC<TenantFormProps> = ({
     // Validar todos los campos
     const newErrors: ValidationErrors = {}
     Object.keys(formData).forEach(field => {
-      const error = validateField(field, formData[field as keyof typeof formData], isEdit)
+      const error = validateField(field, formData[field as keyof typeof formData] as string | number, isEdit)
       if (error) {
         newErrors[field] = error
       }
@@ -94,32 +94,6 @@ const TenantForm: React.FC<TenantFormProps> = ({
     }
 
     onSubmit(formData)
-  }
-
-  const translatePlan = (plan: string) => {
-    switch (plan) {
-      case 'basic':
-        return t('tenants.planBasic')
-      case 'professional':
-        return t('tenants.planProfessional')
-      case 'enterprise':
-        return t('tenants.planEnterprise')
-      default:
-        return plan
-    }
-  }
-
-  const translateStatus = (status: string) => {
-    switch (status) {
-      case 'active':
-        return t('tenants.statusActive')
-      case 'suspended':
-        return t('tenants.statusSuspended')
-      case 'cancelled':
-        return t('tenants.statusCancelled')
-      default:
-        return status
-    }
   }
 
   return (

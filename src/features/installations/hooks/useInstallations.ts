@@ -107,8 +107,8 @@ const useInstallations = () => {
       if (data.length === 0) {
         setErrorLoadingAssets("No hay activos disponibles para asignar")
       }
-    } catch (err: any) {
-      setErrorLoadingAssets(err.message || "Error al cargar activos")
+    } catch (err: unknown) {
+      setErrorLoadingAssets((err as Error).message || "Error al cargar activos")
       setAssets([])
     } finally {
       setLoadingAssets(false)
@@ -141,8 +141,8 @@ const useInstallations = () => {
         setInstallations(installations)
         setInstallationTypes(extractInstallationTypes(installations))
       }
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      setError((err as Error).message)
     } finally {
       setLoading(false)
     }
@@ -157,8 +157,8 @@ const useInstallations = () => {
       setCurrentInstallation(installation)
       setInstallationDevices(Array.isArray(devices) ? devices : [])
       return { installation, devices }
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      setError((err as Error).message)
       setCurrentInstallation(null)
       setInstallationDevices([])
       throw err
@@ -171,7 +171,7 @@ const useInstallations = () => {
     try {
       const devices = await fetchInstallationDevices(id)
       setInstallationDevices(Array.isArray(devices) ? devices : [])
-    } catch (err: any) {
+    } catch (_err: unknown) {
     }
   }, [])
 
@@ -180,7 +180,7 @@ const useInstallations = () => {
       await deleteDeviceFromInstallation(installationId, deviceId)
       setInstallationDevices((prev) => prev.filter((d) => d._id !== deviceId))
       return { message: t('installations.deviceDeleted') }
-    } catch (err: any) {
+    } catch (err: unknown) {
       throw err
     }
   }, [t])
@@ -228,8 +228,8 @@ const useInstallations = () => {
 
       onSuccess(message)
       resetForm()
-    } catch (err: any) {
-      onError(err.message || "Error al guardar instalación")
+    } catch (err: unknown) {
+      onError((err as Error).message || "Error al guardar instalación")
     } finally {
       setIsSubmitting(false)
     }
@@ -245,7 +245,7 @@ const useInstallations = () => {
       }
 
       return { message: t('installations.installationCreated') }
-    } catch (err: any) {
+    } catch (err: unknown) {
       throw err
     }
   }
@@ -260,7 +260,7 @@ const useInstallations = () => {
       }
 
       return { message: t('installations.installationUpdated') }
-    } catch (err: any) {
+    } catch (err: unknown) {
       throw err
     }
   }
@@ -269,7 +269,7 @@ const useInstallations = () => {
     try {
       await deleteInstallation(id)
       setInstallations((prev) => prev.filter((inst) => inst._id !== id))
-    } catch (err: any) {
+    } catch (err: unknown) {
       throw err
     }
   }
@@ -279,7 +279,7 @@ const useInstallations = () => {
       const result = await apiAddDeviceToInstallation(installationId, device)
 
       // Usar el dispositivo devuelto por la API que incluye el _id generado
-      const addedDevice = result.success ? result.data : result
+      const addedDevice = result as Partial<Device>
 
       // Asegurar que el dispositivo tenga todos los datos necesarios
       const completeDevice = {
@@ -309,7 +309,7 @@ const useInstallations = () => {
       )
 
       return { message: t('installations.deviceAdded') }
-    } catch (err: any) {
+    } catch (err: unknown) {
       throw err
     }
   }, [])

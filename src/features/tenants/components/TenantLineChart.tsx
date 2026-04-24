@@ -12,7 +12,13 @@ interface TenantLineChartProps {
   data: TenantEvolutionData[]
 }
 
-const CustomLineChartTooltip = ({ active, payload, label }: any) => {
+interface CustomLineChartTooltipProps {
+  active?: boolean
+  payload?: any[]
+  label?: string
+}
+
+const CustomLineChartTooltip = ({ active, payload, label }: CustomLineChartTooltipProps) => {
   if (active && payload && payload.length) {
     return (
       <div className={styles.customTooltip}>

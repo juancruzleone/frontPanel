@@ -43,7 +43,7 @@ const TenantStatsCards: React.FC<TenantStatsCardsProps> = ({ stats }) => {
   
   return (
     <div className={styles.statsCardsRow} role="region" aria-label="Métricas principales">
-      {kpis.map((kpi, index) => {
+      {kpis.map((kpi) => {
         const Icon = kpi.icon
         return (
           <div 
