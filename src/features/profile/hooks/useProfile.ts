@@ -15,6 +15,8 @@ export function useProfile() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const resolvedUserName = userData?.userName || userData?.username || user;
+
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
@@ -51,5 +53,5 @@ export function useProfile() {
     loadData();
   }, [user, role, userId]);
 
-  return { user, role, orders, installations, installationTypes, loading, error, userData };
+  return { user: resolvedUserName, role, orders, installations, installationTypes, loading, error, userData };
 } 

@@ -15,6 +15,8 @@ export function useUserProfile(userId: string) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const resolvedUserName = userData?.userName || userData?.username || null;
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -62,7 +64,8 @@ export function useUserProfile(userId: string) {
           // Filtrar órdenes asignadas al usuario específico
           const assigned = data.filter((order: any) => {
             if (!order.tecnicoAsignado) return false;
-            return order.tecnico && order.tecnico.userName === userResponse.userName;
+            const targetUserName = userResponse.userName || userResponse.username;
+            return order.tecnico && (order.tecnico.userName === targetUserName || order.tecnico.username === targetUserName);
           });
 
           setOrders(assigned);
@@ -82,7 +85,7 @@ export function useUserProfile(userId: string) {
   }, [userId, token]);
 
   return {
-    user: userData?.userName || null,
+    user: resolvedUserName,
     role: userData?.role || null,
     orders,
     installations,
