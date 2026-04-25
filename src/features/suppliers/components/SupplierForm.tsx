@@ -1,6 +1,8 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import { validateSupplierForm } from "../validators/supplierValidators"
+import styles from "../styles/supplierForm.module.css"
+import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 
 interface SupplierFormData {
   name: string
@@ -14,10 +16,18 @@ interface SupplierFormProps {
   initialData?: any
   onSubmit: (data: SupplierFormData) => Promise<void>
   onCancel: () => void
+  isLoading?: boolean
 }
 
-export const SupplierForm: React.FC<SupplierFormProps> = ({ initialData, onSubmit, onCancel }) => {
+export const SupplierForm: React.FC<SupplierFormProps> = ({ 
+  initialData, 
+  onSubmit, 
+  onCancel,
+  isLoading = false 
+}) => {
   const { t } = useTranslation()
+  const isEdit = !!initialData
+  
   const [formData, setFormData] = useState<SupplierFormData>({
     name: initialData?.name || "",
     contactName: initialData?.contactName || "",
@@ -26,21 +36,35 @@ export const SupplierForm: React.FC<SupplierFormProps> = ({ initialData, onSubmi
     address: initialData?.address || "",
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        name: initialData.name || "",
+        contactName: initialData.contactName || "",
+        email: initialData.email || "",
+        phone: initialData.phone || "",
+        address: initialData.address || "",
+      })
+    }
+  }, [initialData])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+    
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: "" }))
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
     
     const validation = await validateSupplierForm(formData, t)
     if (!validation.isValid) {
       setErrors(validation.errors)
-      setIsSubmitting(false)
       return
     }
 
@@ -48,92 +72,100 @@ export const SupplierForm: React.FC<SupplierFormProps> = ({ initialData, onSubmi
       await onSubmit(formData)
     } catch (err: any) {
       setErrors({ submit: err.message })
-    } finally {
-      setIsSubmitting(false)
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700">{t('suppliers.name')}*</label>
-        <input
-          id="name"
-          name="name"
-          type="text"
-          value={formData.name}
-          onChange={handleChange}
-          className={`mt-1 block w-full border rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500 ${errors.name ? "border-red-500" : "border-gray-300"}`}
-        />
-        {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+    <form onSubmit={handleSubmit} className={styles.form}>
+      <div className={styles.formContent}>
+        <div className={styles.formGroup}>
+          <label htmlFor="name">{t('suppliers.name')} *</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            value={formData.name}
+            onChange={handleChange}
+            className={`${errors.name ? styles.errorInput : ""}`}
+            placeholder={t('suppliers.name')}
+            disabled={isLoading}
+          />
+          {errors.name && <span className={styles.error}>{errors.name}</span>}
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="contactName">{t('suppliers.contactName')}</label>
+          <input
+            id="contactName"
+            name="contactName"
+            type="text"
+            value={formData.contactName}
+            onChange={handleChange}
+            placeholder={t('suppliers.contactName')}
+            disabled={isLoading}
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="email">{t('suppliers.email')}</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            value={formData.email}
+            onChange={handleChange}
+            className={`${errors.email ? styles.errorInput : ""}`}
+            placeholder={t('suppliers.email')}
+            disabled={isLoading}
+          />
+          {errors.email && <span className={styles.error}>{errors.email}</span>}
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="phone">{t('suppliers.phone')}</label>
+          <input
+            id="phone"
+            name="phone"
+            type="text"
+            value={formData.phone}
+            onChange={handleChange}
+            placeholder={t('suppliers.phone')}
+            disabled={isLoading}
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="address">{t('suppliers.address')}</label>
+          <textarea
+            id="address"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            placeholder={t('suppliers.address')}
+            disabled={isLoading}
+            rows={3}
+          />
+        </div>
       </div>
 
-      <div>
-        <label htmlFor="contactName" className="block text-sm font-medium text-gray-700">{t('suppliers.contactName')}</label>
-        <input
-          id="contactName"
-          name="contactName"
-          type="text"
-          value={formData.contactName}
-          onChange={handleChange}
-          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700">{t('suppliers.email')}</label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          value={formData.email}
-          onChange={handleChange}
-          className={`mt-1 block w-full border rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500 ${errors.email ? "border-red-500" : "border-gray-300"}`}
-        />
-        {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
-      </div>
-
-      <div>
-        <label htmlFor="phone" className="block text-sm font-medium text-gray-700">{t('suppliers.phone')}</label>
-        <input
-          id="phone"
-          name="phone"
-          type="text"
-          value={formData.phone}
-          onChange={handleChange}
-          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="address" className="block text-sm font-medium text-gray-700">{t('suppliers.address')}</label>
-        <textarea
-          id="address"
-          name="address"
-          value={formData.address}
-          onChange={handleChange}
-          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
-          rows={3}
-        />
-      </div>
-
-      <div className="flex justify-end gap-3 pt-4 border-t">
+      <div className={formButtonStyles.actions}>
         <button
           type="button"
           onClick={onCancel}
-          className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
+          className={formButtonStyles.cancelButton}
+          disabled={isLoading}
         >
           {t('common.cancel')}
         </button>
         <button
           type="submit"
-          disabled={isSubmitting}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
+          className={formButtonStyles.submitButton}
+          disabled={isLoading}
         >
-          {isSubmitting ? t('common.saving') : t('common.save')}
+          {isLoading ? t('common.loading') : t('common.save')}
         </button>
       </div>
-      {errors.submit && <p className="text-sm text-red-500 mt-2">{errors.submit}</p>}
+      {errors.submit && <p className={styles.error}>{errors.submit}</p>}
     </form>
   )
 }

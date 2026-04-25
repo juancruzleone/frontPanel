@@ -4,6 +4,7 @@ import DataTable from "../../../components/DataTable/DataTable"
 import { InventoryItem } from "../types/inventory.types"
 import { Edit, Trash, Package, History } from "lucide-react"
 import Tooltip from "../../../shared/components/Tooltip/Tooltip"
+import styles from "../styles/inventoryTable.module.css"
 
 interface InventoryTableProps {
   items: InventoryItem[]
@@ -41,7 +42,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
       width: '10%',
       align: 'center' as const,
       render: (item: InventoryItem) => (
-        <span className={item.currentStock <= item.minimumStock ? 'text-red-600 font-bold' : ''}>
+        <span className={item.currentStock <= item.minimumStock ? styles.lowStock : ''}>
           {item.currentStock} {item.unit}
         </span>
       )
@@ -64,11 +65,11 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
       width: '25%',
       align: 'center' as const,
       render: (item: InventoryItem) => (
-        <div className="flex gap-2 justify-center">
+        <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
           <Tooltip content={t('inventory.history')}>
             <button 
               onClick={() => onViewHistory(item)} 
-              className="p-1 hover:bg-gray-100 rounded"
+              className={styles.actionButton}
               aria-label={t('inventory.history')}
             >
               <History size={18} />
@@ -79,7 +80,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
               <Tooltip content={t('inventory.adjustStock')}>
                 <button 
                   onClick={() => onAdjust(item)} 
-                  className="p-1 hover:bg-gray-100 rounded text-blue-600"
+                  className={`${styles.actionButton} ${styles.adjustButton}`}
                   aria-label={t('inventory.adjustStock')}
                 >
                   <Package size={18} />
@@ -88,7 +89,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
               <Tooltip content={t('common.edit')}>
                 <button 
                   onClick={() => onEdit(item)} 
-                  className="p-1 hover:bg-gray-100 rounded text-orange-600"
+                  className={`${styles.actionButton} ${styles.editButton}`}
                   aria-label={t('common.edit')}
                 >
                   <Edit size={18} />
@@ -97,7 +98,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
               <Tooltip content={t('common.delete')}>
                 <button 
                   onClick={() => onDelete(item)} 
-                  className="p-1 hover:bg-gray-100 rounded text-red-600"
+                  className={`${styles.actionButton} ${styles.deleteButton}`}
                   aria-label={t('common.delete')}
                 >
                   <Trash size={18} />
@@ -118,3 +119,4 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
     />
   )
 }
+

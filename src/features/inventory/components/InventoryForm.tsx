@@ -2,39 +2,47 @@ import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { validateInventoryForm } from "../validators/inventoryValidators"
 import { InventoryItem } from "../types/inventory.types"
+import styles from "../styles/inventoryForm.module.css"
+import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 
 interface InventoryFormProps {
   initialData?: Partial<InventoryItem> | null
   onSubmit: (data: any) => Promise<void>
   onCancel: () => void
+  isLoading?: boolean
 }
 
-export const InventoryForm: React.FC<InventoryFormProps> = ({ initialData, onSubmit, onCancel }) => {
+export const InventoryForm: React.FC<InventoryFormProps> = ({ 
+  initialData, 
+  onSubmit, 
+  onCancel,
+  isLoading = false
+}) => {
   const { t } = useTranslation()
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
-    unit: initialData?.unit || "unidades",
+    unit: initialData?.unit || t("inventory.defaultUnit"),
     currentStock: initialData?.currentStock || 0,
     minimumStock: initialData?.minimumStock || 0,
     category: initialData?.category || "",
     location: initialData?.location || "",
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: "" }))
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setIsSubmitting(true)
     
     const validation = await validateInventoryForm(formData, t)
     if (!validation.isValid) {
       setErrors(validation.errors)
-      setIsSubmitting(false)
       return
     }
 
@@ -42,108 +50,110 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({ initialData, onSub
       await onSubmit(formData)
     } catch (err: any) {
       setErrors({ submit: err.message })
-    } finally {
-      setIsSubmitting(false)
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="flex flex-col">
-        <label htmlFor="name" className="text-sm font-medium text-gray-700">
-          {t("inventory.name")}
-        </label>
-        <input
-          id="name"
-          name="name"
-          type="text"
-          value={formData.name}
-          onChange={handleChange}
-          className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-            errors.name ? "border-red-500" : "border-gray-300"
-          }`}
-        />
-        {errors.name && <span className="text-xs text-red-500 mt-1">{errors.name}</span>}
-      </div>
-
-      <div className="flex flex-col">
-        <label htmlFor="unit" className="text-sm font-medium text-gray-700">
-          {t("inventory.unit")}
-        </label>
-        <input
-          id="unit"
-          name="unit"
-          type="text"
-          value={formData.unit}
-          onChange={handleChange}
-          className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm ${
-            errors.unit ? "border-red-500" : "border-gray-300"
-          }`}
-        />
-        {errors.unit && <span className="text-xs text-red-500 mt-1">{errors.unit}</span>}
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div className="flex flex-col">
-          <label htmlFor="currentStock" className="text-sm font-medium text-gray-700">
-            {t("inventory.currentStock")}
-          </label>
+    <form onSubmit={handleSubmit} className={styles.form}>
+      <div className={styles.formContent}>
+        <div className={styles.formGroup}>
+          <label htmlFor="name">{t("inventory.name")} *</label>
           <input
-            id="currentStock"
-            name="currentStock"
-            type="number"
-            value={formData.currentStock}
+            id="name"
+            name="name"
+            type="text"
+            value={formData.name}
             onChange={handleChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            className={errors.name ? styles.errorInput : ""}
+            disabled={isLoading}
+          />
+          {errors.name && <span className={styles.error}>{errors.name}</span>}
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="unit">{t("inventory.unit")} *</label>
+          <input
+            id="unit"
+            name="unit"
+            type="text"
+            value={formData.unit}
+            onChange={handleChange}
+            className={errors.unit ? styles.errorInput : ""}
+            disabled={isLoading}
+          />
+          {errors.unit && <span className={styles.error}>{errors.unit}</span>}
+        </div>
+
+        <div className={styles.grid}>
+          <div className={styles.formGroup}>
+            <label htmlFor="currentStock">{t("inventory.stock")}</label>
+            <input
+              id="currentStock"
+              name="currentStock"
+              type="number"
+              value={formData.currentStock}
+              onChange={handleChange}
+              disabled={isLoading}
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="minimumStock">{t("inventory.minimumStock")}</label>
+            <input
+              id="minimumStock"
+              name="minimumStock"
+              type="number"
+              value={formData.minimumStock}
+              onChange={handleChange}
+              disabled={isLoading}
+            />
+          </div>
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="category">{t("inventory.category")}</label>
+          <input
+            id="category"
+            name="category"
+            type="text"
+            value={formData.category}
+            onChange={handleChange}
+            disabled={isLoading}
           />
         </div>
 
-        <div className="flex flex-col">
-          <label htmlFor="minimumStock" className="text-sm font-medium text-gray-700">
-            {t("inventory.minimumStock")}
-          </label>
+        <div className={styles.formGroup}>
+          <label htmlFor="location">{t("inventory.location")}</label>
           <input
-            id="minimumStock"
-            name="minimumStock"
-            type="number"
-            value={formData.minimumStock}
+            id="location"
+            name="location"
+            type="text"
+            value={formData.location}
             onChange={handleChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            disabled={isLoading}
           />
         </div>
       </div>
 
-      <div className="flex flex-col">
-        <label htmlFor="category" className="text-sm font-medium text-gray-700">
-          {t("inventory.category")}
-        </label>
-        <input
-          id="category"
-          name="category"
-          type="text"
-          value={formData.category}
-          onChange={handleChange}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-        />
-      </div>
-
-      <div className="flex justify-end space-x-3 mt-6">
+      <div className={formButtonStyles.actions}>
         <button
           type="button"
           onClick={onCancel}
-          className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none"
+          className={formButtonStyles.cancelButton}
+          disabled={isLoading}
         >
           {t("common.cancel")}
         </button>
         <button
           type="submit"
-          disabled={isSubmitting}
-          className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none disabled:opacity-50"
+          className={formButtonStyles.submitButton}
+          disabled={isLoading}
         >
-          {isSubmitting ? t("common.saving") : t("common.save")}
+          {isLoading ? t("common.saving") : t("common.save")}
         </button>
       </div>
-      {errors.submit && <p className="text-sm text-red-500 mt-2">{errors.submit}</p>}
+      {errors.submit && <p className={styles.error}>{errors.submit}</p>}
     </form>
   )
 }
+

@@ -1593,6 +1593,7 @@
     "noItemsFound": "No inventory items found",
     "name": "Name",
     "unit": "Unit",
+    "defaultUnit": "units",
     "stock": "Stock",
     "minimumStock": "Minimum Stock",
     "category": "Category",
@@ -1601,6 +1602,7 @@
     "adjustStock": "Adjust Stock",
     "itemAdded": "Item added successfully",
     "itemUpdated": "Item updated successfully",
+    "stockAdjusted": "Stock adjusted successfully",
     "itemDeleted": "Item deleted successfully",
     "deleteItem": "Delete Item",
     "deleteConfirmMessage": "Are you sure you want to delete item \"{{name}}\"? This action cannot be undone.",
@@ -1646,7 +1648,11 @@
     "address": "Address",
     "supplierAdded": "Supplier added successfully",
     "supplierUpdated": "Supplier updated successfully",
-    "supplierDeleted": "Supplier deleted successfully"
+    "supplierDeleted": "Supplier deleted successfully",
+    "validation": {
+      "nameRequired": "Supplier name is required",
+      "emailInvalid": "Invalid email"
+    }
   },
   "languageSelector": {
     "title": "Select Language",

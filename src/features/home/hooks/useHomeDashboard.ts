@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../../../store/authStore"
 import { WORK_ORDER_TYPE_COLORS, WORK_ORDER_STATUS_COLORS } from "../../../utils/chartColors"
 import { getAuthHeaders } from "../../../shared/utils/apiHeaders"
+import { translateFrequencyToCurrentLang } from "../../../shared/utils/backendTranslations"
 import { 
   RangeOption, 
   KPIItem, 
@@ -25,8 +26,38 @@ import {
 } from "../types/homeTypes"
 
 const useHomeDashboard = () => {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const isAuthenticated = useAuthStore(state => state.isAuthenticated)
+
+  const translateUpcomingPlanName = useCallback((planName?: string) => {
+    if (!planName) return t('home.upcomingPreventive', { defaultValue: 'Preventivo' })
+
+    const normalized = planName.trim()
+    const lower = normalized.toLowerCase()
+
+    const preventivePrefixes = [
+      'mantenimiento preventivo',
+      'preventive maintenance',
+    ]
+
+    const matchedPrefix = preventivePrefixes.find(prefix => lower.startsWith(prefix))
+
+    if (!matchedPrefix) {
+      return normalized
+    }
+
+    const suffix = normalized.slice(matchedPrefix.length).trim()
+    const cleanedSuffix = suffix.replace(/^[-–—:]\s*/, '').trim()
+    const preventiveLabel = t('maintenanceRequests.problemType.preventiveMaintenance', {
+      defaultValue: 'Mantenimiento Preventivo',
+    })
+
+    if (!cleanedSuffix) {
+      return preventiveLabel
+    }
+
+    return `${preventiveLabel} - ${translateFrequencyToCurrentLang(cleanedSuffix, i18n.language || 'es')}`
+  }, [i18n.language, t])
   
   const [range, setRange] = useState<RangeOption>("30d")
   const [kpis, setKpis] = useState<KPIItem[]>([])
@@ -248,7 +279,12 @@ const useHomeDashboard = () => {
       setLineChartData(evolution)
 
       // 9. Extra Lists
-      setRecentWorkOrders(recent || [])
+      setRecentWorkOrders(
+        (recent || []).map((item: any) => ({
+          ...item,
+          titulo: translateUpcomingPlanName(item.titulo),
+        })),
+      )
       setTopIncidentInstallations(
         (topIncidents || []).map((item: { _id?: string; name?: string; count?: number; value?: number }, index: number) => ({
           _id: item._id || `${item.name || 'installation'}-${index}`,
@@ -262,7 +298,7 @@ const useHomeDashboard = () => {
             _id: item._id,
             installationName: item.installationName || t('workOrders.noInstallation', { defaultValue: 'Sin instalación' }),
             date: item.date || item.fechaProgramada || '',
-            planName: item.planName || item.titulo || t('home.upcomingPreventive', { defaultValue: 'Preventivo' }),
+            planName: translateUpcomingPlanName(item.planName || item.titulo),
           }),
         ),
       )
@@ -272,7 +308,7 @@ const useHomeDashboard = () => {
     } finally {
       setLoading(false)
     }
-  }, [isAuthenticated, range])
+  }, [i18n.language, isAuthenticated, range, t, translateUpcomingPlanName])
 
   useEffect(() => {
     load()

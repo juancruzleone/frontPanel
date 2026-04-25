@@ -1607,6 +1607,7 @@
     "noItemsFound": "No se encontraron items de inventario",
     "name": "Nombre",
     "unit": "Unidad",
+    "defaultUnit": "unidades",
     "stock": "Stock",
     "minimumStock": "Stock Mínimo",
     "category": "Categoría",
@@ -1615,6 +1616,7 @@
     "adjustStock": "Ajustar Stock",
     "itemAdded": "Item agregado correctamente",
     "itemUpdated": "Item actualizado correctamente",
+    "stockAdjusted": "Stock ajustado correctamente",
     "itemDeleted": "Item eliminado correctamente",
     "deleteItem": "Eliminar Item",
     "deleteConfirmMessage": "¿Estás seguro de que deseas eliminar el item \"{{name}}\"? Esta acción no se puede deshacer.",
@@ -1660,7 +1662,11 @@
     "address": "Dirección",
     "supplierAdded": "Proveedor agregado correctamente",
     "supplierUpdated": "Proveedor actualizado correctamente",
-    "supplierDeleted": "Proveedor eliminado correctamente"
+    "supplierDeleted": "Proveedor eliminado correctamente",
+    "validation": {
+      "nameRequired": "El nombre del proveedor es obligatorio",
+      "emailInvalid": "El email no es válido"
+    }
   },
   "languageSelector": {
     "title": "Seleccionar Idioma",

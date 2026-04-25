@@ -2,9 +2,9 @@ import * as yup from "yup"
 
 export const validateSupplierForm = async (data: any, t: any) => {
   const schema = yup.object().shape({
-    name: yup.string().required(t('common.required')),
+    name: yup.string().required(t('suppliers.validation.nameRequired')),
     contactName: yup.string(),
-    email: yup.string().email(t('common.invalidEmail')).nullable(),
+    email: yup.string().email(t('suppliers.validation.emailInvalid')).nullable(),
     phone: yup.string(),
     address: yup.string(),
   })

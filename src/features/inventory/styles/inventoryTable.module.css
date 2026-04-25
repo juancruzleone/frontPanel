@@ -1,0 +1,54 @@
+.lowStock {
+  color: #ef4444;
+  font-weight: 700;
+}
+
+:global(.dark) .lowStock {
+  color: #f87171;
+}
+
+.actionButton {
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+}
+
+.actionButton:hover {
+  background-color: var(--color-bg-light);
+  transform: scale(1.1);
+}
+
+:global(.dark) .actionButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.editButton {
+  color: #ea580c;
+}
+
+.deleteButton {
+  color: #dc2626;
+}
+
+.adjustButton {
+  color: #2563eb;
+}
+
+:global(.dark) .editButton {
+  color: #fb923c;
+}
+
+:global(.dark) .deleteButton {
+  color: #f87171;
+}
+
+:global(.dark) .adjustButton {
+  color: #60a5fa;
+}
