@@ -112,6 +112,13 @@ const Nav = () => {
     }
   }, [isSidebarCollapsed])
 
+  useEffect(() => {
+    if (workOrdersTimeoutRef.current) {
+      clearTimeout(workOrdersTimeoutRef.current)
+    }
+    setIsWorkOrdersHovered(false)
+  }, [location.pathname])
+
   const handleLogout = () => {
     setLogoutMessage("Sesión cerrada con éxito.")
     const csrfToken = useCSRFStore.getState().token
@@ -256,14 +263,14 @@ const Nav = () => {
                   onMouseEnter={handleSubmenuMouseEnter}
                   onMouseLeave={handleSubmenuMouseLeave}
                 >
-                  <NavLink to={workOrdersRoute} className={({ isActive }) => `${styles.submenuLink} ${isActive ? styles.active : ""}`} onClick={() => setIsMenuOpen(false)}>
+                  <NavLink to={workOrdersRoute} className={({ isActive }) => `${styles.submenuLink} ${isActive ? styles.active : ""}`} onClick={() => { setIsMenuOpen(false); setIsWorkOrdersHovered(false) }}>
                     <ClipboardList size={20} /> <span className={styles.linkText}>{t('nav.workOrdersList')}</span>
                   </NavLink>
-                  <NavLink to={calendarRoute} className={({ isActive }) => `${styles.submenuLink} ${isActive ? styles.active : ""}`} onClick={() => setIsMenuOpen(false)}>
+                  <NavLink to={calendarRoute} className={({ isActive }) => `${styles.submenuLink} ${isActive ? styles.active : ""}`} onClick={() => { setIsMenuOpen(false); setIsWorkOrdersHovered(false) }}>
                     <Calendar size={20} /> <span className={styles.linkText}>{t('nav.calendar')}</span>
                   </NavLink>
                   {!isTechnicianUser && !isSuperAdminUser && !isClientUser && (
-                    <NavLink to={maintenancePlanRoute} className={({ isActive }) => `${styles.submenuLink} ${isActive ? styles.active : ""}`} onClick={() => setIsMenuOpen(false)}>
+                    <NavLink to={maintenancePlanRoute} className={({ isActive }) => `${styles.submenuLink} ${isActive ? styles.active : ""}`} onClick={() => { setIsMenuOpen(false); setIsWorkOrdersHovered(false) }}>
                       <CreditCard size={20} /> <span className={styles.linkText}>{t('nav.maintenancePlan')}</span>
                     </NavLink>
                   )}

@@ -393,11 +393,11 @@ const useSubscriptions = () => {
     }
   }
 
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     setFormData({ frequency: '', startDate: '', endDate: '', status: 'active' })
     setFormErrors({})
     setTouchedFields({})
-  }
+  }, [])
 
   const [selectedMonths, setSelectedMonths] = useState<string[]>([])
   const [isStartDatePickerOpen, setIsStartDatePickerOpen] = useState(false)
@@ -506,7 +506,7 @@ const useSubscriptions = () => {
     setResponseMessage(message)
   }
 
-  const resetFrequencyForm = () => {
+  const resetFrequencyForm = useCallback(() => {
     resetForm()
     setSelectedMonths([])
     setIsStartDatePickerOpen(false)
@@ -514,7 +514,7 @@ const useSubscriptions = () => {
     setIsError(false)
     setResponseMessage("")
     setMonthsError("")
-  }
+  }, [resetForm])
 
   return {
     subscriptions,

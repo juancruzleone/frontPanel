@@ -1018,7 +1018,6 @@
 }
 
 .nav.collapsed .menuGroup:hover .submenu,
-.nav.collapsed .menuGroup:focus-within .submenu,
 .nav.collapsed .submenu:hover {
   display: flex !important;
 }
