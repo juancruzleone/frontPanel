@@ -16,7 +16,9 @@
     "openMenu": "Ouvrir le menu",
     "closeMenu": "Fermer le menu",
     "logout": "Déconnexion",
-    "clients": "Clients"
+    "clients": "Clients",
+    "suppliers": "Fournisseurs",
+    "inventory": "Inventaire"
   },
   "personal": {
     "successTitle": "Opération réussie !",
@@ -334,7 +336,53 @@
     "ordersByStatus": "Ordres par Statut",
     "Pendiente": "En attente",
     "noRecentOrders": "Aucun ordre récent",
-    "ordersWillAppear": "Les ordres apparaîtront ici lors de leur création"
+    "ordersWillAppear": "Les ordres apparaîtront ici lors de leur création",
+    "operationalMetrics": "Métriques Opérationnelles",
+    "workDistribution": "Répartition du Travail",
+    "byPriority": "Ordres par Priorité",
+    "prevVsCorr": "Préventif vs Correctif",
+    "healthAndTrends": "Santé et Tendances",
+    "deviceHealth": "État de Santé des Actifs",
+    "evolutionCreatedVsCompleted": "Évolution : Créées vs Terminées",
+    "operationalInsights": "Résumé Opérationnel",
+    "topIncidentInstallations": "Installations avec le Plus d’Incidents",
+    "upcomingPreventive": "Préventifs à Venir",
+    "openWorkOrders": "Ordres Ouverts",
+    "overdueWorkOrders": "Ordres en Retard",
+    "criticalWorkOrders": "Ordres Critiques",
+    "mttrHours": "MTTR (Heures)",
+    "preventiveCompliance": "Conformité Préventive",
+    "created": "Créées",
+    "completed": "Terminées",
+    "priority": {
+      "low": "Faible",
+      "medium": "Moyenne",
+      "high": "Élevée",
+      "critical": "Critique",
+      "null": "Sans priorité",
+      "baja": "Faible",
+      "media": "Moyenne",
+      "alta": "Élevée",
+      "critica": "Critique"
+    },
+    "type": {
+      "preventive": "Préventif",
+      "corrective": "Correctif",
+      "predictive": "Prédictif",
+      "other": "Autre",
+      "preventivo": "Préventif",
+      "correctivo": "Correctif"
+    },
+    "health": {
+      "active": "Actif",
+      "inactive": "Inactif",
+      "maintenance": "En maintenance",
+      "outOfService": "Hors service",
+      "pendingReview": "En attente de révision",
+      "null": "Sans statut",
+      "activo": "Actif",
+      "inactivo": "Inactif"
+    }
   },
   "workOrders": {
     "understood": "Fermer",
@@ -1862,5 +1910,68 @@
       "loadFailed": "Erreur lors du chargement des demandes",
       "cancelFailed": "Erreur lors de l'annulation de la demande"
     }
+  },
+  "inventory": {
+    "title": "Inventory",
+    "addItem": "Add Item",
+    "editItem": "Edit Item",
+    "searchPlaceholder": "Search by name, code or category...",
+    "noItemsFound": "No inventory items found",
+    "name": "Name",
+    "unit": "Unit",
+    "stock": "Stock",
+    "minimumStock": "Minimum Stock",
+    "category": "Category",
+    "location": "Location",
+    "history": "Movement History",
+    "adjustStock": "Adjust Stock",
+    "itemAdded": "Item added successfully",
+    "itemUpdated": "Item updated successfully",
+    "itemDeleted": "Item deleted successfully",
+    "deleteItem": "Delete Item",
+    "deleteConfirmMessage": "Are you sure you want to delete item \"{{name}}\"? This action cannot be undone.",
+    "noMovementsFound": "No movements recorded for this item",
+    "lowStockAlert": "Low Stock Alert",
+    "minimum": "Minimum",
+    "andMore": "and {{count}} more...",
+    "inventoryMaterials": "Inventory Materials",
+    "selectItem": "-- Select Item --",
+    "adjustmentType": "Adjustment Type",
+    "entry": "Entry",
+    "exit": "Exit",
+    "manualAdjustment": "Manual Adjustment",
+    "quantity": "Quantity",
+    "newStock": "New Total Stock",
+    "reason": "Reason",
+    "reasonPlaceholder": "Ex: Purchase from supplier, breakage, etc.",
+    "movementTypes": {
+      "entry": "Entry",
+      "exit": "Exit",
+      "adjustment": "Adjustment",
+      "consumption": "Consumption (WO)"
+    },
+    "validation": {
+      "nameRequired": "Name is required",
+      "unitRequired": "Unit is required",
+      "mustBeNumber": "Must be a number",
+      "minStock": "Cannot be negative"
+    }
+  },
+  "suppliers": {
+    "title": "Suppliers",
+    "addSupplier": "Add Supplier",
+    "editSupplier": "Edit Supplier",
+    "deleteSupplier": "Delete Supplier",
+    "deleteConfirmMessage": "Are you sure you want to delete supplier \"{{name}}\"? This action cannot be undone.",
+    "searchPlaceholder": "Search by name or email...",
+    "noSuppliersFound": "No suppliers found",
+    "name": "Name",
+    "contactName": "Contact",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "supplierAdded": "Supplier added successfully",
+    "supplierUpdated": "Supplier updated successfully",
+    "supplierDeleted": "Supplier deleted successfully"
   }
 }

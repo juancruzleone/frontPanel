@@ -2,17 +2,10 @@ import React from "react"
 import styles from "../styles/home.module.css"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
-
-interface KPI {
-  label: string
-  value: number
-  icon: React.ComponentType<{ size?: number }>
-  color: string
-  path?: string
-}
+import { KPIItem } from "../types/homeTypes"
 
 interface StatsCardsProps {
-  kpis: KPI[]
+  kpis: KPIItem[]
 }
 
 const StatsCards: React.FC<StatsCardsProps> = ({ kpis }) => {
@@ -21,7 +14,7 @@ const StatsCards: React.FC<StatsCardsProps> = ({ kpis }) => {
 
   return (
     <div className={styles.statsCardsRow} role="region" aria-label={t('home.mainMetrics')}>
-      {kpis.slice(0, 4).map((kpi, index) => {
+      {kpis.slice(0, 4).map((kpi) => {
         const Icon = kpi.icon
         return (
           <div
@@ -38,7 +31,8 @@ const StatsCards: React.FC<StatsCardsProps> = ({ kpis }) => {
               <div
                 className={styles.statsIconContainer}
                 style={{
-                  backgroundColor: `${kpi.color}15`
+                  backgroundColor: `${kpi.color}15`,
+                  color: kpi.color
                 }}
               >
                 <Icon size={24} />
@@ -48,7 +42,7 @@ const StatsCards: React.FC<StatsCardsProps> = ({ kpis }) => {
             {/* Contenido principal */}
             <div className={styles.statsCardContent}>
               <div className={styles.statsValue} aria-live="polite">
-                {kpi.value.toLocaleString()}
+                {typeof kpi.value === 'number' ? kpi.value.toLocaleString() : kpi.value}
               </div>
               <div className={styles.statsLabel}>
                 {t(kpi.label)}
@@ -61,4 +55,4 @@ const StatsCards: React.FC<StatsCardsProps> = ({ kpis }) => {
   )
 }
 
-export default StatsCards 
+export default StatsCards

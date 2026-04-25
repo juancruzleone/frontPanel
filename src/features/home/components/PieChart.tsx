@@ -11,15 +11,25 @@ interface PieChartData {
 
 interface PieChartProps {
   data: PieChartData[]
+  title?: string
+  translationPrefix?: string
 }
 
-const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
+const CustomPieChart: React.FC<PieChartProps> = ({ 
+  data, 
+  title, 
+  translationPrefix = 'workOrders.' 
+}) => {
   const { t } = useTranslation()
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   // Filtrar datos con valor > 0 y calcular total
   const filteredData = useMemo(() => data.filter(item => item.value > 0), [data])
   const total = useMemo(() => filteredData.reduce((sum, item) => sum + item.value, 0), [filteredData])
+
+  const getLabel = (name: string) => {
+    return t(`${translationPrefix}${name}`, { defaultValue: name })
+  }
 
   // Calcular ángulos para cada segmento
   const segments = useMemo(() => {
@@ -67,11 +77,11 @@ const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
     `
   }
 
-  if (!data || data.length === 0 || total === 0) {
+  if (!data || data.length === 0 || (total === 0 && data.every(i => i.value === 0))) {
     return (
-      <div className={styles.chartCard} role="region" aria-label={t('home.ordersByStatus')}>
+      <div className={styles.chartCard} role="region" aria-label={title || t('home.ordersByStatus')}>
         <div className={styles.chartHeader}>
-          <h3 className={styles.chartTitle}>{t('home.ordersByStatus')}</h3>
+          <h3 className={styles.chartTitle}>{title || t('home.ordersByStatus')}</h3>
           <div className={styles.chartStats}>
             <span className={styles.chartTotal}>0 {t('common.total')}</span>
           </div>
@@ -84,9 +94,9 @@ const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
   }
 
   return (
-    <div className={styles.chartCard} role="region" aria-label={t('home.ordersByStatus')}>
+    <div className={styles.chartCard} role="region" aria-label={title || t('home.ordersByStatus')}>
       <div className={styles.chartHeader}>
-        <h3 className={styles.chartTitle}>{t('home.ordersByStatus')}</h3>
+        <h3 className={styles.chartTitle}>{title || t('home.ordersByStatus')}</h3>
         <div className={styles.chartStats}>
           <span className={styles.chartTotal}>{total} {t('common.total')}</span>
         </div>
@@ -254,7 +264,7 @@ const CustomPieChart: React.FC<PieChartProps> = ({ data }) => {
                 />
                 <div className={styles.percentageContent}>
                   <span className={styles.percentageName}>
-                    {t(`workOrders.${item.name}`)}
+                    {getLabel(item.name)}
                   </span>
                   <span
                     className={styles.percentageValue}

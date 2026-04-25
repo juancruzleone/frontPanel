@@ -16,7 +16,9 @@
     "openMenu": "메뉴 열기",
     "closeMenu": "메뉴 닫기",
     "logout": "로그아웃",
-    "clients": "고객"
+    "clients": "고객",
+    "suppliers": "공급업체",
+    "inventory": "재고"
   },
   "personal": {
     "successTitle": "작업이 성공했습니다!",
@@ -338,7 +340,53 @@
     "ordersByType": "유형별 작업 지시",
     "ordersByStatus": "상태별 작업 지시",
     "noRecentOrders": "최근 작업 지시가 없습니다",
-    "ordersWillAppear": "작업 지시가 생성되면 여기에 표시됩니다"
+    "ordersWillAppear": "작업 지시가 생성되면 여기에 표시됩니다",
+    "operationalMetrics": "운영 지표",
+    "workDistribution": "작업 분포",
+    "byPriority": "우선순위별 작업지시",
+    "prevVsCorr": "예방 vs 시정",
+    "healthAndTrends": "상태 및 추세",
+    "deviceHealth": "자산 상태",
+    "evolutionCreatedVsCompleted": "추이: 생성 vs 완료",
+    "operationalInsights": "운영 요약",
+    "topIncidentInstallations": "사건이 많은 설치처",
+    "upcomingPreventive": "예정된 예방 작업",
+    "openWorkOrders": "열린 작업지시",
+    "overdueWorkOrders": "지연된 작업지시",
+    "criticalWorkOrders": "중요 작업지시",
+    "mttrHours": "MTTR(시간)",
+    "preventiveCompliance": "예방 준수율",
+    "created": "생성됨",
+    "completed": "완료됨",
+    "priority": {
+      "low": "낮음",
+      "medium": "보통",
+      "high": "높음",
+      "critical": "치명적",
+      "null": "우선순위 없음",
+      "baja": "낮음",
+      "media": "보통",
+      "alta": "높음",
+      "critica": "치명적"
+    },
+    "type": {
+      "preventive": "예방",
+      "corrective": "시정",
+      "predictive": "예측",
+      "other": "기타",
+      "preventivo": "예방",
+      "correctivo": "시정"
+    },
+    "health": {
+      "active": "정상",
+      "inactive": "비활성",
+      "maintenance": "유지보수 중",
+      "outOfService": "서비스 중지",
+      "pendingReview": "검토 대기",
+      "null": "상태 없음",
+      "activo": "정상",
+      "inactivo": "비활성"
+    }
   },
   "workOrders": {
     "understood": "닫기",
@@ -1909,5 +1957,68 @@
       "loadFailed": "요청 로드 중 오류가 발생했습니다",
       "cancelFailed": "요청 취소 중 오류가 발생했습니다"
     }
+  },
+  "inventory": {
+    "title": "Inventory",
+    "addItem": "Add Item",
+    "editItem": "Edit Item",
+    "searchPlaceholder": "Search by name, code or category...",
+    "noItemsFound": "No inventory items found",
+    "name": "Name",
+    "unit": "Unit",
+    "stock": "Stock",
+    "minimumStock": "Minimum Stock",
+    "category": "Category",
+    "location": "Location",
+    "history": "Movement History",
+    "adjustStock": "Adjust Stock",
+    "itemAdded": "Item added successfully",
+    "itemUpdated": "Item updated successfully",
+    "itemDeleted": "Item deleted successfully",
+    "deleteItem": "Delete Item",
+    "deleteConfirmMessage": "Are you sure you want to delete item \"{{name}}\"? This action cannot be undone.",
+    "noMovementsFound": "No movements recorded for this item",
+    "lowStockAlert": "Low Stock Alert",
+    "minimum": "Minimum",
+    "andMore": "and {{count}} more...",
+    "inventoryMaterials": "Inventory Materials",
+    "selectItem": "-- Select Item --",
+    "adjustmentType": "Adjustment Type",
+    "entry": "Entry",
+    "exit": "Exit",
+    "manualAdjustment": "Manual Adjustment",
+    "quantity": "Quantity",
+    "newStock": "New Total Stock",
+    "reason": "Reason",
+    "reasonPlaceholder": "Ex: Purchase from supplier, breakage, etc.",
+    "movementTypes": {
+      "entry": "Entry",
+      "exit": "Exit",
+      "adjustment": "Adjustment",
+      "consumption": "Consumption (WO)"
+    },
+    "validation": {
+      "nameRequired": "Name is required",
+      "unitRequired": "Unit is required",
+      "mustBeNumber": "Must be a number",
+      "minStock": "Cannot be negative"
+    }
+  },
+  "suppliers": {
+    "title": "Suppliers",
+    "addSupplier": "Add Supplier",
+    "editSupplier": "Edit Supplier",
+    "deleteSupplier": "Delete Supplier",
+    "deleteConfirmMessage": "Are you sure you want to delete supplier \"{{name}}\"? This action cannot be undone.",
+    "searchPlaceholder": "Search by name or email...",
+    "noSuppliersFound": "No suppliers found",
+    "name": "Name",
+    "contactName": "Contact",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "supplierAdded": "Supplier added successfully",
+    "supplierUpdated": "Supplier updated successfully",
+    "supplierDeleted": "Supplier deleted successfully"
   }
 }

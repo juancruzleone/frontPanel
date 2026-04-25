@@ -30,6 +30,7 @@ export const SUPER_ADMIN_RESTRICTED_SECTIONS = [
   'inicio',
   'instalaciones',
   'activos',
+  'inventario',
   'formularios',
   'calendario',
   'ordenes-trabajo',
@@ -58,7 +59,7 @@ export const canAccessSection = (role: string | null, section: string): boolean 
 
   // Técnicos no pueden acceder a ciertas secciones
   if (isTechnician(role)) {
-    const technicianRestrictedSections = ['activos', 'formularios', 'personal', 'clientes']
+    const technicianRestrictedSections = ['activos', 'formularios', 'personal', 'clientes', 'proveedores']
     return !technicianRestrictedSections.includes(section)
   }
 

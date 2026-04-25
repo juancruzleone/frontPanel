@@ -18,6 +18,8 @@ export const routeTranslations = {
     internalForm: 'formulario-interno',
     device: 'dispositivo',
     form: 'formulario',
+    inventory: 'inventario',
+    suppliers: 'proveedores',
     settings: 'configuracion',
   },
   en: {
@@ -38,6 +40,8 @@ export const routeTranslations = {
     internalForm: 'internal-form',
     device: 'device',
     form: 'form',
+    inventory: 'inventory',
+    suppliers: 'suppliers',
     settings: 'settings',
   },
   fr: {
@@ -58,6 +62,8 @@ export const routeTranslations = {
     internalForm: 'formulaire-interne',
     device: 'appareil',
     form: 'formulaire',
+    inventory: 'inventaire',
+    suppliers: 'fournisseurs',
     settings: 'parametres',
   },
   pt: {
@@ -74,11 +80,13 @@ export const routeTranslations = {
     manuals: 'manuais',
     subscriptions: 'assinaturas',
     maintenancePlan: 'plano-manutencao',
-    workOrders: 'ordens-trabalho',
+    workOrders: 'ordens-traballho',
     internalForm: 'formulario-interno',
     device: 'dispositivo',
     form: 'formulario',
-    settings: 'configuracoes',
+    inventory: 'inventario',
+    suppliers: 'fornecedores',
+    settings: 'configuraciones',
   },
   de: {
     home: 'startseite',
@@ -98,6 +106,8 @@ export const routeTranslations = {
     internalForm: 'internes-formular',
     device: 'gerat',
     form: 'formular',
+    inventory: 'inventar',
+    suppliers: 'lieferanten',
     settings: 'einstellungen',
   },
   it: {
@@ -118,6 +128,8 @@ export const routeTranslations = {
     internalForm: 'modulo-interno',
     device: 'dispositivo',
     form: 'modulo',
+    inventory: 'inventario',
+    suppliers: 'fornitori',
     settings: 'impostazioni',
   },
   ja: {
@@ -138,6 +150,8 @@ export const routeTranslations = {
     internalForm: 'naibu-fomu',
     device: 'debaisu',
     form: 'fomu',
+    inventory: 'zaiko',
+    suppliers: 'sapuraiya',
     settings: 'settei',
   },
   ko: {
@@ -158,6 +172,8 @@ export const routeTranslations = {
     internalForm: 'naebu-yangsik',
     device: 'jangchi',
     form: 'yangsik',
+    inventory: 'zaigo',
+    suppliers: 'gong-geub-eobche',
     settings: 'seoljeong',
   },
   zh: {
@@ -178,6 +194,8 @@ export const routeTranslations = {
     internalForm: 'neibu-biaodan',
     device: 'shebei',
     form: 'biaodan',
+    inventory: 'kucun',
+    suppliers: 'gongyingshang',
     settings: 'shezhi',
   },
   ar: {
@@ -198,6 +216,8 @@ export const routeTranslations = {
     internalForm: 'nmwdj-dakhly',
     device: 'aljhaz',
     form: 'nmwdj',
+    inventory: 'makhzun',
+    suppliers: 'mauridun',
     settings: 'alaedadat',
   },
 } as const;

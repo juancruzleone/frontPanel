@@ -11,9 +11,15 @@ interface BarChartData {
 
 interface BarChartProps {
   data: BarChartData[]
+  title?: string
+  translationPrefix?: string
 }
 
-const CustomBarChart: React.FC<BarChartProps> = ({ data }) => {
+const CustomBarChart: React.FC<BarChartProps> = ({ 
+  data, 
+  title, 
+  translationPrefix = 'workOrders.form.' 
+}) => {
   const { t } = useTranslation()
   const { dark } = useTheme()
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
@@ -27,11 +33,15 @@ const CustomBarChart: React.FC<BarChartProps> = ({ data }) => {
   // Crear líneas de guía (Grid) - 4 líneas
   const gridLines = [0, 0.25, 0.5, 0.75, 1].map(p => Math.round(maxValue * p))
 
+  const getLabel = (name: string) => {
+    return t(`${translationPrefix}${name}`, { defaultValue: name })
+  }
+
   if (!data || data.length === 0) {
     return (
-      <div className={styles.chartCard} role="region" aria-label={t('home.ordersByType')}>
+      <div className={styles.chartCard} role="region" aria-label={title || t('home.ordersByType')}>
         <div className={styles.chartHeader}>
-          <h3 className={styles.chartTitle}>{t('home.ordersByType')}</h3>
+          <h3 className={styles.chartTitle}>{title || t('home.ordersByType')}</h3>
           <div className={styles.chartStats}>
             <span className={styles.chartTotal}>0 {t('common.total')}</span>
           </div>
@@ -44,9 +54,9 @@ const CustomBarChart: React.FC<BarChartProps> = ({ data }) => {
   }
 
   return (
-    <div className={styles.chartCard} role="region" aria-label={t('home.ordersByType')}>
+    <div className={styles.chartCard} role="region" aria-label={title || t('home.ordersByType')}>
       <div className={styles.chartHeader}>
-        <h3 className={styles.chartTitle}>{t('home.ordersByType')}</h3>
+        <h3 className={styles.chartTitle}>{title || t('home.ordersByType')}</h3>
         <div className={styles.chartStats}>
           <span className={styles.chartTotal}>{total} {t('common.total')}</span>
         </div>
@@ -133,7 +143,7 @@ const CustomBarChart: React.FC<BarChartProps> = ({ data }) => {
                     fontWeight={isHovered ? "bold" : "500"}
                     style={{ textTransform: 'uppercase', letterSpacing: '0.5px' }}
                   >
-                    {t('workOrders.form.' + item.name).substring(0, 10).toLowerCase() + (t('workOrders.form.' + item.name).length > 10 ? '.' : '')}
+                    {getLabel(item.name).substring(0, 10).toLowerCase() + (getLabel(item.name).length > 10 ? '.' : '')}
                   </text>
 
                   {/* Tooltip flotante MEJORADO */}
@@ -161,7 +171,7 @@ const CustomBarChart: React.FC<BarChartProps> = ({ data }) => {
                         opacity="0.9"
                         style={{ textTransform: 'capitalize' }}
                       >
-                        {t('workOrders.form.' + item.name)}
+                        {getLabel(item.name)}
                       </text>
                       {/* Valor numérico */}
                       <text
@@ -214,7 +224,7 @@ const CustomBarChart: React.FC<BarChartProps> = ({ data }) => {
                 />
                 <div className={styles.percentageContent}>
                   <span className={styles.percentageName}>
-                    {t(`workOrders.form.${item.name}`)}
+                    {getLabel(item.name)}
                   </span>
                   <span
                     className={styles.percentageValue}

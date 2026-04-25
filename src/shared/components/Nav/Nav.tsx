@@ -1,9 +1,9 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom"
 import { useAuthStore } from "../../../store/authStore"
 import {
-  LogOut, Home, Package, FileText, BookOpen,
+  LogOut, Home, Package, FileText, BookOpen, Truck,
   ClipboardList, Calendar, Sun, Moon, Menu, X, Building, User, Globe, CreditCard, Settings, Database,
-  ChevronsLeft, ChevronsRight, ChevronDown
+  ChevronsLeft, ChevronsRight, ChevronDown, Boxes
 } from "lucide-react"
 import { useLayoutStore } from "../../../store/layoutStore"
 import styles from "./Nav.module.css"
@@ -201,6 +201,20 @@ const Nav = () => {
               <li data-tour="nav-assets">
                 <NavLink to="/activos" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
                   <Package size={20} /> <span className={styles.linkText}>{t('nav.assets')}</span>
+                </NavLink>
+              </li>
+            )}
+            {!isSuperAdminUser && !isClientUser && (
+              <li data-tour="nav-inventory">
+                <NavLink to="/inventario" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                  <Boxes size={20} /> <span className={styles.linkText}>{t('nav.inventory')}</span>
+                </NavLink>
+              </li>
+            )}
+            {isAdminUser && (
+              <li data-tour="nav-suppliers">
+                <NavLink to="/proveedores" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                  <Truck size={20} /> <span className={styles.linkText}>{t('nav.suppliers')}</span>
                 </NavLink>
               </li>
             )}

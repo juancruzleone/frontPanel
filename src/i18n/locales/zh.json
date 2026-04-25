@@ -16,7 +16,9 @@
     "toggleTheme": "切换主题",
     "openMenu": "打开菜单",
     "closeMenu": "关闭菜单",
-    "clients": "客户"
+    "clients": "客户",
+    "suppliers": "供应商",
+    "inventory": "库存"
   },
   "personal": {
     "successTitle": "操作成功！",
@@ -338,7 +340,53 @@
     "ordersByType": "按类型分类的订单",
     "ordersByStatus": "按状态分类的订单",
     "noRecentOrders": "暂无最近订单",
-    "ordersWillAppear": "创建订单时将在此显示"
+    "ordersWillAppear": "创建订单时将在此显示",
+    "operationalMetrics": "运营指标",
+    "workDistribution": "工作分布",
+    "byPriority": "按优先级的工单",
+    "prevVsCorr": "预防性 vs 纠正性",
+    "healthAndTrends": "健康与趋势",
+    "deviceHealth": "资产健康状态",
+    "evolutionCreatedVsCompleted": "趋势：已创建 vs 已完成",
+    "operationalInsights": "运营概览",
+    "topIncidentInstallations": "事故最多的安装点",
+    "upcomingPreventive": "即将到来的预防性维护",
+    "openWorkOrders": "未关闭工单",
+    "overdueWorkOrders": "逾期工单",
+    "criticalWorkOrders": "关键工单",
+    "mttrHours": "MTTR（小时）",
+    "preventiveCompliance": "预防性合规率",
+    "created": "已创建",
+    "completed": "已完成",
+    "priority": {
+      "low": "低",
+      "medium": "中",
+      "high": "高",
+      "critical": "严重",
+      "null": "无优先级",
+      "baja": "低",
+      "media": "中",
+      "alta": "高",
+      "critica": "严重"
+    },
+    "type": {
+      "preventive": "预防性",
+      "corrective": "纠正性",
+      "predictive": "预测性",
+      "other": "其他",
+      "preventivo": "预防性",
+      "correctivo": "纠正性"
+    },
+    "health": {
+      "active": "正常",
+      "inactive": "停用",
+      "maintenance": "维护中",
+      "outOfService": "停止服务",
+      "pendingReview": "待检查",
+      "null": "无状态",
+      "activo": "正常",
+      "inactivo": "停用"
+    }
   },
   "workOrders": {
     "understood": "关闭",
@@ -1900,5 +1948,68 @@
       "loadFailed": "加载请求时出错",
       "cancelFailed": "取消请求时出错"
     }
+  },
+  "inventory": {
+    "title": "Inventory",
+    "addItem": "Add Item",
+    "editItem": "Edit Item",
+    "searchPlaceholder": "Search by name, code or category...",
+    "noItemsFound": "No inventory items found",
+    "name": "Name",
+    "unit": "Unit",
+    "stock": "Stock",
+    "minimumStock": "Minimum Stock",
+    "category": "Category",
+    "location": "Location",
+    "history": "Movement History",
+    "adjustStock": "Adjust Stock",
+    "itemAdded": "Item added successfully",
+    "itemUpdated": "Item updated successfully",
+    "itemDeleted": "Item deleted successfully",
+    "deleteItem": "Delete Item",
+    "deleteConfirmMessage": "Are you sure you want to delete item \"{{name}}\"? This action cannot be undone.",
+    "noMovementsFound": "No movements recorded for this item",
+    "lowStockAlert": "Low Stock Alert",
+    "minimum": "Minimum",
+    "andMore": "and {{count}} more...",
+    "inventoryMaterials": "Inventory Materials",
+    "selectItem": "-- Select Item --",
+    "adjustmentType": "Adjustment Type",
+    "entry": "Entry",
+    "exit": "Exit",
+    "manualAdjustment": "Manual Adjustment",
+    "quantity": "Quantity",
+    "newStock": "New Total Stock",
+    "reason": "Reason",
+    "reasonPlaceholder": "Ex: Purchase from supplier, breakage, etc.",
+    "movementTypes": {
+      "entry": "Entry",
+      "exit": "Exit",
+      "adjustment": "Adjustment",
+      "consumption": "Consumption (WO)"
+    },
+    "validation": {
+      "nameRequired": "Name is required",
+      "unitRequired": "Unit is required",
+      "mustBeNumber": "Must be a number",
+      "minStock": "Cannot be negative"
+    }
+  },
+  "suppliers": {
+    "title": "Suppliers",
+    "addSupplier": "Add Supplier",
+    "editSupplier": "Edit Supplier",
+    "deleteSupplier": "Delete Supplier",
+    "deleteConfirmMessage": "Are you sure you want to delete supplier \"{{name}}\"? This action cannot be undone.",
+    "searchPlaceholder": "Search by name or email...",
+    "noSuppliersFound": "No suppliers found",
+    "name": "Name",
+    "contactName": "Contact",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "supplierAdded": "Supplier added successfully",
+    "supplierUpdated": "Supplier updated successfully",
+    "supplierDeleted": "Supplier deleted successfully"
   }
 }

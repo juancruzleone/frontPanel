@@ -16,7 +16,9 @@
     "openMenu": "فتح القائمة",
     "closeMenu": "إغلاق القائمة",
     "logout": "تسجيل الخروج",
-    "clients": "العملاء"
+    "clients": "العملاء",
+    "suppliers": "الموردين",
+    "inventory": "مخزون"
   },
   "personal": {
     "successTitle": "تمت العملية بنجاح!",
@@ -337,7 +339,53 @@
     "ordersByType": "الأوامر حسب النوع",
     "ordersByStatus": "الأوامر حسب الحالة",
     "noRecentOrders": "لا توجد أوامر حديثة",
-    "ordersWillAppear": "ستظهر الأوامر هنا عند إنشائها"
+    "ordersWillAppear": "ستظهر الأوامر هنا عند إنشائها",
+    "operationalMetrics": "المؤشرات التشغيلية",
+    "workDistribution": "توزيع العمل",
+    "byPriority": "الأوامر حسب الأولوية",
+    "prevVsCorr": "وقائي مقابل تصحيحي",
+    "healthAndTrends": "الحالة والاتجاهات",
+    "deviceHealth": "حالة صحة الأصول",
+    "evolutionCreatedVsCompleted": "التطور: المُنشأة مقابل المكتملة",
+    "operationalInsights": "ملخص تشغيلي",
+    "topIncidentInstallations": "المنشآت الأكثر حوادث",
+    "upcomingPreventive": "أعمال الوقاية القادمة",
+    "openWorkOrders": "الأوامر المفتوحة",
+    "overdueWorkOrders": "الأوامر المتأخرة",
+    "criticalWorkOrders": "الأوامر الحرجة",
+    "mttrHours": "MTTR (ساعات)",
+    "preventiveCompliance": "الالتزام الوقائي",
+    "created": "تم الإنشاء",
+    "completed": "مكتملة",
+    "priority": {
+      "low": "منخفضة",
+      "medium": "متوسطة",
+      "high": "مرتفعة",
+      "critical": "حرجة",
+      "null": "بدون أولوية",
+      "baja": "منخفضة",
+      "media": "متوسطة",
+      "alta": "مرتفعة",
+      "critica": "حرجة"
+    },
+    "type": {
+      "preventive": "وقائي",
+      "corrective": "تصحيحي",
+      "predictive": "تنبؤي",
+      "other": "أخرى",
+      "preventivo": "وقائي",
+      "correctivo": "تصحيحي"
+    },
+    "health": {
+      "active": "نشط",
+      "inactive": "غير نشط",
+      "maintenance": "قيد الصيانة",
+      "outOfService": "خارج الخدمة",
+      "pendingReview": "بانتظار المراجعة",
+      "null": "بدون حالة",
+      "activo": "نشط",
+      "inactivo": "غير نشط"
+    }
   },
   "workOrders": {
     "understood": "إغلاق",
@@ -1875,5 +1923,68 @@
       "loadFailed": "خطأ في تحميل الطلبات",
       "cancelFailed": "خطأ في إلغاء الطلب"
     }
+  },
+  "inventory": {
+    "title": "Inventory",
+    "addItem": "Add Item",
+    "editItem": "Edit Item",
+    "searchPlaceholder": "Search by name, code or category...",
+    "noItemsFound": "No inventory items found",
+    "name": "Name",
+    "unit": "Unit",
+    "stock": "Stock",
+    "minimumStock": "Minimum Stock",
+    "category": "Category",
+    "location": "Location",
+    "history": "Movement History",
+    "adjustStock": "Adjust Stock",
+    "itemAdded": "Item added successfully",
+    "itemUpdated": "Item updated successfully",
+    "itemDeleted": "Item deleted successfully",
+    "deleteItem": "Delete Item",
+    "deleteConfirmMessage": "Are you sure you want to delete item \"{{name}}\"? This action cannot be undone.",
+    "noMovementsFound": "No movements recorded for this item",
+    "lowStockAlert": "Low Stock Alert",
+    "minimum": "Minimum",
+    "andMore": "and {{count}} more...",
+    "inventoryMaterials": "Inventory Materials",
+    "selectItem": "-- Select Item --",
+    "adjustmentType": "Adjustment Type",
+    "entry": "Entry",
+    "exit": "Exit",
+    "manualAdjustment": "Manual Adjustment",
+    "quantity": "Quantity",
+    "newStock": "New Total Stock",
+    "reason": "Reason",
+    "reasonPlaceholder": "Ex: Purchase from supplier, breakage, etc.",
+    "movementTypes": {
+      "entry": "Entry",
+      "exit": "Exit",
+      "adjustment": "Adjustment",
+      "consumption": "Consumption (WO)"
+    },
+    "validation": {
+      "nameRequired": "Name is required",
+      "unitRequired": "Unit is required",
+      "mustBeNumber": "Must be a number",
+      "minStock": "Cannot be negative"
+    }
+  },
+  "suppliers": {
+    "title": "Suppliers",
+    "addSupplier": "Add Supplier",
+    "editSupplier": "Edit Supplier",
+    "deleteSupplier": "Delete Supplier",
+    "deleteConfirmMessage": "Are you sure you want to delete supplier \"{{name}}\"? This action cannot be undone.",
+    "searchPlaceholder": "Search by name or email...",
+    "noSuppliersFound": "No suppliers found",
+    "name": "Name",
+    "contactName": "Contact",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "supplierAdded": "Supplier added successfully",
+    "supplierUpdated": "Supplier updated successfully",
+    "supplierDeleted": "Supplier deleted successfully"
   }
 }

@@ -1,8 +1,18 @@
 import type React from "react"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useMemo } from "react"
 import styles from "../styles/Modal.module.css"
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 import type { WorkOrder } from "../hooks/useWorkOrders"
+import { useTranslation } from "react-i18next"
+import useInventory from "../../inventory/hooks/useInventory"
+import { Plus, Trash2 } from "lucide-react"
+
+interface InventoryPartUsed {
+  inventoryItemId: string
+  nameSnapshot: string
+  unit: string
+  quantity: number
+}
 
 interface ModalCompleteWorkOrderProps {
   isOpen: boolean
@@ -19,6 +29,8 @@ const ModalCompleteWorkOrder = ({
   onComplete,
   workOrder,
 }: ModalCompleteWorkOrderProps) => {
+  const { t } = useTranslation()
+  const { items: inventoryItems, loadInventory } = useInventory()
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const isDrawingRef = useRef(false)
   const lastPointRef = useRef<{ x: number; y: number } | null>(null)
@@ -26,7 +38,8 @@ const ModalCompleteWorkOrder = ({
     trabajoRealizado: string
     observaciones: string
     tiempoTrabajo: number
-    materialesUtilizados: string[]
+    materialesUtilizados: { nombre: string; cantidad: number; unidad: string }[]
+    inventoryPartsUsed: InventoryPartUsed[]
     estadoDispositivo: string
     evidenciaFoto: string
     nombreFoto: string
@@ -36,11 +49,48 @@ const ModalCompleteWorkOrder = ({
     observaciones: "",
     tiempoTrabajo: 1,
     materialesUtilizados: [],
+    inventoryPartsUsed: [],
     estadoDispositivo: "",
     evidenciaFoto: "",
     nombreFoto: "",
     firmaTecnico: "",
   })
+
+  useEffect(() => {
+    if (isOpen) {
+      loadInventory({ limit: 100 })
+    }
+  }, [isOpen, loadInventory])
+
+  const [selectedInventoryItem, setSelectedInventoryItem] = useState("")
+  const [itemQuantity, setItemQuantity] = useState(1)
+
+  const addPart = () => {
+    if (!selectedInventoryItem) return
+    const item = inventoryItems.find(i => i._id === selectedInventoryItem)
+    if (!item || !item._id) return
+
+    const newPart: InventoryPartUsed = {
+      inventoryItemId: item._id,
+      nameSnapshot: item.name,
+      unit: item.unit,
+      quantity: itemQuantity
+    }
+
+    setCompletionData(prev => ({
+      ...prev,
+      inventoryPartsUsed: [...prev.inventoryPartsUsed, newPart]
+    }))
+    setSelectedInventoryItem("")
+    setItemQuantity(1)
+  }
+
+  const removePart = (index: number) => {
+    setCompletionData(prev => ({
+      ...prev,
+      inventoryPartsUsed: prev.inventoryPartsUsed.filter((_, i) => i !== index)
+    }))
+  }
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState("")
@@ -51,6 +101,7 @@ const ModalCompleteWorkOrder = ({
       observaciones: "",
       tiempoTrabajo: 1,
       materialesUtilizados: [],
+      inventoryPartsUsed: [],
       estadoDispositivo: "",
       evidenciaFoto: "",
       nombreFoto: "",
@@ -173,7 +224,19 @@ const ModalCompleteWorkOrder = ({
 
     setIsSubmitting(true)
     try {
-      const result = await onComplete(workOrder._id, completionData as unknown as Record<string, unknown>)
+      // Sync legacy materialesUtilizados from inventoryPartsUsed for compatibility
+      const updatedCompletionData = {
+        ...completionData,
+        materialesUtilizados: completionData.inventoryPartsUsed.map(
+          part => ({
+            nombre: part.nameSnapshot,
+            cantidad: part.quantity,
+            unidad: part.unit
+          })
+        )
+      }
+      
+      const result = await onComplete(workOrder._id, updatedCompletionData as unknown as Record<string, unknown>)
       onSubmitSuccess(result.message)
       handleClose()
     } catch (err: unknown) {
@@ -200,6 +263,7 @@ const ModalCompleteWorkOrder = ({
         observaciones: "",
         tiempoTrabajo: 1,
         materialesUtilizados: [],
+        inventoryPartsUsed: [],
         estadoDispositivo: currentDeviceState,
         evidenciaFoto: "",
         nombreFoto: "",
@@ -326,6 +390,60 @@ const ModalCompleteWorkOrder = ({
                   Limpiar firma
                 </button>
                 {showError("firmaTecnico") && <p className={styles.inputError}>La firma es obligatoria</p>}
+              </div>
+
+              {/* SECCIÓN DE INVENTARIO */}
+              <div className={styles.formGroup}>
+                <label>{t('inventory.inventoryMaterials')}</label>
+                <div className="flex gap-2 mb-2">
+                  <select 
+                    value={selectedInventoryItem}
+                    onChange={(e) => setSelectedInventoryItem(e.target.value)}
+                    className="flex-1 p-2 border border-gray-300 rounded"
+                    disabled={isSubmitting}
+                  >
+                    <option value="">{t('inventory.selectItem')}</option>
+                    {inventoryItems.map(item => (
+                      <option key={item._id} value={item._id}>
+                        {item.name} ({item.currentStock} {item.unit})
+                      </option>
+                    ))}
+                  </select>
+                  <input 
+                    type="number"
+                    value={itemQuantity}
+                    onChange={(e) => setItemQuantity(Number(e.target.value))}
+                    min={1}
+                    className="w-20 p-2 border border-gray-300 rounded"
+                    disabled={isSubmitting}
+                  />
+                  <button 
+                    type="button"
+                    onClick={addPart}
+                    disabled={!selectedInventoryItem || isSubmitting}
+                    className="p-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                    aria-label="Add Part"
+                  >
+                    <Plus size={20} />
+                  </button>
+                </div>
+
+                {completionData.inventoryPartsUsed.length > 0 && (
+                  <ul className="space-y-1 mb-4">
+                    {completionData.inventoryPartsUsed.map((part, index) => (
+                      <li key={index} className="flex justify-between items-center bg-gray-50 p-2 rounded">
+                        <span>{part.nameSnapshot} x {part.quantity} {part.unit}</span>
+                        <button 
+                          type="button"
+                          onClick={() => removePart(index)}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
 
               {/* Fila corregida para alineación */}

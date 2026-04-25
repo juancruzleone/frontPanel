@@ -7,8 +7,10 @@ import Register from "../pages/Register";
 import Installations from "../pages/Installations";
 import InstallationDetails from "../pages/InstallationsDetails";
 import Assets from "../pages/Assets.tsx";
+import Inventory from "../pages/Inventory.tsx";
 import Forms from "../pages/Forms.tsx";
 import Manuals from "../pages/Manuals.tsx";
+import Suppliers from "../pages/Suppliers.tsx";
 import Subscriptions from "../pages/Subscriptions.tsx";
 import WorkOrders from "../pages/WorkOrders.tsx";
 import Calendar from "../pages/Calendar.tsx";
@@ -65,6 +67,16 @@ const generateChildRoutesForAllLanguages = (): RouteObject[] => {
       {
         path: t.assets,
         element: <RoleProtectedRoute section="activos"><Assets /></RoleProtectedRoute>,
+      },
+      // Inventario
+      {
+        path: t.inventory,
+        element: <RoleProtectedRoute section="inventario"><Inventory /></RoleProtectedRoute>,
+      },
+      // Proveedores
+      {
+        path: t.suppliers,
+        element: <RoleProtectedRoute section="proveedores"><Suppliers /></RoleProtectedRoute>,
       },
       // Calendario
       {

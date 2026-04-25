@@ -73,6 +73,13 @@ export type WorkOrder = {
     cantidad: number
     unidad: string
   }[]
+  inventoryPartsUsed?: {
+    inventoryItemId: string
+    nameSnapshot: string
+    unit: string
+    quantity: number
+    movementId?: string
+  }[]
   tiempoTrabajo?: number
   estadoDispositivo?: string
   evidenciaFoto?: string
@@ -268,6 +275,7 @@ const useWorkOrders = () => {
             estadoDispositivo: data.estadoDispositivo as string,
             evidenciaFoto: data.evidenciaFoto as string,
             firmaTecnico: data.firmaTecnico as string,
+            inventoryPartsUsed: data.inventoryPartsUsed as any,
             ...result,
           }
           : o,

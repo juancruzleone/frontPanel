@@ -1,0 +1,45 @@
+export interface InventoryItem {
+  _id?: string;
+  tenantId: string;
+  code?: string;
+  name: string;
+  category?: string;
+  unit: string;
+  currentStock: number;
+  minimumStock: number;
+  location?: string;
+  supplierSnapshot?: SupplierSnapshot;
+  active: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface SupplierSnapshot {
+  supplierId?: string;
+  name: string;
+  contactName?: string;
+  email?: string;
+  phone?: string;
+}
+
+export interface InventoryMovement {
+  _id?: string;
+  tenantId: string;
+  inventoryItemId: string;
+  type: 'entry' | 'exit' | 'adjustment' | 'consumption';
+  quantity: number;
+  beforeStock: number;
+  afterStock: number;
+  referenceType?: 'work_order' | 'manual';
+  referenceId?: string;
+  performedBy: string;
+  createdAt: Date;
+}
+
+export interface WorkOrderPart {
+  inventoryItemId: string;
+  nameSnapshot: string;
+  unit: string;
+  quantity: number;
+  movementId?: string;
+}

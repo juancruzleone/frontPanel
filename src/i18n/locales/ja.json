@@ -16,7 +16,9 @@
     "openMenu": "メニューを開く",
     "closeMenu": "メニューを閉じる",
     "logout": "ログアウト",
-    "clients": "クライアント"
+    "clients": "クライアント",
+    "suppliers": "仕入れ先",
+    "inventory": "在庫"
   },
   "personal": {
     "successTitle": "操作が成功しました！",
@@ -336,7 +338,53 @@
     "ordersByType": "タイプ別指示",
     "ordersByStatus": "ステータス別指示",
     "noRecentOrders": "最近の指示はありません",
-    "ordersWillAppear": "指示が作成されるとここに表示されます"
+    "ordersWillAppear": "指示が作成されるとここに表示されます",
+    "operationalMetrics": "運用指標",
+    "workDistribution": "作業分布",
+    "byPriority": "優先度別作業指示",
+    "prevVsCorr": "予防保全 vs 是正保全",
+    "healthAndTrends": "健全性と傾向",
+    "deviceHealth": "資産の健全性状態",
+    "evolutionCreatedVsCompleted": "推移：作成済み vs 完了済み",
+    "operationalInsights": "運用概要",
+    "topIncidentInstallations": "インシデントの多い設備",
+    "upcomingPreventive": "今後の予防保全",
+    "openWorkOrders": "未完了の作業指示",
+    "overdueWorkOrders": "期限超過の作業指示",
+    "criticalWorkOrders": "重大な作業指示",
+    "mttrHours": "MTTR（時間）",
+    "preventiveCompliance": "予防保全遵守率",
+    "created": "作成済み",
+    "completed": "完了済み",
+    "priority": {
+      "low": "低",
+      "medium": "中",
+      "high": "高",
+      "critical": "重大",
+      "null": "優先度なし",
+      "baja": "低",
+      "media": "中",
+      "alta": "高",
+      "critica": "重大"
+    },
+    "type": {
+      "preventive": "予防",
+      "corrective": "是正",
+      "predictive": "予知",
+      "other": "その他",
+      "preventivo": "予防",
+      "correctivo": "是正"
+    },
+    "health": {
+      "active": "稼働中",
+      "inactive": "停止中",
+      "maintenance": "保守中",
+      "outOfService": "停止",
+      "pendingReview": "点検待ち",
+      "null": "状態なし",
+      "activo": "稼働中",
+      "inactivo": "停止中"
+    }
   },
   "workOrders": {
     "understood": "閉じる",
@@ -1024,7 +1072,7 @@
     "titlePage": "資産 | Leonix"
   },
   "forms": {
-    "category": "カテゴリー",
+    "category": "カテゴリ",
     "templateCreated": "フォームテンプレートが正常に作成されました",
     "createSuccess": "フォームが正常に作成されました",
     "understood": "閉じる",
@@ -1138,7 +1186,6 @@
     "optional": "任意",
     "addAtLeastOneField": "少なくとも1つのフィールドを追加する必要があります",
     "fieldNameInvalid": "フィールド名は英字、数字、アンダースコアのみ使用できます",
-    "category": "カテゴリ",
     "update": "アップデート",
     "validation": {
       "templateNameRequired": "テンプレート名は必須です",
@@ -1876,5 +1923,68 @@
       "loadFailed": "リクエストの読み込み中にエラーが発生しました",
       "cancelFailed": "リクエストのキャンセル中にエラーが発生しました"
     }
+  },
+  "inventory": {
+    "title": "Inventory",
+    "addItem": "Add Item",
+    "editItem": "Edit Item",
+    "searchPlaceholder": "Search by name, code or category...",
+    "noItemsFound": "No inventory items found",
+    "name": "Name",
+    "unit": "Unit",
+    "stock": "Stock",
+    "minimumStock": "Minimum Stock",
+    "category": "Category",
+    "location": "Location",
+    "history": "Movement History",
+    "adjustStock": "Adjust Stock",
+    "itemAdded": "Item added successfully",
+    "itemUpdated": "Item updated successfully",
+    "itemDeleted": "Item deleted successfully",
+    "deleteItem": "Delete Item",
+    "deleteConfirmMessage": "Are you sure you want to delete item \"{{name}}\"? This action cannot be undone.",
+    "noMovementsFound": "No movements recorded for this item",
+    "lowStockAlert": "Low Stock Alert",
+    "minimum": "Minimum",
+    "andMore": "and {{count}} more...",
+    "inventoryMaterials": "Inventory Materials",
+    "selectItem": "-- Select Item --",
+    "adjustmentType": "Adjustment Type",
+    "entry": "Entry",
+    "exit": "Exit",
+    "manualAdjustment": "Manual Adjustment",
+    "quantity": "Quantity",
+    "newStock": "New Total Stock",
+    "reason": "Reason",
+    "reasonPlaceholder": "Ex: Purchase from supplier, breakage, etc.",
+    "movementTypes": {
+      "entry": "Entry",
+      "exit": "Exit",
+      "adjustment": "Adjustment",
+      "consumption": "Consumption (WO)"
+    },
+    "validation": {
+      "nameRequired": "Name is required",
+      "unitRequired": "Unit is required",
+      "mustBeNumber": "Must be a number",
+      "minStock": "Cannot be negative"
+    }
+  },
+  "suppliers": {
+    "title": "Suppliers",
+    "addSupplier": "Add Supplier",
+    "editSupplier": "Edit Supplier",
+    "deleteSupplier": "Delete Supplier",
+    "deleteConfirmMessage": "Are you sure you want to delete supplier \"{{name}}\"? This action cannot be undone.",
+    "searchPlaceholder": "Search by name or email...",
+    "noSuppliersFound": "No suppliers found",
+    "name": "Name",
+    "contactName": "Contact",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "supplierAdded": "Supplier added successfully",
+    "supplierUpdated": "Supplier updated successfully",
+    "supplierDeleted": "Supplier deleted successfully"
   }
 }
