@@ -1443,6 +1443,11 @@ html {
   opacity: 1;
 }
 
+:global(.dark) .rangeButtonActive {
+  background: #000 !important;
+  color: #fff !important;
+}
+
 .statsSuffix {
   font-size: 1rem;
   margin-left: 4px;
