@@ -7,6 +7,16 @@
   gap: 32px;
   color: var(--color-text);
   min-height: calc(100vh - 40px);
+  width: 100%;
+  min-width: 0;
+}
+
+.kanbanViewMode {
+  max-width: 100%;
+  padding-left: 24px;
+  padding-right: 24px;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .topSection {
@@ -207,6 +217,8 @@
   flex-direction: column;
   gap: 24px;
   flex: 1;
+  width: 100%;
+  min-width: 0;
 }
 
 .workOrderCard {
@@ -618,6 +630,234 @@
 }
 
 /* Estilos para selects en modo oscuro - solo colores, no background-image */
+/* Kanban View Styles */
+.kanbanViewport {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-width: 0;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 20px; /* Space for scrollbar */
+  contain: layout paint;
+}
+
+.kanbanBoard {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  min-width: 100%;
+  align-items: stretch;
+  height: calc(100vh - 400px);
+  min-height: 500px;
+  padding: 4px 4px 20px 4px; /* Internal padding */
+}
+
+/* Scrollbar styles for Kanban viewport to make it more visible and separated */
+.kanbanViewport::-webkit-scrollbar {
+  height: 10px;
+}
+
+.kanbanViewport::-webkit-scrollbar-track {
+  background: var(--color-bg-light);
+  border-radius: 10px;
+}
+
+.kanbanViewport::-webkit-scrollbar-thumb {
+  background: var(--color-card-border);
+  border-radius: 10px;
+  border: 2px solid var(--color-bg-light);
+}
+
+.kanbanViewport::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-secondary);
+}
+
+.kanbanColumn {
+  flex: 0 0 320px; /* Un poco más ancha para mejor legibilidad */
+  width: 320px;
+  min-width: 320px;
+  max-width: 320px;
+  background: var(--color-bg-light);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  border: 1px solid var(--color-card-border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+  .kanbanColumn {
+    flex: 0 0 280px;
+    width: 280px;
+    min-width: 280px;
+    max-width: 280px;
+  }
+  
+  .kanbanViewMode {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .kanbanColumn {
+    flex: 0 0 270px;
+    width: 270px;
+    min-width: 270px;
+    max-width: 270px;
+  }
+}
+
+.kanbanColumnHeader {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--color-card-border);
+  background: var(--color-bg-light);
+  z-index: 5;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  flex-shrink: 0; /* Asegura que el header no se encoja */
+}
+
+.kanbanColumnTitle {
+  font-weight: 700;
+  font-size: 13px; /* Un poco más pequeño y elegante */
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text);
+  opacity: 0.8;
+}
+
+.kanbanCount {
+  background: var(--color-card-border);
+  color: var(--color-text);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.kanbanCardsList {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0; /* Crucial para que el scroll funcione en flex children */
+  scrollbar-width: thin; /* Firefox */
+}
+
+/* Estilo para el scrollbar de las columnas */
+.kanbanCardsList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.kanbanCardsList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.kanbanCardsList::-webkit-scrollbar-thumb {
+  background: var(--color-card-border);
+  border-radius: 10px;
+}
+
+.kanbanSpacer {
+  flex: 0 0 40px;
+  min-width: 40px;
+  width: 40px;
+}
+
+.kanbanCard {
+  background: var(--color-card);
+  border-radius: 8px;
+  padding: 12px;
+  border: 1px solid var(--color-card-border);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  cursor: grab;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kanbanCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  border-color: var(--color-primary-light);
+}
+
+.kanbanCard:active {
+  cursor: grabbing;
+}
+
+.kanbanCardTitle {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.kanbanCardMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kanbanMetaItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.kanbanCardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-card-border);
+}
+
+.kanbanActions {
+  display: flex;
+  gap: 4px;
+}
+
+.kanbanDragging {
+  opacity: 0.5;
+  border: 2px dashed var(--color-primary);
+}
+
+.kanbanDropTarget {
+  background-color: rgba(var(--color-primary-rgb), 0.05);
+  border: 2px dashed var(--color-primary-light);
+}
+
+/* Status colors for column headers */
+.column_pendiente { border-top: 4px solid #FFC107; }
+.column_asignada { border-top: 4px solid #2196F3; }
+.column_en_progreso { border-top: 4px solid #9C27B0; }
+.column_completada { border-top: 4px solid #4CAF50; }
+.column_cancelada { border-top: 4px solid #F44336; }
+
+@media (max-width: 1024px) {
+  .kanbanContainer {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
 .dark select,
 .dark .filterSelect,
 .dark .dateFilter {

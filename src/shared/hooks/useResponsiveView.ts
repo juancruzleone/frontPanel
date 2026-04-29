@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-type ViewMode = 'cards' | 'table'
+type ViewMode = 'cards' | 'table' | 'kanban'
 
 /**
  * Hook que combina useViewMode con detección responsive
@@ -13,7 +13,7 @@ export const useResponsiveView = (storageKey: string, defaultValue: ViewMode = '
   const [savedView, setSavedView] = useState<ViewMode>(() => {
     try {
       const stored = localStorage.getItem(storageKey)
-      return (stored === 'cards' || stored === 'table') ? stored : defaultValue
+      return (stored === 'cards' || stored === 'table' || stored === 'kanban') ? (stored as ViewMode) : defaultValue
     } catch (error) {
       return defaultValue
     }

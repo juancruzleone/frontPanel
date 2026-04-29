@@ -2023,8 +2023,10 @@
     "contentView": "Vista de contenido",
     "cardsView": "Vista de tarjetas",
     "tableView": "Vista de tabla",
+    "kanbanView": "Vista Kanban",
     "cards": "Tarjetas",
-    "table": "Tabla"
+    "table": "Tabla",
+    "kanban": "Kanban"
   },
   "maintenanceRequests": {
     "requestMaintenance": "Solicitar Mantenimiento",

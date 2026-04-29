@@ -2008,8 +2008,10 @@
     "contentView": "Content view",
     "cardsView": "Cards view",
     "tableView": "Table view",
+    "kanbanView": "Kanban view",
     "cards": "Cards",
-    "table": "Table"
+    "table": "Table",
+    "kanban": "Kanban"
   },
   "maintenanceRequests": {
     "requestMaintenance": "Request Maintenance",

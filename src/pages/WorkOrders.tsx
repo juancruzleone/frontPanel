@@ -13,6 +13,7 @@ import ModalConfirmDelete from "../features/workOrders/components/ModalConfirmDe
 import ModalAssignTechnician from "../features/workOrders/components/ModalAssignTechnician"
 import ModalCompleteWorkOrder from "../features/workOrders/components/ModalCompleteWorkOrder"
 import WorkOrdersTableView from "../features/workOrders/components/WorkOrdersTableView"
+import WorkOrdersKanbanView from "../features/workOrders/components/WorkOrdersKanbanView"
 
 import { Edit, Trash, User, Check, Play, HelpCircle, FilterX, Calendar as CalendarIcon, MapPin, Clock, Eye } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
@@ -420,13 +421,25 @@ const WorkOrders = () => {
     await startWorkOrder(id)
   }
 
+  const handleStatusChange = async (orderId: string, newStatus: string) => {
+    const order = workOrders.find(o => o._id === orderId)
+    if (!order) return
+
+    try {
+      await editWorkOrder(orderId, { ...order, estado: newStatus })
+      onSuccess(t('workOrders.workOrderUpdated'))
+    } catch (err: any) {
+      onError(err.message || t('workOrders.errorUpdatingWorkOrder'))
+    }
+  }
+
   useEffect(() => {
     setCurrentPage(1)
   }, [searchTerm, selectedStatus, selectedPriority, selectedDate, selectedDateFilter, selectedTechnician])
 
   return (
     <>
-      <div className={styles.containerWorkOrders}>
+      <div className={`${styles.containerWorkOrders} ${viewMode === 'kanban' ? styles.kanbanViewMode : ''}`}>
         <div className={styles.topSection}>
           <div className={styles.headerWithToggle}>
             <h1 className={styles.title}>{t('workOrders.title')}</h1>
@@ -577,6 +590,23 @@ const WorkOrders = () => {
                 </button>
               </div>
             </>
+          ) : viewMode === 'kanban' ? (
+            <WorkOrdersKanbanView
+              workOrders={workOrders}
+              t={t}
+              permissions={permissions}
+              onOpenDetails={handleOpenDetails}
+              onStart={handleStart}
+              onOpenComplete={handleOpenComplete}
+              onOpenAssign={handleOpenAssign}
+              onOpenEdit={handleOpenEdit}
+              onOpenDelete={(order) => {
+                setWorkOrderToDelete(order)
+                setIsDeleteModalOpen(true)
+              }}
+              getPriorityColor={getPriorityColor}
+              onStatusChange={handleStatusChange}
+            />
           ) : (
             <>
               {workOrders.map((order) => (
