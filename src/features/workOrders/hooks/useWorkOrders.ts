@@ -201,6 +201,11 @@ const useWorkOrders = () => {
     }
 
     const technicianIds = normalizeTechnicianIds(workOrder);
+
+    if (workOrder.estado === "asignada" && technicianIds.length === 0) {
+      throw new Error(t("workOrders.validation.technicianRequiredForAssigned"))
+    }
+
     const workOrderWithTZ = {
       ...workOrder,
       tipoOrden: workOrder.tipoOrden || "correctivo",
@@ -234,6 +239,11 @@ const useWorkOrders = () => {
     }
 
     const technicianIds = normalizeTechnicianIds(updatedData);
+
+    if (updatedData.estado === "asignada" && technicianIds.length === 0) {
+      throw new Error(t("workOrders.validation.technicianRequiredForAssigned"))
+    }
+
     const payload = {
       ...updatedData,
       tipoOrden: updatedData.tipoOrden || "correctivo",

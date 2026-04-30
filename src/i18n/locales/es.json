@@ -1515,6 +1515,7 @@
       "orderTypeRequired": "El tipo de orden es obligatorio",
       "orderTypeInvalid": "Tipo de orden no válido",
       "observationsMax": "Las observaciones no pueden tener más de 500 caracteres",
+      "technicianRequiredForAssigned": "No podés asignar una orden sin técnico asignado.",
       "completion": {
         "workDoneRequired": "El trabajo realizado es obligatorio",
         "workDoneMin": "El trabajo realizado debe tener al menos 10 caracteres",

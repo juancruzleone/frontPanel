@@ -1535,6 +1535,7 @@
       "orderTypeRequired": "Order type is required",
       "orderTypeInvalid": "Invalid order type",
       "observationsMax": "Notes cannot be more than 500 characters",
+      "technicianRequiredForAssigned": "At least one technician is required to assign the order",
       "completion": {
         "workDoneRequired": "Work done is required",
         "workDoneMin": "Work done must be at least 10 characters",

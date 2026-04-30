@@ -34,7 +34,30 @@ export const getWorkOrderSchema = (t: (key: string) => string) =>
       .required(t('workOrders.validation.orderTypeRequired'))
       .oneOf(['preventivo', 'correctivo'], t('workOrders.validation.orderTypeInvalid')),
     observaciones: yup.string().max(500, t('workOrders.validation.observationsMax')),
-  })
+    estado: yup.string(),
+    tecnicosIds: yup.array().of(yup.string()),
+    tecnicosAsignados: yup.array().of(yup.string()),
+    tecnicoAsignado: yup.string(),
+  }).test(
+    'technician-required-for-assigned',
+    t('workOrders.validation.technicianRequiredForAssigned'),
+    function (values) {
+      if (values.estado === 'asignada') {
+        const hasTechnicians = 
+          (Array.isArray(values.tecnicosIds) && values.tecnicosIds.length > 0) || 
+          (Array.isArray(values.tecnicosAsignados) && values.tecnicosAsignados.length > 0) ||
+          !!values.tecnicoAsignado;
+        
+        if (!hasTechnicians) {
+          return this.createError({
+            path: 'estado',
+            message: t('workOrders.validation.technicianRequiredForAssigned')
+          });
+        }
+      }
+      return true;
+    }
+  );
 
 export const validateWorkOrderForm = async (data: Record<string, unknown>, t: (key: string) => string) => {
   const schema = getWorkOrderSchema(t);
