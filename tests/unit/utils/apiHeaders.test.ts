@@ -112,7 +112,28 @@ describe('apiHeaders - CSRF Logic', () => {
       expect(headers['Authorization']).toBeUndefined()
     })
 
-    it('should include X-Tenant-ID header', () => {
+    it('should NOT include X-Tenant-ID header for normal users', () => {
+      const headers = getApiHeaders(false, 'GET')
+
+      expect(headers['X-Tenant-ID']).toBeUndefined()
+    })
+
+    it('should include X-Tenant-ID header for super_admin', () => {
+      useAuthStore.getState.mockReturnValue({
+        user: 'testuser',
+        userId: 'user123',
+        token: 'test-auth-token',
+        role: 'super_admin',
+        tenantId: 'tenant123',
+        permissions: { read: true, write: true },
+        isAuthenticated: true,
+        login: vi.fn(),
+        logout: vi.fn(),
+        setAuthenticated: vi.fn(),
+        setTenantId: vi.fn(),
+        setLogoutMessage: vi.fn(),
+      })
+
       const headers = getApiHeaders(false, 'GET')
 
       expect(headers['X-Tenant-ID']).toBe('tenant123')

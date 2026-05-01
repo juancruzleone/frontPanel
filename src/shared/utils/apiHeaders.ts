@@ -6,11 +6,12 @@ const CSRF_REQUIRED_METHODS = ['POST', 'PUT', 'DELETE', 'PATCH']
 
 export const getAuthHeaders = (includeContentType: boolean = false) => {
   const authState = useAuthStore.getState()
-  const { tenantId } = authState
+  const { tenantId, role } = authState
 
   const headers: Record<string, string> = {}
 
-  if (tenantId) {
+  // Only send X-Tenant-ID for super_admin flows if selected. Normal users should rely on JWT.
+  if (tenantId && role === "super_admin") {
     headers["X-Tenant-ID"] = tenantId
   }
 
