@@ -18,7 +18,28 @@
     "clients": "Clientes",
     "suppliers": "Proveedores",
     "inventory": "Inventario",
-    "settings": "Configuración"
+    "resources": "Recursos",
+    "settings": "Configuración",
+    "audit": "Auditoría"
+  },
+  "audit": {
+    "title": "Registro de Actividad",
+    "subtitle": "Seguridad y control de acciones realizadas en el sistema",
+    "loading": "Cargando registros...",
+    "noLogs": "No hay registros de actividad disponibles",
+    "backendRequired": "El soporte del servidor para registros de auditoría aún no está configurado.",
+    "table": {
+      "date": "Fecha",
+      "user": "Usuario",
+      "action": "Acción",
+      "target": "Elemento",
+      "details": "Detalles"
+    },
+    "filter": {
+      "allUsers": "Todos los usuarios",
+      "allActions": "Todas las acciones",
+      "dateRange": "Rango de fechas"
+    }
   },
   "personal": {
     "successTitle": "¡Operación exitosa!",
@@ -383,10 +404,10 @@
     "topIncidentInstallations": "Instalaciones con más Incidentes",
     "upcomingPreventive": "Próximos Preventivos",
     "openWorkOrders": "Órdenes Abiertas",
-    "overdueWorkOrders": "Órdenes Vencidas",
+    "overdueWorkOrders": "Alertas por retrasos",
     "criticalWorkOrders": "Órdenes Críticas",
     "mttrHours": "MTTR (Horas)",
-    "preventiveCompliance": "Cumplimiento Preventivo",
+    "preventiveCompliance": "Cumplimiento de mantenimiento",
     "created": "Creadas",
     "completed": "Completadas",
     "priority": {
@@ -419,6 +440,8 @@
       "inactivo": "Inactivo"
     },
     "mtbfHours": "MTBF (Horas)",
+    "slaRate": "SLA (Nivel de Servicio)",
+    "responseTime": "Tiempo de Respuesta",
     "kpiDetails": {
       "generic": "Información detallada sobre esta métrica.",
       "openWorkOrders": "Número total de órdenes de trabajo que están actualmente abiertas y pendientes de ser completadas.",
@@ -430,7 +453,9 @@
       "installations": "Número total de instalaciones registradas en el sistema.",
       "assets": "Número total de tipos de activos configurados.",
       "workOrders": "Número total de órdenes de trabajo generadas.",
-      "technicians": "Número total de técnicos registrados en el equipo."
+      "technicians": "Número total de técnicos registrados en el equipo.",
+      "slaRate": "Porcentaje de cumplimiento de los Acuerdos de Nivel de Servicio (SLA).",
+      "responseTime": "Tiempo promedio transcurrido desde la creación de una orden hasta su primera respuesta."
     }
   },
   "installations": {

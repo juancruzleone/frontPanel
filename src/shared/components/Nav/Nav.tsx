@@ -3,14 +3,14 @@ import { useAuthStore } from "../../../store/authStore"
 import {
   LogOut, Home, Package, FileText, BookOpen, Truck,
   ClipboardList, Calendar, Sun, Moon, Menu, X, Building, User, Globe, CreditCard, Settings, Database,
-  ChevronsLeft, ChevronsRight, ChevronDown, Boxes
+  ChevronsLeft, ChevronsRight, ChevronDown, Boxes, Shield
 } from "lucide-react"
 import { useLayoutStore } from "../../../store/layoutStore"
 import styles from "./Nav.module.css"
 import { useState, useEffect, useRef } from "react"
 import { useTheme } from "../../hooks/useTheme"
 import { useTranslation } from "react-i18next"
-import { isTechnician, isSuperAdmin, canAccessSection, isClient, isAdmin } from "../../utils/roleUtils"
+import { isTechnician, isSuperAdmin, isClient, isAdmin } from "../../utils/roleUtils"
 import { useTranslatedRoutes } from "../../../router"
 import { logoutSession } from "../../../features/auth/services/loginServices"
 import { useCSRFStore } from "../../../store/csrfStore"
@@ -56,9 +56,12 @@ const Nav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isWorkOrdersMenuOpen, setIsWorkOrdersMenuOpen] = useState(true)
   const [isWorkOrdersHovered, setIsWorkOrdersHovered] = useState(false)
+  const [isResourcesMenuOpen, setIsResourcesMenuOpen] = useState(true)
+  const [isResourcesHovered, setIsResourcesHovered] = useState(false)
   const { isSidebarCollapsed, toggleSidebar } = useLayoutStore()
   const { getRoute } = useTranslatedRoutes()
   const workOrdersTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const resourcesTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   // Usar las utilidades de roles
   const isTechnicianUser = isTechnician(role)
@@ -85,10 +88,17 @@ const Nav = () => {
   const workOrdersRoute = getRoute('workOrders')
   const calendarRoute = getRoute('calendar')
   const maintenancePlanRoute = getRoute('maintenancePlan')
+  const inventoryRoute = getRoute('inventory')
+  const suppliersRoute = getRoute('suppliers')
+  const personalRoute = getRoute('personal')
   const isWorkOrdersSectionActive =
     location.pathname.startsWith(workOrdersRoute) ||
     location.pathname.startsWith(calendarRoute) ||
     location.pathname.startsWith(maintenancePlanRoute)
+  const isResourcesSectionActive =
+    location.pathname.startsWith(inventoryRoute) ||
+    location.pathname.startsWith(suppliersRoute) ||
+    location.pathname.startsWith(personalRoute)
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -102,13 +112,18 @@ const Nav = () => {
     if (isWorkOrdersSectionActive) {
       setIsWorkOrdersMenuOpen(true)
     }
-  }, [isWorkOrdersSectionActive])
+    if (isResourcesSectionActive) {
+      setIsResourcesMenuOpen(true)
+    }
+  }, [isWorkOrdersSectionActive, isResourcesSectionActive])
 
   useEffect(() => {
     if (isSidebarCollapsed) {
       setIsWorkOrdersMenuOpen(false)
+      setIsResourcesMenuOpen(false)
     } else {
       setIsWorkOrdersMenuOpen(true)
+      setIsResourcesMenuOpen(true)
     }
   }, [isSidebarCollapsed])
 
@@ -116,7 +131,11 @@ const Nav = () => {
     if (workOrdersTimeoutRef.current) {
       clearTimeout(workOrdersTimeoutRef.current)
     }
+    if (resourcesTimeoutRef.current) {
+      clearTimeout(resourcesTimeoutRef.current)
+    }
     setIsWorkOrdersHovered(false)
+    setIsResourcesHovered(false)
   }, [location.pathname])
 
   const handleLogout = () => {
@@ -160,6 +179,38 @@ const Nav = () => {
     if (isSidebarCollapsed) {
       workOrdersTimeoutRef.current = setTimeout(() => {
         setIsWorkOrdersHovered(false)
+      }, 300)
+    }
+  }
+
+  const handleResourcesMouseEnter = () => {
+    if (isSidebarCollapsed) {
+      if (resourcesTimeoutRef.current) {
+        clearTimeout(resourcesTimeoutRef.current)
+      }
+      setIsResourcesHovered(true)
+    }
+  }
+
+  const handleResourcesMouseLeave = () => {
+    if (isSidebarCollapsed) {
+      resourcesTimeoutRef.current = setTimeout(() => {
+        setIsResourcesHovered(false)
+      }, 300)
+    }
+  }
+
+  const handleResourcesSubmenuEnter = () => {
+    if (isSidebarCollapsed && resourcesTimeoutRef.current) {
+      clearTimeout(resourcesTimeoutRef.current)
+      setIsResourcesHovered(true)
+    }
+  }
+
+  const handleResourcesSubmenuLeave = () => {
+    if (isSidebarCollapsed) {
+      resourcesTimeoutRef.current = setTimeout(() => {
+        setIsResourcesHovered(false)
       }, 300)
     }
   }
@@ -211,30 +262,11 @@ const Nav = () => {
                 </NavLink>
               </li>
             )}
-            {!isSuperAdminUser && !isClientUser && (
-              <li data-tour="nav-inventory">
-                <NavLink to="/inventario" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-                  <Boxes size={20} /> <span className={styles.linkText}>{t('nav.inventory')}</span>
-                </NavLink>
-              </li>
-            )}
-            {isAdminUser && (
-              <li data-tour="nav-suppliers">
-                <NavLink to="/proveedores" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-                  <Truck size={20} /> <span className={styles.linkText}>{t('nav.suppliers')}</span>
-                </NavLink>
-              </li>
-            )}
             {!isTechnicianUser && !isSuperAdminUser && !isClientUser && (
               <>
                 <li data-tour="nav-forms">
                   <NavLink to="/formularios" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
                     <FileText size={20} /> <span className={styles.linkText}>{t('nav.forms')}</span>
-                  </NavLink>
-                </li>
-                <li data-tour="nav-personal">
-                  <NavLink to="/personal" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-                    <User size={20} /> <span className={styles.linkText}>{t('nav.personal')}</span>
                   </NavLink>
                 </li>
               </>
@@ -277,6 +309,45 @@ const Nav = () => {
                 </div>
               </li>
             )}
+            {!isSuperAdminUser && !isClientUser && (
+              <li className={styles.menuGroup}
+                onMouseEnter={handleResourcesMouseEnter}
+                onMouseLeave={handleResourcesMouseLeave}
+              >
+                <button
+                  type="button"
+                  className={`${styles.groupButton} ${isResourcesSectionActive ? styles.active : ""}`}
+                  onClick={() => setIsResourcesMenuOpen((prev) => !prev)}
+                >
+                  <span className={styles.groupButtonContent}>
+                    <Boxes size={20} /> <span className={styles.linkText}>{t('nav.resources')}</span>
+                  </span>
+                  <ChevronDown
+                    size={16}
+                    className={`${styles.groupChevron} ${isResourcesMenuOpen ? styles.groupChevronOpen : ""}`}
+                  />
+                </button>
+                <div
+                  className={`${styles.submenu} ${(isResourcesMenuOpen || (isSidebarCollapsed && isResourcesHovered)) ? styles.submenuOpen : ""}`}
+                  onMouseEnter={handleResourcesSubmenuEnter}
+                  onMouseLeave={handleResourcesSubmenuLeave}
+                >
+                  <NavLink to={inventoryRoute} className={({ isActive }) => `${styles.submenuLink} ${isActive ? styles.active : ""}`} onClick={() => { setIsMenuOpen(false); setIsResourcesHovered(false) }}>
+                    <Boxes size={20} /> <span className={styles.linkText}>{t('nav.inventory')}</span>
+                  </NavLink>
+                  {isAdminUser && (
+                    <NavLink to={suppliersRoute} className={({ isActive }) => `${styles.submenuLink} ${isActive ? styles.active : ""}`} onClick={() => { setIsMenuOpen(false); setIsResourcesHovered(false) }}>
+                      <Truck size={20} /> <span className={styles.linkText}>{t('nav.suppliers')}</span>
+                    </NavLink>
+                  )}
+                  {!isTechnicianUser && !isSuperAdminUser && !isClientUser && (
+                    <NavLink to={personalRoute} className={({ isActive }) => `${styles.submenuLink} ${isActive ? styles.active : ""}`} onClick={() => { setIsMenuOpen(false); setIsResourcesHovered(false) }}>
+                      <User size={20} /> <span className={styles.linkText}>{t('nav.personal')}</span>
+                    </NavLink>
+                  )}
+                </div>
+              </li>
+            )}
             {/* Panel Admin solo para super_admin */}
             {isSuperAdminUser && (
               <li>
@@ -285,11 +356,11 @@ const Nav = () => {
                 </NavLink>
               </li>
             )}
-            {/* Tenants solo para super_admin */}
-            {isSuperAdminUser && (
+            {/* Auditoría para admin y super_admin */}
+            {(isAdminUser || isSuperAdminUser) && (
               <li>
-                <NavLink to="/tenants" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-                  <Database size={20} /> <span className={styles.linkText}>Tenants</span>
+                <NavLink to="/auditoria" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
+                  <Shield size={20} /> <span className={styles.linkText}>{t('nav.audit')}</span>
                 </NavLink>
               </li>
             )}

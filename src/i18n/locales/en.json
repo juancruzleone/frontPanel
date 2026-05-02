@@ -19,7 +19,28 @@
     "clients": "Clients",
     "suppliers": "Suppliers",
     "inventory": "Inventory",
-    "settings": "Settings"
+    "resources": "Resources",
+    "settings": "Settings",
+    "audit": "Audit"
+  },
+  "audit": {
+    "title": "Activity Log",
+    "subtitle": "Security and control of actions performed in the system",
+    "loading": "Loading logs...",
+    "noLogs": "No activity logs available",
+    "backendRequired": "Server support for audit logs is not configured yet.",
+    "table": {
+      "date": "Date",
+      "user": "User",
+      "action": "Action",
+      "target": "Target",
+      "details": "Details"
+    },
+    "filter": {
+      "allUsers": "All users",
+      "allActions": "All actions",
+      "dateRange": "Date range"
+    }
   },
   "personal": {
     "successTitle": "Operation successful!",
@@ -379,10 +400,10 @@
     "topIncidentInstallations": "Top Incident Installations",
     "upcomingPreventive": "Upcoming Preventive",
     "openWorkOrders": "Open Work Orders",
-    "overdueWorkOrders": "Overdue Work Orders",
+    "overdueWorkOrders": "Overdue Alerts",
     "criticalWorkOrders": "Critical Work Orders",
     "mttrHours": "MTTR (Hours)",
-    "preventiveCompliance": "Preventive Compliance",
+    "preventiveCompliance": "Maintenance Compliance",
     "created": "Created",
     "completed": "Completed",
     "priority": {
@@ -415,6 +436,8 @@
       "inactivo": "Inactive"
     },
     "mtbfHours": "MTBF (Hours)",
+    "slaRate": "SLA Compliance",
+    "responseTime": "Response Time",
     "kpiDetails": {
       "generic": "Detailed information about this metric.",
       "openWorkOrders": "Total number of work orders that are currently open and waiting to be completed.",
@@ -423,6 +446,8 @@
       "mttrHours": "Mean Time To Repair. Represents the average time required to repair a failed system.",
       "mtbfHours": "Mean Time Between Failures. Indicates the average time of operation between system failures.",
       "preventiveCompliance": "Compliance percentage of scheduled preventive maintenance tasks.",
+      "slaRate": "Percentage of work orders completed within the agreed service level time (SLA).",
+      "responseTime": "Average time elapsed from work order creation to first response.",
       "installations": "Total number of installations registered in the system.",
       "assets": "Total number of asset types configured.",
       "workOrders": "Total number of work orders generated.",
