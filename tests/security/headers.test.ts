@@ -7,18 +7,19 @@ const readProjectFile = (relativePath: string) =>
 
 describe('Security Headers Tests', () => {
   describe('Content Security Policy', () => {
-    it('should have CSP meta tag configured', () => {
+    it('should not define CSP with unsupported meta directives', () => {
       const indexHtml = readProjectFile('index.html')
 
-      expect(indexHtml).toContain("default-src 'self'")
-      expect(indexHtml).toContain("script-src 'self'")
-      expect(indexHtml).not.toContain("script-src 'self' 'unsafe-inline'")
-      expect(indexHtml).toContain("frame-ancestors 'none'")
+      expect(indexHtml).not.toContain('http-equiv="Content-Security-Policy"')
+      expect(indexHtml).not.toContain("frame-ancestors 'none'")
     })
 
-    it('should block inline scripts when CSP is strict', () => {
+    it('should deliver CSP through response headers', () => {
       const netlifyHeaders = readProjectFile('public/_headers')
-      expect(netlifyHeaders).toContain("Content-Security-Policy: default-src 'self'; script-src 'self';")
+      expect(netlifyHeaders).toContain("Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com;")
+      expect(netlifyHeaders).toContain("frame-ancestors 'none'")
+      expect(netlifyHeaders).toContain('https://cloudflareinsights.com')
+      expect(netlifyHeaders).not.toContain("script-src 'self' 'unsafe-inline'")
     })
   })
 
