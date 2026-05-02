@@ -6,7 +6,7 @@
     "maintenancePlan": "Plan de mantenimiento",
     "subscriptions": "Abonos Vigentes",
     "installations": "Instalaciones",
-    "assets": "Activos",
+    "assets": "Tipos de activos",
     "forms": "Formularios",
     "manuals": "Manuales",
     "calendar": "Calendario",
@@ -18,6 +18,10 @@
     "clients": "Clientes",
     "suppliers": "Proveedores",
     "inventory": "Inventario",
+    "maintenance": "Mantenimiento",
+    "infrastructure": "Activos",
+    "resources": "Inventario",
+    "administration": "Administración",
     "settings": "Configuración"
   },
   "personal": {

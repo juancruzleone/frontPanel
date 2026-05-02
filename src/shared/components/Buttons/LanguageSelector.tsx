@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronDown } from 'lucide-react'
 import styles from './buttons.module.css'
 import esFlag from '../../../../src/assets/flags/es.svg'
 import frFlag from '../../../../src/assets/flags/fr.svg'
@@ -31,7 +30,11 @@ const flagMap: Record<string, string> = {
   cn: cnFlag,
 }
 
-const LanguageSelector = () => {
+interface LanguageSelectorProps {
+  direction?: 'up' | 'down'
+}
+
+const LanguageSelector = ({ direction = 'up' }: LanguageSelectorProps) => {
   const { i18n, t } = useTranslation()
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -51,9 +54,6 @@ const LanguageSelector = () => {
   ]
 
   const currentLangCode = (i18n.resolvedLanguage || i18n.language || 'es').split('-')[0]
-
-  const currentLanguage =
-    languages.find((lang) => lang.code === currentLangCode) || languages[0]
 
   const currentFlag = flagMap[currentLangCode] || esFlag
 
@@ -85,6 +85,9 @@ const LanguageSelector = () => {
     }
   }, [isOpen])
 
+  const dropdownClass = `${styles.languageDropdown} ${direction === 'up' ? styles.languageDropdownUp : styles.languageDropdownDown
+    }`
+
   return (
     <div className={styles.languageSelectorContainer} ref={dropdownRef}>
       <img
@@ -96,7 +99,7 @@ const LanguageSelector = () => {
       />
 
       {isOpen && (
-        <div className={styles.languageDropdown}>
+        <div className={dropdownClass}>
           {languages.map((language) => (
             <button
               type="button"

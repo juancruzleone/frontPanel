@@ -6,7 +6,7 @@
     "maintenancePlan": "Maintenance Plan",
     "subscriptions": "Active Subscriptions",
     "installations": "Installations",
-    "assets": "Assets",
+    "assets": "Asset types",
     "forms": "Forms",
     "manuals": "Manuals",
     "calendar": "Calendar",
@@ -19,6 +19,10 @@
     "clients": "Clients",
     "suppliers": "Suppliers",
     "inventory": "Inventory",
+    "maintenance": "Maintenance",
+    "infrastructure": "Assets",
+    "resources": "Inventory",
+    "administration": "Administration",
     "settings": "Settings"
   },
   "personal": {

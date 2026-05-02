@@ -21,7 +21,7 @@ const LoginForm = ({
     <div className={styles.containerForm}>
       <form onSubmit={handleSubmit} className={styles.formLogin}>
         <div className={styles.formTopControls}>
-          <LanguageSelector />
+          <LanguageSelector direction="down" />
           <ThemeToggle />
         </div>
         <div className={styles.formHeader}>

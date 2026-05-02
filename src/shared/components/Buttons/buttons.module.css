@@ -211,9 +211,7 @@ button {
 
 .languageDropdown {
   position: absolute;
-  bottom: 100%;
   right: 0;
-  margin-bottom: 4px;
   background: var(--color-card);
   border: 1px solid var(--color-card-border);
   border-radius: 8px;
@@ -222,6 +220,16 @@ button {
   min-width: 140px;
   max-height: 200px;
   overflow-y: auto;
+}
+
+.languageDropdownUp {
+  bottom: 100%;
+  margin-bottom: 4px;
+}
+
+.languageDropdownDown {
+  top: 100%;
+  margin-top: 4px;
 }
 
 .languageOption {
