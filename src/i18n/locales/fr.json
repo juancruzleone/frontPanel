@@ -6,7 +6,7 @@
     "maintenancePlan": "Plan de maintenance",
     "subscriptions": "Abonnements actifs",
     "installations": "Installations",
-    "assets": "Actifs",
+    "assets": "Types d'actifs",
     "forms": "Formulaires",
     "manuals": "Manuels",
     "calendar": "Calendrier",
@@ -382,6 +382,20 @@
       "null": "Sans statut",
       "activo": "Actif",
       "inactivo": "Inactif"
+    },
+    "mtbfHours": "MTBF (Heures)",
+    "kpiDetails": {
+      "generic": "Informations détaillées sur cette métrique.",
+      "openWorkOrders": "Nombre total de bons de travail actuellement ouverts et en attente d'achèvement.",
+      "overdueWorkOrders": "Bons de travail dont la date prévue est déjà passée et qui n'ont pas encore été achevés.",
+      "criticalWorkOrders": "Bons de travail marqués avec une priorité critique nécessitant une attention immédiate.",
+      "mttrHours": "Temps moyen de réparation. Représente le temps moyen nécessaire pour réparer un système en panne.",
+      "mtbfHours": "Temps moyen entre pannes. Indique le temps moyen de fonctionnement entre les pannes du système.",
+      "preventiveCompliance": "Pourcentage de conformité des tâches de maintenance préventive planifiées.",
+      "installations": "Nombre total d'installations enregistrées dans le système.",
+      "assets": "Nombre total de types d'actifs configurés.",
+      "workOrders": "Nombre total de bons de travail générés.",
+      "technicians": "Nombre total de techniciens enregistrés dans l'équipe."
     }
   },
   "workOrders": {
@@ -562,7 +576,7 @@
     }
   },
   "installations": {
-    "deviceNamePlaceholder": "Entrez le nom de l'appareil",
+    "deviceNamePlaceholder": "Entrez le nom de l'actif",
     "installation": "Installation",
     "understood": "Fermer",
     "successTitle": "Opération réussie !",
@@ -584,10 +598,10 @@
     "contact": "Contact",
     "phone": "Téléphone",
     "email": "E-mail",
-    "devices": "Appareils",
-    "addDevice": "Ajouter un Appareil",
-    "editDevice": "Modifier l'Appareil",
-    "deviceType": "Type d'Appareil",
+    "devices": "Actifs",
+    "addDevice": "Ajouter un Actif",
+    "editDevice": "Modifier l'Actif",
+    "deviceType": "Type d'Actif",
     "serialNumber": "Numéro de Série",
     "model": "Modèle",
     "manufacturer": "Fabricant",
@@ -602,12 +616,12 @@
     "selectInstallationType": "Sélectionner le type d'installation",
     "saving": "Enregistrement...",
     "categories": "Catégories",
-    "manageCategories": "Gérer les Catégories d'Appareils",
+    "manageCategories": "Gérer les Catégories d'Actifs",
     "manageInstallationTypes": "Gérer les Types d'Installation",
     "manageDevices": "Gérer les Catégories",
-    "viewCategories": "Voir les Catégories de Dispositifs",
+    "viewCategories": "Voir les Catégories de Actifs",
     "viewInstallationTypes": "Voir les Types d'Installation",
-    "createCategory": "Créer une Catégorie de Dispositif",
+    "createCategory": "Créer une Catégorie de Actif",
     "createInstallationType": "Créer un Type d'Installation",
     "editCategory": "Modifier la Catégorie",
     "categoryName": "Nom de la Catégorie",
@@ -615,10 +629,10 @@
     "categoryDescription": "Description",
     "categoryDescriptionPlaceholder": "Description optionnelle de la catégorie",
     "active": "Active",
-    "deviceCategory": "Catégorie de l'appareil",
-    "deviceStatu": "Statut de l'appareil",
-    "deviceLocation": "Emplacement de l'appareil",
-    "deviceName": "Nom de l'appareil",
+    "deviceCategory": "Catégorie de l'actif",
+    "deviceStatu": "Statut de l'actif",
+    "deviceLocation": "Emplacement de l'actif",
+    "deviceName": "Nom de l'actif",
     "selectCategory": "Sélectionnez une catégorie",
     "selectAsset": "Sélectionnez un actif",
     "asset": "Actif",
@@ -628,7 +642,7 @@
     "maxAvailable": "Maximum disponible",
     "noStockAvailable": "Aucun stock disponible",
     "quantity": "Quantité",
-    "updateDevice": "Mettre à jour l'appareil",
+    "updateDevice": "Mettre à jour l'actif",
     "typeName": "Nom du type",
     "typeNamePlaceholder": "Entrez le nom du type d'installation",
     "typeDescription": "Description du type",
@@ -644,7 +658,7 @@
     "noTypes": "Aucun type d'installation créé",
     "noTypesSubtext": "Les types d'installation apparaîtront ici une fois créés",
     "created": "Créé",
-    "viewCategoriesTitle": "Catégories d'appareils",
+    "viewCategoriesTitle": "Catégories d'actifs",
     "loadingCategories": "Chargement des catégories...",
     "errorLoadingCategories": "Erreur lors du chargement des catégories",
     "noCategories": "Aucune catégorie créée",
@@ -658,9 +672,9 @@
     "installationTypeDeleted": "Type d'installation supprimé avec succès",
     "confirmDeleteCategory": "Êtes-vous sûr de vouloir supprimer cette catégorie ?",
     "confirmDeleteInstallationType": "Êtes-vous sûr de vouloir supprimer ce type d'installation ?",
-    "deviceAdded": "Appareil ajouté avec succès",
-    "deviceUpdated": "Appareil mis à jour avec succès",
-    "deviceDeleted": "Appareil supprimé avec succès",
+    "deviceAdded": "Actif ajouté avec succès",
+    "deviceUpdated": "Actif mis à jour avec succès",
+    "deviceDeleted": "Actif supprimé avec succès",
     "installationCreated": "Installation créée avec succès",
     "installationUpdated": "Installation mise à jour avec succès",
     "installationDeleted": "Installation supprimée avec succès",
@@ -673,18 +687,18 @@
       "pendingReview": "En attente de révision"
     },
     "deviceInstallationInfo": "Informations d'installation",
-    "deviceState": "État de l'Appareil",
+    "deviceState": "État de l'Actif",
     "selectState": "Sélectionner un état",
     "noAssetsAvailable": "Aucun actif disponible",
     "noCategoriesAvailable": "Aucune catégorie disponible",
     "retryLoadCategories": "Réessayer le chargement des catégories",
-    "deviceAddedSuccessfully": "Appareil ajouté avec succès",
-    "deviceUpdatedSuccessfully": "Appareil mis à jour avec succès",
-    "errorAddingDevice": "Erreur lors de l'ajout de l'appareil",
-    "errorUpdatingDevice": "Erreur lors de la mise à jour de l'appareil",
-    "invalidDeviceData": "Données d'appareil invalides",
+    "deviceAddedSuccessfully": "Actif ajouté avec succès",
+    "deviceUpdatedSuccessfully": "Actif mis à jour avec succès",
+    "errorAddingDevice": "Erreur lors de l'ajout de l'actif",
+    "errorUpdatingDevice": "Erreur lors de la mise à jour de l'actif",
+    "invalidDeviceData": "Données d'actif invalides",
     "selectedAssetNotFound": "L'actif sélectionné n'existe pas",
-    "addDeviceFunctionMissing": "Fonction d'ajout d'appareil manquante",
+    "addDeviceFunctionMissing": "Fonction d'ajout d'actif manquante",
     "locationExample": "Ex: Étage 2, Bureau 201",
     "createCategoriesFirst": "Créer d'abord les catégories dans la section correspondante",
     "loadingRequiredData": "Chargement des données requises...",
@@ -695,11 +709,11 @@
     "filterByInstallationType": "Filtrer par type d'installation",
     "noInstallationsFound": "Aucune installation trouvée",
     "deleteInstallation": "Supprimer l'installation",
-    "viewDeviceList": "Voir la liste des appareils",
+    "viewDeviceList": "Voir la liste des actifs",
     "page": "Page",
     "of": "sur",
-    "deviceCategories": "Catégories d'Appareils",
-    "noDeviceCategoriesCreated": "Aucune catégorie d'appareil créée",
+    "deviceCategories": "Catégories d'Actifs",
+    "noDeviceCategoriesCreated": "Aucune catégorie d'actif créée",
     "categoriesWillAppearHere": "Les catégories apparaîtront ici une fois créées",
     "noInstallationTypesCreated": "Aucun type d'installation créé",
     "installationTypesWillAppearHere": "Les types d'installation apparaîtront ici une fois créés",
@@ -905,11 +919,11 @@
     "tour": {
       "welcome": {
         "title": "Bienvenue sur Leonix!",
-        "description": "Avant de commencer à utiliser le panneau, il est important d'aller dans Paramètres pour créer les types d'installation et les catégories d'appareils nécessaires. Nous vous guiderons étape par étape."
+        "description": "Avant de commencer à utiliser le panneau, il est important d'aller dans Paramètres pour créer les types d'installation et les catégories d'actifs nécessaires. Nous vous guiderons étape par étape."
       },
       "createInstallationType": {
         "title": "Étape 1: Aller dans Paramètres",
-        "description": "Cliquez sur l'icône des paramètres (engrenage) dans la barre supérieure. Vous devez y créer: 1) Types d'installation (ex: Bureau, Usine, Entrepôt), 2) Catégories d'appareils (ex: Pompe, Moteur, Capteur). Ceci est obligatoire avant de créer des installations."
+        "description": "Cliquez sur l'icône des paramètres (engrenage) dans la barre supérieure. Vous devez y créer: 1) Types d'installation (ex: Bureau, Usine, Entrepôt), 2) Catégories d'actifs (ex: Pompe, Moteur, Capteur). Ceci est obligatoire avant de créer des installations."
       },
       "viewInstallationTypes": {
         "title": "Voir les Types d'Installation",
@@ -943,11 +957,12 @@
   },
   "assets": {
     "edit": "Éditer",
+    "manageForms": "Gérer les formulaires",
     "understood": "Fermer",
     "successTitle": "Opération réussie !",
     "continue": "Continuer",
-    "titlePage": "Actifs | Leonix",
-    "title": "Actifs",
+    "titlePage": "Types d'actifs | Leonix",
+    "title": "Types d'actifs",
     "createAsset": "Créer un Actif",
     "tour": {
       "welcome": {
@@ -956,7 +971,7 @@
       },
       "goToForms": {
         "title": "Étape 1 : Aller aux Formulaires",
-        "description": "Pour créer un actif, vous avez d'abord besoin d'un modèle de formulaire. Cliquez sur 'Formulaires' dans le menu latéral pour créer votre premier modèle."
+        "description": "Pour créer un actif, vous avez d'abord besoin d'un modèle de formulaire. Cliquez sur 'Gérer les formulaires' pour créer votre premier modèle."
       },
       "createFormTemplate": {
         "title": "Étape 2 : Créer un Modèle de Formulaire",
@@ -1408,15 +1423,15 @@
     "name": "Nom",
     "category": "Catégorie",
     "installation": "Installation",
-    "deviceNamePlaceholder": "Entrez le nom de l'appareil",
+    "deviceNamePlaceholder": "Entrez le nom de l'actif",
     "successTitle": "Opération réussie !",
     "understood": "Fermer",
-    "titlePage": "Appareils | Leonix",
-    "loadingDevices": "Chargement des appareils...",
+    "titlePage": "Actifs | Leonix",
+    "loadingDevices": "Chargement des actifs...",
     "notFound": "Installation non trouvée",
-    "devicesOf": "Appareils de {{name}}",
-    "addDevice": "Ajouter un appareil",
-    "noDevices": "Aucun appareil dans cette installation",
+    "devicesOf": "Actifs de {{name}}",
+    "addDevice": "Ajouter un actif",
+    "noDevices": "Aucun actif dans cette installation",
     "type": "Type",
     "location": "Emplacement",
     "status": "Statut",
@@ -1426,11 +1441,11 @@
     "seeQR": "Voir le code QR",
     "downloadLastMaintenance": "Télécharger la dernière maintenance",
     "viewMaintenanceHistory": "Voir l'historique de maintenance",
-    "editDevice": "Modifier l'appareil",
-    "deleteDevice": "Supprimer l'appareil",
+    "editDevice": "Modifier l'actif",
+    "deleteDevice": "Supprimer l'actif",
     "page": "Page",
     "of": "de",
-    "confirmDeleteTitle": "Supprimer l'appareil ?",
+    "confirmDeleteTitle": "Supprimer l'actif ?",
     "confirmDeleteDescription": "Cette action ne peut pas être annulée.",
     "qrCode": "Code QR",
     "generatingQR": "Génération du code QR...",
@@ -1438,39 +1453,39 @@
     "scanQRDescription": "Scannez ce code pour accéder au formulaire de maintenance",
     "openForm": "Ouvrir le formulaire",
     "printQR": "Imprimer le QR",
-    "device": "Appareil",
+    "device": "Actif",
     "loadingRequiredData": "Chargement des données nécessaires...",
     "errorLoadingCategories": "Erreur lors du chargement des catégories",
     "retryLoadCategories": "Réessayer le chargement des catégories",
-    "searchDevicesPlaceholder": "Rechercher par appareil, emplacement ou catégorie...",
-    "noDevicesFound": "Aucun appareil trouvé avec ce terme de recherche",
-    "showingDevices": "Affichage de {{start}}-{{end}} sur {{total}} appareils",
-    "noMaintenanceAvailable": "Aucune maintenance disponible pour cet appareil",
+    "searchDevicesPlaceholder": "Rechercher par actif, emplacement ou catégorie...",
+    "noDevicesFound": "Aucun actif trouvé avec ce terme de recherche",
+    "showingDevices": "Affichage de {{start}}-{{end}} sur {{total}} actifs",
+    "noMaintenanceAvailable": "Aucune maintenance disponible pour cet actif",
     "errorLoadingMaintenance": "Erreur lors du chargement de la maintenance",
     "tour": {
       "welcome": {
         "title": "Bienvenue dans les Détails de l'Installation !",
-        "description": "Ici, vous pouvez gérer tous les appareils de cette installation. Nous allons vous montrer comment fonctionne cette section."
+        "description": "Ici, vous pouvez gérer tous les actifs de cette installation. Nous allons vous montrer comment fonctionne cette section."
       },
       "goToInstallations": {
         "title": "Aller aux Installations",
-        "description": "Avant d'ajouter des appareils, assurez-vous de créer les catégories d'appareils depuis la section Installations. Cliquez ici pour accéder à cette section."
+        "description": "Avant d'ajouter des actifs, assurez-vous de créer les catégories d'actifs depuis la section Installations. Cliquez ici pour accéder à cette section."
       },
       "createAssetFirst": {
         "title": "Important : Créer d'abord les Actifs",
-        "description": "Avant d'ajouter un appareil à cette installation, vous devez d'abord créer un actif dans la section Actifs. Les actifs servent de base/modèle pour les appareils dans les installations."
+        "description": "Avant d'ajouter un actif à cette installation, vous devez d'abord créer un actif dans la section Actifs. Les actifs servent de base/modèle pour les actifs dans les installations."
       },
       "addDevice": {
-        "title": "Ajouter un Appareil",
-        "description": "Utilisez ce bouton pour ajouter un nouvel appareil à l'installation. Vous devrez sélectionner la catégorie, l'emplacement, le statut et d'autres détails de l'appareil."
+        "title": "Ajouter un Actif",
+        "description": "Utilisez ce bouton pour ajouter un nouvel actif à l'installation. Vous devrez sélectionner la catégorie, l'emplacement, le statut et d'autres détails de l'actif."
       },
       "searchFilter": {
         "title": "Rechercher et Filtrer",
-        "description": "Utilisez cette barre pour rechercher des appareils par nom, emplacement ou catégorie. Vous pouvez également filtrer par statut de l'appareil."
+        "description": "Utilisez cette barre pour rechercher des actifs par nom, emplacement ou catégorie. Vous pouvez également filtrer par statut de l'actif."
       },
       "deviceActions": {
-        "title": "Actions sur les Appareils",
-        "description": "Chaque carte d'appareil dispose de boutons pour : voir le code QR, télécharger la dernière maintenance (PDF), modifier l'appareil et le supprimer."
+        "title": "Actions sur les Actifs",
+        "description": "Chaque carte d'actif dispose de boutons pour : voir le code QR, télécharger la dernière maintenance (PDF), modifier l'actif et le supprimer."
       },
       "buttons": {
         "next": "Suivant",
@@ -1575,7 +1590,7 @@
     "locationMax": "L'emplacement ne peut pas dépasser 255 caractères",
     "categoryRequired": "La catégorie est requise",
     "categoryMax": "La catégorie ne peut pas dépasser 100 caractères",
-    "deviceNameRequired": "Le nom de l'appareil est requis",
+    "deviceNameRequired": "Le nom de l'actif est requis",
     "deviceNameMin": "Le nom doit contenir au moins 1 caractère",
     "deviceNameMax": "Le nom ne peut pas dépasser 100 caractères",
     "statusRequired": "Le statut est requis",
@@ -1781,13 +1796,13 @@
     "installationTypesDesc": "Gérer les catégories de types d'installation disponibles dans le système",
     "assetCategories": "Catégories d'Actifs",
     "assetCategoriesDesc": "Gérer les catégories pour classifier vos actifs",
-    "deviceCategories": "Catégories d'Appareils",
-    "deviceCategoriesDesc": "Configurer les catégories d'appareils pour vos installations",
+    "deviceCategories": "Catégories d'Actifs",
+    "deviceCategoriesDesc": "Configurer les catégories d'actifs pour vos installations",
     "formCategories": "Catégories de Formulaires",
     "formCategoriesDesc": "Organiser les modèles de formulaires par catégories",
     "manageInstallationTypes": "Gérer les Types d'Installation",
     "manageAssetCategories": "Gérer les Catégories d'Actifs",
-    "manageDeviceCategories": "Gérer les Catégories d'Appareils",
+    "manageDeviceCategories": "Gérer les Catégories d'Actifs",
     "manageFormCategories": "Gérer les Catégories de Formulaires",
     "newCategoryName": "Nom de la nouvelle catégorie",
     "newTypeName": "Nom du nouveau type",

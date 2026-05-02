@@ -6,7 +6,7 @@
     "maintenancePlan": "Piano di manutenzione",
     "installations": "Installazioni",
     "subscriptions": "Abbonamenti attivi",
-    "assets": "Beni",
+    "assets": "Tipi di asset",
     "forms": "Moduli",
     "manuals": "Manuali",
     "calendar": "Calendario",
@@ -381,6 +381,20 @@
       "null": "Nessuno stato",
       "activo": "Attivo",
       "inactivo": "Inattivo"
+    },
+    "mtbfHours": "MTBF (Ore)",
+    "kpiDetails": {
+      "generic": "Informazioni dettagliate su questa metrica.",
+      "openWorkOrders": "Numero totale di ordini di lavoro attualmente aperti e in attesa di completamento.",
+      "overdueWorkOrders": "Ordini di lavoro la cui data prevista è già passata e non sono ancora stati completati.",
+      "criticalWorkOrders": "Ordini di lavoro contrassegnati con priorità critica che richiedono attenzione immediata.",
+      "mttrHours": "Tempo medio di riparazione. Rappresenta il tempo medio necessario per riparare un sistema guasto.",
+      "mtbfHours": "Tempo medio tra i guasti. Indica il tempo medio di funzionamento tra i guasti del sistema.",
+      "preventiveCompliance": "Percentuale di conformité delle attività di manutenzione preventiva pianificate.",
+      "installations": "Numero totale di installazioni registrate nel sistema.",
+      "assets": "Numero totale di tipi di asset configurati.",
+      "workOrders": "Numero totale di ordini di lavoro generati.",
+      "technicians": "Numero totale di tecnici registrati nel team."
     }
   },
   "workOrders": {
@@ -561,7 +575,7 @@
     }
   },
   "installations": {
-    "deviceNamePlaceholder": "Inserisci il nome del dispositivo",
+    "deviceNamePlaceholder": "Inserisci il nome del asset",
     "installation": "Installazione",
     "understood": "Chiudi",
     "successTitle": "Operazione riuscita!",
@@ -582,10 +596,10 @@
     "contact": "Contatto",
     "phone": "Telefono",
     "email": "Email",
-    "devices": "Dispositivi",
-    "addDevice": "Aggiungi Dispositivo",
-    "editDevice": "Modifica Dispositivo",
-    "deviceType": "Tipo Dispositivo",
+    "devices": "Asset",
+    "addDevice": "Aggiungi Asset",
+    "editDevice": "Modifica Asset",
+    "deviceType": "Tipo Asset",
     "serialNumber": "Numero di Serie",
     "model": "Modello",
     "manufacturer": "Produttore",
@@ -600,12 +614,12 @@
     "selectInstallationType": "Seleziona tipo di installazione",
     "saving": "Salvataggio...",
     "categories": "Categorie",
-    "manageCategories": "Gestisci Categorie di Dispositivi",
+    "manageCategories": "Gestisci Categorie di Asset",
     "manageInstallationTypes": "Gestisci Tipi di Installazione",
-    "manageDevices": "Gestisci Categorie Dispositivi",
-    "viewCategories": "Visualizza Categorie di Dispositivi",
+    "manageDevices": "Gestisci Categorie Asset",
+    "viewCategories": "Visualizza Categorie di Asset",
     "viewInstallationTypes": "Visualizza Tipi di Installazione",
-    "createCategory": "Crea Categoria di Dispositivo",
+    "createCategory": "Crea Categoria di Asset",
     "createInstallationType": "Crea Tipo di Installazione",
     "editCategory": "Modifica Categoria",
     "categoryName": "Nome Categoria",
@@ -613,10 +627,10 @@
     "categoryDescription": "Descrizione",
     "categoryDescriptionPlaceholder": "Descrizione opzionale della categoria",
     "active": "Attiva",
-    "deviceCategory": "Categoria del dispositivo",
-    "deviceStatusLabel": "Stato del dispositivo",
-    "deviceLocation": "Posizione del dispositivo",
-    "deviceName": "Nome del dispositivo",
+    "deviceCategory": "Categoria del asset",
+    "deviceStatusLabel": "Stato del asset",
+    "deviceLocation": "Posizione del asset",
+    "deviceName": "Nome del asset",
     "selectCategory": "Seleziona una categoria",
     "selectAsset": "Seleziona un bene",
     "asset": "Bene",
@@ -626,7 +640,7 @@
     "maxAvailable": "Massimo disponibile",
     "noStockAvailable": "Nessuno stock disponibile",
     "quantity": "Quantità",
-    "updateDevice": "Aggiorna dispositivo",
+    "updateDevice": "Aggiorna asset",
     "update": "Aggiorna",
     "typeName": "Nome del tipo",
     "typeNamePlaceholder": "Inserisci il nome del tipo di installazione",
@@ -643,7 +657,7 @@
     "noTypes": "Nessun tipo di installazione creato",
     "noTypesSubtext": "I tipi di installazione appariranno qui una volta creati",
     "created": "Creato",
-    "viewCategoriesTitle": "Categorie di dispositivi",
+    "viewCategoriesTitle": "Categorie di asset",
     "loadingCategories": "Caricamento categorie...",
     "errorLoadingCategories": "Errore nel caricamento delle categorie",
     "noCategories": "Nessuna categoria creata",
@@ -656,9 +670,9 @@
     "installationTypeDeleted": "Tipo di installazione eliminato con successo",
     "confirmDeleteCategory": "Sei sicuro di voler eliminare questa categoria?",
     "confirmDeleteInstallationType": "Sei sicuro di voler eliminare questo tipo di installazione?",
-    "deviceAdded": "Dispositivo aggiunto con successo",
-    "deviceUpdated": "Dispositivo aggiornato con successo",
-    "deviceDeleted": "Dispositivo eliminato con successo",
+    "deviceAdded": "Asset aggiunto con successo",
+    "deviceUpdated": "Asset aggiornato con successo",
+    "deviceDeleted": "Asset eliminato con successo",
     "installationCreated": "Installazione creata con successo",
     "installationUpdated": "Installazione aggiornata con successo",
     "installationDeleted": "Installazione eliminata con successo",
@@ -675,13 +689,13 @@
     "noAssetsAvailable": "Nessun bene disponibile",
     "noCategoriesAvailable": "Nessuna categoria disponibile",
     "retryLoadCategories": "Riprova a caricare le categorie",
-    "deviceAddedSuccessfully": "Dispositivo aggiunto con successo",
-    "deviceUpdatedSuccessfully": "Dispositivo aggiornato con successo",
-    "errorAddingDevice": "Errore nell'aggiunta del dispositivo",
-    "errorUpdatingDevice": "Errore nell'aggiornamento del dispositivo",
-    "invalidDeviceData": "Dati dispositivo non validi",
+    "deviceAddedSuccessfully": "Asset aggiunto con successo",
+    "deviceUpdatedSuccessfully": "Asset aggiornato con successo",
+    "errorAddingDevice": "Errore nell'aggiunta del asset",
+    "errorUpdatingDevice": "Errore nell'aggiornamento del asset",
+    "invalidDeviceData": "Dati asset non validi",
     "selectedAssetNotFound": "Il bene selezionato non esiste",
-    "addDeviceFunctionMissing": "Funzione aggiungi dispositivo mancante",
+    "addDeviceFunctionMissing": "Funzione aggiungi asset mancante",
     "locationExample": "Es: Piano 2, Ufficio 201",
     "createCategoriesFirst": "Prima crea le categorie nella sezione corrispondente",
     "loadingRequiredData": "Caricamento dati richiesti...",
@@ -692,11 +706,11 @@
     "filterByInstallationType": "Filtra per tipo di installazione",
     "noInstallationsFound": "Nessuna installazione trovata",
     "deleteInstallation": "Elimina installazione",
-    "viewDeviceList": "Visualizza lista dispositivi",
+    "viewDeviceList": "Visualizza elenco asset",
     "page": "Pagina",
     "of": "di",
-    "deviceCategories": "Categorie Dispositivi",
-    "noDeviceCategoriesCreated": "Nessuna categoria dispositivo creata",
+    "deviceCategories": "Categorie Asset",
+    "noDeviceCategoriesCreated": "Nessuna categoria asset creata",
     "categoriesWillAppearHere": "Le categorie appariranno qui una volta create",
     "deleteCategory": "Elimina categoria",
     "noInstallationTypesCreated": "Nessun tipo di installazione creato",
@@ -909,11 +923,11 @@
     "tour": {
       "welcome": {
         "title": "Benvenuto in Leonix!",
-        "description": "Prima di iniziare a utilizzare il pannello, è importante andare nelle Impostazioni per creare i tipi di installazione e le categorie di dispositivi necessari. Ti guideremo passo dopo passo."
+        "description": "Prima di iniziare a utilizzare il pannello, è importante andare nelle Impostazioni per creare i tipi di installazione e le categorie di asset necessari. Ti guideremo passo dopo passo."
       },
       "createInstallationType": {
         "title": "Passo 1: Vai alle Impostazioni",
-        "description": "Fai clic sull'icona delle impostazioni (ingranaggio) nella barra superiore. Lì devi creare: 1) Tipi di installazione (es: Ufficio, Fabbrica, Magazzino), 2) Categorie di dispositivi (es: Pompa, Motore, Sensore). Questo è obbligatorio prima di creare installazioni."
+        "description": "Fai clic sull'icona delle impostazioni (ingranaggio) nella barra superiore. Lì devi creare: 1) Tipi di installazione (es: Ufficio, Fabbrica, Magazzino), 2) Categorie di asset (es: Pompa, Motore, Sensore). Questo è obbligatorio prima di creare installazioni."
       },
       "viewInstallationTypes": {
         "title": "Visualizza Tipi di Installazione",
@@ -947,10 +961,11 @@
   },
   "assets": {
     "edit": "Modifica",
+    "manageForms": "Gestisci moduli",
     "understood": "Chiudi",
     "successTitle": "Operazione riuscita!",
     "continue": "Continua",
-    "title": "Beni",
+    "title": "Tipi di asset",
     "createAsset": "Crea Bene",
     "tour": {
       "welcome": {
@@ -959,7 +974,7 @@
       },
       "goToForms": {
         "title": "Passo 1: Vai ai Moduli",
-        "description": "Per creare un bene, hai prima bisogno di un modello di modulo. Clicca su 'Moduli' nel menu laterale per creare il tuo primo modello."
+        "description": "Per creare un bene, hai prima bisogno di un modello di modulo. Clicca su 'Gestisci moduli' per creare il tuo primo modello."
       },
       "createFormTemplate": {
         "title": "Passo 2: Crea Modello di Modulo",
@@ -1061,7 +1076,7 @@
         "stockZero": "La scorta deve essere maggiore di 0"
       }
     },
-    "titlePage": "Beni | Leonix"
+    "titlePage": "Tipi di asset | Leonix"
   },
   "forms": {
     "category": "Categoria",
@@ -1414,15 +1429,15 @@
     "name": "Nome",
     "category": "Categoria",
     "installation": "Installazione",
-    "deviceNamePlaceholder": "Inserisci il nome del dispositivo",
+    "deviceNamePlaceholder": "Inserisci il nome del asset",
     "successTitle": "Operazione riuscita!",
     "understood": "Chiudi",
-    "titlePage": "Dispositivi | Leonix",
-    "loadingDevices": "Caricamento dispositivi...",
+    "titlePage": "Asset | Leonix",
+    "loadingDevices": "Caricamento asset...",
     "notFound": "Installazione non trovata",
-    "devicesOf": "Dispositivi di {{name}}",
-    "addDevice": "Aggiungi dispositivo",
-    "noDevices": "Nessun dispositivo in questa installazione",
+    "devicesOf": "Asset di {{name}}",
+    "addDevice": "Aggiungi asset",
+    "noDevices": "Nessun asset in questa installazione",
     "type": "Tipo",
     "location": "Posizione",
     "status": "Stato",
@@ -1432,10 +1447,10 @@
     "seeQR": "Visualizza codice QR",
     "downloadLastMaintenance": "Scarica ultima manutenzione",
     "viewMaintenanceHistory": "Visualizza storico manutenzioni",
-    "editDevice": "Modifica dispositivo",
-    "deleteDevice": "Rimuovi dispositivo",
+    "editDevice": "Modifica asset",
+    "deleteDevice": "Rimuovi asset",
     "page": "Pagina {{currentPage}} di {{totalPages}}",
-    "confirmDeleteTitle": "Eliminare il dispositivo?",
+    "confirmDeleteTitle": "Eliminare il asset?",
     "confirmDeleteDescription": "Questa azione non può essere annullata.",
     "qrCode": "Codice QR",
     "generatingQR": "Generazione del codice QR...",
@@ -1443,36 +1458,36 @@
     "scanQRDescription": "Scansiona questo codice per accedere al modulo di manutenzione",
     "openForm": "Apri modulo",
     "printQR": "Stampa QR",
-    "device": "Dispositivo",
+    "device": "Asset",
     "loadingRequiredData": "Caricamento dati necessari...",
     "errorLoadingCategories": "Errore nel caricamento delle categorie",
     "retryLoadCategories": "Riprova a caricare le categorie",
-    "searchDevicesPlaceholder": "Cerca per dispositivo, posizione o categoria...",
-    "noDevicesFound": "Nessun dispositivo trovato con questo termine di ricerca",
-    "showingDevices": "Mostrando {{start}}-{{end}} di {{total}} dispositivi",
+    "searchDevicesPlaceholder": "Cerca per asset, posizione o categoria...",
+    "noDevicesFound": "Nessun asset trovato con questo termine di ricerca",
+    "showingDevices": "Mostrando {{start}}-{{end}} di {{total}} asset",
     "of": "di",
-    "noMaintenanceAvailable": "Nessuna manutenzione disponibile per questo dispositivo",
+    "noMaintenanceAvailable": "Nessuna manutenzione disponibile per questo asset",
     "errorLoadingMaintenance": "Errore nel caricamento della manutenzione",
     "tour": {
       "welcome": {
         "title": "Benvenuto nei Dettagli dell'Installazione!",
-        "description": "Qui puoi gestire tutti i dispositivi di questa installazione. Ti mostreremo come funziona questa sezione."
+        "description": "Qui puoi gestire tutti i asset di questa installazione. Ti mostreremo come funziona questa sezione."
       },
       "goToInstallations": {
         "title": "Vai a Installazioni",
-        "description": "Prima di aggiungere dispositivi, assicurati di creare le categorie dei dispositivi dalla sezione Installazioni. Clicca qui per andare a quella sezione."
+        "description": "Prima di aggiungere asset, assicurati di creare le categorie dei asset dalla sezione Installazioni. Clicca qui per andare a quella sezione."
       },
       "addDevice": {
-        "title": "Aggiungi Dispositivo",
-        "description": "Usa questo pulsante per aggiungere un nuovo dispositivo all'installazione. Dovrai selezionare la categoria, la posizione, lo stato e altri dettagli del dispositivo."
+        "title": "Aggiungi Asset",
+        "description": "Usa questo pulsante per aggiungere un nuovo asset all'installazione. Dovrai selezionare la categoria, la posizione, lo stato e altri dettagli del asset."
       },
       "searchFilter": {
         "title": "Cerca e Filtra",
-        "description": "Usa questa barra per cercare dispositivi per nome, posizione o categoria. Puoi anche filtrare per stato del dispositivo."
+        "description": "Usa questa barra per cercare asset per nome, posizione o categoria. Puoi anche filtrare per stato del asset."
       },
       "deviceActions": {
-        "title": "Azioni sui Dispositivi",
-        "description": "Ogni scheda dispositivo ha pulsanti per: visualizzare il codice QR, scaricare l'ultima manutenzione (PDF), modificare il dispositivo ed eliminarlo."
+        "title": "Azioni sui Asset",
+        "description": "Ogni scheda asset ha pulsanti per: visualizzare il codice QR, scaricare l'ultima manutenzione (PDF), modificare il asset ed eliminarlo."
       },
       "buttons": {
         "next": "Avanti",
@@ -1576,7 +1591,7 @@
     "locationMax": "La posizione non può superare i 255 caratteri",
     "categoryRequired": "La categoria è obbligatoria",
     "categoryMax": "La categoria non può superare i 100 caratteri",
-    "deviceNameRequired": "Il nome del dispositivo è obbligatorio",
+    "deviceNameRequired": "Il nome del asset è obbligatorio",
     "deviceNameMin": "Il nome deve contenere almeno 1 carattere",
     "deviceNameMax": "Il nome non può superare i 100 caratteri",
     "statusRequired": "Lo stato è obbligatorio",
@@ -1784,13 +1799,13 @@
     "installationTypesDesc": "Gestisci le categorie di tipi di installazione disponibili nel sistema",
     "assetCategories": "Categorie di Risorse",
     "assetCategoriesDesc": "Gestisci le categorie per classificare le tue risorse",
-    "deviceCategories": "Categorie di Dispositivi",
-    "deviceCategoriesDesc": "Configura le categorie di dispositivi per le tue installazioni",
+    "deviceCategories": "Categorie di Asset",
+    "deviceCategoriesDesc": "Configura le categorie di asset per le tue installazioni",
     "formCategories": "Categorie di Moduli",
     "formCategoriesDesc": "Organizza i modelli di moduli per categorie",
     "manageInstallationTypes": "Gestisci Tipi di Installazione",
     "manageAssetCategories": "Gestisci Categorie di Risorse",
-    "manageDeviceCategories": "Gestisci Categorie di Dispositivi",
+    "manageDeviceCategories": "Gestisci Categorie di Asset",
     "manageFormCategories": "Gestisci Categorie di Moduli",
     "newCategoryName": "Nome della nuova categoria",
     "newTypeName": "Nome del nuovo tipo",

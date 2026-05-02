@@ -6,7 +6,7 @@
     "maintenancePlan": "维护计划",
     "subscriptions": "有效订阅",
     "installations": "安装",
-    "assets": "资产",
+    "assets": "资产类型",
     "forms": "表单",
     "manuals": "手册",
     "calendar": "日历",
@@ -386,6 +386,20 @@
       "null": "无状态",
       "activo": "正常",
       "inactivo": "停用"
+    },
+    "mtbfHours": "MTBF (小时)",
+    "kpiDetails": {
+      "generic": "关于此指标的详细信息。",
+      "openWorkOrders": "当前已开放并等待完成的工单总数。",
+      "overdueWorkOrders": "已超过计划日期但尚未完成的工单。",
+      "criticalWorkOrders": "标记为紧急优先级、需要立即处理的工单。",
+      "mttrHours": "平均修复时间。表示修复故障系统所需的平均时间。",
+      "mtbfHours": "平均故障间隔时间。表示系统故障之间的平均运行时间。",
+      "preventiveCompliance": "计划性预防维护任务的完成率。",
+      "installations": "系统中注册的设施总数。",
+      "assets": "配置的资产类型总数。",
+      "workOrders": "生成的工单总数。",
+      "technicians": "团队中注册的技术人员总数。"
     }
   },
   "workOrders": {
@@ -579,7 +593,7 @@
     "startOrderMessage": "您确定要开始此工作订单吗？"
   },
   "installations": {
-    "deviceNamePlaceholder": "输入设备名称",
+    "deviceNamePlaceholder": "输入资产名称",
     "understood": "关闭",
     "successTitle": "操作成功！",
     "continue": "继续",
@@ -600,9 +614,9 @@
     "contact": "联系人",
     "phone": "电话",
     "email": "邮箱",
-    "devices": "设备",
-    "editDevice": "编辑设备",
-    "deviceType": "设备类型",
+    "devices": "资产",
+    "editDevice": "编辑资产",
+    "deviceType": "资产类型",
     "serialNumber": "序列号",
     "model": "型号",
     "manufacturer": "制造商",
@@ -617,12 +631,12 @@
     "selectInstallationType": "选择安装类型",
     "saving": "保存中...",
     "categories": "类别",
-    "manageCategories": "管理设备类别",
+    "manageCategories": "管理资产类别",
     "manageInstallationTypes": "管理安装类型",
     "manageDevices": "管理类别",
-    "viewCategories": "查看设备类别",
+    "viewCategories": "查看资产类别",
     "viewInstallationTypes": "查看安装类型",
-    "createCategory": "创建设备类别",
+    "createCategory": "创建资产类别",
     "createInstallationType": "创建安装类型",
     "editCategory": "编辑类别",
     "categoryName": "类别名称",
@@ -630,10 +644,10 @@
     "categoryDescription": "描述",
     "categoryDescriptionPlaceholder": "类别的可选描述",
     "active": "激活",
-    "deviceCategory": "设备类别",
-    "deviceStatu": "设备状态",
-    "deviceLocation": "设备位置",
-    "deviceName": "设备名称",
+    "deviceCategory": "资产类别",
+    "deviceStatu": "资产状态",
+    "deviceLocation": "资产位置",
+    "deviceName": "资产名称",
     "selectCategory": "选择类别",
     "selectAsset": "选择资产",
     "asset": "资产",
@@ -643,8 +657,8 @@
     "maxAvailable": "最大可用",
     "noStockAvailable": "无可用库存",
     "quantity": "数量",
-    "addDevice": "添加设备",
-    "updateDevice": "更新设备",
+    "addDevice": "添加资产",
+    "updateDevice": "更新资产",
     "typeName": "类型名称",
     "typeNamePlaceholder": "请输入安装类型名称",
     "typeDescription": "类型描述",
@@ -660,7 +674,7 @@
     "noTypes": "尚未创建安装类型",
     "noTypesSubtext": "创建后，安装类型将显示在此处",
     "created": "创建时间",
-    "viewCategoriesTitle": "设备类别",
+    "viewCategoriesTitle": "资产类别",
     "loadingCategories": "正在加载类别...",
     "errorLoadingCategories": "加载类别时出错",
     "noCategories": "尚未创建类别",
@@ -677,9 +691,9 @@
     "installationTypeDeleted": "安装类型删除成功",
     "confirmDeleteCategory": "确定要删除此类别吗？",
     "confirmDeleteInstallationType": "确定要删除此安装类型吗？",
-    "deviceAdded": "设备添加成功",
-    "deviceUpdated": "设备更新成功",
-    "deviceDeleted": "设备删除成功",
+    "deviceAdded": "资产添加成功",
+    "deviceUpdated": "资产更新成功",
+    "deviceDeleted": "资产删除成功",
     "installationCreated": "安装创建成功",
     "installationUpdated": "安装更新成功",
     "installationDeleted": "安装删除成功",
@@ -692,17 +706,17 @@
       "pendingReview": "等待审核"
     },
     "deviceInstallationInfo": "安装信息",
-    "deviceState": "设备状态",
+    "deviceState": "资产状态",
     "selectState": "选择状态",
     "noAssetsAvailable": "暂无可用资产",
     "retryLoadCategories": "重新加载类别",
-    "deviceAddedSuccessfully": "设备添加成功",
-    "deviceUpdatedSuccessfully": "设备更新成功",
-    "errorAddingDevice": "添加设备时出错",
-    "errorUpdatingDevice": "更新设备时出错",
-    "invalidDeviceData": "无效的设备数据",
+    "deviceAddedSuccessfully": "资产添加成功",
+    "deviceUpdatedSuccessfully": "资产更新成功",
+    "errorAddingDevice": "添加资产时出错",
+    "errorUpdatingDevice": "更新资产时出错",
+    "invalidDeviceData": "无效的资产数据",
     "selectedAssetNotFound": "未找到选定的资产",
-    "addDeviceFunctionMissing": "缺少添加设备功能",
+    "addDeviceFunctionMissing": "缺少添加资产功能",
     "locationExample": "例：2楼，办公室201",
     "createCategoriesFirst": "请先在相应部分创建类别",
     "loadingRequiredData": "加载所需数据...",
@@ -713,11 +727,11 @@
     "filterByInstallationType": "按安装类型筛选",
     "noInstallationsFound": "未找到安装",
     "deleteInstallation": "删除安装",
-    "viewDeviceList": "查看设备列表",
+    "viewDeviceList": "查看资产列表",
     "page": "页",
     "of": "共",
-    "deviceCategories": "设备类别",
-    "noDeviceCategoriesCreated": "未创建设备类别",
+    "deviceCategories": "资产类别",
+    "noDeviceCategoriesCreated": "未创建资产类别",
     "categoriesWillAppearHere": "创建类别后将在此显示",
     "deleteCategory": "删除类别",
     "noInstallationTypesCreated": "未创建安装类型",
@@ -931,11 +945,11 @@
     "tour": {
       "welcome": {
         "title": "欢迎来到 Leonix！",
-        "description": "在开始使用面板之前，重要的是转到设置以创建必要的安装类型和设备类别。我们将逐步指导您。"
+        "description": "在开始使用面板之前，重要的是转到设置以创建必要的安装类型和资产类别。我们将逐步指导您。"
       },
       "createInstallationType": {
         "title": "步骤1：转到设置",
-        "description": "单击顶部栏中的设置图标（齿轮）。您必须创建：1）安装类型（例如：办公室、工厂、仓库），2）设备类别（例如：泵、电机、传感器）。在创建安装之前，这是必需的。"
+        "description": "单击顶部栏中的设置图标（齿轮）。您必须创建：1）安装类型（例如：办公室、工厂、仓库），2）资产类别（例如：泵、电机、传感器）。在创建安装之前，这是必需的。"
       },
       "viewInstallationTypes": {
         "title": "查看安装类型",
@@ -1315,15 +1329,15 @@
     "name": "名称",
     "category": "类别",
     "installation": "安装",
-    "deviceNamePlaceholder": "输入设备名称",
+    "deviceNamePlaceholder": "输入资产名称",
     "successTitle": "操作成功！",
     "understood": "关闭",
-    "titlePage": "设备 | Leonix",
-    "loadingDevices": "正在加载设备...",
+    "titlePage": "资产 | Leonix",
+    "loadingDevices": "正在加载资产...",
     "notFound": "未找到安装",
-    "devicesOf": "{{name}} 的设备",
-    "addDevice": "添加设备",
-    "noDevices": "此安装中没有设备",
+    "devicesOf": "{{name}} 的资产",
+    "addDevice": "添加资产",
+    "noDevices": "此安装中没有资产",
     "type": "类型",
     "location": "位置",
     "status": "状态",
@@ -1333,10 +1347,10 @@
     "seeQR": "查看二维码",
     "downloadLastMaintenance": "下载最后一次维护",
     "viewMaintenanceHistory": "查看维护历史",
-    "editDevice": "编辑设备",
-    "deleteDevice": "删除设备",
+    "editDevice": "编辑资产",
+    "deleteDevice": "删除资产",
     "page": "第 {{currentPage}} 页，共 {{totalPages}} 页",
-    "confirmDeleteTitle": "删除设备？",
+    "confirmDeleteTitle": "删除资产？",
     "confirmDeleteDescription": "此操作无法撤销。",
     "qrCode": "二维码",
     "generatingQR": "正在生成二维码...",
@@ -1344,38 +1358,38 @@
     "scanQRDescription": "扫描此二维码以访问维护表单",
     "openForm": "打开表单",
     "printQR": "打印二维码",
-    "device": "设备",
+    "device": "资产",
     "loadingRequiredData": "正在加载所需数据...",
     "errorLoadingCategories": "加载类别出错",
     "retryLoadCategories": "重试加载类别",
-    "searchDevicesPlaceholder": "按设备、位置或类别搜索...",
-    "noDevicesFound": "未找到与此搜索词匹配的设备",
-    "noMaintenanceAvailable": "此设备没有可用的维护",
+    "searchDevicesPlaceholder": "按资产、位置或类别搜索...",
+    "noDevicesFound": "未找到与此搜索词匹配的资产",
+    "noMaintenanceAvailable": "此资产没有可用的维护",
     "errorLoadingMaintenance": "加载维护出错",
     "tour": {
       "welcome": {
         "title": "欢迎来到安装详情！",
-        "description": "在这里您可以管理此安装的所有设备。我们将向您展示此部分的工作原理。"
+        "description": "在这里您可以管理此安装的所有资产。我们将向您展示此部分的工作原理。"
       },
       "goToInstallations": {
         "title": "转到安装",
-        "description": "在添加设备之前，请确保从安装部分创建设备类别。点击此处转到该部分。"
+        "description": "在添加资产之前，请确保从安装部分创建资产类别。点击此处转到该部分。"
       },
       "createAssetFirst": {
         "title": "重要：首先创建资产",
-        "description": "在向此安装添加设备之前，您必须首先在资产部分创建资产。资产作为安装中设备的基础/模板。"
+        "description": "在向此安装添加资产之前，您必须首先在资产部分创建资产。资产作为安装中资产的基础/模板。"
       },
       "addDevice": {
-        "title": "添加设备",
-        "description": "使用此按钮向安装添加新设备。您需要选择类别、位置、状态和其他设备详细信息。"
+        "title": "添加资产",
+        "description": "使用此按钮向安装添加新资产。您需要选择类别、位置、状态和其他资产详细信息。"
       },
       "searchFilter": {
         "title": "搜索和筛选",
-        "description": "使用此栏按名称、位置或类别搜索设备。您还可以按设备状态进行筛选。"
+        "description": "使用此栏按名称、位置或类别搜索资产。您还可以按资产状态进行筛选。"
       },
       "deviceActions": {
-        "title": "设备操作",
-        "description": "每个设备卡都有以下按钮：查看二维码、下载最后维护（PDF）、编辑设备和删除设备。"
+        "title": "资产操作",
+        "description": "每个资产卡都有以下按钮：查看二维码、下载最后维护（PDF）、编辑资产和删除资产。"
       },
       "buttons": {
         "next": "下一步",
@@ -1480,7 +1494,7 @@
     "locationMax": "位置不能超过255个字符",
     "categoryRequired": "类别是必填项",
     "categoryMax": "类别不能超过100个字符",
-    "deviceNameRequired": "设备名称是必填项",
+    "deviceNameRequired": "资产名称是必填项",
     "deviceNameMin": "名称至少需要1个字符",
     "deviceNameMax": "名称不能超过100个字符",
     "statusRequired": "状态是必填项",
@@ -1663,10 +1677,11 @@
   },
   "assets": {
     "edit": "编辑",
+    "manageForms": "管理表单",
     "assign": "分配",
     "successTitle": "操作成功！",
     "understood": "关闭",
-    "title": "资产",
+    "title": "资产类型",
     "createAsset": "创建资产",
     "tour": {
       "welcome": {
@@ -1675,7 +1690,7 @@
       },
       "goToForms": {
         "title": "步骤 1：前往表单",
-        "description": "要创建资产，首先需要一个表单模板。点击侧边菜单中的“表单”来创建第一个模板。"
+        "description": "要创建资产，首先需要一个表单模板。点击“管理表单”来创建第一个模板。"
       },
       "createFormTemplate": {
         "title": "步骤 2：创建表单模板",
@@ -1792,7 +1807,7 @@
     "serialNumberPlaceholder": "输入序列号",
     "optional": "可选",
     "selectDate": "选择日期",
-    "titlePage": "资产 | Leonix"
+    "titlePage": "资产类型 | Leonix"
   },
   "maintenanceHistory": {
     "title": "维护历史",
@@ -1819,13 +1834,13 @@
     "installationTypesDesc": "管理系统中可用的安装类型类别",
     "assetCategories": "资产类别",
     "assetCategoriesDesc": "管理用于分类资产的类别",
-    "deviceCategories": "设备类别",
-    "deviceCategoriesDesc": "配置安装的设备类别",
+    "deviceCategories": "资产类别",
+    "deviceCategoriesDesc": "配置安装的资产类别",
     "formCategories": "表单类别",
     "formCategoriesDesc": "按类别组织表单模板",
     "manageInstallationTypes": "管理安装类型",
     "manageAssetCategories": "管理资产类别",
-    "manageDeviceCategories": "管理设备类别",
+    "manageDeviceCategories": "管理资产类别",
     "manageFormCategories": "管理表单类别",
     "newCategoryName": "新类别名称",
     "newTypeName": "新类型名称",

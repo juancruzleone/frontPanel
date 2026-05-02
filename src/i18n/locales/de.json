@@ -6,7 +6,7 @@
     "workOrders": "Arbeitsaufträge",
     "workOrdersList": "Liste der Arbeitsaufträge",
     "installations": "Installationen",
-    "assets": "Anlagen",
+    "assets": "Asset-Typen",
     "forms": "Formulare",
     "manuals": "Handbücher",
     "calendar": "Kalender",
@@ -364,6 +364,20 @@
       "null": "Kein Status",
       "activo": "Aktiv",
       "inactivo": "Inaktiv"
+    },
+    "mtbfHours": "MTBF (Stunden)",
+    "kpiDetails": {
+      "generic": "Detaillierte Informationen zu dieser Metrik.",
+      "openWorkOrders": "Gesamtzahl der Arbeitsaufträge, die derzeit offen sind und auf ihre Fertigstellung warten.",
+      "overdueWorkOrders": "Arbeitsaufträge, deren geplantes Datum bereits überschritten ist und die noch nicht abgeschlossen wurden.",
+      "criticalWorkOrders": "Arbeitsaufträge mit kritischer Priorität, die sofortige Aufmerksamkeit erfordern.",
+      "mttrHours": "Mittlere Reparaturzeit. Stellt die durchschnittliche Zeit dar, die zur Reparatur eines ausgefallenen Systems erforderlich ist.",
+      "mtbfHours": "Mittlere Betriebsdauer zwischen Ausfällen. Gibt die durchschnittliche Betriebszeit zwischen Systemausfällen an.",
+      "preventiveCompliance": "Einhaltungsquote der geplanten präventiven Wartungsaufgaben.",
+      "installations": "Gesamtzahl der im System registrierten Installationen.",
+      "assets": "Gesamtzahl der konfigurierten Asset-Typen.",
+      "workOrders": "Gesamtzahl der generierten Arbeitsaufträge.",
+      "technicians": "Gesamtzahl der im Team registrierten Techniker."
     }
   },
   "workOrders": {
@@ -543,7 +557,7 @@
     }
   },
   "installations": {
-    "deviceNamePlaceholder": "Geben Sie den Gerätenamen ein",
+    "deviceNamePlaceholder": "Geben Sie den Assetenamen ein",
     "installation": "Installation",
     "understood": "Schließen",
     "successTitle": "Vorgang erfolgreich!",
@@ -558,7 +572,7 @@
     "createInstallation": "Installation erstellen",
     "editInstallation": "Installation bearbeiten",
     "deleteInstallation": "Installation entfernen",
-    "viewDeviceList": "siehe Geräteliste",
+    "viewDeviceList": "Asset-Liste anzeigen",
     "installationDetails": "Installationsdetails",
     "company": "Name",
     "address": "Adresse",
@@ -566,9 +580,9 @@
     "contact": "Kontakt",
     "phone": "Telefon",
     "email": "E-Mail",
-    "devices": "Geräte",
-    "editDevice": "Gerät bearbeiten",
-    "deviceType": "Gerätetyp",
+    "devices": "Assets",
+    "editDevice": "Asset bearbeiten",
+    "deviceType": "Assetetyp",
     "serialNumber": "Seriennummer",
     "model": "Modell",
     "manufacturer": "Hersteller",
@@ -580,12 +594,12 @@
     "location": "Standort",
     "saving": "Speichern...",
     "categories": "Kategorien",
-    "manageCategories": "Gerätekategorien verwalten",
+    "manageCategories": "Assetekategorien verwalten",
     "manageInstallationTypes": "Installationstypen verwalten",
     "manageDevices": "Kategorien verwalten",
-    "viewCategories": "Gerätekategorien anzeigen",
+    "viewCategories": "Assetekategorien anzeigen",
     "viewInstallationTypes": "Installationstypen anzeigen",
-    "createCategory": "Gerätekategorie erstellen",
+    "createCategory": "Assetekategorie erstellen",
     "createInstallationType": "Installationstyp erstellen",
     "editCategory": "Kategorie bearbeiten",
     "editInstallationType": "Installationstyp bearbeiten",
@@ -594,8 +608,8 @@
     "categoryDescription": "Beschreibung",
     "categoryDescriptionPlaceholder": "Optionale Kategoriebeschreibung",
     "active": "Aktiv",
-    "deviceCategory": "Gerätekategorie",
-    "deviceStatu": "Gerätestatus",
+    "deviceCategory": "Assetekategorie",
+    "deviceStatu": "Assetestatus",
     "deviceStatus": {
       "active": "Aktiv",
       "inactive": "Inaktiv",
@@ -604,8 +618,8 @@
       "pendingReview": "Zur Überprüfung ausstehend"
     },
     "deviceInstallationInfo": "Installationsinformationen",
-    "deviceLocation": "Gerätestandort",
-    "deviceName": "Gerätename",
+    "deviceLocation": "Assetestandort",
+    "deviceName": "Assetename",
     "selectCategory": "Wählen Sie eine Kategorie",
     "selectAsset": "Wählen Sie ein Asset",
     "asset": "Asset",
@@ -615,8 +629,8 @@
     "maxAvailable": "Maximal verfügbar",
     "noStockAvailable": "Kein Bestand verfügbar",
     "quantity": "Menge",
-    "addDevice": "Gerät hinzufügen",
-    "updateDevice": "Gerät aktualisieren",
+    "addDevice": "Asset hinzufügen",
+    "updateDevice": "Asset aktualisieren",
     "installationType": "Installationstyp",
     "type": "Installationstyp",
     "selectInstallationType": "Wählen Sie einen Installationstyp",
@@ -635,7 +649,7 @@
     "noTypes": "Keine Installationstypen erstellt",
     "noTypesSubtext": "Installationstypen werden hier angezeigt, sobald sie erstellt wurden",
     "created": "Erstellt",
-    "viewCategoriesTitle": "Gerätekategorien",
+    "viewCategoriesTitle": "Assetekategorien",
     "loadingCategories": "Kategorien werden geladen...",
     "errorLoadingCategories": "Fehler beim Laden der Kategorien",
     "noCategories": "Keine Kategorien erstellt",
@@ -849,11 +863,11 @@
     "tour": {
       "welcome": {
         "title": "Willkommen bei Leonix!",
-        "description": "Bevor Sie das Panel verwenden, ist es wichtig, zu den Einstellungen zu gehen, um die erforderlichen Installationstypen und Gerätekategorien zu erstellen. Wir führen Sie Schritt für Schritt."
+        "description": "Bevor Sie das Panel verwenden, ist es wichtig, zu den Einstellungen zu gehen, um die erforderlichen Installationstypen und Assetekategorien zu erstellen. Wir führen Sie Schritt für Schritt."
       },
       "createInstallationType": {
         "title": "Schritt 1: Zu Einstellungen gehen",
-        "description": "Klicken Sie auf das Einstellungssymbol (Zahnrad) in der oberen Leiste. Dort müssen Sie erstellen: 1) Installationstypen (z.B. Büro, Fabrik, Lager), 2) Gerätekategorien (z.B. Pumpe, Motor, Sensor). Dies ist obligatorisch, bevor Sie Installationen erstellen."
+        "description": "Klicken Sie auf das Einstellungssymbol (Zahnrad) in der oberen Leiste. Dort müssen Sie erstellen: 1) Installationstypen (z.B. Büro, Fabrik, Lager), 2) Assetekategorien (z.B. Pumpe, Motor, Sensor). Dies ist obligatorisch, bevor Sie Installationen erstellen."
       },
       "viewInstallationTypes": {
         "title": "Installationstypen anzeigen",
@@ -887,10 +901,11 @@
   },
   "assets": {
     "edit": "Bearbeiten",
+    "manageForms": "Formulare verwalten",
     "understood": "Schließen",
     "successTitle": "Vorgang erfolgreich!",
     "continue": "Weiter",
-    "title": "Anlagen",
+    "title": "Asset-Typen",
     "createAsset": "Anlage erstellen",
     "tour": {
       "welcome": {
@@ -899,7 +914,7 @@
       },
       "goToForms": {
         "title": "Schritt 1: Zu Formularen gehen",
-        "description": "Um eine Anlage zu erstellen, benötigen Sie zuerst eine Formularvorlage. Klicken Sie im Seitenmenü auf 'Formulare', um Ihre erste Vorlage zu erstellen."
+        "description": "Um eine Anlage zu erstellen, benötigen Sie zuerst eine Formularvorlage. Klicken Sie auf 'Formulare verwalten', um Ihre erste Vorlage zu erstellen."
       },
       "createFormTemplate": {
         "title": "Schritt 2: Formularvorlage erstellen",
@@ -1001,7 +1016,7 @@
         "stockZero": "Der Bestand muss größer als 0 sein"
       }
     },
-    "titlePage": "Vermögenswerte | Leonix"
+    "titlePage": "Asset-Typen | Leonix"
   },
   "forms": {
     "category": "Kategorie",
@@ -1312,15 +1327,15 @@
     "name": "Name",
     "category": "Kategorie",
     "installation": "Installation",
-    "deviceNamePlaceholder": "Geben Sie den Gerätenamen ein",
+    "deviceNamePlaceholder": "Geben Sie den Assetenamen ein",
     "successTitle": "Operation erfolgreich!",
     "understood": "Schließen",
-    "titlePage": "Geräte | Leonix",
-    "loadingDevices": "Geräte werden geladen...",
+    "titlePage": "Assete | Leonix",
+    "loadingDevices": "Assete werden geladen...",
     "notFound": "Installation nicht gefunden",
-    "devicesOf": "Geräte von {{name}}",
-    "addDevice": "Gerät hinzufügen",
-    "noDevices": "Keine Geräte in dieser Installation",
+    "devicesOf": "Assete von {{name}}",
+    "addDevice": "Asset hinzufügen",
+    "noDevices": "Keine Assete in dieser Installation",
     "type": "Typ",
     "location": "Standort",
     "status": "Status",
@@ -1330,11 +1345,11 @@
     "seeQR": "QR-Code anzeigen",
     "downloadLastMaintenance": "Letzte Wartung herunterladen",
     "viewMaintenanceHistory": "Wartungshistorie anzeigen",
-    "editDevice": "Gerät bearbeiten",
-    "deleteDevice": "Gerät löschen",
+    "editDevice": "Asset bearbeiten",
+    "deleteDevice": "Asset löschen",
     "page": "Seite",
     "of": "von",
-    "confirmDeleteTitle": "Gerät löschen?",
+    "confirmDeleteTitle": "Asset löschen?",
     "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden.",
     "qrCode": "QR-Code",
     "generatingQR": "QR-Code wird generiert...",
@@ -1342,39 +1357,39 @@
     "scanQRDescription": "Scannen Sie diesen Code, um auf das Wartungsformular zuzugreifen",
     "openForm": "Formular öffnen",
     "printQR": "QR drucken",
-    "device": "Gerät",
+    "device": "Asset",
     "loadingRequiredData": "Erforderliche Daten werden geladen...",
     "errorLoadingCategories": "Fehler beim Laden der Kategorien",
     "retryLoadCategories": "Kategorien erneut laden",
-    "searchDevicesPlaceholder": "Nach Gerät, Standort oder Kategorie suchen...",
-    "noDevicesFound": "Keine Geräte mit diesem Suchbegriff gefunden",
-    "showingDevices": "Zeige {{start}}-{{end}} von {{total}} Geräten",
-    "noMaintenanceAvailable": "Keine Wartung für dieses Gerät verfügbar",
+    "searchDevicesPlaceholder": "Nach Asset, Standort oder Kategorie suchen...",
+    "noDevicesFound": "Keine Assete mit diesem Suchbegriff gefunden",
+    "showingDevices": "Zeige {{start}}-{{end}} von {{total}} Asseten",
+    "noMaintenanceAvailable": "Keine Wartung für dieses Asset verfügbar",
     "errorLoadingMaintenance": "Fehler beim Laden der Wartung",
     "tour": {
       "welcome": {
         "title": "Willkommen bei den Installationsdetails!",
-        "description": "Hier können Sie alle Geräte dieser Installation verwalten. Wir zeigen Ihnen, wie dieser Bereich funktioniert."
+        "description": "Hier können Sie alle Assete dieser Installation verwalten. Wir zeigen Ihnen, wie dieser Bereich funktioniert."
       },
       "goToInstallations": {
         "title": "Zu Installationen gehen",
-        "description": "Bevor Sie Geräte hinzufügen, stellen Sie sicher, dass Sie Gerätekategorien im Bereich Installationen erstellt haben. Klicken Sie hier, um zu diesem Bereich zu gelangen."
+        "description": "Bevor Sie Assete hinzufügen, stellen Sie sicher, dass Sie Assetekategorien im Bereich Installationen erstellt haben. Klicken Sie hier, um zu diesem Bereich zu gelangen."
       },
       "createAssetFirst": {
         "title": "Wichtig: Zuerst Assets erstellen",
-        "description": "Bevor Sie ein Gerät zu dieser Installation hinzufügen, müssen Sie zuerst ein Asset im Bereich Assets erstellen. Assets dienen als Basis/Vorlage für Geräte in Installationen."
+        "description": "Bevor Sie ein Asset zu dieser Installation hinzufügen, müssen Sie zuerst ein Asset im Bereich Assets erstellen. Assets dienen als Basis/Vorlage für Assete in Installationen."
       },
       "addDevice": {
-        "title": "Gerät hinzufügen",
-        "description": "Verwenden Sie diese Schaltfläche, um ein neues Gerät zur Installation hinzuzufügen. Sie müssen die Kategorie, den Standort, den Status und andere Gerätedetails auswählen."
+        "title": "Asset hinzufügen",
+        "description": "Verwenden Sie diese Schaltfläche, um ein neues Asset zur Installation hinzuzufügen. Sie müssen die Kategorie, den Standort, den Status und andere Assetedetails auswählen."
       },
       "searchFilter": {
         "title": "Suchen und Filtern",
-        "description": "Verwenden Sie diese Leiste, um nach Geräten nach Name, Standort oder Kategorie zu suchen. Sie können auch nach Gerätestatus filtern."
+        "description": "Verwenden Sie diese Leiste, um nach Asseten nach Name, Standort oder Kategorie zu suchen. Sie können auch nach Assetestatus filtern."
       },
       "deviceActions": {
-        "title": "Geräteaktionen",
-        "description": "Jede Gerätekarte verfügt über Schaltflächen zum: QR-Code anzeigen, letzte Wartung herunterladen (PDF), Gerät bearbeiten und löschen."
+        "title": "Asseteaktionen",
+        "description": "Jede Assetekarte verfügt über Schaltflächen zum: QR-Code anzeigen, letzte Wartung herunterladen (PDF), Asset bearbeiten und löschen."
       },
       "buttons": {
         "next": "Weiter",
@@ -1479,7 +1494,7 @@
     "locationMax": "Standort darf nicht länger als 255 Zeichen sein",
     "categoryRequired": "Kategorie ist erforderlich",
     "categoryMax": "Kategorie darf nicht länger als 100 Zeichen sein",
-    "deviceNameRequired": "Gerätename ist erforderlich",
+    "deviceNameRequired": "Assetename ist erforderlich",
     "deviceNameMin": "Name muss mindestens 1 Zeichen lang sein",
     "deviceNameMax": "Name darf nicht länger als 100 Zeichen sein",
     "statusRequired": "Status ist erforderlich",
@@ -1686,13 +1701,13 @@
     "installationTypesDesc": "Verwalten Sie die im System verfügbaren Installationstyp-Kategorien",
     "assetCategories": "Anlagenkategorien",
     "assetCategoriesDesc": "Verwalten Sie Kategorien zur Klassifizierung Ihrer Anlagen",
-    "deviceCategories": "Gerätekategorien",
-    "deviceCategoriesDesc": "Konfigurieren Sie Gerätekategorien für Ihre Installationen",
+    "deviceCategories": "Assetekategorien",
+    "deviceCategoriesDesc": "Konfigurieren Sie Assetekategorien für Ihre Installationen",
     "formCategories": "Formularkategorien",
     "formCategoriesDesc": "Organisieren Sie Formularvorlagen nach Kategorien",
     "manageInstallationTypes": "Installationstypen verwalten",
     "manageAssetCategories": "Anlagenkategorien verwalten",
-    "manageDeviceCategories": "Gerätekategorien verwalten",
+    "manageDeviceCategories": "Assetekategorien verwalten",
     "manageFormCategories": "Formularkategorien verwalten",
     "newCategoryName": "Neuer Kategoriename",
     "newTypeName": "Neuer Typname",

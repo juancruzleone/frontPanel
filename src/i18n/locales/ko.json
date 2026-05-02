@@ -6,7 +6,7 @@
     "maintenancePlan": "유지보수 계획",
     "installations": "설치",
     "subscriptions": "활성 구독",
-    "assets": "자산",
+    "assets": "자산 유형",
     "forms": "양식",
     "manuals": "매뉴얼",
     "calendar": "캘린더",
@@ -386,6 +386,20 @@
       "null": "상태 없음",
       "activo": "정상",
       "inactivo": "비활성"
+    },
+    "mtbfHours": "MTBF (시간)",
+    "kpiDetails": {
+      "generic": "이 지표에 대한 자세한 정보.",
+      "openWorkOrders": "현재 열려 있고 완료 대기 중인 총 작업 오더 수입니다.",
+      "overdueWorkOrders": "예정일이 지났지만 아직 완료되지 않은 작업 오더입니다.",
+      "criticalWorkOrders": "즉각적인 주의가 필요한 심각한 우선순위로 표시된 작업 오더입니다.",
+      "mttrHours": "평균 수리 시간. 고장 난 시스템을 수리하는 데 필요한 평균 시간을 나타냅니다.",
+      "mtbfHours": "평균 고장 간격. 시스템 고장 사이의 평균 작동 시간을 나타냅니다.",
+      "preventiveCompliance": "예정된 예방 정비 작업의 준수율입니다.",
+      "installations": "시스템에 등록된 총 설치 수입니다.",
+      "assets": "구성된 총 자산 유형 수입니다.",
+      "workOrders": "생성된 총 작업 오더 수입니다.",
+      "technicians": "팀에 등록된 총 기술자 수입니다."
     }
   },
   "workOrders": {
@@ -565,7 +579,7 @@
     }
   },
   "installations": {
-    "deviceNamePlaceholder": "장치 이름을 입력하세요",
+    "deviceNamePlaceholder": "자산 이름을 입력하세요",
     "installation": "설치",
     "understood": "닫기",
     "successTitle": "작업이 성공적으로 완료되었습니다!",
@@ -587,10 +601,10 @@
     "contact": "연락처",
     "phone": "전화",
     "email": "이메일",
-    "devices": "장치",
-    "addDevice": "장치 추가",
-    "editDevice": "장치 편집",
-    "deviceType": "장치 유형",
+    "devices": "자산",
+    "addDevice": "자산 추가",
+    "editDevice": "자산 편집",
+    "deviceType": "자산 유형",
     "serialNumber": "시리얼 번호",
     "model": "모델",
     "manufacturer": "제조사",
@@ -605,12 +619,12 @@
     "selectInstallationType": "설치 유형 선택",
     "saving": "저장 중...",
     "categories": "카테고리",
-    "manageCategories": "장치 카테고리 관리",
+    "manageCategories": "자산 카테고리 관리",
     "manageInstallationTypes": "설치 유형 관리",
     "manageDevices": "카테고리 관리",
     "viewCategories": "디바이스 카테고리 보기",
     "viewInstallationTypes": "설치 유형 보기",
-    "createCategory": "장치 카테고리 생성",
+    "createCategory": "자산 카테고리 생성",
     "createInstallationType": "설치 유형 생성",
     "editCategory": "카테고리 편집",
     "categoryName": "카테고리 이름",
@@ -661,9 +675,9 @@
     "installationTypeDeleted": "설치 유형이 성공적으로 삭제되었습니다",
     "confirmDeleteCategory": "이 카테고리를 삭제하시겠습니까?",
     "confirmDeleteInstallationType": "이 설치 유형을 삭제하시겠습니까?",
-    "deviceAdded": "장치가 성공적으로 추가되었습니다",
-    "deviceUpdated": "장치가 성공적으로 업데이트되었습니다",
-    "deviceDeleted": "장치가 성공적으로 삭제되었습니다",
+    "deviceAdded": "자산가 성공적으로 추가되었습니다",
+    "deviceUpdated": "자산가 성공적으로 업데이트되었습니다",
+    "deviceDeleted": "자산가 성공적으로 삭제되었습니다",
     "installationCreated": "설치가 성공적으로 생성되었습니다",
     "installationUpdated": "설치가 성공적으로 업데이트되었습니다",
     "installationDeleted": "설치가 성공적으로 삭제되었습니다",
@@ -679,13 +693,13 @@
     "selectState": "상태 선택",
     "noAssetsAvailable": "사용 가능한 자산이 없습니다",
     "noCategoriesAvailable": "사용 가능한 카테고리가 없습니다",
-    "deviceAddedSuccessfully": "장치가 성공적으로 추가되었습니다",
-    "deviceUpdatedSuccessfully": "장치가 성공적으로 업데이트되었습니다",
-    "errorAddingDevice": "장치 추가 오류",
-    "errorUpdatingDevice": "장치 업데이트 오류",
-    "invalidDeviceData": "잘못된 장치 데이터",
+    "deviceAddedSuccessfully": "자산가 성공적으로 추가되었습니다",
+    "deviceUpdatedSuccessfully": "자산가 성공적으로 업데이트되었습니다",
+    "errorAddingDevice": "자산 추가 오류",
+    "errorUpdatingDevice": "자산 업데이트 오류",
+    "invalidDeviceData": "잘못된 자산 데이터",
     "selectedAssetNotFound": "선택된 자산을 찾을 수 없습니다",
-    "addDeviceFunctionMissing": "장치 추가 기능이 누락되었습니다",
+    "addDeviceFunctionMissing": "자산 추가 기능이 누락되었습니다",
     "locationExample": "예: 2층, 사무실 201",
     "createCategoriesFirst": "먼저 해당 섹션에서 카테고리를 생성하세요",
     "loadingRequiredData": "필요한 데이터 로딩 중...",
@@ -697,11 +711,11 @@
     "filterByInstallationType": "설치 유형으로 필터",
     "noInstallationsFound": "설치를 찾을 수 없습니다",
     "deleteInstallation": "설치 삭제",
-    "viewDeviceList": "장치 목록 보기",
+    "viewDeviceList": "자산 목록 보기",
     "page": "페이지",
     "of": "의",
-    "deviceCategories": "장치 카테고리",
-    "noDeviceCategoriesCreated": "장치 카테고리가 생성되지 않았습니다",
+    "deviceCategories": "자산 카테고리",
+    "noDeviceCategoriesCreated": "자산 카테고리가 생성되지 않았습니다",
     "categoriesWillAppearHere": "카테고리가 생성되면 여기에 표시됩니다",
     "noInstallationTypesCreated": "생성된 설치 유형이 없습니다",
     "installationTypesWillAppearHere": "설치 유형을 생성하면 여기에 표시됩니다",
@@ -913,11 +927,11 @@
     "tour": {
       "welcome": {
         "title": "Leonix에 오신 것을 환영합니다!",
-        "description": "패널 사용을 시작하기 전에 필요한 설치 유형 및 장치 범주를 만들기 위해 설정으로 이동하는 것이 중요합니다. 단계별로 안내해 드리겠습니다."
+        "description": "패널 사용을 시작하기 전에 필요한 설치 유형 및 자산 범주를 만들기 위해 설정으로 이동하는 것이 중요합니다. 단계별로 안내해 드리겠습니다."
       },
       "createInstallationType": {
         "title": "1단계: 설정으로 이동",
-        "description": "상단 표시줄의 설정 아이콘(톱니바퀴)을 클릭하십시오. 다음을 만들어야 합니다: 1) 설치 유형(예: 사무실, 공장, 창고), 2) 장치 범주(예: 펌프, 모터, 센서). 설치를 만들기 전에 필수입니다."
+        "description": "상단 표시줄의 설정 아이콘(톱니바퀴)을 클릭하십시오. 다음을 만들어야 합니다: 1) 설치 유형(예: 사무실, 공장, 창고), 2) 자산 범주(예: 펌프, 모터, 센서). 설치를 만들기 전에 필수입니다."
       },
       "viewInstallationTypes": {
         "title": "설치 유형 보기",
@@ -951,11 +965,12 @@
   },
   "assets": {
     "edit": "편집",
+    "manageForms": "양식 관리",
     "understood": "닫기",
     "successTitle": "작업이 성공적으로 완료되었습니다!",
     "continue": "계속하기",
-    "titlePage": "자산 | Leonix",
-    "title": "자산",
+    "titlePage": "자산 유형 | Leonix",
+    "title": "자산 유형",
     "createAsset": "자산 생성",
     "tour": {
       "welcome": {
@@ -964,7 +979,7 @@
       },
       "goToForms": {
         "title": "1단계: 양식으로 이동",
-        "description": "자산을 만들려면 먼저 양식 템플릿이 필요합니다. 사이드 메뉴의 '양식'을 클릭하여 첫 번째 템플릿을 만드십시오."
+        "description": "자산을 만들려면 먼저 양식 템플릿이 필요합니다. '양식 관리'를 클릭하여 첫 번째 템플릿을 만드십시오."
       },
       "createFormTemplate": {
         "title": "2단계: 양식 템플릿 만들기",
@@ -1429,15 +1444,15 @@
     "name": "이름",
     "category": "카테고리",
     "installation": "설치",
-    "deviceNamePlaceholder": "장치 이름을 입력하세요",
+    "deviceNamePlaceholder": "자산 이름을 입력하세요",
     "successTitle": "작업이 성공했습니다!",
     "understood": "닫기",
-    "titlePage": "장치 | Leonix",
-    "loadingDevices": "장치를 로드 중...",
+    "titlePage": "자산 | Leonix",
+    "loadingDevices": "자산를 로드 중...",
     "notFound": "설치를 찾을 수 없습니다",
-    "devicesOf": "{{name}}의 장치",
-    "addDevice": "장치 추가",
-    "noDevices": "이 설치에 장치가 없습니다",
+    "devicesOf": "{{name}}의 자산",
+    "addDevice": "자산 추가",
+    "noDevices": "이 설치에 자산가 없습니다",
     "type": "유형",
     "location": "위치",
     "status": "상태",
@@ -1447,10 +1462,10 @@
     "seeQR": "QR 코드 보기",
     "downloadLastMaintenance": "마지막 유지보수 다운로드",
     "viewMaintenanceHistory": "유지보수 이력 보기",
-    "editDevice": "장치 편집",
-    "deleteDevice": "장치 삭제",
+    "editDevice": "자산 편집",
+    "deleteDevice": "자산 삭제",
     "page": "{{currentPage}} 페이지 / {{totalPages}} 페이지",
-    "confirmDeleteTitle": "장치를 삭제하시겠습니까?",
+    "confirmDeleteTitle": "자산를 삭제하시겠습니까?",
     "confirmDeleteDescription": "이 작업은 되돌릴 수 없습니다.",
     "qrCode": "QR 코드",
     "generatingQR": "QR 코드 생성 중...",
@@ -1458,38 +1473,38 @@
     "scanQRDescription": "이 코드를 스캔하여 유지보수 양식에 접근하세요",
     "openForm": "양식 열기",
     "printQR": "QR 인쇄",
-    "device": "장치",
+    "device": "자산",
     "loadingRequiredData": "필요한 데이터를 로드 중...",
     "errorLoadingCategories": "카테고리 로드 오류",
     "retryLoadCategories": "카테고리 다시 로드",
-    "searchDevicesPlaceholder": "장치, 위치 또는 카테고리로 검색...",
-    "noDevicesFound": "이 검색어로 장치를 찾을 수 없습니다",
-    "noMaintenanceAvailable": "이 장치에 사용 가능한 유지보수가 없습니다",
+    "searchDevicesPlaceholder": "자산, 위치 또는 카테고리로 검색...",
+    "noDevicesFound": "이 검색어로 자산를 찾을 수 없습니다",
+    "noMaintenanceAvailable": "이 자산에 사용 가능한 유지보수가 없습니다",
     "errorLoadingMaintenance": "유지보수 로드 오류",
     "tour": {
       "welcome": {
         "title": "설치 상세에 오신 것을 환영합니다!",
-        "description": "여기서 이 설치의 모든 장치를 관리할 수 있습니다. 이 섹션의 작동 방식을 보여드리겠습니다."
+        "description": "여기서 이 설치의 모든 자산를 관리할 수 있습니다. 이 섹션의 작동 방식을 보여드리겠습니다."
       },
       "goToInstallations": {
         "title": "설치로 이동",
-        "description": "장치를 추가하기 전에 설치 섹션에서 장치 카테고리를 생성했는지 확인하세요. 여기를 클릭하여 해당 섹션으로 이동하세요."
+        "description": "자산를 추가하기 전에 설치 섹션에서 자산 카테고리를 생성했는지 확인하세요. 여기를 클릭하여 해당 섹션으로 이동하세요."
       },
       "createAssetFirst": {
         "title": "중요: 먼저 자산 생성",
-        "description": "이 설치에 장치를 추가하기 전에 먼저 자산 섹션에서 자산을 생성해야 합니다. 자산은 설치 내 장치의 기본/템플릿 역할을 합니다."
+        "description": "이 설치에 자산를 추가하기 전에 먼저 자산 섹션에서 자산을 생성해야 합니다. 자산은 설치 내 자산의 기본/템플릿 역할을 합니다."
       },
       "addDevice": {
-        "title": "장치 추가",
-        "description": "이 버튼을 사용하여 설치에 새 장치를 추가하세요. 카테고리, 위치, 상태 및 기타 장치 세부 정보를 선택해야 합니다."
+        "title": "자산 추가",
+        "description": "이 버튼을 사용하여 설치에 새 자산를 추가하세요. 카테고리, 위치, 상태 및 기타 자산 세부 정보를 선택해야 합니다."
       },
       "searchFilter": {
         "title": "검색 및 필터",
-        "description": "이 바를 사용하여 이름, 위치 또는 카테고리로 장치를 검색하세요. 장치 상태로 필터링할 수도 있습니다."
+        "description": "이 바를 사용하여 이름, 위치 또는 카테고리로 자산를 검색하세요. 자산 상태로 필터링할 수도 있습니다."
       },
       "deviceActions": {
-        "title": "장치 작업",
-        "description": "각 장치 카드에는 다음 버튼이 있습니다: QR 코드 보기, 마지막 유지보수 다운로드(PDF), 장치 편집 및 삭제."
+        "title": "자산 작업",
+        "description": "각 자산 카드에는 다음 버튼이 있습니다: QR 코드 보기, 마지막 유지보수 다운로드(PDF), 자산 편집 및 삭제."
       },
       "buttons": {
         "next": "다음",
@@ -1622,7 +1637,7 @@
     "locationMax": "위치는 255자를 초과할 수 없습니다",
     "categoryRequired": "카테고리는 필수입니다",
     "categoryMax": "카테고리는 100자를 초과할 수 없습니다",
-    "deviceNameRequired": "장치 이름은 필수입니다",
+    "deviceNameRequired": "자산 이름은 필수입니다",
     "deviceNameMin": "이름은 최소 1자 이상이어야 합니다",
     "deviceNameMax": "이름은 100자를 초과할 수 없습니다",
     "statusRequired": "상태는 필수입니다",
@@ -1828,13 +1843,13 @@
     "installationTypesDesc": "시스템에서 사용 가능한 설치 유형 카테고리 관리",
     "assetCategories": "자산 카테고리",
     "assetCategoriesDesc": "자산을 분류하기 위한 카테고리 관리",
-    "deviceCategories": "장치 카테고리",
-    "deviceCategoriesDesc": "설치를 위한 장치 카테고리 구성",
+    "deviceCategories": "자산 카테고리",
+    "deviceCategoriesDesc": "설치를 위한 자산 카테고리 구성",
     "formCategories": "양식 카테고리",
     "formCategoriesDesc": "카테고리별로 양식 템플릿 구성",
     "manageInstallationTypes": "설치 유형 관리",
     "manageAssetCategories": "자산 카테고리 관리",
-    "manageDeviceCategories": "장치 카테고리 관리",
+    "manageDeviceCategories": "자산 카테고리 관리",
     "manageFormCategories": "양식 카테고리 관리",
     "newCategoryName": "새 카테고리 이름",
     "newTypeName": "새 유형 이름",

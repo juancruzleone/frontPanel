@@ -165,6 +165,13 @@ const useHomeDashboard = () => {
           suffix: "h"
         },
         {
+          label: 'home.mtbfHours',
+          value: opKpisRaw?.mtbfHours?.toFixed(1) || "0.0",
+          icon: Activity,
+          color: "#7b1fa2",
+          suffix: "h"
+        },
+        {
           label: 'home.preventiveCompliance',
           value: opKpisRaw?.preventiveComplianceRate?.toFixed(0) || "0",
           icon: CheckCircle,

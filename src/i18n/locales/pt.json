@@ -6,7 +6,7 @@
     "maintenancePlan": "Plano de manutenção",
     "installations": "Instalações",
     "subscriptions": "Assinaturas ativas",
-    "assets": "Ativos",
+    "assets": "Tipos de ativos",
     "forms": "Formulários",
     "manuals": "Manuais",
     "calendar": "Calendário",
@@ -377,6 +377,20 @@
       "null": "Sem status",
       "activo": "Ativo",
       "inactivo": "Inativo"
+    },
+    "mtbfHours": "MTBF (Horas)",
+    "kpiDetails": {
+      "generic": "Informações detalhadas sobre esta métrica.",
+      "openWorkOrders": "Número total de ordens de serviço que estão atualmente abertas e aguardando conclusão.",
+      "overdueWorkOrders": "Ordens de serviço cuja data programada já passou e ainda não foram concluídas.",
+      "criticalWorkOrders": "Ordens de serviço marcadas com prioridade crítica que exigem atenção imediata.",
+      "mttrHours": "Tempo Médio de Reparo. Representa o tempo médio necessário para reparar um sistema que falhou.",
+      "mtbfHours": "Tempo Médio Entre Falhas. Indica o tempo médio de operação entre falhas do sistema.",
+      "preventiveCompliance": "Porcentagem de conformidade das tarefas de manutenção preventiva agendadas.",
+      "installations": "Número total de instalações registradas no sistema.",
+      "assets": "Número total de tipos de ativos configurados.",
+      "workOrders": "Número total de ordens de serviço geradas.",
+      "technicians": "Número total de técnicos registrados na equipe."
     }
   },
   "workOrders": {
@@ -555,7 +569,7 @@
     }
   },
   "installations": {
-    "deviceNamePlaceholder": "Digite o nome do dispositivo",
+    "deviceNamePlaceholder": "Digite o nome do ativo",
     "installations": "instalação",
     "understood": "Fechar",
     "successTitle": "Operação bem-sucedida!",
@@ -576,10 +590,10 @@
     "contact": "Contato",
     "phone": "Telefone",
     "email": "E-mail",
-    "devices": "Dispositivos",
-    "addDevice": "Adicionar dispositivo",
-    "editDevice": "Editar Dispositivo",
-    "deviceType": "Tipo de Dispositivo",
+    "devices": "Ativos",
+    "addDevice": "Adicionar ativo",
+    "editDevice": "Editar Ativo",
+    "deviceType": "Tipo de Ativo",
     "serialNumber": "Número de Série",
     "model": "Modelo",
     "manufacturer": "Fabricante",
@@ -594,12 +608,12 @@
     "saving": "Salvando...",
     "categories": "Categorias",
     "installationTypeLabel": "Tipos de instalação",
-    "manageCategories": "Gerenciar Categorias de Dispositivos",
+    "manageCategories": "Gerenciar Categorias de Ativos",
     "manageInstallationTypes": "Gerenciar Tipos de Instalação",
     "manageDevices": "Gerenciar Categorias",
-    "viewCategories": "Ver Categorias de Dispositivos",
+    "viewCategories": "Ver Categorias de Ativos",
     "viewInstallationTypes": "Ver Tipos de Instalação",
-    "createCategory": "Criar Categoria de Dispositivo",
+    "createCategory": "Criar Categoria de Ativo",
     "createInstallationType": "Criar Tipo de Instalação",
     "editInstallationType": "Editar tipo de instalação",
     "categoryName": "Nome da Categoria",
@@ -607,10 +621,10 @@
     "categoryDescription": "Descrição",
     "categoryDescriptionPlaceholder": "Descrição opcional da categoria",
     "active": "Ativa",
-    "deviceCategory": "Categoria do dispositivo",
-    "deviceStatu": "Status do dispositivo",
-    "deviceLocation": "Localização do dispositivo",
-    "deviceName": "Nome do dispositivo",
+    "deviceCategory": "Categoria do ativo",
+    "deviceStatu": "Status do ativo",
+    "deviceLocation": "Localização do ativo",
+    "deviceName": "Nome do ativo",
     "selectCategory": "Selecione uma categoria",
     "selectAsset": "Selecione um ativo",
     "asset": "Ativo",
@@ -620,7 +634,7 @@
     "maxAvailable": "Máximo disponível",
     "noStockAvailable": "Sem estoque disponível",
     "quantity": "Quantidade",
-    "updateDevice": "Atualizar dispositivo",
+    "updateDevice": "Atualizar ativo",
     "selectInstallationType": "Selecione o tipo de instalação",
     "typeName": "Nome do tipo",
     "typeNamePlaceholder": "Digite o nome do tipo de instalação",
@@ -637,7 +651,7 @@
     "noTypes": "Nenhum tipo de instalação criado",
     "noTypesSubtext": "Os tipos de instalação aparecerão aqui quando forem criados",
     "created": "Criado",
-    "viewCategoriesTitle": "Categorias de Dispositivos",
+    "viewCategoriesTitle": "Categorias de Ativos",
     "loadingCategories": "Carregando categorias...",
     "errorLoadingCategories": "Erro ao carregar categorias",
     "noCategories": "Nenhuma categoria criada",
@@ -654,9 +668,9 @@
     "installationTypeDeleted": "Tipo de instalação excluído com sucesso",
     "confirmDeleteCategory": "Tem certeza de que deseja excluir esta categoria?",
     "confirmDeleteInstallationType": "Tem certeza de que deseja excluir este tipo de instalação?",
-    "deviceAdded": "Dispositivo adicionado com sucesso",
-    "deviceUpdated": "Dispositivo atualizado com sucesso",
-    "deviceDeleted": "Dispositivo excluído com sucesso",
+    "deviceAdded": "Ativo adicionado com sucesso",
+    "deviceUpdated": "Ativo atualizado com sucesso",
+    "deviceDeleted": "Ativo excluído com sucesso",
     "installationCreated": "Instalação criada com sucesso",
     "installationUpdated": "Instalação atualizada com sucesso",
     "installationDeleted": "Instalação excluída com sucesso",
@@ -669,17 +683,17 @@
       "pendingReview": "Pendente de revisão"
     },
     "deviceInstallationInfo": "Informações da instalação",
-    "deviceState": "Estado do Dispositivo",
+    "deviceState": "Estado do Ativo",
     "selectState": "Selecionar estado",
     "noAssetsAvailable": "Nenhum ativo disponível",
     "retryLoadCategories": "Tentar novamente carregar categorias",
-    "deviceAddedSuccessfully": "Dispositivo adicionado com sucesso",
-    "deviceUpdatedSuccessfully": "Dispositivo atualizado com sucesso",
-    "errorAddingDevice": "Erro ao adicionar dispositivo",
-    "errorUpdatingDevice": "Erro ao atualizar dispositivo",
-    "invalidDeviceData": "Dados de dispositivo inválidos",
+    "deviceAddedSuccessfully": "Ativo adicionado com sucesso",
+    "deviceUpdatedSuccessfully": "Ativo atualizado com sucesso",
+    "errorAddingDevice": "Erro ao adicionar ativo",
+    "errorUpdatingDevice": "Erro ao atualizar ativo",
+    "invalidDeviceData": "Dados de ativo inválidos",
     "selectedAssetNotFound": "O ativo selecionado não existe",
-    "addDeviceFunctionMissing": "Função de adicionar dispositivo ausente",
+    "addDeviceFunctionMissing": "Função de adicionar ativo ausente",
     "locationExample": "Ex: Andar 2, Escritório 201",
     "createCategoriesFirst": "Primeiro criar categorias na seção correspondente",
     "loadingRequiredData": "Carregando dados necessários...",
@@ -690,11 +704,11 @@
     "filterByInstallationType": "Filtrar por tipo de instalação",
     "noInstallationsFound": "Nenhuma instalação encontrada",
     "deleteInstallation": "Excluir instalação",
-    "viewDeviceList": "Ver lista de aparelhos",
+    "viewDeviceList": "Ver lista de ativos",
     "page": "Página",
     "of": "de",
-    "deviceCategories": "Categorias de Dispositivos",
-    "noDeviceCategoriesCreated": "Nenhuma categoria de dispositivo criada",
+    "deviceCategories": "Categorias de Ativos",
+    "noDeviceCategoriesCreated": "Nenhuma categoria de ativo criada",
     "categoriesWillAppearHere": "As categorias aparecerão aqui uma vez criadas",
     "editCategory": "Editar categoria",
     "deleteCategory": "Excluir categoria",
@@ -908,11 +922,11 @@
     "tour": {
       "welcome": {
         "title": "Bem-vindo ao Leonix!",
-        "description": "Antes de começar a usar o painel, é importante ir às Configurações para criar os tipos de instalação e categorias de dispositivos necessários. Vamos guiá-lo passo a passo."
+        "description": "Antes de começar a usar o painel, é importante ir às Configurações para criar os tipos de instalação e categorias de ativos necessários. Vamos guiá-lo passo a passo."
       },
       "createInstallationType": {
         "title": "Passo 1: Ir para Configurações",
-        "description": "Clique no ícone de configurações (engrenagem) na barra superior. Lá você deve criar: 1) Tipos de instalação (ex: Escritório, Fábrica, Armazém), 2) Categorias de dispositivos (ex: Bomba, Motor, Sensor). Isso é obrigatório antes de criar instalações."
+        "description": "Clique no ícone de configurações (engrenagem) na barra superior. Lá você deve criar: 1) Tipos de instalação (ex: Escritório, Fábrica, Armazém), 2) Categorias de ativos (ex: Bomba, Motor, Sensor). Isso é obrigatório antes de criar instalações."
       },
       "viewInstallationTypes": {
         "title": "Ver Tipos de Instalação",
@@ -946,10 +960,11 @@
   },
   "assets": {
     "edit": "Editar",
+    "manageForms": "Gerir formulários",
     "understood": "Fechar",
     "successTitle": "Operação bem-sucedida!",
     "continue": "Continuar",
-    "title": "Ativos",
+    "title": "Tipos de ativos",
     "createAsset": "Criar Ativo",
     "tour": {
       "welcome": {
@@ -958,7 +973,7 @@
       },
       "goToForms": {
         "title": "Passo 1: Ir para Formulários",
-        "description": "Para criar um ativo, você precisa primeiro de um modelo de formulário. Clique em 'Formulários' no menu lateral para criar seu primeiro modelo."
+        "description": "Para criar um ativo, você precisa primeiro de um modelo de formulário. Clique em 'Gerir formulários' para criar seu primeiro modelo."
       },
       "createFormTemplate": {
         "title": "Passo 2: Criar Modelo de Formulário",
@@ -1060,7 +1075,7 @@
         "stockZero": "O estoque deve ser maior que 0"
       }
     },
-    "titlePage": "Ativos | Leonix"
+    "titlePage": "Tipos de ativos | Leonix"
   },
   "forms": {
     "category": "Categoria",
@@ -1413,15 +1428,15 @@
     "name": "Nome",
     "category": "Categoria",
     "installation": "Instalação",
-    "deviceNamePlaceholder": "Digite o nome do dispositivo",
+    "deviceNamePlaceholder": "Digite o nome do ativo",
     "successTitle": "Operação bem-sucedida!",
     "understood": "Fechar",
-    "titlePage": "Dispositivos | Leonix",
-    "loadingDevices": "Carregando dispositivos...",
+    "titlePage": "Ativos | Leonix",
+    "loadingDevices": "Carregando ativos...",
     "notFound": "Instalação não encontrada",
-    "devicesOf": "Dispositivos de {{name}}",
-    "addDevice": "Adicionar dispositivo",
-    "noDevices": "Nenhum dispositivo nesta instalação",
+    "devicesOf": "Ativos de {{name}}",
+    "addDevice": "Adicionar ativo",
+    "noDevices": "Nenhum ativo nesta instalação",
     "type": "Tipo",
     "location": "Localização",
     "status": "Status",
@@ -1431,10 +1446,10 @@
     "seeQR": "Ver código QR",
     "downloadLastMaintenance": "Baixar última manutenção",
     "viewMaintenanceHistory": "Ver histórico de manutenções",
-    "editDevice": "Editar dispositivo",
-    "deleteDevice": "Excluir dispositivo",
+    "editDevice": "Editar ativo",
+    "deleteDevice": "Excluir ativo",
     "page": "Página {{currentPage}} de {{totalPages}}",
-    "confirmDeleteTitle": "Excluir dispositivo?",
+    "confirmDeleteTitle": "Excluir ativo?",
     "confirmDeleteDescription": "Esta ação não pode ser desfeita.",
     "qrCode": "Código QR",
     "generatingQR": "Gerando código QR...",
@@ -1442,40 +1457,40 @@
     "scanQRDescription": "Escaneie este código para acessar o formulário de manutenção",
     "openForm": "Abrir formulário",
     "printQR": "Imprimir QR",
-    "device": "Dispositivo",
+    "device": "Ativo",
     "loadingRequiredData": "Carregando dados necessários...",
     "errorLoadingCategories": "Erro ao carregar categorias",
     "retryLoadCategories": "Tentar novamente carregar categorias",
-    "searchDevicesPlaceholder": "Buscar por dispositivo, localização ou categoria...",
-    "noDevicesFound": "Nenhum dispositivo encontrado com esse termo de busca",
-    "showingDevices": "Mostrando {{start}}-{{end}} de {{total}} dispositivos",
+    "searchDevicesPlaceholder": "Buscar por ativo, localização ou categoria...",
+    "noDevicesFound": "Nenhum ativo encontrado com esse termo de busca",
+    "showingDevices": "Mostrando {{start}}-{{end}} de {{total}} ativos",
     "of": "de",
-    "noMaintenanceAvailable": "Nenhuma manutenção disponível para este dispositivo",
+    "noMaintenanceAvailable": "Nenhuma manutenção disponível para este ativo",
     "errorLoadingMaintenance": "Erro ao carregar a manutenção",
     "tour": {
       "welcome": {
         "title": "Bem-vindo aos Detalhes da Instalação!",
-        "description": "Aqui você pode gerenciar todos os dispositivos desta instalação. Vamos mostrar como esta seção funciona."
+        "description": "Aqui você pode gerenciar todos os ativos desta instalação. Vamos mostrar como esta seção funciona."
       },
       "goToInstallations": {
         "title": "Ir para Instalações",
-        "description": "Antes de adicionar dispositivos, certifique-se de criar as categorias de dispositivos na seção Instalações. Clique aqui para ir a essa seção."
+        "description": "Antes de adicionar ativos, certifique-se de criar as categorias de ativos na seção Instalações. Clique aqui para ir a essa seção."
       },
       "createAssetFirst": {
         "title": "Importante: Criar Ativos Primeiro",
-        "description": "Antes de adicionar um dispositivo a esta instalação, você deve primeiro criar um ativo na seção de Ativos. Os ativos servem como base/modelo para os dispositivos nas instalações."
+        "description": "Antes de adicionar um ativo a esta instalação, você deve primeiro criar um ativo na seção de Ativos. Os ativos servem como base/modelo para os ativos nas instalações."
       },
       "addDevice": {
-        "title": "Adicionar Dispositivo",
-        "description": "Use este botão para adicionar um novo dispositivo à instalação. Você precisará selecionar a categoria, localização, status e outros detalhes do dispositivo."
+        "title": "Adicionar Ativo",
+        "description": "Use este botão para adicionar um novo ativo à instalação. Você precisará selecionar a categoria, localização, status e outros detalhes do ativo."
       },
       "searchFilter": {
         "title": "Buscar e Filtrar",
-        "description": "Use esta barra para buscar dispositivos por nome, localização ou categoria. Você também pode filtrar por status do dispositivo."
+        "description": "Use esta barra para buscar ativos por nome, localização ou categoria. Você também pode filtrar por status do ativo."
       },
       "deviceActions": {
-        "title": "Ações de Dispositivos",
-        "description": "Cada cartão de dispositivo possui botões para: visualizar código QR, baixar última manutenção (PDF), editar o dispositivo e excluí-lo."
+        "title": "Ações de Ativos",
+        "description": "Cada cartão de ativo possui botões para: visualizar código QR, baixar última manutenção (PDF), editar o ativo e excluí-lo."
       },
       "buttons": {
         "next": "Próximo",
@@ -1579,7 +1594,7 @@
     "locationMax": "Localização não pode ter mais de 255 caracteres",
     "categoryRequired": "Categoria é obrigatória",
     "categoryMax": "Categoria não pode ter mais de 100 caracteres",
-    "deviceNameRequired": "O nome do dispositivo é obrigatório",
+    "deviceNameRequired": "O nome do ativo é obrigatório",
     "deviceNameMin": "O nome deve ter pelo menos 1 caractere",
     "deviceNameMax": "O nome não pode ter mais de 100 caracteres",
     "statusRequired": "Status é obrigatório",
@@ -1786,13 +1801,13 @@
     "installationTypesDesc": "Gerenciar as categorias de tipos de instalação disponíveis no sistema",
     "assetCategories": "Categorias de Ativos",
     "assetCategoriesDesc": "Gerenciar categorias para classificar seus ativos",
-    "deviceCategories": "Categorias de Dispositivos",
-    "deviceCategoriesDesc": "Configurar categorias de dispositivos para suas instalações",
+    "deviceCategories": "Categorias de Ativos",
+    "deviceCategoriesDesc": "Configurar categorias de ativos para suas instalações",
     "formCategories": "Categorias de Formulários",
     "formCategoriesDesc": "Organizar modelos de formulários por categorias",
     "manageInstallationTypes": "Gerenciar Tipos de Instalação",
     "manageAssetCategories": "Gerenciar Categorias de Ativos",
-    "manageDeviceCategories": "Gerenciar Categorias de Dispositivos",
+    "manageDeviceCategories": "Gerenciar Categorias de Ativos",
     "manageFormCategories": "Gerenciar Categorias de Formulários",
     "newCategoryName": "Nome da nova categoria",
     "newTypeName": "Nome do novo tipo",

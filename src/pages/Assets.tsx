@@ -10,14 +10,14 @@ import ModalError from "../features/forms/components/ModalError"
 import ModalConfirmDelete from "../features/assets/components/ModalConfirmDelete"
 import ModalAssignTemplate from "../features/assets/components/ModalAssignTemplate"
 import ModalStock from "../features/assets/components/ModalStock"
-import { Edit, Trash, List, BookOpen, HelpCircle, Plus, FilterX, Package } from "lucide-react"
+import { Edit, Trash, List, BookOpen, HelpCircle, Plus, FilterX, Package, FileText } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { translateDeviceStatus } from "../shared/utils/backendTranslations"
 import { useNavigate, useLocation } from "react-router-dom"
 import { useAssetsTour } from "../features/assets/hooks/useAssetsTour"
 import { useAuthStore } from "../store/authStore"
-import { isClient } from "../shared/utils/roleUtils"
+import { isClient, isAdmin } from "../shared/utils/roleUtils"
 import TourButton from "../shared/components/Buttons/TourButton"
 import ViewToggle from "../components/ViewToggle/ViewToggle"
 import { useViewMode } from "../shared/hooks/useViewMode"
@@ -62,6 +62,7 @@ const Assets = () => {
 
   const role = useAuthStore((s) => s.role)
   const isClientUser = role && isClient(role)
+  const isAdminUser = role && isAdmin(role)
 
   useEffect(() => {
     document.title = t("assets.titlePage")
@@ -205,6 +206,17 @@ const Assets = () => {
           {!isClientUser && (
             <div className={styles.positionButton}>
               <Button title={t('assets.createAsset')} onClick={handleOpenCreate} data-tour="create-asset-btn" />
+              {isAdminUser && (
+                <button
+                  className={styles.manualsButton}
+                  onClick={() => navigate('/formularios')}
+                  aria-label={t('assets.manageForms')}
+                  data-tour="manage-forms-btn"
+                >
+                  <FileText size={20} />
+                  <span>{t('assets.manageForms')}</span>
+                </button>
+              )}
               <button
                 className={styles.manualsButton}
                 onClick={() => navigate('/manuales')}

@@ -35,11 +35,11 @@ export const useAssetsTour = () => {
           }
         },
         {
-          element: '[data-tour="nav-forms"]',
+          element: '[data-tour="manage-forms-btn"]',
           popover: {
             title: t('assets.tour.goToForms.title'),
             description: t('assets.tour.goToForms.description'),
-            side: "right",
+            side: "bottom",
             align: 'start',
             onNextClick: () => {
               driverObj.destroy();

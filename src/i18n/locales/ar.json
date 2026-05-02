@@ -6,7 +6,7 @@
     "workOrders": "أوامر العمل",
     "workOrdersList": "قائمة أوامر العمل",
     "installations": "التركيبات",
-    "assets": "الأصول",
+    "assets": "أنواع الأصول",
     "forms": "النماذج",
     "manuals": "الدليل",
     "calendar": "التقويم",
@@ -385,6 +385,20 @@
       "null": "بدون حالة",
       "activo": "نشط",
       "inactivo": "غير نشط"
+    },
+    "mtbfHours": "MTBF (ساعات)",
+    "kpiDetails": {
+      "generic": "معلومات مفصلة حول هذا المقياس.",
+      "openWorkOrders": "إجمالي عدد أوامر العمل المفتوحة حاليًا والتي تنتظر الانتهاء.",
+      "overdueWorkOrders": "أوامر العمل التي تجاوزت تاريخها المقرر ولم تكتمل بعد.",
+      "criticalWorkOrders": "أوامر العمل المحددة بأولوية حرجة والتي تتطلب اهتمامًا فوريًا.",
+      "mttrHours": "متوسط وقت الإصلاح. يمثل متوسط الوقت المطلوب لإصلاح نظام معطل.",
+      "mtbfHours": "متوسط الوقت بين الأعطال. يشير إلى متوسط وقت التشغيل بين أعطال النظام.",
+      "preventiveCompliance": "نسبة الامتثال لمهام الصيانة الوقائية المقررة.",
+      "installations": "إجمالي عدد المنشآت المسجلة في النظام.",
+      "assets": "إجمالي عدد أنواع الأصول التي تم تكوينها.",
+      "workOrders": "إجمالي عدد أوامر العمل التي تم إنشاؤها.",
+      "technicians": "إجمالي عدد الفنيين المسجلين في الفريق."
     }
   },
   "workOrders": {
@@ -561,7 +575,7 @@
     }
   },
   "installations": {
-    "deviceNamePlaceholder": "اكتب اسم الجهاز",
+    "deviceNamePlaceholder": "اكتب اسم الأصل",
     "installation": "تركيب",
     "understood": "إغلاق",
     "successTitle": "تمت العملية بنجاح!",
@@ -582,10 +596,10 @@
     "contact": "جهة الاتصال",
     "phone": "الهاتف",
     "email": "البريد الإلكتروني",
-    "devices": "الأجهزة",
-    "addDevice": "إضافة جهاز",
-    "editDevice": "تعديل الجهاز",
-    "deviceType": "نوع الجهاز",
+    "devices": "الأصول",
+    "addDevice": "إضافة أصل",
+    "editDevice": "تعديل الأصل",
+    "deviceType": "نوع الأصل",
     "serialNumber": "الرقم التسلسلي",
     "model": "الموديل",
     "manufacturer": "الشركة المصنعة",
@@ -600,10 +614,10 @@
     "selectInstallationType": "اختر نوع التركيبة",
     "saving": "جاري الحفظ...",
     "categories": "الفئات",
-    "manageCategories": "إدارة فئات الأجهزة",
+    "manageCategories": "إدارة فئات الأصول",
     "manageInstallationTypes": "إدارة أنواع التركيبات",
     "manageDevices": "إدارة الفئات",
-    "viewCategories": "عرض فئات الأجهزة",
+    "viewCategories": "عرض فئات الأصول",
     "viewInstallationTypes": "عرض أنواع التركيبات",
     "createCategory": "إنشاء فئة أجهزة",
     "createInstallationType": "إنشاء نوع تركيبة",
@@ -613,10 +627,10 @@
     "categoryDescription": "الوصف",
     "categoryDescriptionPlaceholder": "وصف اختياري للفئة",
     "active": "نشط",
-    "deviceCategory": "فئة الجهاز",
-    "deviceStatu": "حالة الجهاز",
-    "deviceLocation": "موقع الجهاز",
-    "deviceName": "اسم الجهاز",
+    "deviceCategory": "فئة الأصل",
+    "deviceStatu": "حالة الأصل",
+    "deviceLocation": "موقع الأصل",
+    "deviceName": "اسم الأصل",
     "selectCategory": "اختر فئة",
     "selectAsset": "اختر أصلًا",
     "asset": "الأصل",
@@ -626,7 +640,7 @@
     "maxAvailable": "الحد الأقصى المتاح",
     "noStockAvailable": "لا يوجد مخزون متاح",
     "quantity": "الكمية",
-    "updateDevice": "تحديث الجهاز",
+    "updateDevice": "تحديث الأصل",
     "typeName": "اسم النوع",
     "typeNamePlaceholder": "أدخل اسم نوع التركيب",
     "typeDescription": "وصف النوع",
@@ -642,7 +656,7 @@
     "noTypes": "لم يتم إنشاء أي نوع تركيب",
     "noTypesSubtext": "ستظهر أنواع التركيبات هنا بمجرد إنشائها",
     "created": "تاريخ الإنشاء",
-    "viewCategoriesTitle": "فئات الأجهزة",
+    "viewCategoriesTitle": "فئات الأصول",
     "loadingCategories": "جارٍ تحميل الفئات...",
     "errorLoadingCategories": "حدث خطأ أثناء تحميل الفئات",
     "noCategories": "لم يتم إنشاء أي فئة",
@@ -655,9 +669,9 @@
     "installationTypeDeleted": "تم حذف نوع التركيبة بنجاح",
     "confirmDeleteCategory": "هل أنت متأكد من حذف هذه الفئة؟",
     "confirmDeleteInstallationType": "هل أنت متأكد من حذف نوع التركيبة هذا؟",
-    "deviceAdded": "تم إضافة الجهاز بنجاح",
-    "deviceUpdated": "تم تحديث الجهاز بنجاح",
-    "deviceDeleted": "تم حذف الجهاز بنجاح",
+    "deviceAdded": "تم إضافة الأصل بنجاح",
+    "deviceUpdated": "تم تحديث الأصل بنجاح",
+    "deviceDeleted": "تم حذف الأصل بنجاح",
     "installationCreated": "تم إنشاء التركيبة بنجاح",
     "installationUpdated": "تم تحديث التركيبة بنجاح",
     "installationDeleted": "تم حذف التركيبة بنجاح",
@@ -670,18 +684,18 @@
       "pendingReview": "في انتظار المراجعة"
     },
     "deviceInstallationInfo": "معلومات التركيب",
-    "deviceState": "حالة الجهاز",
+    "deviceState": "حالة الأصل",
     "selectState": "اختر الحالة",
     "noAssetsAvailable": "لا توجد أصول متاحة",
     "noCategoriesAvailable": "لا توجد فئات متاحة",
     "retryLoadCategories": "إعادة تحميل الفئات",
-    "deviceAddedSuccessfully": "تم إضافة الجهاز بنجاح",
-    "deviceUpdatedSuccessfully": "تم تحديث الجهاز بنجاح",
-    "errorAddingDevice": "خطأ في إضافة الجهاز",
-    "errorUpdatingDevice": "خطأ في تحديث الجهاز",
-    "invalidDeviceData": "بيانات الجهاز غير صالحة",
+    "deviceAddedSuccessfully": "تم إضافة الأصل بنجاح",
+    "deviceUpdatedSuccessfully": "تم تحديث الأصل بنجاح",
+    "errorAddingDevice": "خطأ في إضافة الأصل",
+    "errorUpdatingDevice": "خطأ في تحديث الأصل",
+    "invalidDeviceData": "بيانات الأصل غير صالحة",
     "selectedAssetNotFound": "الأصل المحدد غير موجود",
-    "addDeviceFunctionMissing": "وظيفة إضافة الجهاز مفقودة",
+    "addDeviceFunctionMissing": "وظيفة إضافة الأصل مفقودة",
     "locationExample": "مثال: الطابق 2، المكتب 201",
     "createCategoriesFirst": "أنشئ الفئات أولاً في القسم المناسب",
     "loadingRequiredData": "جاري تحميل البيانات المطلوبة...",
@@ -692,10 +706,10 @@
     "filterByInstallationType": "تصفية حسب نوع التركيبة",
     "noInstallationsFound": "لم يتم العثور على تركيبات",
     "deleteInstallation": "حذف التركيبة",
-    "viewDeviceList": "عرض قائمة الأجهزة",
+    "viewDeviceList": "عرض قائمة الأصول",
     "page": "الصفحة",
     "of": "من",
-    "deviceCategories": "فئات الأجهزة",
+    "deviceCategories": "فئات الأصول",
     "noDeviceCategoriesCreated": "لم يتم إنشاء فئات أجهزة",
     "categoriesWillAppearHere": "ستظهر الفئات هنا عند إنشائها",
     "deleteCategory": "حذف الفئة",
@@ -909,11 +923,11 @@
     "tour": {
       "welcome": {
         "title": "مرحبًا بك في Leonix!",
-        "description": "قبل البدء في استخدام اللوحة، من المهم الذهاب إلى الإعدادات لإنشاء أنواع التركيب وفئات الأجهزة اللازمة. سنرشدك خطوة بخطوة."
+        "description": "قبل البدء في استخدام اللوحة، من المهم الذهاب إلى الإعدادات لإنشاء أنواع التركيب وفئات الأصول اللازمة. سنرشدك خطوة بخطوة."
       },
       "createInstallationType": {
         "title": "الخطوة 1: الذهاب إلى الإعدادات",
-        "description": "انقر على أيقونة الإعدادات (الترس) في الشريط العلوي. يجب عليك إنشاء: 1) أنواع التركيب (مثل: مكتب، مصنع، مستودع)، 2) فئات الأجهزة (مثل: مضخة، محرك، مستشعر). هذا إلزامي قبل إنشاء التركيبات."
+        "description": "انقر على أيقونة الإعدادات (الترس) في الشريط العلوي. يجب عليك إنشاء: 1) أنواع التركيب (مثل: مكتب، مصنع، مستودع)، 2) فئات الأصول (مثل: مضخة، محرك، مستشعر). هذا إلزامي قبل إنشاء التركيبات."
       },
       "viewInstallationTypes": {
         "title": "عرض أنواع التركيب",
@@ -947,12 +961,13 @@
   },
   "assets": {
     "edit": "تعديل",
+    "manageForms": "إدارة النماذج",
     "understood": "إغلاق",
     "successTitle": "تمت العملية بنجاح!",
     "continue": "متابعة",
-    "titlePage": "الأصول | Leonix",
+    "titlePage": "أنواع الأصول | Leonix",
     "assign": "تعيين",
-    "title": "الأصول",
+    "title": "أنواع الأصول",
     "createAsset": "إنشاء أصل",
     "tour": {
       "welcome": {
@@ -961,7 +976,7 @@
       },
       "goToForms": {
         "title": "الخطوة 1: الانتقال إلى النماذج",
-        "description": "لإنشاء أصل، تحتاج أولاً إلى نموذج استمارة. انقر على 'النماذج' في القائمة الجانبية لإنشاء أول نموذج."
+        "description": "لإنشاء أصل، تحتاج أولاً إلى نموذج استمارة. انقر على 'إدارة النماذج' لإنشاء أول نموذج."
       },
       "createFormTemplate": {
         "title": "الخطوة 2: إنشاء نموذج استمارة",
@@ -1426,14 +1441,14 @@
     "name": "الاسم",
     "category": "الفئة",
     "installation": "التثبيت",
-    "deviceNamePlaceholder": "اكتب اسم الجهاز",
+    "deviceNamePlaceholder": "اكتب اسم الأصل",
     "successTitle": "تمت العملية بنجاح!",
     "understood": "إغلاق",
-    "titlePage": "الأجهزة | Leonix",
-    "loadingDevices": "جارٍ تحميل الأجهزة...",
+    "titlePage": "الأصول | Leonix",
+    "loadingDevices": "جارٍ تحميل الأصول...",
     "notFound": "لم يتم العثور على التركيب",
     "devicesOf": "أجهزة {{name}}",
-    "addDevice": "إضافة جهاز",
+    "addDevice": "إضافة أصل",
     "noDevices": "لا توجد أجهزة في هذا التركيب",
     "type": "النوع",
     "location": "الموقع",
@@ -1444,10 +1459,10 @@
     "seeQR": "عرض رمز الاستجابة السريعة",
     "downloadLastMaintenance": "تحميل آخر صيانة",
     "viewMaintenanceHistory": "عرض سجل الصيانة",
-    "editDevice": "تعديل الجهاز",
-    "deleteDevice": "حذف الجهاز",
+    "editDevice": "تعديل الأصل",
+    "deleteDevice": "حذف الأصل",
     "page": "صفحة {{currentPage}} من {{totalPages}}",
-    "confirmDeleteTitle": "حذف الجهاز؟",
+    "confirmDeleteTitle": "حذف الأصل؟",
     "confirmDeleteDescription": "لا يمكن التراجع عن هذا الإجراء.",
     "qrCode": "رمز الاستجابة السريعة",
     "generatingQR": "جاري إنشاء رمز الاستجابة السريعة...",
@@ -1455,13 +1470,13 @@
     "scanQRDescription": "امسح هذا الرمز للوصول إلى نموذج الصيانة",
     "openForm": "افتح النموذج",
     "printQR": "طباعة الرمز",
-    "device": "جهاز",
+    "device": "أصل",
     "loadingRequiredData": "جارٍ تحميل البيانات المطلوبة...",
     "errorLoadingCategories": "خطأ في تحميل الفئات",
     "retryLoadCategories": "إعادة محاولة تحميل الفئات",
-    "searchDevicesPlaceholder": "البحث بالجهاز أو الموقع أو الفئة...",
+    "searchDevicesPlaceholder": "البحث بالأصل أو الموقع أو الفئة...",
     "noDevicesFound": "لم يتم العثور على أجهزة لهذا البحث",
-    "noMaintenanceAvailable": "لا توجد صيانة متاحة لهذا الجهاز",
+    "noMaintenanceAvailable": "لا توجد صيانة متاحة لهذا الأصل",
     "errorLoadingMaintenance": "خطأ في تحميل الصيانة",
     "tour": {
       "welcome": {
@@ -1470,23 +1485,23 @@
       },
       "goToInstallations": {
         "title": "الانتقال إلى التركيبات",
-        "description": "قبل إضافة الأجهزة، تأكد من إنشاء فئات الأجهزة من قسم التركيبات. انقر هنا للانتقال إلى ذلك القسم."
+        "description": "قبل إضافة الأصول، تأكد من إنشاء فئات الأصول من قسم التركيبات. انقر هنا للانتقال إلى ذلك القسم."
       },
       "createAssetFirst": {
         "title": "مهم: إنشاء الأصول أولاً",
-        "description": "قبل إضافة جهاز إلى هذه التركيبة، يجب عليك أولاً إنشاء أصل في قسم الأصول. تعمل الأصول كقاعدة/نموذج للأجهزة في التركيبات."
+        "description": "قبل إضافة أصل إلى هذه التركيبة، يجب عليك أولاً إنشاء أصل في قسم الأصول. تعمل الأصول كقاعدة/نموذج للأجهزة في التركيبات."
       },
       "addDevice": {
-        "title": "إضافة جهاز",
-        "description": "استخدم هذا الزر لإضافة جهاز جديد إلى التركيبة. ستحتاج إلى تحديد الفئة والموقع والحالة وتفاصيل أخرى للجهاز."
+        "title": "إضافة أصل",
+        "description": "استخدم هذا الزر لإضافة أصل جديد إلى التركيبة. ستحتاج إلى تحديد الفئة والموقع والحالة وتفاصيل أخرى للأصل."
       },
       "searchFilter": {
         "title": "البحث والتصفية",
-        "description": "استخدم هذا الشريط للبحث عن الأجهزة بالاسم أو الموقع أو الفئة. يمكنك أيضًا التصفية حسب حالة الجهاز."
+        "description": "استخدم هذا الشريط للبحث عن الأصول بالاسم أو الموقع أو الفئة. يمكنك أيضًا التصفية حسب حالة الأصل."
       },
       "deviceActions": {
-        "title": "إجراءات الأجهزة",
-        "description": "كل بطاقة جهاز تحتوي على أزرار لـ: عرض رمز الاستجابة السريعة، تحميل آخر صيانة (PDF)، تعديل الجهاز وحذفه."
+        "title": "إجراءات الأصول",
+        "description": "كل بطاقة أصل تحتوي على أزرار لـ: عرض رمز الاستجابة السريعة، تحميل آخر صيانة (PDF)، تعديل الأصل وحذفه."
       },
       "buttons": {
         "next": "التالي",
@@ -1590,7 +1605,7 @@
     "locationMax": "لا يمكن أن يتجاوز الموقع 255 حرفًا",
     "categoryRequired": "الفئة مطلوبة",
     "categoryMax": "لا يمكن أن تتجاوز الفئة 100 حرف",
-    "deviceNameRequired": "اسم الجهاز مطلوب",
+    "deviceNameRequired": "اسم الأصل مطلوب",
     "deviceNameMin": "يجب أن يحتوي الاسم على حرف واحد على الأقل",
     "deviceNameMax": "لا يمكن أن يتجاوز الاسم 100 حرف",
     "statusRequired": "الحالة مطلوبة",
@@ -1794,13 +1809,13 @@
     "installationTypesDesc": "إدارة فئات أنواع التثبيت المتاحة في النظام",
     "assetCategories": "فئات الأصول",
     "assetCategoriesDesc": "إدارة الفئات لتصنيف أصولك",
-    "deviceCategories": "فئات الأجهزة",
-    "deviceCategoriesDesc": "تكوين فئات الأجهزة لتثبيتاتك",
+    "deviceCategories": "فئات الأصول",
+    "deviceCategoriesDesc": "تكوين فئات الأصول لتثبيتاتك",
     "formCategories": "فئات النماذج",
     "formCategoriesDesc": "تنظيم قوالب النماذج حسب الفئات",
     "manageInstallationTypes": "إدارة أنواع التثبيت",
     "manageAssetCategories": "إدارة فئات الأصول",
-    "manageDeviceCategories": "إدارة فئات الأجهزة",
+    "manageDeviceCategories": "إدارة فئات الأصول",
     "manageFormCategories": "إدارة فئات النماذج",
     "newCategoryName": "اسم الفئة الجديدة",
     "newTypeName": "اسم النوع الجديد",

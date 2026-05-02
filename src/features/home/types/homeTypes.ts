@@ -27,6 +27,7 @@ export interface OperationalData {
   overdueWorkOrders: number
   criticalWorkOrders: number
   mttrHours: number
+  mtbfHours: number
   preventiveComplianceRate: number
 }
 

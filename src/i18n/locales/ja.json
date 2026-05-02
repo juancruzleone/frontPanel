@@ -5,7 +5,7 @@
     "workOrdersList": "作業指示一覧",
     "maintenancePlan": "保守計画",
     "installations": "設置",
-    "assets": "資産",
+    "assets": "アセットタイプ",
     "forms": "フォーム",
     "manuals": "マニュアル",
     "subscriptions": "有効なサブスクリプション",
@@ -384,6 +384,20 @@
       "null": "状態なし",
       "activo": "稼働中",
       "inactivo": "停止中"
+    },
+    "mtbfHours": "MTBF（時間）",
+    "kpiDetails": {
+      "generic": "このメトリックに関する詳細情報。",
+      "openWorkOrders": "現在開いており、完了を待機している作業指示の総数。",
+      "overdueWorkOrders": "予定日を過ぎてもまだ完了していない作業指示。",
+      "criticalWorkOrders": "即時の対応が必要な、緊急度の高い優先順位が設定された作業指示。",
+      "mttrHours": "平均修理時間。故障したシステムを修理するために必要な平均時間を表します。",
+      "mtbfHours": "平均故障間隔。システムの故障間の平均動作時間を示します。",
+      "preventiveCompliance": "スケジュールされた予防保守タスクの遵守率。",
+      "installations": "システムに登録されている設備の総数。",
+      "assets": "構成されているアセットタイプの総数。",
+      "workOrders": "生成された作業指示の総数。",
+      "technicians": "チームに登録されている技術者の総数。"
     }
   },
   "workOrders": {
@@ -563,7 +577,7 @@
     }
   },
   "installations": {
-    "deviceNamePlaceholder": "デバイス名を入力してください",
+    "deviceNamePlaceholder": "アセット名を入力してください",
     "installation": "設置",
     "understood": "閉じる",
     "successTitle": "操作が成功しました！",
@@ -585,10 +599,10 @@
     "contact": "連絡先",
     "phone": "電話",
     "email": "メール",
-    "devices": "デバイス",
-    "addDevice": "デバイス追加",
-    "editDevice": "デバイス編集",
-    "deviceType": "デバイス種別",
+    "devices": "アセット",
+    "addDevice": "アセット追加",
+    "editDevice": "アセット編集",
+    "deviceType": "アセット種別",
     "serialNumber": "シリアル番号",
     "model": "モデル",
     "manufacturer": "製造元",
@@ -603,12 +617,12 @@
     "selectInstallationType": "接続タイプを選択",
     "saving": "保存中...",
     "categories": "カテゴリ",
-    "manageCategories": "デバイスカテゴリ管理",
+    "manageCategories": "アセットカテゴリ管理",
     "manageInstallationTypes": "設置種別管理",
     "manageDevices": "カテゴリ管理",
-    "viewCategories": "デバイスカテゴリ表示",
+    "viewCategories": "アセットカテゴリ表示",
     "viewInstallationTypes": "設置種別表示",
-    "createCategory": "デバイスカテゴリの作成",
+    "createCategory": "アセットカテゴリの作成",
     "createInstallationType": "設置タイプを作成",
     "editCategory": "カテゴリを編集",
     "categoryName": "カテゴリ名",
@@ -616,10 +630,10 @@
     "categoryDescription": "説明",
     "categoryDescriptionPlaceholder": "カテゴリのオプション説明",
     "active": "有効",
-    "deviceCategory": "デバイスカテゴリ",
-    "deviceStatu": "デバイスの状態",
-    "deviceLocation": "デバイスの場所",
-    "deviceName": "デバイス名",
+    "deviceCategory": "アセットカテゴリ",
+    "deviceStatu": "アセットの状態",
+    "deviceLocation": "アセットの場所",
+    "deviceName": "アセット名",
     "selectCategory": "カテゴリを選択",
     "selectAsset": "資産を選択",
     "asset": "資産",
@@ -629,7 +643,7 @@
     "maxAvailable": "最大利用可能",
     "noStockAvailable": "在庫がありません",
     "quantity": "数量",
-    "updateDevice": "デバイスを更新",
+    "updateDevice": "アセットを更新",
     "typeName": "タイプ名",
     "typeNamePlaceholder": "インストールタイプ名を入力してください",
     "typeDescription": "タイプの説明",
@@ -645,7 +659,7 @@
     "noTypes": "インストールタイプが作成されていません",
     "noTypesSubtext": "インストールタイプは作成されるとここに表示されます",
     "created": "作成日",
-    "viewCategoriesTitle": "デバイスカテゴリ",
+    "viewCategoriesTitle": "アセットカテゴリ",
     "loadingCategories": "カテゴリを読み込み中...",
     "errorLoadingCategories": "カテゴリの読み込みエラー",
     "noCategories": "カテゴリが作成されていません",
@@ -659,9 +673,9 @@
     "installationTypeDeleted": "設置種別が正常に削除されました",
     "confirmDeleteCategory": "このカテゴリを削除してもよろしいですか？",
     "confirmDeleteInstallationType": "この設置種別を削除してもよろしいですか？",
-    "deviceAdded": "デバイスが正常に追加されました",
-    "deviceUpdated": "デバイスが正常に更新されました",
-    "deviceDeleted": "デバイスが正常に削除されました",
+    "deviceAdded": "アセットが正常に追加されました",
+    "deviceUpdated": "アセットが正常に更新されました",
+    "deviceDeleted": "アセットが正常に削除されました",
     "installationCreated": "設置が正常に作成されました",
     "installationUpdated": "設置が正常に更新されました",
     "installationDeleted": "設置が正常に削除されました",
@@ -674,17 +688,17 @@
       "pendingReview": "レビュー待ち"
     },
     "deviceInstallationInfo": "インストール情報",
-    "deviceState": "デバイス状態",
+    "deviceState": "アセット状態",
     "selectState": "状態を選択",
     "noAssetsAvailable": "利用可能な資産がありません",
     "noCategoriesAvailable": "利用可能なカテゴリがありません",
-    "deviceAddedSuccessfully": "デバイスが正常に追加されました",
-    "deviceUpdatedSuccessfully": "デバイスが正常に更新されました",
-    "errorAddingDevice": "デバイス追加エラー",
-    "errorUpdatingDevice": "デバイス更新エラー",
-    "invalidDeviceData": "無効なデバイスデータ",
+    "deviceAddedSuccessfully": "アセットが正常に追加されました",
+    "deviceUpdatedSuccessfully": "アセットが正常に更新されました",
+    "errorAddingDevice": "アセット追加エラー",
+    "errorUpdatingDevice": "アセット更新エラー",
+    "invalidDeviceData": "無効なアセットデータ",
     "selectedAssetNotFound": "選択された資産が見つかりません",
-    "addDeviceFunctionMissing": "デバイス追加機能が不足しています",
+    "addDeviceFunctionMissing": "アセット追加機能が不足しています",
     "locationExample": "例: 2階、オフィス201",
     "createCategoriesFirst": "まず対応するセクションでカテゴリを作成してください",
     "loadingRequiredData": "必要なデータを読み込み中...",
@@ -696,11 +710,11 @@
     "filterByInstallationType": "設置種別でフィルター",
     "noInstallationsFound": "設置が見つかりません",
     "deleteInstallation": "設置削除",
-    "viewDeviceList": "デバイスリスト表示",
+    "viewDeviceList": "アセットリストを表示",
     "page": "ページ",
     "of": "の",
-    "deviceCategories": "デバイスカテゴリ",
-    "noDeviceCategoriesCreated": "デバイスカテゴリが作成されていません",
+    "deviceCategories": "アセットカテゴリ",
+    "noDeviceCategoriesCreated": "アセットカテゴリが作成されていません",
     "categoriesWillAppearHere": "カテゴリが作成されるとここに表示されます",
     "deleteCategory": "カテゴリ削除",
     "noInstallationTypesCreated": "設置種別が作成されていません",
@@ -912,11 +926,11 @@
     "tour": {
       "welcome": {
         "title": "Leonixへようこそ！",
-        "description": "パネルの使用を開始する前に、必要なインストールタイプとデバイスカテゴリを作成するために設定に移動することが重要です。ステップバイステップでガイドします。"
+        "description": "パネルの使用を開始する前に、必要なインストールタイプとアセットカテゴリを作成するために設定に移動することが重要です。ステップバイステップでガイドします。"
       },
       "createInstallationType": {
         "title": "ステップ1：設定に移動",
-        "description": "上部バーの設定アイコン（歯車）をクリックします。次を作成する必要があります：1）インストールタイプ（例：オフィス、工場、倉庫）、2）デバイスカテゴリ（例：ポンプ、モーター、センサー）。これはインストールを作成する前に必須です。"
+        "description": "上部バーの設定アイコン（歯車）をクリックします。次を作成する必要があります：1）インストールタイプ（例：オフィス、工場、倉庫）、2）アセットカテゴリ（例：ポンプ、モーター、センサー）。これはインストールを作成する前に必須です。"
       },
       "viewInstallationTypes": {
         "title": "インストールタイプを表示",
@@ -950,10 +964,11 @@
   },
   "assets": {
     "edit": "編集",
+    "manageForms": "フォームの管理",
     "assign": "割り当て",
     "successTitle": "操作が成功しました！",
     "understood": "閉じる",
-    "title": "資産",
+    "title": "アセットタイプ",
     "createAsset": "資産を作成",
     "tour": {
       "welcome": {
@@ -962,7 +977,7 @@
       },
       "goToForms": {
         "title": "ステップ 1：フォームへ移動",
-        "description": "資産を作成するには、まずフォームテンプレートが必要です。サイドメニューの「フォーム」をクリックして最初のテンプレートを作成しましょう。"
+        "description": "資産を作成するには、まずフォームテンプレートが必要です。「フォームの管理」をクリックして最初のテンプレートを作成しましょう。"
       },
       "createFormTemplate": {
         "title": "ステップ 2：フォームテンプレートを作成",
@@ -1069,7 +1084,7 @@
         "stockZero": "在庫は0より大きくなければなりません"
       }
     },
-    "titlePage": "資産 | Leonix"
+    "titlePage": "アセットタイプ | Leonix"
   },
   "forms": {
     "category": "カテゴリ",
@@ -1512,7 +1527,7 @@
     "locationMax": "場所は255文字を超えることはできません",
     "categoryRequired": "カテゴリは必須です",
     "categoryMax": "カテゴリは100文字を超えることはできません",
-    "deviceNameRequired": "デバイス名は必須です",
+    "deviceNameRequired": "アセット名は必須です",
     "deviceNameMin": "名前は少なくとも1文字必要です",
     "deviceNameMax": "名前は100文字を超えることはできません",
     "statusRequired": "ステータスは必須です",
@@ -1525,15 +1540,15 @@
     "name": "名前",
     "category": "カテゴリ",
     "installation": "インストール",
-    "deviceNamePlaceholder": "デバイス名を入力してください",
+    "deviceNamePlaceholder": "アセット名を入力してください",
     "successTitle": "操作が成功しました！",
     "understood": "閉じる",
-    "titlePage": "デバイス | Leonix",
-    "loadingDevices": "デバイスを読み込み中...",
+    "titlePage": "アセット | Leonix",
+    "loadingDevices": "アセットを読み込み中...",
     "notFound": "インストールが見つかりません",
-    "devicesOf": "{{name}} のデバイス",
-    "addDevice": "デバイスを追加",
-    "noDevices": "このインストールにはデバイスがありません",
+    "devicesOf": "{{name}} のアセット",
+    "addDevice": "アセットを追加",
+    "noDevices": "このインストールにはアセットがありません",
     "type": "タイプ",
     "location": "場所",
     "status": "状態",
@@ -1542,10 +1557,10 @@
     "serialNumber": "シリアル番号",
     "seeQR": "QRコードを見る",
     "downloadLastMaintenance": "最終メンテナンスをダウンロード",
-    "editDevice": "デバイスを編集",
-    "deleteDevice": "デバイスを削除",
+    "editDevice": "アセットを編集",
+    "deleteDevice": "アセットを削除",
     "page": "{{currentPage}} ページ / {{totalPages}} ページ",
-    "confirmDeleteTitle": "デバイスを削除しますか？",
+    "confirmDeleteTitle": "アセットを削除しますか？",
     "confirmDeleteDescription": "この操作は取り消せません。",
     "qrCode": "QRコード",
     "generatingQR": "QRコードを生成中...",
@@ -1553,39 +1568,39 @@
     "scanQRDescription": "このコードをスキャンしてメンテナンスフォームにアクセスしてください",
     "openForm": "フォームを開く",
     "printQR": "QRを印刷",
-    "device": "デバイス",
+    "device": "アセット",
     "loadingRequiredData": "必要なデータを読み込み中...",
     "errorLoadingCategories": "カテゴリの読み込みエラー",
     "retryLoadCategories": "カテゴリの再読み込み",
-    "searchDevicesPlaceholder": "デバイス、場所、またはカテゴリで検索...",
-    "noDevicesFound": "この検索用語でデバイスが見つかりませんでした",
-    "noMaintenanceAvailable": "このデバイスには利用可能なメンテナンスがありません",
+    "searchDevicesPlaceholder": "アセット、場所、またはカテゴリで検索...",
+    "noDevicesFound": "この検索用語でアセットが見つかりませんでした",
+    "noMaintenanceAvailable": "このアセットには利用可能なメンテナンスがありません",
     "errorLoadingMaintenance": "メンテナンスの読み込みエラー",
     "viewMaintenanceHistory": "メンテナンス履歴を表示",
     "tour": {
       "welcome": {
         "title": "設置詳細へようこそ！",
-        "description": "ここでこの設置のすべてのデバイスを管理できます。このセクションの使い方をご紹介します。"
+        "description": "ここでこの設置のすべてのアセットを管理できます。このセクションの使い方をご紹介します。"
       },
       "goToInstallations": {
         "title": "設置に移動",
-        "description": "デバイスを追加する前に、設置セクションからデバイスカテゴリを作成してください。ここをクリックしてそのセクションに移動してください。"
+        "description": "アセットを追加する前に、設置セクションからアセットカテゴリを作成してください。ここをクリックしてそのセクションに移動してください。"
       },
       "createAssetFirst": {
         "title": "重要：まず資産を作成",
-        "description": "この設置にデバイスを追加する前に、まず資産セクションで資産を作成する必要があります。資産は設置内のデバイスのベース/テンプレートとして機能します。"
+        "description": "この設置にアセットを追加する前に、まず資産セクションで資産を作成する必要があります。資産は設置内のアセットのベース/テンプレートとして機能します。"
       },
       "addDevice": {
-        "title": "デバイスを追加",
-        "description": "このボタンを使用して設置に新しいデバイスを追加します。カテゴリ、場所、状態、その他のデバイス詳細を選択する必要があります。"
+        "title": "アセットを追加",
+        "description": "このボタンを使用して設置に新しいアセットを追加します。カテゴリ、場所、状態、その他のアセット詳細を選択する必要があります。"
       },
       "searchFilter": {
         "title": "検索とフィルタ",
-        "description": "このバーを使用して名前、場所、またはカテゴリでデバイスを検索します。デバイスの状態でフィルタリングすることもできます。"
+        "description": "このバーを使用して名前、場所、またはカテゴリでアセットを検索します。アセットの状態でフィルタリングすることもできます。"
       },
       "deviceActions": {
-        "title": "デバイスアクション",
-        "description": "各デバイスカードには次のボタンがあります：QRコードの表示、最終メンテナンス（PDF）のダウンロード、デバイスの編集と削除。"
+        "title": "アセットアクション",
+        "description": "各アセットカードには次のボタンがあります：QRコードの表示、最終メンテナンス（PDF）のダウンロード、アセットの編集と削除。"
       },
       "buttons": {
         "next": "次へ",
@@ -1794,13 +1809,13 @@
     "installationTypesDesc": "システムで利用可能なインストールタイプのカテゴリを管理",
     "assetCategories": "資産カテゴリ",
     "assetCategoriesDesc": "資産を分類するためのカテゴリを管理",
-    "deviceCategories": "デバイスカテゴリ",
-    "deviceCategoriesDesc": "インストール用のデバイスカテゴリを設定",
+    "deviceCategories": "アセットカテゴリ",
+    "deviceCategoriesDesc": "インストール用のアセットカテゴリを設定",
     "formCategories": "フォームカテゴリ",
     "formCategoriesDesc": "フォームテンプレートをカテゴリ別に整理",
     "manageInstallationTypes": "インストールタイプを管理",
     "manageAssetCategories": "資産カテゴリを管理",
-    "manageDeviceCategories": "デバイスカテゴリを管理",
+    "manageDeviceCategories": "アセットカテゴリを管理",
     "manageFormCategories": "フォームカテゴリを管理",
     "newCategoryName": "新しいカテゴリ名",
     "newTypeName": "新しいタイプ名",
