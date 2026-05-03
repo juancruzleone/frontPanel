@@ -262,16 +262,6 @@ const Nav = () => {
                 </NavLink>
               </li>
             )}
-            {!isTechnicianUser && !isSuperAdminUser && !isClientUser && (
-              <>
-                <li data-tour="nav-forms">
-                  <NavLink to="/formularios" className={({ isActive }) => (isActive ? styles.active : "")} onClick={() => setIsMenuOpen(false)}>
-                    <FileText size={20} /> <span className={styles.linkText}>{t('nav.forms')}</span>
-                  </NavLink>
-                </li>
-              </>
-            )}
-
             {!isSuperAdminUser && !isClientUser && (
               <li className={styles.menuGroup}
                 onMouseEnter={handleWorkOrdersMouseEnter}

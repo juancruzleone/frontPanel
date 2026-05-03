@@ -2,7 +2,7 @@ import { useAuthStore } from '../../store/authStore'
 import { getHeadersWithContentType } from '../utils/apiHeaders'
 import { redirectToSafeUrl } from '../../utils/sanitizer'
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = import.meta.env.VITE_API_URL || "/api/"
 const VAPID_PUBLIC_KEY = import.meta.env.VITE_VAPID_PUBLIC_KEY
 
 const SW_PATH = '/sw.js'

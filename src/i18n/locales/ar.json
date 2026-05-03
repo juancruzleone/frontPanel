@@ -6,7 +6,7 @@
     "workOrders": "أوامر العمل",
     "workOrdersList": "قائمة أوامر العمل",
     "installations": "التركيبات",
-    "assets": "أنواع الأصول",
+    "assets": "الأصول",
     "forms": "النماذج",
     "manuals": "الدليل",
     "calendar": "التقويم",
@@ -980,9 +980,9 @@
     "understood": "إغلاق",
     "successTitle": "تمت العملية بنجاح!",
     "continue": "متابعة",
-    "titlePage": "أنواع الأصول | Leonix",
+    "titlePage": "الأصول | Leonix",
     "assign": "تعيين",
-    "title": "أنواع الأصول",
+    "title": "الأصول",
     "createAsset": "إنشاء أصل",
     "tour": {
       "welcome": {

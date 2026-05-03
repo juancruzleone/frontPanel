@@ -2,7 +2,7 @@
  * Utilidades para manejo de imágenes
  */
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || "/api/";
 
 /**
  * Construye la URL completa de una imagen de perfil

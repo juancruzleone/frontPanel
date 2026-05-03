@@ -164,7 +164,8 @@ const useAssets = () => {
 
   const updateAssetStock = async (assetId: string, stock: number): Promise<void> => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}activos/${assetId}/stock`, {
+      const API_URL = import.meta.env.VITE_API_URL || "/api/"
+      const response = await fetch(`${API_URL}activos/${assetId}/stock`, {
         method: "PUT",
         headers: getHeadersWithContentType(),
         body: JSON.stringify({ stock }),

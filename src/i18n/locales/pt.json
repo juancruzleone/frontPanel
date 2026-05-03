@@ -6,7 +6,7 @@
     "maintenancePlan": "Plano de manutenção",
     "installations": "Instalações",
     "subscriptions": "Assinaturas ativas",
-    "assets": "Tipos de ativos",
+    "assets": "Ativos",
     "forms": "Formulários",
     "manuals": "Manuais",
     "calendar": "Calendário",
@@ -979,7 +979,7 @@
     "understood": "Fechar",
     "successTitle": "Operação bem-sucedida!",
     "continue": "Continuar",
-    "title": "Tipos de ativos",
+    "title": "Ativos",
     "createAsset": "Criar Ativo",
     "tour": {
       "welcome": {
@@ -1090,7 +1090,7 @@
         "stockZero": "O estoque deve ser maior que 0"
       }
     },
-    "titlePage": "Tipos de ativos | Leonix"
+    "titlePage": "Ativos | Leonix"
   },
   "forms": {
     "category": "Categoria",

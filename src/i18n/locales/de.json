@@ -6,7 +6,7 @@
     "workOrders": "Arbeitsaufträge",
     "workOrdersList": "Liste der Arbeitsaufträge",
     "installations": "Installationen",
-    "assets": "Asset-Typen",
+    "assets": "Assets",
     "forms": "Formulare",
     "manuals": "Handbücher",
     "calendar": "Kalender",
@@ -920,7 +920,7 @@
     "understood": "Schließen",
     "successTitle": "Vorgang erfolgreich!",
     "continue": "Weiter",
-    "title": "Asset-Typen",
+    "title": "Assets",
     "createAsset": "Anlage erstellen",
     "tour": {
       "welcome": {
@@ -1031,7 +1031,7 @@
         "stockZero": "Der Bestand muss größer als 0 sein"
       }
     },
-    "titlePage": "Asset-Typen | Leonix"
+    "titlePage": "Assets | Leonix"
   },
   "forms": {
     "category": "Kategorie",

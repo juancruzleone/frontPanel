@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react'
 import { getHeadersWithContentType } from '../../../shared/utils/apiHeaders'
 
-const API_URL = import.meta.env.VITE_API_URL || ''
+const API_URL = import.meta.env.VITE_API_URL || "/api/"
 
 interface ValidationRule {
   field: string

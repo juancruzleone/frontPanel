@@ -6,7 +6,7 @@
     "maintenancePlan": "Piano di manutenzione",
     "installations": "Installazioni",
     "subscriptions": "Abbonamenti attivi",
-    "assets": "Tipi di asset",
+    "assets": "Asset",
     "forms": "Moduli",
     "manuals": "Manuali",
     "calendar": "Calendario",
@@ -980,7 +980,7 @@
     "understood": "Chiudi",
     "successTitle": "Operazione riuscita!",
     "continue": "Continua",
-    "title": "Tipi di asset",
+    "title": "Asset",
     "createAsset": "Crea Bene",
     "tour": {
       "welcome": {
@@ -1091,7 +1091,7 @@
         "stockZero": "La scorta deve essere maggiore di 0"
       }
     },
-    "titlePage": "Tipi di asset | Leonix"
+    "titlePage": "Asset | Leonix"
   },
   "forms": {
     "category": "Categoria",

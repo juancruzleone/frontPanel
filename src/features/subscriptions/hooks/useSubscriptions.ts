@@ -46,7 +46,7 @@ const useSubscriptions = () => {
   useEffect(() => {
     const fetchConfig = async () => {
       try {
-        const API_URL = import.meta.env.VITE_API_URL
+        const API_URL = import.meta.env.VITE_API_URL || "/api/"
         if (!isAuthenticated) return
 
         const response = await fetch(`${API_URL}config/subscriptions`, {

@@ -6,7 +6,7 @@
     "maintenancePlan": "维护计划",
     "subscriptions": "有效订阅",
     "installations": "安装",
-    "assets": "资产类型",
+    "assets": "资产",
     "forms": "表单",
     "manuals": "手册",
     "calendar": "日历",
@@ -1696,7 +1696,7 @@
     "assign": "分配",
     "successTitle": "操作成功！",
     "understood": "关闭",
-    "title": "资产类型",
+    "title": "资产",
     "createAsset": "创建资产",
     "tour": {
       "welcome": {
@@ -1822,7 +1822,7 @@
     "serialNumberPlaceholder": "输入序列号",
     "optional": "可选",
     "selectDate": "选择日期",
-    "titlePage": "资产类型 | Leonix"
+    "titlePage": "资产 | Leonix"
   },
   "maintenanceHistory": {
     "title": "维护历史",

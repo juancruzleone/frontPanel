@@ -5,7 +5,7 @@
     "workOrdersList": "作業指示一覧",
     "maintenancePlan": "保守計画",
     "installations": "設置",
-    "assets": "アセットタイプ",
+    "assets": "アセット",
     "forms": "フォーム",
     "manuals": "マニュアル",
     "subscriptions": "有効なサブスクリプション",
@@ -983,7 +983,7 @@
     "assign": "割り当て",
     "successTitle": "操作が成功しました！",
     "understood": "閉じる",
-    "title": "アセットタイプ",
+    "title": "アセット",
     "createAsset": "資産を作成",
     "tour": {
       "welcome": {
@@ -1099,7 +1099,7 @@
         "stockZero": "在庫は0より大きくなければなりません"
       }
     },
-    "titlePage": "アセットタイプ | Leonix"
+    "titlePage": "アセット | Leonix"
   },
   "forms": {
     "category": "カテゴリ",

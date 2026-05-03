@@ -1,7 +1,7 @@
 import { useAuthStore } from "../../../store/authStore"
 import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = import.meta.env.VITE_API_URL || "/api/"
 
 export const fetchDeviceForm = async (installationId: string, deviceId: string) => {
   const res = await fetch(

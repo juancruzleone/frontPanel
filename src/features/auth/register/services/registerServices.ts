@@ -1,7 +1,7 @@
 import { getHeadersWithContentType, getAuthHeaders } from "../../../../shared/utils/apiHeaders"
 import { detectPlanLimitError } from "../../../../shared/utils/planLimitErrorHandler"
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = import.meta.env.VITE_API_URL || "/api/"
 
 export const userRegister = async (
   username: string, 

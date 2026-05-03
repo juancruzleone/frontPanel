@@ -849,7 +849,7 @@
     "assign": "Asignar",
     "successTitle": "¡Operación exitosa!",
     "understood": "cerrar",
-    "title": "Tipos de activos",
+    "title": "Activos",
     "createAsset": "Crear Activo",
     "tour": {
       "welcome": {
@@ -965,7 +965,7 @@
         "stockZero": "El stock debe ser mayor a 0"
       }
     },
-    "titlePage": "Tipos de activos | Leonix"
+    "titlePage": "Activos | Leonix"
   },
   "forms": {
     "category": "Categoría",

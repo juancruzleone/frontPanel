@@ -1,7 +1,7 @@
 import { useAuthStore } from '../../../store/authStore'
 import { getHeadersWithContentType } from '../../../shared/utils/apiHeaders'
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = import.meta.env.VITE_API_URL || "/api/"
 
 export const updateSubscription = async (subscriptionId: string, updateData: Record<string, any>) => {
   // Obtener el token del store
@@ -75,5 +75,4 @@ export const triggerAutomaticWorkOrdersGeneration = async () => {
 
   throw lastError || new Error('No se pudo generar órdenes automáticas')
 }
-
 

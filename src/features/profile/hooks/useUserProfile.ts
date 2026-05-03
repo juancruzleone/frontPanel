@@ -4,7 +4,7 @@ import { getUserById } from '../../auth/register/services/registerServices';
 import { fetchInstallations } from '../../installations/services/installationServices';
 import { fetchInstallationTypes } from '../../installations/services/installationTypeServices';
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || "/api/";
 
 export function useUserProfile(userId: string) {
   const { token } = useAuthStore();

@@ -6,7 +6,7 @@
     "maintenancePlan": "유지보수 계획",
     "installations": "설치",
     "subscriptions": "활성 구독",
-    "assets": "자산 유형",
+    "assets": "자산",
     "forms": "양식",
     "manuals": "매뉴얼",
     "calendar": "캘린더",
@@ -984,8 +984,8 @@
     "understood": "닫기",
     "successTitle": "작업이 성공적으로 완료되었습니다!",
     "continue": "계속하기",
-    "titlePage": "자산 유형 | Leonix",
-    "title": "자산 유형",
+    "titlePage": "자산 | Leonix",
+    "title": "자산",
     "createAsset": "자산 생성",
     "tour": {
       "welcome": {

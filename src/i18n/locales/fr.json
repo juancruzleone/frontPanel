@@ -6,7 +6,7 @@
     "maintenancePlan": "Plan de maintenance",
     "subscriptions": "Abonnements actifs",
     "installations": "Installations",
-    "assets": "Types d'actifs",
+    "assets": "Actifs",
     "forms": "Formulaires",
     "manuals": "Manuels",
     "calendar": "Calendrier",
@@ -976,8 +976,8 @@
     "understood": "Fermer",
     "successTitle": "Opération réussie !",
     "continue": "Continuer",
-    "titlePage": "Types d'actifs | Leonix",
-    "title": "Types d'actifs",
+    "titlePage": "Actifs | Leonix",
+    "title": "Actifs",
     "createAsset": "Créer un Actif",
     "tour": {
       "welcome": {
