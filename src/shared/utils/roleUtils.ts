@@ -40,7 +40,8 @@ export const SUPER_ADMIN_RESTRICTED_SECTIONS = [
 // Secciones que SOLO puede ver el super_admin
 export const SUPER_ADMIN_ONLY_SECTIONS = [
   'panel-admin',
-  'tenants'
+  'tenants',
+  'auditoria'
 ] as const
 
 export const canAccessSection = (role: string | null, section: string): boolean => {
@@ -59,13 +60,16 @@ export const canAccessSection = (role: string | null, section: string): boolean 
 
   // Técnicos no pueden acceder a ciertas secciones
   if (isTechnician(role)) {
-    const technicianRestrictedSections = ['activos', 'formularios', 'personal', 'clientes', 'proveedores']
+    const technicianRestrictedSections = ['activos', 'formularios', 'personal', 'clientes', 'proveedores', 'auditoria']
     return !technicianRestrictedSections.includes(section)
   }
 
-  // Admin puede acceder a todo excepto las secciones exclusivas del super_admin y el perfil
+  // Admin puede acceder a todo excepto las secciones exclusivas del super_admin (excepto auditoria) y el perfil
   if (isAdmin(role)) {
-    const adminRestrictedSections = [...SUPER_ADMIN_ONLY_SECTIONS, 'perfil']
+    // Admin SI puede ver auditoría, pero no panel-admin ni tenants
+    if (section === 'auditoria') return true
+    
+    const adminRestrictedSections = ['panel-admin', 'tenants', 'perfil']
     return !adminRestrictedSections.includes(section as any)
   }
 

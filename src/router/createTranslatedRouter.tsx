@@ -29,6 +29,7 @@ import NotFound from '../pages/NotFound';
 import Tenants from '../pages/Tenants';
 import Clients from '../pages/Clients';
 import Settings from '../pages/Settings';
+import AuditLogs from '../pages/AuditLogs';
 import { ROLES } from "../shared/utils/roleUtils";
 
 /**
@@ -118,6 +119,10 @@ const generateRoleSpecificRoutes = (): RouteObject[] => {
       {
         path: t.tenants,
         element: <ProtectedRoute allowedRoles={[ROLES.SUPER_ADMIN]}><Tenants /></ProtectedRoute>,
+      },
+      {
+        path: t.audit,
+        element: <ProtectedRoute allowedRoles={[ROLES.SUPER_ADMIN]}><AuditLogs /></ProtectedRoute>,
       }
     );
 
@@ -146,6 +151,10 @@ const generateRoleSpecificRoutes = (): RouteObject[] => {
       {
         path: t.maintenancePlan,
         element: <ProtectedRoute allowedRoles={[ROLES.ADMIN]}><Subscriptions /></ProtectedRoute>,
+      },
+      {
+        path: t.audit,
+        element: <ProtectedRoute allowedRoles={[ROLES.ADMIN]}><AuditLogs /></ProtectedRoute>,
       }
     );
 

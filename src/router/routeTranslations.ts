@@ -21,6 +21,7 @@ export const routeTranslations = {
     inventory: 'inventario',
     suppliers: 'proveedores',
     settings: 'configuracion',
+    audit: 'auditoria',
   },
   en: {
     home: 'home',
@@ -43,6 +44,7 @@ export const routeTranslations = {
     inventory: 'inventory',
     suppliers: 'suppliers',
     settings: 'settings',
+    audit: 'audit',
   },
   fr: {
     home: 'accueil',
@@ -58,13 +60,14 @@ export const routeTranslations = {
     manuals: 'manuels',
     subscriptions: 'abonnements',
     maintenancePlan: 'plan-maintenance',
-    workOrders: 'ordres-travail',
+    workOrders: 'ordres-trabail',
     internalForm: 'formulaire-interne',
     device: 'appareil',
     form: 'formulaire',
     inventory: 'inventaire',
     suppliers: 'fournisseurs',
     settings: 'parametres',
+    audit: 'audit',
   },
   pt: {
     home: 'inicio',
@@ -87,6 +90,7 @@ export const routeTranslations = {
     inventory: 'inventario',
     suppliers: 'fornecedores',
     settings: 'configuraciones',
+    audit: 'auditoria',
   },
   de: {
     home: 'startseite',
@@ -109,6 +113,7 @@ export const routeTranslations = {
     inventory: 'inventar',
     suppliers: 'lieferanten',
     settings: 'einstellungen',
+    audit: 'audit',
   },
   it: {
     home: 'home',
@@ -131,6 +136,7 @@ export const routeTranslations = {
     inventory: 'inventario',
     suppliers: 'fornitori',
     settings: 'impostazioni',
+    audit: 'audit',
   },
   ja: {
     home: 'homu',
@@ -153,6 +159,7 @@ export const routeTranslations = {
     inventory: 'zaiko',
     suppliers: 'sapuraiya',
     settings: 'settei',
+    audit: 'audit',
   },
   ko: {
     home: 'hom',
@@ -175,6 +182,7 @@ export const routeTranslations = {
     inventory: 'zaigo',
     suppliers: 'gong-geub-eobche',
     settings: 'seoljeong',
+    audit: 'audit',
   },
   zh: {
     home: 'zhuye',
@@ -197,6 +205,7 @@ export const routeTranslations = {
     inventory: 'kucun',
     suppliers: 'gongyingshang',
     settings: 'shezhi',
+    audit: 'audit',
   },
   ar: {
     home: 'alrayiysyt',
@@ -219,6 +228,7 @@ export const routeTranslations = {
     inventory: 'makhzun',
     suppliers: 'mauridun',
     settings: 'alaedadat',
+    audit: 'audit',
   },
 } as const;
 

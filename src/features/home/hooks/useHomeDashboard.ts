@@ -107,6 +107,7 @@ const useHomeDashboard = () => {
       // 1. Mapear KPIs Base
       const kpisData: KPIItem[] = [
         {
+          id: 'installations',
           label: 'installations.title',
           value: kpisRaw?.installations || 0,
           icon: Home,
@@ -114,6 +115,7 @@ const useHomeDashboard = () => {
           path: "/instalaciones"
         },
         {
+          id: 'assets',
           label: 'assets.title',
           value: kpisRaw?.assets || 0,
           icon: Package,
@@ -121,6 +123,7 @@ const useHomeDashboard = () => {
           path: "/activos"
         },
         {
+          id: 'workOrders',
           label: 'workOrders.title',
           value: kpisRaw?.workOrders || 0,
           icon: ClipboardList,
@@ -128,6 +131,7 @@ const useHomeDashboard = () => {
           path: "/ordenes-trabajo"
         },
         {
+          id: 'technicians',
           label: 'personal.title',
           value: kpisRaw?.technicians || 0,
           icon: User,
@@ -140,24 +144,28 @@ const useHomeDashboard = () => {
       // 2. Mapear KPIs Operacionales
       const opKpisData: KPIItem[] = [
         {
+          id: 'openWorkOrders',
           label: 'home.openWorkOrders',
           value: opKpisRaw?.openWorkOrders || 0,
           icon: ClipboardList,
           color: "var(--color-primary)"
         },
         {
+          id: 'overdueWorkOrders',
           label: 'home.overdueWorkOrders',
           value: opKpisRaw?.overdueWorkOrders || 0,
           icon: Clock,
           color: "#e53935"
         },
         {
+          id: 'criticalWorkOrders',
           label: 'home.criticalWorkOrders',
           value: opKpisRaw?.criticalWorkOrders || 0,
           icon: AlertTriangle,
           color: "#c62828"
         },
         {
+          id: 'mttrHours',
           label: 'home.mttrHours',
           value: opKpisRaw?.mttrHours?.toFixed(1) || "0.0",
           icon: Activity,
@@ -165,6 +173,7 @@ const useHomeDashboard = () => {
           suffix: "h"
         },
         {
+          id: 'mtbfHours',
           label: 'home.mtbfHours',
           value: opKpisRaw?.mtbfHours?.toFixed(1) || "0.0",
           icon: Activity,
@@ -172,11 +181,28 @@ const useHomeDashboard = () => {
           suffix: "h"
         },
         {
+          id: 'preventiveCompliance',
           label: 'home.preventiveCompliance',
           value: opKpisRaw?.preventiveComplianceRate?.toFixed(0) || "0",
           icon: CheckCircle,
           color: "#2e7d32",
           suffix: "%"
+        },
+        {
+          id: 'slaRate',
+          label: 'home.slaRate',
+          value: opKpisRaw?.slaRate?.toFixed(0) || "N/A",
+          icon: TrendingUp,
+          color: "#0288d1",
+          suffix: opKpisRaw?.slaRate !== undefined ? "%" : ""
+        },
+        {
+          id: 'responseTime',
+          label: 'home.responseTime',
+          value: opKpisRaw?.responseTimeHours?.toFixed(1) || "N/A",
+          icon: Clock,
+          color: "#f57c00",
+          suffix: opKpisRaw?.responseTimeHours !== undefined ? "h" : ""
         }
       ]
       setOperationalKpis(opKpisData)

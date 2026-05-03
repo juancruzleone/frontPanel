@@ -21,11 +21,17 @@ const OperationalKPIs: React.FC<OperationalKPIsProps> = ({ kpis }) => {
           return (
             <div
               className={styles.statsCard}
-              key={kpi.label}
-              role="article"
+              key={kpi.id}
+              role="button"
               aria-label={`${t(kpi.label, { defaultValue: kpi.label })}: ${kpi.value}${kpi.suffix || ''}`}
               tabIndex={0}
               onClick={() => setSelectedKpi(kpi)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  setSelectedKpi(kpi)
+                }
+              }}
             >
               <button 
                 className={styles.detailButton}

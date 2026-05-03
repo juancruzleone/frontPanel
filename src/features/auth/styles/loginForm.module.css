@@ -59,7 +59,7 @@
 .formLabel {
   display: block;
   margin-bottom: 0.42rem;
-  color: #143244;
+  color: #000;
   font-weight: 700;
   font-size: 0.9rem;
 }
@@ -106,7 +106,7 @@
   transform: translateY(-50%);
   border: none;
   background: transparent;
-  color: #5b7388;
+  color: #000;
   width: 22px;
   height: 22px;
   padding: 0;
@@ -200,7 +200,7 @@
 }
 
 :global(.dark) .formLabel {
-  color: #d4dbff;
+  color: #fff;
 }
 
 :global(.dark) .loginInput {
@@ -224,7 +224,7 @@
 }
 
 :global(.dark) .eyesButton {
-  color: #99a6da;
+  color: #fff;
 }
 
 :global(.dark) .eyesButton:hover {

@@ -23,11 +23,17 @@ const StatsCards: React.FC<StatsCardsProps> = ({ kpis }) => {
           return (
             <div
               className={styles.statsCard}
-              key={kpi.label}
-              role="article"
-              aria-label={`${kpi.label}: ${kpi.value}`}
+              key={kpi.id}
+              role="button"
+              aria-label={`${t(kpi.label, { defaultValue: kpi.label })}: ${kpi.value}`}
               tabIndex={0}
               onClick={() => kpi.path && navigate(kpi.path)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  if (kpi.path) navigate(kpi.path)
+                }
+              }}
               style={{ cursor: kpi.path ? 'pointer' : 'default' }}
             >
               <button 

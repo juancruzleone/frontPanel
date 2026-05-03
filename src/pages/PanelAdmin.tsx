@@ -6,7 +6,10 @@ import TenantBarChart from "../features/tenants/components/TenantBarChart"
 import TenantPieChart from "../features/tenants/components/TenantPieChart"
 import TenantLineChart from "../features/tenants/components/TenantLineChart"
 import RecentTenants from "../features/tenants/components/RecentTenants"
+import { Shield } from "lucide-react"
 import styles from "../features/tenants/styles/panelAdmin.module.css"
+import { Link } from "react-router-dom"
+import { useTranslatedRoutes } from "../router"
 
 const Skeleton = ({ height = 40, width = '100%', style = {} }) => (
   <div
@@ -19,12 +22,21 @@ const Skeleton = ({ height = 40, width = '100%', style = {} }) => (
 const PanelAdmin: React.FC = () => {
   const { t } = useTranslation()
   const { stats, loading, error } = usePanelAdminDashboard()
+  const { getRoute } = useTranslatedRoutes()
 
   return (
     <div className={styles.dashboardContainer}>
       <header className={styles.dashboardHeader}>
-        <h1 className={styles.title}>{t('panelAdmin.title')}</h1>
-        <p className={styles.subtitle}>{t('panelAdmin.subtitle')}</p>
+        <div className={styles.headerTitleArea}>
+          <div>
+            <h1 className={styles.title}>{t('panelAdmin.title')}</h1>
+            <p className={styles.subtitle}>{t('panelAdmin.subtitle')}</p>
+          </div>
+          <Link to={getRoute('audit')} className={styles.auditLink}>
+            <Shield size={18} />
+            <span>{t('nav.audit')}</span>
+          </Link>
+        </div>
       </header>
 
       {loading ? (

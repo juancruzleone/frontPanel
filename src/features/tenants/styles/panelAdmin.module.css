@@ -22,6 +22,33 @@ html {
   margin-bottom: 8px;
 }
 
+.headerTitleArea {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.auditLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-card-border);
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.auditLink:hover {
+  background: var(--color-card);
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
 .title {
   font-size: 2.5rem;
   font-weight: 800;

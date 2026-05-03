@@ -3,6 +3,7 @@ import { LucideIcon } from "lucide-react"
 export type RangeOption = "7d" | "30d" | "90d" | "12m"
 
 export interface KPIItem {
+  id: string
   label: string
   value: number | string
   icon: LucideIcon
@@ -29,6 +30,8 @@ export interface OperationalData {
   mttrHours: number
   mtbfHours: number
   preventiveComplianceRate: number
+  slaRate?: number
+  responseTimeHours?: number
 }
 
 export interface TopIncidentInstallation {

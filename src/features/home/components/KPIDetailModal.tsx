@@ -43,7 +43,7 @@ export const KPIDetailModal: React.FC<KPIDetailModalProps> = ({ kpi, onClose }) 
           </div>
           
           <div className={styles.modalDescription}>
-            {t(`home.kpiDetails.${kpi.label.split('.').pop()}`, { 
+            {t(`home.kpiDetails.${kpi.id}`, { 
               defaultValue: t('home.kpiDetails.generic', { defaultValue: 'Información detallada sobre esta métrica.' }) 
             })}
           </div>
