@@ -94,7 +94,8 @@
   justify-content: flex-start;
   gap: 1rem;
   align-items: center;
-  margin-bottom: 0;
+  margin-bottom: 0;  flex-wrap: wrap;
+
 }
 
 .searchRow {

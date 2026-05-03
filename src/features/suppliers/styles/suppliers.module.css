@@ -37,7 +37,8 @@
   align-items: center;
   margin-bottom: 0;
   margin-left: 0;
-  gap: 1rem;
+  gap: 1rem;  flex-wrap: wrap;
+
 }
 
 .searchRow {

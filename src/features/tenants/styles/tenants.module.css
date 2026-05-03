@@ -41,7 +41,8 @@
   align-items: center;
   margin-bottom: 0;
   margin-left: 0;
-  gap: 0;
+  gap: 0;  flex-wrap: wrap;
+
 }
 
 .searchContainer {
