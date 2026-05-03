@@ -24,6 +24,11 @@
   border-bottom: none;
 }
 
+.formTopControls button:hover,
+.formTopControls img:hover {
+  transform: none !important;
+}
+
 /* Modo claro: Botones de tema e idioma sin fondo y con borde negro */
 :global([data-theme="light"]) .formTopControls button,
 :global([data-theme="light"]) .formTopControls img {
