@@ -400,6 +400,21 @@
       "assets": "구성된 총 자산 유형 수입니다.",
       "workOrders": "생성된 총 작업 오더 수입니다.",
       "technicians": "팀에 등록된 총 기술자 수입니다."
+    },
+    "kpiDescriptions": {
+      "generic": "정비 상태를 이해하기 위한 핵심 지표입니다.",
+      "installations": "등록되어 운영 가능한 설치 항목입니다.",
+      "assets": "정비를 위해 구성된 자산 유형입니다.",
+      "workOrders": "작업을 실행, 추적, 종료하기 위해 생성된 오더입니다.",
+      "technicians": "작업을 배정할 수 있는 기술자입니다.",
+      "openWorkOrders": "아직 후속 조치가 필요한 열린 작업입니다.",
+      "overdueWorkOrders": "우선순위 지정이 필요한 기한 초과 작업입니다.",
+      "criticalWorkOrders": "즉각적인 주의가 필요한 중요 작업입니다.",
+      "mttrHours": "고장 수리에 필요한 평균 시간입니다.",
+      "mtbfHours": "고장 사이의 평균 운영 시간입니다.",
+      "preventiveCompliance": "예방 정비 준수 수준입니다.",
+      "slaRate": "SLA 내에 해결된 작업의 비율입니다.",
+      "responseTime": "첫 응답까지의 평균 시간입니다."
     }
   },
   "workOrders": {

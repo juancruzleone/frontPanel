@@ -400,6 +400,21 @@
       "assets": "配置的资产类型总数。",
       "workOrders": "生成的工单总数。",
       "technicians": "团队中注册的技术人员总数。"
+    },
+    "kpiDescriptions": {
+      "generic": "用于了解维护状态的关键指标。",
+      "installations": "已注册并可用于运行的设施。",
+      "assets": "为维护配置的资产类型。",
+      "workOrders": "用于执行、跟踪和关闭工作的工单。",
+      "technicians": "可分配工作的技术人员。",
+      "openWorkOrders": "仍需跟进的未关闭工作。",
+      "overdueWorkOrders": "需要优先处理的逾期工作。",
+      "criticalWorkOrders": "需要立即关注的关键工作。",
+      "mttrHours": "修复故障所需的平均小时数。",
+      "mtbfHours": "故障之间的平均运行小时数。",
+      "preventiveCompliance": "预防性维护的达成水平。",
+      "slaRate": "在 SLA 内解决的工作百分比。",
+      "responseTime": "首次响应前的平均时间。"
     }
   },
   "workOrders": {

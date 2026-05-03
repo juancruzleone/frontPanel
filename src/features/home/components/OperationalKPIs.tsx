@@ -18,12 +18,16 @@ const OperationalKPIs: React.FC<OperationalKPIsProps> = ({ kpis }) => {
       <div className={styles.statsCardsRow} role="region" aria-label={t('home.operationalMetrics', { defaultValue: 'Métricas Operativas' })}>
         {kpis.map((kpi) => {
           const Icon = kpi.icon
+          const description = t(`home.kpiDescriptions.${kpi.id}`, {
+            defaultValue: t('home.kpiDescriptions.generic', { defaultValue: '' })
+          })
+
           return (
             <div
               className={styles.statsCard}
               key={kpi.id}
               role="button"
-              aria-label={`${t(kpi.label, { defaultValue: kpi.label })}: ${kpi.value}${kpi.suffix || ''}`}
+              aria-label={`${t(kpi.label, { defaultValue: kpi.label })}: ${kpi.value}${kpi.suffix || ''}. ${description}`}
               tabIndex={0}
               onClick={() => setSelectedKpi(kpi)}
               onKeyDown={(e) => {
@@ -64,6 +68,11 @@ const OperationalKPIs: React.FC<OperationalKPIsProps> = ({ kpis }) => {
                 <div className={styles.statsLabel}>
                   {t(kpi.label, { defaultValue: kpi.label })}
                 </div>
+                {description && (
+                  <p className={styles.statsDescription}>
+                    {description}
+                  </p>
+                )}
               </div>
             </div>
           )

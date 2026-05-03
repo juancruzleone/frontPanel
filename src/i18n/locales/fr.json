@@ -396,6 +396,21 @@
       "assets": "Nombre total de types d'actifs configurés.",
       "workOrders": "Nombre total de bons de travail générés.",
       "technicians": "Nombre total de techniciens enregistrés dans l'équipe."
+    },
+    "kpiDescriptions": {
+      "generic": "Indicateur clé pour comprendre l'état de la maintenance.",
+      "installations": "Installations enregistrées et disponibles pour fonctionner.",
+      "assets": "Types d'actifs configurés pour la maintenance.",
+      "workOrders": "Ordres créés pour exécuter, suivre et clôturer le travail.",
+      "technicians": "Techniciens disponibles pour assigner le travail.",
+      "openWorkOrders": "Travaux ouverts nécessitant encore un suivi.",
+      "overdueWorkOrders": "Travaux en retard à prioriser.",
+      "criticalWorkOrders": "Travaux critiques nécessitant une attention immédiate.",
+      "mttrHours": "Nombre moyen d'heures nécessaires pour réparer les pannes.",
+      "mtbfHours": "Nombre moyen d'heures de fonctionnement entre les pannes.",
+      "preventiveCompliance": "Niveau de conformité de la maintenance préventive.",
+      "slaRate": "Pourcentage de travaux résolus dans le SLA.",
+      "responseTime": "Temps moyen jusqu'à la première réponse."
     }
   },
   "workOrders": {

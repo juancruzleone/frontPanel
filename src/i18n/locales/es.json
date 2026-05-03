@@ -456,6 +456,21 @@
       "technicians": "Número total de técnicos registrados en el equipo.",
       "slaRate": "Porcentaje de cumplimiento de los Acuerdos de Nivel de Servicio (SLA).",
       "responseTime": "Tiempo promedio transcurrido desde la creación de una orden hasta su primera respuesta."
+    },
+    "kpiDescriptions": {
+      "generic": "Indicador clave para entender el estado del mantenimiento.",
+      "installations": "Instalaciones dadas de alta y disponibles para operar.",
+      "assets": "Tipos de activos configurados para el mantenimiento.",
+      "workOrders": "Órdenes creadas para ejecutar, seguir y cerrar trabajos.",
+      "technicians": "Técnicos disponibles para asignar trabajos.",
+      "openWorkOrders": "Trabajos abiertos que todavía requieren seguimiento.",
+      "overdueWorkOrders": "Trabajos vencidos que necesitan priorización.",
+      "criticalWorkOrders": "Trabajos críticos que requieren atención inmediata.",
+      "mttrHours": "Promedio de horas necesarias para reparar fallas.",
+      "mtbfHours": "Promedio de horas de operación entre fallas.",
+      "preventiveCompliance": "Nivel de cumplimiento del mantenimiento preventivo.",
+      "slaRate": "Porcentaje de trabajos resueltos dentro del SLA.",
+      "responseTime": "Tiempo promedio hasta la primera respuesta."
     }
   },
   "installations": {

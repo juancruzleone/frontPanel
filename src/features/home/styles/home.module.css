@@ -198,7 +198,7 @@ html {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid black;
   cursor: pointer;
-  height: 170px;
+  min-height: 210px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -295,6 +295,14 @@ html {
   opacity: 0.8;
   text-transform: capitalize;
   line-height: 1.2;
+}
+
+.statsDescription {
+  font-size: 0.78rem;
+  color: var(--color-text);
+  opacity: 0.65;
+  line-height: 1.35;
+  margin: 0;
 }
 
 /* Estilos para modo oscuro */

@@ -452,6 +452,21 @@
       "assets": "Total number of asset types configured.",
       "workOrders": "Total number of work orders generated.",
       "technicians": "Total number of technicians registered in the team."
+    },
+    "kpiDescriptions": {
+      "generic": "Key indicator for understanding maintenance status.",
+      "installations": "Registered installations available for operation.",
+      "assets": "Asset types configured for maintenance.",
+      "workOrders": "Orders created to execute, track, and close work.",
+      "technicians": "Technicians available to assign work.",
+      "openWorkOrders": "Open jobs that still require follow-up.",
+      "overdueWorkOrders": "Overdue jobs that need prioritization.",
+      "criticalWorkOrders": "Critical jobs that require immediate attention.",
+      "mttrHours": "Average hours needed to repair failures.",
+      "mtbfHours": "Average operating hours between failures.",
+      "preventiveCompliance": "Preventive maintenance compliance level.",
+      "slaRate": "Percentage of jobs resolved within the SLA.",
+      "responseTime": "Average time until first response."
     }
   },
   "installations": {

@@ -20,12 +20,16 @@ const StatsCards: React.FC<StatsCardsProps> = ({ kpis }) => {
       <div className={styles.statsCardsRow} role="region" aria-label={t('home.mainMetrics')}>
         {kpis.slice(0, 4).map((kpi) => {
           const Icon = kpi.icon
+          const description = t(`home.kpiDescriptions.${kpi.id}`, {
+            defaultValue: t('home.kpiDescriptions.generic', { defaultValue: '' })
+          })
+
           return (
             <div
               className={styles.statsCard}
               key={kpi.id}
               role="button"
-              aria-label={`${t(kpi.label, { defaultValue: kpi.label })}: ${kpi.value}`}
+              aria-label={`${t(kpi.label, { defaultValue: kpi.label })}: ${kpi.value}. ${description}`}
               tabIndex={0}
               onClick={() => kpi.path && navigate(kpi.path)}
               onKeyDown={(e) => {
@@ -68,6 +72,11 @@ const StatsCards: React.FC<StatsCardsProps> = ({ kpis }) => {
                 <div className={styles.statsLabel}>
                   {t(kpi.label)}
                 </div>
+                {description && (
+                  <p className={styles.statsDescription}>
+                    {description}
+                  </p>
+                )}
               </div>
             </div>
           )

@@ -1,6 +1,6 @@
 import { getAuthHeaders, getHeadersWithContentType, fetchWithCsrf } from "../../../shared/utils/apiHeaders"
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = import.meta.env.VITE_API_URL || "/api/"
 
 export interface InstallationTypeResponse {
   _id: string
@@ -11,10 +11,20 @@ export interface InstallationTypeResponse {
 }
 
 const handleResponse = async (response: Response) => {
+  const contentType = response.headers.get("content-type") || ""
+
   if (!response.ok) {
-    const error = await response.json().catch(() => ({ message: "Error de conexión" }))
+    const error = contentType.includes("application/json")
+      ? await response.json().catch(() => ({ message: "Error de conexión" }))
+      : { message: `Error ${response.status}: el servidor no devolvió JSON` }
+
     throw new Error(error.message || `Error ${response.status}: ${response.statusText}`)
   }
+
+  if (!contentType.includes("application/json")) {
+    throw new Error("La API de tipos de instalación devolvió una respuesta inválida")
+  }
+
   const result = await response.json()
   return result.success ? result.data : result
 }

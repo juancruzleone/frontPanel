@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import i18n from '../../i18n';
 import { pushNotificationService } from './pushNotificationService';
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || "/api/";
 const ASSIGNED_ORDERS_POLL_MS = 15000;
 const ASSIGNED_ORDER_TOAST_DURATION_MS = 9000;
 
@@ -17,16 +17,12 @@ const resolveSocketUrl = () => {
         return configuredSocketUrl;
     }
 
-    const normalizedApiUrl = API_URL?.trim();
-    if (normalizedApiUrl) {
-        try {
-            return new URL(normalizedApiUrl).origin;
-        } catch {
-            return typeof window !== 'undefined' ? window.location.origin : '';
-        }
+    const normalizedApiUrl = API_URL.trim();
+    if (/^https?:\/\//.test(normalizedApiUrl)) {
+        return new URL(normalizedApiUrl).origin;
     }
 
-    return typeof window !== 'undefined' ? window.location.origin : '';
+    return '';
 };
 
 const SOCKET_URL = resolveSocketUrl();
@@ -44,7 +40,7 @@ class SocketService {
         this.startAssignedOrdersPolling();
 
         const { isAuthenticated } = useAuthStore.getState();
-        if (!isAuthenticated) {
+        if (!isAuthenticated || !SOCKET_URL) {
             return;
         }
 

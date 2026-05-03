@@ -74,7 +74,7 @@ export default defineConfig(({ mode }) => {
         secure: false,
       },
       "/socket.io": {
-        target: "http://localhost:3000",
+        target: apiProxyTarget,
         changeOrigin: true,
         secure: false,
         ws: true,

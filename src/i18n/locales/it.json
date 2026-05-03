@@ -395,6 +395,21 @@
       "assets": "Numero totale di tipi di asset configurati.",
       "workOrders": "Numero totale di ordini di lavoro generati.",
       "technicians": "Numero totale di tecnici registrati nel team."
+    },
+    "kpiDescriptions": {
+      "generic": "Indicatore chiave per comprendere lo stato della manutenzione.",
+      "installations": "Installazioni registrate e disponibili per operare.",
+      "assets": "Tipi di asset configurati per la manutenzione.",
+      "workOrders": "Ordini creati per eseguire, monitorare e chiudere i lavori.",
+      "technicians": "Tecnici disponibili per assegnare i lavori.",
+      "openWorkOrders": "Lavori aperti che richiedono ancora monitoraggio.",
+      "overdueWorkOrders": "Lavori scaduti che richiedono priorità.",
+      "criticalWorkOrders": "Lavori critici che richiedono attenzione immediata.",
+      "mttrHours": "Media di ore necessarie per riparare i guasti.",
+      "mtbfHours": "Media di ore operative tra i guasti.",
+      "preventiveCompliance": "Livello di conformità della manutenzione preventiva.",
+      "slaRate": "Percentuale di lavori risolti entro lo SLA.",
+      "responseTime": "Tempo medio fino alla prima risposta."
     }
   },
   "workOrders": {

@@ -398,6 +398,21 @@
       "assets": "構成されているアセットタイプの総数。",
       "workOrders": "生成された作業指示の総数。",
       "technicians": "チームに登録されている技術者の総数。"
+    },
+    "kpiDescriptions": {
+      "generic": "保守状況を把握するための主要指標です。",
+      "installations": "登録済みで運用可能な設備です。",
+      "assets": "保守用に設定されたアセットタイプです。",
+      "workOrders": "作業の実行、追跡、完了のために作成された指示です。",
+      "technicians": "作業を割り当てられる技術者です。",
+      "openWorkOrders": "まだフォローアップが必要な未完了の作業です。",
+      "overdueWorkOrders": "優先対応が必要な期限超過の作業です。",
+      "criticalWorkOrders": "即時対応が必要な重要作業です。",
+      "mttrHours": "故障修理に必要な平均時間です。",
+      "mtbfHours": "故障間の平均稼働時間です。",
+      "preventiveCompliance": "予防保守の遵守レベルです。",
+      "slaRate": "SLA内で解決された作業の割合です。",
+      "responseTime": "初回応答までの平均時間です。"
     }
   },
   "workOrders": {

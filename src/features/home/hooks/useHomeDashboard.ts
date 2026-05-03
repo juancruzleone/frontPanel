@@ -80,7 +80,7 @@ const useHomeDashboard = () => {
     setLoading(true)
     setError(null)
     try {
-      const API_URL = import.meta.env.VITE_API_URL
+      const API_URL = import.meta.env.VITE_API_URL || "/api/"
       const headers = getAuthHeaders(true)
       
       const response = await fetch(`${API_URL}dashboard/stats?range=${range}`, {
@@ -191,18 +191,18 @@ const useHomeDashboard = () => {
         {
           id: 'slaRate',
           label: 'home.slaRate',
-          value: opKpisRaw?.slaRate?.toFixed(0) || "N/A",
+          value: (opKpisRaw?.slaRate !== undefined && opKpisRaw?.slaRate !== null) ? opKpisRaw.slaRate.toFixed(0) : "N/A",
           icon: TrendingUp,
           color: "#0288d1",
-          suffix: opKpisRaw?.slaRate !== undefined ? "%" : ""
+          suffix: (opKpisRaw?.slaRate !== undefined && opKpisRaw?.slaRate !== null) ? "%" : ""
         },
         {
           id: 'responseTime',
           label: 'home.responseTime',
-          value: opKpisRaw?.responseTimeHours?.toFixed(1) || "N/A",
+          value: (opKpisRaw?.responseTimeHours !== undefined && opKpisRaw?.responseTimeHours !== null) ? opKpisRaw.responseTimeHours.toFixed(1) : "N/A",
           icon: Clock,
           color: "#f57c00",
-          suffix: opKpisRaw?.responseTimeHours !== undefined ? "h" : ""
+          suffix: (opKpisRaw?.responseTimeHours !== undefined && opKpisRaw?.responseTimeHours !== null) ? "h" : ""
         }
       ]
       setOperationalKpis(opKpisData)

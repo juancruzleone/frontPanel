@@ -378,6 +378,21 @@
       "assets": "Gesamtzahl der konfigurierten Asset-Typen.",
       "workOrders": "Gesamtzahl der generierten Arbeitsaufträge.",
       "technicians": "Gesamtzahl der im Team registrierten Techniker."
+    },
+    "kpiDescriptions": {
+      "generic": "Wichtiger Indikator zum Verständnis des Wartungsstatus.",
+      "installations": "Registrierte Installationen, die für den Betrieb verfügbar sind.",
+      "assets": "Für die Wartung konfigurierte Asset-Typen.",
+      "workOrders": "Aufträge zum Ausführen, Verfolgen und Abschließen von Arbeiten.",
+      "technicians": "Techniker, die für Arbeiten verfügbar sind.",
+      "openWorkOrders": "Offene Arbeiten, die noch nachverfolgt werden müssen.",
+      "overdueWorkOrders": "Überfällige Arbeiten, die priorisiert werden müssen.",
+      "criticalWorkOrders": "Kritische Arbeiten, die sofortige Aufmerksamkeit erfordern.",
+      "mttrHours": "Durchschnittliche Stunden zur Behebung von Ausfällen.",
+      "mtbfHours": "Durchschnittliche Betriebsstunden zwischen Ausfällen.",
+      "preventiveCompliance": "Erfüllungsgrad der präventiven Wartung.",
+      "slaRate": "Prozentsatz der Arbeiten, die innerhalb des SLA gelöst wurden.",
+      "responseTime": "Durchschnittliche Zeit bis zur ersten Antwort."
     }
   },
   "workOrders": {
