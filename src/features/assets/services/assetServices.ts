@@ -14,34 +14,27 @@ export const fetchAssets = async (params: { page?: number, limit?: number, searc
   if (params.search) queryParams.append('search', params.search)
 
   const url = `${API_URL}activos?${queryParams.toString()}`;
-  console.log('Fetching assets from:', url);
 
-  try {
-    const response = await fetch(url, {
-      headers: getAuthHeaders(),
-    })
+  const response = await fetch(url, {
+    headers: getAuthHeaders(),
+  })
 
-    if (!response.ok) {
-      let errorMessage = "Error al obtener activos";
-      try {
-        const error = await response.json()
-        errorMessage = error.message || errorMessage;
-      } catch (e) {
-        errorMessage = `Error ${response.status}: ${response.statusText}`;
-      }
-      throw new Error(errorMessage)
+  if (!response.ok) {
+    let errorMessage = "Error al obtener activos";
+    try {
+      const error = await response.json()
+      errorMessage = error.message || errorMessage;
+    } catch {
+      errorMessage = `Error ${response.status}: ${response.statusText}`;
     }
-
-    const result = await response.json()
-    console.log('Assets response:', result);
-    
-    // Devolver la respuesta tal cual viene del backend
-    // El backend devuelve: { assets: [...], total, totalPages }
-    return result;
-  } catch (error: any) {
-    console.error('Error fetching assets:', error);
-    throw error;
+    throw new Error(errorMessage)
   }
+
+  const result = await response.json()
+  
+  // Devolver la respuesta tal cual viene del backend
+  // El backend devuelve: { assets: [...], total, totalPages }
+  return result;
 }
 
 export const fetchTemplates = async (params: { page?: number, limit?: number, search?: string } = {}): Promise<any> => {
@@ -140,4 +133,17 @@ export const assignTemplateToAsset = async (assetId: string, templateId: string)
 
   const result = await response.json()
   return result.success ? result.data : result
+}
+
+export const updateAssetStock = async (assetId: string, stock: number): Promise<void> => {
+  const response = await fetch(`${API_URL}activos/${assetId}/stock`, {
+    method: "PUT",
+    headers: getHeadersWithContentType(),
+    body: JSON.stringify({ stock }),
+  })
+
+  if (!response.ok) {
+    const error = await response.json()
+    throw new Error(error.message || error.error || "Error al actualizar el stock")
+  }
 }

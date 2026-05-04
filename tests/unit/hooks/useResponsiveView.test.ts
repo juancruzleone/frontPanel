@@ -61,6 +61,40 @@ describe('useResponsiveView Hook', () => {
       
       expect(result.current[0]).toBe('table')
     })
+
+    it('should reset persisted kanban to cards when kanban is not allowed', () => {
+      window.innerWidth = 1920
+      localStorage.setItem('test-view', 'kanban')
+      
+      const { result } = renderHook(() => useResponsiveView('test-view'))
+      
+      expect(result.current[0]).toBe('cards')
+      expect(localStorage.getItem('test-view')).toBe('cards')
+    })
+
+    it('should allow kanban when configured for work orders', () => {
+      window.innerWidth = 1920
+      localStorage.setItem('workorders-view', 'kanban')
+      
+      const { result } = renderHook(() => useResponsiveView('workorders-view', 'cards', {
+        allowedViews: ['cards', 'table', 'kanban'],
+      }))
+      
+      expect(result.current[0]).toBe('kanban')
+    })
+
+    it('should ignore kanban changes when kanban is not allowed', () => {
+      window.innerWidth = 1920
+      
+      const { result } = renderHook(() => useResponsiveView('test-view'))
+      
+      act(() => {
+        result.current[1]('kanban')
+      })
+      
+      expect(result.current[0]).toBe('cards')
+      expect(localStorage.getItem('test-view')).toBeNull()
+    })
   })
 
   describe('Mobile Behavior', () => {

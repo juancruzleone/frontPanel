@@ -1,7 +1,7 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
-interface Supplier {
+export interface Supplier {
   _id: string
   name: string
   contactName?: string

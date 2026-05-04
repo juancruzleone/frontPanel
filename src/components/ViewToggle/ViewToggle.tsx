@@ -3,64 +3,71 @@ import { LayoutGrid, Table, Kanban } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import styles from './ViewToggle.module.css'
 
+export type ViewMode = 'cards' | 'table' | 'kanban'
+
 interface ViewToggleProps {
-  view: 'cards' | 'table' | 'kanban'
-  onViewChange: (view: 'cards' | 'table' | 'kanban') => void
+  view: ViewMode
+  onViewChange: (view: ViewMode) => void
   label?: string
+  allowedViews?: readonly ViewMode[]
 }
 
-const ViewToggle: React.FC<ViewToggleProps> = ({ view, onViewChange, label }) => {
+const DEFAULT_ALLOWED_VIEWS: readonly ViewMode[] = ['cards', 'table']
+
+const ViewToggle: React.FC<ViewToggleProps> = ({ view, onViewChange, label, allowedViews = DEFAULT_ALLOWED_VIEWS }) => {
   const { t } = useTranslation()
+  const views = allowedViews.length > 0 ? allowedViews : DEFAULT_ALLOWED_VIEWS
+  const sliderIndex = Math.max(views.indexOf(view), 0)
   
   const getSliderTransform = () => {
-    switch(view) {
-      case 'table': return 'translateX(100%)';
-      case 'kanban': return 'translateX(200%)';
-      default: return 'translateX(0)';
-    }
+    return `translateX(${sliderIndex * 100}%)`
   }
+
+  const viewOptions = [
+    {
+      value: 'cards' as const,
+      icon: <LayoutGrid size={18} />,
+      label: t('viewToggle.cards'),
+      ariaLabel: t('viewToggle.cardsView'),
+    },
+    {
+      value: 'table' as const,
+      icon: <Table size={18} />,
+      label: t('viewToggle.table'),
+      ariaLabel: t('viewToggle.tableView'),
+    },
+    {
+      value: 'kanban' as const,
+      icon: <Kanban size={18} />,
+      label: t('viewToggle.kanban') || 'Kanban',
+      ariaLabel: t('viewToggle.kanbanView') || 'Vista Kanban',
+    },
+  ].filter((option) => views.includes(option.value))
   
   return (
     <div className={styles.viewToggleContainer}>
       {label && <span className={styles.label}>{label}</span>}
-      <div className={styles.toggleSwitch} role="group" aria-label={t('viewToggle.contentView')}>
-        <button
-          className={`${styles.toggleButton} ${view === 'cards' ? styles.active : ''}`}
-          onClick={() => onViewChange('cards')}
-          aria-label={t('viewToggle.cardsView')}
-          aria-pressed={view === 'cards'}
-        >
-          <LayoutGrid size={18} />
-          <span>{t('viewToggle.cards')}</span>
-        </button>
-        <button
-          className={`${styles.toggleButton} ${view === 'table' ? styles.active : ''}`}
-          onClick={() => onViewChange('table')}
-          aria-label={t('viewToggle.tableView')}
-          aria-pressed={view === 'table'}
-        >
-          <Table size={18} />
-          <span>{t('viewToggle.table')}</span>
-        </button>
-        <button
-          className={`${styles.toggleButton} ${view === 'kanban' ? styles.active : ''}`}
-          onClick={() => onViewChange('kanban')}
-          aria-label={t('viewToggle.kanbanView') || 'Vista Kanban'}
-          aria-pressed={view === 'kanban'}
-        >
-          <Kanban size={18} />
-          <span>{t('viewToggle.kanban') || 'Kanban'}</span>
-        </button>
+      <div className={`${styles.toggleSwitch} ${views.length === 3 ? styles.threeOptions : styles.twoOptions}`} role="group" aria-label={t('viewToggle.contentView')}>
+        {viewOptions.map((option) => (
+          <button
+            key={option.value}
+            className={`${styles.toggleButton} ${view === option.value ? styles.active : ''}`}
+            onClick={() => onViewChange(option.value)}
+            aria-label={option.ariaLabel}
+            aria-pressed={view === option.value}
+          >
+            {option.icon}
+            <span>{option.label}</span>
+          </button>
+        ))}
         <div 
           className={styles.slider} 
-          style={{ 
-            transform: getSliderTransform(),
-            width: '33.333%' 
-          }}
+          style={{ transform: getSliderTransform() }}
         />
       </div>
     </div>
   )
 }
 
+export { ViewToggle }
 export default ViewToggle

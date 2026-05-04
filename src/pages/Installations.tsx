@@ -26,7 +26,6 @@ import { useInstallationsTour } from "../features/installations/hooks/useInstall
 import { isClient, isTechnician as checkIsTechnician } from "../shared/utils/roleUtils"
 import TourButton from "../shared/components/Buttons/TourButton"
 import ViewToggle from "../components/ViewToggle/ViewToggle"
-import { useViewMode } from "../shared/hooks/useViewMode"
 import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 import DataTable from "../components/DataTable/DataTable"
 import Tooltip from "../shared/components/Tooltip/Tooltip"

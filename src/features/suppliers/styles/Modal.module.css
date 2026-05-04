@@ -78,6 +78,13 @@
   flex: 1;
 }
 
+.errorMessage {
+  color: var(--color-danger);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin: 1rem 0 0;
+}
+
 .title {
   margin: 0 0 0.5rem 0;
   font-size: 1.75rem;

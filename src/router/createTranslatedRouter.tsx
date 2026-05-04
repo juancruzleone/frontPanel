@@ -103,7 +103,7 @@ const generateChildRoutesForAllLanguages = (): RouteObject[] => {
 /**
  * Genera rutas para roles específicos (admin, super_admin, etc.)
  */
-const generateRoleSpecificRoutes = (): RouteObject[] => {
+export const generateRoleSpecificRoutes = (): RouteObject[] => {
   const languages = Object.keys(routeTranslations) as Language[];
   const routes: RouteObject[] = [];
 
@@ -122,7 +122,7 @@ const generateRoleSpecificRoutes = (): RouteObject[] => {
       },
       {
         path: t.audit,
-        element: <ProtectedRoute allowedRoles={[ROLES.SUPER_ADMIN]}><AuditLogs /></ProtectedRoute>,
+        element: <ProtectedRoute allowedRoles={[ROLES.SUPER_ADMIN, ROLES.ADMIN]}><AuditLogs /></ProtectedRoute>,
       }
     );
 
@@ -152,10 +152,6 @@ const generateRoleSpecificRoutes = (): RouteObject[] => {
         path: t.maintenancePlan,
         element: <ProtectedRoute allowedRoles={[ROLES.ADMIN]}><Subscriptions /></ProtectedRoute>,
       },
-      {
-        path: t.audit,
-        element: <ProtectedRoute allowedRoles={[ROLES.ADMIN]}><AuditLogs /></ProtectedRoute>,
-      }
     );
 
     // Rutas para admin y técnicos

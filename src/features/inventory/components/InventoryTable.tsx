@@ -38,7 +38,7 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
     },
     {
       key: 'stock',
-      header: t('inventory.stock'),
+      header: t('inventory.availableStock'),
       width: '10%',
       align: 'center' as const,
       render: (item: InventoryItem) => (
@@ -55,59 +55,85 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
         render: (item: InventoryItem) => item.minimumStock
     },
     {
+      key: 'stockStatus',
+      header: t('inventory.stockStatus'),
+      width: '12%',
+      align: 'center' as const,
+      render: (item: InventoryItem) => {
+        const isLowStock = item.currentStock <= item.minimumStock
+
+        return (
+          <span className={`${styles.statusBadge} ${isLowStock ? styles.statusLow : styles.statusOk}`}>
+            {isLowStock ? t('inventory.stockStatusLow') : t('inventory.stockStatusOk')}
+          </span>
+        )
+      }
+    },
+    {
       key: 'location',
       header: t('inventory.location'),
-      width: '15%'
+      width: '13%',
+      render: (item: InventoryItem) => item.location || '-'
     },
     {
       key: 'actions',
       header: t('common.actions'),
       width: '25%',
       align: 'center' as const,
-      render: (item: InventoryItem) => (
-        <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
-          <Tooltip content={t('inventory.history')}>
-            <button 
-              onClick={() => onViewHistory(item)} 
-              className={styles.actionButton}
-              aria-label={t('inventory.history')}
-            >
-              <History size={18} />
-            </button>
-          </Tooltip>
-          {isAdmin && (
-            <>
+      render: (item: InventoryItem) => {
+        const hasInventoryItemId = item.inventorySource !== 'asset' && Boolean(item._id)
+        const canManageStock = hasInventoryItemId || Boolean(item.assetId)
+
+        return (
+          <div className={styles.actionsGroup}>
+            {hasInventoryItemId && (
+              <Tooltip content={t('inventory.history')}>
+                <button 
+                  onClick={() => onViewHistory(item)} 
+                  className={styles.actionButton}
+                  aria-label={t('inventory.history')}
+                >
+                  <History size={18} />
+                </button>
+              </Tooltip>
+            )}
+            {isAdmin && canManageStock && (
               <Tooltip content={t('inventory.adjustStock')}>
                 <button 
                   onClick={() => onAdjust(item)} 
-                  className={`${styles.actionButton} ${styles.adjustButton}`}
+                  className={styles.actionButton}
                   aria-label={t('inventory.adjustStock')}
+                  title={t('inventory.adjustStock')}
                 >
                   <Package size={18} />
                 </button>
               </Tooltip>
-              <Tooltip content={t('common.edit')}>
-                <button 
-                  onClick={() => onEdit(item)} 
-                  className={`${styles.actionButton} ${styles.editButton}`}
-                  aria-label={t('common.edit')}
-                >
-                  <Edit size={18} />
-                </button>
-              </Tooltip>
-              <Tooltip content={t('common.delete')}>
-                <button 
-                  onClick={() => onDelete(item)} 
-                  className={`${styles.actionButton} ${styles.deleteButton}`}
-                  aria-label={t('common.delete')}
-                >
-                  <Trash size={18} />
-                </button>
-              </Tooltip>
-            </>
-          )}
-        </div>
-      )
+            )}
+            {isAdmin && hasInventoryItemId && (
+              <>
+                <Tooltip content={t('common.edit')}>
+                  <button 
+                    onClick={() => onEdit(item)} 
+                    className={styles.actionButton}
+                    aria-label={t('common.edit')}
+                  >
+                    <Edit size={18} />
+                  </button>
+                </Tooltip>
+                <Tooltip content={t('common.delete')}>
+                  <button 
+                    onClick={() => onDelete(item)} 
+                    className={styles.actionButton}
+                    aria-label={t('common.delete')}
+                  >
+                    <Trash size={18} />
+                  </button>
+                </Tooltip>
+              </>
+            )}
+          </div>
+        )
+      }
     }
   ]
 
@@ -119,4 +145,3 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
     />
   )
 }
-

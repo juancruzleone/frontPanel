@@ -62,6 +62,7 @@ const useHomeDashboard = () => {
   const [range, setRange] = useState<RangeOption>("30d")
   const [kpis, setKpis] = useState<KPIItem[]>([])
   const [operationalKpis, setOperationalKpis] = useState<KPIItem[]>([])
+  const [simplifiedKpis, setSimplifiedKpis] = useState<KPIItem[]>([])
   const [barChartData, setBarChartData] = useState<ChartDataItem[]>([])
   const [pieChartData, setPieChartData] = useState<ChartDataItem[]>([])
   const [priorityData, setPriorityData] = useState<ChartDataItem[]>([])
@@ -206,6 +207,56 @@ const useHomeDashboard = () => {
         }
       ]
       setOperationalKpis(opKpisData)
+      
+      // 2.1 Mapear KPIs Simplificados (Combinados)
+      const simplifiedKpisData: KPIItem[] = [
+        {
+          id: 'workOrders',
+          label: 'workOrders.title',
+          value: kpisRaw?.workOrders || 0,
+          icon: ClipboardList,
+          color: "#fbc02d",
+          path: "/ordenes-trabajo"
+        },
+        {
+          id: 'openWorkOrders',
+          label: 'home.openWorkOrders',
+          value: opKpisRaw?.openWorkOrders || 0,
+          icon: Activity,
+          color: "var(--color-primary)"
+        },
+        {
+          id: 'overdueWorkOrders',
+          label: 'home.overdueWorkOrders',
+          value: opKpisRaw?.overdueWorkOrders || 0,
+          icon: Clock,
+          color: "#e53935"
+        },
+        {
+          id: 'preventiveCompliance',
+          label: 'home.preventiveCompliance',
+          value: opKpisRaw?.preventiveComplianceRate?.toFixed(0) || "0",
+          icon: CheckCircle,
+          color: "#2e7d32",
+          suffix: "%"
+        },
+        {
+          id: 'slaRate',
+          label: 'home.slaRate',
+          value: (opKpisRaw?.slaRate !== undefined && opKpisRaw?.slaRate !== null) ? opKpisRaw.slaRate.toFixed(0) : "N/A",
+          icon: TrendingUp,
+          color: "#0288d1",
+          suffix: (opKpisRaw?.slaRate !== undefined && opKpisRaw?.slaRate !== null) ? "%" : ""
+        },
+        {
+          id: 'criticalWorkOrders',
+          label: 'home.criticalWorkOrders',
+          value: opKpisRaw?.criticalWorkOrders || 0,
+          icon: AlertCircle,
+          color: "#c62828"
+        }
+      ]
+      setSimplifiedKpis(simplifiedKpisData)
 
       // 3. Bar Chart (Órdenes por tipo)
       const barData = (charts?.byType || []).map((item: any) => {
@@ -352,6 +403,7 @@ const useHomeDashboard = () => {
     setRange,
     kpis, 
     operationalKpis,
+    simplifiedKpis,
     barChartData, 
     pieChartData, 
     priorityData,

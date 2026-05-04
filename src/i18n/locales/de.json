@@ -4,7 +4,8 @@
     "subscriptions": "Aktive Abonnements",
     "maintenancePlan": "Wartungsplan",
     "workOrders": "Arbeitsaufträge",
-    "workOrdersList": "Liste der Arbeitsaufträge",
+    "workOrdersGroup": "Arbeitsaufträge",
+    "workOrdersList": "Liste",
     "installations": "Installationen",
     "assets": "Assets",
     "forms": "Formulare",
@@ -18,7 +19,10 @@
     "logout": "Abmelden",
     "clients": "Kunden",
     "suppliers": "Lieferanten",
-    "inventory": "Lagerbestand"
+    "inventory": "Lagerbestand",
+    "resources": "Betrieb",
+    "operation": "Betrieb",
+    "maintenance": "Wartung"
   },
   "personal": {
     "successTitle": "Vorgang erfolgreich!",
@@ -471,6 +475,7 @@
     "cancelled": "Abgebrochen",
     "title": "Arbeitsaufträge",
     "createWorkOrder": "Arbeitsauftrag erstellen",
+    "viewCalendar": "Kalender anzeigen",
     "searchPlaceholder": "Nach Titel, Beschreibung, Installation oder Techniker suchen",
     "filterByStatus": "Nach Status filtern",
     "noWorkOrdersFound": "Keine Arbeitsaufträge gefunden",

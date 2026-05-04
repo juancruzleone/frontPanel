@@ -4,10 +4,11 @@ import { X } from 'lucide-react'
 import { SupplierForm } from './SupplierForm'
 import { useSuppliers } from '../hooks/useSuppliers'
 import styles from '../styles/Modal.module.css'
+import type { Supplier } from '../../../store/supplierStore'
 
 interface ModalEditProps {
   isOpen: boolean
-  supplier: any
+  supplier: Supplier | null
   onClose: () => void
   onSuccess: (message: string) => void
 }
@@ -17,15 +18,13 @@ const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, supplier, onClose, onSucc
   const { updateSupplier } = useSuppliers()
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (data: Omit<Supplier, '_id'>) => {
     if (!supplier?._id) return
+    setIsLoading(true)
     try {
-      setIsLoading(true)
       await updateSupplier(supplier._id, data)
       onSuccess(t('suppliers.supplierUpdated'))
       onClose()
-    } catch (error) {
-      console.error('Error updating supplier:', error);
     } finally {
       setIsLoading(false)
     }

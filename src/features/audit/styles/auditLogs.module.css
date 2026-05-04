@@ -1,34 +1,57 @@
 .container {
-  padding: 24px;
+  padding: 120px 16px 24px 16px;
   max-width: 1200px;
   margin: 0 auto;
-}
-
-.header {
-  margin-bottom: 32px;
-}
-
-.titleArea {
   display: flex;
+  flex-direction: column;
+  gap: 32px;
+  color: var(--color-text);
+  min-height: calc(100vh - 40px);
+}
+
+.topSection {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   gap: 16px;
 }
 
-.titleIcon {
-  color: #3b82f6;
+.headerWithToggle {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .title {
-  font-size: 24px;
+  font-size: 32px;
   font-weight: 700;
+  color: var(--color-text);
   margin: 0;
-  color: var(--text-primary, #111827);
+  text-align: left;
 }
 
-.subtitle {
-  font-size: 14px;
-  color: var(--text-secondary, #6b7280);
-  margin: 4px 0 0 0;
+@media (max-width: 1024px) {
+  .container {
+    padding: 100px 16px 24px 16px;
+  }
+
+  .title {
+    font-size: 24px;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 100px 16px 24px 16px;
+  }
+
+  .title {
+    font-size: 24px;
+    justify-content: flex-start;
+  }
 }
 
 .statusContainer {

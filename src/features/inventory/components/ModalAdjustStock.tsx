@@ -11,13 +11,19 @@ interface ModalAdjustStockProps {
   onRequestClose: () => void
   item: InventoryItem | null
   onAdjust: (quantity: number, type: 'entry' | 'exit' | 'adjustment', reason: string) => Promise<void>
+  onError?: (message: string) => void
+}
+
+const isAdjustmentType = (value: string): value is 'entry' | 'exit' | 'adjustment' => {
+  return value === 'entry' || value === 'exit' || value === 'adjustment'
 }
 
 export const ModalAdjustStock: React.FC<ModalAdjustStockProps> = ({ 
   isOpen, 
   onRequestClose, 
   item, 
-  onAdjust 
+  onAdjust,
+  onError,
 }) => {
   const { t } = useTranslation()
   const [quantity, setQuantity] = useState(1)
@@ -34,7 +40,7 @@ export const ModalAdjustStock: React.FC<ModalAdjustStockProps> = ({
       await onAdjust(quantity, type, reason)
       onRequestClose()
     } catch (error) {
-      console.error(error)
+      onError?.(error instanceof Error ? error.message : t('common.error'))
     } finally {
       setIsSubmitting(false)
     }
@@ -57,7 +63,11 @@ export const ModalAdjustStock: React.FC<ModalAdjustStockProps> = ({
                 <label>{t('inventory.adjustmentType')}</label>
                 <select 
                   value={type} 
-                  onChange={(e) => setType(e.target.value as any)}
+                  onChange={(e) => {
+                    if (isAdjustmentType(e.target.value)) {
+                      setType(e.target.value)
+                    }
+                  }}
                   disabled={isSubmitting}
                 >
                   <option value="entry">{t('inventory.entry')}</option>

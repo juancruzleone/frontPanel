@@ -11,8 +11,10 @@ vi.mock('react-i18next', () => ({
         'viewToggle.contentView': 'Content View',
         'viewToggle.cardsView': 'Cards View',
         'viewToggle.tableView': 'Table View',
+        'viewToggle.kanbanView': 'Kanban View',
         'viewToggle.cards': 'Cards',
         'viewToggle.table': 'Table',
+        'viewToggle.kanban': 'Kanban',
       }
       return translations[key] || key
     }
@@ -24,9 +26,19 @@ describe('ViewToggle Component', () => {
     it('should render both view options', () => {
       const onViewChange = vi.fn()
       render(<ViewToggle view="cards" onViewChange={onViewChange} />)
+       
+      expect(screen.getByText('Cards')).toBeInTheDocument()
+      expect(screen.getByText('Table')).toBeInTheDocument()
+      expect(screen.queryByText('Kanban')).not.toBeInTheDocument()
+    })
+
+    it('should render kanban only when explicitly allowed', () => {
+      const onViewChange = vi.fn()
+      render(<ViewToggle view="cards" onViewChange={onViewChange} allowedViews={['cards', 'table', 'kanban']} />)
       
       expect(screen.getByText('Cards')).toBeInTheDocument()
       expect(screen.getByText('Table')).toBeInTheDocument()
+      expect(screen.getByText('Kanban')).toBeInTheDocument()
     })
 
     it('should render with custom label', () => {
@@ -60,6 +72,14 @@ describe('ViewToggle Component', () => {
       
       const tableButton = screen.getByLabelText('Table View')
       expect(tableButton).toHaveAttribute('aria-pressed', 'true')
+    })
+
+    it('should mark kanban button as active when kanban is allowed', () => {
+      const onViewChange = vi.fn()
+      render(<ViewToggle view="kanban" onViewChange={onViewChange} allowedViews={['cards', 'table', 'kanban']} />)
+      
+      const kanbanButton = screen.getByLabelText('Kanban View')
+      expect(kanbanButton).toHaveAttribute('aria-pressed', 'true')
     })
 
     it('should apply active class to cards button', () => {
@@ -106,6 +126,18 @@ describe('ViewToggle Component', () => {
       expect(onViewChange).toHaveBeenCalledTimes(1)
     })
 
+    it('should call onViewChange with kanban when kanban is allowed and clicked', async () => {
+      const user = userEvent.setup()
+      const onViewChange = vi.fn()
+      render(<ViewToggle view="cards" onViewChange={onViewChange} allowedViews={['cards', 'table', 'kanban']} />)
+      
+      const kanbanButton = screen.getByLabelText('Kanban View')
+      await user.click(kanbanButton)
+      
+      expect(onViewChange).toHaveBeenCalledWith('kanban')
+      expect(onViewChange).toHaveBeenCalledTimes(1)
+    })
+
     it('should allow clicking the same button multiple times', async () => {
       const user = userEvent.setup()
       const onViewChange = vi.fn()
@@ -127,7 +159,7 @@ describe('ViewToggle Component', () => {
       // CSS modules hash class names, so we search by class pattern
       const slider = container.querySelector('[class*="slider"]')
       expect(slider).toBeTruthy()
-      expect(slider).toHaveStyle({ transform: 'translateX(0)' })
+      expect(slider).toHaveStyle({ transform: 'translateX(0%)' })
     })
 
     it('should position slider at end for table view', () => {
@@ -138,6 +170,15 @@ describe('ViewToggle Component', () => {
       const slider = container.querySelector('[class*="slider"]')
       expect(slider).toBeTruthy()
       expect(slider).toHaveStyle({ transform: 'translateX(100%)' })
+    })
+
+    it('should position slider at end for kanban view when allowed', () => {
+      const onViewChange = vi.fn()
+      const { container } = render(<ViewToggle view="kanban" onViewChange={onViewChange} allowedViews={['cards', 'table', 'kanban']} />)
+      
+      const slider = container.querySelector('[class*="slider"]')
+      expect(slider).toBeTruthy()
+      expect(slider).toHaveStyle({ transform: 'translateX(200%)' })
     })
   })
 

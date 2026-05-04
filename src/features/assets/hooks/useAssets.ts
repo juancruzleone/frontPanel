@@ -6,9 +6,9 @@ import {
   deleteAsset,
   assignTemplateToAsset as apiAssignTemplateToAsset,
   fetchTemplates,
+  updateAssetStock as apiUpdateAssetStock,
 } from "../services/assetServices"
 import { fetchFormCategories } from "../../forms/services/formServices"
-import { getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
 
 export type Asset = {
   _id?: string
@@ -164,19 +164,7 @@ const useAssets = () => {
 
   const updateAssetStock = async (assetId: string, stock: number): Promise<void> => {
     try {
-      const API_URL = import.meta.env.VITE_API_URL || "/api/"
-      const response = await fetch(`${API_URL}activos/${assetId}/stock`, {
-        method: "PUT",
-        headers: getHeadersWithContentType(),
-        body: JSON.stringify({ stock }),
-      })
-
-      if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.error || "Error al actualizar el stock")
-      }
-
-      // Actualizar el estado local
+      await apiUpdateAssetStock(assetId, stock)
       setAssets((prev) => prev.map((asset) => (asset._id === assetId ? { ...asset, stock } : asset)))
     } catch (err: any) {
       throw err

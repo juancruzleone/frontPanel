@@ -35,15 +35,11 @@ const AuditLogs: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <div className={styles.titleArea}>
-          <History className={styles.titleIcon} size={28} />
-          <div>
-            <h1 className={styles.title}>{t('audit.title')}</h1>
-            <p className={styles.subtitle}>{t('audit.subtitle')}</p>
-          </div>
+      <div className={styles.topSection}>
+        <div className={styles.headerWithToggle}>
+          <h1 className={styles.title}>{t('audit.title')}</h1>
         </div>
-      </header>
+      </div>
 
       {loading ? (
         <div className={styles.statusContainer}>

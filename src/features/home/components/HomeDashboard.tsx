@@ -5,7 +5,6 @@ import PieChart from "./PieChart"
 import LineChart from "./LineChart"
 import RecentWorkOrders from "./RecentWorkOrders"
 import RangeFilter from "./RangeFilter"
-import OperationalKPIs from "./OperationalKPIs"
 import OperationalLists from "./OperationalLists"
 import useHomeDashboard from "../hooks/useHomeDashboard"
 import styles from "../styles/home.module.css"
@@ -26,6 +25,7 @@ const HomeDashboard: React.FC = () => {
     setRange,
     kpis,
     operationalKpis,
+    simplifiedKpis,
     barChartData,
     pieChartData,
     priorityData,
@@ -76,16 +76,10 @@ const HomeDashboard: React.FC = () => {
         </div>
       ) : (
         <main className={styles.dashboardContent}>
-          {/* Sección de KPIs Base */}
+          {/* Sección de KPIs Resumidos */}
           <section className={styles.kpisSection} aria-labelledby="kpis-title">
             <h2 id="kpis-title" className={styles.sectionTitle}>{t('home.mainMetrics')}</h2>
-            <StatsCards kpis={kpis} />
-          </section>
-
-          {/* Sección de KPIs Operativos */}
-          <section className={styles.kpisSection} aria-labelledby="op-kpis-title">
-            <h2 id="op-kpis-title" className={styles.sectionTitle}>{t('home.operationalMetrics', { defaultValue: 'Métricas Operativas' })}</h2>
-            <OperationalKPIs kpis={operationalKpis} />
+            <StatsCards kpis={simplifiedKpis} />
           </section>
 
           {/* Sección de gráficos 1: Prioridad y Preventivo vs Correctivo */}

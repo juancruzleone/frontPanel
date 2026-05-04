@@ -3,10 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { X, AlertTriangle } from 'lucide-react'
 import { useSuppliers } from '../hooks/useSuppliers'
 import styles from '../styles/Modal.module.css'
+import type { Supplier } from '../../../store/supplierStore'
 
 interface ModalConfirmDeleteProps {
   isOpen: boolean
-  supplier: any
+  supplier: Supplier | null
   onClose: () => void
   onSuccess: (message: string) => void
 }
@@ -15,16 +16,18 @@ const ModalConfirmDelete: React.FC<ModalConfirmDeleteProps> = ({ isOpen, supplie
   const { t } = useTranslation()
   const { removeSupplier } = useSuppliers()
   const [isLoading, setIsLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const handleConfirm = async () => {
     if (!supplier?._id) return
     try {
       setIsLoading(true)
+      setErrorMessage(null)
       await removeSupplier(supplier._id)
       onSuccess(t('suppliers.supplierDeleted'))
       onClose()
-    } catch (error) {
-      console.error('Error deleting supplier:', error);
+    } catch (error: unknown) {
+      setErrorMessage(error instanceof Error ? error.message : t('common.error'))
     } finally {
       setIsLoading(false)
     }
@@ -59,6 +62,7 @@ const ModalConfirmDelete: React.FC<ModalConfirmDeleteProps> = ({ isOpen, supplie
           <p className={styles.confirmDescription}>
             {t('suppliers.deleteConfirmMessage', { name: supplier?.name })}
           </p>
+          {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
         </div>
 
         <div className={styles.modalFooter}>

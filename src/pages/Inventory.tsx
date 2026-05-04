@@ -8,13 +8,18 @@ import ModalMovementHistory from "../features/inventory/components/ModalMovement
 import useInventory from "../features/inventory/hooks/useInventory"
 import { InventoryItem } from "../features/inventory/types/inventory.types"
 import { useAuthStore } from "../store/authStore"
-import { FilterX, AlertTriangle } from "lucide-react"
+import { FilterX, AlertTriangle, Edit, History, Package, Trash } from "lucide-react"
 import SearchInput from "../shared/components/Inputs/SearchInput"
 import ModalSuccess from "../features/assets/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
 import ConfirmModal from "../shared/components/ConfirmModal"
 import Button from "../shared/components/Buttons/buttonCreate"
+import ViewToggle from "../components/ViewToggle/ViewToggle"
+import { useResponsiveView } from "../shared/hooks/useResponsiveView"
+import Tooltip from "../shared/components/Tooltip/Tooltip"
 import styles from "../features/inventory/styles/inventory.module.css"
+
+const INVENTORY_ALLOWED_VIEWS = ['cards', 'table'] as const
 
 const Inventory = () => {
   const { t } = useTranslation()
@@ -27,6 +32,9 @@ const Inventory = () => {
   
   const role = useAuthStore((s) => s.role)
   const isAdmin = role === 'admin' || role === 'super_admin'
+  const [viewMode, setViewMode, isMobile] = useResponsiveView('inventory-view', 'cards', {
+    allowedViews: INVENTORY_ALLOWED_VIEWS,
+  })
 
   const [searchTerm, setSearchTerm] = useState("")
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
@@ -79,8 +87,8 @@ const Inventory = () => {
       await removeInventoryItem(selectedItem._id)
       handleSuccess(t('inventory.itemDeleted'))
       setIsDeleteModalOpen(false)
-    } catch (err: any) {
-      setResponseMessage(err.message)
+    } catch (err) {
+      setResponseMessage(err instanceof Error ? err.message : t('common.error'))
       setIsError(true)
     }
   }
@@ -111,6 +119,13 @@ const Inventory = () => {
       <div className={styles.topSection}>
         <div className={styles.headerWithToggle}>
           <h1 className={styles.title}>{t('inventory.title')}</h1>
+          {!isMobile && (
+            <ViewToggle
+              view={viewMode}
+              onViewChange={setViewMode}
+              allowedViews={INVENTORY_ALLOWED_VIEWS}
+            />
+          )}
         </div>
         {isAdmin && (
           <div className={styles.positionButton}>
@@ -125,9 +140,9 @@ const Inventory = () => {
             <AlertTriangle size={20} />
             <h2>{t('inventory.lowStockAlert')}</h2>
           </div>
-          <ul style={{ listStyle: 'disc', paddingLeft: '20px', fontSize: '0.875rem' }}>
+          <ul className={styles.lowStockList}>
             {lowStockItems.slice(0, 5).map(item => (
-              <li key={item._id}>
+              <li key={item._id || item.assetId || item.name}>
                 {item.name}: {item.currentStock} {item.unit} ({t('inventory.minimum')}: {item.minimumStock})
               </li>
             ))}
@@ -157,16 +172,110 @@ const Inventory = () => {
       </div>
 
       <div className={styles.listContainer}>
-        <div className={styles.tableWrapper}>
-          <InventoryTable 
-            items={items} 
-            isAdmin={isAdmin}
-            onEdit={handleOpenEdit}
-            onDelete={handleOpenDelete}
-            onAdjust={handleOpenAdjust}
-            onViewHistory={handleOpenHistory}
-          />
-        </div>
+        {viewMode === 'table' ? (
+          <div className={styles.tableWrapper}>
+            <InventoryTable 
+              items={items} 
+              isAdmin={isAdmin}
+              onEdit={handleOpenEdit}
+              onDelete={handleOpenDelete}
+              onAdjust={handleOpenAdjust}
+              onViewHistory={handleOpenHistory}
+            />
+          </div>
+        ) : items.length === 0 ? (
+          <p className={styles.emptyMessage}>{t('inventory.noItemsFound')}</p>
+        ) : (
+          <div className={styles.cardsGrid}>
+            {items.map((item) => {
+              const hasInventoryItemId = item.inventorySource !== 'asset' && Boolean(item._id)
+              const canManageStock = hasInventoryItemId || Boolean(item.assetId)
+              const isLowStock = item.currentStock <= item.minimumStock
+
+              return (
+                <article key={item._id || item.assetId || item.name} className={styles.inventoryCard}>
+                  <div className={styles.cardHeader}>
+                    <div>
+                      <h3 className={styles.cardTitle}>{item.name}</h3>
+                      <p className={styles.cardSubtitle}>{item.category || t('inventory.category')}</p>
+                    </div>
+                    <span className={`${styles.statusBadge} ${isLowStock ? styles.statusLow : styles.statusOk}`}>
+                      {isLowStock ? t('inventory.stockStatusLow') : t('inventory.stockStatusOk')}
+                    </span>
+                  </div>
+
+                  <div className={styles.cardDetails}>
+                    <div>
+                      <span>{t('inventory.availableStock')}</span>
+                      <strong className={isLowStock ? styles.lowStockText : ''}>{item.currentStock} {item.unit}</strong>
+                    </div>
+                    <div>
+                      <span>{t('inventory.minimumStock')}</span>
+                      <strong>{item.minimumStock}</strong>
+                    </div>
+                    <div>
+                      <span>{t('inventory.location')}</span>
+                      <strong>{item.location || '-'}</strong>
+                    </div>
+                  </div>
+
+                  {(hasInventoryItemId || (isAdmin && canManageStock)) && (
+                    <div className={styles.cardActions}>
+                      {hasInventoryItemId && (
+                        <Tooltip content={t('inventory.history')}>
+                          <button
+                            type="button"
+                            className={styles.iconButton}
+                            onClick={() => handleOpenHistory(item)}
+                            aria-label={t('inventory.history')}
+                          >
+                            <History size={20} />
+                          </button>
+                        </Tooltip>
+                      )}
+                      {isAdmin && canManageStock && (
+                        <Tooltip content={t('inventory.adjustStock')}>
+                          <button
+                            type="button"
+                            className={styles.iconButton}
+                            onClick={() => handleOpenAdjust(item)}
+                            aria-label={t('inventory.adjustStock')}
+                          >
+                            <Package size={20} />
+                          </button>
+                        </Tooltip>
+                      )}
+                      {isAdmin && hasInventoryItemId && (
+                        <>
+                          <Tooltip content={t('common.edit')}>
+                            <button
+                              type="button"
+                              className={styles.iconButton}
+                              onClick={() => handleOpenEdit(item)}
+                              aria-label={t('common.edit')}
+                            >
+                              <Edit size={20} />
+                            </button>
+                          </Tooltip>
+                          <Tooltip content={t('common.delete')}>
+                            <button
+                              type="button"
+                              className={styles.iconButton}
+                              onClick={() => handleOpenDelete(item)}
+                              aria-label={t('common.delete')}
+                            >
+                              <Trash size={20} />
+                            </button>
+                          </Tooltip>
+                        </>
+                      )}
+                    </div>
+                  )}
+                </article>
+              )
+            })}
+          </div>
+        )}
       </div>
 
       {/* Modales */}
@@ -198,10 +307,14 @@ const Inventory = () => {
         onRequestClose={() => setIsStockModalOpen(false)}
         item={selectedItem}
         onAdjust={async (q, adjType, r) => {
-            if (selectedItem?._id) {
-                await adjustStock(selectedItem._id, q, adjType, r, selectedItem.currentStock)
+            if (selectedItem) {
+                await adjustStock(selectedItem, q, adjType, r)
                 handleSuccess(t('inventory.stockAdjusted')) // Fixed hardcoded string
             }
+        }}
+        onError={(message) => {
+          setResponseMessage(message)
+          setIsError(true)
         }}
       />
 
@@ -218,4 +331,3 @@ const Inventory = () => {
 }
 
 export default Inventory
-

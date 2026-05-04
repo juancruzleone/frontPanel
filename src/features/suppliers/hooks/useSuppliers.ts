@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react"
 import { useSupplierStore } from "../../../store/supplierStore"
+import type { Supplier } from "../../../store/supplierStore"
 import { 
   fetchSuppliers, 
   createSupplier as apiCreateSupplier, 
@@ -16,41 +17,30 @@ export const useSuppliers = () => {
     try {
       const result = await fetchSuppliers(params)
       setSuppliers(result.suppliers || [], result.total || 0)
-    } catch (err: any) {
-      setError(err.message)
+      setError(null)
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Error al obtener proveedores")
       setSuppliers([], 0)
     } finally {
       setLoading(false)
     }
   }, [setSuppliers, setLoading])
 
-  const addSupplier = async (supplier: any) => {
-    try {
-      const newSupplier = await apiCreateSupplier(supplier)
-      await loadSuppliers()
-      return newSupplier
-    } catch (err: any) {
-      throw err
-    }
+  const addSupplier = async (supplier: Omit<Supplier, '_id'>) => {
+    const newSupplier = await apiCreateSupplier(supplier)
+    await loadSuppliers()
+    return newSupplier
   }
 
-  const updateSupplier = async (id: string, supplier: any) => {
-    try {
-      const updated = await apiUpdateSupplier(id, supplier)
-      await loadSuppliers()
-      return updated
-    } catch (err: any) {
-      throw err
-    }
+  const updateSupplier = async (id: string, supplier: Partial<Omit<Supplier, '_id'>>) => {
+    const updated = await apiUpdateSupplier(id, supplier)
+    await loadSuppliers()
+    return updated
   }
 
   const removeSupplier = async (id: string) => {
-    try {
-      await apiDeleteSupplier(id)
-      await loadSuppliers()
-    } catch (err: any) {
-      throw err
-    }
+    await apiDeleteSupplier(id)
+    await loadSuppliers()
   }
 
   return {

@@ -1,21 +1,49 @@
 import { useState, useEffect } from 'react'
 
-type ViewMode = 'cards' | 'table' | 'kanban'
+export type ViewMode = 'cards' | 'table' | 'kanban'
+
+interface UseResponsiveViewOptions {
+  allowedViews?: readonly ViewMode[]
+}
+
+const DEFAULT_ALLOWED_VIEWS: readonly ViewMode[] = ['cards', 'table']
+
+const resolveDefaultView = (defaultValue: ViewMode, allowedViews: readonly ViewMode[]): ViewMode => {
+  return allowedViews.includes(defaultValue) ? defaultValue : allowedViews[0]
+}
+
+const isAllowedView = (value: string | null, allowedViews: readonly ViewMode[]): value is ViewMode => {
+  return value !== null && allowedViews.includes(value as ViewMode)
+}
 
 /**
  * Hook que combina useViewMode con detección responsive
  * En mobile/tablet siempre muestra cards, en desktop permite elegir
  */
-export const useResponsiveView = (storageKey: string, defaultValue: ViewMode = 'cards'): [ViewMode, (mode: ViewMode) => void, boolean] => {
+export const useResponsiveView = (
+  storageKey: string,
+  defaultValue: ViewMode = 'cards',
+  options: UseResponsiveViewOptions = {}
+): [ViewMode, (mode: ViewMode) => void, boolean] => {
+  const allowedViews = options.allowedViews?.length ? options.allowedViews : DEFAULT_ALLOWED_VIEWS
+  const safeDefaultView = resolveDefaultView(defaultValue, allowedViews)
   const [isMobile, setIsMobile] = useState(false)
   
   // Inicializar desde localStorage
   const [savedView, setSavedView] = useState<ViewMode>(() => {
     try {
       const stored = localStorage.getItem(storageKey)
-      return (stored === 'cards' || stored === 'table' || stored === 'kanban') ? (stored as ViewMode) : defaultValue
-    } catch (error) {
-      return defaultValue
+      if (isAllowedView(stored, allowedViews)) {
+        return stored
+      }
+
+      if (stored !== null) {
+        localStorage.setItem(storageKey, safeDefaultView)
+      }
+
+      return safeDefaultView
+    } catch {
+      return safeDefaultView
     }
   })
 
@@ -36,7 +64,7 @@ export const useResponsiveView = (storageKey: string, defaultValue: ViewMode = '
 
   // Función para cambiar vista (solo funciona en desktop)
   const setViewMode = (mode: ViewMode) => {
-    if (!isMobile) {
+    if (!isMobile && allowedViews.includes(mode)) {
       try {
         setSavedView(mode)
         localStorage.setItem(storageKey, mode)

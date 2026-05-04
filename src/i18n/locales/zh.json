@@ -2,7 +2,8 @@
   "nav": {
     "home": "首页",
     "workOrders": "工作订单",
-    "workOrdersList": "工作订单列表",
+    "workOrdersGroup": "工作订单",
+    "workOrdersList": "列表",
     "maintenancePlan": "维护计划",
     "subscriptions": "有效订阅",
     "installations": "安装",
@@ -18,7 +19,10 @@
     "closeMenu": "关闭菜单",
     "clients": "客户",
     "suppliers": "供应商",
-    "inventory": "库存"
+    "inventory": "库存",
+    "resources": "运营",
+    "operation": "运营",
+    "maintenance": "维护"
   },
   "personal": {
     "successTitle": "操作成功！",
@@ -493,6 +497,7 @@
     "cancelled": "已取消",
     "title": "工单",
     "createWorkOrder": "创建工单",
+    "viewCalendar": "查看日历",
     "searchPlaceholder": "按标题、描述、安装或技术员搜索",
     "filterByStatus": "按状态筛选",
     "noWorkOrdersFound": "未找到工单",

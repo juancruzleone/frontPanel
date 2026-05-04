@@ -2,7 +2,8 @@
   "nav": {
     "home": "Home",
     "workOrders": "Ordini di Lavoro",
-    "workOrdersList": "Elenco Ordini di Lavoro",
+    "workOrdersGroup": "Ordini di lavoro",
+    "workOrdersList": "Elenco",
     "maintenancePlan": "Piano di manutenzione",
     "installations": "Installazioni",
     "subscriptions": "Abbonamenti attivi",
@@ -18,7 +19,10 @@
     "logout": "Disconnetti",
     "clients": "Clienti",
     "suppliers": "Fornitori",
-    "inventory": "Inventario"
+    "inventory": "Inventario",
+    "resources": "Operazioni",
+    "operation": "Operazioni",
+    "maintenance": "Manutenzione"
   },
   "personal": {
     "successTitle": "Operazione riuscita!",
@@ -453,6 +457,7 @@
     "cancelled": "Annullata",
     "title": "Ordini di lavoro",
     "createWorkOrder": "Crea ordine di lavoro",
+    "viewCalendar": "Visualizza calendario",
     "searchPlaceholder": "Cerca per titolo, descrizione, installazione o tecnico",
     "filterByStatus": "Filtra per stato",
     "noWorkOrdersFound": "Nessun ordine di lavoro trovato",

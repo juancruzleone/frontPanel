@@ -27,6 +27,10 @@ export const auditService = {
 
       return await response.json()
     } catch (error: unknown) {
+      if (error instanceof Error && error.message === 'BACKEND_NOT_IMPLEMENTED') {
+        // Expected fallback, do not pollute console
+        throw error
+      }
       console.error('Audit service error:', error)
       throw error
     }

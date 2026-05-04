@@ -2,7 +2,8 @@
   "nav": {
     "home": "홈",
     "workOrders": "작업 지시",
-    "workOrdersList": "작업 지시 목록",
+    "workOrdersGroup": "작업 지시",
+    "workOrdersList": "목록",
     "maintenancePlan": "유지보수 계획",
     "installations": "설치",
     "subscriptions": "활성 구독",
@@ -18,7 +19,10 @@
     "logout": "로그아웃",
     "clients": "고객",
     "suppliers": "공급업체",
-    "inventory": "재고"
+    "inventory": "재고",
+    "resources": "운영",
+    "operation": "운영",
+    "maintenance": "유지보수"
   },
   "personal": {
     "successTitle": "작업이 성공했습니다!",
@@ -493,6 +497,7 @@
     "cancelled": "취소됨",
     "title": "작업 지시서",
     "createWorkOrder": "작업 지시서 생성",
+    "viewCalendar": "캘린더 보기",
     "searchPlaceholder": "제목, 설명, 설치 또는 기술자 검색",
     "filterByStatus": "상태별 필터",
     "noWorkOrdersFound": "작업 지시서를 찾을 수 없습니다",

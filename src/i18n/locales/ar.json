@@ -4,7 +4,8 @@
     "subscriptions": "الاشتراكات النشطة",
     "maintenancePlan": "خطة الصيانة",
     "workOrders": "أوامر العمل",
-    "workOrdersList": "قائمة أوامر العمل",
+    "workOrdersGroup": "أوامر العمل",
+    "workOrdersList": "القائمة",
     "installations": "التركيبات",
     "assets": "الأصول",
     "forms": "النماذج",
@@ -18,7 +19,10 @@
     "logout": "تسجيل الخروج",
     "clients": "العملاء",
     "suppliers": "الموردين",
-    "inventory": "مخزون"
+    "inventory": "مخزون",
+    "resources": "العمليات",
+    "operation": "العمليات",
+    "maintenance": "الصيانة"
   },
   "personal": {
     "successTitle": "تمت العملية بنجاح!",
@@ -492,6 +496,7 @@
     "cancelled": "ملغاة",
     "title": "أوامر العمل",
     "createWorkOrder": "إنشاء أمر",
+    "viewCalendar": "عرض التقويم",
     "searchPlaceholder": "ابحث حسب العنوان أو الوصف أو التركيب أو الفني",
     "filterByStatus": "تصفية حسب الحالة",
     "noWorkOrdersFound": "لم يتم العثور على أوامر عمل",

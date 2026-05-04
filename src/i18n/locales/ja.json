@@ -2,7 +2,8 @@
   "nav": {
     "home": "ホーム",
     "workOrders": "作業指示",
-    "workOrdersList": "作業指示一覧",
+    "workOrdersGroup": "作業指示",
+    "workOrdersList": "一覧",
     "maintenancePlan": "保守計画",
     "installations": "設置",
     "assets": "アセット",
@@ -18,7 +19,10 @@
     "logout": "ログアウト",
     "clients": "クライアント",
     "suppliers": "仕入れ先",
-    "inventory": "在庫"
+    "inventory": "在庫",
+    "resources": "運用",
+    "operation": "運用",
+    "maintenance": "メンテナンス"
   },
   "personal": {
     "successTitle": "操作が成功しました！",
@@ -491,6 +495,7 @@
     "cancelled": "キャンセル済み",
     "title": "作業指示書",
     "createWorkOrder": "作業指示書を作成",
+    "viewCalendar": "カレンダーを表示",
     "searchPlaceholder": "タイトル、説明、設置、技術者で検索",
     "filterByStatus": "ステータスで絞り込む",
     "noWorkOrdersFound": "作業指示書が見つかりません",

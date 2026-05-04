@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next"
 import DataTable from "../../../components/DataTable/DataTable"
 import { Edit, Trash } from "lucide-react"
 import Tooltip from "../../../shared/components/Tooltip/Tooltip"
+import styles from "../styles/supplierTable.module.css"
 
 interface Supplier {
   _id: string
@@ -49,14 +50,15 @@ export const SupplierTable: React.FC<SupplierTableProps> = ({
       width: '20%',
       align: 'center' as const,
       render: (supplier: Supplier) => (
-        <div className="flex gap-2 justify-center">
+        <div className={styles.actionsGroup}>
           {isAdmin && (
             <>
               <Tooltip content={t('common.edit')}>
                 <button 
                   onClick={() => onEdit(supplier)} 
-                  className="p-1 hover:bg-gray-100 rounded text-orange-600"
+                  className={styles.actionButton}
                   aria-label={t('common.edit')}
+                  title={t('common.edit')}
                 >
                   <Edit size={18} />
                 </button>
@@ -64,8 +66,9 @@ export const SupplierTable: React.FC<SupplierTableProps> = ({
               <Tooltip content={t('common.delete')}>
                 <button 
                   onClick={() => onDelete(supplier)} 
-                  className="p-1 hover:bg-gray-100 rounded text-red-600"
+                  className={styles.actionButton}
                   aria-label={t('common.delete')}
+                  title={t('common.delete')}
                 >
                   <Trash size={18} />
                 </button>

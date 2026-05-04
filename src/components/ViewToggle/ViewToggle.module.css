@@ -83,13 +83,20 @@
   position: absolute;
   top: 4px;
   left: 4px;
-  width: calc(33.333% - 4px);
   height: calc(100% - 8px);
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
   z-index: 1;
+}
+
+.twoOptions .slider {
+  width: calc(50% - 4px);
+}
+
+.threeOptions .slider {
+  width: calc(33.333% - 4px);
 }
 
 .slider:hover {
@@ -147,8 +154,12 @@
     justify-content: center;
   }
   
-  .slider {
+  .threeOptions .slider {
     width: calc(33.333% - 4px);
+  }
+
+  .twoOptions .slider {
+    width: calc(50% - 4px);
   }
 }
 

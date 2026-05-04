@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next"
 import { validateSupplierForm } from "../validators/supplierValidators"
 import styles from "../styles/supplierForm.module.css"
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
+import type { Supplier } from "../../../store/supplierStore"
 
 interface SupplierFormData {
   name: string
@@ -13,7 +14,7 @@ interface SupplierFormData {
 }
 
 interface SupplierFormProps {
-  initialData?: any
+  initialData?: Supplier | null
   onSubmit: (data: SupplierFormData) => Promise<void>
   onCancel: () => void
   isLoading?: boolean
@@ -26,8 +27,6 @@ export const SupplierForm: React.FC<SupplierFormProps> = ({
   isLoading = false 
 }) => {
   const { t } = useTranslation()
-  const isEdit = !!initialData
-  
   const [formData, setFormData] = useState<SupplierFormData>({
     name: initialData?.name || "",
     contactName: initialData?.contactName || "",
@@ -70,8 +69,8 @@ export const SupplierForm: React.FC<SupplierFormProps> = ({
 
     try {
       await onSubmit(formData)
-    } catch (err: any) {
-      setErrors({ submit: err.message })
+    } catch (err: unknown) {
+      setErrors({ submit: err instanceof Error ? err.message : t('common.error') })
     }
   }
 

@@ -1,8 +1,14 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { fetchInventoryItems, createInventoryItem, deleteInventoryItem } from '../../../../src/features/inventory/services/inventoryServices'
+import { fetchAssets } from '../../../../src/features/assets/services/assetServices'
+import { fetchInventoryItems, fetchInventoryAssets, createInventoryItem, deleteInventoryItem } from '../../../../src/features/inventory/services/inventoryServices'
+
+vi.mock('../../../../src/features/assets/services/assetServices', () => ({
+  fetchAssets: vi.fn(),
+}))
 
 describe('Inventory Services', () => {
   beforeEach(() => {
+    vi.clearAllMocks()
     vi.stubGlobal('fetch', vi.fn())
     // @ts-expect-error - Mocking import.meta.env
     import.meta.env.VITE_API_URL = 'http://api.test/'
@@ -29,6 +35,18 @@ describe('Inventory Services', () => {
     ;(fetch as any).mockResolvedValue(mockResponse)
 
     await expect(createInventoryItem({})).rejects.toThrow('Error de prueba')
+  })
+
+  it('debe obtener activos mediante el servicio compartido de activos', async () => {
+    const mockAssets = [{ _id: 'asset-1', nombre: 'Activo real', stock: 3 }]
+    vi.mocked(fetchAssets).mockResolvedValue({ assets: mockAssets })
+
+    const result = await fetchInventoryAssets()
+
+    expect(fetchAssets).toHaveBeenCalledWith({ page: 1, limit: 1000 })
+    expect(fetch).not.toHaveBeenCalledWith(expect.stringContaining('/activos'), expect.any(Object))
+    expect(fetch).not.toHaveBeenCalledWith(expect.stringContaining('/plantillas'), expect.any(Object))
+    expect(result).toEqual(mockAssets)
   })
 
   it('debe llamar a fetch con DELETE para eliminar un item', async () => {

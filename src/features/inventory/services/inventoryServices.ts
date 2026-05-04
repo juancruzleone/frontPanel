@@ -1,8 +1,41 @@
 import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
+import { fetchAssets, updateAssetStock as apiUpdateAssetStock } from "../../assets/services/assetServices"
+import { InventoryAsset, InventoryItem, InventoryMovement } from "../types/inventory.types"
 
 const getApiUrl = () => import.meta.env.VITE_API_URL || '/api/'
 
-export const fetchInventoryItems = async (params: { page?: number, limit?: number, name?: string, category?: string, lowStock?: boolean | string } = {}): Promise<any> => {
+const parseErrorMessage = async (response: Response, fallback: string): Promise<string> => {
+  try {
+    const error = await response.json()
+    return error.message || error.error || fallback
+  } catch {
+    return `Error ${response.status}: ${response.statusText}`
+  }
+}
+
+const extractArrayResponse = <T>(result: unknown, keys: string[]): T[] => {
+  if (Array.isArray(result)) return result as T[]
+
+  if (!result || typeof result !== 'object') return []
+
+  const response = result as Record<string, unknown>
+  for (const key of keys) {
+    const value = response[key]
+    if (Array.isArray(value)) return value as T[]
+  }
+
+  if (response.success && Array.isArray(response.data)) return response.data as T[]
+
+  return []
+}
+
+export interface InventoryListResponse {
+  items?: InventoryItem[];
+  total?: number;
+  totalPages?: number;
+}
+
+export const fetchInventoryItems = async (params: { page?: number, limit?: number, name?: string, category?: string, lowStock?: boolean | string } = {}): Promise<InventoryListResponse> => {
   const queryParams = new URLSearchParams()
   if (params.page) queryParams.append('page', params.page.toString())
   if (params.limit) queryParams.append('limit', params.limit.toString())
@@ -12,30 +45,23 @@ export const fetchInventoryItems = async (params: { page?: number, limit?: numbe
 
   const url = `${getApiUrl()}inventario?${queryParams.toString()}`;
 
-  try {
-    const response = await fetch(url, {
-      headers: getAuthHeaders(),
-    })
+  const response = await fetch(url, {
+    headers: getAuthHeaders(),
+  })
 
-    if (!response.ok) {
-      let errorMessage = "Error al obtener items de inventario";
-      try {
-        const error = await response.json()
-        errorMessage = error.message || errorMessage;
-      } catch (e) {
-        errorMessage = `Error ${response.status}: ${response.statusText}`;
-      }
-      throw new Error(errorMessage)
-    }
-
-    return await response.json()
-  } catch (error: any) {
-    console.error('Error fetching inventory items:', error);
-    throw error;
+  if (!response.ok) {
+    throw new Error(await parseErrorMessage(response, "Error al obtener items de inventario"))
   }
+
+  return await response.json()
 }
 
-export const fetchInventoryItemById = async (id: string): Promise<any> => {
+export const fetchInventoryAssets = async (): Promise<InventoryAsset[]> => {
+  const result = await fetchAssets({ page: 1, limit: 1000 })
+  return extractArrayResponse<InventoryAsset>(result, ['assets', 'activos', 'items'])
+}
+
+export const fetchInventoryItemById = async (id: string): Promise<InventoryItem> => {
   const response = await fetch(`${getApiUrl()}inventario/${id}`, {
     headers: getAuthHeaders(),
   })
@@ -48,7 +74,7 @@ export const fetchInventoryItemById = async (id: string): Promise<any> => {
   return await response.json()
 }
 
-export const createInventoryItem = async (item: any) => {
+export const createInventoryItem = async (item: Partial<InventoryItem>): Promise<InventoryItem> => {
   const response = await fetch(`${getApiUrl()}inventario`, {
     method: "POST",
     headers: getHeadersWithContentType(),
@@ -63,7 +89,7 @@ export const createInventoryItem = async (item: any) => {
   return await response.json()
 }
 
-export const updateInventoryItem = async (id: string, item: any) => {
+export const updateInventoryItem = async (id: string, item: Partial<InventoryItem>): Promise<InventoryItem> => {
   const response = await fetch(`${getApiUrl()}inventario/${id}`, {
     method: "PATCH",
     headers: getHeadersWithContentType(),
@@ -92,7 +118,7 @@ export const deleteInventoryItem = async (id: string) => {
   return await response.json()
 }
 
-export const createInventoryMovement = async (movement: any) => {
+export const createInventoryMovement = async (movement: Partial<InventoryMovement>): Promise<InventoryMovement> => {
   const response = await fetch(`${getApiUrl()}inventario/movimientos`, {
     method: "POST",
     headers: getHeadersWithContentType(),
@@ -107,7 +133,7 @@ export const createInventoryMovement = async (movement: any) => {
   return await response.json()
 }
 
-export const fetchInventoryMovements = async (itemId?: string, params: { page?: number, limit?: number } = {}): Promise<any> => {
+export const fetchInventoryMovements = async (itemId?: string, params: { page?: number, limit?: number } = {}): Promise<InventoryMovement[]> => {
     const queryParams = new URLSearchParams()
     if (params.page) queryParams.append('page', params.page.toString())
     if (params.limit) queryParams.append('limit', params.limit.toString())
@@ -125,5 +151,10 @@ export const fetchInventoryMovements = async (itemId?: string, params: { page?: 
         throw new Error(error.message || "Error al obtener movimientos")
     }
 
-    return await response.json()
+    const result = await response.json()
+    return extractArrayResponse<InventoryMovement>(result, ['movements', 'items'])
+}
+
+export const updateInventoryAssetStock = async (assetId: string, stock: number): Promise<void> => {
+  await apiUpdateAssetStock(assetId, stock)
 }

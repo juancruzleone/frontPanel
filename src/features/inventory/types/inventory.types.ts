@@ -12,6 +12,27 @@ export interface InventoryItem {
   active: boolean;
   createdAt?: Date;
   updatedAt?: Date;
+  assetId?: string;
+  activoId?: string;
+  inventorySource?: 'inventory' | 'asset';
+}
+
+export interface InventoryAsset {
+  _id?: string;
+  nombre?: string;
+  name?: string;
+  categoria?: string;
+  category?: string;
+  templateId?: string;
+  location?: string;
+  ubicacion?: string;
+  stock?: number;
+  currentStock?: number;
+  minimumStock?: number;
+  stockMinimo?: number;
+  unit?: string;
+  unidad?: string;
+  active?: boolean;
 }
 
 export interface SupplierSnapshot {

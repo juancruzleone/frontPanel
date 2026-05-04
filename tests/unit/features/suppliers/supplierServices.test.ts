@@ -31,6 +31,28 @@ describe('Supplier Services', () => {
     await expect(fetchSuppliers()).rejects.toThrow('Error de servidor')
   })
 
+  it('debe normalizar una lista de proveedores devuelta como array', async () => {
+    const mockSuppliers = [{ _id: '1', name: 'Prov 1' }]
+    const mockResponse = {
+      ok: true,
+      json: () => Promise.resolve(mockSuppliers)
+    }
+    ;(fetch as any).mockResolvedValue(mockResponse)
+
+    await expect(fetchSuppliers()).resolves.toEqual({ suppliers: mockSuppliers, total: 1 })
+  })
+
+  it('debe normalizar una lista de proveedores devuelta en data', async () => {
+    const mockSuppliers = [{ _id: '1', name: 'Prov 1' }]
+    const mockResponse = {
+      ok: true,
+      json: () => Promise.resolve({ data: mockSuppliers, total: 5 })
+    }
+    ;(fetch as any).mockResolvedValue(mockResponse)
+
+    await expect(fetchSuppliers()).resolves.toEqual({ suppliers: mockSuppliers, total: 5 })
+  })
+
   it('debe llamar a fetch con POST para crear un proveedor', async () => {
     const mockSupplier = { name: 'Prov 1' }
     const mockResponse = {

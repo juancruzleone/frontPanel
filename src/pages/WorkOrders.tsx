@@ -30,8 +30,10 @@ import TourButton from "../shared/components/Buttons/TourButton"
 import Tooltip from "../shared/components/Tooltip/Tooltip"
 import { socketService } from "../shared/services/socketService"
 import ViewToggle from "../components/ViewToggle/ViewToggle"
-import { useViewMode } from "../shared/hooks/useViewMode"
-import { useResponsiveView } from "../shared/hooks/useResponsiveView"
+import { useResponsiveView, type ViewMode } from "../shared/hooks/useResponsiveView"
+import { useTranslatedRoutes } from "../router"
+
+const WORK_ORDER_ALLOWED_VIEWS: readonly ViewMode[] = ['cards', 'table', 'kanban']
 
 const renderTechnicianInfo = (order: WorkOrder, t: (key: string) => string) => {
   const namesFromTecnicos = Array.isArray(order.tecnicos)
@@ -105,6 +107,7 @@ const WorkOrders = () => {
   } = useWorkOrders()
 
   const navigate = useNavigate()
+  const { getRoute } = useTranslatedRoutes()
   const role = useAuthStore((s) => s.role)
   const userPermissions = useAuthStore((s) => s.permissions)
 
@@ -147,7 +150,9 @@ const WorkOrders = () => {
   const [workOrderToDelete, setWorkOrderToDelete] = useState<WorkOrder | null>(null)
   const [selectedWorkOrder, setSelectedWorkOrder] = useState<WorkOrder | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
-  const [viewMode, setViewMode, isMobile] = useResponsiveView('workorders-view', 'cards')
+  const [viewMode, setViewMode, isMobile] = useResponsiveView('workorders-view', 'cards', {
+    allowedViews: WORK_ORDER_ALLOWED_VIEWS,
+  })
   const itemsPerPage = 10
 
   const { timeZone, offset } = useTimeZone()
@@ -433,6 +438,10 @@ const WorkOrders = () => {
     }
   }
 
+  const handleNavigateToCalendar = () => {
+    navigate(getRoute('calendar'))
+  }
+
   useEffect(() => {
     setCurrentPage(1)
   }, [searchTerm, selectedStatus, selectedPriority, selectedDate, selectedDateFilter, selectedTechnician])
@@ -447,16 +456,23 @@ const WorkOrders = () => {
               <ViewToggle 
                 view={viewMode} 
                 onViewChange={setViewMode}
+                allowedViews={WORK_ORDER_ALLOWED_VIEWS}
               />
             )}
           </div>
-          {permissions?.canCreateWorkOrders && (
-            <div className={styles.positionButton} data-tour="create-work-order-btn">
-              <Button title={t('workOrders.createWorkOrder')} onClick={handleOpenCreate}>
-                {t('workOrders.createWorkOrder')}
-              </Button>
-            </div>
-          )}
+          <div className={styles.topActions}>
+            <Button title={t('workOrders.viewCalendar')} onClick={handleNavigateToCalendar}>
+              <CalendarIcon size={18} />
+              {t('workOrders.viewCalendar')}
+            </Button>
+            {permissions?.canCreateWorkOrders && (
+              <div className={styles.positionButton} data-tour="create-work-order-btn">
+                <Button title={t('workOrders.createWorkOrder')} onClick={handleOpenCreate}>
+                  {t('workOrders.createWorkOrder')}
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className={styles.searchRow} data-tour="search-filter">

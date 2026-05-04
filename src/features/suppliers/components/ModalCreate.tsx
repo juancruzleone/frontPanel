@@ -4,6 +4,7 @@ import { X } from 'lucide-react'
 import { SupplierForm } from './SupplierForm'
 import { useSuppliers } from '../hooks/useSuppliers'
 import styles from '../styles/Modal.module.css'
+import type { Supplier } from '../../../store/supplierStore'
 
 interface ModalCreateProps {
   isOpen: boolean
@@ -16,14 +17,12 @@ const ModalCreate: React.FC<ModalCreateProps> = ({ isOpen, onClose, onSuccess })
   const { addSupplier } = useSuppliers()
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (data: Omit<Supplier, '_id'>) => {
+    setIsLoading(true)
     try {
-      setIsLoading(true)
       await addSupplier(data)
       onSuccess(t('suppliers.supplierAdded'))
       onClose()
-    } catch (error) {
-      console.error('Error creating supplier:', error);
     } finally {
       setIsLoading(false)
     }

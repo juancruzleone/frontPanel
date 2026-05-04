@@ -18,7 +18,7 @@ const StatsCards: React.FC<StatsCardsProps> = ({ kpis }) => {
   return (
     <>
       <div className={styles.statsCardsRow} role="region" aria-label={t('home.mainMetrics')}>
-        {kpis.slice(0, 4).map((kpi) => {
+        {kpis.map((kpi) => {
           const Icon = kpi.icon
           const description = t(`home.kpiDescriptions.${kpi.id}`, {
             defaultValue: t('home.kpiDescriptions.generic', { defaultValue: '' })
@@ -38,7 +38,6 @@ const StatsCards: React.FC<StatsCardsProps> = ({ kpis }) => {
                   if (kpi.path) navigate(kpi.path)
                 }
               }}
-              style={{ cursor: kpi.path ? 'pointer' : 'default' }}
             >
               <button 
                 className={styles.detailButton}
