@@ -1,7 +1,16 @@
-import { getHeadersWithContentType, getAuthHeaders } from "../../../../shared/utils/apiHeaders"
-import { detectPlanLimitError } from "../../../../shared/utils/planLimitErrorHandler"
+import { fetchWithCsrf, getAuthHeaders } from "../../../../shared/utils/apiHeaders"
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
+
+interface TechnicianUpdatePayload {
+  userName?: string
+  password?: string
+  firstName?: string
+  lastName?: string
+  email?: string
+  documento?: string
+  name?: string
+}
 
 export const userRegister = async (
   username: string, 
@@ -11,8 +20,6 @@ export const userRegister = async (
   documento?: string,
   profilePhoto?: File | null
 ) => {
-  const headers = getAuthHeaders() // Usar getAuthHeaders en lugar de getHeadersWithContentType
-  
   // Separar fullName en firstName y lastName
   const nameParts = fullName.trim().split(' ')
   const firstName = nameParts[0] || ''
@@ -38,10 +45,10 @@ export const userRegister = async (
   }
   
   // ✅ USAR LA NUEVA RUTA ESPECÍFICA PARA TÉCNICOS
-  const response = await fetch(`${API_URL}cuenta/tecnico`, {
+  // Usamos fetchWithCsrf para incluir automáticamente el token CSRF y manejar reintentos
+  const response = await fetchWithCsrf(`${API_URL}cuenta/tecnico`, {
     method: "POST",
-    headers, // No incluir Content-Type, el navegador lo establecerá automáticamente con el boundary
-    body: formData, // Enviar FormData en lugar de JSON
+    body: formData, // Enviar FormData
   })
 
   if (!response.ok) {
@@ -59,11 +66,10 @@ export const userRegister = async (
 }
 
 export const getTechnicians = async () => {
-  const headers = getAuthHeaders()
-  
   const response = await fetch(`${API_URL}cuentas/tecnicos`, {
     method: "GET",
-    headers,
+    headers: getAuthHeaders(),
+    credentials: "include",
   })
 
   if (!response.ok) {
@@ -79,11 +85,8 @@ export const getTechnicians = async () => {
 }
 
 export const deleteTechnician = async (id: string) => {
-  const headers = getAuthHeaders()
-  
-  const response = await fetch(`${API_URL}cuentas/${id}`, {
+  const response = await fetchWithCsrf(`${API_URL}cuentas/${id}`, {
     method: "DELETE",
-    headers,
   })
 
   if (!response.ok) {
@@ -95,11 +98,10 @@ export const deleteTechnician = async (id: string) => {
 }
 
 export const getUserById = async (id: string, _token?: string | null) => {
-  const headers = getAuthHeaders()
-
   const response = await fetch(`${API_URL}cuentas/${id}`, {
     method: "GET",
-    headers,
+    headers: getAuthHeaders(),
+    credentials: "include",
   })
 
   if (!response.ok) {
@@ -134,8 +136,6 @@ export const updateTechnician = async (
   }, 
   _token?: string | null
 ) => {
-  const headers = getAuthHeaders()
-  
   // Si hay foto, usar FormData
   if (data.profilePhoto) {
     const formData = new FormData()
@@ -156,9 +156,8 @@ export const updateTechnician = async (
       formData.append('name', `${data.firstName} ${data.lastName}`)
     }
     
-    const response = await fetch(`${API_URL}cuentas/${id}/technician`, {
+    const response = await fetchWithCsrf(`${API_URL}cuentas/${id}/technician`, {
       method: "PUT",
-      headers, // No incluir Content-Type para FormData
       body: formData,
     })
 
@@ -172,10 +171,8 @@ export const updateTechnician = async (
   }
   
   // Si no hay foto, usar JSON
-  const headers2 = getHeadersWithContentType('PUT')
-  
   // Preparar datos para JSON
-  const jsonData: any = {}
+  const jsonData: TechnicianUpdatePayload = {}
   if (data.userName) jsonData.userName = data.userName
   if (data.password) jsonData.password = data.password
   if (data.firstName) jsonData.firstName = data.firstName
@@ -191,9 +188,11 @@ export const updateTechnician = async (
     jsonData.name = `${data.firstName} ${data.lastName}`
   }
   
-  const response = await fetch(`${API_URL}cuentas/${id}/technician`, {
+  const response = await fetchWithCsrf(`${API_URL}cuentas/${id}/technician`, {
     method: "PUT",
-    headers: headers2,
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify(jsonData),
   })
 

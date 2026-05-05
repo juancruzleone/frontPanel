@@ -1,4 +1,4 @@
-import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
+import { getAuthHeaders, fetchWithCsrf } from "../../../shared/utils/apiHeaders"
 import { fetchAssets, updateAssetStock as apiUpdateAssetStock } from "../../assets/services/assetServices"
 import { InventoryAsset, InventoryItem, InventoryMovement } from "../types/inventory.types"
 
@@ -75,9 +75,11 @@ export const fetchInventoryItemById = async (id: string): Promise<InventoryItem>
 }
 
 export const createInventoryItem = async (item: Partial<InventoryItem>): Promise<InventoryItem> => {
-  const response = await fetch(`${getApiUrl()}inventario`, {
+  const response = await fetchWithCsrf(`${getApiUrl()}inventario`, {
     method: "POST",
-    headers: getHeadersWithContentType(),
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify(item),
   })
 
@@ -90,9 +92,11 @@ export const createInventoryItem = async (item: Partial<InventoryItem>): Promise
 }
 
 export const updateInventoryItem = async (id: string, item: Partial<InventoryItem>): Promise<InventoryItem> => {
-  const response = await fetch(`${getApiUrl()}inventario/${id}`, {
+  const response = await fetchWithCsrf(`${getApiUrl()}inventario/${id}`, {
     method: "PATCH",
-    headers: getHeadersWithContentType(),
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify(item),
   })
 
@@ -105,9 +109,8 @@ export const updateInventoryItem = async (id: string, item: Partial<InventoryIte
 }
 
 export const deleteInventoryItem = async (id: string) => {
-  const response = await fetch(`${getApiUrl()}inventario/${id}`, {
+  const response = await fetchWithCsrf(`${getApiUrl()}inventario/${id}`, {
     method: "DELETE",
-    headers: getAuthHeaders(),
   })
 
   if (!response.ok) {
@@ -119,9 +122,11 @@ export const deleteInventoryItem = async (id: string) => {
 }
 
 export const createInventoryMovement = async (movement: Partial<InventoryMovement>): Promise<InventoryMovement> => {
-  const response = await fetch(`${getApiUrl()}inventario/movimientos`, {
+  const response = await fetchWithCsrf(`${getApiUrl()}inventario/movimientos`, {
     method: "POST",
-    headers: getHeadersWithContentType(),
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify(movement),
   })
 
