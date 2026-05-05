@@ -1,4 +1,3 @@
-import type React from "react"
 import { useEffect, useCallback } from "react"
 import RegisterTechnicianForm from "./RegisterFormTechnician"
 import useRegisterTechnician from "../hooks/useRegisterTechnician"
@@ -47,19 +46,6 @@ const ModalRegisterTechnician = ({ isOpen, onRequestClose, onSubmitSuccess, onAd
     onRequestClose()
   }, [resetForm, onRequestClose])
 
-  const handleBackdropClick = useCallback(
-    (e: React.MouseEvent) => {
-      if (e.target === e.currentTarget) {
-        handleClose()
-      }
-    },
-    [handleClose],
-  )
-
-  const handleModalClick = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation()
-  }, [])
-
   useEffect(() => {
     if (isOpen) {
       resetForm()
@@ -83,8 +69,8 @@ const ModalRegisterTechnician = ({ isOpen, onRequestClose, onSubmitSuccess, onAd
   if (!isOpen) return null
 
   return (
-    <div className={styles.backdrop} onClick={handleBackdropClick}>
-      <div className={styles.modal} onClick={handleModalClick}>
+    <div className={styles.backdrop}>
+      <div className={styles.modal}>
         <div className={styles.modalHeader}>
           <div className={styles.headerContent}>
             <div>
