@@ -2018,8 +2018,16 @@
       "nameRequired": "名前は必須です",
       "unitRequired": "単位は必須です",
       "mustBeNumber": "数値である必要があります",
-      "minStock": "負の値にはできません"
-    }
+      "minStock": "在庫は0以上の数値である必要があります"
+    },
+    "stockStatus": "在庫ステータス",
+    "stockStatusOk": "在庫 OK",
+    "stockStatusLow": "在庫不足",
+    "units": {
+      "unidades": "個",
+      "units": "個"
+    },
+    "availableStock": "利用可能な在庫"
   },
   "suppliers": {
     "title": "サプライヤー",

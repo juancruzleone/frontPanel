@@ -1728,7 +1728,11 @@
       "nameRequired": "El nombre es obligatorio",
       "unitRequired": "La unidad es obligatoria",
       "mustBeNumber": "Debe ser un número",
-      "minStock": "No puede ser negativo"
+      "minStock": "El stock debe ser un número mayor o igual a 0"
+    },
+    "units": {
+      "unidades": "unidades",
+      "units": "unidades"
     }
   },
   "suppliers": {

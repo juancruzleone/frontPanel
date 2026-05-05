@@ -2010,8 +2010,16 @@
       "nameRequired": "O nome é obrigatório",
       "unitRequired": "A unidade é obrigatória",
       "mustBeNumber": "Deve ser um número",
-      "minStock": "Não pode ser negativo"
-    }
+      "minStock": "O estoque deve ser um número maior ou igual a 0"
+    },
+    "stockStatus": "Estado do estoque",
+    "stockStatusOk": "Estoque OK",
+    "stockStatusLow": "Estoque baixo",
+    "units": {
+      "unidades": "unidades",
+      "units": "unidades"
+    },
+    "availableStock": "Estoque disponível"
   },
   "suppliers": {
     "title": "Fornecedores",

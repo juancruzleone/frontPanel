@@ -2043,8 +2043,16 @@
       "nameRequired": "名称是必填项",
       "unitRequired": "单位是必填项",
       "mustBeNumber": "必须是数字",
-      "minStock": "不能为负数"
-    }
+      "minStock": "库存必须是大于或等于 0 的数字"
+    },
+    "stockStatus": "库存状态",
+    "stockStatusOk": "库存正常",
+    "stockStatusLow": "库存不足",
+    "units": {
+      "unidades": "单位",
+      "units": "单位"
+    },
+    "availableStock": "可用库存"
   },
   "suppliers": {
     "title": "供应商",

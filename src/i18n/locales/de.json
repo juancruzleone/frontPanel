@@ -1910,8 +1910,16 @@
       "nameRequired": "Name ist erforderlich",
       "unitRequired": "Einheit ist erforderlich",
       "mustBeNumber": "Muss eine Nummer sein",
-      "minStock": "Darf nicht negativ sein"
-    }
+      "minStock": "Der Bestand muss eine Zahl größer oder gleich 0 sein"
+    },
+    "stockStatus": "Bestandsstatus",
+    "stockStatusOk": "Bestand OK",
+    "stockStatusLow": "Niedriger Bestand",
+    "units": {
+      "unidades": "Einheiten",
+      "units": "Einheiten"
+    },
+    "availableStock": "Verfügbarer Bestand"
   },
   "suppliers": {
     "title": "Lieferanten",

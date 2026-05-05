@@ -2008,8 +2008,16 @@
       "nameRequired": "Il nome è obbligatorio",
       "unitRequired": "L'unità è obbligatoria",
       "mustBeNumber": "Deve essere un numero",
-      "minStock": "Non può essere negativo"
-    }
+      "minStock": "La scorta deve essere un numero maggiore o uguale a 0"
+    },
+    "stockStatus": "Stato scorte",
+    "stockStatusOk": "Scorte OK",
+    "stockStatusLow": "Scorte basse",
+    "units": {
+      "unidades": "unità",
+      "units": "unità"
+    },
+    "availableStock": "Scorte disponibili"
   },
   "suppliers": {
     "title": "Fornitori",

@@ -1714,7 +1714,11 @@
       "nameRequired": "Name is required",
       "unitRequired": "Unit is required",
       "mustBeNumber": "Must be a number",
-      "minStock": "Cannot be negative"
+      "minStock": "Stock must be a number greater than or equal to 0"
+    },
+    "units": {
+      "unidades": "units",
+      "units": "units"
     }
   },
   "suppliers": {

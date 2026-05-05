@@ -2052,8 +2052,16 @@
       "nameRequired": "이름은 필수입니다",
       "unitRequired": "단위는 필수입니다",
       "mustBeNumber": "숫자여야 합니다",
-      "minStock": "음수일 수 없습니다"
-    }
+      "minStock": "재고는 0 이상의 숫자여야 합니다"
+    },
+    "stockStatus": "재고 상태",
+    "stockStatusOk": "재고 정상",
+    "stockStatusLow": "재고 부족",
+    "units": {
+      "unidades": "개",
+      "units": "개"
+    },
+    "availableStock": "사용 가능한 재고"
   },
   "suppliers": {
     "title": "공급업체",

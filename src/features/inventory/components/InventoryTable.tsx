@@ -25,6 +25,12 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
 }) => {
   const { t } = useTranslation()
 
+  const translateUnit = (unit: string) => {
+    const normalizedUnit = unit.trim().toLowerCase()
+
+    return t(`inventory.units.${normalizedUnit}`, { defaultValue: unit })
+  }
+
   const columns = [
     {
       key: 'name',
@@ -43,16 +49,16 @@ export const InventoryTable: React.FC<InventoryTableProps> = ({
       align: 'center' as const,
       render: (item: InventoryItem) => (
         <span className={item.currentStock <= item.minimumStock ? styles.lowStock : ''}>
-          {item.currentStock} {item.unit}
+          {item.currentStock} {translateUnit(item.unit)}
         </span>
       )
     },
     {
-        key: 'minStock',
-        header: t('inventory.minimumStock'),
-        width: '10%',
-        align: 'center' as const,
-        render: (item: InventoryItem) => item.minimumStock
+      key: 'minStock',
+      header: t('inventory.minimumStock'),
+      width: '10%',
+      align: 'center' as const,
+      render: (item: InventoryItem) => item.minimumStock
     },
     {
       key: 'stockStatus',

@@ -2018,8 +2018,16 @@
       "nameRequired": "الاسم مطلوب",
       "unitRequired": "الوحدة مطلوبة",
       "mustBeNumber": "يجب أن يكون رقماً",
-      "minStock": "لا يمكن أن يكون سالباً"
-    }
+      "minStock": "يجب أن يكون المخزون رقمًا أكبر من أو يساوي 0"
+    },
+    "stockStatus": "حالة المخزون",
+    "stockStatusOk": "المخزون جيد",
+    "stockStatusLow": "مخزون منخفض",
+    "units": {
+      "unidades": "وحدات",
+      "units": "وحدات"
+    },
+    "availableStock": "المخزون المتاح"
   },
   "suppliers": {
     "title": "الموردين",
