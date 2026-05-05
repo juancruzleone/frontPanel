@@ -388,6 +388,20 @@
       "inactivo": "Inactif"
     },
     "mtbfHours": "MTBF (Heures)",
+    "slaRate": "SLA (Niveau de service)",
+    "responseTime": "Temps de réponse",
+    "inventoryStatus": "État de l’inventaire",
+    "alerts": "Alertes et notifications",
+    "lowStock": "Stock faible",
+    "delayedOrders": "Ordres en retard",
+    "noAlerts": "Aucune alerte active",
+    "inventoryPlaceholder": "Données d’inventaire non connectées",
+    "trend": {
+      "up": "Augmentation de {{value}}%",
+      "down": "Diminution de {{value}}%",
+      "neutral": "Aucun changement significatif",
+      "notAvailable": "Tendance non disponible"
+    },
     "kpiDetails": {
       "generic": "Informations détaillées sur cette métrique.",
       "openWorkOrders": "Nombre total de bons de travail actuellement ouverts et en attente d'achèvement.",

@@ -392,6 +392,20 @@
       "inactivo": "비활성"
     },
     "mtbfHours": "MTBF (시간)",
+    "slaRate": "SLA (서비스 수준)",
+    "responseTime": "응답 시간",
+    "inventoryStatus": "재고 상태",
+    "alerts": "알림 및 통지",
+    "lowStock": "재고 부족",
+    "delayedOrders": "지연된 작업지시",
+    "noAlerts": "활성 알림 없음",
+    "inventoryPlaceholder": "재고 데이터가 연결되지 않음",
+    "trend": {
+      "up": "{{value}}% 증가",
+      "down": "{{value}}% 감소",
+      "neutral": "중요한 변화 없음",
+      "notAvailable": "추세를 사용할 수 없음"
+    },
     "kpiDetails": {
       "generic": "이 지표에 대한 자세한 정보.",
       "openWorkOrders": "현재 열려 있고 완료 대기 중인 총 작업 오더 수입니다.",

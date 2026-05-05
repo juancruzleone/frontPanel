@@ -10,6 +10,11 @@ export interface KPIItem {
   color: string
   path?: string
   suffix?: string
+  trend?: {
+    value: number
+    isPositive: boolean
+    label?: string
+  }
 }
 
 export interface ChartDataItem {
@@ -47,6 +52,20 @@ export interface UpcomingPreventive {
   planName: string
 }
 
+export interface InventoryStat {
+  label: string
+  value: string | number
+  color: string
+}
+
+export interface DashboardAlert {
+  id: string
+  type: 'warning' | 'error' | 'info'
+  message: string
+  date?: string
+  detail?: string
+}
+
 export interface HomeDashboardData {
   kpis: KPIItem[]
   operationalKpis: KPIItem[]
@@ -61,6 +80,8 @@ export interface HomeDashboardData {
   recentWorkOrders: any[]
   topIncidentInstallations: TopIncidentInstallation[]
   upcomingPreventive: UpcomingPreventive[]
+  inventoryStats: InventoryStat[]
+  alerts: DashboardAlert[]
   loading: boolean
   error: string | null
   range: RangeOption

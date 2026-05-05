@@ -40,6 +40,19 @@
   gap: 12px;
 }
 
+.calendarActionButton {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #000;
+}
+
+.calendarActionButton:hover {
+  background: var(--color-accent);
+  opacity: 0.9;
+  border-color: var(--color-accent);
+  color: #000;
+}
+
 .title {
   font-size: 32px;
   font-weight: 700;

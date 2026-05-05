@@ -391,6 +391,20 @@
       "inactivo": "غير نشط"
     },
     "mtbfHours": "MTBF (ساعات)",
+    "slaRate": "SLA (مستوى الخدمة)",
+    "responseTime": "وقت الاستجابة",
+    "inventoryStatus": "حالة المخزون",
+    "alerts": "التنبيهات والإشعارات",
+    "lowStock": "مخزون منخفض",
+    "delayedOrders": "أوامر متأخرة",
+    "noAlerts": "لا توجد تنبيهات نشطة",
+    "inventoryPlaceholder": "بيانات المخزون غير متصلة",
+    "trend": {
+      "up": "زيادة {{value}}%",
+      "down": "انخفاض {{value}}%",
+      "neutral": "لا توجد تغييرات مهمة",
+      "notAvailable": "الاتجاه غير متاح"
+    },
     "kpiDetails": {
       "generic": "معلومات مفصلة حول هذا المقياس.",
       "openWorkOrders": "إجمالي عدد أوامر العمل المفتوحة حاليًا والتي تنتظر الانتهاء.",

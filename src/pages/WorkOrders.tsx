@@ -461,7 +461,11 @@ const WorkOrders = () => {
             )}
           </div>
           <div className={styles.topActions}>
-            <Button title={t('workOrders.viewCalendar')} onClick={handleNavigateToCalendar}>
+            <Button
+              title={t('workOrders.viewCalendar')}
+              onClick={handleNavigateToCalendar}
+              className={styles.calendarActionButton}
+            >
               <CalendarIcon size={18} />
               {t('workOrders.viewCalendar')}
             </Button>

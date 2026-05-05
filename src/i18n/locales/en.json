@@ -441,6 +441,25 @@
     "mtbfHours": "MTBF (Hours)",
     "slaRate": "SLA Compliance",
     "responseTime": "Response Time",
+    "inventoryStatus": "Inventory Status",
+    "alerts": "Alerts and Notifications",
+    "lowStock": "Low Stock",
+    "delayedOrders": "Delayed Orders",
+    "noAlerts": "No active alerts",
+    "inventoryPlaceholder": "Inventory data not connected",
+    "trend": {
+      "up": "{{value}}% Increase",
+      "down": "{{value}}% Decrease",
+      "neutral": "No significant changes",
+      "notAvailable": "Trend not available"
+    },
+    "status": {
+      "pending": "Pending",
+      "assigned": "Assigned",
+      "inProgress": "In Progress",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
     "kpiDetails": {
       "generic": "Detailed information about this metric.",
       "openWorkOrders": "Total number of work orders that are currently open and waiting to be completed.",

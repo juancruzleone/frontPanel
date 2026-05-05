@@ -9,6 +9,30 @@ interface LineChartProps {
     title?: string
 }
 
+const buildSmoothPath = (points: [number, number][]) => {
+    if (points.length === 0) return ''
+    if (points.length === 1) return `M ${points[0][0]} ${points[0][1]}`
+
+    let path = `M ${points[0][0]} ${points[0][1]}`
+
+    for (let i = 0; i < points.length - 1; i++) {
+        const current = points[i]
+        const next = points[i + 1]
+        const previous = points[i - 1] || current
+        const afterNext = points[i + 2] || next
+        const tension = 0.18
+
+        const cp1x = current[0] + (next[0] - previous[0]) * tension
+        const cp1y = current[1] + (next[1] - previous[1]) * tension
+        const cp2x = next[0] - (afterNext[0] - current[0]) * tension
+        const cp2y = next[1] - (afterNext[1] - current[1]) * tension
+
+        path += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${next[0]} ${next[1]}`
+    }
+
+    return path
+}
+
 const CustomLineChart: React.FC<LineChartProps> = ({ data, title }) => {
     const { t } = useTranslation()
     const { dark } = useTheme()
@@ -34,7 +58,7 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data, title }) => {
     // Dimensiones
     const width = 800 // ViewBox width
     const height = 300 // ViewBox height
-    const padding = { top: 20, right: 30, bottom: 40, left: 40 }
+    const padding = { top: 20, right: 30, bottom: 48, left: 44 }
 
     const graphWidth = width - padding.left - padding.right
     const graphHeight = height - padding.top - padding.bottom
@@ -86,13 +110,14 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data, title }) => {
         Object.entries(seriesPoints).forEach(([key, points]) => {
             if (points.length === 0) return
             
-            // Line path
-            let line = `M ${points[0][0]} ${points[0][1]}`
-            points.forEach((p, i) => { if (i > 0) line += ` L ${p[0]} ${p[1]}` })
-            
+            // Line path suavizado para evitar trazos rígidos/estirados
+            const line = buildSmoothPath(points)
+            const lineTail = line.replace(/^M\s+[\d.-]+\s+[\d.-]+/, '')
+
             // Area path
             let area = `M ${points[0][0]} ${height - padding.bottom}`
-            points.forEach(p => area += ` L ${p[0]} ${p[1]}`)
+            area += ` L ${points[0][0]} ${points[0][1]}`
+            area += ` ${lineTail}`
             area += ` L ${points[points.length - 1][0]} ${height - padding.bottom} Z`
             
             result[key] = { line, area }
@@ -100,6 +125,18 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data, title }) => {
         
         return result
     }, [seriesPoints, height])
+
+    const hoveredPoint = useMemo(() => {
+        if (hoveredIndex === null || !data[hoveredIndex]) return null
+
+        const x = padding.left + hoveredIndex * (graphWidth / (data.length - 1 || 1))
+
+        return {
+            x,
+            leftPercent: Math.min(Math.max((x / width) * 100, 16), 84),
+            data: data[hoveredIndex],
+        }
+    }, [data, graphWidth, hoveredIndex])
 
     if (!data || data.length === 0) {
         return (
@@ -140,13 +177,17 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data, title }) => {
                     width="100%"
                     height="100%"
                     viewBox={`0 0 ${width} ${height}`}
-                    preserveAspectRatio="none"
+                    preserveAspectRatio="xMidYMid meet"
                     style={{ overflow: 'visible' }}
                 >
                     <defs>
+                        <filter id="line-soft-glow" x="-20%" y="-30%" width="140%" height="160%">
+                            <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor={dark ? '#000000' : '#64748b'} floodOpacity="0.22" />
+                        </filter>
                         {seriesKeys.map((key, i) => (
                             <linearGradient key={`grad-${key}`} id={`grad-${key}`} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor={getSeriesColor(key, i)} stopOpacity={0.15} />
+                                <stop offset="0%" stopColor={getSeriesColor(key, i)} stopOpacity={0.22} />
+                                <stop offset="55%" stopColor={getSeriesColor(key, i)} stopOpacity={0.08} />
                                 <stop offset="100%" stopColor={getSeriesColor(key, i)} stopOpacity="0.0" />
                             </linearGradient>
                         ))}
@@ -164,16 +205,18 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data, title }) => {
                                     y2={y}
                                     stroke={gridColor}
                                     strokeWidth="1"
-                                    strokeDasharray="5 5"
-                                    opacity="0.1"
+                                    strokeDasharray="6 8"
+                                    opacity="0.08"
+                                    vectorEffect="non-scaling-stroke"
                                 />
                                 <text
                                     x={padding.left - 10}
                                     y={y + 4}
                                     textAnchor="end"
-                                    fontSize="10"
+                                    fontSize="12"
+                                    fontWeight="600"
                                     fill={gridColor}
-                                    opacity="0.5"
+                                    opacity="0.65"
                                 >
                                     {val}
                                 </text>
@@ -189,9 +232,21 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data, title }) => {
                                 d={paths[key]?.line}
                                 fill="none"
                                 stroke={getSeriesColor(key, i)}
-                                strokeWidth="3"
+                                strokeWidth="7"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
+                                opacity="0.12"
+                                vectorEffect="non-scaling-stroke"
+                            />
+                            <path
+                                d={paths[key]?.line}
+                                fill="none"
+                                stroke={getSeriesColor(key, i)}
+                                strokeWidth="3.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                filter="url(#line-soft-glow)"
+                                vectorEffect="non-scaling-stroke"
                             />
                         </g>
                     ))}
@@ -200,11 +255,6 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data, title }) => {
                     {data.map((_, i) => {
                         const isHovered = hoveredIndex === i
                         const x = padding.left + i * (graphWidth / (data.length - 1 || 1))
-                        
-                        const tooltipWidth = 140
-                        const tooltipHeight = 25 + (seriesKeys.length * 18)
-                        const tooltipX = Math.min(Math.max(x - tooltipWidth / 2, 8), width - tooltipWidth - 8)
-                        const tooltipY = 20
 
                         return (
                             <g key={`interaction-${i}`}>
@@ -217,8 +267,9 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data, title }) => {
                                         y2={height - padding.bottom}
                                         stroke={gridColor}
                                         strokeWidth="1"
-                                        strokeDasharray="3 3"
-                                        opacity="0.3"
+                                        strokeDasharray="4 6"
+                                        opacity="0.22"
+                                        vectorEffect="non-scaling-stroke"
                                     />
                                 )}
 
@@ -239,13 +290,29 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data, title }) => {
                                     const p = seriesPoints[key][i]
                                     return (
                                         <circle
+                                            key={`halo-${key}-${i}`}
+                                            cx={p[0]}
+                                            cy={p[1]}
+                                            r="9"
+                                            fill={getSeriesColor(key, si)}
+                                            opacity="0.16"
+                                            vectorEffect="non-scaling-stroke"
+                                        />
+                                    )
+                                })}
+
+                                {isHovered && seriesKeys.map((key, si) => {
+                                    const p = seriesPoints[key][i]
+                                    return (
+                                        <circle
                                             key={`p-${key}-${i}`}
                                             cx={p[0]}
                                             cy={p[1]}
-                                            r="5"
+                                            r="5.5"
                                             fill={getSeriesColor(key, si)}
                                             stroke="var(--color-bg)"
-                                            strokeWidth="2"
+                                            strokeWidth="2.5"
+                                            vectorEffect="non-scaling-stroke"
                                         />
                                     )
                                 })}
@@ -256,66 +323,46 @@ const CustomLineChart: React.FC<LineChartProps> = ({ data, title }) => {
                                         x={x}
                                         y={height - 15}
                                         textAnchor="middle"
-                                        fontSize="10"
+                                        fontSize="14"
+                                        fontWeight="700"
                                         fill={gridColor}
-                                        opacity="0.5"
+                                        opacity="0.75"
                                     >
                                         {data[i].name}
                                     </text>
                                 )}
 
-                                {/* Tooltip SVG */}
-                                {isHovered && (
-                                    <g pointerEvents="none">
-                                        <rect
-                                            x={tooltipX}
-                                            y={tooltipY}
-                                            width={tooltipWidth}
-                                            height={tooltipHeight}
-                                            rx="6"
-                                            fill="var(--color-card)"
-                                            stroke="var(--color-card-border)"
-                                            style={{ filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.15))' }}
-                                        />
-                                        <text
-                                            x={tooltipX + 10}
-                                            y={tooltipY + 18}
-                                            fontSize="10"
-                                            fontWeight="bold"
-                                            fill={gridColor}
-                                        >
-                                            {data[i].name}
-                                        </text>
-                                        {seriesKeys.map((key, si) => (
-                                            <g key={`tooltip-val-${key}`} transform={`translate(0, ${si * 18})`}>
-                                                <circle cx={tooltipX + 15} cy={tooltipY + 36} r="3" fill={getSeriesColor(key, si)} />
-                                                <text
-                                                    x={tooltipX + 25}
-                                                    y={tooltipY + 40}
-                                                    fontSize="10"
-                                                    fill={gridColor}
-                                                    opacity="0.8"
-                                                >
-                                                    {t(`home.${key}`, { defaultValue: key })}:
-                                                </text>
-                                                <text
-                                                    x={tooltipX + tooltipWidth - 10}
-                                                    y={tooltipY + 40}
-                                                    textAnchor="end"
-                                                    fontSize="10"
-                                                    fontWeight="bold"
-                                                    fill={gridColor}
-                                                >
-                                                    {data[i][key]}
-                                                </text>
-                                            </g>
-                                        ))}
-                                    </g>
-                                )}
                             </g>
                         )
                     })}
                 </svg>
+
+                {hoveredPoint && (
+                    <div
+                        className={styles.lineChartTooltip}
+                        style={{ left: `${hoveredPoint.leftPercent}%` }}
+                        role="status"
+                        aria-live="polite"
+                    >
+                        <div className={styles.lineChartTooltipTitle}>{hoveredPoint.data.name}</div>
+                        <div className={styles.lineChartTooltipRows}>
+                            {seriesKeys.map((key, si) => (
+                                <div key={`tooltip-${key}`} className={styles.lineChartTooltipRow}>
+                                    <span
+                                        className={styles.lineChartTooltipDot}
+                                        style={{ backgroundColor: getSeriesColor(key, si) }}
+                                    />
+                                    <span className={styles.lineChartTooltipLabel}>
+                                        {t(`home.${key}`, { defaultValue: key })}
+                                    </span>
+                                    <strong className={styles.lineChartTooltipValue}>
+                                        {hoveredPoint.data[key]}
+                                    </strong>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     )

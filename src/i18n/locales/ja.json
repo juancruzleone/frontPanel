@@ -390,6 +390,20 @@
       "inactivo": "停止中"
     },
     "mtbfHours": "MTBF（時間）",
+    "slaRate": "SLA（サービスレベル）",
+    "responseTime": "応答時間",
+    "inventoryStatus": "在庫状態",
+    "alerts": "アラートと通知",
+    "lowStock": "低在庫",
+    "delayedOrders": "遅延作業指示",
+    "noAlerts": "有効なアラートはありません",
+    "inventoryPlaceholder": "在庫データは未接続です",
+    "trend": {
+      "up": "{{value}}% 増加",
+      "down": "{{value}}% 減少",
+      "neutral": "大きな変化はありません",
+      "notAvailable": "傾向は利用できません"
+    },
     "kpiDetails": {
       "generic": "このメトリックに関する詳細情報。",
       "openWorkOrders": "現在開いており、完了を待機している作業指示の総数。",

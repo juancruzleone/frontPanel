@@ -16,14 +16,95 @@ import { useAuthStore } from "../../../store/authStore"
 import { WORK_ORDER_TYPE_COLORS, WORK_ORDER_STATUS_COLORS } from "../../../utils/chartColors"
 import { getAuthHeaders } from "../../../shared/utils/apiHeaders"
 import { translateFrequencyToCurrentLang } from "../../../shared/utils/backendTranslations"
+import { fetchInventoryAssets, fetchInventoryItems } from "../../inventory/services/inventoryServices"
+import { InventoryAsset, InventoryItem } from "../../inventory/types/inventory.types"
+import { fetchWorkOrders, WorkOrder } from "../../workOrders/services/workOrderServices"
 import { 
   RangeOption, 
   KPIItem, 
   ChartDataItem, 
   MultiSeriesLineData, 
   TopIncidentInstallation, 
-  UpcomingPreventive 
+  UpcomingPreventive,
+  InventoryStat,
+  DashboardAlert
 } from "../types/homeTypes"
+
+const normalizeName = (name: string) => name.trim().toLocaleLowerCase()
+
+const getAssetName = (asset: InventoryAsset): string => asset.nombre || asset.name || ''
+
+const getAssetCurrentStock = (asset: InventoryAsset): number => {
+  if (typeof asset.currentStock === 'number') return asset.currentStock
+  if (typeof asset.stock === 'number') return asset.stock
+
+  return 1
+}
+
+const getAssetMinimumStock = (asset: InventoryAsset): number => {
+  if (typeof asset.minimumStock === 'number') return asset.minimumStock
+  if (typeof asset.stockMinimo === 'number') return asset.stockMinimo
+
+  return 0
+}
+
+const buildInventoryRows = (inventoryItems: InventoryItem[], assets: InventoryAsset[]): InventoryItem[] => {
+  const linkedAssetIds = new Set(
+    inventoryItems
+      .flatMap((item) => [item.assetId, item.activoId])
+      .filter((id): id is string => Boolean(id))
+  )
+  const itemNames = new Set(inventoryItems.map((item) => normalizeName(item.name)))
+
+  const assetRows = assets
+    .filter((asset) => {
+      const assetName = getAssetName(asset)
+      if (!assetName) return false
+      if (asset._id && linkedAssetIds.has(asset._id)) return false
+
+      return !itemNames.has(normalizeName(assetName))
+    })
+    .map<InventoryItem>((asset) => ({
+      _id: asset._id ? `asset-${asset._id}` : undefined,
+      tenantId: '',
+      name: getAssetName(asset),
+      category: asset.category || asset.categoria,
+      unit: asset.unit || asset.unidad || 'unidades',
+      currentStock: getAssetCurrentStock(asset),
+      minimumStock: getAssetMinimumStock(asset),
+      location: asset.location || asset.ubicacion,
+      active: asset.active ?? true,
+      assetId: asset._id,
+      inventorySource: 'asset',
+    }))
+
+  return [...inventoryItems, ...assetRows]
+}
+
+const buildInventoryStats = (rows: InventoryItem[]): InventoryStat[] => {
+  const activeRows = rows.filter((item) => item.active !== false)
+  const lowStock = activeRows.filter((item) => item.minimumStock > 0 && item.currentStock <= item.minimumStock).length
+  const withoutStock = activeRows.filter((item) => item.currentStock <= 0).length
+  const availableStock = activeRows.reduce((total, item) => total + Math.max(item.currentStock, 0), 0)
+
+  return [
+    { label: 'inventory.title', value: activeRows.length, color: 'var(--color-primary)' },
+    { label: 'inventory.stockStatusLow', value: lowStock, color: lowStock > 0 ? '#f57c00' : '#2e7d32' },
+    { label: 'inventory.availableStock', value: availableStock, color: '#0288d1' },
+    { label: 'inventory.stockStatus', value: withoutStock, color: withoutStock > 0 ? '#c62828' : '#2e7d32' },
+  ]
+}
+
+const isOverdueWorkOrder = (order: WorkOrder): boolean => {
+  if (['completada', 'cancelada'].includes(order.estado)) return false
+
+  const scheduledDate = new Date(order.fechaProgramada)
+  if (Number.isNaN(scheduledDate.getTime())) return false
+
+  return scheduledDate.getTime() < Date.now()
+}
+
+const getInstallationName = (order: WorkOrder, fallback: string): string => order.instalacion?.company || fallback
 
 const useHomeDashboard = () => {
   const { t, i18n } = useTranslation()
@@ -72,6 +153,8 @@ const useHomeDashboard = () => {
   const [recentWorkOrders, setRecentWorkOrders] = useState<any[]>([])
   const [topIncidentInstallations, setTopIncidentInstallations] = useState<TopIncidentInstallation[]>([])
   const [upcomingPreventive, setUpcomingPreventive] = useState<UpcomingPreventive[]>([])
+  const [inventoryStats, setInventoryStats] = useState<InventoryStat[]>([])
+  const [alerts, setAlerts] = useState<DashboardAlert[]>([])
   
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -102,7 +185,14 @@ const useHomeDashboard = () => {
         metadata 
       } = result.data || {}
       const opKpisRaw = opKpisRawFromApi || kpisRaw || {}
-      
+      const [inventoryResult, inventoryAssets, workOrdersResult] = await Promise.all([
+        fetchInventoryItems({ page: 1, limit: 1000 }).catch(() => ({ items: [] })),
+        fetchInventoryAssets().catch(() => []),
+        fetchWorkOrders(1, 1000).catch(() => ({ data: [], pagination: { total: 0, page: 1, limit: 1000, totalPages: 1 } })),
+      ])
+      const inventoryRows = buildInventoryRows(inventoryResult.items || [], inventoryAssets)
+      const overdueOrders = workOrdersResult.data.filter(isOverdueWorkOrder)
+
       const backendColors = metadata?.suggestedStatusColors || {}
 
       // 1. Mapear KPIs Base
@@ -387,6 +477,51 @@ const useHomeDashboard = () => {
         ),
       )
 
+      // 10. Inventory & Alerts
+      setInventoryStats(buildInventoryStats(inventoryRows))
+
+      const dashboardAlerts: DashboardAlert[] = overdueOrders.slice(0, 3).map((order) => ({
+        id: `overdue-${order._id || order.titulo}`,
+        type: 'error',
+        message: `${t('home.delayedOrders')}: ${order.titulo}`,
+        detail: getInstallationName(order, t('workOrders.noInstallation')),
+        date: typeof order.fechaProgramada === 'string' ? order.fechaProgramada : order.fechaProgramada.toISOString(),
+      }))
+
+      if (dashboardAlerts.length === 0 && opKpisRaw?.overdueWorkOrders > 0) {
+        dashboardAlerts.push({
+          id: 'overdue-alert',
+          type: 'error',
+          message: `${t('home.delayedOrders')}: ${opKpisRaw.overdueWorkOrders}`,
+          detail: t('home.kpiDescriptions.overdueWorkOrders', { defaultValue: '' }),
+        })
+      }
+
+      const criticalOrders = workOrdersResult.data
+        .filter((order) => order.prioridad === 'critica' || order.prioridad === 'critical')
+        .filter((order) => !['completada', 'cancelada'].includes(order.estado))
+
+      if (criticalOrders.length > 0) {
+        criticalOrders.slice(0, Math.max(0, 3 - dashboardAlerts.length)).forEach((order) => {
+          dashboardAlerts.push({
+            id: `critical-${order._id || order.titulo}`,
+            type: 'warning',
+            message: `${t('home.criticalWorkOrders')}: ${order.titulo}`,
+            detail: getInstallationName(order, t('workOrders.noInstallation')),
+            date: typeof order.fechaProgramada === 'string' ? order.fechaProgramada : order.fechaProgramada.toISOString(),
+          })
+        })
+      } else if (opKpisRaw?.criticalWorkOrders > 0 && dashboardAlerts.length < 3) {
+        dashboardAlerts.push({
+          id: 'critical-alert',
+          type: 'warning',
+          message: `${t('home.criticalWorkOrders')}: ${opKpisRaw.criticalWorkOrders}`,
+          detail: t('home.kpiDescriptions.criticalWorkOrders', { defaultValue: '' }),
+        })
+      }
+
+      setAlerts(dashboardAlerts)
+
     } catch (e: any) {
       setError(e.message || "Error al cargar el dashboard")
     } finally {
@@ -413,6 +548,8 @@ const useHomeDashboard = () => {
     recentWorkOrders, 
     topIncidentInstallations,
     upcomingPreventive,
+    inventoryStats,
+    alerts,
     loading, 
     error 
   }

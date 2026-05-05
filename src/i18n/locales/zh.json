@@ -392,6 +392,20 @@
       "inactivo": "停用"
     },
     "mtbfHours": "MTBF (小时)",
+    "slaRate": "SLA（服务水平）",
+    "responseTime": "响应时间",
+    "inventoryStatus": "库存状态",
+    "alerts": "警报和通知",
+    "lowStock": "低库存",
+    "delayedOrders": "延迟工单",
+    "noAlerts": "没有活动警报",
+    "inventoryPlaceholder": "库存数据未连接",
+    "trend": {
+      "up": "增加 {{value}}%",
+      "down": "减少 {{value}}%",
+      "neutral": "无显著变化",
+      "notAvailable": "趋势不可用"
+    },
     "kpiDetails": {
       "generic": "关于此指标的详细信息。",
       "openWorkOrders": "当前已开放并等待完成的工单总数。",

@@ -445,6 +445,25 @@
     "mtbfHours": "MTBF (Horas)",
     "slaRate": "SLA (Nivel de Servicio)",
     "responseTime": "Tiempo de Respuesta",
+    "inventoryStatus": "Estado de Inventario",
+    "alerts": "Alertas y Notificaciones",
+    "lowStock": "Stock Bajo",
+    "delayedOrders": "Órdenes Retrasadas",
+    "noAlerts": "No hay alertas activas",
+    "inventoryPlaceholder": "Datos de inventario no conectados",
+    "trend": {
+      "up": "Aumento del {{value}}%",
+      "down": "Disminución del {{value}}%",
+      "neutral": "Sin cambios significativos",
+      "notAvailable": "Tendencia no disponible"
+    },
+    "status": {
+      "pending": "Pendiente",
+      "assigned": "Asignada",
+      "inProgress": "En Progreso",
+      "completed": "Completada",
+      "cancelled": "Cancelada"
+    },
     "kpiDetails": {
       "generic": "Información detallada sobre esta métrica.",
       "openWorkOrders": "Número total de órdenes de trabajo que están actualmente abiertas y pendientes de ser completadas.",

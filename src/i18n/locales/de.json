@@ -370,6 +370,20 @@
       "inactivo": "Inaktiv"
     },
     "mtbfHours": "MTBF (Stunden)",
+    "slaRate": "SLA (Servicelevel)",
+    "responseTime": "Reaktionszeit",
+    "inventoryStatus": "Lagerbestandsstatus",
+    "alerts": "Warnungen und Benachrichtigungen",
+    "lowStock": "Niedriger Bestand",
+    "delayedOrders": "Verspätete Aufträge",
+    "noAlerts": "Keine aktiven Warnungen",
+    "inventoryPlaceholder": "Lagerbestandsdaten nicht verbunden",
+    "trend": {
+      "up": "Anstieg um {{value}}%",
+      "down": "Rückgang um {{value}}%",
+      "neutral": "Keine signifikanten Änderungen",
+      "notAvailable": "Trend nicht verfügbar"
+    },
     "kpiDetails": {
       "generic": "Detaillierte Informationen zu dieser Metrik.",
       "openWorkOrders": "Gesamtzahl der Arbeitsaufträge, die derzeit offen sind und auf ihre Fertigstellung warten.",
