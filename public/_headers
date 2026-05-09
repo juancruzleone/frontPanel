@@ -32,7 +32,7 @@
   # No cachear el HTML principal
   Cache-Control: no-cache, no-store, must-revalidate
   
-/service-worker.js
+/sw.js
   # No cachear el service worker
   Cache-Control: no-cache, no-store, must-revalidate
 

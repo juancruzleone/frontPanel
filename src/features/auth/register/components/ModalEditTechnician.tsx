@@ -266,7 +266,7 @@ const ModalEditTechnician = ({
         updateData.profilePhoto = profilePhoto
       }
 
-      await updateTechnician(technician._id || technician.id, updateData, token)
+      await updateTechnician(technician._id || technician.id, updateData)
 
       onSubmitSuccess(t('personal.technicianUpdated'))
       onRequestClose()

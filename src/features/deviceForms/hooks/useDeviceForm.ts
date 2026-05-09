@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { fetchDeviceForm, submitDeviceMaintenance } from "../services/deviceFormService"
 import { useTranslation } from "react-i18next"
 
@@ -50,6 +50,7 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
   const [submitting, setSubmitting] = useState(false)
   const [isOnline, setIsOnline] = useState(navigator.onLine)
   const [pendingSubmissions, setPendingSubmissions] = useState<OfflineSubmission[]>([])
+  const isSyncingRef = useRef(false)
   
   // Estados para fotos y firma
   const [fotosEvidencia, setFotosEvidencia] = useState<string[]>([])
@@ -57,10 +58,7 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
 
   // Verificar estado de conexión
   useEffect(() => {
-    const handleOnline = () => {
-      setIsOnline(true)
-      syncPendingSubmissions()
-    }
+    const handleOnline = () => setIsOnline(true)
     const handleOffline = () => setIsOnline(false)
 
     window.addEventListener('online', handleOnline)
@@ -71,6 +69,13 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
       window.removeEventListener('offline', handleOffline)
     }
   }, [])
+
+  // Sincronizar cuando vuelve la conexión
+  useEffect(() => {
+    if (isOnline && pendingSubmissions.length > 0) {
+      syncPendingSubmissions()
+    }
+  }, [isOnline, pendingSubmissions.length])
 
   // Cargar formulario
   useEffect(() => {
@@ -115,9 +120,32 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
   // Cargar envíos pendientes al inicializar
   useEffect(() => {
     loadPendingSubmissions()
+    cleanupExpiredSubmissions()
   }, [])
 
   // Funciones para manejo offline
+  const cleanupExpiredSubmissions = () => {
+    try {
+      const stored = localStorage.getItem('pendingMaintenanceSubmissions')
+      if (!stored) return
+
+      const submissions: OfflineSubmission[] = JSON.parse(stored)
+      const now = Date.now()
+      const ONE_WEEK = 7 * 24 * 60 * 60 * 1000
+      
+      // Filtrar por expiración y luego limitar a los 20 más recientes
+      const valid = submissions
+        .filter(sub => (now - sub.timestamp) < ONE_WEEK)
+        .slice(-20)
+      
+      if (valid.length !== submissions.length) {
+        setPendingSubmissions(valid)
+        localStorage.setItem('pendingMaintenanceSubmissions', JSON.stringify(valid))
+      }
+    } catch (error) {
+    }
+  }
+
   const loadPendingSubmissions = () => {
     try {
       const stored = localStorage.getItem('pendingMaintenanceSubmissions')
@@ -131,55 +159,66 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
 
   const savePendingSubmission = (submission: OfflineSubmission) => {
     try {
-      const current = pendingSubmissions
-      const updated = [...current, submission]
-      setPendingSubmissions(updated)
-      localStorage.setItem('pendingMaintenanceSubmissions', JSON.stringify(updated))
+      setPendingSubmissions(prev => {
+        // Limitar a máximo 20 envíos pendientes para evitar llenar el localStorage
+        const updated = [...prev, submission].slice(-20)
+        localStorage.setItem('pendingMaintenanceSubmissions', JSON.stringify(updated))
+        return updated
+      })
     } catch (error) {
     }
   }
 
   const removePendingSubmission = (id: string) => {
     try {
-      const updated = pendingSubmissions.filter(sub => sub.id !== id)
-      setPendingSubmissions(updated)
-      localStorage.setItem('pendingMaintenanceSubmissions', JSON.stringify(updated))
+      setPendingSubmissions(prev => {
+        const updated = prev.filter(sub => sub.id !== id)
+        localStorage.setItem('pendingMaintenanceSubmissions', JSON.stringify(updated))
+        return updated
+      })
     } catch (error) {
     }
   }
 
   const syncPendingSubmissions = async () => {
-    if (!isOnline || pendingSubmissions.length === 0) return
+    if (isSyncingRef.current || !isOnline || pendingSubmissions.length === 0) return
 
-    const submissionsToSync = [...pendingSubmissions]
+    isSyncingRef.current = true
+    try {
+      const submissionsToSync = [...pendingSubmissions]
 
-    for (const submission of submissionsToSync) {
-      try {
-        await submitDeviceMaintenance(
-          submission.installationId,
-          submission.deviceId,
-          submission.formData
-        )
-        removePendingSubmission(submission.id)
-
-      } catch (error) {
-        // Incrementar contador de reintentos
-        const updatedSubmission = {
-          ...submission,
-          retryCount: submission.retryCount + 1
-        }
-
-        if (updatedSubmission.retryCount >= 3) {
-          removePendingSubmission(submission.id)
-        } else {
-          // Actualizar con nuevo contador
-          const updated = pendingSubmissions.map(sub =>
-            sub.id === submission.id ? updatedSubmission : sub
+      for (const submission of submissionsToSync) {
+        try {
+          await submitDeviceMaintenance(
+            submission.installationId,
+            submission.deviceId,
+            submission.formData
           )
-          setPendingSubmissions(updated)
-          localStorage.setItem('pendingMaintenanceSubmissions', JSON.stringify(updated))
+          removePendingSubmission(submission.id)
+
+        } catch (error) {
+          // Incrementar contador de reintentos
+          const updatedSubmission = {
+            ...submission,
+            retryCount: submission.retryCount + 1
+          }
+
+          if (updatedSubmission.retryCount >= 3) {
+            removePendingSubmission(submission.id)
+          } else {
+            // Actualizar con nuevo contador
+            setPendingSubmissions(prev => {
+              const updated = prev.map(sub =>
+                sub.id === submission.id ? updatedSubmission : sub
+              )
+              localStorage.setItem('pendingMaintenanceSubmissions', JSON.stringify(updated))
+              return updated
+            })
+          }
         }
       }
+    } finally {
+      isSyncingRef.current = false
     }
   }
 

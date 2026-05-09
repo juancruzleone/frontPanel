@@ -25,8 +25,7 @@ export function useProfile() {
         // Cargar datos completos del usuario
         if (userId) {
           const { getUserById } = await import('../../auth/register/services/registerServices');
-          const { token } = useAuthStore.getState();
-          const userDataResponse = await getUserById(userId, token);
+          const userDataResponse = await getUserById(userId);
 
           setUserData(userDataResponse);
         }

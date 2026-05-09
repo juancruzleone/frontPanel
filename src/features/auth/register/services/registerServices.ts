@@ -97,7 +97,7 @@ export const deleteTechnician = async (id: string) => {
   return await response.json()
 }
 
-export const getUserById = async (id: string, _token?: string | null) => {
+export const getUserById = async (id: string) => {
   const response = await fetch(`${API_URL}cuentas/${id}`, {
     method: "GET",
     headers: getAuthHeaders(),
@@ -133,8 +133,7 @@ export const updateTechnician = async (
     email?: string
     documento?: string
     profilePhoto?: File | null
-  }, 
-  _token?: string | null
+  }
 ) => {
   // Si hay foto, usar FormData
   if (data.profilePhoto) {

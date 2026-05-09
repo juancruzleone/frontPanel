@@ -41,7 +41,7 @@ describe('AuthStore', () => {
 
       expect(state.user).toBe('testuser')
       expect(state.userId).toBe('user123')
-      expect(state.token).toBe('test-token-123')
+      expect(state.token).toBeNull() // Token should not be stored
       expect(state.role).toBe('admin')
       expect(state.tenantId).toBe('tenant123')
       expect(state.permissions).toEqual({ read: true, write: true })
@@ -65,7 +65,7 @@ describe('AuthStore', () => {
 
       expect(state.user).toBe('testuser2')
       expect(state.userId).toBe('user456')
-      expect(state.token).toBe('test-token-456')
+      expect(state.token).toBeNull()
       expect(state.role).toBe('user')
       expect(state.tenantId).toBe('tenant456')
     })
@@ -82,7 +82,7 @@ describe('AuthStore', () => {
       const state = useAuthStore.getState()
 
       expect(state.userId).toBe('user789')
-      expect(state.token).toBe('test-token-789')
+      expect(state.token).toBeNull()
       expect(state.user).toBe('user789') // Falls back to _id
       expect(state.role).toBeNull()
       expect(state.tenantId).toBeNull()
@@ -197,7 +197,7 @@ describe('AuthStore', () => {
       
       const parsed = JSON.parse(stored!)
       expect(parsed.state.user).toBe('testuser')
-      expect(parsed.state.token).toBe('test-token-123')
+      expect(parsed.state).not.toHaveProperty('token')
     })
 
     it('should clear sessionStorage on logout', () => {
@@ -216,7 +216,7 @@ describe('AuthStore', () => {
       const parsed = JSON.parse(stored!)
       
       expect(parsed.state.user).toBeNull()
-      expect(parsed.state.token).toBeNull()
+      expect(parsed.state).not.toHaveProperty('token')
     })
   })
 
@@ -240,6 +240,7 @@ describe('AuthStore', () => {
       
       state = useAuthStore.getState()
       expect(state.user).toBe('testuser')
+      expect(state.token).toBeNull()
       expect(state.isAuthenticated).toBe(false) // Still false until modal closed
 
       // 3. Set authenticated (modal closed)

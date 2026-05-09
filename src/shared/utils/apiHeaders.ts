@@ -114,8 +114,8 @@ export const fetchWithCsrf = async (
       ...options,
       credentials: options.credentials ?? "include",
       headers: {
-        ...headers,
         ...options.headers,
+        ...headers,
       },
     }
     
@@ -143,8 +143,8 @@ export const fetchWithCsrf = async (
         )
         
         fetchOptions.headers = {
-          ...newHeaders,
           ...options.headers,
+          ...newHeaders,
         }
       } catch (refreshError: unknown) {
         const message = refreshError instanceof Error ? refreshError.message : "Error al refrescar token CSRF"

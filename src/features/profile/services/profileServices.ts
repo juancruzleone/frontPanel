@@ -4,9 +4,8 @@ import { getAuthHeaders } from '../../../shared/utils/apiHeaders';
 const API_URL = import.meta.env.VITE_API_URL || "/api/";
 
 export const fetchAssignedWorkOrders = async () => {
-  const token = useAuthStore.getState().token;
   const user = useAuthStore.getState().user;
-  if (!token || !user) throw new Error('No autenticado');
+  if (!user) throw new Error('No autenticado');
 
   const response = await fetch(`${API_URL}ordenes-trabajo`, {
     headers: getAuthHeaders(),

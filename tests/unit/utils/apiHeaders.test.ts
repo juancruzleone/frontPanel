@@ -253,5 +253,62 @@ describe('apiHeaders - CSRF Logic', () => {
       const headers = call[1]?.headers as Record<string, string> || {}
       expect(headers['X-CSRF-Token']).toBe('test-csrf-token')
     })
+
+    it('should overwrite stale caller-provided X-CSRF-Token with fresh token', async () => {
+      const mockResponse = { ok: true, status: 200 }
+      global.fetch = vi.fn().mockResolvedValue(mockResponse)
+
+      await fetchWithCsrf('/api/data', {
+        method: 'POST',
+        headers: {
+          'X-CSRF-Token': 'stale-token'
+        }
+      })
+
+      const call = vi.mocked(global.fetch).mock.calls[0]
+      const headers = call[1]?.headers as Record<string, string> || {}
+      expect(headers['X-CSRF-Token']).toBe('test-csrf-token')
+    })
+
+    it('should overwrite stale caller-provided X-CSRF-Token on retry', async () => {
+      const mock403Response = { ok: false, status: 403 }
+      const mock200Response = { ok: true, status: 200 }
+
+      global.fetch = vi.fn()
+        .mockResolvedValueOnce(mock403Response)
+        .mockResolvedValueOnce(mock200Response)
+
+      const fetchTokenMock = vi.fn().mockImplementation(() => {
+        useCSRFStore.getState.mockReturnValue({
+          token: 'fresh-refreshed-token',
+          isLoading: false,
+          error: null,
+          fetchToken: fetchTokenMock,
+          clearToken: vi.fn(),
+        })
+        return Promise.resolve()
+      })
+
+      useCSRFStore.getState.mockReturnValue({
+        token: 'initial-token',
+        isLoading: false,
+        error: null,
+        fetchToken: fetchTokenMock,
+        clearToken: vi.fn(),
+      })
+
+      await fetchWithCsrf('/api/data', {
+        method: 'POST',
+        headers: {
+          'X-CSRF-Token': 'caller-stale-token'
+        }
+      })
+
+      expect(global.fetch).toHaveBeenCalledTimes(2)
+      
+      const secondCall = vi.mocked(global.fetch).mock.calls[1]
+      const secondHeaders = secondCall[1]?.headers as Record<string, string> || {}
+      expect(secondHeaders['X-CSRF-Token']).toBe('fresh-refreshed-token')
+    })
   })
 })

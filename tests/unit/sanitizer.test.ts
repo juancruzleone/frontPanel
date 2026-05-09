@@ -29,9 +29,21 @@ describe('Sanitizer Utils', () => {
   })
 
   describe('sanitizeUrl', () => {
-    it('should allow https URLs', () => {
-      const url = 'https://example.com'
-      expect(sanitizeUrl(url)).toBe(url + '/')
+    it('should allow same-origin https URLs', () => {
+      // In tests, window.location.origin is typically http://localhost:3000
+      const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://frontend.local'
+      const url = `${baseUrl}/path`
+      expect(sanitizeUrl(url)).toBe(url)
+    })
+
+    it('should allow allowlisted origins', () => {
+      const url = 'https://api.leonix.net.ar/v1'
+      expect(sanitizeUrl(url)).toBe(url)
+    })
+
+    it('should block non-allowlisted origins', () => {
+      const url = 'https://malicious-site.com'
+      expect(sanitizeUrl(url)).toBe('about:blank')
     })
 
     it('should block javascript: protocol', () => {

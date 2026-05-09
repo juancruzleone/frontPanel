@@ -1,11 +1,7 @@
 import { useAuthStore } from "../../../store/authStore"
-import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
+import { getAuthHeaders, getHeadersWithContentType, fetchWithCsrf } from "../../../shared/utils/apiHeaders"
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
-
-const getToken = () => {
-  return useAuthStore.getState().token
-}
 
 export const fetchAssets = async (params: { page?: number, limit?: number, search?: string } = {}): Promise<any> => {
   const queryParams = new URLSearchParams()
@@ -59,9 +55,9 @@ export const fetchTemplates = async (params: { page?: number, limit?: number, se
 }
 
 export const createAsset = async (asset: any) => {
-  const response = await fetch(`${API_URL}activos`, {
+  const response = await fetchWithCsrf(`${API_URL}activos`, {
     method: "POST",
-    headers: getHeadersWithContentType(),
+    headers: getHeadersWithContentType("POST"),
     body: JSON.stringify(asset),
   })
 
@@ -77,9 +73,9 @@ export const createAsset = async (asset: any) => {
 export const updateAsset = async (id: string, asset: any) => {
   const { _id, ...rest } = asset
 
-  const response = await fetch(`${API_URL}activos/${id}`, {
+  const response = await fetchWithCsrf(`${API_URL}activos/${id}`, {
     method: "PUT",
-    headers: getHeadersWithContentType(),
+    headers: getHeadersWithContentType("PUT"),
     body: JSON.stringify(rest),
   })
 
@@ -99,7 +95,7 @@ export const updateAsset = async (id: string, asset: any) => {
 }
 
 export const deleteAsset = async (id: string) => {
-  const response = await fetch(`${API_URL}activos/${id}`, {
+  const response = await fetchWithCsrf(`${API_URL}activos/${id}`, {
     method: "DELETE",
     headers: getAuthHeaders(),
   })
@@ -120,9 +116,9 @@ export const deleteAsset = async (id: string) => {
 }
 
 export const assignTemplateToAsset = async (assetId: string, templateId: string) => {
-  const response = await fetch(`${API_URL}activos/${assetId}/plantilla`, {
+  const response = await fetchWithCsrf(`${API_URL}activos/${assetId}/plantilla`, {
     method: "POST",
-    headers: getHeadersWithContentType(),
+    headers: getHeadersWithContentType("POST"),
     body: JSON.stringify({ templateId }),
   })
 
@@ -136,9 +132,9 @@ export const assignTemplateToAsset = async (assetId: string, templateId: string)
 }
 
 export const updateAssetStock = async (assetId: string, stock: number): Promise<void> => {
-  const response = await fetch(`${API_URL}activos/${assetId}/stock`, {
+  const response = await fetchWithCsrf(`${API_URL}activos/${assetId}/stock`, {
     method: "PUT",
-    headers: getHeadersWithContentType(),
+    headers: getHeadersWithContentType("PUT"),
     body: JSON.stringify({ stock }),
   })
 

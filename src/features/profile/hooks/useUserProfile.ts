@@ -7,7 +7,6 @@ import { fetchInstallationTypes } from '../../installations/services/installatio
 const API_URL = import.meta.env.VITE_API_URL || "/api/";
 
 export function useUserProfile(userId: string) {
-  const { token } = useAuthStore();
   const [userData, setUserData] = useState<any>(null);
   const [orders, setOrders] = useState<any[]>([]);
   const [installations, setInstallations] = useState<any[]>([]);
@@ -24,17 +23,13 @@ export function useUserProfile(userId: string) {
         setError(null);
 
         // Obtener datos del usuario
-        const userResponse = await getUserById(userId, token);
+        const userResponse = await getUserById(userId);
         setUserData(userResponse);
 
         // Verificar si el usuario es cliente
         if (userResponse.role === 'cliente') {
           // Para clientes, cargar solo las instalaciones asignadas a ese cliente específico
-          const installationsResponse = await fetch(`${API_URL}clientes-usuarios/${userId}/instalaciones`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          const installationsResponse = await fetch(`${API_URL}clientes-usuarios/${userId}/instalaciones`);
 
           if (!installationsResponse.ok) {
             throw new Error('Error al obtener instalaciones del cliente');
@@ -48,11 +43,7 @@ export function useUserProfile(userId: string) {
           setInstallationTypes(types);
         } else {
           // Para técnicos/admins, obtener órdenes de trabajo asignadas
-          const ordersResponse = await fetch(`${API_URL}ordenes-trabajo?populate=instalacion`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          const ordersResponse = await fetch(`${API_URL}ordenes-trabajo?populate=instalacion`);
 
           if (!ordersResponse.ok) {
             throw new Error('Error al obtener órdenes de trabajo');
@@ -77,12 +68,12 @@ export function useUserProfile(userId: string) {
       }
     };
 
-    if (userId && token) {
+    if (userId) {
       fetchUserData();
     } else {
       setLoading(false);
     }
-  }, [userId, token]);
+  }, [userId]);
 
   return {
     user: resolvedUserName,

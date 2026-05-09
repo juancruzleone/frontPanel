@@ -35,7 +35,19 @@ export const sanitizeUrl = (url: string): string => {
     const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://frontend.local'
     const parsed = new URL(trimmed, baseUrl)
 
-    if (!['http:', 'https:'].includes(parsed.protocol)) {
+    if (!['http:', 'https:'].includes(parsed.protocol.toLowerCase())) {
+      return 'about:blank'
+    }
+
+    // Allowlist de orígenes permitidos
+    const allowedOrigins = [
+      baseUrl,
+      'https://api.leonix.net.ar',
+      'https://leonix.net.ar'
+    ]
+
+    // Validar siempre el origen para protocolos http/https
+    if (!allowedOrigins.some(origin => parsed.origin.toLowerCase() === origin.toLowerCase())) {
       return 'about:blank'
     }
 

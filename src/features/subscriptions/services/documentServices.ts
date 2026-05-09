@@ -1,4 +1,4 @@
-import { getHeadersWithoutContentType } from '../../../shared/utils/apiHeaders'
+import { getHeadersWithoutContentType, fetchWithCsrf } from '../../../shared/utils/apiHeaders'
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
 
@@ -43,9 +43,9 @@ export const uploadBudgetDocument = async (
     }
 
     // Get headers pero sin Content-Type (el navegador lo setea automáticamente para FormData)
-    const headers = getHeadersWithoutContentType()
+    const headers = getHeadersWithoutContentType('POST')
 
-    const response = await fetch(url, {
+    const response = await fetchWithCsrf(url, {
         method: 'POST',
         headers,
         body: formData,
@@ -69,7 +69,7 @@ export const getBudgetDocuments = async (
 
     const response = await fetch(url, {
         method: 'GET',
-        headers: getHeadersWithoutContentType(),
+        headers: getHeadersWithoutContentType('GET'),
     })
 
     const responseData = await response.json()
@@ -90,9 +90,9 @@ export const deleteBudgetDocument = async (
     const baseUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL
     const url = `${baseUrl}/installations/${installationId}/documentos/${documentId}`
 
-    const response = await fetch(url, {
+    const response = await fetchWithCsrf(url, {
         method: 'DELETE',
-        headers: getHeadersWithoutContentType(),
+        headers: getHeadersWithoutContentType('DELETE'),
     })
 
     const responseData = await response.json()

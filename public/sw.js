@@ -147,16 +147,25 @@ self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   const targetUrl = event.notification?.data?.url || '/ordenes-trabajo';
 
+  const url = new URL(targetUrl, self.location.origin);
+  const isSafeUrl = url.origin === self.location.origin;
+  
+  if (!isSafeUrl) {
+    return;
+  }
+
+  const safeTargetUrl = url.href;
+
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
       for (const client of clientList) {
         if ('focus' in client) {
-          client.navigate(targetUrl);
+          client.navigate(safeTargetUrl);
           return client.focus();
         }
       }
       if (clients.openWindow) {
-        return clients.openWindow(targetUrl);
+        return clients.openWindow(safeTargetUrl);
       }
     })
   );

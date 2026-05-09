@@ -6,7 +6,23 @@ const AUTH_STORAGE_KEY = "auth-storage"
 
 const clearLegacyAuthStorage = () => {
   if (typeof window === "undefined") return
+  
+  // Limpiar localStorage (legacy)
   window.localStorage.removeItem(AUTH_STORAGE_KEY)
+
+  // Limpiar token de sessionStorage si existe en el objeto persistido (limpieza estructural)
+  try {
+    const stored = window.sessionStorage.getItem(AUTH_STORAGE_KEY)
+    if (stored) {
+      const parsed = JSON.parse(stored)
+      if (parsed.state && (parsed.state.token !== undefined || parsed.state.token !== null)) {
+        delete parsed.state.token
+        window.sessionStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(parsed))
+      }
+    }
+  } catch (error) {
+    // Silently fail if parsing fails
+  }
 }
 
 interface UserData {
@@ -78,7 +94,7 @@ export const useAuthStore = create<AuthState>()(
         set({
           user: user.userName || user.username || user._id || null,
           userId: user._id || null,
-          token: data.token || null,
+          token: null, // Ya no guardamos el token en el store persistido
           role: user.role || null,
           tenantId: user.tenantId || null,
           permissions: user.permissions || null,
@@ -128,6 +144,11 @@ export const useAuthStore = create<AuthState>()(
     {
       name: AUTH_STORAGE_KEY,
       storage: createJSONStorage(() => sessionStorage),
+      partialize: (state) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { token, ...rest } = state
+        return rest
+      },
     }
   )
 )

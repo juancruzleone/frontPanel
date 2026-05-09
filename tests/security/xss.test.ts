@@ -116,8 +116,12 @@ describe('XSS Protection Tests', () => {
       })
     })
 
-    it('should allow safe https URLs', () => {
-      expect(sanitizeUrl('https://example.com/manual.pdf')).toBe('https://example.com/manual.pdf')
+    it('should allow safe https URLs from allowlist', () => {
+      expect(sanitizeUrl('https://leonix.net.ar/manual.pdf')).toBe('https://leonix.net.ar/manual.pdf')
+    })
+
+    it('should block non-allowlisted https URLs', () => {
+      expect(sanitizeUrl('https://evil.com/manual.pdf')).toBe('about:blank')
     })
 
     it('should normalize relative URLs safely', () => {
@@ -132,8 +136,8 @@ describe('XSS Protection Tests', () => {
       expect(openSafeUrl('javascript:alert(1)')).toBe(false)
       expect(openSpy).not.toHaveBeenCalled()
 
-      expect(openSafeUrl('https://example.com')).toBe(true)
-      expect(openSpy).toHaveBeenCalledWith('https://example.com/', '_blank', 'noopener,noreferrer')
+      expect(openSafeUrl('https://leonix.net.ar')).toBe(true)
+      expect(openSpy).toHaveBeenCalledWith('https://leonix.net.ar/', '_blank', 'noopener,noreferrer')
     })
 
     it('should redirect only safe URLs', () => {

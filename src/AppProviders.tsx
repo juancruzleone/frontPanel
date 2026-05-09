@@ -54,14 +54,12 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
       }
     }
 
-    if (!isAuthResolved) {
-      bootstrapSession()
-    }
+    bootstrapSession()
 
     return () => {
       cancelled = true
     }
-  }, [hydrateSession, isAuthResolved, setAuthResolved])
+  }, [hydrateSession, setAuthResolved])
   
   React.useEffect(() => {
     // Fetch CSRF token when user is authenticated and no token exists
