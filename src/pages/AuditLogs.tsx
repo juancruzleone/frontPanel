@@ -23,7 +23,7 @@ const AuditLogs: React.FC = () => {
         if (err instanceof Error && err.message === 'BACKEND_NOT_IMPLEMENTED') {
           setBackendMissing(true)
         } else {
-          setError(err instanceof Error ? err.message : "Error desconocido")
+          setError(err instanceof Error ? err.message : t('audit.errorUnknown'))
         }
       } finally {
         setLoading(false)
@@ -49,13 +49,13 @@ const AuditLogs: React.FC = () => {
       ) : backendMissing ? (
         <div className={styles.infoBox}>
           <ShieldAlert className={styles.infoIcon} size={48} />
-          <h2 className={styles.infoTitle}>Soporte de Backend Requerido</h2>
+          <h2 className={styles.infoTitle}>{t('audit.backendRequiredTitle')}</h2>
           <p className={styles.infoText}>
             {t('audit.backendRequired')}
           </p>
           <div className={styles.detailsBox}>
             <Info size={16} />
-            <span>Se espera un endpoint en <code>/api/audit-logs</code></span>
+            <span>{t('audit.endpointExpected')} <code>/api/audit-logs</code></span>
           </div>
         </div>
       ) : error ? (

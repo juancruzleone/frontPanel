@@ -31,7 +31,10 @@
     "subtitle": "Security and control of actions performed in the system",
     "loading": "Loading logs...",
     "noLogs": "No activity logs available",
+    "errorUnknown": "Unknown error",
+    "backendRequiredTitle": "Backend support required",
     "backendRequired": "Server support for audit logs is not configured yet.",
+    "endpointExpected": "Expected endpoint at",
     "table": {
       "date": "Date",
       "user": "User",

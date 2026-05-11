@@ -22,7 +22,30 @@
     "inventory": "在庫",
     "resources": "運用",
     "operation": "運用",
-    "maintenance": "メンテナンス"
+    "maintenance": "メンテナンス",
+    "audit": "監査"
+  },
+  "audit": {
+    "title": "アクティビティログ",
+    "subtitle": "システムで実行された操作のセキュリティと管理",
+    "loading": "ログを読み込み中...",
+    "noLogs": "利用可能なアクティビティログはありません",
+    "errorUnknown": "不明なエラー",
+    "backendRequiredTitle": "バックエンドサポートが必要です",
+    "backendRequired": "監査ログのサーバーサポートはまだ設定されていません。",
+    "endpointExpected": "想定されるエンドポイント",
+    "table": {
+      "date": "日付",
+      "user": "ユーザー",
+      "action": "操作",
+      "target": "対象",
+      "details": "詳細"
+    },
+    "filter": {
+      "allUsers": "すべてのユーザー",
+      "allActions": "すべての操作",
+      "dateRange": "日付範囲"
+    }
   },
   "personal": {
     "successTitle": "操作が成功しました！",

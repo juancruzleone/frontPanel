@@ -30,7 +30,10 @@
     "subtitle": "Seguridad y control de acciones realizadas en el sistema",
     "loading": "Cargando registros...",
     "noLogs": "No hay registros de actividad disponibles",
+    "errorUnknown": "Error desconocido",
+    "backendRequiredTitle": "Soporte de backend requerido",
     "backendRequired": "El soporte del servidor para registros de auditoría aún no está configurado.",
+    "endpointExpected": "Se espera un endpoint en",
     "table": {
       "date": "Fecha",
       "user": "Usuario",

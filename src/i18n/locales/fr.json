@@ -22,7 +22,30 @@
     "inventory": "Inventaire",
     "resources": "Opérations",
     "operation": "Opérations",
-    "maintenance": "Maintenance"
+    "maintenance": "Maintenance",
+    "audit": "Audit"
+  },
+  "audit": {
+    "title": "Journal d'activité",
+    "subtitle": "Sécurité et contrôle des actions effectuées dans le système",
+    "loading": "Chargement des journaux...",
+    "noLogs": "Aucun journal d'activité disponible",
+    "errorUnknown": "Erreur inconnue",
+    "backendRequiredTitle": "Prise en charge backend requise",
+    "backendRequired": "La prise en charge serveur des journaux d'audit n'est pas encore configurée.",
+    "endpointExpected": "Endpoint attendu sur",
+    "table": {
+      "date": "Date",
+      "user": "Utilisateur",
+      "action": "Action",
+      "target": "Élément",
+      "details": "Détails"
+    },
+    "filter": {
+      "allUsers": "Tous les utilisateurs",
+      "allActions": "Toutes les actions",
+      "dateRange": "Plage de dates"
+    }
   },
   "personal": {
     "successTitle": "Opération réussie !",

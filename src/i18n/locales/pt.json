@@ -22,7 +22,30 @@
     "inventory": "Inventário",
     "resources": "Operações",
     "operation": "Operações",
-    "maintenance": "Manutenção"
+    "maintenance": "Manutenção",
+    "audit": "Auditoria"
+  },
+  "audit": {
+    "title": "Registro de atividade",
+    "subtitle": "Segurança e controle das ações realizadas no sistema",
+    "loading": "Carregando registros...",
+    "noLogs": "Nenhum registro de atividade disponível",
+    "errorUnknown": "Erro desconhecido",
+    "backendRequiredTitle": "Suporte de backend necessário",
+    "backendRequired": "O suporte do servidor para registros de auditoria ainda não está configurado.",
+    "endpointExpected": "Endpoint esperado em",
+    "table": {
+      "date": "Data",
+      "user": "Usuário",
+      "action": "Ação",
+      "target": "Elemento",
+      "details": "Detalhes"
+    },
+    "filter": {
+      "allUsers": "Todos os usuários",
+      "allActions": "Todas as ações",
+      "dateRange": "Intervalo de datas"
+    }
   },
   "personal": {
     "successTitle": "Operação bem-sucedida!",

@@ -22,7 +22,30 @@
     "inventory": "库存",
     "resources": "运营",
     "operation": "运营",
-    "maintenance": "维护"
+    "maintenance": "维护",
+    "audit": "审计"
+  },
+  "audit": {
+    "title": "活动日志",
+    "subtitle": "系统中执行操作的安全与控制",
+    "loading": "正在加载日志...",
+    "noLogs": "没有可用的活动日志",
+    "errorUnknown": "未知错误",
+    "backendRequiredTitle": "需要后端支持",
+    "backendRequired": "审计日志的服务器支持尚未配置。",
+    "endpointExpected": "预期端点为",
+    "table": {
+      "date": "日期",
+      "user": "用户",
+      "action": "操作",
+      "target": "目标",
+      "details": "详情"
+    },
+    "filter": {
+      "allUsers": "所有用户",
+      "allActions": "所有操作",
+      "dateRange": "日期范围"
+    }
   },
   "personal": {
     "successTitle": "操作成功！",

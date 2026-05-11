@@ -22,7 +22,30 @@
     "inventory": "Lagerbestand",
     "resources": "Betrieb",
     "operation": "Betrieb",
-    "maintenance": "Wartung"
+    "maintenance": "Wartung",
+    "audit": "Audit"
+  },
+  "audit": {
+    "title": "Aktivitätsprotokoll",
+    "subtitle": "Sicherheit und Kontrolle der im System ausgeführten Aktionen",
+    "loading": "Protokolle werden geladen...",
+    "noLogs": "Keine Aktivitätsprotokolle verfügbar",
+    "errorUnknown": "Unbekannter Fehler",
+    "backendRequiredTitle": "Backend-Unterstützung erforderlich",
+    "backendRequired": "Die Serverunterstützung für Audit-Protokolle ist noch nicht konfiguriert.",
+    "endpointExpected": "Erwarteter Endpoint unter",
+    "table": {
+      "date": "Datum",
+      "user": "Benutzer",
+      "action": "Aktion",
+      "target": "Element",
+      "details": "Details"
+    },
+    "filter": {
+      "allUsers": "Alle Benutzer",
+      "allActions": "Alle Aktionen",
+      "dateRange": "Datumsbereich"
+    }
   },
   "personal": {
     "successTitle": "Vorgang erfolgreich!",

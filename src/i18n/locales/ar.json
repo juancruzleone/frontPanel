@@ -22,7 +22,30 @@
     "inventory": "مخزون",
     "resources": "العمليات",
     "operation": "العمليات",
-    "maintenance": "الصيانة"
+    "maintenance": "الصيانة",
+    "audit": "التدقيق"
+  },
+  "audit": {
+    "title": "سجل النشاط",
+    "subtitle": "الأمان والتحكم في الإجراءات المنفذة في النظام",
+    "loading": "جارٍ تحميل السجلات...",
+    "noLogs": "لا توجد سجلات نشاط متاحة",
+    "errorUnknown": "خطأ غير معروف",
+    "backendRequiredTitle": "دعم الخلفية مطلوب",
+    "backendRequired": "لم يتم تكوين دعم الخادم لسجلات التدقيق بعد.",
+    "endpointExpected": "نقطة النهاية المتوقعة في",
+    "table": {
+      "date": "التاريخ",
+      "user": "المستخدم",
+      "action": "الإجراء",
+      "target": "العنصر",
+      "details": "التفاصيل"
+    },
+    "filter": {
+      "allUsers": "كل المستخدمين",
+      "allActions": "كل الإجراءات",
+      "dateRange": "نطاق التاريخ"
+    }
   },
   "personal": {
     "successTitle": "تمت العملية بنجاح!",

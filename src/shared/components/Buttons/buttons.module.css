@@ -150,8 +150,8 @@ button {
 .themeButtonLight .moonIcon {
   transform: translate(-50%, -50%) rotate(0deg) scale(1);
   opacity: 1;
-  color: #000000;
-  stroke: #000000;
+  color: #10b981;
+  stroke: #10b981;
 }
 
 .themeButton:hover .themeIconStack {
