@@ -393,7 +393,7 @@ const WorkOrders = () => {
       await removeWorkOrder(workOrderToDelete._id)
       onSuccess(t('workOrders.workOrderDeleted'))
     } catch (err: unknown) {
-      onError(err instanceof Error ? err.message : t('workOrders.errorDeletingWorkOrder'))
+      onError((err as Error).message || t('workOrders.errorDeletingWorkOrder'))
     } finally {
       setWorkOrderToDelete(null)
       setIsDeleteModalOpen(false)
@@ -405,7 +405,7 @@ const WorkOrders = () => {
       await startWorkOrder(id)
       onSuccess(t('workOrders.workOrderStarted'))
     } catch (err: unknown) {
-      onError(err instanceof Error ? err.message : t('workOrders.errorStartingWorkOrder'))
+      onError((err as Error).message || t('workOrders.errorStartingWorkOrder'))
     }
   }
 
@@ -434,7 +434,7 @@ const WorkOrders = () => {
       await editWorkOrder(orderId, { ...order, estado: newStatus })
       onSuccess(t('workOrders.workOrderUpdated'))
     } catch (err: unknown) {
-      onError(err instanceof Error ? err.message : t('workOrders.errorUpdatingWorkOrder'))
+      onError((err as Error).message || t('workOrders.errorUpdatingWorkOrder'))
     }
   }
 

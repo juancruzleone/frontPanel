@@ -1,6 +1,6 @@
 import { getAuthHeaders, fetchWithCsrf } from "../../../shared/utils/apiHeaders"
 import { fetchAssets, updateAssetStock as apiUpdateAssetStock } from "../../assets/services/assetServices"
-import { InventoryAsset, InventoryItem, InventoryMovement } from "../types/inventory.types"
+import { InventoryAdjustmentPayload, InventoryAsset, InventoryItem, InventoryMovement } from "../types/inventory.types"
 
 const getApiUrl = () => import.meta.env.VITE_API_URL || '/api/'
 
@@ -133,6 +133,22 @@ export const createInventoryMovement = async (movement: Partial<InventoryMovemen
   if (!response.ok) {
     const error = await response.json()
     throw new Error(error.message || "Error al crear movimiento")
+  }
+
+  return await response.json()
+}
+
+export const createInventoryAdjustment = async (payload: InventoryAdjustmentPayload): Promise<InventoryMovement> => {
+  const response = await fetchWithCsrf(`${getApiUrl()}inventario/ajustes`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  })
+
+  if (!response.ok) {
+    throw new Error(await parseErrorMessage(response, "Error al ajustar stock"))
   }
 
   return await response.json()

@@ -2,88 +2,15 @@ import { useState, useCallback, useEffect } from "react"
 import { useInventoryStore } from "../../../store/inventoryStore"
 import { 
   fetchInventoryItems, 
-  fetchInventoryAssets,
   createInventoryItem, 
   updateInventoryItem as apiUpdateInventoryItem,
   deleteInventoryItem as apiDeleteInventoryItem,
-  createInventoryMovement,
-  updateInventoryAssetStock
+  createInventoryAdjustment
 } from "../services/inventoryServices"
-import { InventoryAsset, InventoryItem } from "../types/inventory.types"
-
-const normalizeItemName = (name: string) => name.trim().toLocaleLowerCase()
-
-const getAssetName = (asset: InventoryAsset): string => asset.nombre || asset.name || ''
-
-const getAssetStock = (asset: InventoryAsset): number => {
-  if (typeof asset.currentStock === 'number') return asset.currentStock
-  if (typeof asset.stock === 'number') return asset.stock
-
-  return 1
-}
-
-const getAssetMinimumStock = (asset: InventoryAsset): number => {
-  if (typeof asset.minimumStock === 'number') return asset.minimumStock
-  if (typeof asset.stockMinimo === 'number') return asset.stockMinimo
-
-  return 0
-}
+import { InventoryItem } from "../types/inventory.types"
 
 const getErrorMessage = (error: unknown, fallback: string): string => {
   return error instanceof Error ? error.message : fallback
-}
-
-const buildInventoryRows = (
-  inventoryItems: InventoryItem[],
-  assets: InventoryAsset[],
-  filters: { name?: string; category?: string } = {}
-): InventoryItem[] => {
-  const existingAssetIds = new Set(
-    inventoryItems
-      .flatMap((item) => [item.assetId, item.activoId])
-      .filter((id): id is string => Boolean(id))
-  )
-  const existingNames = new Set(inventoryItems.map((item) => normalizeItemName(item.name)))
-  const assetNamesWithoutId = new Set<string>()
-
-  const assetRows = assets
-    .filter((asset) => {
-      const assetName = getAssetName(asset)
-      if (!assetName) return false
-      if (asset._id && existingAssetIds.has(asset._id)) return false
-      if (!asset._id && assetNamesWithoutId.has(normalizeItemName(assetName))) return false
-      if (existingNames.has(normalizeItemName(assetName))) return false
-
-      if (!asset._id) assetNamesWithoutId.add(normalizeItemName(assetName))
-
-      return true
-    })
-    .filter((asset) => {
-      const assetName = getAssetName(asset)
-      const assetCategory = asset.category || asset.categoria || ''
-      const nameMatches = !filters.name || normalizeItemName(assetName).includes(normalizeItemName(filters.name))
-      const categoryMatches = !filters.category || normalizeItemName(assetCategory).includes(normalizeItemName(filters.category))
-
-      return nameMatches && categoryMatches
-    })
-    .map<InventoryItem>((asset) => ({
-      _id: asset._id ? `asset-${asset._id}` : undefined,
-      tenantId: '',
-      name: getAssetName(asset),
-      category: asset.category || asset.categoria,
-      unit: asset.unit || asset.unidad || 'unidades',
-      currentStock: getAssetStock(asset),
-      minimumStock: getAssetMinimumStock(asset),
-      location: asset.location || asset.ubicacion,
-      active: asset.active ?? true,
-      assetId: asset._id,
-      inventorySource: 'asset',
-    }))
-
-  return [
-    ...inventoryItems,
-    ...assetRows,
-  ]
 }
 
 const useInventory = () => {
@@ -98,13 +25,9 @@ const useInventory = () => {
   const loadInventory = useCallback(async (params: { page?: number, limit?: number, name?: string, category?: string, lowStock?: boolean } = {}) => {
     setLoading(true)
     try {
-      const [result, assetsResult] = await Promise.all([
-        fetchInventoryItems(params),
-        fetchInventoryAssets().catch(() => []),
-      ])
-      const assets = assetsResult as InventoryAsset[]
+      const result = await fetchInventoryItems(params)
       const inventoryItems = Array.isArray(result.items) ? result.items : []
-      const rows = buildInventoryRows(inventoryItems, assets, params)
+      const rows = inventoryItems
       setItems(rows, result.total || rows.length)
       setPagination({
         page: params.page || 1,
@@ -137,38 +60,21 @@ const useInventory = () => {
   }
 
   const adjustStock = async (item: InventoryItem, quantity: number, type: 'entry' | 'exit' | 'adjustment', reason: string) => {
-    const beforeStock = item.currentStock
-    const afterStock = type === 'entry' ? beforeStock + quantity : type === 'exit' ? beforeStock - quantity : quantity
-
     if (item.inventorySource === 'asset') {
-      if (!item.assetId) {
-        throw new Error('No se puede actualizar el stock de este activo')
-      }
-
-      await updateInventoryAssetStock(item.assetId, afterStock)
-      await loadInventory()
-      return
+      throw new Error('No se puede ajustar stock sobre filas derivadas de activos')
     }
 
     if (!item._id) {
       throw new Error('No se puede actualizar el stock de este item')
     }
-    
-    const movement = {
+
+    await createInventoryAdjustment({
       inventoryItemId: item._id,
       type,
       quantity,
-      beforeStock,
-      afterStock,
-      performedBy: 'user', // Will be filled by backend
-      referenceType: 'manual' as const,
-      referenceId: reason
-    }
-    
-    await createInventoryMovement(movement)
-    
-    // Update item stock
-    await apiUpdateInventoryItem(item._id, { currentStock: afterStock })
+      reason,
+    })
+
     await loadInventory()
   }
 

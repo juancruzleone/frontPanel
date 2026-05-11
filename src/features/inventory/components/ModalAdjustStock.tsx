@@ -48,7 +48,7 @@ export const ModalAdjustStock: React.FC<ModalAdjustStockProps> = ({
 
   return (
     <div className={styles.backdrop}>
-      <div className={styles.modal} style={{ maxWidth: '500px' }}>
+      <div className={`${styles.modal} ${styles.modalNarrow}`}>
         <div className={styles.modalHeader}>
           <h2 className={styles.title}>{t('inventory.adjustStock')}: {item.name}</h2>
           <button onClick={onRequestClose} className={styles.closeButton} disabled={isSubmitting}>

@@ -53,8 +53,16 @@ export interface InventoryMovement {
   afterStock: number;
   referenceType?: 'work_order' | 'manual';
   referenceId?: string;
+  reason?: string;
   performedBy: string;
   createdAt: Date;
+}
+
+export interface InventoryAdjustmentPayload {
+  inventoryItemId: string;
+  type: 'entry' | 'exit' | 'adjustment';
+  quantity: number;
+  reason: string;
 }
 
 export interface WorkOrderPart {

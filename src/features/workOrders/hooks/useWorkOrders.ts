@@ -239,9 +239,10 @@ const useWorkOrders = () => {
       if (installations.length > 0) {
         return;
       }
-      const { installations: storeInst, ownerId: installationOwnerId } = useInstallationStore.getState();
+      const storeState = useInstallationStore.getState();
+      const storeInst = storeState.installations;
       const { userId: currentUserId } = useAuthStore.getState();
-      if (installationOwnerId === currentUserId && storeInst.length > 0) {
+      if (storeInst && storeInst.length > 0 && storeState.ownerId === currentUserId) {
         setInstallations(storeInst as Installation[]);
         return;
       }

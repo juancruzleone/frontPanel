@@ -5,17 +5,14 @@ import * as services from '../../../../src/features/inventory/services/inventory
 
 vi.mock('../../../../src/features/inventory/services/inventoryServices', () => ({
   fetchInventoryItems: vi.fn(),
-  fetchInventoryAssets: vi.fn(),
-  createInventoryMovement: vi.fn(),
+  createInventoryAdjustment: vi.fn(),
   updateInventoryItem: vi.fn(),
   deleteInventoryItem: vi.fn(),
-  updateInventoryAssetStock: vi.fn(),
 }))
 
 describe('useInventory hook', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    vi.mocked(services.fetchInventoryAssets).mockResolvedValue([])
   })
 
   it('debe cargar items al llamar a loadInventory', async () => {
@@ -30,14 +27,10 @@ describe('useInventory hook', () => {
 
     expect(result.current.items).toEqual(mockItems)
     expect(services.fetchInventoryItems).toHaveBeenCalled()
-    expect(services.fetchInventoryAssets).toHaveBeenCalled()
   })
 
-  it('debe crear filas derivadas desde activos reales cuando no hay item de inventario', async () => {
+  it('debe devolver solo items reales de inventario (sin filas derivadas de activos)', async () => {
     vi.mocked(services.fetchInventoryItems).mockResolvedValue({ items: [], total: 0 })
-    vi.mocked(services.fetchInventoryAssets).mockResolvedValue([
-      { _id: 'asset-1', nombre: 'Bomba centrífuga', stock: 4, categoria: 'Bombas' },
-    ])
 
     const { result } = renderHook(() => useInventory())
 
@@ -45,20 +38,10 @@ describe('useInventory hook', () => {
       await result.current.loadInventory()
     })
 
-    expect(result.current.items).toEqual([
-      expect.objectContaining({
-        _id: 'asset-asset-1',
-        assetId: 'asset-1',
-        name: 'Bomba centrífuga',
-        category: 'Bombas',
-        currentStock: 4,
-        minimumStock: 0,
-        inventorySource: 'asset',
-      }),
-    ])
+    expect(result.current.items).toEqual([])
   })
 
-  it('debe preservar items de inventario y evitar duplicados por assetId o nombre', async () => {
+  it('debe preservar items de inventario sin mezclar activos', async () => {
     const inventoryItem = {
       _id: 'inventory-1',
       assetId: 'asset-1',
@@ -70,22 +53,13 @@ describe('useInventory hook', () => {
       active: true,
     }
     vi.mocked(services.fetchInventoryItems).mockResolvedValue({ items: [inventoryItem], total: 1 })
-    vi.mocked(services.fetchInventoryAssets).mockResolvedValue([
-      { _id: 'asset-1', nombre: 'Bomba centrífuga', stock: 4 },
-      { _id: 'asset-2', nombre: 'Bomba centrífuga', stock: 7 },
-      { _id: 'asset-3', nombre: 'Motor', stock: 3 },
-    ])
-
     const { result } = renderHook(() => useInventory())
 
     await act(async () => {
       await result.current.loadInventory()
     })
 
-    expect(result.current.items).toEqual([
-      inventoryItem,
-      expect.objectContaining({ assetId: 'asset-3', name: 'Motor', inventorySource: 'asset' }),
-    ])
+    expect(result.current.items).toEqual([inventoryItem])
   })
 
   it('debe eliminar un item y recargar la lista', async () => {
@@ -113,7 +87,7 @@ describe('useInventory hook', () => {
     })
   })
 
-  it('debe actualizar stock de activos derivados usando endpoint de activos', async () => {
+  it('debe bloquear ajustes de stock sobre filas derivadas de activos', async () => {
     const assetRow = {
       _id: 'asset-asset-1',
       assetId: 'asset-1',
@@ -130,13 +104,13 @@ describe('useInventory hook', () => {
     const { result } = renderHook(() => useInventory())
 
     await act(async () => {
-      await result.current.adjustStock(assetRow, 3, 'entry', 'Reposición')
+      await expect(result.current.adjustStock(assetRow, 3, 'entry', 'Reposición'))
+        .rejects.toThrow('No se puede ajustar stock sobre filas derivadas de activos')
     })
 
-    expect(services.updateInventoryAssetStock).toHaveBeenCalledWith('asset-1', 7)
-    expect(services.createInventoryMovement).not.toHaveBeenCalled()
+    expect(services.createInventoryAdjustment).not.toHaveBeenCalled()
     expect(services.updateInventoryItem).not.toHaveBeenCalled()
-    expect(services.fetchInventoryItems).toHaveBeenCalled()
+    expect(services.fetchInventoryItems).not.toHaveBeenCalled()
   })
 
   it('debe actualizar stock de items reales de inventario sin usar id sintético', async () => {
@@ -157,12 +131,12 @@ describe('useInventory hook', () => {
       await result.current.adjustStock(inventoryRow, 2, 'exit', 'Uso')
     })
 
-    expect(services.createInventoryMovement).toHaveBeenCalledWith(expect.objectContaining({
+    expect(services.createInventoryAdjustment).toHaveBeenCalledWith(expect.objectContaining({
       inventoryItemId: 'inventory-1',
-      beforeStock: 5,
-      afterStock: 3,
+      type: 'exit',
+      quantity: 2,
+      reason: 'Uso',
     }))
-    expect(services.updateInventoryItem).toHaveBeenCalledWith('inventory-1', { currentStock: 3 })
-    expect(services.updateInventoryAssetStock).not.toHaveBeenCalled()
+    expect(services.updateInventoryItem).not.toHaveBeenCalled()
   })
 })

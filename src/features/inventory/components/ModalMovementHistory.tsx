@@ -49,10 +49,23 @@ export const ModalMovementHistory: React.FC<ModalMovementHistoryProps> = ({
       width: '15%'
     },
     {
-      key: 'afterStock',
+      key: 'beforeAfter',
       header: t('inventory.stock'),
+      render: (m: InventoryMovement) => `${m.beforeStock ?? '-'} → ${m.afterStock ?? '-'}`,
       align: 'center' as const,
-      width: '15%'
+      width: '18%'
+    },
+    {
+      key: 'afterStock',
+      header: t('inventory.reference', { defaultValue: 'Referencia' }),
+      render: (m: InventoryMovement) => {
+        if (!m.referenceType) return '-'
+        const refType = m.referenceType === 'work_order'
+          ? t('workOrders.workOrder', { defaultValue: 'Orden de trabajo' })
+          : t('inventory.manualAdjustment', { defaultValue: 'Ajuste manual' })
+        return `${refType}: ${m.referenceId ?? '-'}`
+      },
+      width: '25%'
     },
     {
         key: 'performedBy',
@@ -63,7 +76,7 @@ export const ModalMovementHistory: React.FC<ModalMovementHistoryProps> = ({
 
   return (
     <div className={styles.backdrop}>
-      <div className={styles.modal} style={{ maxWidth: '800px' }}>
+      <div className={styles.modal}>
         <div className={styles.modalHeader}>
           <h2 className={styles.title}>{t('inventory.history')}: {item.name}</h2>
           <button onClick={onRequestClose} className={styles.closeButton}>
@@ -71,8 +84,8 @@ export const ModalMovementHistory: React.FC<ModalMovementHistoryProps> = ({
           </button>
         </div>
 
-        <div className={styles.modalContent} style={{ padding: '1.5rem' }}>
-          <div style={{ maxHeight: '60vh', overflowY: 'auto' }}>
+        <div className={styles.modalContent}>
+          <div className={styles.tableContainer}>
             <DataTable
                 data={movements}
                 columns={columns}

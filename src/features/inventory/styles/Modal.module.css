@@ -38,6 +38,16 @@
   position: relative;
 }
 
+.modalNarrow {
+  max-width: 500px;
+}
+
+.tableContainer {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
 @keyframes slideUp {
   from {
     opacity: 0;

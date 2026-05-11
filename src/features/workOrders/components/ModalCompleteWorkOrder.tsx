@@ -64,23 +64,62 @@ const ModalCompleteWorkOrder = ({
 
   const [selectedInventoryItem, setSelectedInventoryItem] = useState("")
   const [itemQuantity, setItemQuantity] = useState(1)
+  const [inventoryError, setInventoryError] = useState("")
+
+  const selectedInventoryStock = useMemo(() => {
+    const selectedItem = inventoryItems.find((item) => item._id === selectedInventoryItem)
+    return selectedItem?.currentStock ?? 0
+  }, [inventoryItems, selectedInventoryItem])
+
+  const getAlreadySelectedQuantity = (inventoryItemId: string): number => {
+    return completionData.inventoryPartsUsed
+      .filter((part) => part.inventoryItemId === inventoryItemId)
+      .reduce((acc, part) => acc + Number(part.quantity), 0)
+  }
 
   const addPart = () => {
     if (!selectedInventoryItem) return
     const item = inventoryItems.find(i => i._id === selectedInventoryItem)
     if (!item || !item._id) return
 
+    const normalizedQuantity = Number(itemQuantity)
+    if (!Number.isFinite(normalizedQuantity) || normalizedQuantity <= 0) {
+      setInventoryError(t('inventory.invalidQuantity', { defaultValue: 'La cantidad debe ser mayor a cero' }))
+      return
+    }
+
+    const alreadySelectedQuantity = getAlreadySelectedQuantity(item._id)
+    const totalRequested = alreadySelectedQuantity + normalizedQuantity
+    if (totalRequested > item.currentStock) {
+      setInventoryError(
+        t('inventory.insufficientStockDetailed', {
+          defaultValue: 'Stock insuficiente para {{item}}. Disponible: {{available}}, solicitado: {{requested}}',
+          item: item.name,
+          available: item.currentStock,
+          requested: totalRequested,
+        }),
+      )
+      return
+    }
+
     const newPart: InventoryPartUsed = {
       inventoryItemId: item._id,
       nameSnapshot: item.name,
       unit: item.unit,
-      quantity: itemQuantity
+      quantity: normalizedQuantity
     }
 
     setCompletionData(prev => ({
       ...prev,
-      inventoryPartsUsed: [...prev.inventoryPartsUsed, newPart]
+      inventoryPartsUsed: prev.inventoryPartsUsed.some((part) => part.inventoryItemId === newPart.inventoryItemId)
+        ? prev.inventoryPartsUsed.map((part) =>
+            part.inventoryItemId === newPart.inventoryItemId
+              ? { ...part, quantity: part.quantity + newPart.quantity }
+              : part,
+          )
+        : [...prev.inventoryPartsUsed, newPart]
     }))
+    setInventoryError("")
     setSelectedInventoryItem("")
     setItemQuantity(1)
   }
@@ -90,6 +129,7 @@ const ModalCompleteWorkOrder = ({
       ...prev,
       inventoryPartsUsed: prev.inventoryPartsUsed.filter((_, i) => i !== index)
     }))
+    setInventoryError("")
   }
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -222,9 +262,28 @@ const ModalCompleteWorkOrder = ({
       return
     }
 
+    for (const part of completionData.inventoryPartsUsed) {
+      const item = inventoryItems.find((inventoryItem) => inventoryItem._id === part.inventoryItemId)
+      if (!item) {
+        setError(t('inventory.itemNotFound', { defaultValue: 'El item de inventario ya no está disponible' }))
+        return
+      }
+
+      if (part.quantity > item.currentStock) {
+        setError(
+          t('inventory.insufficientStockDetailed', {
+            defaultValue: 'Stock insuficiente para {{item}}. Disponible: {{available}}, solicitado: {{requested}}',
+            item: part.nameSnapshot,
+            available: item.currentStock,
+            requested: part.quantity,
+          }),
+        )
+        return
+      }
+    }
+
     setIsSubmitting(true)
     try {
-      // Sync legacy materialesUtilizados from inventoryPartsUsed for compatibility
       const updatedCompletionData = {
         ...completionData,
         materialesUtilizados: completionData.inventoryPartsUsed.map(
@@ -412,7 +471,12 @@ const ModalCompleteWorkOrder = ({
                   <input 
                     type="number"
                     value={itemQuantity}
-                    onChange={(e) => setItemQuantity(Number(e.target.value))}
+                    onChange={(e) => {
+                      setItemQuantity(Number(e.target.value))
+                      if (inventoryError) {
+                        setInventoryError("")
+                      }
+                    }}
                     min={1}
                     className="w-20 p-2 border border-gray-300 rounded"
                     disabled={isSubmitting}
@@ -427,6 +491,14 @@ const ModalCompleteWorkOrder = ({
                     <Plus size={20} />
                   </button>
                 </div>
+
+                {selectedInventoryItem && (
+                  <p className={styles.helperText}>
+                    {t('inventory.availableStock', { defaultValue: 'Stock disponible' })}: {selectedInventoryStock}
+                  </p>
+                )}
+
+                {inventoryError && <p className={styles.inputError}>{inventoryError}</p>}
 
                 {completionData.inventoryPartsUsed.length > 0 && (
                   <ul className="space-y-1 mb-4">

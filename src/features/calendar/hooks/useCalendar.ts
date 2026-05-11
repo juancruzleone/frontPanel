@@ -72,7 +72,7 @@ const useCalendar = () => {
       const data = await fetchTechnicians()
       setTechnicians(data)
       return data
-    } catch (_err: unknown) {
+    } catch (err: unknown) {
       setTechnicians([])
       return []
     }
@@ -85,7 +85,7 @@ const useCalendar = () => {
       const workOrdersData = await fetchWorkOrders(filters)
       setWorkOrders(workOrdersData as WorkOrder[])
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Error al cargar órdenes de trabajo")
+      setError((err as Error).message)
     } finally {
       setLoading(false)
     }
