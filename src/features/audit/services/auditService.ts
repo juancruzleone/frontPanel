@@ -16,6 +16,7 @@ export const auditService = {
       const response = await fetch(`${API_URL}audit-logs`, {
         method: 'GET',
         headers: getAuthHeaders(),
+        credentials: 'include',
       })
 
       if (!response.ok) {
@@ -31,7 +32,6 @@ export const auditService = {
         // Expected fallback, do not pollute console
         throw error
       }
-      console.error('Audit service error:', error)
       throw error
     }
   }
