@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import useWorkOrders from '../../../../src/features/workOrders/hooks/useWorkOrders';
 import * as workOrderServices from '../../../../src/features/workOrders/services/workOrderServices';
+import { useWorkOrderStore } from '../../../../src/store/workOrderStore';
 
 vi.mock('../../../../src/features/workOrders/services/workOrderServices');
 vi.mock('../../../../src/features/workOrders/services/technicianServices');
@@ -15,6 +16,7 @@ vi.mock('react-i18next', () => ({
 describe('useWorkOrders hook', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    useWorkOrderStore.setState({ workOrders: [], lastUpdated: null, ownerId: null });
   });
 
   it('should throw error when editing to status "asignada" without technicians', async () => {
@@ -77,5 +79,33 @@ describe('useWorkOrders hook', () => {
     await result.current.editWorkOrder('123', workOrder);
     
     expect(workOrderServices.updateWorkOrder).toHaveBeenCalled();
+  });
+
+  it('keeps loadWorkOrders stable after storing fetched orders', async () => {
+    vi.mocked(workOrderServices.fetchWorkOrders).mockResolvedValue({
+      data: [
+        {
+          _id: 'wo-1',
+          titulo: 'Orden 1',
+          descripcion: 'Descripción',
+          instalacionId: 'inst1',
+          estado: 'pendiente',
+          prioridad: 'media',
+          tipoTrabajo: 'mantenimiento',
+          fechaProgramada: '2026-05-01',
+          horaProgramada: '10:00',
+        } as any,
+      ],
+      pagination: { total: 1, page: 1, limit: 10, totalPages: 1 },
+    });
+
+    const { result } = renderHook(() => useWorkOrders());
+    const initialLoadWorkOrders = result.current.loadWorkOrders;
+
+    await act(async () => {
+      await result.current.loadWorkOrders(1, 10, {});
+    });
+
+    expect(result.current.loadWorkOrders).toBe(initialLoadWorkOrders);
   });
 });

@@ -227,7 +227,7 @@ const useWorkOrders = () => {
     } finally {
       setLoading(false)
     }
-  }, [storedWorkOrders, setWorkOrders])
+  }, [setWorkOrders])
 
   const loadInstallations = useCallback(async () => {
     setLoadingInstallations(true)
