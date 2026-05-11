@@ -4,6 +4,7 @@ import { FileText, Calendar, Building2, MapPin, Wrench, History, ExternalLink } 
 import { getPublicDeviceForm, getPublicMaintenanceHistory, type MaintenanceRecord } from "../features/deviceForms/services/maintenanceHistoryService"
 import styles from "../features/deviceForms/styles/publicDeviceView.module.css"
 import { openSafeUrl } from "../utils/sanitizer"
+import { useTranslation } from "react-i18next"
 
 interface DeviceInfo {
   _id: string
@@ -34,11 +35,12 @@ const PublicDeviceViewPage: React.FC = () => {
   const [maintenanceHistory, setMaintenanceHistory] = useState<MaintenanceRecord[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const { t, i18n } = useTranslation()
 
   useEffect(() => {
     const fetchData = async () => {
       if (!installationId || !deviceId) {
-        setError("Parámetros inválidos")
+        setError(t('publicDevice.invalidParams', 'Parámetros inválidos'))
         setLoading(false)
         return
       }
@@ -56,19 +58,20 @@ const PublicDeviceViewPage: React.FC = () => {
         setMaintenanceHistory(history)
         
         setLoading(false)
-      } catch (err) {
-        setError("No se pudo cargar la información del dispositivo")
+      } catch {
+        setError(t('publicDevice.loadError', 'No se pudo cargar la información del dispositivo'))
         setLoading(false)
       }
     }
 
     fetchData()
-  }, [installationId, deviceId])
+  }, [installationId, deviceId, t])
 
   const formatDate = (dateString: string) => {
-    if (!dateString) return 'N/A'
+    if (!dateString) return null
     const date = new Date(dateString)
-    return date.toLocaleDateString('es-ES', {
+    if (Number.isNaN(date.getTime())) return null
+    return date.toLocaleDateString(i18n.language || 'es', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
@@ -81,12 +84,20 @@ const PublicDeviceViewPage: React.FC = () => {
     openSafeUrl(pdfUrl)
   }
 
+  const getMaintenanceDisplayDate = (maintenance: MaintenanceRecord) => {
+    if (maintenance.date) {
+      const formattedDate = formatDate(maintenance.date)
+      if (formattedDate) return formattedDate
+    }
+    return maintenance.formattedDate || 'N/A'
+  }
+
   if (loading) {
     return (
       <div className={styles.container}>
         <div className={styles.loader}>
           <div className={styles.spinner}></div>
-          <p>Cargando información del dispositivo...</p>
+          <p>{t('publicDevice.loading', 'Cargando información del dispositivo...')}</p>
         </div>
       </div>
     )
@@ -97,8 +108,8 @@ const PublicDeviceViewPage: React.FC = () => {
       <div className={styles.container}>
         <div className={styles.error}>
           <Wrench size={48} />
-          <h2>Error</h2>
-          <p>{error || "No se encontró el dispositivo"}</p>
+          <h2>{t('common.error', 'Error')}</h2>
+          <p>{error || t('publicDevice.notFound', 'No se encontró el dispositivo')}</p>
         </div>
       </div>
     )
@@ -110,8 +121,8 @@ const PublicDeviceViewPage: React.FC = () => {
         <div className={styles.headerIcon}>
           <Wrench size={32} />
         </div>
-        <h1>Información del Dispositivo</h1>
-        <p>Vista pública de mantenimientos</p>
+        <h1>{t('publicDevice.title', 'Información del Dispositivo')}</h1>
+        <p>{t('publicDevice.subtitle', 'Vista pública de mantenimientos')}</p>
       </div>
 
       {/* Información de la instalación */}
@@ -119,11 +130,11 @@ const PublicDeviceViewPage: React.FC = () => {
         <div className={styles.card}>
           <div className={styles.cardHeader}>
             <Building2 size={20} />
-            <h2>Instalación</h2>
+            <h2>{t('publicDevice.installation', 'Instalación')}</h2>
           </div>
           <div className={styles.cardContent}>
             <div className={styles.infoRow}>
-              <strong>Empresa:</strong>
+              <strong>{t('publicDevice.company', 'Empresa')}:</strong>
               <span>{installationInfo.company}</span>
             </div>
             <div className={styles.infoRow}>
@@ -131,7 +142,7 @@ const PublicDeviceViewPage: React.FC = () => {
               <span>{installationInfo.fullAddress}</span>
             </div>
             <div className={styles.infoRow}>
-              <strong>Tipo:</strong>
+              <strong>{t('publicDevice.type', 'Tipo')}:</strong>
               <span>{installationInfo.installationType}</span>
             </div>
           </div>
@@ -142,31 +153,31 @@ const PublicDeviceViewPage: React.FC = () => {
       <div className={styles.card}>
         <div className={styles.cardHeader}>
           <Wrench size={20} />
-          <h2>Detalles del Dispositivo</h2>
+          <h2>{t('publicDevice.deviceDetails', 'Detalles del Dispositivo')}</h2>
         </div>
         <div className={styles.cardContent}>
           <div className={styles.infoRow}>
-            <strong>Nombre:</strong>
+            <strong>{t('publicDevice.name', 'Nombre')}:</strong>
             <span>{deviceInfo.nombre}</span>
           </div>
           <div className={styles.infoRow}>
-            <strong>Ubicación:</strong>
+            <strong>{t('publicDevice.location', 'Ubicación')}:</strong>
             <span>{deviceInfo.ubicacion}</span>
           </div>
           <div className={styles.infoRow}>
-            <strong>Categoría:</strong>
+            <strong>{t('publicDevice.category', 'Categoría')}:</strong>
             <span>{deviceInfo.categoria}</span>
           </div>
           <div className={styles.infoRow}>
-            <strong>Marca:</strong>
+            <strong>{t('publicDevice.brand', 'Marca')}:</strong>
             <span>{deviceInfo.marca}</span>
           </div>
           <div className={styles.infoRow}>
-            <strong>Modelo:</strong>
+            <strong>{t('publicDevice.model', 'Modelo')}:</strong>
             <span>{deviceInfo.modelo}</span>
           </div>
           <div className={styles.infoRow}>
-            <strong>N° Serie:</strong>
+            <strong>{t('publicDevice.serialNumber', 'N° Serie')}:</strong>
             <span>{deviceInfo.numeroSerie}</span>
           </div>
         </div>
@@ -177,17 +188,17 @@ const PublicDeviceViewPage: React.FC = () => {
         <div className={styles.card}>
           <div className={styles.cardHeader}>
             <FileText size={20} />
-            <h2>Último Mantenimiento Realizado</h2>
+            <h2>{t('publicDevice.lastMaintenance', 'Último Mantenimiento Realizado')}</h2>
           </div>
           <div className={styles.cardContent}>
             <div className={styles.lastMaintenance}>
               <div className={styles.lastMaintenanceDate}>
                 <Calendar size={20} />
-                <span>{maintenanceHistory[0].formattedDate || formatDate(maintenanceHistory[0].date)}</span>
+                <span>{getMaintenanceDisplayDate(maintenanceHistory[0])}</span>
               </div>
               {maintenanceHistory[0].responses?.observaciones && (
                 <div className={styles.lastMaintenanceObs}>
-                  <strong>Observaciones:</strong>
+                  <strong>{t('publicDevice.observationsLabel', 'Observaciones')}:</strong>
                   <p>{maintenanceHistory[0].responses.observaciones}</p>
                 </div>
               )}
@@ -196,7 +207,7 @@ const PublicDeviceViewPage: React.FC = () => {
                 onClick={() => handleOpenPDF(maintenanceHistory[0].pdfUrl)}
               >
                 <FileText size={24} />
-                <span>Ver Reporte de Mantenimiento</span>
+                <span>{t('publicDevice.viewReport', 'Ver Reporte de Mantenimiento')}</span>
                 <ExternalLink size={20} />
               </button>
             </div>
@@ -209,7 +220,7 @@ const PublicDeviceViewPage: React.FC = () => {
         <div className={styles.card}>
           <div className={styles.cardHeader}>
             <History size={20} />
-            <h2>Historial Completo</h2>
+            <h2>{t('publicDevice.completeHistory', 'Historial Completo')}</h2>
             <span className={styles.badge}>{maintenanceHistory.length}</span>
           </div>
           <div className={styles.cardContent}>
@@ -219,17 +230,17 @@ const PublicDeviceViewPage: React.FC = () => {
                   <div className={styles.maintenanceHeader}>
                     <div className={styles.maintenanceNumber}>
                       <FileText size={18} />
-                      <span>Mantenimiento #{maintenanceHistory.length - index}</span>
+                      <span>{t('publicDevice.maintenanceN', 'Mantenimiento')} #{maintenanceHistory.length - index}</span>
                     </div>
                     <div className={styles.maintenanceDate}>
                       <Calendar size={16} />
-                      <span>{maintenance.formattedDate || formatDate(maintenance.date)}</span>
+                      <span>{getMaintenanceDisplayDate(maintenance)}</span>
                     </div>
                   </div>
                   
                   {maintenance.responses?.observaciones && (
                     <div className={styles.maintenanceBody}>
-                      <strong>Observaciones:</strong>
+<strong>{t('publicDevice.observations', 'Observaciones')}:</strong>
                       <p>{maintenance.responses.observaciones}</p>
                     </div>
                   )}
@@ -239,7 +250,7 @@ const PublicDeviceViewPage: React.FC = () => {
                     onClick={() => handleOpenPDF(maintenance.pdfUrl)}
                   >
                     <FileText size={18} />
-                    Ver Reporte PDF
+                    {t('publicDevice.viewPdfReport', 'Ver Reporte PDF')}
                     <ExternalLink size={16} />
                   </button>
                 </div>
@@ -250,7 +261,7 @@ const PublicDeviceViewPage: React.FC = () => {
       )}
 
       <div className={styles.footer}>
-        <p>Sistema de Gestión de Mantenimiento (GMAO)</p>
+        <p>{t('publicDevice.footer', 'Sistema de Gestión de Mantenimiento (GMAO)')}</p>
       </div>
     </div>
   )

@@ -289,6 +289,7 @@
     "continue": "متابعة",
     "backToAssets": "العودة إلى الأصول",
     "loading": "جاري التحميل...",
+    "noData": "لا توجد بيانات للعرض",
     "update": "تحديث",
     "error": "خطأ",
     "success": "نجح",
@@ -321,7 +322,11 @@
     "noDataAvailable": "لا توجد بيانات متاحة",
     "retry": "إعادة المحاولة",
     "all": "الكل",
-    "optional": "اختياري"
+    "optional": "اختياري",
+    "syncing": "جارٍ مزامنة التغييرات المعلقة...",
+    "syncComplete": "اكتملت المزامنة",
+    "syncValidationDiscarded": "خطأ في التحقق ({{type}}). تم تجاهله.",
+    "syncElementDiscarded": "خطأ أثناء مزامنة العنصر ({{type}}). تم تجاهله."
   },
   "notifications": {
     "title": "الإشعارات",
@@ -2073,5 +2078,31 @@
       "nameRequired": "اسم المورد مطلوب",
       "emailInvalid": "البريد الإلكتروني غير صالح"
     }
+  },
+  "publicDevice": {
+    "invalidParams": "معلمات غير صالحة",
+    "loadError": "تعذر تحميل معلومات الجهاز",
+    "loading": "جاري تحميل معلومات الجهاز...",
+    "notFound": "لم يتم العثور على الجهاز",
+    "title": "معلومات الجهاز",
+    "subtitle": "عرض عام للصيانة",
+    "installation": "المنشأة",
+    "company": "الشركة",
+    "type": "النوع",
+    "deviceDetails": "تفاصيل الجهاز",
+    "name": "الاسم",
+    "location": "الموقع",
+    "category": "الفئة",
+    "brand": "العلامة التجارية",
+    "model": "الطراز",
+    "serialNumber": "الرقم التسلسلي",
+    "lastMaintenance": "آخر صيانة مُنجزة",
+    "observationsLabel": "الملاحظات",
+    "viewReport": "عرض تقرير الصيانة",
+    "completeHistory": "السجل الكامل",
+    "maintenanceN": "صيانة",
+    "observations": "الملاحظات",
+    "viewPdfReport": "عرض تقرير PDF",
+    "footer": "نظام إدارة الصيانة (GMAO)"
   }
 }

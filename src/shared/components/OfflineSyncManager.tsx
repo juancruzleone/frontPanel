@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { useOfflineStore } from '../../store/offlineStore'
 import { useAuthStore } from '../../store/authStore'
 import { useWorkOrderStore } from '../../store/workOrderStore'
@@ -20,78 +20,22 @@ import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
 
 const SYNC_LOCK_KEY = 'sync_lock_timestamp'
+const LOCK_TIMEOUT_MS = 10000
 const MAX_RETRIES = 3
 
 export const OfflineSyncManager = () => {
-  const queue = useOfflineStore(state => state.queue)
   const removeFromQueue = useOfflineStore(state => state.removeFromQueue)
   const updateRequest = useOfflineStore(state => state.updateRequest)
   const remapPayloadId = useOfflineStore(state => state.remapPayloadId)
+  const queueLength = useOfflineStore(state => state.queue.length)
   
   const isAuthenticated = useAuthStore(state => state.isAuthenticated)
   const { t } = useTranslation()
   const isSyncing = useRef(false)
   const retryTimeoutRef = useRef<number | null>(null)
+  const syncQueueRef = useRef<() => Promise<void>>(async () => {})
 
-  useEffect(() => {
-    const handleOnline = () => {
-      if (retryTimeoutRef.current) {
-        window.clearTimeout(retryTimeoutRef.current)
-        retryTimeoutRef.current = null
-      }
-      syncQueue()
-    }
-
-    window.addEventListener('online', handleOnline)
-    // También intentar sincronizar al montar o cuando auth cambie si ya estamos online
-    if (navigator.onLine && isAuthenticated) {
-      syncQueue()
-    }
-
-    return () => {
-      window.removeEventListener('online', handleOnline)
-      if (retryTimeoutRef.current) {
-        window.clearTimeout(retryTimeoutRef.current)
-      }
-    }
-  }, [isAuthenticated]) // re-run if auth changes
-
-  useEffect(() => {
-    const currentUserId = useAuthStore.getState().userId
-    const hasMyItems = queue.some(r => r.userId === currentUserId)
-    // If we have items in the queue and we are online and authenticated, and not syncing, trigger sync.
-    // This drains the queue if items are added while online but sync was stopped.
-    if (navigator.onLine && isAuthenticated && hasMyItems && !isSyncing.current) {
-      syncQueue()
-    }
-  }, [queue.length, isAuthenticated])
-
-  const syncQueue = async () => {
-    if (isSyncing.current || !isAuthenticated || useOfflineStore.getState().queue.length === 0 || !navigator.onLine) return
-
-    // Attempt to use Web Locks API if available
-    if (navigator.locks) {
-      navigator.locks.request('offline-sync', { ifAvailable: true }, async (lock) => {
-        if (!lock) {
-          // Locked by another tab
-          return
-        }
-        await performSync()
-      })
-    } else {
-      // Fallback to localStorage lock
-      const now = Date.now()
-      const lock = localStorage.getItem(SYNC_LOCK_KEY)
-      if (lock && now - parseInt(lock, 10) < 10000) {
-        // Locked by another tab recently
-        return
-      }
-      localStorage.setItem(SYNC_LOCK_KEY, now.toString())
-      await performSync()
-    }
-  }
-
-  const performSync = async () => {
+  const performSync = useCallback(async () => {
     isSyncing.current = true
     let hasTransientError = false
     
@@ -213,14 +157,20 @@ export const OfflineSyncManager = () => {
           if (isClientError) {
             // Poison pill, remove it immediately
             removeFromQueue(request.id)
-            toast.error(`Error de validación (${request.type}). Descartado.`)
+            toast.error(t('common.syncValidationDiscarded', {
+              type: request.type,
+              defaultValue: 'Error de validación ({{type}}). Descartado.'
+            }))
             continue // go to next item
           } else {
             // Unknown error, try a few times then drop
             const retries = (request.retries || 0) + 1
             if (retries >= MAX_RETRIES) {
               removeFromQueue(request.id)
-              toast.error(`Error sincronizando elemento (${request.type}). Descartado.`)
+               toast.error(t('common.syncElementDiscarded', {
+                 type: request.type,
+                 defaultValue: 'Error sincronizando elemento ({{type}}). Descartado.'
+               }))
               continue
             } else {
               updateRequest(request.id, { retries })
@@ -243,7 +193,7 @@ export const OfflineSyncManager = () => {
           window.clearTimeout(retryTimeoutRef.current)
         }
         retryTimeoutRef.current = window.setTimeout(() => {
-          syncQueue()
+          void syncQueueRef.current()
         }, backoff)
       } else if (!hasTransientError && !useOfflineStore.getState().queue.some(r => r.userId === currentUserIdForToast)) {
         if (retryTimeoutRef.current) {
@@ -255,7 +205,69 @@ export const OfflineSyncManager = () => {
         }
       }
     }
-  }
+  }, [remapPayloadId, removeFromQueue, t, updateRequest])
+
+  const syncQueue = useCallback(async () => {
+    if (isSyncing.current || !isAuthenticated || useOfflineStore.getState().queue.length === 0 || !navigator.onLine) return
+
+    // Attempt to use Web Locks API if available
+    if (navigator.locks) {
+      navigator.locks.request('offline-sync', { ifAvailable: true }, async (lock) => {
+        if (!lock) {
+          // Locked by another tab
+          return
+        }
+        await performSync()
+      })
+    } else {
+      // Fallback to localStorage lock with expiry
+      const now = Date.now()
+      const lock = localStorage.getItem(SYNC_LOCK_KEY)
+      if (lock && now - parseInt(lock, 10) < LOCK_TIMEOUT_MS) {
+        // Locked by another tab recently
+        return
+      }
+      localStorage.setItem(SYNC_LOCK_KEY, now.toString())
+      await performSync()
+    }
+  }, [isAuthenticated, performSync])
+
+  useEffect(() => {
+    syncQueueRef.current = syncQueue
+  }, [syncQueue])
+
+  useEffect(() => {
+    const handleOnline = () => {
+      if (retryTimeoutRef.current) {
+        window.clearTimeout(retryTimeoutRef.current)
+        retryTimeoutRef.current = null
+      }
+      syncQueue()
+    }
+
+    window.addEventListener('online', handleOnline)
+    // También intentar sincronizar al montar o cuando auth cambie si ya estamos online
+    if (navigator.onLine && isAuthenticated) {
+      syncQueue()
+    }
+
+    return () => {
+      window.removeEventListener('online', handleOnline)
+      if (retryTimeoutRef.current) {
+        window.clearTimeout(retryTimeoutRef.current)
+      }
+    }
+  }, [isAuthenticated, syncQueue]) // re-run if auth or translations change
+
+  useEffect(() => {
+    const queueRef = useOfflineStore.getState().queue
+    const authRef = useAuthStore.getState()
+    const currentUserId = authRef.userId
+    const hasMyItems = queueRef.some(r => r.userId === currentUserId)
+    if (navigator.onLine && authRef.isAuthenticated && hasMyItems && !isSyncing.current) {
+      syncQueue()
+    }
+  }, [isAuthenticated, syncQueue, queueLength])
 
   return null
 }

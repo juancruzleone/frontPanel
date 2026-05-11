@@ -24,9 +24,7 @@ const useInstallationTypes = () => {
   const { isAuthenticated } = useAuthStore()
 
   const loadInstallationTypes = useCallback(async (includeInactive = false) => {
-    // No intentar cargar si no está autenticado
     if (!isAuthenticated) {
-      console.log('Usuario no autenticado, no se cargarán tipos de instalación')
       return
     }
 
@@ -108,7 +106,6 @@ const useInstallationTypes = () => {
       installationTypes.length === 0 && 
       error === null
     ) {
-      console.log('No se encontraron tipos de instalación activos, intentando cargar todos...')
       loadInstallationTypes(true)
     }
   }, [isAuthenticated, loading, installationTypes.length, error, loadInstallationTypes])

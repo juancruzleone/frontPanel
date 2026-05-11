@@ -17,12 +17,12 @@ const clearLegacyAuthStorage = () => {
     const stored = window.sessionStorage.getItem(AUTH_STORAGE_KEY)
     if (stored) {
       const parsed = JSON.parse(stored)
-      if (parsed.state && (parsed.state.token !== undefined || parsed.state.token !== null)) {
+      if (parsed.state && (parsed.state.token !== undefined && parsed.state.token !== null)) {
         delete parsed.state.token
         window.sessionStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(parsed))
       }
     }
-  } catch (error) {
+  } catch {
     // Silently fail if parsing fails
   }
 }

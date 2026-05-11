@@ -87,6 +87,26 @@
   text-overflow: ellipsis;
 }
 
+.alignLeft {
+  text-align: left;
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+.alignRight {
+  text-align: right;
+}
+
+.clickableRow {
+  cursor: pointer;
+}
+
+.staticRow {
+  cursor: default;
+}
+
 .emptyCell {
   padding: 48px 16px;
   text-align: center;

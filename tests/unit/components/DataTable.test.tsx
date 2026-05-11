@@ -82,9 +82,9 @@ describe('DataTable Component', () => {
 
       const { container } = render(<DataTable data={mockData} columns={columnsWithWidth} />)
       
-      const headers = container.querySelectorAll('th')
-      expect(headers[0]).toHaveStyle({ width: '200px' })
-      expect(headers[1]).toHaveStyle({ width: '300px' })
+      const cols = container.querySelectorAll('colgroup col')
+      expect(cols[0]).toHaveAttribute('width', '200px')
+      expect(cols[1]).toHaveAttribute('width', '300px')
     })
 
     it('should apply custom alignment', () => {

@@ -288,6 +288,7 @@
     "successTitle": "Operation successful!",
     "understood": "Close",
     "loading": "Loading...",
+    "noData": "No data to display",
     "error": "Error",
     "success": "Success",
     "cancel": "Cancel",
@@ -350,7 +351,11 @@
     "adding": "Adding...",
     "backToAssets": "Back to assets",
     "page": "Page",
-    "of": "of"
+    "of": "of",
+    "syncing": "Syncing pending changes...",
+    "syncComplete": "Synchronization complete",
+    "syncValidationDiscarded": "Validation error ({{type}}). Discarded.",
+    "syncElementDiscarded": "Error syncing item ({{type}}). Discarded."
   },
   "notifications": {
     "title": "Notifications",
@@ -2183,5 +2188,31 @@
       "loadFailed": "Error loading requests",
       "cancelFailed": "Error cancelling request"
     }
+  },
+  "publicDevice": {
+    "invalidParams": "Invalid parameters",
+    "loadError": "Could not load device information",
+    "loading": "Loading device information...",
+    "notFound": "Device not found",
+    "title": "Device Information",
+    "subtitle": "Public maintenance view",
+    "installation": "Installation",
+    "company": "Company",
+    "type": "Type",
+    "deviceDetails": "Device Details",
+    "name": "Name",
+    "location": "Location",
+    "category": "Category",
+    "brand": "Brand",
+    "model": "Model",
+    "serialNumber": "Serial No.",
+    "lastMaintenance": "Latest Completed Maintenance",
+    "observationsLabel": "Observations",
+    "viewReport": "View Maintenance Report",
+    "completeHistory": "Complete History",
+    "maintenanceN": "Maintenance",
+    "observations": "Observations",
+    "viewPdfReport": "View PDF Report",
+    "footer": "Maintenance Management System (GMAO)"
   }
 }

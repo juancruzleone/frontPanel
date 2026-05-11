@@ -287,6 +287,7 @@
     "continue": "Continuer",
     "backToAssets": "Retour aux actifs",
     "loading": "Chargement...",
+    "noData": "Aucune donnée à afficher",
     "error": "Erreur",
     "success": "Succès",
     "cancel": "Annuler",
@@ -318,7 +319,11 @@
     "noDataAvailable": "Aucune donnée disponible",
     "retry": "Réessayer",
     "all": "Toutes",
-    "optional": "facultatif"
+    "optional": "facultatif",
+    "syncing": "Synchronisation des changements en attente...",
+    "syncComplete": "Synchronisation terminée",
+    "syncValidationDiscarded": "Erreur de validation ({{type}}). Ignoré.",
+    "syncElementDiscarded": "Erreur lors de la synchronisation de l'élément ({{type}}). Ignoré."
   },
   "notifications": {
     "title": "Notifications",
@@ -2060,5 +2065,31 @@
       "nameRequired": "Le nom du fournisseur est obligatoire",
       "emailInvalid": "E-mail non valide"
     }
+  },
+  "publicDevice": {
+    "invalidParams": "Paramètres invalides",
+    "loadError": "Impossible de charger les informations de l'équipement",
+    "loading": "Chargement des informations de l'équipement...",
+    "notFound": "Équipement introuvable",
+    "title": "Informations de l'équipement",
+    "subtitle": "Vue publique des maintenances",
+    "installation": "Installation",
+    "company": "Entreprise",
+    "type": "Type",
+    "deviceDetails": "Détails de l'équipement",
+    "name": "Nom",
+    "location": "Emplacement",
+    "category": "Catégorie",
+    "brand": "Marque",
+    "model": "Modèle",
+    "serialNumber": "N° de série",
+    "lastMaintenance": "Dernière maintenance effectuée",
+    "observationsLabel": "Observations",
+    "viewReport": "Voir le rapport de maintenance",
+    "completeHistory": "Historique complet",
+    "maintenanceN": "Maintenance",
+    "observations": "Observations",
+    "viewPdfReport": "Voir le rapport PDF",
+    "footer": "Système de gestion de maintenance (GMAO)"
   }
 }

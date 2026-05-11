@@ -290,6 +290,7 @@
     "continue": "继续",
     "backToAssets": "返回资产",
     "loading": "加载中...",
+    "noData": "没有可显示的数据",
     "error": "错误",
     "success": "成功",
     "cancel": "取消",
@@ -321,7 +322,11 @@
     "noDataAvailable": "暂无数据",
     "retry": "重试",
     "all": "全部",
-    "optional": "可选"
+    "optional": "可选",
+    "syncing": "正在同步待处理的更改...",
+    "syncComplete": "同步完成",
+    "syncValidationDiscarded": "验证错误 ({{type}})。已丢弃。",
+    "syncElementDiscarded": "同步项目时出错 ({{type}})。已丢弃。"
   },
   "notifications": {
     "title": "通知",
@@ -2098,5 +2103,31 @@
       "nameRequired": "供应商名称为必填项",
       "emailInvalid": "无效的电子邮件"
     }
+  },
+  "publicDevice": {
+    "invalidParams": "参数无效",
+    "loadError": "无法加载设备信息",
+    "loading": "正在加载设备信息...",
+    "notFound": "未找到设备",
+    "title": "设备信息",
+    "subtitle": "公开维护视图",
+    "installation": "安装点",
+    "company": "公司",
+    "type": "类型",
+    "deviceDetails": "设备详情",
+    "name": "名称",
+    "location": "位置",
+    "category": "类别",
+    "brand": "品牌",
+    "model": "型号",
+    "serialNumber": "序列号",
+    "lastMaintenance": "最近完成的维护",
+    "observationsLabel": "备注",
+    "viewReport": "查看维护报告",
+    "completeHistory": "完整历史",
+    "maintenanceN": "维护",
+    "observations": "备注",
+    "viewPdfReport": "查看 PDF 报告",
+    "footer": "维护管理系统 (GMAO)"
   }
 }

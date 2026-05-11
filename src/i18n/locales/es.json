@@ -288,6 +288,7 @@
     "successTitle": "¡Operación exitosa!",
     "understood": "cerrar",
     "loading": "Cargando...",
+    "noData": "No hay datos para mostrar",
     "error": "Error",
     "success": "Éxito",
     "cancel": "Cancelar",
@@ -354,7 +355,11 @@
     "page": "Página",
     "of": "de",
     "assigning": "Asignando...",
-    "hello": "Hola"
+    "hello": "Hola",
+    "syncing": "Sincronizando cambios pendientes...",
+    "syncComplete": "Sincronización completada",
+    "syncValidationDiscarded": "Error de validación ({{type}}). Descartado.",
+    "syncElementDiscarded": "Error sincronizando elemento ({{type}}). Descartado."
   },
   "notifications": {
     "title": "Notificaciones",
@@ -2198,5 +2203,31 @@
       "loadFailed": "Error al cargar las solicitudes",
       "cancelFailed": "Error al cancelar la solicitud"
     }
+  },
+  "publicDevice": {
+    "invalidParams": "Parámetros inválidos",
+    "loadError": "No se pudo cargar la información del dispositivo",
+    "loading": "Cargando información del dispositivo...",
+    "notFound": "No se encontró el dispositivo",
+    "title": "Información del Dispositivo",
+    "subtitle": "Vista pública de mantenimientos",
+    "installation": "Instalación",
+    "company": "Empresa",
+    "type": "Tipo",
+    "deviceDetails": "Detalles del Dispositivo",
+    "name": "Nombre",
+    "location": "Ubicación",
+    "category": "Categoría",
+    "brand": "Marca",
+    "model": "Modelo",
+    "serialNumber": "N° Serie",
+    "lastMaintenance": "Último Mantenimiento Realizado",
+    "observationsLabel": "Observaciones",
+    "viewReport": "Ver Reporte de Mantenimiento",
+    "completeHistory": "Historial Completo",
+    "maintenanceN": "Mantenimiento",
+    "observations": "Observaciones",
+    "viewPdfReport": "Ver Reporte PDF",
+    "footer": "Sistema de Gestión de Mantenimiento (GMAO)"
   }
 }

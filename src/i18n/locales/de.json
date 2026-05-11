@@ -270,6 +270,7 @@
     "understood": "Schließen",
     "backToAssets": "Zurück zu assets",
     "loading": "Laden...",
+    "noData": "Keine Daten zum Anzeigen",
     "error": "Fehler",
     "success": "Erfolg",
     "cancel": "Abbrechen",
@@ -301,7 +302,11 @@
     "noDataAvailable": "Keine Daten verfügbar",
     "retry": "Wiederholen",
     "all": "Alle",
-    "optional": "optional"
+    "optional": "optional",
+    "syncing": "Ausstehende Änderungen werden synchronisiert...",
+    "syncComplete": "Synchronisierung abgeschlossen",
+    "syncValidationDiscarded": "Validierungsfehler ({{type}}). Verworfen.",
+    "syncElementDiscarded": "Fehler beim Synchronisieren des Elements ({{type}}). Verworfen."
   },
   "notifications": {
     "title": "Benachrichtigungen",
@@ -1965,5 +1970,31 @@
       "nameRequired": "Lieferantenname ist erforderlich",
       "emailInvalid": "Ungültige E-Mail"
     }
+  },
+  "publicDevice": {
+    "invalidParams": "Ungültige Parameter",
+    "loadError": "Geräteinformationen konnten nicht geladen werden",
+    "loading": "Geräteinformationen werden geladen...",
+    "notFound": "Gerät wurde nicht gefunden",
+    "title": "Geräteinformationen",
+    "subtitle": "Öffentliche Wartungsansicht",
+    "installation": "Installation",
+    "company": "Unternehmen",
+    "type": "Typ",
+    "deviceDetails": "Gerätedetails",
+    "name": "Name",
+    "location": "Standort",
+    "category": "Kategorie",
+    "brand": "Marke",
+    "model": "Modell",
+    "serialNumber": "Seriennr.",
+    "lastMaintenance": "Zuletzt durchgeführte Wartung",
+    "observationsLabel": "Bemerkungen",
+    "viewReport": "Wartungsbericht anzeigen",
+    "completeHistory": "Vollständiger Verlauf",
+    "maintenanceN": "Wartung",
+    "observations": "Bemerkungen",
+    "viewPdfReport": "PDF-Bericht anzeigen",
+    "footer": "Wartungsmanagementsystem (GMAO)"
   }
 }

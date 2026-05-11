@@ -289,6 +289,7 @@
     "continue": "続行",
     "backToAssets": "アセットに戻る",
     "loading": "読み込み中...",
+    "noData": "表示するデータがありません",
     "update": "アップデート",
     "error": "エラー",
     "success": "成功",
@@ -321,7 +322,11 @@
     "noDataAvailable": "データがありません",
     "retry": "再試行",
     "all": "すべて",
-    "optional": "任意"
+    "optional": "任意",
+    "syncing": "保留中の変更を同期しています...",
+    "syncComplete": "同期が完了しました",
+    "syncValidationDiscarded": "検証エラー ({{type}})。破棄されました。",
+    "syncElementDiscarded": "項目の同期エラー ({{type}})。破棄されました。"
   },
   "notifications": {
     "title": "通知",
@@ -2073,5 +2078,31 @@
       "nameRequired": "サプライヤー名は必須です",
       "emailInvalid": "無効なメール形式です"
     }
+  },
+  "publicDevice": {
+    "invalidParams": "無効なパラメータです",
+    "loadError": "設備情報を読み込めませんでした",
+    "loading": "設備情報を読み込み中...",
+    "notFound": "設備が見つかりません",
+    "title": "設備情報",
+    "subtitle": "公開メンテナンス表示",
+    "installation": "設置先",
+    "company": "会社",
+    "type": "種類",
+    "deviceDetails": "設備の詳細",
+    "name": "名称",
+    "location": "場所",
+    "category": "カテゴリ",
+    "brand": "ブランド",
+    "model": "モデル",
+    "serialNumber": "製造番号",
+    "lastMaintenance": "最新の実施済みメンテナンス",
+    "observationsLabel": "備考",
+    "viewReport": "メンテナンス報告書を見る",
+    "completeHistory": "履歴一覧",
+    "maintenanceN": "メンテナンス",
+    "observations": "備考",
+    "viewPdfReport": "PDF報告書を見る",
+    "footer": "保守管理システム（GMAO）"
   }
 }

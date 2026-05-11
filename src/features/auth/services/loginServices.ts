@@ -3,15 +3,7 @@ import { useAuthStore } from "../../../store/authStore"
 const API_URL = import.meta.env.VITE_API_URL || "/api/";
 
 const getSessionHeaders = (): Record<string, string> => {
-  const token = useAuthStore.getState().token
-
-  if (!token) {
-    return {}
-  }
-
-  return {
-    Authorization: `Bearer ${token}`,
-  }
+  return {}
 }
 
 const parseJsonSafely = async (response: Response) => {
@@ -94,7 +86,11 @@ export const logoutSession = async (csrfToken?: string | null) => {
 
   if (!response.ok) {
     const errorData = await parseJsonSafely(response)
-    throw new Error(errorData.error?.message || "No se pudo cerrar la sesión")
+    throw new Error(
+      errorData?.error?.message ||
+      errorData?.message ||
+      "No se pudo cerrar la sesión"
+    )
   }
 
   const data = await parseJsonSafely(response)
