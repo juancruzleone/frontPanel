@@ -37,6 +37,7 @@ const Inventory = () => {
   })
 
   const [searchTerm, setSearchTerm] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState("")
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isAdjustModalOpen, setIsStockModalOpen] = useState(false)
@@ -53,7 +54,12 @@ const Inventory = () => {
 
   const handleSearch = (value: string) => {
     setSearchTerm(value)
-    loadInventory({ name: value })
+    loadInventory({ name: value, category: selectedCategory })
+  }
+
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value)
+    loadInventory({ name: searchTerm, category: value })
   }
 
   const handleOpenCreate = () => {
@@ -106,6 +112,16 @@ const Inventory = () => {
     return items.filter(item => item.currentStock <= item.minimumStock)
   }, [items])
 
+  const categoryOptions = useMemo(() => {
+    const categories = items
+      .map((item) => item.category)
+      .filter((category): category is string => Boolean(category?.trim()))
+
+    return Array.from(new Set(categories))
+      .sort((a, b) => a.localeCompare(b))
+      .map((category) => ({ label: category, value: category }))
+  }, [items])
+
   const closeAllModals = () => {
     setIsCreateModalOpen(false)
     setIsEditModalOpen(false)
@@ -155,14 +171,20 @@ const Inventory = () => {
         <div className={styles.searchContainerInner}>
           <SearchInput
             placeholder={t('inventory.searchPlaceholder')}
+            showSelect
+            selectPlaceholder={t('inventory.filterByCategory')}
+            selectOptions={categoryOptions}
             onInputChange={handleSearch}
+            onSelectChange={handleCategoryChange}
             value={searchTerm}
+            selectValue={selectedCategory}
           />
         </div>
         <button
           onClick={() => {
             setSearchTerm("");
-            handleSearch("");
+            setSelectedCategory("");
+            loadInventory({ name: "", category: "" });
           }}
           className={styles.clearFilters}
           title={t('common.clearFilters')}

@@ -2001,6 +2001,7 @@
     "addItem": "アイテムを追加",
     "editItem": "アイテムを編集",
     "searchPlaceholder": "名前、コード、またはカテゴリで検索...",
+    "filterByCategory": "カテゴリで絞り込み",
     "noItemsFound": "在庫アイテムが見つかりません",
     "name": "名前",
     "unit": "単位",

@@ -2026,6 +2026,7 @@
     "addItem": "添加项目",
     "editItem": "编辑项目",
     "searchPlaceholder": "按名称、代码或类别搜索...",
+    "filterByCategory": "按类别筛选",
     "noItemsFound": "未找到库存项目",
     "name": "名称",
     "unit": "单位",

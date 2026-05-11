@@ -46,4 +46,15 @@ describe('Inventory Page', () => {
       expect(mockRemoveInventoryItem).toHaveBeenCalledWith('1')
     })
   })
+
+  it('debe filtrar inventario por categoría', async () => {
+    render(<Inventory />)
+
+    fireEvent.click(screen.getByText('inventory.filterByCategory'))
+    fireEvent.click(screen.getAllByText('Cat 1')[0])
+
+    await waitFor(() => {
+      expect(mockLoadInventory).toHaveBeenCalledWith({ name: '', category: 'Cat 1' })
+    })
+  })
 })

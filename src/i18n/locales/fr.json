@@ -1988,6 +1988,7 @@
     "addItem": "Ajouter un article",
     "editItem": "Modifier l'article",
     "searchPlaceholder": "Rechercher par nom, code ou catégorie...",
+    "filterByCategory": "Filtrer par catégorie",
     "noItemsFound": "Aucun article d'inventaire trouvé",
     "name": "Nom",
     "unit": "Unité",

@@ -1991,6 +1991,7 @@
     "addItem": "Aggiungi articolo",
     "editItem": "Modifica articolo",
     "searchPlaceholder": "Cerca per nome, codice o categoria...",
+    "filterByCategory": "Filtra per categoria",
     "noItemsFound": "Nessun articolo trovato in inventario",
     "name": "Nome",
     "unit": "Unità",

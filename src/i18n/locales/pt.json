@@ -1993,6 +1993,7 @@
     "addItem": "Adicionar Item",
     "editItem": "Editar Item",
     "searchPlaceholder": "Buscar por nome, código ou categoria...",
+    "filterByCategory": "Filtrar por categoria",
     "noItemsFound": "Nenhum item de inventário encontrado",
     "name": "Nome",
     "unit": "Unidade",

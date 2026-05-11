@@ -1893,6 +1893,7 @@
     "addItem": "Artikel hinzufügen",
     "editItem": "Artikel bearbeiten",
     "searchPlaceholder": "Suche nach Name, Code oder Kategorie...",
+    "filterByCategory": "Nach Kategorie filtern",
     "noItemsFound": "Keine Inventarartikel gefunden",
     "name": "Name",
     "unit": "Einheit",

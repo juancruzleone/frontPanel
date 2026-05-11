@@ -1686,6 +1686,7 @@
     "addItem": "Agregar Item",
     "editItem": "Editar Item",
     "searchPlaceholder": "Buscar por nombre, código o categoría...",
+    "filterByCategory": "Filtrar por categoría",
     "noItemsFound": "No se encontraron items de inventario",
     "name": "Nombre",
     "unit": "Unidad",

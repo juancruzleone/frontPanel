@@ -1672,6 +1672,7 @@
     "addItem": "Add Item",
     "editItem": "Edit Item",
     "searchPlaceholder": "Search by name, code or category...",
+    "filterByCategory": "Filter by category",
     "noItemsFound": "No inventory items found",
     "name": "Name",
     "unit": "Unit",
