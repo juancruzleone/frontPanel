@@ -14,16 +14,22 @@ describe('Inventory Services', () => {
     import.meta.env.VITE_API_URL = 'http://api.test/'
   })
 
-  it('debe llamar a fetch con la URL correcta para obtener items', async () => {
+  it('debe llamar a fetch con la URL correcta, cookies y filtros para obtener items', async () => {
     const mockResponse = {
       ok: true,
       json: () => Promise.resolve({ items: [], total: 0 })
     }
     ;(fetch as any).mockResolvedValue(mockResponse)
 
-    await fetchInventoryItems()
+    await fetchInventoryItems({ page: 1, limit: 10, name: 'filtro', category: 'Repuestos' })
 
-    expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/inventario'), expect.any(Object))
+    expect(fetch).toHaveBeenCalledWith(
+      expect.stringContaining('/inventario'),
+      expect.objectContaining({ credentials: 'include' })
+    )
+    const [url] = vi.mocked(fetch).mock.calls[0]
+    expect(String(url)).toContain('name=filtro')
+    expect(String(url)).toContain('category=Repuestos')
   })
 
   it('debe lanzar error si el fetch falla', async () => {

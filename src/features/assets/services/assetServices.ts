@@ -3,16 +3,18 @@ import { getAuthHeaders, getHeadersWithContentType, fetchWithCsrf } from "../../
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
 
-export const fetchAssets = async (params: { page?: number, limit?: number, search?: string } = {}): Promise<any> => {
+export const fetchAssets = async (params: { page?: number, limit?: number, search?: string, category?: string } = {}): Promise<any> => {
   const queryParams = new URLSearchParams()
   if (params.page) queryParams.append('page', params.page.toString())
   if (params.limit) queryParams.append('limit', params.limit.toString())
   if (params.search) queryParams.append('search', params.search)
+  if (params.category) queryParams.append('category', params.category)
 
   const url = `${API_URL}activos?${queryParams.toString()}`;
 
   const response = await fetch(url, {
     headers: getAuthHeaders(),
+    credentials: 'include',
   })
 
   if (!response.ok) {
@@ -41,6 +43,7 @@ export const fetchTemplates = async (params: { page?: number, limit?: number, se
 
   const response = await fetch(`${API_URL}plantillas?${queryParams.toString()}`, {
     headers: getAuthHeaders(),
+    credentials: 'include',
   })
 
   if (!response.ok) {

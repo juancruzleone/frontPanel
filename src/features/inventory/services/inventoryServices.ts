@@ -47,6 +47,7 @@ export const fetchInventoryItems = async (params: { page?: number, limit?: numbe
 
   const response = await fetch(url, {
     headers: getAuthHeaders(),
+    credentials: 'include',
   })
 
   if (!response.ok) {
@@ -64,6 +65,7 @@ export const fetchInventoryAssets = async (): Promise<InventoryAsset[]> => {
 export const fetchInventoryItemById = async (id: string): Promise<InventoryItem> => {
   const response = await fetch(`${getApiUrl()}inventario/${id}`, {
     headers: getAuthHeaders(),
+    credentials: 'include',
   })
 
   if (!response.ok) {
@@ -165,6 +167,7 @@ export const fetchInventoryMovements = async (itemId?: string, params: { page?: 
 
     const response = await fetch(url, {
         headers: getAuthHeaders(),
+        credentials: 'include',
     })
 
     if (!response.ok) {
