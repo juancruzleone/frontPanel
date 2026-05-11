@@ -7,8 +7,14 @@ const getToken = () => {
   return useAuthStore.getState().token
 }
 
-export const fetchWorkOrders = async (filters: any = {}): Promise<any[]> => {
-  const queryParams = new URLSearchParams(filters).toString()
+export const fetchWorkOrders = async (filters: Record<string, string | number> = {}): Promise<unknown[]> => {
+  const stringFilters: Record<string, string> = {}
+  Object.entries(filters).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      stringFilters[key] = String(value)
+    }
+  })
+  const queryParams = new URLSearchParams(stringFilters).toString()
   
   const response = await fetch(`${API_URL}calendario${queryParams ? `?${queryParams}` : ""}`, {
     headers: getAuthHeaders(),
@@ -48,7 +54,7 @@ export const assignTechnicianToWorkOrder = async (workOrderId: string, technicia
   return result.success ? result.data : result
 }
 
-export const completeWorkOrder = async (id: string, data: any) => {
+export const completeWorkOrder = async (id: string, data: Record<string, unknown>) => {
   const response = await fetch(`${API_URL}ordenes-trabajo/${id}/completar`, {
     method: "POST",
     headers: getHeadersWithContentType(),

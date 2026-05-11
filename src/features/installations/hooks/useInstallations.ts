@@ -1,7 +1,9 @@
 import type React from "react"
 
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useState, useCallback, useMemo } from "react"
 import { useAuthStore } from "../../../store/authStore"
+import { useInstallationStore } from "../../../store/installationStore"
+import { useOfflineStore } from "../../../store/offlineStore"
 import {
   fetchInstallations,
   createInstallation,
@@ -64,12 +66,26 @@ export type Installation = {
 
 const useInstallations = () => {
   const { t } = useTranslation();
-  const { token, isAuthenticated } = useAuthStore()
-  const [installations, setInstallations] = useState<Installation[]>([])
-  const [installationTypes, setInstallationTypes] = useState<string[]>([])
+  const { isAuthenticated, userId } = useAuthStore()
+  const { 
+    installations: storedInstallations, 
+    assets: storedAssets, 
+    lastUpdated,
+    ownerId,
+    setInstallations, 
+    setAssets,
+    addInstallation: storeAddInstallation,
+    updateInstallation: storeUpdateInstallation,
+    removeInstallation: storeRemoveInstallation
+  } = useInstallationStore()
+
+  const validStoredInstallations = ownerId === userId ? storedInstallations : []
+  const assets = ownerId === userId ? storedAssets : []
+
+  const [filteredOfflineInstallations, setFilteredOfflineInstallations] = useState<Installation[] | null>(null)
+
   const [currentInstallation, setCurrentInstallation] = useState<Installation | null>(null)
   const [installationDevices, setInstallationDevices] = useState<Device[]>([])
-  const [assets, setAssets] = useState<Asset[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [loadingAssets, setLoadingAssets] = useState(false)
@@ -88,15 +104,15 @@ const useInstallations = () => {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const extractInstallationTypes = useCallback((installations: Installation[]) => {
+  const installationTypes = useMemo(() => {
     const types = new Set<string>()
-    installations.forEach((inst) => {
+    validStoredInstallations.forEach((inst) => {
       if (inst.installationType) {
         types.add(inst.installationType)
       }
     })
     return Array.from(types)
-  }, [])
+  }, [validStoredInstallations])
 
   const loadAssets = useCallback(async () => {
     setLoadingAssets(true)
@@ -108,12 +124,15 @@ const useInstallations = () => {
         setErrorLoadingAssets("No hay activos disponibles para asignar")
       }
     } catch (err: unknown) {
+      if (assets.length > 0) {
+        // Silently use cache if offline or server unreachable
+        return;
+      }
       setErrorLoadingAssets((err as Error).message || "Error al cargar activos")
-      setAssets([])
     } finally {
       setLoadingAssets(false)
     }
-  }, [])
+  }, [assets.length, setAssets])
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -127,26 +146,72 @@ const useInstallations = () => {
       return
     }
 
+    const { installations: currentStored, ownerId: currentOwnerId } = useInstallationStore.getState()
+    const { userId: currentUserId } = useAuthStore.getState()
+    const currentValidStored = currentOwnerId === currentUserId ? currentStored : []
+
     setLoading(true)
+    setError(null)
     try {
+      if (!navigator.onLine && currentValidStored.length > 0) {
+        let filtered = [...currentValidStored];
+        if (params.search) {
+          const s = params.search.toLowerCase();
+          filtered = filtered.filter(i => i.company.toLowerCase().includes(s) || i.address.toLowerCase().includes(s));
+        }
+        if (params.category) {
+          filtered = filtered.filter(i => i.installationType === params.category);
+        }
+        
+        const page = params.page || 1;
+        const limit = params.limit || 10;
+        const total = filtered.length;
+        const startIndex = (page - 1) * limit;
+        const paged = filtered.slice(startIndex, startIndex + limit);
+        
+        setFilteredOfflineInstallations(paged);
+        setPagination({ total, page, limit, totalPages: Math.ceil(total / limit) || 1 });
+        setLoading(false);
+        return;
+      }
+
       const result = await fetchInstallations(params)
+      setFilteredOfflineInstallations(null)
 
       if (result.success && result.pagination) {
         setInstallations(result.data)
         setPagination(result.pagination)
-        setInstallationTypes(extractInstallationTypes(result.data))
       } else {
-        // Fallback para formato antiguo
-        const installations = Array.isArray(result) ? result : [];
-        setInstallations(installations)
-        setInstallationTypes(extractInstallationTypes(installations))
+        const installationsArray = Array.isArray(result) ? result : [];
+        setInstallations(installationsArray)
       }
     } catch (err: unknown) {
+      if (currentValidStored.length > 0) {
+        let filtered = [...currentValidStored];
+        if (params.search) {
+          const s = params.search.toLowerCase();
+          filtered = filtered.filter(i => i.company.toLowerCase().includes(s) || i.address.toLowerCase().includes(s));
+        }
+        if (params.category) {
+          filtered = filtered.filter(i => i.installationType === params.category);
+        }
+        
+        const page = params.page || 1;
+        const limit = params.limit || 10;
+        const total = filtered.length;
+        const startIndex = (page - 1) * limit;
+        const paged = filtered.slice(startIndex, startIndex + limit);
+        
+        setFilteredOfflineInstallations(paged);
+        setPagination({ total, page, limit, totalPages: Math.ceil(total / limit) || 1 });
+        setLoading(false);
+        return;
+      }
       setError((err as Error).message)
     } finally {
       setLoading(false)
     }
-  }, [extractInstallationTypes, isAuthenticated])
+  }, [isAuthenticated, storedInstallations, setInstallations])
 
   const loadInstallationDetails = useCallback(async (id: string) => {
     setLoading(true)
@@ -158,6 +223,19 @@ const useInstallations = () => {
       setInstallationDevices(Array.isArray(devices) ? devices : [])
       return { installation, devices }
     } catch (err: unknown) {
+      const storeState = useInstallationStore.getState()
+      const authState = useAuthStore.getState()
+      
+      if (storeState.ownerId === authState.userId) {
+        const cachedInst = storeState.installations.find(i => i._id === id)
+        if (cachedInst) {
+          setCurrentInstallation(cachedInst)
+          setInstallationDevices(cachedInst.devices || [])
+          setLoading(false)
+          return { installation: cachedInst, devices: cachedInst.devices || [] }
+        }
+      }
+
       setError((err as Error).message)
       setCurrentInstallation(null)
       setInstallationDevices([])
@@ -176,6 +254,9 @@ const useInstallations = () => {
   }, [])
 
   const removeDeviceFromInstallation = useCallback(async (installationId: string, deviceId: string) => {
+    if (!navigator.onLine) {
+      throw new Error(t('common.offlineOperationNotSupported', { defaultValue: "Esta operación requiere conexión a internet." }));
+    }
     try {
       await deleteDeviceFromInstallation(installationId, deviceId)
       setInstallationDevices((prev) => prev.filter((d) => d._id !== deviceId))
@@ -236,13 +317,17 @@ const useInstallations = () => {
   }
 
   const addInstallation = async (installation: Installation): Promise<{ message: string }> => {
+    if (!navigator.onLine) {
+      const offlineId = `offline_${Date.now()}`;
+      const offlineInst = { ...installation, _id: offlineId };
+      storeAddInstallation(offlineInst);
+      useOfflineStore.getState().addToQueue({ type: 'CREATE_INSTALLATION', payload: offlineInst });
+      return { message: t('installations.installationCreatedLocal', { defaultValue: 'Instalación guardada localmente.' }) }
+    }
+    
     try {
       const newInstallation = await createInstallation(installation)
-      setInstallations((prev) => [newInstallation, ...prev])
-
-      if (!installationTypes.includes(newInstallation.installationType)) {
-        setInstallationTypes((prev) => [...prev, newInstallation.installationType])
-      }
+      storeAddInstallation(newInstallation)
 
       return { message: t('installations.installationCreated') }
     } catch (err: unknown) {
@@ -251,13 +336,15 @@ const useInstallations = () => {
   }
 
   const editInstallation = async (id: string, updatedData: Installation): Promise<{ message: string }> => {
+    if (!navigator.onLine) {
+      storeUpdateInstallation(id, updatedData);
+      useOfflineStore.getState().addToQueue({ type: 'UPDATE_INSTALLATION', payload: { id, data: updatedData } });
+      return { message: t('installations.installationUpdatedLocal', { defaultValue: 'Cambios guardados localmente.' }) }
+    }
+
     try {
       const updatedInstallation = await updateInstallation(id, updatedData)
-      setInstallations((prev) => prev.map((inst) => (inst._id === id ? updatedInstallation : inst)))
-
-      if (!installationTypes.includes(updatedInstallation.installationType)) {
-        setInstallationTypes((prev) => [...prev, updatedInstallation.installationType])
-      }
+      storeUpdateInstallation(id, updatedInstallation)
 
       return { message: t('installations.installationUpdated') }
     } catch (err: unknown) {
@@ -266,15 +353,24 @@ const useInstallations = () => {
   }
 
   const removeInstallation = async (id: string): Promise<void> => {
+    if (!navigator.onLine) {
+      storeRemoveInstallation(id);
+      useOfflineStore.getState().addToQueue({ type: 'DELETE_INSTALLATION', payload: { id } });
+      return;
+    }
+
     try {
       await deleteInstallation(id)
-      setInstallations((prev) => prev.filter((inst) => inst._id !== id))
+      storeRemoveInstallation(id)
     } catch (err: unknown) {
       throw err
     }
   }
 
   const addDeviceToInstallation = useCallback(async (installationId: string, device: Device): Promise<{ message: string }> => {
+    if (!navigator.onLine) {
+      throw new Error(t('common.offlineOperationNotSupported', { defaultValue: "Esta operación requiere conexión a internet." }));
+    }
     try {
       const result = await apiAddDeviceToInstallation(installationId, device)
 
@@ -297,8 +393,8 @@ const useInstallations = () => {
 
       setInstallationDevices((prev) => [...prev, completeDevice])
 
-      setInstallations((prev) =>
-        prev.map((inst) =>
+      setInstallations(
+        validStoredInstallations.map((inst) =>
           inst._id === installationId
             ? {
               ...inst,
@@ -332,7 +428,8 @@ const useInstallations = () => {
   }
 
   return {
-    installations,
+    installations: filteredOfflineInstallations || validStoredInstallations,
+    lastUpdated,
     installationTypes,
     currentInstallation,
     installationDevices,

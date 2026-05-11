@@ -72,20 +72,20 @@ const useCalendar = () => {
       const data = await fetchTechnicians()
       setTechnicians(data)
       return data
-    } catch (err: any) {
+    } catch (_err: unknown) {
       setTechnicians([])
       return []
     }
   }, [])
 
-  const loadWorkOrders = useCallback(async (filters = {}) => {
+  const loadWorkOrders = useCallback(async (filters: Record<string, string | number> = {}) => {
     setLoading(true)
     setError(null)
     try {
       const workOrdersData = await fetchWorkOrders(filters)
-      setWorkOrders(workOrdersData)
-    } catch (err: any) {
-      setError(err.message)
+      setWorkOrders(workOrdersData as WorkOrder[])
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Error al cargar órdenes de trabajo")
     } finally {
       setLoading(false)
     }
@@ -113,7 +113,7 @@ const useCalendar = () => {
     }
   }
 
-  const completeWorkOrder = async (id: string, data: any) => {
+  const completeWorkOrder = async (id: string, data: Record<string, unknown>) => {
     try {
       const result = await apiCompleteWorkOrder(id, data)
       setWorkOrders((prev) =>
@@ -123,11 +123,11 @@ const useCalendar = () => {
               ...o,
               estado: "completada",
               fechaCompletada: new Date(),
-              trabajoRealizado: data.trabajoRealizado,
-              observaciones: data.observaciones,
-              tiempoTrabajo: data.tiempoTrabajo,
-              estadoDispositivo: data.estadoDispositivo,
-              ...result,
+              trabajoRealizado: (data.trabajoRealizado as string) || undefined,
+              observaciones: (data.observaciones as string) || undefined,
+              tiempoTrabajo: (data.tiempoTrabajo as number) || undefined,
+              estadoDispositivo: (data.estadoDispositivo as string) || undefined,
+              ...(result as Record<string, unknown>),
             }
             : o,
         ),

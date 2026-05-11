@@ -5,6 +5,7 @@ import { useAuthStore } from "@/store/authStore"
 import { useCSRFStore } from "@/store/csrfStore"
 import { verifySession } from "./features/auth/services/loginServices"
 import { installFetchCredentials } from "./shared/services/fetchCredentials"
+import { OfflineSyncManager } from "./shared/components/OfflineSyncManager"
 
 export const ThemedToaster = () => {
   const { dark } = useTheme()
@@ -28,7 +29,6 @@ export const ThemedToaster = () => {
 export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
   const hydrateSession = useAuthStore((state) => state.hydrateSession)
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
-  const isAuthResolved = useAuthStore((state) => state.isAuthResolved)
   const setAuthResolved = useAuthStore((state) => state.setAuthResolved)
   const fetchToken = useCSRFStore((state) => state.fetchToken)
   const csrfToken = useCSRFStore((state) => state.token)
@@ -68,5 +68,10 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
     }
   }, [isAuthenticated, csrfToken, csrfIsLoading, fetchToken])
 
-  return <>{children}</>
+  return (
+    <>
+      <OfflineSyncManager />
+      {children}
+    </>
+  )
 }

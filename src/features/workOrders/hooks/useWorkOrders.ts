@@ -1,5 +1,9 @@
 import type React from "react"
-import { useState, useCallback } from "react"
+import { useState, useCallback, useMemo } from "react"
+import { useWorkOrderStore } from "../../../store/workOrderStore"
+import { useOfflineStore } from "../../../store/offlineStore"
+import { useInstallationStore } from "../../../store/installationStore"
+import { useAuthStore } from "../../../store/authStore"
 import {
   fetchWorkOrders,
   createWorkOrder,
@@ -95,7 +99,23 @@ export type WorkOrder = {
 }
 
 const useWorkOrders = () => {
-  const [workOrders, setWorkOrders] = useState<WorkOrder[]>([])
+  const { userId } = useAuthStore.getState()
+  const { 
+    workOrders: storedWorkOrders, 
+    lastUpdated,
+    ownerId,
+    setWorkOrders, 
+    addWorkOrder: storeAddWorkOrder,
+    updateWorkOrder: storeUpdateWorkOrder,
+    removeWorkOrder: storeRemoveWorkOrder
+  } = useWorkOrderStore()
+  
+  const validStoredWorkOrders = ownerId === userId ? storedWorkOrders : []
+
+  const { addToQueue } = useOfflineStore()
+
+  const [filteredOfflineOrders, setFilteredOfflineOrders] = useState<WorkOrder[] | null>(null)
+
   const [pagination, setPagination] = useState({
     total: 0,
     page: 1,
@@ -146,25 +166,68 @@ const useWorkOrders = () => {
       setTechnicians(data)
       return data
     } catch (err) {
-      console.error('Error loading technicians:', err);
+      // Error loading technicians
       setTechnicians([])
       return []
     }
   }, [])
 
-  const loadWorkOrders = useCallback(async (page = 1, limit = 10, filters = {}) => {
+  const loadWorkOrders = useCallback(async (page = 1, limit = 10, filters: Record<string, string | number> = {}) => {
+    const { workOrders: currentStored, ownerId: currentOwnerId } = useWorkOrderStore.getState()
+    const { userId: currentUserId } = useAuthStore.getState()
+    const currentValidStored = currentOwnerId === currentUserId ? currentStored : []
+
     setLoading(true)
     setError(null)
     try {
+      if (!navigator.onLine && currentValidStored.length > 0) {
+        // Use cache if offline and apply local filtering
+        let filtered = [...currentValidStored];
+        if (filters.estado) filtered = filtered.filter(w => w.estado === filters.estado);
+        if (filters.prioridad) filtered = filtered.filter(w => w.prioridad === filters.prioridad);
+        if (filters.search && typeof filters.search === 'string') {
+           const s = filters.search.toLowerCase();
+           filtered = filtered.filter(w => w.titulo.toLowerCase().includes(s) || w.descripcion.toLowerCase().includes(s));
+        }
+        
+        const total = filtered.length;
+        const startIndex = (page - 1) * limit;
+        const paged = filtered.slice(startIndex, startIndex + limit);
+        
+        setFilteredOfflineOrders(paged);
+        setPagination({ total, page, limit, totalPages: Math.ceil(total / limit) || 1 });
+        setLoading(false);
+        return;
+      }
+
       const { data, pagination: pagData } = await fetchWorkOrders(page, limit, filters)
+      setFilteredOfflineOrders(null)
       setWorkOrders(data)
       setPagination(pagData)
     } catch (err: unknown) {
+      if (currentValidStored.length > 0) {
+        let filtered = [...currentValidStored];
+        if (filters.estado) filtered = filtered.filter(w => w.estado === filters.estado);
+        if (filters.prioridad) filtered = filtered.filter(w => w.prioridad === filters.prioridad);
+        if (filters.search && typeof filters.search === 'string') {
+           const s = filters.search.toLowerCase();
+           filtered = filtered.filter(w => w.titulo.toLowerCase().includes(s) || w.descripcion.toLowerCase().includes(s));
+        }
+        
+        const total = filtered.length;
+        const startIndex = (page - 1) * limit;
+        const paged = filtered.slice(startIndex, startIndex + limit);
+        
+        setFilteredOfflineOrders(paged);
+        setPagination({ total, page, limit, totalPages: Math.ceil(total / limit) || 1 });
+        setLoading(false);
+        return;
+      }
       setError((err as Error).message)
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [storedWorkOrders, setWorkOrders])
 
   const loadInstallations = useCallback(async () => {
     setLoadingInstallations(true)
@@ -173,12 +236,21 @@ const useWorkOrders = () => {
       const data = await apiFetchInstallations()
       setInstallations(data)
     } catch (err: unknown) {
+      if (installations.length > 0) {
+        return;
+      }
+      const { installations: storeInst, ownerId: installationOwnerId } = useInstallationStore.getState();
+      const { userId: currentUserId } = useAuthStore.getState();
+      if (installationOwnerId === currentUserId && storeInst.length > 0) {
+        setInstallations(storeInst as Installation[]);
+        return;
+      }
       setErrorLoadingInstallations((err as Error).message || "Error al cargar instalaciones")
       setInstallations([])
     } finally {
       setLoadingInstallations(false)
     }
-  }, [])
+  }, [installations.length])
 
   const { timeZone, offset } = useTimeZone()
 
@@ -186,8 +258,6 @@ const useWorkOrders = () => {
     let fechaHoraISO = workOrder.fechaProgramada as string;
     if (typeof workOrder.fechaProgramada === 'string' && workOrder.horaProgramada) {
       try {
-        // Combinamos fecha y hora para crear un Date real y que Yup.date().min(new Date()) en el backend
-        // no falle asumiendo que es medianoche UTC (que puede ser en el pasado).
         const dateStr = workOrder.fechaProgramada.includes('T')
           ? workOrder.fechaProgramada.split('T')[0]
           : workOrder.fechaProgramada;
@@ -196,7 +266,7 @@ const useWorkOrders = () => {
           fechaHoraISO = localDate.toISOString();
         }
       } catch (_e) { 
-        console.error('Error parsing date/time for work order:', _e);
+        // ignore
       }
     }
 
@@ -217,8 +287,17 @@ const useWorkOrders = () => {
       timezone: timeZone,
       userOffset: offset
     }
+
+    if (!navigator.onLine) {
+      const offlineId = `offline_${Date.now()}`;
+      const offlineOrder = { ...workOrderWithTZ, _id: offlineId, estado: 'pendiente' };
+      storeAddWorkOrder(offlineOrder);
+      addToQueue({ type: 'CREATE_WORK_ORDER', payload: offlineOrder });
+      return { message: "Orden guardada localmente. Se enviará al reconectar." }
+    }
+
     const newOrder = await createWorkOrder(workOrderWithTZ)
-    setWorkOrders((prev) => [newOrder, ...prev])
+    storeAddWorkOrder(newOrder)
     return { message: "Orden de trabajo creada con éxito" }
   }
 
@@ -234,7 +313,7 @@ const useWorkOrders = () => {
           fechaHoraISO = localDate.toISOString();
         }
       } catch (_e) {
-        console.error('Error parsing date/time for editing work order:', _e);
+        // ignore
       }
     }
 
@@ -254,65 +333,71 @@ const useWorkOrders = () => {
       fechaProgramada: fechaHoraISO
     };
 
+    if (!navigator.onLine) {
+      storeUpdateWorkOrder(id, payload);
+      addToQueue({ type: 'UPDATE_WORK_ORDER', payload: { id, data: payload } });
+      return { message: "Cambios guardados localmente." }
+    }
+
     const updated = await updateWorkOrder(id, payload)
-    setWorkOrders((prev) => prev.map((o) => (o._id === id ? updated : o)))
+    storeUpdateWorkOrder(id, updated)
     return { message: "Orden de trabajo actualizada con éxito" }
   }
 
   const removeWorkOrder = async (id: string) => {
+    if (!navigator.onLine) {
+      throw new Error("No se pueden eliminar órdenes sin conexión");
+    }
     await deleteWorkOrder(id)
-    setWorkOrders((prev) => prev.filter((o) => o._id !== id))
+    storeRemoveWorkOrder(id)
   }
 
   const assignTechnician = async (workOrderId: string, technicianIds: string[]) => {
+    if (!navigator.onLine) {
+      throw new Error(t("common.offlineOperationNotSupported", { defaultValue: "Esta operación requiere conexión a internet." }));
+    }
     await assignTechnicianToWorkOrder(workOrderId, technicianIds)
     await loadWorkOrders()
     return { message: "Técnico asignado con éxito" }
   }
 
   const completeWorkOrder = async (id: string, data: Record<string, unknown>) => {
+    if (!navigator.onLine) {
+      const completionUpdate = {
+        estado: "completada",
+        fechaCompletada: new Date(),
+        ...data
+      };
+      storeUpdateWorkOrder(id, completionUpdate as Partial<WorkOrder>);
+      addToQueue({ type: 'COMPLETE_WORK_ORDER', payload: { id, data } });
+      return { message: "Orden completada localmente. Se sincronizará al reconectar." }
+    }
+
     const result = await apiCompleteWorkOrder(id, data)
-    setWorkOrders((prev) =>
-      prev.map((o) =>
-        o._id === id
-          ? {
-            ...o,
-            estado: "completada",
-            fechaCompletada: new Date(),
-            trabajoRealizado: data.trabajoRealizado as string,
-            observaciones: data.observaciones as string,
-            tiempoTrabajo: data.tiempoTrabajo as number,
-            estadoDispositivo: data.estadoDispositivo as string,
-            evidenciaFoto: data.evidenciaFoto as string,
-            firmaTecnico: data.firmaTecnico as string,
-            inventoryPartsUsed: data.inventoryPartsUsed as any,
-            ...result,
-          }
-          : o,
-      ),
-    )
+    storeUpdateWorkOrder(id, {
+      estado: "completada",
+      fechaCompletada: new Date(),
+      ...data,
+      ...result,
+    })
     return { message: "Orden de trabajo completada con éxito" }
   }
 
   const startWorkOrder = async (id: string) => {
+    if (!navigator.onLine) {
+      storeUpdateWorkOrder(id, { estado: "en_progreso", fechaInicio: new Date() });
+      addToQueue({ type: 'START_WORK_ORDER', payload: { id } });
+      return { message: "Orden iniciada localmente." }
+    }
     await apiStartWorkOrder(id)
-    setWorkOrders((prev) =>
-      prev.map((o) => (o._id === id ? { ...o, estado: "en_progreso", fechaInicio: new Date() } : o)),
-    )
+    storeUpdateWorkOrder(id, { estado: "en_progreso", fechaInicio: new Date() })
     return { message: "Orden de trabajo iniciada con éxito" }
   }
 
-  // Función simplificada para manejar cambios de campo
   const handleFieldChange = useCallback(
     (name: string, value: unknown) => {
+      setFormData((prevFormData) => ({ ...prevFormData, [name]: value }))
 
-      setFormData((prevFormData) => {
-        const updated = { ...prevFormData, [name]: value }
-
-        return updated
-      })
-
-      // Limpiar error del campo si existe
       if (formErrors[name]) {
         setFormErrors((prev) => {
           const newErrors = { ...prev }
@@ -382,71 +467,37 @@ const useWorkOrders = () => {
   }, [])
 
   const extractInstalacionId = useCallback((data: unknown): string => {
-    if (typeof data === "string") {
-      return data
-    }
-    if (data && typeof data === "object" && (data as { $oid?: string }).$oid) {
-      return (data as { $oid: string }).$oid
-    }
-    if (data && typeof data === "object" && typeof data.toString === "function") {
-      return data.toString()
-    }
-    return ""
+    if (typeof data === "string") return data
+    if (data && typeof data === "object" && (data as { $oid?: string }).$oid) return (data as { $oid: string }).$oid
+    return data?.toString() || ""
   }, [])
 
   const setFormValues = useCallback(
     (data: Partial<WorkOrder>, availableInstallations: Installation[] = []) => {
-
-
-
       let instalacionId = ""
       let instalacionObject = data.instalacion
 
-      // Extraer instalacionId
       if (data.instalacionId) {
         instalacionId = extractInstalacionId(data.instalacionId)
-
       } else if (data.instalacion?._id) {
         instalacionId = extractInstalacionId(data.instalacion._id)
-
       }
 
-      // Si tenemos instalaciones disponibles, verificar y corregir el instalacionId
       if (availableInstallations.length > 0) {
-
-
         if (instalacionId) {
           const foundInstallation = availableInstallations.find((inst) => inst._id === instalacionId)
-
-
-          if (!foundInstallation) {
-            // Si no se encuentra por ID, intentar buscar por nombre de empresa
-            if (data.instalacion?.company) {
-
-              const foundByName = availableInstallations.find((inst) => inst.company === data.instalacion?.company)
-              if (foundByName) {
-                instalacionId = foundByName._id
-                instalacionObject = foundByName
-
-              }
+          if (!foundInstallation && data.instalacion?.company) {
+            const foundByName = availableInstallations.find((inst) => inst.company === data.instalacion?.company)
+            if (foundByName) {
+              instalacionId = foundByName._id
+              instalacionObject = foundByName
             }
-          } else {
+          } else if (foundInstallation) {
             instalacionObject = foundInstallation
-
-          }
-        } else if (data.instalacion?.company) {
-          // Si no hay instalacionId pero sí hay objeto instalacion, buscar por nombre
-
-          const foundByName = availableInstallations.find((inst) => inst.company === data.instalacion?.company)
-          if (foundByName) {
-            instalacionId = foundByName._id
-            instalacionObject = foundByName
-
           }
         }
       }
 
-      // Usar la fecha como string YYYY-MM-DD si es posible
       let fechaProgramada = ""
       if (typeof data.fechaProgramada === "string") {
         fechaProgramada = data.fechaProgramada.length > 10 ? data.fechaProgramada.split('T')[0] : data.fechaProgramada
@@ -456,7 +507,7 @@ const useWorkOrders = () => {
         fechaProgramada = new Date().toISOString().split('T')[0]
       }
 
-      const updatedFormData = {
+      setFormData({
         titulo: data.titulo || "",
         descripcion: data.descripcion || "",
         instalacionId: instalacionId,
@@ -472,18 +523,15 @@ const useWorkOrders = () => {
         tecnicosAsignados: normalizeTechnicianIds(data),
         tecnicosIds: normalizeTechnicianIds(data),
         instalacion: instalacionObject || undefined,
-      }
-
-
-
-      setFormData(updatedFormData)
+      })
       setFormErrors({})
     },
     [extractInstalacionId, normalizeTechnicianIds],
   )
 
   return {
-    workOrders,
+    workOrders: filteredOfflineOrders || validStoredWorkOrders,
+    lastUpdated,
     pagination,
     technicians,
     installations,

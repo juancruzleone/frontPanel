@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import Button from "../shared/components/Buttons/buttonCreate"
 import SearchInput from "../shared/components/Inputs/SearchInput"
 import styles from "../features/workOrders/styles/workOrders.module.css"
-import useWorkOrders, { type WorkOrder } from "../features/workOrders/hooks/useWorkOrders"
+import useWorkOrders, { type Technician, type WorkOrder } from "../features/workOrders/hooks/useWorkOrders"
 import { type UserPermissions } from "../store/authStore"
 import ModalCreate from "../features/workOrders/components/ModalCreate"
 import ModalEdit from "../features/workOrders/components/ModalEdit"
@@ -40,9 +40,9 @@ const renderTechnicianInfo = (order: WorkOrder, t: (key: string) => string) => {
     ? order.tecnicos.map((tech) => tech.userName).filter(Boolean)
     : []
   const namesFromTecnico = Array.isArray(order.tecnico)
-    ? order.tecnico.map((tech: any) => tech?.userName).filter(Boolean)
-    : (order.tecnico as any)?.userName
-      ? [(order.tecnico as any).userName]
+    ? order.tecnico.map((tech) => (tech as Record<string, unknown>)?.userName as string).filter(Boolean)
+    : (order.tecnico as Record<string, unknown>)?.userName
+      ? [(order.tecnico as Record<string, unknown>).userName as string]
       : []
   const technicianNames = Array.from(new Set([...namesFromTecnicos, ...namesFromTecnico]))
   const technicianIds = Array.from(
@@ -178,7 +178,7 @@ const WorkOrders = () => {
   }, [])
 
   const buildFilters = useCallback(() => {
-    const filters: any = {
+    const filters: Record<string, string | number> = {
       estado: selectedStatus,
       search: searchTerm,
       prioridad: selectedPriority,
@@ -309,7 +309,7 @@ const WorkOrders = () => {
     [t, selectedDate, selectedDateFilter, i18n.language],
   )
 
-  const getTechnicianLabel = (tech: any) => {
+  const getTechnicianLabel = (tech: Technician) => {
     const label = t(`technicians.${tech.userName}`, tech.userName)
     return typeof label === 'string' ? label : tech.userName
   }
@@ -392,8 +392,8 @@ const WorkOrders = () => {
     try {
       await removeWorkOrder(workOrderToDelete._id)
       onSuccess(t('workOrders.workOrderDeleted'))
-    } catch (err: any) {
-      onError(err.message || t('workOrders.errorDeletingWorkOrder'))
+    } catch (err: unknown) {
+      onError(err instanceof Error ? err.message : t('workOrders.errorDeletingWorkOrder'))
     } finally {
       setWorkOrderToDelete(null)
       setIsDeleteModalOpen(false)
@@ -404,8 +404,8 @@ const WorkOrders = () => {
     try {
       await startWorkOrder(id)
       onSuccess(t('workOrders.workOrderStarted'))
-    } catch (err: any) {
-      onError(err.message || t('workOrders.errorStartingWorkOrder'))
+    } catch (err: unknown) {
+      onError(err instanceof Error ? err.message : t('workOrders.errorStartingWorkOrder'))
     }
   }
 
@@ -433,8 +433,8 @@ const WorkOrders = () => {
     try {
       await editWorkOrder(orderId, { ...order, estado: newStatus })
       onSuccess(t('workOrders.workOrderUpdated'))
-    } catch (err: any) {
-      onError(err.message || t('workOrders.errorUpdatingWorkOrder'))
+    } catch (err: unknown) {
+      onError(err instanceof Error ? err.message : t('workOrders.errorUpdatingWorkOrder'))
     }
   }
 

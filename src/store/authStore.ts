@@ -1,6 +1,8 @@
 import { create } from "zustand"
 import { createJSONStorage, persist } from "zustand/middleware"
 import { useCSRFStore } from "./csrfStore"
+import { useInstallationStore } from "./installationStore"
+import { useWorkOrderStore } from "./workOrderStore"
 
 const AUTH_STORAGE_KEY = "auth-storage"
 
@@ -72,7 +74,7 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       user: null,
       userId: null,
       token: null,
@@ -101,6 +103,21 @@ export const useAuthStore = create<AuthState>()(
           isAuthenticated: false, // No autenticar hasta que se cierre el modal
           isAuthResolved: true,
         })
+        
+        const userId = user._id || null
+        
+        const instStore = useInstallationStore.getState()
+        if (instStore.ownerId !== userId) {
+          if (instStore.installations?.length > 0) instStore.setInstallations([])
+          if (instStore.assets?.length > 0) instStore.setAssets([])
+        }
+        instStore.setOwnerId(userId)
+
+        const woStore = useWorkOrderStore.getState()
+        if (woStore.ownerId !== userId) {
+          if (woStore.workOrders?.length > 0) woStore.setWorkOrders([])
+        }
+        woStore.setOwnerId(userId)
       },
       hydrateSession: (data) => {
         const user = data.user || data.cuenta
@@ -120,6 +137,21 @@ export const useAuthStore = create<AuthState>()(
           isAuthenticated: true,
           isAuthResolved: true,
         })
+        
+        const userId = user._id || null
+        
+        const instStore = useInstallationStore.getState()
+        if (instStore.ownerId !== userId) {
+          if (instStore.installations?.length > 0) instStore.setInstallations([])
+          if (instStore.assets?.length > 0) instStore.setAssets([])
+        }
+        instStore.setOwnerId(userId)
+
+        const woStore = useWorkOrderStore.getState()
+        if (woStore.ownerId !== userId) {
+          if (woStore.workOrders?.length > 0) woStore.setWorkOrders([])
+        }
+        woStore.setOwnerId(userId)
       },
       setAuthenticated: (value) => set({ isAuthenticated: value }),
       setAuthResolved: (value) => set({ isAuthResolved: value }),
@@ -128,6 +160,13 @@ export const useAuthStore = create<AuthState>()(
       logout: () => {
         // Clear CSRF token on logout using action
         useCSRFStore.getState().clearToken()
+        
+        // Clear cached stores to prevent cross-user leakage
+        useInstallationStore.getState().setInstallations([])
+        useInstallationStore.getState().setAssets([])
+        useInstallationStore.getState().setOwnerId(null)
+        useWorkOrderStore.getState().setWorkOrders([])
+        useWorkOrderStore.getState().setOwnerId(null)
         
         set({
           user: null,
