@@ -2,8 +2,9 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom"
 import { useAuthStore } from "../../../store/authStore"
 import {
   LogOut, Home, Package, Truck,
-  ClipboardList, Menu, X, Building, User, CreditCard, Settings,
-  ChevronsLeft, ChevronsRight, ChevronDown, Boxes, Shield, Wrench, Briefcase
+  ClipboardList, Menu, X, Building, User, Settings,
+  ChevronsLeft, ChevronsRight, ChevronDown, Boxes, Shield, Wrench, Briefcase,
+  Cog, CalendarCog
 } from "lucide-react"
 import { useLayoutStore } from "../../../store/layoutStore"
 import styles from "./Nav.module.css"
@@ -284,7 +285,7 @@ const Nav = () => {
                   aria-expanded={isMaintenanceMenuOpen || (isSidebarCollapsed && isMaintenanceHovered)}
                 >
                   <span className={styles.groupButtonContent}>
-                    <CreditCard size={20} /> <span className={styles.linkText}>{t('nav.maintenance')}</span>
+                    <Cog size={20} /> <span className={styles.linkText}>{t('nav.maintenance')}</span>
                   </span>
                   <ChevronDown
                     size={16}
@@ -298,7 +299,7 @@ const Nav = () => {
                 >
                   {!isTechnicianUser && !isSuperAdminUser && !isClientUser && (
                     <NavLink to={maintenancePlanRoute} className={({ isActive }) => `${styles.submenuLink} ${isActive ? styles.active : ""}`} onClick={() => { setIsMenuOpen(false); setIsMaintenanceHovered(false) }}>
-                      <CreditCard size={20} /> <span className={styles.linkText}>{t('nav.maintenancePlan')}</span>
+                      <CalendarCog size={20} /> <span className={styles.linkText}>{t('nav.maintenancePlan')}</span>
                     </NavLink>
                   )}
                 </div>
