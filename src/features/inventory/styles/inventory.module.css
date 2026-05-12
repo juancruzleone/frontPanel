@@ -158,6 +158,23 @@
   flex-direction: column;
   gap: 16px;
   width: 100%;
+  position: relative;
+  overflow: visible;
+}
+
+.inventoryCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, black, rgba(0, 0, 0, 0.8));
+  border-radius: 14px 14px 0 0;
+}
+
+:global(.dark) .inventoryCard::before {
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
 }
 
 .cardHeader {

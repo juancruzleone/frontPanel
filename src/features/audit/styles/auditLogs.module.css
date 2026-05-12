@@ -147,34 +147,51 @@
 }
 
 .tableContainer {
-  background: var(--bg-primary, #ffffff);
-  border: 1px solid var(--border-color, #e5e7eb);
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.tableContainer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, black, rgba(0, 0, 0, 0.8));
+  z-index: 10;
+}
+
+:global(.dark) .tableContainer::before {
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  text-align: left;
+  text-align: center;
 }
 
 .table th {
-  background: var(--bg-secondary, #f9fafb);
-  padding: 12px 16px;
-  font-size: 12px;
-  font-weight: 600;
+  background: var(--color-bg-light);
+  padding: 16px 24px;
+  font-size: 13px;
+  font-weight: 700;
   text-transform: uppercase;
-  color: var(--text-secondary, #4b5563);
-  border-bottom: 1px solid var(--border-color, #e5e7eb);
+  color: var(--color-text);
+  border-bottom: 2px solid var(--color-text);
+  letter-spacing: 1px;
 }
 
 .table td {
-  padding: 16px;
+  padding: 16px 24px;
   font-size: 14px;
-  color: var(--text-primary, #374151);
-  border-bottom: 1px solid var(--border-color, #e5e7eb);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-card-border);
 }
 
 .table tr:last-child td {
@@ -182,5 +199,5 @@
 }
 
 .table tr:hover td {
-  background: var(--bg-secondary, #f9fafb);
+  background: var(--color-bg-light);
 }
