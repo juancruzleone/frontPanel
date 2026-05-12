@@ -434,6 +434,11 @@
     transform: scale(1.1);
 }
 
+.themeToggleButton:hover .moonIcon {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+}
+
 .themeToggleButton:active .themeIconStack {
     transform: scale(0.92);
 }
