@@ -36,6 +36,12 @@
   border: 2px solid #000 !important;
 }
 
+/* Forzamos que el icono dentro del botón de tema sea negro en modo claro (solo para el Login) */
+:global([data-theme="light"]) .formTopControls button svg {
+  color: #000 !important;
+  stroke: #000 !important;
+}
+
 .formHeader {
   margin-bottom: 1.05rem;
 }
