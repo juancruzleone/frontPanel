@@ -25,7 +25,8 @@ export const useWorkOrdersTour = () => {
         {
           popover: {
             title: t('workOrders.tour.welcome.title'),
-            description: t('workOrders.tour.welcome.description')
+            description: t('workOrders.tour.welcome.description'),
+            showButtons: ['next', 'close']
           }
         },
         {

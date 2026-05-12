@@ -58,6 +58,7 @@ const MainLayout: React.FC = () => {
               description: t('installations.tour.welcome.description'),
               side: 'bottom',
               align: 'start',
+              showButtons: ['next', 'close'],
             },
           },
           {

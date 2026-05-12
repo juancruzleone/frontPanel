@@ -25,7 +25,8 @@ export const useSubscriptionsTour = () => {
         {
           popover: {
             title: t('subscriptions.tour.welcome.title'),
-            description: t('subscriptions.tour.welcome.description')
+            description: t('subscriptions.tour.welcome.description'),
+            showButtons: ['next', 'close']
           }
         },
         {

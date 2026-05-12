@@ -31,7 +31,8 @@ export const useAssetsTour = () => {
         {
           popover: {
             title: t('assets.tour.welcome.title'),
-            description: t('assets.tour.welcome.description')
+            description: t('assets.tour.welcome.description'),
+            showButtons: ['next', 'close']
           }
         },
         {
@@ -83,7 +84,8 @@ export const useAssetsTour = () => {
             title: t('assets.tour.createFormTemplate.title'),
             description: t('assets.tour.createFormTemplate.description'),
             side: "left",
-            align: 'start'
+            align: 'start',
+            showButtons: ['next', 'close']
           }
         },
         {
@@ -121,7 +123,8 @@ export const useAssetsTour = () => {
             title: t('assets.tour.createAsset.title'),
             description: t('assets.tour.createAsset.description'),
             side: "left",
-            align: 'start'
+            align: 'start',
+            showButtons: ['next', 'close']
           }
         },
         {

@@ -28,7 +28,8 @@ export const useFormsTour = () => {
         {
           popover: {
             title: t('forms.tour.welcome.title'),
-            description: t('forms.tour.welcome.description')
+            description: t('forms.tour.welcome.description'),
+            showButtons: ['next', 'close']
           }
         },
         {

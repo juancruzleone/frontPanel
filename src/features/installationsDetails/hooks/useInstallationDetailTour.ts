@@ -25,7 +25,8 @@ export const useInstallationDetailTour = () => {
         {
           popover: {
             title: t('installationDetails.tour.welcome.title'),
-            description: t('installationDetails.tour.welcome.description')
+            description: t('installationDetails.tour.welcome.description'),
+            showButtons: ['next', 'close']
           }
         },
         {

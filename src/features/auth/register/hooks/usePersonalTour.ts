@@ -23,7 +23,8 @@ export const usePersonalTour = () => {
         {
           popover: {
             title: t('personal.tour.welcome.title'),
-            description: t('personal.tour.welcome.description')
+            description: t('personal.tour.welcome.description'),
+            showButtons: ['next', 'close']
           }
         },
         {

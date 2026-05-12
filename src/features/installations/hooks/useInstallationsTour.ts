@@ -30,7 +30,8 @@ export const useInstallationsTour = () => {
         {
           popover: {
             title: t('installations.tour.welcome.title'),
-            description: t('installations.tour.welcome.description')
+            description: t('installations.tour.welcome.description'),
+            showButtons: ['next', 'close']
           }
         },
         {

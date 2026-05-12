@@ -23,7 +23,8 @@ export const useClientsTour = () => {
                 {
                     popover: {
                         title: t('clients.tour.welcome.title'),
-                        description: t('clients.tour.welcome.description')
+                        description: t('clients.tour.welcome.description'),
+                        showButtons: ['next', 'close']
                     }
                 },
                 {

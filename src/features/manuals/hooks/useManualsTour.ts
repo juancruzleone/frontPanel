@@ -30,7 +30,8 @@ export const useManualsTour = () => {
         {
           popover: {
             title: t('manuals.tour.welcome.title'),
-            description: t('manuals.tour.welcome.description')
+            description: t('manuals.tour.welcome.description'),
+            showButtons: ['next', 'close']
           }
         },
         {
