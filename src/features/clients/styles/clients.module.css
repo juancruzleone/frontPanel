@@ -121,6 +121,60 @@
   top: 0;
   left: 0;
   right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, black, rgba(0, 0, 0, 0.8));
+  z-index: 10;
+}
+
+:global(.dark) .tableContainer::before {
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
+}
+
+.cardsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadeIn 0.3s ease-out;
+  width: 100%;
+}
+
+.clientCard {
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  position: relative;
+  overflow: visible;
+}
+
+.clientCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, black, rgba(0, 0, 0, 0.8));
+  border-radius: 12px 12px 0 0;
+}
+
+:global(.dark) .clientCard::before {
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
+}
+
+.tableContainer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 3px;
   background: var(--color-text);
 }

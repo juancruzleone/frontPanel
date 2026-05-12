@@ -205,19 +205,26 @@
 
 .cardDetails div {
   display: flex;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: flex-start;
+  gap: 8px;
   font-size: 0.875rem;
 }
 
 .cardDetails span {
-  color: var(--color-text-secondary, var(--color-text));
-  opacity: 0.72;
+  color: var(--color-text);
+  opacity: 0.9;
+  font-weight: 500;
+  min-width: 140px;
+}
+
+:global([data-theme="light"]) .cardDetails span {
+  color: #333;
+  opacity: 1;
 }
 
 .cardDetails strong {
   color: var(--color-text);
-  text-align: right;
+  text-align: left;
 }
 
 .statusBadge {

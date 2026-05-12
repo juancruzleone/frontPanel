@@ -146,7 +146,7 @@ const useInstallations = () => {
       return
     }
 
-    const { installations: currentStored, ownerId: currentOwnerId } = useInstallationStore.getState()
+    const { installations: currentStored, ownerId: currentOwnerId, setInstallations: storeSetInstallations } = useInstallationStore.getState()
     const { userId: currentUserId } = useAuthStore.getState()
     const currentValidStored = currentOwnerId === currentUserId ? currentStored : []
 
@@ -179,11 +179,11 @@ const useInstallations = () => {
       setFilteredOfflineInstallations(null)
 
       if (result.success && result.pagination) {
-        setInstallations(result.data)
+        storeSetInstallations(result.data)
         setPagination(result.pagination)
       } else {
         const installationsArray = Array.isArray(result) ? result : [];
-        setInstallations(installationsArray)
+        storeSetInstallations(installationsArray)
       }
     } catch (err: unknown) {
       if (currentValidStored.length > 0) {
@@ -211,7 +211,7 @@ const useInstallations = () => {
     } finally {
       setLoading(false)
     }
-  }, [isAuthenticated, storedInstallations, setInstallations])
+  }, [isAuthenticated])
 
   const loadInstallationDetails = useCallback(async (id: string) => {
     setLoading(true)

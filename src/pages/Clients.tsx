@@ -41,10 +41,14 @@ const Clients = () => {
     const { installations, loadInstallations } = useInstallations()
 
     useEffect(() => {
-        fetchClients()
-        loadInstallations()
+        const loadInitialData = async () => {
+            await fetchClients()
+            await loadInstallations()
+        }
+        loadInitialData()
         document.title = t('clients.titlePage')
-    }, [fetchClients, loadInstallations, t])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     useEffect(() => {
         if (!tourCompleted && clients.length >= 0) {
