@@ -29,3 +29,13 @@ export const validateInventoryForm = async (data: any, t: (key: string) => strin
     return { isValid: false, errors }
   }
 }
+
+export const validateInventoryField = async (name: string, value: any, t: (key: string) => string) => {
+  const schema = getInventorySchema(t)
+  try {
+    await schema.validateAt(name, { [name]: value })
+    return { isValid: true, error: "" }
+  } catch (err: any) {
+    return { isValid: false, error: err.message }
+  }
+}

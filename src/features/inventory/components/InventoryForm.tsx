@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useTranslation } from "react-i18next"
-import { validateInventoryForm } from "../validators/inventoryValidators"
+import { validateInventoryForm, validateInventoryField } from "../validators/inventoryValidators"
 import { InventoryItem } from "../types/inventory.types"
 import styles from "../styles/inventoryForm.module.css"
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
@@ -28,18 +28,36 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
     location: initialData?.location || "",
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [touched, setTouched] = useState<Record<string, boolean>>({})
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: "" }))
+    const updatedValue = (e.target.type === "number") ? Number(value) : value
+    const updatedData = { ...formData, [name]: updatedValue }
+    setFormData(updatedData)
+    
+    if (touched[name]) {
+      const result = await validateInventoryField(name, updatedValue, t)
+      setErrors(prev => ({ ...prev, [name]: result.isValid ? "" : result.error }))
     }
+  }
+
+  const handleBlur = async (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target
+    const updatedValue = (e.target.type === "number") ? Number(value) : value
+    setTouched(prev => ({ ...prev, [name]: true }))
+    const result = await validateInventoryField(name, updatedValue, t)
+    setErrors(prev => ({ ...prev, [name]: result.isValid ? "" : result.error }))
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
+    // Mark all as touched
+    const allTouched: Record<string, boolean> = {}
+    Object.keys(formData).forEach(key => allTouched[key] = true)
+    setTouched(allTouched)
+
     const validation = await validateInventoryForm(formData, t)
     if (!validation.isValid) {
       setErrors(validation.errors)
@@ -64,10 +82,11 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
             type="text"
             value={formData.name}
             onChange={handleChange}
-            className={errors.name ? styles.errorInput : ""}
+            onBlur={handleBlur}
+            className={errors.name && touched.name ? styles.errorInput : ""}
             disabled={isLoading}
           />
-          {errors.name && <span className={styles.error}>{errors.name}</span>}
+          {errors.name && touched.name && <span className={styles.error}>{errors.name}</span>}
         </div>
 
         <div className={styles.formGroup}>
@@ -78,10 +97,11 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
             type="text"
             value={formData.unit}
             onChange={handleChange}
-            className={errors.unit ? styles.errorInput : ""}
+            onBlur={handleBlur}
+            className={errors.unit && touched.unit ? styles.errorInput : ""}
             disabled={isLoading}
           />
-          {errors.unit && <span className={styles.error}>{errors.unit}</span>}
+          {errors.unit && touched.unit && <span className={styles.error}>{errors.unit}</span>}
         </div>
 
         <div className={styles.grid}>
@@ -93,8 +113,11 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
               type="number"
               value={formData.currentStock}
               onChange={handleChange}
+              onBlur={handleBlur}
+              className={errors.currentStock && touched.currentStock ? styles.errorInput : ""}
               disabled={isLoading}
             />
+            {errors.currentStock && touched.currentStock && <span className={styles.error}>{errors.currentStock}</span>}
           </div>
 
           <div className={styles.formGroup}>
@@ -105,8 +128,11 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
               type="number"
               value={formData.minimumStock}
               onChange={handleChange}
+              onBlur={handleBlur}
+              className={errors.minimumStock && touched.minimumStock ? styles.errorInput : ""}
               disabled={isLoading}
             />
+            {errors.minimumStock && touched.minimumStock && <span className={styles.error}>{errors.minimumStock}</span>}
           </div>
         </div>
 
@@ -118,6 +144,7 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
             type="text"
             value={formData.category}
             onChange={handleChange}
+            onBlur={handleBlur}
             disabled={isLoading}
           />
         </div>
@@ -130,6 +157,7 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
             type="text"
             value={formData.location}
             onChange={handleChange}
+            onBlur={handleBlur}
             disabled={isLoading}
           />
         </div>

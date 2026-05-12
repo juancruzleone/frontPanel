@@ -282,6 +282,8 @@
     "technician": "Técnico"
   },
   "common": {
+    "user": "Usuario",
+    "type": "Tipo",
     "saving": "Guardando...",
     "sending": "Enviando...",
     "deleting": "Eliminando...",
@@ -1687,6 +1689,7 @@
     "allTechnicians": "Todos los técnicos"
   },
   "inventory": {
+    "reference": "Referencia",
     "title": "Inventario",
     "addItem": "Agregar Item",
     "editItem": "Editar Item",

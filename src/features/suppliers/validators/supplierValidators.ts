@@ -9,14 +9,16 @@ interface SupplierFormData {
   address?: string
 }
 
+export const getSupplierSchema = (t: TFunction) => yup.object().shape({
+  name: yup.string().required(t('suppliers.validation.nameRequired')),
+  contactName: yup.string(),
+  email: yup.string().email(t('suppliers.validation.emailInvalid')).nullable().transform(v => v === "" ? null : v),
+  phone: yup.string(),
+  address: yup.string(),
+})
+
 export const validateSupplierForm = async (data: SupplierFormData, t: TFunction) => {
-  const schema = yup.object().shape({
-    name: yup.string().required(t('suppliers.validation.nameRequired')),
-    contactName: yup.string(),
-    email: yup.string().email(t('suppliers.validation.emailInvalid')).nullable(),
-    phone: yup.string(),
-    address: yup.string(),
-  })
+  const schema = getSupplierSchema(t)
 
   try {
     await schema.validate(data, { abortEarly: false })
@@ -29,5 +31,18 @@ export const validateSupplierForm = async (data: SupplierFormData, t: TFunction)
       })
     }
     return { isValid: false, errors }
+  }
+}
+
+export const validateSupplierField = async (name: string, value: any, t: TFunction) => {
+  const schema = getSupplierSchema(t)
+  try {
+    await schema.validateAt(name, { [name]: value })
+    return { isValid: true, error: "" }
+  } catch (err: unknown) {
+    if (err instanceof yup.ValidationError) {
+      return { isValid: false, error: err.message }
+    }
+    return { isValid: false, error: "Invalid field" }
   }
 }

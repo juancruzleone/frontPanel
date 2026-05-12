@@ -278,6 +278,8 @@
     }
   },
   "common": {
+    "user": "Usuário",
+    "type": "Tipo",
     "actions": "Ações",
     "update": "editar",
     "understood": "Fechar",
@@ -1994,6 +1996,7 @@
     }
   },
   "inventory": {
+    "reference": "Referência",
     "title": "Inventário",
     "addItem": "Adicionar Item",
     "editItem": "Editar Item",

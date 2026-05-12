@@ -281,6 +281,8 @@
     }
   },
   "common": {
+    "user": "用户",
+    "type": "类型",
     "page": "页",
     "of": "共",
     "actions": "操作",
@@ -2027,6 +2029,7 @@
     }
   },
   "inventory": {
+    "reference": "参考",
     "title": "库存管理",
     "addItem": "添加项目",
     "editItem": "编辑项目",

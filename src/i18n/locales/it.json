@@ -278,6 +278,8 @@
     }
   },
   "common": {
+    "user": "Utente",
+    "type": "Tipo",
     "page": "Pagina",
     "of": "di",
     "actions": "Azioni",
@@ -1992,6 +1994,7 @@
     }
   },
   "inventory": {
+    "reference": "Riferimento",
     "title": "Inventario",
     "addItem": "Aggiungi articolo",
     "editItem": "Modifica articolo",

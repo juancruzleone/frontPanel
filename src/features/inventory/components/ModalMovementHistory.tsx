@@ -57,12 +57,12 @@ export const ModalMovementHistory: React.FC<ModalMovementHistoryProps> = ({
     },
     {
       key: 'afterStock',
-      header: t('inventory.reference', { defaultValue: 'Referencia' }),
+      header: t('inventory.reference'),
       render: (m: InventoryMovement) => {
         if (!m.referenceType) return '-'
         const refType = m.referenceType === 'work_order'
-          ? t('workOrders.workOrder', { defaultValue: 'Orden de trabajo' })
-          : t('inventory.manualAdjustment', { defaultValue: 'Ajuste manual' })
+          ? t('workOrders.workOrder')
+          : t('inventory.manualAdjustment')
         return `${refType}: ${m.referenceId ?? '-'}`
       },
       width: '25%'

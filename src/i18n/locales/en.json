@@ -282,6 +282,8 @@
     }
   },
   "common": {
+    "user": "User",
+    "type": "Type",
     "saving": "Saving",
     "sending": "Sending...",
     "deleting": "Deleting...",
@@ -1673,6 +1675,7 @@
     }
   },
   "inventory": {
+    "reference": "Reference",
     "title": "Inventory",
     "addItem": "Add Item",
     "editItem": "Edit Item",

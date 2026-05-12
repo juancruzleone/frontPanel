@@ -281,6 +281,8 @@
     }
   },
   "common": {
+    "user": "사용자",
+    "type": "유형",
     "page": "페이지",
     "of": "중",
     "actions": "동작",
@@ -2036,6 +2038,7 @@
     }
   },
   "inventory": {
+    "reference": "참조",
     "title": "재고 관리",
     "addItem": "품목 추가",
     "editItem": "품목 편집",

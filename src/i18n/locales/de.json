@@ -263,6 +263,8 @@
     }
   },
   "common": {
+    "user": "Benutzer",
+    "type": "Typ",
     "page": "Seite",
     "of": "von",
     "actions": "Aktionen",
@@ -1894,6 +1896,7 @@
     }
   },
   "inventory": {
+    "reference": "Referenz",
     "title": "Inventar",
     "addItem": "Artikel hinzufügen",
     "editItem": "Artikel bearbeiten",

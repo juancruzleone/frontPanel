@@ -281,6 +281,8 @@
     }
   },
   "common": {
+    "user": "ユーザー",
+    "type": "タイプ",
     "page": "ページ",
     "of": "の",
     "actions": "操作",
@@ -2002,6 +2004,7 @@
     }
   },
   "inventory": {
+    "reference": "参照",
     "title": "在庫管理",
     "addItem": "アイテムを追加",
     "editItem": "アイテムを編集",
