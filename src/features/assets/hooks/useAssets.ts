@@ -128,6 +128,16 @@ const useAssets = () => {
   const editAsset = async (id: string, updatedData: Asset): Promise<{ message: string }> => {
     try {
       const updatedAsset = await updateAsset(id, updatedData)
+      
+      const originalAsset = assets.find(a => a._id === id)
+      const newStock = Number(updatedData.stock)
+      const oldStock = Number(originalAsset?.stock || 0)
+
+      if (!isNaN(newStock) && newStock !== oldStock) {
+        await apiUpdateAssetStock(id, newStock)
+        updatedAsset.stock = newStock
+      }
+
       setAssets((prev) => prev.map((asset) => (asset._id === id ? updatedAsset : asset)))
       return { message: "Activo actualizado con éxito" }
     } catch (err: any) {
