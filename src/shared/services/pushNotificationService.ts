@@ -81,7 +81,7 @@ class PushNotificationService {
       endpoint,
       keys: subscription.toJSON().keys,
       platform: 'web',
-      source: 'frontGMAO',
+      source: 'leonix-cmms',
     }
 
     let synced = false
