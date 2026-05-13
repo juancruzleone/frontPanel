@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react"
 import { fetchDeviceForm, submitDeviceMaintenance } from "../services/deviceFormService"
 import { useTranslation } from "react-i18next"
 import { offlineSyncService } from "../../../shared/services/offlineSyncService"
+import { useOfflineStore } from "../../../store/offlineStore"
 
 interface FormField {
   name: string
@@ -60,7 +61,21 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
   const [success, setSuccess] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [isOnline, setIsOnline] = useState(navigator.onLine)
-  const [pendingSubmissions, setPendingSubmissions] = useState<OfflineSubmission[]>([])
+  const addToQueue = useOfflineStore(state => state.addToQueue)
+  const queue = useOfflineStore(state => state.queue)
+  
+  // Filtrar solo los mantenimientos pendientes
+  const pendingSubmissions = queue
+    .filter(req => req.type === 'DEVICE_MAINTENANCE')
+    .map(req => ({
+      id: req.id,
+      installationId: req.metadata?.installationId || '',
+      deviceId: req.metadata?.deviceId || '',
+      formData: req.payload,
+      timestamp: req.timestamp,
+      retryCount: req.retries || 0
+    }))
+
   const isSyncingRef = useRef(false)
   
   // Estados para fotos y firma
@@ -84,7 +99,8 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
   // Sincronizar cuando vuelve la conexión
   useEffect(() => {
     if (isOnline && pendingSubmissions.length > 0) {
-      syncPendingSubmissions()
+      // offlineSyncService ya escucha el evento 'online', 
+      // así que no necesitamos llamar a syncPendingSubmissions aquí duplicado.
     }
   }, [isOnline, pendingSubmissions.length])
 
@@ -155,110 +171,11 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
     }
   }, [installationId, deviceId])
 
-  // Cargar envíos pendientes al inicializar
-  useEffect(() => {
-    loadPendingSubmissions()
-    cleanupExpiredSubmissions()
-  }, [])
-
-  // Funciones para manejo offline
-  const cleanupExpiredSubmissions = () => {
-    try {
-      const stored = localStorage.getItem('pendingMaintenanceSubmissions')
-      if (!stored) return
-
-      const submissions: OfflineSubmission[] = JSON.parse(stored)
-      const now = Date.now()
-      const ONE_WEEK = 7 * 24 * 60 * 60 * 1000
-      
-      // Filtrar por expiración y luego limitar a los 20 más recientes
-      const valid = submissions
-        .filter(sub => (now - sub.timestamp) < ONE_WEEK)
-        .slice(-20)
-      
-      if (valid.length !== submissions.length) {
-        setPendingSubmissions(valid)
-        localStorage.setItem('pendingMaintenanceSubmissions', JSON.stringify(valid))
-      }
-    } catch (error) {
-    }
-  }
-
-  const loadPendingSubmissions = () => {
-    try {
-      const stored = localStorage.getItem('pendingMaintenanceSubmissions')
-      if (stored) {
-        const submissions: OfflineSubmission[] = JSON.parse(stored)
-        setPendingSubmissions(submissions)
-      }
-    } catch (error) {
-    }
-  }
-
-  const savePendingSubmission = (submission: OfflineSubmission) => {
-    try {
-      setPendingSubmissions(prev => {
-        // Limitar a máximo 20 envíos pendientes para evitar llenar el localStorage
-        const updated = [...prev, submission].slice(-20)
-        localStorage.setItem('pendingMaintenanceSubmissions', JSON.stringify(updated))
-        return updated
-      })
-    } catch (error) {
-    }
-  }
-
-  const removePendingSubmission = (id: string) => {
-    try {
-      setPendingSubmissions(prev => {
-        const updated = prev.filter(sub => sub.id !== id)
-        localStorage.setItem('pendingMaintenanceSubmissions', JSON.stringify(updated))
-        return updated
-      })
-    } catch (error) {
-    }
-  }
+  // Funciones para manejo offline (Redundantes con useOfflineStore)
 
   const syncPendingSubmissions = async () => {
-    if (isSyncingRef.current || !isOnline || pendingSubmissions.length === 0) return
-
-    isSyncingRef.current = true
-    try {
-      const submissionsToSync = [...pendingSubmissions]
-
-      for (const submission of submissionsToSync) {
-        try {
-          await submitDeviceMaintenance(
-            submission.installationId,
-            submission.deviceId,
-            {
-              ...submission.formData,
-              fechaEjecucionOffline: new Date(submission.timestamp).toISOString(),
-              offlineSync: true,
-            }
-          )
-          removePendingSubmission(submission.id)
-
-        } catch (error) {
-          // Incrementar contador de reintentos
-          const updatedSubmission = {
-            ...submission,
-            retryCount: submission.retryCount + 1
-          }
-
-          // No descartamos mantenimientos por cantidad de reintentos: perder un parte
-          // offline es peor que dejarlo pendiente y visible para reintento posterior.
-          setPendingSubmissions(prev => {
-            const updated = prev.map(sub =>
-              sub.id === submission.id ? updatedSubmission : sub
-            )
-            localStorage.setItem('pendingMaintenanceSubmissions', JSON.stringify(updated))
-            return updated
-          })
-        }
-      }
-    } finally {
-      isSyncingRef.current = false
-    }
+    // offlineSyncService maneja la sincronización global ahora
+    await offlineSyncService.syncAll()
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -356,16 +273,15 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
         setFirmaTecnico("")
       } else {
         // Guardar para envío posterior si no hay conexión
-        const submission: OfflineSubmission = {
-          id: `submission_${Date.now()}_${Math.random()}`,
-          installationId: installationId!,
-          deviceId: deviceId!,
-          formData: dataToSubmit,
-          timestamp: Date.now(),
-          retryCount: 0
-        }
+        addToQueue({
+          type: 'DEVICE_MAINTENANCE',
+          payload: dataToSubmit,
+          metadata: {
+            installationId,
+            deviceId
+          }
+        })
 
-        savePendingSubmission(submission)
         offlineSyncService.registerBackgroundSync()
         setSuccess("Mantenimiento guardado. Se enviará automáticamente cuando haya conexión.")
 

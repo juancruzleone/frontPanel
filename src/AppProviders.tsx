@@ -47,8 +47,23 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
         if (!cancelled) {
           hydrateSession(response)
         }
-      } catch {
+      } catch (err) {
         if (!cancelled) {
+          // Si el error es de red (offline), mantenemos el estado actual del store
+          // Si es un error explícito de sesión inválida (401), el store debería resetearse
+          const isNetworkError = !navigator.onLine || 
+            (err instanceof Error && (
+              err.message.toLowerCase().includes('network') || 
+              err.message.toLowerCase().includes('fetch') ||
+              err.message.toLowerCase().includes('failed to fetch')
+            ));
+          
+          if (!isNetworkError) {
+             // Solo si es un error de autenticación real (no de red)
+             // podríamos forzar un logout, pero por ahora solo resolvemos
+             // para dejar que los ProtectedRoutes decidan según el estado cacheado.
+          }
+          
           setAuthResolved(true)
         }
       }

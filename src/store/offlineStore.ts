@@ -1,11 +1,16 @@
 import { create } from "zustand"
-import { persist } from "zustand/middleware"
+import { persist, createJSONStorage } from "zustand/middleware"
+import { indexedDBStorage } from "../utils/indexedDBStorage"
 
 export interface QueuedRequest {
   id: string
   userId?: string | null
-  type: 'CREATE_WORK_ORDER' | 'UPDATE_WORK_ORDER' | 'COMPLETE_WORK_ORDER' | 'START_WORK_ORDER' | 'CREATE_INSTALLATION' | 'UPDATE_INSTALLATION' | 'DELETE_INSTALLATION'
+  type: 'CREATE_WORK_ORDER' | 'UPDATE_WORK_ORDER' | 'COMPLETE_WORK_ORDER' | 'START_WORK_ORDER' | 'CREATE_INSTALLATION' | 'UPDATE_INSTALLATION' | 'DELETE_INSTALLATION' | 'DEVICE_MAINTENANCE'
   payload: Record<string, unknown>
+  metadata?: {
+    installationId?: string
+    deviceId?: string
+  }
   timestamp: number
   retries?: number
   lastError?: string
@@ -27,7 +32,7 @@ export const useOfflineStore = create<OfflineState>()(
       addToQueue: (request) => {
         let userId = null
         try {
-          const authState = window.sessionStorage.getItem('auth-storage')
+          const authState = window.localStorage.getItem('auth-storage')
           if (authState) {
             userId = JSON.parse(authState).state?.userId || null
           }
@@ -42,6 +47,7 @@ export const useOfflineStore = create<OfflineState>()(
               id: crypto.randomUUID(),
               userId,
               timestamp: Date.now(),
+              retries: 0
             },
           ],
         }))
@@ -77,6 +83,9 @@ export const useOfflineStore = create<OfflineState>()(
         }),
       clearQueue: () => set({ queue: [] }),
     }),
-    { name: "offline-storage" }
+    { 
+      name: "offline-storage",
+      storage: createJSONStorage(() => indexedDBStorage)
+    }
   )
 )

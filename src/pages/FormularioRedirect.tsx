@@ -64,19 +64,27 @@ const FormularioRedirect = () => {
 
       // Si NO hay token → Usuario sin login → Obtener PDF del último mantenimiento
       if (!isAuthenticated) {
-
+        if (!navigator.onLine) {
+          setError('Se requiere conexión a internet para ver el último mantenimiento o cargar el formulario por primera vez.')
+          return
+        }
         await redirectToLastMaintenance()
         return
       }
 
       // Si hay token Y el usuario es CLIENTE → También redirigir al último mantenimiento
       if (isClient(role)) {
-
+        if (!navigator.onLine) {
+          setError('Se requiere conexión a internet para ver el PDF del último mantenimiento.')
+          return
+        }
         await redirectToLastMaintenance()
         return
       }
 
       // Si hay token Y NO es cliente → Usuario logueado → Formulario protegido interno
+      // En modo offline, si ya estamos logueados (cacheado), permitimos ir al formulario interno
+      // que tiene su propia lógica de cache de campos.
       navigate(`/formulario-interno/${installationId}/${deviceId}`, { replace: true })
     }
 

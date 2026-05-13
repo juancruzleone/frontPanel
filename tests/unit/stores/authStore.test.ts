@@ -5,7 +5,7 @@ describe('AuthStore', () => {
   beforeEach(() => {
     // Reset store before each test
     useAuthStore.getState().logout()
-    sessionStorage.clear()
+    localStorage.clear()
   })
 
   describe('Initial State', () => {
@@ -180,7 +180,7 @@ describe('AuthStore', () => {
   })
 
   describe('Persistence', () => {
-    it('should persist auth data to sessionStorage', () => {
+    it('should persist auth data to localStorage', () => {
       const loginData = {
         user: {
           _id: 'user123',
@@ -192,7 +192,7 @@ describe('AuthStore', () => {
 
       useAuthStore.getState().login(loginData)
 
-      const stored = sessionStorage.getItem('auth-storage')
+      const stored = localStorage.getItem('auth-storage')
       expect(stored).toBeTruthy()
       
       const parsed = JSON.parse(stored!)
@@ -200,7 +200,7 @@ describe('AuthStore', () => {
       expect(parsed.state).not.toHaveProperty('token')
     })
 
-    it('should clear sessionStorage on logout', () => {
+    it('should clear localStorage on logout', () => {
       const loginData = {
         user: {
           _id: 'user123',
@@ -212,7 +212,7 @@ describe('AuthStore', () => {
       useAuthStore.getState().login(loginData)
       useAuthStore.getState().logout()
 
-      const stored = sessionStorage.getItem('auth-storage')
+      const stored = localStorage.getItem('auth-storage')
       const parsed = JSON.parse(stored!)
       
       expect(parsed.state.user).toBeNull()

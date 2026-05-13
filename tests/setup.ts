@@ -67,6 +67,78 @@ const createLocalStorageMock = () => {
 }
 
 global.localStorage = createLocalStorageMock() as any
+global.sessionStorage = createLocalStorageMock() as any
+
+// Mock de indexedDB funcional para tests
+const createIDBMock = () => {
+  const dbs = new Map();
+
+  return {
+    open: (name: string) => {
+      const request: any = {
+        onsuccess: null,
+        onerror: null,
+        onupgradeneeded: null,
+        result: {
+          objectStoreNames: {
+            contains: () => true
+          },
+          transaction: (storeName: string) => {
+            const store = dbs.get(name) || new Map();
+            dbs.set(name, store);
+            return {
+              objectStore: () => ({
+                get: (key: string) => {
+                  const req: any = { onsuccess: null, onerror: null, result: store.get(key) };
+                  setTimeout(() => req.onsuccess && req.onsuccess({ target: req }), 0);
+                  return req;
+                },
+                getAll: () => {
+                  const req: any = { onsuccess: null, onerror: null, result: Array.from(store.values()) };
+                  setTimeout(() => req.onsuccess && req.onsuccess({ target: req }), 0);
+                  return req;
+                },
+                put: (val: any, key: string) => {
+                  store.set(key, val);
+                  const req: any = { onsuccess: null, onerror: null };
+                  setTimeout(() => req.onsuccess && req.onsuccess({ target: req }), 0);
+                  return req;
+                },
+                add: (val: any) => {
+                  const key = val.id;
+                  store.set(key, val);
+                  const req: any = { onsuccess: null, onerror: null };
+                  setTimeout(() => req.onsuccess && req.onsuccess({ target: req }), 0);
+                  return req;
+                },
+                delete: (key: string) => {
+                  store.delete(key);
+                  const req: any = { onsuccess: null, onerror: null };
+                  setTimeout(() => req.onsuccess && req.onsuccess({ target: req }), 0);
+                  return req;
+                },
+                clear: () => {
+                  store.clear();
+                  const req: any = { onsuccess: null, onerror: null };
+                  setTimeout(() => req.onsuccess && req.onsuccess({ target: req }), 0);
+                  return req;
+                }
+              }),
+              oncomplete: null,
+              onerror: null
+            };
+          }
+        }
+      };
+      setTimeout(() => {
+        if (request.onsuccess) request.onsuccess({ target: request });
+      }, 0);
+      return request;
+    }
+  };
+};
+
+global.indexedDB = createIDBMock() as any;
 
 // Mock de fetch
 global.fetch = vi.fn()

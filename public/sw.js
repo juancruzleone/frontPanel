@@ -2,6 +2,10 @@ const CACHE_NAME = 'leonix-v1';
 const urlsToCache = [
   '/',
   '/index.html',
+  '/manifest.json',
+  '/favicon.svg',
+  '/logo leonix 5.svg',
+  '/theme-init.js'
 ];
 
 // Instalación del Service Worker

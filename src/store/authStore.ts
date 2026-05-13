@@ -182,7 +182,7 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: AUTH_STORAGE_KEY,
-      storage: createJSONStorage(() => sessionStorage),
+      storage: createJSONStorage(() => localStorage),
       partialize: (state) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { token, ...rest } = state
@@ -192,7 +192,7 @@ export const useAuthStore = create<AuthState>()(
   )
 )
 
-clearLegacyAuthStorage()
+// clearLegacyAuthStorage()
 
 // Selector para obtener el rol
 export const selectRole = (state: AuthState) => state.role
