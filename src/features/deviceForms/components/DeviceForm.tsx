@@ -68,6 +68,16 @@ const DeviceForm: React.FC = () => {
     return `${d}/${m}/${y}`;
   };
 
+  const getStringFieldValue = (fieldName: string) => {
+    const value = formData[fieldName]
+    return typeof value === "string" || typeof value === "number" ? value : ""
+  }
+
+  const getDateFieldValue = (fieldName: string) => {
+    const value = formData[fieldName]
+    return typeof value === "string" ? value : undefined
+  }
+
   // Funciones para manejo de firma digital
   const getCanvasPoint = (clientX: number, clientY: number) => {
     if (!canvasRef.current) return { x: 0, y: 0 }
@@ -315,7 +325,7 @@ const DeviceForm: React.FC = () => {
                   {field.type === "textarea" ? (
                     <textarea
                       name={field.name}
-                      value={formData[field.name] || ""}
+                      value={getStringFieldValue(field.name)}
                       onChange={handleChange}
                       required={field.required}
                       className={styles.textarea}
@@ -325,7 +335,7 @@ const DeviceForm: React.FC = () => {
                     <div className={styles.fullWidth}>
                       <HybridSelect
                         name={field.name}
-                        value={formData[field.name] || ""}
+                        value={String(getStringFieldValue(field.name))}
                         onChange={(value) => handleSelectChange(field.name, value)}
                         onBlur={() => handleSelectBlur(field.name)}
                         disabled={false}
@@ -346,7 +356,7 @@ const DeviceForm: React.FC = () => {
                       <input
                         type="text"
                         name={field.name}
-                        value={formatDate(formData[field.name])}
+                        value={formatDate(getDateFieldValue(field.name) || "")}
                         readOnly
                         required={field.required}
                         className={styles.input}
@@ -378,16 +388,10 @@ const DeviceForm: React.FC = () => {
                         isOpen={!!datePickerOpen[field.name]}
                         onRequestClose={() => setDatePickerOpen({ ...datePickerOpen, [field.name]: false })}
                         onDateSelect={(date) => {
-                          handleChange({
-                            target: {
-                              name: field.name,
-                              value: date,
-                              type: 'date',
-                            }
-                          } as any);
+                          handleSelectChange(field.name, date)
                           setDatePickerOpen({ ...datePickerOpen, [field.name]: false });
                         }}
-                        selectedDate={formData[field.name]}
+                        selectedDate={getDateFieldValue(field.name)}
                         title={t('deviceForm.selectDate')}
                         placeholder={t('deviceForm.selectDate')}
                       />
@@ -404,7 +408,7 @@ const DeviceForm: React.FC = () => {
                     <input
                       type={field.type}
                       name={field.name}
-                      value={formData[field.name] || ""}
+                      value={getStringFieldValue(field.name)}
                       onChange={handleChange}
                       required={field.required}
                       className={styles.input}

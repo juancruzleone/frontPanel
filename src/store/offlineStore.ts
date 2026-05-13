@@ -8,6 +8,7 @@ export interface QueuedRequest {
   payload: Record<string, unknown>
   timestamp: number
   retries?: number
+  lastError?: string
 }
 
 interface OfflineState {

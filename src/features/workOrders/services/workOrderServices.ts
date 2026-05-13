@@ -63,6 +63,12 @@ export type WorkOrder = {
   evidenciaFoto?: string
   firmaTecnico?: string
   formularioRespuestas?: Record<string, any>
+  fechaInicioOffline?: Date | string
+  fechaCompletadaOffline?: Date | string
+  fechaEjecucionOffline?: Date | string
+  timezone?: string
+  userOffset?: number
+  offlineSync?: boolean
   pdfUrl?: string
   historial?: {
     accion: string
@@ -218,7 +224,23 @@ export const assignTechnicianToWorkOrder = async (workOrderId: string, technicia
   return handleResponse(response)
 }
 
-export const completeWorkOrder = async (workOrderId: string, completionData: any) => {
+export type WorkOrderCompletionData = Record<string, unknown> & {
+  fechaCompletadaOffline?: string
+  fechaEjecucionOffline?: string
+  timezone?: string
+  userOffset?: number
+  offlineSync?: boolean
+}
+
+export type WorkOrderStartData = {
+  fechaInicioOffline?: string
+  fechaEjecucionOffline?: string
+  timezone?: string
+  userOffset?: number
+  offlineSync?: boolean
+}
+
+export const completeWorkOrder = async (workOrderId: string, completionData: WorkOrderCompletionData) => {
   const response = await fetch(`${API_URL}ordenes-trabajo/${workOrderId}/completar`, {
     method: "POST",
     headers: getHeadersWithContentType(),
@@ -229,10 +251,11 @@ export const completeWorkOrder = async (workOrderId: string, completionData: any
   return result.data || result
 }
 
-export const startWorkOrder = async (workOrderId: string) => {
+export const startWorkOrder = async (workOrderId: string, startData?: WorkOrderStartData) => {
   const response = await fetch(`${API_URL}ordenes-trabajo/${workOrderId}/iniciar`, {
     method: "PATCH",
-    headers: getAuthHeaders(),
+    headers: startData ? getHeadersWithContentType() : getAuthHeaders(),
+    ...(startData ? { body: JSON.stringify(startData) } : {}),
   })
 
   const result = await handleResponse(response)

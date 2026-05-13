@@ -44,34 +44,61 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Para rutas de la aplicación, siempre devolver index.html
+  // API Requests: cachear únicamente lecturas seguras. Las mutaciones se dejan pasar
+  // para que la app cliente las encole y sincronice con Zustand/localStorage.
+  if (url.origin === self.location.origin && url.pathname.startsWith('/api/')) {
+    if (request.method === 'GET') {
+      // Network First para GETs de API
+      event.respondWith(
+        fetch(request)
+          .then((response) => {
+            if (response.ok) {
+              const responseClone = response.clone();
+              caches.open('api-cache').then((cache) => {
+                cache.put(request, responseClone);
+              });
+            }
+            return response;
+          })
+          .catch(() => {
+            return caches.match(request);
+          })
+      );
+    }
+    return;
+  }
+
+  // Para rutas de la aplicación, siempre devolver index.html (Navigation fallback)
   if (request.mode === 'navigate') {
     event.respondWith(
-      caches.match('/index.html')
-        .then((response) => {
-          return response || fetch('/index.html');
-        })
+      fetch(request).catch(() => {
+        return caches.match('/index.html');
+      })
     );
     return;
   }
 
-  // Para recursos estáticos, usar estrategia cache-first
+  // Para recursos estáticos, usar estrategia stale-while-revalidate
   if (request.destination === 'script' || 
       request.destination === 'style' || 
-      request.destination === 'image') {
+      request.destination === 'image' ||
+      request.destination === 'font') {
     event.respondWith(
       caches.match(request)
-        .then((response) => {
-          if (response) {
-            return response;
-          }
-          return fetch(request);
+        .then((cachedResponse) => {
+          const fetchPromise = fetch(request).then((networkResponse) => {
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(request, networkResponse.clone());
+            });
+            return networkResponse;
+          });
+          return cachedResponse || fetchPromise;
         })
     );
     return;
   }
 
-  // Para otras peticiones, usar network-first
+  // Fallback genérico
   event.respondWith(
     fetch(request)
       .catch(() => {
@@ -82,40 +109,16 @@ self.addEventListener('fetch', (event) => {
 
 // Manejo de mensajes para sincronización
 self.addEventListener('sync', (event) => {
-  if (event.tag === 'background-sync') {
-    event.waitUntil(doBackgroundSync());
+  if (event.tag === 'offline-sync') {
+    event.waitUntil(notifyClientsToSync());
   }
 });
 
-async function doBackgroundSync() {
-  try {
-    const pendingData = await getPendingData();
-    
-    if (pendingData.length > 0) {
-      for (const data of pendingData) {
-        try {
-          await sendPendingData(data);
-          await removePendingData(data.id);
-        } catch (error) {
-          // Error syncing data
-        }
-      }
-    }
-  } catch (error) {
-    // Background sync failed
+async function notifyClientsToSync() {
+  const clientList = await clients.matchAll({ type: 'window', includeUncontrolled: true });
+  for (const client of clientList) {
+    client.postMessage({ type: 'TRIGGER_SYNC' });
   }
-}
-
-async function getPendingData() {
-  return [];
-}
-
-async function sendPendingData(data) {
-  // Send pending data
-}
-
-async function removePendingData(id) {
-  // Remove sent data
 }
 
 self.addEventListener('push', (event) => {

@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react"
 import { fetchDeviceForm, submitDeviceMaintenance } from "../services/deviceFormService"
 import { useTranslation } from "react-i18next"
+import { offlineSyncService } from "../../../shared/services/offlineSyncService"
 
 interface FormField {
   name: string
@@ -34,16 +35,26 @@ interface OfflineSubmission {
   id: string
   installationId: string
   deviceId: string
-  formData: Record<string, any>
+  formData: Record<string, unknown>
   timestamp: number
   retryCount: number
 }
+
+type DeviceFormCache = {
+  deviceInfo: DeviceInfo
+  installationInfo: InstallationInfo
+  formFields: FormField[]
+  cachedAt: number
+}
+
+const getDeviceFormCacheKey = (installationId: string, deviceId: string) =>
+  `deviceFormCache:${installationId}:${deviceId}`
 
 const useDeviceForm = (installationId?: string, deviceId?: string) => {
   const [deviceInfo, setDeviceInfo] = useState<DeviceInfo | null>(null)
   const [installationInfo, setInstallationInfo] = useState<InstallationInfo | null>(null)
   const [formFields, setFormFields] = useState<FormField[]>([])
-  const [formData, setFormData] = useState<Record<string, any>>({})
+  const [formData, setFormData] = useState<Record<string, unknown>>({})
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
@@ -87,9 +98,18 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
         setDeviceInfo(data.data.deviceInfo)
         setInstallationInfo(data.data.installationInfo)
         setFormFields(data.data.formFields)
+        localStorage.setItem(
+          getDeviceFormCacheKey(installationId!, deviceId!),
+          JSON.stringify({
+            deviceInfo: data.data.deviceInfo,
+            installationInfo: data.data.installationInfo,
+            formFields: data.data.formFields,
+            cachedAt: Date.now(),
+          } satisfies DeviceFormCache),
+        )
 
         // Inicializar formData con valores apropiados según el tipo
-        const initialData: Record<string, any> = {}
+        const initialData: Record<string, unknown> = {}
         data.data.formFields.forEach((field: FormField) => {
           if (field.type === "checkbox") {
             // Los checkboxes deben inicializarse en false, no en cadena vacía
@@ -106,8 +126,26 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
           }
         })
         setFormData(initialData)
-      } catch (e: any) {
-        setError(e.message || "Error al cargar el formulario")
+      } catch (e: unknown) {
+        const cached = localStorage.getItem(getDeviceFormCacheKey(installationId!, deviceId!))
+        if (cached) {
+          try {
+            const cachedForm = JSON.parse(cached) as DeviceFormCache
+            setDeviceInfo(cachedForm.deviceInfo)
+            setInstallationInfo(cachedForm.installationInfo)
+            setFormFields(cachedForm.formFields)
+            const initialData: Record<string, unknown> = {}
+            cachedForm.formFields.forEach((field: FormField) => {
+              initialData[field.name] = field.type === "checkbox" ? false : ""
+            })
+            setFormData(initialData)
+            setError(null)
+          } catch {
+            setError(e instanceof Error ? e.message : "Error al cargar el formulario")
+          }
+        } else {
+          setError(e instanceof Error ? e.message : "Error al cargar el formulario")
+        }
       } finally {
         setLoading(false)
       }
@@ -192,7 +230,11 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
           await submitDeviceMaintenance(
             submission.installationId,
             submission.deviceId,
-            submission.formData
+            {
+              ...submission.formData,
+              fechaEjecucionOffline: new Date(submission.timestamp).toISOString(),
+              offlineSync: true,
+            }
           )
           removePendingSubmission(submission.id)
 
@@ -203,18 +245,15 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
             retryCount: submission.retryCount + 1
           }
 
-          if (updatedSubmission.retryCount >= 3) {
-            removePendingSubmission(submission.id)
-          } else {
-            // Actualizar con nuevo contador
-            setPendingSubmissions(prev => {
-              const updated = prev.map(sub =>
-                sub.id === submission.id ? updatedSubmission : sub
-              )
-              localStorage.setItem('pendingMaintenanceSubmissions', JSON.stringify(updated))
-              return updated
-            })
-          }
+          // No descartamos mantenimientos por cantidad de reintentos: perder un parte
+          // offline es peor que dejarlo pendiente y visible para reintento posterior.
+          setPendingSubmissions(prev => {
+            const updated = prev.map(sub =>
+              sub.id === submission.id ? updatedSubmission : sub
+            )
+            localStorage.setItem('pendingMaintenanceSubmissions', JSON.stringify(updated))
+            return updated
+          })
         }
       }
     } finally {
@@ -224,7 +263,7 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target
-    let newValue: any = value
+    let newValue: unknown = value
     if (type === "checkbox") {
       newValue = (e.target as HTMLInputElement).checked
     }
@@ -304,7 +343,7 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
         setSuccess("¡Mantenimiento registrado exitosamente!")
 
         // Limpiar formulario manteniendo los tipos correctos
-        const initialData: Record<string, any> = {}
+        const initialData: Record<string, unknown> = {}
         formFields.forEach((field: FormField) => {
           if (field.type === "checkbox") {
             initialData[field.name] = false
@@ -327,10 +366,11 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
         }
 
         savePendingSubmission(submission)
+        offlineSyncService.registerBackgroundSync()
         setSuccess("Mantenimiento guardado. Se enviará automáticamente cuando haya conexión.")
 
         // Limpiar formulario manteniendo los tipos correctos
-        const initialData: Record<string, any> = {}
+        const initialData: Record<string, unknown> = {}
         formFields.forEach((field: FormField) => {
           if (field.type === "checkbox") {
             initialData[field.name] = false
@@ -342,9 +382,9 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
         setFotosEvidencia([])
         setFirmaTecnico("")
       }
-    } catch (e: any) {
+    } catch (e: unknown) {
       if (isOnline) {
-        setError(e.message || "Error al enviar el formulario")
+        setError(e instanceof Error ? e.message : "Error al enviar el formulario")
       } else {
         setError("Error al guardar el formulario offline")
       }

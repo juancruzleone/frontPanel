@@ -89,6 +89,12 @@ export type WorkOrder = {
   evidenciaFoto?: string
   firmaTecnico?: string
   formularioRespuestas?: Record<string, unknown>
+  fechaInicioOffline?: Date | string
+  fechaCompletadaOffline?: Date | string
+  fechaEjecucionOffline?: Date | string
+  timezone?: string
+  userOffset?: number
+  offlineSync?: boolean
   pdfUrl?: string
   historial?: {
     accion: string
@@ -364,13 +370,23 @@ const useWorkOrders = () => {
 
   const completeWorkOrder = async (id: string, data: Record<string, unknown>) => {
     if (!navigator.onLine) {
+      const completedAt = new Date()
+      const completedAtIso = completedAt.toISOString()
+      const offlineCompletionData = {
+        ...data,
+        fechaCompletadaOffline: completedAtIso,
+        fechaEjecucionOffline: completedAtIso,
+        timezone: timeZone,
+        userOffset: offset,
+        offlineSync: true,
+      }
       const completionUpdate = {
         estado: "completada",
-        fechaCompletada: new Date(),
-        ...data
+        fechaCompletada: completedAt,
+        ...offlineCompletionData
       };
       storeUpdateWorkOrder(id, completionUpdate as Partial<WorkOrder>);
-      addToQueue({ type: 'COMPLETE_WORK_ORDER', payload: { id, data } });
+      addToQueue({ type: 'COMPLETE_WORK_ORDER', payload: { id, data: offlineCompletionData } });
       return { message: "Orden completada localmente. Se sincronizará al reconectar." }
     }
 
@@ -386,8 +402,17 @@ const useWorkOrders = () => {
 
   const startWorkOrder = async (id: string) => {
     if (!navigator.onLine) {
-      storeUpdateWorkOrder(id, { estado: "en_progreso", fechaInicio: new Date() });
-      addToQueue({ type: 'START_WORK_ORDER', payload: { id } });
+      const startedAt = new Date()
+      const startedAtIso = startedAt.toISOString()
+      const startData = {
+        fechaInicioOffline: startedAtIso,
+        fechaEjecucionOffline: startedAtIso,
+        timezone: timeZone,
+        userOffset: offset,
+        offlineSync: true,
+      }
+      storeUpdateWorkOrder(id, { estado: "en_progreso", fechaInicio: startedAt, ...startData });
+      addToQueue({ type: 'START_WORK_ORDER', payload: { id, data: startData } });
       return { message: "Orden iniciada localmente." }
     }
     await apiStartWorkOrder(id)
