@@ -12,6 +12,7 @@ import DatePickerModal from "./DatePickerModal"
 import ModalSuccess from "./ModalSuccess"
 import ModalError from "./ModalError"
 import MaintenanceHistoryModal from "./MaintenanceHistoryModal"
+import RepuestosSelector from "./RepuestosSelector"
 import { getMaintenanceHistory, type MaintenanceRecord } from "../services/maintenanceHistoryService"
 
 
@@ -38,6 +39,9 @@ const DeviceForm: React.FC = () => {
     handlePhotoRemove,
     handleSignatureChange,
     clearSignature,
+    addRepuesto,
+    removeRepuesto,
+    repuestosUsados,
     fotosEvidencia,
     firmaTecnico
   } = useDeviceForm(installationId, deviceId)
@@ -419,6 +423,14 @@ const DeviceForm: React.FC = () => {
               ))}
             </div>
           </div>
+
+          {/* Sección de repuestos */}
+          <RepuestosSelector 
+            selectedRepuestos={repuestosUsados}
+            onAdd={addRepuesto}
+            onRemove={removeRepuesto}
+            isOnline={isOnline}
+          />
 
           {/* Sección de evidencia */}
           <div className={styles.formSection}>

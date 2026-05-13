@@ -20,6 +20,7 @@ import { isClient, isAdmin } from "../shared/utils/roleUtils"
 import TourButton from "../shared/components/Buttons/TourButton"
 import ViewToggle from "../components/ViewToggle/ViewToggle"
 import { useResponsiveView } from "../shared/hooks/useResponsiveView"
+import { WifiOff } from "lucide-react"
 import DataTable from "../components/DataTable/DataTable"
 import Tooltip from "../shared/components/Tooltip/Tooltip"
 
@@ -178,6 +179,12 @@ const Assets = () => {
         <div className={styles.topSection}>
           <div className={styles.headerWithToggle}>
             <h1 className={styles.title}>{t('assets.title')}</h1>
+            {!navigator.onLine && (
+              <div className={styles.offlineBadge}>
+                <WifiOff size={16} />
+                <span>Offline</span>
+              </div>
+            )}
             {!isMobile && (
               <ViewToggle 
                 view={viewMode} 

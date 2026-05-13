@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef } from 'react'
 import { useOfflineStore } from '../../store/offlineStore'
 import { useAuthStore } from '../../store/authStore'
 import { offlineSyncService } from '../services/offlineSyncService'
+import { warmCacheService } from '../services/warmCacheService'
 import { toast } from 'sonner'
 import { useTranslation } from 'react-i18next'
 
@@ -13,6 +14,11 @@ export const OfflineSyncManager = () => {
   const isSyncing = useRef(false)
 
   const sync = useCallback(async () => {
+    // Primero intentamos calentar el cache de activos/inventario
+    if (navigator.onLine && isAuthenticated) {
+      warmCacheService.warmAll()
+    }
+
     if (isSyncing.current || !isAuthenticated || queueLength === 0 || !navigator.onLine) return
 
     isSyncing.current = true
@@ -59,7 +65,7 @@ export const OfflineSyncManager = () => {
       navigator.serviceWorker.addEventListener('message', handleMessage)
     }
 
-    if (navigator.onLine && isAuthenticated && queueLength > 0) {
+    if (navigator.onLine && isAuthenticated) {
       sync()
     }
 

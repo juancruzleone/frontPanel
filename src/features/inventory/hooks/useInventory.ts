@@ -23,6 +23,8 @@ const useInventory = () => {
   })
 
   const loadInventory = useCallback(async (params: { page?: number, limit?: number, name?: string, category?: string, lowStock?: boolean } = {}) => {
+    if (!navigator.onLine && items.length > 0) return
+
     setLoading(true)
     try {
       const result = await fetchInventoryItems(params)
@@ -36,11 +38,10 @@ const useInventory = () => {
       })
     } catch (err) {
       setError(getErrorMessage(err, 'Error al cargar inventario'))
-      setItems([], 0)
     } finally {
       setLoading(false)
     }
-  }, [setItems, setLoading])
+  }, [items.length, setItems, setLoading])
 
   const addInventoryItem = async (item: Partial<InventoryItem>) => {
     const newItem = await createInventoryItem(item)

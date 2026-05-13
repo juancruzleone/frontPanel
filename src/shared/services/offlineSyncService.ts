@@ -103,7 +103,8 @@ class OfflineSyncService {
     const payloadWithTime = {
       ...item.payload,
       fechaEjecucionOffline: new Date(item.timestamp).toISOString(),
-      offlineSync: true
+      offlineSync: true,
+      offlineId: item.id
     }
 
     switch (item.type) {

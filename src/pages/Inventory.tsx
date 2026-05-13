@@ -17,6 +17,7 @@ import Button from "../shared/components/Buttons/buttonCreate"
 import ViewToggle from "../components/ViewToggle/ViewToggle"
 import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 import Tooltip from "../shared/components/Tooltip/Tooltip"
+import { WifiOff } from "lucide-react"
 import styles from "../features/inventory/styles/inventory.module.css"
 
 const INVENTORY_ALLOWED_VIEWS = ['cards', 'table'] as const
@@ -135,6 +136,12 @@ const Inventory = () => {
       <div className={styles.topSection}>
         <div className={styles.headerWithToggle}>
           <h1 className={styles.title}>{t('inventory.title')}</h1>
+          {!navigator.onLine && (
+            <div className={styles.offlineBadge} title={t('deviceForm.offline')}>
+              <WifiOff size={16} />
+              <span>Offline</span>
+            </div>
+          )}
           {!isMobile && (
             <ViewToggle
               view={viewMode}

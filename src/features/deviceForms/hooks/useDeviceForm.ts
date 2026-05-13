@@ -78,9 +78,10 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
 
   const isSyncingRef = useRef(false)
   
-  // Estados para fotos y firma
+  // Estados para fotos, firma y repuestos
   const [fotosEvidencia, setFotosEvidencia] = useState<string[]>([])
   const [firmaTecnico, setFirmaTecnico] = useState<string>("")
+  const [repuestosUsados, setRepuestosUsados] = useState<{ itemId: string, nombre: string, cantidad: number, unidad: string }[]>([])
 
   // Verificar estado de conexión
   useEffect(() => {
@@ -227,6 +228,14 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
     setFirmaTecnico("")
   }
 
+  const addRepuesto = (repuesto: { itemId: string, nombre: string, cantidad: number, unidad: string }) => {
+    setRepuestosUsados(prev => [...prev, repuesto])
+  }
+
+  const removeRepuesto = (itemId: string) => {
+    setRepuestosUsados(prev => prev.filter(r => r.itemId !== itemId))
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSubmitting(true)
@@ -247,11 +256,12 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
         throw new Error("La firma digital es obligatoria");
       }
 
-      // Preparar datos con fotos y firma
+      // Preparar datos con fotos, firma y repuestos
       const dataToSubmit = {
         ...formData,
         fotosEvidencia,
-        firmaTecnico
+        firmaTecnico,
+        repuestosUsados
       }
 
       if (isOnline) {
@@ -271,6 +281,7 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
         setFormData(initialData)
         setFotosEvidencia([])
         setFirmaTecnico("")
+        setRepuestosUsados([])
       } else {
         // Guardar para envío posterior si no hay conexión
         addToQueue({
@@ -297,6 +308,7 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
         setFormData(initialData)
         setFotosEvidencia([])
         setFirmaTecnico("")
+        setRepuestosUsados([])
       }
     } catch (e: unknown) {
       if (isOnline) {
@@ -329,6 +341,9 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
     handlePhotoRemove,
     handleSignatureChange,
     clearSignature,
+    addRepuesto,
+    removeRepuesto,
+    repuestosUsados,
     fotosEvidencia,
     firmaTecnico
   }
