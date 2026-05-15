@@ -1,4 +1,6 @@
 .atl/
+.pi-lens/
+.npmrc
 
 # Logs
 logs
