@@ -1,67 +1,67 @@
 .lowStock {
-  color: #ef4444;
-  font-weight: 700;
+	color: #ef4444;
+	font-weight: 700;
 }
 
 .statusBadge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 84px;
-  padding: 0.25rem 0.5rem;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 700;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 84px;
+	padding: 0.25rem 0.5rem;
+	border-radius: 999px;
+	font-size: 0.75rem;
+	font-weight: 700;
 }
 
 .statusOk {
-  background: rgba(34, 197, 94, 0.12);
-  color: #15803d;
+	background: rgba(34, 197, 94, 0.12);
+	color: #15803d;
 }
 
 .statusLow {
-  background: rgba(239, 68, 68, 0.12);
-  color: #b91c1c;
+	background: rgba(239, 68, 68, 0.12);
+	color: #b91c1c;
 }
 
 .actionsGroup {
-  display: flex;
-  gap: 6px;
-  justify-content: center;
-  flex-wrap: wrap;
+	display: flex;
+	gap: 6px;
+	justify-content: center;
+	flex-wrap: nowrap;
 }
 
 :global(.dark) .lowStock {
-  color: #f87171;
+	color: #f87171;
 }
 
 :global(.dark) .statusOk {
-  color: #86efac;
+	color: #86efac;
 }
 
 :global(.dark) .statusLow {
-  color: #fca5a5;
+	color: #fca5a5;
 }
 
 .actionButton {
-  background: none;
-  border: none;
-  padding: 8px;
-  color: var(--color-text);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  border-radius: 8px;
-  width: 32px;
-  height: 32px;
-  font-size: 16px;
+	background: none;
+	border: none;
+	padding: 8px;
+	color: var(--color-text);
+	cursor: pointer;
+	transition: all 0.2s ease;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	border-radius: 8px;
+	width: 32px;
+	height: 32px;
+	font-size: 16px;
 }
 
 .actionButton:hover {
-  background: var(--color-text);
-  color: var(--color-card);
-  border: 1px solid var(--color-text);
+	background: var(--color-text);
+	color: var(--color-card);
+	border: 1px solid var(--color-text);
 }

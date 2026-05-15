@@ -9,6 +9,8 @@ import Button from "../shared/components/Buttons/buttonCreate"
 import ViewToggle from "../components/ViewToggle/ViewToggle"
 import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 import Tooltip from "../shared/components/Tooltip/Tooltip"
+import { useSuppliersTour } from "../features/suppliers/hooks/useSuppliersTour"
+import TourButton from "../shared/components/Buttons/TourButton"
 import styles from "../features/suppliers/styles/suppliers.module.css"
 
 // New Modals
@@ -26,17 +28,17 @@ const Suppliers = () => {
     suppliers, 
     loadSuppliers,
     error,
+    loading
   } = useSuppliers()
   
+  const { tourCompleted, startTour, skipTour } = useSuppliersTour()
+
   const role = useAuthStore((s) => s.role)
   const isAdmin = role === 'admin' || role === 'super_admin'
   const [viewMode, setViewMode, isMobile] = useResponsiveView('suppliers-view', 'cards', {
     allowedViews: SUPPLIERS_ALLOWED_VIEWS,
   })
-
   const [searchTerm, setSearchTerm] = useState("")
-  
-  // Modal states
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
@@ -47,6 +49,16 @@ const Suppliers = () => {
   useEffect(() => {
     loadSuppliers()
   }, [loadSuppliers])
+
+  useEffect(() => {
+    if (!loading && !tourCompleted) {
+      const timer = setTimeout(() => {
+        startTour()
+      }, 500)
+      return () => clearTimeout(timer)
+    }
+  }, [loading, tourCompleted, startTour])
+
 
   const handleSearch = (value: string) => {
     setSearchTerm(value)
@@ -86,7 +98,7 @@ const Suppliers = () => {
     <div className={styles.containerSuppliers}>
       <div className={styles.topSection}>
         <div className={styles.headerWithToggle}>
-          <h1 className={styles.title}>{t('suppliers.title')}</h1>
+          <h1 className={styles.title} data-tour="suppliers-title">{t('suppliers.title')}</h1>
           {!isMobile && (
             <ViewToggle
               view={viewMode}
@@ -97,13 +109,13 @@ const Suppliers = () => {
         </div>
         {isAdmin && (
           <div className={styles.positionButton}>
-            <Button title={t('suppliers.addSupplier')} onClick={handleOpenCreate} />
+            <Button data-tour="suppliers-add-btn" title={t('suppliers.addSupplier')} onClick={handleOpenCreate} />
           </div>
         )}
       </div>
 
       <div className={styles.searchRow}>
-        <div className={styles.searchContainerInner}>
+        <div className={styles.searchContainerInner} data-tour="suppliers-search">
           <SearchInput
             placeholder={t('suppliers.searchPlaceholder')}
             onInputChange={handleSearch}
@@ -159,7 +171,7 @@ const Suppliers = () => {
                 </div>
 
                 {isAdmin && (
-                  <div className={styles.cardActions}>
+                  <div className={`${styles.cardActions} supplier-card-actions`}>
                     <Tooltip content={t('common.edit')}>
                       <button
                         type="button"
@@ -213,6 +225,11 @@ const Suppliers = () => {
         isOpen={isSuccessModalOpen}
         message={successMessage}
         onClose={closeAllModals}
+      />
+      
+      <TourButton
+        onClick={tourCompleted ? startTour : skipTour}
+        label={tourCompleted ? t('suppliers.tour.buttons.restart') : t('suppliers.tour.buttons.skip')}
       />
     </div>
   )

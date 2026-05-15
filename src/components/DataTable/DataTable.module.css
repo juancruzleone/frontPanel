@@ -1,155 +1,162 @@
 .tableWrapper {
-  width: 100%;
-  overflow-x: auto;
-  border-radius: 8px;
-  border: 1px solid var(--color-card-border);
-  background: var(--color-card);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-text) var(--color-bg-light);
+	width: 100%;
+	overflow-x: auto;
+	border-radius: 8px;
+	border: 1px solid var(--color-card-border);
+	background: var(--color-card);
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: thin;
+	scrollbar-color: var(--color-text) var(--color-bg-light);
 }
 
 .tableWrapper::-webkit-scrollbar {
-  height: 8px;
+	height: 8px;
 }
 
 .tableWrapper::-webkit-scrollbar-track {
-  background: var(--color-bg-light);
-  border-radius: 4px;
+	background: var(--color-bg-light);
+	border-radius: 4px;
 }
 
 .tableWrapper::-webkit-scrollbar-thumb {
-  background: var(--color-text);
-  border-radius: 4px;
+	background: var(--color-text);
+	border-radius: 4px;
 }
 
 .tableWrapper::-webkit-scrollbar-thumb:hover {
-  background: var(--color-primary);
+	background: var(--color-primary);
 }
 
 .tableContainer {
-  width: 100%;
-  min-width: 100%;
+	width: 100%;
+	min-width: 100%;
 }
 
 .table {
-  width: 100%;
-  min-width: 900px;
-  border-collapse: collapse;
-  font-size: 14px;
-  table-layout: fixed;
+	width: 100%;
+	min-width: 900px;
+	border-collapse: collapse;
+	font-size: 14px;
+	table-layout: fixed;
 }
 
 .thead {
-  background: var(--color-bg-light);
-  border-bottom: 2px solid var(--color-card-border);
-  position: sticky;
-  top: 0;
-  z-index: 10;
+	background: var(--color-bg-light);
+	border-bottom: 2px solid var(--color-card-border);
+	position: sticky;
+	top: 0;
+	z-index: 10;
 }
 
 .th {
-  padding: 16px 12px;
-  text-align: left;
-  font-weight: 600;
-  color: var(--color-text);
-  white-space: nowrap;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+	padding: 16px 12px;
+	text-align: left;
+	font-weight: 600;
+	color: var(--color-text);
+	white-space: nowrap;
+	font-size: 13px;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.wrapHeader {
+	white-space: normal;
+	line-height: 1.25;
+	overflow: visible;
+	text-overflow: clip;
 }
 
 .tbody {
-  background: var(--color-card);
+	background: var(--color-card);
 }
 
 .tr {
-  border-bottom: 1px solid var(--color-card-border);
-  transition: all 0.2s ease;
+	border-bottom: 1px solid var(--color-card-border);
+	transition: all 0.2s ease;
 }
 
 .tr:hover {
-  background: var(--color-bg-light);
+	background: var(--color-bg-light);
 }
 
 .tr:last-child {
-  border-bottom: none;
+	border-bottom: none;
 }
 
 .td {
-  padding: 16px 12px;
-  color: var(--color-text);
-  vertical-align: middle;
-  overflow: hidden;
-  text-overflow: ellipsis;
+	padding: 16px 12px;
+	color: var(--color-text);
+	vertical-align: middle;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .alignLeft {
-  text-align: left;
+	text-align: left;
 }
 
 .alignCenter {
-  text-align: center;
+	text-align: center;
 }
 
 .alignRight {
-  text-align: right;
+	text-align: right;
 }
 
 .clickableRow {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 .staticRow {
-  cursor: default;
+	cursor: default;
 }
 
 .emptyCell {
-  padding: 48px 16px;
-  text-align: center;
-  color: var(--color-text-secondary);
-  font-style: italic;
+	padding: 48px 16px;
+	text-align: center;
+	color: var(--color-text-secondary);
+	font-style: italic;
 }
 
 :global(.dark) .thead {
-  background: var(--color-card);
+	background: var(--color-card);
 }
 
 :global(.dark) .tr:hover {
-  background: rgba(255, 255, 255, 0.05);
+	background: rgba(255, 255, 255, 0.05);
 }
 
 @media (max-width: 768px) {
-  .table {
-    min-width: 800px;
-  }
-  
-  .th,
-  .td {
-    padding: 12px 8px;
-    font-size: 13px;
-  }
-  
-  .th {
-    font-size: 12px;
-  }
+	.table {
+		min-width: 800px;
+	}
+
+	.th,
+	.td {
+		padding: 12px 8px;
+		font-size: 13px;
+	}
+
+	.th {
+		font-size: 12px;
+	}
 }
 
 @media (max-width: 480px) {
-  .table {
-    min-width: 700px;
-  }
-  
-  .th,
-  .td {
-    padding: 10px 6px;
-    font-size: 12px;
-  }
-  
-  .th {
-    font-size: 11px;
-  }
+	.table {
+		min-width: 700px;
+	}
+
+	.th,
+	.td {
+		padding: 10px 6px;
+		font-size: 12px;
+	}
+
+	.th {
+		font-size: 11px;
+	}
 }

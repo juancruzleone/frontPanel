@@ -30,7 +30,7 @@ export const useWorkOrdersTour = () => {
           }
         },
         {
-          element: '[data-tour="nav-personal"]',
+          element: '[data-tour="nav-operation"]',
           popover: {
             title: t('workOrders.tour.createTechnician.title'),
             description: t('workOrders.tour.createTechnician.description'),

@@ -1,0 +1,11 @@
+{
+  "items": [
+    {
+      "type": "TODO",
+      "message": "Implementar navegación a planes",
+      "file": "src/shared/components/PlanLimitsModal/PlanLimitsModal.tsx",
+      "line": 125,
+      "column": 21
+    }
+  ]
+}

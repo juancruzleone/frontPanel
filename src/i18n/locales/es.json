@@ -1745,6 +1745,36 @@
     "units": {
       "unidades": "unidades",
       "units": "unidades"
+    },
+    "tour": {
+      "welcome": {
+        "title": "¡Bienvenido al Inventario!",
+        "description": "Aquí puedes gestionar los materiales, repuestos e insumos de tu empresa. Te mostraremos las funciones principales."
+      },
+      "addItem": {
+        "title": "Agregar Item",
+        "description": "Usa este botón para registrar un nuevo material o repuesto en el inventario."
+      },
+      "lowStock": {
+        "title": "Alertas de Stock Bajo",
+        "description": "Cuando un item alcanza su stock mínimo, aparecerá una alerta aquí para que sepas qué reponer."
+      },
+      "search": {
+        "title": "Buscar y Filtrar",
+        "description": "Encuentra rápidamente lo que buscas filtrando por nombre o categoría."
+      },
+      "actions": {
+        "title": "Gestión de Stock",
+        "description": "Desde cada item puedes ajustar el stock (entradas/salidas), ver el historial de movimientos, editar o eliminar."
+      },
+      "buttons": {
+        "next": "Siguiente",
+        "previous": "Anterior",
+        "done": "Finalizar",
+        "skip": "Saltar tutorial",
+        "restart": "Ver tutorial"
+      },
+      "progressText": "{{current}} de {{total}}"
     }
   },
   "suppliers": {
@@ -1766,6 +1796,32 @@
     "validation": {
       "nameRequired": "El nombre del proveedor es obligatorio",
       "emailInvalid": "El email no es válido"
+    },
+    "tour": {
+      "welcome": {
+        "title": "¡Bienvenido a Proveedores!",
+        "description": "Administra el directorio de tus proveedores de materiales y servicios. Te guiaremos por las opciones clave."
+      },
+      "addSupplier": {
+        "title": "Agregar Proveedor",
+        "description": "Haz clic aquí para registrar un nuevo proveedor con sus datos de contacto."
+      },
+      "search": {
+        "title": "Búsqueda rápida",
+        "description": "Busca proveedores por su nombre o correo electrónico."
+      },
+      "actions": {
+        "title": "Acciones",
+        "description": "Puedes editar la información del proveedor o eliminarlo si ya no trabajas con él."
+      },
+      "buttons": {
+        "next": "Siguiente",
+        "previous": "Anterior",
+        "done": "Finalizar",
+        "skip": "Saltar tutorial",
+        "restart": "Ver tutorial"
+      },
+      "progressText": "{{current}} de {{total}}"
     }
   },
   "languageSelector": {

@@ -5,7 +5,6 @@ import { InventoryItem, InventoryMovement } from "../types/inventory.types"
 import { fetchInventoryMovements } from "../services/inventoryServices"
 import DataTable from "../../../components/DataTable/DataTable"
 import styles from "../styles/Modal.module.css"
-import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 
 interface ModalMovementHistoryProps {
   isOpen: boolean
@@ -92,15 +91,6 @@ export const ModalMovementHistory: React.FC<ModalMovementHistoryProps> = ({
                 emptyMessage={t('inventory.noMovementsFound')}
             />
           </div>
-        </div>
-
-        <div className={formButtonStyles.actions}>
-          <button
-            onClick={onRequestClose}
-            className={formButtonStyles.cancelButton}
-          >
-            {t('common.close')}
-          </button>
         </div>
       </div>
     </div>
