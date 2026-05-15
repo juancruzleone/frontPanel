@@ -253,6 +253,21 @@ export const updateWorkOrder = async (id: string, workOrder: WorkOrder) => {
 	return result.data || result;
 };
 
+export const updateWorkOrderStatus = async (
+	id: string,
+	estado: string,
+	observaciones?: string,
+) => {
+	const response = await fetch(`${API_URL}ordenes-trabajo/${id}/estado`, {
+		method: "PATCH",
+		headers: getHeadersWithContentType(),
+		body: JSON.stringify({ estado, observaciones }),
+	});
+
+	const result = await handleResponse(response);
+	return result.data || result;
+};
+
 export const deleteWorkOrder = async (id: string) => {
 	const response = await fetch(`${API_URL}ordenes-trabajo/${id}`, {
 		method: "DELETE",

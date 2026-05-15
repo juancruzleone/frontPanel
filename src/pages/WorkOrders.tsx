@@ -183,11 +183,13 @@ const WorkOrders = () => {
 		assignTechnician,
 		completeWorkOrder,
 		startWorkOrder,
+		changeWorkOrderStatus,
 	} = useWorkOrders();
 
 	const navigate = useNavigate();
 	const { getRoute } = useTranslatedRoutes();
 	const role = useAuthStore((s) => s.role);
+	const currentUserId = useAuthStore((s) => s.userId);
 	const userPermissions = useAuthStore((s) => s.permissions);
 
 	const permissions = useMemo(
@@ -527,13 +529,28 @@ const WorkOrders = () => {
 		await startWorkOrder(id);
 	};
 
-	const canDragKanbanStatus = (order: WorkOrder) => {
-		if (order.estado === "asignada" && permissions.canStartWorkOrder)
-			return true;
-		if (order.estado === "en_progreso" && permissions.canCompleteWorkOrder)
-			return true;
-		return Boolean(permissions.canEditWorkOrders);
+	const isTechnicianRole = role === "tecnico" || role === "técnico";
+
+	const isAssignedToCurrentTechnician = (order: WorkOrder) => {
+		if (!currentUserId) return false;
+		const assignedIds = [
+			...(Array.isArray(order.tecnicosAsignados)
+				? order.tecnicosAsignados
+				: []),
+			...(Array.isArray(order.tecnicosIds) ? order.tecnicosIds : []),
+			order.tecnicoAsignado,
+		]
+			.filter(Boolean)
+			.map((id) => String(id));
+
+		return assignedIds.includes(currentUserId);
 	};
+
+	const canChangeStatus = (order: WorkOrder) =>
+		Boolean(permissions.canEditWorkOrders) ||
+		(isTechnicianRole && isAssignedToCurrentTechnician(order));
+
+	const canDragKanbanStatus = (order: WorkOrder) => canChangeStatus(order);
 
 	const handleStatusChange = async (orderId: string, newStatus: string) => {
 		const order = workOrders.find((o) => o._id === orderId);
@@ -567,7 +584,7 @@ const WorkOrders = () => {
 				return;
 			}
 
-			if (!permissions.canEditWorkOrders) {
+			if (!canChangeStatus(order)) {
 				throw new Error(
 					t("common.noPermission", {
 						defaultValue:
@@ -576,7 +593,7 @@ const WorkOrders = () => {
 				);
 			}
 
-			await editWorkOrder(orderId, { ...order, estado: newStatus });
+			await changeWorkOrderStatus(orderId, newStatus);
 			onSuccess(t("workOrders.workOrderUpdated"));
 		} catch (err: unknown) {
 			onError((err as Error).message || t("workOrders.errorUpdatingWorkOrder"));

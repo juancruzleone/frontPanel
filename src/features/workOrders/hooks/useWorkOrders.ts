@@ -8,6 +8,7 @@ import {
   fetchWorkOrders,
   createWorkOrder,
   updateWorkOrder,
+  updateWorkOrderStatus as apiUpdateWorkOrderStatus,
   deleteWorkOrder,
   assignTechnicianToWorkOrder,
   completeWorkOrder as apiCompleteWorkOrder,
@@ -420,6 +421,16 @@ const useWorkOrders = () => {
     return { message: "Orden de trabajo iniciada con éxito" }
   }
 
+  const changeWorkOrderStatus = async (id: string, estado: string, observaciones?: string) => {
+    if (!navigator.onLine) {
+      throw new Error(t("common.offlineOperationNotSupported", { defaultValue: "Esta operación requiere conexión a internet." }))
+    }
+
+    const updated = await apiUpdateWorkOrderStatus(id, estado, observaciones)
+    storeUpdateWorkOrder(id, updated)
+    return { message: "Estado de la orden actualizado con éxito" }
+  }
+
   const handleFieldChange = useCallback(
     (name: string, value: unknown) => {
       setFormData((prevFormData) => ({ ...prevFormData, [name]: value }))
@@ -574,6 +585,7 @@ const useWorkOrders = () => {
     assignTechnician,
     completeWorkOrder,
     startWorkOrder,
+    changeWorkOrderStatus,
     formData,
     setFormData,
     formErrors,
