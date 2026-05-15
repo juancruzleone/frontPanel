@@ -31,14 +31,9 @@ const ModalAssignInstallations = ({
     }
   }, [isSubmitting, onRequestClose])
 
-  const handleBackdropClick = useCallback(
-    (e: React.MouseEvent) => {
-      if (e.target === e.currentTarget) {
-        handleClose()
-      }
-    },
-    [handleClose],
-  )
+  const handleBackdropClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation()
+  }, [])
 
   const handleModalClick = useCallback((e: React.MouseEvent) => {
     e.stopPropagation()
