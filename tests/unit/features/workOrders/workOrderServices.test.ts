@@ -1,5 +1,8 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { assignTechnicianToWorkOrder } from "../../../../src/features/workOrders/services/workOrderServices";
+import {
+	assignTechnicianToWorkOrder,
+	updateWorkOrder,
+} from "../../../../src/features/workOrders/services/workOrderServices";
 
 const fetchMock = vi.fn();
 
@@ -30,5 +33,30 @@ describe("workOrderServices", () => {
 			tecnicoId: "tech-1",
 			tecnicoIds: ["tech-1", "tech-2"],
 		});
+	});
+
+	it("formats object error payloads without rendering object Object", async () => {
+		fetchMock.mockResolvedValueOnce({
+			ok: false,
+			status: 403,
+			statusText: "Forbidden",
+			json: vi.fn().mockResolvedValue({
+				message: { text: "No autorizado" },
+				details: [{ path: "estado", message: "Transición no permitida" }],
+			}),
+		});
+
+		await expect(
+			updateWorkOrder("wo-1", {
+				titulo: "Orden",
+				descripcion: "Descripción de prueba",
+				instalacionId: "inst-1",
+				estado: "pendiente",
+				prioridad: "media",
+				tipoTrabajo: "mantenimiento",
+				fechaProgramada: "2026-05-01",
+				horaProgramada: "10:00",
+			}),
+		).rejects.toThrow("No autorizado: Transición no permitida - estado");
 	});
 });

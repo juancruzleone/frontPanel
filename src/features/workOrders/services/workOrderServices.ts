@@ -64,7 +64,7 @@ export type WorkOrder = {
 	estadoDispositivo?: string;
 	evidenciaFoto?: string;
 	firmaTecnico?: string;
-	formularioRespuestas?: Record<string, any>;
+	formularioRespuestas?: Record<string, unknown>;
 	fechaInicioOffline?: Date | string;
 	fechaCompletadaOffline?: Date | string;
 	fechaEjecucionOffline?: Date | string;
@@ -80,30 +80,70 @@ export type WorkOrder = {
 	}[];
 };
 
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+	typeof value === "object" && value !== null && !Array.isArray(value);
+
+const stringifyErrorValue = (value: unknown): string => {
+	if (typeof value === "string") return value;
+	if (typeof value === "number" || typeof value === "boolean")
+		return String(value);
+	if (!isRecord(value)) return "";
+
+	const candidateKeys = [
+		"message",
+		"msg",
+		"error",
+		"text",
+		"title",
+		"detail",
+		"code",
+		"path",
+	];
+	const candidates = candidateKeys
+		.map((key) => stringifyErrorValue(value[key]))
+		.filter(Boolean);
+
+	if (candidates.length > 0) return candidates.join(" - ");
+
+	try {
+		return JSON.stringify(value);
+	} catch {
+		return "Error inesperado";
+	}
+};
+
+const buildErrorMessage = (error: unknown, response: Response): string => {
+	if (!isRecord(error))
+		return `Error ${response.status}: ${response.statusText}`;
+
+	const messageParts = [error.message, error.error, error.code]
+		.map(stringifyErrorValue)
+		.filter(Boolean);
+
+	const details = Array.isArray(error.details)
+		? error.details.map(stringifyErrorValue).filter(Boolean)
+		: stringifyErrorValue(error.details);
+
+	const detailParts = Array.isArray(details)
+		? details
+		: details
+			? [details]
+			: [];
+	const fullMessage = [...messageParts, ...detailParts].join(": ");
+
+	return fullMessage || `Error ${response.status}: ${response.statusText}`;
+};
+
 const handleResponse = async (response: Response) => {
 	if (!response.ok) {
-		let error;
+		let error: unknown;
 		try {
 			error = await response.json();
 		} catch {
 			error = { message: "Error de conexión", details: await response.text() };
 		}
 
-		// Construct a more descriptive error message combining error, message, and details
-		let errorMsg = error.message || error.error;
-		if (!errorMsg && error.code) errorMsg = error.code;
-
-		if (
-			error.details &&
-			Array.isArray(error.details) &&
-			error.details.length > 0
-		) {
-			errorMsg = `${errorMsg ? errorMsg + ": " : ""}${error.details.join(", ")}`;
-		}
-
-		throw new Error(
-			errorMsg || `Error ${response.status}: ${response.statusText}`,
-		);
+		throw new Error(buildErrorMessage(error, response));
 	}
 
 	return await response.json();
