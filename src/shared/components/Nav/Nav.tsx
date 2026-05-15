@@ -508,7 +508,7 @@ const Nav = () => {
 								</div>
 							</li>
 						)}
-						{!isSuperAdminUser && !isClientUser && (
+						{isAdminUser && (
 							<li data-tour="open-settings">
 								<NavLink
 									to={settingsRoute}

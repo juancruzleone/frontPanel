@@ -1,77 +1,94 @@
 export const ROLES = {
-  SUPER_ADMIN: 'super_admin',
-  ADMIN: 'admin',
-  TECHNICIAN: 'tecnico',
-  TECHNICIAN_ALT: 'técnico',
-  CLIENT: 'cliente'
-} as const
+	SUPER_ADMIN: "super_admin",
+	ADMIN: "admin",
+	TECHNICIAN: "tecnico",
+	TECHNICIAN_ALT: "técnico",
+	CLIENT: "cliente",
+} as const;
 
-export type UserRole = typeof ROLES[keyof typeof ROLES]
+export type UserRole = (typeof ROLES)[keyof typeof ROLES];
 
 export const isTechnician = (role: string | null): boolean => {
-  return role && [ROLES.TECHNICIAN, ROLES.TECHNICIAN_ALT].includes(role as any)
-}
+	return role && [ROLES.TECHNICIAN, ROLES.TECHNICIAN_ALT].includes(role as any);
+};
 
 export const isSuperAdmin = (role: string | null): boolean => {
-  return role === ROLES.SUPER_ADMIN
-}
+	return role === ROLES.SUPER_ADMIN;
+};
 
 export const isAdmin = (role: string | null): boolean => {
-  return role === ROLES.ADMIN
-}
-
+	return role === ROLES.ADMIN;
+};
 
 export const isClient = (role: string | null): boolean => {
-  return role === ROLES.CLIENT
-}
+	return role === ROLES.CLIENT;
+};
 
 // Secciones que NO debe ver el super_admin
 export const SUPER_ADMIN_RESTRICTED_SECTIONS = [
-  'inicio',
-  'instalaciones',
-  'activos',
-  'inventario',
-  'formularios',
-  'calendario',
-  'ordenes-trabajo',
-  'personal'
-] as const
+	"inicio",
+	"instalaciones",
+	"activos",
+	"inventario",
+	"formularios",
+	"calendario",
+	"ordenes-trabajo",
+	"personal",
+] as const;
 
 // Secciones que SOLO puede ver el super_admin
 export const SUPER_ADMIN_ONLY_SECTIONS = [
-  'panel-admin',
-  'tenants',
-  'auditoria'
-] as const
+	"panel-admin",
+	"tenants",
+	"auditoria",
+] as const;
 
-export const canAccessSection = (role: string | null, section: string): boolean => {
-  if (!role) return false
+export const canAccessSection = (
+	role: string | null,
+	section: string,
+): boolean => {
+	if (!role) return false;
 
-  // Super admin solo puede acceder a sus secciones específicas y perfil
-  if (isSuperAdmin(role)) {
-    return SUPER_ADMIN_ONLY_SECTIONS.includes(section as any) || section === 'perfil'
-  }
+	// Super admin solo puede acceder a sus secciones específicas y perfil
+	if (isSuperAdmin(role)) {
+		return (
+			SUPER_ADMIN_ONLY_SECTIONS.includes(section as any) || section === "perfil"
+		);
+	}
 
-  // Clientes NO pueden acceder al perfil
-  if (isClient(role)) {
-    const clientAllowedSections = ['inicio', 'instalaciones', 'calendario', 'activos']
-    return clientAllowedSections.includes(section)
-  }
+	// Clientes NO pueden acceder al perfil
+	if (isClient(role)) {
+		const clientAllowedSections = [
+			"inicio",
+			"instalaciones",
+			"calendario",
+			"activos",
+		];
+		return clientAllowedSections.includes(section);
+	}
 
-  // Técnicos no pueden acceder a ciertas secciones
-  if (isTechnician(role)) {
-    const technicianRestrictedSections = ['activos', 'formularios', 'personal', 'clientes', 'proveedores', 'auditoria']
-    return !technicianRestrictedSections.includes(section)
-  }
+	// Técnicos no pueden acceder a secciones administrativas o de configuración
+	if (isTechnician(role)) {
+		const technicianRestrictedSections = [
+			"activos",
+			"formularios",
+			"personal",
+			"clientes",
+			"proveedores",
+			"auditoria",
+			"configuracion",
+		];
+		return !technicianRestrictedSections.includes(section);
+	}
 
-  // Admin puede acceder a todo excepto las secciones exclusivas del super_admin (excepto auditoria) y el perfil
-  if (isAdmin(role)) {
-    // Admin SI puede ver auditoría, pero no panel-admin ni tenants
-    if (section === 'auditoria') return true
-    
-    const adminRestrictedSections = ['panel-admin', 'tenants', 'perfil']
-    return !adminRestrictedSections.includes(section as any)
-  }
+	// Admin puede acceder a todo excepto las secciones exclusivas del super_admin (excepto auditoria) y el perfil
+	if (isAdmin(role)) {
+		// Admin SI puede ver auditoría, pero no panel-admin ni tenants
+		if (section === "auditoria") return true;
 
-  return true
-} 
+		const adminRestrictedSections = ["panel-admin", "tenants", "perfil"];
+		return !adminRestrictedSections.includes(section as any);
+	}
+
+	return true;
+};
