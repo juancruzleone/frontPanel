@@ -2,6 +2,7 @@ import { create } from "zustand"
 import { createJSONStorage, persist } from "zustand/middleware"
 import { useCSRFStore } from "./csrfStore"
 import { useInstallationStore } from "./installationStore"
+import { useNotificationStore } from "./notificationStore"
 import { useWorkOrderStore } from "./workOrderStore"
 
 const AUTH_STORAGE_KEY = "auth-storage"
@@ -118,6 +119,8 @@ export const useAuthStore = create<AuthState>()(
           if (woStore.workOrders?.length > 0) woStore.setWorkOrders([])
         }
         woStore.setOwnerId(userId)
+
+        useNotificationStore.getState().setNotificationOwner(userId)
       },
       hydrateSession: (data) => {
         const user = data.user || data.cuenta
@@ -152,6 +155,8 @@ export const useAuthStore = create<AuthState>()(
           if (woStore.workOrders?.length > 0) woStore.setWorkOrders([])
         }
         woStore.setOwnerId(userId)
+
+        useNotificationStore.getState().setNotificationOwner(userId)
       },
       setAuthenticated: (value) => set({ isAuthenticated: value }),
       setAuthResolved: (value) => set({ isAuthResolved: value }),
@@ -167,6 +172,7 @@ export const useAuthStore = create<AuthState>()(
         useInstallationStore.getState().setOwnerId(null)
         useWorkOrderStore.getState().setWorkOrders([])
         useWorkOrderStore.getState().setOwnerId(null)
+        useNotificationStore.getState().setNotificationOwner(null)
         
         set({
           user: null,

@@ -4,6 +4,7 @@ import { useNotificationStore } from "../../../store/notificationStore";
 import { useLayoutStore } from "../../../store/layoutStore";
 import { useTheme } from "../../hooks/useTheme";
 import { useTranslation } from "react-i18next";
+import { formatRelativeTime } from "../../utils/formatRelativeTime";
 import styles from "./TopBar.module.css";
 
 import esFlag from "../../../../src/assets/flags/es.svg";
@@ -102,20 +103,6 @@ const TopBar: React.FC = () => {
 		window.setTimeout(() => {
 			setIsThemeSpinning(false);
 		}, 650);
-	};
-
-	const formatTime = (date: Date) => {
-		try {
-			const now = new Date();
-			const diffInMinutes = Math.floor(
-				(date.getTime() - now.getTime()) / (1000 * 60),
-			);
-			return new Intl.RelativeTimeFormat(currentLangCode, {
-				numeric: "auto",
-			}).format(diffInMinutes, "minute");
-		} catch {
-			return t("notifications.justNow");
-		}
 	};
 
 	return (
@@ -222,7 +209,11 @@ const TopBar: React.FC = () => {
 													<p className={styles.notifMessage}>{notif.message}</p>
 													<span className={styles.notifTime}>
 														<Clock size={12} />{" "}
-														{formatTime(new Date(notif.date))}
+														{formatRelativeTime(
+															new Date(notif.date),
+															currentLangCode,
+															t("notifications.justNow"),
+														)}
 													</span>
 												</div>
 												{!notif.read && (

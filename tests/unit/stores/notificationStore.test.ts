@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { useNotificationStore, Notification } from '../../../src/store/notificationStore'
+import { useNotificationStore } from '../../../src/store/notificationStore'
 
 describe('NotificationStore', () => {
   beforeEach(() => {
@@ -117,6 +117,60 @@ describe('NotificationStore', () => {
       })
 
       expect(useNotificationStore.getState().unreadCount).toBe(2)
+    })
+
+    it('should not duplicate notifications for the same order', () => {
+      useNotificationStore.getState().addNotification({
+        title: 'Nueva orden asignada',
+        message: 'Se te ha asignado la orden: DDDDD',
+        type: 'info',
+        ordenId: 'order123'
+      })
+
+      useNotificationStore.getState().addNotification({
+        title: 'Nueva orden asignada',
+        message: 'Se te ha asignado la orden: DDDDD',
+        type: 'info',
+        ordenId: 'order123'
+      })
+
+      const state = useNotificationStore.getState()
+
+      expect(state.notifications).toHaveLength(1)
+      expect(state.unreadCount).toBe(1)
+    })
+  })
+
+  describe('setNotificationOwner', () => {
+    it('should clear notifications when the authenticated user changes', () => {
+      useNotificationStore.getState().setNotificationOwner('user-1')
+      useNotificationStore.getState().addNotification({
+        title: 'Nueva orden asignada',
+        message: 'Se te ha asignado la orden: DDDDD',
+        type: 'info',
+        ordenId: 'order123'
+      })
+
+      useNotificationStore.getState().setNotificationOwner('admin-1')
+
+      const state = useNotificationStore.getState()
+
+      expect(state.ownerId).toBe('admin-1')
+      expect(state.notifications).toEqual([])
+      expect(state.unreadCount).toBe(0)
+    })
+
+    it('should keep notifications when the owner does not change', () => {
+      useNotificationStore.getState().setNotificationOwner('user-1')
+      useNotificationStore.getState().addNotification({
+        title: 'Test',
+        message: 'Test message',
+        type: 'info'
+      })
+
+      useNotificationStore.getState().setNotificationOwner('user-1')
+
+      expect(useNotificationStore.getState().notifications).toHaveLength(1)
     })
   })
 
