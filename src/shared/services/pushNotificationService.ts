@@ -31,7 +31,7 @@ class PushNotificationService {
   private registrationPromise: Promise<ServiceWorkerRegistration | null> | null = null
 
   private async getServiceWorkerRegistration() {
-    if (!('serviceWorker' in navigator)) {
+    if (import.meta.env.DEV || !('serviceWorker' in navigator)) {
       return null
     }
 

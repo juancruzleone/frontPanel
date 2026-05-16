@@ -9,9 +9,23 @@ import "./i18n"
 import { ThemedToaster, AppInitializer } from "./AppProviders"
 import { offlineSyncService } from "./shared/services/offlineSyncService"
 
-// Registrar Service Worker para PWA
+// Registrar Service Worker para PWA solo en builds de producción.
+// En Vite dev, un SW previo puede interceptar /@vite/client y /src/main.tsx,
+// dejando la app en blanco cuando el dev server no está disponible.
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
+    if (import.meta.env.DEV) {
+      navigator.serviceWorker
+        .getRegistrations()
+        .then((registrations) => {
+          registrations.forEach((registration) => {
+            registration.unregister()
+          })
+        })
+        .catch(() => undefined)
+      return
+    }
+
     navigator.serviceWorker
       .register("/sw.js")
       .catch(() => undefined)
