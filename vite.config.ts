@@ -9,7 +9,7 @@ const devCsp = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https:",
   "font-src 'self' data:",
-  "connect-src 'self' https://api.leonix.net.ar wss://api.leonix.net.ar https://cloudflareinsights.com ws://localhost:5173 ws://localhost:3000",
+  "connect-src 'self' https://api.leonix.net.ar wss://api.leonix.net.ar https://cloudflareinsights.com https://static.cloudflareinsights.com ws://localhost:5173 ws://localhost:3000",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",

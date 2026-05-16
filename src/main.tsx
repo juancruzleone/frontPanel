@@ -26,8 +26,21 @@ if ("serviceWorker" in navigator) {
       return
     }
 
+    const hasActiveController = Boolean(navigator.serviceWorker.controller)
+    if (hasActiveController) {
+      let isRefreshing = false
+      navigator.serviceWorker.addEventListener("controllerchange", () => {
+        if (isRefreshing) {
+          return
+        }
+        isRefreshing = true
+        window.location.reload()
+      })
+    }
+
     navigator.serviceWorker
       .register("/sw.js")
+      .then((registration) => registration.update())
       .catch(() => undefined)
   })
 }

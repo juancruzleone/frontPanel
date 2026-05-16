@@ -1,4 +1,4 @@
-const CACHE_NAME = "leonix-v2";
+const CACHE_NAME = "leonix-v3";
 
 const APP_SHELL_URLS = [
 	"/",
@@ -22,6 +22,21 @@ const STATIC_DESTINATIONS = new Set([
 	"manifest",
 ]);
 
+async function safeCachePut(request, response) {
+	try {
+		if (!response.ok) {
+			return;
+		}
+
+		const responseToCache = response.clone();
+		const cache = await caches.open(CACHE_NAME);
+		await cache.put(request, responseToCache);
+	} catch {
+		// Cache Storage puede rechazar respuestas parciales/opacas o cuerpos ya usados.
+		// La navegación no debe fallar por no poder actualizar el cache.
+	}
+}
+
 // Cachea cada recurso de forma tolerante: un archivo faltante no debe abortar
 // la instalación completa del Service Worker ni dejar a la app sin fallback.
 async function cacheUrls(cache, urls) {
@@ -29,7 +44,7 @@ async function cacheUrls(cache, urls) {
 		urls.map(async (url) => {
 			const response = await fetch(url, { cache: "reload" });
 			if (response.ok) {
-				await cache.put(url, response);
+				await cache.put(url, response.clone());
 			}
 		}),
 	);
@@ -89,10 +104,7 @@ async function staleWhileRevalidate(request) {
 
 	const networkPromise = fetch(request)
 		.then(async (networkResponse) => {
-			if (networkResponse.ok) {
-				const cache = await caches.open(CACHE_NAME);
-				await cache.put(request, networkResponse.clone());
-			}
+			await safeCachePut(request, networkResponse);
 			return networkResponse;
 		})
 		.catch(() => undefined);
@@ -160,10 +172,16 @@ self.addEventListener("fetch", (event) => {
 		return;
 	}
 
+	// No interceptar terceros: analytics, extensiones y CDNs deben seguir su
+	// camino normal para evitar errores CSP y respuestas 503 generadas por el SW.
+	if (url.origin !== self.location.origin) {
+		return;
+	}
+
 	// API Requests: no se cachean en el Service Worker porque usan cookies
 	// HTTP-only. La persistencia offline de datos sensibles queda en la app,
 	// con stores/colas explícitas por usuario.
-	if (url.origin === self.location.origin && url.pathname.startsWith("/api/")) {
+	if (url.pathname.startsWith("/api/")) {
 		event.respondWith(
 			networkFirst(
 				request,
@@ -188,10 +206,7 @@ self.addEventListener("fetch", (event) => {
 	}
 
 	// Para recursos estáticos, usar estrategia stale-while-revalidate.
-	if (
-		url.origin === self.location.origin &&
-		STATIC_DESTINATIONS.has(request.destination)
-	) {
+	if (STATIC_DESTINATIONS.has(request.destination)) {
 		event.respondWith(staleWhileRevalidate(request));
 		return;
 	}
