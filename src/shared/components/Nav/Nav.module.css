@@ -1157,3 +1157,27 @@
   width: 18px !important;
   height: 18px !important;
 }
+
+/* Mobile drawer must always render expanded, even if desktop collapsed state persisted */
+@media (max-width: 1023px) {
+  .nav.collapsed {
+    width: 85vw !important;
+    max-width: 300px;
+  }
+
+  .nav.collapsed .logoContainer {
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 2px 0;
+  }
+
+  .nav.collapsed .logoArea {
+    justify-content: flex-start;
+    padding-left: 4px;
+    margin-top: 0 !important;
+  }
+
+  .nav.collapsed .logoText {
+    display: inline !important;
+  }
+}
