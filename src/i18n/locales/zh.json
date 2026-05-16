@@ -463,6 +463,24 @@
       "preventiveCompliance": "预防性维护的达成水平。",
       "slaRate": "在 SLA 内解决的工作百分比。",
       "responseTime": "首次响应前的平均时间。"
+    },
+    "tour": {
+      "welcome": {
+        "title": "欢迎使用 Leonix！",
+        "description": "这是首页仪表板。你可以在这里查看运营状态和主要指标。"
+      },
+      "settings": {
+        "title": "第 2 步：前往设置",
+        "description": "使用面板前，请先到设置中创建安装类型、资产类别以及其他所需的基础数据。"
+      },
+      "buttons": {
+        "next": "下一步",
+        "previous": "上一步",
+        "done": "完成",
+        "skip": "跳过教程",
+        "restart": "查看教程"
+      },
+      "progressText": "{{current}} / {{total}}"
     }
   },
   "workOrders": {
@@ -1020,7 +1038,7 @@
         "description": "在这里，您可以查看和管理您创建的所有安装类型。"
       },
       "createInstallation": {
-        "title": "步骤2：创建安装",
+        "title": "步骤1：创建安装",
         "description": "在设置中创建至少一个安装类型后，使用此按钮创建您的第一个安装。输入名称、地址并选择安装类型。"
       },
       "searchFilter": {

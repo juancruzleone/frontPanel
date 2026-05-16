@@ -6,11 +6,14 @@ import CustomLineChart from "./LineChart";
 import CustomPieChart from "./PieChart";
 import { InventoryAlerts } from "./InventoryAlerts";
 import useHomeDashboard from "../hooks/useHomeDashboard";
+import { useHomeTour } from "../hooks/useHomeTour";
 import styles from "../styles/home.module.css";
 import { useTranslation } from "react-i18next";
+import TourButton from "../../../shared/components/Buttons/TourButton";
 
 const HomeDashboard: React.FC = () => {
 	const { t } = useTranslation();
+	const { startTour } = useHomeTour();
 	const {
 		range,
 		setRange,
@@ -131,6 +134,10 @@ const HomeDashboard: React.FC = () => {
 					</section>
 				</main>
 			)}
+			<TourButton
+				onClick={startTour}
+				label={t("home.tour.buttons.restart")}
+			/>
 		</div>
 	);
 };

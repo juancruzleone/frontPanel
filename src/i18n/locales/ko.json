@@ -463,6 +463,24 @@
       "preventiveCompliance": "예방 정비 준수 수준입니다.",
       "slaRate": "SLA 내에 해결된 작업의 비율입니다.",
       "responseTime": "첫 응답까지의 평균 시간입니다."
+    },
+    "tour": {
+      "welcome": {
+        "title": "Leonix에 오신 것을 환영합니다!",
+        "description": "여기는 홈 대시보드입니다. 운영 상태와 주요 지표를 확인할 수 있습니다."
+      },
+      "settings": {
+        "title": "2단계: 설정으로 이동",
+        "description": "패널을 사용하기 전에 설정에서 설치 유형, 자산 카테고리 및 필요한 기본 데이터를 생성하세요."
+      },
+      "buttons": {
+        "next": "다음",
+        "previous": "이전",
+        "done": "완료",
+        "skip": "튜토리얼 건너뛰기",
+        "restart": "튜토리얼 보기"
+      },
+      "progressText": "{{current}} / {{total}}"
     }
   },
   "workOrders": {
@@ -1002,7 +1020,7 @@
         "description": "여기에서 생성한 모든 설치 유형을 보고 관리할 수 있습니다."
       },
       "createInstallation": {
-        "title": "2단계: 설치 만들기",
+        "title": "1단계: 설치 만들기",
         "description": "설정에서 하나 이상의 설치 유형을 만든 후 이 버튼을 사용하여 첫 번째 설치를 만드십시오. 이름, 주소를 입력하고 설치 유형을 선택하십시오."
       },
       "searchFilter": {

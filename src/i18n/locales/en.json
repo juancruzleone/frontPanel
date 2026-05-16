@@ -499,6 +499,24 @@
       "preventiveCompliance": "Preventive maintenance compliance level.",
       "slaRate": "Percentage of jobs resolved within the SLA.",
       "responseTime": "Average time until first response."
+    },
+    "tour": {
+      "welcome": {
+        "title": "Welcome to Leonix!",
+        "description": "This is your home dashboard. From here you can review your operation status and main indicators."
+      },
+      "settings": {
+        "title": "Step 2: Go to Settings",
+        "description": "Before using the panel, go to Settings to create installation types, asset categories, and the other base data required to configure everything."
+      },
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous",
+        "done": "Done",
+        "skip": "Skip tutorial",
+        "restart": "View tutorial"
+      },
+      "progressText": "{{current}} of {{total}}"
     }
   },
   "installations": {
@@ -866,7 +884,7 @@
         "description": "Here you can view and manage all the installation types you've created."
       },
       "createInstallation": {
-        "title": "Step 2: Create Installation",
+        "title": "Step 1: Create Installation",
         "description": "Once you've created at least one installation type, use this button to create your first installation. Enter installation name, address, and select the installation type."
       },
       "searchFilter": {

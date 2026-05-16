@@ -459,6 +459,24 @@
       "preventiveCompliance": "Niveau de conformité de la maintenance préventive.",
       "slaRate": "Pourcentage de travaux résolus dans le SLA.",
       "responseTime": "Temps moyen jusqu'à la première réponse."
+    },
+    "tour": {
+      "welcome": {
+        "title": "Bienvenue sur Leonix !",
+        "description": "Voici votre tableau de bord d'accueil. Vous pouvez y consulter l'état de vos opérations et les principaux indicateurs."
+      },
+      "settings": {
+        "title": "Étape 2 : Aller dans Paramètres",
+        "description": "Avant d'utiliser le panneau, allez dans Paramètres pour créer les types d'installation, les catégories d'actifs et les autres données de base nécessaires."
+      },
+      "buttons": {
+        "next": "Suivant",
+        "previous": "Précédent",
+        "done": "Terminer",
+        "skip": "Passer le tutoriel",
+        "restart": "Voir le tutoriel"
+      },
+      "progressText": "{{current}} sur {{total}}"
     }
   },
   "workOrders": {
@@ -994,7 +1012,7 @@
         "description": "Ici, vous pouvez voir et gérer tous les types d'installation que vous avez créés."
       },
       "createInstallation": {
-        "title": "Étape 2 : Créer une Installation",
+        "title": "Étape 1 : Créer une Installation",
         "description": "Une fois que vous avez créé au moins un type d'installation, utilisez ce bouton pour créer votre première installation. Entrez les données de l'entreprise, l'adresse et sélectionnez le type d'installation."
       },
       "searchFilter": {

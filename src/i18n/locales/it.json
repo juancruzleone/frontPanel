@@ -458,6 +458,24 @@
       "preventiveCompliance": "Livello di conformità della manutenzione preventiva.",
       "slaRate": "Percentuale di lavori risolti entro lo SLA.",
       "responseTime": "Tempo medio fino alla prima risposta."
+    },
+    "tour": {
+      "welcome": {
+        "title": "Benvenuto in Leonix!",
+        "description": "Questa è la dashboard iniziale. Da qui puoi controllare lo stato delle operazioni e gli indicatori principali."
+      },
+      "settings": {
+        "title": "Passaggio 2: Vai a Impostazioni",
+        "description": "Prima di usare il pannello, vai a Impostazioni per creare tipi di installazione, categorie di asset e gli altri dati di base necessari."
+      },
+      "buttons": {
+        "next": "Avanti",
+        "previous": "Precedente",
+        "done": "Fine",
+        "skip": "Salta tutorial",
+        "restart": "Visualizza tutorial"
+      },
+      "progressText": "{{current}} di {{total}}"
     }
   },
   "workOrders": {
@@ -998,7 +1016,7 @@
         "description": "Qui puoi visualizzare e gestire tutti i tipi di installazione che hai creato."
       },
       "createInstallation": {
-        "title": "Passo 2: Crea Installazione",
+        "title": "Passo 1: Crea Installazione",
         "description": "Una volta creato almeno un tipo di installazione nelle Impostazioni, usa questo pulsante per creare la tua prima installazione. Inserisci il nome, l'indirizzo e seleziona il tipo di installazione."
       },
       "searchFilter": {

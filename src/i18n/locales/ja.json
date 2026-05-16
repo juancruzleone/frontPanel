@@ -461,6 +461,24 @@
       "preventiveCompliance": "予防保守の遵守レベルです。",
       "slaRate": "SLA内で解決された作業の割合です。",
       "responseTime": "初回応答までの平均時間です。"
+    },
+    "tour": {
+      "welcome": {
+        "title": "Leonixへようこそ！",
+        "description": "ここはホームダッシュボードです。運用状況と主要な指標を確認できます。"
+      },
+      "settings": {
+        "title": "ステップ2：設定へ移動",
+        "description": "パネルを使用する前に、設定で設置タイプ、アセットカテゴリ、その他必要な基本データを作成してください。"
+      },
+      "buttons": {
+        "next": "次へ",
+        "previous": "前へ",
+        "done": "完了",
+        "skip": "チュートリアルをスキップ",
+        "restart": "チュートリアルを表示"
+      },
+      "progressText": "{{current}} / {{total}}"
     }
   },
   "workOrders": {
@@ -1001,7 +1019,7 @@
         "description": "ここでは、作成したすべてのインストールタイプを表示および管理できます。"
       },
       "createInstallation": {
-        "title": "ステップ2：インストールを作成",
+        "title": "ステップ1：インストールを作成",
         "description": "設定で少なくとも1つのインストールタイプを作成したら、このボタンを使用して最初のインストールを作成します。名前、住所を入力し、インストールタイプを選択します。"
       },
       "searchFilter": {

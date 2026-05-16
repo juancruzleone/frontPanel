@@ -4,19 +4,16 @@ import TopBar from "../shared/components/TopBar/TopBar";
 import Footer from "../shared/components/Footer";
 import React, { useEffect } from "react";
 import styles from "./MainLayout.module.css";
-import { driver } from "driver.js";
-import "driver.js/dist/driver.css";
-import { useTranslation } from "react-i18next";
 
 import { useLayoutStore } from "../store/layoutStore";
 import { useAuthStore } from "../store/authStore";
 import { socketService } from "../shared/services/socketService";
 import { pushNotificationService } from "../shared/services/pushNotificationService";
-import { useTheme } from "../shared/hooks/useTheme";
 import { routeTranslations } from "../router/routeTranslations";
 import { isClient, isSuperAdmin } from "../shared/utils/roleUtils";
+import { useHomeTour } from "../features/home/hooks/useHomeTour";
 
-const ONBOARDING_TOUR_KEY = "onboarding-tour-v2-shown";
+const ONBOARDING_TOUR_KEY = "home-onboarding-tour-v1-shown";
 const HOME_ROUTES = new Set(
 	Object.values(routeTranslations).map(({ home }) => `/${home}`),
 );
@@ -24,9 +21,8 @@ const HOME_ROUTES = new Set(
 const MainLayout: React.FC = () => {
 	const { isSidebarCollapsed } = useLayoutStore();
 	const { isAuthenticated, userId, role } = useAuthStore();
-	const { t } = useTranslation();
-	const { dark } = useTheme();
 	const location = useLocation();
+	const { startTour } = useHomeTour();
 
 	useEffect(() => {
 		if (isAuthenticated && userId) {
@@ -62,50 +58,9 @@ const MainLayout: React.FC = () => {
 			return;
 		}
 
-		const runOnboardingTour = () => {
-			const onboardingTour = driver({
-				showProgress: true,
-				progressText: t("installations.tour.progressText"),
-				nextBtnText: t("installations.tour.buttons.next"),
-				prevBtnText: t("installations.tour.buttons.previous"),
-				doneBtnText: t("installations.tour.buttons.done"),
-				allowClose: true,
-				animate: true,
-				smoothScroll: true,
-				popoverClass: dark ? "driverjs-dark-theme" : "driverjs-light-theme",
-				steps: [
-					{
-						popover: {
-							title: t("installations.tour.welcome.title"),
-							description: t("installations.tour.welcome.description"),
-							side: "bottom",
-							align: "start",
-							showButtons: ["next", "close"],
-						},
-					},
-					{
-						element: '[data-tour="open-settings"]',
-						popover: {
-							title: t("installations.tour.createInstallationType.title"),
-							description: t(
-								"installations.tour.createInstallationType.description",
-							),
-							side: "right",
-							align: "start",
-						},
-					},
-				],
-				onDestroyed: () => {
-					localStorage.setItem(ONBOARDING_TOUR_KEY, "true");
-				},
-			});
-
-			onboardingTour.drive();
-		};
-
-		const timeoutId = window.setTimeout(runOnboardingTour, 350);
+		const timeoutId = window.setTimeout(startTour, 350);
 		return () => window.clearTimeout(timeoutId);
-	}, [dark, isAuthenticated, location.pathname, role, t]);
+	}, [isAuthenticated, location.pathname, role, startTour]);
 
 	return (
 		<div className={styles.layoutContainer}>

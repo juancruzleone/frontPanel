@@ -441,6 +441,24 @@
       "preventiveCompliance": "Erfüllungsgrad der präventiven Wartung.",
       "slaRate": "Prozentsatz der Arbeiten, die innerhalb des SLA gelöst wurden.",
       "responseTime": "Durchschnittliche Zeit bis zur ersten Antwort."
+    },
+    "tour": {
+      "welcome": {
+        "title": "Willkommen bei Leonix!",
+        "description": "Dies ist Ihr Start-Dashboard. Hier sehen Sie den Status Ihrer Abläufe und die wichtigsten Kennzahlen."
+      },
+      "settings": {
+        "title": "Schritt 2: Zu Einstellungen gehen",
+        "description": "Gehen Sie vor der Nutzung des Panels zu den Einstellungen, um Installationstypen, Asset-Kategorien und weitere erforderliche Basisdaten zu erstellen."
+      },
+      "buttons": {
+        "next": "Weiter",
+        "previous": "Zurück",
+        "done": "Fertig",
+        "skip": "Tutorial überspringen",
+        "restart": "Tutorial ansehen"
+      },
+      "progressText": "{{current}} von {{total}}"
     }
   },
   "workOrders": {
@@ -938,7 +956,7 @@
         "description": "Hier können Sie alle von Ihnen erstellten Installationstypen anzeigen und verwalten."
       },
       "createInstallation": {
-        "title": "Schritt 2: Installation erstellen",
+        "title": "Schritt 1: Installation erstellen",
         "description": "Sobald Sie mindestens einen Installationstyp in den Einstellungen erstellt haben, verwenden Sie diese Schaltfläche, um Ihre erste Installation zu erstellen. Geben Sie den Namen, die Adresse ein und wählen Sie den Installationstyp."
       },
       "searchFilter": {

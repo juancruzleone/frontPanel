@@ -51,6 +51,10 @@
   box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3) !important;
 }
 
+.driver-popover-prev-btn:disabled {
+  display: none !important;
+}
+
 .driver-popover-prev-btn:hover {
   box-shadow: 0 4px 12px rgba(108, 117, 125, 0.5) !important;
 }
