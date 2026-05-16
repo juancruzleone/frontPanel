@@ -12,7 +12,6 @@ interface ModalEditFrequencyProps {
   onRequestClose: () => void
   subscription: Subscription | null
   frequencyOptions: FrequencyOption[]
-  getMonthsByFrequency?: (frequency: string) => string[]
   onSave: (subscriptionId: string, frequency: string, startDate?: string, endDate?: string, status?: 'active' | 'inactive' | 'pending', months?: string[]) => Promise<{ message: string }>
   onSubmitSuccess: (message: string) => void
   onSubmitError: (message: string) => void
@@ -23,7 +22,6 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
   onRequestClose,
   subscription,
   frequencyOptions,
-  getMonthsByFrequency,
   onSave,
   onSubmitSuccess,
   onSubmitError
@@ -200,9 +198,9 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
             responseMessage={responseMessage}
             frequencyOptions={frequencyOptions}
             onFieldChange={(name, value) => {
-              if (name === 'isStartDatePickerOpen') setIsStartDatePickerOpen(value)
-              else if (name === 'isEndDatePickerOpen') setIsEndDatePickerOpen(value)
-              else handleFieldChange(name, value)
+              if (name === 'isStartDatePickerOpen') setIsStartDatePickerOpen(Boolean(value))
+              else if (name === 'isEndDatePickerOpen') setIsEndDatePickerOpen(Boolean(value))
+              else handleFieldChange(name, String(value))
             }}
             onFieldBlur={handleFieldBlur}
             onStartDateClose={handleStartDateClose}
@@ -213,7 +211,6 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
             canSave={canSave}
             onSubmit={handleSubmit}
             onCancel={handleClose}
-            getMonthsByFrequency={getMonthsByFrequency}
             monthsError={monthsError}
           />
         </div>

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react"
 import styles from "../styles/Modal.module.css"
-import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 import type { WorkOrder } from "../hooks/useCalendar"
 import { Clock, MapPin, User, AlertCircle, Calendar, Play } from "lucide-react"
 import { useTranslation } from "react-i18next"
@@ -41,7 +40,7 @@ const ModalWorkOrderDetails = ({
           const { fetchInstallationById } = await import('../../../features/installations/services/installationServices')
           const data = await fetchInstallationById(workOrder.instalacionId)
           setInstallationDetails(data)
-        } catch (error) {
+        } catch {
           // Error loading installation details
         } finally {
           setLoadingInstallation(false)

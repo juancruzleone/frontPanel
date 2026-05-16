@@ -9,6 +9,7 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
   max-width: 450px !important;
   min-width: 380px !important;
+  padding-top: 1.5rem !important;
 }
 
 /* Personalizar el título del popover */
@@ -17,6 +18,7 @@
   font-size: 1.25rem !important;
   font-weight: 600 !important;
   margin-bottom: 0.75rem !important;
+  padding-right: 3rem !important;
 }
 
 /* Personalizar la descripción */
@@ -119,4 +121,31 @@
   border: none !important;
   cursor: pointer !important;
   font-size: 1.75rem !important;
+  z-index: 2 !important;
+}
+
+@media (max-width: 480px) {
+  .driver-popover {
+    max-width: calc(100vw - 2rem) !important;
+    min-width: 0 !important;
+    width: calc(100vw - 2rem) !important;
+    padding-top: 2.75rem !important;
+  }
+
+  .driver-popover-title {
+    padding-right: 0 !important;
+    font-size: 1.1rem !important;
+    line-height: 1.35 !important;
+  }
+
+  .driver-popover-close-btn {
+    top: 0.5rem !important;
+    right: 0.5rem !important;
+    width: 40px !important;
+    height: 40px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-radius: 999px !important;
+    color: #ffffff !important;
+    opacity: 1 !important;
+  }
 }

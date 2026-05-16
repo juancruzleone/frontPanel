@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useState, useCallback, useRef } from "react"
 import { 
   Home, 
   Package, 
@@ -114,6 +114,11 @@ const useHomeDashboard = () => {
   const { dashboardData: storedData, setDashboardData, ownerId } = useHomeStore()
 
   const validStoredData = ownerId === userId ? storedData : null
+  const validStoredDataRef = useRef(validStoredData)
+
+  useEffect(() => {
+    validStoredDataRef.current = validStoredData
+  }, [validStoredData])
   
   const [range, setRange] = useState<RangeOption>("30d")
   const [kpis, setKpis] = useState<KPIItem[]>([])
@@ -511,9 +516,11 @@ const useHomeDashboard = () => {
     setLoading(true)
     setError(null)
     
-    // Fallback offline immediato si no hay conexión
-    if (!navigator.onLine && validStoredData) {
-      processDashboardData(validStoredData.result, validStoredData.workOrdersResult, validStoredData.inventoryRows)
+    const cachedDashboardData = validStoredDataRef.current
+
+    // Fallback offline inmediato si no hay conexión
+    if (!navigator.onLine && cachedDashboardData) {
+      processDashboardData(cachedDashboardData.result, cachedDashboardData.workOrdersResult, cachedDashboardData.inventoryRows)
       setLoading(false)
       return
     }
@@ -543,15 +550,17 @@ const useHomeDashboard = () => {
       processDashboardData(resultData.data, workOrdersResult, inventoryRows)
 
     } catch (e: any) {
-      if (validStoredData) {
-        processDashboardData(validStoredData.result, validStoredData.workOrdersResult, validStoredData.inventoryRows)
+      const fallbackDashboardData = validStoredDataRef.current
+
+      if (fallbackDashboardData) {
+        processDashboardData(fallbackDashboardData.result, fallbackDashboardData.workOrdersResult, fallbackDashboardData.inventoryRows)
       } else {
         setError(e.message || "Error al cargar el dashboard")
       }
     } finally {
       setLoading(false)
     }
-  }, [isAuthenticated, range, validStoredData, setDashboardData, processDashboardData])
+  }, [isAuthenticated, range, setDashboardData, processDashboardData])
 
   useEffect(() => {
     load()

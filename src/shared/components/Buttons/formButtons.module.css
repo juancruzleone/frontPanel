@@ -22,14 +22,12 @@
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.2s ease;
-  width: 140px !important;
-  min-width: 140px !important;
-  height: 48px !important;
-  min-height: 48px !important;
-  max-height: 48px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+  width: auto;
+  min-width: 140px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
 }
 
@@ -90,14 +88,12 @@
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.2s ease;
-  width: 140px !important;
-  min-width: 140px !important;
-  height: 48px !important;
-  min-height: 48px !important;
-  max-height: 48px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+  width: auto;
+  min-width: 140px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: 0 4px 12px rgba(5, 126, 116, 0.3);
   box-sizing: border-box;
 }
@@ -153,28 +149,17 @@
 /* Responsive */
 @media (max-width: 768px) {
   .actions {
-    padding: 1.25rem 1.5rem;
-    margin-left: -1.5rem;
-    margin-right: -1.5rem;
-    margin-bottom: -1.5rem;
-    flex-direction: row !important;
-    justify-content: flex-end !important;
-    gap: 0.75rem;
+    flex-direction: column !important;
+    justify-content: center !important;
   }
 
   .cancelButton,
   .submitButton {
-    width: 140px !important;
-    min-width: 140px !important;
-    max-width: 140px !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    max-width: 100% !important;
   }
 }
 
 @media (max-width: 480px) {
-  .actions {
-    padding: 1rem;
-    margin-left: -1rem;
-    margin-right: -1rem;
-    margin-bottom: -1rem;
-  }
 }

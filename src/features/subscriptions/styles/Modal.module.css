@@ -499,19 +499,93 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+  .modal {
+    width: 95%;
+    max-height: 90vh;
+    border-radius: 16px;
+  }
+
+  .modalHeader {
+    padding: 1.5rem 1.5rem 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .titleSection {
+    width: 100%;
+  }
+
+  .closeButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 36px;
+    height: 36px;
+    font-size: 1.5rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+    margin-right: 3rem;
+  }
+
   .formInner {
-    padding: 1.5rem;
+    padding: 0;
     gap: 1.25rem;
   }
 
   .subscriptionInfo {
     padding: 1.25rem 1.5rem;
   }
+
+  .modalFooter {
+    padding: 1.25rem 1.5rem;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .modalButton {
+    width: 100%;
+  }
+
+  .successContentBody {
+    padding: 2rem 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .successIconLarge {
+    width: 70px;
+    height: 70px;
+  }
+
+  .successMessageLarge {
+    font-size: 1rem;
+  }
+
+  .successButtonLarge {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+    width: 100%;
+  }
 }
 
 @media (max-width: 480px) {
+  .modal {
+    width: 98%;
+    max-height: 95vh;
+  }
+
+  .modalHeader {
+    padding: 1.25rem 1.25rem 0.75rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
   .formInner {
-    padding: 1rem;
+    padding: 0;
   }
 
   .subscriptionInfo {
@@ -524,9 +598,25 @@
 
   .formGroup input,
   .formGroup select,
-  .formGroup textarea {
+  .formGroup textarea,
+  .dateSelectButton,
+  .monthsPreviewButton,
+  .select,
+  .textarea {
     padding: 0.75rem;
     font-size: 0.95rem;
+  }
+
+  .dropZone {
+    padding: 1.5rem 1rem;
+  }
+
+  .dropZoneText {
+    font-size: 0.9rem;
+  }
+
+  .dropZoneSubtext {
+    font-size: 0.8rem;
   }
 }
 
@@ -1011,4 +1101,25 @@
 :global(.dark) .emptyStateText {
   color: #fff;
   /* Más blanco en modo oscuro */
+}
+
+/* Documents List */
+.documentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 1.5rem 2.5rem;
+}
+
+@media (max-width: 768px) {
+  .documentsList {
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .documentsList {
+    padding: 1rem;
+    gap: 10px;
+  }
 }

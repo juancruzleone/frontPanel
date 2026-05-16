@@ -114,16 +114,16 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
                     </button>
                 </div>
 
-                <div className={styles.modalContent} style={{ minHeight: '300px' }}>
+                <div className={styles.modalContent} style={{ minHeight: 'auto' }}>
                     {loading ? (
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', gap: '16px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '300px', gap: '16px' }}>
                             <Loader2 size={40} className={styles.spinner} style={{ color: 'var(--color-secondary)' }} />
 
                         </div>
                     ) : error ? (
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', gap: '16px', color: 'var(--color-danger)' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '300px', gap: '16px', color: 'var(--color-danger)', padding: '1rem' }}>
                             <AlertCircle size={40} />
-                            <p>{error}</p>
+                            <p style={{ textAlign: 'center' }}>{error}</p>
                             <button onClick={fetchDocuments} className={styles.modalButton} style={{ width: 'auto' }}>
                                 {t('common.retry')}
                             </button>
@@ -134,7 +134,7 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
                             <p className={styles.emptyStateText}>{t('subscriptions.documents.noDocumentsFound') || 'No se encontraron documentos'}</p>
                         </div>
                     ) : (
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', padding: '1.5rem 2.5rem' }}>
+                        <div className={styles.documentsList}>
                             {documents.map((doc) => {
                                 // Adaptación para la estructura plana que devuelve la API
                                 const fileName = doc.name || doc.metadata?.original_filename || t('subscriptions.documents.unnamedDocument')

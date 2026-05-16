@@ -39,6 +39,7 @@ const InstallationDetails = () => {
   const { installationName } = location.state || { installationName: "" }
 
   const role = useAuthStore((s) => s.role)
+  const userId = useAuthStore((s) => s.userId)
   const isTechnicalUser = role && checkIsTechnician(role)
   const isClientUser = role && isClient(role)
   const isRestricted = isTechnicalUser || isClientUser
@@ -206,71 +207,20 @@ const InstallationDetails = () => {
 
   const { historyByDevice, setHistory, lastMaintenanceByDevice, setLastMaintenance, ownerId: maintenanceOwnerId } = useMaintenanceStore()
 
-  const handleDownloadLastMaintenancePDF = async (device: Device) => {
+  const handleShowHistory = async (device: Device) => {
     if (!device._id || !id) return
 
-    setLoadingPDF(device._id)
-    
-    const validCachedLastMaintenance = maintenanceOwnerId === userId ? lastMaintenanceByDevice[device._id] : null
+    setDeviceForHistory(device)
+    setLoadingHistory(true)
+
+    const validCachedHistory = maintenanceOwnerId === userId ? historyByDevice[device._id] : null
 
     try {
-      if (!navigator.onLine && validCachedLastMaintenance) {
-        if (validCachedLastMaintenance.pdfUrl) {
-          const link = document.createElement("a")
-          link.href = validCachedLastMaintenance.pdfUrl
-          link.download = `mantenimiento_${device.nombre}_${new Date().toISOString().split("T")[0]}.pdf`
-          link.target = "_blank"
-          document.body.appendChild(link)
-          link.click()
-          document.body.removeChild(link)
-          setResponseMessage("Descargando PDF (desde caché)...")
-          setIsError(false)
-        } else {
-          setResponseMessage("No hay registros de mantenimiento (caché)")
-          setIsError(true)
-        }
-        setLoadingPDF(null)
+      if (!navigator.onLine && validCachedHistory) {
+        setMaintenanceHistory(validCachedHistory)
+        setIsHistoryModalOpen(true)
         return
       }
-
-      const maintenanceData = await getLastMaintenanceForDevice(id, device._id)
-      setLastMaintenance(device._id, maintenanceData)
-
-      if (!maintenanceData || !maintenanceData.pdfUrl) {
-        setResponseMessage("No hay registros de mantenimiento para este dispositivo")
-        setIsError(true)
-        return
-      }
-// ...
-      const link = document.createElement("a")
-      link.href = maintenanceData.pdfUrl
-      link.download = `mantenimiento_${device.nombre}_${new Date().toISOString().split("T")[0]}.pdf`
-      link.target = "_blank"
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-
-      setResponseMessage("Descargando PDF del último mantenimiento...")
-      setIsError(false)
-    } catch (error: any) {
-      if (validCachedLastMaintenance && validCachedLastMaintenance.pdfUrl) {
-          const link = document.createElement("a")
-          link.href = validCachedLastMaintenance.pdfUrl
-          link.download = `mantenimiento_${device.nombre}_${new Date().toISOString().split("T")[0]}.pdf`
-          link.target = "_blank"
-          document.body.appendChild(link)
-          link.click()
-          document.body.removeChild(link)
-          setResponseMessage("Descargando PDF (desde caché)...")
-          setIsError(false)
-      } else {
-        setResponseMessage(error.message || "Error al descargar el PDF de mantenimiento")
-        setIsError(true)
-      }
-    } finally {
-      setLoadingPDF(null)
-    }
-  }
 
       const history = await getMaintenanceHistory(id, device._id)
       setMaintenanceHistory(history)
@@ -295,8 +245,29 @@ const InstallationDetails = () => {
     if (!device._id || !id) return
 
     setLoadingPDF(device._id)
+    const validCachedLastMaintenance = maintenanceOwnerId === userId ? lastMaintenanceByDevice[device._id] : null
+
     try {
+      if (!navigator.onLine && validCachedLastMaintenance) {
+        if (validCachedLastMaintenance.pdfUrl) {
+          const link = document.createElement("a")
+          link.href = validCachedLastMaintenance.pdfUrl
+          link.download = `mantenimiento_${device.nombre}_${new Date().toISOString().split("T")[0]}.pdf`
+          link.target = "_blank"
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+          setResponseMessage("Descargando PDF (desde caché)...")
+          setIsError(false)
+        } else {
+          setResponseMessage("No hay registros de mantenimiento (caché)")
+          setIsError(true)
+        }
+        return
+      }
+
       const maintenanceData = await getLastMaintenanceForDevice(id, device._id)
+      setLastMaintenance(device._id, maintenanceData)
 
       if (!maintenanceData || !maintenanceData.pdfUrl) {
         setResponseMessage("No hay registros de mantenimiento para este dispositivo")
@@ -316,8 +287,20 @@ const InstallationDetails = () => {
       setResponseMessage("Descargando PDF del último mantenimiento...")
       setIsError(false)
     } catch (error: any) {
-      setResponseMessage(error.message || "Error al descargar el PDF de mantenimiento")
-      setIsError(true)
+      if (validCachedLastMaintenance?.pdfUrl) {
+        const link = document.createElement("a")
+        link.href = validCachedLastMaintenance.pdfUrl
+        link.download = `mantenimiento_${device.nombre}_${new Date().toISOString().split("T")[0]}.pdf`
+        link.target = "_blank"
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        setResponseMessage("Descargando PDF (desde caché)...")
+        setIsError(false)
+      } else {
+        setResponseMessage(error.message || "Error al descargar el PDF de mantenimiento")
+        setIsError(true)
+      }
     } finally {
       setLoadingPDF(null)
     }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
+import '../../installations/styles/tour.css';
 import { useTranslation } from 'react-i18next';
 
 export const useClientsTour = () => {

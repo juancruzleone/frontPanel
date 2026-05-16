@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Calendar, ChevronDown } from 'lucide-react'
+import { Calendar } from 'lucide-react'
 import styles from '../styles/Modal.module.css'
 import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
 import DatePickerModal from '../../calendar/components/DatePickerModal'
@@ -24,7 +24,7 @@ interface FrequencyFormProps {
   isError: boolean
   responseMessage: string
   frequencyOptions: FrequencyOption[]
-  onFieldChange: (name: string, value: any) => void
+  onFieldChange: (name: string, value: unknown) => void
   onFieldBlur: (name: string) => void
   onStartDateClose: () => void
   onEndDateClose: () => void
@@ -34,7 +34,6 @@ interface FrequencyFormProps {
   canSave: () => boolean
   onSubmit: (e: React.FormEvent) => void
   onCancel: () => void
-  getMonthsByFrequency: (frequency: string) => string[]
   monthsError: string
 }
 
@@ -59,17 +58,10 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
   canSave,
   onSubmit,
   onCancel,
-  getMonthsByFrequency,
   monthsError,
 }) => {
   const { t } = useTranslation()
   const [isMonthSelectorOpen, setIsMonthSelectorOpen] = useState(false)
-
-  const isMonthSelectable = (month: string) => {
-    return formData.frequency === 'semestral' || formData.frequency === 'trimestral' || formData.frequency === 'anual' || formData.frequency === 'mensual'
-  }
-
-  const isMonthSelected = (month: string) => selectedMonths.includes(month)
 
   // Obtener el primer mes seleccionado basado en la fecha de inicio
   const getFirstMonth = () => {
@@ -107,14 +99,6 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
     onSubmit(e)
   }
 
-  // Handler simplificado para blur - solo para campos que no sean fechas desde DatePicker
-  const handleFieldBlurIfNotFromDatePicker = (fieldName: string) => {
-    // Solo ejecutar blur si no estamos interactuando con DatePickers
-    setTimeout(() => {
-      onFieldBlur(fieldName)
-    }, 150)
-  }
-
   return (
     <form onSubmit={handleFormSubmit} className={styles.form} noValidate>
       <div className={styles.formInner}>
@@ -144,18 +128,6 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
           <div
             onClick={(e) => handleDateInputClick(e, 'start')}
             className={styles.dateSelectButton}
-            style={{
-              cursor: 'pointer',
-              padding: '0.875rem 1rem',
-              border: '2px solid var(--color-card-border)',
-              borderRadius: '12px',
-              backgroundColor: 'var(--color-card)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              transition: 'all 0.2s ease',
-              fontSize: '0.95rem'
-            }}
           >
             <span style={{ color: formData.startDate ? 'var(--color-text)' : 'var(--color-text-secondary)' }}>
               {formData.startDate && /^\d{4}-\d{2}-\d{2}$/.test(formData.startDate)
@@ -182,18 +154,6 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
           <div
             onClick={(e) => handleDateInputClick(e, 'end')}
             className={styles.dateSelectButton}
-            style={{
-              cursor: 'pointer',
-              padding: '0.875rem 1rem',
-              border: '2px solid var(--color-card-border)',
-              borderRadius: '12px',
-              backgroundColor: 'var(--color-card)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              transition: 'all 0.2s ease',
-              fontSize: '0.95rem'
-            }}
           >
             <span style={{ color: formData.endDate ? 'var(--color-text)' : 'var(--color-text-secondary)' }}>
               {formData.endDate && /^\d{4}-\d{2}-\d{2}$/.test(formData.endDate)
@@ -243,18 +203,6 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
             <div
               className={styles.monthsPreviewButton}
               onClick={() => setIsMonthSelectorOpen(true)}
-              style={{
-                cursor: 'pointer',
-                padding: '0.875rem 1rem',
-                border: '2px solid var(--color-card-border)',
-                borderRadius: '12px',
-                backgroundColor: 'var(--color-card)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                transition: 'all 0.2s ease',
-                fontSize: '0.95rem'
-              }}
             >
               <span style={{ color: selectedMonths.length > 0 ? 'var(--color-text)' : 'var(--color-text-secondary)' }}>
                 {selectedMonths.length > 0
