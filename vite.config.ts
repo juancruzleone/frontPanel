@@ -47,9 +47,9 @@ export default defineConfig(({ mode }) => {
 						}
 						return `assets/[name]-[hash][extname]`;
 					},
+					chunkFileNames: "assets/js/[name]-[hash].js",
+					entryFileNames: "assets/js/[name]-[hash].js",
 				},
-				chunkFileNames: "assets/js/[name]-[hash].js",
-				entryFileNames: "assets/js/[name]-[hash].js",
 			},
 			target: "esnext",
 			minify: "esbuild",

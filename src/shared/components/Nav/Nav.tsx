@@ -66,6 +66,8 @@ const Nav = () => {
 	const suppliersRoute = getRoute("suppliers");
 	const personalRoute = getRoute("personal");
 	const settingsRoute = getRoute("settings");
+	const panelAdminRoute = getRoute("panelAdmin");
+	const profileRoute = getRoute("profile");
 	const auditRoute = getRoute("audit");
 	const currentRouteMenuState = getRouteMenuOpenState(location.pathname, {
 		workOrders: [workOrdersRoute, calendarRoute],
@@ -524,7 +526,7 @@ const Nav = () => {
 						{isSuperAdminUser && (
 							<li>
 								<NavLink
-									to="/panel-admin"
+									to={panelAdminRoute}
 									className={({ isActive }) => (isActive ? styles.active : "")}
 									onClick={() => setIsMenuOpen(false)}
 								>
@@ -556,7 +558,7 @@ const Nav = () => {
 										onClick={() => {
 											if (!isClientUser && !isAdminUser) {
 												setIsMenuOpen(false);
-												navigate("/perfil");
+												navigate(profileRoute);
 											}
 										}}
 										style={{
@@ -577,7 +579,7 @@ const Nav = () => {
 											onClick={() => {
 												if (!isClientUser && !isAdminUser) {
 													setIsMenuOpen(false);
-													navigate("/perfil");
+													navigate(profileRoute);
 												}
 											}}
 											style={{

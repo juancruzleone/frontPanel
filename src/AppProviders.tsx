@@ -4,7 +4,6 @@ import { useTheme } from "./shared/hooks/useTheme"
 import { useAuthStore } from "@/store/authStore"
 import { useCSRFStore } from "@/store/csrfStore"
 import { verifySession } from "./features/auth/services/loginServices"
-import { installFetchCredentials } from "./shared/services/fetchCredentials"
 import { OfflineSyncManager } from "./shared/components/OfflineSyncManager"
 
 export const ThemedToaster = () => {
@@ -34,12 +33,8 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
   const csrfToken = useCSRFStore((state) => state.token)
   const csrfIsLoading = useCSRFStore((state) => state.isLoading)
 
-  React.useEffect(() => {
-    installFetchCredentials()
-  }, [])
-
-  React.useEffect(() => {
-    let cancelled = false
+	React.useEffect(() => {
+		let cancelled = false
 
     const bootstrapSession = async () => {
       try {

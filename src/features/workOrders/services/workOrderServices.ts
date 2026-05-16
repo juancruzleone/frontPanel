@@ -1,9 +1,9 @@
 import {
+	fetchWithCsrf,
 	getAuthHeaders,
-	getHeadersWithContentType,
 } from "../../../shared/utils/apiHeaders";
 
-const API_URL = import.meta.env.VITE_API_URL || "/api/";
+const getApiUrl = () => import.meta.env.VITE_API_URL || "/api/";
 
 export type Technician = {
 	_id: string;
@@ -183,7 +183,7 @@ export const fetchWorkOrders = async (
 	});
 
 	const ordersResponse = await fetch(
-		`${API_URL}ordenes-trabajo?${queryParams}`,
+		`${getApiUrl()}ordenes-trabajo?${queryParams}`,
 		{
 			headers: getAuthHeaders(),
 		},
@@ -203,7 +203,7 @@ export const fetchWorkOrders = async (
 };
 
 export const fetchInstallations = async (): Promise<Installation[]> => {
-	const response = await fetch(`${API_URL}installations`, {
+	const response = await fetch(`${getApiUrl()}installations`, {
 		headers: getAuthHeaders(),
 	});
 
@@ -221,9 +221,8 @@ export const createWorkOrder = async (workOrder: WorkOrder) => {
 		tecnicosAsignados: technicianIds,
 		tecnicosIds: technicianIds,
 	};
-	const response = await fetch(`${API_URL}ordenes-trabajo`, {
+	const response = await fetchWithCsrf(`${getApiUrl()}ordenes-trabajo`, {
 		method: "POST",
-		headers: getHeadersWithContentType(),
 		body: JSON.stringify(payload),
 	});
 
@@ -243,9 +242,8 @@ export const updateWorkOrder = async (id: string, workOrder: WorkOrder) => {
 		tecnicosIds: technicianIds,
 	};
 
-	const response = await fetch(`${API_URL}ordenes-trabajo/${id}`, {
+	const response = await fetchWithCsrf(`${getApiUrl()}ordenes-trabajo/${id}`, {
 		method: "PUT",
-		headers: getHeadersWithContentType(),
 		body: JSON.stringify(payload),
 	});
 
@@ -258,9 +256,8 @@ export const updateWorkOrderStatus = async (
 	estado: string,
 	observaciones?: string,
 ) => {
-	const response = await fetch(`${API_URL}ordenes-trabajo/${id}/estado`, {
+	const response = await fetchWithCsrf(`${getApiUrl()}ordenes-trabajo/${id}/estado`, {
 		method: "PATCH",
-		headers: getHeadersWithContentType(),
 		body: JSON.stringify({ estado, observaciones }),
 	});
 
@@ -269,9 +266,8 @@ export const updateWorkOrderStatus = async (
 };
 
 export const deleteWorkOrder = async (id: string) => {
-	const response = await fetch(`${API_URL}ordenes-trabajo/${id}`, {
+	const response = await fetchWithCsrf(`${getApiUrl()}ordenes-trabajo/${id}`, {
 		method: "DELETE",
-		headers: getAuthHeaders(),
 	});
 
 	return handleResponse(response);
@@ -284,14 +280,13 @@ export const assignTechnicianToWorkOrder = async (
 	const normalizedIds = Array.from(
 		new Set(technicianIds.filter(Boolean).map((id) => String(id))),
 	);
-	const url = `${API_URL}ordenes-trabajo/${workOrderId}/asignar`;
+	const url = `${getApiUrl()}ordenes-trabajo/${workOrderId}/asignar`;
 	const body = JSON.stringify({
 		tecnicoId: normalizedIds[0] || undefined,
 		tecnicoIds: normalizedIds,
 	});
-	const response = await fetch(url, {
+	const response = await fetchWithCsrf(url, {
 		method: "PATCH",
-		headers: getHeadersWithContentType(),
 		body: body,
 	});
 
@@ -318,11 +313,10 @@ export const completeWorkOrder = async (
 	workOrderId: string,
 	completionData: WorkOrderCompletionData,
 ) => {
-	const response = await fetch(
-		`${API_URL}ordenes-trabajo/${workOrderId}/completar`,
+	const response = await fetchWithCsrf(
+		`${getApiUrl()}ordenes-trabajo/${workOrderId}/completar`,
 		{
 			method: "POST",
-			headers: getHeadersWithContentType(),
 			body: JSON.stringify(completionData),
 		},
 	);
@@ -335,11 +329,10 @@ export const startWorkOrder = async (
 	workOrderId: string,
 	startData?: WorkOrderStartData,
 ) => {
-	const response = await fetch(
-		`${API_URL}ordenes-trabajo/${workOrderId}/iniciar`,
+	const response = await fetchWithCsrf(
+		`${getApiUrl()}ordenes-trabajo/${workOrderId}/iniciar`,
 		{
 			method: "PATCH",
-			headers: startData ? getHeadersWithContentType() : getAuthHeaders(),
 			...(startData ? { body: JSON.stringify(startData) } : {}),
 		},
 	);
@@ -349,7 +342,7 @@ export const startWorkOrder = async (
 };
 
 export const getWorkOrderById = async (id: string): Promise<WorkOrder> => {
-	const response = await fetch(`${API_URL}ordenes-trabajo/${id}`, {
+	const response = await fetch(`${getApiUrl()}ordenes-trabajo/${id}`, {
 		headers: getAuthHeaders(),
 	});
 

@@ -207,16 +207,17 @@ export const isValidJWT = (token: string): boolean => {
  * NOTA: Preferir siempre React's JSX sobre renderizar HTML directamente
  */
 export const sanitizeHtml = (html: string): string => {
-  // Remover scripts
-  let sanitized = html.replace(/<script[^>]*>.*?<\/script>/gi, '')
-  
-  // Remover event handlers
-  sanitized = sanitized.replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
-  
-  // Remover javascript: URIs
-  sanitized = sanitized.replace(/href\s*=\s*["']javascript:[^"']*["']/gi, '')
-  
-  return sanitized
+	// Remover scripts
+	let sanitized = html.replace(/<script[^>]*>.*?<\/script>/gi, '')
+	
+	// Remover event handlers con comillas y sin comillas
+	sanitized = sanitized.replace(/on\w+\s*=\s*["'][^"']*["']/gi, '')
+	sanitized = sanitized.replace(/on\w+\s*=\s*[^\s>]+/gi, '')
+	
+	// Remover javascript: URIs
+	sanitized = sanitized.replace(/href\s*=\s*["']javascript:[^"']*["']/gi, '')
+	
+	return sanitized
 }
 
 export default {

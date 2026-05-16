@@ -4,10 +4,27 @@ import {
 	updateWorkOrder,
 } from "../../../../src/features/workOrders/services/workOrderServices";
 
+// Mock fetchWithCsrf to behave like a plain fetch (no CSRF retry logic)
+// so tests stay deterministic without CSRF store / token management
+vi.mock("../../../../src/shared/utils/apiHeaders", async () => {
+	const actual = await vi.importActual<
+		typeof import("../../../../src/shared/utils/apiHeaders")
+	>("../../../../src/shared/utils/apiHeaders");
+	return {
+		...actual,
+		fetchWithCsrf: async (url: string, options: RequestInit = {}) => {
+			return fetch(url, { ...options, credentials: "include" });
+		},
+	};
+});
+
 const fetchMock = vi.fn();
 
 describe("workOrderServices", () => {
 	beforeEach(() => {
+		// @ts-expect-error - Setting import.meta.env for deterministic API URL
+		import.meta.env.VITE_API_URL = "/api/";
+
 		fetchMock.mockResolvedValue({
 			ok: true,
 			json: vi.fn().mockResolvedValue({ success: true, message: "Asignada" }),
