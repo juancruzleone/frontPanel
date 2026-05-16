@@ -7,15 +7,15 @@ on:
     branches: [main, develop]
 
 env:
-  NODE_VERSION: '20.x'
-  BUN_VERSION: '1.3.5'
+  NODE_VERSION: "20.x"
+  BUN_VERSION: "1.3.5"
 
 jobs:
   # Job 1: Lint y Type Check
   lint-and-typecheck:
     name: Lint & Type Check
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -43,7 +43,7 @@ jobs:
   security-audit:
     name: Security Audit
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -73,7 +73,7 @@ jobs:
   unit-tests:
     name: Unit Tests
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -108,7 +108,7 @@ jobs:
   integration-tests:
     name: Integration Tests
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -133,7 +133,7 @@ jobs:
   security-tests:
     name: Security Tests
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -158,7 +158,7 @@ jobs:
   e2e-tests:
     name: E2E Tests
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -199,7 +199,7 @@ jobs:
     name: Build Application
     runs-on: ubuntu-latest
     needs: [lint-and-typecheck, unit-tests, integration-tests, security-tests]
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -238,7 +238,7 @@ jobs:
     environment:
       name: staging
       url: https://staging.cmms.leonix.net.ar
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -261,7 +261,7 @@ jobs:
     environment:
       name: production
       url: https://cmms.leonix.net.ar
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -272,7 +272,7 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
+          vercel-args: "--prod"
           working-directory: ./
         continue-on-error: true
 
@@ -290,9 +290,18 @@ jobs:
   notify:
     name: Notify Results
     runs-on: ubuntu-latest
-    needs: [lint-and-typecheck, security-audit, unit-tests, integration-tests, security-tests, e2e-tests, build]
+    needs:
+      [
+        lint-and-typecheck,
+        security-audit,
+        unit-tests,
+        integration-tests,
+        security-tests,
+        e2e-tests,
+        build,
+      ]
     if: always()
-    
+
     steps:
       - name: Send notification
         run: |

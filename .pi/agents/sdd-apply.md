@@ -1,6 +1,7 @@
 ---
 name: sdd-apply
 description: Implement SDD tasks with strict TDD evidence and review workload guard.
+model: google/gemini-3-flash-preview
 tools: read, grep, glob, edit, write, bash
 inheritProjectContext: true
 ---

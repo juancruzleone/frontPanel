@@ -1,6 +1,7 @@
 ---
 name: sdd-explore
 description: Explore an SDD change idea before proposal.
+model: opencode-go/glm-5.1
 tools: read, grep, glob, webfetch
 inheritProjectContext: true
 ---

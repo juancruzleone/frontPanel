@@ -1,6 +1,7 @@
 ---
 name: sdd-init
 description: Initialize project SDD context, testing capabilities, and skill registry.
+model: opencode-go/kimi-k2.6
 tools: read, grep, glob, write, bash
 inheritProjectContext: true
 ---

@@ -1,6 +1,7 @@
 ---
 name: sdd-design
 description: Design the technical approach for an SDD change.
+model: openai-codex/gpt-5.5
 tools: read, grep, glob, write, edit
 inheritProjectContext: true
 ---

@@ -1,175 +1,107 @@
 # Code Context
 
 ## Files Retrieved
-1. `src/layouts/MainLayout.tsx` (lines 1-131) - current global/home onboarding tour lives here, uses Driver.js and targets home routes plus `data-tour="open-settings"`.
-2. `src/shared/components/TopBar/TopBar.tsx` (lines 1-214) - current configuration gear button is here; it navigates to `/configuracion` and is the only rendered `data-tour="open-settings"` target.
-3. `src/shared/components/Nav/Nav.tsx` (lines 1-385) - sidebar navigation; currently no Configuración section except super-admin Panel Admin. This is where a settings sidebar item should be added.
-4. `src/features/installations/hooks/useInstallationsTour.ts` (lines 1-94) - installations-specific tour currently starts with the Leonix welcome modal/card.
-5. `src/pages/Installations.tsx` (lines 330-390, 690-708) - Installations page wires `useInstallationsTour()` into a floating `TourButton`, and includes tour anchors for create/search steps.
-6. `src/pages/Home.tsx` (lines 1-8) and `src/features/home/components/HomeDashboard.tsx` (lines 1-114) - home page currently only renders dashboard content; no home-specific tour hook/button in the page component.
-7. `src/router/routeTranslations.ts` (lines 1-55) - translated route keys include `settings`, e.g. Spanish `configuracion`, English `settings`.
-8. `src/router/createTranslatedRouter.tsx` (lines 35-100) - settings route already exists under `MainLayout` as `RoleProtectedRoute section="configuracion"`.
-9. `src/store/layoutStore.ts` (lines 1-21) - Zustand persisted sidebar collapsed state used by `MainLayout`, `TopBar`, and `Nav`.
-10. `src/features/assets/hooks/useAssetsTour.ts` (lines 1-105), `src/features/forms/hooks/useFormsTour.ts` (lines 1-75), `src/features/installationsDetails/hooks/useInstallationDetailTour.ts` (lines 1-80) - other tours also target `[data-tour="open-settings"]`.
-11. `src/i18n/locales/es.json` (lines 15-26, 835-855, 2120-2145) and `src/i18n/locales/en.json` (lines 15-27, 852-868, 2050-2075) - nav/settings labels and tour text. Similar keys exist in other locale files.
+1. `public/sw.js` (lines 1-112) - service worker install cache list and fetch strategies; contains the failing `fetch(request)` at line 93.
+2. `index.html` (lines 11-24) - app shell references icons, `/site.webmanifest`, `/theme-init.js`, and Vite module entry.
+3. `src/main.tsx` (lines 12-19) - registers `/sw.js` on window load.
+4. `src/shared/services/pushNotificationService.ts` (lines 1-41) - also registers `/sw.js` for push with `updateViaCache: 'none'`.
+5. `vite.config.ts` (lines 34-58) - build emits hashed CSS/JS under `assets/css` and `assets/js`.
+6. `src/router/createTranslatedRouter.tsx` (lines 45-51, 201-251) - `/inicio` is a real SPA child route rendered under protected layout.
+7. `src/router/routeTranslations.ts` (lines 1-5) - Spanish `home` route maps to `inicio`.
+8. `public/site.webmanifest` (lines 1-30) and `public/manifest.json` (lines 1-28) - two manifest files exist; HTML uses `site.webmanifest`, SW precaches `manifest.json`.
 
 ## Key Code
 
-Current home/global onboarding is already implemented in `MainLayout`:
-
-```tsx
-// src/layouts/MainLayout.tsx:18-19
-const ONBOARDING_TOUR_KEY = 'onboarding-tour-v2-shown'
-const HOME_ROUTES = new Set(Object.values(routeTranslations).map(({ home }) => `/${home}`))
+`public/sw.js`:
+```js
+const urlsToCache = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/favicon.svg',
+  '/logo leonix 5.svg',
+  '/theme-init.js'
+];
 ```
 
-```tsx
-// src/layouts/MainLayout.tsx:41-115
-useEffect(() => {
-  if (!isAuthenticated) return
-  if (localStorage.getItem(ONBOARDING_TOUR_KEY) === 'true') return
-  if (!HOME_ROUTES.has(location.pathname)) return
-
-  const runOnboardingTour = () => {
-    const onboardingTour = driver({
-      showProgress: true,
-      steps: [
-        { popover: { title: t('home.tour.welcome.title'), description: t('home.tour.welcome.description') } },
-        { element: '[data-tour="open-settings"]', popover: { title: t('installations.tour.createInstallationType.title') } },
-        { element: '[data-tour="nav-assets"]', ... },
-        { element: '[data-tour="nav-installations"]', ... },
-      ],
-      onDestroyed: () => localStorage.setItem(ONBOARDING_TOUR_KEY, 'true'),
+```js
+if (request.mode === 'navigate') {
+  event.respondWith(
+    fetch(request).catch(() => {
+      return caches.match('/index.html');
     })
-    onboardingTour.drive()
-  }
-}, [dark, isAuthenticated, location.pathname, t])
+  );
+  return;
+}
 ```
 
-Current installations tour starts with the same Leonix welcome text, but under `installations.tour.welcome`:
-
-```tsx
-// src/features/installations/hooks/useInstallationsTour.ts:29-45
-steps: [
-  {
-    popover: {
-      title: t('installations.tour.welcome.title'),
-      description: t('installations.tour.welcome.description'),
-      showButtons: ['next', 'close']
-    }
-  },
-  {
-    element: '[data-tour="open-settings"]',
-    popover: {
-      title: t('installations.tour.createInstallationType.title'),
-      description: t('installations.tour.createInstallationType.description'),
-      side: "left",
-      align: 'start'
-    }
-  },
+```js
+if (request.destination === 'script' ||
+    request.destination === 'style' ||
+    request.destination === 'image' ||
+    request.destination === 'font') {
+  event.respondWith(
+    caches.match(request)
+      .then((cachedResponse) => {
+        const fetchPromise = fetch(request).then((networkResponse) => {
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(request, networkResponse.clone());
+          });
+          return networkResponse;
+        });
+        return cachedResponse || fetchPromise;
+      })
+  );
+  return;
+}
 ```
 
-Current TopBar config button:
-
-```tsx
-// src/shared/components/TopBar/TopBar.tsx:200-207
-<button
-  className={styles.actionButton}
-  aria-label="Configuración"
-  onClick={() => navigate('/configuracion')}
-  data-tour="open-settings"
->
-  <Settings size={20} />
-</button>
+`index.html`:
+```html
+<link rel="manifest" href="/site.webmanifest" />
+<script src="/theme-init.js"></script>
+<script type="module" src="/src/main.tsx"></script>
 ```
 
-Current Nav has route variables for many translated paths, but not `settingsRoute`:
-
-```tsx
-// src/shared/components/Nav/Nav.tsx:39-48
-const homeRoute = getRoute('home')
-...
-const auditRoute = getRoute('audit')
-```
-
-Current Nav section order includes Home, work orders, maintenance, installations, assets, operation, Panel Admin, audit. No normal settings/config item exists:
-
-```tsx
-// src/shared/components/Nav/Nav.tsx:239-380
-<NavLink to={homeRoute}>...</NavLink>
-...
-<li data-tour="nav-installations"><NavLink to={installationsRoute}>...</NavLink></li>
-<li data-tour="nav-assets"><NavLink to={assetsRoute}>...</NavLink></li>
-...
-{(isAdminUser || isSuperAdminUser) && <NavLink to={auditRoute}>...</NavLink>}
-```
-
-Other tours depend on the same `open-settings` target:
-
-```text
-src/features/installations/hooks/useInstallationsTour.ts:38
-src/features/forms/hooks/useFormsTour.ts:36
-src/features/installationsDetails/hooks/useInstallationDetailTour.ts:39
-src/features/assets/hooks/useAssetsTour.ts:53,92
-src/layouts/MainLayout.tsx:78
+`vite.config.ts`:
+```ts
+assetFileNames: (...) => {
+  if (/css/i.test(ext)) return `assets/css/[name]-[hash][extname]`
+  return `assets/[name]-[hash][extname]`
+},
+chunkFileNames: 'assets/js/[name]-[hash].js',
+entryFileNames: 'assets/js/[name]-[hash].js',
 ```
 
 ## Architecture
 
-- The app uses `MainLayout` for protected pages. It renders `<Nav />`, `<TopBar />`, an `<Outlet />`, and `<Footer />`.
-- Translated routes are centralized in `routeTranslations`; `useTranslatedRoutes().getRoute('settings')` should be used in components instead of hardcoded `/configuracion` when possible.
-- Settings page routing already exists for all languages via `createTranslatedRouter.tsx`; no new route is needed.
-- `Nav` is the actual sidebar. It controls visibility by role (`isTechnicianUser`, `isSuperAdminUser`, `isClientUser`, `isAdminUser`) and uses `useLayoutStore` to handle collapsed/sidebar state.
-- `TopBar` currently handles language, theme, notifications, and the settings icon. Removing the configuration icon here also removes the only current DOM anchor for `data-tour="open-settings"`.
-- Driver.js tours are split:
-  - Global first-run onboarding in `MainLayout`, gated by `localStorage['onboarding-tour-v2-shown']`, runs only on home route aliases.
-  - Feature tours in hooks, each with its own localStorage completion key and floating `TourButton` in the page.
-- Home currently has no page-level `TourButton`/hook; the only home guide is automatic and global from `MainLayout`.
+The app uses React Router browser history. `/inicio` is not a server file; it must be served by the service worker navigation fallback as `/index.html`, then hydrated by cached CSS/JS bundles.
 
-## Exact Current Flow
+Current offline path:
+1. Browser navigates to `/inicio`.
+2. `public/sw.js` sees `request.mode === 'navigate'` and tries network first.
+3. Offline network fails; SW returns `caches.match('/index.html')`.
+4. The returned app shell then requests manifest, CSS, JS, icons, and other assets.
+5. Hashed build CSS/JS are not precached. They are only runtime-cached after a previous successful online fetch of the exact hashed URL.
+6. While offline, static strategy does `cachedResponse || fetchPromise`; if the asset is not already cached, `fetchPromise` rejects at `sw.js:93` with `Failed to fetch`.
+7. Generic fallback for uncached non-static requests can resolve to `undefined` (`caches.match(request)` miss), which causes `Failed to convert value to 'Response'`.
 
-1. Authenticated user reaches a home path (`/inicio`, `/home`, etc.).
-2. `MainLayout` checks `localStorage['onboarding-tour-v2-shown']` and `HOME_ROUTES`.
-3. If not completed, after 350ms Driver.js starts:
-   - Step 1: unanchored welcome card: `home.tour.welcome.title` = `¡Bienvenido a Leonix!`.
-   - Step 2: targets `[data-tour="open-settings"]`, currently TopBar gear button.
-   - Step 3: targets sidebar assets item `[data-tour="nav-assets"]`.
-   - Step 4: targets sidebar installations item `[data-tour="nav-installations"]`.
-4. On destroy, `onboarding-tour-v2-shown` is set to `true`.
-5. In Installations, the floating `TourButton` currently has inverted-looking behavior: when `tourCompleted` is `true`, it calls `startTour`; when false, it calls `skipTour` (same pattern may exist elsewhere). The first `startTour` step is the Leonix welcome card from `installations.tour.welcome`, then it points to `[data-tour="open-settings"]`, then create installation, then search/filter.
-6. TopBar gear click navigates hardcoded to `/configuracion`, not the translated settings route.
+Root cause: the service worker only precaches a small hand-written app-shell list and does not precache Vite's hashed JS/CSS output or `/site.webmanifest`. Offline navigation can receive `index.html`, but the app cannot boot because required CSS/JS are missing. The SW also returns undefined on cache misses in several fallback paths, producing the Response conversion error.
 
-## Minimal Implementation Plan
-
-1. **Move the `open-settings` anchor from TopBar to Sidebar**
-   - In `TopBar.tsx`, remove `Settings` from lucide import if no longer used, remove `useNavigate` if only used by settings, and delete the settings button at lines 200-207.
-   - In `Nav.tsx`, add `const settingsRoute = getRoute('settings')` near other route constants.
-   - Add a normal sidebar `<li data-tour="open-settings">` with `<NavLink to={settingsRoute}> <Settings size={20} /> <span>{t('nav.settings')}</span> </NavLink>`.
-   - Likely role guard: align with route permission `section="configuracion"`. Existing request says add configuration as a Sidebar section; safest starting point is visible to non-super-admin, non-client users (similar Home/Operation) unless product wants clients/technicians to see it. Verify permissions in `RoleProtectedRoute` if changing visibility broadly.
-
-2. **Keep/update home guide**
-   - Since `MainLayout` already implements a home-only welcome guide, update its step 2 to point to the new sidebar settings item. If the sidebar item uses the same `data-tour="open-settings"`, no selector change is needed.
-   - Adjust side/align for sidebar target (`side: 'right'` is likely better than current `left`, because the target moves from TopBar right side to left sidebar).
-   - If user expects a manual home tourist guide button, create `src/features/home/hooks/useHomeTour.ts` or move the current `MainLayout` tour into a reusable home hook and render `TourButton` from `HomeDashboard`. Minimal alternative: keep the automatic `MainLayout` tour only.
-
-3. **Remove Leonix welcome from installations tour**
-   - In `useInstallationsTour.ts`, remove the first unanchored `installations.tour.welcome` step so Installations begins with configuration or create-installation guidance.
-   - Optionally remove unused `ONBOARDING_TOUR_KEY` and `onboardingCompleted` lines in `useInstallationsTour.ts`; `onboardingCompleted` is currently assigned and unused.
-   - Consider whether `installations.tour.welcome` i18n keys should remain for backward compatibility or be cleaned later across all locale files.
-
-4. **Preserve other tours**
-   - Because assets/forms/installation-detail tours also target `[data-tour="open-settings"]`, make sure the new sidebar Configuración item exists in every layout state where those tours run.
-   - Risk: if sidebar is collapsed, Driver.js can still target the icon-only item, but label text is hidden. That is probably acceptable; if not, tours may need to expand sidebar first.
-
-5. **Routing/i18n**
-   - Use `getRoute('settings')`, not hardcoded `/configuracion`, in the new Nav item.
-   - `nav.settings` already exists at least in ES/EN, and likely in all locales.
-   - Existing settings route exists for all languages; no route change needed.
+Secondary mismatch: `index.html` requests `/site.webmanifest`, but SW precaches `/manifest.json`. There are two manifest files with different content. Offline `/site.webmanifest` falls through to generic fetch/cache miss and can fail.
 
 ## Start Here
 
-Start with `src/shared/components/Nav/Nav.tsx`: it is the sidebar, already imports `Settings`, already uses translated routes, and is the correct place to add the new Configuración section plus the `data-tour="open-settings"` anchor. Then update `src/shared/components/TopBar/TopBar.tsx` and `src/features/installations/hooks/useInstallationsTour.ts`.
+Open `public/sw.js` first. It owns every observed error: navigation fallback, static asset caching, generic fallback, cache name/versioning, and the manifest precache mismatch.
 
-## Supervisor coordination
+Likely files to change:
+- `public/sw.js` - add safe fallback `Response` handling, catch static fetch rejections, cache `/site.webmanifest`, and ideally use a build-generated precache list for hashed Vite assets.
+- `index.html` or `public/sw.js` - make manifest path consistent (`/site.webmanifest` vs `/manifest.json`) and remove/ignore duplicate manifest if not needed.
+- `vite.config.ts` - consider `vite-plugin-pwa` or another build-time manifest/precache injection so hashed `assets/js/*` and `assets/css/*` are cached reliably.
+- `src/main.tsx` and `src/shared/services/pushNotificationService.ts` - optional cleanup: avoid duplicated SW registration paths/options; not the direct blank-screen cause.
 
-No blocking decision required for scouting. Engram save was requested, but no Engram/memory tool is available in this subagent toolset, so no memory write was possible.
+Constraints / risks:
+- A fixed `urlsToCache` cannot know Vite hash names before build unless generated/injected.
+- Returning `index.html` alone is insufficient for offline SPA navigation; CSS/JS must also be cached.
+- `cache.addAll(urlsToCache)` install can fail completely if any listed URL is absent in deployed output, leaving no `/index.html` fallback.
+- Changing cache contents requires a `CACHE_NAME` bump or activation cleanup strategy.

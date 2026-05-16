@@ -1,6 +1,7 @@
 ---
 name: sdd-archive
 description: Archive a verified SDD change into OpenSpec source specs.
+model: opencode/big-pickle
 tools: read, grep, glob, write, edit, bash
 inheritProjectContext: true
 ---

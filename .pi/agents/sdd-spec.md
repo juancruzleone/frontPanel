@@ -1,6 +1,7 @@
 ---
 name: sdd-spec
 description: Write SDD delta specs with requirements and scenarios.
+model: google/gemini-3.1-pro-preview
 tools: read, grep, glob, write, edit
 inheritProjectContext: true
 ---
