@@ -14,6 +14,9 @@ interface SupplierState {
   suppliers: Supplier[]
   total: number
   loading: boolean
+  lastUpdated: number | null
+  ownerId: string | null
+  setOwnerId: (id: string | null) => void
   setSuppliers: (suppliers: Supplier[], total: number) => void
   setLoading: (loading: boolean) => void
 }
@@ -24,7 +27,10 @@ export const useSupplierStore = create<SupplierState>()(
       suppliers: [],
       total: 0,
       loading: false,
-      setSuppliers: (suppliers, total) => set({ suppliers, total }),
+      lastUpdated: null,
+      ownerId: null,
+      setOwnerId: (id) => set({ ownerId: id }),
+      setSuppliers: (suppliers, total) => set({ suppliers, total, lastUpdated: Date.now() }),
       setLoading: (loading) => set({ loading }),
     }),
     { name: "supplier-storage" }

@@ -2,26 +2,37 @@ import React, { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { ShieldAlert, History, Info } from "lucide-react"
 import { auditService } from "../features/audit/services/auditService"
+import { useAuditStore } from "../store/auditStore"
+import { useAuthStore } from "../store/authStore"
 import { AuditLog } from "../features/audit/types/audit.types"
 import styles from "../features/audit/styles/auditLogs.module.css"
 
 const AuditLogs: React.FC = () => {
   const { t } = useTranslation()
-  const [logs, setLogs] = useState<AuditLog[]>([])
+  const { logs, setLogs, ownerId } = useAuditStore()
+  const { userId } = useAuthStore()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [backendMissing, setBackendMissing] = useState(false)
+
+  const validLogs = ownerId === userId ? logs : []
 
   useEffect(() => {
     const fetchLogs = async () => {
       try {
         setLoading(true)
+        if (!navigator.onLine && validLogs.length > 0) {
+          setLoading(false)
+          return
+        }
         const data = await auditService.getLogs()
         setLogs(data.logs)
         setError(null)
       } catch (err: unknown) {
         if (err instanceof Error && err.message === 'BACKEND_NOT_IMPLEMENTED') {
           setBackendMissing(true)
+        } else if (validLogs.length > 0) {
+          // Keep cached logs if offline/error
         } else {
           setError(err instanceof Error ? err.message : t('audit.errorUnknown'))
         }
@@ -31,7 +42,9 @@ const AuditLogs: React.FC = () => {
     }
 
     fetchLogs()
-  }, [])
+  }, [validLogs.length, setLogs, userId, ownerId])
+
+  const displayLogs = validLogs
 
   return (
     <div className={styles.container}>
@@ -63,7 +76,7 @@ const AuditLogs: React.FC = () => {
           <ShieldAlert size={24} />
           <p>{error}</p>
         </div>
-      ) : logs.length === 0 ? (
+      ) : displayLogs.length === 0 ? (
         <div className={styles.emptyBox}>
           <p>{t('audit.noLogs')}</p>
         </div>
@@ -80,7 +93,7 @@ const AuditLogs: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {logs.map((log) => (
+              {displayLogs.map((log) => (
                 <tr key={log._id}>
                   <td>{new Date(log.timestamp).toLocaleString()}</td>
                   <td>{log.userName}</td>

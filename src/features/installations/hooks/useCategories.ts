@@ -1,6 +1,7 @@
 import type React from "react"
-
 import { useState, useCallback } from "react"
+import { useSettingsStore, SettingCategory } from "../../../store/settingsStore"
+import { useAuthStore } from "../../../store/authStore"
 import { createCategory, fetchCategories, updateCategory as apiUpdateCategory, deleteCategory as apiDeleteCategory } from "../services/categoryServices"
 import { useTranslation } from "react-i18next"
 import { validateCategoryForm, validateCategoryField } from "../validators/categoryValidations"
@@ -14,9 +15,14 @@ export type Category = {
 
 const useCategories = () => {
   const { t } = useTranslation();
-  const [categories, setCategories] = useState<Category[]>([])
+  const { categories: storedCategories, setCategories, ownerId } = useSettingsStore()
+  const { userId } = useAuthStore()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  const validCategories = ownerId === userId ? storedCategories : []
+  const installationCategories = validCategories.filter(cat => cat.tipo === 'instalacion')
+
   const [formData, setFormData] = useState<Omit<Category, "_id">>({
     nombre: "",
     descripcion: "",
@@ -29,19 +35,32 @@ const useCategories = () => {
     setLoading(true)
     setError(null)
     try {
+      if (!navigator.onLine && installationCategories.length > 0) {
+        setLoading(false)
+        return
+      }
+
       const data = await fetchCategories(includeInactive)
-      setCategories(data)
+      // Merge with other types of categories already in store
+      const otherCategories = storedCategories.filter(cat => cat.tipo !== 'instalacion')
+      const mappedData = data.map(cat => ({ ...cat, tipo: 'instalacion' })) as SettingCategory[]
+      setCategories([...otherCategories, ...mappedData])
     } catch (err: unknown) {
+      if (installationCategories.length > 0) {
+        setLoading(false)
+        return
+      }
       setError((err as Error).message || "Error al cargar categorías")
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [installationCategories.length, setCategories, storedCategories])
+
 
   const handleFieldChange = async (name: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [name]: value }))
     // Validar por campo
-    const result = validateCategoryField(name, value, { ...formData, [name]: value }, t)
+    const result = validateCategoryField(name, value, { ...formData, [name]: value } as Category, t)
     setFormErrors((prev) => ({ ...prev, [name]: result.isValid ? "" : result.error || "" }))
   }
 
@@ -61,7 +80,7 @@ const useCategories = () => {
     }
 
     try {
-      const result = await onCreate(formData)
+      const result = await onCreate(formData as Category)
       onSuccess(result.message)
       resetForm()
       await loadCategories()
@@ -84,7 +103,7 @@ const useCategories = () => {
   const updateCategory = async (id: string, data: Partial<Category>): Promise<{ message: string }> => {
     try {
       await apiUpdateCategory(id, data)
-      setCategories(prev => prev.map(cat =>
+      setCategories(storedCategories.map(cat =>
         cat._id === id ? { ...cat, ...data } : cat
       ))
       return { message: "Categoría actualizada con éxito" }
@@ -96,7 +115,7 @@ const useCategories = () => {
   const removeCategory = async (id: string): Promise<{ message: string }> => {
     try {
       await apiDeleteCategory(id)
-      setCategories(prev => prev.filter(cat => cat._id !== id))
+      setCategories(storedCategories.filter(cat => cat._id !== id))
       return { message: "Categoría eliminada con éxito" }
     } catch (err: unknown) {
       throw err
@@ -113,7 +132,7 @@ const useCategories = () => {
   }
 
   return {
-    categories,
+    categories: installationCategories as unknown as Category[],
     loading,
     error,
     formData,

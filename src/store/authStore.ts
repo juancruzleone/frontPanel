@@ -4,6 +4,13 @@ import { useCSRFStore } from "./csrfStore"
 import { useInstallationStore } from "./installationStore"
 import { useNotificationStore } from "./notificationStore"
 import { useWorkOrderStore } from "./workOrderStore"
+import { useInventoryStore } from "./inventoryStore"
+import { useSupplierStore } from "./supplierStore"
+import { useAuditStore } from "./auditStore"
+import { useHomeStore } from "./homeStore"
+import { useTechnicianStore } from "./technicianStore"
+import { useSettingsStore } from "./settingsStore"
+import { useMaintenanceStore } from "./maintenanceStore"
 
 const AUTH_STORAGE_KEY = "auth-storage"
 
@@ -120,6 +127,15 @@ export const useAuthStore = create<AuthState>()(
         }
         woStore.setOwnerId(userId)
 
+        // Sincronizar ownerId en todos los stores
+        useInventoryStore.getState().setOwnerId(userId)
+        useSupplierStore.getState().setOwnerId(userId)
+        useAuditStore.getState().setOwnerId(userId)
+        useHomeStore.getState().setOwnerId(userId)
+        useTechnicianStore.getState().setOwnerId(userId)
+        useSettingsStore.getState().setOwnerId(userId)
+        useMaintenanceStore.getState().setOwnerId(userId)
+
         useNotificationStore.getState().setNotificationOwner(userId)
       },
       hydrateSession: (data) => {
@@ -156,6 +172,15 @@ export const useAuthStore = create<AuthState>()(
         }
         woStore.setOwnerId(userId)
 
+        // Sincronizar ownerId en todos los stores
+        useInventoryStore.getState().setOwnerId(userId)
+        useSupplierStore.getState().setOwnerId(userId)
+        useAuditStore.getState().setOwnerId(userId)
+        useHomeStore.getState().setOwnerId(userId)
+        useTechnicianStore.getState().setOwnerId(userId)
+        useSettingsStore.getState().setOwnerId(userId)
+        useMaintenanceStore.getState().setOwnerId(userId)
+
         useNotificationStore.getState().setNotificationOwner(userId)
       },
       setAuthenticated: (value) => set({ isAuthenticated: value }),
@@ -172,6 +197,21 @@ export const useAuthStore = create<AuthState>()(
         useInstallationStore.getState().setOwnerId(null)
         useWorkOrderStore.getState().setWorkOrders([])
         useWorkOrderStore.getState().setOwnerId(null)
+        
+        useInventoryStore.getState().setItems([], 0)
+        useInventoryStore.getState().setOwnerId(null)
+        useSupplierStore.getState().setSuppliers([], 0)
+        useSupplierStore.getState().setOwnerId(null)
+        useAuditStore.getState().setLogs([])
+        useAuditStore.getState().setOwnerId(null)
+        useHomeStore.getState().setDashboardData(null)
+        useHomeStore.getState().setOwnerId(null)
+        useTechnicianStore.getState().setTechnicians([])
+        useTechnicianStore.getState().setOwnerId(null)
+        useSettingsStore.getState().setOwnerId(null)
+        useMaintenanceStore.getState().clearAll()
+        useMaintenanceStore.getState().setOwnerId(null)
+
         useNotificationStore.getState().setNotificationOwner(null)
         
         set({

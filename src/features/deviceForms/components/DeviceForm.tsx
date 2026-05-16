@@ -14,12 +14,17 @@ import ModalError from "./ModalError"
 import MaintenanceHistoryModal from "./MaintenanceHistoryModal"
 import RepuestosSelector from "./RepuestosSelector"
 import { getMaintenanceHistory, type MaintenanceRecord } from "../services/maintenanceHistoryService"
+import { useMaintenanceStore } from "../../../store/maintenanceStore"
+import { useAuthStore } from "../../../store/authStore"
 
 
 const DeviceForm: React.FC = () => {
   const { t } = useTranslation();
   const { installationId, deviceId } = useParams()
   const { dark } = useTheme();
+  const { historyByDevice, setHistory, ownerId: maintenanceOwnerId } = useMaintenanceStore()
+  const { userId } = useAuthStore()
+
   const {
     deviceInfo,
     installationInfo,
@@ -174,11 +179,24 @@ const DeviceForm: React.FC = () => {
     setLoadingHistory(true)
     setShowHistoryModal(true)
 
+    const validCachedHistory = maintenanceOwnerId === userId ? historyByDevice[deviceId] : null
+
     try {
+      if (!navigator.onLine && validCachedHistory) {
+        setMaintenanceHistory(validCachedHistory)
+        setLoadingHistory(false)
+        return
+      }
+
       const history = await getMaintenanceHistory(installationId, deviceId)
       setMaintenanceHistory(history)
+      setHistory(deviceId, history)
     } catch (err) {
-      setMaintenanceHistory([])
+      if (validCachedHistory) {
+        setMaintenanceHistory(validCachedHistory)
+      } else {
+        setMaintenanceHistory([])
+      }
     } finally {
       setLoadingHistory(false)
     }

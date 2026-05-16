@@ -93,28 +93,43 @@ async function appShellFallback() {
 async function networkFirst(request, fallback) {
 	try {
 		const response = await fetch(request);
-		return response;
-	} catch {
-		return (await fallback()) || offlineResponse();
+		if (response instanceof Response) return response;
+		throw new Error("Invalid response from fetch");
+	} catch (e) {
+		try {
+			const fallbackResponse = typeof fallback === 'function' ? await fallback() : await caches.match(request);
+			if (fallbackResponse instanceof Response) return fallbackResponse;
+			return offlineResponse();
+		} catch (err) {
+			return offlineResponse();
+		}
 	}
 }
 
 async function staleWhileRevalidate(request) {
-	const cachedResponse = await caches.match(request);
+	try {
+		const cachedResponse = await caches.match(request);
 
-	const networkPromise = fetch(request)
-		.then(async (networkResponse) => {
-			await safeCachePut(request, networkResponse);
-			return networkResponse;
-		})
-		.catch(() => undefined);
+		const networkPromise = fetch(request)
+			.then(async (networkResponse) => {
+				if (networkResponse && networkResponse.ok) {
+					await safeCachePut(request, networkResponse);
+				}
+				return networkResponse;
+			})
+			.catch(() => undefined);
 
-	if (cachedResponse) {
-		networkPromise.catch(() => undefined);
-		return cachedResponse;
+		if (cachedResponse instanceof Response) {
+			return cachedResponse;
+		}
+
+		const networkResponse = await networkPromise;
+		if (networkResponse instanceof Response) return networkResponse;
+		
+		return offlineResponse();
+	} catch (e) {
+		return offlineResponse();
 	}
-
-	return (await networkPromise) || offlineResponse();
 }
 
 // Instalación del Service Worker
@@ -152,67 +167,99 @@ self.addEventListener("activate", (event) => {
 
 // Interceptar peticiones
 self.addEventListener("fetch", (event) => {
-	const request = event.request;
+	try {
+		const request = event.request;
 
-	if (request.method !== "GET") {
-		return;
-	}
+		if (request.method !== "GET") {
+			return;
+		}
 
-	const url = new URL(request.url);
+		const url = new URL(request.url);
 
-	// No cachear extensiones de Chrome, data URLs, o esquemas no soportados
-	if (
-		url.protocol === "chrome-extension:" ||
-		url.protocol === "chrome:" ||
-		url.protocol === "moz-extension:" ||
-		url.protocol === "data:" ||
-		url.protocol === "blob:" ||
-		url.protocol === "file:"
-	) {
-		return;
-	}
+		// No cachear extensiones de Chrome, data URLs, o esquemas no soportados
+		if (
+			url.protocol === "chrome-extension:" ||
+			url.protocol === "chrome:" ||
+			url.protocol === "moz-extension:" ||
+			url.protocol === "data:" ||
+			url.protocol === "blob:" ||
+			url.protocol === "file:"
+		) {
+			return;
+		}
 
-	// No interceptar terceros: analytics, extensiones y CDNs deben seguir su
-	// camino normal para evitar errores CSP y respuestas 503 generadas por el SW.
-	if (url.origin !== self.location.origin) {
-		return;
-	}
+		// No interceptar terceros: analytics, extensiones y CDNs deben seguir su
+		// camino normal para evitar errores CSP y respuestas 503 generadas por el SW.
+		if (url.origin !== self.location.origin) {
+			return;
+		}
 
-	// API Requests: no se cachean en el Service Worker porque usan cookies
-	// HTTP-only. La persistencia offline de datos sensibles queda en la app,
-	// con stores/colas explícitas por usuario.
-	if (url.pathname.startsWith("/api/")) {
+		// API Requests: no se cachean en el Service Worker porque usan cookies
+		// HTTP-only. La persistencia offline de datos sensibles queda en la app,
+		// con stores/colas explícitas por usuario.
+		if (url.pathname.startsWith("/api/")) {
+			event.respondWith(
+				(async () => {
+					try {
+						const response = await networkFirst(
+							request,
+							async () =>
+								new Response(
+									JSON.stringify({ message: "Datos no disponibles sin conexión" }),
+									{
+										status: 503,
+										statusText: "Service Unavailable",
+										headers: { "Content-Type": "application/json; charset=utf-8" },
+									},
+								),
+						);
+						if (response instanceof Response) return response;
+						return offlineResponse();
+					} catch (err) {
+						return offlineResponse();
+					}
+				})()
+			);
+			return;
+		}
+
+		// Para rutas de la aplicación, siempre devolver index.html (Navigation fallback)
+		if (request.mode === "navigate") {
+			event.respondWith(networkFirst(request, appShellFallback).catch(() => appShellFallback()));
+			return;
+		}
+
+		// Para recursos estáticos, usar estrategia stale-while-revalidate.
+		if (STATIC_DESTINATIONS.has(request.destination)) {
+			event.respondWith(staleWhileRevalidate(request).catch(() => offlineResponse()));
+			return;
+		}
+
+		// Fallback genérico: nunca resolver undefined, porque eso rompe FetchEvent.
 		event.respondWith(
-			networkFirst(
-				request,
-				async () =>
-					new Response(
-						JSON.stringify({ message: "Datos no disponibles sin conexión" }),
-						{
-							status: 503,
-							statusText: "Service Unavailable",
-							headers: { "Content-Type": "application/json; charset=utf-8" },
-						},
-					),
-			),
+			(async () => {
+				try {
+					const response = await networkFirst(request, async () => {
+						const matched = await caches.match(request);
+						if (matched instanceof Response) return matched;
+						return offlineResponse();
+					});
+					if (response instanceof Response) return response;
+					return offlineResponse();
+				} catch (err) {
+					return offlineResponse();
+				}
+			})()
 		);
-		return;
+	} catch (e) {
+		// En caso de error catastrófico en el propio listener, intentar devolver algo válido
+		try {
+			// Solo llamar a respondWith si no se llamó antes
+			event.respondWith(offlineResponse("Error fatal en el Service Worker"));
+		} catch (err) {
+			// Ya se llamó a respondWith o es demasiado tarde
+		}
 	}
-
-	// Para rutas de la aplicación, siempre devolver index.html (Navigation fallback)
-	if (request.mode === "navigate") {
-		event.respondWith(networkFirst(request, appShellFallback));
-		return;
-	}
-
-	// Para recursos estáticos, usar estrategia stale-while-revalidate.
-	if (STATIC_DESTINATIONS.has(request.destination)) {
-		event.respondWith(staleWhileRevalidate(request));
-		return;
-	}
-
-	// Fallback genérico: nunca resolver undefined, porque eso rompe FetchEvent.
-	event.respondWith(networkFirst(request, async () => caches.match(request)));
 });
 
 // Manejo de mensajes para sincronización

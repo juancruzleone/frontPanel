@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from "react"
 import { useInventoryStore } from "../../../store/inventoryStore"
+import { useAuthStore } from "../../../store/authStore"
 import { 
   fetchInventoryItems, 
   createInventoryItem, 
@@ -14,7 +15,8 @@ const getErrorMessage = (error: unknown, fallback: string): string => {
 }
 
 const useInventory = () => {
-  const { items, total, loading, setItems, setLoading } = useInventoryStore()
+  const { items, total, loading, setItems, setLoading, ownerId } = useInventoryStore()
+  const { userId } = useAuthStore()
   const [error, setError] = useState<string | null>(null)
   const [pagination, setPagination] = useState({
     page: 1,
@@ -22,8 +24,10 @@ const useInventory = () => {
     totalPages: 1,
   })
 
+  const validItems = ownerId === userId ? items : []
+
   const loadInventory = useCallback(async (params: { page?: number, limit?: number, name?: string, category?: string, lowStock?: boolean } = {}) => {
-    if (!navigator.onLine && items.length > 0) return
+    if (!navigator.onLine && validItems.length > 0) return
 
     setLoading(true)
     try {
@@ -37,11 +41,15 @@ const useInventory = () => {
         totalPages: result.totalPages || 1,
       })
     } catch (err) {
+      if (validItems.length > 0) {
+        setLoading(false)
+        return
+      }
       setError(getErrorMessage(err, 'Error al cargar inventario'))
     } finally {
       setLoading(false)
     }
-  }, [items.length, setItems, setLoading])
+  }, [validItems.length, setItems, setLoading])
 
   const addInventoryItem = async (item: Partial<InventoryItem>) => {
     const newItem = await createInventoryItem(item)
@@ -79,12 +87,8 @@ const useInventory = () => {
     await loadInventory()
   }
 
-  useEffect(() => {
-    // Optional: auto-load on first use if needed
-  }, [])
-
   return {
-    items,
+    items: validItems,
     total,
     loading,
     error,

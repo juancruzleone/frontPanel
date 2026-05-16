@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { fetchInstallations } from '../../installations/services/installationServices'
 import type { Installation } from '../../installations/hooks/useInstallations'
 import { useAuthStore } from '../../../../src/store/authStore.ts'
+import { useInstallationStore } from '../../../../src/store/installationStore.ts'
 import { getAuthHeaders } from '@/shared/utils/apiHeaders'
 import {
   updateSubscription as updateSubscriptionService,
@@ -36,12 +37,16 @@ export interface FrequencyOption {
 const useSubscriptions = () => {
   const { t } = useTranslation()
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([])
+  const { installations: cachedInstallations, ownerId } = useInstallationStore()
+  const { userId } = useAuthStore()
   const [installations, setInstallations] = useState<Installation[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
 
   const [config, setConfig] = useState<{ frequencies: { id?: string, value?: string }[] } | null>(null)
+
+  const validCachedInstallations = ownerId === userId ? cachedInstallations : []
 
   useEffect(() => {
     const fetchConfig = async () => {
@@ -74,11 +79,7 @@ const useSubscriptions = () => {
     months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
   }))
 
-  // La lógica de cálculo de meses se ha movido al backend.
-  // El frontend ahora solo muestra los meses guardados o permite selección manual.
-
-  const mapInstallationToSubscription = (installation: Installation): Subscription => {
-    // Mapear estado de español a inglés
+  const mapInstallationToSubscription = useCallback((installation: Installation): Subscription => {
     const mapStatusToEnglish = (estado: string): 'active' | 'inactive' | 'pending' => {
       const statusMap: Record<string, 'active' | 'inactive' | 'pending'> = {
         'Activo': 'active',
@@ -88,31 +89,23 @@ const useSubscriptions = () => {
         'inactive': 'inactive',
         'pending': 'pending'
       }
-      const mappedStatus = statusMap[estado] || 'active'
-      return mappedStatus
+      return statusMap[estado] || 'active'
     }
 
-    // Parsear fecha sin conversión de zona horaria
     const parseDate = (dateInput: string | Date | undefined): Date | undefined => {
       if (!dateInput) return undefined
-      // Si ya es un objeto Date, devolverlo
       if (dateInput instanceof Date) return dateInput
-      // Si el string está en formato ISO (YYYY-MM-DD), parsearlo sin UTC
       const match = dateInput.match(/^(\d{4})-(\d{2})-(\d{2})/)
       if (match) {
         const [, year, month, day] = match
         return new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
       }
-      // Si no coincide, intentar parseo normal
       return new Date(dateInput)
     }
 
     const startDate = parseDate(installation.fechaInicio)
     const endDate = parseDate(installation.fechaFin)
-    // Normalizar frecuencia a minúsculas para coincidir con las opciones del select
     const frequency = installation.frecuencia ? installation.frecuencia.toLowerCase() : ''
-
-    // Obtener los meses directamente del objeto de instalación (calculados por el backend)
     const months = installation.mesesFrecuencia || []
 
     return {
@@ -131,12 +124,20 @@ const useSubscriptions = () => {
       createdAt: installation.fechaCreacion ? new Date(installation.fechaCreacion) : new Date(),
       updatedAt: installation.fechaActualizacion ? new Date(installation.fechaActualizacion) : new Date(),
     }
-  }
+  }, [])
 
   const loadSubscriptions = useCallback(async () => {
     try {
       setLoading(true)
       setError(null)
+
+      if (!navigator.onLine && validCachedInstallations.length > 0) {
+        setInstallations(validCachedInstallations as unknown as Installation[])
+        const subscriptionsData = (validCachedInstallations as unknown as Installation[]).map(mapInstallationToSubscription)
+        setSubscriptions(subscriptionsData)
+        setLoading(false)
+        return
+      }
 
       const response = await fetchInstallations()
       const installationsData = response.data || []
@@ -146,11 +147,17 @@ const useSubscriptions = () => {
 
       setSubscriptions(subscriptionsData)
     } catch (err: unknown) {
-      setError((err as Error).message || 'Error al cargar abonos')
+      if (validCachedInstallations.length > 0) {
+        setInstallations(validCachedInstallations as unknown as Installation[])
+        const subscriptionsData = (validCachedInstallations as unknown as Installation[]).map(mapInstallationToSubscription)
+        setSubscriptions(subscriptionsData)
+      } else {
+        setError((err as Error).message || 'Error al cargar abonos')
+      }
     } finally {
       setLoading(false)
     }
-  }, [t])
+  }, [t, validCachedInstallations, mapInstallationToSubscription])
 
   useEffect(() => {
     loadSubscriptions()
@@ -164,17 +171,14 @@ const useSubscriptions = () => {
     const installation = installations.find(inst => inst._id === subscriptionId)
     if (!installation) throw new Error(t('subscriptions.installationNotFound'))
 
-    // El backend se encarga de determinar los meses si no se envían o de validarlos.
     const monthsToSave = data.months || []
 
-    // Mapear la frecuencia al formato esperado por el backend
     const mapFrequency = (freq: string): string => {
         const frequencyMap: Record<string, string> = {
           'mensual': 'Mensual',
           'trimestral': 'Trimestral',
           'semestral': 'Semestral',
           'anual': 'Anual',
-          // Mapeo desde inglés (por si viene del backend en inglés)
           'monthly': 'Mensual',
           'quarterly': 'Trimestral',
           'semiannual': 'Semestral',
@@ -183,24 +187,16 @@ const useSubscriptions = () => {
         return frequencyMap[freq?.toLowerCase()] || freq
       }
 
-    // Función para formatear fecha sin conversión de zona horaria
     const formatDateForBackend = (dateInput: string | Date | undefined) => {
       if (!dateInput) return null
-
       if (dateInput instanceof Date) {
         const year = dateInput.getFullYear()
         const month = String(dateInput.getMonth() + 1).padStart(2, '0')
         const day = String(dateInput.getDate()).padStart(2, '0')
         return `${year}-${month}-${day}`
       }
-
       const dateStr = dateInput
-      // Si ya está en formato YYYY-MM-DD, devolverlo tal cual
-      if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
-        return dateStr
-      }
-
-      // Parsear y formatear sin conversión de zona horaria
+      if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr
       const date = new Date(dateStr)
       const year = date.getFullYear()
       const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -208,7 +204,6 @@ const useSubscriptions = () => {
       return `${year}-${month}-${day}`
     }
 
-    // Mapear estado de inglés a español
     const mapStatus = (status: string): string => {
       const statusMap: Record<string, string> = {
         'active': 'Activo',
@@ -218,9 +213,7 @@ const useSubscriptions = () => {
       return statusMap[status] || status
     }
 
-    // IMPORTANTE: Enviar TODOS los campos de la instalación para evitar errores de validación
     const updateData = {
-      // Campos de la instalación existente (requeridos por el backend)
       company: installation.company,
       address: installation.address,
       floorSector: installation.floorSector,
@@ -228,7 +221,6 @@ const useSubscriptions = () => {
       city: installation.city,
       province: installation.province,
       installationType: installation.installationType,
-      // Campos que estamos actualizando
       fechaInicio: data.startDate ? formatDateForBackend(data.startDate) : installation.fechaInicio,
       fechaFin: data.endDate ? formatDateForBackend(data.endDate) : installation.fechaFin,
       frecuencia: data.frequency ? mapFrequency(data.frequency) : installation.frecuencia,
@@ -268,7 +260,6 @@ const useSubscriptions = () => {
   const handleFieldChange = useCallback((name: string, value: string | 'active' | 'inactive' | 'pending') => {
     setFormData(prev => ({ ...prev, [name]: value }))
 
-    // Limpiar el error del campo específico inmediatamente cuando hay un valor válido
     if (value) {
       const fieldMapping: Record<string, string> = {
         'frequency': 'tipo',
@@ -276,31 +267,19 @@ const useSubscriptions = () => {
         'endDate': 'fechaFin',
         'status': 'estado'
       }
-
       const validationFieldName = fieldMapping[name] || name
-
       setFormErrors(prev => {
         const newErrors = { ...prev }
         delete newErrors[validationFieldName]
         return newErrors
       })
     }
-
-    // La actualización de meses ahora es manual o delegada al backend en el guardado
-    // Por simplicidad en la UI, dejamos que el usuario elija los meses sin cálculos automáticos complejos
-    // Por eso quitamos formData.frequency, formData.startDate, formData.endDate de las dependencias
   }, [])
 
-  // Función de blur simplificada - solo valida campos vacíos
   const handleFieldBlur = useCallback(async (name: string) => {
-    // Marcar el campo como tocado
     setTouchedFields(prev => ({ ...prev, [name]: true }))
-
-    // Solo validar si el campo está vacío
     const fieldValue = formData[name as keyof typeof formData]
-    if (fieldValue && fieldValue !== '') {
-      return // No validar si hay valor
-    }
+    if (fieldValue && fieldValue !== '') return
 
     const fieldMapping: Record<string, string> = {
       'frequency': 'tipo',
@@ -308,54 +287,30 @@ const useSubscriptions = () => {
       'endDate': 'fechaFin',
       'status': 'estado'
     }
-
     const validationFieldName = fieldMapping[name] || name
-
-    // Crear objeto con el campo a validar
-    const fieldToValidate: Record<string, string> = {
-      [validationFieldName]: ''
-    }
-
-    // Para fecha fin, incluir fecha inicio para validación cruzada
-    if (name === 'endDate' && formData.startDate) {
-      fieldToValidate['fechaInicio'] = formData.startDate
-    }
+    const fieldToValidate: Record<string, string> = { [validationFieldName]: '' }
+    if (name === 'endDate' && formData.startDate) fieldToValidate['fechaInicio'] = formData.startDate
 
     try {
       const validation = await validateSubscriptionForm(fieldToValidate, t)
-
-      // Actualizar solo el error del campo específico
-      setFormErrors(prev => ({
-        ...prev,
-        [validationFieldName]: validation.errors[validationFieldName] || ''
-      }))
+      setFormErrors(prev => ({ ...prev, [validationFieldName]: validation.errors[validationFieldName] || '' }))
     } catch (error) {
       console.error('Error in field validation:', error);
     }
   }, [formData, t])
 
-  // Función para marcar campo como tocado cuando se abre un DatePicker
   const handleFieldFocus = useCallback((name: string) => {
     setTouchedFields(prev => ({ ...prev, [name]: true }))
   }, [])
 
   const validateAllFields = useCallback(async () => {
-    // Marcar todos los campos como tocados
-    setTouchedFields({
-      frequency: true,
-      startDate: true,
-      endDate: true,
-      status: true
-    })
-
-    // Validar todos los campos
+    setTouchedFields({ frequency: true, startDate: true, endDate: true, status: true })
     const validation = await validateSubscriptionForm({
       tipo: formData.frequency || '',
       fechaInicio: formData.startDate || '',
       fechaFin: formData.endDate || '',
       estado: formData.status || 'active',
     }, t)
-
     setFormErrors(validation.errors)
     return validation.isValid
   }, [formData, t])
@@ -368,15 +323,11 @@ const useSubscriptions = () => {
   ) => {
     e.preventDefault()
     setIsSubmitting(true)
-
-    // Validar todos los campos
     const isValid = await validateAllFields()
-
     if (!isValid) {
       setIsSubmitting(false)
       return
     }
-
     try {
       await updateSubscription(subscriptionId, {
         frequency: formData.frequency,
@@ -407,7 +358,6 @@ const useSubscriptions = () => {
   const [monthsError, setMonthsError] = useState("")
 
   const handleMonthClick = (month: string) => {
-    // Selección simple de meses, las reglas de negocio complejas las valida el backend
     if (selectedMonths.includes(month)) {
       setSelectedMonths(selectedMonths.filter(m => m !== month))
     } else {
@@ -422,46 +372,19 @@ const useSubscriptions = () => {
 
   const isMonthSelected = (month: string) => selectedMonths.includes(month)
 
-  const canSave = () => {
-    // Siempre permitir guardar - la validación se hace en el submit
-    return true
-  }
+  const canSave = () => true
 
-  // Handler para cerrar DatePicker - MODIFICADO para no validar automáticamente
-  const handleStartDateClose = () => {
-    setIsStartDatePickerOpen(false)
-    // NO validar automáticamente al cerrar
-  }
+  const handleStartDateClose = () => { setIsStartDatePickerOpen(false) }
+  const handleEndDateClose = () => { setIsEndDatePickerOpen(false) }
 
-  const handleEndDateClose = () => {
-    setIsEndDatePickerOpen(false)
-    // NO validar automáticamente al cerrar
-  }
-
-  // Handlers mejorados para selección de fecha - MODIFICADOS
   const handleStartDateSelect = useCallback(async (date: string) => {
-    // Actualizar el valor usando handleFieldChange para limpiar errores automáticamente
     handleFieldChange('startDate', date)
     setIsStartDatePickerOpen(false)
-
-    // Marcar como tocado
     setTouchedFields(prev => ({ ...prev, startDate: true }))
-
-    // Validar fecha fin si existe y podría ser inválida
     if (formData.endDate && date > formData.endDate) {
-      const validation = await validateSubscriptionForm({
-        fechaInicio: date,
-        fechaFin: formData.endDate
-      }, t)
-
-      if (validation.errors['fechaFin']) {
-        setFormErrors(prev => ({
-          ...prev,
-          fechaFin: validation.errors['fechaFin']
-        }))
-      }
+      const validation = await validateSubscriptionForm({ fechaInicio: date, fechaFin: formData.endDate }, t)
+      if (validation.errors['fechaFin']) setFormErrors(prev => ({ ...prev, fechaFin: validation.errors['fechaFin'] }))
     } else if (formData.endDate && date <= formData.endDate) {
-      // Si la nueva fecha de inicio hace que la fecha fin sea válida, limpiar su error
       setFormErrors(prev => {
         const newErrors = { ...prev }
         delete newErrors['fechaFin']
@@ -471,28 +394,13 @@ const useSubscriptions = () => {
   }, [handleFieldChange, formData.endDate, t])
 
   const handleEndDateSelect = useCallback(async (date: string) => {
-    // Actualizar el valor usando handleFieldChange para limpiar errores automáticamente
     handleFieldChange('endDate', date)
     setIsEndDatePickerOpen(false)
-
-    // Marcar como tocado
     setTouchedFields(prev => ({ ...prev, endDate: true }))
-
-    // Validar si la fecha fin es anterior a la fecha inicio
     if (formData.startDate && date < formData.startDate) {
-      const validation = await validateSubscriptionForm({
-        fechaInicio: formData.startDate,
-        fechaFin: date
-      }, t)
-
-      if (validation.errors['fechaFin']) {
-        setFormErrors(prev => ({
-          ...prev,
-          fechaFin: validation.errors['fechaFin']
-        }))
-      }
+      const validation = await validateSubscriptionForm({ fechaInicio: formData.startDate, fechaFin: date }, t)
+      if (validation.errors['fechaFin']) setFormErrors(prev => ({ ...prev, fechaFin: validation.errors['fechaFin'] }))
     } else if (formData.startDate && date >= formData.startDate) {
-      // Si la nueva fecha fin es válida, asegurar que no hay error
       setFormErrors(prev => {
         const newErrors = { ...prev }
         delete newErrors['fechaFin']

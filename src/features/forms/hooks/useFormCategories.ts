@@ -1,7 +1,8 @@
 import { useState, useCallback } from "react"
+import { useSettingsStore, SettingCategory } from "../../../store/settingsStore"
+import { useAuthStore } from "../../../store/authStore"
 import {
   fetchFormCategories,
-  fetchFormCategoryById,
   createFormCategory,
   updateFormCategory,
   deleteFormCategory,
@@ -15,9 +16,14 @@ export type FormCategory = {
 }
 
 const useFormCategories = () => {
-  const [categories, setCategories] = useState<FormCategory[]>([])
+  const { categories: storedCategories, setCategories, ownerId } = useSettingsStore()
+  const { userId } = useAuthStore()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  const validCategories = ownerId === userId ? storedCategories : []
+  const formCategories = validCategories.filter(cat => cat.tipo === 'formulario')
+
   const [formData, setFormData] = useState<Omit<FormCategory, "_id">>({
     nombre: "",
     descripcion: "",
@@ -30,15 +36,26 @@ const useFormCategories = () => {
     setLoading(true)
     setError(null)
     try {
+      if (!navigator.onLine && formCategories.length > 0) {
+        setLoading(false)
+        return
+      }
       const response = await fetchFormCategories(includeInactive)
       const fetchedCategories = response.categories || response
-      setCategories(fetchedCategories)
+      
+      const otherCategories = storedCategories.filter(cat => cat.tipo !== 'formulario')
+      const mappedData = (fetchedCategories || []).map((cat: any) => ({ ...cat, tipo: 'formulario' })) as SettingCategory[]
+      setCategories([...otherCategories, ...mappedData])
     } catch (err: any) {
+      if (formCategories.length > 0) {
+        setLoading(false)
+        return
+      }
       setError(err.message || "Error al cargar categorías")
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [formCategories.length, setCategories, storedCategories])
 
   const handleFieldChange = (name: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [name]: value }))
@@ -127,7 +144,7 @@ const useFormCategories = () => {
   }
 
   return {
-    categories,
+    categories: formCategories as unknown as FormCategory[],
     loading,
     error,
     formData,
@@ -144,4 +161,4 @@ const useFormCategories = () => {
   }
 }
 
-export default useFormCategories 
+export default useFormCategories

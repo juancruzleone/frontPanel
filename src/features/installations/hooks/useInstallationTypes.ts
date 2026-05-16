@@ -1,11 +1,12 @@
 import { useState, useEffect, useCallback, useRef } from "react"
+import { useSettingsStore, SettingCategory } from "../../../store/settingsStore"
+import { useAuthStore } from "../../../store/authStore"
 import {
   fetchInstallationTypes,
   createInstallationType,
   updateInstallationType as apiUpdateInstallationType,
   deleteInstallationType as apiDeleteInstallationType
 } from "../services/installationTypeServices"
-import { useAuthStore } from "../../../store/authStore"
 
 export type InstallationType = {
   _id: string
@@ -16,12 +17,15 @@ export type InstallationType = {
 }
 
 const useInstallationTypes = () => {
-  const [installationTypes, setInstallationTypes] = useState<InstallationType[]>([])
+  const { categories: storedCategories, setCategories, ownerId } = useSettingsStore()
+  const { userId, isAuthenticated } = useAuthStore()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const hasTriedInactiveRef = useRef(false)
   const initialLoadDoneRef = useRef(false)
-  const { isAuthenticated } = useAuthStore()
+
+  const validCategories = ownerId === userId ? storedCategories : []
+  const installationTypes = validCategories.filter(cat => cat.tipo === 'instalacion_tipo')
 
   const loadInstallationTypes = useCallback(async (includeInactive = false) => {
     if (!isAuthenticated) {
@@ -31,24 +35,37 @@ const useInstallationTypes = () => {
     setLoading(true)
     setError(null)
     try {
+      if (!navigator.onLine && installationTypes.length > 0) {
+        setLoading(false)
+        return
+      }
+
       const data = await fetchInstallationTypes(includeInactive)
-      setInstallationTypes(data)
+      // Merge with other types of categories already in store
+      const otherCategories = storedCategories.filter(cat => cat.tipo !== 'instalacion_tipo')
+      const mappedData = data.map(cat => ({ ...cat, tipo: 'instalacion_tipo' })) as SettingCategory[]
+      setCategories([...otherCategories, ...mappedData])
+
       initialLoadDoneRef.current = true
       if (includeInactive) {
         hasTriedInactiveRef.current = true
       }
     } catch (err: unknown) {
+      if (installationTypes.length > 0) {
+        setLoading(false)
+        return
+      }
       console.error('Error al cargar tipos de instalación:', err)
       setError((err as Error).message)
       initialLoadDoneRef.current = true
-      // Marcar como intentado para evitar loops infinitos
       if (includeInactive) {
         hasTriedInactiveRef.current = true
       }
     } finally {
       setLoading(false)
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, installationTypes.length, setCategories, storedCategories])
+
 
   const addInstallationType = async (typeData: {
     nombre: string
@@ -60,7 +77,9 @@ const useInstallationTypes = () => {
         ...typeData,
         activo: typeData.activo !== undefined ? typeData.activo : true,
       })
-      setInstallationTypes((prev) => [...prev, newType])
+      const otherCategories = storedCategories.filter(cat => cat.tipo !== 'instalacion_tipo')
+      const updatedInstallationTypes = [...installationTypes, { ...newType, tipo: 'instalacion_tipo' }]
+      setCategories([...otherCategories, ...updatedInstallationTypes] as SettingCategory[])
       return { message: "Tipo de instalación creado con éxito" }
     } catch (err: unknown) {
       throw err
@@ -70,9 +89,9 @@ const useInstallationTypes = () => {
   const updateInstallationType = async (id: string, data: Partial<InstallationType>): Promise<{ message: string }> => {
     try {
       const updatedType = await apiUpdateInstallationType(id, data)
-      setInstallationTypes(prev => prev.map(type =>
-        type._id === id ? { ...type, ...updatedType } : type
-      ))
+      setCategories(storedCategories.map(cat =>
+        cat._id === id ? { ...cat, ...updatedType } : cat
+      ) as SettingCategory[])
       return { message: "Tipo de instalación actualizado con éxito" }
     } catch (err: unknown) {
       throw err
@@ -82,7 +101,7 @@ const useInstallationTypes = () => {
   const removeInstallationType = async (id: string): Promise<{ message: string }> => {
     try {
       await apiDeleteInstallationType(id)
-      setInstallationTypes(prev => prev.filter(type => type._id !== id))
+      setCategories(storedCategories.filter(cat => cat._id !== id))
       return { message: "Tipo de instalación eliminado con éxito" }
     } catch (err: unknown) {
       throw err
@@ -111,7 +130,7 @@ const useInstallationTypes = () => {
   }, [isAuthenticated, loading, installationTypes.length, error, loadInstallationTypes])
 
   return {
-    installationTypes,
+    installationTypes: installationTypes as unknown as InstallationType[],
     loading,
     error,
     loadInstallationTypes,

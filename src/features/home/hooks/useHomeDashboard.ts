@@ -13,6 +13,7 @@ import {
 } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../../../store/authStore"
+import { useHomeStore } from "../../../store/homeStore"
 import { WORK_ORDER_TYPE_COLORS, WORK_ORDER_STATUS_COLORS } from "../../../utils/chartColors"
 import { getAuthHeaders } from "../../../shared/utils/apiHeaders"
 import { translateFrequencyToCurrentLang } from "../../../shared/utils/backendTranslations"
@@ -109,6 +110,29 @@ const getInstallationName = (order: WorkOrder, fallback: string): string => orde
 const useHomeDashboard = () => {
   const { t, i18n } = useTranslation()
   const isAuthenticated = useAuthStore(state => state.isAuthenticated)
+  const { userId } = useAuthStore()
+  const { dashboardData: storedData, setDashboardData, ownerId } = useHomeStore()
+
+  const validStoredData = ownerId === userId ? storedData : null
+  
+  const [range, setRange] = useState<RangeOption>("30d")
+  const [kpis, setKpis] = useState<KPIItem[]>([])
+  const [operationalKpis, setOperationalKpis] = useState<KPIItem[]>([])
+  const [simplifiedKpis, setSimplifiedKpis] = useState<KPIItem[]>([])
+  const [barChartData, setBarChartData] = useState<ChartDataItem[]>([])
+  const [pieChartData, setPieChartData] = useState<ChartDataItem[]>([])
+  const [priorityData, setPriorityData] = useState<ChartDataItem[]>([])
+  const [prevVsCorrData, setPrevVsCorrData] = useState<ChartDataItem[]>([])
+  const [deviceHealthData, setDeviceHealthData] = useState<ChartDataItem[]>([])
+  const [lineChartData, setLineChartData] = useState<MultiSeriesLineData[]>([])
+  const [recentWorkOrders, setRecentWorkOrders] = useState<any[]>([])
+  const [topIncidentInstallations, setTopIncidentInstallations] = useState<TopIncidentInstallation[]>([])
+  const [upcomingPreventive, setUpcomingPreventive] = useState<UpcomingPreventive[]>([])
+  const [inventoryStats, setInventoryStats] = useState<InventoryStat[]>([])
+  const [alerts, setAlerts] = useState<DashboardAlert[]>([])
+  
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   const translateUpcomingPlanName = useCallback((planName?: string) => {
     if (!planName) return t('home.upcomingPreventive', { defaultValue: 'Preventivo' })
@@ -139,42 +163,8 @@ const useHomeDashboard = () => {
 
     return `${preventiveLabel} - ${translateFrequencyToCurrentLang(cleanedSuffix, i18n.language || 'es')}`
   }, [i18n.language, t])
-  
-  const [range, setRange] = useState<RangeOption>("30d")
-  const [kpis, setKpis] = useState<KPIItem[]>([])
-  const [operationalKpis, setOperationalKpis] = useState<KPIItem[]>([])
-  const [simplifiedKpis, setSimplifiedKpis] = useState<KPIItem[]>([])
-  const [barChartData, setBarChartData] = useState<ChartDataItem[]>([])
-  const [pieChartData, setPieChartData] = useState<ChartDataItem[]>([])
-  const [priorityData, setPriorityData] = useState<ChartDataItem[]>([])
-  const [prevVsCorrData, setPrevVsCorrData] = useState<ChartDataItem[]>([])
-  const [deviceHealthData, setDeviceHealthData] = useState<ChartDataItem[]>([])
-  const [lineChartData, setLineChartData] = useState<MultiSeriesLineData[]>([])
-  const [recentWorkOrders, setRecentWorkOrders] = useState<any[]>([])
-  const [topIncidentInstallations, setTopIncidentInstallations] = useState<TopIncidentInstallation[]>([])
-  const [upcomingPreventive, setUpcomingPreventive] = useState<UpcomingPreventive[]>([])
-  const [inventoryStats, setInventoryStats] = useState<InventoryStat[]>([])
-  const [alerts, setAlerts] = useState<DashboardAlert[]>([])
-  
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
 
-  const load = useCallback(async () => {
-    if (!isAuthenticated) return
-    setLoading(true)
-    setError(null)
-    try {
-      const API_URL = import.meta.env.VITE_API_URL || "/api/"
-      const headers = getAuthHeaders(true)
-      
-      const response = await fetch(`${API_URL}dashboard/stats?range=${range}`, {
-        headers,
-        credentials: 'include' // Important for HTTP-only cookies
-      })
-
-      if (!response.ok) throw new Error('Error al cargar datos del dashboard')
-
-      const result = await response.json()
+  const processDashboardData = useCallback((data: any, workOrdersResult: any, inventoryRows: any[]) => {
       const { 
         kpis: kpisRaw, 
         operationalKpis: opKpisRawFromApi,
@@ -183,16 +173,9 @@ const useHomeDashboard = () => {
         topIncidentInstallations: topIncidents,
         upcomingPreventive: upcoming,
         metadata 
-      } = result.data || {}
+      } = data || {}
       const opKpisRaw = opKpisRawFromApi || kpisRaw || {}
-      const [inventoryResult, inventoryAssets, workOrdersResult] = await Promise.all([
-        fetchInventoryItems({ page: 1, limit: 1000 }).catch(() => ({ items: [] })),
-        fetchInventoryAssets().catch(() => []),
-        fetchWorkOrders(1, 1000).catch(() => ({ data: [], pagination: { total: 0, page: 1, limit: 1000, totalPages: 1 } })),
-      ])
-      const inventoryRows = buildInventoryRows(inventoryResult.items || [], inventoryAssets)
-      const overdueOrders = workOrdersResult.data.filter(isOverdueWorkOrder)
-
+      const overdueOrders = (workOrdersResult?.data || []).filter(isOverdueWorkOrder)
       const backendColors = metadata?.suggestedStatusColors || {}
 
       // 1. Mapear KPIs Base
@@ -448,7 +431,7 @@ const useHomeDashboard = () => {
       // 8. Line Chart (Evolution)
       const evolution = (charts?.evolution || []).map((item: any) => ({
         ...item,
-        name: item.name // Asegurar que name esté presente
+        name: item.name
       }))
       setLineChartData(evolution)
 
@@ -480,12 +463,12 @@ const useHomeDashboard = () => {
       // 10. Inventory & Alerts
       setInventoryStats(buildInventoryStats(inventoryRows))
 
-      const dashboardAlerts: DashboardAlert[] = overdueOrders.slice(0, 3).map((order) => ({
+      const dashboardAlerts: DashboardAlert[] = overdueOrders.slice(0, 3).map((order: WorkOrder) => ({
         id: `overdue-${order._id || order.titulo}`,
         type: 'error',
         message: `${t('home.delayedOrders')}: ${order.titulo}`,
         detail: getInstallationName(order, t('workOrders.noInstallation')),
-        date: typeof order.fechaProgramada === 'string' ? order.fechaProgramada : order.fechaProgramada.toISOString(),
+        date: typeof order.fechaProgramada === 'string' ? order.fechaProgramada : order.fechaProgramada?.toISOString(),
       }))
 
       if (dashboardAlerts.length === 0 && opKpisRaw?.overdueWorkOrders > 0) {
@@ -497,18 +480,18 @@ const useHomeDashboard = () => {
         })
       }
 
-      const criticalOrders = workOrdersResult.data
-        .filter((order) => order.prioridad === 'critica' || order.prioridad === 'critical')
-        .filter((order) => !['completada', 'cancelada'].includes(order.estado))
+      const criticalOrders = (workOrdersResult?.data || [])
+        .filter((order: WorkOrder) => order.prioridad === 'critica' || order.prioridad === 'critical')
+        .filter((order: WorkOrder) => !['completada', 'cancelada'].includes(order.estado))
 
       if (criticalOrders.length > 0) {
-        criticalOrders.slice(0, Math.max(0, 3 - dashboardAlerts.length)).forEach((order) => {
+        criticalOrders.slice(0, Math.max(0, 3 - dashboardAlerts.length)).forEach((order: WorkOrder) => {
           dashboardAlerts.push({
             id: `critical-${order._id || order.titulo}`,
             type: 'warning',
             message: `${t('home.criticalWorkOrders')}: ${order.titulo}`,
             detail: getInstallationName(order, t('workOrders.noInstallation')),
-            date: typeof order.fechaProgramada === 'string' ? order.fechaProgramada : order.fechaProgramada.toISOString(),
+            date: typeof order.fechaProgramada === 'string' ? order.fechaProgramada : order.fechaProgramada?.toISOString(),
           })
         })
       } else if (opKpisRaw?.criticalWorkOrders > 0 && dashboardAlerts.length < 3) {
@@ -521,13 +504,54 @@ const useHomeDashboard = () => {
       }
 
       setAlerts(dashboardAlerts)
+  }, [t, translateUpcomingPlanName])
+
+  const load = useCallback(async () => {
+    if (!isAuthenticated) return
+    setLoading(true)
+    setError(null)
+    
+    // Fallback offline immediato si no hay conexión
+    if (!navigator.onLine && validStoredData) {
+      processDashboardData(validStoredData.result, validStoredData.workOrdersResult, validStoredData.inventoryRows)
+      setLoading(false)
+      return
+    }
+
+    try {
+      const API_URL = import.meta.env.VITE_API_URL || "/api/"
+      const headers = getAuthHeaders(true)
+      
+      const response = await fetch(`${API_URL}dashboard/stats?range=${range}`, {
+        headers,
+        credentials: 'include'
+      })
+
+      if (!response.ok) throw new Error('Error al cargar datos del dashboard')
+
+      const resultData = await response.json()
+      const [inventoryResult, inventoryAssets, workOrdersResult] = await Promise.all([
+        fetchInventoryItems({ page: 1, limit: 1000 }).catch(() => ({ items: [] })),
+        fetchInventoryAssets().catch(() => []),
+        fetchWorkOrders(1, 1000).catch(() => ({ data: [], pagination: { total: 0, page: 1, limit: 1000, totalPages: 1 } })),
+      ])
+      const inventoryRows = buildInventoryRows(inventoryResult.items || [], inventoryAssets)
+      
+      // Store data for offline use
+      setDashboardData({ result: resultData.data, workOrdersResult, inventoryRows })
+      
+      processDashboardData(resultData.data, workOrdersResult, inventoryRows)
 
     } catch (e: any) {
-      setError(e.message || "Error al cargar el dashboard")
+      if (validStoredData) {
+        processDashboardData(validStoredData.result, validStoredData.workOrdersResult, validStoredData.inventoryRows)
+      } else {
+        setError(e.message || "Error al cargar el dashboard")
+      }
     } finally {
       setLoading(false)
     }
-  }, [i18n.language, isAuthenticated, range, t, translateUpcomingPlanName])
+  }, [isAuthenticated, range, validStoredData, setDashboardData, processDashboardData])
 
   useEffect(() => {
     load()

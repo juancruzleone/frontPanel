@@ -1,30 +1,42 @@
 import { useState, useCallback } from "react"
 import { useSupplierStore } from "../../../store/supplierStore"
+import { useAuthStore } from "../../../store/authStore"
 import type { Supplier } from "../../../store/supplierStore"
 import { 
   fetchSuppliers, 
   createSupplier as apiCreateSupplier, 
-  updateSupplier as apiUpdateSupplier,
+  updateSupplier as apiUpdateSupplier, 
   deleteSupplier as apiDeleteSupplier
 } from "../services/supplierServices"
 
 export const useSuppliers = () => {
-  const { suppliers, total, loading, setSuppliers, setLoading } = useSupplierStore()
+  const { suppliers, total, loading, setSuppliers, setLoading, ownerId } = useSupplierStore()
+  const { userId } = useAuthStore()
   const [error, setError] = useState<string | null>(null)
+
+  const validSuppliers = ownerId === userId ? suppliers : []
 
   const loadSuppliers = useCallback(async (params: { page?: number, limit?: number, name?: string } = {}) => {
     setLoading(true)
     try {
+      if (!navigator.onLine && validSuppliers.length > 0) {
+        setLoading(false)
+        return
+      }
+
       const result = await fetchSuppliers(params)
       setSuppliers(result.suppliers || [], result.total || 0)
       setError(null)
     } catch (err: unknown) {
+      if (validSuppliers.length > 0) {
+        setLoading(false)
+        return
+      }
       setError(err instanceof Error ? err.message : "Error al obtener proveedores")
-      setSuppliers([], 0)
     } finally {
       setLoading(false)
     }
-  }, [setSuppliers, setLoading])
+  }, [setSuppliers, setLoading, validSuppliers.length])
 
   const addSupplier = async (supplier: Omit<Supplier, '_id'>) => {
     const newSupplier = await apiCreateSupplier(supplier)
@@ -44,7 +56,7 @@ export const useSuppliers = () => {
   }
 
   return {
-    suppliers,
+    suppliers: validSuppliers,
     total,
     loading,
     error,

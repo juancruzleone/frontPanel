@@ -23,6 +23,7 @@ import SearchInput from "../shared/components/Inputs/SearchInput"
 import HybridSelect from "../shared/components/HybridSelect/HybridSelect"
 import { useInstallationDetailTour } from "../features/installationsDetails/hooks/useInstallationDetailTour"
 import { useAuthStore } from "../store/authStore"
+import { useMaintenanceStore } from "../store/maintenanceStore"
 import { isClient, isTechnician as checkIsTechnician } from "../shared/utils/roleUtils"
 import Skeleton from "../shared/components/Skeleton"
 import TourButton from "../shared/components/Buttons/TourButton"
@@ -203,23 +204,88 @@ const InstallationDetails = () => {
     setIsQRModalOpen(true)
   }
 
-  const handleShowHistory = async (device: Device) => {
+  const { historyByDevice, setHistory, lastMaintenanceByDevice, setLastMaintenance, ownerId: maintenanceOwnerId } = useMaintenanceStore()
+
+  const handleDownloadLastMaintenancePDF = async (device: Device) => {
     if (!device._id || !id) return
 
-    setDeviceForHistory(device)
-    setLoadingHistory(true)
+    setLoadingPDF(device._id)
+    
+    const validCachedLastMaintenance = maintenanceOwnerId === userId ? lastMaintenanceByDevice[device._id] : null
 
     try {
+      if (!navigator.onLine && validCachedLastMaintenance) {
+        if (validCachedLastMaintenance.pdfUrl) {
+          const link = document.createElement("a")
+          link.href = validCachedLastMaintenance.pdfUrl
+          link.download = `mantenimiento_${device.nombre}_${new Date().toISOString().split("T")[0]}.pdf`
+          link.target = "_blank"
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+          setResponseMessage("Descargando PDF (desde caché)...")
+          setIsError(false)
+        } else {
+          setResponseMessage("No hay registros de mantenimiento (caché)")
+          setIsError(true)
+        }
+        setLoadingPDF(null)
+        return
+      }
+
+      const maintenanceData = await getLastMaintenanceForDevice(id, device._id)
+      setLastMaintenance(device._id, maintenanceData)
+
+      if (!maintenanceData || !maintenanceData.pdfUrl) {
+        setResponseMessage("No hay registros de mantenimiento para este dispositivo")
+        setIsError(true)
+        return
+      }
+// ...
+      const link = document.createElement("a")
+      link.href = maintenanceData.pdfUrl
+      link.download = `mantenimiento_${device.nombre}_${new Date().toISOString().split("T")[0]}.pdf`
+      link.target = "_blank"
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+
+      setResponseMessage("Descargando PDF del último mantenimiento...")
+      setIsError(false)
+    } catch (error: any) {
+      if (validCachedLastMaintenance && validCachedLastMaintenance.pdfUrl) {
+          const link = document.createElement("a")
+          link.href = validCachedLastMaintenance.pdfUrl
+          link.download = `mantenimiento_${device.nombre}_${new Date().toISOString().split("T")[0]}.pdf`
+          link.target = "_blank"
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+          setResponseMessage("Descargando PDF (desde caché)...")
+          setIsError(false)
+      } else {
+        setResponseMessage(error.message || "Error al descargar el PDF de mantenimiento")
+        setIsError(true)
+      }
+    } finally {
+      setLoadingPDF(null)
+    }
+  }
+
       const history = await getMaintenanceHistory(id, device._id)
       setMaintenanceHistory(history)
-      // Solo abrir el modal si la carga fue exitosa
+      setHistory(device._id, history)
       setIsHistoryModalOpen(true)
     } catch (error: any) {
-      setMaintenanceHistory([])
-      // No abrir el modal de historial, solo mostrar el error
-      setIsHistoryModalOpen(false)
-      setResponseMessage(error.message || 'Error al cargar el historial de mantenimientos')
-      setIsError(true)
+      if (validCachedHistory) {
+        setMaintenanceHistory(validCachedHistory)
+        setIsHistoryModalOpen(true)
+      } else {
+        setMaintenanceHistory([])
+        setIsHistoryModalOpen(false)
+        setResponseMessage(error.message || 'Error al cargar el historial de mantenimientos')
+        setIsError(true)
+      }
     } finally {
       setLoadingHistory(false)
     }
