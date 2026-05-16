@@ -87,5 +87,20 @@ export default defineConfig(({ mode }) => {
 				port: 5173,
 			},
 		},
+		preview: {
+			proxy: {
+				"/api": {
+					target: apiProxyTarget,
+					changeOrigin: true,
+					secure: false,
+				},
+				"/socket.io": {
+					target: apiProxyTarget,
+					changeOrigin: true,
+					secure: false,
+					ws: true,
+				},
+			},
+		},
 	};
 });

@@ -102,7 +102,9 @@ class OfflineSyncService {
   private async processQueuedItem(item: QueuedRequest) {
     const payloadWithTime = {
       ...item.payload,
-      fechaEjecucionOffline: new Date(item.timestamp).toISOString(),
+      fechaEjecucionOffline: typeof item.payload.fechaEjecucionOffline === "string"
+        ? item.payload.fechaEjecucionOffline
+        : new Date(item.timestamp).toISOString(),
       offlineSync: true,
       offlineId: item.id
     }

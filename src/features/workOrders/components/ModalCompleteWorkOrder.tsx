@@ -299,7 +299,7 @@ const ModalCompleteWorkOrder = ({
       onSubmitSuccess(result.message)
       handleClose()
     } catch (err: unknown) {
-      setError((err as Error).message || "Error al completar orden de trabajo")
+      setError(err instanceof Error ? err.message : String(err))
     } finally {
       setIsSubmitting(false)
     }

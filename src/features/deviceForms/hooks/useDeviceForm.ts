@@ -3,6 +3,7 @@ import { fetchDeviceForm, submitDeviceMaintenance } from "../services/deviceForm
 import { useTranslation } from "react-i18next"
 import { offlineSyncService } from "../../../shared/services/offlineSyncService"
 import { useOfflineStore } from "../../../store/offlineStore"
+import { getErrorMessage, isOfflineError } from "../../../shared/utils/errorHelpers"
 
 interface FormField {
   name: string
@@ -158,10 +159,10 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
             setFormData(initialData)
             setError(null)
           } catch {
-            setError(e instanceof Error ? e.message : "Error al cargar el formulario")
+            setError(getErrorMessage(e, "Error al cargar el formulario"))
           }
         } else {
-          setError(e instanceof Error ? e.message : "Error al cargar el formulario")
+          setError(getErrorMessage(e, "Error al cargar el formulario"))
         }
       } finally {
         setLoading(false)
@@ -261,14 +262,12 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
         ...formData,
         fotosEvidencia,
         firmaTecnico,
-        repuestosUsados
+        repuestosUsados,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        userOffset: new Date().getTimezoneOffset(),
       }
 
-      if (isOnline) {
-        // Enviar directamente si hay conexión
-        await submitDeviceMaintenance(installationId!, deviceId!, dataToSubmit)
-        setSuccess("¡Mantenimiento registrado exitosamente!")
-
+      const handleCleanup = () => {
         // Limpiar formulario manteniendo los tipos correctos
         const initialData: Record<string, unknown> = {}
         formFields.forEach((field: FormField) => {
@@ -282,40 +281,48 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
         setFotosEvidencia([])
         setFirmaTecnico("")
         setRepuestosUsados([])
-      } else {
+      }
+
+      const saveOffline = () => {
+        const fechaEjecucionOffline = new Date().toISOString()
+
         // Guardar para envío posterior si no hay conexión
         addToQueue({
-          type: 'DEVICE_MAINTENANCE',
-          payload: dataToSubmit,
+          type: "DEVICE_MAINTENANCE",
+          payload: {
+            ...dataToSubmit,
+            fechaEjecucionOffline,
+            offlineSync: true,
+          },
           metadata: {
             installationId,
-            deviceId
-          }
+            deviceId,
+          },
         })
 
         offlineSyncService.registerBackgroundSync()
         setSuccess("Mantenimiento guardado. Se enviará automáticamente cuando haya conexión.")
+        handleCleanup()
+      }
 
-        // Limpiar formulario manteniendo los tipos correctos
-        const initialData: Record<string, unknown> = {}
-        formFields.forEach((field: FormField) => {
-          if (field.type === "checkbox") {
-            initialData[field.name] = false
+      if (isOnline) {
+        try {
+          // Enviar directamente si hay conexión
+          await submitDeviceMaintenance(installationId!, deviceId!, dataToSubmit)
+          setSuccess("¡Mantenimiento registrado exitosamente!")
+          handleCleanup()
+        } catch (err: unknown) {
+          if (isOfflineError(err)) {
+            saveOffline()
           } else {
-            initialData[field.name] = ""
+            throw err
           }
-        })
-        setFormData(initialData)
-        setFotosEvidencia([])
-        setFirmaTecnico("")
-        setRepuestosUsados([])
+        }
+      } else {
+        saveOffline()
       }
     } catch (e: unknown) {
-      if (isOnline) {
-        setError(e instanceof Error ? e.message : "Error al enviar el formulario")
-      } else {
-        setError("Error al guardar el formulario offline")
-      }
+      setError(getErrorMessage(e, "Error al procesar el formulario"))
     } finally {
       setSubmitting(false)
     }

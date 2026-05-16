@@ -19,6 +19,7 @@ import { fetchTechnicians } from "../services/technicianServices";
 import { validateWorkOrderForm } from "../validators/workOrderValidations";
 import { useTranslation } from "react-i18next";
 import { useTimeZone } from "../../calendar/hooks/useTimeZone";
+import { isOfflineError } from "../../../shared/utils/errorHelpers";
 
 export type Technician = {
 	_id: string;
@@ -278,7 +279,7 @@ const useWorkOrders = () => {
 					setLoading(false);
 					return;
 				}
-				setError((err as Error).message);
+				setError(err instanceof Error ? err.message : String(err));
 			} finally {
 				setLoading(false);
 			}
@@ -308,7 +309,7 @@ const useWorkOrders = () => {
 				return;
 			}
 			setErrorLoadingInstallations(
-				(err as Error).message || "Error al cargar instalaciones",
+				err instanceof Error ? err.message : String(err),
 			);
 			setInstallations([]);
 		} finally {
@@ -355,7 +356,7 @@ const useWorkOrders = () => {
 			userOffset: offset,
 		};
 
-		if (!navigator.onLine) {
+		const saveOffline = () => {
 			const offlineId = `offline_${Date.now()}`;
 			const offlineOrder = {
 				...workOrderWithTZ,
@@ -367,11 +368,22 @@ const useWorkOrders = () => {
 			return {
 				message: "Orden guardada localmente. Se enviará al reconectar.",
 			};
+		};
+
+		if (!navigator.onLine) {
+			return saveOffline();
 		}
 
-		const newOrder = await createWorkOrder(workOrderWithTZ);
-		storeAddWorkOrder(newOrder);
-		return { message: "Orden de trabajo creada con éxito" };
+		try {
+			const newOrder = await createWorkOrder(workOrderWithTZ);
+			storeAddWorkOrder(newOrder);
+			return { message: "Orden de trabajo creada con éxito" };
+		} catch (err: unknown) {
+			if (isOfflineError(err)) {
+				return saveOffline();
+			}
+			throw err;
+		}
 	};
 
 	const editWorkOrder = async (id: string, updatedData: WorkOrder) => {
@@ -409,15 +421,26 @@ const useWorkOrders = () => {
 			fechaProgramada: fechaHoraISO,
 		};
 
-		if (!navigator.onLine) {
+		const saveOffline = () => {
 			storeUpdateWorkOrder(id, payload);
 			addToQueue({ type: "UPDATE_WORK_ORDER", payload: { id, data: payload } });
 			return { message: "Cambios guardados localmente." };
+		};
+
+		if (!navigator.onLine) {
+			return saveOffline();
 		}
 
-		const updated = await updateWorkOrder(id, payload);
-		storeUpdateWorkOrder(id, updated);
-		return { message: "Orden de trabajo actualizada con éxito" };
+		try {
+			const updated = await updateWorkOrder(id, payload);
+			storeUpdateWorkOrder(id, updated);
+			return { message: "Orden de trabajo actualizada con éxito" };
+		} catch (err: unknown) {
+			if (isOfflineError(err)) {
+				return saveOffline();
+			}
+			throw err;
+		}
 	};
 
 	const removeWorkOrder = async (id: string) => {
@@ -448,7 +471,7 @@ const useWorkOrders = () => {
 		id: string,
 		data: Record<string, unknown>,
 	) => {
-		if (!navigator.onLine) {
+		const saveOffline = () => {
 			const completedAt = new Date();
 			const completedAtIso = completedAt.toISOString();
 			const offlineCompletionData = {
@@ -472,20 +495,31 @@ const useWorkOrders = () => {
 			return {
 				message: "Orden completada localmente. Se sincronizará al reconectar.",
 			};
+		};
+
+		if (!navigator.onLine) {
+			return saveOffline();
 		}
 
-		const result = await apiCompleteWorkOrder(id, data);
-		storeUpdateWorkOrder(id, {
-			estado: "completada",
-			fechaCompletada: new Date(),
-			...data,
-			...result,
-		});
-		return { message: "Orden de trabajo completada con éxito" };
+		try {
+			const result = await apiCompleteWorkOrder(id, data);
+			storeUpdateWorkOrder(id, {
+				estado: "completada",
+				fechaCompletada: new Date(),
+				...data,
+				...result,
+			});
+			return { message: "Orden de trabajo completada con éxito" };
+		} catch (err: unknown) {
+			if (isOfflineError(err)) {
+				return saveOffline();
+			}
+			throw err;
+		}
 	};
 
 	const startWorkOrder = async (id: string) => {
-		if (!navigator.onLine) {
+		const saveOffline = () => {
 			const startedAt = new Date();
 			const startedAtIso = startedAt.toISOString();
 			const startData = {
@@ -505,13 +539,25 @@ const useWorkOrders = () => {
 				payload: { id, data: startData },
 			});
 			return { message: "Orden iniciada localmente." };
+		};
+
+		if (!navigator.onLine) {
+			return saveOffline();
 		}
-		await apiStartWorkOrder(id);
-		storeUpdateWorkOrder(id, {
-			estado: "en_progreso",
-			fechaInicio: new Date(),
-		});
-		return { message: "Orden de trabajo iniciada con éxito" };
+
+		try {
+			await apiStartWorkOrder(id);
+			storeUpdateWorkOrder(id, {
+				estado: "en_progreso",
+				fechaInicio: new Date(),
+			});
+			return { message: "Orden de trabajo iniciada con éxito" };
+		} catch (err: unknown) {
+			if (isOfflineError(err)) {
+				return saveOffline();
+			}
+			throw err;
+		}
 	};
 
 	const changeWorkOrderStatus = async (
