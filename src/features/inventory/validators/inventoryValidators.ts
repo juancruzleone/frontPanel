@@ -22,7 +22,7 @@ export const getInventorySchema = (t: (key: string) => string) =>
       contactName: yup.string().optional(),
       email: yup.string().email().optional(),
       phone: yup.string().optional(),
-    }).optional().nullable(),
+    }).default(undefined).optional().nullable(),
   })
 
 export const validateInventoryForm = async (data: any, t: (key: string) => string) => {
