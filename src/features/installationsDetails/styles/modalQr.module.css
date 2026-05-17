@@ -11,6 +11,7 @@
   justify-content: center;
   z-index: 10000;
   padding: 20px;
+  box-sizing: border-box;
   animation: fadeIn 0.3s ease-out;
 }
 
@@ -22,13 +23,14 @@
 .modal {
   background: var(--color-card);
   border-radius: 20px;
-  width: 95%;
+  width: min(500px, calc(100vw - 40px));
   max-width: 500px;
   max-height: 95vh;
   overflow: hidden;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.05);
   border: 1px solid var(--color-card-border);
   position: relative;
+  box-sizing: border-box;
   animation: slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -75,7 +77,10 @@
   letter-spacing: -0.025em;
   position: relative;
   flex: 1;
+  min-width: 0;
   padding-right: 20px;
+  overflow-wrap: anywhere;
+  line-height: 1.2;
 }
 
 .title::after {
@@ -130,6 +135,7 @@
   padding: 20px;
   max-height: calc(90vh - 120px);
   overflow-y: auto;
+  box-sizing: border-box;
 }
 
 /* Scrollbar personalizado */
@@ -193,6 +199,7 @@
   border: 2px solid var(--color-card-border);
   border-radius: 8px;
   margin-bottom: 20px;
+  box-sizing: border-box;
 }
 
 .qrImage {
@@ -287,6 +294,10 @@
 }
 
 .modalButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   background: var(--color-secondary);
   color: #fff;
   border: none;
@@ -335,17 +346,40 @@
 }
 
 @media (max-width: 768px) {
+  .backdrop {
+    padding: 10px;
+    align-items: center;
+  }
+
   .modal {
-    width: 95%;
-    margin: 10px;
+    width: calc(100vw - 20px);
+    max-width: none;
+    max-height: calc(100dvh - 20px);
+    margin: 0;
+    border-radius: 16px;
   }
 
   .modalHeader {
-    padding: 15px;
+    padding: 1.5rem;
+    padding-right: 4rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .closeButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 36px;
+    height: 36px;
+    font-size: 1.5rem;
   }
 
   .modalContent {
     padding: 15px;
+    max-height: calc(100dvh - 120px);
   }
 
   .actions {
@@ -353,8 +387,29 @@
   }
 
   .openButton,
-  .printButton {
+  .printButton,
+  .modalButton {
     width: 100%;
     justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .modalHeader {
+    padding: 1.25rem 4rem 0.75rem 1.25rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .modalContent {
+    padding: 12px;
+    max-height: calc(100dvh - 96px);
+  }
+
+  .deviceInfo,
+  .qrContainer {
+    padding: 12px;
   }
 }
