@@ -2111,7 +2111,38 @@
       "unidades": "개",
       "units": "개"
     },
-    "availableStock": "사용 가능한 재고"
+    "availableStock": "사용 가능한 재고",
+    "assetType": "자산 유형",
+    "tour": {
+      "welcome": {
+        "title": "재고 관리에 오신 것을 환영합니다!",
+        "description": "여기에서 회사의 자재, 예비 부품 및 소모품을 관리할 수 있습니다. 주요 기능을 보여드리겠습니다."
+      },
+      "addItem": {
+        "title": "품목 추가",
+        "description": "이 버튼을 사용하여 재고에 새로운 자재 또는 예비 부품을 등록합니다."
+      },
+      "lowStock": {
+        "title": "재고 부족 알림",
+        "description": "품목이 최소 재고에 도달하면 무엇을 재입고해야 하는지 알 수 있도록 여기에 알림이 표시됩니다."
+      },
+      "search": {
+        "title": "검색 및 필터링",
+        "description": "이름이나 카테고리로 필터링하여 찾고 있는 것을 빠르게 찾으십시오."
+      },
+      "actions": {
+        "title": "재고 관리",
+        "description": "각 품목에서 재고를 조정(입고/출고)하고, 이동 이력을 보고, 편집하거나 삭제할 수 있습니다."
+      },
+      "buttons": {
+        "next": "다음",
+        "previous": "이전",
+        "done": "완료",
+        "skip": "튜토리얼 건너뛰기",
+        "restart": "튜토리얼 보기"
+      },
+      "progressText": "{{current}} / {{total}}"
+    }
   },
   "suppliers": {
     "title": "공급업체",
@@ -2126,12 +2157,41 @@
     "email": "이메일",
     "phone": "전화번호",
     "address": "주소",
+    "city": "도시",
+    "taxId": "사업자 등록 번호",
+    "notes": "메모",
     "supplierAdded": "공급업체가 성공적으로 추가되었습니다",
     "supplierUpdated": "공급업체가 성공적으로 업데이트되었습니다",
     "supplierDeleted": "공급업체가 성공적으로 삭제되었습니다",
     "validation": {
       "nameRequired": "공급업체 이름은 필수입니다",
       "emailInvalid": "유효하지 않은 이메일입니다"
+    },
+    "tour": {
+      "welcome": {
+        "title": "공급업체 관리에 오신 것을 환영합니다!",
+        "description": "자재 및 서비스 공급업체 디렉토리를 관리합니다. 주요 옵션을 안내해 드리겠습니다."
+      },
+      "addSupplier": {
+        "title": "공급업체 추가",
+        "description": "여기에서 연락처 세부 정보와 함께 새 공급업체를 등록하려면 클릭하십시오."
+      },
+      "search": {
+        "title": "빠른 검색",
+        "description": "이름이나 이메일 주소로 공급업체를 검색합니다."
+      },
+      "actions": {
+        "title": "작업",
+        "description": "공급업체 정보를 편집하거나 더 이상 거래하지 않는 경우 삭제할 수 있습니다."
+      },
+      "buttons": {
+        "next": "다음",
+        "previous": "이전",
+        "done": "완료",
+        "skip": "튜토리얼 건너뛰기",
+        "restart": "튜토리얼 보기"
+      },
+      "progressText": "{{current}} / {{total}}"
     }
   },
   "publicDevice": {

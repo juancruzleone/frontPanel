@@ -2069,7 +2069,38 @@
       "unidades": "unidades",
       "units": "unidades"
     },
-    "availableStock": "Estoque disponível"
+    "availableStock": "Estoque disponível",
+    "assetType": "Tipo de ativo",
+    "tour": {
+      "welcome": {
+        "title": "Bem-vindo ao Inventário!",
+        "description": "Aqui você pode gerenciar os materiais, peças de reposição e suprimentos de sua empresa. Mostraremos as principais funções."
+      },
+      "addItem": {
+        "title": "Adicionar Item",
+        "description": "Use este botão para registrar um novo material ou peça de reposição no inventário."
+      },
+      "lowStock": {
+        "title": "Alertas de Estoque Baixo",
+        "description": "Quando um item atinge seu estoque mínimo, um alerta aparecerá aqui para que você saiba o que repor."
+      },
+      "search": {
+        "title": "Buscar e Filtrar",
+        "description": "Encontre rapidamente o que procura filtrando por nome ou categoria."
+      },
+      "actions": {
+        "title": "Gestão de Estoque",
+        "description": "A partir de cada item, você pode ajustar o estoque (entradas/saídas), visualizar o histórico de movimentações, editar ou excluir."
+      },
+      "buttons": {
+        "next": "Próximo",
+        "previous": "Anterior",
+        "done": "Concluir",
+        "skip": "Pular tutorial",
+        "restart": "Ver tutorial"
+      },
+      "progressText": "{{current}} de {{total}}"
+    }
   },
   "suppliers": {
     "title": "Fornecedores",
@@ -2084,12 +2115,41 @@
     "email": "E-mail",
     "phone": "Telefone",
     "address": "Endereço",
+    "city": "Cidade",
+    "taxId": "NIF/CPF",
+    "notes": "Notas",
     "supplierAdded": "Fornecedor adicionado com sucesso",
     "supplierUpdated": "Fornecedor atualizado com sucesso",
     "supplierDeleted": "Fornecedor excluído com sucesso",
     "validation": {
       "nameRequired": "O nome do fornecedor é obrigatório",
       "emailInvalid": "E-mail inválido"
+    },
+    "tour": {
+      "welcome": {
+        "title": "Bem-vindo a Fornecedores!",
+        "description": "Gerencie o diretório de seus fornecedores de materiais e serviços. Guiaremos você pelas principais opções."
+      },
+      "addSupplier": {
+        "title": "Adicionar Fornecedor",
+        "description": "Clique aqui para registrar um novo fornecedor com seus dados de contato."
+      },
+      "search": {
+        "title": "Busca Rápida",
+        "description": "Busque fornecedores por seu nome ou endereço de e-mail."
+      },
+      "actions": {
+        "title": "Ações",
+        "description": "Você pode editar as informações do fornecedor ou excluí-lo se não trabalhar mais com ele."
+      },
+      "buttons": {
+        "next": "Próximo",
+        "previous": "Anterior",
+        "done": "Concluir",
+        "skip": "Pular tutorial",
+        "restart": "Ver tutorial"
+      },
+      "progressText": "{{current}} de {{total}}"
     }
   },
   "publicDevice": {

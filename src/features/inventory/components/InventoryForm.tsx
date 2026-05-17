@@ -1,15 +1,20 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import { validateInventoryForm, validateInventoryField } from "../validators/inventoryValidators"
-import { InventoryItem } from "../types/inventory.types"
+import { InventoryItem, SupplierSnapshot } from "../types/inventory.types"
 import styles from "../styles/inventoryForm.module.css"
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
+import { useSuppliers } from "../../suppliers/hooks/useSuppliers"
 
 interface InventoryFormProps {
   initialData?: Partial<InventoryItem> | null
-  onSubmit: (data: any) => Promise<void>
+  onSubmit: (data: Partial<InventoryItem>) => Promise<void>
   onCancel: () => void
   isLoading?: boolean
+}
+
+type InventoryFormData = Pick<InventoryItem, "name" | "unit" | "currentStock" | "minimumStock" | "category" | "location" | "code" | "active"> & {
+  supplierId: string
 }
 
 export const InventoryForm: React.FC<InventoryFormProps> = ({ 
@@ -19,20 +24,34 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
   isLoading = false
 }) => {
   const { t } = useTranslation()
-  const [formData, setFormData] = useState({
+  const { suppliers, loadSuppliers } = useSuppliers()
+  const [formData, setFormData] = useState<InventoryFormData>({
     name: initialData?.name || "",
     unit: initialData?.unit || t("inventory.defaultUnit"),
     currentStock: initialData?.currentStock || 0,
     minimumStock: initialData?.minimumStock || 0,
     category: initialData?.category || "",
     location: initialData?.location || "",
+    code: initialData?.code || "",
+    active: initialData?.active ?? true,
+    supplierId: initialData?.supplierSnapshot?.supplierId || "",
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [touched, setTouched] = useState<Record<string, boolean>>({})
 
+  useEffect(() => {
+    loadSuppliers({ limit: 1000 })
+  }, [loadSuppliers])
+
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    const updatedValue = (e.target.type === "number") ? Number(value) : value
+    const { name, value, type } = e.target
+    let updatedValue: string | number | boolean = value
+    if (type === "number") {
+      updatedValue = Number(value)
+    } else if (type === "checkbox") {
+      updatedValue = (e.target as HTMLInputElement).checked
+    }
+    
     const updatedData = { ...formData, [name]: updatedValue }
     setFormData(updatedData)
     
@@ -43,8 +62,14 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
   }
 
   const handleBlur = async (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    const updatedValue = (e.target.type === "number") ? Number(value) : value
+    const { name, value, type } = e.target
+    let updatedValue: string | number | boolean = value
+    if (type === "number") {
+      updatedValue = Number(value)
+    } else if (type === "checkbox") {
+      updatedValue = (e.target as HTMLInputElement).checked
+    }
+    
     setTouched(prev => ({ ...prev, [name]: true }))
     const result = await validateInventoryField(name, updatedValue, t)
     setErrors(prev => ({ ...prev, [name]: result.isValid ? "" : result.error }))
@@ -65,9 +90,28 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
     }
 
     try {
-      await onSubmit(formData)
-    } catch (err: any) {
-      setErrors({ submit: err.message })
+      const { supplierId, ...rest } = formData
+      const submissionData: Partial<InventoryItem> = { ...rest }
+      
+      if (supplierId) {
+        const selectedSupplier = suppliers.find(s => s._id === supplierId)
+        if (selectedSupplier) {
+          const supplierSnapshot: SupplierSnapshot = {
+            supplierId: selectedSupplier._id,
+            name: selectedSupplier.name,
+            contactName: selectedSupplier.contactName,
+            email: selectedSupplier.email,
+            phone: selectedSupplier.phone,
+          }
+          submissionData.supplierSnapshot = supplierSnapshot
+        }
+      } else {
+        submissionData.supplierSnapshot = null
+      }
+
+      await onSubmit(submissionData)
+    } catch (err: unknown) {
+      setErrors({ submit: err instanceof Error ? err.message : t("common.error") })
     }
   }
 
@@ -161,6 +205,50 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
             disabled={isLoading}
           />
         </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="code">{t("inventory.reference") || t("common.code")}</label>
+          <input
+            id="code"
+            name="code"
+            type="text"
+            value={formData.code}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            disabled={isLoading}
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="supplierId">{t("nav.suppliers")}</label>
+          <select
+            id="supplierId"
+            name="supplierId"
+            value={formData.supplierId}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            disabled={isLoading}
+          >
+            <option value="">{t("inventory.selectItem")}</option>
+            {suppliers.map(supplier => (
+              <option key={supplier._id} value={supplier._id}>
+                {supplier.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className={styles.checkboxGroup}>
+          <input
+            id="active"
+            name="active"
+            type="checkbox"
+            checked={formData.active}
+            onChange={handleChange}
+            disabled={isLoading}
+          />
+          <label htmlFor="active">{t("common.active") || "Activo"}</label>
+        </div>
       </div>
 
       <div className={formButtonStyles.actions}>
@@ -184,4 +272,3 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
     </form>
   )
 }
-

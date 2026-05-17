@@ -7,14 +7,22 @@ interface SupplierFormData {
   email?: string
   phone?: string
   address?: string
+  city?: string
+  taxId?: string
+  notes?: string
+  active?: boolean
 }
 
 export const getSupplierSchema = (t: TFunction) => yup.object().shape({
   name: yup.string().required(t('suppliers.validation.nameRequired')),
-  contactName: yup.string(),
-  email: yup.string().email(t('suppliers.validation.emailInvalid')).nullable().transform(v => v === "" ? null : v),
-  phone: yup.string(),
-  address: yup.string(),
+  contactName: yup.string().optional(),
+  email: yup.string().email(t('suppliers.validation.emailInvalid')).nullable().transform(v => v === "" ? null : v).optional(),
+  phone: yup.string().optional(),
+  address: yup.string().optional(),
+  city: yup.string().optional(),
+  taxId: yup.string().optional(),
+  notes: yup.string().optional(),
+  active: yup.boolean().default(true),
 })
 
 export const validateSupplierForm = async (data: SupplierFormData, t: TFunction) => {

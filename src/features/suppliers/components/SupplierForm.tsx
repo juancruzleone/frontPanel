@@ -11,6 +11,10 @@ interface SupplierFormData {
   email?: string
   phone?: string
   address?: string
+  city?: string
+  taxId?: string
+  notes?: string
+  active?: boolean
 }
 
 interface SupplierFormProps {
@@ -33,6 +37,10 @@ export const SupplierForm: React.FC<SupplierFormProps> = ({
     email: initialData?.email || "",
     phone: initialData?.phone || "",
     address: initialData?.address || "",
+    city: initialData?.city || "",
+    taxId: initialData?.taxId || "",
+    notes: initialData?.notes || "",
+    active: initialData?.active ?? true,
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [touched, setTouched] = useState<Record<string, boolean>>({})
@@ -45,24 +53,30 @@ export const SupplierForm: React.FC<SupplierFormProps> = ({
         email: initialData.email || "",
         phone: initialData.phone || "",
         address: initialData.address || "",
+        city: initialData.city || "",
+        taxId: initialData.taxId || "",
+        notes: initialData.notes || "",
+        active: initialData.active ?? true,
       })
     }
   }, [initialData])
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+    const { name, value, type } = e.target
+    const val = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+    setFormData((prev) => ({ ...prev, [name]: val }))
     
     if (touched[name]) {
-      const result = await validateSupplierField(name, value, t)
+      const result = await validateSupplierField(name, val, t)
       setErrors(prev => ({ ...prev, [name]: result.isValid ? "" : result.error }))
     }
   }
 
   const handleBlur = async (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
+    const { name, value, type } = e.target
+    const val = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
     setTouched(prev => ({ ...prev, [name]: true }))
-    const result = await validateSupplierField(name, value, t)
+    const result = await validateSupplierField(name, val, t)
     setErrors(prev => ({ ...prev, [name]: result.isValid ? "" : result.error }))
   }
 
@@ -151,16 +165,70 @@ export const SupplierForm: React.FC<SupplierFormProps> = ({
 
         <div className={styles.formGroup}>
           <label htmlFor="address">{t('suppliers.address')}</label>
-          <textarea
+          <input
             id="address"
             name="address"
+            type="text"
             value={formData.address}
             onChange={handleChange}
             onBlur={handleBlur}
             placeholder={t('suppliers.address')}
             disabled={isLoading}
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="city">{t('suppliers.city')}</label>
+          <input
+            id="city"
+            name="city"
+            type="text"
+            value={formData.city}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            placeholder={t('suppliers.city')}
+            disabled={isLoading}
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="taxId">{t('suppliers.taxId')}</label>
+          <input
+            id="taxId"
+            name="taxId"
+            type="text"
+            value={formData.taxId}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            placeholder={t('suppliers.taxId')}
+            disabled={isLoading}
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="notes">{t('suppliers.notes')}</label>
+          <textarea
+            id="notes"
+            name="notes"
+            value={formData.notes}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            placeholder={t('suppliers.notes')}
+            disabled={isLoading}
             rows={3}
           />
+        </div>
+
+        <div className={styles.checkboxGroup}>
+          <input
+            id="active"
+            name="active"
+            type="checkbox"
+            checked={formData.active}
+            onChange={handleChange}
+            disabled={isLoading}
+          />
+          <label htmlFor="active">{t('common.active') || 'Activo'}</label>
         </div>
       </div>
 

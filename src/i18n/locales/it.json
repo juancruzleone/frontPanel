@@ -2067,7 +2067,38 @@
       "unidades": "unità",
       "units": "unità"
     },
-    "availableStock": "Scorte disponibili"
+    "availableStock": "Scorte disponibili",
+    "assetType": "Tipo di risorsa",
+    "tour": {
+      "welcome": {
+        "title": "Benvenuto in Inventario!",
+        "description": "Qui puoi gestire materiali, ricambi e forniture per la tua azienda. Ti mostreremo le funzioni principali."
+      },
+      "addItem": {
+        "title": "Aggiungi articolo",
+        "description": "Usa questo pulsante per registrare un nuovo materiale o ricambio nell'inventario."
+      },
+      "lowStock": {
+        "title": "Avvisi scorta bassa",
+        "description": "Quando un articolo raggiunge la scorta minima, apparirà un avviso qui per sapere cosa rifornire."
+      },
+      "search": {
+        "title": "Cerca e Filtra",
+        "description": "Trova rapidamente ciò che cerchi filtrando per nome o categoria."
+      },
+      "actions": {
+        "title": "Gestione scorte",
+        "description": "Da ogni articolo puoi rettificare la giacenza (entrate/uscite), visualizzare la cronologia movimenti, modificare o eliminare."
+      },
+      "buttons": {
+        "next": "Avanti",
+        "previous": "Precedente",
+        "done": "Fine",
+        "skip": "Salta tutorial",
+        "restart": "Visualizza tutorial"
+      },
+      "progressText": "{{current}} di {{total}}"
+    }
   },
   "suppliers": {
     "title": "Fornitori",
@@ -2082,12 +2113,41 @@
     "email": "E-mail",
     "phone": "Telefono",
     "address": "Indirizzo",
+    "city": "Città",
+    "taxId": "Codice fiscale",
+    "notes": "Note",
     "supplierAdded": "Fornitore aggiunto con successo",
     "supplierUpdated": "Fornitore aggiornato con successo",
     "supplierDeleted": "Fornitore eliminato con successo",
     "validation": {
       "nameRequired": "Il nome del fornitore è obbligatorio",
       "emailInvalid": "E-mail non valida"
+    },
+    "tour": {
+      "welcome": {
+        "title": "Benvenuto in Fornitori!",
+        "description": "Gestisci l'elenco dei tuoi fornitori di materiali e servizi. Ti guideremo attraverso le opzioni principali."
+      },
+      "addSupplier": {
+        "title": "Aggiungi fornitore",
+        "description": "Fai clic qui per registrare un nuovo fornitore con i suoi dati di contatto."
+      },
+      "search": {
+        "title": "Ricerca rapida",
+        "description": "Cerca i fornitori per nome o indirizzo e-mail."
+      },
+      "actions": {
+        "title": "Azioni",
+        "description": "Puoi modificare le informazioni del fornitore o eliminarlo se non lavori più con lui."
+      },
+      "buttons": {
+        "next": "Avanti",
+        "previous": "Precedente",
+        "done": "Fine",
+        "skip": "Salta tutorial",
+        "restart": "Visualizza tutorial"
+      },
+      "progressText": "{{current}} di {{total}}"
     }
   },
   "publicDevice": {

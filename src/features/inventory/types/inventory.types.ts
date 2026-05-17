@@ -8,7 +8,7 @@ export interface InventoryItem {
   currentStock: number;
   minimumStock: number;
   location?: string;
-  supplierSnapshot?: SupplierSnapshot;
+  supplierSnapshot?: SupplierSnapshot | null;
   active: boolean;
   createdAt?: Date;
   updatedAt?: Date;

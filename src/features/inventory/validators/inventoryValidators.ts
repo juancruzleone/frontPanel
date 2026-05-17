@@ -14,6 +14,15 @@ export const getInventorySchema = (t: (key: string) => string) =>
         .default(0),
     category: yup.string().trim().optional(),
     location: yup.string().trim().optional(),
+    code: yup.string().trim().optional(),
+    active: yup.boolean().default(true),
+    supplierSnapshot: yup.object({
+      supplierId: yup.string().optional(),
+      name: yup.string().required(),
+      contactName: yup.string().optional(),
+      email: yup.string().email().optional(),
+      phone: yup.string().optional(),
+    }).optional().nullable(),
   })
 
 export const validateInventoryForm = async (data: any, t: (key: string) => string) => {

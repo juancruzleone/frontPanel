@@ -1749,6 +1749,36 @@
     "units": {
       "unidades": "units",
       "units": "units"
+    },
+    "tour": {
+      "welcome": {
+        "title": "Welcome to Inventory!",
+        "description": "Here you can manage materials, spare parts, and supplies for your company. We'll show you the main functions."
+      },
+      "addItem": {
+        "title": "Add Item",
+        "description": "Use this button to register a new material or spare part in the inventory."
+      },
+      "lowStock": {
+        "title": "Low Stock Alerts",
+        "description": "When an item reaches its minimum stock, an alert will appear here so you know what to restock."
+      },
+      "search": {
+        "title": "Search and Filter",
+        "description": "Quickly find what you're looking for by filtering by name or category."
+      },
+      "actions": {
+        "title": "Stock Management",
+        "description": "From each item, you can adjust stock (entries/exits), view movement history, edit, or delete."
+      },
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous",
+        "done": "Finish",
+        "skip": "Skip tutorial",
+        "restart": "View tutorial"
+      },
+      "progressText": "{{current}} of {{total}}"
     }
   },
   "suppliers": {
@@ -1764,12 +1794,41 @@
     "email": "Email",
     "phone": "Phone",
     "address": "Address",
+    "city": "City",
+    "taxId": "Tax ID",
+    "notes": "Notes",
     "supplierAdded": "Supplier added successfully",
     "supplierUpdated": "Supplier updated successfully",
     "supplierDeleted": "Supplier deleted successfully",
     "validation": {
       "nameRequired": "Supplier name is required",
       "emailInvalid": "Invalid email"
+    },
+    "tour": {
+      "welcome": {
+        "title": "Welcome to Suppliers!",
+        "description": "Manage the directory of your material and service suppliers. We'll guide you through the key options."
+      },
+      "addSupplier": {
+        "title": "Add Supplier",
+        "description": "Click here to register a new supplier with their contact details."
+      },
+      "search": {
+        "title": "Quick Search",
+        "description": "Search for suppliers by their name or email address."
+      },
+      "actions": {
+        "title": "Actions",
+        "description": "You can edit supplier information or delete them if you no longer work with them."
+      },
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous",
+        "done": "Finish",
+        "skip": "Skip tutorial",
+        "restart": "View tutorial"
+      },
+      "progressText": "{{current}} of {{total}}"
     }
   },
   "languageSelector": {

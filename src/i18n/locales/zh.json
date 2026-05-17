@@ -2102,7 +2102,38 @@
       "unidades": "单位",
       "units": "单位"
     },
-    "availableStock": "可用库存"
+    "availableStock": "可用库存",
+    "assetType": "资产类型",
+    "tour": {
+      "welcome": {
+        "title": "欢迎来到库存管理！",
+        "description": "在这里，您可以管理公司的物料、备件和用品。我们将为您展示主要功能。"
+      },
+      "addItem": {
+        "title": "添加项目",
+        "description": "使用此按钮在库存中注册新的物料或备件。"
+      },
+      "lowStock": {
+        "title": "库存不足警报",
+        "description": "当某个项目达到其最低库存时，此处将出现警报，以便您知道需要补货什么。"
+      },
+      "search": {
+        "title": "搜索和筛选",
+        "description": "通过按名称或类别筛选，快速找到您要找的内容。"
+      },
+      "actions": {
+        "title": "库存管理",
+        "description": "您可以针对每个项目调整库存（入库/出库）、查看移动记录、编辑或删除。"
+      },
+      "buttons": {
+        "next": "下一步",
+        "previous": "上一步",
+        "done": "完成",
+        "skip": "跳过教程",
+        "restart": "查看教程"
+      },
+      "progressText": "{{current}} / {{total}}"
+    }
   },
   "suppliers": {
     "title": "供应商",
@@ -2117,12 +2148,41 @@
     "email": "电子邮件",
     "phone": "电话",
     "address": "地址",
+    "city": "城市",
+    "taxId": "纳税人识别号",
+    "notes": "备注",
     "supplierAdded": "供应商添加成功",
     "supplierUpdated": "供应商更新成功",
     "supplierDeleted": "供应商删除成功",
     "validation": {
       "nameRequired": "供应商名称为必填项",
       "emailInvalid": "无效的电子邮件"
+    },
+    "tour": {
+      "welcome": {
+        "title": "欢迎来到供应商管理！",
+        "description": "管理您的物料和服务供应商名录。我们将引导您了解关键选项。"
+      },
+      "addSupplier": {
+        "title": "添加供应商",
+        "description": "单击此处注册具有其联系方式的新供应商。"
+      },
+      "search": {
+        "title": "快速搜索",
+        "description": "通过供应商名称或电子邮件地址搜索供应商。"
+      },
+      "actions": {
+        "title": "操作",
+        "description": "您可以编辑供应商信息，或者在不再与他们合作时将其删除。"
+      },
+      "buttons": {
+        "next": "下一步",
+        "previous": "上一步",
+        "done": "完成",
+        "skip": "跳过教程",
+        "restart": "查看教程"
+      },
+      "progressText": "{{current}} / {{total}}"
     }
   },
   "publicDevice": {

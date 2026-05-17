@@ -1969,7 +1969,38 @@
       "unidades": "Einheiten",
       "units": "Einheiten"
     },
-    "availableStock": "Verfügbarer Bestand"
+    "availableStock": "Verfügbarer Bestand",
+    "assetType": "Anlagentyp",
+    "tour": {
+      "welcome": {
+        "title": "Willkommen im Inventar!",
+        "description": "Hier können Sie Materialien, Ersatzteile und Vorräte für Ihr Unternehmen verwalten. Wir zeigen Ihnen die wichtigsten Funktionen."
+      },
+      "addItem": {
+        "title": "Artikel hinzufügen",
+        "description": "Verwenden Sie diese Schaltfläche, um ein neues Material oder Ersatzteil im Inventar zu registrieren."
+      },
+      "lowStock": {
+        "title": "Warnungen bei niedrigem Lagerbestand",
+        "description": "Wenn ein Artikel seinen Mindestbestand erreicht, erscheint hier eine Warnung, damit Sie wissen, was nachbestellt werden muss."
+      },
+      "search": {
+        "title": "Suchen und Filtern",
+        "description": "Finden Sie schnell, was Sie suchen, indem Sie nach Name oder Kategorie filtern."
+      },
+      "actions": {
+        "title": "Lagerverwaltung",
+        "description": "Für jeden Artikel können Sie den Bestand anpassen (Eingänge/Ausgänge), die Bewegungshistorie anzeigen, bearbeiten oder löschen."
+      },
+      "buttons": {
+        "next": "Weiter",
+        "previous": "Zurück",
+        "done": "Fertig",
+        "skip": "Tutorial überspringen",
+        "restart": "Tutorial ansehen"
+      },
+      "progressText": "{{current}} von {{total}}"
+    }
   },
   "suppliers": {
     "title": "Lieferanten",
@@ -1984,12 +2015,41 @@
     "email": "E-Mail",
     "phone": "Telefon",
     "address": "Adresse",
+    "city": "Stadt",
+    "taxId": "Steuernummer",
+    "notes": "Notizen",
     "supplierAdded": "Lieferant erfolgreich hinzugefügt",
     "supplierUpdated": "Lieferant erfolgreich aktualisiert",
     "supplierDeleted": "Lieferant erfolgreich gelöscht",
     "validation": {
       "nameRequired": "Lieferantenname ist erforderlich",
       "emailInvalid": "Ungültige E-Mail"
+    },
+    "tour": {
+      "welcome": {
+        "title": "Willkommen bei Lieferanten!",
+        "description": "Verwalten Sie das Verzeichnis Ihrer Material- und Dienstleistungslieferanten. Wir führen Sie durch die wichtigsten Optionen."
+      },
+      "addSupplier": {
+        "title": "Lieferant hinzufügen",
+        "description": "Klicken Sie hier, um einen neuen Lieferanten mit seinen Kontaktdaten zu registrieren."
+      },
+      "search": {
+        "title": "Schnellsuche",
+        "description": "Suchen Sie Lieferanten nach ihrem Namen oder ihrer E-Mail-Adresse."
+      },
+      "actions": {
+        "title": "Aktionen",
+        "description": "Sie können Lieferanteninformationen bearbeiten oder sie löschen, wenn Sie nicht mehr mit ihnen zusammenarbeiten."
+      },
+      "buttons": {
+        "next": "Weiter",
+        "previous": "Zurück",
+        "done": "Fertig",
+        "skip": "Tutorial überspringen",
+        "restart": "Tutorial ansehen"
+      },
+      "progressText": "{{current}} von {{total}}"
     }
   },
   "publicDevice": {

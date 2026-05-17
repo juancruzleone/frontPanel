@@ -8,6 +8,10 @@ export interface Supplier {
   email?: string
   phone?: string
   address?: string
+  city?: string
+  taxId?: string
+  notes?: string
+  active?: boolean
 }
 
 interface SupplierState {

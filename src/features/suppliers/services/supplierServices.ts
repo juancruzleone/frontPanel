@@ -1,4 +1,4 @@
-import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
+import { getAuthHeaders, fetchWithCsrf } from "../../../shared/utils/apiHeaders"
 import type { Supplier } from "../../../store/supplierStore"
 
 const getApiUrl = () => import.meta.env.VITE_API_URL || '/api/'
@@ -62,9 +62,11 @@ export const fetchSuppliers = async (params: { page?: number, limit?: number, na
 }
 
 export const createSupplier = async (supplier: SupplierPayload): Promise<Supplier> => {
-  const response = await fetch(`${getApiUrl()}proveedores`, {
+  const response = await fetchWithCsrf(`${getApiUrl()}proveedores`, {
     method: "POST",
-    headers: getHeadersWithContentType(),
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify(supplier),
   })
 
@@ -76,9 +78,11 @@ export const createSupplier = async (supplier: SupplierPayload): Promise<Supplie
 }
 
 export const updateSupplier = async (id: string, supplier: Partial<SupplierPayload>): Promise<Supplier> => {
-  const response = await fetch(`${getApiUrl()}proveedores/${id}`, {
+  const response = await fetchWithCsrf(`${getApiUrl()}proveedores/${id}`, {
     method: "PATCH",
-    headers: getHeadersWithContentType(),
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify(supplier),
   })
 
@@ -90,9 +94,8 @@ export const updateSupplier = async (id: string, supplier: Partial<SupplierPaylo
 }
 
 export const deleteSupplier = async (id: string) => {
-  const response = await fetch(`${getApiUrl()}proveedores/${id}`, {
+  const response = await fetchWithCsrf(`${getApiUrl()}proveedores/${id}`, {
     method: "DELETE",
-    headers: getAuthHeaders(),
   })
 
   if (!response.ok) {

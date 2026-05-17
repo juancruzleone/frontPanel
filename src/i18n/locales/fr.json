@@ -2064,7 +2064,38 @@
       "unidades": "unités",
       "units": "unités"
     },
-    "availableStock": "Stock disponible"
+    "availableStock": "Stock disponible",
+    "assetType": "Type d'actif",
+    "tour": {
+      "welcome": {
+        "title": "Bienvenue dans l'inventaire !",
+        "description": "Ici, vous pouvez gérer les matériaux, les pièces de rechange et les fournitures de votre entreprise. Nous vous montrerons les fonctions principales."
+      },
+      "addItem": {
+        "title": "Ajouter un article",
+        "description": "Utilisez ce bouton pour enregistrer un nouveau matériau ou une pièce de rechange dans l'inventaire."
+      },
+      "lowStock": {
+        "title": "Alertes de stock faible",
+        "description": "Lorsqu'un article atteint son stock minimum, une alerte apparaîtra ici pour que vous sachiez quoi réapprovisionner."
+      },
+      "search": {
+        "title": "Rechercher et filtrer",
+        "description": "Trouvez rapidement ce que vous cherchez en filtrant par nom ou par catégorie."
+      },
+      "actions": {
+        "title": "Gestion des stocks",
+        "description": "À partir de chaque article, vous pouvez ajuster le stock (entrées/sorties), consulter l'historique des mouvements, éditer ou supprimer."
+      },
+      "buttons": {
+        "next": "Suivant",
+        "previous": "Précédent",
+        "done": "Terminer",
+        "skip": "Passer le tutoriel",
+        "restart": "Voir le tutoriel"
+      },
+      "progressText": "{{current}} sur {{total}}"
+    }
   },
   "suppliers": {
     "title": "Fournisseurs",
@@ -2079,12 +2110,41 @@
     "email": "E-mail",
     "phone": "Téléphone",
     "address": "Adresse",
+    "city": "Ville",
+    "taxId": "Identifiant fiscal",
+    "notes": "Notes",
     "supplierAdded": "Fournisseur ajouté avec succès",
     "supplierUpdated": "Fournisseur mis à jour avec succès",
     "supplierDeleted": "Fournisseur supprimé avec succès",
     "validation": {
       "nameRequired": "Le nom du fournisseur est obligatoire",
       "emailInvalid": "E-mail non valide"
+    },
+    "tour": {
+      "welcome": {
+        "title": "Bienvenue chez les fournisseurs !",
+        "description": "Gérez l'annuaire de vos fournisseurs de matériaux et de services. Nous vous guiderons à travers les options clés."
+      },
+      "addSupplier": {
+        "title": "Ajouter un fournisseur",
+        "description": "Cliquez ici pour enregistrer un nouveau fournisseur avec ses coordonnées."
+      },
+      "search": {
+        "title": "Recherche rapide",
+        "description": "Recherchez des fournisseurs par leur nom ou leur adresse e-mail."
+      },
+      "actions": {
+        "title": "Actions",
+        "description": "Vous pouvez modifier les informations du fournisseur ou les supprimer si vous ne travaillez plus avec eux."
+      },
+      "buttons": {
+        "next": "Suivant",
+        "previous": "Précédent",
+        "done": "Terminer",
+        "skip": "Passer le tutoriel",
+        "restart": "Voir le tutoriel"
+      },
+      "progressText": "{{current}} sur {{total}}"
     }
   },
   "publicDevice": {
