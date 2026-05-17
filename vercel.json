@@ -7,6 +7,10 @@
     {
       "source": "/api/:path*",
       "destination": "https://api.leonix.net.ar/api/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [

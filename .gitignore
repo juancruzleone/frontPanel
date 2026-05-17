@@ -1,5 +1,11 @@
+# Local AI/tooling artifacts
+.agent/
 .atl/
+.pi/
 .pi-lens/
+.gga
+
+# Local config and secrets
 .npmrc
 
 # Logs
@@ -33,3 +39,7 @@ playwright-report
 test-results
 coverage/
 undefined:/
+.vercel/
+
+# Generated archives
+*.zip
