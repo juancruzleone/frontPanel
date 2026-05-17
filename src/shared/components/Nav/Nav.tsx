@@ -36,6 +36,10 @@ import { logoutSession } from "../../../features/auth/services/loginServices";
 import { useCSRFStore } from "../../../store/csrfStore";
 import { getRouteMenuOpenState } from "./navRouteState";
 
+const isMobileDrawerViewport = () =>
+	typeof window !== "undefined" &&
+	window.matchMedia("(max-width: 1023px)").matches;
+
 const Nav = () => {
 	const { t } = useTranslation();
 	const user = useAuthStore((s) => s.user);
@@ -92,6 +96,18 @@ const Nav = () => {
 		() => isMaintenanceSectionActive,
 	);
 	const [isMaintenanceHovered, setIsMaintenanceHovered] = useState(false);
+	const [isMobileDrawer, setIsMobileDrawer] = useState(isMobileDrawerViewport);
+	const isCollapsedDesktop = isSidebarCollapsed && !isMobileDrawer;
+
+	useEffect(() => {
+		const mediaQuery = window.matchMedia("(max-width: 1023px)");
+		const updateIsMobileDrawer = () => setIsMobileDrawer(mediaQuery.matches);
+
+		updateIsMobileDrawer();
+		mediaQuery.addEventListener("change", updateIsMobileDrawer);
+
+		return () => mediaQuery.removeEventListener("change", updateIsMobileDrawer);
+	}, []);
 
 	useEffect(() => {
 		if (isMenuOpen) {
@@ -112,12 +128,12 @@ const Nav = () => {
 	]);
 
 	useEffect(() => {
-		if (isSidebarCollapsed) {
+		if (isCollapsedDesktop) {
 			setIsWorkOrdersMenuOpen(false);
 			setIsOperationMenuOpen(false);
 			setIsMaintenanceMenuOpen(false);
 		}
-	}, [isSidebarCollapsed]);
+	}, [isCollapsedDesktop]);
 
 	useEffect(() => {
 		if (workOrdersTimeoutRef.current) {
@@ -148,7 +164,7 @@ const Nav = () => {
 	};
 
 	const handleWorkOrdersMouseEnter = () => {
-		if (isSidebarCollapsed) {
+		if (isCollapsedDesktop) {
 			if (workOrdersTimeoutRef.current) {
 				clearTimeout(workOrdersTimeoutRef.current);
 			}
@@ -157,7 +173,7 @@ const Nav = () => {
 	};
 
 	const handleWorkOrdersMouseLeave = () => {
-		if (isSidebarCollapsed) {
+		if (isCollapsedDesktop) {
 			workOrdersTimeoutRef.current = setTimeout(() => {
 				setIsWorkOrdersHovered(false);
 			}, 300);
@@ -165,14 +181,14 @@ const Nav = () => {
 	};
 
 	const handleWorkOrdersSubmenuEnter = () => {
-		if (isSidebarCollapsed && workOrdersTimeoutRef.current) {
+		if (isCollapsedDesktop && workOrdersTimeoutRef.current) {
 			clearTimeout(workOrdersTimeoutRef.current);
 			setIsWorkOrdersHovered(true);
 		}
 	};
 
 	const handleWorkOrdersSubmenuLeave = () => {
-		if (isSidebarCollapsed) {
+		if (isCollapsedDesktop) {
 			workOrdersTimeoutRef.current = setTimeout(() => {
 				setIsWorkOrdersHovered(false);
 			}, 300);
@@ -180,7 +196,7 @@ const Nav = () => {
 	};
 
 	const handleOperationMouseEnter = () => {
-		if (isSidebarCollapsed) {
+		if (isCollapsedDesktop) {
 			if (operationTimeoutRef.current) {
 				clearTimeout(operationTimeoutRef.current);
 			}
@@ -189,7 +205,7 @@ const Nav = () => {
 	};
 
 	const handleOperationMouseLeave = () => {
-		if (isSidebarCollapsed) {
+		if (isCollapsedDesktop) {
 			operationTimeoutRef.current = setTimeout(() => {
 				setIsOperationHovered(false);
 			}, 300);
@@ -197,14 +213,14 @@ const Nav = () => {
 	};
 
 	const handleOperationSubmenuEnter = () => {
-		if (isSidebarCollapsed && operationTimeoutRef.current) {
+		if (isCollapsedDesktop && operationTimeoutRef.current) {
 			clearTimeout(operationTimeoutRef.current);
 			setIsOperationHovered(true);
 		}
 	};
 
 	const handleOperationSubmenuLeave = () => {
-		if (isSidebarCollapsed) {
+		if (isCollapsedDesktop) {
 			operationTimeoutRef.current = setTimeout(() => {
 				setIsOperationHovered(false);
 			}, 300);
@@ -212,7 +228,7 @@ const Nav = () => {
 	};
 
 	const handleMaintenanceMouseEnter = () => {
-		if (isSidebarCollapsed) {
+		if (isCollapsedDesktop) {
 			if (maintenanceTimeoutRef.current) {
 				clearTimeout(maintenanceTimeoutRef.current);
 			}
@@ -221,7 +237,7 @@ const Nav = () => {
 	};
 
 	const handleMaintenanceMouseLeave = () => {
-		if (isSidebarCollapsed) {
+		if (isCollapsedDesktop) {
 			maintenanceTimeoutRef.current = setTimeout(() => {
 				setIsMaintenanceHovered(false);
 			}, 300);
@@ -229,14 +245,14 @@ const Nav = () => {
 	};
 
 	const handleMaintenanceSubmenuEnter = () => {
-		if (isSidebarCollapsed && maintenanceTimeoutRef.current) {
+		if (isCollapsedDesktop && maintenanceTimeoutRef.current) {
 			clearTimeout(maintenanceTimeoutRef.current);
 			setIsMaintenanceHovered(true);
 		}
 	};
 
 	const handleMaintenanceSubmenuLeave = () => {
-		if (isSidebarCollapsed) {
+		if (isCollapsedDesktop) {
 			maintenanceTimeoutRef.current = setTimeout(() => {
 				setIsMaintenanceHovered(false);
 			}, 300);
@@ -254,7 +270,7 @@ const Nav = () => {
 			</button>
 
 			<nav
-				className={`${styles.nav} ${isMenuOpen ? styles.open : ""} ${isSidebarCollapsed ? styles.collapsed : ""}`}
+				className={`${styles.nav} ${isMenuOpen ? styles.open : ""} ${isCollapsedDesktop ? styles.collapsed : ""}`}
 			>
 				<button
 					className={styles.collapseButton}
@@ -306,7 +322,7 @@ const Nav = () => {
 									onClick={() => setIsWorkOrdersMenuOpen((prev) => !prev)}
 									aria-expanded={
 										isWorkOrdersMenuOpen ||
-										(isSidebarCollapsed && isWorkOrdersHovered)
+										(isCollapsedDesktop && isWorkOrdersHovered)
 									}
 								>
 									<span className={styles.groupButtonContent}>
@@ -321,7 +337,7 @@ const Nav = () => {
 									/>
 								</button>
 								<div
-									className={`${styles.submenu} ${isWorkOrdersMenuOpen || (isSidebarCollapsed && isWorkOrdersHovered) ? styles.submenuOpen : ""}`}
+									className={`${styles.submenu} ${isWorkOrdersMenuOpen || (isCollapsedDesktop && isWorkOrdersHovered) ? styles.submenuOpen : ""}`}
 									onMouseEnter={handleWorkOrdersSubmenuEnter}
 									onMouseLeave={handleWorkOrdersSubmenuLeave}
 								>
@@ -357,7 +373,7 @@ const Nav = () => {
 									onClick={() => setIsMaintenanceMenuOpen((prev) => !prev)}
 									aria-expanded={
 										isMaintenanceMenuOpen ||
-										(isSidebarCollapsed && isMaintenanceHovered)
+										(isCollapsedDesktop && isMaintenanceHovered)
 									}
 								>
 									<span className={styles.groupButtonContent}>
@@ -372,7 +388,7 @@ const Nav = () => {
 									/>
 								</button>
 								<div
-									className={`${styles.submenu} ${isMaintenanceMenuOpen || (isSidebarCollapsed && isMaintenanceHovered) ? styles.submenuOpen : ""}`}
+									className={`${styles.submenu} ${isMaintenanceMenuOpen || (isCollapsedDesktop && isMaintenanceHovered) ? styles.submenuOpen : ""}`}
 									onMouseEnter={handleMaintenanceSubmenuEnter}
 									onMouseLeave={handleMaintenanceSubmenuLeave}
 								>
@@ -436,7 +452,7 @@ const Nav = () => {
 									onClick={() => setIsOperationMenuOpen((prev) => !prev)}
 									aria-expanded={
 										isOperationMenuOpen ||
-										(isSidebarCollapsed && isOperationHovered)
+										(isCollapsedDesktop && isOperationHovered)
 									}
 								>
 									<span className={styles.groupButtonContent}>
@@ -451,7 +467,7 @@ const Nav = () => {
 									/>
 								</button>
 								<div
-									className={`${styles.submenu} ${isOperationMenuOpen || (isSidebarCollapsed && isOperationHovered) ? styles.submenuOpen : ""}`}
+									className={`${styles.submenu} ${isOperationMenuOpen || (isCollapsedDesktop && isOperationHovered) ? styles.submenuOpen : ""}`}
 									onMouseEnter={handleOperationSubmenuEnter}
 									onMouseLeave={handleOperationSubmenuLeave}
 								>

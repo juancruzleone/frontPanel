@@ -1160,6 +1160,33 @@
 
 /* Mobile drawer must always render expanded, even if desktop collapsed state persisted */
 @media (max-width: 1023px) {
+  .nav.open {
+    width: 85vw !important;
+    max-width: 300px;
+  }
+
+  .nav.open .logoContainer {
+    justify-content: flex-start !important;
+    gap: 8px !important;
+    padding: 2px 0 !important;
+  }
+
+  .nav.open .logoArea {
+    justify-content: flex-start !important;
+    padding-left: 4px !important;
+    margin-top: 0 !important;
+  }
+
+  .nav.open .logoText {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: auto !important;
+    max-width: none !important;
+    overflow: visible !important;
+    color: #fff !important;
+  }
+
   .nav.collapsed {
     width: 85vw !important;
     max-width: 300px;
@@ -1178,6 +1205,12 @@
   }
 
   .nav.collapsed .logoText {
-    display: inline !important;
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: auto !important;
+    max-width: none !important;
+    overflow: visible !important;
+    color: #fff !important;
   }
 }
