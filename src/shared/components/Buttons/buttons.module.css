@@ -337,9 +337,9 @@ button {
 }
 
 :global([data-theme="dark"]) .languageSelectorContainer .flagImg {
-  background: #0b1c1a;
-  border-color: #00ffae;
-  box-shadow: 0 0 0 1px rgba(0, 255, 174, 0.18);
+  background: var(--color-themebox-bg);
+  border-color: var(--color-themebox-border);
+  box-shadow: none;
 }
 
 /* Responsive adjustments */
