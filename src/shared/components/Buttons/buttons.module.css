@@ -224,6 +224,17 @@ button {
   overflow-y: auto;
 }
 
+:global([data-theme="light"]) .languageDropdown {
+  border-color: rgba(5, 126, 116, 0.28);
+  box-shadow: 0 10px 24px rgba(5, 126, 116, 0.16);
+}
+
+:global([data-theme="dark"]) .languageDropdown {
+  background: #17211f;
+  border-color: rgba(0, 255, 174, 0.28);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.42);
+}
+
 .languageDropdownUp {
   bottom: 100%;
   margin-bottom: 4px;
@@ -250,18 +261,39 @@ button {
 }
 
 .languageOption:hover {
-  /* background: var(--color-bg-light); */
-  background: none;
+  background: rgba(5, 126, 116, 0.1);
+  color: var(--color-text);
 }
 
 .languageOption.active {
-  background: var(--color-secondary);
+  background: linear-gradient(135deg, #057e74 0%, #089b8e 100%);
   color: white;
+}
+
+:global([data-theme="light"]) .languageOption.active {
+  background: linear-gradient(135deg, #057e74 0%, #089b8e 100%);
+  color: #ffffff;
+  box-shadow: inset 3px 0 0 #00c2a8;
+}
+
+:global([data-theme="dark"]) .languageOption {
+  color: #f5f5f5;
+}
+
+:global([data-theme="dark"]) .languageOption:hover {
+  background: rgba(0, 255, 174, 0.12);
+  color: #ffffff;
 }
 
 :global(.dark) .languageOption.active {
   background: linear-gradient(135deg, #057e74 0%, #089b8e 100%);
   color: white;
+}
+
+:global([data-theme="dark"]) .languageOption.active {
+  background: linear-gradient(135deg, #057e74 0%, #089b8e 100%);
+  color: #ffffff;
+  box-shadow: inset 3px 0 0 #00ffae;
 }
 
 .flag {
@@ -302,6 +334,12 @@ button {
   border: 1px solid var(--color-themebox-border);
   padding: 4px;
   margin: 0;
+}
+
+:global([data-theme="dark"]) .languageSelectorContainer .flagImg {
+  background: #0b1c1a;
+  border-color: #00ffae;
+  box-shadow: 0 0 0 1px rgba(0, 255, 174, 0.18);
 }
 
 /* Responsive adjustments */
