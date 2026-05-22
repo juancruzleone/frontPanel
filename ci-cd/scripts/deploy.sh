@@ -52,30 +52,30 @@ fi
 
 # Instalar dependencias
 log "📦 Instalando dependencias..."
-npm ci || error "Error instalando dependencias"
+bun ci --ignore-scripts || error "Error instalando dependencias"
 
 # Ejecutar linting
 log "🔍 Ejecutando linting..."
-npm run lint || error "Linting falló"
+bun run lint || error "Linting falló"
 
 # Ejecutar type checking
 log "📝 Verificando tipos..."
-npm run type-check || error "Type checking falló"
+bun run type-check || error "Type checking falló"
 
 # Ejecutar tests
 log "🧪 Ejecutando tests..."
-npm run test || error "Tests fallaron"
+bun run test || error "Tests fallaron"
 
 # Ejecutar security audit
 log "🔒 Ejecutando security audit..."
-npm audit --audit-level=moderate || warning "Se encontraron vulnerabilidades"
+bun audit --audit-level=moderate || warning "Se encontraron vulnerabilidades"
 
 # Build
 log "🏗️  Construyendo aplicación..."
 if [[ "$ENVIRONMENT" == "production" ]]; then
-    npm run build || error "Build falló"
+    bun run build || error "Build falló"
 else
-    npm run build:staging || npm run build || error "Build falló"
+    bun run build:staging || bun run build || error "Build falló"
 fi
 
 # Verificar que el build existe
@@ -89,16 +89,16 @@ log "✅ Build completado exitosamente"
 if [[ -n "$NETLIFY_AUTH_TOKEN" ]]; then
     log "🌐 Deploying a Netlify..."
     if [[ "$ENVIRONMENT" == "production" ]]; then
-        npx netlify-cli deploy --prod --dir=dist || error "Deploy a Netlify falló"
+        bunx netlify-cli deploy --prod --dir=dist || error "Deploy a Netlify falló"
     else
-        npx netlify-cli deploy --dir=dist || error "Deploy a Netlify falló"
+        bunx netlify-cli deploy --dir=dist || error "Deploy a Netlify falló"
     fi
 elif [[ -n "$VERCEL_TOKEN" ]]; then
     log "🌐 Deploying a Vercel..."
     if [[ "$ENVIRONMENT" == "production" ]]; then
-        npx vercel --prod || error "Deploy a Vercel falló"
+        bunx vercel --prod || error "Deploy a Vercel falló"
     else
-        npx vercel || error "Deploy a Vercel falló"
+        bunx vercel || error "Deploy a Vercel falló"
     fi
 else
     warning "No se encontró token de Netlify o Vercel. Saltando deploy automático."

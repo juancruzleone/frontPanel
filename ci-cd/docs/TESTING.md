@@ -32,7 +32,7 @@ El proyecto implementa una estrategia completa de testing:
 ### Ejecutar
 
 ```bash
-npm run test:unit
+bun run test:unit
 ```
 
 ### Ejemplo
@@ -54,7 +54,7 @@ describe('sanitizeInput', () => {
 ### Cobertura
 
 ```bash
-npm run test:coverage
+bun run test:coverage
 ```
 
 Target: 80% de cobertura mínima
@@ -67,7 +67,7 @@ Target: 80% de cobertura mínima
 ### Ejecutar
 
 ```bash
-npm run test:integration
+bun run test:integration
 ```
 
 ### Ejemplo
@@ -101,7 +101,7 @@ describe('LoginForm Integration', () => {
 ### Ejecutar
 
 ```bash
-npm run test:security
+bun run test:security
 ```
 
 ### Categorías
@@ -138,13 +138,13 @@ describe('XSS Protection', () => {
 
 ```bash
 # Headless
-npm run test:e2e
+bun run test:e2e
 
 # Con UI
-npm run test:e2e:ui
+bun run test:e2e:ui
 
 # Debug
-npm run test:e2e:debug
+bun run test:e2e:debug
 ```
 
 ### Ejemplo
@@ -292,17 +292,17 @@ Los tests se ejecutan automáticamente en:
 ```yaml
 # .github/workflows/ci.yml
 - name: Run tests
-  run: npm run ci:test
+  run: bun run ci:test
 ```
 
 ### Pre-commit Hooks
 
 ```bash
 # Instalar husky
-npm install -D husky
+bun add -d husky
 
 # Configurar pre-commit
-npx husky add .husky/pre-commit "npm test"
+bunx husky add .husky/pre-commit "bun run test"
 ```
 
 ## Debugging Tests
@@ -310,7 +310,7 @@ npx husky add .husky/pre-commit "npm test"
 ### Vitest UI
 
 ```bash
-npm run test:ui
+bun run test:ui
 ```
 
 Abre interfaz web interactiva para debugging.
@@ -318,7 +318,7 @@ Abre interfaz web interactiva para debugging.
 ### Playwright Debug
 
 ```bash
-npm run test:e2e:debug
+bun run test:e2e:debug
 ```
 
 Abre Playwright Inspector para step-by-step debugging.
@@ -332,7 +332,7 @@ Configuración en `.vscode/launch.json`:
   "type": "node",
   "request": "launch",
   "name": "Debug Tests",
-  "runtimeExecutable": "npm",
+  "runtimeExecutable": "bun",
   "runtimeArgs": ["run", "test"],
   "console": "integratedTerminal"
 }
@@ -343,7 +343,7 @@ Configuración en `.vscode/launch.json`:
 ### Lighthouse CI
 
 ```bash
-npm run test:lighthouse
+bun run test:lighthouse
 ```
 
 Verifica:
@@ -355,8 +355,8 @@ Verifica:
 ### Bundle Size
 
 ```bash
-npm run build
-npm run analyze
+bun run build
+bun run analyze
 ```
 
 ## Troubleshooting
@@ -365,24 +365,24 @@ npm run analyze
 
 ```bash
 # Ejecutar en paralelo
-npm test -- --threads
+bun run test -- --threads
 
 # Ejecutar solo tests modificados
-npm test -- --changed
+bun run test -- --changed
 ```
 
 ### Tests flaky
 
 ```bash
 # Ejecutar múltiples veces
-npm test -- --retry=3
+bun run test -- --retry=3
 ```
 
 ### Memory leaks
 
 ```bash
 # Ejecutar con más memoria
-NODE_OPTIONS=--max_old_space_size=4096 npm test
+NODE_OPTIONS=--max_old_space_size=4096 bun run test
 ```
 
 ## Métricas de Calidad
@@ -398,7 +398,7 @@ NODE_OPTIONS=--max_old_space_size=4096 npm test
 
 ```bash
 # Coverage report
-npm run test:coverage
+bun run test:coverage
 
 # HTML report
 open coverage/index.html

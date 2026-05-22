@@ -12,8 +12,8 @@
     "preinstall": "node -e \"const ua = process.env.npm_config_user_agent || ''; if (!ua.startsWith('bun/')) { console.error('Usá bun install para instalar dependencias.'); process.exit(1); }\"",
     "dev": "vite",
     "build": "vite build",
-    "build:netlify": "rm -rf dist && bun install --frozen-lockfile && vite build",
-    "build:clean": "rm -rf dist node_modules && bun install --frozen-lockfile && vite build",
+    "build:netlify": "rm -rf dist && bun ci --ignore-scripts && vite build",
+    "build:clean": "rm -rf dist node_modules && bun ci --ignore-scripts && vite build",
     "lint": "eslint . --max-warnings 999",
     "lint:fix": "eslint . --fix",
     "preview": "vite preview",
@@ -31,6 +31,9 @@
     "test:e2e:debug": "playwright test --debug",
     "test:performance": "lighthouse http://localhost:5173 --output=json --output-path=./reports/lighthouse.json",
     "test:all": "bun run lint && bun run type-check && bun run test:unit && bun run test:integration && bun run test:security && bun run test:e2e",
+    "install:safe": "bun install --ignore-scripts",
+    "install:ci": "bun ci --ignore-scripts",
+    "pm:clean": "rm -rf node_modules && bun pm cache rm",
     "security:audit": "bun audit --audit-level=moderate",
     "security:audit:fix": "bun update",
     "security:check": "bun run security:audit && bun outdated",
@@ -91,6 +94,7 @@
     "brace-expansion": "^2.0.3",
     "flatted": "^3.4.2",
     "ip-address": "^10.2.0",
-    "minimatch": "^9.0.7"
+    "minimatch": "^9.0.7",
+    "ws": "^8.20.1"
   }
 }

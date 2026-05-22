@@ -103,11 +103,11 @@ frontGMAO/
 ├── .env                             # Variables de entorno (NO commitear)
 ├── .env.example                     # Ejemplo de variables
 ├── .gitignore                       # Archivos ignorados por Git
-├── .npmrc                           # Configuración de npm
+├── .npmrc                           # Bloqueo de scripts si alguien usa npm accidentalmente
 │
 ├── index.html                       # HTML principal
 ├── package.json                     # Dependencias y scripts
-├── package-lock.json                # Lock de dependencias
+├── bun.lock                # Lock de dependencias de Bun
 │
 ├── tsconfig.json                    # Configuración TypeScript
 ├── tsconfig.app.json                # Config TS para app
@@ -232,17 +232,17 @@ frontGMAO/
 1. Crear rama desde `develop`
 2. Hacer cambios en `/src`
 3. Agregar tests en `/tests`
-4. Ejecutar `npm test`
-5. Ejecutar `npm run lint`
+4. Ejecutar `bun run test`
+5. Ejecutar `bun run lint`
 6. Commitear y push
 7. Crear Pull Request
 
 ### Testing
 
-1. Unit tests: `npm run test:unit`
-2. Integration tests: `npm run test:integration`
-3. Security tests: `npm run test:security`
-4. E2E tests: `npm run test:e2e`
+1. Unit tests: `bun run test:unit`
+2. Integration tests: `bun run test:integration`
+3. Security tests: `bun run test:security`
+4. E2E tests: `bun run test:e2e`
 
 ### Deployment
 

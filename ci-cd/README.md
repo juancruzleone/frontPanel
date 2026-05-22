@@ -27,22 +27,22 @@ ci-cd/
 
 1. **Instalar dependencias:**
    ```bash
-   npm install --legacy-peer-deps
+   bun install --ignore-scripts
    ```
 
 2. **Ejecutar tests:**
    ```bash
-   npm test
+   bun run test
    ```
 
 3. **Verificar seguridad:**
    ```bash
-   npm run security:audit
+   bun run security:audit
    ```
 
 4. **Build:**
    ```bash
-   npm run build
+   bun run build
    ```
 
 ## 📚 Documentación
@@ -58,22 +58,22 @@ ci-cd/
 - ✅ Nunca commitees archivos `.env`
 - ✅ Usa GitHub Secrets para información sensible
 - ✅ Solo variables con `VITE_` prefix son públicas
-- ✅ Ejecuta `npm run security:audit` regularmente
+- ✅ Ejecuta `bun run security:audit` regularmente
 
 ## 🧪 Testing
 
 ```bash
 # Todos los tests
-npm test
+bun run test
 
 # Por tipo
-npm run test:unit
-npm run test:integration
-npm run test:security
-npm run test:e2e
+bun run test:unit
+bun run test:integration
+bun run test:security
+bun run test:e2e
 
 # Con cobertura
-npm run test:coverage
+bun run test:coverage
 ```
 
 ## 🔄 CI/CD Pipeline

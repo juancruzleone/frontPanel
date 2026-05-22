@@ -51,17 +51,17 @@ Fixes #
 ### Testing
 
 - [ ] He agregado tests que prueban mi fix/feature
-- [ ] Tests unitarios pasan localmente: `npm run test:unit`
-- [ ] Tests de integración pasan: `npm run test:integration`
-- [ ] Tests de seguridad pasan: `npm run test:security`
-- [ ] Tests E2E pasan (si aplica): `npm run test:e2e`
+- [ ] Tests unitarios pasan localmente: `bun run test:unit`
+- [ ] Tests de integración pasan: `bun run test:integration`
+- [ ] Tests de seguridad pasan: `bun run test:security`
+- [ ] Tests E2E pasan (si aplica): `bun run test:e2e`
 
 ### Calidad
 
-- [ ] Linting pasa: `npm run lint`
-- [ ] Type checking pasa: `npm run type-check`
-- [ ] Build exitoso: `npm run build`
-- [ ] Security audit sin issues críticos: `npm audit`
+- [ ] Linting pasa: `bun run lint`
+- [ ] Type checking pasa: `bun run type-check`
+- [ ] Build exitoso: `bun run build`
+- [ ] Security audit sin issues críticos: `bun audit`
 
 ### Seguridad
 

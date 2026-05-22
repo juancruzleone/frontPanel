@@ -6,7 +6,6 @@
 .gga
 
 # Local config and secrets
-.npmrc
 
 # Logs
 logs

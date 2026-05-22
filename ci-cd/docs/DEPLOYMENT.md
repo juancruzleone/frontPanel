@@ -14,7 +14,7 @@
 1. Crear cuenta en [Netlify](https://netlify.com)
 2. Conectar repositorio de GitHub
 3. Configurar build settings:
-   - Build command: `npm run build`
+   - Build command: `bun run build`
    - Publish directory: `dist`
 
 ### Variables de Entorno
@@ -30,7 +30,7 @@ VITE_ENVIRONMENT=production
 
 ```bash
 # Instalar Netlify CLI
-npm install -g netlify-cli
+bun install --global netlify-cli
 
 # Login
 netlify login
@@ -66,7 +66,7 @@ VITE_ENVIRONMENT=production
 
 ```bash
 # Instalar Vercel CLI
-npm install -g vercel
+bun install --global vercel
 
 # Login
 vercel login
@@ -98,7 +98,7 @@ El archivo `.github/workflows/deploy-pages.yml` maneja el deployment automático
 
 1. Build del proyecto:
 ```bash
-npm run build
+bun run build
 ```
 
 2. Copiar `dist/` al servidor:
@@ -202,7 +202,7 @@ git push origin main
 ### Build falla en CI/CD
 
 1. Verificar logs del workflow
-2. Ejecutar build localmente: `npm run build`
+2. Ejecutar build localmente: `bun run build`
 3. Verificar variables de entorno
 
 ### Sitio no carga después de deploy
@@ -219,11 +219,11 @@ git push origin main
 
 ## Checklist Pre-Deployment
 
-- [ ] Tests pasan: `npm test`
-- [ ] Build exitoso: `npm run build`
-- [ ] Linting sin errores: `npm run lint`
-- [ ] Type checking sin errores: `npm run type-check`
-- [ ] Security audit: `npm audit`
+- [ ] Tests pasan: `bun run test`
+- [ ] Build exitoso: `bun run build`
+- [ ] Linting sin errores: `bun run lint`
+- [ ] Type checking sin errores: `bun run type-check`
+- [ ] Security audit: `bun audit`
 - [ ] Variables de entorno configuradas
 - [ ] Changelog actualizado
 - [ ] Tag de versión creado

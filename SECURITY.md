@@ -107,13 +107,13 @@ Responderemos en un plazo de 48 horas.
 ### Auditoría de Dependencias
 ```bash
 # Ejecutar auditoría
-npm run security:audit
+bun run security:audit
 
 # Corregir vulnerabilidades automáticamente
-npm run security:audit:fix
+bun run security:audit:fix
 
 # Verificar dependencias desactualizadas
-npm run security:check
+bun run security:check
 ```
 
 ### Frecuencia Recomendada
@@ -127,7 +127,7 @@ npm run security:check
 ## 🔄 Proceso de Actualización de Dependencias
 
 1. Revisar changelog de la dependencia
-2. Ejecutar `npm audit` antes y después
+2. Ejecutar `bun audit` antes y después
 3. Probar en entorno de desarrollo
 4. Ejecutar tests E2E
 5. Desplegar a staging
@@ -145,7 +145,7 @@ Antes de hacer merge de un PR, verificar:
 - [ ] No se usa `dangerouslySetInnerHTML` o `innerHTML`
 - [ ] URLs externas están sanitizadas
 - [ ] Tokens se manejan de forma segura
-- [ ] No hay vulnerabilidades en `npm audit`
+- [ ] No hay vulnerabilidades en `bun audit`
 - [ ] Tests de seguridad pasan
 - [ ] Headers de seguridad están configurados
 - [ ] CSP no se ha debilitado
@@ -182,7 +182,7 @@ Antes de hacer merge de un PR, verificar:
 - [Content Security Policy](https://content-security-policy.com/)
 
 ### Herramientas
-- [npm audit](https://docs.npmjs.com/cli/v8/commands/npm-audit)
+- [bun audit](https://bun.com/docs/pm/audit)
 - [Snyk](https://snyk.io/)
 - [OWASP ZAP](https://www.zaproxy.org/)
 

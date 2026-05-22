@@ -3,7 +3,7 @@
 ## Requisitos Previos
 
 - Node.js >= 18.x
-- npm >= 9.x
+- Bun >= 1.3.5
 - Git
 
 ## Instalación Local
@@ -18,7 +18,7 @@ cd frontGMAO
 ### 2. Instalar dependencias
 
 ```bash
-npm install --legacy-peer-deps
+bun install --ignore-scripts
 ```
 
 > Nota: Se usa `--legacy-peer-deps` debido a conflictos de peer dependencies en algunas librerías.
@@ -39,7 +39,7 @@ VITE_ENVIRONMENT=development
 ### 4. Ejecutar en desarrollo
 
 ```bash
-npm run dev
+bun run dev
 ```
 
 La aplicación estará disponible en `http://localhost:5173`
@@ -47,36 +47,36 @@ La aplicación estará disponible en `http://localhost:5173`
 ## Scripts Disponibles
 
 ### Desarrollo
-- `npm run dev` - Inicia servidor de desarrollo
-- `npm run dev:host` - Inicia servidor accesible en red local
+- `bun run dev` - Inicia servidor de desarrollo
+- `bun run dev:host` - Inicia servidor accesible en red local
 
 ### Build
-- `npm run build` - Build para producción
-- `npm run preview` - Preview del build de producción
+- `bun run build` - Build para producción
+- `bun run preview` - Preview del build de producción
 
 ### Testing
-- `npm test` - Ejecuta todos los tests
-- `npm run test:watch` - Tests en modo watch
-- `npm run test:ui` - UI interactiva de tests
-- `npm run test:coverage` - Tests con coverage
-- `npm run test:unit` - Solo tests unitarios
-- `npm run test:integration` - Solo tests de integración
-- `npm run test:security` - Solo tests de seguridad
-- `npm run test:e2e` - Solo tests E2E
+- `bun run test` - Ejecuta todos los tests
+- `bun run test:watch` - Tests en modo watch
+- `bun run test:ui` - UI interactiva de tests
+- `bun run test:coverage` - Tests con coverage
+- `bun run test:unit` - Solo tests unitarios
+- `bun run test:integration` - Solo tests de integración
+- `bun run test:security` - Solo tests de seguridad
+- `bun run test:e2e` - Solo tests E2E
 
 ### Calidad de Código
-- `npm run lint` - Ejecuta ESLint
-- `npm run lint:fix` - Corrige errores de linting
-- `npm run type-check` - Verifica tipos TypeScript
+- `bun run lint` - Ejecuta ESLint
+- `bun run lint:fix` - Corrige errores de linting
+- `bun run type-check` - Verifica tipos TypeScript
 
 ### Seguridad
-- `npm run security:audit` - Auditoría de dependencias
-- `npm run security:check` - Verifica vulnerabilidades
+- `bun run security:audit` - Auditoría de dependencias
+- `bun run security:check` - Verifica vulnerabilidades
 
 ### CI/CD
-- `npm run ci` - Pipeline completo de CI
-- `npm run ci:test` - Tests para CI
-- `npm run ci:e2e` - E2E tests para CI
+- `bun run ci` - Pipeline completo de CI
+- `bun run ci:test` - Tests para CI
+- `bun run ci:e2e` - E2E tests para CI
 
 ## Estructura del Proyecto
 
@@ -118,8 +118,8 @@ El proyecto usa ESLint con configuración personalizada. Los errores se mostrar�
 
 ### Error: "Cannot find module"
 ```bash
-rm -rf node_modules package-lock.json
-npm install
+rm -rf node_modules bun.lock
+bun install --ignore-scripts
 ```
 
 ### Error: "Port 5173 already in use"
@@ -131,7 +131,7 @@ lsof -ti:5173 | xargs kill -9
 ### Tests fallando
 ```bash
 # Limpiar cache de Vitest
-npm run test -- --clearCache
+bun run test -- --clearCache
 ```
 
 ## Próximos Pasos

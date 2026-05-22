@@ -1,0 +1,7 @@
+[install]
+# Usar solo registry oficial de paquetes.
+registry = "https://registry.npmjs.org/"
+
+# Mitiga ataques de supply chain con paquetes recién publicados.
+# 259200 segundos = 3 días.
+minimumReleaseAge = 259200

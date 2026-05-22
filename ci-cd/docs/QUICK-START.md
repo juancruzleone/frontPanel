@@ -10,7 +10,7 @@ git clone https://github.com/[usuario]/frontGMAO.git
 cd frontGMAO
 
 # Instalar
-npm install
+bun install --ignore-scripts
 
 # Configurar env
 cp .env.example .env
@@ -19,7 +19,7 @@ cp .env.example .env
 ## 2. Ejecutar en Desarrollo (1 min)
 
 ```bash
-npm run dev
+bun run dev
 ```
 
 Abre `http://localhost:5173`
@@ -27,36 +27,36 @@ Abre `http://localhost:5173`
 ## 3. Ejecutar Tests (1 min)
 
 ```bash
-npm test
+bun run test
 ```
 
 ## 4. Build para Producción (1 min)
 
 ```bash
-npm run build
-npm run preview
+bun run build
+bun run preview
 ```
 
 ## Comandos Esenciales
 
 ```bash
 # Desarrollo
-npm run dev              # Servidor de desarrollo
-npm run dev:host         # Accesible en red local
+bun run dev              # Servidor de desarrollo
+bun run dev:host         # Accesible en red local
 
 # Testing
-npm test                 # Todos los tests
-npm run test:watch       # Tests en watch mode
-npm run test:ui          # UI interactiva
+bun run test                 # Todos los tests
+bun run test:watch       # Tests en watch mode
+bun run test:ui          # UI interactiva
 
 # Build
-npm run build            # Build producción
-npm run preview          # Preview del build
+bun run build            # Build producción
+bun run preview          # Preview del build
 
 # Calidad
-npm run lint             # Linting
-npm run type-check       # Type checking
-npm run security:audit   # Security audit
+bun run lint             # Linting
+bun run type-check       # Type checking
+bun run security:audit   # Security audit
 ```
 
 ## Estructura Básica
@@ -96,7 +96,7 @@ git commit -m "feat: descripción del cambio"
 
 3. Ejecutar tests:
 ```bash
-npm test
+bun run test
 ```
 
 4. Push y crear PR:
@@ -124,13 +124,13 @@ lsof -ti:5173 | xargs kill -9
 
 ### Dependencias rotas
 ```bash
-rm -rf node_modules package-lock.json
-npm install
+rm -rf node_modules bun.lock
+bun install --ignore-scripts
 ```
 
 ### Tests fallando
 ```bash
-npm run test -- --clearCache
+bun run test -- --clearCache
 ```
 
 ## Próximos Pasos
@@ -144,4 +144,4 @@ npm run test -- --clearCache
 
 - Issues: GitHub Issues
 - Docs: `/ci-cd/docs/`
-- Tests: `npm run test:ui`
+- Tests: `bun run test:ui`

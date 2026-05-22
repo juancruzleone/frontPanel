@@ -201,7 +201,7 @@ describe("useViewMode", () => {
 ```
 
 **REQUIRE**:
-- Run `npm run test:unit` before committing
+- Run `bun run test:unit` before committing
 - Tests must pass (STATUS: PASSED)
 - Cover critical paths
 
@@ -213,9 +213,9 @@ describe("useViewMode", () => {
 
 ```bash
 # REJECT: These must pass before commit
-npm run lint        # ESLint (allow warnings, no errors)
-npm run type-check # TypeScript strict mode
-npm run test:unit  # Unit tests must pass
+bun run lint        # ESLint (allow warnings, no errors)
+bun run type-check # TypeScript strict mode
+bun run test:unit  # Unit tests must pass
 ```
 
 ### ESLint Rules
@@ -287,9 +287,9 @@ Reason: [explanation]
 
 | Command | Purpose |
 |---------|---------|
-| `npm run dev` | Start dev server |
-| `npm run lint` | ESLint check |
-| `npm run type-check` | TypeScript check |
-| `npm run test:unit` | Run unit tests |
-| `npm run test:e2e` | Run Playwright tests |
-| `npm run ci` | Full CI pipeline |
+| `bun run dev` | Start dev server |
+| `bun run lint` | ESLint check |
+| `bun run type-check` | TypeScript check |
+| `bun run test:unit` | Run unit tests |
+| `bun run test:e2e` | Run Playwright tests |
+| `bun run ci` | Full CI pipeline |

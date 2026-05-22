@@ -31,7 +31,7 @@ jobs:
           bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bun ci --ignore-scripts
 
       - name: Run ESLint
         run: bun run lint
@@ -59,7 +59,7 @@ jobs:
           bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bun ci --ignore-scripts
 
       - name: Run bun audit
         run: bun audit --audit-level=moderate
@@ -89,7 +89,7 @@ jobs:
           bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bun ci --ignore-scripts
 
       - name: Run unit tests
         run: bun run test:unit
@@ -124,7 +124,7 @@ jobs:
           bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bun ci --ignore-scripts
 
       - name: Run integration tests
         run: bun run test:integration
@@ -149,7 +149,7 @@ jobs:
           bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bun ci --ignore-scripts
 
       - name: Run security tests
         run: bun run test:security
@@ -174,7 +174,7 @@ jobs:
           bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bun ci --ignore-scripts
 
       - name: Install Playwright browsers
         run: bunx playwright install --with-deps
@@ -215,7 +215,7 @@ jobs:
           bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bun ci --ignore-scripts
 
       - name: Build application
         run: bun run build
