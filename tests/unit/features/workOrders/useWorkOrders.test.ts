@@ -6,6 +6,22 @@ import { useWorkOrderStore } from '../../../../src/store/workOrderStore';
 
 vi.mock('../../../../src/features/workOrders/services/workOrderServices');
 vi.mock('../../../../src/features/workOrders/services/technicianServices');
+vi.mock('../../../../src/store/authStore', () => ({
+  useAuthStore: {
+    getState: () => ({ userId: 'test-user', isAuthenticated: true })
+  }
+}));
+vi.mock('../../../../src/store/offlineStore', () => {
+  const addToQueue = vi.fn();
+  const mockStore = vi.fn(() => ({
+    addToQueue
+  })) as any;
+  mockStore.getState = vi.fn(() => ({
+    addToQueue
+  }));
+  mockStore.addToQueue = addToQueue;
+  return { useOfflineStore: mockStore };
+});
 vi.mock('../../../src/features/calendar/hooks/useTimeZone', () => ({
   useTimeZone: () => ({ timeZone: 'UTC', offset: 0 })
 }));
@@ -107,5 +123,47 @@ describe('useWorkOrders hook', () => {
     });
 
     expect(result.current.loadWorkOrders).toBe(initialLoadWorkOrders);
+  });
+
+  describe('offline support', () => {
+    beforeEach(() => {
+      vi.stubGlobal('navigator', { onLine: false });
+    });
+
+    it('should queue removeWorkOrder when offline', async () => {
+      const { result } = renderHook(() => useWorkOrders());
+      const { useOfflineStore } = await import('../../../../src/store/offlineStore');
+      
+      await result.current.removeWorkOrder('wo-123');
+      
+      expect(useOfflineStore.addToQueue).toHaveBeenCalledWith(expect.objectContaining({
+        type: 'DELETE_WORK_ORDER',
+        payload: { id: 'wo-123' }
+      }));
+    });
+
+    it('should queue assignTechnician when offline', async () => {
+      const { result } = renderHook(() => useWorkOrders());
+      const { useOfflineStore } = await import('../../../../src/store/offlineStore');
+      
+      await result.current.assignTechnician('wo-123', ['tech-1']);
+      
+      expect(useOfflineStore.addToQueue).toHaveBeenCalledWith(expect.objectContaining({
+        type: 'ASSIGN_WORK_ORDER_TECHNICIAN',
+        payload: { id: 'wo-123', technicianIds: ['tech-1'] }
+      }));
+    });
+
+    it('should queue changeWorkOrderStatus when offline', async () => {
+      const { result } = renderHook(() => useWorkOrders());
+      const { useOfflineStore } = await import('../../../../src/store/offlineStore');
+      
+      await result.current.changeWorkOrderStatus('wo-123', 'completada', 'Todo ok');
+      
+      expect(useOfflineStore.addToQueue).toHaveBeenCalledWith(expect.objectContaining({
+        type: 'UPDATE_WORK_ORDER_STATUS',
+        payload: { id: 'wo-123', estado: 'completada', observaciones: 'Todo ok' }
+      }));
+    });
   });
 });

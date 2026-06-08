@@ -6,12 +6,17 @@ import {
   updateWorkOrder, 
   completeWorkOrder, 
   startWorkOrder,
+  deleteWorkOrder,
+  updateWorkOrderStatus,
+  assignTechnicianToWorkOrder,
   type WorkOrder,
 } from "../../features/workOrders/services/workOrderServices"
 import { 
   createInstallation, 
   updateInstallation, 
   deleteInstallation,
+  addDeviceToInstallation,
+  deleteDeviceFromInstallation,
 } from "../../features/installations/services/installationServices"
 import { type Installation } from "../../features/installations/hooks/useInstallations"
 import { submitDeviceMaintenance } from "../../features/deviceForms/services/deviceFormService"
@@ -28,7 +33,24 @@ const toQueuePayloadWithId = (payload: Record<string, unknown>): QueuePayloadWit
     : payload,
 })
 
-const errorMessage = (error: unknown) => error instanceof Error ? error.message : "Error de sincronización"
+const errorMessage = (error: unknown) => {
+  if (error instanceof Error) return error.message
+  if (typeof error === "string") return error
+  return "Error de sincronización"
+}
+
+const isAuthError = (error: unknown) => {
+  const msg = errorMessage(error)
+  // Check for 401/403 in the error message or object properties
+  return (
+    (error as any)?.status === 401 || 
+    (error as any)?.status === 403 || 
+    msg.includes("401") || 
+    msg.includes("403") ||
+    msg.toLowerCase().includes("session expired") ||
+    msg.toLowerCase().includes("sesión expirada")
+  )
+}
 
 class OfflineSyncService {
   private isSyncing = false
@@ -89,12 +111,13 @@ class OfflineSyncService {
         const retries = (item.retries || 0) + 1
         useOfflineStore.getState().updateRequest(item.id, { retries, lastError: errorMessage(error) })
         
+        // Pause if session expired (401/403)
+        if (isAuthError(error)) {
+          break
+        }
+
         // Si hay un error de red, paramos el proceso
         if (!navigator.onLine) break
-        
-        // Si es un error de validación (400), podríamos descartarlo
-        // Pero por ahora simplemente incrementamos retries. 
-        // En una implementación más robusta, manejaríamos 4xx vs 5xx.
       }
     }
   }
@@ -154,6 +177,28 @@ class OfflineSyncService {
         await startWorkOrder(startPayload.id)
         break
       }
+      case 'DELETE_WORK_ORDER': {
+        const deletePayload = toQueuePayloadWithId(item.payload)
+        await deleteWorkOrder(deletePayload.id)
+        break
+      }
+      case 'UPDATE_WORK_ORDER_STATUS': {
+        const statusPayload = toQueuePayloadWithId(item.payload)
+        await updateWorkOrderStatus(
+          statusPayload.id,
+          item.payload.estado as string,
+          item.payload.observaciones as string
+        )
+        break
+      }
+      case 'ASSIGN_WORK_ORDER_TECHNICIAN': {
+        const assignPayload = toQueuePayloadWithId(item.payload)
+        await assignTechnicianToWorkOrder(
+          assignPayload.id,
+          item.payload.technicianIds as string[]
+        )
+        break
+      }
       case 'CREATE_INSTALLATION': {
         const payloadToSend = { ...item.payload }
         if (payloadToSend._id && (payloadToSend._id as string).startsWith('offline_')) {
@@ -178,6 +223,18 @@ class OfflineSyncService {
       case 'DELETE_INSTALLATION': {
         const instDeletePayload = toQueuePayloadWithId(item.payload)
         await deleteInstallation(instDeletePayload.id)
+        break
+      }
+      case 'ADD_INSTALLATION_DEVICE': {
+        if (item.metadata?.installationId) {
+          await addDeviceToInstallation(item.metadata.installationId, item.payload)
+        }
+        break
+      }
+      case 'REMOVE_INSTALLATION_DEVICE': {
+        if (item.metadata?.installationId && item.metadata?.deviceId) {
+          await deleteDeviceFromInstallation(item.metadata.installationId, item.metadata.deviceId)
+        }
         break
       }
     }

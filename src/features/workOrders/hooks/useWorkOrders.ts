@@ -445,7 +445,9 @@ const useWorkOrders = () => {
 
 	const removeWorkOrder = async (id: string) => {
 		if (!navigator.onLine) {
-			throw new Error("No se pueden eliminar órdenes sin conexión");
+			storeRemoveWorkOrder(id);
+			addToQueue({ type: "DELETE_WORK_ORDER", payload: { id } });
+			return { message: "Orden eliminada localmente." };
 		}
 		await deleteWorkOrder(id);
 		storeRemoveWorkOrder(id);
@@ -456,11 +458,11 @@ const useWorkOrders = () => {
 		technicianIds: string[],
 	) => {
 		if (!navigator.onLine) {
-			throw new Error(
-				t("common.offlineOperationNotSupported", {
-					defaultValue: "Esta operación requiere conexión a internet.",
-				}),
-			);
+			addToQueue({
+				type: "ASSIGN_WORK_ORDER_TECHNICIAN",
+				payload: { id: workOrderId, technicianIds },
+			});
+			return { message: "Asignación guardada localmente." };
 		}
 		await assignTechnicianToWorkOrder(workOrderId, technicianIds);
 		await loadWorkOrders();
@@ -566,11 +568,13 @@ const useWorkOrders = () => {
 		observaciones?: string,
 	) => {
 		if (!navigator.onLine) {
-			throw new Error(
-				t("common.offlineOperationNotSupported", {
-					defaultValue: "Esta operación requiere conexión a internet.",
-				}),
-			);
+			const update = { estado, observaciones };
+			storeUpdateWorkOrder(id, update as Partial<WorkOrder>);
+			addToQueue({
+				type: "UPDATE_WORK_ORDER_STATUS",
+				payload: { id, estado, observaciones },
+			});
+			return { message: "Cambio de estado guardado localmente." };
 		}
 
 		const updated = await apiUpdateWorkOrderStatus(id, estado, observaciones);

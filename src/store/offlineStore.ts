@@ -5,7 +5,12 @@ import { indexedDBStorage } from "../utils/indexedDBStorage"
 export interface QueuedRequest {
   id: string
   userId?: string | null
-  type: 'CREATE_WORK_ORDER' | 'UPDATE_WORK_ORDER' | 'COMPLETE_WORK_ORDER' | 'START_WORK_ORDER' | 'CREATE_INSTALLATION' | 'UPDATE_INSTALLATION' | 'DELETE_INSTALLATION' | 'DEVICE_MAINTENANCE'
+  type: 
+    | 'CREATE_WORK_ORDER' | 'UPDATE_WORK_ORDER' | 'DELETE_WORK_ORDER'
+    | 'ASSIGN_WORK_ORDER_TECHNICIAN' | 'UPDATE_WORK_ORDER_STATUS'
+    | 'COMPLETE_WORK_ORDER' | 'START_WORK_ORDER'
+    | 'CREATE_INSTALLATION' | 'UPDATE_INSTALLATION' | 'DELETE_INSTALLATION'
+    | 'ADD_INSTALLATION_DEVICE' | 'REMOVE_INSTALLATION_DEVICE' | 'DEVICE_MAINTENANCE'
   payload: Record<string, unknown>
   metadata?: {
     installationId?: string

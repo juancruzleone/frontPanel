@@ -255,7 +255,13 @@ const useInstallations = () => {
 
   const removeDeviceFromInstallation = useCallback(async (installationId: string, deviceId: string) => {
     if (!navigator.onLine) {
-      throw new Error(t('common.offlineOperationNotSupported', { defaultValue: "Esta operación requiere conexión a internet." }));
+      setInstallationDevices((prev) => prev.filter((d) => d._id !== deviceId))
+      useOfflineStore.getState().addToQueue({ 
+        type: 'REMOVE_INSTALLATION_DEVICE', 
+        payload: { installationId, deviceId },
+        metadata: { installationId, deviceId }
+      });
+      return { message: t('installations.deviceDeletedLocal', { defaultValue: 'Dispositivo eliminado localmente.' }) }
     }
     try {
       await deleteDeviceFromInstallation(installationId, deviceId)
@@ -369,7 +375,27 @@ const useInstallations = () => {
 
   const addDeviceToInstallation = useCallback(async (installationId: string, device: Device): Promise<{ message: string }> => {
     if (!navigator.onLine) {
-      throw new Error(t('common.offlineOperationNotSupported', { defaultValue: "Esta operación requiere conexión a internet." }));
+      const offlineId = `offline_dev_${Date.now()}`
+      const completeDevice = { ...device, _id: offlineId }
+      
+      setInstallationDevices((prev) => [...prev, completeDevice])
+      setInstallations(
+        validStoredInstallations.map((inst) =>
+          inst._id === installationId
+            ? {
+              ...inst,
+              devices: [...(inst.devices || []), completeDevice],
+            }
+            : inst,
+        ),
+      )
+
+      useOfflineStore.getState().addToQueue({ 
+        type: 'ADD_INSTALLATION_DEVICE', 
+        payload: device,
+        metadata: { installationId }
+      });
+      return { message: t('installations.deviceAddedLocal', { defaultValue: 'Dispositivo agregado localmente.' }) }
     }
     try {
       const result = await apiAddDeviceToInstallation(installationId, device)

@@ -7,6 +7,17 @@ import { useInstallationStore } from "../../../../src/store/installationStore"
 
 // Mock the services
 vi.mock("../../../../src/features/installations/services/installationServices")
+vi.mock("../../../../src/store/offlineStore", () => {
+  const addToQueue = vi.fn();
+  const mockStore = vi.fn(() => ({
+    addToQueue
+  })) as any;
+  mockStore.getState = vi.fn(() => ({
+    addToQueue
+  }));
+  mockStore.addToQueue = addToQueue;
+  return { useOfflineStore: mockStore };
+})
 vi.mock("../../../../src/store/authStore", () => {
   const store = vi.fn(() => ({
     token: "fake-token",
@@ -50,5 +61,34 @@ describe("useInstallations Offline Support", () => {
     // 5. Verify it didn't set an error and kept the cached data
     expect(result.current.error).toBeNull()
     expect(result.current.installations).toEqual(mockInstallations)
+  })
+
+  it("should queue addDeviceToInstallation when offline", async () => {
+    vi.stubGlobal('navigator', { onLine: false })
+    const { result } = renderHook(() => useInstallations())
+    const { useOfflineStore } = await import("../../../../src/store/offlineStore")
+    
+    const mockDevice = { assetId: "asset-1", nombre: "Device 1", ubicacion: "Loc", categoria: "Cat", estado: "Ok" }
+    await result.current.addDeviceToInstallation("inst-1", mockDevice)
+
+    expect(useOfflineStore.addToQueue).toHaveBeenCalledWith(expect.objectContaining({
+      type: 'ADD_INSTALLATION_DEVICE',
+      payload: mockDevice,
+      metadata: { installationId: "inst-1" }
+    }))
+  })
+
+  it("should queue removeDeviceFromInstallation when offline", async () => {
+    vi.stubGlobal('navigator', { onLine: false })
+    const { result } = renderHook(() => useInstallations())
+    const { useOfflineStore } = await import("../../../../src/store/offlineStore")
+    
+    await result.current.removeDeviceFromInstallation("inst-1", "dev-1")
+
+    expect(useOfflineStore.addToQueue).toHaveBeenCalledWith(expect.objectContaining({
+      type: 'REMOVE_INSTALLATION_DEVICE',
+      payload: { installationId: "inst-1", deviceId: "dev-1" },
+      metadata: { installationId: "inst-1", deviceId: "dev-1" }
+    }))
   })
 })
