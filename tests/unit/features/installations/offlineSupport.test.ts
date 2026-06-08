@@ -63,32 +63,74 @@ describe("useInstallations Offline Support", () => {
     expect(result.current.installations).toEqual(mockInstallations)
   })
 
-  it("should queue addDeviceToInstallation when offline", async () => {
+  it("should queue addDeviceToInstallation when offline and update UI/store", async () => {
     vi.stubGlobal('navigator', { onLine: false })
+    
+    // GIVEN an installation in the store
+    const mockInst = { _id: "inst-1", company: "Test Co", devices: [] } as any
+    useInstallationStore.setState({ installations: [mockInst], ownerId: "test-user-id" })
+
     const { result } = renderHook(() => useInstallations())
     const { useOfflineStore } = await import("../../../../src/store/offlineStore")
     
     const mockDevice = { assetId: "asset-1", nombre: "Device 1", ubicacion: "Loc", categoria: "Cat", estado: "Ok" }
-    await result.current.addDeviceToInstallation("inst-1", mockDevice)
+    
+    await act(async () => {
+      await result.current.addDeviceToInstallation("inst-1", mockDevice)
+    })
 
+    // THEN it should be queued
     expect(useOfflineStore.addToQueue).toHaveBeenCalledWith(expect.objectContaining({
       type: 'ADD_INSTALLATION_DEVICE',
       payload: mockDevice,
       metadata: { installationId: "inst-1" }
     }))
+
+    // AND UI state should be updated optimistically
+    expect(result.current.installationDevices).toHaveLength(1)
+    expect(result.current.installationDevices[0].nombre).toBe("Device 1")
+
+    // AND store should be updated optimistically
+    const updatedInst = useInstallationStore.getState().installations.find(i => i._id === "inst-1")
+    expect(updatedInst?.devices).toHaveLength(1)
+    expect(updatedInst?.devices?.[0].nombre).toBe("Device 1")
   })
 
-  it("should queue removeDeviceFromInstallation when offline", async () => {
+  it("should queue removeDeviceFromInstallation when offline and update UI", async () => {
     vi.stubGlobal('navigator', { onLine: false })
+    
+    // GIVEN an installation in the store
+    const mockInst = { _id: "inst-1", company: "Test Co", devices: [] } as any
+    useInstallationStore.setState({ installations: [mockInst], ownerId: "test-user-id" })
+
     const { result } = renderHook(() => useInstallations())
     const { useOfflineStore } = await import("../../../../src/store/offlineStore")
     
-    await result.current.removeDeviceFromInstallation("inst-1", "dev-1")
+    // GIVEN a device already in state (e.g. added offline previously)
+    const mockDevice = { assetId: "asset-1", nombre: "Device 1" } as any
+    await act(async () => {
+      await result.current.addDeviceToInstallation("inst-1", mockDevice)
+    })
+    expect(result.current.installationDevices).toHaveLength(1)
+    const addedId = result.current.installationDevices[0]._id as string;
 
+    // WHEN removing it offline
+    await act(async () => {
+      await result.current.removeDeviceFromInstallation("inst-1", addedId)
+    })
+
+    // THEN it should be queued
     expect(useOfflineStore.addToQueue).toHaveBeenCalledWith(expect.objectContaining({
       type: 'REMOVE_INSTALLATION_DEVICE',
-      payload: { installationId: "inst-1", deviceId: "dev-1" },
-      metadata: { installationId: "inst-1", deviceId: "dev-1" }
+      payload: { installationId: "inst-1", deviceId: addedId },
+      metadata: { installationId: "inst-1", deviceId: addedId }
     }))
+
+    // AND UI state should be updated (removed)
+    expect(result.current.installationDevices).toHaveLength(0)
+
+    // AND store should be updated optimistically
+    const updatedInst = useInstallationStore.getState().installations.find(i => i._id === "inst-1")
+    expect(updatedInst?.devices).toHaveLength(0)
   })
 })

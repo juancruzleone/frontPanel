@@ -107,7 +107,7 @@ export type WorkOrder = {
 };
 
 const useWorkOrders = () => {
-	const { userId } = useAuthStore.getState();
+	const userId = useAuthStore((state) => state.userId);
 	const {
 		workOrders: storedWorkOrders,
 		lastUpdated,
@@ -120,7 +120,7 @@ const useWorkOrders = () => {
 
 	const validStoredWorkOrders = ownerId === userId ? storedWorkOrders : [];
 
-	const { addToQueue } = useOfflineStore();
+	const { addToQueue, queue } = useOfflineStore();
 
 	const [filteredOfflineOrders, setFilteredOfflineOrders] = useState<
 		WorkOrder[] | null
@@ -206,7 +206,7 @@ const useWorkOrders = () => {
 			setLoading(true);
 			setError(null);
 			try {
-				if (!navigator.onLine && currentValidStored.length > 0) {
+				if (!navigator.onLine) {
 					// Use cache if offline and apply local filtering
 					let filtered = [...currentValidStored];
 					if (filters.estado)
@@ -248,7 +248,7 @@ const useWorkOrders = () => {
 				setWorkOrders(data);
 				setPagination(pagData);
 			} catch (err: unknown) {
-				if (currentValidStored.length > 0) {
+				if (!navigator.onLine || currentValidStored.length > 0) {
 					let filtered = [...currentValidStored];
 					if (filters.estado)
 						filtered = filtered.filter((w) => w.estado === filters.estado);
@@ -364,6 +364,9 @@ const useWorkOrders = () => {
 				estado: "pendiente",
 			};
 			storeAddWorkOrder(offlineOrder);
+			if (filteredOfflineOrders) {
+				setFilteredOfflineOrders([offlineOrder, ...filteredOfflineOrders]);
+			}
 			addToQueue({ type: "CREATE_WORK_ORDER", payload: offlineOrder });
 			return {
 				message: "Orden guardada localmente. Se enviará al reconectar.",
@@ -423,6 +426,13 @@ const useWorkOrders = () => {
 
 		const saveOffline = () => {
 			storeUpdateWorkOrder(id, payload);
+			if (filteredOfflineOrders) {
+				setFilteredOfflineOrders(
+					filteredOfflineOrders.map((wo) =>
+						wo._id === id ? { ...wo, ...payload } : wo,
+					),
+				);
+			}
 			addToQueue({ type: "UPDATE_WORK_ORDER", payload: { id, data: payload } });
 			return { message: "Cambios guardados localmente." };
 		};
@@ -444,29 +454,59 @@ const useWorkOrders = () => {
 	};
 
 	const removeWorkOrder = async (id: string) => {
-		if (!navigator.onLine) {
+		const saveOffline = () => {
 			storeRemoveWorkOrder(id);
+			if (filteredOfflineOrders) {
+				setFilteredOfflineOrders(
+					filteredOfflineOrders.filter((wo) => wo._id !== id),
+				);
+			}
 			addToQueue({ type: "DELETE_WORK_ORDER", payload: { id } });
 			return { message: "Orden eliminada localmente." };
+		};
+
+		if (!navigator.onLine) {
+			return saveOffline();
 		}
-		await deleteWorkOrder(id);
-		storeRemoveWorkOrder(id);
+
+		try {
+			await deleteWorkOrder(id);
+			storeRemoveWorkOrder(id);
+			return { message: "Orden de trabajo eliminada exitosamente" };
+		} catch (err: unknown) {
+			if (isOfflineError(err)) {
+				return saveOffline();
+			}
+			throw err;
+		}
 	};
 
 	const assignTechnician = async (
 		workOrderId: string,
 		technicianIds: string[],
 	) => {
-		if (!navigator.onLine) {
+		const saveOffline = () => {
 			addToQueue({
 				type: "ASSIGN_WORK_ORDER_TECHNICIAN",
 				payload: { id: workOrderId, technicianIds },
 			});
 			return { message: "Asignación guardada localmente." };
+		};
+
+		if (!navigator.onLine) {
+			return saveOffline();
 		}
-		await assignTechnicianToWorkOrder(workOrderId, technicianIds);
-		await loadWorkOrders();
-		return { message: "Técnico asignado con éxito" };
+
+		try {
+			await assignTechnicianToWorkOrder(workOrderId, technicianIds);
+			await loadWorkOrders();
+			return { message: "Técnico asignado con éxito" };
+		} catch (err: unknown) {
+			if (isOfflineError(err)) {
+				return saveOffline();
+			}
+			throw err;
+		}
 	};
 
 	const completeWorkOrder = async (
@@ -567,19 +607,37 @@ const useWorkOrders = () => {
 		estado: string,
 		observaciones?: string,
 	) => {
-		if (!navigator.onLine) {
+		const saveOffline = () => {
 			const update = { estado, observaciones };
 			storeUpdateWorkOrder(id, update as Partial<WorkOrder>);
+			if (filteredOfflineOrders) {
+				setFilteredOfflineOrders(
+					filteredOfflineOrders.map((wo) =>
+						wo._id === id ? { ...wo, ...update } : wo,
+					),
+				);
+			}
 			addToQueue({
 				type: "UPDATE_WORK_ORDER_STATUS",
 				payload: { id, estado, observaciones },
 			});
 			return { message: "Cambio de estado guardado localmente." };
+		};
+
+		if (!navigator.onLine) {
+			return saveOffline();
 		}
 
-		const updated = await apiUpdateWorkOrderStatus(id, estado, observaciones);
-		storeUpdateWorkOrder(id, updated);
-		return { message: "Estado de la orden actualizado con éxito" };
+		try {
+			const updated = await apiUpdateWorkOrderStatus(id, estado, observaciones);
+			storeUpdateWorkOrder(id, updated);
+			return { message: "Estado de la orden actualizado con éxito" };
+		} catch (err: unknown) {
+			if (isOfflineError(err)) {
+				return saveOffline();
+			}
+			throw err;
+		}
 	};
 
 	const handleFieldChange = useCallback(
@@ -728,8 +786,51 @@ const useWorkOrders = () => {
 		[extractInstalacionId, normalizeTechnicianIds],
 	);
 
+	const workOrders = useMemo(() => {
+		let orders = filteredOfflineOrders || validStoredWorkOrders;
+
+		// 1. Filter out items pending deletion
+		const pendingDeletes = queue
+			.filter((req) => req.type === "DELETE_WORK_ORDER")
+			.map((req) => (req.payload as { id: string }).id);
+
+		if (pendingDeletes.length > 0) {
+			orders = orders.filter((wo) => wo._id && !pendingDeletes.includes(wo._id));
+		}
+
+		// 2. Add items pending creation that might have been overwritten by a stale cache fetch
+		const pendingCreates = queue
+			.filter((req) => req.type === "CREATE_WORK_ORDER")
+			.map((req) => req.payload as unknown as WorkOrder);
+
+		if (pendingCreates.length > 0) {
+			const existingIds = new Set(orders.map((wo) => wo._id).filter(Boolean));
+			for (const pending of pendingCreates) {
+				if (pending._id && !existingIds.has(pending._id)) {
+					orders = [pending, ...orders];
+				}
+			}
+		}
+
+		// 3. Apply pending updates
+		const pendingUpdates = queue.filter((req) => req.type === "UPDATE_WORK_ORDER");
+		if (pendingUpdates.length > 0) {
+			orders = orders.map((wo) => {
+				const update = pendingUpdates.find(
+					(req) => (req.payload as { id: string }).id === wo._id,
+				);
+				if (update) {
+					return { ...wo, ...(update.payload as { data: Partial<WorkOrder> }).data };
+				}
+				return wo;
+			});
+		}
+
+		return orders;
+	}, [filteredOfflineOrders, validStoredWorkOrders, queue]);
+
 	return {
-		workOrders: filteredOfflineOrders || validStoredWorkOrders,
+		workOrders,
 		lastUpdated,
 		pagination,
 		technicians,

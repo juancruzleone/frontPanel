@@ -20,6 +20,8 @@ import {
 } from "../../features/installations/services/installationServices"
 import { type Installation } from "../../features/installations/hooks/useInstallations"
 import { submitDeviceMaintenance } from "../../features/deviceForms/services/deviceFormService"
+import { offlineBinaryStorage } from "./offlineBinaryStorage"
+import { uploadBinary } from "./uploadService"
 
 type QueuePayloadWithId = {
   id: string
@@ -113,6 +115,10 @@ class OfflineSyncService {
         
         // Pause if session expired (401/403)
         if (isAuthError(error)) {
+          // Notify Service Worker to clear API cache
+          if (navigator.serviceWorker?.controller) {
+            navigator.serviceWorker.controller.postMessage({ type: "SESSION_INVALIDATED" });
+          }
           break
         }
 
@@ -123,8 +129,26 @@ class OfflineSyncService {
   }
 
   private async processQueuedItem(item: QueuedRequest) {
+    let payloadToSync = { ...item.payload }
+
+    // 1. Manejar Binarios Pendientes (Fotos, firmas, etc.)
+    if (item.binaryRefs && item.binaryRefs.length > 0) {
+      for (const ref of item.binaryRefs) {
+        const blob = await offlineBinaryStorage.getBinary(ref.id)
+        if (blob) {
+          try {
+            const remoteUrl = await uploadBinary(blob, ref.filename)
+            this.setPayloadValue(payloadToSync, ref.field, remoteUrl)
+          } catch (error) {
+            // Si falla la subida del binario, lanzamos error para detener la sincronización de este item
+            throw new Error(`Error al subir binario (${ref.filename}): ${errorMessage(error)}`)
+          }
+        }
+      }
+    }
+
     const payloadWithTime = {
-      ...item.payload,
+      ...payloadToSync,
       fechaEjecucionOffline: typeof item.payload.fechaEjecucionOffline === "string"
         ? item.payload.fechaEjecucionOffline
         : new Date(item.timestamp).toISOString(),
@@ -143,7 +167,7 @@ class OfflineSyncService {
         }
         break;
       case 'CREATE_WORK_ORDER': {
-        const payloadToSend = { ...item.payload }
+        const payloadToSend = { ...payloadToSync }
         if (payloadToSend._id && (payloadToSend._id as string).startsWith('offline_')) {
           delete payloadToSend._id
         }
@@ -155,7 +179,7 @@ class OfflineSyncService {
         break
       }
       case 'UPDATE_WORK_ORDER': {
-        const updatePayload = toQueuePayloadWithId(item.payload)
+        const updatePayload = toQueuePayloadWithId(payloadToSync)
         await updateWorkOrder(updatePayload.id, {
           ...updatePayload.data,
           fechaEjecucionOffline: payloadWithTime.fechaEjecucionOffline,
@@ -164,7 +188,7 @@ class OfflineSyncService {
         break
       }
       case 'COMPLETE_WORK_ORDER': {
-        const completePayload = toQueuePayloadWithId(item.payload)
+        const completePayload = toQueuePayloadWithId(payloadToSync)
         await completeWorkOrder(completePayload.id, {
           ...completePayload.data,
           fechaEjecucionOffline: payloadWithTime.fechaEjecucionOffline,
@@ -173,34 +197,34 @@ class OfflineSyncService {
         break
       }
       case 'START_WORK_ORDER': {
-        const startPayload = toQueuePayloadWithId(item.payload)
+        const startPayload = toQueuePayloadWithId(payloadToSync)
         await startWorkOrder(startPayload.id)
         break
       }
       case 'DELETE_WORK_ORDER': {
-        const deletePayload = toQueuePayloadWithId(item.payload)
+        const deletePayload = toQueuePayloadWithId(payloadToSync)
         await deleteWorkOrder(deletePayload.id)
         break
       }
       case 'UPDATE_WORK_ORDER_STATUS': {
-        const statusPayload = toQueuePayloadWithId(item.payload)
+        const statusPayload = toQueuePayloadWithId(payloadToSync)
         await updateWorkOrderStatus(
           statusPayload.id,
-          item.payload.estado as string,
-          item.payload.observaciones as string
+          payloadToSync.estado as string,
+          payloadToSync.observaciones as string
         )
         break
       }
       case 'ASSIGN_WORK_ORDER_TECHNICIAN': {
-        const assignPayload = toQueuePayloadWithId(item.payload)
+        const assignPayload = toQueuePayloadWithId(payloadToSync)
         await assignTechnicianToWorkOrder(
           assignPayload.id,
-          item.payload.technicianIds as string[]
+          payloadToSync.technicianIds as string[]
         )
         break
       }
       case 'CREATE_INSTALLATION': {
-        const payloadToSend = { ...item.payload }
+        const payloadToSend = { ...payloadToSync }
         if (payloadToSend._id && (payloadToSend._id as string).startsWith('offline_')) {
           delete payloadToSend._id
         }
@@ -212,7 +236,7 @@ class OfflineSyncService {
         break
       }
       case 'UPDATE_INSTALLATION': {
-        const instUpdatePayload = toQueuePayloadWithId(item.payload)
+        const instUpdatePayload = toQueuePayloadWithId(payloadToSync)
         await updateInstallation(instUpdatePayload.id, {
           ...instUpdatePayload.data,
           fechaEjecucionOffline: payloadWithTime.fechaEjecucionOffline,
@@ -221,13 +245,13 @@ class OfflineSyncService {
         break
       }
       case 'DELETE_INSTALLATION': {
-        const instDeletePayload = toQueuePayloadWithId(item.payload)
+        const instDeletePayload = toQueuePayloadWithId(payloadToSync)
         await deleteInstallation(instDeletePayload.id)
         break
       }
       case 'ADD_INSTALLATION_DEVICE': {
         if (item.metadata?.installationId) {
-          await addDeviceToInstallation(item.metadata.installationId, item.payload)
+          await addDeviceToInstallation(item.metadata.installationId, payloadToSync)
         }
         break
       }
@@ -237,6 +261,30 @@ class OfflineSyncService {
         }
         break
       }
+    }
+
+    // Limpieza: Eliminar binarios de IndexedDB después de una sincronización exitosa
+    if (item.binaryRefs) {
+      for (const ref of item.binaryRefs) {
+        await offlineBinaryStorage.removeBinary(ref.id)
+      }
+    }
+  }
+
+  /**
+   * Actualiza un valor en un objeto usando una ruta simple de campo (soporta arrays simples)
+   */
+  private setPayloadValue(payload: any, field: string, value: any) {
+    if (field.includes('[') && field.includes(']')) {
+      // Manejar acceso a array como "fotosEvidencia[0]"
+      const [name, indexPart] = field.split('[')
+      const index = parseInt(indexPart.replace(']', ''))
+      if (!Array.isArray(payload[name])) {
+        payload[name] = []
+      }
+      payload[name][index] = value
+    } else {
+      payload[field] = value
     }
   }
 

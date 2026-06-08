@@ -1,4 +1,26 @@
 const CACHE_NAME = "leonix-v3";
+const API_CACHE_NAME = "leonix-api-v1";
+
+const API_CACHE_RULES = [
+	{
+		pattern: /^\/api\/.*\/formulario(\/|$)/,
+		ttl: 24 * 60 * 60 * 1000,
+	}, // 24h para formularios/catálogos
+	{
+		pattern: /^\/api\/.*\/mantenimientos(\/|$)/,
+		ttl: 24 * 60 * 60 * 1000,
+	}, // 24h para mantenimientos
+	{
+		pattern:
+			/^\/api\/(ordenes-trabajo|mis-ordenes-trabajo|installations|mis-instalaciones)\/[^\/]+(\/|$)/,
+		ttl: 60 * 60 * 1000,
+	}, // 1h para detalles allowlisted (ej: /api/ordenes-trabajo/123)
+	{
+		pattern:
+			/^\/api\/(ordenes-trabajo|mis-ordenes-trabajo|installations|mis-instalaciones|dashboard|home)(\/|$)/,
+		ttl: 5 * 60 * 1000,
+	}, // 5m para listas y dashboards
+];
 
 const APP_SHELL_URLS = [
 	"/",
@@ -90,6 +112,55 @@ async function appShellFallback() {
 	);
 }
 
+async function createCachedResponse(response) {
+	const clonedResponse = response.clone();
+	const headers = new Headers(clonedResponse.headers);
+	headers.set("X-SW-Cached-At", Date.now().toString());
+
+	return new Response(await clonedResponse.blob(), {
+		status: clonedResponse.status,
+		statusText: clonedResponse.statusText,
+		headers: headers,
+	});
+}
+
+async function apiCacheStrategy(request, ttl) {
+	const cache = await caches.open(API_CACHE_NAME);
+	const cachedResponse = await cache.match(request);
+
+	const isFresh = (res) => {
+		const cachedAt = res.headers.get("X-SW-Cached-At");
+		if (!cachedAt) return false;
+		return Date.now() - parseInt(cachedAt, 10) < ttl;
+	};
+
+	if (cachedResponse && isFresh(cachedResponse)) {
+		return cachedResponse;
+	}
+
+	try {
+		const networkResponse = await fetch(request);
+		if (networkResponse && networkResponse.ok) {
+			const responseToCache = await createCachedResponse(networkResponse);
+			await cache.put(request, responseToCache.clone());
+			return responseToCache;
+		}
+		throw new Error("Network response not ok");
+	} catch (err) {
+		if (cachedResponse) {
+			return cachedResponse;
+		}
+		return new Response(
+			JSON.stringify({ message: "Datos no disponibles sin conexión" }),
+			{
+				status: 503,
+				statusText: "Service Unavailable",
+				headers: { "Content-Type": "application/json; charset=utf-8" },
+			},
+		);
+	}
+}
+
 async function networkFirst(request, fallback) {
 	try {
 		const response = await fetch(request);
@@ -146,7 +217,7 @@ self.addEventListener("install", (event) => {
 
 // Activación del Service Worker
 self.addEventListener("activate", (event) => {
-	const cachesToKeep = new Set([CACHE_NAME]);
+	const cachesToKeep = new Set([CACHE_NAME, API_CACHE_NAME]);
 
 	event.waitUntil(
 		caches
@@ -198,6 +269,15 @@ self.addEventListener("fetch", (event) => {
 		// HTTP-only. La persistencia offline de datos sensibles queda en la app,
 		// con stores/colas explícitas por usuario.
 		if (url.pathname.startsWith("/api/")) {
+			const cacheRule = API_CACHE_RULES.find((rule) =>
+				rule.pattern.test(url.pathname),
+			);
+
+			if (request.method === "GET" && cacheRule) {
+				event.respondWith(apiCacheStrategy(request, cacheRule.ttl));
+				return;
+			}
+
 			event.respondWith(
 				(async () => {
 					try {
@@ -205,11 +285,15 @@ self.addEventListener("fetch", (event) => {
 							request,
 							async () =>
 								new Response(
-									JSON.stringify({ message: "Datos no disponibles sin conexión" }),
+									JSON.stringify({
+										message: "Datos no disponibles sin conexión",
+									}),
 									{
 										status: 503,
 										statusText: "Service Unavailable",
-										headers: { "Content-Type": "application/json; charset=utf-8" },
+										headers: {
+											"Content-Type": "application/json; charset=utf-8",
+										},
 									},
 								),
 						);
@@ -218,7 +302,7 @@ self.addEventListener("fetch", (event) => {
 					} catch (err) {
 						return offlineResponse();
 					}
-				})()
+				})(),
 			);
 			return;
 		}
@@ -262,7 +346,19 @@ self.addEventListener("fetch", (event) => {
 	}
 });
 
-// Manejo de mensajes para sincronización
+// Manejo de mensajes para sincronización y limpieza
+self.addEventListener("message", (event) => {
+	if (event.data && event.data.type === "TRIGGER_SYNC") {
+		event.waitUntil(notifyClientsToSync());
+	}
+	if (
+		event.data &&
+		(event.data.type === "LOGOUT" || event.data.type === "SESSION_INVALIDATED")
+	) {
+		event.waitUntil(caches.delete(API_CACHE_NAME));
+	}
+});
+
 self.addEventListener("sync", (event) => {
 	if (event.tag === "offline-sync") {
 		event.waitUntil(notifyClientsToSync());

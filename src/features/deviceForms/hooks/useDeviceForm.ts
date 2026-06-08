@@ -3,7 +3,9 @@ import { fetchDeviceForm, submitDeviceMaintenance } from "../services/deviceForm
 import { useTranslation } from "react-i18next"
 import { offlineSyncService } from "../../../shared/services/offlineSyncService"
 import { useOfflineStore } from "../../../store/offlineStore"
+import { offlineBinaryStorage } from "../../../shared/services/offlineBinaryStorage"
 import { getErrorMessage, isOfflineError } from "../../../shared/utils/errorHelpers"
+import { dataURLtoBlob } from "../../../shared/utils/imageUtils"
 
 interface FormField {
   name: string
@@ -81,6 +83,7 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
   
   // Estados para fotos, firma y repuestos
   const [fotosEvidencia, setFotosEvidencia] = useState<string[]>([])
+  const [fotosFiles, setFotosFiles] = useState<File[]>([])
   const [firmaTecnico, setFirmaTecnico] = useState<string>("")
   const [repuestosUsados, setRepuestosUsados] = useState<{ itemId: string, nombre: string, cantidad: number, unidad: string }[]>([])
 
@@ -208,6 +211,7 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
 
   // Funciones para manejo de fotos
   const handlePhotoUpload = (file: File) => {
+    setFotosFiles(prev => [...prev, file])
     const reader = new FileReader()
     reader.onload = () => {
       const result = typeof reader.result === "string" ? reader.result : ""
@@ -217,6 +221,7 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
   }
 
   const handlePhotoRemove = (index: number) => {
+    setFotosFiles(prev => prev.filter((_, i) => i !== index))
     setFotosEvidencia(prev => prev.filter((_, i) => i !== index))
   }
 
@@ -279,47 +284,99 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
         })
         setFormData(initialData)
         setFotosEvidencia([])
+        setFotosFiles([])
         setFirmaTecnico("")
         setRepuestosUsados([])
       }
 
-      const saveOffline = () => {
+      const saveOffline = async () => {
         const fechaEjecucionOffline = new Date().toISOString()
 
-        // Guardar para envío posterior si no hay conexión
-        addToQueue({
-          type: "DEVICE_MAINTENANCE",
-          payload: {
-            ...dataToSubmit,
-            fechaEjecucionOffline,
-            offlineSync: true,
-          },
-          metadata: {
-            installationId,
-            deviceId,
-          },
-        })
+        try {
+          // Stage binaries in IndexedDB instead of base64 in queue
+          const binaryRefs = []
+          
+          // 1. Stage Photos
+          for (let i = 0; i < fotosFiles.length; i++) {
+            const file = fotosFiles[i]
+            const id = await offlineBinaryStorage.saveBinary(file)
+            binaryRefs.push({
+              id,
+              field: `fotosEvidencia[${i}]`,
+              filename: file.name,
+              contentType: file.type,
+              size: file.size
+            })
+          }
 
-        offlineSyncService.registerBackgroundSync()
-        setSuccess("Mantenimiento guardado. Se enviará automáticamente cuando haya conexión.")
-        handleCleanup()
+          // 2. Stage Signature
+          if (firmaTecnico) {
+            const signatureBlob = dataURLtoBlob(firmaTecnico)
+            const id = await offlineBinaryStorage.saveBinary(signatureBlob, 'firma.png')
+            binaryRefs.push({
+              id,
+              field: 'firmaTecnico',
+              filename: 'firma.png',
+              contentType: 'image/png',
+              size: signatureBlob.size
+            })
+          }
+
+          // Guardar para envío posterior si no hay conexión
+          addToQueue({
+            type: "DEVICE_MAINTENANCE",
+            payload: {
+              ...formData,
+              repuestosUsados,
+              timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+              userOffset: new Date().getTimezoneOffset(),
+              fechaEjecucionOffline,
+              offlineSync: true,
+              // Note: fotosEvidencia and firmaTecnico are omitted from payload
+              // because they are in binaryRefs
+            },
+            binaryRefs,
+            metadata: {
+              installationId,
+              deviceId,
+            },
+          })
+
+          offlineSyncService.registerBackgroundSync()
+          setSuccess("Mantenimiento guardado. Se enviará automáticamente cuando haya conexión.")
+          handleCleanup()
+        } catch (err: unknown) {
+          if (err instanceof Error && err.message.includes("quota")) {
+            setError("Error: No hay espacio suficiente en el dispositivo para guardar las fotos offline.")
+          } else {
+            setError(getErrorMessage(err, "Error al guardar mantenimiento offline"))
+          }
+        }
       }
 
       if (isOnline) {
         try {
-          // Enviar directamente si hay conexión
+          // Enviar directamente si hay conexión (usando base64 original para compatibilidad inmediata)
+          const dataToSubmit = {
+            ...formData,
+            fotosEvidencia,
+            firmaTecnico,
+            repuestosUsados,
+            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+            userOffset: new Date().getTimezoneOffset(),
+          }
           await submitDeviceMaintenance(installationId!, deviceId!, dataToSubmit)
           setSuccess("¡Mantenimiento registrado exitosamente!")
           handleCleanup()
         } catch (err: unknown) {
           if (isOfflineError(err)) {
-            saveOffline()
+            await saveOffline()
           } else {
             throw err
           }
         }
       } else {
-        saveOffline()
+        await saveOffline()
       }
     } catch (e: unknown) {
       setError(getErrorMessage(e, "Error al procesar el formulario"))

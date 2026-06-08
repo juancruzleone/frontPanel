@@ -232,6 +232,7 @@ const WorkOrders = () => {
 	);
 	const itemsPerPage = 10;
 
+
 	const { timeZone, offset } = useTimeZone();
 
 	useEffect(() => {
@@ -487,6 +488,11 @@ const WorkOrders = () => {
 	const closeModal = () => {
 		setResponseMessage("");
 		setIsError(false);
+	};
+
+	const handleOpenDelete = (order: WorkOrder) => {
+		setWorkOrderToDelete(order);
+		setIsDeleteModalOpen(true);
 	};
 
 	const handleConfirmDelete = async () => {
@@ -789,10 +795,8 @@ const WorkOrders = () => {
 								onOpenComplete={handleOpenComplete}
 								onOpenAssign={handleOpenAssign}
 								onOpenEdit={handleOpenEdit}
-								onOpenDelete={(order) => {
-									setWorkOrderToDelete(order);
-									setIsDeleteModalOpen(true);
-								}}
+								onOpenDelete={handleOpenDelete}
+
 								getPriorityColor={getPriorityColor}
 							/>
 							<div className={styles.pagination}>

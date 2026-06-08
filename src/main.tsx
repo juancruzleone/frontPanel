@@ -9,6 +9,7 @@ import "./i18n";
 import { ThemedToaster, AppInitializer } from "./AppProviders";
 import { offlineSyncService } from "./shared/services/offlineSyncService";
 import { installFetchCredentials } from "./shared/services/fetchCredentials";
+import { useOfflineStore } from "./store/offlineStore";
 
 const SERVICE_WORKER_URL = "/sw.js?v=3";
 
@@ -17,7 +18,7 @@ const SERVICE_WORKER_URL = "/sw.js?v=3";
 // dejando la app en blanco cuando el dev server no está disponible.
 if ("serviceWorker" in navigator) {
 	window.addEventListener("load", () => {
-		if (import.meta.env.DEV) {
+		if (import.meta.env.DEV && !(window as any).IS_E2E) {
 			navigator.serviceWorker
 				.getRegistrations()
 				.then((registrations) => {
@@ -53,6 +54,10 @@ installFetchCredentials();
 
 // Inicializar servicio de sincronización offline
 offlineSyncService.initialize();
+
+if (import.meta.env.DEV) {
+	(window as any).useOfflineStore = useOfflineStore;
+}
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>

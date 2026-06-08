@@ -6,18 +6,21 @@ import { useWorkOrderStore } from '../../../../src/store/workOrderStore';
 
 vi.mock('../../../../src/features/workOrders/services/workOrderServices');
 vi.mock('../../../../src/features/workOrders/services/technicianServices');
-vi.mock('../../../../src/store/authStore', () => ({
-  useAuthStore: {
-    getState: () => ({ userId: 'test-user', isAuthenticated: true })
-  }
-}));
+vi.mock('../../../../src/store/authStore', () => {
+  const mockState = { userId: 'test-user', isAuthenticated: true };
+  const mockHook = vi.fn((selector) => selector ? selector(mockState) : mockState);
+  (mockHook as any).getState = () => mockState;
+  return { useAuthStore: mockHook };
+});
 vi.mock('../../../../src/store/offlineStore', () => {
   const addToQueue = vi.fn();
   const mockStore = vi.fn(() => ({
-    addToQueue
+    addToQueue,
+    queue: []
   })) as any;
   mockStore.getState = vi.fn(() => ({
-    addToQueue
+    addToQueue,
+    queue: []
   }));
   mockStore.addToQueue = addToQueue;
   return { useOfflineStore: mockStore };
@@ -130,16 +133,25 @@ describe('useWorkOrders hook', () => {
       vi.stubGlobal('navigator', { onLine: false });
     });
 
-    it('should queue removeWorkOrder when offline', async () => {
+    it('should queue removeWorkOrder when offline and update store', async () => {
       const { result } = renderHook(() => useWorkOrders());
       const { useOfflineStore } = await import('../../../../src/store/offlineStore');
       
+      // GIVEN a work order in the store
+      const mockWO = { _id: 'wo-123', titulo: 'Test WO' } as any;
+      useWorkOrderStore.setState({ workOrders: [mockWO] });
+
+      // WHEN removing it offline
       await result.current.removeWorkOrder('wo-123');
       
+      // THEN it should be queued
       expect(useOfflineStore.addToQueue).toHaveBeenCalledWith(expect.objectContaining({
         type: 'DELETE_WORK_ORDER',
         payload: { id: 'wo-123' }
       }));
+
+      // AND removed from the store optimistically
+      expect(useWorkOrderStore.getState().workOrders).toHaveLength(0);
     });
 
     it('should queue assignTechnician when offline', async () => {

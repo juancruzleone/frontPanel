@@ -214,6 +214,11 @@ export const useAuthStore = create<AuthState>()(
 
         useNotificationStore.getState().setNotificationOwner(null)
         
+        // Notify Service Worker to clear API cache
+        if (navigator.serviceWorker?.controller) {
+          navigator.serviceWorker.controller.postMessage({ type: "LOGOUT" });
+        }
+
         set({
           user: null,
           userId: null,

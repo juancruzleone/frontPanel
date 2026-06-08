@@ -256,6 +256,16 @@ const useInstallations = () => {
   const removeDeviceFromInstallation = useCallback(async (installationId: string, deviceId: string) => {
     if (!navigator.onLine) {
       setInstallationDevices((prev) => prev.filter((d) => d._id !== deviceId))
+      setInstallations(
+        validStoredInstallations.map((inst) =>
+          inst._id === installationId
+            ? {
+              ...inst,
+              devices: (inst.devices || []).filter((d) => d._id !== deviceId),
+            }
+            : inst,
+        ),
+      )
       useOfflineStore.getState().addToQueue({ 
         type: 'REMOVE_INSTALLATION_DEVICE', 
         payload: { installationId, deviceId },

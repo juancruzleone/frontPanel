@@ -12,6 +12,13 @@ export interface QueuedRequest {
     | 'CREATE_INSTALLATION' | 'UPDATE_INSTALLATION' | 'DELETE_INSTALLATION'
     | 'ADD_INSTALLATION_DEVICE' | 'REMOVE_INSTALLATION_DEVICE' | 'DEVICE_MAINTENANCE'
   payload: Record<string, unknown>
+  binaryRefs?: {
+    id: string
+    field: string
+    filename: string
+    contentType: string
+    size: number
+  }[]
   metadata?: {
     installationId?: string
     deviceId?: string

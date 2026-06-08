@@ -57,6 +57,13 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
              // Solo si es un error de autenticación real (no de red)
              // podríamos forzar un logout, pero por ahora solo resolvemos
              // para dejar que los ProtectedRoutes decidan según el estado cacheado.
+          } else {
+            // Si es un error de red y tenemos un usuario en el store, 
+            // asumimos que sigue autenticado para permitir el modo offline.
+            const currentState = useAuthStore.getState()
+            if (currentState.userId) {
+              useAuthStore.setState({ isAuthenticated: true })
+            }
           }
           
           setAuthResolved(true)
