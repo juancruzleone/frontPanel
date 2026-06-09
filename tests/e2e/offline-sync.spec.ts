@@ -9,8 +9,8 @@ test.describe("Offline Capability Review - Technician Flow", () => {
     // Increase timeout
     test.setTimeout(120000);
 
-    const mockUser = { 
-      _id: "tech-1", 
+    const mockUser = {
+      _id: "tech-1",
       userName: "tecnico_test",
       role: "tecnico",
       permissions: {
@@ -21,9 +21,23 @@ test.describe("Offline Capability Review - Technician Flow", () => {
       }
     };
 
+    const mockOrders = [
+      {
+        _id: "wo-offline-1",
+        titulo: "Reparación Aire Acondicionado",
+        prioridad: "alta",
+        estado: "asignada",
+        tipoTrabajo: "correctivo",
+        fechaProgramada: new Date().toISOString(),
+        horaProgramada: "09:00",
+        instalacion: { _id: "inst-1", company: "Cliente Test" },
+        tecnicos: []
+      }
+    ];
+
     // 1. SETUP: Seed localStorage and viewport BEFORE navigation
     await page.setViewportSize({ width: 1280, height: 800 });
-    await page.addInitScript(({ user }) => {
+    await page.addInitScript(({ user, orders }) => {
       (window as Window & { IS_E2E?: boolean }).IS_E2E = true;
 
       // Seed Auth State for Zustand persist
@@ -45,8 +59,8 @@ test.describe("Offline Capability Review - Technician Flow", () => {
       // Seed Work Order Owner to match userId (prevents cache wipe)
       const woState = {
         state: {
-          workOrders: [],
-          lastUpdated: null,
+          workOrders: orders,
+          lastUpdated: Date.now(),
           ownerId: user._id
         },
         version: 0
@@ -61,21 +75,7 @@ test.describe("Offline Capability Review - Technician Flow", () => {
       localStorage.setItem('clients-onboarding-tour-v1-shown', 'true');
       localStorage.setItem('personal-onboarding-tour-v1-shown', 'true');
       localStorage.setItem('workorders-view', '"table"');
-    }, { user: mockUser });
-
-    const mockOrders = [
-      { 
-        _id: "wo-offline-1", 
-        titulo: "Reparación Aire Acondicionado", 
-        prioridad: "alta", 
-        estado: "asignada", 
-        tipoTrabajo: "correctivo",
-        fechaProgramada: new Date().toISOString(),
-        horaProgramada: "09:00",
-        instalacion: { _id: "inst-1", company: "Cliente Test" },
-        tecnicos: []
-      }
-    ];
+    }, { user: mockUser, orders: mockOrders });
 
     await page.route("**/api/**", async (route) => {
       const url = route.request().url();
