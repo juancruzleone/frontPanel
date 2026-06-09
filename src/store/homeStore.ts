@@ -15,7 +15,15 @@ export const useHomeStore = create<HomeState>()(
       dashboardData: null,
       lastUpdated: null,
       ownerId: null,
-      setOwnerId: (id) => set({ ownerId: id }),
+      setOwnerId: (id) =>
+        set((state) => {
+          if (state.ownerId === id) return state
+          return {
+            ownerId: id,
+            dashboardData: null,
+            lastUpdated: null,
+          }
+        }),
       setDashboardData: (data) => set({ dashboardData: data, lastUpdated: Date.now() }),
     }),
     { name: "home-storage" }

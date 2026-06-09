@@ -22,7 +22,16 @@ export const useInventoryStore = create<InventoryState>()(
       loading: false,
       lastUpdated: null,
       ownerId: null,
-      setOwnerId: (id) => set({ ownerId: id }),
+      setOwnerId: (id) =>
+        set((state) => {
+          if (state.ownerId === id) return state
+          return {
+            ownerId: id,
+            items: [],
+            total: 0,
+            lastUpdated: null,
+          }
+        }),
       setItems: (items, total) => set({ items, total, lastUpdated: Date.now() }),
       setLoading: (loading) => set({ loading }),
     }),

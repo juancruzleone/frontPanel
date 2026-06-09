@@ -14,7 +14,7 @@ export const useSuppliers = () => {
   const { userId } = useAuthStore()
   const [error, setError] = useState<string | null>(null)
 
-  const validSuppliers = ownerId === userId ? suppliers : []
+  const validSuppliers = userId && ownerId === userId ? suppliers : []
 
   const loadSuppliers = useCallback(async (params: { page?: number, limit?: number, name?: string } = {}) => {
     setLoading(true)

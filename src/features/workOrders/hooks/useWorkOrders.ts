@@ -118,7 +118,7 @@ const useWorkOrders = () => {
 		removeWorkOrder: storeRemoveWorkOrder,
 	} = useWorkOrderStore();
 
-	const validStoredWorkOrders = ownerId === userId ? storedWorkOrders : [];
+	const validStoredWorkOrders = userId && ownerId === userId ? storedWorkOrders : [];
 
 	const { addToQueue, queue } = useOfflineStore();
 
@@ -201,7 +201,7 @@ const useWorkOrders = () => {
 				useWorkOrderStore.getState();
 			const { userId: currentUserId } = useAuthStore.getState();
 			const currentValidStored =
-				currentOwnerId === currentUserId ? currentStored : [];
+				currentUserId && currentOwnerId === currentUserId ? currentStored : [];
 
 			setLoading(true);
 			setError(null);

@@ -42,8 +42,8 @@ describe("useInstallations Offline Support", () => {
   it("should use cached installations when offline", async () => {
     // 1. Pre-fill the store (simulating a previous successful load)
     const mockInstallations = [{ _id: "1", company: "Test Co", address: "123 St", installationType: "Type A" } as any]
-    useInstallationStore.getState().setInstallations(mockInstallations)
     useInstallationStore.getState().setOwnerId("test-user-id")
+    useInstallationStore.getState().setInstallations(mockInstallations)
 
     // 2. Simulate going offline
     vi.stubGlobal('navigator', { onLine: false })

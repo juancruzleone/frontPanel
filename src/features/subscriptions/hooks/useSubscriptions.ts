@@ -46,7 +46,7 @@ const useSubscriptions = () => {
 
   const [config, setConfig] = useState<{ frequencies: { id?: string, value?: string }[] } | null>(null)
 
-  const validCachedInstallations = ownerId === userId ? cachedInstallations : []
+  const validCachedInstallations = userId && ownerId === userId ? cachedInstallations : []
 
   useEffect(() => {
     const fetchConfig = async () => {

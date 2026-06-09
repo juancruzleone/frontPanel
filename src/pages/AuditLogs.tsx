@@ -15,7 +15,7 @@ const AuditLogs: React.FC = () => {
   const [error, setError] = useState<string | null>(null)
   const [backendMissing, setBackendMissing] = useState(false)
 
-  const validLogs = ownerId === userId ? logs : []
+  const validLogs = userId && ownerId === userId ? logs : []
 
   useEffect(() => {
     const fetchLogs = async () => {

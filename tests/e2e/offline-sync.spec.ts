@@ -72,14 +72,21 @@ test.describe("Offline Capability Review - Technician Flow", () => {
 
     // 2. ACT: Visit and let SW register
     await page.goto("/");
+    // Set a consistent desktop viewport to ensure sidebar visibility
+    await page.setViewportSize({ width: 1280, height: 800 });
     await killTours();
     
+    // Wait for Service Worker and potential reload
     await page.waitForFunction(() => !!navigator.serviceWorker.controller, { timeout: 30000 });
+    // Wait for hydration - "Inicio" is usually in the Home page
+    await expect(page.getByText(/Inicio/i).first()).toBeVisible({ timeout: 20000 });
     
     // Navigate to Work Orders
-    await page.getByRole("button", { name: /órdenes de trabajo/i }).click({ force: true });
-    await page.getByRole("link", { name: /listado/i }).click({ force: true });
+    // We use data-tour attribute for more robust selection
+    await page.locator('[data-tour="nav-work-orders"]').click();
+    await page.locator('[data-tour="nav-work-orders-list"]').click();
     
+    // Wait for the specific order to appear
     await expect(page.getByText("Reparación Aire Acondicionado")).toBeVisible({ timeout: 20000 });
     await page.waitForTimeout(5000);
 

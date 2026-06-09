@@ -16,7 +16,15 @@ export const useTechnicianStore = create<TechnicianState>()(
       technicians: [],
       lastUpdated: null,
       ownerId: null,
-      setOwnerId: (id) => set({ ownerId: id }),
+      setOwnerId: (id) =>
+        set((state) => {
+          if (state.ownerId === id) return state
+          return {
+            ownerId: id,
+            technicians: [],
+            lastUpdated: null,
+          }
+        }),
       setTechnicians: (technicians) => set({ technicians, lastUpdated: Date.now() }),
     }),
     { name: "technician-storage" }

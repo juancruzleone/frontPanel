@@ -113,7 +113,7 @@ const useHomeDashboard = () => {
   const { userId } = useAuthStore()
   const { dashboardData: storedData, setDashboardData, ownerId } = useHomeStore()
 
-  const validStoredData = ownerId === userId ? storedData : null
+  const validStoredData = userId && ownerId === userId ? storedData : null
   const validStoredDataRef = useRef(validStoredData)
 
   useEffect(() => {

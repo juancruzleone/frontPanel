@@ -20,7 +20,7 @@ const useCategories = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const validCategories = ownerId === userId ? storedCategories : []
+  const validCategories = userId && ownerId === userId ? storedCategories : []
   const installationCategories = validCategories.filter(cat => cat.tipo === 'instalacion')
 
   const [formData, setFormData] = useState<Omit<Category, "_id">>({

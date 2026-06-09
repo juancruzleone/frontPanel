@@ -15,7 +15,7 @@ const useTechnicians = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const validTechnicians = ownerId === userId ? storedTechnicians : []
+  const validTechnicians = userId && ownerId === userId ? storedTechnicians : []
 
   const loadTechnicians = useCallback(async () => {
     try {

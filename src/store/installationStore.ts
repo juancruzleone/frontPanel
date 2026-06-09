@@ -22,7 +22,16 @@ export const useInstallationStore = create<InstallationState>()(
       assets: [],
       lastUpdated: null,
       ownerId: null,
-      setOwnerId: (id) => set({ ownerId: id }),
+      setOwnerId: (id) =>
+        set((state) => {
+          if (state.ownerId === id) return state
+          return {
+            ownerId: id,
+            installations: [],
+            assets: [],
+            lastUpdated: null,
+          }
+        }),
       setInstallations: (installations) => set({ installations, lastUpdated: Date.now() }),
       setAssets: (assets) => set({ assets }),
       updateInstallation: (id, data) =>

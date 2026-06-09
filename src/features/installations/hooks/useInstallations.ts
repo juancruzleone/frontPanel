@@ -79,8 +79,8 @@ const useInstallations = () => {
     removeInstallation: storeRemoveInstallation
   } = useInstallationStore()
 
-  const validStoredInstallations = ownerId === userId ? storedInstallations : []
-  const assets = ownerId === userId ? storedAssets : []
+  const validStoredInstallations = userId && ownerId === userId ? storedInstallations : []
+  const assets = userId && ownerId === userId ? storedAssets : []
 
   const [filteredOfflineInstallations, setFilteredOfflineInstallations] = useState<Installation[] | null>(null)
 

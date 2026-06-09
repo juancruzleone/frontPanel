@@ -24,7 +24,7 @@ const useInstallationTypes = () => {
   const hasTriedInactiveRef = useRef(false)
   const initialLoadDoneRef = useRef(false)
 
-  const validCategories = ownerId === userId ? storedCategories : []
+  const validCategories = userId && ownerId === userId ? storedCategories : []
   const installationTypes = validCategories.filter(cat => cat.tipo === 'instalacion_tipo')
 
   const loadInstallationTypes = useCallback(async (includeInactive = false) => {

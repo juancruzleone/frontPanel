@@ -20,7 +20,16 @@ export const useMaintenanceStore = create<MaintenanceState>()(
       lastMaintenanceByDevice: {},
       lastUpdated: null,
       ownerId: null,
-      setOwnerId: (id) => set({ ownerId: id }),
+      setOwnerId: (id) =>
+        set((state) => {
+          if (state.ownerId === id) return state
+          return {
+            ownerId: id,
+            historyByDevice: {},
+            lastMaintenanceByDevice: {},
+            lastUpdated: null,
+          }
+        }),
       setHistory: (deviceId, history) =>
         set((state) => ({
           historyByDevice: {

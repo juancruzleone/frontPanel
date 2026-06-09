@@ -24,7 +24,7 @@ const useInventory = () => {
     totalPages: 1,
   })
 
-  const validItems = ownerId === userId ? items : []
+  const validItems = userId && ownerId === userId ? items : []
 
   const loadInventory = useCallback(async (params: { page?: number, limit?: number, name?: string, category?: string, lowStock?: boolean } = {}) => {
     if (!navigator.onLine && validItems.length > 0) return

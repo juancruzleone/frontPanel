@@ -16,7 +16,15 @@ export const useAuditStore = create<AuditState>()(
       logs: [],
       lastUpdated: null,
       ownerId: null,
-      setOwnerId: (id) => set({ ownerId: id }),
+      setOwnerId: (id) =>
+        set((state) => {
+          if (state.ownerId === id) return state
+          return {
+            ownerId: id,
+            logs: [],
+            lastUpdated: null,
+          }
+        }),
       setLogs: (logs) => set({ logs, lastUpdated: Date.now() }),
     }),
     { name: "audit-storage" }

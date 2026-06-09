@@ -101,6 +101,20 @@ export const useAuthStore = create<AuthState>()(
           return
         }
 
+        const userId = user._id || null
+
+        // Sincronizar ownerId en todos los stores
+        useInstallationStore.getState().setOwnerId(userId)
+        useWorkOrderStore.getState().setOwnerId(userId)
+        useInventoryStore.getState().setOwnerId(userId)
+        useSupplierStore.getState().setOwnerId(userId)
+        useAuditStore.getState().setOwnerId(userId)
+        useHomeStore.getState().setOwnerId(userId)
+        useTechnicianStore.getState().setOwnerId(userId)
+        useSettingsStore.getState().setOwnerId(userId)
+        useMaintenanceStore.getState().setOwnerId(userId)
+        useNotificationStore.getState().setNotificationOwner(userId)
+
         set({
           user: user.userName || user.username || user._id || null,
           userId: user._id || null,
@@ -111,32 +125,6 @@ export const useAuthStore = create<AuthState>()(
           isAuthenticated: false, // No autenticar hasta que se cierre el modal
           isAuthResolved: true,
         })
-        
-        const userId = user._id || null
-        
-        const instStore = useInstallationStore.getState()
-        if (instStore.ownerId !== userId) {
-          if (instStore.installations?.length > 0) instStore.setInstallations([])
-          if (instStore.assets?.length > 0) instStore.setAssets([])
-        }
-        instStore.setOwnerId(userId)
-
-        const woStore = useWorkOrderStore.getState()
-        if (woStore.ownerId !== userId) {
-          if (woStore.workOrders?.length > 0) woStore.setWorkOrders([])
-        }
-        woStore.setOwnerId(userId)
-
-        // Sincronizar ownerId en todos los stores
-        useInventoryStore.getState().setOwnerId(userId)
-        useSupplierStore.getState().setOwnerId(userId)
-        useAuditStore.getState().setOwnerId(userId)
-        useHomeStore.getState().setOwnerId(userId)
-        useTechnicianStore.getState().setOwnerId(userId)
-        useSettingsStore.getState().setOwnerId(userId)
-        useMaintenanceStore.getState().setOwnerId(userId)
-
-        useNotificationStore.getState().setNotificationOwner(userId)
       },
       hydrateSession: (data) => {
         const user = data.user || data.cuenta
@@ -146,6 +134,22 @@ export const useAuthStore = create<AuthState>()(
           return
         }
 
+        const userId = user._id || null
+
+        // Sincronizar ownerId en todos los stores ANTES de resolver la autenticación
+        // para evitar condiciones de carrera en componentes que montan inmediatamente
+        useInstallationStore.getState().setOwnerId(userId)
+        useWorkOrderStore.getState().setOwnerId(userId)
+        useInventoryStore.getState().setOwnerId(userId)
+        useSupplierStore.getState().setOwnerId(userId)
+        useAuditStore.getState().setOwnerId(userId)
+        useHomeStore.getState().setOwnerId(userId)
+        useTechnicianStore.getState().setOwnerId(userId)
+        useSettingsStore.getState().setOwnerId(userId)
+        useMaintenanceStore.getState().setOwnerId(userId)
+        useNotificationStore.getState().setNotificationOwner(userId)
+
+        // Ahora sí, resolver la autenticación
         set({
           user: user.userName || user.username || user._id || null,
           userId: user._id || null,
@@ -156,32 +160,6 @@ export const useAuthStore = create<AuthState>()(
           isAuthenticated: true,
           isAuthResolved: true,
         })
-        
-        const userId = user._id || null
-        
-        const instStore = useInstallationStore.getState()
-        if (instStore.ownerId !== userId) {
-          if (instStore.installations?.length > 0) instStore.setInstallations([])
-          if (instStore.assets?.length > 0) instStore.setAssets([])
-        }
-        instStore.setOwnerId(userId)
-
-        const woStore = useWorkOrderStore.getState()
-        if (woStore.ownerId !== userId) {
-          if (woStore.workOrders?.length > 0) woStore.setWorkOrders([])
-        }
-        woStore.setOwnerId(userId)
-
-        // Sincronizar ownerId en todos los stores
-        useInventoryStore.getState().setOwnerId(userId)
-        useSupplierStore.getState().setOwnerId(userId)
-        useAuditStore.getState().setOwnerId(userId)
-        useHomeStore.getState().setOwnerId(userId)
-        useTechnicianStore.getState().setOwnerId(userId)
-        useSettingsStore.getState().setOwnerId(userId)
-        useMaintenanceStore.getState().setOwnerId(userId)
-
-        useNotificationStore.getState().setNotificationOwner(userId)
       },
       setAuthenticated: (value) => set({ isAuthenticated: value }),
       setAuthResolved: (value) => set({ isAuthResolved: value }),

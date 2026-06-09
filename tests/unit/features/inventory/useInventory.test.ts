@@ -2,6 +2,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import useInventory from '../../../../src/features/inventory/hooks/useInventory'
 import * as services from '../../../../src/features/inventory/services/inventoryServices'
+import { useAuthStore } from '../../../../src/store/authStore'
+import { useInventoryStore } from '../../../../src/store/inventoryStore'
 
 vi.mock('../../../../src/features/inventory/services/inventoryServices', () => ({
   fetchInventoryItems: vi.fn(),
@@ -13,6 +15,8 @@ vi.mock('../../../../src/features/inventory/services/inventoryServices', () => (
 describe('useInventory hook', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    useAuthStore.setState({ userId: 'test-user' })
+    useInventoryStore.setState({ ownerId: 'test-user', items: [], total: 0 })
   })
 
   it('debe cargar items al llamar a loadInventory', async () => {

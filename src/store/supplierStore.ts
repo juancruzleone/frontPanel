@@ -33,7 +33,16 @@ export const useSupplierStore = create<SupplierState>()(
       loading: false,
       lastUpdated: null,
       ownerId: null,
-      setOwnerId: (id) => set({ ownerId: id }),
+      setOwnerId: (id) =>
+        set((state) => {
+          if (state.ownerId === id) return state
+          return {
+            ownerId: id,
+            suppliers: [],
+            total: 0,
+            lastUpdated: null,
+          }
+        }),
       setSuppliers: (suppliers, total) => set({ suppliers, total, lastUpdated: Date.now() }),
       setLoading: (loading) => set({ loading }),
     }),
