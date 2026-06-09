@@ -50,7 +50,8 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
             (err instanceof Error && (
               err.message.toLowerCase().includes('network') || 
               err.message.toLowerCase().includes('fetch') ||
-              err.message.toLowerCase().includes('failed to fetch')
+              err.message.toLowerCase().includes('failed to fetch') ||
+              err.message.toLowerCase().includes('load failed')
             ));
           
           if (!isNetworkError) {
@@ -73,8 +74,15 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
 
     bootstrapSession()
 
+    // Refresh on reconnection
+    const handleOnline = () => {
+      bootstrapSession()
+    }
+    window.addEventListener('online', handleOnline)
+
     return () => {
       cancelled = true
+      window.removeEventListener('online', handleOnline)
     }
   }, [hydrateSession, setAuthResolved])
   

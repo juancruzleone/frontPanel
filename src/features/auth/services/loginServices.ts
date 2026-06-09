@@ -1,4 +1,5 @@
 import { useAuthStore } from "../../../store/authStore"
+import { fetchWithAuthRetry } from "@/shared/utils/apiHeaders"
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/";
 
@@ -49,10 +50,8 @@ export const userLogin = async (username: string, password: string) => {
 }
 
 export const verifySession = async () => {
-  const response = await fetch(`${API_URL}verify`, {
+  const response = await fetchWithAuthRetry(`${API_URL}verify`, {
     method: "GET",
-    credentials: "include",
-    headers: getSessionHeaders(),
   })
 
   if (!response.ok) {

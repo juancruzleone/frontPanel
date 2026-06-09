@@ -1,8 +1,102 @@
 import { useAuthStore } from "@/store/authStore"
 import { useCSRFStore } from "@/store/csrfStore"
+import { refreshSession } from "@/shared/services/authRefreshService"
+
+// Mutex for session refresh
+let isRefreshing = false
+let refreshPromise: Promise<{ csrfToken?: string } | null> | null = null
 
 // Methods that require CSRF token
 const CSRF_REQUIRED_METHODS = ['POST', 'PUT', 'DELETE', 'PATCH']
+
+/**
+ * Checks if an error is an authentication/session error.
+ */
+export const isAuthError = (error: unknown) => {
+  if (!error) return false
+  
+  const msg = error instanceof Error ? error.message : String(error)
+  const status = (error as any)?.status
+  
+  return (
+    status === 401 || 
+    status === 403 || 
+    msg.includes("401") || 
+    msg.includes("403") ||
+    msg.toLowerCase().includes("session expired") ||
+    msg.toLowerCase().includes("sesión expirada") ||
+    msg.includes("TOKEN_EXPIRED") ||
+    msg.includes("REFRESH_TOKEN_EXPIRED") ||
+    msg.includes("REFRESH_REUSE_DETECTED")
+  )
+}
+
+/**
+ * Fetch wrapper that handles both CSRF 403 errors and Auth 401 TOKEN_EXPIRED errors.
+ * Shares a single mutex for concurrent refresh calls.
+ */
+export const fetchWithAuthRetry = async (
+  url: string,
+  options: RequestInit = {},
+  _maxRetries: number = 1
+): Promise<Response> => {
+  const method = (options.method || 'GET').toUpperCase()
+  
+  const executeFetch = async (currentOptions: RequestInit) => {
+    const fetchOptions: RequestInit = {
+      ...currentOptions,
+      credentials: currentOptions.credentials ?? "include",
+      headers: {
+        ...currentOptions.headers,
+        ...getApiHeaders(hasJsonContentType(currentOptions.headers), method),
+      },
+    }
+    return fetch(url, fetchOptions)
+  }
+
+  const response = await executeFetch(options)
+
+  // Handle 401 TOKEN_EXPIRED
+  if (response.status === 401) {
+    const clone = response.clone()
+    const data = await clone.json().catch(() => ({}))
+
+    if (data.message === 'TOKEN_EXPIRED' || data.error?.message === 'TOKEN_EXPIRED') {
+      if (!isRefreshing) {
+        isRefreshing = true
+        refreshPromise = refreshSession().finally(() => {
+          isRefreshing = false
+          refreshPromise = null
+        })
+      }
+
+      const refreshData = await refreshPromise
+      
+      // Update CSRF token if returned
+      if (refreshData?.csrfToken) {
+        useCSRFStore.setState({ token: refreshData.csrfToken })
+      }
+
+      // Retry original request
+      return await executeFetch(options)
+    }
+  }
+
+  // Handle 403 CSRF (existing logic fallback or integrated)
+  if (response.status === 403) {
+    const csrfStore = useCSRFStore.getState()
+    await csrfStore.fetchToken()
+    return await executeFetch(options)
+  }
+
+  return response
+}
+
+/**
+ * Wrapper for backward compatibility or CSRF-only specific needs.
+ * Now delegates to fetchWithAuthRetry for unified handling.
+ */
+export const fetchWithCsrf = fetchWithAuthRetry
 
 export const getAuthHeaders = (includeContentType: boolean = false) => {
   const authState = useAuthStore.getState()
@@ -80,91 +174,4 @@ const hasJsonContentType = (headers?: HeadersInit): boolean => {
   return Object.keys(headers).some((key) => key.toLowerCase() === "content-type")
 }
 
-/**
- * Fetch wrapper that handles CSRF 403 errors with automatic token refresh and retry.
- * 
- * @param url - The URL to fetch
- * @param options - Fetch options (method, headers, body)
- * @param maxRetries - Maximum retry attempts (default: 1)
- * @returns The fetch response
- * @throws Error if all retries fail
- */
-export const fetchWithCsrf = async (
-  url: string,
-  options: RequestInit = {},
-  maxRetries: number = 1
-): Promise<Response> => {
-  const method = (options.method || 'GET').toUpperCase()
-  
-  // Only add CSRF for mutating methods
-  if (CSRF_REQUIRED_METHODS.includes(method)) {
-    const csrfStore = useCSRFStore.getState()
 
-    if (!csrfStore.token) {
-      await csrfStore.fetchToken()
-    }
-
-    // Get current headers with CSRF token
-    const headers = getApiHeaders(
-      hasJsonContentType(options.headers),
-      method
-    )
-    
-    const fetchOptions: RequestInit = {
-      ...options,
-      credentials: options.credentials ?? "include",
-      headers: {
-        ...options.headers,
-        ...headers,
-      },
-    }
-    
-    let lastError: Error | null = null
-    let attempt = 0
-    
-    while (attempt <= maxRetries) {
-      attempt++
-      const response = await fetch(url, fetchOptions)
-      
-      if (response.status !== 403) {
-        // Success or other error - return response
-        return response
-      }
-      
-      // 403 error - try to refresh token and retry
-      try {
-        const csrfStore = useCSRFStore.getState()
-        await csrfStore.fetchToken()
-        
-        // Get new headers with refreshed CSRF token
-        const newHeaders = getApiHeaders(
-          hasJsonContentType(options.headers),
-          method
-        )
-        
-        fetchOptions.headers = {
-          ...options.headers,
-          ...newHeaders,
-        }
-      } catch (refreshError: unknown) {
-        const message = refreshError instanceof Error ? refreshError.message : "Error al refrescar token CSRF"
-        lastError = new Error(message)
-        break // Don't retry if token refresh fails
-      }
-    }
-    
-    // All retries exhausted
-    if (lastError) {
-      throw lastError
-    }
-    
-    // If we get here, we need to fetch again (last attempt)
-    return fetch(url, fetchOptions)
-  }
-  
-  // Non-mutating request - just fetch normally
-  return fetch(url, {
-    ...options,
-    credentials: options.credentials ?? "include",
-  })
-}

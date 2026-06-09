@@ -1,6 +1,8 @@
 import { useOfflineStore, QueuedRequest } from "../../store/offlineStore"
 import { useWorkOrderStore } from "../../store/workOrderStore"
 import { useInstallationStore } from "../../store/installationStore"
+import { refreshSession } from "./authRefreshService"
+import { isAuthError } from "../utils/apiHeaders"
 import { 
   createWorkOrder, 
   updateWorkOrder, 
@@ -41,20 +43,8 @@ const errorMessage = (error: unknown) => {
   return "Error de sincronización"
 }
 
-const isAuthError = (error: unknown) => {
-  const msg = errorMessage(error)
-  // Check for 401/403 in the error message or object properties
-  return (
-    (error as any)?.status === 401 || 
-    (error as any)?.status === 403 || 
-    msg.includes("401") || 
-    msg.includes("403") ||
-    msg.toLowerCase().includes("session expired") ||
-    msg.toLowerCase().includes("sesión expirada")
-  )
-}
-
 class OfflineSyncService {
+
   private isSyncing = false
 
   async initialize() {
@@ -90,9 +80,16 @@ class OfflineSyncService {
     
     this.isSyncing = true
     try {
+      // Proactive session refresh before sync
+      await refreshSession()
       await this.syncOfflineStore()
     } catch (error) {
-      // Error general de sincronización
+      if (isAuthError(error)) {
+        // Fail entire sync if refresh fails
+        if (navigator.serviceWorker?.controller) {
+          navigator.serviceWorker.controller.postMessage({ type: "SESSION_INVALIDATED" });
+        }
+      }
     } finally {
       this.isSyncing = false
     }
@@ -129,7 +126,7 @@ class OfflineSyncService {
   }
 
   private async processQueuedItem(item: QueuedRequest) {
-    let payloadToSync = { ...item.payload }
+    const payloadToSync = { ...item.payload }
 
     // 1. Manejar Binarios Pendientes (Fotos, firmas, etc.)
     if (item.binaryRefs && item.binaryRefs.length > 0) {

@@ -2,6 +2,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 import { offlineSyncService } from "../../../../src/shared/services/offlineSyncService"
 import { useOfflineStore } from "../../../../src/store/offlineStore"
+import { refreshSession } from "../../../../src/shared/services/authRefreshService"
 import * as workOrderServices from "../../../../src/features/workOrders/services/workOrderServices"
 import * as deviceFormServices from "../../../../src/features/deviceForms/services/deviceFormService"
 import { offlineBinaryStorage } from "../../../../src/shared/services/offlineBinaryStorage"
@@ -11,6 +12,7 @@ vi.mock("../../../../src/features/workOrders/services/workOrderServices")
 vi.mock("../../../../src/features/deviceForms/services/deviceFormService")
 vi.mock("../../../../src/shared/services/offlineBinaryStorage")
 vi.mock("../../../../src/shared/services/uploadService")
+vi.mock("../../../../src/shared/services/authRefreshService")
 
 // Mock IndexedDB storage for Zustand
 vi.mock("../../../../src/utils/indexedDBStorage", () => ({
@@ -178,5 +180,57 @@ describe("OfflineSyncService", () => {
       expect(useOfflineStore.getState().queue).toHaveLength(1)
       expect(useOfflineStore.getState().queue[0].lastError).toContain("Upload Failed")
     })
+  })
+
+  it("should refresh session before syncing when online", async () => {
+    // GIVEN we are online and have items in queue
+    useOfflineStore.getState().addToQueue({
+      type: 'CREATE_WORK_ORDER' as any,
+      payload: { title: "Test WO 1" },
+    })
+    
+    vi.mocked(refreshSession).mockResolvedValue({ success: true, authenticated: true })
+    vi.mocked(workOrderServices.createWorkOrder).mockResolvedValue({ _id: "wo-1" } as any)
+
+    // WHEN syncing
+    await offlineSyncService.syncAll()
+
+    // THEN refreshSession should have been called
+    expect(refreshSession).toHaveBeenCalled()
+    // AND then the sync should continue
+    expect(workOrderServices.createWorkOrder).toHaveBeenCalled()
+    expect(useOfflineStore.getState().queue).toHaveLength(0)
+  })
+
+  it("should pause sync and emit SESSION_INVALIDATED if refreshSession fails", async () => {
+    // GIVEN we are online and have items in queue
+    useOfflineStore.getState().addToQueue({
+      type: 'CREATE_WORK_ORDER' as any,
+      payload: { title: "Test WO 1" },
+    })
+    
+    vi.mocked(refreshSession).mockRejectedValue(new Error("TOKEN_EXPIRED"))
+    
+    // Mock postMessage
+    const postMessageMock = vi.fn()
+    vi.stubGlobal('navigator', { 
+      onLine: true,
+      serviceWorker: {
+        controller: {
+          postMessage: postMessageMock
+        }
+      }
+    })
+
+    // WHEN syncing
+    await offlineSyncService.syncAll()
+
+    // THEN refreshSession was called
+    expect(refreshSession).toHaveBeenCalled()
+    // AND sync was paused
+    expect(workOrderServices.createWorkOrder).not.toHaveBeenCalled()
+    expect(useOfflineStore.getState().queue).toHaveLength(1)
+    // AND SESSION_INVALIDATED was emitted to service worker
+    expect(postMessageMock).toHaveBeenCalledWith({ type: "SESSION_INVALIDATED" })
   })
 })
