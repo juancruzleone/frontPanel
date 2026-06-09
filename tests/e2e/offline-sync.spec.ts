@@ -9,24 +9,6 @@ test.describe("Offline Capability Review - Technician Flow", () => {
     // Increase timeout
     test.setTimeout(120000);
 
-    const killTours = async () => {
-      await page.evaluate(() => {
-        localStorage.setItem('home-onboarding-tour-v1-shown', 'true');
-        localStorage.setItem('installations-onboarding-tour-v1-shown', 'true');
-        localStorage.setItem('work-orders-onboarding-tour-v1-shown', 'true');
-        localStorage.setItem('workOrdersTourCompleted', 'true');
-        localStorage.setItem('clients-onboarding-tour-v1-shown', 'true');
-
-        localStorage.setItem('personal-onboarding-tour-v1-shown', 'true');
-        localStorage.setItem('workorders-view', '"table"');
-        
-        const overlays = document.querySelectorAll('.driver-overlay, .driver-popover, .driver-highlighted-element');
-        overlays.forEach(el => (el as HTMLElement).style.display = 'none');
-        document.body.classList.remove('driver-no-scroll');
-      });
-    };
-
-    // 1. SETUP: Mock API responses
     const mockUser = { 
       _id: "tech-1", 
       userName: "tecnico_test",
@@ -38,6 +20,48 @@ test.describe("Offline Capability Review - Technician Flow", () => {
         canEditWorkOrders: true
       }
     };
+
+    // 1. SETUP: Seed localStorage and viewport BEFORE navigation
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.addInitScript(({ user }) => {
+      (window as Window & { IS_E2E?: boolean }).IS_E2E = true;
+
+      // Seed Auth State for Zustand persist
+      const authState = {
+        state: {
+          user: user.userName,
+          userId: user._id,
+          role: user.role,
+          tenantId: "tenant-test-123",
+          permissions: user.permissions,
+          isAuthenticated: true,
+          isAuthResolved: true,
+          logoutMessage: null
+        },
+        version: 0
+      };
+      localStorage.setItem('auth-storage', JSON.stringify(authState));
+
+      // Seed Work Order Owner to match userId (prevents cache wipe)
+      const woState = {
+        state: {
+          workOrders: [],
+          lastUpdated: null,
+          ownerId: user._id
+        },
+        version: 0
+      };
+      localStorage.setItem('work-order-storage', JSON.stringify(woState));
+
+      // Kill all tours
+      localStorage.setItem('home-onboarding-tour-v1-shown', 'true');
+      localStorage.setItem('installations-onboarding-tour-v1-shown', 'true');
+      localStorage.setItem('work-orders-onboarding-tour-v1-shown', 'true');
+      localStorage.setItem('workOrdersTourCompleted', 'true');
+      localStorage.setItem('clients-onboarding-tour-v1-shown', 'true');
+      localStorage.setItem('personal-onboarding-tour-v1-shown', 'true');
+      localStorage.setItem('workorders-view', '"table"');
+    }, { user: mockUser });
 
     const mockOrders = [
       { 
@@ -52,10 +76,6 @@ test.describe("Offline Capability Review - Technician Flow", () => {
         tecnicos: []
       }
     ];
-
-    await page.addInitScript(() => {
-      (window as any).IS_E2E = true;
-    });
 
     await page.route("**/api/**", async (route) => {
       const url = route.request().url();
@@ -72,9 +92,6 @@ test.describe("Offline Capability Review - Technician Flow", () => {
 
     // 2. ACT: Visit and let SW register
     await page.goto("/");
-    // Set a consistent desktop viewport to ensure sidebar visibility
-    await page.setViewportSize({ width: 1280, height: 800 });
-    await killTours();
     
     // Wait for Service Worker and potential reload
     await page.waitForFunction(() => !!navigator.serviceWorker.controller, { timeout: 30000 });
