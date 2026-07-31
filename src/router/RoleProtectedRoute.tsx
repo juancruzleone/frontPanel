@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navigate } from "react-router-dom"
+import { Navigate } from "react-router"
 import { useAuthStore } from "../../src/store/authStore.ts"
 import { isSuperAdmin, isTechnician, isAdmin, canAccessSection } from "../shared/utils/roleUtils"
 import { useTranslatedRoutes } from "./useTranslatedRoutes"

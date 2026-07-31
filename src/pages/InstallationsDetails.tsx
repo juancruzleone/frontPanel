@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react"
-import { useParams, useNavigate, useLocation } from "react-router-dom"
+import { useParams, useNavigate, useLocation } from "react-router"
 import styles from "../features/installationsDetails/styles/installationDetails.module.css"
 import { Trash, Edit, Plus, QrCode, FileText, HelpCircle, History } from "lucide-react"
 import Tooltip from "../shared/components/Tooltip/Tooltip"

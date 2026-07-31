@@ -15,7 +15,7 @@ import type { FormTemplate } from "../features/forms/hooks/useForms"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { translateFormFieldType } from "../shared/utils/backendTranslations"
-import { useLocation } from "react-router-dom"
+import { useLocation } from "react-router"
 import { useAssetsTour } from "../features/assets/hooks/useAssetsTour"
 import { useFormsTour } from "../features/forms/hooks/useFormsTour"
 import TourButton from "../shared/components/Buttons/TourButton"

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useLocation } from "react-router-dom"
+import { useLocation } from "react-router"
 import LoginForm from "../features/auth/components/LoginForm"
 import ModalSuccess from "../features/auth/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"

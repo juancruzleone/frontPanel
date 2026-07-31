@@ -13,7 +13,7 @@ import { Edit, Trash, List, BookOpen, HelpCircle, Plus, FilterX, Package, FileTe
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { translateDeviceStatus } from "../shared/utils/backendTranslations"
-import { useNavigate, useLocation } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router"
 import { useAssetsTour } from "../features/assets/hooks/useAssetsTour"
 import { useAuthStore } from "../store/authStore"
 import { isClient, isAdmin } from "../shared/utils/roleUtils"

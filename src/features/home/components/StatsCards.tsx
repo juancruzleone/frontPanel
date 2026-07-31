@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import styles from "../styles/home.module.css"
 import { useTranslation } from "react-i18next"
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router"
 import { KPIItem } from "../types/homeTypes"
 import { Info } from "lucide-react"
 import { KPIDetailModal } from "./KPIDetailModal"

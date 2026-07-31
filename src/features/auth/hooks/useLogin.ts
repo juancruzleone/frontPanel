@@ -7,7 +7,7 @@ import { validateLoginForm } from "../validators/loginValidations"
 import { useAuthStore } from "@/store/authStore"
 import { useCSRFStore } from "@/store/csrfStore"
 import { useTranslation } from "react-i18next"
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router"
 
 export function useLogin() {
   const { t, i18n } = useTranslation()

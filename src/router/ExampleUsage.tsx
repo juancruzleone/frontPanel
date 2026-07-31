@@ -5,7 +5,7 @@
  * en diferentes escenarios comunes.
  */
 
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router';
 import { useTranslatedRoutes } from './useTranslatedRoutes';
 
 // ============================================================================

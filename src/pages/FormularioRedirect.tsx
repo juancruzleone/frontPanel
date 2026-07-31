@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router'
 import { useAuthStore } from '../store/authStore'
 import { isClient } from '../shared/utils/roleUtils'
 import { redirectToSafeUrl } from '../utils/sanitizer'

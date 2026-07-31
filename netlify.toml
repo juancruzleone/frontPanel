@@ -3,7 +3,7 @@ command = "bun run build:clean"
 publish = "dist"
 
 [build.environment]
-NODE_VERSION = "20"
+NODE_VERSION = "24"
 BUN_VERSION = "1.3.5"
 VITE_API_URL = "https://api.leonix.net.ar/api/"
 

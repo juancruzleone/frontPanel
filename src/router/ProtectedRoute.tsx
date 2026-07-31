@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from "react-router-dom"
+import { Navigate, Outlet } from "react-router"
 import { useAuthStore } from "../../src/store/authStore.ts"
 import { isSuperAdmin, isTechnician, isAdmin } from "../shared/utils/roleUtils"
 import { useTranslatedRoutes } from "./useTranslatedRoutes"

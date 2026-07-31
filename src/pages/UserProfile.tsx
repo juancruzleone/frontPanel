@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../store/authStore";
 import { FiArrowLeft } from "react-icons/fi";

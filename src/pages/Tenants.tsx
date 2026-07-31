@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router"
 import Button from "../../src/shared/components/Buttons/buttonCreate.tsx"
 import SearchInput from "../shared/components/Inputs/SearchInput.tsx"
 import styles from "../features/tenants/styles/tenants.module.css"
@@ -385,4 +385,4 @@ const Tenants = () => {
   )
 }
 
-export default Tenants 
+export default Tenants

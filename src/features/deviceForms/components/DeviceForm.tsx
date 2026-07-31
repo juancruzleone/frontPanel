@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react"
-import { useParams } from "react-router-dom"
+import { useParams } from "react-router"
 import { Wifi, WifiOff, Clock, CheckCircle, Building2, MapPin, ChevronDown, X, Calendar, History, Camera, Trash2 } from "lucide-react"
 import useDeviceForm from "../hooks/useDeviceForm"
 import HybridSelect from "../../../shared/components/HybridSelect/HybridSelect"

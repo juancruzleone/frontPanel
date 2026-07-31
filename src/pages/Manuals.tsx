@@ -13,7 +13,7 @@ import { Edit, Trash, Upload, FileText, Download, Eye, ArrowLeft, HelpCircle, Fi
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../store/authStore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useManualsTour } from "../features/manuals/hooks/useManualsTour";
 import { isClient } from "../shared/utils/roleUtils";
 import TourButton from "../shared/components/Buttons/TourButton";

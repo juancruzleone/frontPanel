@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router"
 import Button from "../../src/shared/components/Buttons/buttonCreate"
 import ModalSuccess from "../features/auth/register/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"

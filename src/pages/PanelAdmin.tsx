@@ -8,7 +8,7 @@ import TenantLineChart from "../features/tenants/components/TenantLineChart"
 import RecentTenants from "../features/tenants/components/RecentTenants"
 import { Shield } from "lucide-react"
 import styles from "../features/tenants/styles/panelAdmin.module.css"
-import { Link } from "react-router-dom"
+import { Link } from "react-router"
 import { useTranslatedRoutes } from "../router"
 
 const Skeleton = ({ height = 40, width = '100%', style = {} }) => (
@@ -110,4 +110,4 @@ const PanelAdmin: React.FC = () => {
   )
 }
 
-export default PanelAdmin 
+export default PanelAdmin

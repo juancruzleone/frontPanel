@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouteObject } from "react-router-dom";
+import { createBrowserRouter, RouteObject } from "react-router";
 import { routeTranslations, type Language } from './routeTranslations';
 
 // Importar componentes

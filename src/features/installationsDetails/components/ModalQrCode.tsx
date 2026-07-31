@@ -1,7 +1,7 @@
 import { useRef } from "react"
 import QRCode from "qrcode"
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router"
 import styles from "../../../features/installationsDetails/styles/modalQr.module.css"
 import { Printer, ExternalLink } from "lucide-react"
 import type { Device, Installation } from "../../installations/hooks/useInstallations"

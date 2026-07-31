@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { Home, ArrowLeft, AlertTriangle } from 'lucide-react'
 import styles from './notFound.module.css'
 import { useTranslation } from 'react-i18next'
@@ -71,4 +71,4 @@ const NotFound: React.FC = () => {
   )
 }
 
-export default NotFound 
+export default NotFound
