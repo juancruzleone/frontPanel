@@ -11,12 +11,15 @@ import { useHomeStore } from "./homeStore"
 import { useTechnicianStore } from "./technicianStore"
 import { useSettingsStore } from "./settingsStore"
 import { useMaintenanceStore } from "./maintenanceStore"
+import { useOfflineStore } from "./offlineStore"
+import { type OfflineIdentityScope, getOrCreateDeviceId } from "../shared/offline/types"
+import { purgeScopeData } from "../shared/offline/storage"
 
 const AUTH_STORAGE_KEY = "auth-storage"
 
 const clearLegacyAuthStorage = () => {
   if (typeof window === "undefined") return
-  
+
   // Limpiar localStorage (legacy)
   window.localStorage.removeItem(AUTH_STORAGE_KEY)
 
@@ -166,16 +169,24 @@ export const useAuthStore = create<AuthState>()(
       setLogoutMessage: (msg) => set({ logoutMessage: msg }),
       setTenantId: (tenantId) => set({ tenantId }),
       logout: () => {
+        // Capture scope before clearing auth state for offline data purge
+        const tenantId = useAuthStore.getState().tenantId
+        const userId = useAuthStore.getState().userId
+        let currentScope: OfflineIdentityScope | null = null
+        if (tenantId && userId) {
+          currentScope = { tenantId, userId, deviceId: getOrCreateDeviceId() }
+        }
+
         // Clear CSRF token on logout using action
         useCSRFStore.getState().clearToken()
-        
+
         // Clear cached stores to prevent cross-user leakage
         useInstallationStore.getState().setInstallations([])
         useInstallationStore.getState().setAssets([])
         useInstallationStore.getState().setOwnerId(null)
         useWorkOrderStore.getState().setWorkOrders([])
         useWorkOrderStore.getState().setOwnerId(null)
-        
+
         useInventoryStore.getState().setItems([], 0)
         useInventoryStore.getState().setOwnerId(null)
         useSupplierStore.getState().setSuppliers([], 0)
@@ -191,7 +202,16 @@ export const useAuthStore = create<AuthState>()(
         useMaintenanceStore.getState().setOwnerId(null)
 
         useNotificationStore.getState().setNotificationOwner(null)
-        
+
+        // Purge offline data for the departing scope
+        if (currentScope) {
+          useOfflineStore.getState().clearQueueForScope(currentScope)
+          // Fire-and-forget IndexedDB purge (binaries + metadata)
+          purgeScopeData(currentScope).catch(() => {
+            // Silently handle purge failures — data is sealed by scope mismatch
+          })
+        }
+
         // Notify Service Worker to clear API cache
         if (navigator.serviceWorker?.controller) {
           navigator.serviceWorker.controller.postMessage({ type: "LOGOUT" });

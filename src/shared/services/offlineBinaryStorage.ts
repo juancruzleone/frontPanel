@@ -1,42 +1,47 @@
 
-const DB_NAME = 'GMAO_Offline_DB';
-const STORE_NAME = 'stagedUploads';
-const DB_VERSION = 1;
+import { type OfflineIdentityScope, buildScopeKey, getOrCreateDeviceId } from '../offline/types'
+import { openDB } from '../offline/storage'
 
-const getDB = (): Promise<IDBDatabase> => {
-  return new Promise((resolve, reject) => {
-    if (typeof indexedDB === 'undefined') {
-      return reject(new Error('IndexedDB not supported'));
+const STORE_NAME = 'stagedUploads';
+
+/** Read current auth identity and build a scope for owner-stamping. */
+function getCurrentScope(): OfflineIdentityScope | null {
+  try {
+    const authState = window.localStorage.getItem('auth-storage')
+    if (!authState) return null
+    const parsed = JSON.parse(authState)
+    const state = parsed.state
+    if (!state?.userId || !state?.tenantId) return null
+    return {
+      tenantId: state.tenantId,
+      userId: state.userId,
+      deviceId: getOrCreateDeviceId(),
     }
-    const request = indexedDB.open(DB_NAME, DB_VERSION);
-    request.onerror = () => reject(request.error);
-    request.onsuccess = () => resolve(request.result);
-    request.onupgradeneeded = (event) => {
-      const db = (event.target as IDBOpenDBRequest).result;
-      if (!db.objectStoreNames.contains(STORE_NAME)) {
-        db.createObjectStore(STORE_NAME);
-      }
-    };
-  });
-};
+  } catch {
+    return null
+  }
+}
 
 export const offlineBinaryStorage = {
   saveBinary: async (blob: Blob | File, filename?: string): Promise<string> => {
-    const db = await getDB();
+    const db = await openDB();
     const id = crypto.randomUUID();
+    const scope = getCurrentScope();
+    const scopedId = scope ? `${buildScopeKey(scope)}:${id}` : id;
     const record = {
-      id,
+      id: scopedId,
       blob,
       filename: filename || (blob instanceof File ? blob.name : 'upload'),
       contentType: blob.type,
       timestamp: Date.now(),
+      ownerScope: scope ?? undefined,
     };
 
     return new Promise((resolve, reject) => {
       try {
         const transaction = db.transaction(STORE_NAME, 'readwrite');
         const store = transaction.objectStore(STORE_NAME);
-        const request = store.put(record, id);
+        const request = store.put(record, scopedId);
         
         request.onerror = () => {
           if (request.error?.name === 'QuotaExceededError') {
@@ -45,7 +50,7 @@ export const offlineBinaryStorage = {
              reject(request.error);
           }
         };
-        request.onsuccess = () => resolve(id);
+        request.onsuccess = () => resolve(scopedId);
       } catch (e) {
         reject(e);
       }
@@ -53,7 +58,7 @@ export const offlineBinaryStorage = {
   },
 
   getBinary: async (id: string): Promise<Blob | null> => {
-    const db = await getDB();
+    const db = await openDB();
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(STORE_NAME, 'readonly');
       const store = transaction.objectStore(STORE_NAME);
@@ -67,7 +72,7 @@ export const offlineBinaryStorage = {
   },
 
   removeBinary: async (id: string): Promise<void> => {
-    const db = await getDB();
+    const db = await openDB();
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(STORE_NAME, 'readwrite');
       const store = transaction.objectStore(STORE_NAME);
@@ -78,7 +83,7 @@ export const offlineBinaryStorage = {
   },
 
   cleanup: async (days: number): Promise<void> => {
-    const db = await getDB();
+    const db = await openDB();
     const now = Date.now();
     const maxAge = days * 24 * 60 * 60 * 1000;
 

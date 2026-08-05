@@ -28,6 +28,11 @@ describe("OfflineSyncService", () => {
     vi.clearAllMocks()
     useOfflineStore.getState().clearQueue()
     vi.stubGlobal('navigator', { onLine: true })
+    // Provide authenticated context so addToQueue stamps ownerScope
+    // and syncOfflineStore can match items to the current scope.
+    localStorage.setItem('auth-storage', JSON.stringify({
+      state: { userId: 'test-user', tenantId: 'test-tenant' },
+    }))
   })
 
   it("should pause syncing and not remove from queue on 401/403 session expired", async () => {

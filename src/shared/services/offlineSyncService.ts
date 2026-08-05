@@ -3,6 +3,7 @@ import { useWorkOrderStore } from "../../store/workOrderStore"
 import { useInstallationStore } from "../../store/installationStore"
 import { refreshSession } from "./authRefreshService"
 import { isAuthError } from "../utils/apiHeaders"
+import { buildScopeKey, getOrCreateDeviceId, type OfflineIdentityScope } from "../offline/types"
 import { 
   createWorkOrder, 
   updateWorkOrder, 
@@ -41,6 +42,24 @@ const errorMessage = (error: unknown) => {
   if (error instanceof Error) return error.message
   if (typeof error === "string") return error
   return "Error de sincronización"
+}
+
+/** Read current auth identity and build a scope for filtering. */
+function getCurrentScope(): OfflineIdentityScope | null {
+  try {
+    const authState = window.localStorage.getItem('auth-storage')
+    if (!authState) return null
+    const parsed = JSON.parse(authState)
+    const state = parsed.state
+    if (!state?.userId || !state?.tenantId) return null
+    return {
+      tenantId: state.tenantId,
+      userId: state.userId,
+      deviceId: getOrCreateDeviceId(),
+    }
+  } catch {
+    return null
+  }
 }
 
 class OfflineSyncService {
@@ -96,7 +115,35 @@ class OfflineSyncService {
   }
 
   private async syncOfflineStore() {
-    const queue = useOfflineStore.getState().queue
+    const allQueue = useOfflineStore.getState().queue
+    if (allQueue.length === 0) return
+
+    // Filter to only the current scope's items
+    const currentScope = getCurrentScope()
+    const currentScopeKey = currentScope ? buildScopeKey(currentScope) : null
+
+    const queue = allQueue.flatMap((item) => {
+      if (item.quarantined) return []
+      if (item.ownerScope) {
+        return currentScopeKey && buildScopeKey(item.ownerScope) === currentScopeKey ? [item] : []
+      }
+
+      // A legacy userId is sufficient to prove ownership; tenant/device are
+      // taken from the current authenticated scope during this migration.
+      if (currentScope && item.userId === currentScope.userId) {
+        const migratedItem = { ...item, ownerScope: currentScope }
+        useOfflineStore.getState().updateRequest(item.id, { ownerScope: currentScope })
+        return [migratedItem]
+      }
+
+      // Never replay legacy entries whose owner cannot be proven.
+      useOfflineStore.getState().updateRequest(item.id, {
+        quarantined: true,
+        quarantineReason: 'legacy-owner-unproven',
+      })
+      return []
+    })
+
     if (queue.length === 0) return
 
     // Copia local para evitar problemas con actualizaciones de estado reactivas durante el loop

@@ -1,10 +1,13 @@
 import { create } from "zustand"
 import { persist, createJSONStorage } from "zustand/middleware"
 import { indexedDBStorage } from "../utils/indexedDBStorage"
+import { type OfflineIdentityScope, buildScopeKey, getOrCreateDeviceId } from "../shared/offline/types"
 
 export interface QueuedRequest {
   id: string
   userId?: string | null
+  /** Owner scope — binds this request to a specific tenant + user + device. */
+  ownerScope?: OfflineIdentityScope
   type: 
     | 'CREATE_WORK_ORDER' | 'UPDATE_WORK_ORDER' | 'DELETE_WORK_ORDER'
     | 'ASSIGN_WORK_ORDER_TECHNICIAN' | 'UPDATE_WORK_ORDER_STATUS'
@@ -26,6 +29,8 @@ export interface QueuedRequest {
   timestamp: number
   retries?: number
   lastError?: string
+  quarantined?: boolean
+  quarantineReason?: string
 }
 
 interface OfflineState {
@@ -35,6 +40,26 @@ interface OfflineState {
   updateRequest: (id: string, data: Partial<QueuedRequest>) => void
   remapPayloadId: (oldId: string, newId: string) => void
   clearQueue: () => void
+  /** Remove only queue items belonging to a specific scope. */
+  clearQueueForScope: (scope: OfflineIdentityScope) => void
+}
+
+/** Read the current auth identity and build a scope. Returns null if not authenticated. */
+function getCurrentScope(): OfflineIdentityScope | null {
+  try {
+    const authState = window.localStorage.getItem('auth-storage')
+    if (!authState) return null
+    const parsed = JSON.parse(authState)
+    const state = parsed.state
+    if (!state?.userId || !state?.tenantId) return null
+    return {
+      tenantId: state.tenantId,
+      userId: state.userId,
+      deviceId: getOrCreateDeviceId(),
+    }
+  } catch {
+    return null
+  }
 }
 
 export const useOfflineStore = create<OfflineState>()(
@@ -42,22 +67,15 @@ export const useOfflineStore = create<OfflineState>()(
     (set) => ({
       queue: [],
       addToQueue: (request) => {
-        let userId = null
-        try {
-          const authState = window.localStorage.getItem('auth-storage')
-          if (authState) {
-            userId = JSON.parse(authState).state?.userId || null
-          }
-        } catch (e) {
-          // Ignore
-        }
+        const scope = getCurrentScope()
         return set((state) => ({
           queue: [
             ...state.queue,
             {
               ...request,
               id: crypto.randomUUID(),
-              userId,
+              userId: scope?.userId ?? null,
+              ownerScope: scope ?? undefined,
               timestamp: Date.now(),
               retries: 0
             },
@@ -94,6 +112,15 @@ export const useOfflineStore = create<OfflineState>()(
           }
         }),
       clearQueue: () => set({ queue: [] }),
+      clearQueueForScope: (scope) => {
+        const scopeKey = buildScopeKey(scope)
+        set((state) => ({
+          queue: state.queue.filter((req) => {
+            if (!req.ownerScope) return true // Keep legacy unscoped items
+            return buildScopeKey(req.ownerScope) !== scopeKey
+          }),
+        }))
+      },
     }),
     { 
       name: "offline-storage",
