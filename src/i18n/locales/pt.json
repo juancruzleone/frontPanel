@@ -6,7 +6,7 @@
     "workOrdersList": "Lista",
     "maintenancePlan": "Plano de manutenção",
     "installations": "Instalações",
-    "subscriptions": "Assinaturas ativas",
+    "subscriptions": "Plano de manutenção",
     "assets": "Ativos",
     "forms": "Formulários",
     "manuals": "Manuais",
@@ -1773,7 +1773,7 @@
     "monthsIncluded": "Meses incluídos",
     "tour": {
       "welcome": {
-        "title": "Bem-vindo às Assinaturas Ativas!",
+        "title": "Bem-vindo ao Plano de Manutenção!",
         "description": "Aqui você pode gerenciar as assinaturas de manutenção de suas instalações. Vamos mostrar como esta seção funciona."
       },
       "goToInstallations": {

@@ -1,7 +1,7 @@
 {
   "nav": {
     "home": "الرئيسية",
-    "subscriptions": "الاشتراكات النشطة",
+    "subscriptions": "خطة الصيانة",
     "maintenancePlan": "خطة الصيانة",
     "workOrders": "أوامر العمل",
     "workOrdersGroup": "أوامر العمل",
@@ -1699,7 +1699,7 @@
   "subscriptions": {
     "tour": {
       "welcome": {
-        "title": "مرحبًا بك في الاشتراكات الحالية!",
+        "title": "مرحبًا بك في خطة الصيانة!",
         "description": "هنا يمكنك إدارة اشتراكات صيانة منشآتك. سنوضح لك كيفية عمل هذا القسم."
       },
       "goToInstallations": {

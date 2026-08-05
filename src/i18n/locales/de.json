@@ -1,7 +1,7 @@
 {
   "nav": {
     "home": "Startseite",
-    "subscriptions": "Aktive Abonnements",
+    "subscriptions": "Wartungsplan",
     "maintenancePlan": "Wartungsplan",
     "workOrders": "Arbeitsaufträge",
     "workOrdersGroup": "Arbeitsaufträge",
@@ -1672,7 +1672,7 @@
     "monthsIncluded": "Enthaltene Monate",
     "tour": {
       "welcome": {
-        "title": "Willkommen bei Aktive Abonnements!",
+        "title": "Willkommen beim Wartungsplan!",
         "description": "Hier können Sie die Wartungsabonnements Ihrer Installationen verwalten. Wir zeigen Ihnen, wie dieser Bereich funktioniert."
       },
       "goToInstallations": {

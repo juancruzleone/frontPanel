@@ -9,7 +9,7 @@
     "assets": "アセット",
     "forms": "フォーム",
     "manuals": "マニュアル",
-    "subscriptions": "有効なサブスクリプション",
+    "subscriptions": "保守計画",
     "calendar": "カレンダー",
     "personal": "人事",
     "user": "ユーザー",
@@ -1697,7 +1697,7 @@
   "subscriptions": {
     "tour": {
       "welcome": {
-        "title": "定期契約へようこそ！",
+        "title": "保守計画へようこそ！",
         "description": "ここでは施設の保守契約を管理できます。このセクションの使い方をご紹介します。"
       },
       "goToInstallations": {

@@ -5,7 +5,7 @@
     "workOrdersGroup": "Órdenes de trabajo",
     "workOrdersList": "Listado",
     "maintenancePlan": "Plan de mantenimiento",
-    "subscriptions": "Abonos Vigentes",
+    "subscriptions": "Plan de mantenimiento",
     "installations": "Instalaciones",
     "assets": "Activos",
     "forms": "Formularios",
@@ -1368,7 +1368,7 @@
     "monthsIncluded": "Meses incluidos",
     "tour": {
       "welcome": {
-        "title": "¡Bienvenido a Abonos Vigentes!",
+        "title": "¡Bienvenido al Plan de Mantenimiento!",
         "description": "Aquí puedes gestionar los abonos de mantenimiento de tus instalaciones. Te mostraremos cómo funciona esta sección."
       },
       "goToInstallations": {

@@ -5,7 +5,7 @@
     "workOrdersGroup": "工作订单",
     "workOrdersList": "列表",
     "maintenancePlan": "维护计划",
-    "subscriptions": "有效订阅",
+    "subscriptions": "维护计划",
     "installations": "安装",
     "assets": "资产",
     "forms": "表单",
@@ -1588,7 +1588,7 @@
   "subscriptions": {
     "tour": {
       "welcome": {
-        "title": "欢迎来到有效订阅！",
+        "title": "欢迎使用维护计划！",
         "description": "在这里，您可以管理安装的维护订阅。我们将向您展示此部分的功能。"
       },
       "goToInstallations": {

@@ -5,7 +5,7 @@
     "workOrdersGroup": "Work Orders",
     "workOrdersList": "List",
     "maintenancePlan": "Maintenance Plan",
-    "subscriptions": "Active Subscriptions",
+    "subscriptions": "Maintenance Plan",
     "installations": "Installations",
     "assets": "Assets",
     "forms": "Forms",
@@ -1401,7 +1401,7 @@
     "monthsIncluded": "Months included",
     "tour": {
       "welcome": {
-        "title": "Welcome to Active Subscriptions!",
+        "title": "Welcome to the Maintenance Plan!",
         "description": "Here you can manage maintenance subscriptions for your installations. We'll show you how this section works."
       },
       "goToInstallations": {

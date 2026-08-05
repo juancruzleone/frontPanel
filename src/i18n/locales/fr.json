@@ -5,7 +5,7 @@
     "workOrdersGroup": "Ordres de travail",
     "workOrdersList": "Liste",
     "maintenancePlan": "Plan de maintenance",
-    "subscriptions": "Abonnements actifs",
+    "subscriptions": "Plan de maintenance",
     "installations": "Installations",
     "assets": "Actifs",
     "forms": "Formulaires",
@@ -1768,7 +1768,7 @@
     "monthsIncluded": "Mois inclus",
     "tour": {
       "welcome": {
-        "title": "Bienvenue dans les Abonnements Actifs !",
+        "title": "Bienvenue dans le Plan de Maintenance !",
         "description": "Ici, vous pouvez gérer les abonnements de maintenance de vos installations. Nous allons vous montrer comment cette section fonctionne."
       },
       "goToInstallations": {
