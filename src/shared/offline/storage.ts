@@ -60,6 +60,8 @@ export function openDB(): Promise<IDBDatabase> {
         if (!db.objectStoreNames.contains('stagedUploads')) db.createObjectStore('stagedUploads')
         if (!db.objectStoreNames.contains('storageMeta')) db.createObjectStore('storageMeta')
         if (!db.objectStoreNames.contains(QUARANTINE_STORE_NAME)) db.createObjectStore(QUARANTINE_STORE_NAME, { keyPath: 'id' })
+        if (!db.objectStoreNames.contains('offlinePackages')) db.createObjectStore('offlinePackages', { keyPath: 'packageId' })
+        if (!db.objectStoreNames.contains('downloadProgress')) db.createObjectStore('downloadProgress', { keyPath: 'packageId' })
       }
     }
   })
