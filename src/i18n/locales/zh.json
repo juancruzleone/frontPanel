@@ -1567,7 +1567,17 @@
     "localSaveNote": "数据将本地保存，并在在线时提交",
     "viewHistory": "历史",
     "maintenanceRegisteredSuccess": "维护记录成功！",
-    "maintenanceSavedOffline": "维护已保存。在线时将自动发送。"
+    "maintenanceSavedOffline": "维护已保存。在线时将自动发送。",
+    "evidencePhotos": "证据照片",
+    "takePhoto": "拍照",
+    "uploadPhoto": "上传照片",
+    "digitalSignature": "技术员电子签名",
+    "clearSignature": "清除签名",
+    "maintenanceDetails": "维护详情",
+    "evidenceSection": "证据与签名",
+    "evidencePhotosDescription": "添加记录所执行工作的照片",
+    "signatureDescription": "使用手指或鼠标在框内签名",
+    "removePhoto": "删除照片"
   },
   "validations": {
     "selectAsset": "必须选择一个资产",

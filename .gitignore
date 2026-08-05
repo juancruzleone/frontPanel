@@ -3,6 +3,7 @@
 .atl/
 .pi/
 .pi-lens/
+.pi-subagents/
 .gga
 
 # Local config and secrets

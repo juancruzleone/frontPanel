@@ -1710,7 +1710,17 @@
     "localSaveNote": "데이터는 로컬에 저장되고 온라인 상태일 때 제출됩니다",
     "viewHistory": "기록",
     "maintenanceRegisteredSuccess": "유지보수가 성공적으로 등록되었습니다!",
-    "maintenanceSavedOffline": "유지보수가 저장되었습니다. 온라인 상태일 때 자동으로 전송됩니다."
+    "maintenanceSavedOffline": "유지보수가 저장되었습니다. 온라인 상태일 때 자동으로 전송됩니다.",
+    "evidencePhotos": "증거 사진",
+    "takePhoto": "사진 촬영",
+    "uploadPhoto": "사진 업로드",
+    "digitalSignature": "기술자의 전자 서명",
+    "clearSignature": "서명 지우기",
+    "maintenanceDetails": "유지보수 세부 정보",
+    "evidenceSection": "증거 및 서명",
+    "evidencePhotosDescription": "수행된 작업을 기록하는 사진을 추가하세요",
+    "signatureDescription": "손가락이나 마우스로 상자 안에 서명하세요",
+    "removePhoto": "사진 제거"
   },
   "validations": {
     "selectAsset": "자산을 선택해야 합니다",

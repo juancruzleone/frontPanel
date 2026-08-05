@@ -133,7 +133,7 @@ describe("OfflineSyncService", () => {
       await offlineSyncService.syncAll()
 
       // THEN binary is uploaded first
-      expect(uploadService.uploadBinary).toHaveBeenCalledWith(mockBlob, "test.png")
+      expect(uploadService.uploadBinary).toHaveBeenCalledWith(mockBlob, "test.png", "bin-1")
       
       // AND mutation is called with the remote URL in payload
       expect(deviceFormServices.submitDeviceMaintenance).toHaveBeenCalledWith(

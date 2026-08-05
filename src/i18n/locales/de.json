@@ -1567,7 +1567,17 @@
     "localSaveNote": "Daten werden lokal gespeichert und bei Verbindung gesendet",
     "viewHistory": "Verlauf",
     "maintenanceRegisteredSuccess": "Wartung erfolgreich registriert!",
-    "maintenanceSavedOffline": "Wartung gespeichert. Sie wird automatisch gesendet, wenn eine Verbindung besteht."
+    "maintenanceSavedOffline": "Wartung gespeichert. Sie wird automatisch gesendet, wenn eine Verbindung besteht.",
+    "evidencePhotos": "Beweisfotos",
+    "takePhoto": "Foto aufnehmen",
+    "uploadPhoto": "Foto hochladen",
+    "digitalSignature": "Digitale Unterschrift des Technikers",
+    "clearSignature": "Unterschrift löschen",
+    "maintenanceDetails": "Wartungsdetails",
+    "evidenceSection": "Beweis und Unterschrift",
+    "evidencePhotosDescription": "Fügen Sie Fotos hinzu, die die durchgeführte Arbeit dokumentieren",
+    "signatureDescription": "Unterschreiben Sie im Feld mit Ihrem Finger oder der Maus",
+    "removePhoto": "Foto entfernen"
   },
   "validations": {
     "selectAsset": "Sie müssen ein Asset auswählen",

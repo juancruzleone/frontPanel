@@ -1633,6 +1633,7 @@
     "connected": "Connesso",
     "offline": "Offline – i dati saranno salvati localmente",
     "pendingSubmissions": "Invii in sospeso ({{count}})",
+    "savedAt": "Salvato il {{date}}",
     "retryCount": "Tentativi: {{count}}/3",
     "device": "Dispositivo",
     "location": "Posizione",
@@ -1664,7 +1665,17 @@
     "localSaveNote": "I dati saranno salvati localmente e inviati quando sei online",
     "viewHistory": "Cronologia",
     "maintenanceRegisteredSuccess": "Manutenzione registrata con successo!",
-    "maintenanceSavedOffline": "Manutenzione salvata. Sarà inviata automaticamente quando sei online."
+    "maintenanceSavedOffline": "Manutenzione salvata. Sarà inviata automaticamente quando sei online.",
+    "evidencePhotos": "Foto di prova",
+    "takePhoto": "Scatta foto",
+    "uploadPhoto": "Carica foto",
+    "digitalSignature": "Firma digitale del tecnico",
+    "clearSignature": "Cancella firma",
+    "maintenanceDetails": "Dettagli della manutenzione",
+    "evidenceSection": "Evidenza e firma",
+    "evidencePhotosDescription": "Aggiungi foto che documentano il lavoro svolto",
+    "signatureDescription": "Firma nel riquadro usando il dito o il mouse",
+    "removePhoto": "Rimuovi foto"
   },
   "validations": {
     "selectAsset": "Devi selezionare un asset",

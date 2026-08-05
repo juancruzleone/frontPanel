@@ -1600,7 +1600,17 @@
     "localSaveNote": "データはローカルに保存され、オンライン時に送信されます",
     "viewHistory": "メンテナンス履歴を表示",
     "maintenanceRegisteredSuccess": "メンテナンスが正常に登録されました！",
-    "maintenanceSavedOffline": "メンテナンスが保存されました。オンライン時に自動的に送信されます。"
+    "maintenanceSavedOffline": "メンテナンスが保存されました。オンライン時に自動的に送信されます。",
+    "evidencePhotos": "証拠写真",
+    "takePhoto": "写真を撮る",
+    "uploadPhoto": "写真をアップロード",
+    "digitalSignature": "技術者の電子署名",
+    "clearSignature": "署名を消去",
+    "maintenanceDetails": "メンテナンス詳細",
+    "evidenceSection": "証拠と署名",
+    "evidencePhotosDescription": "作業内容を記録する写真を追加してください",
+    "signatureDescription": "指またはマウスで枠内に署名してください",
+    "removePhoto": "写真を削除"
   },
   "validations": {
     "selectAsset": "アセットを選択する必要があります",

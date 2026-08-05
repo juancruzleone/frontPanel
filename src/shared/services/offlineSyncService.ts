@@ -134,7 +134,7 @@ class OfflineSyncService {
         const blob = await offlineBinaryStorage.getBinary(ref.id)
         if (blob) {
           try {
-            const remoteUrl = await uploadBinary(blob, ref.filename)
+            const remoteUrl = await uploadBinary(blob, ref.filename, ref.id)
             this.setPayloadValue(payloadToSync, ref.field, remoteUrl)
           } catch (error) {
             // Si falla la subida del binario, lanzamos error para detener la sincronización de este item

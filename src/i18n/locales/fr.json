@@ -1663,7 +1663,17 @@
     "localSaveNote": "Les données seront enregistrées localement et envoyées lorsqu'elles seront en ligne",
     "viewHistory": "Historique",
     "maintenanceRegisteredSuccess": "Maintenance enregistrée avec succès !",
-    "maintenanceSavedOffline": "Maintenance enregistrée. Elle sera envoyée automatiquement lorsque vous serez en ligne."
+    "maintenanceSavedOffline": "Maintenance enregistrée. Elle sera envoyée automatiquement lorsque vous serez en ligne.",
+    "evidencePhotos": "Photos de preuve",
+    "takePhoto": "Prendre une photo",
+    "uploadPhoto": "Charger une photo",
+    "digitalSignature": "Signature numérique du technicien",
+    "clearSignature": "Effacer la signature",
+    "maintenanceDetails": "Détails de la maintenance",
+    "evidenceSection": "Preuve et signature",
+    "evidencePhotosDescription": "Ajoutez des photos documentant le travail effectué",
+    "signatureDescription": "Signez dans le cadre avec votre doigt ou votre souris",
+    "removePhoto": "Supprimer la photo"
   },
   "validations": {
     "selectAsset": "Vous devez sélectionner un actif",

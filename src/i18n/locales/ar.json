@@ -1655,6 +1655,7 @@
     "brand": "العلامة التجارية",
     "model": "الطراز",
     "serialNumber": "الرقم التسلسلي",
+    "selectDate": "اختر التاريخ",
     "fields": {
       "nombre": "الاسم",
       "ubicacion": "الموقع",
@@ -1678,7 +1679,17 @@
     "localSaveNote": "سيتم حفظ البيانات محليًا وإرسالها عند توفر الاتصال",
     "viewHistory": "السجل",
     "maintenanceRegisteredSuccess": "تم تسجيل الصيانة بنجاح!",
-    "maintenanceSavedOffline": "تم حفظ الصيانة. سيتم إرسالها تلقائيًا عند توفر الاتصال."
+    "maintenanceSavedOffline": "تم حفظ الصيانة. سيتم إرسالها تلقائيًا عند توفر الاتصال.",
+    "evidencePhotos": "صور الإثبات",
+    "takePhoto": "التقاط صورة",
+    "uploadPhoto": "تحميل صورة",
+    "digitalSignature": "التوقيع الرقمي للفني",
+    "clearSignature": "مسح التوقيع",
+    "maintenanceDetails": "تفاصيل الصيانة",
+    "evidenceSection": "الأدلة والتوقيع",
+    "evidencePhotosDescription": "أضف صورًا توثق العمل المنجز",
+    "signatureDescription": "وقّع داخل المربع باستخدام إصبعك أو الفأرة",
+    "removePhoto": "إزالة الصورة"
   },
   "validations": {
     "selectAsset": "يجب تحديد أصل",

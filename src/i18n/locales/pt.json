@@ -1667,7 +1667,17 @@
     "localSaveNote": "Os dados serão salvos localmente e enviados quando houver conexão",
     "viewHistory": "Histórico",
     "maintenanceRegisteredSuccess": "Manutenção registrada com sucesso!",
-    "maintenanceSavedOffline": "Manutenção salva. Será enviada automaticamente quando houver conexão."
+    "maintenanceSavedOffline": "Manutenção salva. Será enviada automaticamente quando houver conexão.",
+    "evidencePhotos": "Fotos de evidência",
+    "takePhoto": "Tirar foto",
+    "uploadPhoto": "Carregar foto",
+    "digitalSignature": "Assinatura digital do técnico",
+    "clearSignature": "Limpar assinatura",
+    "maintenanceDetails": "Detalhes da manutenção",
+    "evidenceSection": "Evidência e assinatura",
+    "evidencePhotosDescription": "Adicione fotos documentando o trabalho realizado",
+    "signatureDescription": "Assine na caixa usando seu dedo ou mouse",
+    "removePhoto": "Remover foto"
   },
   "validations": {
     "selectAsset": "Você deve selecionar um ativo",
