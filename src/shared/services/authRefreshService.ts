@@ -1,5 +1,21 @@
 const API_URL = import.meta.env.VITE_API_URL || "/api/";
 
+export class AuthApiError extends Error {
+  code?: string
+  status: number
+
+  constructor(message: string, status: number, code?: string) {
+    super(message)
+    this.name = "AuthApiError"
+    this.status = status
+    this.code = code
+  }
+}
+
+type RefreshSessionResponse = { csrfToken?: string; [key: string]: unknown }
+
+let refreshPromise: Promise<RefreshSessionResponse> | null = null
+
 const parseJsonSafely = async (response: Response) => {
   const text = await response.text()
   if (!text) return null
@@ -10,7 +26,7 @@ const parseJsonSafely = async (response: Response) => {
   }
 }
 
-export const refreshSession = async () => {
+const executeRefresh = async () => {
   const response = await fetch(`${API_URL}refresh`, {
     method: "POST",
     credentials: "include",
@@ -21,10 +37,12 @@ export const refreshSession = async () => {
 
   if (!response.ok) {
     const errorData = await parseJsonSafely(response)
-    throw new Error(
+    throw new AuthApiError(
       errorData?.error?.message ||
       errorData?.message ||
-      `Error al refrescar sesión (${response.status})`
+      `Error al refrescar sesión (${response.status})`,
+      response.status,
+      errorData?.error?.code || errorData?.code,
     )
   }
 
@@ -35,4 +53,14 @@ export const refreshSession = async () => {
   }
 
   return data
+}
+
+export const refreshSession = () => {
+  if (!refreshPromise) {
+    refreshPromise = executeRefresh().finally(() => {
+      refreshPromise = null
+    })
+  }
+
+  return refreshPromise
 }

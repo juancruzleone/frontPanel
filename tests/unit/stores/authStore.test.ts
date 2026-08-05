@@ -198,6 +198,8 @@ describe('AuthStore', () => {
       const parsed = JSON.parse(stored!)
       expect(parsed.state.user).toBe('testuser')
       expect(parsed.state).not.toHaveProperty('token')
+      expect(parsed.state).not.toHaveProperty('isAuthenticated')
+      expect(parsed.state).not.toHaveProperty('isAuthResolved')
     })
 
     it('should clear localStorage on logout', () => {

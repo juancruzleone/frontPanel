@@ -213,9 +213,21 @@ export const useAuthStore = create<AuthState>()(
       name: AUTH_STORAGE_KEY,
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { token, ...rest } = state
-        return rest
+        const { user, userId, role, tenantId, permissions } = state
+        return { user, userId, role, tenantId, permissions }
+      },
+      merge: (persistedState, currentState) => {
+        const persisted = persistedState as Partial<AuthState>
+        return {
+          ...currentState,
+          user: persisted.user ?? null,
+          userId: persisted.userId ?? null,
+          role: persisted.role ?? null,
+          tenantId: persisted.tenantId ?? null,
+          permissions: persisted.permissions ?? null,
+          isAuthenticated: false,
+          isAuthResolved: false,
+        }
       },
     }
   )

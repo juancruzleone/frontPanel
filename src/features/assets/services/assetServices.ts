@@ -1,5 +1,5 @@
 import { useAuthStore } from "../../../store/authStore"
-import { getAuthHeaders, getHeadersWithContentType, fetchWithCsrf } from "../../../shared/utils/apiHeaders"
+import { getAuthHeaders, getHeadersWithContentType, fetchWithAuthRetry, fetchWithCsrf } from "../../../shared/utils/apiHeaders"
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
 
@@ -12,7 +12,7 @@ export const fetchAssets = async (params: { page?: number, limit?: number, searc
 
   const url = `${API_URL}activos?${queryParams.toString()}`;
 
-  const response = await fetch(url, {
+  const response = await fetchWithAuthRetry(url, {
     headers: getAuthHeaders(),
     credentials: 'include',
   })
@@ -41,7 +41,7 @@ export const fetchTemplates = async (params: { page?: number, limit?: number, se
   if (params.limit) queryParams.append('limit', params.limit.toString())
   if (params.search) queryParams.append('search', params.search)
 
-  const response = await fetch(`${API_URL}plantillas?${queryParams.toString()}`, {
+  const response = await fetchWithAuthRetry(`${API_URL}plantillas?${queryParams.toString()}`, {
     headers: getAuthHeaders(),
     credentials: 'include',
   })

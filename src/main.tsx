@@ -7,7 +7,6 @@ import "./index.css";
 import "../src/styles/font.css";
 import "./i18n";
 import { ThemedToaster, AppInitializer } from "./AppProviders";
-import { offlineSyncService } from "./shared/services/offlineSyncService";
 import { installFetchCredentials } from "./shared/services/fetchCredentials";
 import { useOfflineStore } from "./store/offlineStore";
 
@@ -51,9 +50,6 @@ if ("serviceWorker" in navigator) {
 
 // Install fetch credentials before React renders (bypasses passive-effect race)
 installFetchCredentials();
-
-// Inicializar servicio de sincronización offline
-offlineSyncService.initialize();
 
 if (import.meta.env.DEV) {
 	(window as any).useOfflineStore = useOfflineStore;

@@ -20,12 +20,12 @@ const HOME_ROUTES = new Set(
 
 const MainLayout: React.FC = () => {
 	const { isSidebarCollapsed } = useLayoutStore();
-	const { isAuthenticated, userId, role } = useAuthStore();
+	const { isAuthenticated, isAuthResolved, userId, role } = useAuthStore();
 	const location = useLocation();
 	const { startTour } = useHomeTour();
 
 	useEffect(() => {
-		if (isAuthenticated && userId) {
+		if (isAuthResolved && isAuthenticated && userId) {
 			socketService.connect();
 			pushNotificationService.initialize();
 		} else {
@@ -35,7 +35,7 @@ const MainLayout: React.FC = () => {
 		return () => {
 			socketService.disconnect();
 		};
-	}, [isAuthenticated, userId]);
+	}, [isAuthResolved, isAuthenticated, userId]);
 
 	useEffect(() => {
 		if (!isAuthenticated) {

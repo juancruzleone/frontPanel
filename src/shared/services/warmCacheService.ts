@@ -3,12 +3,14 @@ import { fetchInventoryItems } from "../../features/inventory/services/inventory
 import { fetchFormCategories } from "../../features/forms/services/formServices"
 import { useAssetStore } from "../../store/assetStore"
 import { useInventoryStore } from "../../store/inventoryStore"
+import { useAuthStore } from "../../store/authStore"
 
 class WarmCacheService {
   private isWarming = false
 
   async warmAll() {
-    if (this.isWarming || !navigator.onLine) return
+    const { isAuthenticated, isAuthResolved } = useAuthStore.getState()
+    if (this.isWarming || !navigator.onLine || !isAuthResolved || !isAuthenticated) return
     this.isWarming = true
 
     try {

@@ -21,20 +21,16 @@ describe('apiHeaders - isAuthError', () => {
     expect(isAuthError({ status: 401 })).toBe(true)
   })
 
-  it('should return true for 403 status', () => {
-    expect(isAuthError({ status: 403 })).toBe(true)
+  it('should not treat a generic 403 as an auth error', () => {
+    expect(isAuthError({ status: 403 })).toBe(false)
   })
 
   it('should return true for TOKEN_EXPIRED message', () => {
-    expect(isAuthError(new Error('TOKEN_EXPIRED'))).toBe(true)
+    expect(isAuthError({ code: 'TOKEN_EXPIRED' })).toBe(true)
   })
 
   it('should return true for REFRESH_TOKEN_EXPIRED message', () => {
-    expect(isAuthError(new Error('REFRESH_TOKEN_EXPIRED'))).toBe(true)
-  })
-
-  it('should return true for session expired message', () => {
-    expect(isAuthError('Your session expired')).toBe(true)
+    expect(isAuthError({ error: { code: 'REFRESH_TOKEN_EXPIRED' } })).toBe(true)
   })
 
   it('should return false for generic errors', () => {
@@ -58,7 +54,7 @@ describe('apiHeaders - Auth Retry Logic', () => {
     const mock401Response = {
       ok: false,
       status: 401,
-      json: async () => ({ message: 'TOKEN_EXPIRED' }),
+      json: async () => ({ error: { code: 'TOKEN_EXPIRED' } }),
       clone: function() { return this },
     }
     const mock200Response = {
@@ -79,43 +75,6 @@ describe('apiHeaders - Auth Retry Logic', () => {
     expect(response.status).toBe(200)
     expect(global.fetch).toHaveBeenCalledTimes(2)
     expect(refreshSession).toHaveBeenCalledTimes(1)
-  })
-
-  it('should only call refreshSession once for concurrent 401 TOKEN_EXPIRED', async () => {
-    const mock401Response = {
-      ok: false,
-      status: 401,
-      json: async () => ({ message: 'TOKEN_EXPIRED' }),
-      clone: function() { return this },
-    }
-    const mock200Response = {
-      ok: true,
-      status: 200,
-      json: async () => ({ success: true }),
-      clone: function() { return this },
-    }
-
-    global.fetch = vi.fn()
-      .mockResolvedValueOnce(mock401Response) // Call 1
-      .mockResolvedValueOnce(mock401Response) // Call 2
-      .mockResolvedValueOnce(mock200Response) // Retry 1
-      .mockResolvedValueOnce(mock200Response) // Retry 2
-
-    // Slow refresh to ensure concurrency
-    refreshSession.mockImplementation(async () => {
-      await new Promise(resolve => setTimeout(resolve, 50))
-      return { csrfToken: 'new-csrf-token' }
-    })
-
-    const [res1, res2] = await Promise.all([
-      fetchWithAuthRetry('/api/data1', { method: 'GET' }),
-      fetchWithAuthRetry('/api/data2', { method: 'GET' }),
-    ])
-
-    expect(res1.status).toBe(200)
-    expect(res2.status).toBe(200)
-    expect(refreshSession).toHaveBeenCalledTimes(1)
-    expect(global.fetch).toHaveBeenCalledTimes(4)
   })
 
   it('should not retry if the error is 401 but not TOKEN_EXPIRED', async () => {
@@ -139,7 +98,7 @@ describe('apiHeaders - Auth Retry Logic', () => {
     const mock401Response = {
       ok: false,
       status: 401,
-      json: async () => ({ message: 'TOKEN_EXPIRED' }),
+      json: async () => ({ error: { code: 'TOKEN_EXPIRED' } }),
       clone: function() { return this },
     }
 

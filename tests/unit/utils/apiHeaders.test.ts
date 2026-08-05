@@ -180,8 +180,13 @@ describe('apiHeaders - CSRF Logic', () => {
       expect(global.fetch).toHaveBeenCalledTimes(1)
     })
 
-    it('should retry once on 403 and succeed', async () => {
-      const mock403Response = { ok: false, status: 403 }
+    it('should retry once on a CSRF machine code and succeed', async () => {
+      const mock403Response = {
+        ok: false,
+        status: 403,
+        clone: function() { return this },
+        json: async () => ({ error: { code: 'CSRF_TOKEN_INVALID' } }),
+      }
       const mock200Response = { ok: true, status: 200 }
 
       global.fetch = vi.fn()
@@ -208,7 +213,12 @@ describe('apiHeaders - CSRF Logic', () => {
     })
 
     it('should throw error if token refresh fails on 403', async () => {
-      const mock403Response = { ok: false, status: 403 }
+      const mock403Response = {
+        ok: false,
+        status: 403,
+        clone: function() { return this },
+        json: async () => ({ error: { code: 'CSRF_TOKEN_INVALID' } }),
+      }
       
       global.fetch = vi.fn().mockResolvedValue(mock403Response)
 
@@ -271,7 +281,12 @@ describe('apiHeaders - CSRF Logic', () => {
     })
 
     it('should overwrite stale caller-provided X-CSRF-Token on retry', async () => {
-      const mock403Response = { ok: false, status: 403 }
+      const mock403Response = {
+        ok: false,
+        status: 403,
+        clone: function() { return this },
+        json: async () => ({ code: 'CSRF_TOKEN_INVALID' }),
+      }
       const mock200Response = { ok: true, status: 200 }
 
       global.fetch = vi.fn()
@@ -309,6 +324,24 @@ describe('apiHeaders - CSRF Logic', () => {
       const secondCall = vi.mocked(global.fetch).mock.calls[1]
       const secondHeaders = secondCall[1]?.headers as Record<string, string> || {}
       expect(secondHeaders['X-CSRF-Token']).toBe('fresh-refreshed-token')
+    })
+
+    it('does not retry a missing-auth 403 through /csrf-token', async () => {
+      const response403 = {
+        ok: false,
+        status: 403,
+        clone: function() { return this },
+        json: async () => ({ error: { code: 'UNAUTHENTICATED' } }),
+      }
+      global.fetch = vi.fn().mockResolvedValue(response403)
+      const fetchTokenMock = vi.fn()
+      useCSRFStore.getState.mockReturnValue({ token: null, fetchToken: fetchTokenMock })
+
+      const response = await fetchWithCsrf('/api/data', { method: 'POST' })
+
+      expect(response.status).toBe(403)
+      expect(global.fetch).toHaveBeenCalledTimes(1)
+      expect(fetchTokenMock).not.toHaveBeenCalled()
     })
   })
 })

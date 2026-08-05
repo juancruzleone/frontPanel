@@ -37,13 +37,13 @@ class SocketService {
 
     connect() {
         if (this.socket) return;
-        this.startAssignedOrdersPolling();
 
-        const { isAuthenticated } = useAuthStore.getState();
-        if (!isAuthenticated || !SOCKET_URL) {
+        const { isAuthenticated, isAuthResolved } = useAuthStore.getState();
+        if (!isAuthResolved || !isAuthenticated || !SOCKET_URL) {
             return;
         }
 
+        this.startAssignedOrdersPolling();
         this.socket = io(SOCKET_URL, {
             transports: ['polling', 'websocket'],
             autoConnect: true,

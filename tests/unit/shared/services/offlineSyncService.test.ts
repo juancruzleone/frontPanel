@@ -2,6 +2,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 import { offlineSyncService } from "../../../../src/shared/services/offlineSyncService"
 import { useOfflineStore } from "../../../../src/store/offlineStore"
+import { useAuthStore } from "../../../../src/store/authStore"
 import { refreshSession } from "../../../../src/shared/services/authRefreshService"
 import * as workOrderServices from "../../../../src/features/workOrders/services/workOrderServices"
 import * as deviceFormServices from "../../../../src/features/deviceForms/services/deviceFormService"
@@ -27,7 +28,27 @@ describe("OfflineSyncService", () => {
   beforeEach(() => {
     vi.clearAllMocks()
     useOfflineStore.getState().clearQueue()
+    useAuthStore.setState({ isAuthenticated: true, isAuthResolved: true })
     vi.stubGlobal('navigator', { onLine: true })
+  })
+
+  it("does not refresh or sync an empty queue", async () => {
+    await offlineSyncService.syncAll()
+
+    expect(refreshSession).not.toHaveBeenCalled()
+    expect(workOrderServices.createWorkOrder).not.toHaveBeenCalled()
+  })
+
+  it("does not refresh before current authentication is resolved", async () => {
+    useAuthStore.setState({ isAuthenticated: true, isAuthResolved: false })
+    useOfflineStore.getState().addToQueue({
+      type: 'CREATE_WORK_ORDER' as any,
+      payload: { title: "Test WO" },
+    })
+
+    await offlineSyncService.syncAll()
+
+    expect(refreshSession).not.toHaveBeenCalled()
   })
 
   it("should pause syncing and not remove from queue on 401/403 session expired", async () => {
@@ -47,7 +68,7 @@ describe("OfflineSyncService", () => {
     // AND the first service call fails with 403 (Session Expired)
     // We simulate the error structure that fetch/services usually throw
     const sessionError = new Error("Session expired")
-    Object.assign(sessionError, { status: 403 })
+    Object.assign(sessionError, { status: 403, code: 'UNAUTHENTICATED' })
     
     vi.mocked(workOrderServices.createWorkOrder).mockRejectedValueOnce(sessionError)
 
@@ -209,7 +230,10 @@ describe("OfflineSyncService", () => {
       payload: { title: "Test WO 1" },
     })
     
-    vi.mocked(refreshSession).mockRejectedValue(new Error("TOKEN_EXPIRED"))
+    vi.mocked(refreshSession).mockRejectedValue(Object.assign(new Error("Session expired"), {
+      code: 'REFRESH_TOKEN_EXPIRED',
+      status: 401,
+    }))
     
     // Mock postMessage
     const postMessageMock = vi.fn()

@@ -9,17 +9,18 @@ import { useTranslation } from 'react-i18next'
 export const OfflineSyncManager = () => {
   const queueLength = useOfflineStore(state => state.queue.length)
   const isAuthenticated = useAuthStore(state => state.isAuthenticated)
+  const isAuthResolved = useAuthStore(state => state.isAuthResolved)
   const { t } = useTranslation()
   const lastQueueLength = useRef(queueLength)
   const isSyncing = useRef(false)
 
   const sync = useCallback(async () => {
     // Primero intentamos calentar el cache de activos/inventario
-    if (navigator.onLine && isAuthenticated) {
+    if (navigator.onLine && isAuthResolved && isAuthenticated) {
       warmCacheService.warmAll()
     }
 
-    if (isSyncing.current || !isAuthenticated || queueLength === 0 || !navigator.onLine) return
+    if (isSyncing.current || !isAuthResolved || !isAuthenticated || queueLength === 0 || !navigator.onLine) return
 
     isSyncing.current = true
     const currentUserId = useAuthStore.getState().userId
@@ -45,9 +46,12 @@ export const OfflineSyncManager = () => {
     } finally {
       isSyncing.current = false
     }
-  }, [isAuthenticated, queueLength, t])
+  }, [isAuthResolved, isAuthenticated, queueLength, t])
 
   useEffect(() => {
+    if (!isAuthResolved || !isAuthenticated) return
+    offlineSyncService.initialize()
+
     const handleOnline = () => {
       sync()
     }
@@ -65,7 +69,7 @@ export const OfflineSyncManager = () => {
       navigator.serviceWorker.addEventListener('message', handleMessage)
     }
 
-    if (navigator.onLine && isAuthenticated) {
+    if (navigator.onLine) {
       sync()
     }
 
@@ -75,7 +79,7 @@ export const OfflineSyncManager = () => {
         navigator.serviceWorker.removeEventListener('message', handleMessage)
       }
     }
-  }, [isAuthenticated, sync, queueLength])
+  }, [isAuthResolved, isAuthenticated, sync, queueLength])
 
   useEffect(() => {
     if (queueLength > lastQueueLength.current && navigator.onLine) {

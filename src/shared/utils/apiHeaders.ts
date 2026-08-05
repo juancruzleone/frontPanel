@@ -2,12 +2,22 @@ import { useAuthStore } from "@/store/authStore"
 import { useCSRFStore } from "@/store/csrfStore"
 import { refreshSession } from "@/shared/services/authRefreshService"
 
-// Mutex for session refresh
-let isRefreshing = false
-let refreshPromise: Promise<{ csrfToken?: string } | null> | null = null
-
 // Methods that require CSRF token
 const CSRF_REQUIRED_METHODS = ['POST', 'PUT', 'DELETE', 'PATCH']
+const AUTH_ERROR_CODES = new Set([
+  'TOKEN_EXPIRED',
+  'REFRESH_TOKEN_EXPIRED',
+  'REFRESH_TOKEN_MISSING',
+  'REFRESH_REUSE_DETECTED',
+  'INVALID_TOKEN',
+  'UNAUTHENTICATED',
+  'USER_NOT_AUTHENTICATED',
+])
+const CSRF_ERROR_CODES = new Set(['CSRF_TOKEN_MISSING', 'CSRF_TOKEN_INVALID'])
+
+export const getErrorCode = (value: any): string | undefined => (
+  value?.error?.code || value?.code
+)
 
 /**
  * Checks if an error is an authentication/session error.
@@ -15,20 +25,10 @@ const CSRF_REQUIRED_METHODS = ['POST', 'PUT', 'DELETE', 'PATCH']
 export const isAuthError = (error: unknown) => {
   if (!error) return false
   
-  const msg = error instanceof Error ? error.message : String(error)
   const status = (error as any)?.status
-  
-  return (
-    status === 401 || 
-    status === 403 || 
-    msg.includes("401") || 
-    msg.includes("403") ||
-    msg.toLowerCase().includes("session expired") ||
-    msg.toLowerCase().includes("sesión expirada") ||
-    msg.includes("TOKEN_EXPIRED") ||
-    msg.includes("REFRESH_TOKEN_EXPIRED") ||
-    msg.includes("REFRESH_REUSE_DETECTED")
-  )
+  const code = getErrorCode(error)
+
+  return status === 401 || Boolean(code && AUTH_ERROR_CODES.has(code))
 }
 
 /**
@@ -37,8 +37,7 @@ export const isAuthError = (error: unknown) => {
  */
 export const fetchWithAuthRetry = async (
   url: string,
-  options: RequestInit = {},
-  _maxRetries: number = 1
+  options: RequestInit = {}
 ): Promise<Response> => {
   const method = (options.method || 'GET').toUpperCase()
   
@@ -61,16 +60,8 @@ export const fetchWithAuthRetry = async (
     const clone = response.clone()
     const data = await clone.json().catch(() => ({}))
 
-    if (data.message === 'TOKEN_EXPIRED' || data.error?.message === 'TOKEN_EXPIRED') {
-      if (!isRefreshing) {
-        isRefreshing = true
-        refreshPromise = refreshSession().finally(() => {
-          isRefreshing = false
-          refreshPromise = null
-        })
-      }
-
-      const refreshData = await refreshPromise
+    if (getErrorCode(data) === 'TOKEN_EXPIRED') {
+      const refreshData = await refreshSession()
       
       // Update CSRF token if returned
       if (refreshData?.csrfToken) {
@@ -84,9 +75,12 @@ export const fetchWithAuthRetry = async (
 
   // Handle 403 CSRF (existing logic fallback or integrated)
   if (response.status === 403) {
-    const csrfStore = useCSRFStore.getState()
-    await csrfStore.fetchToken()
-    return await executeFetch(options)
+    const data = await response.clone().json().catch(() => ({}))
+    const code = getErrorCode(data)
+    if (code && CSRF_ERROR_CODES.has(code)) {
+      await useCSRFStore.getState().fetchToken()
+      return await executeFetch(options)
+    }
   }
 
   return response
@@ -173,5 +167,3 @@ const hasJsonContentType = (headers?: HeadersInit): boolean => {
 
   return Object.keys(headers).some((key) => key.toLowerCase() === "content-type")
 }
-
-

@@ -3,6 +3,7 @@ import { createJSONStorage, persist } from "zustand/middleware"
 import { fetchCsrfToken } from "@/shared/services/csrfServices"
 
 const CSRF_STORAGE_KEY = "csrf-storage"
+let csrfStorePromise: Promise<void> | null = null
 
 const clearLegacyCsrfStorage = () => {
   if (typeof window === "undefined") return
@@ -24,17 +25,20 @@ export const useCSRFStore = create<CSRFState>()(
       isLoading: false,
       error: null,
       fetchToken: async () => {
+        if (csrfStorePromise) return csrfStorePromise
         set({ isLoading: true, error: null })
-        try {
-          const response = await fetchCsrfToken()
-          set({ token: response.token, isLoading: false })
-        } catch (error: unknown) {
-          const message = error instanceof Error && error.message ? error.message : "Error al obtener token CSRF"
-          set({ 
-            error: message, 
-            isLoading: false 
-          })
-        }
+        csrfStorePromise = (async () => {
+          try {
+            const response = await fetchCsrfToken()
+            set({ token: response.token, isLoading: false })
+          } catch (error: unknown) {
+            const message = error instanceof Error && error.message ? error.message : "Error al obtener token CSRF"
+            set({ error: message, isLoading: false })
+          } finally {
+            csrfStorePromise = null
+          }
+        })()
+        return csrfStorePromise
       },
       clearToken: () => set({ token: null, error: null }),
     }),

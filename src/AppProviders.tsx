@@ -6,6 +6,17 @@ import { useCSRFStore } from "@/store/csrfStore"
 import { verifySession } from "./features/auth/services/loginServices"
 import { OfflineSyncManager } from "./shared/components/OfflineSyncManager"
 
+let bootstrapPromise: ReturnType<typeof verifySession> | null = null
+
+const verifyCurrentSession = () => {
+  if (!bootstrapPromise) {
+    bootstrapPromise = verifySession().finally(() => {
+      bootstrapPromise = null
+    })
+  }
+  return bootstrapPromise
+}
+
 export const ThemedToaster = () => {
   const { dark } = useTheme()
 
@@ -28,7 +39,7 @@ export const ThemedToaster = () => {
 export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
   const hydrateSession = useAuthStore((state) => state.hydrateSession)
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
-  const setAuthResolved = useAuthStore((state) => state.setAuthResolved)
+  const isAuthResolved = useAuthStore((state) => state.isAuthResolved)
   const fetchToken = useCSRFStore((state) => state.fetchToken)
   const csrfToken = useCSRFStore((state) => state.token)
   const csrfIsLoading = useCSRFStore((state) => state.isLoading)
@@ -37,8 +48,9 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
 		let cancelled = false
 
     const bootstrapSession = async () => {
+      useAuthStore.setState({ isAuthenticated: false, isAuthResolved: false })
       try {
-        const response = await verifySession()
+        const response = await verifyCurrentSession()
         if (!cancelled) {
           hydrateSession(response)
         }
@@ -54,20 +66,11 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
               err.message.toLowerCase().includes('load failed')
             ));
           
-          if (!isNetworkError) {
-             // Solo si es un error de autenticación real (no de red)
-             // podríamos forzar un logout, pero por ahora solo resolvemos
-             // para dejar que los ProtectedRoutes decidan según el estado cacheado.
-          } else {
-            // Si es un error de red y tenemos un usuario en el store, 
-            // asumimos que sigue autenticado para permitir el modo offline.
-            const currentState = useAuthStore.getState()
-            if (currentState.userId) {
-              useAuthStore.setState({ isAuthenticated: true })
-            }
-          }
-          
-          setAuthResolved(true)
+          const currentState = useAuthStore.getState()
+          useAuthStore.setState({
+            isAuthenticated: isNetworkError && Boolean(currentState.userId),
+            isAuthResolved: true,
+          })
         }
       }
     }
@@ -84,14 +87,14 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
       cancelled = true
       window.removeEventListener('online', handleOnline)
     }
-  }, [hydrateSession, setAuthResolved])
+  }, [hydrateSession])
   
   React.useEffect(() => {
     // Fetch CSRF token when user is authenticated and no token exists
-    if (isAuthenticated && !csrfToken && !csrfIsLoading) {
+    if (isAuthResolved && isAuthenticated && !csrfToken && !csrfIsLoading) {
       fetchToken()
     }
-  }, [isAuthenticated, csrfToken, csrfIsLoading, fetchToken])
+  }, [isAuthResolved, isAuthenticated, csrfToken, csrfIsLoading, fetchToken])
 
   return (
     <>

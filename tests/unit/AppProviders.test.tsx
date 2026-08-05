@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import { AppInitializer } from '../../src/AppProviders'
 import { useAuthStore } from '../../src/store/authStore'
 import { useCSRFStore } from '../../src/store/csrfStore'
@@ -59,7 +59,9 @@ describe('AppInitializer', () => {
     vi.mocked(verifySession).mockResolvedValue({ user: { id: '1' } })
     
     render(<AppInitializer><div>Test</div></AppInitializer>)
-    
+
+    await waitFor(() => expect(verifySession).toHaveBeenCalledTimes(1))
+    await Promise.resolve()
     // Clear initial call
     vi.mocked(verifySession).mockClear()
 
@@ -67,6 +69,6 @@ describe('AppInitializer', () => {
     window.dispatchEvent(new Event('online'))
 
     // Should call verifySession again
-    expect(verifySession).toHaveBeenCalled()
+    await waitFor(() => expect(verifySession).toHaveBeenCalled())
   })
 })

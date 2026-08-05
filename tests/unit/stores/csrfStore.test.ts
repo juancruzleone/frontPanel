@@ -52,6 +52,17 @@ describe('CSRF Store', () => {
       expect(state.error).toBeNull()
     })
 
+    it('should deduplicate concurrent token fetches', async () => {
+      vi.mocked(csrfServices.fetchCsrfToken).mockResolvedValue({ token: 'shared-token' })
+
+      await Promise.all([
+        useCSRFStore.getState().fetchToken(),
+        useCSRFStore.getState().fetchToken(),
+      ])
+
+      expect(csrfServices.fetchCsrfToken).toHaveBeenCalledTimes(1)
+    })
+
     it('should set loading state while fetching', () => {
       const mockResponse = { token: 'test-token' }
       const promise = vi.mocked(csrfServices.fetchCsrfToken).mockImplementation(

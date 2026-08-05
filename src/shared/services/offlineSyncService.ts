@@ -3,6 +3,7 @@ import { useWorkOrderStore } from "../../store/workOrderStore"
 import { useInstallationStore } from "../../store/installationStore"
 import { refreshSession } from "./authRefreshService"
 import { isAuthError } from "../utils/apiHeaders"
+import { useAuthStore } from "../../store/authStore"
 import { 
   createWorkOrder, 
   updateWorkOrder, 
@@ -46,8 +47,11 @@ const errorMessage = (error: unknown) => {
 class OfflineSyncService {
 
   private isSyncing = false
+  private isInitialized = false
 
   async initialize() {
+    if (this.isInitialized) return
+    this.isInitialized = true
     // Escuchar cambios de conexión
     window.addEventListener('online', () => {
       this.syncAll()
@@ -70,13 +74,21 @@ class OfflineSyncService {
     })
 
     // Intento inicial si ya estamos online
-    if (navigator.onLine) {
+    const { isAuthenticated, isAuthResolved } = useAuthStore.getState()
+    if (navigator.onLine && isAuthResolved && isAuthenticated && useOfflineStore.getState().queue.length > 0) {
       this.syncAll()
     }
   }
 
   async syncAll() {
-    if (this.isSyncing || !navigator.onLine) return
+    const { isAuthenticated, isAuthResolved } = useAuthStore.getState()
+    if (
+      this.isSyncing ||
+      !navigator.onLine ||
+      !isAuthResolved ||
+      !isAuthenticated ||
+      useOfflineStore.getState().queue.length === 0
+    ) return
     
     this.isSyncing = true
     try {
