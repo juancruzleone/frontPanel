@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import {
 	assignTechnicianToWorkOrder,
+	fetchWorkOrders,
 	updateWorkOrder,
 } from "../../../../src/features/workOrders/services/workOrderServices";
 
@@ -50,6 +51,21 @@ describe("workOrderServices", () => {
 			tecnicoId: "tech-1",
 			tecnicoIds: ["tech-1", "tech-2"],
 		});
+	});
+
+	it("serializes search and priority list filters", async () => {
+		fetchMock.mockResolvedValueOnce({
+			ok: true,
+			json: vi.fn().mockResolvedValue({ data: [], pagination: {} }),
+		});
+
+		await fetchWorkOrders(2, 10, { search: "boiler room", prioridad: "alta" });
+
+		const [url] = fetchMock.mock.calls[0];
+		expect(String(url)).toContain("page=2");
+		expect(String(url)).toContain("limit=10");
+		expect(String(url)).toContain("search=boiler+room");
+		expect(String(url)).toContain("prioridad=alta");
 	});
 
 	it("formats object error payloads without rendering object Object", async () => {
