@@ -20,6 +20,7 @@ import Tooltip from "../shared/components/Tooltip/Tooltip"
 import { WifiOff } from "lucide-react"
 import { useInventoryTour } from "../features/inventory/hooks/useInventoryTour"
 import TourButton from "../shared/components/Buttons/TourButton"
+import Skeleton from "../shared/components/Skeleton"
 import styles from "../features/inventory/styles/inventory.module.css"
 
 const INVENTORY_ALLOWED_VIEWS = ['cards', 'table'] as const
@@ -214,7 +215,13 @@ const Inventory = () => {
       </div>
 
       <div className={styles.listContainer}>
-        {viewMode === 'table' ? (
+        {loading ? (
+          <div className={styles.loadingContainer}>
+            <div className={styles.skeletonGrid}>
+              {[1, 2, 3, 4].map((_, i) => <Skeleton key={i} height={110} width={"100%"} style={{ borderRadius: 14 }} />)}
+            </div>
+          </div>
+        ) : viewMode === 'table' ? (
           <div className={styles.tableWrapper}>
             <InventoryTable 
               items={items} 

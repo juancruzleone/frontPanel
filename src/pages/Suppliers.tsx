@@ -11,6 +11,7 @@ import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 import Tooltip from "../shared/components/Tooltip/Tooltip"
 import { useSuppliersTour } from "../features/suppliers/hooks/useSuppliersTour"
 import TourButton from "../shared/components/Buttons/TourButton"
+import Skeleton from "../shared/components/Skeleton"
 import styles from "../features/suppliers/styles/suppliers.module.css"
 
 // New Modals
@@ -137,7 +138,13 @@ const Suppliers = () => {
       {error && <p className={styles.errorMessage}>{error}</p>}
 
       <div className={styles.listContainer}>
-        {viewMode === 'table' ? (
+        {loading ? (
+          <div className={styles.loadingContainer}>
+            <div className={styles.skeletonGrid}>
+              {[1, 2, 3, 4].map((_, i) => <Skeleton key={i} height={110} width={"100%"} style={{ borderRadius: 14 }} />)}
+            </div>
+          </div>
+        ) : viewMode === 'table' ? (
           <div className={styles.tableWrapper}>
             <SupplierTable 
               suppliers={suppliers} 

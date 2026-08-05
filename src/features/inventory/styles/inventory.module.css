@@ -322,6 +322,22 @@
   color: #f87171 !important;
 }
 
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  padding: 24px 0;
+  align-items: center;
+}
+
+.skeletonGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
 @media (max-width: 1024px) {
   .containerInventory {
     padding: 100px 16px 24px 16px;
