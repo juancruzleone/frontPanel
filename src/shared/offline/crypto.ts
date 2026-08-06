@@ -26,6 +26,19 @@ function getSubtle(): SubtleCrypto {
 export function canonicalJSON(value: unknown): string {
   return JSON.stringify(sortKeys(value))
 }
+/** Canonical UTF-8 bytes of a value (byte-compatible with the backend checksums). */
+export function canonicalBytes(value: unknown): Uint8Array {
+  return new TextEncoder().encode(canonicalJSON(value))
+}
+/** WebCrypto SHA-256 digest as lowercase hex. */
+export async function sha256Hex(bytes: Uint8Array): Promise<string> {
+  const digest = await getSubtle().digest('SHA-256', bytes)
+  return Array.from(new Uint8Array(digest)).map((b) => b.toString(16).padStart(2, '0')).join('')
+}
+/** SHA-256 hex of the canonical form of a value (checksum verification only). */
+export async function sha256HexCanonical(value: unknown): Promise<string> {
+  return sha256Hex(canonicalBytes(value))
+}
 function sortKeys(value: unknown): unknown {
   if (value === null || typeof value !== 'object') return value
   if (Array.isArray(value)) return value.map(sortKeys)

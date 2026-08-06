@@ -1,122 +1,265 @@
-/** U6 — Frontend offline package service. Consumes U5 bootstrap/delta, persists scoped packages, quota, eviction. */
-import { type OfflineIdentityScope, buildScopeKey, getOrCreateDeviceId } from './types'
-import { openDB } from './storage'
+/**
+ * R4 — Offline package service (U6 contract hardening): authenticated
+ * CSRF-correct requests with exact R3 shapes, ES256/kid manifest verification
+ * against the R2 key set, complete bootstrap resources persisted verbatim
+ * scoped to tenant+user+device, atomic readiness, FORM_NOT_DELIVERED blocking,
+ * 410 re-bootstrap, and the signed 7-day lease/device-binding gate.
+ */
+import {
+  type OfflineIdentityScope, buildScopeKey, type OfflineBootstrap, type OfflineManifest, type OfflineManifestClaim,
+  type OfflineDeltaResponse, type PackageResourceKind, PACKAGE_LEASE_MAX_MS, PACKAGE_SCHEMA_VERSION,
+} from './types'
+import { importVerificationKey, verifyCanonicalSignature, sha256HexCanonical, type VerificationKey } from './crypto'
+import { getCachedVerificationKeys, getStoredDevice } from './deviceTrust'
+import {
+  deletePackageRecord, deleteProgressRecord, deleteResources,
+  getProgressRecord, getPackageRecord, getResourceRecordsForScope, getAllPackageRecords,
+  persistPackageBundle, putPackageRecord, putProgressRecord,
+  resourceRecordId, type DownloadProgressRecord, type StoredPackageRecord, type StoredResourceRecord,
+} from './storage'
+import { fetchWithAuthRetry } from '@/shared/utils/apiHeaders'
 
-const PACKAGES_STORE = 'offlinePackages'
-const PROGRESS_STORE = 'downloadProgress'
 export const FORM_NOT_DELIVERED = 'FORM_NOT_DELIVERED'
-const STALE_THRESHOLD_MS = 24 * 60 * 60 * 1000
 const API_BASE = '/api/offline'
+const STALE_THRESHOLD_MS = 24 * 60 * 60 * 1000
+const DELTA_LIMIT = 100
+const CHECKSUMMED_KINDS: PackageResourceKind[] = ['workOrders', 'installations', 'forms', 'inventoryRefs']
+const RESOURCE_KINDS: PackageResourceKind[] = ['workOrders', 'installations', 'assets', 'forms', 'inventoryRefs']
 
-export interface PackageManifest {
-  packageId: string; schemaVersion: number; binding: { tenantId: string; userId: string; deviceId: string }
-  packageVersion: number; cursor: string; serverTime: string; expiresAt: string; revocationEpoch: number
-  limits: { maxStorageBytes: number }
-  completeness: {
-    orders: Array<{ orderId: string; status: 'ready' | 'incomplete' | 'error'; missingResources: string[] }>
-    forms: Array<{ formId: string; orderId: string; status: 'delivered' | 'not_delivered' | 'version_mismatch'; formVersion?: number }>
-    overall: 'complete' | 'incomplete' | 'partial'
-  }
-  resources: Array<{ type: string; id: string; version: number; checksum: string; formVersion?: number; required: boolean }>
+export type ManifestVerificationStatus =
+  | 'valid' | 'malformed' | 'invalid_schema_version' | 'no_verification_keys' | 'unknown_kid'
+  | 'invalid_signature' | 'binding_mismatch' | 'not_yet_valid' | 'expired' | 'lease_too_long' | 'form_not_delivered'
+
+export class PackageError extends Error {
+  constructor(readonly code: string, message?: string) { super(message ?? code) }
 }
 
-export interface DownloadProgress {
-  packageId: string; totalResources: number; completedResources: number; failedResources: number
-  status: 'idle' | 'downloading' | 'paused' | 'completed' | 'error' | 'quota_exceeded'; lastError?: string; startedAt: number; updatedAt: number
-}
-
-export interface StoredPackage {
-  packageId: string; manifest: PackageManifest; cursor: string; version: number
-  downloadedAt: number; lastSyncedAt: number; freshness: 'fresh' | 'stale' | 'expired'; ownerScope: OfflineIdentityScope
-}
-
-function getCurrentScope(): OfflineIdentityScope | null {
+// ── Identity scope: auth storage + R1-registered device (never the client UUID) ──
+async function getPackageScope(): Promise<{ ok: boolean; scope?: OfflineIdentityScope; code?: 'no-auth' | 'no-device' }> {
   try {
-    const authState = localStorage.getItem('auth-storage')
-    if (!authState) return null
-    const { state } = JSON.parse(authState)
-    if (!state?.userId || !state?.tenantId) return null
-    return { tenantId: state.tenantId, userId: state.userId, deviceId: getOrCreateDeviceId() }
-  } catch { return null }
+    const raw = localStorage.getItem('auth-storage')
+    if (!raw) return { ok: false, code: 'no-auth' }
+    const { state } = JSON.parse(raw)
+    if (!state?.tenantId || !state?.userId) return { ok: false, code: 'no-auth' }
+    const device = await getStoredDevice(`${state.tenantId}:${state.userId}`)
+    if (!device?.deviceId) return { ok: false, code: 'no-device' }
+    return { ok: true, scope: { tenantId: state.tenantId, userId: state.userId, deviceId: device.deviceId } }
+  } catch { return { ok: false, code: 'no-auth' } }
 }
 
-async function apiFetch(path: string, body: Record<string, unknown>): Promise<Response> {
-  return fetch(`${API_BASE}${path}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+// ── Authenticated CSRF-correct requests (fetchWithAuthRetry, never raw fetch) ──
+async function postPackage<T>(path: string, body: Record<string, unknown>): Promise<T> {
+  const response = await fetchWithAuthRetry(`${API_BASE}${path}`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+  const errorBody = await response.json().catch(() => ({})) as { error?: { code?: string } }
+  if (response.status === 410) throw new PackageError(errorBody?.error?.code ?? 'CURSOR_EXPIRED')
+  if (!response.ok) throw new PackageError(errorBody?.error?.code ?? `HTTP_${response.status}`)
+  return response.json() as Promise<T>
 }
 
-// ── IndexedDB operations ─────────────────────────────────────────────────
-
-function idbOp<T>(storeName: string, mode: IDBTransactionMode, op: (store: IDBObjectStore) => IDBRequest): Promise<T> {
-  return openDB().then(db => new Promise<T>((resolve, reject) => {
-    const store = db.transaction(storeName, mode).objectStore(storeName)
-    const req = op(store); req.onerror = () => reject(req.error); req.onsuccess = () => resolve((req.result ?? null) as T)
-  }))
+// ── Canonical manifest verification (ES256/kid, R2 key set) ──
+export async function verifyManifest(
+  manifest: unknown, scope: OfflineIdentityScope, keySet: VerificationKey[], nowMs: number
+): Promise<{ ok: boolean; code?: Exclude<ManifestVerificationStatus, 'valid'> }> {
+  if (!manifest || typeof manifest !== 'object') return { ok: false, code: 'malformed' }
+  const m = manifest as OfflineManifest
+  if (m.schemaVersion !== PACKAGE_SCHEMA_VERSION) return { ok: false, code: 'invalid_schema_version' }
+  const sig = m.signature
+  if (!sig || sig.alg !== 'ES256' || typeof sig.kid !== 'string' || typeof sig.value !== 'string') return { ok: false, code: 'malformed' }
+  if (!keySet.length) return { ok: false, code: 'no_verification_keys' }
+  const key = keySet.find(k => k.kid === sig.kid)
+  if (!key) return { ok: false, code: 'unknown_kid' }
+  const publicKey = await importVerificationKey(key).catch(() => null)
+  if (!publicKey) return { ok: false, code: 'unknown_kid' }
+  const { signature: _signature, ...claims } = m
+  if (!(await verifyCanonicalSignature(claims, sig.value, publicKey))) return { ok: false, code: 'invalid_signature' }
+  const b = m.binding
+  if (!b || b.tenantId !== scope.tenantId || b.userId !== scope.userId || b.deviceId !== scope.deviceId
+    || m.tenantId !== scope.tenantId || m.userId !== scope.userId || m.deviceId !== scope.deviceId) return { ok: false, code: 'binding_mismatch' }
+  const serverMs = Date.parse(m.serverTime)
+  const expiresMs = Date.parse(m.expiresAt)
+  if (Number.isNaN(serverMs) || Number.isNaN(expiresMs) || serverMs > nowMs) return { ok: false, code: 'not_yet_valid' }
+  if (expiresMs - serverMs > PACKAGE_LEASE_MAX_MS) return { ok: false, code: 'lease_too_long' }
+  if (expiresMs <= nowMs) return { ok: false, code: 'expired' }
+  if (Object.values(m.completeness ?? {}).some(c => c?.available === false)) return { ok: false, code: 'form_not_delivered' }
+  return { ok: true }
 }
 
-const putPkg = (pkg: StoredPackage) => idbOp<void>(PACKAGES_STORE, 'readwrite', s => s.put(pkg, pkg.packageId))
-const getPkg = (id: string) => idbOp<StoredPackage | undefined>(PACKAGES_STORE, 'readonly', s => s.get(id))
-const delPkg = (id: string) => idbOp<void>(PACKAGES_STORE, 'readwrite', s => s.delete(id))
-const allPkgs = () => idbOp<StoredPackage[]>(PACKAGES_STORE, 'readonly', s => s.getAll())
-const putProg = (p: DownloadProgress) => idbOp<void>(PROGRESS_STORE, 'readwrite', s => s.put(p, p.packageId))
-const getProg = (id: string) => idbOp<DownloadProgress | undefined>(PROGRESS_STORE, 'readonly', s => s.get(id))
-const delProg = (id: string) => idbOp<void>(PROGRESS_STORE, 'readwrite', s => s.delete(id))
+// ── Resource checksums: canonical subset mirrors backPanel computeChecksum ──
+export function checksumSubset(kind: PackageResourceKind, body: Record<string, unknown>): unknown {
+  switch (kind) {
+    case 'workOrders': return { _id: body._id, version: body.version ?? 0, estado: body.estado }
+    case 'installations': return { _id: body._id, nombre: body.nombre }
+    case 'forms': return { _id: body._id, version: body.version, campos: body.campos }
+    default: return { _id: body._id, name: body.name }
+  }
+}
 
-function computeFreshness(lastSyncedAt: number, expiresAt: string): 'fresh' | 'stale' | 'expired' {
-  if (new Date(expiresAt) < new Date()) return 'expired'
-  return Date.now() - lastSyncedAt > STALE_THRESHOLD_MS ? 'stale' : 'fresh'
+export type ChecksumVerificationResult =
+  | { ok: boolean; code?: 'checksum_mismatch' | 'form_version_mismatch'; kind?: PackageResourceKind; index?: number }
+
+/** Checksums for a kind; the backend buckets inventory refs under `inventory`. */
+function manifestChecksumsFor(manifest: OfflineManifest, kind: PackageResourceKind): string[] {
+  return manifest.resourceChecksums?.[kind] ?? (kind === 'inventoryRefs' ? manifest.resourceChecksums?.inventory ?? [] : [])
+}
+
+export async function verifyResourceChecksums(
+  manifest: OfflineManifest, resources: Record<string, Array<Record<string, unknown>>>
+): Promise<ChecksumVerificationResult> {
+  for (const kind of CHECKSUMMED_KINDS) {
+    const expected = manifestChecksumsFor(manifest, kind)
+    const records = resources[kind] ?? []
+    if (records.length !== expected.length) return { ok: false, code: 'checksum_mismatch', kind, index: -1 }
+    for (let i = 0; i < records.length; i++) {
+      const body = records[i]
+      if ((await sha256HexCanonical(checksumSubset(kind, body))) !== expected[i]) return { ok: false, code: 'checksum_mismatch', kind, index: i }
+      if (kind === 'forms') {
+        const comp = manifest.completeness?.[String(body._id)]
+        if (comp && comp.version !== undefined && body.version !== comp.version) return { ok: false, code: 'form_version_mismatch', kind, index: i }
+      }
+    }
+  }
+  return { ok: true }
+}
+
+// ── Bootstrap ingestion: verify → atomic persistence → readiness ──
+async function ingestBootstrap(data: OfflineBootstrap, scope: OfflineIdentityScope, nowMs: number): Promise<{ packageId: string; manifest: OfflineManifest; ready: boolean }> {
+  const manifest = data?.manifest
+  const resources: Record<string, Array<Record<string, unknown>>> = {
+    workOrders: data?.workOrders ?? [], installations: data?.installations ?? [], assets: data?.assets ?? [],
+    forms: data?.forms ?? [], inventoryRefs: data?.inventoryRefs ?? [],
+  }
+  const verification = await verifyManifest(manifest, scope, await getCachedVerificationKeys(), nowMs)
+  if (!verification.ok) {
+    if (verification.code !== 'form_not_delivered') throw new PackageError(verification.code)
+  }
+  const checksums = await verifyResourceChecksums(manifest, resources)
+  if (!checksums.ok) throw new PackageError(checksums.code, `${checksums.kind}:${checksums.index}`)
+  const ready = verification.ok
+  const scopeKey = buildScopeKey(scope)
+  const stored: StoredResourceRecord[] = []
+  for (const kind of RESOURCE_KINDS) {
+    const checksumList = manifest.resourceChecksums?.[kind] ?? []
+    for (let i = 0; i < resources[kind].length; i++) {
+      const body = resources[kind][i]
+      const resourceId = String(body._id ?? body.id ?? i)
+      stored.push({
+        id: resourceRecordId(scopeKey, kind, resourceId), scopeKey, packageId: manifest.packageId, kind, resourceId,
+        body, version: typeof body.version === 'number' ? body.version : undefined, checksum: checksumList[i], verified: true, deliveredAt: nowMs,
+      })
+    }
+  }
+  const pkg: StoredPackageRecord = {
+    packageId: manifest.packageId, manifest, cursor: manifest.cursor, version: manifest.packageVersion, ready,
+    downloadedAt: nowMs, lastSyncedAt: nowMs, freshness: computeFreshness(nowMs, manifest.expiresAt), ownerScope: scope,
+  }
+  const progress: DownloadProgressRecord = {
+    packageId: manifest.packageId, totalResources: stored.length, completedResources: stored.length, failedResources: 0,
+    status: 'completed', startedAt: nowMs, updatedAt: nowMs,
+  }
+  await persistPackageBundle({ scopeKey, pkg, resources: stored, progress })
+  return { packageId: manifest.packageId, manifest, ready }
+}
+
+async function purgePackage(packageId: string, scopeKey: string): Promise<void> {
+  await deleteResources(scopeKey, packageId)
+  await deletePackageRecord(packageId)
+  await deleteProgressRecord(packageId)
 }
 
 // ── Public API ───────────────────────────────────────────────────────────
 
-export async function preparePackage(orderId: string): Promise<{ manifest: PackageManifest }> {
-  const scope = getCurrentScope()
-  if (!scope) throw new Error('Not authenticated')
-  const response = await apiFetch('/packages/prepare', { orderId, deviceId: getOrCreateDeviceId() })
-  if (!response.ok) { const e = await response.json().catch(() => ({})); throw new Error((e as any).error?.message ?? 'Prepare failed') }
-  const { manifest }: { manifest: PackageManifest } = await response.json()
-  const now = Date.now()
-  await putPkg({ packageId: manifest.packageId, manifest, cursor: manifest.cursor, version: manifest.packageVersion, downloadedAt: now, lastSyncedAt: now, freshness: computeFreshness(now, manifest.expiresAt), ownerScope: scope })
-  await putProg({ packageId: manifest.packageId, totalResources: manifest.resources.length, completedResources: manifest.resources.length, failedResources: 0, status: 'completed', startedAt: now, updatedAt: now })
-  return { manifest }
+export async function preparePackage(orderId?: string): Promise<{ packageId: string; manifest: OfflineManifest; ready: boolean }> {
+  const auth = await getPackageScope()
+  if (!auth.ok) throw new PackageError(auth.code)
+  const body: Record<string, unknown> = { deviceId: auth.scope.deviceId }
+  if (orderId !== undefined && orderId !== '') body.orderId = orderId
+  const data = await postPackage<OfflineBootstrap>('/packages/prepare', body)
+  return ingestBootstrap(data, auth.scope, Date.now())
+}
+
+export async function refreshPackage(packageId: string): Promise<{ packageId: string; manifest: OfflineManifest; ready: boolean }> {
+  const auth = await getPackageScope()
+  if (!auth.ok) throw new PackageError(auth.code)
+  const data = await postPackage<OfflineBootstrap>('/packages/refresh', { packageId, deviceId: auth.scope.deviceId })
+  const result = await ingestBootstrap(data, auth.scope, Date.now())
+  await purgePackage(packageId, buildScopeKey(auth.scope)) // replaced package is removed
+  return result
 }
 
 export async function resumeDownload(packageId: string): Promise<void> {
-  const scope = getCurrentScope()
-  if (!scope) throw new Error('Not authenticated')
-  const pkg = await getPkg(packageId)
-  if (!pkg) throw new Error('Package not found')
-  const now = Date.now()
-  const prog: DownloadProgress = { packageId, totalResources: pkg.manifest.resources.length, completedResources: 0, failedResources: 0, status: 'downloading', startedAt: now, updatedAt: now }
-  await putProg(prog)
+  const auth = await getPackageScope()
+  if (!auth.ok) throw new PackageError(auth.code)
+  const scopeKey = buildScopeKey(auth.scope)
+  const pkg = await getPackageRecord(packageId)
+  if (!pkg) throw new PackageError('no-package')
+  // Interrupted-resume integrity: persisted bootstrap bodies must still match signed checksums.
+  const records = await getResourceRecordsForScope(scopeKey)
+  for (const kind of CHECKSUMMED_KINDS) {
+    const expected = manifestChecksumsFor(pkg.manifest, kind)
+    const list = records.filter(r => r.kind === kind && r.verified)
+    if (list.length !== expected.length) { await purgePackage(packageId, scopeKey); await preparePackage(); return }
+    for (let i = 0; i < list.length; i++) {
+      if ((await sha256HexCanonical(checksumSubset(kind, list[i].body))) !== expected[i]) { await purgePackage(packageId, scopeKey); await preparePackage(); return }
+    }
+  }
   try {
-    const response = await apiFetch('/packages/delta', { clientCursor: pkg.cursor, limit: 100 })
-    if (response.status === 410) { await delPkg(packageId); await delProg(packageId); await preparePackage(''); return }
-    if (!response.ok) throw new Error('Delta fetch failed')
-    const data = await response.json()
-    await putPkg({ ...pkg, cursor: data.nextCursor ?? pkg.cursor, lastSyncedAt: Date.now(), freshness: computeFreshness(Date.now(), pkg.manifest.expiresAt) })
-    await putProg({ ...prog, completedResources: prog.totalResources, status: 'completed', updatedAt: Date.now() })
+    const data = await postPackage<OfflineDeltaResponse>('/packages/delta', { packageId, deviceId: auth.scope.deviceId, clientCursor: pkg.cursor, limit: DELTA_LIMIT })
+    const now = Date.now()
+    await putPackageRecord({ ...pkg, cursor: data.nextCursor ?? pkg.cursor, lastSyncedAt: now, freshness: computeFreshness(now, pkg.manifest.expiresAt) })
+    const progress = await getProgressRecord(packageId)
+    await putProgressRecord({ ...progress, completedResources: progress?.totalResources ?? 0, status: 'completed', updatedAt: now })
   } catch (error) {
-    await putProg({ ...prog, status: 'error', lastError: error instanceof Error ? error.message : 'Unknown', updatedAt: Date.now() })
+    if (error instanceof PackageError && (error.code === 'CURSOR_EXPIRED' || error.code === 'PACKAGE_EXPIRED')) {
+      await purgePackage(packageId, scopeKey)
+      await preparePackage() // safe re-bootstrap; local drafts are never touched
+      return
+    }
+    const progress = await getProgressRecord(packageId)
+    await putProgressRecord({ ...progress, status: 'error', lastError: error instanceof Error ? error.message : 'Unknown', updatedAt: Date.now() })
     throw error
   }
 }
 
-export async function getDownloadProgress(packageId: string): Promise<DownloadProgress | null> { return getProg(packageId) }
-
-export async function isPackageReady(packageId: string): Promise<boolean> {
-  const pkg = await getPkg(packageId)
-  if (!pkg) return false
-  if (pkg.manifest.completeness.overall !== 'complete') return false
-  return !pkg.manifest.completeness.forms.some(f => f.status === 'not_delivered')
+/** Load a stored package, applying the scope/binding gate (no expiry yet). */
+async function loadScopedPackage(packageId: string): Promise<{ pkg?: StoredPackageRecord; reason?: 'no-package' | 'not-ready' | 'no-device' | 'binding-mismatch' }> {
+  const pkg = await getPackageRecord(packageId)
+  if (!pkg) return { reason: 'no-package' }
+  if (!pkg.ready) return { reason: 'not-ready' }
+  const auth = await getPackageScope()
+  if (!auth.ok) return { reason: 'no-device' }
+  if (!pkg.ownerScope || buildScopeKey(pkg.ownerScope) !== buildScopeKey(auth.scope)) return { reason: 'binding-mismatch' }
+  return { pkg }
 }
 
-export async function getStoredPackage(packageId: string): Promise<StoredPackage | null> { return getPkg(packageId) }
+export async function isPackageReady(packageId: string): Promise<boolean> {
+  const loaded = await loadScopedPackage(packageId)
+  const pkg = loaded.pkg
+  if (!pkg) return false
+  if (Date.parse(pkg.manifest.expiresAt) <= Date.now()) return false
+  const mine = (await getResourceRecordsForScope(buildScopeKey(pkg.ownerScope))).filter(r => r.packageId === packageId)
+  return CHECKSUMMED_KINDS.every(kind => mine.filter(r => r.kind === kind).length === manifestChecksumsFor(pkg.manifest, kind).length)
+}
 
-export async function getScopedPackages(): Promise<StoredPackage[]> {
-  const scope = getCurrentScope()
-  if (!scope) return []
-  const all = await allPkgs(); const sk = buildScopeKey(scope)
-  return all.filter(p => p.ownerScope && buildScopeKey(p.ownerScope) === sk)
+export async function canUsePackage(packageId: string, nowMs?: number): Promise<{ ok: boolean; reason?: 'no-package' | 'not-ready' | 'no-device' | 'binding-mismatch' | 'expired' }> {
+  const loaded = await loadScopedPackage(packageId)
+  if (!loaded.pkg) return { ok: false, reason: loaded.reason }
+  if (Date.parse(loaded.pkg.manifest.expiresAt) <= (nowMs ?? Date.now())) return { ok: false, reason: 'expired' }
+  return { ok: true }
+}
+
+export const getDownloadProgress = (packageId: string) => getProgressRecord(packageId)
+export const getStoredPackage = (packageId: string) => getPackageRecord(packageId)
+
+export async function getScopedPackages(): Promise<StoredPackageRecord[]> {
+  const auth = await getPackageScope()
+  if (!auth.ok) return []
+  const sk = buildScopeKey(auth.scope)
+  return (await getAllPackageRecords()).filter(p => p.ownerScope && buildScopeKey(p.ownerScope) === sk)
 }
 
 export async function checkQuota(estimatedBytes: number): Promise<{ sufficient: boolean; available: number; required: number }> {
@@ -129,13 +272,20 @@ export async function checkQuota(estimatedBytes: number): Promise<{ sufficient: 
 export async function evictOldest(): Promise<void> {
   const pkgs = await getScopedPackages()
   if (pkgs.length === 0) return
-  const oldest = pkgs.reduce((a, b) => a.downloadedAt < b.downloadedAt ? a : b)
-  await delPkg(oldest.packageId); await delProg(oldest.packageId)
+  const oldest = pkgs.reduce((a, b) => (a.downloadedAt < b.downloadedAt ? a : b))
+  await purgePackage(oldest.packageId, buildScopeKey(oldest.ownerScope!))
 }
 
 export async function purgePackagesForScope(scope: OfflineIdentityScope): Promise<void> {
-  const sk = buildScopeKey(scope); const all = await allPkgs()
-  for (const p of all.filter(p => p.ownerScope && buildScopeKey(p.ownerScope) === sk)) {
-    await delPkg(p.packageId); await delProg(p.packageId)
+  const sk = buildScopeKey(scope)
+  for (const p of (await getAllPackageRecords()).filter(p => p.ownerScope && buildScopeKey(p.ownerScope) === sk)) {
+    await deletePackageRecord(p.packageId)
+    await deleteProgressRecord(p.packageId)
   }
+  await deleteResources(sk)
+}
+
+function computeFreshness(lastSyncedAt: number, expiresAt: string): 'fresh' | 'stale' | 'expired' {
+  if (new Date(expiresAt) < new Date()) return 'expired'
+  return Date.now() - lastSyncedAt > STALE_THRESHOLD_MS ? 'stale' : 'fresh'
 }
