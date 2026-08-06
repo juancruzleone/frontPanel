@@ -12,6 +12,7 @@ import { useTechnicianStore } from "./technicianStore"
 import { useSettingsStore } from "./settingsStore"
 import { useMaintenanceStore } from "./maintenanceStore"
 import { useOfflineStore } from "./offlineStore"
+import { useOfflineTrustStore } from "./offlineTrustStore"
 import { type OfflineIdentityScope, getOrCreateDeviceId } from "../shared/offline/types"
 import { purgeScopeData } from "../shared/offline/storage"
 
@@ -212,6 +213,13 @@ export const useAuthStore = create<AuthState>()(
           })
         }
 
+        // Destroy trust material (device key + signed lease) for the departing identity
+        if (tenantId && userId) {
+          useOfflineTrustStore.getState().clearForScope(tenantId, userId).catch(() => {
+            // Purge failures never block logout; trust records stay scope-sealed
+          })
+        }
+
         // Notify Service Worker to clear API cache
         if (navigator.serviceWorker?.controller) {
           navigator.serviceWorker.controller.postMessage({ type: "LOGOUT" });
@@ -245,3 +253,19 @@ export const useAuthStore = create<AuthState>()(
 
 // Selector para obtener el rol
 export const selectRole = (state: AuthState) => state.role
+
+// Reconcile the signed offline lease whenever an authenticated session exists
+// and the trust store has not resolved yet. This covers offline shell reloads
+// where session verification never reaches the server (verifySession fails on
+// network errors), so the lease gate is always evaluated from IndexedDB.
+useAuthStore.subscribe((state) => {
+  if (
+    state.isAuthenticated &&
+    state.isAuthResolved &&
+    state.userId &&
+    state.tenantId &&
+    !useOfflineTrustStore.getState().resolved
+  ) {
+    void useOfflineTrustStore.getState().reconcile(state.tenantId, state.userId)
+  }
+})
