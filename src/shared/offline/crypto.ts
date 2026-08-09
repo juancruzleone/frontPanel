@@ -105,11 +105,56 @@ function isLeaseClaim(value: unknown): value is OfflineLeaseClaim {
     && typeof c.deviceId === 'string' && typeof c.role === 'string' && Array.isArray(c.permissions)
     && typeof c.issuedAt === 'string' && typeof c.lastVerifiedAt === 'string' && typeof c.expiresAt === 'string'
 }
-function base64UrlToBytes(b64url: string): Uint8Array {
+export function base64UrlToBytes(b64url: string): Uint8Array {
   const b64 = b64url.replace(/-/g, '+').replace(/_/g, '/')
   const padded = b64.padEnd(Math.ceil(b64.length / 4) * 4, '=')
   const binary = atob(padded)
   const bytes = new Uint8Array(binary.length)
   for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i)
   return bytes
+}
+
+// ── R5: AES-GCM-256 per-record encryption at rest ──────────────────────────
+export const AES_GCM_KEY_LENGTH = 256
+export const GCM_IV_LENGTH = 12
+
+/** Base64url (RFC-4648) encoding of bytes, no padding. */
+export function base64UrlEncode(bytes: Uint8Array): string {
+  let binary = ''
+  for (const b of bytes) binary += String.fromCharCode(b)
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+}
+
+/** Generate a non-extractable AES-GCM-256 key whose handle may persist in IndexedDB. */
+export async function generateStorageKey(): Promise<CryptoKey> {
+  return getSubtle().generateKey({ name: 'AES-GCM', length: AES_GCM_KEY_LENGTH }, false, ['encrypt', 'decrypt'])
+}
+
+/** Import an AES-GCM key from raw bytes (rotation/import path); non-extractable by default. */
+export async function importStorageKey(raw: Uint8Array, extractable = false): Promise<CryptoKey> {
+  return getSubtle().importKey('raw', raw, { name: 'AES-GCM' }, extractable, ['encrypt', 'decrypt'])
+}
+
+/**
+ * Encrypt a payload with a fresh random 12-byte IV and a record-bound AAD.
+ * Every call uses new IV/nonce material, so identical payloads differ at rest.
+ */
+export async function encryptRecordPayload(key: CryptoKey, payload: Uint8Array, aad: Uint8Array): Promise<{ iv: Uint8Array; ciphertext: Uint8Array }> {
+  const iv = globalThis.crypto.getRandomValues(new Uint8Array(GCM_IV_LENGTH))
+  const ciphertext = new Uint8Array(await getSubtle().encrypt({ name: 'AES-GCM', iv, additionalData: aad }, key, payload))
+  return { iv, ciphertext }
+}
+
+/** Decrypt; AES-GCM authentication rejects any tamper (ciphertext, IV, or AAD). */
+export async function decryptRecordPayload(key: CryptoKey, ciphertext: Uint8Array, aad: Uint8Array, iv: Uint8Array): Promise<Uint8Array> {
+  return new Uint8Array(await getSubtle().decrypt({ name: 'AES-GCM', iv, additionalData: aad }, key, ciphertext))
+}
+
+/**
+ * Record AAD: canonical bytes of {scope, store, key(version)} — the exact
+ * binding the record was encrypted under. A forged scopeKey, store, or kid
+ * produces a different AAD and fails authentication.
+ */
+export function buildRecordAad(scopeKey: string, store: string, kid: string): Uint8Array {
+  return canonicalBytes({ scope: scopeKey, store, key: kid })
 }

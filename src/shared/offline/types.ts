@@ -40,9 +40,11 @@ export function parseScopeKey(key: string): OfflineIdentityScope | null {
  * Schema version for the offline storage format.
  * Increment when the storage layout changes and a migration is needed.
  * v3 adds the `offlineResources` store (R4 complete bootstrap resource bodies);
- * R5 will layer encrypted-at-rest migration on top of v3.
+ * v4 (R5) layers encrypted-at-rest on top of v3: protected record payloads are
+ * stored as AES-GCM-256 envelopes (iv/aad/kid/ct) and plaintext is never
+ * persisted for protected records.
  */
-export const OFFLINE_STORAGE_SCHEMA_VERSION = 3
+export const OFFLINE_STORAGE_SCHEMA_VERSION = 4
 
 /**
  * Key used to persist the schema version in IndexedDB.
@@ -59,6 +61,70 @@ export const ACTIVE_SCOPE_KEY = '__offline_active_scope'
  * whose owner cannot be proven.
  */
 export const QUARANTINE_STORE_NAME = 'quarantinedRecords'
+
+// ── R5: encrypted-at-rest record envelope (schema v4) ─────────────────────
+
+/**
+ * Per-record AES-GCM-256 envelope persisted in place of the plaintext payload.
+ * `iv` and `ct` are fresh per record; `aad` binds the record to
+ * (scopeKey, store, kid) so forged scope/kid swaps fail GCM authentication.
+ * All byte fields are base64url strings so the envelope survives IndexedDB
+ * structured cloning and JSON inspection without raw plaintext.
+ */
+export interface EncryptedRecordEnvelope {
+  v: 4
+  scopeKey: string
+  store: string
+  kid: string
+  iv: string
+  aad: string
+  ct: string
+  at: number
+}
+
+export function isEncryptedEnvelope(value: unknown): value is EncryptedRecordEnvelope {
+  if (value === null || typeof value !== 'object') return false
+  const e = value as Partial<EncryptedRecordEnvelope>
+  return e.v === 4 && typeof e.scopeKey === 'string' && typeof e.store === 'string'
+    && typeof e.kid === 'string' && typeof e.iv === 'string'
+    && typeof e.aad === 'string' && typeof e.ct === 'string' && typeof e.at === 'number'
+}
+
+// ── R5: typed offline encryption errors (fail closed, never plaintext) ────
+
+export const OFFLINE_ENCRYPTION_UNAVAILABLE = 'OFFLINE_ENCRYPTION_UNAVAILABLE'
+export const OFFLINE_RECORD_TAMPER = 'OFFLINE_RECORD_TAMPER'
+export const OFFLINE_KEY_UNAVAILABLE = 'OFFLINE_KEY_UNAVAILABLE'
+
+export class OfflineEncryptionError extends Error {
+  readonly code: string
+  constructor(code: string, message?: string) {
+    super(message ?? code)
+    this.name = 'OfflineEncryptionError'
+    this.code = code
+  }
+}
+
+/** WebCrypto or IndexedDB CryptoKey persistence is unavailable; refuse plaintext. */
+export class OfflineEncryptionUnavailableError extends OfflineEncryptionError {
+  constructor(reason = OFFLINE_ENCRYPTION_UNAVAILABLE) {
+    super(OFFLINE_ENCRYPTION_UNAVAILABLE, reason)
+  }
+}
+
+/** Ciphertext, AAD, or payload failed AES-GCM authentication. */
+export class OfflineRecordTamperError extends OfflineEncryptionError {
+  constructor(detail = 'ciphertext-tamper') {
+    super(OFFLINE_RECORD_TAMPER, detail)
+  }
+}
+
+/** The key material needed to open a protected record is gone. */
+export class OfflineKeyUnavailableError extends OfflineEncryptionError {
+  constructor(detail = 'key-unavailable') {
+    super(OFFLINE_KEY_UNAVAILABLE, detail)
+  }
+}
 
 // ── R4: Strengthened U6 package contract (mirrors backPanel schemas/offline.schema.js) ──
 

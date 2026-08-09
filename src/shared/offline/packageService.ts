@@ -8,6 +8,7 @@
 import {
   type OfflineIdentityScope, buildScopeKey, type OfflineBootstrap, type OfflineManifest, type OfflineManifestClaim,
   type OfflineDeltaResponse, type PackageResourceKind, PACKAGE_LEASE_MAX_MS, PACKAGE_SCHEMA_VERSION,
+  OfflineRecordTamperError, OfflineKeyUnavailableError,
 } from './types'
 import { importVerificationKey, verifyCanonicalSignature, sha256HexCanonical, type VerificationKey } from './crypto'
 import { getCachedVerificationKeys, getStoredDevice } from './deviceTrust'
@@ -197,8 +198,20 @@ export async function resumeDownload(packageId: string): Promise<void> {
   const scopeKey = buildScopeKey(auth.scope)
   const pkg = await getPackageRecord(packageId)
   if (!pkg) throw new PackageError('no-package')
-  // Interrupted-resume integrity: persisted bootstrap bodies must still match signed checksums.
-  const records = await getResourceRecordsForScope(scopeKey)
+  // Interrupted-resume integrity: persisted (encrypted) bodies must still
+  // decrypt and match signed checksums. Tampered ciphertext or destroyed key
+  // material fails closed and safely re-bootstraps; anything else surfaces.
+  let records: StoredResourceRecord[]
+  try {
+    records = await getResourceRecordsForScope(scopeKey)
+  } catch (error) {
+    if (error instanceof OfflineRecordTamperError || error instanceof OfflineKeyUnavailableError) {
+      await purgePackage(packageId, scopeKey)
+      await preparePackage() // safe re-bootstrap; local drafts are never touched
+      return
+    }
+    throw error
+  }
   for (const kind of CHECKSUMMED_KINDS) {
     const expected = manifestChecksumsFor(pkg.manifest, kind)
     const list = records.filter(r => r.kind === kind && r.verified)

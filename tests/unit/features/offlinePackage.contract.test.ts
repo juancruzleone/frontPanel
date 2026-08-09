@@ -21,6 +21,7 @@ const mkReq = (result?: unknown): any => { const req: any = { onsuccess: null, o
 const createStore = () => {
   const data = new Map<string, unknown>()
   return {
+    _data: data,
     put(val: unknown, key?: string) { const k = key ?? (val as any)?.id ?? (val as any)?.packageId ?? String(Date.now()); data.set(k, val); return mkReq(k) },
     get: (key: string) => mkReq(data.get(key) ?? undefined),
     delete: (key: string) => { data.delete(key); return mkReq(undefined) },
@@ -213,10 +214,15 @@ describe('R4 — 410 re-bootstrap', () => {
     expect(await getStoredPackage('pkg-001')).toBeNull()
     expect((await getStoredPackage('pkg-002'))!.ready).toBe(true)
   })
-  it('re-verifies persisted checksums before resuming (tampered body re-bootstraps)', async () => {
+  it('re-verifies persisted ciphertext before resuming (tampered envelope re-bootstraps)', async () => {
     mockPrepare(await mkManifest(server))
     await preparePackage('o1')
-    ;(await getResourceRecordsForScope(buildScopeKey(scopeA))).find(r => r.kind === 'workOrders')!.body.estado = 'tampered'
+    // R5 v4: bodies are AES-GCM envelopes at rest, so the R4 plaintext-body
+    // tamper becomes a ciphertext tamper — same intent, GCM rejects it.
+    const store = idbMock._getStore('GMAO_Offline_DB', 'offlineResources')
+    const stored = store._data.get(`${buildScopeKey(scopeA)}:workOrders:o1`) as { body: { ct: string } }
+    // Flip the first base64url char (always real bytes) so GCM deterministically rejects it
+    stored.body.ct = stored.body.ct.startsWith('A') ? `B${stored.body.ct.slice(1)}` : `A${stored.body.ct.slice(1)}`
     mockPrepare(await mkManifest(server, { packageId: 'pkg-002', cursor: 10 }))
     await resumeDownload('pkg-001')
     expect(await getStoredPackage('pkg-001')).toBeNull()
