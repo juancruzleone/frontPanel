@@ -32,7 +32,7 @@ const errR = (s: number, c: string) => ({ ok: false, status: s, json: () => Prom
 const B1 = { evidenceId: 'ev-001', commandId: 'cmd-001', orderId: 'o-001', packageId: 'p-001' }
 const B2 = { evidenceId: 'ev-002', commandId: 'cmd-001', orderId: 'o-001', packageId: 'p-001' }
 
-describe('R8b1 BinaryEvidenceQueue', () => {
+describe('R8b2 BinaryEvidenceQueue', () => {
   beforeEach(() => { vi.clearAllMocks(); idbMock._clear(); localStorage.setItem('auth-storage', JSON.stringify({ state: { userId: 'u-1', tenantId: 't-1' } })); D.mockResolvedValue({ deviceId: 'dev-123' }); L.mockResolvedValue(null) })
 
   describe('stage', () => {
@@ -105,7 +105,7 @@ describe('R8b1 BinaryEvidenceQueue', () => {
   })
 
   describe('tamper: permanent → dead-letter', () => {
-    it.each(['HASH_MISMATCH', 'SIZE_MISMATCH', 'INVALID_CONTENT_TYPE', 'CROSS_COMMAND_BINDING', 'OWNERSHIP_MISMATCH', 'DUPLICATE_EVIDENCE_ID'] as const)('%s', async (c) => {
+    it.each(['HASH_MISMATCH', 'SIZE_MISMATCH', 'INVALID_CONTENT_TYPE', 'SIZE_EXCEEDED', 'CROSS_COMMAND_BINDING', 'OWNERSHIP_MISMATCH', 'DUPLICATE_EVIDENCE_ID', 'BINARY_NOT_FOUND', 'BINARY_NOT_ACCEPTED'] as const)('%s', async (c) => {
       await offlineBinaryStorage.stage(mkBlob(c), B1); F.mockResolvedValueOnce(errR(400, c))
       await expect(offlineBinaryStorage.upload('ev-001')).rejects.toThrow('OFFLINE_BINARY_DEAD_LETTER')
       expect((await offlineBinaryStorage.get('ev-001'))!.status).toBe('dead-letter')
@@ -124,6 +124,104 @@ describe('R8b1 BinaryEvidenceQueue', () => {
     it('getBytes returns original bytes', async () => {
       await offlineBinaryStorage.stage(mkBlob('decrypt-me'), B1)
       expect(new TextDecoder().decode((await offlineBinaryStorage.getBytes('ev-001'))!)).toBe('decrypt-me')
+    })
+  })
+
+  describe('listPending / listAccepted', () => {
+    it('pending = staged only; accepted excludes staged/quarantined', async () => {
+      await offlineBinaryStorage.stage(mkBlob('p1'), B1)
+      await offlineBinaryStorage.stage(mkBlob('p2'), B2)
+      expect((await offlineBinaryStorage.listPending()).length).toBe(2)
+      expect((await offlineBinaryStorage.listAccepted()).length).toBe(0)
+      F.mockResolvedValueOnce(okR('ev-001'))
+      await offlineBinaryStorage.upload('ev-001')
+      expect((await offlineBinaryStorage.listPending()).length).toBe(1)
+      expect((await offlineBinaryStorage.listAccepted()).length).toBe(1)
+      expect((await offlineBinaryStorage.listAccepted())[0].evidenceId).toBe('ev-001')
+    })
+    it('quarantined not in pending or accepted', async () => {
+      await offlineBinaryStorage.stage(mkBlob('q'), B1)
+      F.mockResolvedValueOnce(errR(400, 'HASH_MISMATCH'))
+      await offlineBinaryStorage.upload('ev-001').catch(() => {})
+      expect((await offlineBinaryStorage.listPending()).length).toBe(0)
+      expect((await offlineBinaryStorage.listAccepted()).length).toBe(0)
+    })
+  })
+
+  describe('remove', () => {
+    it('removes staged record', async () => {
+      await offlineBinaryStorage.stage(mkBlob('rm'), B1)
+      await offlineBinaryStorage.remove('ev-001')
+      expect(await offlineBinaryStorage.get('ev-001')).toBeNull()
+    })
+    it('removes dead-letter record', async () => {
+      await offlineBinaryStorage.stage(mkBlob('dl'), B1)
+      F.mockResolvedValueOnce(errR(400, 'OWNERSHIP_MISMATCH'))
+      await offlineBinaryStorage.upload('ev-001').catch(() => {})
+      await offlineBinaryStorage.remove('ev-001')
+      expect(await offlineBinaryStorage.get('ev-001')).toBeNull()
+    })
+    it('throws on accepted record', async () => {
+      await offlineBinaryStorage.stage(mkBlob('acc'), B1)
+      F.mockResolvedValueOnce(okR('ev-001'))
+      await offlineBinaryStorage.upload('ev-001')
+      await expect(offlineBinaryStorage.remove('ev-001')).rejects.toThrow('OFFLINE_BINARY_CANNOT_REMOVE_ACCEPTED')
+    })
+    it('no-op for missing record', async () => {
+      await expect(offlineBinaryStorage.remove('nonexistent')).resolves.toBeUndefined()
+    })
+  })
+
+  describe('identity purgeScope', () => {
+    it('purges all records for the given scope', async () => {
+      await offlineBinaryStorage.stage(mkBlob('a'), B1)
+      await offlineBinaryStorage.stage(mkBlob('b'), B2)
+      expect((await offlineBinaryStorage.list()).length).toBe(2)
+      const scope = { tenantId: 't-1', userId: 'u-1', deviceId: 'dev-123' }
+      const purged = await offlineBinaryStorage.purgeScope(scope)
+      expect(purged).toBe(2)
+      expect((await offlineBinaryStorage.list()).length).toBe(0)
+    })
+    it('does not purge records from a different scope', async () => {
+      await offlineBinaryStorage.stage(mkBlob('mine'), B1)
+      const foreignScope = { tenantId: 't-2', userId: 'u-2', deviceId: 'd-2' }
+      const purged = await offlineBinaryStorage.purgeScope(foreignScope)
+      expect(purged).toBe(0)
+      expect((await offlineBinaryStorage.list()).length).toBe(1)
+    })
+    it('returns 0 when no records exist', async () => {
+      const purged = await offlineBinaryStorage.purgeScope({ tenantId: 't-1', userId: 'u-1', deviceId: 'dev-123' })
+      expect(purged).toBe(0)
+    })
+  })
+
+  describe('legacy aliases — scope isolation + no plaintext', () => {
+    it('saveBinary/getBinary scoped to current identity', async () => {
+      const id = await offlineBinaryStorage.saveBinary(mkBlob('legacy'))
+      expect(id).toContain('t-1:u-1:dev-123:')
+      const blob = await offlineBinaryStorage.getBinary(id)
+      expect(blob).toBeInstanceOf(Blob)
+      // Switch scope → can't see it
+      localStorage.setItem('auth-storage', JSON.stringify({ state: { userId: 'u2', tenantId: 't2' } }))
+      D.mockResolvedValue({ deviceId: 'd2' })
+      expect(await offlineBinaryStorage.getBinary(id)).toBeNull()
+    })
+    it('saveBinary never stores plaintext bytes in IndexedDB', async () => {
+      await offlineBinaryStorage.saveBinary(mkBlob('secret-content'))
+      // The raw record must have an AES-GCM envelope, not plaintext
+      const records = await offlineBinaryStorage.list()
+      expect(records.length).toBe(1)
+      expect(records[0].envelope).toBeDefined()
+      expect(records[0].envelope.v).toBe(4)
+      // The envelope ciphertext must NOT equal the original bytes
+      const ct = new Uint8Array(records[0].envelope.ct)
+      expect(new TextDecoder().decode(ct)).not.toBe('secret-content')
+    })
+    it('removeBinary deletes the record', async () => {
+      const id = await offlineBinaryStorage.saveBinary(mkBlob('del'))
+      await offlineBinaryStorage.removeBinary(id)
+      // getBinary uses the raw IndexedDB key, should return null
+      expect(await offlineBinaryStorage.getBinary(id)).toBeNull()
     })
   })
 })
