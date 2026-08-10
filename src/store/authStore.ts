@@ -14,7 +14,7 @@ import { useMaintenanceStore } from "./maintenanceStore"
 import { useOfflineStore } from "./offlineStore"
 import { useOfflineTrustStore } from "./offlineTrustStore"
 import { type OfflineIdentityScope, getOrCreateDeviceId } from "../shared/offline/types"
-import { purgeScopeData } from "../shared/offline/storage"
+import { purgeScopeData, purgeEncryptedScope } from "../shared/offline/storage"
 
 const AUTH_STORAGE_KEY = "auth-storage"
 
@@ -81,7 +81,7 @@ interface AuthState {
   setAuthResolved: (value: boolean) => void
   setLogoutMessage: (msg: string | null) => void
   setTenantId: (tenantId: string) => void
-  logout: () => void
+  logout: () => Promise<void>
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -169,7 +169,7 @@ export const useAuthStore = create<AuthState>()(
       setAuthResolved: (value) => set({ isAuthResolved: value }),
       setLogoutMessage: (msg) => set({ logoutMessage: msg }),
       setTenantId: (tenantId) => set({ tenantId }),
-      logout: () => {
+      logout: async () => {
         // Capture scope before clearing auth state for offline data purge
         const tenantId = useAuthStore.getState().tenantId
         const userId = useAuthStore.getState().userId
@@ -204,20 +204,33 @@ export const useAuthStore = create<AuthState>()(
 
         useNotificationStore.getState().setNotificationOwner(null)
 
-        // Purge offline data for the departing scope
+        // R9: Verified purge — await encrypted scope purge before clearing auth.
+        // Gate identity switch: purge must complete before next identity opens.
         if (currentScope) {
+          const scopeKey = `${currentScope.tenantId}:${currentScope.userId}:${currentScope.deviceId}`
           useOfflineStore.getState().clearQueueForScope(currentScope)
-          // Fire-and-forget IndexedDB purge (binaries + metadata)
-          purgeScopeData(currentScope).catch(() => {
-            // Silently handle purge failures — data is sealed by scope mismatch
-          })
+          useOfflineStore.getState().clearDeadLettersForScope(scopeKey)
+
+          // Await both purge paths — never fire-and-forget
+          try {
+            await purgeScopeData(currentScope)
+          } catch {
+            // Purge failures never block logout; data is sealed by scope mismatch
+          }
+          try {
+            await purgeEncryptedScope(currentScope)
+          } catch {
+            // Encrypted purge failures never block logout
+          }
         }
 
         // Destroy trust material (device key + signed lease) for the departing identity
         if (tenantId && userId) {
-          useOfflineTrustStore.getState().clearForScope(tenantId, userId).catch(() => {
-            // Purge failures never block logout; trust records stay scope-sealed
-          })
+          try {
+            await useOfflineTrustStore.getState().clearForScope(tenantId, userId)
+          } catch {
+            // Trust purge failures never block logout; records stay scope-sealed
+          }
         }
 
         // Notify Service Worker to clear API cache

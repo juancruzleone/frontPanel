@@ -180,6 +180,83 @@ export interface OfflineDeltaResponse {
   deltas: OfflineDeltaEntry[]; nextCursor: number; hasMore: boolean
 }
 
+// ── R9: Sync recovery state model ───────────────────────────────────────────
+
+/** Per-item sync status visible in the OfflineSyncCenter UI. */
+export type SyncItemStatus = 'pending' | 'processing' | 'conflict' | 'permanent' | 'dead-letter'
+
+/** Error categories drive available recovery actions. */
+export type SyncErrorCategory = 'network' | 'auth' | 'conflict' | 'permanent'
+
+/** Actions available to the user for a given sync item. */
+export type SyncRecoveryAction = 'retry' | 'discard' | 're-auth' | 'return-online' | 'inspect'
+
+/** Dead-letter record — inspectable but never blind-replayed. */
+export interface DeadLetterRecord {
+  id: string
+  originalId: string
+  type: string
+  payload: Record<string, unknown>
+  errorCategory: SyncErrorCategory
+  errorMessage: string
+  failedAt: number
+  retryCount: number
+  scopeKey: string
+  receipt?: SyncReceipt | null
+}
+
+/** Authoritative server receipt — only accepted from the backend. */
+export interface SyncReceipt {
+  commandId: string
+  status: 'accepted' | 'rejected' | 'conflict'
+  serverTimestamp: string
+  details?: Record<string, unknown>
+}
+
+/** Bounded backoff state for a single queue item. */
+export interface BackoffState {
+  attempt: number
+  nextRetryAt: number
+  baseDelayMs: number
+  maxDelayMs: number
+}
+
+/** Lease status derived from signed claims — never editable. */
+export type LeaseStatus = 'valid' | 'expired' | 'revoked' | 'unknown'
+
+/** Overall sync center state. */
+export interface SyncCenterState {
+  isOnline: boolean
+  isSyncing: boolean
+  leaseStatus: LeaseStatus
+  pendingCount: number
+  processingCount: number
+  conflictCount: number
+  deadLetterCount: number
+  lastSyncAt: number | null
+}
+
+/** R9 backoff policy constants. */
+export const BACKOFF_BASE_MS = 1000
+export const BACKOFF_MAX_MS = 5 * 60 * 1000 // 5 minutes
+export const BACKOFF_MAX_ATTEMPTS = 10
+export const DEAD_LETTER_MAX_ATTEMPTS = 10
+
+/**
+ * Calculate the next retry delay using exponential backoff with jitter.
+ * Deterministic for a given attempt + seed (testable with fake timers).
+ * Returns 0 if max attempts exceeded (→ dead-letter).
+ */
+export function calculateBackoffDelay(attempt: number, seed?: number): number {
+  if (attempt >= BACKOFF_MAX_ATTEMPTS) return 0
+  const exponential = Math.min(BACKOFF_BASE_MS * Math.pow(2, attempt), BACKOFF_MAX_MS)
+  // Deterministic jitter: 25-75% of exponential (seeded for tests)
+  const jitterFactor = seed !== undefined
+    ? 0.25 + (seed % 50) / 100
+    : 0.25 + Math.random() * 0.5
+  return Math.floor(exponential * jitterFactor)
+}
+
 /**
  * Generate a device identifier.
  * Uses a persisted random UUID stored in localStorage so it survives reloads.

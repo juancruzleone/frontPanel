@@ -1,9 +1,13 @@
-import { useOfflineStore, QueuedRequest } from "../../store/offlineStore"
+import { useOfflineStore, QueuedRequest, classifySyncError } from "../../store/offlineStore"
 import { useWorkOrderStore } from "../../store/workOrderStore"
 import { useInstallationStore } from "../../store/installationStore"
 import { refreshSession } from "./authRefreshService"
 import { isAuthError } from "../utils/apiHeaders"
-import { buildScopeKey, getOrCreateDeviceId, type OfflineIdentityScope } from "../offline/types"
+import {
+  buildScopeKey, getOrCreateDeviceId, type OfflineIdentityScope,
+  type LeaseStatus, type SyncReceipt,
+  DEAD_LETTER_MAX_ATTEMPTS,
+} from "../offline/types"
 import { 
   createWorkOrder, 
   updateWorkOrder, 
@@ -41,7 +45,7 @@ const toQueuePayloadWithId = (payload: Record<string, unknown>): QueuePayloadWit
 const errorMessage = (error: unknown) => {
   if (error instanceof Error) return error.message
   if (typeof error === "string") return error
-  return "Error de sincronización"
+  return "Sync error"
 }
 
 /** Read current auth identity and build a scope for filtering. */
@@ -62,17 +66,34 @@ function getCurrentScope(): OfflineIdentityScope | null {
   }
 }
 
+/**
+ * R9: Derive lease status from the offline trust store.
+ * Never editable — derived from signed claims.
+ */
+function getLeaseStatus(): LeaseStatus {
+  try {
+    const trustRaw = window.localStorage.getItem('offline-trust-storage')
+    if (!trustRaw) return 'unknown'
+    const parsed = JSON.parse(trustRaw)
+    const claim = parsed?.state?.claim
+    if (!claim?.expiresAt) return 'unknown'
+    return new Date(claim.expiresAt).getTime() > Date.now() ? 'valid' : 'expired'
+  } catch {
+    return 'unknown'
+  }
+}
+
 class OfflineSyncService {
 
   private isSyncing = false
 
   async initialize() {
-    // Escuchar cambios de conexión
+    // Listen for connection changes
     window.addEventListener('online', () => {
       this.syncAll()
     })
 
-    // Escuchar mensajes del Service Worker
+    // Listen for Service Worker messages
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.addEventListener('message', (event) => {
         if (event.data && event.data.type === 'TRIGGER_SYNC') {
@@ -81,14 +102,14 @@ class OfflineSyncService {
       })
     }
 
-    // Suscribirse a cambios en el store para registrar Background Sync
+    // Subscribe to queue changes for Background Sync registration
     useOfflineStore.subscribe((state, prevState) => {
       if (state.queue.length > prevState.queue.length) {
         this.registerBackgroundSync()
       }
     })
 
-    // Intento inicial si ya estamos online
+    // Initial attempt if already online
     if (navigator.onLine) {
       this.syncAll()
     }
@@ -118,18 +139,34 @@ class OfflineSyncService {
     const allQueue = useOfflineStore.getState().queue
     if (allQueue.length === 0) return
 
+    // R9: Check lease status — expired/revoked lease disables replay
+    const leaseStatus = getLeaseStatus()
+    if (leaseStatus === 'expired' || leaseStatus === 'revoked') {
+      // Mark all pending items as auth-blocked
+      for (const item of allQueue) {
+        if (item.syncStatus !== 'dead-letter') {
+          useOfflineStore.getState().updateRequest(item.id, {
+            syncStatus: 'conflict',
+            errorCategory: 'auth',
+            lastError: `Lease ${leaseStatus} — re-authenticate online`,
+          })
+        }
+      }
+      return
+    }
+
     // Filter to only the current scope's items
     const currentScope = getCurrentScope()
     const currentScopeKey = currentScope ? buildScopeKey(currentScope) : null
 
     const queue = allQueue.flatMap((item) => {
       if (item.quarantined) return []
+      if (item.syncStatus === 'dead-letter') return [] // Never replay dead letters
       if (item.ownerScope) {
         return currentScopeKey && buildScopeKey(item.ownerScope) === currentScopeKey ? [item] : []
       }
 
-      // A legacy userId is sufficient to prove ownership; tenant/device are
-      // taken from the current authenticated scope during this migration.
+      // A legacy userId is sufficient to prove ownership
       if (currentScope && item.userId === currentScope.userId) {
         const migratedItem = { ...item, ownerScope: currentScope }
         useOfflineStore.getState().updateRequest(item.id, { ownerScope: currentScope })
@@ -146,36 +183,68 @@ class OfflineSyncService {
 
     if (queue.length === 0) return
 
-    // Copia local para evitar problemas con actualizaciones de estado reactivas durante el loop
-    const itemsToProcess = [...queue]
+    const now = Date.now()
+    const itemsToProcess = queue.filter((item) => {
+      // R9: Backoff — skip items whose retry window hasn't elapsed
+      if (item.backoff?.nextRetryAt && item.backoff.nextRetryAt > now) return false
+      return true
+    })
 
     for (const item of itemsToProcess) {
+      // R9: Mark as processing
+      useOfflineStore.getState().updateRequest(item.id, { syncStatus: 'processing' })
+
       try {
-        await this.processQueuedItem(item)
+        const receipt = await this.processQueuedItem(item)
+        // R9: Authoritative receipt — no optimistic success
+        if (receipt) {
+          useOfflineStore.getState().updateRequest(item.id, { receipt, syncStatus: 'pending' })
+        }
         useOfflineStore.getState().removeFromQueue(item.id)
       } catch (error) {
+        const category = classifySyncError(error)
         const retries = (item.retries || 0) + 1
-        useOfflineStore.getState().updateRequest(item.id, { retries, lastError: errorMessage(error) })
-        
+
+        // R9: Dead-letter after max attempts
+        if (retries >= DEAD_LETTER_MAX_ATTEMPTS) {
+          useOfflineStore.getState().moveToDeadLetter(item.id, category, errorMessage(error))
+          continue
+        }
+
+        // R9: Schedule backoff retry with jitter
+        useOfflineStore.getState().updateRequest(item.id, {
+          retries,
+          lastError: errorMessage(error),
+          errorCategory: category,
+          syncStatus: category === 'auth' ? 'conflict' : 'pending',
+        })
+        // Only schedule backoff for retryable (non-auth, non-permanent) errors
+        if (category !== 'auth' && category !== 'permanent') {
+          useOfflineStore.getState().scheduleRetry(item.id)
+        }
+
         // Pause if session expired (401/403)
         if (isAuthError(error)) {
-          // Notify Service Worker to clear API cache
           if (navigator.serviceWorker?.controller) {
             navigator.serviceWorker.controller.postMessage({ type: "SESSION_INVALIDATED" });
           }
           break
         }
 
-        // Si hay un error de red, paramos el proceso
+        // Stop if offline
         if (!navigator.onLine) break
       }
     }
   }
 
-  private async processQueuedItem(item: QueuedRequest) {
+  /**
+   * R9: Process a queued item and return an authoritative receipt.
+   * Receipts come only from the server — never fabricated locally.
+   */
+  private async processQueuedItem(item: QueuedRequest): Promise<SyncReceipt | null> {
     const payloadToSync = { ...item.payload }
 
-    // 1. Manejar Binarios Pendientes (Fotos, firmas, etc.)
+    // 1. Handle pending binaries (photos, signatures, etc.)
     if (item.binaryRefs && item.binaryRefs.length > 0) {
       for (const ref of item.binaryRefs) {
         const blob = await offlineBinaryStorage.getBinary(ref.id)
@@ -184,8 +253,7 @@ class OfflineSyncService {
             const remoteUrl = await uploadBinary(blob, ref.filename, ref.id)
             this.setPayloadValue(payloadToSync, ref.field, remoteUrl)
           } catch (error) {
-            // Si falla la subida del binario, lanzamos error para detener la sincronización de este item
-            throw new Error(`Error al subir binario (${ref.filename}): ${errorMessage(error)}`)
+            throw new Error(`Binary upload failed (${ref.filename}): ${errorMessage(error)}`)
           }
         }
       }
@@ -220,7 +288,7 @@ class OfflineSyncService {
           useWorkOrderStore.getState().updateWorkOrder(item.payload._id as string, created)
           useOfflineStore.getState().remapPayloadId(item.payload._id as string, created._id)
         }
-        break
+        return created?._id ? { commandId: item.id, status: 'accepted', serverTimestamp: new Date().toISOString() } : null
       }
       case 'UPDATE_WORK_ORDER': {
         const updatePayload = toQueuePayloadWithId(payloadToSync)
@@ -277,7 +345,7 @@ class OfflineSyncService {
           useInstallationStore.getState().updateInstallation(item.payload._id as string, created)
           useOfflineStore.getState().remapPayloadId(item.payload._id as string, created._id)
         }
-        break
+        return created?._id ? { commandId: item.id, status: 'accepted', serverTimestamp: new Date().toISOString() } : null
       }
       case 'UPDATE_INSTALLATION': {
         const instUpdatePayload = toQueuePayloadWithId(payloadToSync)
@@ -307,20 +375,21 @@ class OfflineSyncService {
       }
     }
 
-    // Limpieza: Eliminar binarios de IndexedDB después de una sincronización exitosa
+    // Cleanup: Remove binaries from IndexedDB after successful sync
     if (item.binaryRefs) {
       for (const ref of item.binaryRefs) {
         await offlineBinaryStorage.removeBinary(ref.id)
       }
     }
+
+    return null
   }
 
   /**
-   * Actualiza un valor en un objeto usando una ruta simple de campo (soporta arrays simples)
+   * Update a value in an object using a simple field path (supports simple arrays)
    */
   private setPayloadValue(payload: any, field: string, value: any) {
     if (field.includes('[') && field.includes(']')) {
-      // Manejar acceso a array como "fotosEvidencia[0]"
       const [name, indexPart] = field.split('[')
       const index = parseInt(indexPart.replace(']', ''))
       if (!Array.isArray(payload[name])) {
@@ -339,7 +408,7 @@ class OfflineSyncService {
           sync?: { register: (tag: string) => Promise<void> }
         }
         syncRegistration.sync?.register('offline-sync').catch(() => {
-          // Fallback si falla registro de sync
+          // Fallback if sync registration fails
         })
       })
     }
