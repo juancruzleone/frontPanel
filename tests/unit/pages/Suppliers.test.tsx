@@ -18,6 +18,27 @@ vi.mock('../../../src/shared/hooks/useResponsiveView', () => ({
 vi.mock('../../../src/shared/hooks/useTheme', () => ({
   useTheme: () => ({ theme: 'light' }),
 }))
+vi.mock('../../../src/shared/components/SuccessModal', () => ({
+  default: ({
+    isOpen,
+    onRequestClose,
+    title,
+    message,
+    buttonText,
+  }: {
+    isOpen: boolean
+    onRequestClose: () => void
+    title: string
+    message: string
+    buttonText?: string
+  }) => isOpen ? (
+    <div data-testid="canonical-success-modal">
+      <h2>{title}</h2>
+      <p>{message}</p>
+      <button onClick={onRequestClose}>{buttonText}</button>
+    </div>
+  ) : null,
+}))
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string) => key,
@@ -80,6 +101,7 @@ describe('Suppliers page', () => {
     deferredUpdate.resolve({ ...supplier, name: 'Proveedor actualizado' })
 
     expect(await screen.findByText('suppliers.supplierUpdated')).toBeInTheDocument()
+    expect(screen.getByTestId('canonical-success-modal')).toBeInTheDocument()
     expect(screen.getByText('common.successTitle')).toBeInTheDocument()
     expect(screen.queryByText('suppliers.editSupplier')).not.toBeInTheDocument()
     expect(loadSuppliers).toHaveBeenCalledTimes(2)

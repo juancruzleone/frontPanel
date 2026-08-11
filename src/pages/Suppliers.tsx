@@ -18,7 +18,7 @@ import styles from "../features/suppliers/styles/suppliers.module.css"
 import ModalCreate from "../features/suppliers/components/ModalCreate"
 import ModalEdit from "../features/suppliers/components/ModalEdit"
 import ModalConfirmDelete from "../features/suppliers/components/ModalConfirmDelete"
-import ModalSuccess from "../features/suppliers/components/ModalSuccess"
+import SuccessModal from "../shared/components/SuccessModal"
 import type { Supplier } from "../store/supplierStore"
 
 const SUPPLIERS_ALLOWED_VIEWS = ['cards', 'table'] as const
@@ -233,10 +233,12 @@ const Suppliers = () => {
         onSuccess={handleSuccess}
       />
 
-      <ModalSuccess
+      <SuccessModal
         isOpen={isSuccessModalOpen}
+        title={t('common.successTitle')}
         message={successMessage}
-        onClose={closeSuccessModal}
+        buttonText={t('common.understood')}
+        onRequestClose={closeSuccessModal}
       />
       
       <TourButton
