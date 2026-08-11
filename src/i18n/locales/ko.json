@@ -698,6 +698,7 @@
     "title": "설치",
     "createInstallation": "설치 생성",
     "editInstallation": "설치 편집",
+    "basicInformation": "기본 정보",
     "installationDetails": "설치 상세",
     "company": "이름",
     "address": "주소",

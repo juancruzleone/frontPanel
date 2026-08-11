@@ -183,8 +183,8 @@ const InstallationForm = ({
         {/* Error general */}
         {formErrors.general && <div className={styles.generalError}>{formErrors.general}</div>}
 
-        {/* Sección: Información de la Empresa */}
-        <h3 className={styles.sectionTitle}>{t('installations.companyInfo')}</h3>
+        {/* Sección: Información básica */}
+        <h3 className={styles.sectionTitle}>{t('installations.basicInformation')}</h3>
 
         {fields.slice(0, 2).map((field) => (
           <div className={styles.formGroup} key={field.name}>

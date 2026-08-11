@@ -675,6 +675,7 @@
     "title": "Installationen",
     "createInstallation": "Installation erstellen",
     "editInstallation": "Installation bearbeiten",
+    "basicInformation": "Grundinformationen",
     "deleteInstallation": "Installation entfernen",
     "viewDeviceList": "Asset-Liste anzeigen",
     "installationDetails": "Installationsdetails",

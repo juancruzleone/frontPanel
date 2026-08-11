@@ -695,6 +695,7 @@
     "title": "Installations",
     "createInstallation": "Créer une Installation",
     "editInstallation": "Modifier l'Installation",
+    "basicInformation": "Informations de base",
     "installationDetails": "Détails de l'Installation",
     "company": "Nom",
     "address": "Adresse",
