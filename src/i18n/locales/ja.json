@@ -281,6 +281,7 @@
     }
   },
   "common": {
+    "active": "有効",
     "user": "ユーザー",
     "type": "タイプ",
     "page": "ページ",
@@ -2080,6 +2081,7 @@
     "minimum": "最小",
     "andMore": "他 {{count}} 件...",
     "inventoryMaterials": "在庫資材",
+    "selectSupplier": "仕入れ先を選択",
     "selectItem": "-- アイテムを選択 --",
     "adjustmentType": "調整タイプ",
     "entry": "入庫",

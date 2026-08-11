@@ -20,6 +20,7 @@ interface HybridSelectProps {
   name?: string;
   error?: boolean;
   required?: boolean;
+  ariaLabelledBy?: string;
   variant?: 'default' | 'compact'; // Nueva prop para variante compacta
 }
 
@@ -35,6 +36,7 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
   name,
   error,
   required = false,
+  ariaLabelledBy,
   variant = 'default' // Valor por defecto
 }) => {
   const { dark } = useTheme();
@@ -202,6 +204,7 @@ const HybridSelect: React.FC<HybridSelectProps> = ({
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         aria-disabled={disabled}
+        aria-labelledby={ariaLabelledBy}
       >
         <span className={styles.hybridSelectValue}>
           {selectedOption ? selectedOption.label : placeholder}

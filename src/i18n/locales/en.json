@@ -282,6 +282,7 @@
     }
   },
   "common": {
+    "active": "Active",
     "user": "User",
     "type": "Type",
     "saving": "Saving",
@@ -1753,6 +1754,7 @@
     "minimum": "Minimum",
     "andMore": "and {{count}} more...",
     "inventoryMaterials": "Inventory Materials",
+    "selectSupplier": "Select supplier",
     "selectItem": "-- Select Item --",
     "adjustmentType": "Adjustment Type",
     "entry": "Entry",

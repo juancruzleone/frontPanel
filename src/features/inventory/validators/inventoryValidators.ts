@@ -16,6 +16,7 @@ export const getInventorySchema = (t: (key: string) => string) =>
     location: yup.string().trim().optional(),
     code: yup.string().trim().optional(),
     active: yup.boolean().default(true),
+    supplierId: yup.string().optional(),
     supplierSnapshot: yup.object({
       supplierId: yup.string().optional(),
       name: yup.string().required(),

@@ -5,6 +5,7 @@ import { InventoryItem, SupplierSnapshot } from "../types/inventory.types"
 import styles from "../styles/inventoryForm.module.css"
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 import { useSuppliers } from "../../suppliers/hooks/useSuppliers"
+import HybridSelect from "../../../shared/components/HybridSelect/HybridSelect"
 
 interface InventoryFormProps {
   initialData?: Partial<InventoryItem> | null
@@ -24,7 +25,7 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
   isLoading = false
 }) => {
   const { t } = useTranslation()
-  const { suppliers, loadSuppliers } = useSuppliers()
+  const { suppliers, loading: loadingSuppliers, loadSuppliers } = useSuppliers()
   const [formData, setFormData] = useState<InventoryFormData>({
     name: initialData?.name || "",
     unit: initialData?.unit || t("inventory.defaultUnit"),
@@ -75,6 +76,21 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
     setErrors(prev => ({ ...prev, [name]: result.isValid ? "" : result.error }))
   }
 
+  const handleSupplierChange = async (supplierId: string) => {
+    setFormData(prev => ({ ...prev, supplierId }))
+
+    if (touched.supplierId) {
+      const result = await validateInventoryField("supplierId", supplierId, t)
+      setErrors(prev => ({ ...prev, supplierId: result.isValid ? "" : result.error }))
+    }
+  }
+
+  const handleSupplierBlur = async () => {
+    setTouched(prev => ({ ...prev, supplierId: true }))
+    const result = await validateInventoryField("supplierId", formData.supplierId, t)
+    setErrors(prev => ({ ...prev, supplierId: result.isValid ? "" : result.error }))
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
@@ -104,6 +120,8 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
             phone: selectedSupplier.phone,
           }
           submissionData.supplierSnapshot = supplierSnapshot
+        } else if (initialData?.supplierSnapshot?.supplierId === supplierId) {
+          submissionData.supplierSnapshot = initialData.supplierSnapshot
         }
       } else {
         submissionData.supplierSnapshot = null
@@ -113,6 +131,18 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
     } catch (err: unknown) {
       setErrors({ submit: err instanceof Error ? err.message : t("common.error") })
     }
+  }
+
+  const supplierOptions = suppliers.map(supplier => ({
+    value: supplier._id,
+    label: supplier.name,
+  }))
+  const initialSupplier = initialData?.supplierSnapshot
+  if (initialSupplier?.supplierId && !supplierOptions.some(option => option.value === initialSupplier.supplierId)) {
+    supplierOptions.unshift({
+      value: initialSupplier.supplierId,
+      label: initialSupplier.name,
+    })
   }
 
   return (
@@ -220,22 +250,19 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="supplierId">{t("nav.suppliers")}</label>
-          <select
-            id="supplierId"
+          <label id="supplierId-label">{t("nav.suppliers")}</label>
+          <HybridSelect
             name="supplierId"
             value={formData.supplierId}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            disabled={isLoading}
-          >
-            <option value="">{t("inventory.selectItem")}</option>
-            {suppliers.map(supplier => (
-              <option key={supplier._id} value={supplier._id}>
-                {supplier.name}
-              </option>
-            ))}
-          </select>
+            onChange={handleSupplierChange}
+            onBlur={handleSupplierBlur}
+            disabled={isLoading || loadingSuppliers}
+            options={supplierOptions}
+            placeholder={loadingSuppliers ? t("common.loading") : t("inventory.selectSupplier")}
+            error={!!(errors.supplierId && touched.supplierId)}
+            ariaLabelledBy="supplierId-label"
+          />
+          {errors.supplierId && touched.supplierId && <span className={styles.error}>{errors.supplierId}</span>}
         </div>
 
         <div className={styles.checkboxGroup}>
@@ -247,7 +274,7 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
             onChange={handleChange}
             disabled={isLoading}
           />
-          <label htmlFor="active">{t("common.active") || "Activo"}</label>
+          <label htmlFor="active">{t("common.active")}</label>
         </div>
       </div>
 

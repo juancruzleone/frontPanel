@@ -278,6 +278,7 @@
     }
   },
   "common": {
+    "active": "Actif",
     "user": "Utilisateur",
     "type": "Type",
     "page": "Page",
@@ -2067,6 +2068,7 @@
     "minimum": "Minimum",
     "andMore": "et {{count}} de plus...",
     "inventoryMaterials": "Matériaux d'inventaire",
+    "selectSupplier": "Sélectionner un fournisseur",
     "selectItem": "-- Sélectionner l'article --",
     "adjustmentType": "Type d'ajustement",
     "entry": "Entrée",

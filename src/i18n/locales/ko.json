@@ -281,6 +281,7 @@
     }
   },
   "common": {
+    "active": "활성",
     "user": "사용자",
     "type": "유형",
     "page": "페이지",
@@ -2114,6 +2115,7 @@
     "minimum": "최소",
     "andMore": "외 {{count}}개...",
     "inventoryMaterials": "재고 자재",
+    "selectSupplier": "공급업체 선택",
     "selectItem": "-- 품목 선택 --",
     "adjustmentType": "조정 유형",
     "entry": "입고",

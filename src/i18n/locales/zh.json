@@ -281,6 +281,7 @@
     }
   },
   "common": {
+    "active": "启用",
     "user": "用户",
     "type": "类型",
     "page": "页",
@@ -2105,6 +2106,7 @@
     "minimum": "最低",
     "andMore": "以及其他 {{count}} 项...",
     "inventoryMaterials": "库存物料",
+    "selectSupplier": "选择供应商",
     "selectItem": "-- 选择项目 --",
     "adjustmentType": "调整类型",
     "entry": "入库",

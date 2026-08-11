@@ -281,6 +281,7 @@
     }
   },
   "common": {
+    "active": "نشط",
     "user": "مستخدم",
     "type": "نوع",
     "page": "الصفحة",
@@ -2081,6 +2082,7 @@
     "minimum": "الحد الأدنى",
     "andMore": "و {{count}} غيرها...",
     "inventoryMaterials": "مواد المخزون",
+    "selectSupplier": "اختر موردًا",
     "selectItem": "-- اختر عنصر --",
     "adjustmentType": "نوع التعديل",
     "entry": "إدخال",

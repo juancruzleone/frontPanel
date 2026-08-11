@@ -282,6 +282,7 @@
     "technician": "Técnico"
   },
   "common": {
+    "active": "Activo",
     "user": "Usuario",
     "type": "Tipo",
     "saving": "Guardando...",
@@ -1767,6 +1768,7 @@
     "minimum": "Mínimo",
     "andMore": "y {{count}} más...",
     "inventoryMaterials": "Materiales del Inventario",
+    "selectSupplier": "Seleccionar proveedor",
     "selectItem": "-- Seleccionar Item --",
     "adjustmentType": "Tipo de Ajuste",
     "entry": "Entrada",
