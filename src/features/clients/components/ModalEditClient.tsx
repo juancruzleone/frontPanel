@@ -5,7 +5,7 @@ import { useAuthStore } from "../../../store/authStore"
 import styles from "../styles/Modal.module.css"
 import formStyles from "../styles/registerForm.module.css"
 import buttonStyles from "../../../shared/components/Buttons/formButtons.module.css"
-import { FiUser, FiUserCheck, FiLock, FiShield, FiEye, FiEyeOff } from "react-icons/fi"
+import { FiEye, FiEyeOff } from "react-icons/fi"
 
 interface ModalEditClientProps {
     isOpen: boolean
@@ -195,7 +195,6 @@ const ModalEditClient = ({
                     <div className={styles.modalBody} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                         <div className={formStyles.formGroup}>
                             <label htmlFor="userName">
-                                <FiUser size={16} />
                                 {t('clients.username')} *
                             </label>
                             <div className={formStyles.inputWrapper}>
@@ -222,7 +221,6 @@ const ModalEditClient = ({
 
                         <div className={formStyles.formGroup}>
                             <label htmlFor="password">
-                                <FiLock size={16} />
                                 {t('clients.newPassword')}
                             </label>
                             <div className={formStyles.inputWrapper}>
@@ -259,7 +257,6 @@ const ModalEditClient = ({
                         {password && (
                             <div className={formStyles.formGroup}>
                                 <label htmlFor="confirmPassword">
-                                    <FiShield size={16} />
                                     {t('clients.confirmPassword')} *
                                 </label>
                                 <div className={formStyles.inputWrapper}>

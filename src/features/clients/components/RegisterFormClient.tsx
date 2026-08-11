@@ -1,6 +1,6 @@
 import type React from "react"
 import { useCallback } from "react"
-import { FiEye, FiEyeOff, FiUser, FiLock, FiShield, FiUserPlus, FiUserCheck } from "react-icons/fi"
+import { FiEye, FiEyeOff } from "react-icons/fi"
 import styles from "../styles/registerForm.module.css"
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 import { useTranslation } from "react-i18next"
@@ -54,9 +54,9 @@ const RegisterClientForm = ({
     const { t } = useTranslation()
 
     const fields = [
-        { name: "username", label: t('clients.username'), type: "text", icon: FiUser },
-        { name: "password", label: t('clients.password'), type: "password", icon: FiLock },
-        { name: "confirmPassword", label: t('clients.confirmPassword'), type: "password", icon: FiShield },
+        { name: "username", label: t('clients.username'), type: "text" },
+        { name: "password", label: t('clients.password'), type: "password" },
+        { name: "confirmPassword", label: t('clients.confirmPassword'), type: "password" },
     ]
 
     const handleInputChange = useCallback(
@@ -116,12 +116,9 @@ const RegisterClientForm = ({
     return (
         <form onSubmit={handleFormSubmit} className={styles.form}>
             <div className={styles.formInner}>
-                {fields.map(({ name, label, type, icon: Icon }) => (
+                {fields.map(({ name, label, type }) => (
                     <div className={styles.formGroup} key={name}>
-                        <label htmlFor={name}>
-                            <Icon size={16} />
-                            {label}
-                        </label>
+                        <label htmlFor={name}>{label}</label>
                         <div className={styles.inputWrapper}>
                             <input
                                 type={getInputType(name, type)}
