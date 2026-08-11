@@ -32,8 +32,16 @@
   content: "";
   width: 3px;
   height: 16px;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  background: #000;
   border-radius: 2px;
+}
+
+:global([data-theme="light"]) .formGroup label::before {
+  background: #000;
+}
+
+:global([data-theme="dark"]) .formGroup label::before {
+  background: #fff;
 }
 
 .formGroup input,
