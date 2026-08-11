@@ -45,7 +45,7 @@
 .tableContainer {
   max-height: 60vh;
   overflow-y: auto;
-  padding: 1.5rem;
+  padding: 2rem 2.5rem;
 }
 
 @keyframes slideUp {
@@ -571,6 +571,10 @@
     padding: 1.5rem 1.5rem 1rem;
   }
 
+  .tableContainer {
+    padding: 1.5rem;
+  }
+
   .title {
     font-size: 1.5rem;
   }
@@ -657,6 +661,10 @@
 
   .modalHeader {
     padding: 1.25rem 1.25rem 0.75rem;
+  }
+
+  .tableContainer {
+    padding: 1.25rem;
   }
 
   .title {
