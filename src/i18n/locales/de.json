@@ -310,6 +310,27 @@
     "syncValidationDiscarded": "Validierungsfehler ({{type}}). Verworfen.",
     "syncElementDiscarded": "Fehler beim Synchronisieren des Elements ({{type}}). Verworfen."
   },
+  "offline": {
+    "syncStatus": "Synchronisierungsstatus",
+    "closeNotification": "Synchronisierungsbenachrichtigung schließen",
+    "syncPaused": "Synchronisierung pausiert",
+    "syncAttentionRequired": "Synchronisierung erfordert Aufmerksamkeit",
+    "syncIssuesDescription": "Einige Offline-Änderungen müssen vor Abschluss der Synchronisierung geprüft werden.",
+    "syncCompleteDescription": "Alle ausstehenden Änderungen sind auf dem neuesten Stand.",
+    "syncInProgress": "Änderungen werden synchronisiert",
+    "syncInProgressDescription": "Ihre Offline-Änderungen werden sicher übertragen.",
+    "offlineUnavailable": "Die Offline-Synchronisierung ist nicht verfügbar.",
+    "leaseExpired": "Die Offline-Berechtigung ist abgelaufen.",
+    "leaseRevoked": "Der Offline-Zugriff wurde widerrufen.",
+    "leaseInvalid": "Die Offline-Berechtigung ist ungültig.",
+    "syncError": "Synchronisierung fehlgeschlagen. Erneut versuchen.",
+    "syncComplete": "Synchronisierung abgeschlossen",
+    "conflicts": "Konflikte: {{count}}",
+    "deadLetters": "Nicht verarbeitbare Einträge: {{count}}",
+    "viewConflicts": "Konflikte anzeigen",
+    "viewDeadLetters": "Nicht verarbeitbare Einträge anzeigen",
+    "retry": "Wiederholen"
+  },
   "notifications": {
     "title": "Benachrichtigungen",
     "empty": "Keine neuen Benachrichtigungen",

@@ -139,13 +139,25 @@ test.describe("Offline Capability Review - Technician Flow", () => {
 
     // 6. VERIFY: Optimistic UI update while offline
     await expect(page.getByText("Reparación Aire Acondicionado")).toBeHidden({ timeout: 15000 });
+    await expect.poll(() => page.evaluate(() => {
+      const offlineStore = (window as Window & {
+        useOfflineStore?: { getState: () => { queue: Array<{ type: string }> } }
+      }).useOfflineStore;
+      return offlineStore?.getState().queue.some((item) => item.type === "DELETE_WORK_ORDER") ?? false;
+    })).toBe(true);
     expect(deleteSyncCalled).toBe(false);
 
     // 7. ACT: Back ONLINE
     await context.setOffline(false);
-    await page.evaluate(() => window.dispatchEvent(new Event('online')));
+    await page.evaluate(async () => {
+      // A controlled SW owns reconnect verification, which page.route cannot mock.
+      const { useAuthStore } = await import("/src/store/authStore.ts");
+      const { offlineSyncService } = await import("/src/shared/services/offlineSyncService.ts");
+      useAuthStore.setState({ isAuthenticated: true, isAuthResolved: true });
+      await offlineSyncService.syncAll();
+    });
 
     // 8. VERIFY: Later Sync
-    await expect.poll(() => deleteSyncCalled, { timeout: 30000 }).toBe(true);
+    await expect.poll(() => deleteSyncCalled).toBe(true);
   });
 });

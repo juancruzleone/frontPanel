@@ -10,7 +10,7 @@ import { ThemedToaster, AppInitializer } from "./AppProviders";
 import { installFetchCredentials } from "./shared/services/fetchCredentials";
 import { useOfflineStore } from "./store/offlineStore";
 
-const SERVICE_WORKER_URL = "/sw.js?v=3";
+const SERVICE_WORKER_URL = "/sw.js?v=4";
 
 // Registrar Service Worker para PWA solo en builds de producción.
 // En Vite dev, un SW previo puede interceptar /@vite/client y /src/main.tsx,
@@ -45,6 +45,13 @@ if ("serviceWorker" in navigator) {
 			.register(SERVICE_WORKER_URL, { updateViaCache: "none" })
 			.then((registration) => registration.update())
 			.catch(() => undefined);
+
+		// Handle SYNC_TO_APP from SW → trigger encrypted coordinator sync
+		navigator.serviceWorker.addEventListener("message", (event) => {
+			if (event.data?.type === "SYNC_TO_APP") {
+				window.dispatchEvent(new Event("online"));
+			}
+		});
 	});
 }
 

@@ -327,6 +327,27 @@
     "syncValidationDiscarded": "Erreur de validation ({{type}}). Ignoré.",
     "syncElementDiscarded": "Erreur lors de la synchronisation de l'élément ({{type}}). Ignoré."
   },
+  "offline": {
+    "syncStatus": "État de la synchronisation",
+    "closeNotification": "Fermer la notification de synchronisation",
+    "syncPaused": "Synchronisation en pause",
+    "syncAttentionRequired": "La synchronisation nécessite votre attention",
+    "syncIssuesDescription": "Certaines modifications hors ligne doivent être examinées avant la fin de la synchronisation.",
+    "syncCompleteDescription": "Toutes les modifications en attente sont à jour.",
+    "syncInProgress": "Synchronisation des modifications",
+    "syncInProgressDescription": "Vos modifications hors ligne sont envoyées de manière sécurisée.",
+    "offlineUnavailable": "La synchronisation hors ligne n'est pas disponible.",
+    "leaseExpired": "L'autorisation hors ligne a expiré.",
+    "leaseRevoked": "L'accès hors ligne a été révoqué.",
+    "leaseInvalid": "L'autorisation hors ligne n'est pas valide.",
+    "syncError": "Impossible de synchroniser. Réessayez.",
+    "syncComplete": "Synchronisation terminée",
+    "conflicts": "Conflits : {{count}}",
+    "deadLetters": "Éléments non traitables : {{count}}",
+    "viewConflicts": "Afficher les conflits",
+    "viewDeadLetters": "Afficher les éléments non traitables",
+    "retry": "Réessayer"
+  },
   "notifications": {
     "title": "Notifications",
     "empty": "Aucune nouvelle notification",

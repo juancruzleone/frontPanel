@@ -20,6 +20,7 @@ import { validateWorkOrderForm } from "../validators/workOrderValidations";
 import { useTranslation } from "react-i18next";
 import { useTimeZone } from "../../calendar/hooks/useTimeZone";
 import { isOfflineError } from "../../../shared/utils/errorHelpers";
+import { resolveStartContext, startWorkOrderOnlineOrOffline, completeWorkOrderOnlineOrOffline, buildStartCommandId } from "../../../shared/offline/lifecycleStart";
 
 export type Technician = {
 	_id: string;
@@ -72,6 +73,7 @@ export type WorkOrder = {
 	fechaAsignacion?: Date | string;
 	fechaInicio?: Date | string;
 	fechaCompletada?: Date | string;
+	pendingSync?: boolean;
 	observaciones?: string;
 	trabajoRealizado?: string;
 	materialesUtilizados?: {
@@ -513,93 +515,83 @@ const useWorkOrders = () => {
 		id: string,
 		data: Record<string, unknown>,
 	) => {
-		const saveOffline = () => {
-			const completedAt = new Date();
-			const completedAtIso = completedAt.toISOString();
-			const offlineCompletionData = {
-				...data,
-				fechaCompletadaOffline: completedAtIso,
-				fechaEjecucionOffline: completedAtIso,
+		const { tenantId } = useAuthStore.getState();
+		const { userId } = useAuthStore.getState();
+
+		if (navigator.onLine) {
+			try {
+				await apiCompleteWorkOrder(id, data);
+				storeUpdateWorkOrder(id, { estado: "completada", fechaCompletada: new Date(), ...data });
+				return { message: t("workOrders.orderCompleted") };
+			} catch (err: unknown) {
+				if (!isOfflineError(err)) throw err;
+			}
+		}
+
+		const { ctx } = await resolveStartContext(tenantId ?? "", userId ?? "", id);
+		if (ctx) {
+			const completionPayload = {
+				trabajoRealizado: (data.trabajoRealizado as string) ?? "",
+				observaciones: data.observaciones as string | undefined,
+				inventoryPartsUsed: (data.inventoryPartsUsed as Array<{ inventoryItemId: string; nameSnapshot: string; unit: string; quantity: number }>) ?? [],
 				timezone: timeZone,
 				userOffset: offset,
-				offlineSync: true,
 			};
-			const completionUpdate = {
-				estado: "completada",
-				fechaCompletada: completedAt,
-				...offlineCompletionData,
-			};
-			storeUpdateWorkOrder(id, completionUpdate as Partial<WorkOrder>);
-			addToQueue({
-				type: "COMPLETE_WORK_ORDER",
-				payload: { id, data: offlineCompletionData },
-			});
-			return {
-				message: "Orden completada localmente. Se sincronizará al reconectar.",
-			};
-		};
+			const result = await completeWorkOrderOnlineOrOffline(
+				id, completionPayload, ctx, buildStartCommandId(id), apiCompleteWorkOrder, true,
+			);
 
-		if (!navigator.onLine) {
-			return saveOffline();
-		}
-
-		try {
-			const result = await apiCompleteWorkOrder(id, data);
-			storeUpdateWorkOrder(id, {
-				estado: "completada",
-				fechaCompletada: new Date(),
-				...data,
-				...result,
-			});
-			return { message: "Orden de trabajo completada con éxito" };
-		} catch (err: unknown) {
-			if (isOfflineError(err)) {
-				return saveOffline();
+			if (result.status === "accepted") {
+				storeUpdateWorkOrder(id, {
+					estado: "completada",
+					fechaCompletada: new Date(),
+					...data,
+				});
+			} else if (result.status === "pending_offline") {
+				storeUpdateWorkOrder(id, {
+					estado: "completada",
+					fechaCompletada: new Date(),
+					pendingSync: true,
+					...data,
+				});
 			}
-			throw err;
+			return { message: t(result.messageKey) };
 		}
+
+		return { message: t("offline.offlineUnavailable") };
 	};
 
 	const startWorkOrder = async (id: string) => {
-		const saveOffline = () => {
-			const startedAt = new Date();
-			const startedAtIso = startedAt.toISOString();
-			const startData = {
-				fechaInicioOffline: startedAtIso,
-				fechaEjecucionOffline: startedAtIso,
-				timezone: timeZone,
-				userOffset: offset,
-				offlineSync: true,
-			};
-			storeUpdateWorkOrder(id, {
-				estado: "en_progreso",
-				fechaInicio: startedAt,
-				...startData,
-			});
-			addToQueue({
-				type: "START_WORK_ORDER",
-				payload: { id, data: startData },
-			});
-			return { message: "Orden iniciada localmente." };
-		};
+		const { tenantId } = useAuthStore.getState();
+		const { userId } = useAuthStore.getState();
 
-		if (!navigator.onLine) {
-			return saveOffline();
-		}
-
-		try {
-			await apiStartWorkOrder(id);
-			storeUpdateWorkOrder(id, {
-				estado: "en_progreso",
-				fechaInicio: new Date(),
-			});
-			return { message: "Orden de trabajo iniciada con éxito" };
-		} catch (err: unknown) {
-			if (isOfflineError(err)) {
-				return saveOffline();
+		if (navigator.onLine) {
+			try {
+				await apiStartWorkOrder(id);
+				storeUpdateWorkOrder(id, { estado: "en_progreso", fechaInicio: new Date() });
+				return { message: t("workOrders.orderStarted") };
+			} catch (err: unknown) {
+				if (!isOfflineError(err)) throw err;
 			}
-			throw err;
 		}
+
+		const { ctx } = await resolveStartContext(tenantId ?? "", userId ?? "", id);
+		if (ctx) {
+			const result = await startWorkOrderOnlineOrOffline(id, ctx, apiStartWorkOrder, true);
+
+			if (result.status === "accepted") {
+				storeUpdateWorkOrder(id, { estado: "en_progreso", fechaInicio: new Date() });
+			} else if (result.status === "pending_offline") {
+				storeUpdateWorkOrder(id, {
+					estado: "en_progreso",
+					fechaInicio: new Date(),
+					pendingSync: true,
+				});
+			}
+			return { message: t(result.messageKey) };
+		}
+
+		return { message: t("offline.offlineUnavailable") };
 	};
 
 	const changeWorkOrderStatus = async (

@@ -330,6 +330,27 @@
     "syncValidationDiscarded": "خطأ في التحقق ({{type}}). تم تجاهله.",
     "syncElementDiscarded": "خطأ أثناء مزامنة العنصر ({{type}}). تم تجاهله."
   },
+  "offline": {
+    "syncStatus": "حالة المزامنة",
+    "closeNotification": "إغلاق إشعار المزامنة",
+    "syncPaused": "تم إيقاف المزامنة مؤقتًا",
+    "syncAttentionRequired": "تتطلب المزامنة الانتباه",
+    "syncIssuesDescription": "تحتاج بعض التغييرات دون اتصال إلى المراجعة قبل اكتمال المزامنة.",
+    "syncCompleteDescription": "جميع التغييرات المعلقة محدّثة.",
+    "syncInProgress": "جارٍ مزامنة التغييرات",
+    "syncInProgressDescription": "يتم إرسال تغييراتك دون اتصال بشكل آمن.",
+    "offlineUnavailable": "المزامنة دون اتصال غير متاحة.",
+    "leaseExpired": "انتهت صلاحية التفويض دون اتصال.",
+    "leaseRevoked": "تم إلغاء الوصول دون اتصال.",
+    "leaseInvalid": "التفويض دون اتصال غير صالح.",
+    "syncError": "تعذرت المزامنة. حاول مرة أخرى.",
+    "syncComplete": "اكتملت المزامنة",
+    "conflicts": "التعارضات: {{count}}",
+    "deadLetters": "العناصر غير القابلة للمعالجة: {{count}}",
+    "viewConflicts": "عرض التعارضات",
+    "viewDeadLetters": "عرض العناصر غير القابلة للمعالجة",
+    "retry": "إعادة المحاولة"
+  },
   "notifications": {
     "title": "الإشعارات",
     "empty": "لا توجد إشعارات جديدة",

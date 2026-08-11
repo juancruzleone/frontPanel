@@ -6,6 +6,8 @@ import {
 import { offlineSyncService } from "../../../shared/services/offlineSyncService";
 import { useOfflineStore } from "../../../store/offlineStore";
 import { offlineBinaryStorage } from "../../../shared/services/offlineBinaryStorage";
+import { useAuthStore } from "../../../store/authStore";
+import { resolveStartContext, recordMaintenanceOffline, buildStartCommandId, generateDraftId } from "../../../shared/offline/lifecycleStart";
 import {
 	getErrorMessage,
 	isOfflineError,
@@ -85,6 +87,9 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
 	const [repuestosUsados, setRepuestosUsados] = useState<
 		{ itemId: string; nombre: string; cantidad: number; unidad: string }[]
 	>([]);
+	// Draft ID persisted per package scope — created only after package resolution
+	const draftIdRef = useRef<string | null>(null);
+	const draftIdScopeRef = useRef<string | null>(null); // tracks which scope the draftId belongs to
 
 	// Verificar estado de conexión
 	useEffect(() => {
@@ -93,6 +98,8 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
 
 		window.addEventListener("online", handleOnline);
 		window.addEventListener("offline", handleOffline);
+
+		// Draft ID restored lazily after package resolution (not here — no packageId yet)
 
 		return () => {
 			window.removeEventListener("online", handleOnline);
@@ -282,14 +289,10 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
 			}
 
 			const handleCleanup = () => {
-				// Limpiar formulario manteniendo los tipos correctos
 				const initialData: Record<string, unknown> = {};
 				formFields.forEach((field: FormField) => {
-					if (field.type === "checkbox") {
-						initialData[field.name] = false;
-					} else {
-						initialData[field.name] = "";
-					}
+					if (field.type === "checkbox") { initialData[field.name] = false; }
+					else { initialData[field.name] = ""; }
 				});
 				setFormData(initialData);
 				setFotosEvidencia([]);
@@ -297,70 +300,77 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
 				setFotosFilenames([]);
 				setFirmaTecnico("");
 				setRepuestosUsados([]);
+				// Clear persisted draft ID — next submission gets a new draft
+				draftIdRef.current = null;
+				if (draftIdScopeRef.current) {
+					localStorage.removeItem(draftIdScopeRef.current)
+					draftIdScopeRef.current = null
+				}
 			};
 
 			const saveOffline = async () => {
-				const fechaEjecucionOffline = new Date().toISOString();
-
 				try {
-					// Stage binaries in IndexedDB instead of base64 in queue
-					const binaryRefs = [];
+					// R7/R8: Resolve context and stage evidence in encrypted R8 staging
+					const { tenantId } = useAuthStore.getState();
+					const { userId } = useAuthStore.getState();
+					const linkedWorkOrderId = (formData.ordenTrabajoId as string) || (formData.workOrderId as string) || '';
 
-					// 1. Stage Photos
-					for (let i = 0; i < fotosFiles.length; i++) {
-						const blob = fotosFiles[i];
-						const filename = fotosFilenames[i] || `foto_${i}.jpg`;
-						const id = await offlineBinaryStorage.saveBinary(blob);
-						binaryRefs.push({
-							id,
-							field: `fotosEvidencia[${i}]`,
-							filename,
-							contentType: blob.type || "image/jpeg",
-							size: blob.size,
-						});
+					if (!linkedWorkOrderId) {
+						setError(getErrorMessage(null, "No se puede registrar offline: orden de trabajo no vinculada"));
+						return;
 					}
 
-					// 2. Stage Signature
-					if (firmaTecnico) {
-						const signatureBlob = dataURLtoBlob(firmaTecnico);
-						const id = await offlineBinaryStorage.saveBinary(
-							signatureBlob,
-							"firma.png",
-						);
-						binaryRefs.push({
-							id,
-							field: "firmaTecnico",
-							filename: "firma.png",
-							contentType: "image/png",
-							size: signatureBlob.size,
-						});
+					const { ctx } = await resolveStartContext(tenantId ?? "", userId ?? "", linkedWorkOrderId);
+					if (!ctx) {
+						setError(getErrorMessage(null, "offline.offlineUnavailable"));
+						return;
 					}
 
-					// Guardar para envío posterior si no hay conexión
-					addToQueue({
-						type: "DEVICE_MAINTENANCE",
-						payload: {
-							...formData,
-							repuestosUsados,
-							timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-							userOffset: new Date().getTimezoneOffset(),
-							fechaEjecucionOffline,
-							offlineSync: true,
-							// Note: fotosEvidencia and firmaTecnico are omitted from payload
-							// because they are in binaryRefs
-						},
-						binaryRefs,
-						metadata: {
-							installationId,
-							deviceId,
-						},
-					});
+					// Build scoped storage key with resolved packageId
+					const scopedKey = `draftId:${ctx.tenantId}:${ctx.actorId}:${ctx.deviceId}:${ctx.packageId}:${installationId}`
 
-					offlineSyncService.registerBackgroundSync();
-					setSuccess(
-						"Mantenimiento guardado. Se enviará automáticamente cuando haya conexión.",
-					);
-					handleCleanup();
+					// Reuse persisted draft ID for this exact package scope, or generate new
+					if (draftIdRef.current && draftIdScopeRef.current === scopedKey) {
+						// Same scope retry — reuse existing draftId
+					} else {
+						// New scope or first attempt — check localStorage then generate
+						const saved = localStorage.getItem(scopedKey)
+						draftIdRef.current = saved || generateDraftId(linkedWorkOrderId)
+						draftIdScopeRef.current = scopedKey
+						localStorage.setItem(scopedKey, draftIdRef.current)
+					}
+					const draftId = draftIdRef.current
+
+					// Stage evidence in R8 encrypted staging
+					const signatureBlob = firmaTecnico ? dataURLtoBlob(firmaTecnico) : undefined
+					const { stageEvidenceFromFormData } = await import("../../../shared/offline/binaryStaging")
+					const stageResult = await stageEvidenceFromFormData(
+						{ draftId, photos: fotosFiles, photoFilenames: fotosFilenames, signatureBlob, tenantId: ctx.tenantId, userId: ctx.actorId, deviceId: ctx.deviceId, packageId: ctx.packageId },
+						ctx.key, ctx.kid,
+					)
+
+					// Partial failure — preserve draft, report staged count
+					if (stageResult.failed > 0 && stageResult.staged === 0) {
+						setError(getErrorMessage(null, "No se pudo preparar evidencia para offline"));
+						return
+					}
+
+					// Record maintenance command with staged evidence IDs
+					const startCmdId = buildStartCommandId(linkedWorkOrderId)
+					const result = await recordMaintenanceOffline(linkedWorkOrderId, draftId, { ...formData, repuestosUsados }, stageResult.evidenceIds, ctx, startCmdId)
+
+					if (result.status === 'pending_offline') {
+						const msg = stageResult.failed > 0
+							? `Mantenimiento registrado. ${stageResult.staged} evidencias preparadas, ${stageResult.failed} fallaron.`
+							: "Mantenimiento registrado localmente. Pendiente de sincronización."
+						setSuccess(msg)
+						handleCleanup()
+						return
+					}
+					if (result.status === 'form_unavailable' || result.status === 'evidence_not_staged') {
+						setError(getErrorMessage(null, result.messageKey))
+						return
+					}
 				} catch (err: unknown) {
 					if (err instanceof Error && err.message.includes("quota")) {
 						setError(

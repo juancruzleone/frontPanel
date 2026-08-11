@@ -323,6 +323,27 @@
     "syncValidationDiscarded": "Erro de validação ({{type}}). Descartado.",
     "syncElementDiscarded": "Erro ao sincronizar item ({{type}}). Descartado."
   },
+  "offline": {
+    "syncStatus": "Status da sincronização",
+    "closeNotification": "Fechar notificação de sincronização",
+    "syncPaused": "Sincronização pausada",
+    "syncAttentionRequired": "A sincronização requer atenção",
+    "syncIssuesDescription": "Algumas alterações offline precisam ser revisadas antes de concluir a sincronização.",
+    "syncCompleteDescription": "Todas as alterações pendentes estão atualizadas.",
+    "syncInProgress": "Sincronizando alterações",
+    "syncInProgressDescription": "Suas alterações offline estão sendo enviadas com segurança.",
+    "offlineUnavailable": "A sincronização offline não está disponível.",
+    "leaseExpired": "A autorização offline expirou.",
+    "leaseRevoked": "O acesso offline foi revogado.",
+    "leaseInvalid": "A autorização offline é inválida.",
+    "syncError": "Não foi possível sincronizar. Tente novamente.",
+    "syncComplete": "Sincronização concluída",
+    "conflicts": "Conflitos: {{count}}",
+    "deadLetters": "Itens não processáveis: {{count}}",
+    "viewConflicts": "Ver conflitos",
+    "viewDeadLetters": "Ver itens não processáveis",
+    "retry": "Tentar novamente"
+  },
   "notifications": {
     "title": "Notificações",
     "empty": "Sem novas notificações",

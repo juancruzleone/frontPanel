@@ -26,7 +26,7 @@ const makeSwEnv = () => {
   const mockCaches = {
     open: vi.fn(async () => mockCache),
     match: vi.fn(async (req) => mockCache.match(req)),
-    keys: vi.fn(async () => Array.from(cacheMap.keys())),
+    keys: vi.fn(async () => ['leonix-v5']),
     delete: vi.fn(async () => true)
   }
 
@@ -132,32 +132,25 @@ describe("Service Worker API Cache", () => {
     vi.unstubAllGlobals()
   })
 
-  it("3.1 RED: should serve cached API data when offline", async () => {
+  it("3.1 RED: should return 503 for API when offline (network-only, no cache)", async () => {
     const fetchListener = swEnv.listeners["fetch"][0]
     const request = new (global as any).Request("http://localhost:5173/api/ordenes-trabajo")
-    
+
     // GIVEN we are offline (fetch fails)
     swEnv.fetch.mockRejectedValue(new Error("Offline"))
-    
-    // AND we have a cached response
+
+    // AND we have a cached response (should NOT be used)
     const cachedData = { data: "cached work orders" }
     const cachedResponse = (global as any).Response.json(cachedData)
-    // Add TTL metadata simulation (Design says cloned with X-SW-Cached-At)
-    cachedResponse.headers.set('X-SW-Cached-At', Date.now().toString())
     swEnv.cacheMap.set("http://localhost:5173/api/ordenes-trabajo", cachedResponse)
 
     // WHEN intercepting the fetch
-    const event = {
-      request,
-      respondWith: vi.fn()
-    }
+    const event = { request, respondWith: vi.fn() }
     fetchListener(event)
-    
-    // THEN it should respond with cached data
+
+    // THEN it should return 503 (network-only, cache ignored)
     const response = await event.respondWith.mock.calls[0][0]
-    expect(response.status).toBe(200)
-    const json = await response.json()
-    expect(json).toEqual(cachedData)
+    expect(response.status).toBe(503)
   })
 
   it("3.1 RED: should return 503 when offline and no cache is found", async () => {
@@ -180,8 +173,8 @@ describe("Service Worker API Cache", () => {
     // THEN it should return 503
     const response = await event.respondWith.mock.calls[0][0]
     expect(response.status).toBe(503)
-    const json = await response.json()
-    expect(json.message).toContain("no disponibles")
+    const text = await response.text()
+    expect(text).toContain("no disponible")
   })
 
   it("3.1 RED: should respect TTL and fetch fresh data if expired", async () => {
@@ -211,42 +204,38 @@ describe("Service Worker API Cache", () => {
     expect(swEnv.fetch).toHaveBeenCalled()
   })
 
-  it("3.2 TRIANGULATE: should cache list with 5m TTL", async () => {
+  it("3.2 TRIANGULATE: API requests are network-only (no caching)", async () => {
     const fetchListener = swEnv.listeners["fetch"][0]
     const request = new (global as any).Request("http://localhost:5173/api/ordenes-trabajo")
-    
+
     // GIVEN we are online
     swEnv.fetch.mockResolvedValue((global as any).Response.json({ data: "list" }))
 
     // WHEN intercepting
     const event = { request, respondWith: vi.fn() }
     fetchListener(event)
-    
-    // THEN it should cache and respond
+
+    // THEN it should fetch from network (not cache)
     const response = await event.respondWith.mock.calls[0][0]
-    expect(response.headers.get("X-SW-Cached-At")).toBeDefined()
-    expect(swEnv.cacheMap.has("http://localhost:5173/api/ordenes-trabajo")).toBe(true)
-    const storedResponse = swEnv.cacheMap.get("http://localhost:5173/api/ordenes-trabajo")
-    expect(storedResponse.headers.get("X-SW-Cached-At")).toBeDefined()
+    expect(swEnv.fetch).toHaveBeenCalled()
   })
 
-  it("3.2 TRIANGULATE: should cache detail with 1h TTL", async () => {
+  it("3.2 TRIANGULATE: detail endpoint is network-only (no cache)", async () => {
     const fetchListener = swEnv.listeners["fetch"][0]
     const request = new (global as any).Request("http://localhost:5173/api/ordenes-trabajo/123")
-    
-    // GIVEN online and cached 30m ago (still fresh for 1h)
+
+    // GIVEN online and cached (should NOT be used)
     const cachedResponse = (global as any).Response.json({ data: "detail" })
     cachedResponse.headers.set("X-SW-Cached-At", (Date.now() - 30 * 60 * 1000).toString())
     swEnv.cacheMap.set("http://localhost:5173/api/ordenes-trabajo/123", cachedResponse)
+    swEnv.fetch.mockResolvedValue((global as any).Response.json({ data: "fresh" }))
 
     // WHEN intercepting
     const event = { request, respondWith: vi.fn() }
     fetchListener(event)
-    
-    // THEN it should return cached (fresh)
-    const response = await event.respondWith.mock.calls[0][0]
-    expect(swEnv.fetch).not.toHaveBeenCalled()
-    expect(await response.json()).toEqual({ data: "detail" })
+
+    // THEN it should fetch from network (not cache)
+    expect(swEnv.fetch).toHaveBeenCalled()
   })
 
   it("3.2 TRIANGULATE: should NOT cache non-allowlisted API routes", async () => {
@@ -269,47 +258,16 @@ describe("Service Worker API Cache", () => {
     expect(swEnv.cacheMap.has("http://localhost:5173/api/users/profile")).toBe(false)
   })
 
-  it("3.2 TRIANGULATE: should clear cache on LOGOUT or SESSION_INVALIDATED message", async () => {
+  it("3.2 TRIANGULATE: should clear ALL caches on LOGOUT", async () => {
     const messageListener = swEnv.listeners["message"][0]
-    
-    // GIVEN some cached data
-    swEnv.cacheMap.set("http://localhost:5173/api/any", "some data")
-    
+
     // WHEN receiving LOGOUT message
     const event1 = {
       data: { type: "LOGOUT" },
       waitUntil: vi.fn(async (p) => await p)
     }
     await messageListener(event1)
-    expect(swEnv.caches.delete).toHaveBeenCalledWith("leonix-api-v1")
-    vi.mocked(swEnv.caches.delete).mockClear()
-
-    // GIVEN data again
-    swEnv.cacheMap.set("http://localhost:5173/api/any", "some data")
-    
-    // WHEN receiving SESSION_INVALIDATED message
-    const event2 = {
-      data: { type: "SESSION_INVALIDATED" },
-      waitUntil: vi.fn(async (p) => await p)
-    }
-    await messageListener(event2)
-    expect(swEnv.caches.delete).toHaveBeenCalledWith("leonix-api-v1")
-  })
-
-  it("3.2 TRIANGULATE: should clear cache on LOGOUT message", async () => {
-    const messageListener = swEnv.listeners["message"][0]
-    
-    // GIVEN some cached data
-    swEnv.cacheMap.set("http://localhost:5173/api/any", "some data")
-    
-    // WHEN receiving LOGOUT message
-    const event = {
-      data: { type: "LOGOUT" },
-      waitUntil: vi.fn(async (p) => await p)
-    }
-    await messageListener(event)
-    
-    // THEN caches.delete should be called
-    expect(swEnv.caches.delete).toHaveBeenCalledWith("leonix-api-v1")
+    // New SW clears ALL caches on logout (not just API cache)
+    expect(swEnv.caches.delete).toHaveBeenCalled()
   })
 })

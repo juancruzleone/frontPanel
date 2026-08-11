@@ -7,6 +7,7 @@ import Tooltip from '../../../shared/components/Tooltip/Tooltip'
 import styles from '../styles/workOrders.module.css'
 import { getProfilePhotoUrl } from '../../../shared/utils/imageUtils'
 import { UserPermissions } from '../../../store/authStore'
+import { OfflinePackageAction } from './OfflinePackageAction'
 
 type TechnicianLike = {
   profilePhoto?: string
@@ -200,6 +201,7 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
               </button>
             </Tooltip>
           )}
+          <OfflinePackageAction orderId={order._id!} orderStatus={order.estado} />
           {order.estado === "en_progreso" && permissions?.canCompleteWorkOrder && (
             <Tooltip content={t('workOrders.completeOrder')}>
               <button

@@ -330,6 +330,27 @@
     "syncValidationDiscarded": "検証エラー ({{type}})。破棄されました。",
     "syncElementDiscarded": "項目の同期エラー ({{type}})。破棄されました。"
   },
+  "offline": {
+    "syncStatus": "同期ステータス",
+    "closeNotification": "同期通知を閉じる",
+    "syncPaused": "同期は一時停止中です",
+    "syncAttentionRequired": "同期の確認が必要です",
+    "syncIssuesDescription": "同期を完了する前に、一部のオフライン変更を確認する必要があります。",
+    "syncCompleteDescription": "保留中の変更はすべて最新です。",
+    "syncInProgress": "変更を同期しています",
+    "syncInProgressDescription": "オフライン変更を安全に送信しています。",
+    "offlineUnavailable": "オフライン同期は利用できません。",
+    "leaseExpired": "オフライン認証の有効期限が切れました。",
+    "leaseRevoked": "オフラインアクセスが取り消されました。",
+    "leaseInvalid": "オフライン認証が無効です。",
+    "syncError": "同期できませんでした。もう一度お試しください。",
+    "syncComplete": "同期が完了しました",
+    "conflicts": "競合: {{count}}件",
+    "deadLetters": "処理できない項目: {{count}}件",
+    "viewConflicts": "競合を表示",
+    "viewDeadLetters": "処理できない項目を表示",
+    "retry": "再試行"
+  },
   "notifications": {
     "title": "通知",
     "empty": "新しい通知はありません",

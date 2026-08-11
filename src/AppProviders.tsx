@@ -3,8 +3,10 @@ import { Toaster } from "sonner"
 import { useTheme } from "./shared/hooks/useTheme"
 import { useAuthStore } from "@/store/authStore"
 import { useCSRFStore } from "@/store/csrfStore"
+import { useOfflineTrustStore } from "@/store/offlineTrustStore"
 import { verifySession } from "./features/auth/services/loginServices"
 import { OfflineSyncManager } from "./shared/components/OfflineSyncManager"
+import { initializeOfflineTrust } from "./shared/offline/trustInit"
 
 let bootstrapPromise: ReturnType<typeof verifySession> | null = null
 
@@ -95,6 +97,13 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
       fetchToken()
     }
   }, [isAuthResolved, isAuthenticated, csrfToken, csrfIsLoading, fetchToken])
+
+  // Initialize offline trust after authentication (online only)
+  React.useEffect(() => {
+    if (isAuthResolved && isAuthenticated && navigator.onLine) {
+      initializeOfflineTrust().catch(() => {})
+    }
+  }, [isAuthResolved, isAuthenticated])
 
   return (
     <>

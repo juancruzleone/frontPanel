@@ -330,6 +330,27 @@
     "syncValidationDiscarded": "验证错误 ({{type}})。已丢弃。",
     "syncElementDiscarded": "同步项目时出错 ({{type}})。已丢弃。"
   },
+  "offline": {
+    "syncStatus": "同步状态",
+    "closeNotification": "关闭同步通知",
+    "syncPaused": "同步已暂停",
+    "syncAttentionRequired": "同步需要处理",
+    "syncIssuesDescription": "完成同步前，需要检查部分离线更改。",
+    "syncCompleteDescription": "所有待处理的更改均已更新。",
+    "syncInProgress": "正在同步更改",
+    "syncInProgressDescription": "正在安全发送离线更改。",
+    "offlineUnavailable": "离线同步不可用。",
+    "leaseExpired": "离线授权已过期。",
+    "leaseRevoked": "离线访问权限已撤销。",
+    "leaseInvalid": "离线授权无效。",
+    "syncError": "无法同步，请重试。",
+    "syncComplete": "同步完成",
+    "conflicts": "冲突：{{count}}",
+    "deadLetters": "无法处理的项目：{{count}}",
+    "viewConflicts": "查看冲突",
+    "viewDeadLetters": "查看无法处理的项目",
+    "retry": "重试"
+  },
   "notifications": {
     "title": "通知",
     "empty": "暂无新通知",

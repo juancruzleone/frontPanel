@@ -330,6 +330,27 @@
     "syncValidationDiscarded": "유효성 검사 오류 ({{type}}). 폐기됨.",
     "syncElementDiscarded": "항목 동기화 오류 ({{type}}). 폐기됨."
   },
+  "offline": {
+    "syncStatus": "동기화 상태",
+    "closeNotification": "동기화 알림 닫기",
+    "syncPaused": "동기화가 일시 중지되었습니다",
+    "syncAttentionRequired": "동기화 확인이 필요합니다",
+    "syncIssuesDescription": "동기화를 완료하기 전에 일부 오프라인 변경 사항을 검토해야 합니다.",
+    "syncCompleteDescription": "보류 중인 모든 변경 사항이 최신 상태입니다.",
+    "syncInProgress": "변경 사항 동기화 중",
+    "syncInProgressDescription": "오프라인 변경 사항을 안전하게 전송하고 있습니다.",
+    "offlineUnavailable": "오프라인 동기화를 사용할 수 없습니다.",
+    "leaseExpired": "오프라인 인증이 만료되었습니다.",
+    "leaseRevoked": "오프라인 액세스가 취소되었습니다.",
+    "leaseInvalid": "오프라인 인증이 유효하지 않습니다.",
+    "syncError": "동기화할 수 없습니다. 다시 시도하세요.",
+    "syncComplete": "동기화가 완료되었습니다",
+    "conflicts": "충돌: {{count}}개",
+    "deadLetters": "처리할 수 없는 항목: {{count}}개",
+    "viewConflicts": "충돌 보기",
+    "viewDeadLetters": "처리할 수 없는 항목 보기",
+    "retry": "다시 시도"
+  },
   "notifications": {
     "title": "알림",
     "empty": "새 알림이 없습니다",

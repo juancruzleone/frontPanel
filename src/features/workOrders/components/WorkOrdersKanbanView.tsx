@@ -17,6 +17,7 @@ import {
 import Tooltip from "../../../shared/components/Tooltip/Tooltip";
 import styles from "../styles/workOrders.module.css";
 import { UserPermissions } from "../../../store/authStore";
+import { OfflinePackageAction } from "./OfflinePackageAction";
 
 interface WorkOrdersKanbanViewProps {
 	workOrders: WorkOrder[];
@@ -142,6 +143,8 @@ export const WorkOrdersKanbanView: React.FC<WorkOrdersKanbanViewProps> = ({
 							</button>
 						</Tooltip>
 					)}
+
+					<OfflinePackageAction orderId={order._id!} orderStatus={order.estado} />
 
 					{order.estado === "en_progreso" &&
 						permissions?.canCompleteWorkOrder && (

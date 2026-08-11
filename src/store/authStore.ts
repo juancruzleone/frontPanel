@@ -1,6 +1,7 @@
 import { create } from "zustand"
 import { createJSONStorage, persist } from "zustand/middleware"
 import { useCSRFStore } from "./csrfStore"
+import { useOfflineTrustStore } from "./offlineTrustStore"
 import { useInstallationStore } from "./installationStore"
 import { useNotificationStore } from "./notificationStore"
 import { useWorkOrderStore } from "./workOrderStore"
@@ -166,9 +167,21 @@ export const useAuthStore = create<AuthState>()(
       setLogoutMessage: (msg) => set({ logoutMessage: msg }),
       setTenantId: (tenantId) => set({ tenantId }),
       logout: () => {
+        // Capture departing identity for selective purge
+        const departingTenantId = useAuthStore.getState().tenantId
+        const departingUserId = useAuthStore.getState().userId
+
         // Clear CSRF token on logout using action
         useCSRFStore.getState().clearToken()
         
+        // Clear offline trust state — prevents cross-user leakage
+        useOfflineTrustStore.getState().clearTrust()
+
+        // Selective purge: remove only draft keys for departing identity
+        if (departingTenantId && departingUserId) {
+          import('../shared/offline/lifecycleStart').then(m => m.purgeOfflineDraftsForScope(departingTenantId, departingUserId)).catch(() => {})
+        }
+
         // Clear cached stores to prevent cross-user leakage
         useInstallationStore.getState().setInstallations([])
         useInstallationStore.getState().setAssets([])
