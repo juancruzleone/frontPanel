@@ -34,6 +34,18 @@ export interface FrequencyOption {
   months: string[]
 }
 
+const frequencyValueAliases: Record<string, string> = {
+  monthly: 'mensual',
+  quarterly: 'trimestral',
+  semiannual: 'semestral',
+  annual: 'anual',
+}
+
+const normalizeFrequencyValue = (value: string): string => {
+  const normalizedValue = value.trim().toLowerCase()
+  return frequencyValueAliases[normalizedValue] || normalizedValue
+}
+
 const useSubscriptions = () => {
   const { t } = useTranslation()
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([])
@@ -74,7 +86,7 @@ const useSubscriptions = () => {
     { value: 'semestral', label: t('subscriptions.frequency.semiannual') },
     { value: 'anual', label: t('subscriptions.frequency.annual') }
   ]).map((f) => ({
-    value: f.value || f.id || '',
+    value: normalizeFrequencyValue(f.value || f.id || ''),
     label: t(`subscriptions.frequency.${f.id || f.value}`),
     months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
   }))
