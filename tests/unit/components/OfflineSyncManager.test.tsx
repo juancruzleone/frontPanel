@@ -2,7 +2,7 @@
  * OfflineSyncManager wired to syncCoordinator: reconnect dedup, retry, cleanup.
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import React from 'react'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
@@ -68,6 +68,7 @@ const { OfflineSyncManager } = await import('../../../src/shared/components/Offl
 
 describe('OfflineSyncManager → coordinator', () => {
   beforeEach(() => {
+    localStorage.clear()
     Object.assign(mockState.auth, { isAuthenticated: true, isAuthResolved: true, userId: 'u1'})
     Object.assign(mockState.trust, { isOfflineReady: true, deviceId: 'dev-1', leaseStatus: 'valid'})
     resolveSyncContextMock.mockReset()
@@ -131,6 +132,47 @@ describe('OfflineSyncManager → coordinator', () => {
     expect(document.querySelectorAll('[data-offline-sync-notification]')).toHaveLength(1)
     expect(screen.getByLabelText('Estado de sincronización')).toHaveTextContent('El acceso sin conexión fue revocado.')
     expect(screen.getByLabelText('Cerrar notificación de sincronización')).toBeTruthy()
+  })
+
+  it('keeps the same paused problem dismissed after a reload', () => {
+    Object.assign(mockState.trust, { leaseStatus: 'expired' })
+    const firstLoad = render(<OfflineSyncManager />)
+
+    fireEvent.click(screen.getByLabelText('Cerrar notificación de sincronización'))
+    firstLoad.unmount()
+    render(<OfflineSyncManager />)
+
+    expect(document.querySelector('[data-offline-sync-notification]')).toBeNull()
+  })
+
+  it('shows the same problem again after a successful sync resolved the incident', async () => {
+    Object.assign(mockState.trust, { leaseStatus: 'expired' })
+    const view = render(<OfflineSyncManager />)
+    fireEvent.click(screen.getByLabelText('Cerrar notificación de sincronización'))
+
+    Object.assign(mockState.trust, { leaseStatus: 'valid' })
+    view.rerender(<OfflineSyncManager />)
+    await waitFor(() => expect(localStorage.getItem('offline-sync-dismissed:u1:dev-1')).toBeNull())
+
+    Object.assign(mockState.trust, { leaseStatus: 'expired' })
+    view.rerender(<OfflineSyncManager />)
+
+    expect(screen.getByLabelText('Estado de sincronización')).toHaveTextContent('La autorización sin conexión venció.')
+  })
+
+  it('does not show a notice for the automatic online sync after a reload', async () => {
+    render(<OfflineSyncManager />)
+
+    await waitFor(() => expect(runSyncCycleMock).toHaveBeenCalledOnce())
+    expect(document.querySelector('[data-offline-sync-notification]')).toBeNull()
+  })
+
+  it('shows a paused notice when the browser detects a real connection loss', () => {
+    render(<OfflineSyncManager />)
+
+    fireEvent.offline(window)
+
+    expect(screen.getByLabelText('Estado de sincronización')).toHaveTextContent('Sincronización en pausa')
   })
 
   it('uses one alert surface for paused, conflict, and dead-letter states', async () => {

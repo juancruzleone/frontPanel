@@ -18,31 +18,55 @@ const INITIAL: SyncProgress = {
   totalConflicted: 0, totalDeadLettered: 0, lastSyncAt: null,
 }
 
+const DISMISSED_NOTIFICATION_KEY = 'offline-sync-dismissed'
+
+const readDismissedFingerprint = (storageKey: string): string | null => {
+  try {
+    return localStorage.getItem(storageKey)
+  } catch {
+    return null
+  }
+}
+
+const storeDismissedFingerprint = (storageKey: string, fingerprint: string | null) => {
+  try {
+    if (fingerprint === null) localStorage.removeItem(storageKey)
+    else localStorage.setItem(storageKey, fingerprint)
+  } catch {
+    // The in-memory dismissal still works when storage is unavailable.
+  }
+}
+
 export const OfflineSyncManager = () => {
   const { t } = useTranslation()
   const isAuthenticated = useAuthStore(s => s.isAuthenticated)
   const isAuthResolved = useAuthStore(s => s.isAuthResolved)
+  const userId = useAuthStore(s => s.userId)
   const isOfflineReady = useOfflineTrustStore(s => s.isOfflineReady)
   const leaseStatus = useOfflineTrustStore(s => s.leaseStatus)
+  const deviceId = useOfflineTrustStore(s => s.deviceId)
+  const dismissalStorageKey = `${DISMISSED_NOTIFICATION_KEY}:${userId ?? 'anonymous'}:${deviceId ?? 'no-device'}`
 
   const [progress, setProgress] = useState<SyncProgress>(INITIAL)
   const [conflictItems, setConflictItems] = useState<ConflictItem[]>([])
   const [selectedConflict, setSelectedConflict] = useState<ConflictItem | null>(null)
-  const [dismissedFingerprint, setDismissedFingerprint] = useState<string | null>(null)
+  const [dismissedFingerprint, setDismissedFingerprint] = useState<string | null>(() => readDismissedFingerprint(dismissalStorageKey))
+  const [isOnline, setIsOnline] = useState(() => navigator.onLine)
   const cycleRunning = useRef(false)
   const mountedRef = useRef(true)
+  const announceProgressRef = useRef(false)
 
-  const isPaused = !isOfflineReady || leaseStatus === 'expired' || leaseStatus === 'revoked'
-  const pauseReason = !isOfflineReady ? 'offline.offlineUnavailable'
+  const isPaused = !isOnline || !isOfflineReady || leaseStatus === 'expired' || leaseStatus === 'revoked'
+  const pauseReason = !isOnline || !isOfflineReady ? 'offline.offlineUnavailable'
     : leaseStatus === 'expired' ? 'offline.leaseExpired'
     : leaseStatus === 'revoked' ? 'offline.leaseRevoked'
     : undefined
   const effectivePhase = isPaused ? 'paused' : progress.phase
   const effectivePauseReason = isPaused ? pauseReason : progress.pauseReason
 
-  const runCycle = useCallback(async () => {
+  const runCycle = useCallback(async (announceProgress = true) => {
+    announceProgressRef.current = announceProgress
     if (cycleRunning.current || !isAuthResolved || !isAuthenticated || !navigator.onLine) return
-    setDismissedFingerprint(null)
     if (!isOfflineReady || leaseStatus === 'expired' || leaseStatus === 'revoked') {
       if (mountedRef.current) setProgress(prev => ({ ...prev, phase: 'paused', pauseReason: 'offline.leaseInvalid' }))
       return
@@ -68,13 +92,24 @@ export const OfflineSyncManager = () => {
 
   useEffect(() => {
     if (!isAuthResolved || !isAuthenticated) return
+    mountedRef.current = true
     offlineSyncService.initialize()
     offlineSyncService.syncAll()
-    const handleOnline = () => { runCycle() }
+    const handleOnline = () => { setIsOnline(true); runCycle() }
+    const handleOffline = () => { setIsOnline(false) }
     window.addEventListener('online', handleOnline)
-    if (navigator.onLine) runCycle()
-    return () => { mountedRef.current = false; window.removeEventListener('online', handleOnline) }
+    window.addEventListener('offline', handleOffline)
+    if (navigator.onLine) runCycle(false)
+    return () => {
+      mountedRef.current = false
+      window.removeEventListener('online', handleOnline)
+      window.removeEventListener('offline', handleOffline)
+    }
   }, [isAuthResolved, isAuthenticated, runCycle])
+
+  useEffect(() => {
+    setDismissedFingerprint(readDismissedFingerprint(dismissalStorageKey))
+  }, [dismissalStorageKey])
 
   const handleRetry = useCallback(() => { if (!cycleRunning.current) runCycle() }, [runCycle])
 
@@ -108,7 +143,14 @@ export const OfflineSyncManager = () => {
     progress.totalConflicted,
     progress.totalDeadLettered,
   ].join(':')
-  const showNotification = (effectivePhase !== 'idle' || hasIssues) && dismissedFingerprint !== notificationFingerprint
+  const showNotification = (hasIssues || (announceProgressRef.current && effectivePhase !== 'idle'))
+    && dismissedFingerprint !== notificationFingerprint
+
+  useEffect(() => {
+    if (progress.phase !== 'complete' || hasIssues || dismissedFingerprint === null) return
+    setDismissedFingerprint(null)
+    storeDismissedFingerprint(dismissalStorageKey, null)
+  }, [dismissalStorageKey, dismissedFingerprint, hasIssues, progress.phase])
 
   const statusKind = effectivePhase === 'paused'
     ? 'paused'
@@ -152,7 +194,10 @@ export const OfflineSyncManager = () => {
           <button
             type="button"
             className={styles.closeButton}
-            onClick={() => setDismissedFingerprint(notificationFingerprint)}
+            onClick={() => {
+              setDismissedFingerprint(notificationFingerprint)
+              storeDismissedFingerprint(dismissalStorageKey, notificationFingerprint)
+            }}
             aria-label={t('offline.closeNotification')}
           >
             <X size={18} aria-hidden="true" />
