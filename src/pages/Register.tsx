@@ -170,6 +170,7 @@ const Register = () => {
       <div className={styles.searchRow}>
         <SearchInput
           placeholder={t('personal.searchPlaceholder')}
+          value={searchTerm}
           onInputChange={(value) => setSearchTerm(value)}
         />
       </div>
