@@ -38,6 +38,16 @@ export interface InstallationResponse {
   mesesFrecuencia?: string[];
 }
 
+export interface InstallationUpdateDto {
+  company: string;
+  address: string;
+  installationType: string;
+  floorSector?: string;
+  postalCode?: string;
+  city?: string;
+  province?: string;
+}
+
 export interface InstallationsPagination {
   page: number;
   limit: number;
@@ -217,17 +227,23 @@ export const createInstallation = async (installation: Record<string, unknown>):
   return result.success ? result.data : result;
 };
 
-export const updateInstallation = async (id: string, installation: { _id?: string, image?: File | null | string } & Record<string, unknown>): Promise<InstallationResponse> => {
+export const buildInstallationUpdateDto = (installation: InstallationUpdateDto): InstallationUpdateDto => ({
+  company: installation.company,
+  address: installation.address,
+  installationType: installation.installationType,
+  floorSector: installation.floorSector,
+  postalCode: installation.postalCode,
+  city: installation.city,
+  province: installation.province,
+});
+
+export const updateInstallation = async (id: string, installation: InstallationUpdateDto): Promise<InstallationResponse> => {
   // Solo admin puede actualizar instalaciones
   if (isClientUser()) {
     throw new Error("No tienes permisos para actualizar instalaciones");
   }
 
-  const { _id: _, image, ...rest } = installation;
-  const updateData = {
-    ...rest,
-    ...(typeof image === "string" ? { image } : {}),
-  };
+  const updateData = buildInstallationUpdateDto(installation);
   const response = await fetchWithCsrf(`${API_URL}installations/${id}`, {
     method: "PUT",
     headers: getHeadersWithContentType(),
