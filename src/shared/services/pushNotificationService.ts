@@ -1,11 +1,11 @@
 import { useAuthStore } from '../../store/authStore'
 import { getHeadersWithContentType } from '../utils/apiHeaders'
 import { redirectToSafeUrl } from '../../utils/sanitizer'
+import { SERVICE_WORKER_URL } from '../constants'
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
 const VAPID_PUBLIC_KEY = import.meta.env.VITE_VAPID_PUBLIC_KEY
 
-const SW_PATH = '/sw.js'
 const PUSH_SYNC_KEY = 'push-subscription-synced-user'
 
 const pushEndpoints = [
@@ -36,7 +36,7 @@ class PushNotificationService {
     }
 
     if (!this.registrationPromise) {
-      this.registrationPromise = navigator.serviceWorker.register(SW_PATH, {
+      this.registrationPromise = navigator.serviceWorker.register(SERVICE_WORKER_URL, {
         updateViaCache: 'none',
       })
         .then((registration) => registration)

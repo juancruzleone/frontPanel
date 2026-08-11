@@ -26,6 +26,7 @@
     "test:integration": "vitest run tests/integration",
     "test:security": "vitest run tests/security",
     "test:e2e": "playwright test",
+    "test:e2e:pwa": "bun run build && playwright test --config=playwright.pwa.config.ts",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:debug": "playwright test --debug",
@@ -39,7 +40,7 @@
     "security:check": "bun run security:audit && bun outdated",
     "ci": "bun run lint && bun run type-check && bun run test:all && bun run build",
     "ci:test": "bun run test:unit && bun run test:integration && bun run test:security",
-    "ci:e2e": "bun run test:e2e"
+    "ci:e2e": "bun run test:e2e && bun run test:e2e:pwa"
   },
   "dependencies": {
     "@types/qrcode": "^1.5.6",

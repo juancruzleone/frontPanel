@@ -9,49 +9,44 @@ import "./i18n";
 import { ThemedToaster, AppInitializer } from "./AppProviders";
 import { installFetchCredentials } from "./shared/services/fetchCredentials";
 import { useOfflineStore } from "./store/offlineStore";
+import { SERVICE_WORKER_URL } from "./shared/constants";
 
-const SERVICE_WORKER_URL = "/sw.js?v=4";
+const reportServiceWorkerError = (error: unknown) => {
+	window.dispatchEvent(new CustomEvent("serviceworker:error", { detail: error }));
+};
 
-// Registrar Service Worker para PWA solo en builds de producción.
-// En Vite dev, un SW previo puede interceptar /@vite/client y /src/main.tsx,
-// dejando la app en blanco cuando el dev server no está disponible.
-if ("serviceWorker" in navigator) {
-	window.addEventListener("load", () => {
-		if (import.meta.env.DEV && !(window as any).IS_E2E) {
-			navigator.serviceWorker
-				.getRegistrations()
-				.then((registrations) => {
-					registrations.forEach((registration) => {
-						registration.unregister();
-					});
-				})
-				.catch(() => undefined);
-			return;
-		}
-
-		const hasActiveController = Boolean(navigator.serviceWorker.controller);
-		if (hasActiveController) {
-			let isRefreshing = false;
-			navigator.serviceWorker.addEventListener("controllerchange", () => {
-				if (isRefreshing) {
-					return;
-				}
-				isRefreshing = true;
-				window.location.reload();
-			});
-		}
-
-		navigator.serviceWorker
-			.register(SERVICE_WORKER_URL, { updateViaCache: "none" })
-			.then((registration) => registration.update())
-			.catch(() => undefined);
-
-		// Handle SYNC_TO_APP from SW → trigger encrypted coordinator sync
-		navigator.serviceWorker.addEventListener("message", (event) => {
-			if (event.data?.type === "SYNC_TO_APP") {
-				window.dispatchEvent(new Event("online"));
-			}
+const registerServiceWorker = async () => {
+	try {
+		await navigator.serviceWorker.register(SERVICE_WORKER_URL, {
+			updateViaCache: "none",
 		});
+		await Promise.race([
+			navigator.serviceWorker.ready,
+			new Promise<never>((_, reject) => {
+				window.setTimeout(() => reject(new Error("Service Worker readiness timeout")), 15000);
+			}),
+		]);
+	} catch (error) {
+		reportServiceWorkerError(error);
+	}
+};
+
+if ("serviceWorker" in navigator) {
+	if (import.meta.env.DEV && !window.IS_E2E) {
+		navigator.serviceWorker
+			.getRegistrations()
+			.then((registrations) => Promise.all(
+				registrations.map((registration) => registration.unregister()),
+			))
+			.catch(reportServiceWorkerError);
+	} else {
+		void registerServiceWorker();
+	}
+
+	navigator.serviceWorker.addEventListener("message", (event) => {
+		if (event.data?.type === "SYNC_TO_APP") {
+			window.dispatchEvent(new Event("online"));
+		}
 	});
 }
 
@@ -59,7 +54,7 @@ if ("serviceWorker" in navigator) {
 installFetchCredentials();
 
 if (import.meta.env.DEV) {
-	(window as any).useOfflineStore = useOfflineStore;
+	window.useOfflineStore = useOfflineStore;
 }
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
