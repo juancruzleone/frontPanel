@@ -54,3 +54,18 @@ describe('Nav mobile drawer rendering', () => {
     expect(navStyles).toMatch(/\.nav\.open\s+\.logoText\s*{[^}]*opacity:\s*1/s)
   })
 })
+
+describe('Nav resources submenu hover', () => {
+  const navComponent = readFileSync(resolve(process.cwd(), 'src/shared/components/Nav/Nav.tsx'), 'utf-8')
+  const navStyles = readFileSync(resolve(process.cwd(), 'src/shared/components/Nav/Nav.module.css'), 'utf-8')
+
+  it('mantiene el feedback hover de Recursos dentro de su contenedor', () => {
+    expect(navComponent).toContain('styles.resourcesSubmenu')
+    expect(navStyles).toMatch(
+      /\.resourcesSubmenu\s+\.submenuLink:hover\s*{[^}]*transform:\s*none/s,
+    )
+    expect(navStyles).not.toMatch(
+      /\.resourcesSubmenu\s*{[^}]*overflow:\s*hidden/s,
+    )
+  })
+})

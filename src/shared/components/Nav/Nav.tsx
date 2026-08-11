@@ -467,7 +467,7 @@ const Nav = () => {
 									/>
 								</button>
 								<div
-									className={`${styles.submenu} ${isOperationMenuOpen || (isCollapsedDesktop && isOperationHovered) ? styles.submenuOpen : ""}`}
+									className={`${styles.submenu} ${styles.resourcesSubmenu} ${isOperationMenuOpen || (isCollapsedDesktop && isOperationHovered) ? styles.submenuOpen : ""}`}
 									onMouseEnter={handleOperationSubmenuEnter}
 									onMouseLeave={handleOperationSubmenuLeave}
 								>
