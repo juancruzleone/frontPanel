@@ -81,18 +81,23 @@ const Suppliers = () => {
     setIsDeleteModalOpen(true)
   }
 
+  const closeOperationModals = () => {
+    setIsCreateModalOpen(false)
+    setIsEditModalOpen(false)
+    setIsDeleteModalOpen(false)
+    setSelectedSupplier(null)
+  }
+
   const handleSuccess = (message: string) => {
+    closeOperationModals()
     setSuccessMessage(message)
     setIsSuccessModalOpen(true)
     loadSuppliers()
   }
 
-  const closeAllModals = () => {
-    setIsCreateModalOpen(false)
-    setIsEditModalOpen(false)
-    setIsDeleteModalOpen(false)
+  const closeSuccessModal = () => {
     setIsSuccessModalOpen(false)
-    setSelectedSupplier(null)
+    setSuccessMessage("")
   }
 
   return (
@@ -210,28 +215,28 @@ const Suppliers = () => {
       {/* Modals */}
       <ModalCreate
         isOpen={isCreateModalOpen}
-        onClose={closeAllModals}
+        onClose={closeOperationModals}
         onSuccess={handleSuccess}
       />
 
       <ModalEdit
         isOpen={isEditModalOpen}
         supplier={selectedSupplier}
-        onClose={closeAllModals}
+        onClose={closeOperationModals}
         onSuccess={handleSuccess}
       />
 
       <ModalConfirmDelete
         isOpen={isDeleteModalOpen}
         supplier={selectedSupplier}
-        onClose={closeAllModals}
+        onClose={closeOperationModals}
         onSuccess={handleSuccess}
       />
 
       <ModalSuccess
         isOpen={isSuccessModalOpen}
         message={successMessage}
-        onClose={closeAllModals}
+        onClose={closeSuccessModal}
       />
       
       <TourButton

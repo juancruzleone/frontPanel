@@ -18,6 +18,11 @@ const ModalConfirmDelete: React.FC<ModalConfirmDeleteProps> = ({ isOpen, supplie
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
+  const closeModal = () => {
+    setErrorMessage(null)
+    onClose()
+  }
+
   const handleConfirm = async () => {
     if (!supplier?._id) return
     try {
@@ -25,7 +30,7 @@ const ModalConfirmDelete: React.FC<ModalConfirmDeleteProps> = ({ isOpen, supplie
       setErrorMessage(null)
       await removeSupplier(supplier._id)
       onSuccess(t('suppliers.supplierDeleted'))
-      onClose()
+      closeModal()
     } catch (error: unknown) {
       setErrorMessage(error instanceof Error ? error.message : t('common.error'))
     } finally {
@@ -35,7 +40,7 @@ const ModalConfirmDelete: React.FC<ModalConfirmDeleteProps> = ({ isOpen, supplie
 
   const handleCancel = () => {
     if (!isLoading) {
-      onClose()
+      closeModal()
     }
   }
 
