@@ -63,25 +63,30 @@ export const createApiResponseError = async (
 }
 
 /**
- * Determina si un error es de red o de disponibilidad (como un 503 del Service Worker)
- * lo que justificaría reintentar la operación en modo offline.
+ * Determina si la solicitud falló antes de recibir una respuesta HTTP.
  */
 export const isOfflineError = (error: unknown): boolean => {
-  if (!navigator.onLine) return true
+  if (error instanceof ApiResponseError) return false
 
-  const status = error instanceof ApiResponseError ? error.status : undefined
   const message = getErrorMessage(error, '').toLowerCase()
+  const code = isRecord(error) && typeof error.code === 'string'
+    ? error.code.toLowerCase()
+    : ''
+  const isBrowserNetworkTypeError = error instanceof TypeError && (
+    message.includes('failed to fetch') ||
+    message.includes('networkerror') ||
+    message.includes('network request failed') ||
+    message.includes('load failed')
+  )
 
   return (
-    (typeof status === 'number' && status >= 500) ||
-    message.includes('network') ||
-    message.includes('fetch') ||
-    message.includes('failed to fetch') ||
+    isBrowserNetworkTypeError ||
+    message === 'networkerror' ||
+    message.startsWith('networkerror:') ||
     message.includes('err_internet_disconnected') ||
-    message.includes('503') ||
-    message.includes('service unavailable') ||
-    message.includes('sin conexión') ||
-    message.includes('no disponible') ||
-    message.includes('internet disconnected')
+    message.includes('internet disconnected') ||
+    code === 'err_internet_disconnected' ||
+    code === 'err_network' ||
+    code === 'network_error'
   )
 }

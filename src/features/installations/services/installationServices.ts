@@ -1,5 +1,6 @@
 import { useAuthStore } from "../../../store/authStore";
 import { getAuthHeaders, getHeadersWithContentType, fetchWithCsrf } from "../../../shared/utils/apiHeaders";
+import { createApiResponseError } from "../../../shared/utils/errorHelpers";
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/";
 
@@ -250,7 +251,7 @@ export const updateInstallation = async (id: string, installation: InstallationU
     body: JSON.stringify(updateData),
     credentials: 'include',
   });
-  if (!response.ok) throw new Error("Error al actualizar instalación");
+  if (!response.ok) throw await createApiResponseError(response, "Error al actualizar instalación");
   const result = await response.json();
   return result.success ? result.data : result;
 };

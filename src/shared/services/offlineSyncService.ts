@@ -20,6 +20,7 @@ import {
   deleteInstallation,
   addDeviceToInstallation,
   deleteDeviceFromInstallation,
+  type InstallationUpdateDto,
 } from "../../features/installations/services/installationServices"
 import { type Installation } from "../../features/installations/hooks/useInstallations"
 import { submitDeviceMaintenance } from "../../features/deviceForms/services/deviceFormService"
@@ -111,14 +112,29 @@ class OfflineSyncService {
     const queue = useOfflineStore.getState().queue
     if (queue.length === 0) return
 
+    const currentUserId = useAuthStore.getState().userId
+    if (!currentUserId) return
+    const hasCurrentSession = (): boolean => {
+      const authState = useAuthStore.getState()
+      return Boolean(
+        authState.userId === currentUserId &&
+        authState.isAuthenticated &&
+        authState.isAuthResolved
+      )
+    }
+
     // Copia local para evitar problemas con actualizaciones de estado reactivas durante el loop
-    const itemsToProcess = [...queue]
+    const itemsToProcess = queue.filter((item) => item.userId === currentUserId)
 
     for (const item of itemsToProcess) {
+      if (!hasCurrentSession()) break
+
       try {
         await this.processQueuedItem(item)
+        if (!hasCurrentSession()) break
         useOfflineStore.getState().removeFromQueue(item.id)
       } catch (error) {
+        if (!hasCurrentSession()) break
         const retries = (item.retries || 0) + 1
         useOfflineStore.getState().updateRequest(item.id, { retries, lastError: errorMessage(error) })
         
@@ -246,11 +262,7 @@ class OfflineSyncService {
       }
       case 'UPDATE_INSTALLATION': {
         const instUpdatePayload = toQueuePayloadWithId(payloadToSync)
-        await updateInstallation(instUpdatePayload.id, {
-          ...instUpdatePayload.data,
-          fechaEjecucionOffline: payloadWithTime.fechaEjecucionOffline,
-          offlineSync: true
-        } as any)
+        await updateInstallation(instUpdatePayload.id, instUpdatePayload.data as unknown as InstallationUpdateDto)
         break
       }
       case 'DELETE_INSTALLATION': {

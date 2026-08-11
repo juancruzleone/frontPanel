@@ -1,6 +1,7 @@
 import { create } from "zustand"
 import { persist, createJSONStorage } from "zustand/middleware"
 import { indexedDBStorage } from "../utils/indexedDBStorage"
+import { useAuthStore } from "./authStore"
 
 export interface QueuedRequest {
   id: string
@@ -30,7 +31,8 @@ export interface QueuedRequest {
 
 interface OfflineState {
   queue: QueuedRequest[]
-  addToQueue: (request: Omit<QueuedRequest, 'id' | 'timestamp'>) => void
+  addToQueue: (request: Omit<QueuedRequest, 'id' | 'timestamp' | 'userId'>, ownerId?: string) => boolean
+  queueInstallationUpdate: (ownerId: string, installationId: string, data: Record<string, unknown>) => boolean
   removeFromQueue: (id: string) => void
   updateRequest: (id: string, data: Partial<QueuedRequest>) => void
   remapPayloadId: (oldId: string, newId: string) => void
@@ -41,28 +43,69 @@ export const useOfflineStore = create<OfflineState>()(
   persist(
     (set) => ({
       queue: [],
-      addToQueue: (request) => {
-        let userId = null
-        try {
-          const authState = window.localStorage.getItem('auth-storage')
-          if (authState) {
-            userId = JSON.parse(authState).state?.userId || null
+      addToQueue: (request, ownerId) => {
+        let queued = false
+        set((state) => {
+          const currentUserId = useAuthStore.getState().userId
+          if (!currentUserId || (ownerId !== undefined && currentUserId !== ownerId)) return state
+          queued = true
+          return {
+            queue: [
+              ...state.queue,
+              {
+                ...request,
+                id: crypto.randomUUID(),
+                userId: currentUserId,
+                timestamp: Date.now(),
+                retries: 0
+              },
+            ],
           }
-        } catch (e) {
-          // Ignore
-        }
-        return set((state) => ({
-          queue: [
-            ...state.queue,
-            {
-              ...request,
-              id: crypto.randomUUID(),
-              userId,
-              timestamp: Date.now(),
-              retries: 0
-            },
-          ],
-        }))
+        })
+        return queued
+      },
+      queueInstallationUpdate: (ownerId, installationId, data) => {
+        let queued = false
+        set((state) => {
+          if (!ownerId || useAuthStore.getState().userId !== ownerId) return state
+
+          const matchingIndexes = state.queue.reduce<number[]>((indexes, request, index) => {
+            if (
+              request.type === 'UPDATE_INSTALLATION' &&
+              request.userId === ownerId &&
+              request.payload.id === installationId
+            ) indexes.push(index)
+            return indexes
+          }, [])
+          const firstMatch = matchingIndexes[0]
+          const payload = { id: installationId, data }
+          queued = true
+
+          if (firstMatch === undefined) {
+            return {
+              queue: [...state.queue, {
+                id: crypto.randomUUID(),
+                userId: ownerId,
+                type: 'UPDATE_INSTALLATION',
+                payload,
+                timestamp: Date.now(),
+                retries: 0,
+              }],
+            }
+          }
+
+          const duplicateIndexes = new Set(matchingIndexes.slice(1))
+          return {
+            queue: state.queue.flatMap((request, index) => {
+              if (duplicateIndexes.has(index)) return []
+              if (index !== firstMatch) return [request]
+              const updatedRequest = { ...request, payload, retries: 0 }
+              delete updatedRequest.lastError
+              return [updatedRequest]
+            }),
+          }
+        })
+        return queued
       },
       removeFromQueue: (id) =>
         set((state) => ({

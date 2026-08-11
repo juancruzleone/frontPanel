@@ -14,9 +14,12 @@ import {
   fetchInstallationDevices,
   deleteDeviceFromInstallation,
   fetchAssets as apiFetchAssets,
+  buildInstallationUpdateDto,
+  type InstallationUpdateDto,
 } from "../services/installationServices"
 import { validateInstallationForm } from "../validators/installationsValidations"
 import { useTranslation } from "react-i18next"
+import { isOfflineError } from "../../../shared/utils/errorHelpers"
 
 export type Asset = {
   _id: string
@@ -352,18 +355,45 @@ const useInstallations = () => {
   }
 
   const editInstallation = async (id: string, updatedData: Installation): Promise<{ message: string }> => {
-    if (!navigator.onLine) {
-      storeUpdateInstallation(id, updatedData);
-      useOfflineStore.getState().addToQueue({ type: 'UPDATE_INSTALLATION', payload: { id, data: updatedData } });
+    const initiatingUserId = useAuthStore.getState().userId
+    const updateDto = buildInstallationUpdateDto(updatedData)
+    const hasInitiatingSession = (): boolean => {
+      const authState = useAuthStore.getState()
+      return Boolean(
+        initiatingUserId &&
+        authState.userId === initiatingUserId &&
+        authState.isAuthenticated &&
+        authState.isAuthResolved
+      )
+    }
+    const sessionChangedError = (): Error => new Error(
+      t('auth.sessionChanged', { defaultValue: 'La sesión cambió. Vuelve a intentar la operación.' }),
+    )
+
+    const saveOfflineUpdate = (data: InstallationUpdateDto): { message: string } => {
+      if (
+        !hasInitiatingSession() ||
+        !useOfflineStore.getState().queueInstallationUpdate(initiatingUserId, id, { ...data })
+      ) {
+        throw sessionChangedError()
+      }
+
+      storeUpdateInstallation(id, data)
       return { message: t('installations.installationUpdatedLocal', { defaultValue: 'Cambios guardados localmente.' }) }
     }
 
+    if (!navigator.onLine) {
+      return saveOfflineUpdate(updateDto)
+    }
+
     try {
-      const updatedInstallation = await updateInstallation(id, updatedData)
+      const updatedInstallation = await updateInstallation(id, updateDto)
+      if (!hasInitiatingSession()) throw sessionChangedError()
       storeUpdateInstallation(id, updatedInstallation)
 
       return { message: t('installations.installationUpdated') }
     } catch (err: unknown) {
+      if (isOfflineError(err)) return saveOfflineUpdate(updateDto)
       throw err
     }
   }

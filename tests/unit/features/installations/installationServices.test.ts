@@ -4,6 +4,7 @@ import {
   fetchInstallations,
   updateInstallation,
 } from '../../../../src/features/installations/services/installationServices'
+import { isOfflineError } from '../../../../src/shared/utils/errorHelpers'
 
 vi.mock('../../../../src/store/authStore', () => ({
   useAuthStore: {
@@ -99,5 +100,37 @@ describe('installationServices', () => {
       city: 'Buenos Aires',
       province: 'Buenos Aires',
     })
+  })
+
+  it('preserves HTTP status and API message for update failures', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(
+      JSON.stringify({ message: 'Datos de instalación inválidos' }),
+      { status: 400, headers: { 'Content-Type': 'application/json' } },
+    )))
+
+    await expect(updateInstallation('installation-id', {
+      company: 'Central Plant',
+      address: 'Main Street 123',
+      installationType: 'Industrial',
+    })).rejects.toMatchObject({
+      status: 400,
+      message: 'Datos de instalación inválidos',
+    })
+  })
+
+  it('does not classify a real HTTP 503 response as an offline transport failure', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(
+      JSON.stringify({ message: 'Servicio temporalmente no disponible' }),
+      { status: 503, headers: { 'Content-Type': 'application/json' } },
+    )))
+
+    const error = await updateInstallation('installation-id', {
+      company: 'Central Plant',
+      address: 'Main Street 123',
+      installationType: 'Industrial',
+    }).catch((caught: unknown) => caught)
+
+    expect(error).toMatchObject({ status: 503, message: 'Servicio temporalmente no disponible' })
+    expect(isOfflineError(error)).toBe(false)
   })
 })

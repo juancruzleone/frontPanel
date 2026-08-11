@@ -9,6 +9,7 @@ interface ModalEditProps {
   isOpen: boolean;
   onRequestClose: () => void;
   onSubmitSuccess: (message: string) => void;
+  onSubmitError: (message: string) => void;
   onEdit: (id: string, data: Installation) => Promise<{ message: string }>;
   initialData: Installation | null;
 }
@@ -17,6 +18,7 @@ const ModalEdit = ({
   isOpen,
   onRequestClose,
   onSubmitSuccess,
+  onSubmitError,
   onEdit,
   initialData,
 }: ModalEditProps) => {
@@ -64,7 +66,7 @@ const ModalEdit = ({
           <InstallationForm
             onCancel={handleClose}
             onSuccess={onSubmitSuccess}
-            onError={() => {}}
+            onError={onSubmitError}
             onEdit={onEdit}
             isEditMode={true}
             initialData={initialData}

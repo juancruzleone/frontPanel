@@ -629,6 +629,7 @@ const Installations = () => {
         isOpen={isEditModalOpen}
         onRequestClose={() => setIsEditModalOpen(false)}
         onSubmitSuccess={handleSuccessCreateOrEdit}
+        onSubmitError={handleError}
         onEdit={editInstallation}
         initialData={initialData}
       />

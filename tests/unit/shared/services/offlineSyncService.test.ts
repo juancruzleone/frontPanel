@@ -8,12 +8,14 @@ import * as workOrderServices from "../../../../src/features/workOrders/services
 import * as deviceFormServices from "../../../../src/features/deviceForms/services/deviceFormService"
 import { offlineBinaryStorage } from "../../../../src/shared/services/offlineBinaryStorage"
 import * as uploadService from "../../../../src/shared/services/uploadService"
+import * as installationServices from "../../../../src/features/installations/services/installationServices"
 
 vi.mock("../../../../src/features/workOrders/services/workOrderServices")
 vi.mock("../../../../src/features/deviceForms/services/deviceFormService")
 vi.mock("../../../../src/shared/services/offlineBinaryStorage")
 vi.mock("../../../../src/shared/services/uploadService")
 vi.mock("../../../../src/shared/services/authRefreshService")
+vi.mock("../../../../src/features/installations/services/installationServices")
 
 // Mock IndexedDB storage for Zustand
 vi.mock("../../../../src/utils/indexedDBStorage", () => ({
@@ -28,8 +30,9 @@ describe("OfflineSyncService", () => {
   beforeEach(() => {
     vi.clearAllMocks()
     useOfflineStore.getState().clearQueue()
-    useAuthStore.setState({ isAuthenticated: true, isAuthResolved: true })
+    useAuthStore.setState({ isAuthenticated: true, isAuthResolved: true, userId: "current-user" })
     vi.stubGlobal('navigator', { onLine: true })
+    vi.mocked(refreshSession).mockResolvedValue({ success: true, authenticated: true })
   })
 
   it("does not refresh or sync an empty queue", async () => {
@@ -44,7 +47,7 @@ describe("OfflineSyncService", () => {
     useOfflineStore.getState().addToQueue({
       type: 'CREATE_WORK_ORDER' as any,
       payload: { title: "Test WO" },
-    })
+    }, "current-user")
 
     await offlineSyncService.syncAll()
 
@@ -56,11 +59,11 @@ describe("OfflineSyncService", () => {
     useOfflineStore.getState().addToQueue({
       type: 'CREATE_WORK_ORDER' as any,
       payload: { title: "Test WO 1" },
-    })
+    }, "current-user")
     useOfflineStore.getState().addToQueue({
       type: 'CREATE_WORK_ORDER' as any,
       payload: { title: "Test WO 2" },
-    })
+    }, "current-user")
     
     const queue = useOfflineStore.getState().queue
     expect(queue).toHaveLength(2)
@@ -87,11 +90,11 @@ describe("OfflineSyncService", () => {
     useOfflineStore.getState().addToQueue({
       type: 'CREATE_WORK_ORDER' as any,
       payload: { title: "Test WO 1" },
-    })
+    }, "current-user")
     useOfflineStore.getState().addToQueue({
       type: 'CREATE_WORK_ORDER' as any,
       payload: { title: "Test WO 2" },
-    })
+    }, "current-user")
 
     // AND the first fails with a generic error
     vi.mocked(workOrderServices.createWorkOrder)
@@ -114,11 +117,11 @@ describe("OfflineSyncService", () => {
     useOfflineStore.getState().addToQueue({
       type: 'CREATE_WORK_ORDER' as any,
       payload: { title: "Test WO 1" },
-    })
+    }, "current-user")
     useOfflineStore.getState().addToQueue({
       type: 'CREATE_WORK_ORDER' as any,
       payload: { title: "Test WO 2" },
-    })
+    }, "current-user")
 
     // AND the first item succeeds (simulating that any CSRF 403 was already handled/retried by the service)
     vi.mocked(workOrderServices.createWorkOrder)
@@ -144,7 +147,7 @@ describe("OfflineSyncService", () => {
         payload: { check1: true },
         binaryRefs: [mockRef],
         metadata: { installationId: "inst-1", deviceId: "dev-1" }
-      })
+      }, "current-user")
 
       vi.mocked(offlineBinaryStorage.getBinary).mockResolvedValue(mockBlob)
       vi.mocked(uploadService.uploadBinary).mockResolvedValue("https://cdn.com/test.png")
@@ -180,7 +183,7 @@ describe("OfflineSyncService", () => {
         payload: { check1: true },
         binaryRefs: [mockRef],
         metadata: { installationId: "inst-1", deviceId: "dev-1" }
-      })
+      }, "current-user")
 
       vi.mocked(offlineBinaryStorage.getBinary).mockResolvedValue(mockBlob)
       vi.mocked(uploadService.uploadBinary).mockRejectedValue(new Error("Upload Failed"))
@@ -208,7 +211,7 @@ describe("OfflineSyncService", () => {
     useOfflineStore.getState().addToQueue({
       type: 'CREATE_WORK_ORDER' as any,
       payload: { title: "Test WO 1" },
-    })
+    }, "current-user")
     
     vi.mocked(refreshSession).mockResolvedValue({ success: true, authenticated: true })
     vi.mocked(workOrderServices.createWorkOrder).mockResolvedValue({ _id: "wo-1" } as any)
@@ -228,7 +231,7 @@ describe("OfflineSyncService", () => {
     useOfflineStore.getState().addToQueue({
       type: 'CREATE_WORK_ORDER' as any,
       payload: { title: "Test WO 1" },
-    })
+    }, "current-user")
     
     vi.mocked(refreshSession).mockRejectedValue(Object.assign(new Error("Session expired"), {
       code: 'REFRESH_TOKEN_EXPIRED',
@@ -256,5 +259,140 @@ describe("OfflineSyncService", () => {
     expect(useOfflineStore.getState().queue).toHaveLength(1)
     // AND SESSION_INVALIDATED was emitted to service worker
     expect(postMessageMock).toHaveBeenCalledWith({ type: "SESSION_INVALIDATED" })
+  })
+
+  it("processes only the current owner's operation and preserves another owner's operation", async () => {
+    useOfflineStore.setState({
+      queue: [
+        {
+          id: "other-operation",
+          userId: "other-user",
+          type: "UPDATE_INSTALLATION",
+          payload: { id: "inst-other", data: { company: "Other" } },
+          timestamp: 1,
+        },
+        {
+          id: "current-operation",
+          userId: "current-user",
+          type: "UPDATE_INSTALLATION",
+          payload: { id: "inst-current", data: { company: "Current" } },
+          timestamp: 2,
+        },
+      ],
+    })
+    vi.mocked(installationServices.updateInstallation).mockResolvedValue({
+      company: "Current",
+      address: "Address",
+      installationType: "Type",
+    })
+
+    await offlineSyncService.syncAll()
+
+    expect(installationServices.updateInstallation).toHaveBeenCalledTimes(1)
+    expect(installationServices.updateInstallation).toHaveBeenCalledWith(
+      "inst-current",
+      { company: "Current" },
+    )
+    expect(useOfflineStore.getState().queue).toEqual([
+      expect.objectContaining({ id: "other-operation", userId: "other-user" }),
+    ])
+  })
+
+  it.each([
+    ["logout", null],
+    ["account switch", "other-user"],
+  ])("preserves queued work when identity changes during processing: %s", async (_scenario, nextUserId) => {
+    useOfflineStore.setState({
+      queue: [
+        {
+          id: "processing-operation",
+          userId: "current-user",
+          type: "UPDATE_INSTALLATION",
+          payload: { id: "inst-current", data: { company: "Current" } },
+          timestamp: 1,
+        },
+        {
+          id: "remaining-operation",
+          userId: "current-user",
+          type: "UPDATE_INSTALLATION",
+          payload: { id: "inst-next", data: { company: "Next" } },
+          timestamp: 2,
+        },
+      ],
+    })
+    let resolveUpdate: (value: { company: string; address: string; installationType: string }) => void = () => undefined
+    vi.mocked(installationServices.updateInstallation).mockImplementationOnce(() => new Promise((resolve) => {
+      resolveUpdate = resolve
+    }))
+
+    const syncPromise = offlineSyncService.syncAll()
+    await vi.waitFor(() => expect(installationServices.updateInstallation).toHaveBeenCalledTimes(1))
+    useAuthStore.setState({ userId: nextUserId })
+    resolveUpdate({ company: "Current", address: "Address", installationType: "Type" })
+    await syncPromise
+
+    expect(installationServices.updateInstallation).toHaveBeenCalledTimes(1)
+    expect(useOfflineStore.getState().queue.map((item) => item.id)).toEqual([
+      "processing-operation",
+      "remaining-operation",
+    ])
+  })
+
+  it("preserves queued work when authentication expires but persisted userId remains", async () => {
+    useOfflineStore.setState({
+      queue: [
+        {
+          id: "processing-operation",
+          userId: "current-user",
+          type: "UPDATE_INSTALLATION",
+          payload: { id: "inst-current", data: { company: "Current" } },
+          timestamp: 1,
+        },
+        {
+          id: "remaining-operation",
+          userId: "current-user",
+          type: "UPDATE_INSTALLATION",
+          payload: { id: "inst-next", data: { company: "Next" } },
+          timestamp: 2,
+        },
+      ],
+    })
+    let resolveUpdate: (value: { company: string; address: string; installationType: string }) => void = () => undefined
+    vi.mocked(installationServices.updateInstallation).mockImplementationOnce(() => new Promise((resolve) => {
+      resolveUpdate = resolve
+    }))
+
+    const syncPromise = offlineSyncService.syncAll()
+    await vi.waitFor(() => expect(installationServices.updateInstallation).toHaveBeenCalledTimes(1))
+    useAuthStore.setState({ userId: "current-user", isAuthenticated: false })
+    resolveUpdate({ company: "Current", address: "Address", installationType: "Type" })
+    await syncPromise
+
+    expect(installationServices.updateInstallation).toHaveBeenCalledTimes(1)
+    expect(useOfflineStore.getState().queue.map((item) => item.id)).toEqual([
+      "processing-operation",
+      "remaining-operation",
+    ])
+  })
+
+  it("pauses safely without mutating the queue when the current owner is unavailable", async () => {
+    useAuthStore.setState({ userId: null })
+    useOfflineStore.setState({
+      queue: [{
+        id: "orphan-operation",
+        userId: "current-user",
+        type: "UPDATE_INSTALLATION",
+        payload: { id: "inst-current", data: { company: "Current" } },
+        timestamp: 1,
+      }],
+    })
+
+    await offlineSyncService.syncAll()
+
+    expect(installationServices.updateInstallation).not.toHaveBeenCalled()
+    expect(useOfflineStore.getState().queue).toHaveLength(1)
+    expect(useOfflineStore.getState().queue[0]).toMatchObject({ id: "orphan-operation" })
+    expect(useOfflineStore.getState().queue[0]).not.toHaveProperty("retries")
+    expect(useOfflineStore.getState().queue[0]).not.toHaveProperty("lastError")
   })
 })
