@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { fetchSuppliers, createSupplier, deleteSupplier } from '../../../../src/features/suppliers/services/supplierServices'
+import { fetchSuppliers, createSupplier, deleteSupplier, previewSupplierImport, exportSuppliers } from '../../../../src/features/suppliers/services/supplierServices'
 
 describe('Supplier Services', () => {
   beforeEach(() => {
@@ -87,5 +87,27 @@ describe('Supplier Services', () => {
         method: 'DELETE'
       })
     )
+  })
+
+  it('envía el CSV como multipart al endpoint de preview', async () => {
+    const preview = { token: 'opaque', payloadHash: 'hash', counts: { create: 1, update: 0, unchanged: 0, error: 0 }, rows: [] }
+    ;(fetch as any).mockResolvedValue({ ok: true, json: () => Promise.resolve(preview) })
+    const file = new File(['a,b\n1,2'], 'suppliers.csv', { type: 'text/csv' })
+
+    await previewSupplierImport(file)
+
+    expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/proveedores/csv/import/preview'), expect.objectContaining({ method: 'POST', body: expect.any(FormData) }))
+  })
+
+  it('exporta todo el filtro por servidor', async () => {
+    const click = vi.fn()
+    vi.spyOn(document, 'createElement').mockReturnValue({ click } as unknown as HTMLAnchorElement)
+    vi.stubGlobal('URL', { createObjectURL: vi.fn(() => 'blob:url'), revokeObjectURL: vi.fn() })
+    ;(fetch as any).mockResolvedValue({ ok: true, blob: () => Promise.resolve(new Blob(['csv'])) })
+
+    await exportSuppliers({ name: 'ACME & hijos' })
+
+    expect(fetch).toHaveBeenCalledWith(expect.stringContaining('name=ACME+%26+hijos'), expect.any(Object))
+    expect(click).toHaveBeenCalled()
   })
 })

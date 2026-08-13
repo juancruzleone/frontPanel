@@ -20,6 +20,8 @@ import ModalEdit from "../features/suppliers/components/ModalEdit"
 import ModalConfirmDelete from "../features/suppliers/components/ModalConfirmDelete"
 import SuccessModal from "../shared/components/SuccessModal"
 import type { Supplier } from "../store/supplierStore"
+import { CsvImportDialog } from "../shared/components/CsvImportDialog/CsvImportDialog"
+import { commitSupplierImport, downloadSupplierImportErrors, downloadSupplierTemplate, exportSuppliers, previewSupplierImport } from "../features/suppliers/services/supplierServices"
 
 const SUPPLIERS_ALLOWED_VIEWS = ['cards', 'table'] as const
 
@@ -46,6 +48,13 @@ const Suppliers = () => {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
   const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null)
   const [successMessage, setSuccessMessage] = useState("")
+  const [isImportOpen, setIsImportOpen] = useState(false)
+  const [csvError, setCsvError] = useState<string | null>(null)
+
+  const runCsvAction = async (action: () => Promise<void>) => {
+    setCsvError(null)
+    try { await action() } catch (caught) { setCsvError(caught instanceof Error ? caught.message : String(caught)) }
+  }
 
   useEffect(() => {
     loadSuppliers()
@@ -115,6 +124,8 @@ const Suppliers = () => {
         </div>
         {isAdmin && (
           <div className={styles.positionButton}>
+            <Button title={t('suppliers.csv.downloadTemplate')} onClick={() => runCsvAction(downloadSupplierTemplate)} />
+            <Button title={t('suppliers.csv.import')} onClick={() => setIsImportOpen(true)} />
             <Button data-tour="suppliers-add-btn" title={t('suppliers.addSupplier')} onClick={handleOpenCreate} />
           </div>
         )}
@@ -138,9 +149,11 @@ const Suppliers = () => {
         >
           <FilterX size={20} />
         </button>
+        <Button title={t('suppliers.csv.exportFiltered')} onClick={() => runCsvAction(() => exportSuppliers({ name: searchTerm }))} />
       </div>
 
       {error && <p className={styles.errorMessage}>{error}</p>}
+      {csvError && <p role="alert" className={styles.errorMessage}>{csvError}</p>}
 
       <div className={styles.listContainer}>
         {loading ? (
@@ -239,6 +252,16 @@ const Suppliers = () => {
         message={successMessage}
         buttonText={t('common.understood')}
         onRequestClose={closeSuccessModal}
+      />
+      <CsvImportDialog
+        isOpen={isImportOpen}
+        title={t('suppliers.csv.importTitle')}
+        labels={{ chooseFile: t('suppliers.csv.chooseFile'), preview: t('suppliers.csv.preview'), commit: t('suppliers.csv.commit'), close: t('common.close'), errors: t('suppliers.csv.downloadErrors'), result: t('suppliers.csv.completed') }}
+        onClose={() => setIsImportOpen(false)}
+        onPreview={previewSupplierImport}
+        onCommit={commitSupplierImport}
+        onDownloadErrors={downloadSupplierImportErrors}
+        onCommitted={() => loadSuppliers({ name: searchTerm })}
       />
       
       <TourButton

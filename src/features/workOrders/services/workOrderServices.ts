@@ -2,6 +2,7 @@ import {
 	fetchWithCsrf,
 	getAuthHeaders,
 } from "../../../shared/utils/apiHeaders";
+import { downloadResponse } from "../../../shared/utils/downloadResponse";
 
 const getApiUrl = () => import.meta.env.VITE_API_URL || "/api/";
 
@@ -201,6 +202,15 @@ export const fetchWorkOrders = async (
 		},
 	};
 };
+
+export const exportWorkOrders = async (filters: Record<string, string | number> = {}): Promise<void> => {
+  const query = new URLSearchParams(filters as Record<string, string>)
+  const response = await fetch(`${getApiUrl()}ordenes-trabajo/csv/export?${query}`, {
+    headers: getAuthHeaders(),
+    credentials: "include",
+  })
+  await downloadResponse(response, "Error al exportar órdenes de trabajo", "work-orders.csv")
+}
 
 export const fetchInstallations = async (): Promise<Installation[]> => {
 	const response = await fetch(`${getApiUrl()}installations`, {

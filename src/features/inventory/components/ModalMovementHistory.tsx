@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next"
 import { X } from "lucide-react"
 import { InventoryItem, InventoryMovement } from "../types/inventory.types"
 import { fetchInventoryMovements } from "../services/inventoryServices"
+import { exportInventoryMovements } from "../services/inventoryServices"
+import Button from "../../../shared/components/Buttons/buttonCreate"
 import DataTable from "../../../components/DataTable/DataTable"
 import styles from "../styles/Modal.module.css"
 
@@ -19,6 +21,7 @@ export const ModalMovementHistory: React.FC<ModalMovementHistoryProps> = ({
 }) => {
   const { t } = useTranslation()
   const [movements, setMovements] = useState<InventoryMovement[]>([])
+  const [exportError, setExportError] = useState("")
   useEffect(() => {
     if (isOpen && item?._id) {
       fetchInventoryMovements(item._id)
@@ -78,12 +81,18 @@ export const ModalMovementHistory: React.FC<ModalMovementHistoryProps> = ({
       <div className={styles.modal}>
         <div className={styles.modalHeader}>
           <h2 className={styles.title}>{t('inventory.history')}: {item.name}</h2>
+          {item._id && <Button title={t('inventory.exportMovements')} onClick={async () => {
+            setExportError("")
+            try { await exportInventoryMovements(item._id as string) }
+            catch (error) { setExportError(error instanceof Error ? error.message : String(error)) }
+          }} />}
           <button onClick={onRequestClose} className={styles.closeButton}>
             <X size={24} />
           </button>
         </div>
 
         <div className={styles.modalContent}>
+          {exportError && <p role="alert">{exportError}</p>}
           <div className={styles.tableContainer}>
             <DataTable
                 data={movements}

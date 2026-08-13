@@ -546,6 +546,7 @@
     }
   },
   "installations": {
+    "exportResults": "Exportar resultados",
     "deviceNamePlaceholder": "Escribe el nombre del dispositvo",
     "installation": "Instalación",
     "successTitle": "¡Operación exitosa!",
@@ -924,6 +925,17 @@
     "understood": "cerrar",
     "title": "Activos",
     "createAsset": "Crear Activo",
+    "csv": {
+      "downloadTemplate": "Plantilla CSV",
+      "import": "Importar CSV",
+      "exportFiltered": "Exportar CSV",
+      "importTitle": "Importar activos",
+      "chooseFile": "Seleccionar CSV. Cada activo usa externalId; la plantilla base debe tener templateExternalId asignado previamente.",
+      "preview": "Previsualizar",
+      "commit": "Confirmar importación",
+      "downloadErrors": "Descargar errores y avisos",
+      "completed": "Importación completada"
+    },
     "tour": {
       "welcome": {
         "title": "¡Bienvenido a Activos!",
@@ -1509,6 +1521,7 @@
     "startOrder": "Iniciar orden"
   },
   "workOrders": {
+    "exportResults": "Exportar resultados",
     "successTitle": "¡Operación exitosa!",
     "understood": "cerrar",
     "titlePlaceholder": "Ingrese el título de la orden de trabajo",
@@ -1737,6 +1750,7 @@
     "allTechnicians": "Todos los técnicos"
   },
   "inventory": {
+    "exportMovements": "Exportar movimientos",
     "reference": "Referencia",
     "title": "Inventario",
     "addItem": "Agregar Item",
@@ -1779,6 +1793,17 @@
     "newStock": "Nuevo Stock Total",
     "reason": "Motivo",
     "reasonPlaceholder": "Ej: Compra a proveedor, rotura, etc.",
+    "csv": {
+      "downloadTemplate": "Descargar plantilla",
+      "import": "Importar CSV",
+      "exportFiltered": "Exportar resultados filtrados",
+      "importTitle": "Importar inventario desde CSV",
+      "chooseFile": "Selecciona un archivo CSV",
+      "preview": "Previsualizar",
+      "commit": "Confirmar importación",
+      "downloadErrors": "Descargar errores",
+      "completed": "Importación completada"
+    },
     "movementTypes": {
       "entry": "Entrada",
       "exit": "Salida",
@@ -1845,6 +1870,17 @@
     "supplierAdded": "Proveedor agregado correctamente",
     "supplierUpdated": "Proveedor actualizado correctamente",
     "supplierDeleted": "Proveedor eliminado correctamente",
+    "csv": {
+      "downloadTemplate": "Descargar plantilla",
+      "import": "Importar CSV",
+      "exportFiltered": "Exportar resultados filtrados",
+      "importTitle": "Importar proveedores desde CSV",
+      "chooseFile": "Selecciona un archivo CSV",
+      "preview": "Previsualizar",
+      "commit": "Confirmar importación",
+      "downloadErrors": "Descargar errores",
+      "completed": "Importación completada"
+    },
     "validation": {
       "nameRequired": "El nombre del proveedor es obligatorio",
       "emailInvalid": "El email no es válido"

@@ -1,6 +1,7 @@
 export interface InventoryItem {
   _id?: string;
   tenantId: string;
+  externalId?: string;
   code?: string;
   name: string;
   category?: string;
@@ -37,6 +38,7 @@ export interface InventoryAsset {
 
 export interface SupplierSnapshot {
   supplierId?: string;
+  supplierExternalId?: string;
   name: string;
   contactName?: string;
   email?: string;

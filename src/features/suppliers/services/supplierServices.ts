@@ -1,5 +1,6 @@
 import { getAuthHeaders, fetchWithCsrf } from "../../../shared/utils/apiHeaders"
 import type { Supplier } from "../../../store/supplierStore"
+import type { CsvImportPreview } from "../../../shared/components/CsvImportDialog/CsvImportDialog"
 
 const getApiUrl = () => import.meta.env.VITE_API_URL || '/api/'
 
@@ -9,6 +10,17 @@ interface SupplierListResponse {
 }
 
 type SupplierPayload = Omit<Supplier, '_id'>
+
+export interface SupplierImportRow {
+  row: number
+  externalId?: string
+  action: 'create' | 'update' | 'unchanged' | 'error'
+  errors: string[]
+  warnings: string[]
+  data: Partial<Supplier>
+}
+
+export interface SupplierImportPreview extends CsvImportPreview { rows: SupplierImportRow[] }
 
 const parseErrorMessage = async (response: Response, fallback: string): Promise<string> => {
   try {
@@ -103,4 +115,50 @@ export const deleteSupplier = async (id: string) => {
   }
 
   return await response.json()
+}
+
+const downloadResponse = async (response: Response, fallback: string, filename: string) => {
+  if (!response.ok) throw new Error(await parseErrorMessage(response, fallback))
+  const blob = await response.blob()
+  const url = URL.createObjectURL(blob)
+  const anchor = document.createElement('a')
+  anchor.href = url
+  anchor.download = filename
+  anchor.click()
+  URL.revokeObjectURL(url)
+}
+
+export const downloadSupplierTemplate = async () => {
+  const response = await fetch(`${getApiUrl()}proveedores/csv/template`, { headers: getAuthHeaders() })
+  await downloadResponse(response, 'Error al descargar la plantilla', 'suppliers-template.csv')
+}
+
+export const previewSupplierImport = async (file: File): Promise<SupplierImportPreview> => {
+  const form = new FormData()
+  form.append('file', file)
+  const response = await fetchWithCsrf(`${getApiUrl()}proveedores/csv/import/preview`, { method: 'POST', body: form })
+  if (!response.ok) throw new Error(await parseErrorMessage(response, 'Error al previsualizar el CSV'))
+  return response.json()
+}
+
+export const commitSupplierImport = async (preview: SupplierImportPreview) => {
+  const response = await fetchWithCsrf(`${getApiUrl()}proveedores/csv/import/commit`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Idempotency-Key': crypto.randomUUID() },
+    body: JSON.stringify({ token: preview.token, payloadHash: preview.payloadHash }),
+  })
+  if (!response.ok) throw new Error(await parseErrorMessage(response, 'Error al confirmar la importación'))
+  return response.json()
+}
+
+export const downloadSupplierImportErrors = async (token: string) => {
+  const response = await fetch(`${getApiUrl()}proveedores/csv/import/${encodeURIComponent(token)}/errors`, { headers: getAuthHeaders() })
+  await downloadResponse(response, 'Error al descargar los errores', 'supplier-import-errors.csv')
+}
+
+export const exportSuppliers = async (params: { name?: string } = {}) => {
+  const query = new URLSearchParams()
+  if (params.name) query.set('name', params.name)
+  const response = await fetch(`${getApiUrl()}proveedores/csv/export?${query.toString()}`, { headers: getAuthHeaders() })
+  await downloadResponse(response, 'Error al exportar proveedores', 'suppliers.csv')
 }

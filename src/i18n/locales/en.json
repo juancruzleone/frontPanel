@@ -542,6 +542,7 @@
     }
   },
   "installations": {
+    "exportResults": "Export results",
     "deviceNamePlaceholder": "Enter the asset name",
     "installation": "Installation",
     "understood": "Close",
@@ -943,6 +944,17 @@
     "delete": "delete",
     "title": "Assets",
     "createAsset": "Create Asset",
+    "csv": {
+      "downloadTemplate": "CSV template",
+      "import": "Import CSV",
+      "exportFiltered": "Export CSV",
+      "importTitle": "Import assets",
+      "chooseFile": "Select CSV. Each asset uses externalId; the base template must already have templateExternalId assigned.",
+      "preview": "Preview",
+      "commit": "Commit import",
+      "downloadErrors": "Download errors and warnings",
+      "completed": "Import completed"
+    },
     "tour": {
       "welcome": {
         "title": "Welcome to Assets!",
@@ -1560,6 +1572,7 @@
     "timezoneLabel": "🌍 America/Buenos_Aires (-03:00) • Daylight Saving Time"
   },
   "workOrders": {
+    "exportResults": "Export results",
     "understood": "Close",
     "successTitle": "Operation successful!",
     "title": "Work orders",
@@ -1723,6 +1736,7 @@
     }
   },
   "inventory": {
+    "exportMovements": "Export movements",
     "reference": "Reference",
     "title": "Inventory",
     "addItem": "Add Item",
@@ -1765,6 +1779,17 @@
     "newStock": "New Total Stock",
     "reason": "Reason",
     "reasonPlaceholder": "Ex: Purchase from supplier, breakage, etc.",
+    "csv": {
+      "downloadTemplate": "Download template",
+      "import": "Import CSV",
+      "exportFiltered": "Export filtered results",
+      "importTitle": "Import inventory from CSV",
+      "chooseFile": "Select a CSV file",
+      "preview": "Preview",
+      "commit": "Confirm import",
+      "downloadErrors": "Download errors",
+      "completed": "Import completed"
+    },
     "movementTypes": {
       "entry": "Entry",
       "exit": "Exit",
@@ -1831,6 +1856,17 @@
     "supplierAdded": "Supplier added successfully",
     "supplierUpdated": "Supplier updated successfully",
     "supplierDeleted": "Supplier deleted successfully",
+    "csv": {
+      "downloadTemplate": "Download template",
+      "import": "Import CSV",
+      "exportFiltered": "Export filtered results",
+      "importTitle": "Import suppliers from CSV",
+      "chooseFile": "Select a CSV file",
+      "preview": "Preview",
+      "commit": "Confirm import",
+      "downloadErrors": "Download errors",
+      "completed": "Import completed"
+    },
     "validation": {
       "nameRequired": "Supplier name is required",
       "emailInvalid": "Invalid email"

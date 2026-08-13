@@ -29,6 +29,8 @@ import ViewToggle from "../components/ViewToggle/ViewToggle"
 import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 import DataTable from "../components/DataTable/DataTable"
 import Tooltip from "../shared/components/Tooltip/Tooltip"
+import { exportInstallations } from "../features/installations/services/installationServices"
+import { canExportOperationalResults } from "../shared/utils/exportPermissions"
 
 
 const Installations = () => {
@@ -188,6 +190,7 @@ const Installations = () => {
   const [isError, setIsError] = useState(false)
   const [installationToDelete, setInstallationToDelete] = useState<Installation | null>(null)
   const [selectedInstallation, setSelectedInstallation] = useState<Installation | null>(null)
+  const [exportError, setExportError] = useState("")
   const [viewMode, setViewMode, isMobile] = useResponsiveView('installations-view', 'cards')
   const itemsPerPage = 4
 
@@ -403,7 +406,15 @@ const Installations = () => {
           >
             <FilterX size={20} />
           </button>
+          {canExportOperationalResults(role) && (
+            <Button title={t('installations.exportResults')} onClick={async () => {
+              setExportError("")
+              try { await exportInstallations({ search: searchTerm, category: selectedCategory }) }
+              catch (error) { setExportError(error instanceof Error ? error.message : String(error)) }
+            }} />
+          )}
         </div>
+        {exportError && <p role="alert">{exportError}</p>}
 
         <div className={styles.listContainer}>
           {loading ? (

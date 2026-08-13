@@ -1,6 +1,8 @@
 import { getAuthHeaders, fetchWithCsrf } from "../../../shared/utils/apiHeaders"
 import { fetchAssets, updateAssetStock as apiUpdateAssetStock } from "../../assets/services/assetServices"
 import { InventoryAdjustmentPayload, InventoryAsset, InventoryItem, InventoryMovement } from "../types/inventory.types"
+import type { CsvImportPreview } from "../../../shared/components/CsvImportDialog/CsvImportDialog"
+import { downloadResponse as downloadFileResponse } from "../../../shared/utils/downloadResponse"
 
 const getApiUrl = () => import.meta.env.VITE_API_URL || '/api/'
 
@@ -33,6 +35,10 @@ export interface InventoryListResponse {
   items?: InventoryItem[];
   total?: number;
   totalPages?: number;
+}
+
+export interface InventoryImportPreview extends CsvImportPreview {
+  rows: Array<CsvImportPreview['rows'][number] & { stockDelta: number, data: Partial<InventoryItem> }>
 }
 
 export const fetchInventoryItems = async (params: { page?: number, limit?: number, name?: string, category?: string, lowStock?: boolean | string } = {}): Promise<InventoryListResponse> => {
@@ -181,4 +187,56 @@ export const fetchInventoryMovements = async (itemId?: string, params: { page?: 
 
 export const updateInventoryAssetStock = async (assetId: string, stock: number): Promise<void> => {
   await apiUpdateAssetStock(assetId, stock)
+}
+
+const downloadResponse = async (response: Response, fallback: string, filename: string) => {
+  if (!response.ok) throw new Error(await parseErrorMessage(response, fallback))
+  const url = URL.createObjectURL(await response.blob())
+  const anchor = document.createElement('a')
+  anchor.href = url
+  anchor.download = filename
+  anchor.click()
+  URL.revokeObjectURL(url)
+}
+
+export const downloadInventoryTemplate = async () => {
+  const response = await fetch(`${getApiUrl()}inventario/csv/template`, { headers: getAuthHeaders(), credentials: 'include' })
+  await downloadResponse(response, 'Error al descargar la plantilla', 'inventory-template.csv')
+}
+
+export const previewInventoryImport = async (file: File): Promise<InventoryImportPreview> => {
+  const form = new FormData()
+  form.append('file', file)
+  const response = await fetchWithCsrf(`${getApiUrl()}inventario/csv/import/preview`, { method: 'POST', body: form })
+  if (!response.ok) throw new Error(await parseErrorMessage(response, 'Error al previsualizar el CSV'))
+  return response.json()
+}
+
+export const commitInventoryImport = async (preview: InventoryImportPreview) => {
+  const response = await fetchWithCsrf(`${getApiUrl()}inventario/csv/import/commit`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Idempotency-Key': preview.token },
+    body: JSON.stringify({ token: preview.token, payloadHash: preview.payloadHash }),
+  })
+  if (!response.ok) throw new Error(await parseErrorMessage(response, 'Error al confirmar la importación'))
+  return response.json()
+}
+
+export const downloadInventoryImportErrors = async (token: string) => {
+  const response = await fetch(`${getApiUrl()}inventario/csv/import/${encodeURIComponent(token)}/errors`, { headers: getAuthHeaders(), credentials: 'include' })
+  await downloadResponse(response, 'Error al descargar los errores', 'inventory-import-errors.csv')
+}
+
+export const exportInventory = async (params: { name?: string, category?: string, lowStock?: boolean } = {}) => {
+  const query = new URLSearchParams()
+  if (params.name) query.set('name', params.name)
+  if (params.category) query.set('category', params.category)
+  if (params.lowStock !== undefined) query.set('lowStock', String(params.lowStock))
+  const response = await fetch(`${getApiUrl()}inventario/csv/export?${query.toString()}`, { headers: getAuthHeaders(), credentials: 'include' })
+  await downloadResponse(response, 'Error al exportar inventario', 'inventory.csv')
+}
+
+export const exportInventoryMovements = async (itemId: string) => {
+  const response = await fetch(`${getApiUrl()}inventario/${encodeURIComponent(itemId)}/movimientos/csv/export`, { headers: getAuthHeaders(), credentials: 'include' })
+  await downloadFileResponse(response, 'Error al exportar movimientos', 'inventory-movements.csv')
 }

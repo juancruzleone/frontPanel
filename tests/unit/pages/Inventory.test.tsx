@@ -57,4 +57,15 @@ describe('Inventory Page', () => {
       expect(mockLoadInventory).toHaveBeenCalledWith({ name: '', category: 'Cat 1' })
     })
   })
+
+  it('muestra importación solo a admin y exportación a roles con acceso', () => {
+    const { rerender } = render(<Inventory />)
+    expect(screen.getByText('inventory.csv.import')).toBeInTheDocument()
+    expect(screen.getByText('inventory.csv.exportFiltered')).toBeInTheDocument()
+
+    ;(useAuthStore as any).mockReturnValue('technician')
+    rerender(<Inventory />)
+    expect(screen.queryByText('inventory.csv.import')).not.toBeInTheDocument()
+    expect(screen.getByText('inventory.csv.exportFiltered')).toBeInTheDocument()
+  })
 })

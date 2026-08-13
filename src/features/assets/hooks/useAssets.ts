@@ -13,6 +13,7 @@ import { fetchFormCategories } from "../../forms/services/formServices"
 
 export type Asset = {
   _id?: string
+  externalId?: string
   nombre: string
   templateId: string
   marca?: string
@@ -25,6 +26,7 @@ export type Asset = {
 
 export type Template = {
   _id: string
+  externalId?: string
   nombre: string
   descripcion?: string
   categoria: string

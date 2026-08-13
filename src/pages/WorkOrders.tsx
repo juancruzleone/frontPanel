@@ -55,6 +55,8 @@ import {
 	type ViewMode,
 } from "../shared/hooks/useResponsiveView";
 import { useTranslatedRoutes } from "../router";
+import { exportWorkOrders } from "../features/workOrders/services/workOrderServices";
+import { canExportOperationalResults } from "../shared/utils/exportPermissions";
 
 const WORK_ORDER_ALLOWED_VIEWS: readonly ViewMode[] = [
 	"cards",
@@ -222,6 +224,7 @@ const WorkOrders = () => {
 	const [selectedWorkOrder, setSelectedWorkOrder] = useState<WorkOrder | null>(
 		null,
 	);
+	const [exportError, setExportError] = useState("");
 	const [currentPage, setCurrentPage] = useState(1);
 	const [viewMode, setViewMode, isMobile] = useResponsiveView(
 		"workorders-view",
@@ -689,7 +692,15 @@ const WorkOrders = () => {
 					>
 						<FilterX size={20} />
 					</button>
+					{canExportOperationalResults(role) && (
+						<Button title={t("workOrders.exportResults")} onClick={async () => {
+							setExportError("");
+							try { await exportWorkOrders(buildFilters()); }
+							catch (error) { setExportError(error instanceof Error ? error.message : String(error)); }
+						}} />
+					)}
 				</div>
+				{exportError && <p role="alert">{exportError}</p>}
 
 				<div className={styles.filterContainer}>
 					<HybridSelect

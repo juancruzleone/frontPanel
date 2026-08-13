@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { fetchAssets } from '../../../../src/features/assets/services/assetServices'
-import { fetchInventoryItems, fetchInventoryAssets, createInventoryItem, deleteInventoryItem } from '../../../../src/features/inventory/services/inventoryServices'
+import { fetchInventoryItems, fetchInventoryAssets, createInventoryItem, deleteInventoryItem, previewInventoryImport, commitInventoryImport, exportInventory } from '../../../../src/features/inventory/services/inventoryServices'
 
 vi.mock('../../../../src/features/assets/services/assetServices', () => ({
   fetchAssets: vi.fn(),
@@ -81,5 +81,31 @@ describe('Inventory Services', () => {
     ;(fetch as any).mockResolvedValue(mockResponse)
 
     await expect(deleteInventoryItem('999')).rejects.toThrow('Item no encontrado')
+  })
+
+  it('envía el CSV de inventario como multipart al preview protegido', async () => {
+    ;(fetch as any).mockResolvedValue({ ok: true, json: () => Promise.resolve({ rows: [] }) })
+    await previewInventoryImport(new File(['csv'], 'inventory.csv', { type: 'text/csv' }))
+    expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/inventario/csv/import/preview'), expect.objectContaining({ method: 'POST', body: expect.any(FormData) }))
+  })
+
+  it('reutiliza el token opaco como clave idempotente al confirmar', async () => {
+    ;(fetch as any).mockResolvedValue({ ok: true, json: () => Promise.resolve({ create: 1 }) })
+    const preview = { token: 'stable-token', payloadHash: 'hash', schemaVersion: 'inventory.v1', delimiter: ',' as const, expiresAt: new Date().toISOString(), counts: { create: 1, update: 0, unchanged: 0, error: 0 }, rows: [] }
+    await commitInventoryImport(preview)
+    expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/inventario/csv/import/commit'), expect.objectContaining({ headers: expect.objectContaining({ 'Idempotency-Key': 'stable-token' }) }))
+  })
+
+  it('exporta por servidor usando los filtros reales de inventario', async () => {
+    const click = vi.fn()
+    vi.spyOn(document, 'createElement').mockReturnValue({ click } as unknown as HTMLAnchorElement)
+    vi.stubGlobal('URL', { createObjectURL: vi.fn(() => 'blob:url'), revokeObjectURL: vi.fn() })
+    ;(fetch as any).mockResolvedValue({ ok: true, blob: () => Promise.resolve(new Blob(['csv'])) })
+    await exportInventory({ name: 'Bearing & seal', category: 'Parts', lowStock: true })
+    const [url] = vi.mocked(fetch).mock.calls[0]
+    expect(String(url)).toContain('name=Bearing+%26+seal')
+    expect(String(url)).toContain('category=Parts')
+    expect(String(url)).toContain('lowStock=true')
+    expect(click).toHaveBeenCalled()
   })
 })

@@ -1,6 +1,7 @@
 import { useAuthStore } from "../../../store/authStore";
 import { getAuthHeaders, getHeadersWithContentType, fetchWithCsrf } from "../../../shared/utils/apiHeaders";
 import { createApiResponseError } from "../../../shared/utils/errorHelpers";
+import { downloadResponse } from "../../../shared/utils/downloadResponse";
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/";
 
@@ -161,6 +162,14 @@ export const fetchInstallations = async (params: { page?: number, limit?: number
 
   return result;
 };
+
+export const exportInstallations = async (params: { search?: string, category?: string } = {}): Promise<void> => {
+  const query = new URLSearchParams()
+  if (params.search) query.set("search", params.search)
+  if (params.category) query.set("category", params.category)
+  const response = await fetch(`${API_URL}installations/csv/export?${query}`, { headers: getAuthHeaders(), credentials: "include" })
+  await downloadResponse(response, "Error al exportar instalaciones", "installations.csv")
+}
 
 export const fetchInstallationById = async (id: string): Promise<InstallationResponse> => {
   const endpoint = getInstallationsEndpoint();

@@ -37,7 +37,8 @@
   align-items: center;
   margin-bottom: 0;
   margin-left: 0;
-  gap: 1rem;  flex-wrap: wrap;
+  gap: 1rem;
+  flex-wrap: wrap;
 
 }
 
@@ -293,4 +294,7 @@
     width: 100%;
     height: 46px;
   }
+
+  .positionButton { width: 100%; }
+  .positionButton > button { flex: 1; }
 }

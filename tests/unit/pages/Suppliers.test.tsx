@@ -4,6 +4,15 @@ import Suppliers from '../../../src/pages/Suppliers'
 import { useSuppliers } from '../../../src/features/suppliers/hooks/useSuppliers'
 import { useAuthStore } from '../../../src/store/authStore'
 
+vi.mock('../../../src/features/suppliers/services/supplierServices', () => ({
+  downloadSupplierTemplate: vi.fn().mockResolvedValue(undefined),
+  previewSupplierImport: vi.fn(),
+  commitSupplierImport: vi.fn(),
+  downloadSupplierImportErrors: vi.fn(),
+  exportSuppliers: vi.fn().mockResolvedValue(undefined),
+}))
+import { exportSuppliers } from '../../../src/features/suppliers/services/supplierServices'
+
 vi.mock('../../../src/features/suppliers/hooks/useSuppliers')
 vi.mock('../../../src/features/suppliers/hooks/useSuppliersTour', () => ({
   useSuppliersTour: () => ({
@@ -192,5 +201,14 @@ describe('Suppliers page', () => {
     expect(await screen.findByText('suppliers.supplierAdded')).toBeInTheDocument()
     expect(screen.queryByText('suppliers.editSupplier')).not.toBeInTheDocument()
     expect(screen.queryByText('suppliers.deleteSupplier')).not.toBeInTheDocument()
+  })
+
+  it('limita importación a administradores y exporta con el filtro actual para roles de lectura', async () => {
+    useAuthStore.setState({ role: 'tecnico' })
+    render(<Suppliers />)
+    expect(screen.queryByText('suppliers.csv.import')).not.toBeInTheDocument()
+    fireEvent.change(screen.getByPlaceholderText('suppliers.searchPlaceholder'), { target: { value: 'ACME' } })
+    fireEvent.click(screen.getByText('suppliers.csv.exportFiltered'))
+    await waitFor(() => expect(exportSuppliers).toHaveBeenCalledWith({ name: 'ACME' }))
   })
 })

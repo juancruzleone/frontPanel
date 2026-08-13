@@ -1,49 +1,46 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { fetchAssets, fetchTemplates } from '../../../../src/features/assets/services/assetServices'
+import { beforeEach, describe, expect, it, vi } from "vitest"
+import { commitAssetImport, exportAssets, fetchAssets, fetchTemplates, previewAssetImport } from "../../../../src/features/assets/services/assetServices"
 
-describe('assetServices', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
-    vi.stubGlobal('fetch', vi.fn())
-    // @ts-expect-error - Mocking import.meta.env
-    import.meta.env.VITE_API_URL = 'https://api.test/api/'
+const fetchWithCsrf = vi.hoisted(() => vi.fn())
+const fetchWithAuthRetry = vi.hoisted(() => vi.fn())
+vi.mock("../../../../src/shared/utils/apiHeaders", () => ({
+  getAuthHeaders: vi.fn(() => ({ Authorization: "Bearer token" })), getHeadersWithContentType: vi.fn(() => ({})),
+  fetchWithAuthRetry, fetchWithCsrf,
+}))
+
+describe("asset CSV service", () => {
+  beforeEach(() => { vi.clearAllMocks(); vi.stubGlobal("fetch", vi.fn()) })
+
+  it("sends cookies and real filters when fetching assets", async () => {
+    fetchWithAuthRetry.mockResolvedValue({ ok: true, json: vi.fn().mockResolvedValue({ assets: [], total: 0, totalPages: 1 }) })
+    await fetchAssets({ page: 2, limit: 4, search: "pump", category: "Equipment" })
+    expect(fetchWithAuthRetry).toHaveBeenCalledWith(expect.stringMatching(/activos\?.*page=2.*limit=4.*search=pump.*category=Equipment/), expect.objectContaining({ credentials: "include" }))
   })
 
-  it('envía cookies y filtros al obtener activos', async () => {
-    ;(fetch as any).mockResolvedValue({
-      ok: true,
-      json: () => Promise.resolve({ assets: [], total: 0, totalPages: 1 }),
-    })
-
-    await fetchAssets({ page: 2, limit: 4, search: 'bomba', category: 'Equipos' })
-
-    expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining('/api/activos?'),
-      expect.objectContaining({
-        credentials: 'include',
-      })
-    )
-
-    const [url] = vi.mocked(fetch).mock.calls[0]
-    expect(String(url)).toContain('page=2')
-    expect(String(url)).toContain('limit=4')
-    expect(String(url)).toContain('search=bomba')
-    expect(String(url)).toContain('category=Equipos')
-  })
-
-  it('envía cookies al obtener plantillas de activos', async () => {
-    ;(fetch as any).mockResolvedValue({
-      ok: true,
-      json: () => Promise.resolve({ success: true, data: [] }),
-    })
-
+  it("sends cookies when fetching templates", async () => {
+    fetchWithAuthRetry.mockResolvedValue({ ok: true, json: vi.fn().mockResolvedValue({ success: true, data: [] }) })
     await fetchTemplates({ page: 1, limit: 100 })
+    expect(fetchWithAuthRetry).toHaveBeenCalledWith(expect.stringContaining("plantillas?"), expect.objectContaining({ credentials: "include" }))
+  })
 
-    expect(fetch).toHaveBeenCalledWith(
-      expect.stringContaining('/api/plantillas?'),
-      expect.objectContaining({
-        credentials: 'include',
-      })
-    )
+  it("previews multipart CSV through CSRF", async () => {
+    fetchWithCsrf.mockResolvedValue({ ok: true, json: vi.fn().mockResolvedValue({ token: "t" }) })
+    await previewAssetImport(new File(["csv"], "assets.csv", { type: "text/csv" }))
+    expect(fetchWithCsrf).toHaveBeenCalledWith(expect.stringContaining("activos/csv/import/preview"), expect.objectContaining({ method: "POST", body: expect.any(FormData) }))
+  })
+
+  it("commits with preview hash and idempotency key", async () => {
+    fetchWithCsrf.mockResolvedValue({ ok: true, json: vi.fn().mockResolvedValue({ create: 1 }) })
+    const preview = { token: "token", payloadHash: "hash" } as any
+    await commitAssetImport(preview)
+    expect(fetchWithCsrf).toHaveBeenCalledWith(expect.stringContaining("activos/csv/import/commit"), expect.objectContaining({ headers: expect.objectContaining({ "Idempotency-Key": "token" }), body: JSON.stringify({ token: "token", payloadHash: "hash" }) }))
+  })
+
+  it("sends the real Assets filters to export", async () => {
+    vi.mocked(fetch).mockResolvedValue({ ok: true, blob: vi.fn().mockResolvedValue(new Blob()) } as any)
+    vi.stubGlobal("URL", { createObjectURL: vi.fn(() => "blob:url"), revokeObjectURL: vi.fn() })
+    vi.spyOn(document, "createElement").mockReturnValue({ click: vi.fn(), set href(_value: string) {}, set download(_value: string) {} } as any)
+    await exportAssets({ search: "pump", category: "Pumps" })
+    expect(fetch).toHaveBeenCalledWith(expect.stringContaining("search=pump&category=Pumps"), expect.any(Object))
   })
 })

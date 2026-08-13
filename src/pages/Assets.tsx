@@ -23,6 +23,8 @@ import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 import { WifiOff } from "lucide-react"
 import DataTable from "../components/DataTable/DataTable"
 import Tooltip from "../shared/components/Tooltip/Tooltip"
+import { CsvImportDialog } from "../shared/components/CsvImportDialog/CsvImportDialog"
+import { commitAssetImport, downloadAssetImportErrors, downloadAssetTemplate, exportAssets, previewAssetImport } from "../features/assets/services/assetServices"
 
 const Assets = () => {
   const { t, i18n } = useTranslation()
@@ -54,12 +56,19 @@ const Assets = () => {
   const [isError, setIsError] = useState(false)
   const [assetToDelete, setAssetToDelete] = useState<Asset | null>(null)
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null)
+  const [isImportOpen, setIsImportOpen] = useState(false)
+  const [csvError, setCsvError] = useState<string | null>(null)
   const [viewMode, setViewMode, isMobile] = useResponsiveView('assets-view', 'cards')
   const itemsPerPage = 4
 
   const role = useAuthStore((s) => s.role)
   const isClientUser = role && isClient(role)
   const isAdminUser = role && isAdmin(role)
+
+  const runCsvAction = async (action: () => Promise<unknown>) => {
+    setCsvError(null)
+    try { await action() } catch (error) { setCsvError(error instanceof Error ? error.message : String(error)) }
+  }
 
   useEffect(() => {
     document.title = t("assets.titlePage")
@@ -197,6 +206,9 @@ const Assets = () => {
             <div className={styles.positionButton}>
               <Button title={t('assets.createAsset')} onClick={handleOpenCreate} data-tour="create-asset-btn" />
               {isAdminUser && (
+                <>
+                  <Button title={t('assets.csv.downloadTemplate')} onClick={() => runCsvAction(downloadAssetTemplate)} />
+                  <Button title={t('assets.csv.import')} onClick={() => setIsImportOpen(true)} />
                 <button
                   className={styles.manualsButton}
                   onClick={() => navigate('/formularios')}
@@ -206,6 +218,7 @@ const Assets = () => {
                   <FileText size={20} />
                   <span>{t('assets.manageForms')}</span>
                 </button>
+                </>
               )}
               <button
                 className={styles.manualsButton}
@@ -256,7 +269,9 @@ const Assets = () => {
           >
             <FilterX size={20} />
           </button>
+          {!isClientUser && <Button title={t('assets.csv.exportFiltered')} onClick={() => runCsvAction(() => exportAssets({ search: searchTerm, category: selectedCategory }))} />}
         </div>
+        {csvError && <p role="alert">{csvError}</p>}
 
         <div className={styles.listContainer}>
           {loading ? (
@@ -467,6 +482,17 @@ const Assets = () => {
 
       <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={closeModal} mensaje={responseMessage} />
       <ModalError isOpen={!!responseMessage && isError} onRequestClose={closeModal} mensaje={responseMessage} />
+
+      <CsvImportDialog
+        isOpen={isImportOpen}
+        title={t('assets.csv.importTitle')}
+        labels={{ chooseFile: t('assets.csv.chooseFile'), preview: t('assets.csv.preview'), commit: t('assets.csv.commit'), close: t('common.close'), errors: t('assets.csv.downloadErrors'), result: t('assets.csv.completed') }}
+        onClose={() => setIsImportOpen(false)}
+        onPreview={previewAssetImport}
+        onCommit={commitAssetImport}
+        onDownloadErrors={downloadAssetImportErrors}
+        onCommitted={() => loadAssets({ page: 1, limit: itemsPerPage, search: searchTerm, category: selectedCategory })}
+      />
 
       {/* Botón flotante del tour estilo WhatsApp */}
       {!isClientUser && (

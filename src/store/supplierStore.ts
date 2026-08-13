@@ -3,6 +3,7 @@ import { persist } from "zustand/middleware"
 
 export interface Supplier {
   _id: string
+  externalId?: string
   name: string
   contactName?: string
   email?: string

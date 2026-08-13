@@ -22,6 +22,8 @@ import { useInventoryTour } from "../features/inventory/hooks/useInventoryTour"
 import TourButton from "../shared/components/Buttons/TourButton"
 import Skeleton from "../shared/components/Skeleton"
 import styles from "../features/inventory/styles/inventory.module.css"
+import { CsvImportDialog } from "../shared/components/CsvImportDialog/CsvImportDialog"
+import { commitInventoryImport, downloadInventoryImportErrors, downloadInventoryTemplate, exportInventory, previewInventoryImport } from "../features/inventory/services/inventoryServices"
 
 const INVENTORY_ALLOWED_VIEWS = ['cards', 'table'] as const
 
@@ -52,6 +54,13 @@ const Inventory = () => {
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null)
   const [responseMessage, setResponseMessage] = useState("")
   const [isError, setIsError] = useState(false)
+  const [isImportOpen, setIsImportOpen] = useState(false)
+  const [csvError, setCsvError] = useState<string | null>(null)
+
+  const runCsvAction = async (action: () => Promise<void>) => {
+    setCsvError(null)
+    try { await action() } catch (caught) { setCsvError(caught instanceof Error ? caught.message : String(caught)) }
+  }
 
   useEffect(() => {
     loadInventory()
@@ -166,6 +175,8 @@ const Inventory = () => {
         </div>
         {isAdmin && (
           <div className={styles.positionButton}>
+            <Button title={t('inventory.csv.downloadTemplate')} onClick={() => runCsvAction(downloadInventoryTemplate)} />
+            <Button title={t('inventory.csv.import')} onClick={() => setIsImportOpen(true)} />
             <Button data-tour="inventory-add-btn" title={t('inventory.addItem')} onClick={handleOpenCreate} />
           </div>
         )}
@@ -212,7 +223,10 @@ const Inventory = () => {
         >
           <FilterX size={20} />
         </button>
+        <Button title={t('inventory.csv.exportFiltered')} onClick={() => runCsvAction(() => exportInventory({ name: searchTerm, category: selectedCategory }))} />
       </div>
+
+      {csvError && <p role="alert" className={styles.errorMessage}>{csvError}</p>}
 
       <div className={styles.listContainer}>
         {loading ? (
@@ -375,6 +389,16 @@ const Inventory = () => {
 
       <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={() => setResponseMessage("")} mensaje={responseMessage} />
       <ModalError isOpen={!!responseMessage && isError} onRequestClose={() => setResponseMessage("")} mensaje={responseMessage} />
+      <CsvImportDialog
+        isOpen={isImportOpen}
+        title={t('inventory.csv.importTitle')}
+        labels={{ chooseFile: t('inventory.csv.chooseFile'), preview: t('inventory.csv.preview'), commit: t('inventory.csv.commit'), close: t('common.close'), errors: t('inventory.csv.downloadErrors'), result: t('inventory.csv.completed') }}
+        onClose={() => setIsImportOpen(false)}
+        onPreview={previewInventoryImport}
+        onCommit={commitInventoryImport}
+        onDownloadErrors={downloadInventoryImportErrors}
+        onCommitted={() => loadInventory({ name: searchTerm, category: selectedCategory })}
+      />
       
       <TourButton
         onClick={tourCompleted ? startTour : skipTour}
