@@ -64,6 +64,9 @@ export async function resolveSyncContext(): Promise<{ ctx?: SyncContext; error?:
 
   const lease = await getStoredLease()
   if (!lease?.lease) return { error: 'No lease' }
+  if (lease.lease.tenantId !== tenantId || lease.lease.userId !== actorId || lease.lease.deviceId !== trust.deviceId) {
+    return { error: 'Lease scope mismatch' }
+  }
 
   const packages = await listReadyPackages(tenantId, actorId, trust.deviceId)
   // Packages may be empty (no offline data yet) — that's OK, not an error

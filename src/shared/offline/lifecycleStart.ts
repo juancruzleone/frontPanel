@@ -81,7 +81,8 @@ export async function resolveStartContext(tenantId: string, actorId: string, wor
       key: storageKey,
       kid: lease.header.kid,
       // Omit versions when not available — never invent zero
-      ...(pkg.manifest.packageVersion ? { expectedEntityVersion: pkg.manifest.packageVersion } : {}),
+      ...(pkgResult.workOrderVersion != null ? { expectedEntityVersion: pkgResult.workOrderVersion } : {}),
+      ...(pkgResult.formVersion != null ? { expectedFormVersion: pkgResult.formVersion } : {}),
     },
   }
 }

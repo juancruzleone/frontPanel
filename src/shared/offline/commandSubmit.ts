@@ -31,7 +31,7 @@ export interface SubmitCommandParams {
   entityType?: string
   payload: Record<string, unknown>
   payloadHash: string
-  expectedEntityVersion: number
+  expectedEntityVersion?: number
   expectedFormVersion?: number
   dependsOn?: string[]
 }
@@ -123,7 +123,7 @@ export async function getCommandResult(commandId: string, commandType?: string):
 export function buildCommandCanonicalBytes(fields: {
   tenantId: string; actorId: string; deviceId: string; packageId: string
   commandId: string; commandType: string; schemaVersion: number
-  expectedEntityVersion: number; expectedFormVersion?: number
+  expectedEntityVersion?: number; expectedFormVersion?: number
   dependsOn?: string[]; payloadHash: string
 }): string {
   return canonicalJSON({

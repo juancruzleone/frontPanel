@@ -10,7 +10,7 @@ const RES_STORE = 'offlinePackageResources'
 const META_STORE = 'offlinePackageMeta'
 const KEYS_STORE = 'offlinePackageKeys'
 
-export type ResourceKind = 'workOrders' | 'installations' | 'assets' | 'forms' | 'inventoryRefs'
+export type ResourceKind = 'workOrders' | 'installations' | 'assets' | 'forms' | 'inventoryRefs' | 'documents'
 interface StoredEnvelope { id: string; envelope: EncryptedRecordEnvelope; kind: ResourceKind; packageId: string; scopeKey: string; entityId?: string }
 export interface PackageMeta { scopeKey: string; packageId: string; manifest: OfflineManifest; sealedAt: number; resourceCount: number }
 
@@ -21,7 +21,7 @@ export function buildPackageScopeKey(tenantId: string, userId: string, deviceId:
 export interface SealBootstrapParams { bootstrap: OfflineBootstrap; key: CryptoKey; kid: string; tenantId: string; userId: string; deviceId: string }
 export interface SealResult { meta?: PackageMeta; error?: { message: string; code: string } }
 
-const RESOURCE_KINDS: ResourceKind[] = ['workOrders', 'installations', 'assets', 'forms', 'inventoryRefs']
+const RESOURCE_KINDS: ResourceKind[] = ['workOrders', 'installations', 'assets', 'forms', 'inventoryRefs', 'documents']
 
 export async function sealAndPersistBootstrap(p: SealBootstrapParams): Promise<SealResult> {
   const { bootstrap, key, kid, tenantId, userId, deviceId } = p
@@ -65,7 +65,7 @@ export async function openPersistedBootstrap(key: CryptoKey, tenantId: string, u
     const meta = await getOne<PackageMeta>(tx.objectStore(META_STORE), scopeKey)
     if (!meta) return { error: { message: 'No package', code: 'PACKAGE_NOT_FOUND' } }
     const resources = await getAll(tx.objectStore(RES_STORE), scopeKey)
-    const bs: OfflineBootstrap = { manifest: meta.manifest, success: true, workOrders: [], installations: [], assets: [], forms: [], inventoryRefs: [] }
+    const bs: OfflineBootstrap = { manifest: meta.manifest, success: true, workOrders: [], installations: [], assets: [], forms: [], inventoryRefs: [], documents: [] }
     for (const r of resources) {
       try { (bs[r.kind] as unknown[]).push(await openJson({ key, envelope: r.envelope, expectedScopeKey: scopeKey, expectedStore: r.kind })) }
       catch { return { error: { message: `Tamper: ${r.kind}`, code: 'RESOURCE_TAMPERED' } } }
@@ -106,7 +106,7 @@ export async function listReadyPackages(tenantId: string, userId: string, device
   return all.filter(m => m.scopeKey.startsWith(prefix))
 }
 
-export type ResolvePackageResult = { packageId?: string; meta?: PackageMeta; error?: string }
+export type ResolvePackageResult = { packageId?: string; meta?: PackageMeta; workOrderVersion?: number; formVersion?: number; error?: string }
 
 /**
  * Resolve the package containing a specific workOrderId.
@@ -125,7 +125,7 @@ export async function resolvePackageForWorkOrder(
   const tx = db.transaction([RES_STORE, KEYS_STORE], 'readonly')
   const allResources = await getAllRaw(tx.objectStore(RES_STORE))
 
-  const matches: PackageMeta[] = []
+  const matches: Array<{ meta: PackageMeta; workOrderVersion?: number; formVersion?: number }> = []
   for (const pkg of candidates) {
     const pkgScopeKey = pkg.scopeKey
 
@@ -147,7 +147,11 @@ export async function resolvePackageForWorkOrder(
         })
         const decryptedId = (decrypted._id as string) ?? (decrypted.id as string)
         if (decryptedId === workOrderId) {
-          matches.push(pkg)
+          matches.push({
+            meta: pkg,
+            workOrderVersion: typeof decrypted.version === 'number' ? decrypted.version : undefined,
+            formVersion: typeof decrypted.formVersion === 'number' ? decrypted.formVersion : undefined,
+          })
           break
         }
       } catch {
@@ -158,7 +162,21 @@ export async function resolvePackageForWorkOrder(
 
   if (matches.length === 0) return { error: 'Work order not found in any package' }
   if (matches.length > 1) return { error: 'Ambiguous: work order in multiple packages' }
-  return { packageId: matches[0].packageId, meta: matches[0] }
+  return {
+    packageId: matches[0].meta.packageId,
+    meta: matches[0].meta,
+    workOrderVersion: matches[0].workOrderVersion,
+    formVersion: matches[0].formVersion,
+  }
+}
+
+export async function openLatestBootstrap(tenantId: string, userId: string, deviceId: string): Promise<OpenBootstrapResult> {
+  const packages = await listReadyPackages(tenantId, userId, deviceId)
+  const latest = [...packages].sort((a, b) => b.sealedAt - a.sealedAt)[0]
+  if (!latest) return { error: { message: 'No package', code: 'PACKAGE_NOT_FOUND' } }
+  const key = await getPersistedPackageKey(latest.scopeKey)
+  if (!key) return { error: { message: 'No package key', code: 'PACKAGE_KEY_NOT_FOUND' } }
+  return openPersistedBootstrap(key, tenantId, userId, deviceId, latest.packageId)
 }
 
 export interface ResolvedForm {

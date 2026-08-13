@@ -2,7 +2,7 @@
  * R6 — Command types mirroring backPanel offlineCommand.services.js.
  */
 export const COMMAND_SCHEMA_VERSION = 1
-export type CommandType = 'start' | 'maintenance' | 'completion' | 'evidence'
+export type CommandType = 'start' | 'maintenance' | 'completion' | 'evidence' | 'client_maintenance_request'
 export type CommandStatus = 'pending' | 'processing' | 'succeeded' | 'failed' | 'conflict' | 'dead-letter'
 export type ErrorCategory = 'retryable' | 'permanent' | 'conflict' | 'validation' | 'rate_limit'
 export interface CommandReceipt {

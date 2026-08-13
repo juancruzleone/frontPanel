@@ -15,6 +15,12 @@ export interface OfflineManifestClaim {
   limits: { maxDeltaSize: number; maxPackageSizeMB: number }
   completeness: Record<string, OfflineFormCompleteness>
   resourceChecksums: Record<string, string[]>
+  role?: 'tecnico' | 'cliente' | 'admin'
+  permissions?: string[]
+  audience?: {
+    role: 'tecnico' | 'cliente' | 'admin'; workOrderIds: string[]; installationIds: string[]
+    assetIds: string[]; formIds: string[]; inventoryIds: string[]; documentIds: string[]
+  }
   documents: Array<{ documentId: string; version: number; contentHash: string; contentSize: number; checksum: string }>
 }
 export interface OfflineManifest extends OfflineManifestClaim { signature: OfflineManifestSignature }
@@ -23,6 +29,7 @@ export interface OfflineBootstrap {
   workOrders: Array<Record<string, unknown>>; installations: Array<Record<string, unknown>>
   assets: Array<Record<string, unknown>>; forms: Array<Record<string, unknown>>
   inventoryRefs: Array<Record<string, unknown>>
+  documents?: Array<Record<string, unknown>>
 }
 export interface OfflineDeltaEntry {
   cursor: number; entityId: string; collection: string; operation: 'upsert' | 'delete'

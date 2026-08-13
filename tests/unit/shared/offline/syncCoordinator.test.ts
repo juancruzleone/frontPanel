@@ -52,7 +52,7 @@ vi.mock('../../../../src/shared/offline/envelope', () => ({
 const mockTrust = { isOfflineReady: true, deviceId: 'dev-1', leaseStatus: 'valid' }
 const mockDevice = { privateKeyHandle: { algorithm: { name: 'ECDSA' } } as unknown as CryptoKey }
 const mockPackageKey = { algorithm: { name: 'AES-GCM' } } as unknown as CryptoKey
-const mockLease = { lease: { tenantId: 't1' }, header: { kid: 'k1' }, signature: 'sig', storedAt: Date.now() }
+const mockLease = { lease: { tenantId: 't1', userId: 'a1', deviceId: 'dev-1' }, header: { kid: 'k1' }, signature: 'sig', storedAt: Date.now() }
 const mockPackages = [{ packageId: 'pkg-1', scopeKey: 't1:a1:dev-1:pkg-1', manifest: { packageVersion: 1, packageId: 'pkg-1' }, sealedAt: Date.now(), resourceCount: 1 }]
 
 vi.mock('@/store/offlineTrustStore', () => ({ useOfflineTrustStore: { getState: () => mockTrust } }))

@@ -21,6 +21,9 @@ const COLLECTION_TO_KIND: Record<string, ResourceKind> = {
   activos: 'assets',
   formularios: 'forms',
   inventoryRefs: 'inventoryRefs',
+  inventario: 'inventoryRefs',
+  formTemplates: 'forms',
+  offline_documents: 'documents',
 }
 
 export type DeltaApplyStatus = 'applied' | 'empty' | 'cursor_expired' | 're_bootstrap'

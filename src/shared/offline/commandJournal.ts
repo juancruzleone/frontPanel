@@ -10,7 +10,7 @@ import { COMMAND_SCHEMA_VERSION, COMMAND_ERROR_CODES } from './commandTypes'
 const DB_NAME = 'GMAO_Offline_DB'
 const CMD_STORE = 'offlineCommands'
 
-const VALID_TYPES = new Set<string>(['start', 'maintenance', 'completion', 'evidence'])
+const VALID_TYPES = new Set<string>(['start', 'maintenance', 'completion', 'evidence', 'client_maintenance_request'])
 
 export interface RecordCommandParams {
   commandId: string; commandType: CommandType; payload: Record<string, unknown>
@@ -125,6 +125,16 @@ export async function listConflictedCommands(key: CryptoKey, scopeKey: string): 
   for (const rec of all) {
     const cmd = await decryptCommand(rec, key, scopeKey, true)
     if (cmd && (cmd.status === 'conflict' || cmd.status === 'failed' || cmd.status === 'dead-letter')) items.push(cmd)
+  }
+  return items
+}
+
+export async function listCommands(key: CryptoKey, scopeKey: string): Promise<OfflineCommand[]> {
+  const all = await getAllCommands(scopeKey)
+  const items: OfflineCommand[] = []
+  for (const rec of all) {
+    const cmd = await decryptCommand(rec, key, scopeKey, true)
+    if (cmd) items.push(cmd)
   }
   return items
 }

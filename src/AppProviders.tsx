@@ -7,6 +7,7 @@ import { useOfflineTrustStore } from "@/store/offlineTrustStore"
 import { verifySession } from "./features/auth/services/loginServices"
 import { OfflineSyncManager } from "./shared/components/OfflineSyncManager"
 import { initializeOfflineTrust } from "./shared/offline/trustInit"
+import { prepareRoleOfflinePackage } from './shared/offline/roleBootstrap'
 
 let bootstrapPromise: ReturnType<typeof verifySession> | null = null
 
@@ -101,7 +102,9 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
   // Initialize offline trust after authentication (online only)
   React.useEffect(() => {
     if (isAuthResolved && isAuthenticated && navigator.onLine) {
-      initializeOfflineTrust().catch(() => {})
+      initializeOfflineTrust()
+        .then(result => result.ok ? prepareRoleOfflinePackage() : undefined)
+        .catch(() => {})
     }
   }, [isAuthResolved, isAuthenticated])
 

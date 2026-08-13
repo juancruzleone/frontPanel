@@ -148,6 +148,12 @@ async function submitOneCommand(cmd: OfflineCommand, tenantId: string, actorId: 
 interface ClassifiedResult { outcome: ReplayOutcome; failureCode?: string; failureReason?: string; pauseReason?: string }
 
 function classifySubmitResult(r: SubmitResult): ClassifiedResult {
+  if (r.receipt?.status === 'conflict') {
+    return { outcome: 'conflicted', failureCode: r.receipt.failureCode ?? undefined, failureReason: r.receipt.failureReason ?? undefined }
+  }
+  if (r.receipt?.status === 'dead-letter' || r.receipt?.status === 'failed') {
+    return { outcome: 'dead_letter', failureCode: r.receipt.failureCode ?? undefined, failureReason: r.receipt.failureReason ?? undefined }
+  }
   if (r.status === 'submitted' || r.status === 'idempotent_replay') return { outcome: 'accepted' }
   if (r.status === 'dependency_not_met') return { outcome: 'retryable', failureCode: 'DEPENDENCY_NOT_MET', failureReason: r.error }
   if (r.status === 'dependency_failed') return { outcome: 'conflicted', failureCode: 'DEPENDENCY_FAILED', failureReason: r.error }

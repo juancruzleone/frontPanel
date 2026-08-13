@@ -77,8 +77,8 @@ interface ChecksumResult { ok: boolean; error?: string }
  * Each resource kind's items must match the signed checksums.
  * Uses SHA-256 of canonicalJSON (same algorithm as backend computeChecksum).
  */
-async function verifyResourceChecksums(bootstrap: OfflineBootstrap, manifest: OfflineManifest): Promise<ChecksumResult> {
-  const kinds = ['workOrders', 'installations', 'forms', 'inventoryRefs'] as const
+export async function verifyResourceChecksums(bootstrap: OfflineBootstrap, manifest: OfflineManifest): Promise<ChecksumResult> {
+  const kinds = ['workOrders', 'installations', 'assets', 'forms', 'inventoryRefs', 'documents'] as const
 
   for (const kind of kinds) {
     const expected = manifest.resourceChecksums[kind]

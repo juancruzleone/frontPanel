@@ -39,7 +39,7 @@ export const OfflinePackageAction = ({ orderId, orderStatus }: OfflinePackageAct
         const trust = useOfflineTrustStore.getState()
         if (!auth.tenantId || !auth.userId || !trust.deviceId) return
         const packages = await listReadyPackages(auth.tenantId, auth.userId, trust.deviceId)
-        const found = packages.some(p => p.packageId === orderId || (p.manifest as { packageId?: string })?.packageId === orderId)
+        const found = packages.some(p => p.manifest.audience?.workOrderIds?.includes(orderId))
         if (!cancelled && found) setState('ready')
       } catch { /* ignore */ }
     }

@@ -1,5 +1,6 @@
 import { useAuthStore } from '../../../store/authStore'
 import { getAuthHeaders, getHeadersWithContentType } from '../../../shared/utils/apiHeaders'
+import { recordClientMaintenanceRequest, listClientMaintenanceCommands } from '../../../shared/offline/clientMaintenance'
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
 
@@ -19,6 +20,8 @@ export interface MaintenanceRequest {
   observaciones?: string
   estado?: string
   fechaCreacion?: string
+  localStatus?: 'pending' | 'conflict'
+  failureReason?: string | null
   instalacion?: {
     company: string
     address: string
@@ -37,7 +40,7 @@ export interface CreateMaintenanceRequestData {
   instalacionId: string
   dispositivoId?: string | null
   prioridad: 'baja' | 'media' | 'alta'
-  tipoProblema: string
+  tipoProblema: MaintenanceRequest['tipoProblema']
   fechaPreferida?: string | null
   horaPreferida?: string | null
   contactoNombre: string
@@ -74,12 +77,19 @@ class MaintenanceRequestsService {
   private ordersUrl = `${API_URL}mis-ordenes-trabajo`
 
   async createRequest(data: CreateMaintenanceRequestData): Promise<{ message: string; workOrder: MaintenanceRequest }> {
-    const response = await fetch(this.baseUrl, {
-      method: 'POST',
-      headers: getHeadersWithContentType(),
-      body: JSON.stringify(data)
-    })
-    return handleResponse(response)
+    const requestId = crypto.randomUUID()
+    if (!navigator.onLine) return this.recordOffline(data, requestId)
+    try {
+      const response = await fetch(this.baseUrl, {
+        method: 'POST',
+        headers: { ...getHeadersWithContentType(), 'X-Idempotency-Key': requestId },
+        body: JSON.stringify({ ...data, clientRequestId: requestId })
+      })
+      return handleResponse(response)
+    } catch (error) {
+      if (error instanceof TypeError) return this.recordOffline(data, requestId)
+      throw error
+    }
   }
 
   async getRequests(filters?: { estado?: string; instalacionId?: string }): Promise<{ requests: MaintenanceRequest[]; total: number }> {
@@ -95,10 +105,11 @@ class MaintenanceRequestsService {
     
     // El backend devuelve directamente un array de órdenes de trabajo
     const orders = Array.isArray(result) ? result : []
+    const local = await this.getLocalRequests()
     
     return {
-      requests: orders,
-      total: orders.length
+      requests: [...local, ...orders],
+      total: local.length + orders.length
     }
   }
 
@@ -113,6 +124,28 @@ class MaintenanceRequestsService {
     // Esta funcionalidad puede no estar disponible para clientes
     // Verificar con el backend si existe una ruta para cancelar
     throw new Error("Funcionalidad no disponible. Contacte al administrador para cancelar la solicitud.")
+  }
+
+  private async recordOffline(data: CreateMaintenanceRequestData, requestId: string): Promise<{ message: string; workOrder: MaintenanceRequest }> {
+    const result = await recordClientMaintenanceRequest({ ...data }, requestId)
+    if (result.error) throw new Error(result.error)
+    return {
+      message: 'Solicitud guardada localmente y pendiente de sincronización.',
+      workOrder: { ...data, _id: requestId, estado: 'pendiente', localStatus: 'pending' },
+    }
+  }
+
+  private async getLocalRequests(): Promise<MaintenanceRequest[]> {
+    const commands = await listClientMaintenanceCommands()
+    return commands
+      .filter(command => command.status !== 'succeeded')
+      .map(command => ({
+        ...(command.payload as unknown as CreateMaintenanceRequestData),
+        _id: command.commandId,
+        estado: command.status === 'conflict' || command.status === 'dead-letter' ? 'conflicto' : 'pendiente',
+        localStatus: command.status === 'conflict' || command.status === 'dead-letter' ? 'conflict' : 'pending',
+        failureReason: command.failureReason,
+      }))
   }
 }
 

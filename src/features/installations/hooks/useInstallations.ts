@@ -4,6 +4,8 @@ import { useEffect, useState, useCallback, useMemo } from "react"
 import { useAuthStore } from "../../../store/authStore"
 import { useInstallationStore } from "../../../store/installationStore"
 import { useOfflineStore } from "../../../store/offlineStore"
+import { openLatestBootstrap } from '../../../shared/offline/packageStorage'
+import { useOfflineTrustStore } from '../../../store/offlineTrustStore'
 import {
   fetchInstallations,
   createInstallation,
@@ -69,7 +71,7 @@ export type Installation = {
 
 const useInstallations = () => {
   const { t } = useTranslation();
-  const { isAuthenticated, userId } = useAuthStore()
+  const { isAuthenticated, userId, tenantId } = useAuthStore()
   const { 
     installations: storedInstallations, 
     assets: storedAssets, 
@@ -82,8 +84,9 @@ const useInstallations = () => {
     removeInstallation: storeRemoveInstallation
   } = useInstallationStore()
 
-  const validStoredInstallations = userId && ownerId === userId ? storedInstallations : []
-  const assets = userId && ownerId === userId ? storedAssets : []
+  const ownerScope = tenantId && userId ? `${tenantId}:${userId}` : userId
+  const validStoredInstallations = ownerScope && ownerId === ownerScope ? storedInstallations : []
+  const assets = ownerScope && ownerId === ownerScope ? storedAssets : []
 
   const [filteredOfflineInstallations, setFilteredOfflineInstallations] = useState<Installation[] | null>(null)
 
@@ -150,12 +153,24 @@ const useInstallations = () => {
     }
 
     const { installations: currentStored, ownerId: currentOwnerId, setInstallations: storeSetInstallations } = useInstallationStore.getState()
-    const { userId: currentUserId } = useAuthStore.getState()
-    const currentValidStored = currentOwnerId === currentUserId ? currentStored : []
+    const auth = useAuthStore.getState()
+    const currentScope = auth.tenantId && auth.userId ? `${auth.tenantId}:${auth.userId}` : auth.userId
+    const currentValidStored = currentOwnerId === currentScope ? currentStored : []
 
     setLoading(true)
     setError(null)
     try {
+      if (!navigator.onLine && currentValidStored.length === 0 && auth.tenantId && auth.userId) {
+        const deviceId = useOfflineTrustStore.getState().deviceId
+        if (deviceId) {
+          const persisted = await openLatestBootstrap(auth.tenantId, auth.userId, deviceId)
+          if (persisted.bootstrap) {
+            const packageInstallations = persisted.bootstrap.installations as Installation[]
+            storeSetInstallations(packageInstallations)
+            currentValidStored.push(...packageInstallations)
+          }
+        }
+      }
       if (!navigator.onLine && currentValidStored.length > 0) {
         let filtered = [...currentValidStored];
         if (params.search) {
@@ -229,7 +244,8 @@ const useInstallations = () => {
       const storeState = useInstallationStore.getState()
       const authState = useAuthStore.getState()
       
-      if (storeState.ownerId === authState.userId) {
+       const authScope = authState.tenantId && authState.userId ? `${authState.tenantId}:${authState.userId}` : authState.userId
+       if (storeState.ownerId === authScope) {
         const cachedInst = storeState.installations.find(i => i._id === id)
         if (cachedInst) {
           setCurrentInstallation(cachedInst)

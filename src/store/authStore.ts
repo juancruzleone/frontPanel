@@ -103,9 +103,10 @@ export const useAuthStore = create<AuthState>()(
         }
 
         const userId = user._id || null
+        const ownerScope = user.tenantId && userId ? `${user.tenantId}:${userId}` : userId
 
         // Sincronizar ownerId en todos los stores
-        useInstallationStore.getState().setOwnerId(userId)
+        useInstallationStore.getState().setOwnerId(ownerScope)
         useWorkOrderStore.getState().setOwnerId(userId)
         useInventoryStore.getState().setOwnerId(userId)
         useSupplierStore.getState().setOwnerId(userId)
@@ -136,10 +137,11 @@ export const useAuthStore = create<AuthState>()(
         }
 
         const userId = user._id || null
+        const ownerScope = user.tenantId && userId ? `${user.tenantId}:${userId}` : userId
 
         // Sincronizar ownerId en todos los stores ANTES de resolver la autenticación
         // para evitar condiciones de carrera en componentes que montan inmediatamente
-        useInstallationStore.getState().setOwnerId(userId)
+        useInstallationStore.getState().setOwnerId(ownerScope)
         useWorkOrderStore.getState().setOwnerId(userId)
         useInventoryStore.getState().setOwnerId(userId)
         useSupplierStore.getState().setOwnerId(userId)
