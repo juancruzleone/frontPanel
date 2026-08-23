@@ -143,9 +143,13 @@ const useSubscriptions = () => {
       setLoading(true)
       setError(null)
 
-      if (!navigator.onLine && validCachedInstallations.length > 0) {
-        setInstallations(validCachedInstallations as unknown as Installation[])
-        const subscriptionsData = (validCachedInstallations as unknown as Installation[]).map(mapInstallationToSubscription)
+      const { installations: currentStored, ownerId: currentOwnerId } = useInstallationStore.getState()
+      const currentScope = userId || ''
+      const currentValidStored = currentOwnerId === currentScope ? currentStored : []
+
+      if (!navigator.onLine && currentValidStored.length > 0) {
+        setInstallations(currentValidStored as unknown as Installation[])
+        const subscriptionsData = (currentValidStored as unknown as Installation[]).map(mapInstallationToSubscription)
         setSubscriptions(subscriptionsData)
         setLoading(false)
         return
@@ -159,9 +163,12 @@ const useSubscriptions = () => {
 
       setSubscriptions(subscriptionsData)
     } catch (err: unknown) {
-      if (validCachedInstallations.length > 0) {
-        setInstallations(validCachedInstallations as unknown as Installation[])
-        const subscriptionsData = (validCachedInstallations as unknown as Installation[]).map(mapInstallationToSubscription)
+      const { installations: currentStored, ownerId: currentOwnerId } = useInstallationStore.getState()
+      const currentScope = userId || ''
+      const currentValidStored = currentOwnerId === currentScope ? currentStored : []
+      if (currentValidStored.length > 0) {
+        setInstallations(currentValidStored as unknown as Installation[])
+        const subscriptionsData = (currentValidStored as unknown as Installation[]).map(mapInstallationToSubscription)
         setSubscriptions(subscriptionsData)
       } else {
         setError((err as Error).message || 'Error al cargar abonos')
@@ -169,7 +176,7 @@ const useSubscriptions = () => {
     } finally {
       setLoading(false)
     }
-  }, [t, validCachedInstallations, mapInstallationToSubscription])
+  }, [mapInstallationToSubscription, userId])
 
   useEffect(() => {
     loadSubscriptions()
