@@ -40,6 +40,20 @@ test.describe("Offline Capability Review - Technician Flow", () => {
     await page.addInitScript(({ user, orders }) => {
       (window as Window & { IS_E2E?: boolean }).IS_E2E = true;
 
+      const nativeFetch = window.fetch.bind(window);
+      window.fetch = (input, init) => {
+        const url = new URL(input instanceof Request ? input.url : String(input), window.location.origin);
+        // Reconnect verification is a GET owned by the controlling service worker,
+        // so Playwright routing cannot fulfill it after the offline phase.
+        if (url.pathname === "/api/verify") {
+          return Promise.resolve(new Response(JSON.stringify({ cuenta: user }), {
+            status: 200,
+            headers: { "Content-Type": "application/json" },
+          }));
+        }
+        return nativeFetch(input, init);
+      };
+
       // Seed Auth State for Zustand persist
       const authState = {
         state: {
@@ -105,7 +119,6 @@ test.describe("Offline Capability Review - Technician Flow", () => {
     
     // Wait for the specific order to appear
     await expect(page.getByText("Reparación Aire Acondicionado")).toBeVisible({ timeout: 20000 });
-    await page.waitForTimeout(5000);
 
     // 3. GO OFFLINE
     await context.setOffline(true);
@@ -126,7 +139,6 @@ test.describe("Offline Capability Review - Technician Flow", () => {
     const deleteButton = page.getByLabel("Eliminar orden").first();
     await expect(deleteButton).toBeVisible();
     await deleteButton.click({ force: true });
-    await page.waitForTimeout(2000);
 
     // Confirm in modal
     const confirmButton = page.getByRole("button", { name: "Eliminar" }).last();
@@ -149,15 +161,14 @@ test.describe("Offline Capability Review - Technician Flow", () => {
 
     // 7. ACT: Back ONLINE
     await context.setOffline(false);
-    await page.evaluate(async () => {
-      // A controlled SW owns reconnect verification, which page.route cannot mock.
-      const { useAuthStore } = await import("/src/store/authStore.ts");
-      const { offlineSyncService } = await import("/src/shared/services/offlineSyncService.ts");
-      useAuthStore.setState({ isAuthenticated: true, isAuthResolved: true });
-      await offlineSyncService.syncAll();
-    });
 
     // 8. VERIFY: Later Sync
     await expect.poll(() => deleteSyncCalled).toBe(true);
+    await expect.poll(() => page.evaluate(() => {
+      const offlineStore = (window as Window & {
+        useOfflineStore?: { getState: () => { queue: Array<{ type: string }> } }
+      }).useOfflineStore;
+      return offlineStore?.getState().queue.some((item) => item.type === "DELETE_WORK_ORDER") ?? false;
+    })).toBe(false);
   });
 });

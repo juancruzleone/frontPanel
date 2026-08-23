@@ -1,4 +1,4 @@
-import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
+import { fetchWithAuthRetry, getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
 
@@ -24,7 +24,7 @@ export const fetchTechnicians = async (): Promise<Technician[]> => {
 
 export const createTechnician = async (technicianData: Partial<Technician>) => {
   // ✅ USAR LA NUEVA RUTA ESPECÍFICA PARA TÉCNICOS
-  const response = await fetch(`${API_URL}cuenta/tecnico`, {
+  const response = await fetchWithAuthRetry(`${API_URL}cuenta/tecnico`, {
     method: "POST",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(technicianData),
@@ -39,7 +39,7 @@ export const createTechnician = async (technicianData: Partial<Technician>) => {
 }
 
 export const updateTechnician = async (id: string, technicianData: Partial<Technician>) => {
-  const response = await fetch(`${API_URL}cuentas/${id}/technician`, {
+  const response = await fetchWithAuthRetry(`${API_URL}cuentas/${id}/technician`, {
     method: "PUT",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(technicianData),
@@ -54,7 +54,7 @@ export const updateTechnician = async (id: string, technicianData: Partial<Techn
 }
 
 export const deleteTechnician = async (id: string) => {
-  const response = await fetch(`${API_URL}cuentas/${id}`, {
+  const response = await fetchWithAuthRetry(`${API_URL}cuentas/${id}`, {
     method: "DELETE",
     headers: getAuthHeaders(),
   })

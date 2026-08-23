@@ -1,5 +1,5 @@
 import { useAuthStore } from '../../../store/authStore'
-import { getHeadersWithContentType } from '../../../shared/utils/apiHeaders'
+import { fetchWithAuthRetry, getHeadersWithContentType } from '../../../shared/utils/apiHeaders'
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
 
@@ -25,7 +25,7 @@ export const updateSubscription = async (subscriptionId: string, updateData: Rec
   // Usar la nueva ruta PATCH de subscription
   const url = `${baseUrl}/installations/${subscriptionId}/subscription`
 
-  const response = await fetch(url, {
+  const response = await fetchWithAuthRetry(url, {
     method: "PATCH",
     headers: getHeadersWithContentType('PATCH'),
     body: JSON.stringify(updatePayload),
@@ -60,7 +60,7 @@ export const triggerAutomaticWorkOrdersGeneration = async () => {
   let lastError: Error | null = null
   for (const url of endpoints) {
     try {
-      const response = await fetch(url, {
+      const response = await fetchWithAuthRetry(url, {
         method: "POST",
         headers: getHeadersWithContentType('POST'),
       })
@@ -75,4 +75,3 @@ export const triggerAutomaticWorkOrdersGeneration = async () => {
 
   throw lastError || new Error('No se pudo generar órdenes automáticas')
 }
-

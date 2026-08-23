@@ -1,5 +1,5 @@
 import { useAuthStore } from "../../../store/authStore";
-import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders";
+import { fetchWithAuthRetry, getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders";
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/";
 
@@ -63,7 +63,7 @@ export const createManual = async (manualData: any): Promise<any> => {
     }
   });
 
-  const response = await fetch(`${API_URL}manuales`, {
+  const response = await fetchWithAuthRetry(`${API_URL}manuales`, {
     method: "POST",
     headers: getAuthHeaders(),
     body: formData,
@@ -87,7 +87,7 @@ export const updateManual = async (id: string, manualData: any): Promise<any> =>
     }
   });
 
-  const response = await fetch(`${API_URL}manuales/${id}`, {
+  const response = await fetchWithAuthRetry(`${API_URL}manuales/${id}`, {
     method: "PUT",
     headers: getAuthHeaders(),
     body: formData,
@@ -102,7 +102,7 @@ export const updateManual = async (id: string, manualData: any): Promise<any> =>
 };
 
 export const patchManual = async (id: string, manualData: any): Promise<any> => {
-  const response = await fetch(`${API_URL}manuales/${id}`, {
+  const response = await fetchWithAuthRetry(`${API_URL}manuales/${id}`, {
     method: "PATCH",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(manualData),
@@ -117,7 +117,7 @@ export const patchManual = async (id: string, manualData: any): Promise<any> => 
 };
 
 export const deleteManual = async (id: string): Promise<void> => {
-  const response = await fetch(`${API_URL}manuales/${id}`, {
+  const response = await fetchWithAuthRetry(`${API_URL}manuales/${id}`, {
     method: "DELETE",
     headers: getAuthHeaders(),
   });
@@ -132,7 +132,7 @@ export const updateManualFile = async (id: string, file: File): Promise<any> => 
   const formData = new FormData();
   formData.append('archivo', file);
 
-  const response = await fetch(`${API_URL}manuales/${id}/archivo`, {
+  const response = await fetchWithAuthRetry(`${API_URL}manuales/${id}/archivo`, {
     method: "PATCH",
     headers: getAuthHeaders(),
     body: formData,

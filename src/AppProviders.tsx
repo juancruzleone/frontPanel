@@ -46,6 +46,7 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
   const fetchToken = useCSRFStore((state) => state.fetchToken)
   const csrfToken = useCSRFStore((state) => state.token)
   const csrfIsLoading = useCSRFStore((state) => state.isLoading)
+  const csrfError = useCSRFStore((state) => state.error)
 
 	React.useEffect(() => {
 		let cancelled = false
@@ -94,10 +95,10 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
   
   React.useEffect(() => {
     // Fetch CSRF token when user is authenticated and no token exists
-    if (isAuthResolved && isAuthenticated && !csrfToken && !csrfIsLoading) {
+    if (isAuthResolved && isAuthenticated && !csrfToken && !csrfIsLoading && !csrfError) {
       fetchToken()
     }
-  }, [isAuthResolved, isAuthenticated, csrfToken, csrfIsLoading, fetchToken])
+  }, [isAuthResolved, isAuthenticated, csrfToken, csrfIsLoading, csrfError, fetchToken])
 
   // Initialize offline trust after authentication (online only)
   React.useEffect(() => {

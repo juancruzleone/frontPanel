@@ -49,11 +49,9 @@ vi.mock('../../../../src/shared/offline/envelope', () => ({
 
 const mockTrust = { isOfflineReady: true, deviceId: 'dev-1', leaseStatus: 'valid' }
 vi.mock('@/store/offlineTrustStore', () => ({ useOfflineTrustStore: { getState: () => mockTrust } }))
-vi.mock('../../../../src/shared/offline/deviceTrust', () => ({
-  getStoredDevice: vi.fn().mockResolvedValue({ privateKeyHandle: {} as CryptoKey }),
-}))
 vi.mock('../../../../src/shared/offline/packageStorage', () => ({
-  listReadyPackages: vi.fn().mockResolvedValue([{ packageId: 'pkg-1', manifest: {} }]),
+  listReadyPackages: vi.fn().mockResolvedValue([{ packageId: 'pkg-1', scopeKey: 't1:a1:dev-1:pkg-1', manifest: {} }]),
+  getPersistedPackageKey: vi.fn().mockResolvedValue({ algorithm: { name: 'AES-GCM' } } as CryptoKey),
 }))
 
 localStorage.setItem('auth-storage', JSON.stringify({ state: { tenantId: 't1', userId: 'a1' } }))
@@ -87,6 +85,16 @@ describe('conflictAggregator', () => {
     expect(items[0].commandId).toBe('c2')
     expect(items[0].status).toBe('conflict')
     expect(items[0].failureCode).toBe('TEST_CODE')
+  })
+
+  it('decrypts conflict details with the persisted package AES key', async () => {
+    const { getPersistedPackageKey } = await import('../../../../src/shared/offline/packageStorage')
+    await recordCommand({ commandId: 'c-aes', commandType: 'start', payload: {}, entityId: 'e1', tenantId: 't1', actorId: 'a1', deviceId: 'dev-1', packageId: 'pkg-1', key: KEY, kid: 'k1' })
+    await updateCommandStatus(KEY, 't1:a1:dev-1:pkg-1', 't1', 'a1', 'c-aes', { status: 'conflict' })
+
+    await getConflictItems()
+
+    expect(getPersistedPackageKey).toHaveBeenCalledWith('t1:a1:dev-1:pkg-1')
   })
 
   it('DTO has only allowlisted fields — no payload/IDs/hashes', async () => {

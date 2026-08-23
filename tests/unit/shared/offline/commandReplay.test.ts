@@ -65,20 +65,22 @@ vi.mock('../../../../src/shared/offline/envelope', () => ({
 
 // Mock submitCommand — controlled per test
 const submitMock = vi.fn()
+const reconcileMock = vi.fn()
 vi.mock('../../../../src/shared/offline/commandSubmit', () => ({
   submitCommand: (...args: unknown[]) => submitMock(...args),
+  reconcileCommand: (...args: unknown[]) => reconcileMock(...args),
   hashCanonicalPayload: vi.fn().mockResolvedValue('a'.repeat(64)),
 }))
 
 const { replayPendingCommands, backoffDelay } = await import('../../../../src/shared/offline/commandReplay')
-const { recordCommand } = await import('../../../../src/shared/offline/commandJournal')
+const { listCommands, recordCommand } = await import('../../../../src/shared/offline/commandJournal')
 
 const KEY = { algorithm: { name: 'AES-GCM' } } as unknown as CryptoKey
 const SCOPE = 't1:a1:dev1:pkg1'
 const B = { tenantId: 't1', actorId: 'a1', deviceId: 'dev1', packageId: 'pkg1', key: KEY, kid: 'k1' }
 
 describe('R6c commandReplay', () => {
-  beforeEach(() => { fetchSpy.mockReset(); submitMock.mockReset(); for (const k of Object.keys(stores)) delete stores[k] })
+  beforeEach(() => { fetchSpy.mockReset(); submitMock.mockReset(); reconcileMock.mockReset(); for (const k of Object.keys(stores)) delete stores[k] })
 
   it('replays pending commands in dependency order', async () => {
     // Record c1 first (no deps), then c2 with dependsOn before c1 is submitted
@@ -127,6 +129,80 @@ describe('R6c commandReplay', () => {
     const next = await replayPendingCommands(KEY, SCOPE, 't1', 'a1')
     expect(next.accepted).toBe(1)
     expect(submitMock).toHaveBeenCalledTimes(2)
+  })
+
+  it('keeps commands pending when a replay has no authoritative receipt', async () => {
+    await recordCommand({ ...B, commandId: 'c1', commandType: 'start', payload: {}, entityId: 'e1', expectedEntityVersion: 1 })
+    submitMock.mockResolvedValueOnce({ status: 'receipt_error', error: 'Authoritative command receipt missing or invalid' })
+
+    const result = await replayPendingCommands(KEY, SCOPE, 't1', 'a1')
+
+    expect(result.outcome).toBe('retryable')
+    expect(result.accepted).toBe(0)
+    expect(result.retryable).toBe(1)
+  })
+
+  it('increments bounded reconciliation attempts without resubmitting', async () => {
+    await recordCommand({ ...B, commandId: 'c1', commandType: 'start', payload: {}, entityId: 'e1', expectedEntityVersion: 1 })
+    submitMock.mockResolvedValueOnce({ status: 'receipt_error', error: 'Receipt unavailable' })
+    reconcileMock.mockResolvedValue({ status: 'receipt_error', error: 'Receipt still unavailable' })
+
+    await replayPendingCommands(KEY, SCOPE, 't1', 'a1')
+    await replayPendingCommands(KEY, SCOPE, 't1', 'a1')
+    await replayPendingCommands(KEY, SCOPE, 't1', 'a1')
+
+    const [command] = await listCommands(KEY, SCOPE)
+    expect(command.retryCount).toBe(2)
+    expect(command.status).toBe('pending')
+    expect(submitMock).toHaveBeenCalledTimes(1)
+    expect(reconcileMock).toHaveBeenCalledTimes(2)
+  })
+
+  it('resolves a valid receipt before the reconciliation limit', async () => {
+    await recordCommand({ ...B, commandId: 'c1', commandType: 'start', payload: {}, entityId: 'e1', expectedEntityVersion: 1 })
+    submitMock.mockResolvedValueOnce({ status: 'receipt_error', error: 'Durable result unavailable' })
+    reconcileMock.mockResolvedValueOnce({ status: 'submitted', receipt: { commandId: 'c1', status: 'succeeded' } })
+
+    await replayPendingCommands(KEY, SCOPE, 't1', 'a1')
+    const result = await replayPendingCommands(KEY, SCOPE, 't1', 'a1')
+
+    expect(result.accepted).toBe(1)
+    expect(submitMock).toHaveBeenCalledTimes(1)
+    expect(reconcileMock).toHaveBeenCalledTimes(1)
+  })
+
+  it('terminally dead-letters a permanently missing receipt at the limit', async () => {
+    await recordCommand({ ...B, commandId: 'c1', commandType: 'start', payload: {}, entityId: 'e1', expectedEntityVersion: 1 })
+    submitMock.mockResolvedValueOnce({ status: 'receipt_error', error: 'Receipt unavailable' })
+    reconcileMock.mockResolvedValue({ status: 'receipt_error', error: 'Receipt still unavailable' })
+
+    await replayPendingCommands(KEY, SCOPE, 't1', 'a1')
+    for (let i = 0; i < 9; i++) await replayPendingCommands(KEY, SCOPE, 't1', 'a1')
+    const result = await replayPendingCommands(KEY, SCOPE, 't1', 'a1')
+
+    const [command] = await listCommands(KEY, SCOPE)
+    expect(result.deadLetter).toBe(1)
+    expect(command.status).toBe('dead-letter')
+    expect(command.failureCode).toBe('RECEIPT_RECONCILIATION_EXHAUSTED')
+    expect(command.failureReason).toContain('10 attempts')
+    expect(submitMock).toHaveBeenCalledTimes(1)
+    expect(reconcileMock).toHaveBeenCalledTimes(10)
+  })
+
+  it('uses safe terminal semantics for an invalid receipt', async () => {
+    await recordCommand({ ...B, commandId: 'c1', commandType: 'start', payload: {}, entityId: 'e1', expectedEntityVersion: 1 })
+    submitMock.mockResolvedValueOnce({ status: 'receipt_error', error: 'Mismatched durable receipt' })
+    reconcileMock.mockResolvedValue({ status: 'receipt_error', error: 'Mismatched durable receipt' })
+
+    await replayPendingCommands(KEY, SCOPE, 't1', 'a1')
+    for (let i = 0; i < 9; i++) await replayPendingCommands(KEY, SCOPE, 't1', 'a1')
+    await replayPendingCommands(KEY, SCOPE, 't1', 'a1')
+
+    const [command] = await listCommands(KEY, SCOPE)
+    expect(command.status).toBe('dead-letter')
+    expect(command.failureCode).toBe('RECEIPT_RECONCILIATION_EXHAUSTED')
+    expect(command.failureReason).toContain('Mismatched durable receipt')
+    expect(submitMock).toHaveBeenCalledTimes(1)
   })
 
   it('dead-letters commands exceeding max retries', async () => {

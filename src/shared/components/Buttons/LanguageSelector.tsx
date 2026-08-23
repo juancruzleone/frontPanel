@@ -90,13 +90,16 @@ const LanguageSelector = ({ direction = 'up' }: LanguageSelectorProps) => {
 
   return (
     <div className={styles.languageSelectorContainer} ref={dropdownRef}>
-      <img
-        src={currentFlag}
-        alt={i18n.language}
-        className={styles.flagImg}
+      <button
+        type="button"
+        className={styles.languageButton}
         onClick={toggleDropdown}
-        style={{ cursor: 'pointer' }}
-      />
+        aria-label={t('languageSelector.title')}
+        aria-expanded={isOpen}
+        aria-haspopup="menu"
+      >
+        <img src={currentFlag} alt="" className={styles.flagImg} />
+      </button>
 
       {isOpen && (
         <div className={dropdownClass}>

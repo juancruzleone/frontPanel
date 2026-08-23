@@ -3,8 +3,7 @@
  * No payload/binding/hash/signature fields. Scoped to active identity.
  */
 import { useOfflineTrustStore } from '@/store/offlineTrustStore'
-import { getStoredDevice } from './deviceTrust'
-import { listReadyPackages } from './packageStorage'
+import { getPersistedPackageKey, listReadyPackages } from './packageStorage'
 import { listConflictedCommands } from './commandJournal'
 import type { OfflineCommand, CommandStatus, CommandType } from './commandTypes'
 
@@ -37,16 +36,15 @@ export async function getConflictItems(): Promise<ConflictItem[]> {
     if (!tenantId || !actorId) return []
   } catch { return [] }
 
-  const device = await getStoredDevice(`${tenantId}:${actorId}`)
-  if (!device?.privateKeyHandle) return []
-
   const packages = await listReadyPackages(tenantId, actorId, trust.deviceId)
   const items: ConflictItem[] = []
 
   for (const pkg of packages) {
     const scopeKey = `${tenantId}:${actorId}:${trust.deviceId}:${pkg.packageId}`
     try {
-      const all = await listConflictedCommands(device.privateKeyHandle, scopeKey)
+      const packageKey = await getPersistedPackageKey(scopeKey)
+      if (!packageKey) continue
+      const all = await listConflictedCommands(packageKey, scopeKey)
       for (const cmd of all) {
         items.push(sanitizeCommand(cmd))
       }

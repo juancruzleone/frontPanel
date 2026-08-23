@@ -152,6 +152,8 @@ export const OfflineSyncManager = () => {
     storeDismissedFingerprint(dismissalStorageKey, null)
   }, [dismissalStorageKey, dismissedFingerprint, hasIssues, progress.phase])
 
+  if (!isAuthResolved || !isAuthenticated) return null
+
   const statusKind = effectivePhase === 'paused'
     ? 'paused'
     : hasRecoveryItems

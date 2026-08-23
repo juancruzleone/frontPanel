@@ -534,6 +534,12 @@ const useWorkOrders = () => {
 				trabajoRealizado: (data.trabajoRealizado as string) ?? "",
 				observaciones: data.observaciones as string | undefined,
 				inventoryPartsUsed: (data.inventoryPartsUsed as Array<{ inventoryItemId: string; nameSnapshot: string; unit: string; quantity: number }>) ?? [],
+				materialesUtilizados: data.materialesUtilizados as Array<{ nombre: string; cantidad: number; unidad: string }> | undefined,
+				tiempoTrabajo: data.tiempoTrabajo as number | undefined,
+				estadoDispositivo: data.estadoDispositivo as string | undefined,
+				evidenciaFoto: data.evidenciaFoto as string | undefined,
+				nombreFoto: data.nombreFoto as string | undefined,
+				firmaTecnico: data.firmaTecnico as string | undefined,
 				timezone: timeZone,
 				userOffset: offset,
 			};
@@ -780,9 +786,12 @@ const useWorkOrders = () => {
 
 	const workOrders = useMemo(() => {
 		let orders = filteredOfflineOrders || validStoredWorkOrders;
+		const scopedQueue = userId
+			? queue.filter((request) => request.userId === userId)
+			: [];
 
 		// 1. Filter out items pending deletion
-		const pendingDeletes = queue
+		const pendingDeletes = scopedQueue
 			.filter((req) => req.type === "DELETE_WORK_ORDER")
 			.map((req) => (req.payload as { id: string }).id);
 
@@ -791,7 +800,7 @@ const useWorkOrders = () => {
 		}
 
 		// 2. Add items pending creation that might have been overwritten by a stale cache fetch
-		const pendingCreates = queue
+		const pendingCreates = scopedQueue
 			.filter((req) => req.type === "CREATE_WORK_ORDER")
 			.map((req) => req.payload as unknown as WorkOrder);
 
@@ -805,7 +814,7 @@ const useWorkOrders = () => {
 		}
 
 		// 3. Apply pending updates
-		const pendingUpdates = queue.filter((req) => req.type === "UPDATE_WORK_ORDER");
+		const pendingUpdates = scopedQueue.filter((req) => req.type === "UPDATE_WORK_ORDER");
 		if (pendingUpdates.length > 0) {
 			orders = orders.map((wo) => {
 				const update = pendingUpdates.find(
@@ -819,7 +828,7 @@ const useWorkOrders = () => {
 		}
 
 		return orders;
-	}, [filteredOfflineOrders, validStoredWorkOrders, queue]);
+	}, [filteredOfflineOrders, validStoredWorkOrders, queue, userId]);
 
 	return {
 		workOrders,

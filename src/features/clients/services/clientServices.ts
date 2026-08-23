@@ -1,4 +1,4 @@
-import { getHeadersWithContentType, getAuthHeaders } from "../../../shared/utils/apiHeaders"
+import { fetchWithAuthRetry, getHeadersWithContentType, getAuthHeaders } from "../../../shared/utils/apiHeaders"
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
 
@@ -11,7 +11,7 @@ export const createClient = async (username: string, password: string, fullName:
     const lastName = nameParts.slice(1).join(' ') || ''
 
     // ✅ USAR LA NUEVA RUTA ESPECÍFICA PARA CLIENTES
-    const response = await fetch(`${API_URL}cuenta/cliente`, {
+    const response = await fetchWithAuthRetry(`${API_URL}cuenta/cliente`, {
         method: "POST",
         headers,
         body: JSON.stringify({
@@ -58,7 +58,7 @@ export const getClients = async () => {
 export const deleteClient = async (id: string) => {
     const headers = getAuthHeaders()
 
-    const response = await fetch(`${API_URL}clientes-usuarios/${id}`, {
+    const response = await fetchWithAuthRetry(`${API_URL}clientes-usuarios/${id}`, {
         method: "DELETE",
         headers,
     })
@@ -84,7 +84,7 @@ export const updateClient = async (id: string, data: { userName?: string; passwo
         backendData.email = data.email.toLowerCase().trim()
     }
 
-    const response = await fetch(`${API_URL}clientes-usuarios/${id}`, {
+    const response = await fetchWithAuthRetry(`${API_URL}clientes-usuarios/${id}`, {
         method: "PUT",
         headers,
         body: JSON.stringify(backendData),
@@ -101,7 +101,7 @@ export const updateClient = async (id: string, data: { userName?: string; passwo
 export const assignInstallationsToClient = async (clientId: string, installationIds: string[]) => {
     const headers = getHeadersWithContentType()
 
-    const response = await fetch(`${API_URL}clientes-usuarios/${clientId}/instalaciones`, {
+    const response = await fetchWithAuthRetry(`${API_URL}clientes-usuarios/${clientId}/instalaciones`, {
         method: "POST",
         headers,
         body: JSON.stringify({ instalaciones: installationIds }),

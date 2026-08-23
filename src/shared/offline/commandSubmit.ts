@@ -15,7 +15,7 @@ const API = '/api/offline'
 
 export type SubmitStatus = 'submitted' | 'idempotent_replay' | 'dependency_not_met'
   | 'dependency_failed' | 'device_error' | 'lease_error' | 'payload_error'
-  | 'signature_error' | 'no_trust' | 'no_device_key' | 'network_error'
+  | 'signature_error' | 'no_trust' | 'no_device_key' | 'network_error' | 'receipt_error'
 
 export interface SubmitResult {
   status: SubmitStatus
@@ -94,17 +94,35 @@ export async function submitCommand(params: SubmitCommandParams, tenantId: strin
 
     const body = await parseRes(res)
 
-    if (res.ok) {
-      return { status: 'submitted', receipt: body.receipt as CommandReceipt }
+    const receipt = authoritativeReceipt(body.receipt, params, tenantId, actorId, trust.deviceId)
+    if (receipt) {
+      return { status: receipt.idempotentReplay ? 'idempotent_replay' : 'submitted', receipt }
     }
 
     // Classify stable backend errors
     const code = (body.error as { code?: string })?.code
     const message = (body.error as { message?: string })?.message ?? `HTTP ${res.status}`
-    return { status: classifyError(code, res.status), error: `${code}: ${message}` }
+    const status = classifyError(code, res.status)
+    if (res.ok || status === 'idempotent_replay') {
+      return reconcileCommand(params, tenantId, actorId, trust.deviceId)
+    }
+    return {
+      status,
+      error: `${code ?? `HTTP_${res.status}`}: ${message}`,
+    }
   } catch (e) {
     return { status: 'network_error', error: e instanceof Error ? e.message : 'Network error' }
   }
+}
+
+/** Reconcile a receiptless response against the durable command-result endpoint. */
+export async function reconcileCommand(
+  params: SubmitCommandParams, tenantId: string, actorId: string, deviceId: string,
+): Promise<SubmitResult> {
+  const result = await getCommandResult(params.commandId, params.commandType)
+  const receipt = authoritativeReceipt(result.receipt, params, tenantId, actorId, deviceId)
+  if (receipt) return { status: receipt.idempotentReplay ? 'idempotent_replay' : 'submitted', receipt }
+  return { status: 'receipt_error', error: result.error ?? 'Authoritative command receipt missing or invalid' }
 }
 
 /** GET /api/offline/commands/:commandId — durable receipt lookup. */
@@ -157,6 +175,29 @@ function classifyError(code: string | undefined, status: number): SubmitStatus {
   if (status === 403) return 'device_error'
   if (status === 408 || status === 429 || status >= 500) return 'network_error'
   return 'payload_error'
+}
+
+function authoritativeReceipt(
+  value: unknown,
+  params: SubmitCommandParams,
+  tenantId: string,
+  actorId: string,
+  deviceId: string,
+): CommandReceipt | undefined {
+  if (!value || typeof value !== 'object') return undefined
+  const receipt = value as Partial<CommandReceipt>
+  if (
+    receipt.commandId !== params.commandId ||
+    receipt.commandType !== params.commandType ||
+    receipt.tenantId !== tenantId ||
+    receipt.actorId !== actorId ||
+    receipt.deviceId !== deviceId ||
+    receipt.packageId !== params.packageId ||
+    receipt.entityId !== params.entityId ||
+    receipt.payloadHash !== params.payloadHash ||
+    typeof receipt.status !== 'string'
+  ) return undefined
+  return receipt as CommandReceipt
 }
 
 function bytesToBase64Url(bytes: Uint8Array): string {

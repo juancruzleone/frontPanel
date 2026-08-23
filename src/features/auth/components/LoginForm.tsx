@@ -53,7 +53,12 @@ const LoginForm = ({
             className={styles.loginInput}
             placeholder={t("login.passwordPlaceholder")}
           />
-          <button type="button" className={styles.eyesButton} onClick={togglePasswordVisibility}>
+          <button
+            type="button"
+            className={styles.eyesButton}
+            onClick={togglePasswordVisibility}
+            aria-label={t(showPassword ? "login.hidePassword" : "login.showPassword")}
+          >
             {showPassword ? <FiEyeOff /> : <FiEye />}
           </button>
         </div>

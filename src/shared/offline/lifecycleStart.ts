@@ -30,6 +30,12 @@ export interface CompletionPayload {
   trabajoRealizado: string
   observaciones?: string
   inventoryPartsUsed?: Array<{ inventoryItemId: string; nameSnapshot: string; unit: string; quantity: number }>
+  materialesUtilizados?: Array<{ nombre: string; cantidad: number; unidad: string }>
+  tiempoTrabajo?: number
+  estadoDispositivo?: string
+  evidenciaFoto?: string
+  nombreFoto?: string
+  firmaTecnico?: string
   timezone?: string
   userOffset?: number
 }
@@ -164,6 +170,12 @@ export interface CompletionAdapterPayload extends Record<string, unknown> {
   trabajoRealizado: string
   observaciones?: string
   inventoryPartsUsed?: Array<{ inventoryItemId: string; nameSnapshot: string; unit: string; quantity: number }>
+  materialesUtilizados?: Array<{ nombre: string; cantidad: number; unidad: string }>
+  tiempoTrabajo?: number
+  estadoDispositivo?: string
+  evidenceIds?: string[]
+  firmaTecnicoEvidenceId?: string
+  evidenciaFotoEvidenceId?: string
   timezone?: string
   userOffset?: number
 }
@@ -210,9 +222,20 @@ export async function completeWorkOrderOnlineOrOffline(
   }
   // If no local start (null) → authoritative en_progreso, no dependency needed
 
+  const evidence = await stageCompletionEvidence(workOrderId, commandId, completionData, ctx)
+  if (evidence.error) {
+    return { status: 'failed', messageKey: 'workOrders.errorCompletingOrder', commandId }
+  }
+
   const payload: CompletionAdapterPayload = {
     trabajoRealizado: completionData.trabajoRealizado,
     inventoryPartsUsed: completionData.inventoryPartsUsed ?? [],
+    materialesUtilizados: completionData.materialesUtilizados ?? [],
+    ...(completionData.tiempoTrabajo != null ? { tiempoTrabajo: completionData.tiempoTrabajo } : {}),
+    ...(completionData.estadoDispositivo ? { estadoDispositivo: completionData.estadoDispositivo } : {}),
+    ...(evidence.evidenceIds.length ? { evidenceIds: evidence.evidenceIds } : {}),
+    ...(evidence.signatureId ? { firmaTecnicoEvidenceId: evidence.signatureId } : {}),
+    ...(evidence.photoId ? { evidenciaFotoEvidenceId: evidence.photoId } : {}),
     ...(completionData.observaciones ? { observaciones: completionData.observaciones } : {}),
     ...(completionData.timezone ? { timezone: completionData.timezone } : {}),
     ...(completionData.userOffset != null ? { userOffset: completionData.userOffset } : {}),
@@ -232,6 +255,56 @@ export async function completeWorkOrderOnlineOrOffline(
   const result = await recordCommand(cmdParams)
   if (result.error) return { status: 'failed', messageKey: 'workOrders.errorCompletingOrder', commandId }
   return { status: 'pending_offline', messageKey: 'offline.pendingSync', commandId }
+}
+
+async function stageCompletionEvidence(
+  workOrderId: string,
+  commandId: string,
+  completionData: CompletionPayload,
+  ctx: ResolvedStartContext,
+): Promise<{ evidenceIds: string[]; signatureId?: string; photoId?: string; error?: string }> {
+  const { stageBinary } = await import('./binaryStaging')
+  const evidenceIds: string[] = []
+  let signatureId: string | undefined
+  let photoId: string | undefined
+
+  const stage = async (dataUrl: string | undefined, evidenceId: string, fileName: string) => {
+    if (!dataUrl) return true
+    const blob = dataUrlToBlob(dataUrl)
+    if (!blob) return false
+    const result = await stageBinary(
+      { evidenceId, commandId, orderId: workOrderId, packageId: ctx.packageId, blob, fileName },
+      ctx.key, ctx.kid, ctx.tenantId, ctx.actorId, ctx.deviceId,
+    )
+    if (!result.meta) return false
+    evidenceIds.push(evidenceId)
+    return true
+  }
+
+  if (completionData.firmaTecnico) {
+    signatureId = `${commandId}-signature`
+    if (!(await stage(completionData.firmaTecnico, signatureId, 'firma.png'))) {
+      return { evidenceIds, error: 'Signature evidence could not be staged' }
+    }
+  }
+  if (completionData.evidenciaFoto) {
+    photoId = `${commandId}-photo`
+    if (!(await stage(completionData.evidenciaFoto, photoId, completionData.nombreFoto || 'evidencia.jpg'))) {
+      return { evidenceIds, signatureId, error: 'Photo evidence could not be staged' }
+    }
+  }
+  return { evidenceIds, signatureId, photoId }
+}
+
+function dataUrlToBlob(dataUrl: string): Blob | undefined {
+  const match = /^data:([^;,]+);base64,(.+)$/.exec(dataUrl)
+  if (!match) return undefined
+  try {
+    const bytes = Uint8Array.from(atob(match[2]), (char) => char.charCodeAt(0))
+    return new Blob([bytes], { type: match[1] })
+  } catch {
+    return undefined
+  }
 }
 
 export type MaintenanceStatus = 'accepted' | 'pending_offline' | 'evidence_not_staged' | 'form_unavailable' | 'offline_unavailable' | 'failed'

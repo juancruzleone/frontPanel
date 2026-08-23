@@ -1,5 +1,5 @@
 import { useAuthStore } from '../../store/authStore'
-import { getHeadersWithContentType } from '../utils/apiHeaders'
+import { fetchWithAuthRetry, getHeadersWithContentType } from '../utils/apiHeaders'
 import { redirectToSafeUrl } from '../../utils/sanitizer'
 import { SERVICE_WORKER_URL } from '../constants'
 
@@ -87,7 +87,7 @@ class PushNotificationService {
     let synced = false
     for (const endpointPath of pushEndpoints) {
       try {
-        const response = await fetch(`${API_URL}${endpointPath}`, {
+        const response = await fetchWithAuthRetry(`${API_URL}${endpointPath}`, {
           method: 'POST',
           headers: getHeadersWithContentType(),
           body: JSON.stringify(body),

@@ -45,6 +45,7 @@ vi.mock('../../../../src/shared/offline/crypto', async (importOriginal) => {
   return { ...orig, sha256Hex: vi.fn().mockResolvedValue('a'.repeat(64)) }
 })
 vi.mock('../../../../src/shared/offline/envelope', () => ({
+  seal: vi.fn().mockImplementation(async ({ plaintext }: { plaintext: Uint8Array }) => ({ v: 4, scopeKey: 'mock', store: 'mock', kid: 'mock', iv: 'i', aad: 'a', ct: btoa(String.fromCharCode(...plaintext)), at: Date.now() })),
   sealJson: vi.fn().mockImplementation(async ({ value }: { value: unknown }) => ({ v: 4, scopeKey: 'mock', store: 'mock', kid: 'mock', iv: 'i', aad: 'a', ct: btoa(JSON.stringify(value)), at: Date.now() })),
   openJson: vi.fn().mockImplementation(async (params: { envelope: { ct: string } }) => JSON.parse(atob(params.envelope.ct))),
 }))
@@ -99,6 +100,39 @@ describe('R7 completion dependency', () => {
     const stored = Object.values(stores.offlineCommands)[0] as { envelope: { ct: string } }
     const decoded = JSON.parse(atob(stored.envelope.ct))
     expect(decoded.dependsOn).toEqual([])
+    Object.defineProperty(navigator, 'onLine', { value: true, configurable: true })
+  })
+
+  it('stages signature and photo securely and preserves completion DTO references', async () => {
+    const ctx = (await resolveStartContext('t1', 'a1', 'wo1')).ctx!
+    Object.defineProperty(navigator, 'onLine', { value: false, configurable: true })
+
+    const result = await completeWorkOrderOnlineOrOffline('wo1', {
+      trabajoRealizado: 'Done',
+      observaciones: 'Verified',
+      tiempoTrabajo: 2,
+      estadoDispositivo: 'Activo',
+      materialesUtilizados: [{ nombre: 'Filtro', cantidad: 1, unidad: 'u' }],
+      firmaTecnico: 'data:image/png;base64,c2lnbmF0dXJl',
+      evidenciaFoto: 'data:image/jpeg;base64,cGhvdG8=',
+      nombreFoto: 'proof.jpg',
+    }, ctx, 'start-wo1', vi.fn())
+
+    expect(result.status).toBe('pending_offline')
+    expect(Object.values(stores.binaryStaging)).toHaveLength(2)
+    const commandRecord = Object.values(stores.offlineCommands)[0] as { envelope: { ct: string } }
+    const command = JSON.parse(atob(commandRecord.envelope.ct))
+    expect(command.payload).toMatchObject({
+      trabajoRealizado: 'Done',
+      tiempoTrabajo: 2,
+      estadoDispositivo: 'Activo',
+      materialesUtilizados: [{ nombre: 'Filtro', cantidad: 1, unidad: 'u' }],
+      firmaTecnicoEvidenceId: 'completion-wo1-signature',
+      evidenciaFotoEvidenceId: 'completion-wo1-photo',
+      evidenceIds: ['completion-wo1-signature', 'completion-wo1-photo'],
+    })
+    expect(command.payload).not.toHaveProperty('firmaTecnico')
+    expect(command.payload).not.toHaveProperty('evidenciaFoto')
     Object.defineProperty(navigator, 'onLine', { value: true, configurable: true })
   })
 

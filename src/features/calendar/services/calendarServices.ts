@@ -1,5 +1,5 @@
 import { useAuthStore } from "../../../store/authStore"
-import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
+import { fetchWithAuthRetry, getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
 
@@ -30,7 +30,7 @@ export const fetchWorkOrders = async (filters: Record<string, string | number> =
 }
 
 export const startWorkOrder = async (id: string) => {
-  const response = await fetch(`${API_URL}ordenes-trabajo/${id}/iniciar`, {
+  const response = await fetchWithAuthRetry(`${API_URL}ordenes-trabajo/${id}/iniciar`, {
     method: "PATCH",
     headers: getAuthHeaders(),
   })
@@ -42,7 +42,7 @@ export const startWorkOrder = async (id: string) => {
 }
 
 export const assignTechnicianToWorkOrder = async (workOrderId: string, technicianId: string) => {
-  const response = await fetch(`${API_URL}ordenes-trabajo/${workOrderId}/asignar`, {
+  const response = await fetchWithAuthRetry(`${API_URL}ordenes-trabajo/${workOrderId}/asignar`, {
     method: "PATCH",
     headers: getHeadersWithContentType(),
     body: JSON.stringify({ tecnicoId: technicianId }),
@@ -55,7 +55,7 @@ export const assignTechnicianToWorkOrder = async (workOrderId: string, technicia
 }
 
 export const completeWorkOrder = async (id: string, data: Record<string, unknown>) => {
-  const response = await fetch(`${API_URL}ordenes-trabajo/${id}/completar`, {
+  const response = await fetchWithAuthRetry(`${API_URL}ordenes-trabajo/${id}/completar`, {
     method: "POST",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(data),

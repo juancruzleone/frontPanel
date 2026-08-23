@@ -79,10 +79,15 @@ describe('R6b commandSubmit', () => {
       entityId: 'e1', payload: { orderId: 'o1' }, payloadHash: 'a'.repeat(64),
       expectedEntityVersion: 1,
     }
+    const receipt = (overrides: Record<string, unknown> = {}) => ({
+      commandId: 'c1', commandType: 'start', tenantId: 't1', actorId: 'a1',
+      deviceId: 'dev-1', packageId: 'pkg1', entityId: 'e1',
+      payloadHash: 'a'.repeat(64), status: 'succeeded',
+      ...overrides,
+    })
 
     it('signs and submits to POST /packages/:packageId/commands', async () => {
-      const receipt = { commandId: 'c1', status: 'pending', commandType: 'start' }
-      fetchSpy.mockResolvedValueOnce(json({ success: true, receipt }))
+      fetchSpy.mockResolvedValueOnce(json({ success: true, receipt: receipt() }))
 
       const r = await submitCommand(params, 't1', 'a1')
       expect(r.status).toBe('submitted')
@@ -98,10 +103,45 @@ describe('R6b commandSubmit', () => {
       expect(body.lease).toBeDefined()
     })
 
-    it('returns idempotent_replay on 409 IDEMPOTENCY_KEY_REUSED', async () => {
+    it('keeps a generic 409 actionable when durable result is unavailable', async () => {
+      fetchSpy.mockResolvedValueOnce(json({ error: { message: 'Conflict' } }, 409))
+      fetchSpy.mockResolvedValueOnce(json({ error: { message: 'Unavailable' } }, 503))
+      const r = await submitCommand(params, 't1', 'a1')
+      expect(r.status).toBe('receipt_error')
+      expect(r.receipt).toBeUndefined()
+      expect(fetchSpy).toHaveBeenCalledTimes(2)
+    })
+
+    it('keeps IDEMPOTENCY_KEY_REUSED actionable when durable result is transient', async () => {
       fetchSpy.mockResolvedValueOnce(json({ error: { message: 'Reused', code: 'IDEMPOTENCY_KEY_REUSED' } }, 409))
+      fetchSpy.mockRejectedValueOnce(new Error('offline'))
+      const r = await submitCommand(params, 't1', 'a1')
+      expect(r.status).toBe('receipt_error')
+      expect(r.receipt).toBeUndefined()
+    })
+
+    it('accepts a valid durable receipt after a receiptless reuse', async () => {
+      fetchSpy.mockResolvedValueOnce(json({ error: { message: 'Reused', code: 'IDEMPOTENCY_KEY_REUSED' } }, 409))
+      fetchSpy.mockResolvedValueOnce(json({ receipt: receipt({ idempotentReplay: true }) }))
       const r = await submitCommand(params, 't1', 'a1')
       expect(r.status).toBe('idempotent_replay')
+      expect(r.receipt?.payloadHash).toBe(params.payloadHash)
+      expect(fetchSpy.mock.calls[1][0]).toBe('/api/offline/commands/c1?commandType=start')
+    })
+
+    it('rejects a mismatched durable receipt after a generic conflict', async () => {
+      fetchSpy.mockResolvedValueOnce(json({ error: { message: 'Conflict' } }, 409))
+      fetchSpy.mockResolvedValueOnce(json({ receipt: receipt({ commandId: 'other' }) }))
+      const r = await submitCommand(params, 't1', 'a1')
+      expect(r.status).toBe('receipt_error')
+      expect(r.receipt).toBeUndefined()
+    })
+
+    it('accepts a contract-matching idempotent replay receipt', async () => {
+      fetchSpy.mockResolvedValueOnce(json({ success: true, receipt: receipt({ idempotentReplay: true }) }))
+      const r = await submitCommand(params, 't1', 'a1')
+      expect(r.status).toBe('idempotent_replay')
+      expect(r.receipt?.commandId).toBe(params.commandId)
     })
 
     it('returns dependency_not_met on 428', async () => {

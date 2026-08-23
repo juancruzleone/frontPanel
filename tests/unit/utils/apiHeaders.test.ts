@@ -324,6 +324,31 @@ describe('apiHeaders - CSRF Logic', () => {
       const secondCall = vi.mocked(global.fetch).mock.calls[1]
       const secondHeaders = secondCall[1]?.headers as Record<string, string> || {}
       expect(secondHeaders['X-CSRF-Token']).toBe('fresh-refreshed-token')
+      expect(secondCall[1]?.body).toBeUndefined()
+    })
+
+    it('retries a mutation with the original serialized body and refreshed CSRF header', async () => {
+      const response403 = {
+        ok: false,
+        status: 403,
+        clone: function() { return this },
+        json: async () => ({ error: { code: 'CSRF_TOKEN_INVALID' } }),
+      }
+      global.fetch = vi.fn()
+        .mockResolvedValueOnce(response403)
+        .mockResolvedValueOnce({ ok: true, status: 200 })
+      const fetchTokenMock = vi.fn().mockImplementation(() => {
+        useCSRFStore.getState.mockReturnValue({ token: 'fresh-token', fetchToken: fetchTokenMock })
+        return Promise.resolve()
+      })
+      useCSRFStore.getState.mockReturnValue({ token: 'stale-token', fetchToken: fetchTokenMock })
+      const body = JSON.stringify({ value: 'preserved' })
+
+      await fetchWithCsrf('/api/data', { method: 'POST', body })
+
+      const retryOptions = vi.mocked(global.fetch).mock.calls[1][1]
+      expect(retryOptions?.body).toBe(body)
+      expect(retryOptions?.headers).toEqual(expect.objectContaining({ 'X-CSRF-Token': 'fresh-token' }))
     })
 
     it('does not retry a missing-auth 403 through /csrf-token', async () => {

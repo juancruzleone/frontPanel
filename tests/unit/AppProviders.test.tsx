@@ -41,7 +41,8 @@ describe('AppInitializer', () => {
     vi.mocked(useCSRFStore).mockImplementation((selector) => selector({
       fetchToken,
       token: null,
-      isLoading: false
+      isLoading: false,
+      error: null
     }))
 
     vi.stubGlobal('navigator', { onLine: true })
@@ -70,5 +71,20 @@ describe('AppInitializer', () => {
 
     // Should call verifySession again
     await waitFor(() => expect(verifySession).toHaveBeenCalled())
+  })
+
+  it('does not immediately retry CSRF bootstrap while a failure is actionable', async () => {
+    vi.mocked(verifySession).mockResolvedValue({ user: { id: '1' } })
+    vi.mocked(useCSRFStore).mockImplementation((selector) => selector({
+      fetchToken,
+      token: null,
+      isLoading: false,
+      error: 'Network error',
+    }))
+
+    render(<AppInitializer><div>Test</div></AppInitializer>)
+    await waitFor(() => expect(verifySession).toHaveBeenCalled())
+
+    expect(fetchToken).not.toHaveBeenCalled()
   })
 })

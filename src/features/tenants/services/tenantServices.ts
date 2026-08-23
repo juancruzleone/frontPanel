@@ -1,5 +1,5 @@
 import { Tenant, CreateTenantData, EditTenantData, TenantsResponse } from '../types/tenant.types'
-import { getAuthHeaders } from '../../../shared/utils/apiHeaders'
+import { fetchWithAuthRetry, getAuthHeaders } from '../../../shared/utils/apiHeaders'
 
 const API_URL = import.meta.env.VITE_API_URL || '/api/'
 
@@ -19,7 +19,7 @@ export const tenantServices = {
   },
 
   async createTenant(tenantData: CreateTenantData): Promise<Tenant> {
-    const response = await fetch(`${API_URL}tenants`, {
+    const response = await fetchWithAuthRetry(`${API_URL}tenants`, {
       method: 'POST',
       headers: getAuthHeaders(true),
       body: JSON.stringify(tenantData),
@@ -35,7 +35,7 @@ export const tenantServices = {
   },
 
   async updateTenant(tenantData: EditTenantData): Promise<Tenant> {
-    const response = await fetch(`${API_URL}tenants/${tenantData._id}`, {
+    const response = await fetchWithAuthRetry(`${API_URL}tenants/${tenantData._id}`, {
       method: 'PUT',
       headers: getAuthHeaders(true),
       body: JSON.stringify(tenantData),
@@ -51,7 +51,7 @@ export const tenantServices = {
   },
 
   async deleteTenant(tenantId: string): Promise<void> {
-    const response = await fetch(`${API_URL}tenants/${tenantId}`, {
+    const response = await fetchWithAuthRetry(`${API_URL}tenants/${tenantId}`, {
       method: 'DELETE',
       headers: getAuthHeaders(),
     })

@@ -1,5 +1,5 @@
 import { useAuthStore } from "../../../store/authStore"
-import { getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
+import { fetchWithAuthRetry, getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
 
@@ -40,7 +40,7 @@ export const fetchFormTemplatesByCategory = async (category: string) => {
 }
 
 export const createFormTemplate = async (templateData: any) => {
-  const response = await fetch(`${API_URL}plantillas`, {
+  const response = await fetchWithAuthRetry(`${API_URL}plantillas`, {
     method: "POST",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(templateData),
@@ -51,7 +51,7 @@ export const createFormTemplate = async (templateData: any) => {
 }
 
 export const updateFormTemplate = async (id: string, templateData: any) => {
-  const response = await fetch(`${API_URL}plantillas/${id}`, {
+  const response = await fetchWithAuthRetry(`${API_URL}plantillas/${id}`, {
     method: "PUT",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(templateData),
@@ -62,7 +62,7 @@ export const updateFormTemplate = async (id: string, templateData: any) => {
 }
 
 export const deleteFormTemplate = async (id: string) => {
-  const response = await fetch(`${API_URL}plantillas/${id}`, {
+  const response = await fetchWithAuthRetry(`${API_URL}plantillas/${id}`, {
     method: "DELETE",
     headers: getAuthHeaders(),
   })
@@ -102,7 +102,7 @@ export const fetchFormCategoryById = async (id: string) => {
 }
 
 export const createFormCategory = async (categoryData: any) => {
-  const response = await fetch(`${API_URL}categorias-formularios`, {
+  const response = await fetchWithAuthRetry(`${API_URL}categorias-formularios`, {
     method: "POST",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(categoryData),
@@ -113,7 +113,7 @@ export const createFormCategory = async (categoryData: any) => {
 }
 
 export const updateFormCategory = async (id: string, categoryData: any) => {
-  const response = await fetch(`${API_URL}categorias-formularios/${id}`, {
+  const response = await fetchWithAuthRetry(`${API_URL}categorias-formularios/${id}`, {
     method: "PUT",
     headers: getHeadersWithContentType(),
     body: JSON.stringify(categoryData),
@@ -124,7 +124,7 @@ export const updateFormCategory = async (id: string, categoryData: any) => {
 }
 
 export const deleteFormCategory = async (id: string) => {
-  const response = await fetch(`${API_URL}categorias-formularios/${id}`, {
+  const response = await fetchWithAuthRetry(`${API_URL}categorias-formularios/${id}`, {
     method: "DELETE",
     headers: getAuthHeaders(),
   })

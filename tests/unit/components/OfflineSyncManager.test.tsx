@@ -92,6 +92,15 @@ describe('OfflineSyncManager → coordinator', () => {
     expect(container).toBeTruthy()
   })
 
+  it('renders no sync UI for anonymous users', () => {
+    Object.assign(mockState.auth, { isAuthenticated: false, isAuthResolved: true, userId: null })
+    const { container } = render(<OfflineSyncManager />)
+
+    expect(container).toBeEmptyDOMElement()
+    expect(initializeLegacySyncMock).not.toHaveBeenCalled()
+    expect(syncLegacyQueueMock).not.toHaveBeenCalled()
+  })
+
   it('initializes and attempts replay for mutations queued by existing feature hooks', () => {
     render(<OfflineSyncManager />)
 

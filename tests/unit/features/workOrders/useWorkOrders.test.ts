@@ -4,8 +4,23 @@ import useWorkOrders from '../../../../src/features/workOrders/hooks/useWorkOrde
 import * as workOrderServices from '../../../../src/features/workOrders/services/workOrderServices';
 import { useWorkOrderStore } from '../../../../src/store/workOrderStore';
 
+const offlineState = vi.hoisted(() => ({
+  addToQueue: vi.fn(),
+  queue: [] as Array<{ id: string; userId?: string; type: string; payload: Record<string, unknown>; timestamp: number }>,
+}));
+const completionLifecycle = vi.hoisted(() => ({
+  complete: vi.fn(),
+  resolve: vi.fn(),
+}));
+
 vi.mock('../../../../src/features/workOrders/services/workOrderServices');
 vi.mock('../../../../src/features/workOrders/services/technicianServices');
+vi.mock('../../../../src/shared/offline/lifecycleStart', () => ({
+  buildStartCommandId: (id: string) => `start-${id}`,
+  resolveStartContext: completionLifecycle.resolve,
+  completeWorkOrderOnlineOrOffline: completionLifecycle.complete,
+  startWorkOrderOnlineOrOffline: vi.fn(),
+}));
 vi.mock('../../../../src/store/authStore', () => {
   const mockState = { userId: 'test-user', isAuthenticated: true };
   const mockHook = vi.fn((selector) => selector ? selector(mockState) : mockState);
@@ -13,16 +28,9 @@ vi.mock('../../../../src/store/authStore', () => {
   return { useAuthStore: mockHook };
 });
 vi.mock('../../../../src/store/offlineStore', () => {
-  const addToQueue = vi.fn();
-  const mockStore = vi.fn(() => ({
-    addToQueue,
-    queue: []
-  })) as any;
-  mockStore.getState = vi.fn(() => ({
-    addToQueue,
-    queue: []
-  }));
-  mockStore.addToQueue = addToQueue;
+  const mockStore = vi.fn((selector) => selector ? selector(offlineState) : offlineState) as any;
+  mockStore.getState = vi.fn(() => offlineState);
+  mockStore.addToQueue = offlineState.addToQueue;
   return { useOfflineStore: mockStore };
 });
 vi.mock('../../../src/features/calendar/hooks/useTimeZone', () => ({
@@ -35,6 +43,9 @@ vi.mock('react-i18next', () => ({
 describe('useWorkOrders hook', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    offlineState.queue = [];
+    completionLifecycle.resolve.mockResolvedValue({ ctx: { packageId: 'pkg-1' } });
+    completionLifecycle.complete.mockResolvedValue({ status: 'pending_offline', messageKey: 'offline.pendingSync' });
     useWorkOrderStore.setState({ workOrders: [], lastUpdated: null, ownerId: null });
   });
 
@@ -176,6 +187,59 @@ describe('useWorkOrders hook', () => {
         type: 'UPDATE_WORK_ORDER_STATUS',
         payload: { id: 'wo-123', estado: 'completada', observaciones: 'Todo ok' }
       }));
+    });
+
+    it('does not project queued creations owned by another account', () => {
+      offlineState.queue = [
+        {
+          id: 'foreign-command',
+          userId: 'other-user',
+          type: 'CREATE_WORK_ORDER',
+          payload: {
+            _id: 'offline-foreign',
+            titulo: 'Foreign order',
+            descripcion: 'Must remain isolated',
+            instalacionId: 'inst-foreign',
+            estado: 'pendiente',
+            prioridad: 'media',
+            tipoTrabajo: 'mantenimiento',
+            fechaProgramada: '2026-05-01',
+            horaProgramada: '10:00',
+          },
+          timestamp: 1,
+        },
+      ];
+      useWorkOrderStore.setState({ workOrders: [], ownerId: 'test-user' });
+
+      const { result } = renderHook(() => useWorkOrders());
+
+      expect(result.current.workOrders).toEqual([]);
+    });
+
+    it('preserves signature, photo, and completion fields for encrypted offline lifecycle handling', async () => {
+      const { result } = renderHook(() => useWorkOrders());
+      const completionData = {
+        trabajoRealizado: 'Replaced filter',
+        observaciones: 'Verified',
+        inventoryPartsUsed: [],
+        materialesUtilizados: [{ nombre: 'Filtro', cantidad: 1, unidad: 'u' }],
+        tiempoTrabajo: 2,
+        estadoDispositivo: 'Activo',
+        evidenciaFoto: 'data:image/jpeg;base64,cGhvdG8=',
+        nombreFoto: 'proof.jpg',
+        firmaTecnico: 'data:image/png;base64,c2lnbmF0dXJl',
+      };
+
+      await result.current.completeWorkOrder('wo-1', completionData);
+
+      expect(completionLifecycle.complete).toHaveBeenCalledWith(
+        'wo-1',
+        expect.objectContaining(completionData),
+        expect.anything(),
+        'start-wo-1',
+        expect.any(Function),
+        true,
+      );
     });
   });
 });

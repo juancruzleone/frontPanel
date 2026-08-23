@@ -3,7 +3,7 @@
  * outcome classification, dead-letter management. Observable progress.
  */
 import { listPendingCommands, updateCommandStatus } from './commandJournal'
-import { submitCommand, type SubmitResult, type SubmitCommandParams } from './commandSubmit'
+import { reconcileCommand, submitCommand, type SubmitResult, type SubmitCommandParams } from './commandSubmit'
 import { hashCanonicalPayload } from './commandJournal'
 import { getCommandStatus } from './commandJournal'
 import type { OfflineCommand, CommandStatus } from './commandTypes'
@@ -36,6 +36,7 @@ export interface ReplayResult {
 const MAX_RETRIES = 10
 const BACKOFF_BASE_MS = 1000
 const BACKOFF_MAX_MS = 5 * 60 * 1000
+const RECEIPT_RECONCILIATION_EXHAUSTED = 'RECEIPT_RECONCILIATION_EXHAUSTED'
 
 /**
  * Replay all pending commands for a scope in dependency order.
@@ -70,16 +71,21 @@ export async function replayPendingCommands(
       continue
     }
 
-    // Check retry budget
+    // Receipt reconciliation has its own bounded retry mode and never resubmits.
+    const reconcilingReceipt = cmd.failureCode === 'RECEIPT_REQUIRED'
     if ((cmd.retryCount ?? 0) >= MAX_RETRIES) {
-      await updateCommandStatus(key, scopeKey, tenantId, actorId, cmd.commandId, { status: 'dead-letter', failureReason: 'Max retries exceeded' })
+      await updateCommandStatus(key, scopeKey, tenantId, actorId, cmd.commandId, reconcilingReceipt
+        ? { status: 'dead-letter', failureCode: RECEIPT_RECONCILIATION_EXHAUSTED, failureReason: `Receipt reconciliation exhausted after ${MAX_RETRIES} attempts: ${cmd.failureReason ?? 'missing or invalid receipt'}` }
+        : { status: 'dead-letter', failureReason: 'Max retries exceeded' })
       progress.deadLetter++
       progress.processed++
       onProgress?.(progress)
       continue
     }
 
-    const result = await submitOneCommand(cmd, tenantId, actorId)
+    const result = cmd.failureCode === 'RECEIPT_REQUIRED'
+      ? await reconcileOneCommand(cmd, tenantId, actorId)
+      : await submitOneCommand(cmd, tenantId, actorId)
     const classified = classifySubmitResult(result)
 
     if (classified.outcome === 'paused') {
@@ -90,22 +96,30 @@ export async function replayPendingCommands(
       return { outcome: 'paused', accepted: progress.accepted, conflicted: progress.conflicted, retryable: progress.retryable + (sorted.length - progress.processed), deadLetter: progress.deadLetter, paused: true, pauseReason: classified.pauseReason }
     }
 
+    // A receiptless initial submit starts reconciliation at zero; subsequent
+    // receipt lookups consume the bounded retry counter without a POST.
+    const nextRetryCount = result.status === 'receipt_error' && !reconcilingReceipt
+      ? (cmd.retryCount ?? 0)
+      : (cmd.retryCount ?? 0) + 1
+    const finalClassified: ClassifiedResult = reconcilingReceipt && result.status === 'receipt_error' && nextRetryCount >= MAX_RETRIES
+      ? { outcome: 'dead_letter', failureCode: RECEIPT_RECONCILIATION_EXHAUSTED, failureReason: `Receipt reconciliation exhausted after ${MAX_RETRIES} attempts: ${result.error ?? 'missing or invalid receipt'}` }
+      : classified
     // Update command status (both IDB and in-memory for dependency checks)
-    const newStatus: CommandStatus = classified.outcome === 'accepted' ? 'succeeded'
-      : classified.outcome === 'conflicted' ? 'conflict'
-      : classified.outcome === 'dead_letter' ? 'dead-letter'
+    const newStatus: CommandStatus = finalClassified.outcome === 'accepted' ? 'succeeded'
+      : finalClassified.outcome === 'conflicted' ? 'conflict'
+      : finalClassified.outcome === 'dead_letter' ? 'dead-letter'
       : 'pending' // retryable commands remain replay-eligible
     await updateCommandStatus(key, scopeKey, tenantId, actorId, cmd.commandId, {
-      status: newStatus, failureCode: classified.failureCode, failureReason: classified.failureReason,
-      result: result.receipt?.result, retryCount: (cmd.retryCount ?? 0) + 1,
+      status: newStatus, failureCode: finalClassified.failureCode, failureReason: finalClassified.failureReason,
+      result: result.receipt?.result, retryCount: nextRetryCount,
     })
     // Mutate in-memory so depsAccepted sees updated status for later commands
     cmd.status = newStatus
-    cmd.retryCount = (cmd.retryCount ?? 0) + 1
+    cmd.retryCount = nextRetryCount
 
-    if (classified.outcome === 'accepted') progress.accepted++
-    else if (classified.outcome === 'conflicted') progress.conflicted++
-    else if (classified.outcome === 'dead_letter') progress.deadLetter++
+    if (finalClassified.outcome === 'accepted') progress.accepted++
+    else if (finalClassified.outcome === 'conflicted') progress.conflicted++
+    else if (finalClassified.outcome === 'dead_letter') progress.deadLetter++
     else progress.retryable++
 
     progress.processed++
@@ -145,6 +159,16 @@ async function submitOneCommand(cmd: OfflineCommand, tenantId: string, actorId: 
   return submitCommand(params, tenantId, actorId)
 }
 
+async function reconcileOneCommand(cmd: OfflineCommand, tenantId: string, actorId: string): Promise<SubmitResult> {
+  const payloadHash = await hashCanonicalPayload(cmd.payload)
+  return reconcileCommand({
+    commandId: cmd.commandId, commandType: cmd.commandType, packageId: cmd.packageId,
+    entityId: cmd.entityId, entityType: cmd.entityType ?? undefined, payload: cmd.payload,
+    payloadHash, expectedEntityVersion: cmd.expectedEntityVersion,
+    expectedFormVersion: cmd.expectedFormVersion ?? undefined, dependsOn: cmd.dependsOn,
+  }, tenantId, actorId, cmd.deviceId)
+}
+
 interface ClassifiedResult { outcome: ReplayOutcome; failureCode?: string; failureReason?: string; pauseReason?: string }
 
 function classifySubmitResult(r: SubmitResult): ClassifiedResult {
@@ -157,6 +181,7 @@ function classifySubmitResult(r: SubmitResult): ClassifiedResult {
   if (r.status === 'submitted' || r.status === 'idempotent_replay') return { outcome: 'accepted' }
   if (r.status === 'dependency_not_met') return { outcome: 'retryable', failureCode: 'DEPENDENCY_NOT_MET', failureReason: r.error }
   if (r.status === 'dependency_failed') return { outcome: 'conflicted', failureCode: 'DEPENDENCY_FAILED', failureReason: r.error }
+  if (r.status === 'receipt_error') return { outcome: 'retryable', failureCode: 'RECEIPT_REQUIRED', failureReason: r.error }
   if (r.status === 'device_error' || r.status === 'lease_error') return { outcome: 'paused', pauseReason: r.error }
   if (r.status === 'no_trust' || r.status === 'no_device_key' || r.status === 'network_error') return { outcome: 'paused', pauseReason: r.error }
   if (r.status === 'payload_error' || r.status === 'signature_error') return { outcome: 'dead_letter', failureCode: 'VALIDATION_ERROR', failureReason: r.error }
