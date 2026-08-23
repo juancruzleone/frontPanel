@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { X, Edit, Trash, AlertTriangle, Plus } from 'lucide-react'
 import styles from '../styles/Modal.module.css'
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
@@ -33,11 +33,14 @@ const ModalManageInstallationTypes: React.FC<ModalManageInstallationTypesProps> 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [successMessage, setSuccessMessage] = useState("")
 
+  const loadRef = useRef(loadInstallationTypes)
+  loadRef.current = loadInstallationTypes
+
   useEffect(() => {
     if (isOpen) {
-      loadInstallationTypes(true) // Include inactive
+      loadRef.current(true) // Include inactive
     }
-  }, [isOpen, loadInstallationTypes])
+  }, [isOpen])
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return 'N/A'

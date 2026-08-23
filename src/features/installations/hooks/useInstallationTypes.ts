@@ -35,23 +35,31 @@ const useInstallationTypes = () => {
     setLoading(true)
     setError(null)
     try {
-      if (!navigator.onLine && installationTypes.length > 0) {
+      const { categories: currentCategories, setCategories: currentSetCategories } = useSettingsStore.getState()
+      const currentInstallationTypes = currentCategories.filter(cat => cat.tipo === 'instalacion_tipo')
+      if (!navigator.onLine && currentInstallationTypes.length > 0) {
         setLoading(false)
         return
       }
 
       const data = await fetchInstallationTypes(includeInactive)
       // Merge with other types of categories already in store
-      const otherCategories = storedCategories.filter(cat => cat.tipo !== 'instalacion_tipo')
+      const otherCategories = currentCategories.filter(cat => cat.tipo !== 'instalacion_tipo')
       const mappedData = data.map(cat => ({ ...cat, tipo: 'instalacion_tipo' })) as SettingCategory[]
-      setCategories([...otherCategories, ...mappedData])
+      const nextCategories = [...otherCategories, ...mappedData]
+      // SOLO actualizar si realmente cambió (evita nueva referencia -> loop)
+      if (JSON.stringify(currentCategories) !== JSON.stringify(nextCategories)) {
+        currentSetCategories(nextCategories)
+      }
 
       initialLoadDoneRef.current = true
       if (includeInactive) {
         hasTriedInactiveRef.current = true
       }
     } catch (err: unknown) {
-      if (installationTypes.length > 0) {
+      const { categories: currentCategories } = useSettingsStore.getState()
+      const currentInstallationTypes = currentCategories.filter(cat => cat.tipo === 'instalacion_tipo')
+      if (currentInstallationTypes.length > 0) {
         setLoading(false)
         return
       }
@@ -64,7 +72,7 @@ const useInstallationTypes = () => {
     } finally {
       setLoading(false)
     }
-  }, [isAuthenticated, installationTypes.length, setCategories, storedCategories])
+  }, [isAuthenticated, setCategories])
 
 
   const addInstallationType = async (typeData: {

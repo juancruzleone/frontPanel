@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Edit, Trash, Plus, AlertTriangle } from "lucide-react"
 import styles from "../styles/Modal.module.css"
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
@@ -35,11 +35,14 @@ const ModalManageCategories = ({
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [successMessage, setSuccessMessage] = useState("")
 
+  const loadRef = useRef(loadCategories)
+  loadRef.current = loadCategories
+
   useEffect(() => {
     if (isOpen) {
-      loadCategories(true) // Cargar todas las categorías incluyendo inactivas
+      loadRef.current(true) // Cargar todas las categorías incluyendo inactivas
     }
-  }, [isOpen, loadCategories])
+  }, [isOpen])
 
   const handleEdit = (category: FormCategory) => {
     setEditingCategory(category)

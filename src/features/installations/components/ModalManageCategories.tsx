@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { X, Edit, Trash, AlertTriangle } from 'lucide-react'
 import styles from '../styles/Modal.module.css'
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
@@ -32,11 +32,14 @@ const ModalManageCategories: React.FC<ModalManageCategoriesProps> = ({
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [successMessage, setSuccessMessage] = useState("")
 
+  const loadRef = useRef(loadCategories)
+  loadRef.current = loadCategories
+
   useEffect(() => {
     if (isOpen) {
-      loadCategories(true)
+      loadRef.current(true)
     }
-  }, [isOpen, loadCategories])
+  }, [isOpen])
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return 'N/A'

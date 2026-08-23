@@ -36,18 +36,26 @@ const useFormCategories = () => {
     setLoading(true)
     setError(null)
     try {
-      if (!navigator.onLine && formCategories.length > 0) {
+      const { categories: currentCategories, setCategories: currentSetCategories } = useSettingsStore.getState()
+      const currentFormCategories = currentCategories.filter(cat => cat.tipo === 'formulario')
+      if (!navigator.onLine && currentFormCategories.length > 0) {
         setLoading(false)
         return
       }
       const response = await fetchFormCategories(includeInactive)
       const fetchedCategories = response.categories || response
       
-      const otherCategories = storedCategories.filter(cat => cat.tipo !== 'formulario')
+      const otherCategories = currentCategories.filter(cat => cat.tipo !== 'formulario')
       const mappedData = (fetchedCategories || []).map((cat: any) => ({ ...cat, tipo: 'formulario' })) as SettingCategory[]
-      setCategories([...otherCategories, ...mappedData])
+      const nextCategories = [...otherCategories, ...mappedData]
+      // SOLO actualizar si realmente cambió (evita nueva referencia -> loop)
+      if (JSON.stringify(currentCategories) !== JSON.stringify(nextCategories)) {
+        currentSetCategories(nextCategories)
+      }
     } catch (err: any) {
-      if (formCategories.length > 0) {
+      const { categories: currentCategories } = useSettingsStore.getState()
+      const currentFormCategories = currentCategories.filter(cat => cat.tipo === 'formulario')
+      if (currentFormCategories.length > 0) {
         setLoading(false)
         return
       }
@@ -55,7 +63,7 @@ const useFormCategories = () => {
     } finally {
       setLoading(false)
     }
-  }, [formCategories.length, setCategories, storedCategories])
+  }, [setCategories])
 
   const handleFieldChange = (name: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [name]: value }))
