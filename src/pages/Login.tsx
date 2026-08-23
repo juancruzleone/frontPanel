@@ -62,12 +62,6 @@ const Login = () => {
                 </p>
               </div>
 
-              <ul className={styles.operationalAreas}>
-                <li>{t("nav.workOrders")}</li>
-                <li>{t("nav.maintenancePlan")}</li>
-                <li>{t("nav.assets")}</li>
-              </ul>
-
               <p className={styles.heroBrandLine}>
                 {t("login.heroBrandLine", { defaultValue: "Tu plataforma CMMS integral." })}
               </p>
