@@ -21,6 +21,7 @@ import ModalConfirmDelete from "../features/suppliers/components/ModalConfirmDel
 import SuccessModal from "../shared/components/SuccessModal"
 import type { Supplier } from "../store/supplierStore"
 import { CsvImportDialog } from "../shared/components/CsvImportDialog/CsvImportDialog"
+import { canExportCsv } from "../shared/utils/exportPermissions"
 import { commitSupplierImport, downloadSupplierImportErrors, downloadSupplierTemplate, exportSuppliers, previewSupplierImport } from "../features/suppliers/services/supplierServices"
 
 const SUPPLIERS_ALLOWED_VIEWS = ['cards', 'table'] as const
@@ -149,7 +150,7 @@ const Suppliers = () => {
         >
           <FilterX size={20} />
         </button>
-        <Button title={t('suppliers.csv.exportFiltered')} onClick={() => runCsvAction(() => exportSuppliers({ name: searchTerm }))} />
+        {canExportCsv(role) && <Button title={t('suppliers.csv.exportFiltered')} onClick={() => runCsvAction(() => exportSuppliers({ name: searchTerm }))} />}
       </div>
 
       {error && <p className={styles.errorMessage}>{error}</p>}
@@ -256,11 +257,11 @@ const Suppliers = () => {
       <CsvImportDialog
         isOpen={isImportOpen}
         title={t('suppliers.csv.importTitle')}
-        labels={{ chooseFile: t('suppliers.csv.chooseFile'), preview: t('suppliers.csv.preview'), commit: t('suppliers.csv.commit'), close: t('common.close'), errors: t('suppliers.csv.downloadErrors'), result: t('suppliers.csv.completed') }}
         onClose={() => setIsImportOpen(false)}
         onPreview={previewSupplierImport}
         onCommit={commitSupplierImport}
         onDownloadErrors={downloadSupplierImportErrors}
+        onDownloadTemplate={downloadSupplierTemplate}
         onCommitted={() => loadSuppliers({ name: searchTerm })}
       />
       

@@ -17,6 +17,7 @@ import { useNavigate, useLocation } from "react-router"
 import { useAssetsTour } from "../features/assets/hooks/useAssetsTour"
 import { useAuthStore } from "../store/authStore"
 import { isClient, isAdmin } from "../shared/utils/roleUtils"
+import { canDownloadCsvTemplate, canExportCsv } from "../shared/utils/exportPermissions"
 import TourButton from "../shared/components/Buttons/TourButton"
 import ViewToggle from "../components/ViewToggle/ViewToggle"
 import { useResponsiveView } from "../shared/hooks/useResponsiveView"
@@ -205,19 +206,21 @@ const Assets = () => {
           {!isClientUser && (
             <div className={styles.positionButton}>
               <Button title={t('assets.createAsset')} onClick={handleOpenCreate} data-tour="create-asset-btn" />
+              {canDownloadCsvTemplate(role) && (
+                <Button title={t('assets.csv.downloadTemplate')} onClick={() => runCsvAction(downloadAssetTemplate)} />
+              )}
               {isAdminUser && (
                 <>
-                  <Button title={t('assets.csv.downloadTemplate')} onClick={() => runCsvAction(downloadAssetTemplate)} />
                   <Button title={t('assets.csv.import')} onClick={() => setIsImportOpen(true)} />
-                <button
-                  className={styles.manualsButton}
-                  onClick={() => navigate('/formularios')}
-                  aria-label={t('assets.manageForms')}
-                  data-tour="manage-forms-btn"
-                >
-                  <FileText size={20} />
-                  <span>{t('assets.manageForms')}</span>
-                </button>
+                  <button
+                    className={styles.manualsButton}
+                    onClick={() => navigate('/formularios')}
+                    aria-label={t('assets.manageForms')}
+                    data-tour="manage-forms-btn"
+                  >
+                    <FileText size={20} />
+                    <span>{t('assets.manageForms')}</span>
+                  </button>
                 </>
               )}
               <button
@@ -269,7 +272,7 @@ const Assets = () => {
           >
             <FilterX size={20} />
           </button>
-          {!isClientUser && <Button title={t('assets.csv.exportFiltered')} onClick={() => runCsvAction(() => exportAssets({ search: searchTerm, category: selectedCategory }))} />}
+          {canExportCsv(role) && <Button title={t('assets.csv.exportFiltered')} onClick={() => runCsvAction(() => exportAssets({ search: searchTerm, category: selectedCategory }))} />}
         </div>
         {csvError && <p role="alert">{csvError}</p>}
 
@@ -486,11 +489,11 @@ const Assets = () => {
       <CsvImportDialog
         isOpen={isImportOpen}
         title={t('assets.csv.importTitle')}
-        labels={{ chooseFile: t('assets.csv.chooseFile'), preview: t('assets.csv.preview'), commit: t('assets.csv.commit'), close: t('common.close'), errors: t('assets.csv.downloadErrors'), result: t('assets.csv.completed') }}
         onClose={() => setIsImportOpen(false)}
         onPreview={previewAssetImport}
         onCommit={commitAssetImport}
         onDownloadErrors={downloadAssetImportErrors}
+        onDownloadTemplate={downloadAssetTemplate}
         onCommitted={() => loadAssets({ page: 1, limit: itemsPerPage, search: searchTerm, category: selectedCategory })}
       />
 

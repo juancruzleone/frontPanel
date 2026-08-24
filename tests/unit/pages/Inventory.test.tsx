@@ -63,9 +63,15 @@ describe('Inventory Page', () => {
     expect(screen.getByText('inventory.csv.import')).toBeInTheDocument()
     expect(screen.getByText('inventory.csv.exportFiltered')).toBeInTheDocument()
 
-    ;(useAuthStore as any).mockReturnValue('technician')
+    ;(useAuthStore as any).mockReturnValue('tecnico')
     rerender(<Inventory />)
     expect(screen.queryByText('inventory.csv.import')).not.toBeInTheDocument()
     expect(screen.getByText('inventory.csv.exportFiltered')).toBeInTheDocument()
+  })
+
+  it('oculta exportación al rol cliente sin acceso', () => {
+    ;(useAuthStore as any).mockReturnValue('cliente')
+    render(<Inventory />)
+    expect(screen.queryByText('inventory.csv.exportFiltered')).not.toBeInTheDocument()
   })
 })

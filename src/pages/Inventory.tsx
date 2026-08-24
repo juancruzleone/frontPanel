@@ -23,6 +23,7 @@ import TourButton from "../shared/components/Buttons/TourButton"
 import Skeleton from "../shared/components/Skeleton"
 import styles from "../features/inventory/styles/inventory.module.css"
 import { CsvImportDialog } from "../shared/components/CsvImportDialog/CsvImportDialog"
+import { canExportCsv } from "../shared/utils/exportPermissions"
 import { commitInventoryImport, downloadInventoryImportErrors, downloadInventoryTemplate, exportInventory, previewInventoryImport } from "../features/inventory/services/inventoryServices"
 
 const INVENTORY_ALLOWED_VIEWS = ['cards', 'table'] as const
@@ -223,7 +224,7 @@ const Inventory = () => {
         >
           <FilterX size={20} />
         </button>
-        <Button title={t('inventory.csv.exportFiltered')} onClick={() => runCsvAction(() => exportInventory({ name: searchTerm, category: selectedCategory }))} />
+        {canExportCsv(role) && <Button title={t('inventory.csv.exportFiltered')} onClick={() => runCsvAction(() => exportInventory({ name: searchTerm, category: selectedCategory }))} />}
       </div>
 
       {csvError && <p role="alert" className={styles.errorMessage}>{csvError}</p>}
@@ -392,11 +393,11 @@ const Inventory = () => {
       <CsvImportDialog
         isOpen={isImportOpen}
         title={t('inventory.csv.importTitle')}
-        labels={{ chooseFile: t('inventory.csv.chooseFile'), preview: t('inventory.csv.preview'), commit: t('inventory.csv.commit'), close: t('common.close'), errors: t('inventory.csv.downloadErrors'), result: t('inventory.csv.completed') }}
         onClose={() => setIsImportOpen(false)}
         onPreview={previewInventoryImport}
         onCommit={commitInventoryImport}
         onDownloadErrors={downloadInventoryImportErrors}
+        onDownloadTemplate={downloadInventoryTemplate}
         onCommitted={() => loadInventory({ name: searchTerm, category: selectedCategory })}
       />
       
