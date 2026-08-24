@@ -1,5 +1,6 @@
 import { useAuthStore } from "../../../store/authStore"
 import { getAuthHeaders, getHeadersWithContentType, fetchWithAuthRetry, fetchWithCsrf } from "../../../shared/utils/apiHeaders"
+import { downloadResponse } from "../../../shared/utils/downloadResponse"
 import type { CsvImportPreview } from "../../../shared/components/CsvImportDialog/CsvImportDialog"
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
@@ -9,16 +10,6 @@ const parseErrorMessage = async (response: Response, fallback: string) => {
     const body = await response.json()
     return body.error?.message || body.message || body.error || fallback
   } catch { return `Error ${response.status}: ${response.statusText}` }
-}
-
-const downloadResponse = async (response: Response, fallback: string, filename: string) => {
-  if (!response.ok) throw new Error(await parseErrorMessage(response, fallback))
-  const url = URL.createObjectURL(await response.blob())
-  const anchor = document.createElement("a")
-  anchor.href = url
-  anchor.download = filename
-  anchor.click()
-  URL.revokeObjectURL(url)
 }
 
 export const fetchAssets = async (params: { page?: number, limit?: number, search?: string, category?: string } = {}): Promise<any> => {
@@ -170,7 +161,7 @@ export interface AssetImportPreview extends CsvImportPreview {
 }
 
 export const downloadAssetTemplate = async () => {
-  const response = await fetch(`${API_URL}activos/csv/template`, { headers: getAuthHeaders(), credentials: "include" })
+  const response = await fetchWithAuthRetry(`${API_URL}activos/csv/template`, { headers: getAuthHeaders() })
   await downloadResponse(response, "Error al descargar la plantilla", "assets-template.csv")
 }
 
@@ -193,7 +184,7 @@ export const commitAssetImport = async (preview: AssetImportPreview) => {
 }
 
 export const downloadAssetImportErrors = async (token: string) => {
-  const response = await fetch(`${API_URL}activos/csv/import/${encodeURIComponent(token)}/errors`, { headers: getAuthHeaders(), credentials: "include" })
+  const response = await fetchWithAuthRetry(`${API_URL}activos/csv/import/${encodeURIComponent(token)}/errors`, { headers: getAuthHeaders() })
   await downloadResponse(response, "Error al descargar los errores", "assets-import-errors.csv")
 }
 
@@ -201,6 +192,6 @@ export const exportAssets = async (params: { search?: string, category?: string 
   const query = new URLSearchParams()
   if (params.search) query.set("search", params.search)
   if (params.category) query.set("category", params.category)
-  const response = await fetch(`${API_URL}activos/csv/export?${query.toString()}`, { headers: getAuthHeaders(), credentials: "include" })
+  const response = await fetchWithAuthRetry(`${API_URL}activos/csv/export?${query.toString()}`, { headers: getAuthHeaders() })
   await downloadResponse(response, "Error al exportar activos", "assets.csv")
 }

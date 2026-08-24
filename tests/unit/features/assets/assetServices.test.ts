@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest"
-import { commitAssetImport, exportAssets, fetchAssets, fetchTemplates, previewAssetImport } from "../../../../src/features/assets/services/assetServices"
+import { commitAssetImport, downloadAssetTemplate, exportAssets, fetchAssets, fetchTemplates, previewAssetImport } from "../../../../src/features/assets/services/assetServices"
 
 const fetchWithCsrf = vi.hoisted(() => vi.fn())
 const fetchWithAuthRetry = vi.hoisted(() => vi.fn())
@@ -36,11 +36,23 @@ describe("asset CSV service", () => {
     expect(fetchWithCsrf).toHaveBeenCalledWith(expect.stringContaining("activos/csv/import/commit"), expect.objectContaining({ headers: expect.objectContaining({ "Idempotency-Key": "token" }), body: JSON.stringify({ token: "token", payloadHash: "hash" }) }))
   })
 
-  it("sends the real Assets filters to export", async () => {
-    vi.mocked(fetch).mockResolvedValue({ ok: true, blob: vi.fn().mockResolvedValue(new Blob()) } as any)
+  it("sends the real Assets filters to export through the auth-retry wrapper", async () => {
+    fetchWithAuthRetry.mockResolvedValue({ ok: true, blob: vi.fn().mockResolvedValue(new Blob()) } as any)
     vi.stubGlobal("URL", { createObjectURL: vi.fn(() => "blob:url"), revokeObjectURL: vi.fn() })
     vi.spyOn(document, "createElement").mockReturnValue({ click: vi.fn(), set href(_value: string) {}, set download(_value: string) {} } as any)
     await exportAssets({ search: "pump", category: "Pumps" })
-    expect(fetch).toHaveBeenCalledWith(expect.stringContaining("search=pump&category=Pumps"), expect.any(Object))
+    expect(fetchWithAuthRetry).toHaveBeenCalledWith(expect.stringContaining("search=pump&category=Pumps"), expect.any(Object))
+    expect(fetch).not.toHaveBeenCalled()
+  })
+
+  it("downloads the template through the auth-retry wrapper", async () => {
+    fetchWithAuthRetry.mockResolvedValue({ ok: true, blob: vi.fn().mockResolvedValue(new Blob()) } as any)
+    vi.stubGlobal("URL", { createObjectURL: vi.fn(() => "blob:url"), revokeObjectURL: vi.fn() })
+    vi.spyOn(document, "createElement").mockReturnValue({ click: vi.fn(), set href(_value: string) {}, set download(_value: string) {} } as any)
+
+    await downloadAssetTemplate()
+
+    expect(fetchWithAuthRetry).toHaveBeenCalledWith(expect.stringContaining("activos/csv/template"), expect.objectContaining({ headers: expect.objectContaining({ Authorization: "Bearer token" }) }))
+    expect(fetch).not.toHaveBeenCalled()
   })
 })

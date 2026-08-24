@@ -1,8 +1,8 @@
-import { getAuthHeaders, fetchWithCsrf } from "../../../shared/utils/apiHeaders"
+import { getAuthHeaders, fetchWithAuthRetry, fetchWithCsrf } from "../../../shared/utils/apiHeaders"
 import { fetchAssets, updateAssetStock as apiUpdateAssetStock } from "../../assets/services/assetServices"
 import { InventoryAdjustmentPayload, InventoryAsset, InventoryItem, InventoryMovement } from "../types/inventory.types"
 import type { CsvImportPreview } from "../../../shared/components/CsvImportDialog/CsvImportDialog"
-import { downloadResponse as downloadFileResponse } from "../../../shared/utils/downloadResponse"
+import { downloadResponse } from "../../../shared/utils/downloadResponse"
 
 const getApiUrl = () => import.meta.env.VITE_API_URL || '/api/'
 
@@ -189,18 +189,8 @@ export const updateInventoryAssetStock = async (assetId: string, stock: number):
   await apiUpdateAssetStock(assetId, stock)
 }
 
-const downloadResponse = async (response: Response, fallback: string, filename: string) => {
-  if (!response.ok) throw new Error(await parseErrorMessage(response, fallback))
-  const url = URL.createObjectURL(await response.blob())
-  const anchor = document.createElement('a')
-  anchor.href = url
-  anchor.download = filename
-  anchor.click()
-  URL.revokeObjectURL(url)
-}
-
 export const downloadInventoryTemplate = async () => {
-  const response = await fetch(`${getApiUrl()}inventario/csv/template`, { headers: getAuthHeaders(), credentials: 'include' })
+  const response = await fetchWithAuthRetry(`${getApiUrl()}inventario/csv/template`, { headers: getAuthHeaders() })
   await downloadResponse(response, 'Error al descargar la plantilla', 'inventory-template.csv')
 }
 
@@ -223,7 +213,7 @@ export const commitInventoryImport = async (preview: InventoryImportPreview) => 
 }
 
 export const downloadInventoryImportErrors = async (token: string) => {
-  const response = await fetch(`${getApiUrl()}inventario/csv/import/${encodeURIComponent(token)}/errors`, { headers: getAuthHeaders(), credentials: 'include' })
+  const response = await fetchWithAuthRetry(`${getApiUrl()}inventario/csv/import/${encodeURIComponent(token)}/errors`, { headers: getAuthHeaders() })
   await downloadResponse(response, 'Error al descargar los errores', 'inventory-import-errors.csv')
 }
 
@@ -232,11 +222,11 @@ export const exportInventory = async (params: { name?: string, category?: string
   if (params.name) query.set('name', params.name)
   if (params.category) query.set('category', params.category)
   if (params.lowStock !== undefined) query.set('lowStock', String(params.lowStock))
-  const response = await fetch(`${getApiUrl()}inventario/csv/export?${query.toString()}`, { headers: getAuthHeaders(), credentials: 'include' })
+  const response = await fetchWithAuthRetry(`${getApiUrl()}inventario/csv/export?${query.toString()}`, { headers: getAuthHeaders() })
   await downloadResponse(response, 'Error al exportar inventario', 'inventory.csv')
 }
 
 export const exportInventoryMovements = async (itemId: string) => {
-  const response = await fetch(`${getApiUrl()}inventario/${encodeURIComponent(itemId)}/movimientos/csv/export`, { headers: getAuthHeaders(), credentials: 'include' })
-  await downloadFileResponse(response, 'Error al exportar movimientos', 'inventory-movements.csv')
+  const response = await fetchWithAuthRetry(`${getApiUrl()}inventario/${encodeURIComponent(itemId)}/movimientos/csv/export`, { headers: getAuthHeaders() })
+  await downloadResponse(response, 'Error al exportar movimientos', 'inventory-movements.csv')
 }

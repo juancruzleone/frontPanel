@@ -340,6 +340,14 @@ const WorkOrders = () => {
 			}
 		}
 
+		// Evita enviar parámetros vacíos en la query (lista y export CSV)
+		for (const key of Object.keys(filters)) {
+			const value = filters[key];
+			if (value === "" || value === null || value === undefined) {
+				delete filters[key];
+			}
+		}
+
 		return filters;
 	}, [
 		selectedStatus,

@@ -1,5 +1,5 @@
 import { useAuthStore } from "../../../store/authStore";
-import { getAuthHeaders, getHeadersWithContentType, fetchWithCsrf } from "../../../shared/utils/apiHeaders";
+import { getAuthHeaders, getHeadersWithContentType, fetchWithAuthRetry, fetchWithCsrf } from "../../../shared/utils/apiHeaders";
 import { createApiResponseError } from "../../../shared/utils/errorHelpers";
 import { downloadResponse } from "../../../shared/utils/downloadResponse";
 
@@ -167,7 +167,7 @@ export const exportInstallations = async (params: { search?: string, category?: 
   const query = new URLSearchParams()
   if (params.search) query.set("search", params.search)
   if (params.category) query.set("category", params.category)
-  const response = await fetch(`${API_URL}installations/csv/export?${query}`, { headers: getAuthHeaders(), credentials: "include" })
+  const response = await fetchWithAuthRetry(`${API_URL}installations/csv/export?${query}`, { headers: getAuthHeaders() })
   await downloadResponse(response, "Error al exportar instalaciones", "installations.csv")
 }
 

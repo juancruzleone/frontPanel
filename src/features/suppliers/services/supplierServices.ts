@@ -1,6 +1,7 @@
-import { getAuthHeaders, fetchWithCsrf } from "../../../shared/utils/apiHeaders"
+import { getAuthHeaders, fetchWithAuthRetry, fetchWithCsrf } from "../../../shared/utils/apiHeaders"
 import type { Supplier } from "../../../store/supplierStore"
 import type { CsvImportPreview } from "../../../shared/components/CsvImportDialog/CsvImportDialog"
+import { downloadResponse } from "../../../shared/utils/downloadResponse"
 
 const getApiUrl = () => import.meta.env.VITE_API_URL || '/api/'
 
@@ -117,19 +118,8 @@ export const deleteSupplier = async (id: string) => {
   return await response.json()
 }
 
-const downloadResponse = async (response: Response, fallback: string, filename: string) => {
-  if (!response.ok) throw new Error(await parseErrorMessage(response, fallback))
-  const blob = await response.blob()
-  const url = URL.createObjectURL(blob)
-  const anchor = document.createElement('a')
-  anchor.href = url
-  anchor.download = filename
-  anchor.click()
-  URL.revokeObjectURL(url)
-}
-
 export const downloadSupplierTemplate = async () => {
-  const response = await fetch(`${getApiUrl()}proveedores/csv/template`, { headers: getAuthHeaders() })
+  const response = await fetchWithAuthRetry(`${getApiUrl()}proveedores/csv/template`, { headers: getAuthHeaders() })
   await downloadResponse(response, 'Error al descargar la plantilla', 'suppliers-template.csv')
 }
 
@@ -152,13 +142,13 @@ export const commitSupplierImport = async (preview: SupplierImportPreview) => {
 }
 
 export const downloadSupplierImportErrors = async (token: string) => {
-  const response = await fetch(`${getApiUrl()}proveedores/csv/import/${encodeURIComponent(token)}/errors`, { headers: getAuthHeaders() })
+  const response = await fetchWithAuthRetry(`${getApiUrl()}proveedores/csv/import/${encodeURIComponent(token)}/errors`, { headers: getAuthHeaders() })
   await downloadResponse(response, 'Error al descargar los errores', 'supplier-import-errors.csv')
 }
 
 export const exportSuppliers = async (params: { name?: string } = {}) => {
   const query = new URLSearchParams()
   if (params.name) query.set('name', params.name)
-  const response = await fetch(`${getApiUrl()}proveedores/csv/export?${query.toString()}`, { headers: getAuthHeaders() })
+  const response = await fetchWithAuthRetry(`${getApiUrl()}proveedores/csv/export?${query.toString()}`, { headers: getAuthHeaders() })
   await downloadResponse(response, 'Error al exportar proveedores', 'suppliers.csv')
 }

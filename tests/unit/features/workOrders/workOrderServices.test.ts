@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import {
 	assignTechnicianToWorkOrder,
+	exportWorkOrders,
 	fetchWorkOrders,
 	updateWorkOrder,
 } from "../../../../src/features/workOrders/services/workOrderServices";
@@ -14,6 +15,9 @@ vi.mock("../../../../src/shared/utils/apiHeaders", async () => {
 	return {
 		...actual,
 		fetchWithCsrf: async (url: string, options: RequestInit = {}) => {
+			return fetch(url, { ...options, credentials: "include" });
+		},
+		fetchWithAuthRetry: async (url: string, options: RequestInit = {}) => {
 			return fetch(url, { ...options, credentials: "include" });
 		},
 	};
@@ -91,5 +95,24 @@ describe("workOrderServices", () => {
 				horaProgramada: "10:00",
 			}),
 		).rejects.toThrow("No autorizado: Transición no permitida - estado");
+	});
+
+	it("strips empty filter values from the export CSV URL", async () => {
+		fetchMock.mockResolvedValueOnce({
+			ok: true,
+			blob: vi.fn().mockResolvedValue(new Blob(["csv"])),
+		});
+		vi.stubGlobal("URL", { createObjectURL: vi.fn(() => "blob:url"), revokeObjectURL: vi.fn() });
+		vi.spyOn(document, "createElement").mockReturnValue({ click: vi.fn() } as unknown as HTMLAnchorElement);
+
+		await exportWorkOrders({ estado: "", search: "bomba", prioridad: "", tecnicoId: "", timezone: "America/Argentina/Buenos_Aires", offset: 0 });
+
+		const [url] = fetchMock.mock.calls[0];
+		expect(String(url)).toContain("search=bomba");
+		expect(String(url)).toContain("offset=0");
+		expect(String(url)).not.toContain("estado=");
+		expect(String(url)).not.toContain("prioridad=");
+		expect(String(url)).not.toContain("tecnicoId=");
+		expect(String(url)).not.toContain("==");
 	});
 });

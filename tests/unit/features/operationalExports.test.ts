@@ -9,6 +9,8 @@ vi.mock("../../../src/shared/utils/apiHeaders", () => ({
   getAuthHeaders: vi.fn(() => ({ Authorization: "Bearer token" })),
   getHeadersWithContentType: vi.fn(() => ({})),
   fetchWithCsrf: vi.fn(),
+  // Downloads now route through the auth-retry wrapper; delegate to plain fetch for determinism
+  fetchWithAuthRetry: async (url: string, options: RequestInit = {}) => fetch(url, { ...options, credentials: "include" }),
 }))
 vi.mock("../../../src/store/authStore", () => ({ useAuthStore: { getState: () => ({ role: "admin" }) } }))
 

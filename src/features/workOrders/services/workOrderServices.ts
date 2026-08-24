@@ -1,4 +1,5 @@
 import {
+	fetchWithAuthRetry,
 	fetchWithCsrf,
 	getAuthHeaders,
 } from "../../../shared/utils/apiHeaders";
@@ -204,11 +205,12 @@ export const fetchWorkOrders = async (
 };
 
 export const exportWorkOrders = async (filters: Record<string, string | number> = {}): Promise<void> => {
-  const query = new URLSearchParams(filters as Record<string, string>)
-  const response = await fetch(`${getApiUrl()}ordenes-trabajo/csv/export?${query}`, {
-    headers: getAuthHeaders(),
-    credentials: "include",
-  })
+  const cleanFilters: Record<string, string> = {}
+  for (const [key, value] of Object.entries(filters)) {
+    if (value !== "" && value !== null && value !== undefined) cleanFilters[key] = String(value)
+  }
+  const query = new URLSearchParams(cleanFilters)
+  const response = await fetchWithAuthRetry(`${getApiUrl()}ordenes-trabajo/csv/export?${query}`, { headers: getAuthHeaders() })
   await downloadResponse(response, "Error al exportar órdenes de trabajo", "work-orders.csv")
 }
 
