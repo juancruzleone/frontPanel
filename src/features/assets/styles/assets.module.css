@@ -61,6 +61,13 @@
   flex-wrap: wrap;
 }
 
+.csvActionsRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
 .manualsButton {
   display: inline-flex;
   align-items: center;

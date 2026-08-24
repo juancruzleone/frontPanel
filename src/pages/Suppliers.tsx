@@ -125,12 +125,22 @@ const Suppliers = () => {
         </div>
         {isAdmin && (
           <div className={styles.positionButton}>
-            <Button title={t('suppliers.csv.downloadTemplate')} onClick={() => runCsvAction(downloadSupplierTemplate)} />
-            <Button title={t('suppliers.csv.import')} onClick={() => setIsImportOpen(true)} />
             <Button data-tour="suppliers-add-btn" title={t('suppliers.addSupplier')} onClick={handleOpenCreate} />
           </div>
         )}
       </div>
+
+      {(isAdmin || canExportCsv(role)) && (
+        <div className={styles.csvActionsRow}>
+          {isAdmin && (
+            <>
+              <Button title={t('suppliers.csv.downloadTemplate')} onClick={() => runCsvAction(downloadSupplierTemplate)} />
+              <Button title={t('suppliers.csv.import')} onClick={() => setIsImportOpen(true)} />
+            </>
+          )}
+          {canExportCsv(role) && <Button title={t('suppliers.csv.exportFiltered')} onClick={() => runCsvAction(() => exportSuppliers({ name: searchTerm }))} />}
+        </div>
+      )}
 
       <div className={styles.searchRow}>
         <div className={styles.searchContainerInner} data-tour="suppliers-search">
@@ -150,7 +160,6 @@ const Suppliers = () => {
         >
           <FilterX size={20} />
         </button>
-        {canExportCsv(role) && <Button title={t('suppliers.csv.exportFiltered')} onClick={() => runCsvAction(() => exportSuppliers({ name: searchTerm }))} />}
       </div>
 
       {error && <p className={styles.errorMessage}>{error}</p>}

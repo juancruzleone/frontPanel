@@ -206,22 +206,16 @@ const Assets = () => {
           {!isClientUser && (
             <div className={styles.positionButton}>
               <Button title={t('assets.createAsset')} onClick={handleOpenCreate} data-tour="create-asset-btn" />
-              {canDownloadCsvTemplate(role) && (
-                <Button title={t('assets.csv.downloadTemplate')} onClick={() => runCsvAction(downloadAssetTemplate)} />
-              )}
               {isAdminUser && (
-                <>
-                  <Button title={t('assets.csv.import')} onClick={() => setIsImportOpen(true)} />
-                  <button
-                    className={styles.manualsButton}
-                    onClick={() => navigate('/formularios')}
-                    aria-label={t('assets.manageForms')}
-                    data-tour="manage-forms-btn"
-                  >
-                    <FileText size={20} />
-                    <span>{t('assets.manageForms')}</span>
-                  </button>
-                </>
+                <button
+                  className={styles.manualsButton}
+                  onClick={() => navigate('/formularios')}
+                  aria-label={t('assets.manageForms')}
+                  data-tour="manage-forms-btn"
+                >
+                  <FileText size={20} />
+                  <span>{t('assets.manageForms')}</span>
+                </button>
               )}
               <button
                 className={styles.manualsButton}
@@ -248,6 +242,18 @@ const Assets = () => {
           )}
         </div>
 
+        {(canDownloadCsvTemplate(role) || isAdminUser || canExportCsv(role)) && (
+          <div className={styles.csvActionsRow}>
+            {canDownloadCsvTemplate(role) && (
+              <Button title={t('assets.csv.downloadTemplate')} onClick={() => runCsvAction(downloadAssetTemplate)} />
+            )}
+            {isAdminUser && (
+              <Button title={t('assets.csv.import')} onClick={() => setIsImportOpen(true)} />
+            )}
+            {canExportCsv(role) && <Button title={t('assets.csv.exportFiltered')} onClick={() => runCsvAction(() => exportAssets({ search: searchTerm, category: selectedCategory }))} />}
+          </div>
+        )}
+
         <div className={styles.searchRow}>
           <div className={styles.searchContainerInner} data-tour="search-filter">
             <SearchInput
@@ -272,7 +278,6 @@ const Assets = () => {
           >
             <FilterX size={20} />
           </button>
-          {canExportCsv(role) && <Button title={t('assets.csv.exportFiltered')} onClick={() => runCsvAction(() => exportAssets({ search: searchTerm, category: selectedCategory }))} />}
         </div>
         {csvError && <p role="alert">{csvError}</p>}
 
