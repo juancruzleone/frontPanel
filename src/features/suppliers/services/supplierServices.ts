@@ -144,7 +144,7 @@ export const previewSupplierImport = async (file: File): Promise<SupplierImportP
 export const commitSupplierImport = async (preview: SupplierImportPreview) => {
   const response = await fetchWithCsrf(`${getApiUrl()}proveedores/csv/import/commit`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Idempotency-Key': crypto.randomUUID() },
+    headers: { 'Content-Type': 'application/json', 'Idempotency-Key': preview.token },
     body: JSON.stringify({ token: preview.token, payloadHash: preview.payloadHash }),
   })
   if (!response.ok) throw new Error(await parseErrorMessage(response, 'Error al confirmar la importación'))

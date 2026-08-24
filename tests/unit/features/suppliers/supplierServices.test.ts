@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { fetchSuppliers, createSupplier, deleteSupplier, previewSupplierImport, exportSuppliers } from '../../../../src/features/suppliers/services/supplierServices'
+import { fetchSuppliers, createSupplier, deleteSupplier, previewSupplierImport, commitSupplierImport, exportSuppliers } from '../../../../src/features/suppliers/services/supplierServices'
 
 describe('Supplier Services', () => {
   beforeEach(() => {
@@ -97,6 +97,23 @@ describe('Supplier Services', () => {
     await previewSupplierImport(file)
 
     expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/proveedores/csv/import/preview'), expect.objectContaining({ method: 'POST', body: expect.any(FormData) }))
+  })
+
+  it('reutiliza el token opaco como clave idempotente y es estable en reintentos', async () => {
+    ;(fetch as any).mockResolvedValue({ ok: true, json: () => Promise.resolve({ create: 2 }) })
+    const preview = { token: 'stable-token', payloadHash: 'hash', schemaVersion: 'suppliers.v1', delimiter: ',' as const, expiresAt: new Date().toISOString(), counts: { create: 1, update: 1, unchanged: 0, error: 0 }, rows: [] }
+
+    await commitSupplierImport(preview)
+    await commitSupplierImport(preview)
+
+    expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/proveedores/csv/import/commit'), expect.objectContaining({
+      method: 'POST',
+      headers: expect.objectContaining({ 'Idempotency-Key': 'stable-token' }),
+      body: JSON.stringify({ token: 'stable-token', payloadHash: 'hash' }),
+    }))
+    const [, firstOptions] = vi.mocked(fetch).mock.calls.at(-2) as [string, any]
+    const [, secondOptions] = vi.mocked(fetch).mock.calls.at(-1) as [string, any]
+    expect(firstOptions.headers['Idempotency-Key']).toBe(secondOptions.headers['Idempotency-Key'])
   })
 
   it('exporta todo el filtro por servidor', async () => {
