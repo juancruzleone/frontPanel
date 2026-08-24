@@ -10,7 +10,7 @@ import { useAuthStore } from "../store/authStore";
 import { socketService } from "../shared/services/socketService";
 import { pushNotificationService } from "../shared/services/pushNotificationService";
 import { routeTranslations } from "../router/routeTranslations";
-import { isClient, isSuperAdmin } from "../shared/utils/roleUtils";
+import { isAdmin } from "../shared/utils/roleUtils";
 import { useHomeTour } from "../features/home/hooks/useHomeTour";
 
 const ONBOARDING_TOUR_KEY = "home-onboarding-tour-v1-shown";
@@ -46,7 +46,7 @@ const MainLayout: React.FC = () => {
 			return;
 		}
 
-		if (isClient(role) || isSuperAdmin(role)) {
+		if (!isAdmin(role)) {
 			return;
 		}
 

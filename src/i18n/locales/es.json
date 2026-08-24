@@ -413,6 +413,40 @@
   "home": {
     "title": "Panel de Control",
     "subtitle": "Resumen general de operaciones",
+    "range": { "7d": "7 días", "30d": "30 días", "90d": "90 días", "12m": "12 meses" },
+    "dashboard": {
+      "roles": {
+        "admin": { "title": "Control operativo", "description": "Excepciones, capacidad y evolución de toda la operación." },
+        "technician": { "title": "Mi jornada operativa", "description": "Prioridades, vencimientos y evolución de las órdenes que tienes asignadas." },
+        "client": { "title": "Estado de mis instalaciones", "description": "Actividad, mantenimiento y estado de las instalaciones que tienes asignadas." }
+      },
+      "scope": { "tenant": "Toda la organización", "assigned_work": "Trabajo asignado", "assigned_installations": "Instalaciones asignadas" },
+      "scopeLabel": "Alcance",
+      "updated": "Actualizado",
+      "period": "Periodo analizado",
+      "rangeLabel": "Seleccionar periodo del análisis",
+      "rangeHelp": "Afecta las métricas, la tendencia y las distribuciones de órdenes.",
+      "loading": "Cargando panel",
+      "dateUnavailable": "Fecha no disponible",
+      "sections": { "immediate": "Atención inmediata y resumen", "analysis": "Tendencia y estado", "recent": "Actividad reciente y contexto" },
+      "metrics": {
+        "openWorkOrders": "Órdenes abiertas", "overdueWorkOrders": "Órdenes vencidas", "criticalWorkOrders": "Órdenes críticas",
+        "mttrHours": "Tiempo medio de reparación", "mtbfHours": "Tiempo medio entre fallos", "preventiveComplianceRate": "Cumplimiento preventivo",
+        "slaRate": "Cumplimiento SLA", "responseTimeHours": "Primera respuesta"
+      },
+      "attention": { "kicker": "Excepciones", "title": "Requiere atención", "clear": "No hay excepciones activas en este momento.", "overdue": "órdenes abiertas fuera de plazo", "critical": "órdenes abiertas con prioridad crítica" },
+      "resources": { "kicker": "Cobertura", "admin": "Capacidad de la operación", "client": "Instalaciones y dispositivos asignados", "metrics": { "installations": "Instalaciones", "assets": "Activos", "technicians": "Técnicos", "devices": "Dispositivos" } },
+      "distribution": { "kicker": "Composición" },
+      "ordersCount": "{{count}} órdenes",
+      "trend": { "kicker": "Flujo de trabajo", "description": "{{created}} órdenes creadas y {{completed}} completadas en el periodo.", "tableToggle": "Ver datos en tabla", "tableCaption": "Órdenes creadas y completadas por fecha" },
+      "date": "Fecha",
+      "recent": { "kicker": "Últimos movimientos" },
+      "inventory": { "kicker": "Recursos", "title": "Resumen de inventario", "items": "Ítems registrados", "lowStock": "Con stock bajo" },
+      "context": { "kicker": "Alcance operativo", "technician": "Trabajo personal", "technicianDescription": "Los indicadores y las órdenes visibles se limitan a tu trabajo asignado.", "client": "Actividad de instalaciones", "clientDescription": "La información reúne toda la actividad asociada a tus instalaciones, no datos globales de la organización." },
+      "empty": { "trend": "No hay evolución disponible para este periodo.", "distribution": "No hay órdenes para distribuir en este periodo." },
+      "notices": { "offline": "Sin conexión: se muestran los últimos datos guardados.", "stale": "Los datos guardados pueden estar desactualizados.", "fallback": "No hubo actividad suficiente en el periodo; algunas visualizaciones usan histórico reciente." },
+      "errors": { "title": "No pudimos mostrar el panel", "loadFailed": "No fue posible cargar los datos. Inténtalo nuevamente.", "offlineUnavailable": "No hay conexión ni datos guardados para este usuario.", "unsupportedRole": "Tu rol no tiene un alcance de panel autorizado.", "inventory": "El resumen de inventario no está disponible; el resto del panel está actualizado." }
+    },
     "welcome": "Bienvenido",
     "stats": "Estadísticas",
     "recentOrders": "Órdenes Recientes",

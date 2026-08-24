@@ -262,6 +262,7 @@ const Nav = () => {
 	return (
 		<>
 			<button
+				type="button"
 				className={`${styles.menuToggle} ${isMenuOpen ? styles.menuToggleOpen : ""}`}
 				onClick={() => setIsMenuOpen((prev) => !prev)}
 				aria-label={isMenuOpen ? t("nav.closeMenu") : t("nav.openMenu")}
@@ -273,6 +274,7 @@ const Nav = () => {
 				className={`${styles.nav} ${isMenuOpen ? styles.open : ""} ${isCollapsedDesktop ? styles.collapsed : ""}`}
 			>
 				<button
+					type="button"
 					className={styles.collapseButton}
 					onClick={toggleSidebar}
 					aria-label={
@@ -297,7 +299,7 @@ const Nav = () => {
 						</div>
 					</div>
 					<ul className={styles.menu}>
-						{!isSuperAdminUser && !isClientUser && (
+						{!isSuperAdminUser && (
 							<li>
 								<NavLink
 									to={homeRoute}
@@ -620,6 +622,7 @@ const Nav = () => {
 										</span>
 									</div>
 									<button
+										type="button"
 										className={styles.logoutButton}
 										onClick={handleLogout}
 										title={t("nav.logout")}

@@ -69,3 +69,12 @@ describe('Nav resources submenu hover', () => {
     )
   })
 })
+
+describe('Nav client landing', () => {
+  const navComponent = readFileSync(resolve(process.cwd(), 'src/shared/components/Nav/Nav.tsx'), 'utf-8')
+
+  it('keeps Home visible for clients while preserving the super-admin exclusion', () => {
+    expect(navComponent).toContain('{!isSuperAdminUser && (')
+    expect(navComponent).not.toContain('{!isSuperAdminUser && !isClientUser && (\n\t\t\t\t\t\t\t<li>')
+  })
+})

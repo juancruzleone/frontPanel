@@ -1,107 +1,51 @@
-import React from "react";
-import styles from "../styles/home.module.css";
-import { useTranslation } from "react-i18next";
-import { Building2, Calendar } from "lucide-react";
-
-interface WorkOrder {
-	_id: string;
-	titulo: string;
-	estado: string;
-	instalacion?: { company: string };
-	fechaCreacion?: string;
-}
+import { useTranslation } from "react-i18next"
+import { formatDateSafely } from "../../../shared/utils/formatDateSafely"
+import type { RecentWorkOrderDto } from "../types/homeTypes"
+import styles from "../styles/home.module.css"
 
 interface RecentWorkOrdersProps {
-	workOrders: WorkOrder[];
+  workOrders: RecentWorkOrderDto[]
 }
 
-const estadoStyle: Record<string, { backgroundColor: string; color: string }> =
-	{
-		pendiente: { backgroundColor: "#FFD600", color: "#111111" },
-		asignada: { backgroundColor: "#00B8D9", color: "#111111" },
-		en_progreso: { backgroundColor: "#FF9100", color: "#111111" },
-		completada: { backgroundColor: "#00C853", color: "#111111" },
-		cancelada: { backgroundColor: "#D50000", color: "#FFFFFF" },
-	};
+const normalizeStatus = (status: string): string => {
+  const normalized = status.toLocaleLowerCase().replace(/ /g, "_")
+  const aliases: Record<string, string> = {
+    pendiente: "pending",
+    asignada: "assigned",
+    en_progreso: "inProgress",
+    completada: "completed",
+    cancelada: "cancelled",
+  }
+  return aliases[normalized] || normalized
+}
 
-const RecentWorkOrders: React.FC<RecentWorkOrdersProps> = ({ workOrders }) => {
-	const { t } = useTranslation();
+export const RecentWorkOrders = ({ workOrders }: RecentWorkOrdersProps) => {
+  const { t, i18n } = useTranslation()
 
-	const estadoLabels: Record<string, string> = {
-		pendiente: t("workOrders.pending"),
-		asignada: t("workOrders.assigned"),
-		en_progreso: t("workOrders.inProgress"),
-		completada: t("workOrders.completed"),
-		cancelada: t("workOrders.cancelled"),
-	};
+  if (workOrders.length === 0) {
+    return <p className={styles.emptyState}>{t("home.noRecentOrders")}</p>
+  }
 
-	const formatDate = (dateString: string) => {
-		if (!dateString) return "";
-		const date = new Date(dateString);
-		return date.toLocaleDateString("es-ES", {
-			day: "2-digit",
-			month: "2-digit",
-			year: "numeric",
-		});
-	};
-
-	return (
-		<div
-			className={styles.ordersList}
-			role="region"
-			aria-label={t("home.recentOrders")}
-		>
-			{workOrders.length === 0 ? (
-				<div className={styles.noOrders} role="status">
-					<p>{t("home.noRecentOrders")}</p>
-					<small>{t("home.ordersWillAppear")}</small>
-				</div>
-			) : (
-				workOrders.map((order) => (
-					<div
-						className={styles.orderItem}
-						key={order._id}
-						role="article"
-						aria-label={`${t("workOrders.title")}: ${order.titulo}, ${t("workOrders.status")}: ${estadoLabels[order.estado] || order.estado}`}
-					>
-						<div className={styles.orderHeader}>
-							<div className={styles.orderTitle}>{order.titulo}</div>
-							<span
-								className={styles.orderStatus}
-								style={{
-									...(estadoStyle[order.estado] || {
-										backgroundColor: "#212121",
-										color: "#FFFFFF",
-									}),
-								}}
-							>
-								{estadoLabels[order.estado] || order.estado}
-							</span>
-						</div>
-
-						<div className={styles.orderMeta}>
-							<div className={styles.orderInfo}>
-								<span className={styles.orderInst}>
-									<Building2
-										size={16}
-										style={{ marginRight: "6px", verticalAlign: "middle" }}
-									/>
-									{order.instalacion?.company || t("workOrders.noInstallation")}
-								</span>
-								<span className={styles.orderDate}>
-									<Calendar
-										size={16}
-										style={{ marginRight: "6px", verticalAlign: "middle" }}
-									/>
-									{formatDate(order.fechaCreacion || "")}
-								</span>
-							</div>
-						</div>
-					</div>
-				))
-			)}
-		</div>
-	);
-};
-
-export default RecentWorkOrders;
+  return (
+    <ul className={styles.ordersList}>
+      {workOrders.map((order) => {
+        const status = normalizeStatus(order.estado)
+        const date = order.fechaCreacion ? formatDateSafely(
+          order.fechaCreacion,
+          i18n.resolvedLanguage || "es",
+          { dateStyle: "medium" },
+          t("home.dashboard.dateUnavailable"),
+        ) : null
+        return (
+          <li key={order._id} className={styles.orderItem}>
+            <div><strong>{order.titulo}</strong><span>{order.instalacion?.company || t("workOrders.noInstallation")}</span></div>
+            <div className={styles.orderMeta}>
+              <span className={`${styles.orderStatus} ${styles[`status${status}`] || styles.statusOther}`}>{t(`home.status.${status}`, { defaultValue: order.estado })}</span>
+              {date && <time dateTime={order.fechaCreacion}>{date}</time>}
+            </div>
+          </li>
+        )
+      })}
+    </ul>
+  )
+}

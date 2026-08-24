@@ -1,20 +1,40 @@
-import { LucideIcon } from "lucide-react"
-
 export type RangeOption = "7d" | "30d" | "90d" | "12m"
 
-export interface KPIItem {
-  id: string
-  label: string
-  value: number | string
-  icon: LucideIcon
-  color: string
-  path?: string
-  suffix?: string
-  trend?: {
-    value: number
-    isPositive: boolean
-    label?: string
-  }
+export type DashboardRole = "admin" | "technician" | "client"
+export type DashboardScope = "tenant" | "assigned_work" | "assigned_installations"
+
+export interface DashboardMetadataDto {
+  lastUpdate: string
+  range: RangeOption
+  scope: DashboardScope
+  fallbackApplied: boolean
+  suggestedStatusColors?: Record<string, string>
+}
+
+export interface DashboardKpisDto {
+  installations: number
+  assets: number
+  workOrders: number
+  technicians: number
+  openWorkOrders: number
+  overdueWorkOrders: number
+  criticalWorkOrders: number
+  mttrHours: number
+  mtbfHours: number
+  preventiveComplianceRate: number
+  slaRate: number | null
+  responseTimeHours: number | null
+}
+
+export interface OperationalKpisDto {
+  openWorkOrders: number
+  overdueWorkOrders: number
+  criticalWorkOrders: number
+  mttrHours: number
+  mtbfHours: number
+  preventiveComplianceRate: number
+  slaRate: number | null
+  responseTimeHours: number | null
 }
 
 export interface ChartDataItem {
@@ -23,20 +43,18 @@ export interface ChartDataItem {
   color?: string
 }
 
-export interface MultiSeriesLineData {
+export interface EvolutionDataItem {
   name: string
-  [key: string]: number | string // Allow dynamic series names
+  created: number
+  completed: number
 }
 
-export interface OperationalData {
-  openWorkOrders: number
-  overdueWorkOrders: number
-  criticalWorkOrders: number
-  mttrHours: number
-  mtbfHours: number
-  preventiveComplianceRate: number
-  slaRate?: number
-  responseTimeHours?: number
+export interface RecentWorkOrderDto {
+  _id: string
+  titulo: string
+  estado: string
+  fechaCreacion?: string
+  instalacion?: { company?: string }
 }
 
 export interface TopIncidentInstallation {
@@ -52,38 +70,82 @@ export interface UpcomingPreventive {
   planName: string
 }
 
-export interface InventoryStat {
-  label: string
-  value: string | number
-  color: string
+export interface DashboardStatsDto {
+  metadata: DashboardMetadataDto
+  kpis: DashboardKpisDto
+  operationalKpis: OperationalKpisDto
+  charts: {
+    byStatus: ChartDataItem[]
+    byType: ChartDataItem[]
+    byPriority: ChartDataItem[]
+    preventiveVsCorrective: ChartDataItem[]
+    deviceHealth: ChartDataItem[]
+    evolution: EvolutionDataItem[]
+  }
+  recentWorkOrders: RecentWorkOrderDto[]
+  topIncidentInstallations: TopIncidentInstallation[]
+  upcomingPreventive: Array<{
+    _id: string
+    installationName?: string
+    date?: string
+    planName?: string
+    fechaProgramada?: string
+    titulo?: string
+  }>
+}
+
+export interface DashboardStatsResponse {
+  success: boolean
+  data: DashboardStatsDto
+  message?: string
+}
+
+export interface DashboardMetric {
+  id: keyof OperationalKpisDto
+  value: number | null
+  unit?: "hours" | "percent"
+  exception?: "warning" | "critical"
 }
 
 export interface DashboardAlert {
   id: string
-  type: 'warning' | 'error' | 'info'
-  message: string
-  date?: string
-  detail?: string
+  severity: "warning" | "critical"
+  count: number
 }
 
-export interface HomeDashboardData {
-  kpis: KPIItem[]
-  operationalKpis: KPIItem[]
-  charts: {
-    byType: ChartDataItem[]
-    byStatus: ChartDataItem[]
-    byPriority: ChartDataItem[]
-    preventiveVsCorrective: ChartDataItem[]
-    deviceHealth: ChartDataItem[]
-    evolution: MultiSeriesLineData[]
-  }
-  recentWorkOrders: any[]
+export interface InventorySummaryData {
+  totalItems: number
+  lowStockItems: number
+}
+
+export interface HomeDashboardViewData {
+  role: DashboardRole
+  metadata: DashboardMetadataDto
+  metrics: DashboardMetric[]
+  charts: DashboardStatsDto["charts"]
+  recentWorkOrders: RecentWorkOrderDto[]
   topIncidentInstallations: TopIncidentInstallation[]
   upcomingPreventive: UpcomingPreventive[]
-  inventoryStats: InventoryStat[]
   alerts: DashboardAlert[]
+  resourceMetrics: Array<{ id: "installations" | "assets" | "technicians" | "devices"; value: number }>
+}
+
+export interface HomeDashboardCache {
+  cacheKey: string
+  dashboard: DashboardStatsDto
+  inventory: InventorySummaryData | null
+}
+
+export interface HomeDashboardState {
+  data: HomeDashboardViewData | null
+  inventory: InventorySummaryData | null
   loading: boolean
+  refreshing: boolean
   error: string | null
+  inventoryError: boolean
   range: RangeOption
+  isOffline: boolean
+  isStale: boolean
   setRange: (range: RangeOption) => void
+  retry: () => void
 }

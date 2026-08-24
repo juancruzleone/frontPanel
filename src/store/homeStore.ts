@@ -1,31 +1,45 @@
 import { create } from "zustand"
-import { persist } from "zustand/middleware"
+import { createJSONStorage, persist } from "zustand/middleware"
+import type { HomeDashboardCache } from "../features/home/types/homeTypes"
+
+export const HOME_SCOPE_VERSION = "role-scope-v1"
 
 interface HomeState {
-  dashboardData: any | null
+  cache: HomeDashboardCache | null
   lastUpdated: number | null
   ownerId: string | null
   setOwnerId: (id: string | null) => void
-  setDashboardData: (data: any) => void
+  setDashboardData: (data: HomeDashboardCache | null) => void
+}
+
+export const buildHomeCacheKey = (
+  tenantId: string | null,
+  userId: string | null,
+  role: string | null,
+): string | null => {
+  if (!tenantId || !userId || !role) return null
+  return `${tenantId}:${userId}:${role}:${HOME_SCOPE_VERSION}`
 }
 
 export const useHomeStore = create<HomeState>()(
   persist(
     (set) => ({
-      dashboardData: null,
+      cache: null,
       lastUpdated: null,
       ownerId: null,
-      setOwnerId: (id) =>
-        set((state) => {
-          if (state.ownerId === id) return state
-          return {
-            ownerId: id,
-            dashboardData: null,
-            lastUpdated: null,
-          }
-        }),
-      setDashboardData: (data) => set({ dashboardData: data, lastUpdated: Date.now() }),
+      setOwnerId: (id) => set((state) => state.ownerId === id ? state : {
+        ownerId: id,
+        cache: null,
+        lastUpdated: null,
+      }),
+      setDashboardData: (cache) => set({ cache, lastUpdated: cache ? Date.now() : null }),
     }),
-    { name: "home-storage" }
-  )
+    {
+      name: "home-storage",
+      version: 2,
+      storage: createJSONStorage(() => localStorage),
+      migrate: () => ({ cache: null, lastUpdated: null, ownerId: null }),
+      partialize: ({ cache, lastUpdated, ownerId }) => ({ cache, lastUpdated, ownerId }),
+    },
+  ),
 )

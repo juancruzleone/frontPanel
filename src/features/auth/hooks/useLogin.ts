@@ -8,10 +8,14 @@ import { useAuthStore } from "@/store/authStore"
 import { useCSRFStore } from "@/store/csrfStore"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router"
+import { useTranslatedRoutes } from "@/router/useTranslatedRoutes"
+
+export const resolvePostLoginRoute = (getRoute: (key: "home") => string): string => getRoute("home")
 
 export function useLogin() {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
+  const { getRoute } = useTranslatedRoutes()
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
@@ -19,12 +23,10 @@ export function useLogin() {
   const [showModal, setShowModal] = useState(false)
   const [responseMessage, setResponseMessage] = useState("")
   const [isError, setIsError] = useState(false)
-  const [shouldRedirect, setShouldRedirect] = useState(false)
 
   // Use named actions from store
   const login = useAuthStore((state) => state.login)
   const setAuthenticated = useAuthStore((state) => state.setAuthenticated)
-  const role = useAuthStore((state) => state.role)
   const fetchCsrfToken = useCSRFStore((state) => state.fetchToken)
 
   const togglePasswordVisibility = () => {
@@ -36,8 +38,9 @@ export function useLogin() {
     setUsername(value)
     setErrors((prev) => {
       if (prev.userName && value.trim() !== "") {
-        const { userName, ...rest } = prev
-        return rest
+        const nextErrors = { ...prev }
+        delete nextErrors.userName
+        return nextErrors
       }
       return prev
     })
@@ -48,8 +51,9 @@ export function useLogin() {
     setPassword(value)
     setErrors((prev) => {
       if (prev.password && value.trim() !== "") {
-        const { password, ...rest } = prev
-        return rest
+        const nextErrors = { ...prev }
+        delete nextErrors.password
+        return nextErrors
       }
       return prev
     })
@@ -117,12 +121,7 @@ export function useLogin() {
       setAuthenticated(true)
       // Redirigir después de cerrar el modal de éxito
       setTimeout(() => {
-        // Si es cliente, redirigir a instalaciones, sino a inicio
-        if (role === 'cliente') {
-          navigate("/instalaciones", { replace: true })
-        } else {
-          navigate("/inicio", { replace: true })
-        }
+        navigate(resolvePostLoginRoute(getRoute), { replace: true })
       }, 100)
     }
   }
@@ -140,6 +139,5 @@ export function useLogin() {
     responseMessage,
     isError,
     closeModal,
-    shouldRedirect,
   }
 }

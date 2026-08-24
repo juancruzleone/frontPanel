@@ -1,147 +1,134 @@
-import React from "react";
-import RecentWorkOrders from "./RecentWorkOrders";
-import OperationalKPIs from "./OperationalKPIs";
-import RangeFilter from "./RangeFilter";
-import CustomLineChart from "./LineChart";
-import CustomPieChart from "./PieChart";
-import { InventoryAlerts } from "./InventoryAlerts";
-import useHomeDashboard from "../hooks/useHomeDashboard";
-import { useHomeTour } from "../hooks/useHomeTour";
-import styles from "../styles/home.module.css";
-import { useTranslation } from "react-i18next";
-import TourButton from "../../../shared/components/Buttons/TourButton";
+import { useTranslation } from "react-i18next"
+import { Link } from "react-router"
+import { useAuthStore } from "../../../store/authStore"
+import { useTranslatedRoutes } from "../../../router/useTranslatedRoutes"
+import TourButton from "../../../shared/components/Buttons/TourButton"
+import { useHomeDashboard } from "../hooks/useHomeDashboard"
+import { useHomeTour } from "../hooks/useHomeTour"
+import { AttentionRequired } from "./AttentionRequired"
+import { DashboardHeader } from "./DashboardHeader"
+import { InventorySummary } from "./InventoryAlerts"
+import { LineChart } from "./LineChart"
+import { OperationalKPIs } from "./OperationalKPIs"
+import { RecentWorkOrders } from "./RecentWorkOrders"
+import { WorkOrderStatusDistribution } from "./WorkOrderStatusDistribution"
+import styles from "../styles/home.module.css"
 
-const HomeDashboard: React.FC = () => {
-	const { t } = useTranslation();
-	const { startTour } = useHomeTour();
-	const {
-		range,
-		setRange,
-		operationalKpis,
-		lineChartData,
-		pieChartData,
-		recentWorkOrders = [],
-		inventoryStats = [],
-		alerts = [],
-		loading,
-		error,
-	} = useHomeDashboard();
+export const HomeDashboard = () => {
+  const { t } = useTranslation()
+  const rawRole = useAuthStore((state) => state.role)
+  const permissions = useAuthStore((state) => state.permissions)
+  const { getRoute } = useTranslatedRoutes()
+  const { startTour } = useHomeTour()
+  const dashboard = useHomeDashboard()
 
-	const visibleRecentWorkOrders = recentWorkOrders.slice(0, 3);
+  if (dashboard.loading) return <DashboardSkeleton refreshing={dashboard.refreshing} />
+  if (dashboard.error || !dashboard.data) {
+    return (
+      <div className={styles.dashboardContainer}>
+        <section className={styles.fullError} role="alert">
+          <h1>{t("home.dashboard.errors.title")}</h1>
+          <p>{t(dashboard.error || "home.dashboard.errors.loadFailed")}</p>
+          <button type="button" onClick={dashboard.retry}>{t("common.retry")}</button>
+        </section>
+      </div>
+    )
+  }
 
-	return (
-		<>
-			<div className={styles.dashboardContainer}>
-				<header className={styles.dashboardHeader}>
-					<div className={styles.dashboardHeaderContent}>
-						<div>
-							<h1 className={styles.title}>{t("home.title")}</h1>
-							<p className={styles.subtitle}>{t("home.subtitle")}</p>
-						</div>
-						<RangeFilter current={range} onChange={setRange} />
-					</div>
-				</header>
+  const { data } = dashboard
+  const distributionMode = data.role === "technician" ? "priority" : "status"
+  const distributionData = distributionMode === "priority" ? data.charts.byPriority : data.charts.byStatus
+  const technicianCanViewWorkOrders = data.role === "technician" && (
+    permissions === null
+    || (Array.isArray(permissions) ? permissions.includes("canViewWorkOrders") : permissions.canViewWorkOrders !== false)
+  )
+  const showWorkOrdersLink = data.role === "admin" || technicianCanViewWorkOrders
 
-				{loading ? (
-					<div className={styles.loadingContainer}>
-						<div
-							className={`${styles.skeletonGrid} ${styles.skeletonChartsGrid}`}
-						>
-							<div className={`${styles.skeleton} ${styles.skeletonChart}`} />
-							<div className={`${styles.skeleton} ${styles.skeletonChart}`} />
-						</div>
-						<div className={`${styles.skeletonGrid} ${styles.skeletonKpisGrid}`}>
-							{Array.from({ length: 8 }).map((_, index) => (
-								<div
-									key={index}
-									className={`${styles.skeleton} ${styles.skeletonKpiCard}`}
-								/>
-							))}
-						</div>
-						<div className={`${styles.skeleton} ${styles.skeletonList}`} />
-					</div>
-				) : error ? (
-					<div className={styles.errorContainer} role="alert">
-						<div className={styles.errorIcon}>⚠️</div>
-						<div className={styles.error}>{error}</div>
-						<button
-							className={styles.retryButton}
-							onClick={() => window.location.reload()}
-						>
-							{t("common.retry")}
-						</button>
-					</div>
-				) : (
-					<main className={styles.dashboardContent}>
-						{/* KPIs Operacionales */}
-						<section
-							className={styles.kpisSection}
-							aria-labelledby="op-metrics-title"
-						>
-							<h2 id="op-metrics-title" className={styles.sectionTitle}>
-								{t("home.operationalMetrics")}
-							</h2>
-							<OperationalKPIs kpis={operationalKpis} />
-						</section>
+  return (
+    <div className={styles.dashboardContainer}>
+        <DashboardHeader
+          role={data.role}
+          metadata={data.metadata}
+          range={data.metadata.range}
+          onRangeChange={dashboard.setRange}
+          secondaryAction={rawRole === "admin" ? <TourButton inline onClick={startTour} label={t("home.tour.buttons.restart")} /> : undefined}
+        />
+        {(dashboard.isOffline || dashboard.isStale || data.metadata.fallbackApplied) && (
+          <div className={styles.dataNotices} role="status">
+            {dashboard.isOffline && <p>{t("home.dashboard.notices.offline")}</p>}
+            {dashboard.isStale && <p>{t("home.dashboard.notices.stale")}</p>}
+            {data.metadata.fallbackApplied && <p>{t("home.dashboard.notices.fallback")}</p>}
+          </div>
+        )}
 
-						{/* Gráficos Principales */}
-						<section
-							className={styles.chartsSection}
-							aria-labelledby="charts-title"
-						>
-							<h2 id="charts-title" className={styles.sectionTitle}>
-								{t("home.dataAnalysis")}
-							</h2>
-							<div className={styles.chartsRow}>
-								<CustomLineChart
-									data={lineChartData}
-									title={t("home.temporalEvolution")}
-								/>
-								<CustomPieChart
-									data={pieChartData}
-									title={t("home.ordersByStatus")}
-									translationPrefix="home.status."
-								/>
-							</div>
-						</section>
+        <section aria-labelledby="attention-overview-title">
+          <h2 id="attention-overview-title" className={styles.sectionHeading}>{t("home.dashboard.sections.immediate")}</h2>
+          <div className={styles.attentionGrid}>
+            <OperationalKPIs metrics={data.metrics} />
+            <AttentionRequired
+              alerts={data.alerts}
+              incidents={data.topIncidentInstallations}
+              maintenance={data.upcomingPreventive}
+              showInstallations={data.role === "admin" || data.role === "client"}
+            />
+          </div>
+        </section>
 
-						{/* Órdenes recientes e indicadores laterales */}
-						<section
-							className={styles.recentSection}
-							aria-labelledby="recent-title"
-						>
-							<h2 id="recent-title" className={styles.sectionTitle}>
-								{t("home.recentOrders")}
-							</h2>
-							<div className={styles.bottomGrid}>
-								<div className={styles.recentOrdersCard}>
-									<div className={styles.recentOrdersHeader}>
-										<h3 className={styles.recentOrdersTitle}>
-											{t("home.recentOrders")}
-										</h3>
-										<span className={styles.recentOrdersCount}>
-											{visibleRecentWorkOrders.length} {t("common.total")}
-										</span>
-									</div>
-									<RecentWorkOrders workOrders={visibleRecentWorkOrders} />
-								</div>
+        {data.resourceMetrics.length > 0 && (
+          <section className={styles.resourceBand} aria-labelledby="resources-title">
+            <div><p className={styles.panelKicker}>{t("home.dashboard.resources.kicker")}</p><h2 id="resources-title">{t(`home.dashboard.resources.${data.role}`)}</h2></div>
+            <dl>{data.resourceMetrics.map((metric) => <div key={metric.id}><dt>{t(`home.dashboard.resources.metrics.${metric.id}`)}</dt><dd>{metric.value}</dd></div>)}</dl>
+          </section>
+        )}
 
-								{/* Sidebar: Inventario y Alertas */}
-								<InventoryAlerts
-									inventoryStats={inventoryStats}
-									alerts={alerts}
-								/>
-							</div>
-						</section>
-					</main>
-				)}
-			</div>
-			<TourButton
-				onClick={startTour}
-				label={t("home.tour.buttons.restart")}
-			/>
-		</>
-	);
-};
+        <section aria-labelledby="analysis-title">
+          <h2 id="analysis-title" className={styles.sectionHeading}>{t("home.dashboard.sections.analysis")}</h2>
+          <div className={styles.analysisGrid}>
+            <LineChart data={data.charts.evolution} />
+            <WorkOrderStatusDistribution data={distributionData} mode={distributionMode} />
+          </div>
+        </section>
 
-export default HomeDashboard;
+        <section aria-labelledby="recent-title">
+          <h2 id="recent-title" className={styles.sectionHeading}>{t("home.dashboard.sections.recent")}</h2>
+          <div className={styles.workGrid}>
+            <section className={styles.panel} aria-labelledby="recent-orders-title">
+              <div className={styles.panelHeader}>
+                <div><p className={styles.panelKicker}>{t("home.dashboard.recent.kicker")}</p><h2 id="recent-orders-title">{t("home.recentOrders")}</h2></div>
+                {showWorkOrdersLink && <Link className={styles.panelAction} to={getRoute("workOrders")}>{t("nav.workOrdersList")}</Link>}
+              </div>
+              <RecentWorkOrders workOrders={data.recentWorkOrders} />
+            </section>
+            {data.role === "admin" ? <InventorySummary data={dashboard.inventory} hasError={dashboard.inventoryError} /> : (
+              <section className={styles.panel} aria-labelledby="context-title">
+                <div className={styles.panelHeader}><div><p className={styles.panelKicker}>{t("home.dashboard.context.kicker")}</p><h2 id="context-title">{t(`home.dashboard.context.${data.role}`)}</h2></div></div>
+                <p className={styles.contextCopy}>{t(`home.dashboard.context.${data.role}Description`)}</p>
+              </section>
+            )}
+          </div>
+        </section>
+    </div>
+  )
+}
+
+interface DashboardSkeletonProps {
+  refreshing: boolean
+}
+
+const DashboardSkeleton = ({ refreshing }: DashboardSkeletonProps) => {
+  const { t } = useTranslation()
+
+  return (
+    <section
+      className={styles.dashboardContainer}
+      aria-busy="true"
+      aria-label={t("home.dashboard.loading")}
+      data-refreshing={refreshing || undefined}
+    >
+      <div className={`${styles.skeleton} ${styles.skeletonHeader}`} />
+      <div className={`${styles.skeleton} ${styles.skeletonKpis}`} />
+      <div className={styles.analysisGrid}><div className={`${styles.skeleton} ${styles.skeletonTrend}`} /><div className={`${styles.skeleton} ${styles.skeletonDistribution}`} /></div>
+      <div className={styles.workGrid}><div className={`${styles.skeleton} ${styles.skeletonWork}`} /><div className={`${styles.skeleton} ${styles.skeletonAttention}`} /></div>
+    </section>
+  )
+}

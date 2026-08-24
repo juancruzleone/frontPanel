@@ -17,6 +17,7 @@ export const useHomeTour = () => {
 	}, []);
 
 	const startTour = useCallback(() => {
+		const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 		const homeTour = driver({
 			showProgress: true,
 			showButtons: ["next", "previous", "close"],
@@ -25,8 +26,8 @@ export const useHomeTour = () => {
 			prevBtnText: t("home.tour.buttons.previous"),
 			doneBtnText: t("home.tour.buttons.done"),
 			allowClose: true,
-			animate: true,
-			smoothScroll: true,
+			animate: !reduceMotion,
+			smoothScroll: !reduceMotion,
 			popoverClass: dark ? "driverjs-dark-theme" : "driverjs-light-theme",
 			steps: [
 				{

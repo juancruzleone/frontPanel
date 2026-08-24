@@ -377,6 +377,20 @@
   "home": {
     "title": "Tableau de Bord",
     "subtitle": "Résumé général des opérations",
+    "range": { "7d": "7 days", "30d": "30 days", "90d": "90 days", "12m": "12 months" },
+    "dashboard": {
+      "roles": { "admin": { "title": "Operational control", "description": "Exceptions, capacity, and trends across the entire operation." }, "technician": { "title": "My operational day", "description": "Priorities, deadlines, and trends for your assigned work orders." }, "client": { "title": "My installation status", "description": "Activity, maintenance, and health across your assigned installations." } },
+      "scope": { "tenant": "Entire organization", "assigned_work": "Assigned work", "assigned_installations": "Assigned installations" }, "scopeLabel": "Scope", "updated": "Updated", "period": "Analysis period", "rangeLabel": "Select analysis period", "rangeHelp": "Affects work-order metrics, trends, and distributions.", "loading": "Chargement du tableau de bord", "dateUnavailable": "Date indisponible",
+      "sections": { "immediate": "Immediate attention and summary", "analysis": "Trend and status", "recent": "Recent activity and context" },
+      "metrics": { "openWorkOrders": "Open work orders", "overdueWorkOrders": "Overdue work orders", "criticalWorkOrders": "Critical work orders", "mttrHours": "Mean time to repair", "mtbfHours": "Mean time between failures", "preventiveComplianceRate": "Preventive compliance", "slaRate": "SLA compliance", "responseTimeHours": "First response" },
+      "attention": { "kicker": "Exceptions", "title": "Attention required", "clear": "There are no active exceptions right now.", "overdue": "open work orders past their deadline", "critical": "open work orders with critical priority" },
+      "resources": { "kicker": "Coverage", "admin": "Operational capacity", "client": "Assigned installations and devices", "metrics": { "installations": "Installations", "assets": "Assets", "technicians": "Technicians", "devices": "Devices" } },
+      "distribution": { "kicker": "Composition" }, "ordersCount": "{{count}} orders", "trend": { "kicker": "Work flow", "description": "{{created}} work orders created and {{completed}} completed in the period.", "tableToggle": "View data table", "tableCaption": "Work orders created and completed by date" }, "date": "Date", "recent": { "kicker": "Latest activity" },
+      "inventory": { "kicker": "Resources", "title": "Inventory summary", "items": "Registered items", "lowStock": "Low-stock items" },
+      "context": { "kicker": "Operational scope", "technician": "Personal work", "technicianDescription": "Indicators and visible work orders are limited to your assigned work.", "client": "Installation activity", "clientDescription": "The information covers all activity at your installations, never organization-wide data." },
+      "empty": { "trend": "No trend data is available for this period.", "distribution": "There are no work orders to distribute in this period." }, "notices": { "offline": "Offline: showing the latest saved data.", "stale": "Saved data may be out of date.", "fallback": "There was not enough activity in this period; some visualizations use recent history." },
+      "errors": { "title": "We could not display the dashboard", "loadFailed": "Dashboard data could not be loaded. Please try again.", "offlineUnavailable": "There is no connection or saved data for this user.", "unsupportedRole": "Your role does not have an authorized dashboard scope.", "inventory": "The inventory summary is unavailable; the rest of the dashboard is current." }
+    },
     "welcome": "Bienvenue",
     "stats": "Statistiques",
     "recentOrders": "Ordres Récents",
