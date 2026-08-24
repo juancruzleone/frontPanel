@@ -364,6 +364,27 @@
     "syncValidationDiscarded": "Error de validación ({{type}}). Descartado.",
     "syncElementDiscarded": "Error sincronizando elemento ({{type}}). Descartado."
   },
+  "csvImport": {
+    "chooseFile": "Selecciona un archivo CSV",
+    "fileTooLarge": "El archivo supera el límite de 2 MB",
+    "processing": "Procesando…",
+    "preview": "Previsualizar",
+    "commit": "Confirmar importación",
+    "close": "Cerrar",
+    "downloadErrors": "Descargar errores",
+    "downloadTemplateFirst": "Descarga la plantilla antes de importar",
+    "completed": "Importación completada",
+    "created": "Creados",
+    "updated": "Actualizados",
+    "unchanged": "Sin cambios",
+    "errors": "Errores",
+    "warnings": "Avisos",
+    "row": "Fila",
+    "externalId": "ID externo",
+    "action": "Acción",
+    "delta": "Delta",
+    "expiresAt": "Previsualización válida hasta {{time}}"
+  },
   "offline": {
     "syncStatus": "Estado de sincronización",
     "closeNotification": "Cerrar notificación de sincronización",

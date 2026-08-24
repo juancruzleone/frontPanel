@@ -360,6 +360,27 @@
     "syncValidationDiscarded": "Validation error ({{type}}). Discarded.",
     "syncElementDiscarded": "Error syncing item ({{type}}). Discarded."
   },
+  "csvImport": {
+    "chooseFile": "Select a CSV file",
+    "fileTooLarge": "The file exceeds the 2 MB limit",
+    "processing": "Processing…",
+    "preview": "Preview",
+    "commit": "Commit import",
+    "close": "Close",
+    "downloadErrors": "Download errors",
+    "downloadTemplateFirst": "Download the template before importing",
+    "completed": "Import completed",
+    "created": "Created",
+    "updated": "Updated",
+    "unchanged": "Unchanged",
+    "errors": "Errors",
+    "warnings": "Warnings",
+    "row": "Row",
+    "externalId": "External ID",
+    "action": "Action",
+    "delta": "Delta",
+    "expiresAt": "Preview valid until {{time}}"
+  },
   "offline": {
     "syncStatus": "Synchronization status",
     "closeNotification": "Dismiss synchronization notification",
