@@ -6,6 +6,7 @@ import type { Subscription, FrequencyOption } from '../hooks/useSubscriptions'
 import { useSubscriptions } from '../hooks/useSubscriptions'
 import FrequencyForm from './FrequencyForm'
 import { translateFrequencyToCurrentLang } from '../../../shared/utils/backendTranslations';
+import { toISODateString } from '../../../shared/utils/dateDisplay';
 
 interface ModalEditFrequencyProps {
   isOpen: boolean
@@ -59,31 +60,10 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
 
   useEffect(() => {
     if (isOpen && subscription) {
-      const normalizeDate = (date: string | Date | null | undefined) => {
-        if (!date) return '';
-        // Si es string y parece una fecha ISO, extraer la parte de fecha
-        if (typeof date === 'string') {
-          const match = date.match(/^(\d{4})-(\d{2})-(\d{2})/);
-          if (match) {
-            return `${match[1]}-${match[2]}-${match[3]}`;
-          }
-        }
-
-        // Si es objeto Date
-        if (date instanceof Date && !isNaN(date.getTime())) {
-          const year = date.getFullYear();
-          const month = String(date.getMonth() + 1).padStart(2, '0');
-          const day = String(date.getDate()).padStart(2, '0');
-          return `${year}-${month}-${day}`;
-        }
-
-        return '';
-      };
-
       setFormData({
         frequency: subscription.frequency || '',
-        startDate: normalizeDate(subscription.startDate),
-        endDate: normalizeDate(subscription.endDate),
+        startDate: toISODateString(subscription.startDate),
+        endDate: toISODateString(subscription.endDate),
         status: subscription.status || 'active',
       });
 

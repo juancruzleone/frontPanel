@@ -6,6 +6,7 @@ import formButtonStyles from '../../../shared/components/Buttons/formButtons.mod
 import DatePickerModal from '../../calendar/components/DatePickerModal'
 import HybridSelect from '../../../shared/components/HybridSelect'
 import MonthYearSelectorModal from './MonthYearSelectorModal'
+import { formatDateValue, toISODateString } from '../../../shared/utils/dateDisplay'
 import type { FrequencyOption } from '../hooks/useSubscriptions'
 
 interface FrequencyFormProps {
@@ -70,8 +71,10 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
     const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
 
-    const startDate = new Date(formData.startDate)
-    const startMonth = startDate.getMonth()
+    const isoStart = toISODateString(formData.startDate)
+    if (!isoStart) return null
+
+    const startMonth = parseInt(isoStart.split('-')[1], 10) - 1
 
     // Si la frecuencia es mensual, devolver el mes de inicio
     if (formData.frequency === 'mensual') {
@@ -130,9 +133,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
             className={styles.dateSelectButton}
           >
             <span style={{ color: formData.startDate ? 'var(--color-text)' : 'var(--color-text-secondary)' }}>
-              {formData.startDate && /^\d{4}-\d{2}-\d{2}$/.test(formData.startDate)
-                ? formData.startDate.split('-').reverse().join('/')
-                : t('subscriptions.selectStartDate')}
+              {formatDateValue(formData.startDate) || t('subscriptions.selectStartDate')}
             </span>
             <Calendar size={18} style={{ color: 'var(--color-text-secondary)' }} />
           </div>
@@ -156,9 +157,7 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
             className={styles.dateSelectButton}
           >
             <span style={{ color: formData.endDate ? 'var(--color-text)' : 'var(--color-text-secondary)' }}>
-              {formData.endDate && /^\d{4}-\d{2}-\d{2}$/.test(formData.endDate)
-                ? formData.endDate.split('-').reverse().join('/')
-                : t('subscriptions.selectEndDate')}
+              {formatDateValue(formData.endDate) || t('subscriptions.selectEndDate')}
             </span>
             <Calendar size={18} style={{ color: 'var(--color-text-secondary)' }} />
           </div>
