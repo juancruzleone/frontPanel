@@ -245,12 +245,12 @@ const Assets = () => {
         {(canDownloadCsvTemplate(role) || isAdminUser || canExportCsv(role)) && (
           <div className={styles.csvActionsRow}>
             {canDownloadCsvTemplate(role) && (
-              <Button title={t('assets.csv.downloadTemplate')} onClick={() => runCsvAction(downloadAssetTemplate)} />
+              <Button variant="secondary" title={t('assets.csv.downloadTemplate')} onClick={() => runCsvAction(downloadAssetTemplate)} />
             )}
             {isAdminUser && (
-              <Button title={t('assets.csv.import')} onClick={() => setIsImportOpen(true)} />
+              <Button variant="secondary" title={t('assets.csv.import')} onClick={() => setIsImportOpen(true)} />
             )}
-            {canExportCsv(role) && <Button title={t('assets.csv.exportFiltered')} onClick={() => runCsvAction(() => exportAssets({ search: searchTerm, category: selectedCategory }))} />}
+            {canExportCsv(role) && <Button variant="secondary" title={t('assets.csv.exportFiltered')} onClick={() => runCsvAction(() => exportAssets({ search: searchTerm, category: selectedCategory }))} />}
           </div>
         )}
 

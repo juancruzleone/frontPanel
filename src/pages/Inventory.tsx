@@ -185,11 +185,11 @@ const Inventory = () => {
         <div className={styles.csvActionsRow}>
           {isAdmin && (
             <>
-              <Button title={t('inventory.csv.downloadTemplate')} onClick={() => runCsvAction(downloadInventoryTemplate)} />
-              <Button title={t('inventory.csv.import')} onClick={() => setIsImportOpen(true)} />
+              <Button variant="secondary" title={t('inventory.csv.downloadTemplate')} onClick={() => runCsvAction(downloadInventoryTemplate)} />
+              <Button variant="secondary" title={t('inventory.csv.import')} onClick={() => setIsImportOpen(true)} />
             </>
           )}
-          {canExportCsv(role) && <Button title={t('inventory.csv.exportFiltered')} onClick={() => runCsvAction(() => exportInventory({ name: searchTerm, category: selectedCategory }))} />}
+          {canExportCsv(role) && <Button variant="secondary" title={t('inventory.csv.exportFiltered')} onClick={() => runCsvAction(() => exportInventory({ name: searchTerm, category: selectedCategory }))} />}
         </div>
       )}
 
