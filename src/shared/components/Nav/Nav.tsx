@@ -339,7 +339,7 @@ const Nav = () => {
 									/>
 								</button>
 								<div
-									className={`${styles.submenu} ${isWorkOrdersMenuOpen || (isCollapsedDesktop && isWorkOrdersHovered) ? styles.submenuOpen : ""}`}
+									className={`${styles.submenu} ${styles.resourcesSubmenu} ${isWorkOrdersMenuOpen || (isCollapsedDesktop && isWorkOrdersHovered) ? styles.submenuOpen : ""}`}
 									onMouseEnter={handleWorkOrdersSubmenuEnter}
 									onMouseLeave={handleWorkOrdersSubmenuLeave}
 								>
@@ -390,7 +390,7 @@ const Nav = () => {
 									/>
 								</button>
 								<div
-									className={`${styles.submenu} ${isMaintenanceMenuOpen || (isCollapsedDesktop && isMaintenanceHovered) ? styles.submenuOpen : ""}`}
+									className={`${styles.submenu} ${styles.resourcesSubmenu} ${isMaintenanceMenuOpen || (isCollapsedDesktop && isMaintenanceHovered) ? styles.submenuOpen : ""}`}
 									onMouseEnter={handleMaintenanceSubmenuEnter}
 									onMouseLeave={handleMaintenanceSubmenuLeave}
 								>
