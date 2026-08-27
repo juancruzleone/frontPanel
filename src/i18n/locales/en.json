@@ -24,7 +24,8 @@
     "operation": "Operations",
     "maintenance": "Maintenance",
     "settings": "Settings",
-    "audit": "Audit"
+    "audit": "Audit",
+    "compliance": "Compliance"
   },
   "audit": {
     "title": "Activity Log",
@@ -283,6 +284,7 @@
   },
   "common": {
     "active": "Active",
+    "inactive": "Inactive",
     "user": "User",
     "type": "Type",
     "saving": "Saving",
@@ -2408,5 +2410,97 @@
     "observations": "Observations",
     "viewPdfReport": "View PDF Report",
     "footer": "Maintenance Management System (GMAO)"
+  },
+  "compliance": {
+    "title": "Regulatory Compliance",
+    "loading": "Loading compliance...",
+    "error": "Error loading compliance",
+    "operador": {
+      "fechaAntiguaMeses": "Old date (months)",
+      "numericoMax": "Numeric maximum",
+      "numericoMin": "Numeric minimum",
+      "numericoRango": "Numeric range",
+      "enumEn": "Value in list",
+      "exists": "Field present"
+    },
+    "dashboard": {
+      "title": "Compliance summary",
+      "total": "Results",
+      "noData": "No scans yet. Run a scan to see the summary.",
+      "estado": {
+        "cumplido": "Compliant",
+        "incumplido": "Non-compliant",
+        "sin_evidencia": "No evidence",
+        "error": "Error"
+      }
+    },
+    "scan": {
+      "runButton": "Run scan",
+      "running": "Scan in progress",
+      "pending": "Scan pending",
+      "completed": "Scan completed",
+      "errorState": "The scan finished with errors",
+      "progress": "{{procesados}} of {{total}} objectives",
+      "counter": {
+        "cumplidos": "Compliant",
+        "incumplidos": "Non-compliant",
+        "sinEvidencia": "No evidence",
+        "errores": "Errors",
+        "omitidos": "Skipped"
+      },
+      "alreadyRunning": "A scan is already running for this tenant."
+    },
+    "normas": {
+      "title": "Standards",
+      "create": "Create standard",
+      "edit": "Edit standard",
+      "delete": "Delete standard",
+      "deleteConfirm": "Delete standard {{codigo}}? This action cannot be undone.",
+      "codigo": "Code",
+      "familiaNorma": "Standard family",
+      "descripcion": "Description",
+      "activa": "Active",
+      "empty": "No standards registered."
+    },
+    "reglas": {
+      "title": "Compliance rules",
+      "create": "Create rule",
+      "edit": "Edit rule",
+      "delete": "Delete rule",
+      "deleteConfirm": "Delete rule {{nombre}}? This action cannot be undone.",
+      "nombre": "Name",
+      "operador": "Operator",
+      "objetivoTipo": "Objective type",
+      "objetivoTipoOptions": {
+        "activo": "Asset",
+        "instalacion": "Installation"
+      },
+      "norma": "Standard",
+      "campoNombre": "Evidence field",
+      "etiquetaCampo": "Field label (snapshot)",
+      "habilitada": "Enabled",
+      "parametros": "Parameters",
+      "parametrosMeses": "Months",
+      "parametrosMin": "Minimum",
+      "parametrosMax": "Maximum",
+      "parametrosValores": "Values (comma separated)",
+      "empty": "No rules registered."
+    },
+    "validation": {
+      "codigoRequired": "The code is required",
+      "familiaRequired": "The standard family is required",
+      "nombreRequired": "The name is required",
+      "normaIdRequired": "Select a standard",
+      "operadorRequired": "Select an operator",
+      "operadorInvalido": "Invalid operator",
+      "objetivoTipoRequired": "Select an objective type",
+      "objetivoTipoInvalido": "Invalid objective type",
+      "mesesPositivo": "Enter a number of months greater than zero",
+      "maxNumerico": "Enter a numeric value for the maximum",
+      "minNumerico": "Enter a numeric value for the minimum",
+      "rangoNumerico": "Enter numeric values for the range",
+      "rangoInvertido": "The minimum cannot be greater than the maximum",
+      "enumValores": "Enter at least one comma-separated value"
+    }
   }
 }
