@@ -22,6 +22,7 @@ export const routeTranslations = {
     suppliers: 'proveedores',
     settings: 'configuracion',
     audit: 'auditoria',
+    compliance: 'cumplimiento',
   },
   en: {
     home: 'home',
@@ -45,6 +46,7 @@ export const routeTranslations = {
     suppliers: 'suppliers',
     settings: 'settings',
     audit: 'audit',
+    compliance: 'compliance',
   },
   fr: {
     home: 'accueil',
@@ -68,6 +70,7 @@ export const routeTranslations = {
     suppliers: 'fournisseurs',
     settings: 'parametres',
     audit: 'audit',
+    compliance: 'conformite',
   },
   pt: {
     home: 'inicio',
@@ -91,6 +94,7 @@ export const routeTranslations = {
     suppliers: 'fornecedores',
     settings: 'configuraciones',
     audit: 'auditoria',
+    compliance: 'conformidade',
   },
   de: {
     home: 'startseite',
@@ -114,6 +118,7 @@ export const routeTranslations = {
     suppliers: 'lieferanten',
     settings: 'einstellungen',
     audit: 'audit',
+    compliance: 'einhaltung',
   },
   it: {
     home: 'home',
@@ -137,6 +142,7 @@ export const routeTranslations = {
     suppliers: 'fornitori',
     settings: 'impostazioni',
     audit: 'audit',
+    compliance: 'conformita',
   },
   ja: {
     home: 'homu',
@@ -160,6 +166,7 @@ export const routeTranslations = {
     suppliers: 'sapuraiya',
     settings: 'settei',
     audit: 'audit',
+    compliance: 'junkensei',
   },
   ko: {
     home: 'hom',
@@ -183,6 +190,7 @@ export const routeTranslations = {
     suppliers: 'gong-geub-eobche',
     settings: 'seoljeong',
     audit: 'audit',
+    compliance: 'sunjong',
   },
   zh: {
     home: 'zhuye',
@@ -206,6 +214,7 @@ export const routeTranslations = {
     suppliers: 'gongyingshang',
     settings: 'shezhi',
     audit: 'audit',
+    compliance: 'guifan',
   },
   ar: {
     home: 'alrayiysyt',
@@ -229,6 +238,7 @@ export const routeTranslations = {
     suppliers: 'mauridun',
     settings: 'alaedadat',
     audit: 'audit',
+    compliance: 'alamtthal',
   },
 } as const;
 
