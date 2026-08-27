@@ -23,7 +23,8 @@
     "operation": "Operación",
     "maintenance": "Mantenimiento",
     "settings": "Configuración",
-    "audit": "Auditoría"
+    "audit": "Auditoría",
+    "compliance": "Cumplimiento"
   },
   "audit": {
     "title": "Registro de Actividad",
@@ -283,6 +284,7 @@
   },
   "common": {
     "active": "Activo",
+    "inactive": "Inactivo",
     "user": "Usuario",
     "type": "Tipo",
     "saving": "Guardando...",
@@ -2434,5 +2436,97 @@
     "observations": "Observaciones",
     "viewPdfReport": "Ver Reporte PDF",
     "footer": "Sistema de Gestión de Mantenimiento (GMAO)"
+  },
+  "compliance": {
+    "title": "Cumplimiento Normativo",
+    "loading": "Cargando cumplimiento...",
+    "error": "Error al cargar cumplimiento",
+    "operador": {
+      "fechaAntiguaMeses": "Fecha antigua (meses)",
+      "numericoMax": "Numérico máximo",
+      "numericoMin": "Numérico mínimo",
+      "numericoRango": "Numérico en rango",
+      "enumEn": "Valor en lista",
+      "exists": "Campo presente"
+    },
+    "dashboard": {
+      "title": "Resumen de cumplimiento",
+      "total": "Resultados",
+      "noData": "Aún no hay escaneos. Ejecutá un escaneo para ver el resumen.",
+      "estado": {
+        "cumplido": "Cumplido",
+        "incumplido": "Incumplido",
+        "sin_evidencia": "Sin evidencia",
+        "error": "Error"
+      }
+    },
+    "scan": {
+      "runButton": "Ejecutar escaneo",
+      "running": "Escaneo en ejecución",
+      "pending": "Escaneo pendiente",
+      "completed": "Escaneo completado",
+      "errorState": "El escaneo terminó con errores",
+      "progress": "{{procesados}} de {{total}} objetivos",
+      "counter": {
+        "cumplidos": "Cumplidos",
+        "incumplidos": "Incumplidos",
+        "sinEvidencia": "Sin evidencia",
+        "errores": "Errores",
+        "omitidos": "Omitidos"
+      },
+      "alreadyRunning": "Ya hay un escaneo en ejecución para este tenant."
+    },
+    "normas": {
+      "title": "Normas",
+      "create": "Crear norma",
+      "edit": "Editar norma",
+      "delete": "Eliminar norma",
+      "deleteConfirm": "¿Eliminar la norma {{codigo}}? Esta acción no se puede deshacer.",
+      "codigo": "Código",
+      "familiaNorma": "Familia de norma",
+      "descripcion": "Descripción",
+      "activa": "Activa",
+      "empty": "No hay normas registradas."
+    },
+    "reglas": {
+      "title": "Reglas de cumplimiento",
+      "create": "Crear regla",
+      "edit": "Editar regla",
+      "delete": "Eliminar regla",
+      "deleteConfirm": "¿Eliminar la regla {{nombre}}? Esta acción no se puede deshacer.",
+      "nombre": "Nombre",
+      "operador": "Operador",
+      "objetivoTipo": "Tipo de objetivo",
+      "objetivoTipoOptions": {
+        "activo": "Activo",
+        "instalacion": "Instalación"
+      },
+      "norma": "Norma",
+      "campoNombre": "Campo de evidencia",
+      "etiquetaCampo": "Etiqueta del campo (snapshot)",
+      "habilitada": "Habilitada",
+      "parametros": "Parámetros",
+      "parametrosMeses": "Meses",
+      "parametrosMin": "Mínimo",
+      "parametrosMax": "Máximo",
+      "parametrosValores": "Valores (separados por coma)",
+      "empty": "No hay reglas registradas."
+    },
+    "validation": {
+      "codigoRequired": "El código es obligatorio",
+      "familiaRequired": "La familia de norma es obligatoria",
+      "nombreRequired": "El nombre es obligatorio",
+      "normaIdRequired": "Seleccioná una norma",
+      "operadorRequired": "Seleccioná un operador",
+      "operadorInvalido": "Operador inválido",
+      "objetivoTipoRequired": "Seleccioná un tipo de objetivo",
+      "objetivoTipoInvalido": "Tipo de objetivo inválido",
+      "mesesPositivo": "Ingresá un número de meses mayor a cero",
+      "maxNumerico": "Ingresá un valor numérico para el máximo",
+      "minNumerico": "Ingresá un valor numérico para el mínimo",
+      "rangoNumerico": "Ingresá valores numéricos para el rango",
+      "rangoInvertido": "El mínimo no puede ser mayor que el máximo",
+      "enumValores": "Ingresá al menos un valor separado por coma"
+    }
   }
 }
