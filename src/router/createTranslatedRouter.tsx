@@ -30,6 +30,7 @@ import Tenants from '../pages/Tenants';
 import Clients from '../pages/Clients';
 import Settings from '../pages/Settings';
 import AuditLogs from '../pages/AuditLogs';
+import Compliance from '../pages/Compliance';
 import { ROLES } from "../shared/utils/roleUtils";
 
 /**
@@ -93,6 +94,11 @@ const generateChildRoutesForAllLanguages = (): RouteObject[] => {
       {
         path: t.settings,
         element: <RoleProtectedRoute section="configuracion"><Settings /></RoleProtectedRoute>,
+      },
+      // Cumplimiento normativo (admin escribe, técnico lee y dispara escaneos)
+      {
+        path: t.compliance,
+        element: <RoleProtectedRoute section="cumplimiento"><Compliance /></RoleProtectedRoute>,
       }
     );
   });

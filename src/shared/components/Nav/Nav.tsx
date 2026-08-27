@@ -20,6 +20,7 @@ import {
 	Briefcase,
 	Cog,
 	CalendarCog,
+	ClipboardCheck,
 } from "lucide-react";
 import { useLayoutStore } from "../../../store/layoutStore";
 import styles from "./Nav.module.css";
@@ -73,6 +74,7 @@ const Nav = () => {
 	const panelAdminRoute = getRoute("panelAdmin");
 	const profileRoute = getRoute("profile");
 	const auditRoute = getRoute("audit");
+	const complianceRoute = getRoute("compliance");
 	const currentRouteMenuState = getRouteMenuOpenState(location.pathname, {
 		workOrders: [workOrdersRoute, calendarRoute],
 		maintenance: [maintenancePlanRoute],
@@ -553,7 +555,25 @@ const Nav = () => {
 								</NavLink>
 							</li>
 						)}
-						{/* Auditoría para admin y super_admin */}
+						{/* Cumplimiento para admin y técnicos */}
+					{!isSuperAdminUser && !isClientUser && (
+						<li>
+							<NavLink
+								to={complianceRoute}
+								data-tour="nav-compliance"
+								className={({ isActive }) =>
+									isActive ? styles.active : ""
+								}
+								onClick={() => setIsMenuOpen(false)}
+							>
+								<ClipboardCheck size={20} />{" "}
+								<span className={styles.linkText}>
+									{t("nav.compliance")}
+								</span>
+							</NavLink>
+						</li>
+					)}
+					{/* Auditoría para admin y super_admin */}
 						{(isAdminUser || isSuperAdminUser) && (
 							<li>
 								<NavLink
