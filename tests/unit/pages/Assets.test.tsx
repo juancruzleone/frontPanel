@@ -38,4 +38,12 @@ describe("Assets CSV controls", () => {
     expect(screen.queryByText("assets.csv.import")).not.toBeInTheDocument()
     expect(screen.queryByText("assets.csv.exportFiltered")).not.toBeInTheDocument()
   })
+
+  it("keeps export but hides tenant import and template controls from super administrators", () => {
+    ;(useAuthStore as any).mockImplementation((selector: any) => selector({ role: "super_admin" }))
+    render(<Assets />)
+    expect(screen.queryByText("assets.csv.import")).not.toBeInTheDocument()
+    expect(screen.queryByText("assets.csv.downloadTemplate")).not.toBeInTheDocument()
+    expect(screen.getByText("assets.csv.exportFiltered")).toBeInTheDocument()
+  })
 })

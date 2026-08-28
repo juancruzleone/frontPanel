@@ -331,6 +331,18 @@
     "syncValidationDiscarded": "検証エラー ({{type}})。破棄されました。",
     "syncElementDiscarded": "項目の同期エラー ({{type}})。破棄されました。"
   },
+  "csvImport": {
+    "chooseFile": "CSVファイルを選択", "fileTooLarge": "ファイルが2 MBの上限を超えています", "processing": "処理中…", "preview": "プレビュー", "commit": "インポートを確定", "close": "閉じる", "downloadErrors": "エラーをダウンロード", "downloadTemplateFirst": "インポート前にテンプレートをダウンロードしてください", "completed": "インポートが完了しました", "created": "作成", "updated": "更新", "unchanged": "変更なし", "errors": "エラー", "warnings": "警告", "row": "行", "externalId": "外部ID", "action": "操作", "delta": "差分", "expiresAt": "プレビューの有効期限: {{time}}",
+    "guidance": {
+      "download": "このセクションのテンプレートをダウンロードしてください。", "headers": "ヘッダーを変更せず、サンプル形式に従って入力してください。", "excel": "ExcelではCSV UTF-8形式で保存してください。XLSおよびXLSXファイルには対応していません。", "preview": "ファイルをプレビューしてください。検証では、インポートを確定するまでドメインまたは業務レコードは変更されません。", "requiredLabel": "必須項目:", "referenceLabel": "参照:",
+      "entities": {
+        "assets": { "required": "schemaVersion、externalId、name、templateExternalId。", "references": "templateExternalIdはテナント内の基本テンプレートを指定する必要があります。", "updates": "同じexternalIdで資産を更新します。任意項目の空欄は既存の値を保持します。" },
+        "inventory": { "required": "schemaVersion、externalId、name、unit。", "references": "supplierExternalIdを指定する場合は、テナント内の仕入先を指定する必要があります。", "updates": "同じexternalIdで品目を更新します。任意項目の空欄は既存の値を保持します。" },
+        "suppliers": { "required": "schemaVersion、externalId、name。", "references": "externalIdは各仕入先に設定する不変のキーです。", "updates": "同じexternalIdで仕入先を更新します。任意項目の空欄は既存の値を保持します。" },
+        "installations": { "required": "installations.v1のすべての項目。空欄は使用できません。", "references": "installationTypeはテナント内で有効な設置タイプと一致する必要があります。", "updates": "同じexternalIdでは、設置情報の7つの基本項目のみを更新します。" }
+      }
+    }
+  },
   "offline": {
     "syncStatus": "同期ステータス",
     "closeNotification": "同期通知を閉じる",
@@ -689,6 +701,8 @@
     }
   },
   "installations": {
+    "exportResults": "結果をエクスポート",
+    "csv": { "downloadTemplate": "テンプレートをダウンロード", "import": "CSVをインポート", "importTitle": "CSVファイルから設置情報をインポート" },
     "deviceNamePlaceholder": "アセット名を入力してください",
     "installation": "設置",
     "understood": "閉じる",

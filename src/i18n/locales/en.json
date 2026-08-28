@@ -381,7 +381,37 @@
     "externalId": "External ID",
     "action": "Action",
     "delta": "Delta",
-    "expiresAt": "Preview valid until {{time}}"
+    "expiresAt": "Preview valid until {{time}}",
+    "guidance": {
+      "download": "Download this section's template.",
+      "headers": "Keep the headers unchanged and fill in the example format.",
+      "excel": "In Excel, save as CSV UTF-8. XLS and XLSX files are not supported.",
+      "preview": "Preview the file: validation does not modify domain or business records until you confirm the import.",
+      "requiredLabel": "Required fields:",
+      "referenceLabel": "References:",
+      "entities": {
+        "assets": {
+          "required": "schemaVersion, externalId, name, and templateExternalId.",
+          "references": "templateExternalId must identify a base template in the tenant.",
+          "updates": "The same externalId updates the asset; blank optional cells preserve existing values."
+        },
+        "inventory": {
+          "required": "schemaVersion, externalId, name, and unit.",
+          "references": "supplierExternalId, when provided, must identify a supplier in the tenant.",
+          "updates": "The same externalId updates the item; blank optional cells preserve existing values."
+        },
+        "suppliers": {
+          "required": "schemaVersion, externalId, and name.",
+          "references": "externalId is the stable key selected for each supplier.",
+          "updates": "The same externalId updates the supplier; blank optional cells preserve existing values."
+        },
+        "installations": {
+          "required": "all installations.v1 fields; blank cells are not allowed.",
+          "references": "installationType must match an active installation type in the tenant.",
+          "updates": "The same externalId updates only the installation's seven base fields."
+        }
+      }
+    }
   },
   "offline": {
     "syncStatus": "Synchronization status",
@@ -589,6 +619,11 @@
   },
   "installations": {
     "exportResults": "Export results",
+    "csv": {
+      "downloadTemplate": "Download template",
+      "import": "Import CSV",
+      "importTitle": "Import installations from CSV"
+    },
     "deviceNamePlaceholder": "Enter the asset name",
     "installation": "Installation",
     "understood": "Close",

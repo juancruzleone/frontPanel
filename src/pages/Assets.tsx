@@ -247,7 +247,7 @@ const Assets = () => {
             {canDownloadCsvTemplate(role) && (
               <Button variant="secondary" title={t('assets.csv.downloadTemplate')} onClick={() => runCsvAction(downloadAssetTemplate)} />
             )}
-            {isAdminUser && (
+            {canDownloadCsvTemplate(role) && (
               <Button variant="secondary" title={t('assets.csv.import')} onClick={() => setIsImportOpen(true)} />
             )}
             {canExportCsv(role) && <Button variant="secondary" title={t('assets.csv.exportFiltered')} onClick={() => runCsvAction(() => exportAssets({ search: searchTerm, category: selectedCategory }))} />}
@@ -492,6 +492,7 @@ const Assets = () => {
       <ModalError isOpen={!!responseMessage && isError} onRequestClose={closeModal} mensaje={responseMessage} />
 
       <CsvImportDialog
+        guidance="assets"
         isOpen={isImportOpen}
         title={t('assets.csv.importTitle')}
         onClose={() => setIsImportOpen(false)}

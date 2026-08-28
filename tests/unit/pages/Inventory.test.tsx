@@ -74,4 +74,12 @@ describe('Inventory Page', () => {
     render(<Inventory />)
     expect(screen.queryByText('inventory.csv.exportFiltered')).not.toBeInTheDocument()
   })
+
+  it('oculta importación y plantilla a super_admin, pero conserva exportación', () => {
+    ;(useAuthStore as any).mockReturnValue('super_admin')
+    render(<Inventory />)
+    expect(screen.queryByText('inventory.csv.import')).not.toBeInTheDocument()
+    expect(screen.queryByText('inventory.csv.downloadTemplate')).not.toBeInTheDocument()
+    expect(screen.getByText('inventory.csv.exportFiltered')).toBeInTheDocument()
+  })
 })

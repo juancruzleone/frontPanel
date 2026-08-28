@@ -6,6 +6,9 @@
 .content { padding: 24px; overflow: auto; }
 .file { display: grid; gap: 12px; font-weight: 700; }
 .file input { padding: 16px; border: 1px dashed var(--color-card-border); border-radius: 10px; color: inherit; }
+.guidance { margin-bottom: 18px; padding: 14px 16px; border-radius: 10px; background: var(--color-bg-light); font-size: 14px; line-height: 1.5; }
+.guidance ol { margin: 0 0 10px; padding-left: 20px; }
+.guidance p { margin: 4px 0 0; }
 .templateHint { margin: 12px 0 0; font-size: 14px; }
 .templateLink { border: 0; padding: 0; background: transparent; color: #057e74; font: inherit; text-decoration: underline; cursor: pointer; }
 .templateLink:disabled { opacity: .5; cursor: not-allowed; }

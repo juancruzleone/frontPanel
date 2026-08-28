@@ -311,6 +311,18 @@
     "syncValidationDiscarded": "Validierungsfehler ({{type}}). Verworfen.",
     "syncElementDiscarded": "Fehler beim Synchronisieren des Elements ({{type}}). Verworfen."
   },
+  "csvImport": {
+    "chooseFile": "CSV-Datei auswählen", "fileTooLarge": "Die Datei überschreitet die Grenze von 2 MB", "processing": "Verarbeitung läuft…", "preview": "Vorschau", "commit": "Import bestätigen", "close": "Schließen", "downloadErrors": "Fehler herunterladen", "downloadTemplateFirst": "Laden Sie vor dem Import die Vorlage herunter", "completed": "Import abgeschlossen", "created": "Erstellt", "updated": "Aktualisiert", "unchanged": "Unverändert", "errors": "Fehler", "warnings": "Warnungen", "row": "Zeile", "externalId": "Externe ID", "action": "Aktion", "delta": "Änderung", "expiresAt": "Vorschau gültig bis {{time}}",
+    "guidance": {
+      "download": "Laden Sie die Vorlage für diesen Bereich herunter.", "headers": "Lassen Sie die Spaltenüberschriften unverändert und füllen Sie das Beispielformat aus.", "excel": "Speichern Sie in Excel als CSV UTF-8. XLS- und XLSX-Dateien werden nicht unterstützt.", "preview": "Zeigen Sie die Datei in der Vorschau an: Die Validierung ändert bis zur Bestätigung des Imports keine Domänen- oder Geschäftsdaten.", "requiredLabel": "Pflichtfelder:", "referenceLabel": "Referenzen:",
+      "entities": {
+        "assets": { "required": "schemaVersion, externalId, name und templateExternalId.", "references": "templateExternalId muss eine Basisvorlage des Mandanten bezeichnen.", "updates": "Dieselbe externalId aktualisiert das Asset; leere optionale Zellen behalten vorhandene Werte bei." },
+        "inventory": { "required": "schemaVersion, externalId, name und unit.", "references": "supplierExternalId muss, falls angegeben, einen Lieferanten des Mandanten bezeichnen.", "updates": "Dieselbe externalId aktualisiert den Artikel; leere optionale Zellen behalten vorhandene Werte bei." },
+        "suppliers": { "required": "schemaVersion, externalId und name.", "references": "externalId ist der stabile Schlüssel für den jeweiligen Lieferanten.", "updates": "Dieselbe externalId aktualisiert den Lieferanten; leere optionale Zellen behalten vorhandene Werte bei." },
+        "installations": { "required": "alle Felder von installations.v1; leere Zellen sind nicht zulässig.", "references": "installationType muss einem aktiven Installationstyp des Mandanten entsprechen.", "updates": "Dieselbe externalId aktualisiert nur die sieben Basisfelder der Installation." }
+      }
+    }
+  },
   "offline": {
     "syncStatus": "Synchronisierungsstatus",
     "closeNotification": "Synchronisierungsbenachrichtigung schließen",
@@ -670,6 +682,8 @@
     }
   },
   "installations": {
+    "exportResults": "Ergebnisse exportieren",
+    "csv": { "downloadTemplate": "Vorlage herunterladen", "import": "CSV importieren", "importTitle": "Installationen aus einer CSV-Datei importieren" },
     "deviceNamePlaceholder": "Geben Sie den Assetenamen ein",
     "installation": "Installation",
     "understood": "Schließen",

@@ -331,6 +331,18 @@
     "syncValidationDiscarded": "خطأ في التحقق ({{type}}). تم تجاهله.",
     "syncElementDiscarded": "خطأ أثناء مزامنة العنصر ({{type}}). تم تجاهله."
   },
+  "csvImport": {
+    "chooseFile": "اختر ملف CSV", "fileTooLarge": "يتجاوز الملف الحد الأقصى البالغ 2 ميغابايت", "processing": "جارٍ المعالجة…", "preview": "معاينة", "commit": "تأكيد الاستيراد", "close": "إغلاق", "downloadErrors": "تنزيل الأخطاء", "downloadTemplateFirst": "نزّل القالب قبل الاستيراد", "completed": "اكتمل الاستيراد", "created": "تم الإنشاء", "updated": "تم التحديث", "unchanged": "دون تغيير", "errors": "الأخطاء", "warnings": "التحذيرات", "row": "الصف", "externalId": "المعرّف الخارجي", "action": "الإجراء", "delta": "التغيير", "expiresAt": "المعاينة صالحة حتى {{time}}",
+    "guidance": {
+      "download": "نزّل قالب هذا القسم.", "headers": "أبقِ رؤوس الأعمدة دون تغيير واملأ البيانات وفق تنسيق المثال.", "excel": "في Excel، احفظ الملف بصيغة CSV UTF-8. ملفات XLS وXLSX غير مدعومة.", "preview": "عاين الملف: لا يغيّر التحقق سجلات المجال أو الأعمال حتى تأكيد الاستيراد.", "requiredLabel": "الحقول المطلوبة:", "referenceLabel": "المراجع:",
+      "entities": {
+        "assets": { "required": "schemaVersion وexternalId وname وtemplateExternalId.", "references": "يجب أن يحدد templateExternalId قالبًا أساسيًا ضمن المستأجر.", "updates": "يحدّث externalId نفسه الأصل؛ وتحافظ الخلايا الاختيارية الفارغة على القيم الحالية." },
+        "inventory": { "required": "schemaVersion وexternalId وname وunit.", "references": "عند إدخال supplierExternalId، يجب أن يحدد مورّدًا ضمن المستأجر.", "updates": "يحدّث externalId نفسه الصنف؛ وتحافظ الخلايا الاختيارية الفارغة على القيم الحالية." },
+        "suppliers": { "required": "schemaVersion وexternalId وname.", "references": "يمثل externalId المفتاح الثابت المحدد لكل مورّد.", "updates": "يحدّث externalId نفسه المورّد؛ وتحافظ الخلايا الاختيارية الفارغة على القيم الحالية." },
+        "installations": { "required": "جميع حقول installations.v1؛ ولا يُسمح بالخلايا الفارغة.", "references": "يجب أن يطابق installationType نوع تركيب نشطًا ضمن المستأجر.", "updates": "يحدّث externalId نفسه الحقول الأساسية السبعة للتركيب فقط." }
+      }
+    }
+  },
   "offline": {
     "syncStatus": "حالة المزامنة",
     "closeNotification": "إغلاق إشعار المزامنة",
@@ -687,6 +699,8 @@
     }
   },
   "installations": {
+    "exportResults": "تصدير النتائج",
+    "csv": { "downloadTemplate": "تنزيل القالب", "import": "استيراد CSV", "importTitle": "استيراد التركيبات من ملف CSV" },
     "deviceNamePlaceholder": "اكتب اسم الأصل",
     "installation": "تركيب",
     "understood": "إغلاق",

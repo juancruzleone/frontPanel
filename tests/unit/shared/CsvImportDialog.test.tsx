@@ -141,4 +141,17 @@ describe('CsvImportDialog', () => {
     fireEvent.click(screen.getByText(/Descarga la plantilla antes de importar|Download the template before importing/))
     await waitFor(() => expect(props.onDownloadTemplate).toHaveBeenCalledTimes(1))
   })
+
+  it.each([
+    ['assets', /templateExternalId.*tenant|templateExternalId.*plantilla/i],
+    ['inventory', /supplierExternalId.*tenant|supplierExternalId.*proveedor/i],
+    ['suppliers', /stable key|clave estable/i],
+    ['installations', /all installations\.v1 fields|todos los campos de installations\.v1/i],
+  ] as const)('renders typed %s guidance with explicit Excel rejection', (guidance, entityEvidence) => {
+    renderDialog({ guidance })
+
+    expect(screen.getByText(/XLS and XLSX|XLS y XLSX/i)).toBeInTheDocument()
+    expect(screen.getByText(entityEvidence)).toBeInTheDocument()
+    expect(document.querySelector('input[type="file"]')).toHaveAttribute('accept', '.csv,text/csv')
+  })
 })

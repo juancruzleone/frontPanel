@@ -34,6 +34,16 @@ interface CsvImportDialogProps {
   onCommitted: () => void
   /** Optional template download affordance shown before a file is selected. */
   onDownloadTemplate?: () => Promise<void>
+  guidance?: CsvImportGuidanceEntity
+}
+
+export type CsvImportGuidanceEntity = 'assets' | 'inventory' | 'suppliers' | 'installations'
+
+const GUIDANCE_CONFIG: Record<CsvImportGuidanceEntity, { requiredKey: string, referenceKey: string, updateKey: string }> = {
+  assets: { requiredKey: 'csvImport.guidance.entities.assets.required', referenceKey: 'csvImport.guidance.entities.assets.references', updateKey: 'csvImport.guidance.entities.assets.updates' },
+  inventory: { requiredKey: 'csvImport.guidance.entities.inventory.required', referenceKey: 'csvImport.guidance.entities.inventory.references', updateKey: 'csvImport.guidance.entities.inventory.updates' },
+  suppliers: { requiredKey: 'csvImport.guidance.entities.suppliers.required', referenceKey: 'csvImport.guidance.entities.suppliers.references', updateKey: 'csvImport.guidance.entities.suppliers.updates' },
+  installations: { requiredKey: 'csvImport.guidance.entities.installations.required', referenceKey: 'csvImport.guidance.entities.installations.references', updateKey: 'csvImport.guidance.entities.installations.updates' },
 }
 
 const COMMIT_COUNT_KEYS = [
@@ -44,7 +54,7 @@ const COMMIT_COUNT_KEYS = [
   ['warning', 'warnings'],
 ] as const
 
-export const CsvImportDialog = ({ isOpen, title, onClose, onPreview, onCommit, onDownloadErrors, onCommitted, onDownloadTemplate }: CsvImportDialogProps) => {
+export const CsvImportDialog = ({ isOpen, title, onClose, onPreview, onCommit, onDownloadErrors, onCommitted, onDownloadTemplate, guidance }: CsvImportDialogProps) => {
   const { t, i18n } = useTranslation()
   const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<CsvImportPreview | null>(null)
@@ -90,6 +100,19 @@ export const CsvImportDialog = ({ isOpen, title, onClose, onPreview, onCommit, o
         <div className={styles.content}>
           {!preview && (
             <>
+              {guidance && (
+                <div className={styles.guidance}>
+                  <ol>
+                    <li>{t('csvImport.guidance.download')}</li>
+                    <li>{t('csvImport.guidance.headers')}</li>
+                    <li>{t('csvImport.guidance.excel')}</li>
+                    <li>{t('csvImport.guidance.preview')}</li>
+                    <li>{t(GUIDANCE_CONFIG[guidance].updateKey)}</li>
+                  </ol>
+                  <p><strong>{t('csvImport.guidance.requiredLabel')}</strong> {t(GUIDANCE_CONFIG[guidance].requiredKey)}</p>
+                  <p><strong>{t('csvImport.guidance.referenceLabel')}</strong> {t(GUIDANCE_CONFIG[guidance].referenceKey)}</p>
+                </div>
+              )}
               <label className={styles.file}>{t('csvImport.chooseFile')}<input type="file" accept=".csv,text/csv" onChange={(event) => handleFileChange(event.target.files?.[0] || null)} /></label>
               {onDownloadTemplate && (
                 <p className={styles.templateHint}>

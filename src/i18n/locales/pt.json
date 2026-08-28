@@ -324,6 +324,18 @@
     "syncValidationDiscarded": "Erro de validação ({{type}}). Descartado.",
     "syncElementDiscarded": "Erro ao sincronizar item ({{type}}). Descartado."
   },
+  "csvImport": {
+    "chooseFile": "Selecione um arquivo CSV", "fileTooLarge": "O arquivo excede o limite de 2 MB", "processing": "Processando…", "preview": "Pré-visualizar", "commit": "Confirmar importação", "close": "Fechar", "downloadErrors": "Baixar erros", "downloadTemplateFirst": "Baixe o modelo antes de importar", "completed": "Importação concluída", "created": "Criados", "updated": "Atualizados", "unchanged": "Sem alterações", "errors": "Erros", "warnings": "Avisos", "row": "Linha", "externalId": "ID externo", "action": "Ação", "delta": "Variação", "expiresAt": "Pré-visualização válida até {{time}}",
+    "guidance": {
+      "download": "Baixe o modelo desta seção.", "headers": "Mantenha os cabeçalhos inalterados e preencha o formato de exemplo.", "excel": "No Excel, salve como CSV UTF-8. Arquivos XLS e XLSX não são compatíveis.", "preview": "Pré-visualize o arquivo: a validação não modifica registros de domínio ou de negócio até a confirmação da importação.", "requiredLabel": "Campos obrigatórios:", "referenceLabel": "Referências:",
+      "entities": {
+        "assets": { "required": "schemaVersion, externalId, name e templateExternalId.", "references": "templateExternalId deve identificar um modelo base do tenant.", "updates": "O mesmo externalId atualiza o ativo; células opcionais vazias preservam os valores existentes." },
+        "inventory": { "required": "schemaVersion, externalId, name e unit.", "references": "supplierExternalId, quando informado, deve identificar um fornecedor do tenant.", "updates": "O mesmo externalId atualiza o item; células opcionais vazias preservam os valores existentes." },
+        "suppliers": { "required": "schemaVersion, externalId e name.", "references": "externalId é a chave estável escolhida para cada fornecedor.", "updates": "O mesmo externalId atualiza o fornecedor; células opcionais vazias preservam os valores existentes." },
+        "installations": { "required": "todos os campos de installations.v1; células vazias não são permitidas.", "references": "installationType deve corresponder a um tipo de instalação ativo do tenant.", "updates": "O mesmo externalId atualiza somente os sete campos básicos da instalação." }
+      }
+    }
+  },
   "offline": {
     "syncStatus": "Status da sincronização",
     "closeNotification": "Fechar notificação de sincronização",
@@ -681,6 +693,8 @@
     }
   },
   "installations": {
+    "exportResults": "Exportar resultados",
+    "csv": { "downloadTemplate": "Baixar modelo", "import": "Importar CSV", "importTitle": "Importar instalações de um arquivo CSV" },
     "deviceNamePlaceholder": "Digite o nome do ativo",
     "installations": "instalação",
     "understood": "Fechar",

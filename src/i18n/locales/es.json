@@ -385,7 +385,37 @@
     "externalId": "ID externo",
     "action": "Acción",
     "delta": "Delta",
-    "expiresAt": "Previsualización válida hasta {{time}}"
+    "expiresAt": "Previsualización válida hasta {{time}}",
+    "guidance": {
+      "download": "Descarga la plantilla de esta sección.",
+      "headers": "Mantén los encabezados sin cambios y completa el formato de ejemplo.",
+      "excel": "En Excel, guarda como CSV UTF-8. Los archivos XLS y XLSX no son compatibles.",
+      "preview": "Previsualiza el archivo: la validación no modifica registros del dominio o del negocio hasta que confirmes la importación.",
+      "requiredLabel": "Campos obligatorios:",
+      "referenceLabel": "Referencias:",
+      "entities": {
+        "assets": {
+          "required": "schemaVersion, externalId, name y templateExternalId.",
+          "references": "templateExternalId debe identificar una plantilla base del tenant.",
+          "updates": "El mismo externalId actualiza el activo; las celdas opcionales vacías conservan los valores existentes."
+        },
+        "inventory": {
+          "required": "schemaVersion, externalId, name y unit.",
+          "references": "supplierExternalId, si se completa, debe identificar un proveedor del tenant.",
+          "updates": "El mismo externalId actualiza el artículo; las celdas opcionales vacías conservan los valores existentes."
+        },
+        "suppliers": {
+          "required": "schemaVersion, externalId y name.",
+          "references": "externalId es la clave estable elegida para cada proveedor.",
+          "updates": "El mismo externalId actualiza el proveedor; las celdas opcionales vacías conservan los valores existentes."
+        },
+        "installations": {
+          "required": "todos los campos de installations.v1; no se permiten celdas vacías.",
+          "references": "installationType debe coincidir con un tipo de instalación activo del tenant.",
+          "updates": "El mismo externalId actualiza únicamente los siete campos base de la instalación."
+        }
+      }
+    }
   },
   "offline": {
     "syncStatus": "Estado de sincronización",
@@ -604,6 +634,11 @@
   },
   "installations": {
     "exportResults": "Exportar resultados",
+    "csv": {
+      "downloadTemplate": "Descargar plantilla",
+      "import": "Importar CSV",
+      "importTitle": "Importar instalaciones desde CSV"
+    },
     "deviceNamePlaceholder": "Escribe el nombre del dispositvo",
     "installation": "Instalación",
     "successTitle": "¡Operación exitosa!",

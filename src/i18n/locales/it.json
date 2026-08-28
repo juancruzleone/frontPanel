@@ -328,6 +328,18 @@
     "syncValidationDiscarded": "Errore di convalida ({{type}}). Scartato.",
     "syncElementDiscarded": "Errore durante la sincronizzazione dell'elemento ({{type}}). Scartato."
   },
+  "csvImport": {
+    "chooseFile": "Seleziona un file CSV", "fileTooLarge": "Il file supera il limite di 2 MB", "processing": "Elaborazione in corso…", "preview": "Anteprima", "commit": "Conferma importazione", "close": "Chiudi", "downloadErrors": "Scarica gli errori", "downloadTemplateFirst": "Scarica il modello prima di importare", "completed": "Importazione completata", "created": "Creati", "updated": "Aggiornati", "unchanged": "Invariati", "errors": "Errori", "warnings": "Avvisi", "row": "Riga", "externalId": "ID esterno", "action": "Azione", "delta": "Variazione", "expiresAt": "Anteprima valida fino alle {{time}}",
+    "guidance": {
+      "download": "Scarica il modello di questa sezione.", "headers": "Mantieni inalterate le intestazioni e compila il formato di esempio.", "excel": "In Excel, salva come CSV UTF-8. I file XLS e XLSX non sono supportati.", "preview": "Visualizza l’anteprima del file: la convalida non modifica i record di dominio o aziendali fino alla conferma dell’importazione.", "requiredLabel": "Campi obbligatori:", "referenceLabel": "Riferimenti:",
+      "entities": {
+        "assets": { "required": "schemaVersion, externalId, name e templateExternalId.", "references": "templateExternalId deve identificare un modello di base del tenant.", "updates": "Lo stesso externalId aggiorna l’asset; le celle facoltative vuote mantengono i valori esistenti." },
+        "inventory": { "required": "schemaVersion, externalId, name e unit.", "references": "supplierExternalId, se specificato, deve identificare un fornitore del tenant.", "updates": "Lo stesso externalId aggiorna l’articolo; le celle facoltative vuote mantengono i valori esistenti." },
+        "suppliers": { "required": "schemaVersion, externalId e name.", "references": "externalId è la chiave stabile scelta per ciascun fornitore.", "updates": "Lo stesso externalId aggiorna il fornitore; le celle facoltative vuote mantengono i valori esistenti." },
+        "installations": { "required": "tutti i campi di installations.v1; le celle vuote non sono consentite.", "references": "installationType deve corrispondere a un tipo di installazione attivo del tenant.", "updates": "Lo stesso externalId aggiorna soltanto i sette campi di base dell’installazione." }
+      }
+    }
+  },
   "offline": {
     "syncStatus": "Stato della sincronizzazione",
     "closeNotification": "Chiudi la notifica di sincronizzazione",
@@ -687,6 +699,8 @@
     }
   },
   "installations": {
+    "exportResults": "Esporta risultati",
+    "csv": { "downloadTemplate": "Scarica modello", "import": "Importa CSV", "importTitle": "Importa installazioni da un file CSV" },
     "deviceNamePlaceholder": "Inserisci il nome del asset",
     "installation": "Installazione",
     "understood": "Chiudi",

@@ -29,8 +29,9 @@ import ViewToggle from "../components/ViewToggle/ViewToggle"
 import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 import DataTable from "../components/DataTable/DataTable"
 import Tooltip from "../shared/components/Tooltip/Tooltip"
-import { exportInstallations } from "../features/installations/services/installationServices"
-import { canExportOperationalResults } from "../shared/utils/exportPermissions"
+import { commitInstallationImport, downloadInstallationImportErrors, downloadInstallationTemplate, exportInstallations, previewInstallationImport } from "../features/installations/services/installationServices"
+import { canDownloadCsvTemplate, canExportOperationalResults } from "../shared/utils/exportPermissions"
+import { CsvImportDialog } from "../shared/components/CsvImportDialog/CsvImportDialog"
 
 
 const Installations = () => {
@@ -191,6 +192,7 @@ const Installations = () => {
   const [installationToDelete, setInstallationToDelete] = useState<Installation | null>(null)
   const [selectedInstallation, setSelectedInstallation] = useState<Installation | null>(null)
   const [exportError, setExportError] = useState("")
+  const [isImportOpen, setIsImportOpen] = useState(false)
   const [viewMode, setViewMode, isMobile] = useResponsiveView('installations-view', 'cards')
   const itemsPerPage = 4
 
@@ -352,6 +354,11 @@ const Installations = () => {
     loadInstallations({ page: 1, limit: itemsPerPage, search: searchTerm, category: value })
   }
 
+  const runCsvAction = async (action: () => Promise<unknown>) => {
+    setExportError("")
+    try { await action() } catch (error) { setExportError(error instanceof Error ? error.message : String(error)) }
+  }
+
   return (
     <>
       <div className={styles.containerInstallations}>
@@ -381,6 +388,13 @@ const Installations = () => {
           )}
         </div>
 
+        {(canDownloadCsvTemplate(role) || canExportOperationalResults(role)) && (
+          <div className={styles.csvActionsRow}>
+            {canDownloadCsvTemplate(role) && <Button variant="secondary" title={t('installations.csv.downloadTemplate')} onClick={() => runCsvAction(downloadInstallationTemplate)} />}
+            {canDownloadCsvTemplate(role) && <Button variant="secondary" title={t('installations.csv.import')} onClick={() => setIsImportOpen(true)} />}
+            {canExportOperationalResults(role) && <Button variant="secondary" title={t('installations.exportResults')} onClick={() => runCsvAction(() => exportInstallations({ search: searchTerm, category: selectedCategory }))} />}
+          </div>
+        )}
 
         <div className={styles.searchRow}>
           <div className={styles.searchContainerInner} data-tour="search-filter">
@@ -395,31 +409,18 @@ const Installations = () => {
               selectValue={selectedCategory}
             />
           </div>
-          <div className={styles.searchActions}>
-            <button
-              onClick={() => {
-                setSearchTerm("");
-                setSelectedCategory("");
-                loadInstallations({ page: 1, limit: itemsPerPage, search: "", category: "" });
-              }}
-              className={styles.clearFilters}
-              title={t('calendar.clearFilters')}
-              aria-label={t('calendar.clearFilters')}
-            >
-              <FilterX size={20} />
-            </button>
-            {canExportOperationalResults(role) && (
-              <Button
-                title={t('installations.exportResults')}
-                onClick={async () => {
-                  setExportError("")
-                  try { await exportInstallations({ search: searchTerm, category: selectedCategory }) }
-                  catch (error) { setExportError(error instanceof Error ? error.message : String(error)) }
-                }}
-                className={styles.exportButton}
-              />
-            )}
-          </div>
+          <button
+            onClick={() => {
+              setSearchTerm("");
+              setSelectedCategory("");
+              loadInstallations({ page: 1, limit: itemsPerPage, search: "", category: "" });
+            }}
+            className={styles.clearFilters}
+            title={t('calendar.clearFilters')}
+            aria-label={t('calendar.clearFilters')}
+          >
+            <FilterX size={20} />
+          </button>
         </div>
         {exportError && <p role="alert">{exportError}</p>}
 
@@ -711,6 +712,18 @@ const Installations = () => {
 
       <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={closeModal} mensaje={responseMessage} />
       <ModalError isOpen={!!responseMessage && isError} onRequestClose={closeModal} mensaje={responseMessage} />
+
+      <CsvImportDialog
+        guidance="installations"
+        isOpen={isImportOpen}
+        title={t('installations.csv.importTitle')}
+        onClose={() => setIsImportOpen(false)}
+        onPreview={previewInstallationImport}
+        onCommit={commitInstallationImport}
+        onDownloadErrors={downloadInstallationImportErrors}
+        onDownloadTemplate={downloadInstallationTemplate}
+        onCommitted={() => loadInstallations({ page: 1, limit: itemsPerPage, search: searchTerm, category: selectedCategory })}
+      />
 
       {/* Botón flotante del tour estilo WhatsApp */}
       {/* Botón flotante del tour estilo WhatsApp */}

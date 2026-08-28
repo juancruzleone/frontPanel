@@ -2,6 +2,7 @@ import { useAuthStore } from "../../../store/authStore";
 import { getAuthHeaders, getHeadersWithContentType, fetchWithAuthRetry, fetchWithCsrf } from "../../../shared/utils/apiHeaders";
 import { createApiResponseError } from "../../../shared/utils/errorHelpers";
 import { downloadResponse } from "../../../shared/utils/downloadResponse";
+import type { CsvImportPreview } from "../../../shared/components/CsvImportDialog/CsvImportDialog";
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/";
 
@@ -170,6 +171,44 @@ export const exportInstallations = async (params: { search?: string, category?: 
   const response = await fetchWithAuthRetry(`${API_URL}installations/csv/export?${query}`, { headers: getAuthHeaders() })
   await downloadResponse(response, "Error al exportar instalaciones", "installations.csv")
 }
+
+export interface InstallationImportPreview extends CsvImportPreview {
+  schemaVersion: "installations.v1";
+}
+
+export const downloadInstallationTemplate = async (): Promise<void> => {
+  const response = await fetchWithAuthRetry(`${API_URL}installations/csv/template`, { headers: getAuthHeaders() });
+  await downloadResponse(response, "Error al descargar la plantilla", "installations-template.csv");
+};
+
+export const previewInstallationImport = async (file: File): Promise<InstallationImportPreview> => {
+  const form = new FormData();
+  form.append("file", file);
+  const response = await fetchWithCsrf(`${API_URL}installations/csv/import/preview`, { method: "POST", body: form });
+  if (!response.ok) throw await createApiResponseError(response, "Error al previsualizar el CSV");
+  return response.json();
+};
+
+export const commitInstallationImport = async (preview: InstallationImportPreview) => {
+  const response = await fetchWithCsrf(`${API_URL}installations/csv/import/commit`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Idempotency-Key": preview.token },
+    body: JSON.stringify({ token: preview.token, payloadHash: preview.payloadHash }),
+  });
+  if (!response.ok) throw await createApiResponseError(response, "Error al confirmar la importación");
+  return response.json();
+};
+
+export const getInstallationImportStatus = async (token: string) => {
+  const response = await fetchWithAuthRetry(`${API_URL}installations/csv/import/${encodeURIComponent(token)}`, { headers: getAuthHeaders() });
+  if (!response.ok) throw await createApiResponseError(response, "Error al consultar la importación");
+  return response.json();
+};
+
+export const downloadInstallationImportErrors = async (token: string): Promise<void> => {
+  const response = await fetchWithAuthRetry(`${API_URL}installations/csv/import/${encodeURIComponent(token)}/errors`, { headers: getAuthHeaders() });
+  await downloadResponse(response, "Error al descargar los errores", "installations-import-errors.csv");
+};
 
 export const fetchInstallationById = async (id: string): Promise<InstallationResponse> => {
   const endpoint = getInstallationsEndpoint();

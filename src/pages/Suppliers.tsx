@@ -21,6 +21,7 @@ import ModalConfirmDelete from "../features/suppliers/components/ModalConfirmDel
 import SuccessModal from "../shared/components/SuccessModal"
 import type { Supplier } from "../store/supplierStore"
 import { CsvImportDialog } from "../shared/components/CsvImportDialog/CsvImportDialog"
+import { canDownloadCsvTemplate } from "../shared/utils/exportPermissions"
 import { canExportCsv } from "../shared/utils/exportPermissions"
 import { commitSupplierImport, downloadSupplierImportErrors, downloadSupplierTemplate, exportSuppliers, previewSupplierImport } from "../features/suppliers/services/supplierServices"
 
@@ -132,7 +133,7 @@ const Suppliers = () => {
 
       {(isAdmin || canExportCsv(role)) && (
         <div className={styles.csvActionsRow}>
-          {isAdmin && (
+          {canDownloadCsvTemplate(role) && (
             <>
               <Button variant="secondary" title={t('suppliers.csv.downloadTemplate')} onClick={() => runCsvAction(downloadSupplierTemplate)} />
               <Button variant="secondary" title={t('suppliers.csv.import')} onClick={() => setIsImportOpen(true)} />
@@ -264,6 +265,7 @@ const Suppliers = () => {
         onRequestClose={closeSuccessModal}
       />
       <CsvImportDialog
+        guidance="suppliers"
         isOpen={isImportOpen}
         title={t('suppliers.csv.importTitle')}
         onClose={() => setIsImportOpen(false)}

@@ -35,10 +35,10 @@ describe("canExportCsv (backend isAdminOrTechnician parity)", () => {
   })
 })
 
-describe("canDownloadCsvTemplate (backend isAdmin parity)", () => {
-  it("allows admins only, including super_admin", () => {
+describe("canDownloadCsvTemplate (tenant-admin import boundary)", () => {
+  it("allows tenant administrators and rejects super administrators", () => {
     expect(canDownloadCsvTemplate("admin")).toBe(true)
-    expect(canDownloadCsvTemplate("super_admin")).toBe(true)
+    expect(canDownloadCsvTemplate("super_admin")).toBe(false)
   })
 
   it("rejects technicians, clients and missing role", () => {

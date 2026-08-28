@@ -1,7 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   buildInstallationUpdateDto,
+  commitInstallationImport,
+  downloadInstallationImportErrors,
+  downloadInstallationTemplate,
   fetchInstallations,
+  getInstallationImportStatus,
+  previewInstallationImport,
   updateInstallation,
 } from '../../../../src/features/installations/services/installationServices'
 import { isOfflineError } from '../../../../src/shared/utils/errorHelpers'
@@ -16,7 +21,11 @@ vi.mock('../../../../src/shared/utils/apiHeaders', () => ({
   getAuthHeaders: () => ({}),
   getHeadersWithContentType: () => ({}),
   fetchWithCsrf: (url: string, options: RequestInit) => fetch(url, options),
+  fetchWithAuthRetry: (url: string, options: RequestInit) => fetch(url, options),
 }))
+
+const downloadResponse = vi.hoisted(() => vi.fn())
+vi.mock('../../../../src/shared/utils/downloadResponse', () => ({ downloadResponse }))
 
 describe('installationServices', () => {
   beforeEach(() => {
@@ -132,5 +141,42 @@ describe('installationServices', () => {
 
     expect(error).toMatchObject({ status: 503, message: 'Servicio temporalmente no disponible' })
     expect(isOfflineError(error)).toBe(false)
+  })
+
+  it('uses the installation CSV template and error download contracts', async () => {
+    await downloadInstallationTemplate()
+    await downloadInstallationImportErrors('opaque/token')
+
+    expect(String(vi.mocked(fetch).mock.calls[0][0])).toBe('/api/installations/csv/template')
+    expect(String(vi.mocked(fetch).mock.calls[1][0])).toBe('/api/installations/csv/import/opaque%2Ftoken/errors')
+    expect(downloadResponse).toHaveBeenNthCalledWith(1, expect.anything(), 'Error al descargar la plantilla', 'installations-template.csv')
+    expect(downloadResponse).toHaveBeenNthCalledWith(2, expect.anything(), 'Error al descargar los errores', 'installations-import-errors.csv')
+  })
+
+  it('previews with multipart CSV and commits using the preview token as the idempotency key', async () => {
+    const preview = {
+      token: 'preview-token', payloadHash: 'payload-hash', schemaVersion: 'installations.v1' as const,
+      delimiter: ',' as const, expiresAt: '2030-01-01T00:00:00.000Z', counts: { create: 1, update: 0, unchanged: 0, error: 0 }, rows: [],
+    }
+    vi.stubGlobal('fetch', vi.fn()
+      .mockResolvedValueOnce({ ok: true, json: () => Promise.resolve(preview) })
+      .mockResolvedValueOnce({ ok: true, json: () => Promise.resolve({ create: 1 }) }))
+
+    const result = await previewInstallationImport(new File(['csv'], 'installations.csv', { type: 'text/csv' }))
+    await commitInstallationImport(result)
+
+    const [previewUrl, previewOptions] = vi.mocked(fetch).mock.calls[0]
+    expect(String(previewUrl)).toBe('/api/installations/csv/import/preview')
+    expect(previewOptions?.method).toBe('POST')
+    expect(previewOptions?.body).toBeInstanceOf(FormData)
+    const [commitUrl, commitOptions] = vi.mocked(fetch).mock.calls[1]
+    expect(String(commitUrl)).toBe('/api/installations/csv/import/commit')
+    expect(commitOptions?.headers).toEqual({ 'Content-Type': 'application/json', 'Idempotency-Key': 'preview-token' })
+    expect(JSON.parse(String(commitOptions?.body))).toEqual({ token: 'preview-token', payloadHash: 'payload-hash' })
+  })
+
+  it('queries import status with an encoded actor-bound session token', async () => {
+    await getInstallationImportStatus('opaque/token')
+    expect(String(vi.mocked(fetch).mock.calls[0][0])).toBe('/api/installations/csv/import/opaque%2Ftoken')
   })
 })

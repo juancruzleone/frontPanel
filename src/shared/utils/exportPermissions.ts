@@ -5,12 +5,12 @@
  * - Entity CSV exports (activos, inventario, proveedores, work order and
  *   installation exports) are gated by `isAdminOrTechnician`:
  *   admin | super_admin | tecnico | técnico.
- * - CSV template downloads and import commits
- *   (csv/template, csv/import/commit routes) are gated by `isAdmin`:
- *   admin | super_admin.
+ * - CSV template downloads and imports require a tenant-bound administrator.
+ *   Super administrators use system administration routes and cannot impersonate
+ *   a tenant through generic entity endpoints.
  */
 export const EXPORT_ALLOWED_ROLES = new Set(["admin", "super_admin", "tecnico", "técnico"])
-export const TEMPLATE_ALLOWED_ROLES = new Set(["admin", "super_admin"])
+export const TEMPLATE_ALLOWED_ROLES = new Set(["admin"])
 
 const normalizeRole = (role: string | null | undefined): string => role?.trim().toLowerCase() ?? ""
 

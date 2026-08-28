@@ -331,6 +331,18 @@
     "syncValidationDiscarded": "验证错误 ({{type}})。已丢弃。",
     "syncElementDiscarded": "同步项目时出错 ({{type}})。已丢弃。"
   },
+  "csvImport": {
+    "chooseFile": "选择 CSV 文件", "fileTooLarge": "文件超过 2 MB 限制", "processing": "正在处理…", "preview": "预览", "commit": "确认导入", "close": "关闭", "downloadErrors": "下载错误", "downloadTemplateFirst": "请先下载模板再导入", "completed": "导入完成", "created": "已创建", "updated": "已更新", "unchanged": "未更改", "errors": "错误", "warnings": "警告", "row": "行", "externalId": "外部 ID", "action": "操作", "delta": "变动", "expiresAt": "预览有效期至 {{time}}",
+    "guidance": {
+      "download": "下载此部分的模板。", "headers": "请勿更改表头，并按照示例格式填写。", "excel": "在 Excel 中请保存为 CSV UTF-8 格式。不支持 XLS 和 XLSX 文件。", "preview": "预览文件：在确认导入之前，验证不会修改领域或业务记录。", "requiredLabel": "必填字段：", "referenceLabel": "引用：",
+      "entities": {
+        "assets": { "required": "schemaVersion、externalId、name 和 templateExternalId。", "references": "templateExternalId 必须标识租户中的基础模板。", "updates": "相同的 externalId 会更新资产；可选单元格留空时保留现有值。" },
+        "inventory": { "required": "schemaVersion、externalId、name 和 unit。", "references": "如填写 supplierExternalId，则必须标识租户中的供应商。", "updates": "相同的 externalId 会更新物料；可选单元格留空时保留现有值。" },
+        "suppliers": { "required": "schemaVersion、externalId 和 name。", "references": "externalId 是为每个供应商选择的稳定键。", "updates": "相同的 externalId 会更新供应商；可选单元格留空时保留现有值。" },
+        "installations": { "required": "installations.v1 的全部字段；不允许空白单元格。", "references": "installationType 必须与租户中已启用的安装类型一致。", "updates": "相同的 externalId 仅更新安装的七个基础字段。" }
+      }
+    }
+  },
   "offline": {
     "syncStatus": "同步状态",
     "closeNotification": "关闭同步通知",
@@ -705,6 +717,8 @@
     "startOrderMessage": "您确定要开始此工作订单吗？"
   },
   "installations": {
+    "exportResults": "导出结果",
+    "csv": { "downloadTemplate": "下载模板", "import": "导入 CSV", "importTitle": "从 CSV 文件导入安装信息" },
     "deviceNamePlaceholder": "输入资产名称",
     "understood": "关闭",
     "successTitle": "操作成功！",

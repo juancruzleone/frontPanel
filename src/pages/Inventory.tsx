@@ -23,7 +23,7 @@ import TourButton from "../shared/components/Buttons/TourButton"
 import Skeleton from "../shared/components/Skeleton"
 import styles from "../features/inventory/styles/inventory.module.css"
 import { CsvImportDialog } from "../shared/components/CsvImportDialog/CsvImportDialog"
-import { canExportCsv } from "../shared/utils/exportPermissions"
+import { canDownloadCsvTemplate, canExportCsv } from "../shared/utils/exportPermissions"
 import { commitInventoryImport, downloadInventoryImportErrors, downloadInventoryTemplate, exportInventory, previewInventoryImport } from "../features/inventory/services/inventoryServices"
 
 const INVENTORY_ALLOWED_VIEWS = ['cards', 'table'] as const
@@ -183,7 +183,7 @@ const Inventory = () => {
 
       {(isAdmin || canExportCsv(role)) && (
         <div className={styles.csvActionsRow}>
-          {isAdmin && (
+          {canDownloadCsvTemplate(role) && (
             <>
               <Button variant="secondary" title={t('inventory.csv.downloadTemplate')} onClick={() => runCsvAction(downloadInventoryTemplate)} />
               <Button variant="secondary" title={t('inventory.csv.import')} onClick={() => setIsImportOpen(true)} />
@@ -400,6 +400,7 @@ const Inventory = () => {
       <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={() => setResponseMessage("")} mensaje={responseMessage} />
       <ModalError isOpen={!!responseMessage && isError} onRequestClose={() => setResponseMessage("")} mensaje={responseMessage} />
       <CsvImportDialog
+        guidance="inventory"
         isOpen={isImportOpen}
         title={t('inventory.csv.importTitle')}
         onClose={() => setIsImportOpen(false)}

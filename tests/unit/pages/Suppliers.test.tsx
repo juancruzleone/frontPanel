@@ -211,4 +211,12 @@ describe('Suppliers page', () => {
     fireEvent.click(screen.getByText('suppliers.csv.exportFiltered'))
     await waitFor(() => expect(exportSuppliers).toHaveBeenCalledWith({ name: 'ACME' }))
   })
+
+  it('oculta importación y plantilla a super_admin, pero conserva exportación', () => {
+    useAuthStore.setState({ role: 'super_admin' })
+    render(<Suppliers />)
+    expect(screen.queryByText('suppliers.csv.import')).not.toBeInTheDocument()
+    expect(screen.queryByText('suppliers.csv.downloadTemplate')).not.toBeInTheDocument()
+    expect(screen.getByText('suppliers.csv.exportFiltered')).toBeInTheDocument()
+  })
 })

@@ -331,6 +331,18 @@
     "syncValidationDiscarded": "유효성 검사 오류 ({{type}}). 폐기됨.",
     "syncElementDiscarded": "항목 동기화 오류 ({{type}}). 폐기됨."
   },
+  "csvImport": {
+    "chooseFile": "CSV 파일 선택", "fileTooLarge": "파일이 2MB 제한을 초과했습니다", "processing": "처리 중…", "preview": "미리보기", "commit": "가져오기 확정", "close": "닫기", "downloadErrors": "오류 다운로드", "downloadTemplateFirst": "가져오기 전에 템플릿을 다운로드하세요", "completed": "가져오기가 완료되었습니다", "created": "생성됨", "updated": "업데이트됨", "unchanged": "변경 없음", "errors": "오류", "warnings": "경고", "row": "행", "externalId": "외부 ID", "action": "작업", "delta": "변동", "expiresAt": "미리보기 유효 기간: {{time}}까지",
+    "guidance": {
+      "download": "이 섹션의 템플릿을 다운로드하세요.", "headers": "헤더를 변경하지 말고 예시 형식에 맞게 입력하세요.", "excel": "Excel에서는 CSV UTF-8 형식으로 저장하세요. XLS 및 XLSX 파일은 지원되지 않습니다.", "preview": "파일을 미리 확인하세요. 검증 단계에서는 가져오기를 확정할 때까지 도메인 또는 비즈니스 레코드를 변경하지 않습니다.", "requiredLabel": "필수 필드:", "referenceLabel": "참조:",
+      "entities": {
+        "assets": { "required": "schemaVersion, externalId, name 및 templateExternalId.", "references": "templateExternalId는 테넌트의 기본 템플릿을 식별해야 합니다.", "updates": "동일한 externalId는 자산을 업데이트하며, 선택 필드가 비어 있으면 기존 값이 유지됩니다." },
+        "inventory": { "required": "schemaVersion, externalId, name 및 unit.", "references": "supplierExternalId를 입력한 경우 테넌트의 공급업체를 식별해야 합니다.", "updates": "동일한 externalId는 품목을 업데이트하며, 선택 필드가 비어 있으면 기존 값이 유지됩니다." },
+        "suppliers": { "required": "schemaVersion, externalId 및 name.", "references": "externalId는 각 공급업체에 지정된 고정 키입니다.", "updates": "동일한 externalId는 공급업체를 업데이트하며, 선택 필드가 비어 있으면 기존 값이 유지됩니다." },
+        "installations": { "required": "installations.v1의 모든 필드. 빈 셀은 허용되지 않습니다.", "references": "installationType은 테넌트에서 활성화된 설치 유형과 일치해야 합니다.", "updates": "동일한 externalId는 설치의 7개 기본 필드만 업데이트합니다." }
+      }
+    }
+  },
   "offline": {
     "syncStatus": "동기화 상태",
     "closeNotification": "동기화 알림 닫기",
@@ -691,6 +703,8 @@
     }
   },
   "installations": {
+    "exportResults": "결과 내보내기",
+    "csv": { "downloadTemplate": "템플릿 다운로드", "import": "CSV 가져오기", "importTitle": "CSV 파일에서 설치 정보 가져오기" },
     "deviceNamePlaceholder": "자산 이름을 입력하세요",
     "installation": "설치",
     "understood": "닫기",
