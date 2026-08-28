@@ -112,14 +112,16 @@
 
 .searchRow {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   align-items: center;
   width: 100%;
   margin-bottom: 24px;
+  flex-wrap: wrap;
 }
 
 .searchContainerInner {
-  flex: 1;
+  flex: 1 1 320px;
+  min-width: 0;
 }
 
 .clearFilters {
@@ -573,6 +575,16 @@
   }
 }
 
+@media (max-width: 768px) {
+  .searchRow {
+    gap: 10px;
+  }
+
+  .searchContainerInner {
+    flex: 1 1 100%;
+  }
+}
+
 @media (max-width: 600px) {
   .containerAssets {
     padding: 100px 16px 24px 16px;
@@ -590,6 +602,21 @@
 
   .assetCard {
     padding: 8px;
+  }
+
+  .searchRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .searchContainerInner {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+
+  .clearFilters {
+    width: 100%;
+    height: 46px;
   }
 }
 

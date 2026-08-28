@@ -98,14 +98,16 @@
 
 .searchRow {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   align-items: center;
   width: 100%;
   margin-bottom: 24px;
+  flex-wrap: wrap;
 }
 
 .searchContainerInner {
-  flex: 1;
+  flex: 1 1 320px;
+  min-width: 0;
 }
 
 .clearFilters {
@@ -129,6 +131,7 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   letter-spacing: 0.01em;
   height: 52px;
+  flex-shrink: 0;
 }
 
 :global(.dark) .clearFilters {
@@ -352,6 +355,16 @@
 
   .title {
     font-size: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .searchRow {
+    gap: 10px;
+  }
+
+  .searchContainerInner {
+    flex: 1 1 100%;
   }
 }
 

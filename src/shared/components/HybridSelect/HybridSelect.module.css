@@ -290,6 +290,18 @@
 }
 
 /* Responsive */
+@media (max-width: 768px) {
+  .hybridSelect.compact {
+    min-width: 0;
+    flex: 1 1 140px;
+  }
+
+  .compactWrapper {
+    flex: 1 1 140px;
+    min-width: 0;
+  }
+}
+
 @media (max-width: 600px) {
   .hybridSelect {
     padding: 12px 14px;
@@ -300,10 +312,12 @@
   .hybridSelect.compact {
     width: 100%;
     min-width: 0;
+    flex: 1 1 auto;
   }
 
   .compactWrapper {
     width: 100%;
+    flex: 1 1 auto;
   }
 
   .hybridDropdown {

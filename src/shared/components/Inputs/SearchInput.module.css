@@ -146,6 +146,20 @@
   min-width: 180px;
 }
 
+@media (max-width: 768px) {
+  .wrapper {
+    gap: 10px;
+  }
+
+  .filterSelectCustom {
+    min-width: 140px;
+  }
+
+  .inputWrapper {
+    min-width: 0;
+  }
+}
+
 @media (max-width: 600px) {
   .wrapper {
     flex-direction: column;

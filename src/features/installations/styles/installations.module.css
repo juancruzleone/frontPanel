@@ -123,14 +123,28 @@
 
 .searchRow {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   align-items: center;
   width: 100%;
   margin-bottom: 24px;
+  flex-wrap: wrap;
 }
 
 .searchContainerInner {
-  flex: 1;
+  flex: 1 1 320px;
+  min-width: 0;
+}
+
+.searchActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.exportButton {
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .clearFilters {
@@ -154,6 +168,7 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   letter-spacing: 0.01em;
   height: 52px;
+  flex-shrink: 0;
 }
 
 :global(.dark) .clearFilters {
@@ -650,6 +665,29 @@
   }
 }
 
+@media (max-width: 768px) {
+  .searchRow {
+    gap: 10px;
+  }
+
+  .searchContainerInner {
+    flex: 1 1 100%;
+  }
+
+  .searchActions {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .clearFilters {
+    flex: 0 0 52px;
+  }
+
+  .exportButton {
+    flex: 1 1 auto;
+  }
+}
+
 @media (max-width: 600px) {
   .containerInstallations {
     padding: 100px 16px 24px 16px;
@@ -691,6 +729,32 @@
     width: 100%;
     gap: 8px;
     margin-bottom: 8px;
+  }
+
+  .searchRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .searchContainerInner {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+
+  .searchActions {
+    width: 100%;
+  }
+
+  .clearFilters {
+    flex: 1 1 46px;
+    width: auto;
+    height: 46px;
+  }
+
+  .exportButton {
+    flex: 2 1 160px;
+    width: auto;
+    justify-content: center;
   }
 }
 

@@ -15,7 +15,6 @@ import {
 	ChevronsRight,
 	ChevronDown,
 	Boxes,
-	Shield,
 	Wrench,
 	Briefcase,
 	Cog,
@@ -73,7 +72,6 @@ const Nav = () => {
 	const settingsRoute = getRoute("settings");
 	const panelAdminRoute = getRoute("panelAdmin");
 	const profileRoute = getRoute("profile");
-	const auditRoute = getRoute("audit");
 	const complianceRoute = getRoute("compliance");
 	const currentRouteMenuState = getRouteMenuOpenState(location.pathname, {
 		workOrders: [workOrdersRoute, calendarRoute],
@@ -573,19 +571,7 @@ const Nav = () => {
 							</NavLink>
 						</li>
 					)}
-					{/* Auditoría para admin y super_admin */}
-						{(isAdminUser || isSuperAdminUser) && (
-							<li>
-								<NavLink
-									to={auditRoute}
-									className={({ isActive }) => (isActive ? styles.active : "")}
-									onClick={() => setIsMenuOpen(false)}
-								>
-									<Shield size={20} />{" "}
-									<span className={styles.linkText}>{t("nav.audit")}</span>
-								</NavLink>
-							</li>
-						)}
+					{/* Auditoría oculta para todos los usuarios - solo accesible por ruta directa si es necesario */}
 					</ul>
 					<div className={styles.bottomSection}>
 						<div className={styles.userSection}>

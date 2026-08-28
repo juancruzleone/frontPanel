@@ -395,24 +395,31 @@ const Installations = () => {
               selectValue={selectedCategory}
             />
           </div>
-          <button
-            onClick={() => {
-              setSearchTerm("");
-              setSelectedCategory("");
-              loadInstallations({ page: 1, limit: itemsPerPage, search: "", category: "" });
-            }}
-            className={styles.clearFilters}
-            title={t('calendar.clearFilters')}
-          >
-            <FilterX size={20} />
-          </button>
-          {canExportOperationalResults(role) && (
-            <Button title={t('installations.exportResults')} onClick={async () => {
-              setExportError("")
-              try { await exportInstallations({ search: searchTerm, category: selectedCategory }) }
-              catch (error) { setExportError(error instanceof Error ? error.message : String(error)) }
-            }} />
-          )}
+          <div className={styles.searchActions}>
+            <button
+              onClick={() => {
+                setSearchTerm("");
+                setSelectedCategory("");
+                loadInstallations({ page: 1, limit: itemsPerPage, search: "", category: "" });
+              }}
+              className={styles.clearFilters}
+              title={t('calendar.clearFilters')}
+              aria-label={t('calendar.clearFilters')}
+            >
+              <FilterX size={20} />
+            </button>
+            {canExportOperationalResults(role) && (
+              <Button
+                title={t('installations.exportResults')}
+                onClick={async () => {
+                  setExportError("")
+                  try { await exportInstallations({ search: searchTerm, category: selectedCategory }) }
+                  catch (error) { setExportError(error instanceof Error ? error.message : String(error)) }
+                }}
+                className={styles.exportButton}
+              />
+            )}
+          </div>
         </div>
         {exportError && <p role="alert">{exportError}</p>}
 

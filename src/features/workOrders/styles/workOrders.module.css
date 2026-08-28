@@ -72,13 +72,15 @@
 
 .searchRow {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   align-items: center;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 .searchContainer {
-  flex: 1;
+  flex: 1 1 280px;
+  min-width: 0;
 }
 
 /* Remove gap from SearchInput wrapper in WorkOrders */
@@ -196,6 +198,7 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   letter-spacing: 0.01em;
   height: 52px;
+  flex-shrink: 0;
 }
 
 :global(.dark) .clearFilters {
@@ -628,6 +631,16 @@
   }
 }
 
+@media (max-width: 768px) {
+  .searchRow {
+    gap: 10px;
+  }
+
+  .searchContainer {
+    flex: 1 1 100%;
+  }
+}
+
 @media (max-width: 600px) {
   .containerWorkOrders {
     padding: 100px 16px 24px 16px;
@@ -644,6 +657,31 @@
 
   .workOrderCard {
     padding: 8px;
+  }
+
+  .searchRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .searchContainer {
+    flex: 1 1 auto;
+    width: 100%;
+  }
+
+  .clearFilters {
+    width: 100%;
+    height: 46px;
+  }
+
+  .filterContainer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .additionalFilters {
+    flex-direction: column;
+    align-items: stretch;
   }
 }
 
