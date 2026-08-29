@@ -2476,6 +2476,15 @@
     "title": "Cumplimiento Normativo",
     "loading": "Cargando cumplimiento...",
     "error": "Error al cargar cumplimiento",
+    "assignment": {
+      "parameterRequired": "Completá todos los parámetros requeridos.",
+      "parameterInvalid": "Revisá los valores de los parámetros.",
+      "select": "Seleccionar",
+      "submit": "Asignar pack",
+      "pending": "Guardando asignación...",
+      "forbidden": "No tenés permisos para asignar este pack.",
+      "mutationError": "No se pudo guardar la asignación."
+    },
     "operador": {
       "fechaAntiguaMeses": "Fecha antigua (meses)",
       "numericoMax": "Numérico máximo",
