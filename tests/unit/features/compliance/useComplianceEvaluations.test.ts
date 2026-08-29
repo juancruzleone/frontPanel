@@ -99,4 +99,24 @@ describe("useComplianceEvaluations", () => {
     }
     unmount()
   })
+
+  it("rejects older same-owner detail and findings responses", async () => {
+    let resolveDetailA: ((value: never) => void) | undefined
+    let resolveFindingsA: ((value: never) => void) | undefined
+    const detailA = new Promise<never>((resolve) => { resolveDetailA = resolve })
+    const findingsA = new Promise<never>((resolve) => { resolveFindingsA = resolve })
+    vi.mocked(fetchCatalogRun).mockImplementation((id) => id === "A" ? detailA : Promise.resolve({ ...run, _id: "B" } as never))
+    vi.mocked(fetchCatalogFindings).mockImplementation((id) => id === "A" ? findingsA : Promise.resolve({ ...page, items: [{ id: "B" }] } as never))
+    const { result } = renderHook(() => useComplianceEvaluations())
+    const oldDetail = result.current.loadRun("A")
+    await act(async () => { await result.current.loadRun("B") })
+    resolveDetailA?.({ ...run, _id: "A" } as never)
+    await act(async () => { await oldDetail })
+    expect(useComplianceStore.getState().catalogRun?._id).toBe("B")
+    const oldFindings = result.current.loadFindings("A")
+    await act(async () => { await result.current.loadFindings("B") })
+    resolveFindingsA?.({ ...page, items: [{ id: "A" }] } as never)
+    await act(async () => { await oldFindings })
+    expect(useComplianceStore.getState().catalogFindings?.items[0]).toEqual({ id: "B" })
+  })
 })

@@ -21,6 +21,8 @@ export const useComplianceEvaluations = (pollInterval = 5000) => {
   const store = useComplianceStore()
   const controllers = useRef(new Set<AbortController>())
   const timer = useRef<ReturnType<typeof setInterval> | null>(null)
+  const runIdentity = useRef<string | null>(null)
+  const findingsIdentity = useRef<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -57,10 +59,15 @@ export const useComplianceEvaluations = (pollInterval = 5000) => {
 
   const loadRuns = useCallback((page = 1, limit = 10) =>
     request((signal) => fetchCatalogRuns(page, limit, signal), store.setCatalogRuns), [request, store.setCatalogRuns])
-  const loadRun = useCallback((id: string) =>
-    request((signal) => fetchCatalogRun(id, signal), store.setCatalogRun), [request, store.setCatalogRun])
-  const loadFindings = useCallback((id: string, page = 1, limit = 10, state?: CatalogState) =>
-    request((signal) => fetchCatalogFindings(id, page, limit, state, undefined, signal), store.setCatalogFindings), [request, store.setCatalogFindings])
+  const loadRun = useCallback((id: string) => {
+    runIdentity.current = id
+    return request((signal) => fetchCatalogRun(id, signal), (value, epoch) => runIdentity.current === id && store.setCatalogRun(value, epoch))
+  }, [request, store.setCatalogRun])
+  const loadFindings = useCallback((id: string, page = 1, limit = 10, state?: CatalogState) => {
+    const identity = `${id}:${page}:${limit}:${state ?? ""}`
+    findingsIdentity.current = identity
+    return request((signal) => fetchCatalogFindings(id, page, limit, state, undefined, signal), (value, epoch) => findingsIdentity.current === identity && store.setCatalogFindings(value, epoch))
+  }, [request, store.setCatalogFindings])
 
   const pollRun = useCallback(async (id: string) => {
     const result = await loadRun(id)
@@ -86,6 +93,8 @@ export const useComplianceEvaluations = (pollInterval = 5000) => {
 
   useEffect(() => () => {
     stopPolling()
+    runIdentity.current = null
+    findingsIdentity.current = null
     controllers.current.forEach((controller) => controller.abort())
     controllers.current.clear()
     setLoading(false)

@@ -13,6 +13,7 @@ import { ReglasList } from "./ReglasList"
 import { ReglaForm } from "./ReglaForm"
 import { ComplianceModal } from "./ComplianceModal"
 import { CatalogPackBrowser } from "./CatalogPackBrowser"
+import { ComplianceEvaluationsPanel } from "./ComplianceEvaluationsPanel"
 import ConfirmModal from "../../../shared/components/ConfirmModal"
 import styles from "../styles/compliance.module.css"
 
@@ -104,6 +105,7 @@ export const ComplianceView: React.FC = () => {
       <ComplianceDashboard resumen={resumen} />
 
       <CatalogPackBrowser />
+      <ComplianceEvaluationsPanel />
 
       {isAdmin && (
         <>

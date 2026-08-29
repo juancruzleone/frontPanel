@@ -355,10 +355,44 @@
   cursor: pointer;
 }
 
+.evaluationMeta {
+  display: grid;
+  grid-template-columns: minmax(100px, 0.3fr) minmax(0, 1fr);
+  gap: 6px 12px;
+  font-size: 13px;
+}
+
+.evaluationMeta dt {
+  font-weight: 600;
+}
+
+.evaluationMeta dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.evaluationCounters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.evaluationCounters p {
+  margin: 0;
+}
+
+.evaluationCounters ul {
+  grid-column: 1 / -1;
+  columns: 2;
+  margin: 0;
+  padding-left: 20px;
+}
+
 @media (max-width: 760px) {
   .catalogGrid {
     grid-template-columns: 1fr;
   }
+
 }
 
 /* ---- Formularios ---- */
