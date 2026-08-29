@@ -2535,7 +2535,10 @@
       "score": "Puntuación",
       "progress": "Progreso",
       "findings": "Hallazgos",
-      "reason": "Motivo"
+      "reason": "Motivo",
+      "assignment": "Asignación",
+      "pack": "Pack",
+      "notAvailable": "No disponible"
     },
     "operador": {
       "fechaAntiguaMeses": "Fecha antigua (meses)",

@@ -2275,5 +2275,16 @@
     "observations": "메모",
     "viewPdfReport": "PDF 보고서 보기",
     "footer": "유지보수 관리 시스템 (GMAO)"
+  },
+  "compliance": {
+    "title": "규정 준수", "loading": "규정 준수를 불러오는 중...", "error": "규정 준수를 불러올 수 없습니다",
+    "catalog": { "title": "규정 준수 카탈로그", "pack": "팩", "version": "버전", "action": "작업", "view": "세부 정보 보기", "loading": "카탈로그를 불러오는 중...", "detailLoading": "세부 정보를 불러오는 중...", "empty": "게시된 팩이 없습니다.", "unavailable": "카탈로그를 사용할 수 없습니다.", "detailUnavailable": "세부 정보를 사용할 수 없습니다.", "retry": "다시 시도", "controls": "게시된 제어 항목", "rights": "{{author}}의 원본 운영 콘텐츠입니다.", "assignment": "할당 {{key}} · 상태: {{status}} · 범위: {{scope}}", "noAssignment": "이 팩에 대한 할당이 없습니다." },
+    "assignment": { "parameterRequired": "필수 매개변수를 모두 입력하세요.", "parameterInvalid": "매개변수 값을 확인하세요.", "select": "선택", "submit": "팩 할당", "pending": "할당 저장 중...", "forbidden": "이 팩을 할당할 권한이 없습니다.", "mutationError": "할당을 저장할 수 없습니다." },
+    "evaluations": { "title": "Leonix 평가", "loading": "평가를 불러오는 중...", "detailLoading": "평가 세부 정보를 불러오는 중...", "findingsLoading": "결과를 불러오는 중...", "empty": "등록된 평가가 없습니다.", "findingsEmpty": "이 평가에 대한 결과가 없습니다.", "error": "평가를 불러올 수 없습니다.", "detailError": "평가 세부 정보를 불러올 수 없습니다.", "retry": "다시 시도", "history": "Leonix 평가 기록", "id": "ID", "state": "상태", "action": "작업", "view": "평가 보기", "assignments": "활성 할당", "start": "Leonix 평가 시작", "snapshot": "변경 불가 스냅샷", "controls": "제어 항목", "evaluators": "평가자", "rights": "권한", "scope": "범위", "timestamp": "타임스탬프", "score": "점수", "progress": "진행률", "findings": "결과", "reason": "사유", "assignment": "할당", "pack": "팩", "notAvailable": "사용할 수 없음" },
+    "dashboard": { "title": "규정 준수 요약", "total": "결과", "noData": "아직 스캔 결과가 없습니다.", "estado": { "cumplido": "준수", "incumplido": "미준수", "sin_evidencia": "증거 없음", "error": "오류" } },
+    "operador": { "fechaAntiguaMeses": "오래된 날짜(개월)", "numericoMax": "숫자 최댓값", "numericoMin": "숫자 최솟값", "numericoRango": "숫자 범위", "enumEn": "목록 값", "exists": "필드 있음" },
+    "normas": { "codigo": "코드", "familiaNorma": "표준 계열", "descripcion": "설명", "activa": "활성", "empty": "등록된 표준이 없습니다." },
+    "reglas": { "nombre": "이름", "norma": "표준", "operador": "연산자", "objetivoTipo": "대상 유형", "objetivoTipoOptions": { "activo": "자산", "instalacion": "설비" }, "habilitada": "사용", "empty": "등록된 규칙이 없습니다." },
+    "legacy": { "title": "이전 기록", "description": "읽기 전용 규정 준수 과거 기록입니다.", "loading": "이전 기록을 불러오는 중...", "normas": "과거 표준", "reglas": "과거 규칙" }
   }
 }

@@ -2242,5 +2242,16 @@
     "observations": "الملاحظات",
     "viewPdfReport": "عرض تقرير PDF",
     "footer": "نظام إدارة الصيانة (GMAO)"
+  },
+  "compliance": {
+    "title": "الامتثال التنظيمي", "loading": "جارٍ تحميل الامتثال...", "error": "تعذر تحميل الامتثال",
+    "catalog": { "title": "كتالوج الامتثال", "pack": "حزمة", "version": "الإصدار", "action": "الإجراء", "view": "عرض التفاصيل", "loading": "جارٍ تحميل الكتالوج...", "detailLoading": "جارٍ تحميل التفاصيل...", "empty": "لا توجد حزم منشورة متاحة.", "unavailable": "الكتالوج غير متاح.", "detailUnavailable": "التفاصيل غير متاحة.", "retry": "إعادة المحاولة", "controls": "عناصر التحكم المنشورة", "rights": "محتوى تشغيلي أصلي من {{author}}.", "assignment": "تعيين {{key}} · الحالة: {{status}} · النطاق: {{scope}}", "noAssignment": "لا يوجد تعيين لهذه الحزمة." },
+    "assignment": { "parameterRequired": "أكمل جميع المعلمات المطلوبة.", "parameterInvalid": "راجع قيم المعلمات.", "select": "اختيار", "submit": "تعيين الحزمة", "pending": "جارٍ حفظ التعيين...", "forbidden": "ليس لديك صلاحية تعيين هذه الحزمة.", "mutationError": "تعذر حفظ التعيين." },
+    "evaluations": { "title": "تقييم Leonix", "loading": "جارٍ تحميل التقييمات...", "detailLoading": "جارٍ تحميل تفاصيل التقييم...", "findingsLoading": "جارٍ تحميل النتائج...", "empty": "لا توجد تقييمات مسجلة.", "findingsEmpty": "لا توجد نتائج لهذا التقييم.", "error": "تعذر تحميل التقييمات.", "detailError": "تعذر تحميل تفاصيل التقييم.", "retry": "إعادة المحاولة", "history": "سجل تقييم Leonix", "id": "المعرّف", "state": "الحالة", "action": "الإجراء", "view": "عرض التقييم", "assignments": "التعيينات النشطة", "start": "بدء تقييم Leonix", "snapshot": "لقطة غير قابلة للتغيير", "controls": "عناصر التحكم", "evaluators": "المقيّمون", "rights": "الحقوق", "scope": "النطاق", "timestamp": "الطابع الزمني", "score": "النتيجة", "progress": "التقدم", "findings": "النتائج", "reason": "السبب", "assignment": "التعيين", "pack": "الحزمة", "notAvailable": "غير متاح" },
+    "dashboard": { "title": "ملخص الامتثال", "total": "النتائج", "noData": "لا توجد عمليات فحص بعد.", "estado": { "cumplido": "متوافق", "incumplido": "غير متوافق", "sin_evidencia": "لا توجد أدلة", "error": "خطأ" } },
+    "operador": { "fechaAntiguaMeses": "تاريخ قديم (بالأشهر)", "numericoMax": "الحد الأقصى الرقمي", "numericoMin": "الحد الأدنى الرقمي", "numericoRango": "نطاق رقمي", "enumEn": "قيمة من القائمة", "exists": "الحقل موجود" },
+    "normas": { "codigo": "الرمز", "familiaNorma": "عائلة المعيار", "descripcion": "الوصف", "activa": "نشط", "empty": "لا توجد معايير مسجلة." },
+    "reglas": { "nombre": "الاسم", "norma": "المعيار", "operador": "المشغّل", "objetivoTipo": "نوع الهدف", "objetivoTipoOptions": { "activo": "أصل", "instalacion": "منشأة" }, "habilitada": "مفعّلة", "empty": "لا توجد قواعد مسجلة." },
+    "legacy": { "title": "السجل السابق", "description": "سجلات امتثال تاريخية للقراءة فقط.", "loading": "جارٍ تحميل السجل السابق...", "normas": "المعايير التاريخية", "reglas": "القواعد التاريخية" }
   }
 }

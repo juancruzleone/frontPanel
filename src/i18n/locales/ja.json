@@ -2241,5 +2241,16 @@
     "observations": "備考",
     "viewPdfReport": "PDF報告書を見る",
     "footer": "保守管理システム（GMAO）"
+  },
+  "compliance": {
+    "title": "規制コンプライアンス", "loading": "コンプライアンスを読み込んでいます...", "error": "コンプライアンスを読み込めません",
+    "catalog": { "title": "コンプライアンスカタログ", "pack": "パック", "version": "バージョン", "action": "操作", "view": "詳細を表示", "loading": "カタログを読み込んでいます...", "detailLoading": "詳細を読み込んでいます...", "empty": "公開されたパックはありません。", "unavailable": "カタログを利用できません。", "detailUnavailable": "詳細を利用できません。", "retry": "再試行", "controls": "公開されたコントロール", "rights": "{{author}} によるオリジナルの運用コンテンツ。", "assignment": "割り当て {{key}} · 状態: {{status}} · 範囲: {{scope}}", "noAssignment": "このパックには割り当てがありません。" },
+    "assignment": { "parameterRequired": "必須パラメータをすべて入力してください。", "parameterInvalid": "パラメータの値を確認してください。", "select": "選択", "submit": "パックを割り当てる", "pending": "割り当てを保存しています...", "forbidden": "このパックを割り当てる権限がありません。", "mutationError": "割り当てを保存できません。" },
+    "evaluations": { "title": "Leonix評価", "loading": "評価を読み込んでいます...", "detailLoading": "評価の詳細を読み込んでいます...", "findingsLoading": "結果を読み込んでいます...", "empty": "登録された評価はありません。", "findingsEmpty": "この評価の結果はありません。", "error": "評価を読み込めません。", "detailError": "評価の詳細を読み込めません。", "retry": "再試行", "history": "Leonix評価履歴", "id": "ID", "state": "状態", "action": "操作", "view": "評価を表示", "assignments": "有効な割り当て", "start": "Leonix評価を開始", "snapshot": "変更不可のスナップショット", "controls": "コントロール", "evaluators": "評価者", "rights": "権限", "scope": "範囲", "timestamp": "タイムスタンプ", "score": "スコア", "progress": "進捗", "findings": "結果", "reason": "理由", "assignment": "割り当て", "pack": "パック", "notAvailable": "利用不可" },
+    "dashboard": { "title": "コンプライアンス概要", "total": "結果", "noData": "スキャン結果はまだありません。", "estado": { "cumplido": "準拠", "incumplido": "非準拠", "sin_evidencia": "証拠なし", "error": "エラー" } },
+    "operador": { "fechaAntiguaMeses": "古い日付（月）", "numericoMax": "数値の最大値", "numericoMin": "数値の最小値", "numericoRango": "数値範囲", "enumEn": "リスト内の値", "exists": "フィールドあり" },
+    "normas": { "codigo": "コード", "familiaNorma": "規格ファミリー", "descripcion": "説明", "activa": "有効", "empty": "登録された規格はありません。" },
+    "reglas": { "nombre": "名前", "norma": "規格", "operador": "演算子", "objetivoTipo": "対象種別", "objetivoTipoOptions": { "activo": "資産", "instalacion": "設備" }, "habilitada": "有効", "empty": "登録されたルールはありません。" },
+    "legacy": { "title": "以前の履歴", "description": "読み取り専用の過去のコンプライアンス記録です。", "loading": "以前の履歴を読み込んでいます...", "normas": "過去の規格", "reglas": "過去のルール" }
   }
 }

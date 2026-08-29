@@ -2233,5 +2233,16 @@
     "observations": "Observações",
     "viewPdfReport": "Ver relatório em PDF",
     "footer": "Sistema de Gestão de Manutenção (GMAO)"
+  },
+  "compliance": {
+    "title": "Conformidade regulatória", "loading": "Carregando conformidade...", "error": "Não foi possível carregar a conformidade",
+    "catalog": { "title": "Catálogo de conformidade", "pack": "Pacote", "version": "Versão", "action": "Ação", "view": "Ver detalhes", "loading": "Carregando catálogo...", "detailLoading": "Carregando detalhes...", "empty": "Nenhum pacote publicado disponível.", "unavailable": "Catálogo indisponível.", "detailUnavailable": "Detalhes indisponíveis.", "retry": "Tentar novamente", "controls": "Controles publicados", "rights": "Conteúdo operacional original de {{author}}.", "assignment": "Atribuição {{key}} · estado: {{status}} · escopo: {{scope}}", "noAssignment": "Não há atribuição para este pacote." },
+    "assignment": { "parameterRequired": "Preencha todos os parâmetros obrigatórios.", "parameterInvalid": "Revise os valores dos parâmetros.", "select": "Selecionar", "submit": "Atribuir pacote", "pending": "Salvando atribuição...", "forbidden": "Você não tem permissão para atribuir este pacote.", "mutationError": "Não foi possível salvar a atribuição." },
+    "evaluations": { "title": "Avaliação Leonix", "loading": "Carregando avaliações...", "detailLoading": "Carregando detalhes da avaliação...", "findingsLoading": "Carregando resultados...", "empty": "Nenhuma avaliação registrada.", "findingsEmpty": "Não há resultados para esta avaliação.", "error": "Não foi possível carregar as avaliações.", "detailError": "Não foi possível carregar os detalhes da avaliação.", "retry": "Tentar novamente", "history": "Histórico de avaliações Leonix", "id": "ID", "state": "Estado", "action": "Ação", "view": "Ver avaliação", "assignments": "Atribuições ativas", "start": "Iniciar avaliação Leonix", "snapshot": "Instantâneo imutável", "controls": "Controles", "evaluators": "Avaliadores", "rights": "Direitos", "scope": "Escopo", "timestamp": "Data e hora", "score": "Pontuação", "progress": "Progresso", "findings": "Resultados", "reason": "Motivo", "assignment": "Atribuição", "pack": "Pacote", "notAvailable": "Indisponível" },
+    "dashboard": { "title": "Resumo da conformidade", "total": "Resultados", "noData": "Ainda não há verificações.", "estado": { "cumplido": "Conforme", "incumplido": "Não conforme", "sin_evidencia": "Sem evidência", "error": "Erro" } },
+    "operador": { "fechaAntiguaMeses": "Data antiga (meses)", "numericoMax": "Máximo numérico", "numericoMin": "Mínimo numérico", "numericoRango": "Intervalo numérico", "enumEn": "Valor da lista", "exists": "Campo presente" },
+    "normas": { "codigo": "Código", "familiaNorma": "Família da norma", "descripcion": "Descrição", "activa": "Ativa", "empty": "Nenhuma norma registrada." },
+    "reglas": { "nombre": "Nome", "norma": "Norma", "operador": "Operador", "objetivoTipo": "Tipo de objetivo", "objetivoTipoOptions": { "activo": "Ativo", "instalacion": "Instalação" }, "habilitada": "Habilitada", "empty": "Nenhuma regra registrada." },
+    "legacy": { "title": "Histórico anterior", "description": "Registros históricos de conformidade em modo somente leitura.", "loading": "Carregando histórico anterior...", "normas": "Normas históricas", "reglas": "Regras históricas" }
   }
 }

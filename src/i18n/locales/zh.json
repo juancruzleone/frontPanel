@@ -2266,5 +2266,16 @@
     "observations": "备注",
     "viewPdfReport": "查看 PDF 报告",
     "footer": "维护管理系统 (GMAO)"
+  },
+  "compliance": {
+    "title": "法规合规", "loading": "正在加载合规信息...", "error": "无法加载合规信息",
+    "catalog": { "title": "合规目录", "pack": "包", "version": "版本", "action": "操作", "view": "查看详情", "loading": "正在加载目录...", "detailLoading": "正在加载详情...", "empty": "没有可用的已发布包。", "unavailable": "目录不可用。", "detailUnavailable": "详情不可用。", "retry": "重试", "controls": "已发布控制项", "rights": "{{author}} 的原始运营内容。", "assignment": "分配 {{key}} · 状态：{{status}} · 范围：{{scope}}", "noAssignment": "此包没有分配。" },
+    "assignment": { "parameterRequired": "请填写所有必填参数。", "parameterInvalid": "请检查参数值。", "select": "选择", "submit": "分配包", "pending": "正在保存分配...", "forbidden": "您没有分配此包的权限。", "mutationError": "无法保存分配。" },
+    "evaluations": { "title": "Leonix 评估", "loading": "正在加载评估...", "detailLoading": "正在加载评估详情...", "findingsLoading": "正在加载结果...", "empty": "没有已记录的评估。", "findingsEmpty": "此评估没有结果。", "error": "无法加载评估。", "detailError": "无法加载评估详情。", "retry": "重试", "history": "Leonix 评估历史", "id": "ID", "state": "状态", "action": "操作", "view": "查看评估", "assignments": "活动分配", "start": "开始 Leonix 评估", "snapshot": "不可变快照", "controls": "控制项", "evaluators": "评估者", "rights": "权限", "scope": "范围", "timestamp": "时间戳", "score": "分数", "progress": "进度", "findings": "结果", "reason": "原因", "assignment": "分配", "pack": "包", "notAvailable": "不可用" },
+    "dashboard": { "title": "合规摘要", "total": "结果", "noData": "尚无扫描结果。", "estado": { "cumplido": "合规", "incumplido": "不合规", "sin_evidencia": "无证据", "error": "错误" } },
+    "operador": { "fechaAntiguaMeses": "旧日期（月）", "numericoMax": "数值最大值", "numericoMin": "数值最小值", "numericoRango": "数值范围", "enumEn": "列表中的值", "exists": "字段存在" },
+    "normas": { "codigo": "代码", "familiaNorma": "标准系列", "descripcion": "描述", "activa": "启用", "empty": "没有已登记的标准。" },
+    "reglas": { "nombre": "名称", "norma": "标准", "operador": "运算符", "objetivoTipo": "目标类型", "objetivoTipoOptions": { "activo": "资产", "instalacion": "设施" }, "habilitada": "已启用", "empty": "没有已登记的规则。" },
+    "legacy": { "title": "之前的历史", "description": "只读的历史合规记录。", "loading": "正在加载之前的历史...", "normas": "历史标准", "reglas": "历史规则" }
   }
 }
