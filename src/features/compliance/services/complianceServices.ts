@@ -40,19 +40,46 @@ const normalizeList = <T>(result: unknown, key: string): T[] => {
   return []
 }
 
-const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === "object" && value !== null
-const requireRecord = (value: unknown, message: string): Record<string, unknown> => { if (!isRecord(value)) throw new Error(message); return value }
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null
+
+const requireRecord = (value: unknown, message: string): Record<string, unknown> => {
+  if (!isRecord(value)) throw new Error(message)
+  return value
+}
 const requirePaged = <T>(value: unknown, itemGuard: (item: unknown) => item is T): PagedResult<T> => {
   const result = requireRecord(value, "Respuesta de compliance inválida")
-  if (!Array.isArray(result.items) || !result.items.every(itemGuard)) throw new Error("Respuesta de compliance inválida")
-  if (!["page", "limit", "total", "totalPages"].every((key) => typeof result[key] === "number")) throw new Error("Respuesta de paginación inválida")
+  if (!Array.isArray(result.items) || !result.items.every(itemGuard)) {
+    throw new Error("Respuesta de compliance inválida")
+  }
+  if (!["page", "limit", "total", "totalPages"].every((key) => typeof result[key] === "number")) {
+    throw new Error("Respuesta de paginación inválida")
+  }
   return result as unknown as PagedResult<T>
 }
 const isPackSummary = (value: unknown): value is CatalogPackSummary => {
   const item = value as CatalogPackSummary
-  return isRecord(value) && typeof item.packKey === "string" && typeof item.version === "number" && item.state === "published" && Array.isArray(item.controlRefs) && Array.isArray(item.evaluatorRefs) && isRecord(item.rights) && item.rights.author === "Leonix" && item.rights.rightsStatus === "original_operational_content"
+  return isRecord(value) && typeof item.packKey === "string" && typeof item.version === "number" &&
+    item.state === "published" && Array.isArray(item.controlRefs) && Array.isArray(item.evaluatorRefs) &&
+    isRecord(item.rights) && item.rights.author === "Leonix" &&
+    item.rights.rightsStatus === "original_operational_content"
 }
-const isPackDetail = (value: unknown): value is CatalogPackDetail => isRecord(value) && typeof value.packKey === "string" && typeof value.version === "number" && value.state === "published" && isRecord(value.rights) && value.rights.author === "Leonix" && value.rights.rightsStatus === "original_operational_content" && Array.isArray(value.controls) && Array.isArray(value.evaluators)
+
+const isParameterDefinition = (value: unknown) => {
+  const item = value as Record<string, unknown>
+  return isRecord(value) && typeof item.key === "string" &&
+    ["number", "integer", "boolean", "string"].includes(String(item.type)) &&
+    (item.min === undefined || typeof item.min === "number") &&
+    (item.max === undefined || typeof item.max === "number") &&
+    (item.allowed === undefined || Array.isArray(item.allowed))
+}
+
+const isPackDetail = (value: unknown): value is CatalogPackDetail =>
+  isRecord(value) && typeof value.packKey === "string" && typeof value.version === "number" &&
+  value.state === "published" && isRecord(value.rights) && value.rights.author === "Leonix" &&
+  value.rights.rightsStatus === "original_operational_content" && Array.isArray(value.controls) &&
+  value.controls.every((control) => isRecord(control) && Array.isArray(control.parameterDefinitions) &&
+    control.parameterDefinitions.every(isParameterDefinition)) && Array.isArray(value.evaluators)
 const CATALOG_STATES: CatalogState[] = ["PASS", "WARN", "FAIL", "NOT_APPLICABLE", "INSUFFICIENT_EVIDENCE", "ERROR"]
 const isRunSummary = (value: unknown): value is CatalogRunSummary => { const item = value as CatalogRunSummary; return isRecord(value) && typeof item._id === "string" && item.source === "catalog" && typeof item.estado === "string" && isRecord(item.progress) && isRecord(item.counts) && CATALOG_STATES.every((state) => typeof item.counts[state] === "number") && (item.score === null || typeof item.score === "number") }
 const isRunDetail = (value: unknown): value is CatalogRunDetail => { const item = value as CatalogRunDetail; return isRunSummary(value) && isRecord(item.assignment) && isRecord(item.pack) && typeof item.pack.packKey === "string" && typeof item.pack.version === "number" && Array.isArray(item.controls) && Array.isArray(item.evaluators) && isRecord(item.rights) && isRecord(item.applicability) }
@@ -63,7 +90,21 @@ const queryString = (params: Record<string, string | number | undefined>) => { c
 export const fetchCatalogPacks = (page = 1, limit = 10, signal?: AbortSignal) => request<PagedResult<CatalogPackSummary>>(`compliance/catalog/packs?${queryString({ page, limit })}`, (value): value is PagedResult<CatalogPackSummary> => { try { requirePaged(value, isPackSummary); return true } catch { return false } }, signal)
 export const fetchCatalogPack = (packKey: string, version: number, signal?: AbortSignal) => request<CatalogPackDetail>(`compliance/catalog/packs/${encodeURIComponent(packKey)}/versions/${encodeURIComponent(version)}`, isPackDetail, signal)
 export const fetchAssignments = (signal?: AbortSignal) => request<CatalogAssignment[]>("compliance/assignments", (value): value is CatalogAssignment[] => Array.isArray(value) && value.every(isAssignment), signal)
-export const createAssignment = async (payload: { assignmentKey: string; packKey: string; version: number; parameters: Record<string, unknown> }, signal?: AbortSignal) => { const response = await fetchWithCsrf(`${getApiUrl()}compliance/assignments`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload), signal }); if (!response.ok) throw new Error(await parseErrorMessage(response, "Error al guardar la asignación")); const value: unknown = await response.json(); if (!isAssignment(value)) throw new Error("Respuesta de asignación inválida"); return value }
+
+export const createAssignment = async (
+  payload: { assignmentKey: string; packKey: string; version: number; parameters: Record<string, unknown> },
+  signal?: AbortSignal,
+) => {
+  const response = await fetchWithCsrf(`${getApiUrl()}compliance/assignments`, {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload), signal,
+  })
+  if (!response.ok) throw new Error(await parseErrorMessage(response, "Error al guardar la asignación"))
+  const value: unknown = await response.json()
+  if (!isAssignment(value)) throw new Error("Respuesta de asignación inválida")
+  return value
+}
+
 export const startCatalogRun = async (assignmentKey?: string, signal?: AbortSignal): Promise<Escaneo> => { const response = await fetchWithCsrf(`${getApiUrl()}escaneos-cumplimiento`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(assignmentKey ? { assignmentKey } : {}), signal }); if (!response.ok) throw new Error(await parseErrorMessage(response, "Error al iniciar la evaluación")); return await response.json() as Escaneo }
 export const fetchCatalogRuns = (page = 1, limit = 10, signal?: AbortSignal) => request<PagedResult<CatalogRunSummary>>(`compliance/catalog/runs?${queryString({ page, limit })}`, (value): value is PagedResult<CatalogRunSummary> => { try { requirePaged(value, isRunSummary); return true } catch { return false } }, signal)
 export const fetchCatalogRun = (id: string, signal?: AbortSignal) => request<CatalogRunDetail>(`compliance/catalog/runs/${encodeURIComponent(id)}`, isRunDetail, signal)
