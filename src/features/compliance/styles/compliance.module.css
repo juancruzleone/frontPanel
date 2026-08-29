@@ -314,6 +314,53 @@
   padding: 8px 0;
 }
 
+.catalogGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.8fr);
+  gap: 20px;
+}
+
+.catalogDetail,
+.catalogMessage {
+  border: 1px solid var(--color-border, #e0e0e0);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.catalogDetail h3,
+.catalogDetail h4 {
+  margin: 0 0 12px;
+}
+
+.catalogLink {
+  border: 0;
+  padding: 0;
+  color: var(--color-primary);
+  background: transparent;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.catalogAssignment {
+  padding: 10px;
+  border-left: 3px solid var(--color-primary);
+  background: var(--color-background, #f7f7f7);
+}
+
+.catalogMessage button {
+  padding: 8px 12px;
+  border: 1px solid var(--color-border, #e0e0e0);
+  border-radius: 8px;
+  background: var(--color-surface, #fff);
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .catalogGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ---- Formularios ---- */
 
 .formGroup {

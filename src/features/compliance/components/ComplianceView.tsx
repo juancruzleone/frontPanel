@@ -12,6 +12,7 @@ import { NormaForm } from "./NormaForm"
 import { ReglasList } from "./ReglasList"
 import { ReglaForm } from "./ReglaForm"
 import { ComplianceModal } from "./ComplianceModal"
+import { CatalogPackBrowser } from "./CatalogPackBrowser"
 import ConfirmModal from "../../../shared/components/ConfirmModal"
 import styles from "../styles/compliance.module.css"
 
@@ -101,6 +102,8 @@ export const ComplianceView: React.FC = () => {
       <RunScanButton onScanCompleted={handleScanCompleted} />
 
       <ComplianceDashboard resumen={resumen} />
+
+      <CatalogPackBrowser />
 
       {isAdmin && (
         <>

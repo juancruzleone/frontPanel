@@ -2476,6 +2476,23 @@
     "title": "Cumplimiento Normativo",
     "loading": "Cargando cumplimiento...",
     "error": "Error al cargar cumplimiento",
+    "catalog": {
+      "title": "Catálogo de cumplimiento",
+      "pack": "Pack",
+      "version": "Versión",
+      "action": "Acción",
+      "view": "Ver detalle",
+      "loading": "Cargando catálogo...",
+      "detailLoading": "Cargando detalle...",
+      "empty": "No hay packs publicados disponibles.",
+      "unavailable": "El catálogo no está disponible.",
+      "detailUnavailable": "El detalle no está disponible.",
+      "retry": "Reintentar",
+      "controls": "Controles publicados",
+      "rights": "Contenido operativo original de {{author}}.",
+      "assignment": "Asignación {{key}} · estado: {{status}} · ámbito: {{scope}}",
+      "noAssignment": "No hay una asignación para este pack."
+    },
     "assignment": {
       "parameterRequired": "Completá todos los parámetros requeridos.",
       "parameterInvalid": "Revisá los valores de los parámetros.",

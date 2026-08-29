@@ -20,6 +20,10 @@ vi.mock('../../../../src/features/compliance/services/complianceServices', () =>
   triggerEscaneo: vi.fn(),
   fetchEscaneo: vi.fn(),
   fetchResumen: vi.fn(),
+  fetchCatalogPacks: vi.fn(),
+  fetchCatalogPack: vi.fn(),
+  fetchAssignments: vi.fn(),
+  createAssignment: vi.fn(),
 }))
 
 const norma: Norma = { _id: 'n1', codigo: 'IRAM 3517', familiaNorma: 'IRAM', activa: true }
