@@ -71,6 +71,8 @@ describe('compliance route', () => {
   it('define el namespace compliance.* en es y en', () => {
     expect(es.compliance.title).toBeTruthy()
     expect(en.compliance.title).toBeTruthy()
+    expect(es.compliance.legacy.title).toBe('Historial anterior')
+    expect(en.compliance.legacy.title).toBeTruthy()
     expect(es.nav.compliance).toBeTruthy()
     expect(en.nav.compliance).toBeTruthy()
   })

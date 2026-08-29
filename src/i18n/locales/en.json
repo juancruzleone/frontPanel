@@ -2450,6 +2450,13 @@
     "title": "Regulatory Compliance",
     "loading": "Loading compliance...",
     "error": "Error loading compliance",
+    "legacy": {
+      "title": "Previous history",
+      "description": "Historical compliance records in read-only mode.",
+      "loading": "Loading previous history...",
+      "normas": "Historical standards",
+      "reglas": "Historical rules"
+    },
     "operador": {
       "fechaAntiguaMeses": "Old date (months)",
       "numericoMax": "Numeric maximum",

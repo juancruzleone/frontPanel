@@ -2476,6 +2476,13 @@
     "title": "Cumplimiento Normativo",
     "loading": "Cargando cumplimiento...",
     "error": "Error al cargar cumplimiento",
+    "legacy": {
+      "title": "Historial anterior",
+      "description": "Registros históricos de cumplimiento en modo solo lectura.",
+      "loading": "Cargando historial anterior...",
+      "normas": "Normas históricas",
+      "reglas": "Reglas históricas"
+    },
     "catalog": {
       "title": "Catálogo de cumplimiento",
       "pack": "Pack",

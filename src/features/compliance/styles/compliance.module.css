@@ -314,6 +314,22 @@
   padding: 8px 0;
 }
 
+.legacyHistory {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.legacyNotice {
+  margin: 0;
+  color: var(--color-text-secondary, #666);
+}
+
+.legacyHistory h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
 .catalogGrid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 0.8fr);
