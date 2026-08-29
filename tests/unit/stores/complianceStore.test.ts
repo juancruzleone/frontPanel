@@ -92,4 +92,24 @@ describe('complianceStore', () => {
     expect(state.loading).toBe(false)
     expect(state.ownerId).toBeNull()
   })
+
+  it('increments the scope epoch and rejects stale catalog responses', () => {
+    const firstEpoch = useComplianceStore.getState().beginScopeRequest()
+    const secondEpoch = useComplianceStore.getState().beginScopeRequest()
+    const page = { items: [], page: 1, limit: 10, total: 0, totalPages: 0 }
+    expect(useComplianceStore.getState().setCatalogPacks(page, firstEpoch)).toBe(false)
+    expect(useComplianceStore.getState().setCatalogPacks(page, secondEpoch)).toBe(true)
+    expect(useComplianceStore.getState().catalogPacks).toEqual(page)
+  })
+
+  it('clears legacy and catalog data on tenant/user scope changes', () => {
+    const store = useComplianceStore.getState()
+    store.setOwnerId('tenant-a:user-a')
+    store.setNormas([norma])
+    store.setCatalogPacks({ items: [], page: 1, limit: 10, total: 0, totalPages: 0 })
+    store.setOwnerId('tenant-b:user-b')
+    expect(useComplianceStore.getState().normas).toEqual([])
+    expect(useComplianceStore.getState().catalogPacks).toBeNull()
+    expect(useComplianceStore.getState().ownerId).toBe('tenant-b:user-b')
+  })
 })

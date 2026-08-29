@@ -12,6 +12,7 @@ import { useHomeStore } from "./homeStore"
 import { useTechnicianStore } from "./technicianStore"
 import { useSettingsStore } from "./settingsStore"
 import { useMaintenanceStore } from "./maintenanceStore"
+import { useComplianceStore } from "./complianceStore"
 
 const AUTH_STORAGE_KEY = "auth-storage"
 
@@ -115,6 +116,7 @@ export const useAuthStore = create<AuthState>()(
         useTechnicianStore.getState().setOwnerId(userId)
         useSettingsStore.getState().setOwnerId(userId)
         useMaintenanceStore.getState().setOwnerId(userId)
+        useComplianceStore.getState().setOwnerId(ownerScope)
         useNotificationStore.getState().setNotificationOwner(userId)
 
         set({
@@ -150,6 +152,7 @@ export const useAuthStore = create<AuthState>()(
         useTechnicianStore.getState().setOwnerId(userId)
         useSettingsStore.getState().setOwnerId(userId)
         useMaintenanceStore.getState().setOwnerId(userId)
+        useComplianceStore.getState().setOwnerId(ownerScope)
         useNotificationStore.getState().setNotificationOwner(userId)
 
         // Ahora sí, resolver la autenticación
@@ -204,6 +207,7 @@ export const useAuthStore = create<AuthState>()(
         useSettingsStore.getState().setOwnerId(null)
         useMaintenanceStore.getState().clearAll()
         useMaintenanceStore.getState().setOwnerId(null)
+        useComplianceStore.getState().setOwnerId(null)
 
         useNotificationStore.getState().setNotificationOwner(null)
         

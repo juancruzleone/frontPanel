@@ -12,6 +12,7 @@ import {
   fetchEscaneo,
   fetchResumen,
   fetchObjetivo,
+  fetchCatalogPacks, fetchCatalogRun, fetchCatalogFindings,
 } from '../../../../src/features/compliance/services/complianceServices'
 import type { Escaneo, Norma, Regla, ResumenCumplimiento } from '../../../../src/features/compliance/services/complianceTypes'
 
@@ -174,5 +175,25 @@ describe('complianceServices', () => {
 
     await expect(fetchObjetivo('activo', 'a1')).resolves.toEqual(resultados)
     expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/cumplimiento/objetivos/activo/a1'), expect.any(Object))
+  })
+
+  it('rejects malformed catalog envelopes instead of exposing unvalidated data', async () => {
+    ;(fetch as any).mockResolvedValue(ok({ items: [{ packKey: 'unsafe' }] }))
+    await expect(fetchCatalogPacks()).rejects.toThrow('Respuesta de compliance inválida')
+  })
+
+  it('rejects malformed run details and accepts an empty findings page', async () => {
+    ;(fetch as any).mockResolvedValueOnce(ok({ _id: 'run-1', source: 'catalog' }))
+    await expect(fetchCatalogRun('run-1')).rejects.toThrow('Respuesta de compliance inválida')
+    const page = { items: [], page: 1, limit: 10, total: 0, totalPages: 0 }
+    ;(fetch as any).mockResolvedValueOnce(ok(page))
+    await expect(fetchCatalogFindings('run-1')).resolves.toEqual(page)
+  })
+
+  it('passes the abort signal and shared auth credentials to catalog reads', async () => {
+    ;(fetch as any).mockResolvedValue(ok({ items: [], page: 2, limit: 20, total: 0, totalPages: 0 }))
+    const controller = new AbortController()
+    await fetchCatalogPacks(2, 20, controller.signal)
+    expect(fetch).toHaveBeenCalledWith(expect.stringContaining('/compliance/catalog/packs?page=2&limit=20'), expect.objectContaining({ signal: controller.signal, credentials: 'include' }))
   })
 })
