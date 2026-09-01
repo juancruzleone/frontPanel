@@ -2,16 +2,20 @@ import { getAuthHeaders } from '../utils/apiHeaders';
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/";
 
+export interface BucketStat { current: number; max: number; percentage?: number }
 export interface TenantPlanInfo {
   planName: string;
   planId: string;
   limits: {
     users: { current: number; max: number };
+    internalUsers?: BucketStat;
+    clients?: BucketStat;
     installations: { current: number; max: number };
     assets: { current: number; max: number };
     formTemplates: { current: number; max: number };
     workOrders: { current: number; max: number };
   };
+  warnings?: string[];
   subscriptionStatus: string;
   subscriptionExpiresAt?: string;
 }
@@ -34,16 +38,18 @@ export const getTenantPlanInfo = async (): Promise<TenantPlanInfo> => {
   }
 
   const data = await response.json();
-  
-  // Mapear la respuesta del backend al formato esperado
+  const toStat = (s: any, fallback: number) => s ? { current: s.current ?? 0, max: s.max ?? fallback, percentage: s.percentage ?? (s.max ? Math.round((s.current / s.max) * 100) : 0) } : undefined;
+  // Mapear la respuesta del backend al formato esperado (soporta split buckets)
   return {
-    planName: data.plan?.name || 'starter',
-    planId: data.plan?.id || 'starter',
+    planName: data.plan?.name || data.plan?.id || 'starter',
+    planId: data.plan?.id || data.plan?.name || 'starter',
     limits: {
       users: {
-        current: data.stats?.usersCount || 0,
-        max: data.plan?.limits?.users || 3,
+        current: data.stats?.usersCount ?? data.limits?.total?.current ?? 0,
+        max: data.plan?.limits?.users ?? data.limits?.total?.max ?? data.maxUsers ?? 3,
       },
+      ...(data.limits?.internalUsers ? { internalUsers: toStat(data.limits.internalUsers, 3) } : data.plan?.limits?.internalUsers ? { internalUsers: { current: data.stats?.internalUsersCount ?? 0, max: data.plan.limits.internalUsers } } : {}),
+      ...(data.limits?.clients ? { clients: toStat(data.limits.clients, 2) } : data.plan?.limits?.clients ? { clients: { current: data.stats?.clientsCount ?? 0, max: data.plan.limits.clients } } : {}),
       installations: {
         current: data.stats?.installationsCount || 0,
         max: data.plan?.limits?.installations || 2,
@@ -61,6 +67,7 @@ export const getTenantPlanInfo = async (): Promise<TenantPlanInfo> => {
         max: data.plan?.limits?.workOrders || 100,
       },
     },
+    warnings: data.warnings || [],
     subscriptionStatus: data.subscriptionStatus || 'active',
     subscriptionExpiresAt: data.subscriptionExpiresAt,
   };

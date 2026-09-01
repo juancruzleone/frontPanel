@@ -14,13 +14,16 @@ export interface PlanLimitsModalProps {
   onUpgrade: () => void;
   limits: {
     users: { current: number; max: number };
+    internalUsers?: { current: number; max: number; percentage?: number };
+    clients?: { current: number; max: number; percentage?: number };
     installations: { current: number; max: number };
     assets: { current: number; max: number };
     formTemplates: { current: number; max: number };
     workOrders: { current: number; max: number };
   };
   currentPlan: string;
-  limitType: 'users' | 'installations' | 'assets' | 'formTemplates' | 'workOrders';
+  limitType: 'users' | 'internalUsers' | 'clients' | 'installations' | 'assets' | 'formTemplates' | 'workOrders';
+  warnings?: string[];
 }
 
 const PlanLimitsModal: React.FC<PlanLimitsModalProps> = ({
@@ -29,29 +32,36 @@ const PlanLimitsModal: React.FC<PlanLimitsModalProps> = ({
   onUpgrade,
   limits,
   currentPlan,
-  limitType
+  warnings = [],
 }) => {
   const { t } = useTranslation();
 
   if (!isOpen) return null;
 
   const getLimitIcon = (type: string) => {
-    const icons = {
-      users: '👥',
-      facilities: '🏢',
-      assets: '⚙️',
-      formTemplates: '📋',
-      workOrders: '📝'
+    const icons: Record<string,string> = {
+      users: '👥', internalUsers: '👥', clients: '🤝',
+      facilities: '🏢', assets: '⚙️', formTemplates: '📋', workOrders: '📝'
     };
-    return icons[type as keyof typeof icons] || '📊';
+    return icons[type] || '📊';
   };
-
-  const getLimitColor = (current: number, max: number) => {
-    const percentage = (current / max) * 100;
+  const bucketTone = (pct:number, bucket:'internalUsers'|'clients') => {
+    if (warnings.includes(`${bucket}_100`) || pct >= 100) return 'limit-exceeded';
+    if (warnings.includes(`${bucket}_80`) || pct >= 80) return 'limit-warning';
+    return 'limit-normal';
+  };
+  const getLimitColor = (current: number, max: number, type?: string) => {
+    if (type === 'internalUsers' || type === 'clients') {
+      const pct = max ? Math.round((current / max) * 100) : 0;
+      return bucketTone(pct, type as 'internalUsers'|'clients');
+    }
+    const percentage = max ? (current / max) * 100 : 0;
     if (percentage >= 100) return 'limit-exceeded';
     if (percentage >= 80) return 'limit-warning';
     return 'limit-normal';
   };
+  const hasSplit = !!(limits.internalUsers && limits.clients);
+  const displayLimits = hasSplit ? { internalUsers: limits.internalUsers!, clients: limits.clients! } : limits;
 
   return (
     <div className="plan-limits-overlay">
@@ -80,8 +90,8 @@ const PlanLimitsModal: React.FC<PlanLimitsModalProps> = ({
           </div>
 
           <div className="limits-grid">
-            {Object.entries(limits).map(([type, limit]) => (
-              <div key={type} className={`limit-card ${getLimitColor(limit.current, limit.max)}`}>
+            {Object.entries(displayLimits).map(([type, limit]) => (
+              <div key={type} className={`limit-card ${getLimitColor((limit as any).current, (limit as any).max, type)}`}>
                 <div className="limit-icon">
                   {getLimitIcon(type)}
                 </div>

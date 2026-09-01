@@ -5,18 +5,20 @@ export interface PlanLimitsModalProps {
   onUpgrade: () => void;
   limits: {
     users: { current: number; max: number };
+    internalUsers?: { current: number; max: number };
+    clients?: { current: number; max: number };
     installations: { current: number; max: number };
     assets: { current: number; max: number };
     formTemplates: { current: number; max: number };
     workOrders: { current: number; max: number };
   };
   currentPlan: string;
-  limitType: 'users' | 'installations' | 'assets' | 'formTemplates' | 'workOrders';
+  limitType: 'users' | 'internalUsers' | 'clients' | 'installations' | 'assets' | 'formTemplates' | 'workOrders';
 }
 
 export interface PlanLimitError {
   isLimitError: boolean;
-  limitType?: 'users' | 'installations' | 'assets' | 'formTemplates' | 'workOrders';
+  limitType?: 'users' | 'internalUsers' | 'clients' | 'installations' | 'assets' | 'formTemplates' | 'workOrders';
   currentCount?: number;
   maxLimit?: number;
   planName?: string;
@@ -29,32 +31,42 @@ export interface PlanLimitError {
  */
 export const detectPlanLimitError = (errorMessage: string): PlanLimitError | null => {
   const message = errorMessage.toLowerCase();
+  // Código machine-readable tiene precedencia (case-insensitive)
+  if (message.includes('limit_internal_users_reached')) {
+    const m = errorMessage.match(/\((\d+)\)/);
+    return { isLimitError: true, limitType: 'internalUsers', maxLimit: m ? parseInt(m[1]) : undefined };
+  }
+  if (message.includes('limit_clients_reached') || message.includes('limit_clients')) {
+    const m = errorMessage.match(/\((\d+)\)/);
+    return { isLimitError: true, limitType: 'clients', maxLimit: m ? parseInt(m[1]) : undefined };
+  }
   
-  // Patrones para detectar diferentes tipos de límites
+  // Patrones para detectar diferentes tipos de límites (más específico primero)
   const limitPatterns = [
-    { pattern: /límite de users? alcanzado/i, type: 'users' as const },
-    { pattern: /límite de usuarios? alcanzado/i, type: 'users' as const },
-    { pattern: /límite de instalaciones? alcanzado/i, type: 'installations' as const },
-    { pattern: /límite de installations? alcanzado/i, type: 'installations' as const },
-    { pattern: /límite de activos? alcanzado/i, type: 'assets' as const },
-    { pattern: /límite de assets? alcanzado/i, type: 'assets' as const },
-    { pattern: /límite de plantillas? alcanzado/i, type: 'formTemplates' as const },
-    { pattern: /límite de form.?templates? alcanzado/i, type: 'formTemplates' as const },
-    { pattern: /límite de órdenes? alcanzado/i, type: 'workOrders' as const },
-    { pattern: /límite de work.?orders? alcanzado/i, type: 'workOrders' as const },
+    { pattern: /l[ií]mite de usuarios internos alcanzado/i, type: 'internalUsers' as const },
+    { pattern: /l[ií]mite de clientes alcanzado/i, type: 'clients' as const },
+    { pattern: /l[ií]mite de users? alcanzado/i, type: 'users' as const },
+    { pattern: /l[ií]mite de usuarios? alcanzado/i, type: 'users' as const },
+    { pattern: /l[ií]mite de instalaciones? alcanzado/i, type: 'installations' as const },
+    { pattern: /l[ií]mite de installations? alcanzado/i, type: 'installations' as const },
+    { pattern: /l[ií]mite de activos? alcanzado/i, type: 'assets' as const },
+    { pattern: /l[ií]mite de assets? alcanzado/i, type: 'assets' as const },
+    { pattern: /l[ií]mite de plantillas? alcanzado/i, type: 'formTemplates' as const },
+    { pattern: /l[ií]mite de form.?templates? alcanzado/i, type: 'formTemplates' as const },
+    { pattern: /l[ií]mite de [oó]rdenes? alcanzado/i, type: 'workOrders' as const },
+    { pattern: /l[ií]mite de work.?orders? alcanzado/i, type: 'workOrders' as const },
   ];
 
   for (const { pattern, type } of limitPatterns) {
-    if (pattern.test(message)) {
-      // Extraer información adicional del mensaje si está disponible
+    if (pattern.test(errorMessage)) {
       const countMatch = message.match(/(\d+)\/(\d+)/);
+      const parenMatch = errorMessage.match(/\((\d+)\)/);
       const planMatch = message.match(/plan (\w+)/i);
-      
       return {
         isLimitError: true,
         limitType: type,
         currentCount: countMatch ? parseInt(countMatch[1]) : undefined,
-        maxLimit: countMatch ? parseInt(countMatch[2]) : undefined,
+        maxLimit: countMatch ? parseInt(countMatch[2]) : parenMatch ? parseInt(parenMatch[1]) : undefined,
         planName: planMatch ? planMatch[1] : undefined,
       };
     }
@@ -76,8 +88,10 @@ export const createPlanLimitsModalProps = (
   const { limitType, currentCount, maxLimit } = limitError;
   
   // Configuración por defecto basada en el tipo de límite
-  const defaultLimits = {
+  const defaultLimits: Record<string, { current: number; max: number }> = {
     users: { current: currentCount || 0, max: maxLimit || 3 },
+    internalUsers: { current: currentCount || 0, max: maxLimit || 3 },
+    clients: { current: currentCount || 0, max: maxLimit || 2 },
     installations: { current: currentCount || 0, max: maxLimit || 2 },
     assets: { current: currentCount || 0, max: maxLimit || 6 },
     formTemplates: { current: currentCount || 0, max: maxLimit || 6 },

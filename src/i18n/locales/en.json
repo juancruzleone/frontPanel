@@ -2250,12 +2250,18 @@
     "close": "Close",
     "types": {
       "users": "Users",
+      "internalUsers": "Internal users",
+      "clients": "Clients",
       "installations": "Installations",
       "assets": "Assets",
       "formTemplates": "Form Templates",
       "workOrders": "Work Orders"
     },
     "messages": {
+      "internalUsersLimit": "Internal users limit reached",
+      "internalUsersWarning": "{{remaining}} of {{max}} internal users remaining ({{percentage}}%) — close to limit",
+      "clientsLimit": "Clients limit reached",
+      "clientsWarning": "{{remaining}} of {{max}} clients remaining ({{percentage}}%) — close to limit",
       "usersLimit": "You have reached the maximum number of users for your plan",
       "installationsLimit": "You have reached the maximum number of installations for your plan",
       "assetsLimit": "You have reached the maximum number of assets for your plan",
@@ -2263,7 +2269,16 @@
       "workOrdersLimit": "You have reached the maximum number of work orders for your plan"
     }
   },
-  "maintenanceHistory": {
+      "usageBanner": {
+        "internalUsersLabel": "internal users",
+        "clientsLabel": "clients",
+        "internalUsersWarning": "{{remaining}} of {{max}} internal users remaining ({{percentage}}%) — close to limit",
+        "internalUsersBlocked": "Internal users limit reached: {{current}}/{{max}} — upgrade your plan",
+        "clientsWarning": "{{remaining}} of {{max}} clients remaining ({{percentage}}%) — close to limit",
+        "clientsBlocked": "Clients limit reached: {{current}}/{{max}} — upgrade your plan",
+        "upgradeCta": "Upgrade plan"
+      },
+      "maintenanceHistory": {
     "title": "Maintenance History",
     "loading": "Loading history...",
     "noMaintenances": "No maintenance records for this device",

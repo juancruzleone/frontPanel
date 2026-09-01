@@ -2276,12 +2276,18 @@
     "close": "Cerrar",
     "types": {
       "users": "Usuarios",
+      "internalUsers": "Usuarios internos",
+      "clients": "Clientes",
       "installations": "Instalaciones",
       "assets": "Activos",
       "formTemplates": "Plantillas de Formularios",
       "workOrders": "Órdenes de Trabajo"
     },
     "messages": {
+      "internalUsersLimit": "Límite de usuarios internos alcanzado",
+      "internalUsersWarning": "Te quedan {{remaining}} de {{max}} usuarios internos ({{percentage}}%) — cerca del límite",
+      "clientsLimit": "Límite de clientes alcanzado",
+      "clientsWarning": "Te quedan {{remaining}} de {{max}} clientes ({{percentage}}%) — cerca del límite",
       "usersLimit": "Has alcanzado el límite máximo de usuarios para tu plan",
       "installationsLimit": "Has alcanzado el límite máximo de instalaciones para tu plan",
       "assetsLimit": "Has alcanzado el límite máximo de activos para tu plan",
@@ -2289,7 +2295,16 @@
       "workOrdersLimit": "Has alcanzado el límite máximo de órdenes de trabajo para tu plan"
     }
   },
-  "maintenanceHistory": {
+      "usageBanner": {
+        "internalUsersLabel": "usuarios internos",
+        "clientsLabel": "clientes",
+        "internalUsersWarning": "Te quedan {{remaining}} de {{max}} usuarios internos ({{percentage}}%) — cerca del límite",
+        "internalUsersBlocked": "Límite de usuarios internos alcanzado: {{current}}/{{max}} — actualiza tu plan",
+        "clientsWarning": "Te quedan {{remaining}} de {{max}} clientes ({{percentage}}%) — cerca del límite",
+        "clientsBlocked": "Límite de clientes alcanzado: {{current}}/{{max}} — actualiza tu plan",
+        "upgradeCta": "Actualizar plan"
+      },
+      "maintenanceHistory": {
     "title": "Historial de Mantenimientos",
     "loading": "Cargando historial...",
     "noMaintenances": "No hay mantenimientos registrados para este dispositivo",
