@@ -1,5 +1,6 @@
-import { useAuthStore } from "../../../store/authStore"
 import { fetchWithAuthRetry } from "@/shared/utils/apiHeaders"
+import { parseJsonResponse, throwApiError } from "@/shared/services/ApiError"
+import type { LoginResponse } from "@/store/authStore"
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/";
 
@@ -7,21 +8,7 @@ const getSessionHeaders = (): Record<string, string> => {
   return {}
 }
 
-const parseJsonSafely = async (response: Response) => {
-  const text = await response.text()
-
-  if (!text) {
-    return null
-  }
-
-  try {
-    return JSON.parse(text)
-  } catch {
-    return null
-  }
-}
-
-export const userLogin = async (username: string, password: string) => {
+export const userLogin = async (username: string, password: string): Promise<LoginResponse> => {
   const response = await fetch(`${API_URL}cuenta/login`, {
     method: "POST",
     credentials: "include",
@@ -32,15 +19,10 @@ export const userLogin = async (username: string, password: string) => {
   })
 
   if (!response.ok) {
-    const errorData = await parseJsonSafely(response)
-    throw new Error(
-      errorData?.error?.message ||
-      errorData?.message ||
-      `Error al iniciar sesión (${response.status})`
-    )
+    return throwApiError(response, `Error al iniciar sesión (${response.status})`)
   }
 
-  const data = await parseJsonSafely(response)
+  const data = await parseJsonResponse<LoginResponse>(response)
 
   if (!data) {
     throw new Error("La respuesta del login no tuvo un JSON válido")
@@ -49,16 +31,16 @@ export const userLogin = async (username: string, password: string) => {
   return data
 }
 
-export const verifySession = async () => {
+export const verifySession = async (): Promise<LoginResponse> => {
   const response = await fetchWithAuthRetry(`${API_URL}verify`, {
     method: "GET",
   })
 
   if (!response.ok) {
-    throw new Error("Sesión no válida")
+    return throwApiError(response, "Sesión no válida")
   }
 
-  const data = await parseJsonSafely(response)
+  const data = await parseJsonResponse<LoginResponse>(response)
 
   if (!data) {
     throw new Error("La verificación de sesión devolvió una respuesta inválida")
@@ -84,14 +66,9 @@ export const logoutSession = async (csrfToken?: string | null) => {
   })
 
   if (!response.ok) {
-    const errorData = await parseJsonSafely(response)
-    throw new Error(
-      errorData?.error?.message ||
-      errorData?.message ||
-      "No se pudo cerrar la sesión"
-    )
+    return throwApiError(response, "No se pudo cerrar la sesión")
   }
 
-  const data = await parseJsonSafely(response)
+  const data = await parseJsonResponse<Record<string, unknown>>(response)
   return data || { message: "Sesión cerrada correctamente" }
 }

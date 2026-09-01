@@ -2627,5 +2627,59 @@
       "rangoInvertido": "El mínimo no puede ser mayor que el máximo",
       "enumValores": "Ingresá al menos un valor separado por coma"
     }
+  },
+  "billing": {
+    "loading": "Cargando opciones de facturación...",
+    "company": "Empresa",
+    "currentPlan": "Plan actual",
+    "trialEnd": "Fin de la prueba",
+    "selectPlan": "Selecciona un plan",
+    "billingCycle": "Ciclo de facturación",
+    "price": "{{price}}",
+    "expired": { "title": "Tu prueba ha finalizado", "message": "El acceso operativo está pausado. Elige un plan para continuar usando Leonix." },
+    "manage": { "title": "Planes y facturación", "message": "Revisa las opciones disponibles y elige el plan adecuado para tu empresa." },
+    "plans": { "starter": "Inicial", "professional": "Profesional", "enterprise": "Empresarial" },
+    "cycles": { "monthly": "Mensual", "yearly": "Anual" },
+    "checkout": { "cta": "Continuar al pago", "loading": "Preparando pago..." },
+    "errors": { "status": "No se pudo cargar la información de facturación.", "checkout": "No se pudo iniciar el pago.", "checkoutStatus": "No se pudo confirmar el estado del pago." },
+    "return": {
+      "title": "Confirmación del pago",
+      "invalid": "No encontramos una referencia de pago válida.",
+      "attempt": "Comprobación {{count}}",
+      "timeout": "La confirmación está tardando más de lo esperado. Vuelve a intentar la comprobación.",
+      "retry": "Volver a comprobar",
+      "status": { "pending": "Estamos esperando la confirmación del proveedor de pago.", "paid": "Pago confirmado. Estamos habilitando tu cuenta.", "failed": "El pago no pudo completarse.", "cancelled": "El pago fue cancelado." }
+    },
+    "trialCard": {
+      "label": "Estado de la prueba",
+      "title": "Prueba del plan {{plan}}",
+      "remaining_one": "Queda {{count}} día. Finaliza el {{date}}.",
+      "remaining_other": "Quedan {{count}} días. Finaliza el {{date}}.",
+      "expiresToday": "La prueba finaliza hoy.",
+      "today": "La prueba finaliza hoy.",
+      "expired": "La prueba ha finalizado.",
+      "invalid": "La fecha de finalización de la prueba no está disponible.",
+      "cta": "Ver planes"
+    }
+  },
+  "administrativeTrial": {
+    "cta": "Crear cuenta de prueba",
+    "title": "Crear cuenta de prueba",
+    "duration": "La cuenta tendrá acceso completo durante 30 días. La duración la define el servidor y no puede modificarse.",
+    "companyName": "Nombre de la empresa",
+    "email": "Correo del administrador",
+    "password": "Contraseña temporal",
+    "userName": "Nombre de usuario (opcional)",
+    "plan": "Plan",
+    "firstName": "Nombre (opcional)",
+    "lastName": "Apellido (opcional)",
+    "phone": "Teléfono (opcional)",
+    "address": "Dirección (opcional)",
+    "notes": "Notas internas (opcional)",
+    "submit": "Crear prueba de 30 días",
+    "creating": "Creando prueba...",
+    "success": "La cuenta de prueba se creó correctamente. La contraseña no se mostrará nuevamente.",
+    "error": "No se pudo crear la cuenta de prueba.",
+    "validation": { "plan": "Selecciona un plan válido." }
   }
 }

@@ -2547,5 +2547,59 @@
       "rangoInvertido": "The minimum cannot be greater than the maximum",
       "enumValores": "Enter at least one comma-separated value"
     }
+  },
+  "billing": {
+    "loading": "Loading billing options...",
+    "company": "Company",
+    "currentPlan": "Current plan",
+    "trialEnd": "Trial end",
+    "selectPlan": "Select a plan",
+    "billingCycle": "Billing cycle",
+    "price": "{{price}}",
+    "expired": { "title": "Your trial has ended", "message": "Operational access is paused. Choose a plan to continue using Leonix." },
+    "manage": { "title": "Plans and billing", "message": "Review the available options and choose the right plan for your company." },
+    "plans": { "starter": "Starter", "professional": "Professional", "enterprise": "Enterprise" },
+    "cycles": { "monthly": "Monthly", "yearly": "Yearly" },
+    "checkout": { "cta": "Continue to payment", "loading": "Preparing payment..." },
+    "errors": { "status": "Billing information could not be loaded.", "checkout": "Payment could not be started.", "checkoutStatus": "Payment status could not be confirmed." },
+    "return": {
+      "title": "Payment confirmation",
+      "invalid": "We could not find a valid payment reference.",
+      "attempt": "Check {{count}}",
+      "timeout": "Confirmation is taking longer than expected. Try the confirmation again.",
+      "retry": "Try confirmation again",
+      "status": { "pending": "We are waiting for confirmation from the payment provider.", "paid": "Payment confirmed. We are enabling your account.", "failed": "The payment could not be completed.", "cancelled": "The payment was cancelled." }
+    },
+    "trialCard": {
+      "label": "Trial status",
+      "title": "{{plan}} plan trial",
+      "remaining_one": "{{count}} day remaining. Ends on {{date}}.",
+      "remaining_other": "{{count}} days remaining. Ends on {{date}}.",
+      "expiresToday": "The trial ends today.",
+      "today": "The trial ends today.",
+      "expired": "The trial has ended.",
+      "invalid": "The trial end date is unavailable.",
+      "cta": "View plans"
+    }
+  },
+  "administrativeTrial": {
+    "cta": "Create trial account",
+    "title": "Create trial account",
+    "duration": "The account will have full access for 30 days. The duration is set by the server and cannot be changed.",
+    "companyName": "Company name",
+    "email": "Administrator email",
+    "password": "Temporary password",
+    "userName": "Username (optional)",
+    "plan": "Plan",
+    "firstName": "First name (optional)",
+    "lastName": "Last name (optional)",
+    "phone": "Phone (optional)",
+    "address": "Address (optional)",
+    "notes": "Internal notes (optional)",
+    "submit": "Create 30-day trial",
+    "creating": "Creating trial...",
+    "success": "The trial account was created successfully. The password will not be shown again.",
+    "error": "The trial account could not be created.",
+    "validation": { "plan": "Select a valid plan." }
   }
 }

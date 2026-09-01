@@ -32,6 +32,9 @@ import Settings from '../pages/Settings';
 import AuditLogs from '../pages/AuditLogs';
 import Compliance from '../pages/Compliance';
 import { ROLES } from "../shared/utils/roleUtils";
+import { BillingRoute } from "./BillingRoute";
+import { BillingAccessPage } from "../features/billing/pages/BillingAccessPage";
+import { BillingReturnPage } from "../features/billing/pages/BillingReturnPage";
 
 /**
  * Genera rutas hijas para MainLayout para todos los idiomas
@@ -229,6 +232,14 @@ export const createTranslatedRouter = () => {
           path: "/",
           element: <Login />,
         },
+      ],
+    },
+    {
+      element: <BillingRoute />,
+      children: [
+        { path: "/billing", element: <BillingAccessPage /> },
+        { path: "/billing/return", element: <BillingReturnPage /> },
+        { path: "/billing/return/:checkoutIntentId", element: <BillingReturnPage /> },
       ],
     },
     // Rutas protegidas con MainLayout

@@ -12,6 +12,7 @@ import { pushNotificationService } from "../shared/services/pushNotificationServ
 import { routeTranslations } from "../router/routeTranslations";
 import { isAdmin } from "../shared/utils/roleUtils";
 import { useHomeTour } from "../features/home/hooks/useHomeTour";
+import { TrialStatusCard } from "../features/billing/components/TrialStatusCard";
 
 const ONBOARDING_TOUR_KEY = "home-onboarding-tour-v1-shown";
 const HOME_ROUTES = new Set(
@@ -20,12 +21,12 @@ const HOME_ROUTES = new Set(
 
 const MainLayout: React.FC = () => {
 	const { isSidebarCollapsed } = useLayoutStore();
-	const { isAuthenticated, isAuthResolved, userId, role } = useAuthStore();
+	const { isAuthenticated, isAuthResolved, userId, role, accessMode, trial } = useAuthStore();
 	const location = useLocation();
 	const { startTour } = useHomeTour();
 
 	useEffect(() => {
-		if (isAuthResolved && isAuthenticated && userId) {
+		if (isAuthResolved && isAuthenticated && accessMode === "full" && userId) {
 			socketService.connect();
 			pushNotificationService.initialize();
 		} else {
@@ -35,7 +36,7 @@ const MainLayout: React.FC = () => {
 		return () => {
 			socketService.disconnect();
 		};
-	}, [isAuthResolved, isAuthenticated, userId]);
+	}, [accessMode, isAuthResolved, isAuthenticated, userId]);
 
 	useEffect(() => {
 		if (!isAuthenticated) {
@@ -70,6 +71,7 @@ const MainLayout: React.FC = () => {
 			>
 				<TopBar />
 				<main>
+					{trial?.status === "active" && isAdmin(role) && HOME_ROUTES.has(location.pathname) && <TrialStatusCard trial={trial} />}
 					<Outlet />
 				</main>
 				<Footer />

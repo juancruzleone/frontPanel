@@ -1,7 +1,7 @@
 import React from 'react'
 import { Navigate } from "react-router"
 import { useAuthStore } from "../../src/store/authStore.ts"
-import { isSuperAdmin, isTechnician, isAdmin, canAccessSection } from "../shared/utils/roleUtils"
+import { isSuperAdmin, canAccessSection } from "../shared/utils/roleUtils"
 import { useTranslatedRoutes } from "./useTranslatedRoutes"
 
 interface RoleProtectedRouteProps {
@@ -14,11 +14,13 @@ const RoleProtectedRoute: React.FC<RoleProtectedRouteProps> = ({ children, secti
   const role = useAuthStore((state) => state.role)
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
   const isAuthResolved = useAuthStore((state) => state.isAuthResolved)
+  const accessMode = useAuthStore((state) => state.accessMode)
   const { getRoute } = useTranslatedRoutes()
 
   if (!isAuthResolved) return null
 
-  if (!user || !isAuthenticated) return <Navigate to="/" replace />
+  if (accessMode === "billing_only") return <Navigate to="/billing" replace />
+  if (!user || !isAuthenticated || accessMode !== "full") return <Navigate to="/" replace />
 
   // Verificar si el usuario puede acceder a esta sección
   const canAccess = canAccessSection(role, section)

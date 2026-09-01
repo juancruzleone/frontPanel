@@ -180,6 +180,42 @@ describe('AuthStore', () => {
   })
 
   describe('Persistence', () => {
+    it('persists billing-only capability without authenticating the normal app', () => {
+      useAuthStore.getState().enterBillingOnly({
+        accessMode: 'billing_only',
+        trial: { status: 'expired', plan: 'professional', startsAt: '2026-08-01', endsAt: '2026-08-31' },
+        billingSession: { expiresAt: '2026-08-31T14:00:00Z' },
+      })
+
+      const state = useAuthStore.getState()
+      const persisted = JSON.parse(localStorage.getItem('auth-storage') || '{}')
+      expect(state).toMatchObject({ accessMode: 'billing_only', isAuthenticated: false, billingSessionExpiresAt: '2026-08-31T14:00:00Z' })
+      expect(persisted.state.accessMode).toBe('billing_only')
+      expect(persisted.state.trial.plan).toBe('professional')
+    })
+
+    it('promotes billing-only state to full authenticated access', () => {
+      useAuthStore.getState().enterBillingOnly({ accessMode: 'billing_only' })
+      useAuthStore.getState().hydrateSession({
+        authenticated: true,
+        accessMode: 'full',
+        user: { _id: 'admin-1', userName: 'admin', role: 'admin', tenantId: 'tenant-1' },
+      })
+
+      expect(useAuthStore.getState()).toMatchObject({ accessMode: 'full', isAuthenticated: true, userId: 'admin-1' })
+    })
+
+    it('does not enter full access from billing status before session promotion', () => {
+      useAuthStore.getState().enterBillingOnly({ accessMode: 'billing_only' })
+      useAuthStore.getState().setBillingContext({
+        accessMode: 'full',
+        tenant: { tenantId: 'tenant-1', name: 'Acme', plan: 'professional', status: 'active' },
+        trial: null,
+      })
+
+      expect(useAuthStore.getState()).toMatchObject({ accessMode: 'billing_only', isAuthenticated: false })
+    })
+
     it('should persist auth data to localStorage', () => {
       const loginData = {
         user: {

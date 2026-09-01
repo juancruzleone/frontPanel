@@ -14,11 +14,13 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles, children 
   const role = useAuthStore((state) => state.role)
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
   const isAuthResolved = useAuthStore((state) => state.isAuthResolved)
+  const accessMode = useAuthStore((state) => state.accessMode)
   const { getRoute } = useTranslatedRoutes()
 
   if (!isAuthResolved) return null
 
-  if (!user || !isAuthenticated) return <Navigate to="/" replace />
+  if (accessMode === "billing_only") return <Navigate to="/billing" replace />
+  if (!user || !isAuthenticated || accessMode !== "full") return <Navigate to="/" replace />
 
   if (allowedRoles && role) {
     // Verificar si el rol actual está permitido usando las funciones de utilidad

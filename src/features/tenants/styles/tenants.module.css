@@ -41,8 +41,21 @@
   align-items: center;
   margin-bottom: 0;
   margin-left: 0;
-  gap: 0;  flex-wrap: wrap;
+  gap: 10px;
+  flex-wrap: wrap;
 
+}
+
+.trialButton {
+  min-height: 42px;
+  padding: 9px 16px;
+  border: 1px solid var(--color-card-border);
+  border-radius: 9px;
+  background: var(--color-card);
+  color: var(--color-text);
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .searchContainer {

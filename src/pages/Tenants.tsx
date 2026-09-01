@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from "react"
-import { useNavigate } from "react-router"
 import Button from "../../src/shared/components/Buttons/buttonCreate.tsx"
 import SearchInput from "../shared/components/Inputs/SearchInput.tsx"
 import styles from "../features/tenants/styles/tenants.module.css"
 import useTenants from "../features/tenants/hooks/useTenants"
 import { Tenant } from "../features/tenants/types/tenant.types"
-import { Edit, Trash, Plus, Building, Users, Calendar } from "lucide-react"
+import { Edit, Trash, Building, Users, Calendar } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../store/authStore"
@@ -17,6 +16,7 @@ import ViewToggle from "../components/ViewToggle/ViewToggle"
 import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 import DataTable from "../components/DataTable/DataTable"
 import Tooltip from "../shared/components/Tooltip/Tooltip"
+import { AdministrativeTrialModal } from "../features/tenants/components/AdministrativeTrialModal"
 
 const Tenants = () => {
   const { t, i18n } = useTranslation()
@@ -25,12 +25,8 @@ const Tenants = () => {
     loading,
     error,
     loadTenants,
-    addTenant,
-    editTenant,
-    removeTenant,
   } = useTenants()
 
-  const navigate = useNavigate()
   const role = useAuthStore((s) => s.role)
   const isSuperAdmin = role === 'super_admin'
 
@@ -44,6 +40,7 @@ const Tenants = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false)
+  const [isTrialModalOpen, setIsTrialModalOpen] = useState(false)
   const [selectedTenant, setSelectedTenant] = useState<Tenant | null>(null)
   const [successMessage, setSuccessMessage] = useState("")
 
@@ -172,6 +169,11 @@ const Tenants = () => {
         </div>
 
         <div className={styles.positionButton}>
+          {isSuperAdmin && (
+            <button className={styles.trialButton} type="button" onClick={() => setIsTrialModalOpen(true)}>
+              {t('administrativeTrial.cta')}
+            </button>
+          )}
           <Button title={t('tenants.createTenant')} onClick={handleCreate} />
         </div>
       </div>
@@ -184,6 +186,7 @@ const Tenants = () => {
       </div>
 
       <div className={styles.listContainer}>
+        {error && <p className={styles.loader} role="alert">{error}</p>}
         {loading ? (
           <>
             <div className={styles.cardsRow}>
@@ -381,6 +384,13 @@ const Tenants = () => {
         message={successMessage}
         onClose={closeAllModals}
       />
+      {isSuperAdmin && (
+        <AdministrativeTrialModal
+          isOpen={isTrialModalOpen}
+          onClose={() => setIsTrialModalOpen(false)}
+          onSuccess={loadTenants}
+        />
+      )}
     </div>
   )
 }

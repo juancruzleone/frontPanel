@@ -46,10 +46,31 @@ interface UserData {
   permissions?: string[]
 }
 
-interface LoginData {
+export type AccessMode = "full" | "billing_only" | "anonymous"
+
+export interface TrialSummary {
+  status: string
+  plan: "starter" | "professional" | "enterprise"
+  startsAt: string
+  endsAt: string
+}
+
+export interface BillingTenantSummary {
+  tenantId: string
+  name: string
+  plan: string
+  status: string
+}
+
+export interface LoginResponse {
   user?: UserData
   cuenta?: UserData
   token?: string | null
+  authenticated?: boolean
+  accessMode?: "full" | "billing_only"
+  trial?: TrialSummary | null
+  billingSession?: { expiresAt: string }
+  csrfToken?: string
 }
 
 export interface UserPermissions {
@@ -72,9 +93,15 @@ interface AuthState {
   permissions: string[] | UserPermissions | null
   isAuthenticated: boolean
   isAuthResolved: boolean
+  accessMode: AccessMode
+  trial: TrialSummary | null
+  billingTenant: BillingTenantSummary | null
+  billingSessionExpiresAt: string | null
   logoutMessage: string | null
-  login: (data: LoginData) => void
-  hydrateSession: (data: LoginData) => void
+  login: (data: LoginResponse) => void
+  hydrateSession: (data: LoginResponse) => void
+  enterBillingOnly: (data: LoginResponse) => void
+  setBillingContext: (data: { accessMode: "full" | "billing_only" | "denied"; trial: TrialSummary | null; tenant: BillingTenantSummary | null }) => void
   setAuthenticated: (value: boolean) => void
   setAuthResolved: (value: boolean) => void
   setLogoutMessage: (msg: string | null) => void
@@ -84,7 +111,7 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set) => ({
+    (set): AuthState => ({
       user: null,
       userId: null,
       token: null,
@@ -93,6 +120,10 @@ export const useAuthStore = create<AuthState>()(
       permissions: null,
       isAuthenticated: false,
       isAuthResolved: false,
+      accessMode: "anonymous",
+      trial: null,
+      billingTenant: null,
+      billingSessionExpiresAt: null,
       logoutMessage: null,
       login: (data) => {
         // El backend devuelve 'cuenta' en lugar de 'user'
@@ -128,6 +159,7 @@ export const useAuthStore = create<AuthState>()(
           permissions: user.permissions || null,
           isAuthenticated: false, // No autenticar hasta que se cierre el modal
           isAuthResolved: true,
+          accessMode: "full",
         })
       },
       hydrateSession: (data) => {
@@ -165,9 +197,39 @@ export const useAuthStore = create<AuthState>()(
           permissions: user.permissions || null,
           isAuthenticated: true,
           isAuthResolved: true,
+          accessMode: "full",
         })
       },
-      setAuthenticated: (value) => set({ isAuthenticated: value }),
+      enterBillingOnly: (data) => set({
+        user: null,
+        userId: null,
+        role: null,
+        tenantId: null,
+        permissions: null,
+        isAuthenticated: false,
+        isAuthResolved: true,
+        accessMode: "billing_only",
+        trial: data.trial || null,
+        billingSessionExpiresAt: data.billingSession?.expiresAt || null,
+      }),
+      setBillingContext: (data) => {
+        const currentState = useAuthStore.getState()
+        const canEnterFullAccess = data.accessMode === "full" && currentState.isAuthenticated
+        set({
+          accessMode: data.accessMode === "denied"
+            ? "anonymous"
+            : canEnterFullAccess
+              ? "full"
+              : data.accessMode === "full"
+                ? currentState.accessMode
+                : data.accessMode,
+          trial: data.trial,
+          billingTenant: data.tenant,
+          isAuthenticated: canEnterFullAccess,
+          isAuthResolved: true,
+        })
+      },
+      setAuthenticated: (value) => set({ isAuthenticated: value, accessMode: value ? "full" : useAuthStore.getState().accessMode }),
       setAuthResolved: (value) => set({ isAuthResolved: value }),
       setLogoutMessage: (msg) => set({ logoutMessage: msg }),
       setTenantId: (tenantId) => set({ tenantId }),
@@ -225,6 +287,10 @@ export const useAuthStore = create<AuthState>()(
           permissions: null,
           isAuthenticated: false,
           isAuthResolved: true,
+          accessMode: "anonymous",
+          trial: null,
+          billingTenant: null,
+          billingSessionExpiresAt: null,
         })
       },
     }),
@@ -232,8 +298,8 @@ export const useAuthStore = create<AuthState>()(
       name: AUTH_STORAGE_KEY,
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => {
-        const { user, userId, role, tenantId, permissions } = state
-        return { user, userId, role, tenantId, permissions }
+        const { user, userId, role, tenantId, permissions, accessMode, trial, billingTenant, billingSessionExpiresAt } = state
+        return { user, userId, role, tenantId, permissions, accessMode, trial, billingTenant, billingSessionExpiresAt }
       },
       merge: (persistedState, currentState) => {
         const persisted = persistedState as Partial<AuthState>
@@ -244,6 +310,10 @@ export const useAuthStore = create<AuthState>()(
           role: persisted.role ?? null,
           tenantId: persisted.tenantId ?? null,
           permissions: persisted.permissions ?? null,
+          accessMode: persisted.accessMode ?? "anonymous",
+          trial: persisted.trial ?? null,
+          billingTenant: persisted.billingTenant ?? null,
+          billingSessionExpiresAt: persisted.billingSessionExpiresAt ?? null,
           isAuthenticated: false,
           isAuthResolved: false,
         }

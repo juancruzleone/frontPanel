@@ -9,8 +9,14 @@ import { useCSRFStore } from "@/store/csrfStore"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router"
 import { useTranslatedRoutes } from "@/router/useTranslatedRoutes"
+import { ApiError, type ApiErrorPayload } from "@/shared/services/ApiError"
+import type { LoginResponse } from "@/store/authStore"
 
 export const resolvePostLoginRoute = (getRoute: (key: "home") => string): string => getRoute("home")
+
+const isBillingOnlyPayload = (payload: ApiErrorPayload | null): payload is ApiErrorPayload & LoginResponse => (
+  payload?.accessMode === "billing_only"
+)
 
 export function useLogin() {
   const { t, i18n } = useTranslation()
@@ -26,6 +32,7 @@ export function useLogin() {
 
   // Use named actions from store
   const login = useAuthStore((state) => state.login)
+  const enterBillingOnly = useAuthStore((state) => state.enterBillingOnly)
   const setAuthenticated = useAuthStore((state) => state.setAuthenticated)
   const fetchCsrfToken = useCSRFStore((state) => state.fetchToken)
 
@@ -105,6 +112,14 @@ export function useLogin() {
       setResponseMessage(t('auth.loginSuccess'))
       setShowModal(true)
     } catch (err: unknown) {
+      if (err instanceof ApiError && err.code === "TRIAL_EXPIRED" && isBillingOnlyPayload(err.payload)) {
+        const payload = err.payload
+        enterBillingOnly(payload)
+        const csrfToken = typeof payload.csrfToken === "string" ? payload.csrfToken : null
+        if (csrfToken) useCSRFStore.setState({ token: csrfToken, error: null })
+        navigate("/billing", { replace: true })
+        return
+      }
       const message = err instanceof Error ? err.message : "Error al iniciar sesión"
       setIsError(true)
       setResponseMessage(message)

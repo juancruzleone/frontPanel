@@ -1,5 +1,8 @@
 import { Tenant, CreateTenantData, EditTenantData, TenantsResponse } from '../types/tenant.types'
 import { fetchWithAuthRetry, getAuthHeaders } from '../../../shared/utils/apiHeaders'
+import { getApiHeaders } from '../../../shared/utils/apiHeaders'
+import { parseJsonResponse, throwApiError } from '@/shared/services/ApiError'
+import type { AdministrativeTrialRequest, AdministrativeTrialResponse } from '../types/administrativeTrial.types'
 
 const API_URL = import.meta.env.VITE_API_URL || '/api/'
 
@@ -60,5 +63,18 @@ export const tenantServices = {
       const errorData = await response.json()
       throw new Error(errorData.message || 'Error al eliminar tenant')
     }
+  },
+
+  async createAdministrativeTrial(request: AdministrativeTrialRequest): Promise<AdministrativeTrialResponse> {
+    const response = await fetchWithAuthRetry(`${API_URL}cuenta/demo`, {
+      method: 'POST',
+      headers: getApiHeaders(true, 'POST'),
+      body: JSON.stringify(request),
+    })
+
+    if (!response.ok) return throwApiError(response, 'No se pudo crear la cuenta de prueba')
+    const result = await parseJsonResponse<AdministrativeTrialResponse>(response)
+    if (!result?.success) throw new Error('La respuesta de creación de prueba no es válida')
+    return result
   },
 } 
