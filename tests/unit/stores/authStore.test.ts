@@ -2,9 +2,9 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { useAuthStore } from '../../../src/store/authStore'
 
 describe('AuthStore', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     // Reset store before each test
-    useAuthStore.getState().logout()
+    await useAuthStore.getState().logout()
     localStorage.clear()
   })
 
@@ -149,7 +149,7 @@ describe('AuthStore', () => {
   })
 
   describe('Logout', () => {
-    it('should clear all auth data on logout', () => {
+    it('should clear all auth data on logout', async () => {
       // First login
       const loginData = {
         user: {
@@ -166,7 +166,7 @@ describe('AuthStore', () => {
       useAuthStore.getState().setAuthenticated(true)
 
       // Then logout
-      useAuthStore.getState().logout()
+      await useAuthStore.getState().logout()
       const state = useAuthStore.getState()
 
       expect(state.user).toBeNull()
@@ -238,7 +238,7 @@ describe('AuthStore', () => {
       expect(parsed.state).not.toHaveProperty('isAuthResolved')
     })
 
-    it('should clear localStorage on logout', () => {
+    it('should clear localStorage on logout', async () => {
       const loginData = {
         user: {
           _id: 'user123',
@@ -248,7 +248,7 @@ describe('AuthStore', () => {
       }
 
       useAuthStore.getState().login(loginData)
-      useAuthStore.getState().logout()
+      await useAuthStore.getState().logout()
 
       const stored = localStorage.getItem('auth-storage')
       const parsed = JSON.parse(stored!)
@@ -259,7 +259,7 @@ describe('AuthStore', () => {
   })
 
   describe('Complete Auth Flow', () => {
-    it('should handle complete authentication flow', () => {
+    it('should handle complete authentication flow', async () => {
       // 1. Initial state
       let state = useAuthStore.getState()
       expect(state.isAuthenticated).toBe(false)
@@ -288,7 +288,7 @@ describe('AuthStore', () => {
       expect(state.isAuthenticated).toBe(true)
 
       // 4. Logout
-      useAuthStore.getState().logout()
+      await useAuthStore.getState().logout()
       
       state = useAuthStore.getState()
       expect(state.isAuthenticated).toBe(false)
