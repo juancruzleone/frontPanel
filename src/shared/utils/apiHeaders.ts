@@ -99,6 +99,7 @@ export const getAuthHeaders = (includeContentType: boolean = false) => {
   const headers: Record<string, string> = {}
 
   // Only send X-Tenant-ID for super_admin flows if selected. Normal users should rely on JWT.
+  // Tenantless super_admin (role === super_admin without tenantId) must NOT send X-Tenant-ID.
   if (tenantId && role === "super_admin") {
     headers["X-Tenant-ID"] = tenantId
   }

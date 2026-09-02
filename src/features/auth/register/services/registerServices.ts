@@ -123,6 +123,34 @@ export const getUserById = async (id: string) => {
   return data
 }
 
+export interface CreateSuperAdminPayload {
+  userName: string
+  password: string
+  role: "super_admin"
+}
+
+export const createSuperAdmin = async (payload: CreateSuperAdminPayload) => {
+  const response = await fetchWithCsrf(`${API_URL}cuentas/super-admin`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  })
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}))
+
+    if (errorData.error?.details && Array.isArray(errorData.error.details)) {
+      throw new Error(errorData.error.details.join(", "))
+    }
+
+    throw new Error(errorData.error?.message || errorData.message || "Error al crear super admin")
+  }
+
+  return response.json()
+}
+
 export const updateTechnician = async (
   id: string, 
   data: { 

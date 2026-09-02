@@ -326,3 +326,8 @@ export const useAuthStore = create<AuthState>()(
 
 // Selector para obtener el rol
 export const selectRole = (state: AuthState) => state.role
+
+export const selectCanCreateSuperAdmin = (state: AuthState) => state.role === "super_admin"
+export const canCreateSuperAdmin = selectCanCreateSuperAdmin
+export const selectIsSuperAdmin = selectCanCreateSuperAdmin
+
