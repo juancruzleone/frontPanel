@@ -4,6 +4,7 @@ import { FiEye, FiEyeOff, FiX } from "react-icons/fi"
 import styles from "../styles/registerForm.module.css"
 import formButtonStyles from "../../../../shared/components/Buttons/formButtons.module.css"
 import { useTranslation } from "react-i18next"
+import { sanitizeInput } from "@/utils/sanitizer"
 
 interface RegisterTechnicianFormData {
   username: string
@@ -95,9 +96,18 @@ const RegisterTechnicianForm = ({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value, files } = e.target
       if (name === "profilePhoto" && files && files[0]) {
-        handleFieldChange(name, files[0])
+        const file = files[0]
+        const allowedTypes = ["image/jpeg", "image/png", "image/webp"]
+        const maxSize = 2 * 1024 * 1024
+        if (file.size > maxSize || !allowedTypes.includes(file.type)) {
+          // Validation failed: do not propagate invalid file to parent. Caller shows error via formErrors if needed.
+          // We still clear input value to avoid stale invalid file.
+          e.target.value = ""
+          return
+        }
+        handleFieldChange(name, file)
       } else {
-        handleFieldChange(name, value)
+        handleFieldChange(name, sanitizeInput(value))
       }
     },
     [handleFieldChange],

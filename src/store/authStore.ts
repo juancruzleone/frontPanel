@@ -106,7 +106,7 @@ interface AuthState {
   setAuthResolved: (value: boolean) => void
   setLogoutMessage: (msg: string | null) => void
   setTenantId: (tenantId: string) => void
-  logout: () => void
+  logout: () => void | Promise<void>
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -233,7 +233,7 @@ export const useAuthStore = create<AuthState>()(
       setAuthResolved: (value) => set({ isAuthResolved: value }),
       setLogoutMessage: (msg) => set({ logoutMessage: msg }),
       setTenantId: (tenantId) => set({ tenantId }),
-      logout: () => {
+      logout: async () => {
         // Capture departing identity for selective purge
         const departingTenantId = useAuthStore.getState().tenantId
         const departingUserId = useAuthStore.getState().userId
@@ -244,9 +244,14 @@ export const useAuthStore = create<AuthState>()(
         // Clear offline trust state — prevents cross-user leakage
         useOfflineTrustStore.getState().clearTrust()
 
-        // Selective purge: remove only draft keys for departing identity
+        // Selective purge: remove only draft keys for departing identity (blocking await — Ley 25.326: no fire-and-forget leakage)
         if (departingTenantId && departingUserId) {
-          import('../shared/offline/lifecycleStart').then(m => m.purgeOfflineDraftsForScope(departingTenantId, departingUserId)).catch(() => {})
+          try {
+            const m = await import('../shared/offline/lifecycleStart')
+            await m.purgeOfflineDraftsForScope(departingTenantId, departingUserId)
+          } catch {
+            // Silently ignore purge failure to not block logout; draft cleanup is best-effort
+          }
         }
 
         // Clear cached stores to prevent cross-user leakage

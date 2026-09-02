@@ -1,5 +1,6 @@
 import * as yup from "yup"
 import { TFunction } from "i18next"
+import { sanitizeInput } from "@/utils/sanitizer"
 
 export const getCuentaRegistroSchema = (t: TFunction) => yup.object({
   userName: yup
@@ -12,15 +13,19 @@ export const getCuentaRegistroSchema = (t: TFunction) => yup.object({
   firstName: yup
     .string()
     .trim()
+    .transform((value) => (typeof value === "string" ? sanitizeInput(value) : value))
     .required(t("personal.validation.firstNameRequired"))
     .min(2, t("personal.validation.firstNameMinLength"))
-    .max(50, t("personal.validation.firstNameMaxLength")),
+    .max(50, t("personal.validation.firstNameMaxLength"))
+    .matches(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s'-]+$/, t("personal.validation.firstNameInvalid")),
   lastName: yup
     .string()
     .trim()
+    .transform((value) => (typeof value === "string" ? sanitizeInput(value) : value))
     .required(t("personal.validation.lastNameRequired"))
     .min(2, t("personal.validation.lastNameMinLength"))
-    .max(50, t("personal.validation.lastNameMaxLength")),
+    .max(50, t("personal.validation.lastNameMaxLength"))
+    .matches(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s'-]+$/, t("personal.validation.lastNameInvalid")),
   email: yup
     .string()
     .trim()
@@ -29,7 +34,9 @@ export const getCuentaRegistroSchema = (t: TFunction) => yup.object({
   documento: yup
     .string()
     .trim()
+    .transform((value) => (typeof value === "string" ? sanitizeInput(value) : value))
     .required(t("personal.validation.documentoRequired"))
+    .matches(/^[0-9]{7,8}$/, t("personal.validation.documentoInvalid"))
     .min(5, t("personal.validation.documentoMinLength"))
     .max(20, t("personal.validation.documentoMaxLength")),
   password: yup
@@ -55,15 +62,19 @@ export const cuentaRegistro = yup.object({
   firstName: yup
     .string()
     .trim()
+    .transform((value) => (typeof value === "string" ? sanitizeInput(value) : value))
     .required("El nombre es obligatorio para técnicos")
     .min(2, "El nombre debe tener al menos 2 caracteres")
-    .max(50, "El nombre no puede tener más de 50 caracteres"),
+    .max(50, "El nombre no puede tener más de 50 caracteres")
+    .matches(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s'-]+$/, "El nombre solo puede contener letras, espacios, apóstrofes y guiones"),
   lastName: yup
     .string()
     .trim()
+    .transform((value) => (typeof value === "string" ? sanitizeInput(value) : value))
     .required("El apellido es obligatorio para técnicos")
     .min(2, "El apellido debe tener al menos 2 caracteres")
-    .max(50, "El apellido no puede tener más de 50 caracteres"),
+    .max(50, "El apellido no puede tener más de 50 caracteres")
+    .matches(/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s'-]+$/, "El apellido solo puede contener letras, espacios, apóstrofes y guiones"),
   email: yup
     .string()
     .trim()
@@ -72,7 +83,9 @@ export const cuentaRegistro = yup.object({
   documento: yup
     .string()
     .trim()
+    .transform((value) => (typeof value === "string" ? sanitizeInput(value) : value))
     .required("El documento es obligatorio para técnicos")
+    .matches(/^[0-9]{7,8}$/, "El documento debe ser un DNI de 7 u 8 dígitos")
     .min(5, "El documento debe tener al menos 5 caracteres")
     .max(20, "El documento no puede tener más de 20 caracteres"),
   password: yup
