@@ -126,6 +126,8 @@ export const useAuthStore = create<AuthState>()(
       billingSessionExpiresAt: null,
       logoutMessage: null,
       login: (data) => {
+        // Clear durable logout guard on successful login
+        try { localStorage.removeItem('logout-epoch'); } catch {}
         // El backend devuelve 'cuenta' en lugar de 'user'
         const user = data.user || data.cuenta
 
@@ -163,6 +165,7 @@ export const useAuthStore = create<AuthState>()(
         })
       },
       hydrateSession: (data) => {
+        try { localStorage.removeItem('logout-epoch'); } catch {}
         const user = data.user || data.cuenta
 
         if (!user) {
@@ -282,6 +285,14 @@ export const useAuthStore = create<AuthState>()(
         if (navigator.serviceWorker?.controller) {
           navigator.serviceWorker.controller.postMessage({ type: "LOGOUT" });
         }
+
+        // Durable logout: guard against reload re-auth (C4)
+        try {
+          localStorage.setItem('logout-epoch', Date.now().toString());
+          localStorage.removeItem(AUTH_STORAGE_KEY);
+          sessionStorage.removeItem('csrf-storage');
+          sessionStorage.removeItem('offline-trust-storage');
+        } catch {}
 
         set({
           user: null,

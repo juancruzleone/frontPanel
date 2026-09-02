@@ -56,6 +56,17 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
 		let cancelled = false
 
     const bootstrapSession = async () => {
+      // Durable logout guard: if explicit logout happened recently, don't re-auth
+      try {
+        const logoutEpoch = localStorage.getItem('logout-epoch');
+        if (logoutEpoch && Date.now() - parseInt(logoutEpoch, 10) < 5 * 60 * 1000) {
+          useAuthStore.setState({ isAuthenticated: false, isAuthResolved: true, accessMode: "anonymous" });
+          return;
+        }
+        if (logoutEpoch && Date.now() - parseInt(logoutEpoch, 10) >= 5 * 60 * 1000) {
+          localStorage.removeItem('logout-epoch');
+        }
+      } catch {}
       const currentState = useAuthStore.getState()
       useAuthStore.setState({ isAuthenticated: false, isAuthResolved: false })
       try {
@@ -106,8 +117,20 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
             return
           }
 
-          // Si el error es de red (offline), mantenemos el estado actual del store
-          // Si es un error explícito de sesión inválida (401), el store debería resetearse
+          // Distinguish true network/offline from explicit 401/403 auth failures
+          const isAuthError = err instanceof Error && (
+            err.message.includes('401') ||
+            err.message.includes('403') ||
+            (err as any).code === 'MISSING_AUTH_HEADER' ||
+            (err as any).code === 'TOKEN_EXPIRED' ||
+            (err as any).status === 401 ||
+            (err as any).status === 403
+          );
+          if (isAuthError) {
+            useAuthStore.setState({ isAuthenticated: false, isAuthResolved: true, accessMode: "anonymous" });
+            try { localStorage.removeItem('auth-storage'); } catch {}
+            return;
+          }
           const isNetworkError = !navigator.onLine || 
             (err instanceof Error && (
               err.message.toLowerCase().includes('network') || 
@@ -117,8 +140,10 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
             ));
           
            const latestState = useAuthStore.getState()
+           // After explicit logout, never re-auth from stale latestState
+           const wasRecentLogout = (() => { try { const e = localStorage.getItem('logout-epoch'); return e && Date.now() - parseInt(e, 10) < 5*60*1000; } catch { return false; } })();
            useAuthStore.setState({
-             isAuthenticated: isNetworkError && latestState.accessMode === "full" && Boolean(latestState.userId),
+             isAuthenticated: !wasRecentLogout && isNetworkError && latestState.accessMode === "full" && Boolean(latestState.userId),
              isAuthResolved: true,
            })
         }
