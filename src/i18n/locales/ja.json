@@ -2254,5 +2254,39 @@
     "legacy": { "title": "以前の履歴", "description": "読み取り専用の過去のコンプライアンス記録です。", "loading": "以前の履歴を読み込んでいます...", "normas": "過去の規格", "reglas": "過去のルール" }
   },
   "billing": { "loading": "請求オプションを読み込んでいます...", "company": "会社", "currentPlan": "現在のプラン", "trialEnd": "トライアル終了日", "selectPlan": "プランを選択", "billingCycle": "請求サイクル", "price": "{{price}}", "expired": { "title": "トライアル期間が終了しました", "message": "業務機能へのアクセスは一時停止されています。Leonixを引き続き利用するにはプランを選択してください。" }, "manage": { "title": "プランと請求", "message": "利用可能なオプションを確認し、会社に適したプランを選択してください。" }, "plans": { "starter": "スターター", "professional": "プロフェッショナル", "enterprise": "エンタープライズ" }, "cycles": { "monthly": "月払い", "yearly": "年払い" }, "checkout": { "cta": "支払いへ進む", "loading": "支払いを準備しています..." }, "errors": { "status": "請求情報を読み込めませんでした。", "checkout": "支払いを開始できませんでした。", "checkoutStatus": "支払い状況を確認できませんでした。" }, "return": { "title": "支払いの確認", "invalid": "有効な支払い参照が見つかりませんでした。", "attempt": "確認 {{count}}", "timeout": "確認に通常より時間がかかっています。もう一度確認してください。", "retry": "もう一度確認", "status": { "pending": "決済サービスからの確認を待っています。", "paid": "支払いを確認しました。アカウントを有効化しています。", "failed": "支払いを完了できませんでした。", "cancelled": "支払いはキャンセルされました。" } }, "trialCard": { "label": "トライアル状況", "title": "{{plan}}プランのトライアル", "remaining_one": "残り{{count}}日です。{{date}}に終了します。", "remaining_other": "残り{{count}}日です。{{date}}に終了します。", "expiresToday": "トライアルは本日終了します。", "today": "トライアルは本日終了します。", "expired": "トライアルは終了しました。", "invalid": "トライアル終了日を確認できません。", "cta": "プランを見る" } },
-  "administrativeTrial": { "cta": "トライアルアカウントを作成", "title": "トライアルアカウントを作成", "duration": "このアカウントは30日間すべての機能を利用できます。期間はサーバーで設定され、変更できません。", "companyName": "会社名", "email": "管理者のメールアドレス", "password": "一時パスワード", "userName": "ユーザー名（任意）", "plan": "プラン", "firstName": "名（任意）", "lastName": "姓（任意）", "phone": "電話番号（任意）", "address": "住所（任意）", "notes": "社内メモ（任意）", "submit": "30日間のトライアルを作成", "creating": "トライアルを作成しています...", "success": "トライアルアカウントを作成しました。パスワードは再表示されません。", "error": "トライアルアカウントを作成できませんでした。", "validation": { "plan": "有効なプランを選択してください。" } }
+  "administrativeTrial": { "cta": "トライアルアカウントを作成", "title": "トライアルアカウントを作成", "duration": "このアカウントは30日間すべての機能を利用できます。期間はサーバーで設定され、変更できません。", "companyName": "会社名", "email": "管理者のメールアドレス", "password": "一時パスワード", "userName": "ユーザー名（任意）", "plan": "プラン", "firstName": "名（任意）", "lastName": "姓（任意）", "phone": "電話番号（任意）", "address": "住所（任意）", "notes": "社内メモ（任意）", "submit": "30日間のトライアルを作成", "creating": "トライアルを作成しています...", "success": "トライアルアカウントを作成しました。パスワードは再表示されません。", "error": "トライアルアカウントを作成できませんでした。", "validation": { "plan": "有効なプランを選択してください。" } },
+  "superAdmin": {
+    "dashboard": {
+      "eyebrow": "Global scope",
+      "title": "Admin Panel",
+      "subtitle": "Centralized management of tenants and system resources",
+      "scopeLabel": "Scope",
+      "scope": {
+        "global": "All tenants"
+      },
+      "updated": "Updated",
+      "loading": "Loading admin panel",
+      "sections": {
+        "immediate": "Global metrics and exceptions",
+        "analysis": "Evolution and plans",
+        "recent": "Recent tenants"
+      },
+      "kpi": {
+        "totalTenants": "Total Tenants",
+        "activeTenants": "Active Tenants",
+        "totalUsers": "Users",
+        "totalAssets": "Assets",
+        "aria": "Key metrics"
+      },
+      "notices": {
+        "truncated": "Analyzed {{pages}} pages ({{count}} tenants); view may be incomplete."
+      },
+      "errors": {
+        "title": "Could not display panel",
+        "loadFailed": "Could not load data.",
+        "network": "Check your connection and try again.",
+        "forbidden": "Your role cannot view this panel."
+      }
+    }
+  }
 }

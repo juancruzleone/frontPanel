@@ -76,6 +76,8 @@ html {
   --color-themebox-border: #333;
 }
 
+@import './shared/styles/dashboard-tokens.css';
+
 form {
   gap: 0;
   max-width: none !important;

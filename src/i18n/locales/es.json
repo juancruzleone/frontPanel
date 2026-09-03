@@ -2696,5 +2696,39 @@
     "success": "La cuenta de prueba se creó correctamente. La contraseña no se mostrará nuevamente.",
     "error": "No se pudo crear la cuenta de prueba.",
     "validation": { "plan": "Selecciona un plan válido." }
+  },
+  "superAdmin": {
+    "dashboard": {
+      "eyebrow": "Alcance global",
+      "title": "Panel de administración",
+      "subtitle": "Gestión centralizada de tenants y recursos del sistema",
+      "scopeLabel": "Alcance",
+      "scope": {
+        "global": "Todos los tenants"
+      },
+      "updated": "Actualizado",
+      "loading": "Cargando panel de administración",
+      "sections": {
+        "immediate": "Métricas globales y excepciones",
+        "analysis": "Evolución y planes",
+        "recent": "Tenants recientes"
+      },
+      "kpi": {
+        "totalTenants": "Total de tenants",
+        "activeTenants": "Tenants activos",
+        "totalUsers": "Usuarios",
+        "totalAssets": "Activos",
+        "aria": "Métricas clave"
+      },
+      "notices": {
+        "truncated": "Se analizaron {{pages}} páginas ({{count}} tenants); la vista puede estar incompleta."
+      },
+      "errors": {
+        "title": "No pudimos mostrar el panel",
+        "loadFailed": "No fue posible cargar los datos.",
+        "network": "Revisa tu conexión e inténtalo nuevamente.",
+        "forbidden": "Tu rol no puede ver este panel."
+      }
+    }
   }
 }

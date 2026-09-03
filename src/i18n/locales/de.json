@@ -2147,5 +2147,39 @@
     "legacy": { "title": "Vorheriger Verlauf", "description": "Historische Compliance-Einträge im Nur-Lese-Modus.", "loading": "Vorheriger Verlauf wird geladen...", "normas": "Historische Standards", "reglas": "Historische Regeln" }
   },
   "billing": { "loading": "Abrechnungsoptionen werden geladen...", "company": "Unternehmen", "currentPlan": "Aktueller Tarif", "trialEnd": "Ende der Testphase", "selectPlan": "Tarif auswählen", "billingCycle": "Abrechnungszeitraum", "price": "{{price}}", "expired": { "title": "Ihre Testphase ist abgelaufen", "message": "Der operative Zugriff ist pausiert. Wählen Sie einen Tarif, um Leonix weiter zu nutzen." }, "manage": { "title": "Tarife und Abrechnung", "message": "Prüfen Sie die verfügbaren Optionen und wählen Sie den passenden Tarif für Ihr Unternehmen." }, "plans": { "starter": "Starter", "professional": "Professional", "enterprise": "Enterprise" }, "cycles": { "monthly": "Monatlich", "yearly": "Jährlich" }, "checkout": { "cta": "Weiter zur Zahlung", "loading": "Zahlung wird vorbereitet..." }, "errors": { "status": "Die Abrechnungsinformationen konnten nicht geladen werden.", "checkout": "Die Zahlung konnte nicht gestartet werden.", "checkoutStatus": "Der Zahlungsstatus konnte nicht bestätigt werden." }, "return": { "title": "Zahlungsbestätigung", "invalid": "Es wurde keine gültige Zahlungsreferenz gefunden.", "attempt": "Prüfung {{count}}", "timeout": "Die Bestätigung dauert länger als erwartet. Starten Sie die Prüfung erneut.", "retry": "Bestätigung erneut prüfen", "status": { "pending": "Wir warten auf die Bestätigung des Zahlungsanbieters.", "paid": "Zahlung bestätigt. Ihr Konto wird freigeschaltet.", "failed": "Die Zahlung konnte nicht abgeschlossen werden.", "cancelled": "Die Zahlung wurde abgebrochen." } }, "trialCard": { "label": "Status der Testphase", "title": "Testphase für Tarif {{plan}}", "remaining_one": "Noch {{count}} Tag. Ende am {{date}}.", "remaining_other": "Noch {{count}} Tage. Ende am {{date}}.", "expiresToday": "Die Testphase endet heute.", "today": "Die Testphase endet heute.", "expired": "Die Testphase ist abgelaufen.", "invalid": "Das Enddatum der Testphase ist nicht verfügbar.", "cta": "Tarife anzeigen" } },
-  "administrativeTrial": { "cta": "Testkonto erstellen", "title": "Testkonto erstellen", "duration": "Das Konto erhält 30 Tage lang vollständigen Zugriff. Die Dauer wird vom Server festgelegt und kann nicht geändert werden.", "companyName": "Unternehmensname", "email": "E-Mail-Adresse des Administrators", "password": "Temporäres Passwort", "userName": "Benutzername (optional)", "plan": "Tarif", "firstName": "Vorname (optional)", "lastName": "Nachname (optional)", "phone": "Telefon (optional)", "address": "Adresse (optional)", "notes": "Interne Notizen (optional)", "submit": "30-tägige Testphase erstellen", "creating": "Testkonto wird erstellt...", "success": "Das Testkonto wurde erfolgreich erstellt. Das Passwort wird nicht erneut angezeigt.", "error": "Das Testkonto konnte nicht erstellt werden.", "validation": { "plan": "Wählen Sie einen gültigen Tarif." } }
+  "administrativeTrial": { "cta": "Testkonto erstellen", "title": "Testkonto erstellen", "duration": "Das Konto erhält 30 Tage lang vollständigen Zugriff. Die Dauer wird vom Server festgelegt und kann nicht geändert werden.", "companyName": "Unternehmensname", "email": "E-Mail-Adresse des Administrators", "password": "Temporäres Passwort", "userName": "Benutzername (optional)", "plan": "Tarif", "firstName": "Vorname (optional)", "lastName": "Nachname (optional)", "phone": "Telefon (optional)", "address": "Adresse (optional)", "notes": "Interne Notizen (optional)", "submit": "30-tägige Testphase erstellen", "creating": "Testkonto wird erstellt...", "success": "Das Testkonto wurde erfolgreich erstellt. Das Passwort wird nicht erneut angezeigt.", "error": "Das Testkonto konnte nicht erstellt werden.", "validation": { "plan": "Wählen Sie einen gültigen Tarif." } },
+  "superAdmin": {
+    "dashboard": {
+      "eyebrow": "Global scope",
+      "title": "Admin Panel",
+      "subtitle": "Centralized management of tenants and system resources",
+      "scopeLabel": "Scope",
+      "scope": {
+        "global": "All tenants"
+      },
+      "updated": "Updated",
+      "loading": "Loading admin panel",
+      "sections": {
+        "immediate": "Global metrics and exceptions",
+        "analysis": "Evolution and plans",
+        "recent": "Recent tenants"
+      },
+      "kpi": {
+        "totalTenants": "Total Tenants",
+        "activeTenants": "Active Tenants",
+        "totalUsers": "Users",
+        "totalAssets": "Assets",
+        "aria": "Key metrics"
+      },
+      "notices": {
+        "truncated": "Analyzed {{pages}} pages ({{count}} tenants); view may be incomplete."
+      },
+      "errors": {
+        "title": "Could not display panel",
+        "loadFailed": "Could not load data.",
+        "network": "Check your connection and try again.",
+        "forbidden": "Your role cannot view this panel."
+      }
+    }
+  }
 }

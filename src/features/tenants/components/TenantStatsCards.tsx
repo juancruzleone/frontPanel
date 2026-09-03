@@ -1,6 +1,7 @@
 import React from "react"
-import { Users, Building, Database, TrendingUp } from "lucide-react"
-import styles from "../styles/panelAdmin.module.css"
+import { useTranslation } from "react-i18next"
+import { formatCount } from "../utils/tenantStats"
+import home from "../../home/styles/home.module.css"
 
 interface TenantStats {
   totalTenants: number
@@ -10,76 +11,40 @@ interface TenantStats {
 }
 
 interface TenantStatsCardsProps {
-  stats: TenantStats
+  stats?: TenantStats
+  metrics?: { id: 'totalTenants' | 'activeTenants' | 'totalUsers' | 'totalAssets'; value: number }[]
 }
 
-const TenantStatsCards: React.FC<TenantStatsCardsProps> = ({ stats }) => {
-  const kpis = [
-    {
-      label: 'Total de Tenants',
-      value: stats.totalTenants,
-      icon: Database,
-      color: '#3b82f6'
-    },
-    {
-      label: 'Tenants Activos',
-      value: stats.activeTenants,
-      icon: Building,
-      color: '#10b981'
-    },
-    {
-      label: 'Total de Usuarios',
-      value: stats.totalUsers,
-      icon: Users,
-      color: '#f59e0b'
-    },
-    {
-      label: 'Total de Activos',
-      value: stats.totalAssets,
-      icon: TrendingUp,
-      color: '#8b5cf6'
-    }
-  ]
-  
-  return (
-    <div className={styles.statsCardsRow} role="region" aria-label="Métricas principales">
-      {kpis.map((kpi) => {
-        const Icon = kpi.icon
-        return (
-          <div 
-            className={styles.statsCard} 
-            key={kpi.label}
-            role="article"
-            aria-label={`${kpi.label}: ${kpi.value}`}
-            tabIndex={0}
-          >
-            {/* Header con icono y color de fondo */}
-            <div className={styles.statsCardHeader}>
-              <div 
-                className={styles.statsIconContainer}
-                style={{ 
-                  backgroundColor: `${kpi.color}15`,
-                  borderColor: `${kpi.color}30`
-                }}
-              >
-                <Icon size={24} />
-              </div>
-            </div>
+const TenantStatsCards: React.FC<TenantStatsCardsProps> = ({ stats, metrics }) => {
+  const { t } = useTranslation()
+  const resolved: { id: 'totalTenants' | 'activeTenants' | 'totalUsers' | 'totalAssets'; value: number }[] =
+    metrics ??
+    (stats
+      ? [
+          { id: 'totalTenants', value: stats.totalTenants },
+          { id: 'activeTenants', value: stats.activeTenants },
+          { id: 'totalUsers', value: stats.totalUsers },
+          { id: 'totalAssets', value: stats.totalAssets },
+        ]
+      : [])
 
-            {/* Contenido principal */}
-            <div className={styles.statsCardContent}>
-              <div className={styles.statsValue} aria-live="polite">
-                {kpi.value.toLocaleString()}
-              </div>
-              <div className={styles.statsLabel}>
-                {kpi.label}
-              </div>
-            </div>
-          </div>
-        )
-      })}
-    </div>
+  const labels: Record<string, string> = {
+    totalTenants: t('superAdmin.dashboard.kpi.totalTenants', { defaultValue: 'Total Tenants' }),
+    activeTenants: t('superAdmin.dashboard.kpi.activeTenants', { defaultValue: 'Active Tenants' }),
+    totalUsers: t('superAdmin.dashboard.kpi.totalUsers', { defaultValue: 'Users' }),
+    totalAssets: t('superAdmin.dashboard.kpi.totalAssets', { defaultValue: 'Assets' }),
+  }
+
+  return (
+    <dl className={home.kpiBand} aria-label={t('superAdmin.dashboard.kpi.aria', { defaultValue: 'Key metrics' })}>
+      {resolved.map((kpi) => (
+        <div className={home.kpiCell} key={kpi.id} aria-label={`${labels[kpi.id]}: ${formatCount(kpi.value)}`}>
+          <dt>{labels[kpi.id]}</dt>
+          <dd aria-live="polite">{formatCount(kpi.value)}</dd>
+        </div>
+      ))}
+    </dl>
   )
 }
 
-export default TenantStatsCards 
+export default TenantStatsCards

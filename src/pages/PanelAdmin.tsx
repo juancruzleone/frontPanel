@@ -8,6 +8,7 @@ import TenantLineChart from "../features/tenants/components/TenantLineChart"
 import RecentTenants from "../features/tenants/components/RecentTenants"
 import { Shield } from "lucide-react"
 import styles from "../features/tenants/styles/panelAdmin.module.css"
+import home from "../features/home/styles/home.module.css"
 import { Link } from "react-router"
 import { useTranslatedRoutes } from "../router"
 
@@ -25,14 +26,25 @@ const PanelAdmin: React.FC = () => {
   const { getRoute } = useTranslatedRoutes()
 
   return (
-    <div className={styles.dashboardContainer}>
-      <header className={styles.dashboardHeader}>
-        <div className={styles.headerTitleArea}>
-          <div>
-            <h1 className={styles.title}>{t('panelAdmin.title')}</h1>
-            <p className={styles.subtitle}>{t('panelAdmin.subtitle')}</p>
-          </div>
-          <Link to={getRoute('audit')} className={styles.auditLink}>
+    <div className={home.dashboardContainer}>
+      <header className={home.dashboardHeader}>
+        <div className={home.headerCopy}>
+          <p className={home.eyebrow}>{t('superAdmin.dashboard.eyebrow', { defaultValue: 'Global scope' })}</p>
+          <h1>{t(['superAdmin.dashboard.title', 'panelAdmin.title'] as any, { defaultValue: 'Panel de administración' })}</h1>
+          <p className={home.subtitle}>{t(['superAdmin.dashboard.subtitle', 'panelAdmin.subtitle'] as any, { defaultValue: 'Gestión centralizada de tenants y recursos del sistema' })}</p>
+          <dl className={home.headerMetadata}>
+            <div>
+              <dt>{t('superAdmin.dashboard.scopeLabel', { defaultValue: 'Scope' })}</dt>
+              <dd>{t('superAdmin.dashboard.scope.global', { defaultValue: 'All tenants' })}</dd>
+            </div>
+            <div>
+              <dt>{t('superAdmin.dashboard.kpi.totalTenants', { defaultValue: 'Tenants' })}</dt>
+              <dd>{stats.totalTenants}</dd>
+            </div>
+          </dl>
+        </div>
+        <div className={home.headerActions}>
+          <Link to={getRoute('tenants')} className={home.panelAction}>
             <Shield size={18} />
             <span>{t('nav.audit')}</span>
           </Link>

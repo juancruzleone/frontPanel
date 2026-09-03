@@ -2616,5 +2616,39 @@
     "success": "The trial account was created successfully. The password will not be shown again.",
     "error": "The trial account could not be created.",
     "validation": { "plan": "Select a valid plan." }
+  },
+  "superAdmin": {
+    "dashboard": {
+      "eyebrow": "Global scope",
+      "title": "Admin Panel",
+      "subtitle": "Centralized management of tenants and system resources",
+      "scopeLabel": "Scope",
+      "scope": {
+        "global": "All tenants"
+      },
+      "updated": "Updated",
+      "loading": "Loading admin panel",
+      "sections": {
+        "immediate": "Global metrics and exceptions",
+        "analysis": "Evolution and plans",
+        "recent": "Recent tenants"
+      },
+      "kpi": {
+        "totalTenants": "Total Tenants",
+        "activeTenants": "Active Tenants",
+        "totalUsers": "Users",
+        "totalAssets": "Assets",
+        "aria": "Key metrics"
+      },
+      "notices": {
+        "truncated": "Analyzed {{pages}} pages ({{count}} tenants); view may be incomplete."
+      },
+      "errors": {
+        "title": "Could not display panel",
+        "loadFailed": "Could not load data.",
+        "network": "Check your connection and try again.",
+        "forbidden": "Your role cannot view this panel."
+      }
+    }
   }
 }

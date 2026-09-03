@@ -98,7 +98,7 @@
   grid-template-columns: repeat(4, 1fr);
   padding: 3px;
   border: 1px solid var(--color-card-border);
-  border-radius: 6px;
+  border-radius: var(--radius-control, 6px);
   background: var(--color-card);
 }
 
@@ -106,7 +106,7 @@
   min-height: 34px;
   padding: 5px 9px;
   border: 0;
-  border-radius: 4px;
+  border-radius: var(--radius-pill, 4px);
   background: transparent;
   color: var(--color-text-secondary);
   font: inherit;
@@ -123,8 +123,8 @@
 .rangeButton:focus-visible,
 .fullError button:focus-visible,
 .chartDataTable summary:focus-visible {
-  outline: 2px solid var(--color-secondary);
-  outline-offset: 2px;
+  outline: var(--focus-ring, 2px solid var(--color-secondary));
+  outline-offset: var(--focus-offset, 2px);
 }
 
 .rangeButtonActive {
@@ -147,8 +147,8 @@
 .dataNotices p {
   margin: 0;
   padding: 7px 10px;
-  border: 1px solid #a16207;
-  border-radius: 4px;
+  border: 1px solid var(--chart-warning, #a16207);
+  border-radius: var(--radius-pill, 4px);
   color: #854d0e;
   background: #fefce8;
   font-size: 0.76rem;
@@ -180,7 +180,7 @@
   margin: 0;
   overflow: hidden;
   border: 1px solid var(--color-card-border);
-  border-radius: 8px;
+  border-radius: var(--radius-card, 8px);
   background: var(--color-card);
 }
 
@@ -216,19 +216,19 @@
 
 .kpiCell.warning dd,
 .warning dd {
-  color: #a16207;
+  color: var(--chart-warning, #a16207);
 }
 
 .kpiCell.critical dd,
 .critical strong {
-  color: #b91c1c;
+  color: var(--chart-critical, #b91c1c);
 }
 
 .panel,
 .inventorySummary,
 .resourceBand {
   border: 1px solid var(--color-card-border);
-  border-radius: 8px;
+  border-radius: var(--radius-card, 8px);
   background: var(--color-card);
 }
 
@@ -283,8 +283,8 @@
 }
 
 .panelAction:focus-visible {
-  outline: 2px solid var(--color-secondary);
-  outline-offset: 3px;
+  outline: var(--focus-ring, 2px solid var(--color-secondary));
+  outline-offset: var(--focus-offset, 2px);
 }
 
 .alertList,
@@ -309,13 +309,13 @@
   align-items: center;
   gap: 10px;
   padding: 10px;
-  border-left: 3px solid #a16207;
+  border-left: 3px solid var(--chart-warning, #a16207);
   background: var(--color-bg-light);
   font-size: 0.78rem;
 }
 
 .alertList li.critical {
-  border-left-color: #b91c1c;
+  border-left-color: var(--chart-critical, #b91c1c);
 }
 
 .alertList strong {
@@ -617,12 +617,12 @@
 .segmentassigned, .markerassigned { background: #2563eb; }
 .segmentinProgress, .markerinProgress { background: #7c3aed; }
 .segmentcompleted, .markercompleted { background: #047857; }
-.segmentcancelled, .markercancelled { background: #64748b; }
+.segmentcancelled, .markercancelled { background: var(--chart-unknown, #64748b); }
 .segmentlow, .markerlow { background: #047857; }
 .segmentmedium, .markermedium { background: #ca8a04; }
 .segmenthigh, .markerhigh { background: #ea580c; }
-.segmentcritical, .markercritical { background: #b91c1c; }
-.segmentOther, .markerOther { background: #64748b; }
+.segmentcritical, .markercritical { background: var(--chart-critical, #b91c1c); }
+.segmentOther, .markerOther { background: var(--chart-unknown, #64748b); }
 
 .workGrid > .panel {
   grid-column: span 8;
@@ -718,7 +718,7 @@
 }
 
 .partialError {
-  color: #b91c1c;
+  color: var(--chart-critical, #b91c1c);
 }
 
 .fullError {
@@ -726,7 +726,7 @@
   margin: 80px auto 0;
   padding: 30px;
   border: 1px solid var(--color-card-border);
-  border-radius: 8px;
+  border-radius: var(--radius-card, 8px);
   background: var(--color-card);
   text-align: center;
 }
@@ -755,7 +755,7 @@
   position: relative;
   overflow: hidden;
   border: 1px solid var(--color-card-border);
-  border-radius: 8px;
+  border-radius: var(--radius-card, 8px);
   background: var(--color-card);
 }
 

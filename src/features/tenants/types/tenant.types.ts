@@ -58,4 +58,14 @@ export interface TenantsResponse {
   message: string
   count: number
   tenants: Tenant[]
+}
+
+export interface TenantsPageResponse {
+  message?: string
+  count?: number
+  total?: number
+  totalPages?: number
+  currentPage?: number
+  limit?: number
+  tenants: Tenant[]
 } 

@@ -1,0 +1,45 @@
+:root {
+  --radius-card: 8px;
+  --radius-control: 6px;
+  --radius-pill: 4px;
+  --elevation-card: none;
+  --elevation-sm: 0 1px 2px rgba(0, 0, 0, .05);
+  --elevation-md: 0 2px 8px rgba(0, 0, 0, .08);
+  --space-section: 28px;
+  --space-grid: 18px;
+  --space-cell: 12px;
+  --space-inline: 8px;
+  --space-panel: 20px;
+  --text-kicker: .72rem;
+  --weight-kicker: 750;
+  --tracking-kicker: .09em;
+  --text-metric: clamp(1.35rem, 2.2vw, 1.85rem);
+  --tracking-metric: -.035em;
+  --numeric-metric: tabular-nums;
+  --focus-ring: 2px solid var(--color-secondary);
+  --focus-offset: 2px;
+  --chart-basic: #64748b;
+  --chart-professional: #057E74;
+  --chart-enterprise: #fbc02d;
+  --chart-active: #047857;
+  --chart-suspended: #ca8a04;
+  --chart-cancelled: #b91c1c;
+  --chart-unknown: #64748b;
+  --chart-warning: #a16207;
+  --chart-critical: #b91c1c;
+  --gradient-brand: linear-gradient(135deg, #057E74 0%, #034F49 100%);
+}
+
+.dark {
+  --elevation-sm: 0 1px 2px rgba(0, 0, 0, .5);
+  --elevation-md: 0 2px 8px rgba(0, 0, 0, .55);
+  --chart-basic: #94a3b8;
+  --chart-professional: #2dd4bf;
+  --chart-enterprise: #fde047;
+  --chart-active: #34d399;
+  --chart-suspended: #facc15;
+  --chart-cancelled: #f87171;
+  --chart-unknown: #94a3b8;
+  --chart-warning: #fbbf24;
+  --chart-critical: #f87171;
+}
