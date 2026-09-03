@@ -1,13 +1,19 @@
 import React from "react"
-import { Calendar, Building, Users } from "lucide-react"
+import { Link } from "react-router"
+import { useTranslation } from "react-i18next"
+import { useTranslatedRoutes } from "../../../router"
 import { Tenant } from "../types/tenant.types"
-import styles from "../styles/panelAdmin.module.css"
+import home from "../../home/styles/home.module.css"
+import panel from "../styles/panelAdmin.module.css"
 
 interface RecentTenantsProps {
   tenants: Tenant[]
 }
 
 const RecentTenants: React.FC<RecentTenantsProps> = ({ tenants }) => {
+  const { t } = useTranslation()
+  const { getRoute } = useTranslatedRoutes()
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('es-ES', {
       year: 'numeric',
@@ -16,94 +22,102 @@ const RecentTenants: React.FC<RecentTenantsProps> = ({ tenants }) => {
     })
   }
 
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
+  const getStatusColor = (status: string | null | undefined) => {
+    const s = String(status ?? 'unknown').toLowerCase()
+    switch (s) {
       case 'active':
       case 'activo':
-        return '#10b981'
+        return 'var(--chart-active, #047857)'
       case 'suspended':
       case 'suspendido':
-        return '#f59e0b'
+        return 'var(--chart-suspended, #ca8a04)'
       case 'cancelled':
       case 'cancelado':
-        return '#ef4444'
+        return 'var(--chart-cancelled, #b91c1c)'
       default:
-        return '#6b7280'
+        return 'var(--chart-unknown, #64748b)'
     }
   }
 
-  const translatePlan = (plan: string | null) => {
-    if (!plan) return 'Sin plan'
-    
+  const translatePlan = (plan: string | null | undefined) => {
+    if (!plan) return t('superAdmin.dashboard.distribution.plans.unknown', { defaultValue: 'Sin plan' })
     switch (plan.toLowerCase()) {
       case 'basic':
-        return 'Básico'
+        return t('superAdmin.dashboard.distribution.plans.basic', { defaultValue: 'Básico' })
       case 'professional':
-        return 'Profesional'
+        return t('superAdmin.dashboard.distribution.plans.professional', { defaultValue: 'Profesional' })
       case 'enterprise':
-        return 'Empresarial'
+        return t('superAdmin.dashboard.distribution.plans.enterprise', { defaultValue: 'Empresarial' })
       default:
         return plan
     }
   }
 
+  // ensure newest desc and max 5
+  const sorted = [...(tenants ?? [])]
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, 5)
+
   if (!tenants || tenants.length === 0) {
     return (
-      <div className={styles.recentTenantsCard}>
-        <div className={styles.recentTenantsHeader}>
-          <h3 className={styles.recentTenantsTitle}>Tenants Recientes</h3>
-          <span className={styles.recentTenantsCount}>0 total</span>
+      <section className={home.panel} aria-label={t('superAdmin.dashboard.recent.title', { defaultValue: 'Tenants recientes' })}>
+        <div className={home.panelHeader}>
+          <div>
+            <p className={home.panelKicker}>{t('superAdmin.dashboard.recent.kicker', { defaultValue: 'Últimos registros' })}</p>
+            <h2>{t('superAdmin.dashboard.recent.title', { defaultValue: 'Tenants recientes' })}</h2>
+          </div>
+          <span className={home.panelTotal}>0 total</span>
         </div>
-        <div className={styles.noTenants}>
-          <div className={styles.noTenantsIcon}>🏢</div>
-          <p>No hay tenants registrados</p>
-          <small>Crea el primer tenant para comenzar</small>
+        <p className={home.emptyState}>{t('superAdmin.dashboard.recent.empty', { defaultValue: 'No hay tenants registrados' })}</p>
+        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 12 }}>
+          <Link to={getRoute('tenants')} className={panel.createCta}>
+            {t('superAdmin.dashboard.recent.createCta', { defaultValue: 'Crear tenant' })}
+          </Link>
+          <Link to={getRoute('tenants')} className={panel.createCta}>
+            {t('superAdmin.dashboard.recent.manageCta', { defaultValue: 'Gestionar tenants' })}
+          </Link>
         </div>
-      </div>
+      </section>
     )
   }
 
   return (
-    <div className={styles.recentTenantsCard}>
-      <div className={styles.recentTenantsHeader}>
-        <h3 className={styles.recentTenantsTitle}>Tenants Recientes</h3>
-        <span className={styles.recentTenantsCount}>{tenants.length} total</span>
+    <section className={home.panel} aria-label={t('superAdmin.dashboard.recent.title', { defaultValue: 'Tenants recientes' })}>
+      <div className={home.panelHeader}>
+        <div>
+          <p className={home.panelKicker}>{t('superAdmin.dashboard.recent.kicker', { defaultValue: 'Últimos registros' })}</p>
+          <h2>{t('superAdmin.dashboard.recent.title', { defaultValue: 'Tenants recientes' })}</h2>
+        </div>
+        <span className={home.panelTotal}>{t('superAdmin.dashboard.distribution.total', { defaultValue: `${tenants.length} tenants`, count: tenants.length })}</span>
       </div>
-      
-      <div className={styles.tenantsList}>
-        {tenants.map((tenant) => (
-          <div key={tenant._id} className={styles.tenantItem}>
-            <div className={styles.tenantHeader}>
-              <h4 className={styles.tenantTitle}>{tenant.name}</h4>
-              <div className={styles.tenantMeta}>
-                <span 
-                  className={styles.tenantStatus}
-                  style={{ backgroundColor: getStatusColor(tenant.status) }}
-                >
-                  {tenant.status}
-                </span>
-              </div>
+
+      <ol className={home.ordersList}>
+        {sorted.map((tenant) => (
+          <li key={tenant._id} className={home.orderItem}>
+            <div>
+              <strong>{tenant.name}</strong>
+              <span>
+                {translatePlan(tenant.plan)} • {t('superAdmin.dashboard.recent.createdAt', { defaultValue: 'Alta' })}: {formatDate(tenant.createdAt)}
+              </span>
             </div>
-            
-            <div className={styles.tenantInfo}>
-              <div className={styles.tenantDetail}>
-                <Building size={16} />
-                <span>Plan: {translatePlan(tenant.plan)}</span>
-              </div>
-              <div className={styles.tenantDetail}>
-                <Users size={16} />
-                <span>Usuarios: {tenant.stats?.totalUsers || 0} / {tenant.maxUsers}</span>
-              </div>
-              <div className={styles.tenantDetail}>
-                <Calendar size={16} />
-                <span>Fecha de Creación: {formatDate(tenant.createdAt)}</span>
-              </div>
+            <div className={home.orderMeta}>
+              <span
+                className={`${home.orderStatus} ${panel.tagChip}`}
+                style={{ background: getStatusColor(tenant.status), color: 'white', borderColor: 'var(--color-card-border)' }}
+              >
+                {tenant.status ?? t('superAdmin.dashboard.distribution.statuses.unknown', { defaultValue: 'Sin estado' })}
+              </span>
             </div>
-          </div>
+          </li>
         ))}
+      </ol>
+      <div style={{ marginTop: 12 }}>
+        <Link to={getRoute('tenants')} className={panel.createCta}>
+          {t('superAdmin.dashboard.recent.manageCta', { defaultValue: 'Gestionar tenants' })}
+        </Link>
       </div>
-    </div>
+    </section>
   )
 }
 
-export default RecentTenants 
+export default RecentTenants

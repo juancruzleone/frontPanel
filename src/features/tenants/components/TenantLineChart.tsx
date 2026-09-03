@@ -1,114 +1,107 @@
 import React from "react"
-import { LineChart as ReLineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts"
-import { LINE_CHART_COLOR } from "../../../utils/chartColors"
-import styles from "../styles/panelAdmin.module.css"
-
-interface TenantEvolutionData {
-  name: string
-  value: number
-}
+import { useTranslation } from "react-i18next"
+import type { EvolutionPoint } from "../utils/tenantStats"
+import home from "../../home/styles/home.module.css"
 
 interface TenantLineChartProps {
-  data: TenantEvolutionData[]
+  points: EvolutionPoint[]
+  totalLabel?: string
 }
 
-interface CustomLineChartTooltipProps {
-  active?: boolean
-  payload?: any[]
-  label?: string
+const WIDTH = 760
+const HEIGHT = 260
+const PADDING = { top: 18, right: 18, bottom: 42, left: 42 }
+
+function buildPath(points: { x: number; y: number }[]): string {
+  return points.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ")
 }
 
-const CustomLineChartTooltip = ({ active, payload, label }: CustomLineChartTooltipProps) => {
-  if (active && payload && payload.length) {
+const TenantLineChart: React.FC<TenantLineChartProps> = ({ points }) => {
+  const { t } = useTranslation()
+  const total = points.reduce((s, p) => s + p.value, 0)
+  const nonZeroCount = points.filter(p => p.value > 0).length
+  const needsPlaceholder = nonZeroCount < 2
+
+  const maxValue = Math.max(1, ...points.map(p => p.value))
+  const graphWidth = WIDTH - PADDING.left - PADDING.right
+  const graphHeight = HEIGHT - PADDING.top - PADDING.bottom
+
+  const chartPoints = points.map((p, idx) => ({
+    x: PADDING.left + (idx * graphWidth) / Math.max(points.length - 1, 1),
+    y: HEIGHT - PADDING.bottom - (p.value / maxValue) * graphHeight,
+    value: p.value,
+    label: p.label,
+    name: p.name,
+  }))
+
+  const placeholderAria = t('superAdmin.dashboard.evolution.description', { defaultValue: `${total} tenants en los últimos ${points.length} meses`, count: total, months: points.length })
+
+  if (needsPlaceholder) {
     return (
-      <div className={styles.customTooltip}>
-        <p style={{ margin: '0 0 8px 0', fontWeight: '600', color: 'var(--color-text)' }}>
-          {`Fecha: ${label}`}
-        </p>
-        <p style={{ margin: '0', color: 'var(--color-text)', opacity: 0.8 }}>
-          {`Tenants: ${payload[0].value}`}
-        </p>
-      </div>
-    )
-  }
-  return null
-}
-
-const TenantLineChart: React.FC<TenantLineChartProps> = ({ data }) => {
-  const total = data.reduce((sum, item) => sum + item.value, 0)
-
-  if (!data || data.length === 0) {
-    return (
-      <div className={styles.chartCard} role="region" aria-label="Evolución Temporal">
-        <div className={styles.chartHeader}>
-          <h3 className={styles.chartTitle}>Evolución Temporal</h3>
-          <div className={styles.chartStats}>
-            <span className={styles.chartTotal}>0 total</span>
+      <section className={`${home.panel} ${home.trendPanel}`} aria-label={t('superAdmin.dashboard.evolution.title', { defaultValue: 'Evolución de tenants' })} role="region">
+        <div className={home.panelHeader}>
+          <div>
+            <p className={home.panelKicker}>{t('superAdmin.dashboard.evolution.kicker', { defaultValue: 'Altas' })}</p>
+            <h2>{t('superAdmin.dashboard.evolution.title', { defaultValue: 'Evolución de tenants' })}</h2>
           </div>
+          <span className={home.panelTotal}>{total} total</span>
         </div>
-        <div className={styles.chartPlaceholder}>
-          <p>No hay datos disponibles</p>
-        </div>
-      </div>
+        <p className={home.emptyState}>Sin datos aún</p>
+        <details className={home.chartDataTable}>
+          <summary>{t('superAdmin.dashboard.evolution.tableToggle', { defaultValue: 'Ver datos en tabla' })}</summary>
+          <table>
+            <caption>{t('superAdmin.dashboard.evolution.tableCaption', { defaultValue: 'Altas de tenants por mes' })}</caption>
+            <thead><tr><th scope="col">Mes</th><th scope="col">Tenants</th></tr></thead>
+            <tbody>{points.map(p => <tr key={p.name}><th scope="row">{p.label}</th><td>{p.value}</td></tr>)}</tbody>
+          </table>
+        </details>
+      </section>
     )
   }
 
   return (
-    <div className={styles.chartCard} role="region" aria-label="Evolución Temporal">
-      <div className={styles.chartHeader}>
-        <h3 className={styles.chartTitle}>Evolución Temporal</h3>
-        <div className={styles.chartStats}>
-          <span className={styles.chartTotal}>{total} total</span>
+    <section className={`${home.panel} ${home.trendPanel}`} aria-label={t('superAdmin.dashboard.evolution.aria', { defaultValue: placeholderAria })} role="region">
+      <div className={home.panelHeader}>
+        <div>
+          <p className={home.panelKicker}>{t('superAdmin.dashboard.evolution.kicker', { defaultValue: 'Altas' })}</p>
+          <h2 id="trend-title">{t('superAdmin.dashboard.evolution.title', { defaultValue: 'Evolución de tenants' })}</h2>
         </div>
+        <span className={home.panelTotal}>{total} total</span>
       </div>
-      
-      <div className={styles.lineChartContainer} style={{ height: '320px', width: '100%' }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <ReLineChart 
-            data={data}
-            margin={{ top: 20, right: 30, left: 0, bottom: 20 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--color-card-border)" opacity={0.3} />
-            <XAxis 
-              dataKey="name" 
-              tick={{ fontSize: 12, fill: 'var(--color-text-secondary)' }}
-              axisLine={{ stroke: 'var(--color-card-border)' }}
-              tickLine={{ stroke: 'var(--color-card-border)' }}
-            />
-            <YAxis 
-              tick={{ fontSize: 12, fill: 'var(--color-text-secondary)' }}
-              axisLine={{ stroke: 'var(--color-card-border)' }}
-              tickLine={{ stroke: 'var(--color-card-border)' }}
-            />
-            <Tooltip content={<CustomLineChartTooltip />} />
-            <Line 
-              type="natural" 
-              dataKey="value" 
-              stroke={LINE_CHART_COLOR}
-              strokeWidth={3}
-              fill="none"
-              dot={{ 
-                fill: LINE_CHART_COLOR, 
-                strokeWidth: 2, 
-                r: 5,
-                stroke: 'var(--color-bg)',
-                filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
-              }}
-              activeDot={{ 
-                r: 7, 
-                stroke: LINE_CHART_COLOR, 
-                strokeWidth: 2, 
-                fill: LINE_CHART_COLOR,
-                filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
-              }}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </ReLineChart>
-        </ResponsiveContainer>
+
+      <div className={home.lineChartContainer}>
+        <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} role="img" aria-labelledby="evo-title evo-desc">
+          <title id="evo-title">{t('superAdmin.dashboard.evolution.title', { defaultValue: 'Evolución de tenants' })}</title>
+          <desc id="evo-desc">{placeholderAria}</desc>
+          {[0, 0.5, 1].map(ratio => {
+            const y = HEIGHT - PADDING.bottom - ratio * graphHeight
+            return (
+              <g key={ratio}>
+                <line className={home.gridLine} x1={PADDING.left} y1={y} x2={WIDTH - PADDING.right} y2={y} />
+                <text className={home.axisText} x={PADDING.left - 8} y={y + 4}>{Math.round(maxValue * ratio)}</text>
+              </g>
+            )
+          })}
+          <path className={home.createdLine} d={buildPath(chartPoints)} style={{ stroke: 'var(--color-secondary)' }} />
+          {chartPoints.map((p) => (
+            <g key={p.name}>
+              <circle className={home.createdPoint} cx={p.x} cy={p.y} r={4} tabIndex={0} aria-label={`${p.label}: ${p.value}`} style={{ stroke: 'var(--color-secondary)' }} />
+              <text className={home.xAxisText} x={p.x} y={HEIGHT - 14}>{p.label}</text>
+            </g>
+          ))}
+        </svg>
       </div>
-    </div>
+
+      <details className={home.chartDataTable}>
+        <summary>{t('superAdmin.dashboard.evolution.tableToggle', { defaultValue: 'Ver datos en tabla' })}</summary>
+        <table>
+          <caption>{t('superAdmin.dashboard.evolution.tableCaption', { defaultValue: 'Altas de tenants por mes' })}</caption>
+          <thead><tr><th scope="col">Mes</th><th scope="col">Tenants</th></tr></thead>
+          <tbody>{points.map(p => <tr key={p.name}><th scope="row">{p.label}</th><td>{p.value}</td></tr>)}</tbody>
+        </table>
+      </details>
+    </section>
   )
 }
 
-export default TenantLineChart 
+export default TenantLineChart

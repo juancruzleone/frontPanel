@@ -332,14 +332,53 @@
     "syncElementDiscarded": "同步项目时出错 ({{type}})。已丢弃。"
   },
   "csvImport": {
-    "chooseFile": "选择 CSV 文件", "fileTooLarge": "文件超过 2 MB 限制", "processing": "正在处理…", "preview": "预览", "commit": "确认导入", "close": "关闭", "downloadErrors": "下载错误", "downloadTemplateFirst": "请先下载模板再导入", "completed": "导入完成", "created": "已创建", "updated": "已更新", "unchanged": "未更改", "errors": "错误", "warnings": "警告", "row": "行", "externalId": "外部 ID", "action": "操作", "delta": "变动", "expiresAt": "预览有效期至 {{time}}",
+    "chooseFile": "选择 CSV 文件",
+    "fileTooLarge": "文件超过 2 MB 限制",
+    "processing": "正在处理…",
+    "preview": "预览",
+    "commit": "确认导入",
+    "close": "关闭",
+    "downloadErrors": "下载错误",
+    "downloadTemplateFirst": "请先下载模板再导入",
+    "completed": "导入完成",
+    "created": "已创建",
+    "updated": "已更新",
+    "unchanged": "未更改",
+    "errors": "错误",
+    "warnings": "警告",
+    "row": "行",
+    "externalId": "外部 ID",
+    "action": "操作",
+    "delta": "变动",
+    "expiresAt": "预览有效期至 {{time}}",
     "guidance": {
-      "download": "下载此部分的模板。", "headers": "请勿更改表头，并按照示例格式填写。", "excel": "在 Excel 中请保存为 CSV UTF-8 格式。不支持 XLS 和 XLSX 文件。", "preview": "预览文件：在确认导入之前，验证不会修改领域或业务记录。", "requiredLabel": "必填字段：", "referenceLabel": "引用：",
+      "download": "下载此部分的模板。",
+      "headers": "请勿更改表头，并按照示例格式填写。",
+      "excel": "在 Excel 中请保存为 CSV UTF-8 格式。不支持 XLS 和 XLSX 文件。",
+      "preview": "预览文件：在确认导入之前，验证不会修改领域或业务记录。",
+      "requiredLabel": "必填字段：",
+      "referenceLabel": "引用：",
       "entities": {
-        "assets": { "required": "schemaVersion、externalId、name 和 templateExternalId。", "references": "templateExternalId 必须标识租户中的基础模板。", "updates": "相同的 externalId 会更新资产；可选单元格留空时保留现有值。" },
-        "inventory": { "required": "schemaVersion、externalId、name 和 unit。", "references": "如填写 supplierExternalId，则必须标识租户中的供应商。", "updates": "相同的 externalId 会更新物料；可选单元格留空时保留现有值。" },
-        "suppliers": { "required": "schemaVersion、externalId 和 name。", "references": "externalId 是为每个供应商选择的稳定键。", "updates": "相同的 externalId 会更新供应商；可选单元格留空时保留现有值。" },
-        "installations": { "required": "installations.v1 的全部字段；不允许空白单元格。", "references": "installationType 必须与租户中已启用的安装类型一致。", "updates": "相同的 externalId 仅更新安装的七个基础字段。" }
+        "assets": {
+          "required": "schemaVersion、externalId、name 和 templateExternalId。",
+          "references": "templateExternalId 必须标识租户中的基础模板。",
+          "updates": "相同的 externalId 会更新资产；可选单元格留空时保留现有值。"
+        },
+        "inventory": {
+          "required": "schemaVersion、externalId、name 和 unit。",
+          "references": "如填写 supplierExternalId，则必须标识租户中的供应商。",
+          "updates": "相同的 externalId 会更新物料；可选单元格留空时保留现有值。"
+        },
+        "suppliers": {
+          "required": "schemaVersion、externalId 和 name。",
+          "references": "externalId 是为每个供应商选择的稳定键。",
+          "updates": "相同的 externalId 会更新供应商；可选单元格留空时保留现有值。"
+        },
+        "installations": {
+          "required": "installations.v1 的全部字段；不允许空白单元格。",
+          "references": "installationType 必须与租户中已启用的安装类型一致。",
+          "updates": "相同的 externalId 仅更新安装的七个基础字段。"
+        }
       }
     }
   },
@@ -394,13 +433,115 @@
     "continue": "继续",
     "title": "仪表板",
     "subtitle": "操作概览",
-    "range": { "7d": "7 days", "30d": "30 days", "90d": "90 days", "12m": "12 months" },
+    "range": {
+      "7d": "7 days",
+      "30d": "30 days",
+      "90d": "90 days",
+      "12m": "12 months"
+    },
     "dashboard": {
-      "roles": { "admin": { "title": "Operational control", "description": "Exceptions, capacity, and trends across the entire operation." }, "technician": { "title": "My operational day", "description": "Priorities, deadlines, and trends for your assigned work orders." }, "client": { "title": "My installation status", "description": "Activity, maintenance, and health across your assigned installations." } },
-      "scope": { "tenant": "Entire organization", "assigned_work": "Assigned work", "assigned_installations": "Assigned installations" }, "scopeLabel": "Scope", "updated": "Updated", "period": "Analysis period", "rangeLabel": "Select analysis period", "rangeHelp": "Affects work-order metrics, trends, and distributions.", "loading": "正在加载仪表板", "dateUnavailable": "日期不可用", "sections": { "immediate": "Immediate attention and summary", "analysis": "Trend and status", "recent": "Recent activity and context" },
-      "metrics": { "openWorkOrders": "Open work orders", "overdueWorkOrders": "Overdue work orders", "criticalWorkOrders": "Critical work orders", "mttrHours": "Mean time to repair", "mtbfHours": "Mean time between failures", "preventiveComplianceRate": "Preventive compliance", "slaRate": "SLA compliance", "responseTimeHours": "First response" }, "attention": { "kicker": "Exceptions", "title": "Attention required", "clear": "There are no active exceptions right now.", "overdue": "open work orders past their deadline", "critical": "open work orders with critical priority" },
-      "resources": { "kicker": "Coverage", "admin": "Operational capacity", "client": "Assigned installations and devices", "metrics": { "installations": "Installations", "assets": "Assets", "technicians": "Technicians", "devices": "Devices" } }, "distribution": { "kicker": "Composition" }, "ordersCount": "{{count}} orders", "trend": { "kicker": "Work flow", "description": "{{created}} work orders created and {{completed}} completed in the period.", "tableToggle": "View data table", "tableCaption": "Work orders created and completed by date" }, "date": "Date", "recent": { "kicker": "Latest activity" }, "inventory": { "kicker": "Resources", "title": "Inventory summary", "items": "Registered items", "lowStock": "Low-stock items" },
-      "context": { "kicker": "Operational scope", "technician": "Personal work", "technicianDescription": "Indicators and visible work orders are limited to your assigned work.", "client": "Installation activity", "clientDescription": "The information covers all activity at your installations, never organization-wide data." }, "empty": { "trend": "No trend data is available for this period.", "distribution": "There are no work orders to distribute in this period." }, "notices": { "offline": "Offline: showing the latest saved data.", "stale": "Saved data may be out of date.", "fallback": "There was not enough activity in this period; some visualizations use recent history." }, "errors": { "title": "We could not display the dashboard", "loadFailed": "Dashboard data could not be loaded. Please try again.", "offlineUnavailable": "There is no connection or saved data for this user.", "unsupportedRole": "Your role does not have an authorized dashboard scope.", "inventory": "The inventory summary is unavailable; the rest of the dashboard is current." }
+      "roles": {
+        "admin": {
+          "title": "Operational control",
+          "description": "Exceptions, capacity, and trends across the entire operation."
+        },
+        "technician": {
+          "title": "My operational day",
+          "description": "Priorities, deadlines, and trends for your assigned work orders."
+        },
+        "client": {
+          "title": "My installation status",
+          "description": "Activity, maintenance, and health across your assigned installations."
+        }
+      },
+      "scope": {
+        "tenant": "Entire organization",
+        "assigned_work": "Assigned work",
+        "assigned_installations": "Assigned installations"
+      },
+      "scopeLabel": "Scope",
+      "updated": "Updated",
+      "period": "Analysis period",
+      "rangeLabel": "Select analysis period",
+      "rangeHelp": "Affects work-order metrics, trends, and distributions.",
+      "loading": "正在加载仪表板",
+      "dateUnavailable": "日期不可用",
+      "sections": {
+        "immediate": "Immediate attention and summary",
+        "analysis": "Trend and status",
+        "recent": "Recent activity and context"
+      },
+      "metrics": {
+        "openWorkOrders": "Open work orders",
+        "overdueWorkOrders": "Overdue work orders",
+        "criticalWorkOrders": "Critical work orders",
+        "mttrHours": "Mean time to repair",
+        "mtbfHours": "Mean time between failures",
+        "preventiveComplianceRate": "Preventive compliance",
+        "slaRate": "SLA compliance",
+        "responseTimeHours": "First response"
+      },
+      "attention": {
+        "kicker": "Exceptions",
+        "title": "Attention required",
+        "clear": "There are no active exceptions right now.",
+        "overdue": "open work orders past their deadline",
+        "critical": "open work orders with critical priority"
+      },
+      "resources": {
+        "kicker": "Coverage",
+        "admin": "Operational capacity",
+        "client": "Assigned installations and devices",
+        "metrics": {
+          "installations": "Installations",
+          "assets": "Assets",
+          "technicians": "Technicians",
+          "devices": "Devices"
+        }
+      },
+      "distribution": {
+        "kicker": "Composition"
+      },
+      "ordersCount": "{{count}} orders",
+      "trend": {
+        "kicker": "Work flow",
+        "description": "{{created}} work orders created and {{completed}} completed in the period.",
+        "tableToggle": "View data table",
+        "tableCaption": "Work orders created and completed by date"
+      },
+      "date": "Date",
+      "recent": {
+        "kicker": "Latest activity"
+      },
+      "inventory": {
+        "kicker": "Resources",
+        "title": "Inventory summary",
+        "items": "Registered items",
+        "lowStock": "Low-stock items"
+      },
+      "context": {
+        "kicker": "Operational scope",
+        "technician": "Personal work",
+        "technicianDescription": "Indicators and visible work orders are limited to your assigned work.",
+        "client": "Installation activity",
+        "clientDescription": "The information covers all activity at your installations, never organization-wide data."
+      },
+      "empty": {
+        "trend": "No trend data is available for this period.",
+        "distribution": "There are no work orders to distribute in this period."
+      },
+      "notices": {
+        "offline": "Offline: showing the latest saved data.",
+        "stale": "Saved data may be out of date.",
+        "fallback": "There was not enough activity in this period; some visualizations use recent history."
+      },
+      "errors": {
+        "title": "We could not display the dashboard",
+        "loadFailed": "Dashboard data could not be loaded. Please try again.",
+        "offlineUnavailable": "There is no connection or saved data for this user.",
+        "unsupportedRole": "Your role does not have an authorized dashboard scope.",
+        "inventory": "The inventory summary is unavailable; the rest of the dashboard is current."
+      }
     },
     "welcome": "欢迎",
     "stats": "统计",
@@ -718,7 +859,11 @@
   },
   "installations": {
     "exportResults": "导出结果",
-    "csv": { "downloadTemplate": "下载模板", "import": "导入 CSV", "importTitle": "从 CSV 文件导入安装信息" },
+    "csv": {
+      "downloadTemplate": "下载模板",
+      "import": "导入 CSV",
+      "importTitle": "从 CSV 文件导入安装信息"
+    },
     "deviceNamePlaceholder": "输入资产名称",
     "understood": "关闭",
     "successTitle": "操作成功！",
@@ -2268,18 +2413,193 @@
     "footer": "维护管理系统 (GMAO)"
   },
   "compliance": {
-    "title": "法规合规", "loading": "正在加载合规信息...", "error": "无法加载合规信息",
-    "catalog": { "title": "合规目录", "pack": "包", "version": "版本", "action": "操作", "view": "查看详情", "loading": "正在加载目录...", "detailLoading": "正在加载详情...", "empty": "没有可用的已发布包。", "unavailable": "目录不可用。", "detailUnavailable": "详情不可用。", "retry": "重试", "controls": "已发布控制项", "rights": "{{author}} 的原始运营内容。", "assignment": "分配 {{key}} · 状态：{{status}} · 范围：{{scope}}", "noAssignment": "此包没有分配。" },
-    "assignment": { "parameterRequired": "请填写所有必填参数。", "parameterInvalid": "请检查参数值。", "select": "选择", "submit": "分配包", "pending": "正在保存分配...", "forbidden": "您没有分配此包的权限。", "mutationError": "无法保存分配。" },
-    "evaluations": { "title": "Leonix 评估", "loading": "正在加载评估...", "detailLoading": "正在加载评估详情...", "findingsLoading": "正在加载结果...", "empty": "没有已记录的评估。", "findingsEmpty": "此评估没有结果。", "error": "无法加载评估。", "detailError": "无法加载评估详情。", "retry": "重试", "history": "Leonix 评估历史", "id": "ID", "state": "状态", "action": "操作", "view": "查看评估", "assignments": "活动分配", "start": "开始 Leonix 评估", "snapshot": "不可变快照", "controls": "控制项", "evaluators": "评估者", "rights": "权限", "scope": "范围", "timestamp": "时间戳", "score": "分数", "progress": "进度", "findings": "结果", "reason": "原因", "assignment": "分配", "pack": "包", "notAvailable": "不可用" },
-    "dashboard": { "title": "合规摘要", "total": "结果", "noData": "尚无扫描结果。", "estado": { "cumplido": "合规", "incumplido": "不合规", "sin_evidencia": "无证据", "error": "错误" } },
-    "operador": { "fechaAntiguaMeses": "旧日期（月）", "numericoMax": "数值最大值", "numericoMin": "数值最小值", "numericoRango": "数值范围", "enumEn": "列表中的值", "exists": "字段存在" },
-    "normas": { "codigo": "代码", "familiaNorma": "标准系列", "descripcion": "描述", "activa": "启用", "empty": "没有已登记的标准。" },
-    "reglas": { "nombre": "名称", "norma": "标准", "operador": "运算符", "objetivoTipo": "目标类型", "objetivoTipoOptions": { "activo": "资产", "instalacion": "设施" }, "habilitada": "已启用", "empty": "没有已登记的规则。" },
-    "legacy": { "title": "之前的历史", "description": "只读的历史合规记录。", "loading": "正在加载之前的历史...", "normas": "历史标准", "reglas": "历史规则" }
+    "title": "法规合规",
+    "loading": "正在加载合规信息...",
+    "error": "无法加载合规信息",
+    "catalog": {
+      "title": "合规目录",
+      "pack": "包",
+      "version": "版本",
+      "action": "操作",
+      "view": "查看详情",
+      "loading": "正在加载目录...",
+      "detailLoading": "正在加载详情...",
+      "empty": "没有可用的已发布包。",
+      "unavailable": "目录不可用。",
+      "detailUnavailable": "详情不可用。",
+      "retry": "重试",
+      "controls": "已发布控制项",
+      "rights": "{{author}} 的原始运营内容。",
+      "assignment": "分配 {{key}} · 状态：{{status}} · 范围：{{scope}}",
+      "noAssignment": "此包没有分配。"
+    },
+    "assignment": {
+      "parameterRequired": "请填写所有必填参数。",
+      "parameterInvalid": "请检查参数值。",
+      "select": "选择",
+      "submit": "分配包",
+      "pending": "正在保存分配...",
+      "forbidden": "您没有分配此包的权限。",
+      "mutationError": "无法保存分配。"
+    },
+    "evaluations": {
+      "title": "Leonix 评估",
+      "loading": "正在加载评估...",
+      "detailLoading": "正在加载评估详情...",
+      "findingsLoading": "正在加载结果...",
+      "empty": "没有已记录的评估。",
+      "findingsEmpty": "此评估没有结果。",
+      "error": "无法加载评估。",
+      "detailError": "无法加载评估详情。",
+      "retry": "重试",
+      "history": "Leonix 评估历史",
+      "id": "ID",
+      "state": "状态",
+      "action": "操作",
+      "view": "查看评估",
+      "assignments": "活动分配",
+      "start": "开始 Leonix 评估",
+      "snapshot": "不可变快照",
+      "controls": "控制项",
+      "evaluators": "评估者",
+      "rights": "权限",
+      "scope": "范围",
+      "timestamp": "时间戳",
+      "score": "分数",
+      "progress": "进度",
+      "findings": "结果",
+      "reason": "原因",
+      "assignment": "分配",
+      "pack": "包",
+      "notAvailable": "不可用"
+    },
+    "dashboard": {
+      "title": "合规摘要",
+      "total": "结果",
+      "noData": "尚无扫描结果。",
+      "estado": {
+        "cumplido": "合规",
+        "incumplido": "不合规",
+        "sin_evidencia": "无证据",
+        "error": "错误"
+      }
+    },
+    "operador": {
+      "fechaAntiguaMeses": "旧日期（月）",
+      "numericoMax": "数值最大值",
+      "numericoMin": "数值最小值",
+      "numericoRango": "数值范围",
+      "enumEn": "列表中的值",
+      "exists": "字段存在"
+    },
+    "normas": {
+      "codigo": "代码",
+      "familiaNorma": "标准系列",
+      "descripcion": "描述",
+      "activa": "启用",
+      "empty": "没有已登记的标准。"
+    },
+    "reglas": {
+      "nombre": "名称",
+      "norma": "标准",
+      "operador": "运算符",
+      "objetivoTipo": "目标类型",
+      "objetivoTipoOptions": {
+        "activo": "资产",
+        "instalacion": "设施"
+      },
+      "habilitada": "已启用",
+      "empty": "没有已登记的规则。"
+    },
+    "legacy": {
+      "title": "之前的历史",
+      "description": "只读的历史合规记录。",
+      "loading": "正在加载之前的历史...",
+      "normas": "历史标准",
+      "reglas": "历史规则"
+    }
   },
-  "billing": { "loading": "正在加载账单选项...", "company": "公司", "currentPlan": "当前方案", "trialEnd": "试用结束日期", "selectPlan": "选择方案", "billingCycle": "计费周期", "price": "{{price}}", "expired": { "title": "您的试用期已结束", "message": "业务功能访问已暂停。请选择方案以继续使用 Leonix。" }, "manage": { "title": "方案与账单", "message": "查看可用选项并为您的公司选择合适的方案。" }, "plans": { "starter": "入门版", "professional": "专业版", "enterprise": "企业版" }, "cycles": { "monthly": "按月", "yearly": "按年" }, "checkout": { "cta": "继续付款", "loading": "正在准备付款..." }, "errors": { "status": "无法加载账单信息。", "checkout": "无法发起付款。", "checkoutStatus": "无法确认付款状态。" }, "return": { "title": "付款确认", "invalid": "未找到有效的付款编号。", "attempt": "第 {{count}} 次检查", "timeout": "确认时间超出预期。请重新检查。", "retry": "重新检查", "status": { "pending": "正在等待支付服务商确认。", "paid": "付款已确认，正在启用您的账户。", "failed": "无法完成付款。", "cancelled": "付款已取消。" } }, "trialCard": { "label": "试用状态", "title": "{{plan}}方案试用", "remaining_one": "剩余 {{count}} 天，将于 {{date}} 结束。", "remaining_other": "剩余 {{count}} 天，将于 {{date}} 结束。", "expiresToday": "试用期今天结束。", "today": "试用期今天结束。", "expired": "试用期已结束。", "invalid": "无法获取试用结束日期。", "cta": "查看方案" } },
-  "administrativeTrial": { "cta": "创建试用账户", "title": "创建试用账户", "duration": "该账户将在 30 天内拥有完整访问权限。期限由服务器设定，无法修改。", "companyName": "公司名称", "email": "管理员电子邮箱", "password": "临时密码", "userName": "用户名（可选）", "plan": "方案", "firstName": "名字（可选）", "lastName": "姓氏（可选）", "phone": "电话号码（可选）", "address": "地址（可选）", "notes": "内部备注（可选）", "submit": "创建 30 天试用", "creating": "正在创建试用账户...", "success": "试用账户已成功创建。密码将不会再次显示。", "error": "无法创建试用账户。", "validation": { "plan": "请选择有效的方案。" } },
+  "billing": {
+    "loading": "正在加载账单选项...",
+    "company": "公司",
+    "currentPlan": "当前方案",
+    "trialEnd": "试用结束日期",
+    "selectPlan": "选择方案",
+    "billingCycle": "计费周期",
+    "price": "{{price}}",
+    "expired": {
+      "title": "您的试用期已结束",
+      "message": "业务功能访问已暂停。请选择方案以继续使用 Leonix。"
+    },
+    "manage": {
+      "title": "方案与账单",
+      "message": "查看可用选项并为您的公司选择合适的方案。"
+    },
+    "plans": {
+      "starter": "入门版",
+      "professional": "专业版",
+      "enterprise": "企业版"
+    },
+    "cycles": {
+      "monthly": "按月",
+      "yearly": "按年"
+    },
+    "checkout": {
+      "cta": "继续付款",
+      "loading": "正在准备付款..."
+    },
+    "errors": {
+      "status": "无法加载账单信息。",
+      "checkout": "无法发起付款。",
+      "checkoutStatus": "无法确认付款状态。"
+    },
+    "return": {
+      "title": "付款确认",
+      "invalid": "未找到有效的付款编号。",
+      "attempt": "第 {{count}} 次检查",
+      "timeout": "确认时间超出预期。请重新检查。",
+      "retry": "重新检查",
+      "status": {
+        "pending": "正在等待支付服务商确认。",
+        "paid": "付款已确认，正在启用您的账户。",
+        "failed": "无法完成付款。",
+        "cancelled": "付款已取消。"
+      }
+    },
+    "trialCard": {
+      "label": "试用状态",
+      "title": "{{plan}}方案试用",
+      "remaining_one": "剩余 {{count}} 天，将于 {{date}} 结束。",
+      "remaining_other": "剩余 {{count}} 天，将于 {{date}} 结束。",
+      "expiresToday": "试用期今天结束。",
+      "today": "试用期今天结束。",
+      "expired": "试用期已结束。",
+      "invalid": "无法获取试用结束日期。",
+      "cta": "查看方案"
+    }
+  },
+  "administrativeTrial": {
+    "cta": "创建试用账户",
+    "title": "创建试用账户",
+    "duration": "该账户将在 30 天内拥有完整访问权限。期限由服务器设定，无法修改。",
+    "companyName": "公司名称",
+    "email": "管理员电子邮箱",
+    "password": "临时密码",
+    "userName": "用户名（可选）",
+    "plan": "方案",
+    "firstName": "名字（可选）",
+    "lastName": "姓氏（可选）",
+    "phone": "电话号码（可选）",
+    "address": "地址（可选）",
+    "notes": "内部备注（可选）",
+    "submit": "创建 30 天试用",
+    "creating": "正在创建试用账户...",
+    "success": "试用账户已成功创建。密码将不会再次显示。",
+    "error": "无法创建试用账户。",
+    "validation": {
+      "plan": "请选择有效的方案。"
+    }
+  },
   "superAdmin": {
     "dashboard": {
       "eyebrow": "Global scope",
@@ -2303,6 +2623,54 @@
         "totalAssets": "Assets",
         "aria": "Key metrics"
       },
+      "attention": {
+        "kicker": "Exceptions",
+        "title": "Tenants requiring attention",
+        "suspended": "Suspended",
+        "cancelled": "Cancelled",
+        "clear": "No suspended or cancelled tenants."
+      },
+      "distribution": {
+        "kicker": "Composition",
+        "planTitle": "Plans",
+        "statusTitle": "Statuses",
+        "total": "{{count}} tenants",
+        "empty": "No data yet",
+        "aria": {
+          "plan": "Distribution by plans",
+          "status": "Distribution by statuses"
+        },
+        "plans": {
+          "basic": "Basic",
+          "professional": "Professional",
+          "enterprise": "Enterprise",
+          "unknown": "No plan"
+        },
+        "statuses": {
+          "active": "Active",
+          "suspended": "Suspended",
+          "cancelled": "Cancelled",
+          "unknown": "No status"
+        }
+      },
+      "evolution": {
+        "kicker": "New tenants",
+        "title": "Tenant evolution",
+        "total": "{{count}} new",
+        "description": "{{count}} tenants created in the last {{months}} months.",
+        "empty": "Not enough data to show evolution.",
+        "tableToggle": "View data table",
+        "tableCaption": "Tenant sign-ups by month",
+        "aria": "Tenant evolution over time"
+      },
+      "recent": {
+        "kicker": "Latest records",
+        "title": "Recent tenants",
+        "empty": "No tenants registered",
+        "createCta": "Create tenant",
+        "manageCta": "Manage tenants",
+        "createdAt": "Created"
+      },
       "notices": {
         "truncated": "Analyzed {{pages}} pages ({{count}} tenants); view may be incomplete."
       },
@@ -2310,7 +2678,9 @@
         "title": "Could not display panel",
         "loadFailed": "Could not load data.",
         "network": "Check your connection and try again.",
-        "forbidden": "Your role cannot view this panel."
+        "forbidden": "Your role cannot view this panel.",
+        "unauthorized": "Authentication required.",
+        "server": "Server error. Try again."
       }
     }
   }

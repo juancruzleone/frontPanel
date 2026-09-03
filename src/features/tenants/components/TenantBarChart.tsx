@@ -1,120 +1,104 @@
 import React from "react"
-import { BarChart as ReBarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell } from "recharts"
-import { PLAN_COLORS } from "../../../utils/chartColors"
-import styles from "../styles/panelAdmin.module.css"
-
-interface PlanDistributionData {
-  name: string
-  value: number
-  color?: string
-}
+import { useTranslation } from "react-i18next"
+import type { DistributionBucket } from "../utils/tenantStats"
+import home from "../../home/styles/home.module.css"
 
 interface TenantBarChartProps {
-  data: PlanDistributionData[]
+  title: string
+  kicker?: string
+  buckets: DistributionBucket[]
+  colorOf?: (key: string) => string
+  total?: number
+  ariaLabel?: string
 }
 
-interface CustomTooltipProps {
-  active?: boolean
-  payload?: any[]
-  label?: string
-}
-
-const CustomTooltip = ({ active, payload, label: _label }: CustomTooltipProps) => {
-  if (active && payload && payload.length) {
-    const planName = payload[0]?.payload?.name
-    return (
-      <div className={styles.customTooltip} style={{ background: 'var(--color-card)', color: 'var(--color-text)', border: '1px solid var(--color-card-border)', borderRadius: 8 }}>
-        <p style={{ margin: '0 0 8px 0', fontWeight: '600' }}>
-          {planName}
-        </p>
-        <p style={{ margin: '0', opacity: 0.8 }}>
-          {`Tenants: ${payload[0].value}`}
-        </p>
-      </div>
-    )
+const defaultColorOf = (key: string): string => {
+  const map: Record<string, string> = {
+    basic: "var(--chart-basic, #64748b)",
+    professional: "var(--chart-professional, #057E74)",
+    enterprise: "var(--chart-enterprise, #fbc02d)",
+    unknown: "var(--chart-unknown, #64748b)",
+    active: "var(--chart-active, #047857)",
+    suspended: "var(--chart-suspended, #ca8a04)",
+    cancelled: "var(--chart-cancelled, #b91c1c)",
   }
-  return null
+  return map[key] ?? "var(--chart-unknown, #64748b)"
 }
 
-const TenantBarChart: React.FC<TenantBarChartProps> = ({ data }) => {
-  const total = data.reduce((sum, item) => sum + item.value, 0)
+const labelMap: Record<string, string> = {
+  basic: "Básico",
+  professional: "Profesional",
+  enterprise: "Empresarial",
+  unknown: "Sin plan",
+  active: "Activo",
+  suspended: "Suspendido",
+  cancelled: "Cancelado",
+}
 
-  if (!data || data.length === 0) {
+const statusUnknownLabel = "Sin estado"
+
+const TenantBarChart: React.FC<TenantBarChartProps> = ({ title, kicker, buckets, colorOf = defaultColorOf, total: totalProp, ariaLabel }) => {
+  const { t } = useTranslation()
+  const total = totalProp ?? buckets.reduce((s, b) => s + b.value, 0)
+  const visible = buckets.filter(b => b.value > 0)
+
+  if (total === 0 || buckets.length === 0) {
     return (
-      <div className={styles.chartCard} role="region" aria-label="Distribución por Planes">
-        <div className={styles.chartHeader}>
-          <h3 className={styles.chartTitle}>Distribución por Planes</h3>
-          <div className={styles.chartStats}>
-            <span className={styles.chartTotal}>0 total</span>
+      <section className={home.panel} role="region" aria-label={ariaLabel ?? t('superAdmin.dashboard.distribution.aria.plan', { defaultValue: title })}>
+        <div className={home.panelHeader}>
+          <div>
+            {kicker && <p className={home.panelKicker}>{kicker}</p>}
+            <h2>{title}</h2>
           </div>
+          <span className={home.panelTotal}>{total} total</span>
         </div>
-        <div className={styles.chartPlaceholder}>
-          <p>No hay datos disponibles</p>
-        </div>
-      </div>
+        <p className={home.emptyState}>Sin datos aún</p>
+      </section>
     )
   }
 
-  const renderTick = (props: any) => {
-    const { x, y, payload } = props;
-    const planNames: { [key: string]: string } = {
-      'basic': 'Básico',
-      'professional': 'Profesional',
-      'enterprise': 'Empresarial'
-    };
-    return (
-      <text x={x} y={y + 10} textAnchor="middle" fontSize={12} fill="var(--color-text-secondary)">
-        {planNames[payload.value] || payload.value}
-      </text>
-    );
-  };
+  const distAria = ariaLabel ?? title
 
   return (
-    <div className={styles.chartCard} role="region" aria-label="Distribución por Planes">
-      <div className={styles.chartHeader}>
-        <h3 className={styles.chartTitle}>Distribución por Planes</h3>
-        <div className={styles.chartStats}>
-          <span className={styles.chartTotal}>{total} total</span>
+    <section className={home.panel} role="region" aria-label={distAria}>
+      <div className={home.panelHeader}>
+        <div>
+          {kicker && <p className={home.panelKicker}>{kicker}</p>}
+          <h2 id={`dist-${title}`}>{title}</h2>
         </div>
+        <span className={home.panelTotal}>{t('superAdmin.dashboard.distribution.total', { defaultValue: `${total} tenants`, count: total })}</span>
       </div>
 
-      <div className={styles.barChartContainer} style={{ height: '250px', width: '100%' }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <ReBarChart
-            data={data}
-            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--color-card-border)" opacity={0.3} />
-            <XAxis
-              dataKey="name"
-              tick={renderTick}
-              axisLine={{ stroke: 'var(--color-card-border)' }}
-              tickLine={{ stroke: 'var(--color-card-border)' }}
-            />
-            <YAxis
-              tick={{ fontSize: 12, fill: 'var(--color-text-secondary)' }}
-              axisLine={{ stroke: 'var(--color-card-border)' }}
-              tickLine={{ stroke: 'var(--color-card-border)' }}
-            />
-            <Tooltip content={<CustomTooltip />} />
-            <Bar
-              dataKey="value"
-              radius={[4, 4, 0, 0]}
-              barSize={40}
-            >
-              {data.map((entry, idx) => (
-                <Cell
-                  key={`cell-${idx}`}
-                  fill={PLAN_COLORS[entry.name] || 'var(--color-primary)'}
-                  opacity={0.9}
-                />
-              ))}
-            </Bar>
-          </ReBarChart>
-        </ResponsiveContainer>
+      <div className={home.stackedBar} aria-hidden="true">
+        {visible.map((b) => (
+          <span
+            key={b.key}
+            className={home.stackedSegment}
+            data-size={Math.max(1, Math.round((b.value / total) * 10))}
+            style={{ background: colorOf(b.key) }}
+            aria-hidden="true"
+          />
+        ))}
       </div>
-    </div>
+
+      <ul className={home.distributionList}>
+        {visible.map((b) => {
+          const pct = total > 0 ? Math.round((b.value / total) * 100) : 0
+          let label = labelMap[b.key] ?? b.key
+          if (b.key === 'unknown' && /estado|status/i.test(title)) label = statusUnknownLabel
+          return (
+            <li key={b.key}>
+              <span className={home.statusMarker} style={{ background: colorOf(b.key) }} />
+              <span>{label}</span>
+              <strong>{b.value}</strong>
+              <span>{pct}%</span>
+            </li>
+          )
+        })}
+      </ul>
+      {/* hidden unknown bucket still sums to total; visible filter hides zero but unknown with value>0 is shown */}
+    </section>
   )
 }
 
-export default TenantBarChart 
+export default TenantBarChart

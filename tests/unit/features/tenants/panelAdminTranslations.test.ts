@@ -29,6 +29,27 @@ describe('panelAdmin translations parity', () => {
     expect(d.kpi.activeTenants).toBeTruthy()
     expect(d.kpi.totalUsers).toBeTruthy()
     expect(d.kpi.totalAssets).toBeTruthy()
+    // PR3 remaining keys
+    expect(d.attention.kicker).toBeTruthy()
+    expect(d.attention.title).toBeTruthy()
+    expect(d.distribution.kicker).toBeTruthy()
+    expect(d.distribution.planTitle).toBeTruthy()
+    expect(d.distribution.statusTitle).toBeTruthy()
+    expect(d.distribution.total).toBeTruthy()
+    expect(d.distribution.aria.plan).toBeTruthy()
+    expect(d.distribution.aria.status).toBeTruthy()
+    expect(d.distribution.plans.basic).toBeTruthy()
+    expect(d.distribution.statuses.active).toBeTruthy()
+    expect(d.evolution.kicker).toBeTruthy()
+    expect(d.evolution.title).toBeTruthy()
+    expect(d.evolution.description).toBeTruthy()
+    expect(d.recent.kicker).toBeTruthy()
+    expect(d.recent.title).toBeTruthy()
+    expect(d.recent.empty).toBeTruthy()
+    expect(d.recent.createCta).toBeTruthy()
+    expect(d.recent.manageCta).toBeTruthy()
+    expect(d.notices.truncated).toBeTruthy()
+    expect(d.errors.title).toBeTruthy()
   })
 
   it('no locale has empty superAdmin.dashboard leaf', () => {
@@ -36,7 +57,8 @@ describe('panelAdmin translations parity', () => {
       const d = (messages as any).superAdmin.dashboard
       const leaves = [
         d.eyebrow, d.title, d.subtitle, d.scopeLabel, d.scope.global,
-        d.kpi.totalTenants, d.kpi.activeTenants, d.kpi.totalUsers, d.kpi.totalAssets
+        d.kpi.totalTenants, d.kpi.activeTenants, d.kpi.totalUsers, d.kpi.totalAssets,
+        d.attention.kicker, d.distribution.kicker, d.evolution.title, d.recent.empty, d.recent.createCta
       ]
       for (const leaf of leaves) {
         expect(String(leaf).trim().length, `${locale} leaf ${leaf}`).toBeGreaterThan(0)

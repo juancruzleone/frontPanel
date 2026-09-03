@@ -1,138 +1,82 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { tenantServices } from '../services/tenantServices'
-import { Tenant } from '../types/tenant.types'
+import { aggregateTenantStats, EMPTY_AGGREGATE, type TenantAggregate } from '../utils/tenantStats'
 
-interface TenantStats {
-  totalTenants: number
-  activeTenants: number
-  suspendedTenants: number
-  cancelledTenants: number
-  totalUsers: number
-  totalAssets: number
-  totalWorkOrders: number
-  planDistribution: {
-    basic: number
-    professional: number
-    enterprise: number
-  }
-  statusDistribution: {
-    active: number
-    suspended: number
-    cancelled: number
-  }
-  evolutionData: Array<{
-    name: string
-    value: number
-  }>
-  recentTenants: Tenant[]
+export type PanelAdminErrorKind = 'network' | 'unauthorized' | 'forbidden' | 'server'
+
+export interface PanelAdminMeta { pages: number; total: number; truncated: boolean }
+
+export interface UsePanelAdminDashboard {
+  stats: TenantAggregate
+  meta: PanelAdminMeta | null
+  loading: boolean
+  refreshing: boolean
+  error: { kind: PanelAdminErrorKind; messageKey: string } | null
+  lastUpdated: string | null
+  retry: () => void
 }
 
-const usePanelAdminDashboard = () => {
-  const [stats, setStats] = useState<TenantStats>({
-    totalTenants: 0,
-    activeTenants: 0,
-    suspendedTenants: 0,
-    cancelledTenants: 0,
-    totalUsers: 0,
-    totalAssets: 0,
-    totalWorkOrders: 0,
-    planDistribution: {
-      basic: 0,
-      professional: 0,
-      enterprise: 0
-    },
-    statusDistribution: {
-      active: 0,
-      suspended: 0,
-      cancelled: 0
-    },
-    evolutionData: [],
-    recentTenants: []
-  })
+function mapError(err: any): { kind: PanelAdminErrorKind; messageKey: string } {
+  const status = err?.status
+  const msg = String(err?.message ?? '')
+  if (status === 401) return { kind: 'unauthorized', messageKey: 'superAdmin.dashboard.errors.unauthorized' }
+  if (status === 403 || msg.includes('No tienes permisos') || msg.includes('permisos')) return { kind: 'forbidden', messageKey: 'superAdmin.dashboard.errors.forbidden' }
+  if (msg.includes('AbortError') || err?.name === 'AbortError') return { kind: 'network', messageKey: 'superAdmin.dashboard.errors.network' }
+  if (status && status >= 500) return { kind: 'server', messageKey: 'superAdmin.dashboard.errors.server' }
+  if (msg.toLowerCase().includes('network') || msg.toLowerCase().includes('fetch')) return { kind: 'network', messageKey: 'superAdmin.dashboard.errors.network' }
+  return { kind: 'server', messageKey: 'superAdmin.dashboard.errors.loadFailed' }
+}
+
+const usePanelAdminDashboard = (): UsePanelAdminDashboard => {
+  const [stats, setStats] = useState<TenantAggregate>(EMPTY_AGGREGATE)
+  const [meta, setMeta] = useState<PanelAdminMeta | null>(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [refreshing, setRefreshing] = useState(false)
+  const [error, setError] = useState<{ kind: PanelAdminErrorKind; messageKey: string } | null>(null)
+  const [lastUpdated, setLastUpdated] = useState<string | null>(null)
+  const [attempt, setAttempt] = useState(0)
+  const abortRef = useRef<AbortController | null>(null)
+
+  const retry = useCallback(() => setAttempt(a => a + 1), [])
 
   useEffect(() => {
-    const loadDashboardData = async () => {
+    const controller = new AbortController()
+    abortRef.current = controller
+    let cancelled = false
+
+    const run = async () => {
+      const isFirst = attempt === 0 && !lastUpdated && !error
+      if (isFirst) setLoading(true)
+      else setRefreshing(true)
+      setError(null)
       try {
-        setLoading(true)
-        setError(null)
-
-        // Obtener todos los tenants
-        const tenants = await tenantServices.getTenants()
-
-        // Calcular estadísticas
-        const totalTenants = tenants.length
-        const activeTenants = tenants.filter(t => t.status === 'active').length
-        const suspendedTenants = tenants.filter(t => t.status === 'suspended').length
-        const cancelledTenants = tenants.filter(t => t.status === 'cancelled').length
-
-        // Calcular totales de recursos
-        const totalUsers = tenants.reduce((sum, t) => sum + (t.stats?.totalUsers || 0), 0)
-        const totalAssets = tenants.reduce((sum, t) => sum + (t.stats?.totalAssets || 0), 0)
-        const totalWorkOrders = tenants.reduce((sum, t) => sum + (t.stats?.totalWorkOrders || 0), 0)
-
-        // Distribución de planes
-        const planDistribution = {
-          basic: tenants.filter(t => t.plan === 'basic').length,
-          professional: tenants.filter(t => t.plan === 'professional').length,
-          enterprise: tenants.filter(t => t.plan === 'enterprise').length
-        }
-
-        // Distribución de estados
-        const statusDistribution = {
-          active: tenants.filter(t => t.status === 'active').length,
-          suspended: tenants.filter(t => t.status === 'suspended').length,
-          cancelled: tenants.filter(t => t.status === 'cancelled').length
-        }
-
-        // Datos de evolución temporal (últimos 6 meses)
-        const evolutionData = []
-        const currentDate = new Date()
-        for (let i = 5; i >= 0; i--) {
-          const date = new Date(currentDate.getFullYear(), currentDate.getMonth() - i, 1)
-          const monthName = date.toLocaleDateString('es-ES', { month: 'short' })
-          const tenantsInMonth = tenants.filter(t => {
-            const tenantDate = new Date(t.createdAt)
-            return tenantDate.getMonth() === date.getMonth() && tenantDate.getFullYear() === date.getFullYear()
-          }).length
-          evolutionData.push({ name: monthName, value: tenantsInMonth })
-        }
-
-        // Tenants más recientes (últimos 5)
-        const recentTenants = tenants
-          .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-          .slice(0, 5)
-
-        setStats({
-          totalTenants,
-          activeTenants,
-          suspendedTenants,
-          cancelledTenants,
-          totalUsers,
-          totalAssets,
-          totalWorkOrders,
-          planDistribution,
-          statusDistribution,
-          evolutionData,
-          recentTenants
-        })
-      } catch (err) {
-        console.error('Error loading dashboard data:', err);
-        setError('Error al cargar los datos del panel')
+        const { tenants, meta: fetchedMeta } = await tenantServices.fetchTenantsForAggregation({ pageSize: 100, maxPages: 25, signal: controller.signal })
+        if (cancelled || controller.signal.aborted) return
+        const agg = aggregateTenantStats(tenants)
+        setStats(agg)
+        setMeta(fetchedMeta)
+        setLastUpdated(new Date().toISOString())
+      } catch (e: any) {
+        if (e?.name === 'AbortError' || controller.signal.aborted) return
+        setError(mapError(e))
       } finally {
-        setLoading(false)
+        if (!cancelled) {
+          setLoading(false)
+          setRefreshing(false)
+        }
       }
     }
 
-    loadDashboardData()
-  }, [])
+    run()
 
-  return {
-    stats,
-    loading,
-    error
-  }
+    return () => {
+      cancelled = true
+      controller.abort()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [attempt])
+
+  return { stats, meta, loading, refreshing, error, lastUpdated, retry }
 }
 
-export default usePanelAdminDashboard 
+export default usePanelAdminDashboard

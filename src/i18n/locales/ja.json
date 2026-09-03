@@ -332,14 +332,53 @@
     "syncElementDiscarded": "項目の同期エラー ({{type}})。破棄されました。"
   },
   "csvImport": {
-    "chooseFile": "CSVファイルを選択", "fileTooLarge": "ファイルが2 MBの上限を超えています", "processing": "処理中…", "preview": "プレビュー", "commit": "インポートを確定", "close": "閉じる", "downloadErrors": "エラーをダウンロード", "downloadTemplateFirst": "インポート前にテンプレートをダウンロードしてください", "completed": "インポートが完了しました", "created": "作成", "updated": "更新", "unchanged": "変更なし", "errors": "エラー", "warnings": "警告", "row": "行", "externalId": "外部ID", "action": "操作", "delta": "差分", "expiresAt": "プレビューの有効期限: {{time}}",
+    "chooseFile": "CSVファイルを選択",
+    "fileTooLarge": "ファイルが2 MBの上限を超えています",
+    "processing": "処理中…",
+    "preview": "プレビュー",
+    "commit": "インポートを確定",
+    "close": "閉じる",
+    "downloadErrors": "エラーをダウンロード",
+    "downloadTemplateFirst": "インポート前にテンプレートをダウンロードしてください",
+    "completed": "インポートが完了しました",
+    "created": "作成",
+    "updated": "更新",
+    "unchanged": "変更なし",
+    "errors": "エラー",
+    "warnings": "警告",
+    "row": "行",
+    "externalId": "外部ID",
+    "action": "操作",
+    "delta": "差分",
+    "expiresAt": "プレビューの有効期限: {{time}}",
     "guidance": {
-      "download": "このセクションのテンプレートをダウンロードしてください。", "headers": "ヘッダーを変更せず、サンプル形式に従って入力してください。", "excel": "ExcelではCSV UTF-8形式で保存してください。XLSおよびXLSXファイルには対応していません。", "preview": "ファイルをプレビューしてください。検証では、インポートを確定するまでドメインまたは業務レコードは変更されません。", "requiredLabel": "必須項目:", "referenceLabel": "参照:",
+      "download": "このセクションのテンプレートをダウンロードしてください。",
+      "headers": "ヘッダーを変更せず、サンプル形式に従って入力してください。",
+      "excel": "ExcelではCSV UTF-8形式で保存してください。XLSおよびXLSXファイルには対応していません。",
+      "preview": "ファイルをプレビューしてください。検証では、インポートを確定するまでドメインまたは業務レコードは変更されません。",
+      "requiredLabel": "必須項目:",
+      "referenceLabel": "参照:",
       "entities": {
-        "assets": { "required": "schemaVersion、externalId、name、templateExternalId。", "references": "templateExternalIdはテナント内の基本テンプレートを指定する必要があります。", "updates": "同じexternalIdで資産を更新します。任意項目の空欄は既存の値を保持します。" },
-        "inventory": { "required": "schemaVersion、externalId、name、unit。", "references": "supplierExternalIdを指定する場合は、テナント内の仕入先を指定する必要があります。", "updates": "同じexternalIdで品目を更新します。任意項目の空欄は既存の値を保持します。" },
-        "suppliers": { "required": "schemaVersion、externalId、name。", "references": "externalIdは各仕入先に設定する不変のキーです。", "updates": "同じexternalIdで仕入先を更新します。任意項目の空欄は既存の値を保持します。" },
-        "installations": { "required": "installations.v1のすべての項目。空欄は使用できません。", "references": "installationTypeはテナント内で有効な設置タイプと一致する必要があります。", "updates": "同じexternalIdでは、設置情報の7つの基本項目のみを更新します。" }
+        "assets": {
+          "required": "schemaVersion、externalId、name、templateExternalId。",
+          "references": "templateExternalIdはテナント内の基本テンプレートを指定する必要があります。",
+          "updates": "同じexternalIdで資産を更新します。任意項目の空欄は既存の値を保持します。"
+        },
+        "inventory": {
+          "required": "schemaVersion、externalId、name、unit。",
+          "references": "supplierExternalIdを指定する場合は、テナント内の仕入先を指定する必要があります。",
+          "updates": "同じexternalIdで品目を更新します。任意項目の空欄は既存の値を保持します。"
+        },
+        "suppliers": {
+          "required": "schemaVersion、externalId、name。",
+          "references": "externalIdは各仕入先に設定する不変のキーです。",
+          "updates": "同じexternalIdで仕入先を更新します。任意項目の空欄は既存の値を保持します。"
+        },
+        "installations": {
+          "required": "installations.v1のすべての項目。空欄は使用できません。",
+          "references": "installationTypeはテナント内で有効な設置タイプと一致する必要があります。",
+          "updates": "同じexternalIdでは、設置情報の7つの基本項目のみを更新します。"
+        }
       }
     }
   },
@@ -392,13 +431,115 @@
   "home": {
     "title": "ダッシュボード",
     "subtitle": "操作の概要",
-    "range": { "7d": "7 days", "30d": "30 days", "90d": "90 days", "12m": "12 months" },
+    "range": {
+      "7d": "7 days",
+      "30d": "30 days",
+      "90d": "90 days",
+      "12m": "12 months"
+    },
     "dashboard": {
-      "roles": { "admin": { "title": "Operational control", "description": "Exceptions, capacity, and trends across the entire operation." }, "technician": { "title": "My operational day", "description": "Priorities, deadlines, and trends for your assigned work orders." }, "client": { "title": "My installation status", "description": "Activity, maintenance, and health across your assigned installations." } },
-      "scope": { "tenant": "Entire organization", "assigned_work": "Assigned work", "assigned_installations": "Assigned installations" }, "scopeLabel": "Scope", "updated": "Updated", "period": "Analysis period", "rangeLabel": "Select analysis period", "rangeHelp": "Affects work-order metrics, trends, and distributions.", "loading": "ダッシュボードを読み込み中", "dateUnavailable": "日付を利用できません", "sections": { "immediate": "Immediate attention and summary", "analysis": "Trend and status", "recent": "Recent activity and context" },
-      "metrics": { "openWorkOrders": "Open work orders", "overdueWorkOrders": "Overdue work orders", "criticalWorkOrders": "Critical work orders", "mttrHours": "Mean time to repair", "mtbfHours": "Mean time between failures", "preventiveComplianceRate": "Preventive compliance", "slaRate": "SLA compliance", "responseTimeHours": "First response" }, "attention": { "kicker": "Exceptions", "title": "Attention required", "clear": "There are no active exceptions right now.", "overdue": "open work orders past their deadline", "critical": "open work orders with critical priority" },
-      "resources": { "kicker": "Coverage", "admin": "Operational capacity", "client": "Assigned installations and devices", "metrics": { "installations": "Installations", "assets": "Assets", "technicians": "Technicians", "devices": "Devices" } }, "distribution": { "kicker": "Composition" }, "ordersCount": "{{count}} orders", "trend": { "kicker": "Work flow", "description": "{{created}} work orders created and {{completed}} completed in the period.", "tableToggle": "View data table", "tableCaption": "Work orders created and completed by date" }, "date": "Date", "recent": { "kicker": "Latest activity" }, "inventory": { "kicker": "Resources", "title": "Inventory summary", "items": "Registered items", "lowStock": "Low-stock items" },
-      "context": { "kicker": "Operational scope", "technician": "Personal work", "technicianDescription": "Indicators and visible work orders are limited to your assigned work.", "client": "Installation activity", "clientDescription": "The information covers all activity at your installations, never organization-wide data." }, "empty": { "trend": "No trend data is available for this period.", "distribution": "There are no work orders to distribute in this period." }, "notices": { "offline": "Offline: showing the latest saved data.", "stale": "Saved data may be out of date.", "fallback": "There was not enough activity in this period; some visualizations use recent history." }, "errors": { "title": "We could not display the dashboard", "loadFailed": "Dashboard data could not be loaded. Please try again.", "offlineUnavailable": "There is no connection or saved data for this user.", "unsupportedRole": "Your role does not have an authorized dashboard scope.", "inventory": "The inventory summary is unavailable; the rest of the dashboard is current." }
+      "roles": {
+        "admin": {
+          "title": "Operational control",
+          "description": "Exceptions, capacity, and trends across the entire operation."
+        },
+        "technician": {
+          "title": "My operational day",
+          "description": "Priorities, deadlines, and trends for your assigned work orders."
+        },
+        "client": {
+          "title": "My installation status",
+          "description": "Activity, maintenance, and health across your assigned installations."
+        }
+      },
+      "scope": {
+        "tenant": "Entire organization",
+        "assigned_work": "Assigned work",
+        "assigned_installations": "Assigned installations"
+      },
+      "scopeLabel": "Scope",
+      "updated": "Updated",
+      "period": "Analysis period",
+      "rangeLabel": "Select analysis period",
+      "rangeHelp": "Affects work-order metrics, trends, and distributions.",
+      "loading": "ダッシュボードを読み込み中",
+      "dateUnavailable": "日付を利用できません",
+      "sections": {
+        "immediate": "Immediate attention and summary",
+        "analysis": "Trend and status",
+        "recent": "Recent activity and context"
+      },
+      "metrics": {
+        "openWorkOrders": "Open work orders",
+        "overdueWorkOrders": "Overdue work orders",
+        "criticalWorkOrders": "Critical work orders",
+        "mttrHours": "Mean time to repair",
+        "mtbfHours": "Mean time between failures",
+        "preventiveComplianceRate": "Preventive compliance",
+        "slaRate": "SLA compliance",
+        "responseTimeHours": "First response"
+      },
+      "attention": {
+        "kicker": "Exceptions",
+        "title": "Attention required",
+        "clear": "There are no active exceptions right now.",
+        "overdue": "open work orders past their deadline",
+        "critical": "open work orders with critical priority"
+      },
+      "resources": {
+        "kicker": "Coverage",
+        "admin": "Operational capacity",
+        "client": "Assigned installations and devices",
+        "metrics": {
+          "installations": "Installations",
+          "assets": "Assets",
+          "technicians": "Technicians",
+          "devices": "Devices"
+        }
+      },
+      "distribution": {
+        "kicker": "Composition"
+      },
+      "ordersCount": "{{count}} orders",
+      "trend": {
+        "kicker": "Work flow",
+        "description": "{{created}} work orders created and {{completed}} completed in the period.",
+        "tableToggle": "View data table",
+        "tableCaption": "Work orders created and completed by date"
+      },
+      "date": "Date",
+      "recent": {
+        "kicker": "Latest activity"
+      },
+      "inventory": {
+        "kicker": "Resources",
+        "title": "Inventory summary",
+        "items": "Registered items",
+        "lowStock": "Low-stock items"
+      },
+      "context": {
+        "kicker": "Operational scope",
+        "technician": "Personal work",
+        "technicianDescription": "Indicators and visible work orders are limited to your assigned work.",
+        "client": "Installation activity",
+        "clientDescription": "The information covers all activity at your installations, never organization-wide data."
+      },
+      "empty": {
+        "trend": "No trend data is available for this period.",
+        "distribution": "There are no work orders to distribute in this period."
+      },
+      "notices": {
+        "offline": "Offline: showing the latest saved data.",
+        "stale": "Saved data may be out of date.",
+        "fallback": "There was not enough activity in this period; some visualizations use recent history."
+      },
+      "errors": {
+        "title": "We could not display the dashboard",
+        "loadFailed": "Dashboard data could not be loaded. Please try again.",
+        "offlineUnavailable": "There is no connection or saved data for this user.",
+        "unsupportedRole": "Your role does not have an authorized dashboard scope.",
+        "inventory": "The inventory summary is unavailable; the rest of the dashboard is current."
+      }
     },
     "welcome": "ようこそ",
     "stats": "統計",
@@ -702,7 +843,11 @@
   },
   "installations": {
     "exportResults": "結果をエクスポート",
-    "csv": { "downloadTemplate": "テンプレートをダウンロード", "import": "CSVをインポート", "importTitle": "CSVファイルから設置情報をインポート" },
+    "csv": {
+      "downloadTemplate": "テンプレートをダウンロード",
+      "import": "CSVをインポート",
+      "importTitle": "CSVファイルから設置情報をインポート"
+    },
     "deviceNamePlaceholder": "アセット名を入力してください",
     "installation": "設置",
     "understood": "閉じる",
@@ -2243,18 +2388,193 @@
     "footer": "保守管理システム（GMAO）"
   },
   "compliance": {
-    "title": "規制コンプライアンス", "loading": "コンプライアンスを読み込んでいます...", "error": "コンプライアンスを読み込めません",
-    "catalog": { "title": "コンプライアンスカタログ", "pack": "パック", "version": "バージョン", "action": "操作", "view": "詳細を表示", "loading": "カタログを読み込んでいます...", "detailLoading": "詳細を読み込んでいます...", "empty": "公開されたパックはありません。", "unavailable": "カタログを利用できません。", "detailUnavailable": "詳細を利用できません。", "retry": "再試行", "controls": "公開されたコントロール", "rights": "{{author}} によるオリジナルの運用コンテンツ。", "assignment": "割り当て {{key}} · 状態: {{status}} · 範囲: {{scope}}", "noAssignment": "このパックには割り当てがありません。" },
-    "assignment": { "parameterRequired": "必須パラメータをすべて入力してください。", "parameterInvalid": "パラメータの値を確認してください。", "select": "選択", "submit": "パックを割り当てる", "pending": "割り当てを保存しています...", "forbidden": "このパックを割り当てる権限がありません。", "mutationError": "割り当てを保存できません。" },
-    "evaluations": { "title": "Leonix評価", "loading": "評価を読み込んでいます...", "detailLoading": "評価の詳細を読み込んでいます...", "findingsLoading": "結果を読み込んでいます...", "empty": "登録された評価はありません。", "findingsEmpty": "この評価の結果はありません。", "error": "評価を読み込めません。", "detailError": "評価の詳細を読み込めません。", "retry": "再試行", "history": "Leonix評価履歴", "id": "ID", "state": "状態", "action": "操作", "view": "評価を表示", "assignments": "有効な割り当て", "start": "Leonix評価を開始", "snapshot": "変更不可のスナップショット", "controls": "コントロール", "evaluators": "評価者", "rights": "権限", "scope": "範囲", "timestamp": "タイムスタンプ", "score": "スコア", "progress": "進捗", "findings": "結果", "reason": "理由", "assignment": "割り当て", "pack": "パック", "notAvailable": "利用不可" },
-    "dashboard": { "title": "コンプライアンス概要", "total": "結果", "noData": "スキャン結果はまだありません。", "estado": { "cumplido": "準拠", "incumplido": "非準拠", "sin_evidencia": "証拠なし", "error": "エラー" } },
-    "operador": { "fechaAntiguaMeses": "古い日付（月）", "numericoMax": "数値の最大値", "numericoMin": "数値の最小値", "numericoRango": "数値範囲", "enumEn": "リスト内の値", "exists": "フィールドあり" },
-    "normas": { "codigo": "コード", "familiaNorma": "規格ファミリー", "descripcion": "説明", "activa": "有効", "empty": "登録された規格はありません。" },
-    "reglas": { "nombre": "名前", "norma": "規格", "operador": "演算子", "objetivoTipo": "対象種別", "objetivoTipoOptions": { "activo": "資産", "instalacion": "設備" }, "habilitada": "有効", "empty": "登録されたルールはありません。" },
-    "legacy": { "title": "以前の履歴", "description": "読み取り専用の過去のコンプライアンス記録です。", "loading": "以前の履歴を読み込んでいます...", "normas": "過去の規格", "reglas": "過去のルール" }
+    "title": "規制コンプライアンス",
+    "loading": "コンプライアンスを読み込んでいます...",
+    "error": "コンプライアンスを読み込めません",
+    "catalog": {
+      "title": "コンプライアンスカタログ",
+      "pack": "パック",
+      "version": "バージョン",
+      "action": "操作",
+      "view": "詳細を表示",
+      "loading": "カタログを読み込んでいます...",
+      "detailLoading": "詳細を読み込んでいます...",
+      "empty": "公開されたパックはありません。",
+      "unavailable": "カタログを利用できません。",
+      "detailUnavailable": "詳細を利用できません。",
+      "retry": "再試行",
+      "controls": "公開されたコントロール",
+      "rights": "{{author}} によるオリジナルの運用コンテンツ。",
+      "assignment": "割り当て {{key}} · 状態: {{status}} · 範囲: {{scope}}",
+      "noAssignment": "このパックには割り当てがありません。"
+    },
+    "assignment": {
+      "parameterRequired": "必須パラメータをすべて入力してください。",
+      "parameterInvalid": "パラメータの値を確認してください。",
+      "select": "選択",
+      "submit": "パックを割り当てる",
+      "pending": "割り当てを保存しています...",
+      "forbidden": "このパックを割り当てる権限がありません。",
+      "mutationError": "割り当てを保存できません。"
+    },
+    "evaluations": {
+      "title": "Leonix評価",
+      "loading": "評価を読み込んでいます...",
+      "detailLoading": "評価の詳細を読み込んでいます...",
+      "findingsLoading": "結果を読み込んでいます...",
+      "empty": "登録された評価はありません。",
+      "findingsEmpty": "この評価の結果はありません。",
+      "error": "評価を読み込めません。",
+      "detailError": "評価の詳細を読み込めません。",
+      "retry": "再試行",
+      "history": "Leonix評価履歴",
+      "id": "ID",
+      "state": "状態",
+      "action": "操作",
+      "view": "評価を表示",
+      "assignments": "有効な割り当て",
+      "start": "Leonix評価を開始",
+      "snapshot": "変更不可のスナップショット",
+      "controls": "コントロール",
+      "evaluators": "評価者",
+      "rights": "権限",
+      "scope": "範囲",
+      "timestamp": "タイムスタンプ",
+      "score": "スコア",
+      "progress": "進捗",
+      "findings": "結果",
+      "reason": "理由",
+      "assignment": "割り当て",
+      "pack": "パック",
+      "notAvailable": "利用不可"
+    },
+    "dashboard": {
+      "title": "コンプライアンス概要",
+      "total": "結果",
+      "noData": "スキャン結果はまだありません。",
+      "estado": {
+        "cumplido": "準拠",
+        "incumplido": "非準拠",
+        "sin_evidencia": "証拠なし",
+        "error": "エラー"
+      }
+    },
+    "operador": {
+      "fechaAntiguaMeses": "古い日付（月）",
+      "numericoMax": "数値の最大値",
+      "numericoMin": "数値の最小値",
+      "numericoRango": "数値範囲",
+      "enumEn": "リスト内の値",
+      "exists": "フィールドあり"
+    },
+    "normas": {
+      "codigo": "コード",
+      "familiaNorma": "規格ファミリー",
+      "descripcion": "説明",
+      "activa": "有効",
+      "empty": "登録された規格はありません。"
+    },
+    "reglas": {
+      "nombre": "名前",
+      "norma": "規格",
+      "operador": "演算子",
+      "objetivoTipo": "対象種別",
+      "objetivoTipoOptions": {
+        "activo": "資産",
+        "instalacion": "設備"
+      },
+      "habilitada": "有効",
+      "empty": "登録されたルールはありません。"
+    },
+    "legacy": {
+      "title": "以前の履歴",
+      "description": "読み取り専用の過去のコンプライアンス記録です。",
+      "loading": "以前の履歴を読み込んでいます...",
+      "normas": "過去の規格",
+      "reglas": "過去のルール"
+    }
   },
-  "billing": { "loading": "請求オプションを読み込んでいます...", "company": "会社", "currentPlan": "現在のプラン", "trialEnd": "トライアル終了日", "selectPlan": "プランを選択", "billingCycle": "請求サイクル", "price": "{{price}}", "expired": { "title": "トライアル期間が終了しました", "message": "業務機能へのアクセスは一時停止されています。Leonixを引き続き利用するにはプランを選択してください。" }, "manage": { "title": "プランと請求", "message": "利用可能なオプションを確認し、会社に適したプランを選択してください。" }, "plans": { "starter": "スターター", "professional": "プロフェッショナル", "enterprise": "エンタープライズ" }, "cycles": { "monthly": "月払い", "yearly": "年払い" }, "checkout": { "cta": "支払いへ進む", "loading": "支払いを準備しています..." }, "errors": { "status": "請求情報を読み込めませんでした。", "checkout": "支払いを開始できませんでした。", "checkoutStatus": "支払い状況を確認できませんでした。" }, "return": { "title": "支払いの確認", "invalid": "有効な支払い参照が見つかりませんでした。", "attempt": "確認 {{count}}", "timeout": "確認に通常より時間がかかっています。もう一度確認してください。", "retry": "もう一度確認", "status": { "pending": "決済サービスからの確認を待っています。", "paid": "支払いを確認しました。アカウントを有効化しています。", "failed": "支払いを完了できませんでした。", "cancelled": "支払いはキャンセルされました。" } }, "trialCard": { "label": "トライアル状況", "title": "{{plan}}プランのトライアル", "remaining_one": "残り{{count}}日です。{{date}}に終了します。", "remaining_other": "残り{{count}}日です。{{date}}に終了します。", "expiresToday": "トライアルは本日終了します。", "today": "トライアルは本日終了します。", "expired": "トライアルは終了しました。", "invalid": "トライアル終了日を確認できません。", "cta": "プランを見る" } },
-  "administrativeTrial": { "cta": "トライアルアカウントを作成", "title": "トライアルアカウントを作成", "duration": "このアカウントは30日間すべての機能を利用できます。期間はサーバーで設定され、変更できません。", "companyName": "会社名", "email": "管理者のメールアドレス", "password": "一時パスワード", "userName": "ユーザー名（任意）", "plan": "プラン", "firstName": "名（任意）", "lastName": "姓（任意）", "phone": "電話番号（任意）", "address": "住所（任意）", "notes": "社内メモ（任意）", "submit": "30日間のトライアルを作成", "creating": "トライアルを作成しています...", "success": "トライアルアカウントを作成しました。パスワードは再表示されません。", "error": "トライアルアカウントを作成できませんでした。", "validation": { "plan": "有効なプランを選択してください。" } },
+  "billing": {
+    "loading": "請求オプションを読み込んでいます...",
+    "company": "会社",
+    "currentPlan": "現在のプラン",
+    "trialEnd": "トライアル終了日",
+    "selectPlan": "プランを選択",
+    "billingCycle": "請求サイクル",
+    "price": "{{price}}",
+    "expired": {
+      "title": "トライアル期間が終了しました",
+      "message": "業務機能へのアクセスは一時停止されています。Leonixを引き続き利用するにはプランを選択してください。"
+    },
+    "manage": {
+      "title": "プランと請求",
+      "message": "利用可能なオプションを確認し、会社に適したプランを選択してください。"
+    },
+    "plans": {
+      "starter": "スターター",
+      "professional": "プロフェッショナル",
+      "enterprise": "エンタープライズ"
+    },
+    "cycles": {
+      "monthly": "月払い",
+      "yearly": "年払い"
+    },
+    "checkout": {
+      "cta": "支払いへ進む",
+      "loading": "支払いを準備しています..."
+    },
+    "errors": {
+      "status": "請求情報を読み込めませんでした。",
+      "checkout": "支払いを開始できませんでした。",
+      "checkoutStatus": "支払い状況を確認できませんでした。"
+    },
+    "return": {
+      "title": "支払いの確認",
+      "invalid": "有効な支払い参照が見つかりませんでした。",
+      "attempt": "確認 {{count}}",
+      "timeout": "確認に通常より時間がかかっています。もう一度確認してください。",
+      "retry": "もう一度確認",
+      "status": {
+        "pending": "決済サービスからの確認を待っています。",
+        "paid": "支払いを確認しました。アカウントを有効化しています。",
+        "failed": "支払いを完了できませんでした。",
+        "cancelled": "支払いはキャンセルされました。"
+      }
+    },
+    "trialCard": {
+      "label": "トライアル状況",
+      "title": "{{plan}}プランのトライアル",
+      "remaining_one": "残り{{count}}日です。{{date}}に終了します。",
+      "remaining_other": "残り{{count}}日です。{{date}}に終了します。",
+      "expiresToday": "トライアルは本日終了します。",
+      "today": "トライアルは本日終了します。",
+      "expired": "トライアルは終了しました。",
+      "invalid": "トライアル終了日を確認できません。",
+      "cta": "プランを見る"
+    }
+  },
+  "administrativeTrial": {
+    "cta": "トライアルアカウントを作成",
+    "title": "トライアルアカウントを作成",
+    "duration": "このアカウントは30日間すべての機能を利用できます。期間はサーバーで設定され、変更できません。",
+    "companyName": "会社名",
+    "email": "管理者のメールアドレス",
+    "password": "一時パスワード",
+    "userName": "ユーザー名（任意）",
+    "plan": "プラン",
+    "firstName": "名（任意）",
+    "lastName": "姓（任意）",
+    "phone": "電話番号（任意）",
+    "address": "住所（任意）",
+    "notes": "社内メモ（任意）",
+    "submit": "30日間のトライアルを作成",
+    "creating": "トライアルを作成しています...",
+    "success": "トライアルアカウントを作成しました。パスワードは再表示されません。",
+    "error": "トライアルアカウントを作成できませんでした。",
+    "validation": {
+      "plan": "有効なプランを選択してください。"
+    }
+  },
   "superAdmin": {
     "dashboard": {
       "eyebrow": "Global scope",
@@ -2278,6 +2598,54 @@
         "totalAssets": "Assets",
         "aria": "Key metrics"
       },
+      "attention": {
+        "kicker": "Exceptions",
+        "title": "Tenants requiring attention",
+        "suspended": "Suspended",
+        "cancelled": "Cancelled",
+        "clear": "No suspended or cancelled tenants."
+      },
+      "distribution": {
+        "kicker": "Composition",
+        "planTitle": "Plans",
+        "statusTitle": "Statuses",
+        "total": "{{count}} tenants",
+        "empty": "No data yet",
+        "aria": {
+          "plan": "Distribution by plans",
+          "status": "Distribution by statuses"
+        },
+        "plans": {
+          "basic": "Basic",
+          "professional": "Professional",
+          "enterprise": "Enterprise",
+          "unknown": "No plan"
+        },
+        "statuses": {
+          "active": "Active",
+          "suspended": "Suspended",
+          "cancelled": "Cancelled",
+          "unknown": "No status"
+        }
+      },
+      "evolution": {
+        "kicker": "New tenants",
+        "title": "Tenant evolution",
+        "total": "{{count}} new",
+        "description": "{{count}} tenants created in the last {{months}} months.",
+        "empty": "Not enough data to show evolution.",
+        "tableToggle": "View data table",
+        "tableCaption": "Tenant sign-ups by month",
+        "aria": "Tenant evolution over time"
+      },
+      "recent": {
+        "kicker": "Latest records",
+        "title": "Recent tenants",
+        "empty": "No tenants registered",
+        "createCta": "Create tenant",
+        "manageCta": "Manage tenants",
+        "createdAt": "Created"
+      },
       "notices": {
         "truncated": "Analyzed {{pages}} pages ({{count}} tenants); view may be incomplete."
       },
@@ -2285,7 +2653,9 @@
         "title": "Could not display panel",
         "loadFailed": "Could not load data.",
         "network": "Check your connection and try again.",
-        "forbidden": "Your role cannot view this panel."
+        "forbidden": "Your role cannot view this panel.",
+        "unauthorized": "Authentication required.",
+        "server": "Server error. Try again."
       }
     }
   }
