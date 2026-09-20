@@ -4,9 +4,10 @@
  */
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { AlertTriangle, CheckCircle2, RefreshCw, WifiOff, X } from 'lucide-react'
+import { AlertTriangle, RefreshCw, WifiOff, X } from 'lucide-react'
 import { useAuthStore } from '../../store/authStore'
 import { useOfflineTrustStore } from '../../store/offlineTrustStore'
+import { useOfflineStore } from '../../store/offlineStore'
 import { OfflineConflictDetail } from './OfflineConflictDetail'
 import { offlineSyncService } from '../services/offlineSyncService'
 import styles from './OfflineSyncManager.module.css'
@@ -45,6 +46,7 @@ export const OfflineSyncManager = () => {
   const isOfflineReady = useOfflineTrustStore(s => s.isOfflineReady)
   const leaseStatus = useOfflineTrustStore(s => s.leaseStatus)
   const deviceId = useOfflineTrustStore(s => s.deviceId)
+  const legacyPendingCount = useOfflineStore(s => s.queue.filter(item => item.userId === userId).length)
   const dismissalStorageKey = `${DISMISSED_NOTIFICATION_KEY}:${userId ?? 'anonymous'}:${deviceId ?? 'no-device'}`
 
   const [progress, setProgress] = useState<SyncProgress>(INITIAL)
@@ -54,18 +56,8 @@ export const OfflineSyncManager = () => {
   const [isOnline, setIsOnline] = useState(() => navigator.onLine)
   const cycleRunning = useRef(false)
   const mountedRef = useRef(true)
-  const announceProgressRef = useRef(false)
 
-  const isPaused = !isOnline || !isOfflineReady || leaseStatus === 'expired' || leaseStatus === 'revoked'
-  const pauseReason = !isOnline || !isOfflineReady ? 'offline.offlineUnavailable'
-    : leaseStatus === 'expired' ? 'offline.leaseExpired'
-    : leaseStatus === 'revoked' ? 'offline.leaseRevoked'
-    : undefined
-  const effectivePhase = isPaused ? 'paused' : progress.phase
-  const effectivePauseReason = isPaused ? pauseReason : progress.pauseReason
-
-  const runCycle = useCallback(async (announceProgress = true) => {
-    announceProgressRef.current = announceProgress
+  const runCycle = useCallback(async () => {
     if (cycleRunning.current || !isAuthResolved || !isAuthenticated || !navigator.onLine) return
     if (!isOfflineReady || leaseStatus === 'expired' || leaseStatus === 'revoked') {
       if (mountedRef.current) setProgress(prev => ({ ...prev, phase: 'paused', pauseReason: 'offline.leaseInvalid' }))
@@ -99,7 +91,7 @@ export const OfflineSyncManager = () => {
     const handleOffline = () => { setIsOnline(false) }
     window.addEventListener('online', handleOnline)
     window.addEventListener('offline', handleOffline)
-    if (navigator.onLine) runCycle(false)
+    if (navigator.onLine) runCycle()
     return () => {
       mountedRef.current = false
       window.removeEventListener('online', handleOnline)
@@ -136,52 +128,46 @@ export const OfflineSyncManager = () => {
   }, [runCycle])
 
   const hasRecoveryItems = progress.totalConflicted > 0 || progress.totalDeadLettered > 0
-  const hasIssues = hasRecoveryItems || effectivePhase === 'paused'
+  const hasPendingPackageWork = progress.packages.some(pkg => pkg.commandsRetryable > 0 || pkg.evidenceFailed > 0)
+  const hasPendingItems = legacyPendingCount > 0 || progress.totalPending > 0 || hasPendingPackageWork || hasRecoveryItems
+  const shouldNotify = !isOnline || hasPendingItems
   const notificationFingerprint = [
-    effectivePhase,
-    effectivePauseReason ?? '',
+    !isOnline ? 'offline' : hasRecoveryItems ? 'issue' : 'pending',
+    hasPendingItems ? 'with-pending' : 'empty',
     progress.totalConflicted,
     progress.totalDeadLettered,
   ].join(':')
-  const showNotification = (hasIssues || (announceProgressRef.current && effectivePhase !== 'idle'))
-    && dismissedFingerprint !== notificationFingerprint
+  const showNotification = shouldNotify && dismissedFingerprint !== notificationFingerprint
 
   useEffect(() => {
-    if (progress.phase !== 'complete' || hasIssues || dismissedFingerprint === null) return
+    if (shouldNotify || dismissedFingerprint === null) return
     setDismissedFingerprint(null)
     storeDismissedFingerprint(dismissalStorageKey, null)
-  }, [dismissalStorageKey, dismissedFingerprint, hasIssues, progress.phase])
+  }, [dismissalStorageKey, dismissedFingerprint, shouldNotify])
 
   if (!isAuthResolved || !isAuthenticated) return null
 
-  const statusKind = effectivePhase === 'paused'
+  const statusKind = !isOnline
     ? 'paused'
     : hasRecoveryItems
       ? 'issue'
-      : effectivePhase === 'complete'
-        ? 'complete'
-        : 'syncing'
+      : 'syncing'
   const titleKey = statusKind === 'paused'
-    ? 'offline.syncPaused'
+    ? 'offline.connectionOffline'
     : statusKind === 'issue'
       ? 'offline.syncAttentionRequired'
-      : statusKind === 'complete'
-        ? 'offline.syncComplete'
-        : 'offline.syncInProgress'
+      : 'offline.pendingChanges'
   const descriptionKey = statusKind === 'paused'
-    ? effectivePauseReason?.startsWith('offline.') ? effectivePauseReason : 'offline.syncError'
+    ? hasPendingItems ? 'offline.offlineWithPendingDescription' : 'offline.offlineDescription'
     : statusKind === 'issue'
       ? 'offline.syncIssuesDescription'
-      : statusKind === 'complete'
-        ? 'offline.syncCompleteDescription'
-        : 'offline.syncInProgressDescription'
+      : 'offline.pendingChangesDescription'
   const StatusIcon = statusKind === 'paused'
     ? WifiOff
     : statusKind === 'issue'
       ? AlertTriangle
-      : statusKind === 'complete'
-        ? CheckCircle2
-        : RefreshCw
+      : RefreshCw
+  const canSyncNow = isOnline && isOfflineReady && leaseStatus !== 'expired' && leaseStatus !== 'revoked'
 
   return (
     <>
@@ -210,11 +196,13 @@ export const OfflineSyncManager = () => {
           <div className={styles.content}>
             <h2 className={styles.title}>{t(titleKey)}</h2>
             <p className={styles.description}>{t(descriptionKey)}</p>
-            {hasIssues && (
+            {(canSyncNow || hasRecoveryItems) && (
               <div className={styles.actions}>
-                <button onClick={handleRetry} className={`${styles.actionButton} ${styles.retryButton}`} aria-label={t('offline.retry')}>
-                  {t('offline.retry')}
-                </button>
+                {canSyncNow && (
+                  <button onClick={handleRetry} className={`${styles.actionButton} ${styles.retryButton}`} aria-label={t('offline.syncNow')}>
+                    {t('offline.syncNow')}
+                  </button>
+                )}
                 {progress.totalConflicted > 0 && (
                   <button onClick={handleConflictClick} className={`${styles.actionButton} ${styles.issueButton}`} aria-label={t('offline.viewConflicts')}>
                     {t('offline.conflicts', { count: progress.totalConflicted })}

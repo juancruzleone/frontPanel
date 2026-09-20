@@ -416,6 +416,11 @@
   "offline": {
     "syncStatus": "Synchronization status",
     "closeNotification": "Dismiss synchronization notification",
+    "connectionOffline": "No internet connection",
+    "offlineDescription": "You can keep working. Any changes you make will be saved on this device and sent when the connection returns.",
+    "offlineWithPendingDescription": "Your changes are saved on this device and will be sent automatically when the connection returns.",
+    "pendingChanges": "Changes waiting to be sent",
+    "pendingChangesDescription": "Changes are saved on this device. They will be sent automatically as soon as possible.",
     "syncPaused": "Synchronization paused",
     "syncAttentionRequired": "Synchronization needs attention",
     "syncIssuesDescription": "Some offline changes need review before synchronization can finish.",
@@ -432,7 +437,8 @@
     "deadLetters": "Unprocessable items: {{count}}",
     "viewConflicts": "View conflicts",
     "viewDeadLetters": "View unprocessable items",
-    "retry": "Retry"
+    "retry": "Retry",
+    "syncNow": "Sync now"
   },
   "notifications": {
     "title": "Notifications",

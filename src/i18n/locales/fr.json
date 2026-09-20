@@ -382,6 +382,11 @@
   "offline": {
     "syncStatus": "État de la synchronisation",
     "closeNotification": "Fermer la notification de synchronisation",
+    "connectionOffline": "Pas de connexion Internet",
+    "offlineDescription": "Vous pouvez continuer à travailler. Vos modifications seront enregistrées sur cet appareil et envoyées au retour de la connexion.",
+    "offlineWithPendingDescription": "Vos modifications sont enregistrées sur cet appareil et seront envoyées automatiquement au retour de la connexion.",
+    "pendingChanges": "Modifications en attente d’envoi",
+    "pendingChangesDescription": "Des modifications sont enregistrées sur cet appareil. Elles seront envoyées automatiquement dès que possible.",
     "syncPaused": "Synchronisation en pause",
     "syncAttentionRequired": "La synchronisation nécessite votre attention",
     "syncIssuesDescription": "Certaines modifications hors ligne doivent être examinées avant la fin de la synchronisation.",
@@ -398,7 +403,8 @@
     "deadLetters": "Éléments non traitables : {{count}}",
     "viewConflicts": "Afficher les conflits",
     "viewDeadLetters": "Afficher les éléments non traitables",
-    "retry": "Réessayer"
+    "retry": "Réessayer",
+    "syncNow": "Synchroniser maintenant"
   },
   "notifications": {
     "title": "Notifications",

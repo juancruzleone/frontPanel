@@ -385,6 +385,11 @@
   "offline": {
     "syncStatus": "حالة المزامنة",
     "closeNotification": "إغلاق إشعار المزامنة",
+    "connectionOffline": "لا يوجد اتصال بالإنترنت",
+    "offlineDescription": "يمكنك متابعة العمل. ستُحفظ تغييراتك على هذا الجهاز وتُرسل عند عودة الاتصال.",
+    "offlineWithPendingDescription": "تغييراتك محفوظة على هذا الجهاز وستُرسل تلقائيًا عند عودة الاتصال.",
+    "pendingChanges": "تغييرات بانتظار الإرسال",
+    "pendingChangesDescription": "هناك تغييرات محفوظة على هذا الجهاز. ستُرسل تلقائيًا في أقرب وقت ممكن.",
     "syncPaused": "تم إيقاف المزامنة مؤقتًا",
     "syncAttentionRequired": "تتطلب المزامنة الانتباه",
     "syncIssuesDescription": "تحتاج بعض التغييرات دون اتصال إلى المراجعة قبل اكتمال المزامنة.",
@@ -401,7 +406,8 @@
     "deadLetters": "العناصر غير القابلة للمعالجة: {{count}}",
     "viewConflicts": "عرض التعارضات",
     "viewDeadLetters": "عرض العناصر غير القابلة للمعالجة",
-    "retry": "إعادة المحاولة"
+    "retry": "إعادة المحاولة",
+    "syncNow": "المزامنة الآن"
   },
   "notifications": {
     "title": "الإشعارات",

@@ -365,6 +365,11 @@
   "offline": {
     "syncStatus": "Synchronisierungsstatus",
     "closeNotification": "Synchronisierungsbenachrichtigung schließen",
+    "connectionOffline": "Keine Internetverbindung",
+    "offlineDescription": "Sie können weiterarbeiten. Ihre Änderungen werden auf diesem Gerät gespeichert und übertragen, sobald die Verbindung wiederhergestellt ist.",
+    "offlineWithPendingDescription": "Ihre Änderungen sind auf diesem Gerät gespeichert und werden automatisch übertragen, sobald die Verbindung wiederhergestellt ist.",
+    "pendingChanges": "Änderungen warten auf Übertragung",
+    "pendingChangesDescription": "Änderungen sind auf diesem Gerät gespeichert. Sie werden so bald wie möglich automatisch übertragen.",
     "syncPaused": "Synchronisierung pausiert",
     "syncAttentionRequired": "Synchronisierung erfordert Aufmerksamkeit",
     "syncIssuesDescription": "Einige Offline-Änderungen müssen vor Abschluss der Synchronisierung geprüft werden.",
@@ -381,7 +386,8 @@
     "deadLetters": "Nicht verarbeitbare Einträge: {{count}}",
     "viewConflicts": "Konflikte anzeigen",
     "viewDeadLetters": "Nicht verarbeitbare Einträge anzeigen",
-    "retry": "Wiederholen"
+    "retry": "Wiederholen",
+    "syncNow": "Jetzt synchronisieren"
   },
   "notifications": {
     "title": "Benachrichtigungen",

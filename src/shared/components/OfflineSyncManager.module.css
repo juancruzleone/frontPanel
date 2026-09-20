@@ -27,8 +27,8 @@
 }
 
 .paused {
-  --notice-icon-bg: #fee2e2;
-  --notice-icon-color: #991b1b;
+  --notice-icon-bg: rgba(5, 126, 116, 0.12);
+  --notice-icon-color: var(--color-secondary);
 }
 
 .issue {
@@ -169,8 +169,8 @@
 
 :global(.dark) .paused,
 :global([data-theme='dark']) .paused {
-  --notice-icon-bg: rgba(229, 57, 53, 0.16);
-  --notice-icon-color: #ffb4b1;
+  --notice-icon-bg: rgba(45, 212, 191, 0.14);
+  --notice-icon-color: #5eead4;
 }
 
 :global(.dark) .issueButton,

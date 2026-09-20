@@ -385,6 +385,11 @@
   "offline": {
     "syncStatus": "同步状态",
     "closeNotification": "关闭同步通知",
+    "connectionOffline": "无互联网连接",
+    "offlineDescription": "你可以继续工作。所做的更改将保存在此设备上，并在网络恢复后发送。",
+    "offlineWithPendingDescription": "你的更改已保存在此设备上，并将在网络恢复后自动发送。",
+    "pendingChanges": "更改正在等待发送",
+    "pendingChangesDescription": "更改已保存在此设备上，并将在条件允许时自动发送。",
     "syncPaused": "同步已暂停",
     "syncAttentionRequired": "同步需要处理",
     "syncIssuesDescription": "完成同步前，需要检查部分离线更改。",
@@ -401,7 +406,8 @@
     "deadLetters": "无法处理的项目：{{count}}",
     "viewConflicts": "查看冲突",
     "viewDeadLetters": "查看无法处理的项目",
-    "retry": "重试"
+    "retry": "重试",
+    "syncNow": "立即同步"
   },
   "notifications": {
     "title": "通知",

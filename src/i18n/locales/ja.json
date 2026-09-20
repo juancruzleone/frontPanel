@@ -385,6 +385,11 @@
   "offline": {
     "syncStatus": "同期ステータス",
     "closeNotification": "同期通知を閉じる",
+    "connectionOffline": "インターネット接続がありません",
+    "offlineDescription": "作業は続けられます。変更内容はこの端末に保存され、接続が戻ると送信されます。",
+    "offlineWithPendingDescription": "変更内容はこの端末に保存されており、接続が戻ると自動的に送信されます。",
+    "pendingChanges": "送信待ちの変更があります",
+    "pendingChangesDescription": "変更内容はこの端末に保存されています。送信可能になり次第、自動的に送信されます。",
     "syncPaused": "同期は一時停止中です",
     "syncAttentionRequired": "同期の確認が必要です",
     "syncIssuesDescription": "同期を完了する前に、一部のオフライン変更を確認する必要があります。",
@@ -401,7 +406,8 @@
     "deadLetters": "処理できない項目: {{count}}件",
     "viewConflicts": "競合を表示",
     "viewDeadLetters": "処理できない項目を表示",
-    "retry": "再試行"
+    "retry": "再試行",
+    "syncNow": "今すぐ同期"
   },
   "notifications": {
     "title": "通知",
