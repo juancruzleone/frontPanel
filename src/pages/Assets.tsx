@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useCallback } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Button from "../../src/shared/components/Buttons/buttonCreate.tsx"
 import SearchInput from "../shared/components/Inputs/SearchInput.tsx"
 import styles from "../features/assets/styles/assets.module.css"
@@ -9,10 +9,9 @@ import ModalSuccess from "../features/assets/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
 import ModalConfirmDelete from "../features/assets/components/ModalConfirmDelete"
 import ModalAssignTemplate from "../features/assets/components/ModalAssignTemplate"
-import { Edit, Trash, List, BookOpen, HelpCircle, Plus, FilterX, Package, FileText } from "lucide-react"
+import { Edit, Trash, List, BookOpen, Plus, FilterX, Package, FileText } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
-import { translateDeviceStatus } from "../shared/utils/backendTranslations"
 import { useNavigate, useLocation } from "react-router"
 import { useAssetsTour } from "../features/assets/hooks/useAssetsTour"
 import { useAuthStore } from "../store/authStore"
@@ -36,7 +35,6 @@ const Assets = () => {
     assets,
     pagination,
     loading,
-    templates,
     categories,
     addAsset,
     editAsset,

@@ -387,12 +387,6 @@ const InstallationDetails = () => {
               <h1 className={styles.title}>
                 {t("installationDetails.devicesOf", { name: installationName || currentInstallation.company })}
               </h1>
-              {!isMobile && (
-                <ViewToggle 
-                  view={viewMode} 
-                  onViewChange={setViewMode}
-                />
-              )}
             </div>
             <p className={styles.address}>
               {currentInstallation.address}, {currentInstallation.city}, {currentInstallation.province}
@@ -416,6 +410,14 @@ const InstallationDetails = () => {
           )}
         </div>
       </header>
+
+      {!isMobile && (
+        <div className={styles.actionsBar}>
+          <div className={styles.viewToggleRow}>
+            <ViewToggle view={viewMode} onViewChange={setViewMode} />
+          </div>
+        </div>
+      )}
 
       <div className={styles.searchContainer} data-tour="search-filter-devices">
         <div className={styles.filterContainer}>
