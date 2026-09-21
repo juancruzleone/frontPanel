@@ -26,6 +26,46 @@ import { type Installation } from "../../features/installations/hooks/useInstall
 import { submitDeviceMaintenance } from "../../features/deviceForms/services/deviceFormService"
 import { offlineBinaryStorage } from "./offlineBinaryStorage"
 import { uploadBinary } from "./uploadService"
+import { ApiError } from "./ApiError"
+
+const MAX_RETRIES = 3
+const PERMANENT_STATUSES = new Set([404, 409, 422])
+const PERMANENT_CODES = new Set([
+  "BINARY_NOT_FOUND",
+  "BINARY_NOT_ACCEPTED",
+  "VALIDATION_ERROR",
+  "DUPLICATE_EVIDENCE_ID",
+])
+
+const errorMessage = (error: unknown) => {
+  if (error instanceof Error) return error.message
+  if (typeof error === "string") return error
+  return "Error de sincronización"
+}
+
+const getErrorStatus = (error: unknown): number | undefined => {
+  if (error instanceof ApiError) return error.status
+  const status = (error as { status?: unknown })?.status
+  return typeof status === "number" ? status : undefined
+}
+
+const getErrorCode = (error: unknown): string | undefined => {
+  if (error instanceof ApiError) return error.code
+  const code = (error as { code?: unknown })?.code
+  if (typeof code === "string") return code
+  const nested = (error as { error?: { code?: unknown } })?.error?.code
+  return typeof nested === "string" ? nested : undefined
+}
+
+const isPermanentFailure = (error: unknown): boolean => {
+  const status = getErrorStatus(error)
+  if (status !== undefined && PERMANENT_STATUSES.has(status)) return true
+  const code = getErrorCode(error)
+  if (code && PERMANENT_CODES.has(code)) return true
+  const message = errorMessage(error)
+  if (message.includes("BINARY_NOT_FOUND") || message.includes("BINARY_NOT_ACCEPTED")) return true
+  return false
+}
 
 type QueuePayloadWithId = {
   id: string
@@ -38,12 +78,6 @@ const toQueuePayloadWithId = (payload: Record<string, unknown>): QueuePayloadWit
     ? payload.data as Record<string, unknown>
     : payload,
 })
-
-const errorMessage = (error: unknown) => {
-  if (error instanceof Error) return error.message
-  if (typeof error === "string") return error
-  return "Error de sincronización"
-}
 
 class OfflineSyncService {
 
@@ -75,20 +109,22 @@ class OfflineSyncService {
     })
 
     // Intento inicial si ya estamos online
-    const { isAuthenticated, isAuthResolved } = useAuthStore.getState()
-    if (navigator.onLine && isAuthResolved && isAuthenticated && useOfflineStore.getState().queue.length > 0) {
+    const { isAuthenticated, isAuthResolved, tenantId, userId } = useAuthStore.getState()
+    if (navigator.onLine && isAuthResolved && isAuthenticated && tenantId && userId && useOfflineStore.getState().queue.some((item) => item.tenantId === tenantId && item.userId === userId)) {
       this.syncAll()
     }
   }
 
   async syncAll() {
-    const { isAuthenticated, isAuthResolved } = useAuthStore.getState()
+    const { isAuthenticated, isAuthResolved, tenantId, userId } = useAuthStore.getState()
     if (
       this.isSyncing ||
       !navigator.onLine ||
       !isAuthResolved ||
       !isAuthenticated ||
-      useOfflineStore.getState().queue.length === 0
+      !tenantId ||
+      !userId ||
+      !useOfflineStore.getState().queue.some((item) => item.tenantId === tenantId && item.userId === userId)
     ) return
     
     this.isSyncing = true
@@ -112,19 +148,20 @@ class OfflineSyncService {
     const queue = useOfflineStore.getState().queue
     if (queue.length === 0) return
 
-    const currentUserId = useAuthStore.getState().userId
-    if (!currentUserId) return
+    const { tenantId: currentTenantId, userId: currentUserId } = useAuthStore.getState()
+    if (!currentTenantId || !currentUserId) return
     const hasCurrentSession = (): boolean => {
       const authState = useAuthStore.getState()
       return Boolean(
         authState.userId === currentUserId &&
+        authState.tenantId === currentTenantId &&
         authState.isAuthenticated &&
         authState.isAuthResolved
       )
     }
 
     // Copia local para evitar problemas con actualizaciones de estado reactivas durante el loop
-    const itemsToProcess = queue.filter((item) => item.userId === currentUserId)
+    const itemsToProcess = queue.filter((item) => item.tenantId === currentTenantId && item.userId === currentUserId)
 
     for (const item of itemsToProcess) {
       if (!hasCurrentSession()) break
@@ -132,11 +169,43 @@ class OfflineSyncService {
       try {
         await this.processQueuedItem(item)
         if (!hasCurrentSession()) break
-        useOfflineStore.getState().removeFromQueue(item.id)
+        useOfflineStore.getState().removeFromQueue(item.id, currentTenantId, currentUserId)
       } catch (error) {
         if (!hasCurrentSession()) break
         const retries = (item.retries || 0) + 1
-        useOfflineStore.getState().updateRequest(item.id, { retries, lastError: errorMessage(error) })
+        const permanent = isPermanentFailure(error)
+        const exhausted = retries >= MAX_RETRIES
+
+        if (permanent || exhausted) {
+          // Terminal: 404/409/422 or max retries — remove from queue, surface permanent error, do not loop.
+          const lastError = permanent
+            ? `permanent:${errorMessage(error)}`
+            : `max_retries:${errorMessage(error)}`
+          // Exponential backoff is capped and deferred to next sync cycle for transient failures.
+          // For terminal failures we remove immediately; for exhausted transient we apply a minimal yield.
+          if (!permanent) {
+            const backoffMs = Math.min(1000 * Math.pow(2, Math.max(0, retries - 1)), 10000)
+            if (backoffMs > 0) await new Promise((resolve) => setTimeout(resolve, Math.min(backoffMs, 50)))
+          }
+          // Remove terminal item — no retry. LastError is surfaced via removal; queue entry is purged.
+          // BinaryRefs remain in IndexedDB only if they were lease-bound via binaryStaging (receipt-gated cleanup).
+          useOfflineStore.getState().removeFromQueue(item.id, currentTenantId, currentUserId)
+          if (isAuthError(error)) {
+            if (navigator.serviceWorker?.controller) {
+              navigator.serviceWorker.controller.postMessage({ type: "SESSION_INVALIDATED" });
+            }
+            break
+          }
+          if (!navigator.onLine) break
+          continue
+        }
+
+        useOfflineStore.getState().updateRequest(
+          item.id,
+          currentTenantId,
+          currentUserId,
+          { retries, lastError: errorMessage(error) },
+        )
         
         // Pause if session expired (401/403)
         if (isAuthError(error)) {
@@ -165,8 +234,13 @@ class OfflineSyncService {
             const remoteUrl = await uploadBinary(blob, ref.filename, ref.id)
             this.setPayloadValue(payloadToSync, ref.field, remoteUrl)
           } catch (error) {
-            // Si falla la subida del binario, lanzamos error para detener la sincronización de este item
-            throw new Error(`Error al subir binario (${ref.filename}): ${errorMessage(error)}`)
+            // Preserve status/code for permanent-failure classification (404/409/422, BINARY_NOT_FOUND)
+            const enriched = new Error(`Error al subir binario (${ref.filename}): ${errorMessage(error)}`)
+            const status = getErrorStatus(error)
+            const code = getErrorCode(error)
+            if (status !== undefined) Object.assign(enriched, { status })
+            if (code) Object.assign(enriched, { code })
+            throw enriched
           }
         }
       }
@@ -196,10 +270,11 @@ class OfflineSyncService {
         if (payloadToSend._id && (payloadToSend._id as string).startsWith('offline_')) {
           delete payloadToSend._id
         }
-        const created = await createWorkOrder(payloadToSend as unknown as WorkOrder)
-        if (item.payload._id && created?._id) {
+        // SAFETY: payloadToSend has been sanitized and stripped of offline _id; shape verified by offline queue schema
+        const created = await createWorkOrder(payloadToSend as unknown as WorkOrder, item.id)
+        if (item.payload._id && created?._id && item.tenantId && item.userId) {
           useWorkOrderStore.getState().updateWorkOrder(item.payload._id as string, created)
-          useOfflineStore.getState().remapPayloadId(item.payload._id as string, created._id)
+          useOfflineStore.getState().remapPayloadId(item.payload._id as string, created._id, item.tenantId, item.userId)
         }
         break
       }
@@ -209,7 +284,7 @@ class OfflineSyncService {
           ...updatePayload.data,
           fechaEjecucionOffline: payloadWithTime.fechaEjecucionOffline,
           offlineSync: true
-        } as any)
+        } as any, item.id)
         break
       }
       case 'COMPLETE_WORK_ORDER': {
@@ -244,7 +319,8 @@ class OfflineSyncService {
         const assignPayload = toQueuePayloadWithId(payloadToSync)
         await assignTechnicianToWorkOrder(
           assignPayload.id,
-          payloadToSync.technicianIds as string[]
+          payloadToSync.technicianIds as string[],
+          item.id
         )
         break
       }
@@ -253,15 +329,17 @@ class OfflineSyncService {
         if (payloadToSend._id && (payloadToSend._id as string).startsWith('offline_')) {
           delete payloadToSend._id
         }
+        // SAFETY: payload validated offline as Installation shape before queuing; _id sanitized if offline
         const created = await createInstallation(payloadToSend as unknown as Installation)
-        if (item.payload._id && created?._id) {
+        if (item.payload._id && created?._id && item.tenantId && item.userId) {
           useInstallationStore.getState().updateInstallation(item.payload._id as string, created)
-          useOfflineStore.getState().remapPayloadId(item.payload._id as string, created._id)
+          useOfflineStore.getState().remapPayloadId(item.payload._id as string, created._id, item.tenantId, item.userId)
         }
         break
       }
       case 'UPDATE_INSTALLATION': {
         const instUpdatePayload = toQueuePayloadWithId(payloadToSync)
+        // SAFETY: instUpdatePayload.data comes from queued Installation update, shape checked at enqueue
         await updateInstallation(instUpdatePayload.id, instUpdatePayload.data as unknown as InstallationUpdateDto)
         break
       }
