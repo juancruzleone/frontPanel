@@ -5,7 +5,8 @@
 import { fetchWithAuthRetry } from '@/shared/utils/apiHeaders'
 import type { OfflineBootstrap, OfflineDeltaResponse, OfflineManifest, OfflineManifestSignature } from './packageTypes'
 
-const API = '/api/offline'
+const API_URL = import.meta.env.VITE_API_URL || '/api/'
+const API = `${API_URL.replace(/\/$/, '')}/offline`
 export const FORM_NOT_DELIVERED = 'FORM_NOT_DELIVERED'
 
 export interface PrepareResult { bootstrap?: OfflineBootstrap; error?: { message: string; code: string } }
@@ -33,6 +34,7 @@ export async function getDelta(packageId: string, deviceId: string, clientCursor
     })
     const body = await parseRes(res)
     if (!res.ok) return { error: extractError(body, res.status) }
+    // SAFETY: body is JSON from /packages/delta success response, already checked res.ok; shape matches OfflineDeltaResponse per backend contract
     return { delta: body as unknown as OfflineDeltaResponse }
   } catch (e) { return { error: netErr(e) } }
 }
@@ -65,6 +67,7 @@ function normalizeBootstrap(body: Record<string, unknown>): OfflineBootstrap {
 
   // Fallback: treat entire body as manifest (flat backend shape)
   const { signature: _flatSig, success, workOrders, installations, assets, forms, inventoryRefs, ...claims } = body
+  void _flatSig
   return {
     success: success as boolean | undefined,
     manifest: { ...claims, signature: sig! } as OfflineManifest,

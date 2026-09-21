@@ -4,7 +4,8 @@
 import { fetchWithAuthRetry } from '@/shared/utils/apiHeaders'
 import { generateDeviceKeyPair } from './crypto'
 
-const API = '/api/offline'
+const API_URL = import.meta.env.VITE_API_URL || '/api/'
+const API = `${API_URL.replace(/\/$/, '')}/offline`
 const DB_NAME = 'GMAO_Offline_DB'
 const DB_VERSION = 2
 const DEVICE_STORE = 'registeredDevice'

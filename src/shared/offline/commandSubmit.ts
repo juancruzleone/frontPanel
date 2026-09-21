@@ -11,7 +11,8 @@ import { useOfflineTrustStore } from '@/store/offlineTrustStore'
 import { getStoredDevice } from './deviceTrust'
 import { getStoredLease } from './leaseGate'
 
-const API = '/api/offline'
+const API_URL = import.meta.env.VITE_API_URL || '/api/'
+const API = `${API_URL.replace(/\/$/, '')}/offline`
 
 export type SubmitStatus = 'submitted' | 'idempotent_replay' | 'dependency_not_met'
   | 'dependency_failed' | 'device_error' | 'lease_error' | 'payload_error'

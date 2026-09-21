@@ -10,8 +10,9 @@ import { getStoredLease } from './leaseGate'
 import type { BinaryReceipt } from './binaryTypes'
 import { BINARY_ERROR_CODES, BINARY_MAX_SIZE_BYTES, ALLOWED_CONTENT_TYPES } from './binaryTypes'
 
-const API = '/api/offline'
-const UPLOAD_API = '/api/uploads'
+const API_URL = import.meta.env.VITE_API_URL || '/api/'
+const API = `${API_URL.replace(/\/$/, '')}/offline`
+const UPLOAD_API = `${API_URL.replace(/\/$/, '')}/uploads`
 
 export type SubmitBinaryStatus = 'submitted' | 'uploaded' | 'upload_failed' | 'duplicate' | 'hash_mismatch' | 'size_mismatch'
   | 'invalid_type' | 'size_exceeded' | 'device_error' | 'lease_error' | 'binding_error'

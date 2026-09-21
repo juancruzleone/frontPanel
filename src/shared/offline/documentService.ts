@@ -6,7 +6,8 @@ import { fetchWithAuthRetry } from '@/shared/utils/apiHeaders'
 import type { DocumentReceipt, DocumentManifestEntry, DocumentContentMeta, DocumentScope, DocumentServiceError, StoredDocumentRecord } from './types'
 import { saveDocument } from './documentStorage'
 
-const API = '/api/offline'
+const API_URL = import.meta.env.VITE_API_URL || '/api/'
+const API = `${API_URL.replace(/\/$/, '')}/offline`
 
 export interface RegisterResult { receipt?: DocumentReceipt; error?: DocumentServiceError }
 export interface FetchContentResult { document?: DocumentContentMeta; content?: ArrayBuffer; error?: DocumentServiceError }

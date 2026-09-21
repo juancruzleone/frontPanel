@@ -61,8 +61,9 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
       const clearInvalidSession = async () => {
         try {
           await logout()
-        } catch {
+        } catch (err) {
           // Logout still clears auth state before reporting an offline purge failure.
+          console.warn('clearInvalidSession: logout failed', err)
         }
       }
 
@@ -74,7 +75,7 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
           useAuthStore.setState({ isAuthenticated: false, isAuthResolved: true, accessMode: "anonymous" });
           return;
         }
-      } catch {}
+      } catch (err) { console.warn('logout-epoch check failed', err) }
       const currentState = useAuthStore.getState()
       useAuthStore.setState({ isAuthenticated: false, isAuthResolved: false })
       try {
@@ -141,7 +142,7 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
           );
           if (isAuthError) {
             useAuthStore.setState({ isAuthenticated: false, isAuthResolved: true, accessMode: "anonymous" });
-            try { localStorage.removeItem('auth-storage'); } catch {}
+            try { localStorage.removeItem('auth-storage'); } catch (err) { console.warn('clear auth-storage failed', err) }
             return;
           }
           const isNetworkError = !navigator.onLine || 
@@ -189,13 +190,15 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
     }
   }, [accessMode, isAuthResolved, isAuthenticated, isSessionBootstrapComplete, csrfToken, csrfIsLoading, csrfError, fetchToken])
 
-  // Initialize offline trust after authentication (online only)
+  const trustInitRef = React.useRef<{ token: string | null; ts: number }>({ token: null, ts: 0 })
   React.useEffect(() => {
-    if (isAuthResolved && isAuthenticated && accessMode === "full" && navigator.onLine && Boolean(csrfToken) && !csrfIsLoading && !csrfError) {
-      initializeOfflineTrust()
-        .then(result => result.ok ? prepareRoleOfflinePackage() : undefined)
-        .catch(() => {})
-    }
+    if (!(isAuthResolved && isAuthenticated && accessMode === "full" && navigator.onLine && csrfToken && !csrfIsLoading && !csrfError)) return
+    const now = Date.now()
+    if (trustInitRef.current.token === csrfToken && now - trustInitRef.current.ts < 30000) return
+    trustInitRef.current = { token: csrfToken, ts: now }
+    initializeOfflineTrust()
+      .then(result => result.ok ? prepareRoleOfflinePackage() : undefined)
+      .catch((err) => { console.warn('initializeOfflineTrust failed', err) })
   }, [accessMode, isAuthResolved, isAuthenticated, csrfError, csrfIsLoading, csrfToken])
 
   return (
