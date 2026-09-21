@@ -528,7 +528,7 @@
   opacity: 1;
 }
 
-/* Fix: último botón (subir contrato/presupuesto) no se corta a la derecha */
+/* Fix: último botón (subir contrato/presupuesto) no se corta a la derecha - CARDS */
 .cardActions .actionBtn:last-child::after {
   left: auto;
   right: 0;
@@ -536,6 +536,19 @@
 }
 
 .cardActions .actionBtn:last-child::before {
+  left: auto;
+  right: 12px;
+  transform: translateX(0);
+}
+
+/* Fix: mismo para TABLA - actionsGroup */
+.actionsGroup .actionBtn:last-child::after {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
+.actionsGroup .actionBtn:last-child::before {
   left: auto;
   right: 12px;
   transform: translateX(0);
