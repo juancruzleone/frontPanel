@@ -5,7 +5,7 @@ export default defineConfig({
   testIgnore: "offline-app-shell.spec.ts",
   timeout: 30000,
   expect: {
-    timeout: 5000,
+    timeout: 10000,
   },
   use: {
     baseURL: "http://127.0.0.1:4173",

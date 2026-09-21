@@ -1,3 +1,4 @@
+@import './shared/styles/dashboard-tokens.css';
 /* VARIABLES GLOBALES DE TEMA */
 :root {
   --color-bg: #D1D1D1;
@@ -75,8 +76,6 @@ html {
   --color-themebox-bg: #23272b;
   --color-themebox-border: #333;
 }
-
-@import './shared/styles/dashboard-tokens.css';
 
 form {
   gap: 0;

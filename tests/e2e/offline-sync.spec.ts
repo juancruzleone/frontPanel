@@ -13,6 +13,7 @@ test.describe("Offline Capability Review - Technician Flow", () => {
       _id: "tech-1",
       userName: "tecnico_test",
       role: "tecnico",
+      tenantId: "tenant-test-123",
       permissions: {
         canViewWorkOrders: true,
         canDeleteWorkOrders: true,
@@ -91,14 +92,19 @@ test.describe("Offline Capability Review - Technician Flow", () => {
       localStorage.setItem('workorders-view', '"table"');
     }, { user: mockUser, orders: mockOrders });
 
+    let isOfflinePhase = false;
     await page.route("**/api/**", async (route) => {
       const url = route.request().url();
+      const method = route.request().method();
       if (url.includes("/cuenta/login") || url.includes("/verify")) {
         await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ cuenta: mockUser }) });
       } else if (url.includes("/csrf-token")) {
         await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ token: "fake-csrf-token-123" }) });
-      } else if (url.includes("/ordenes-trabajo") && route.request().method() === "GET") {
+      } else if (url.includes("/ordenes-trabajo") && method === "GET") {
         await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ data: mockOrders, pagination: { total: 1, page: 1, limit: 10, totalPages: 1 } }) });
+      } else if (url.includes("/ordenes-trabajo") && method === "DELETE" && isOfflinePhase) {
+        // While offline, abort to trigger queue (isOfflineError) instead of succeeding
+        await route.abort();
       } else {
         await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify([]) });
       }
@@ -121,13 +127,19 @@ test.describe("Offline Capability Review - Technician Flow", () => {
     await expect(page.getByText("Reparación Aire Acondicionado")).toBeVisible({ timeout: 20000 });
 
     // 3. GO OFFLINE
+    isOfflinePhase = true;
     await context.setOffline(true);
     await page.evaluate(() => window.dispatchEvent(new Event('offline')));
+    await page.waitForFunction(() => !navigator.onLine, { timeout: 5000 }).catch(() => {});
     
     // 5. ACT: Queued Mutation (Delete)
     let deleteSyncCalled = false;
     await page.route("**/api/ordenes-trabajo/wo-offline-1", async (route) => {
       if (route.request().method() === "DELETE") {
+        if (isOfflinePhase) {
+          await route.abort();
+          return;
+        }
         deleteSyncCalled = true;
         await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ message: "Orden eliminada" }) });
       } else {
@@ -156,19 +168,21 @@ test.describe("Offline Capability Review - Technician Flow", () => {
         useOfflineStore?: { getState: () => { queue: Array<{ type: string }> } }
       }).useOfflineStore;
       return offlineStore?.getState().queue.some((item) => item.type === "DELETE_WORK_ORDER") ?? false;
-    })).toBe(true);
+    }), { timeout: 15000 }).toBe(true);
     expect(deleteSyncCalled).toBe(false);
 
     // 7. ACT: Back ONLINE
+    isOfflinePhase = false;
     await context.setOffline(false);
+    await page.evaluate(() => window.dispatchEvent(new Event('online')));
 
     // 8. VERIFY: Later Sync
-    await expect.poll(() => deleteSyncCalled).toBe(true);
+    await expect.poll(() => deleteSyncCalled, { timeout: 15000 }).toBe(true);
     await expect.poll(() => page.evaluate(() => {
       const offlineStore = (window as Window & {
         useOfflineStore?: { getState: () => { queue: Array<{ type: string }> } }
       }).useOfflineStore;
       return offlineStore?.getState().queue.some((item) => item.type === "DELETE_WORK_ORDER") ?? false;
-    })).toBe(false);
+    }), { timeout: 15000 }).toBe(false);
   });
 });

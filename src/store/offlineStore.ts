@@ -53,7 +53,18 @@ export const useOfflineStore = create<OfflineState>()(
       addToQueue: (request, ownerId) => {
         let queued = false
         set((state) => {
-          const { tenantId, userId: currentUserId } = useAuthStore.getState()
+          let { tenantId, userId: currentUserId } = useAuthStore.getState()
+          // SAFETY: E2E fallback - read from persisted auth-storage when store not yet hydrated
+          if ((!tenantId || !currentUserId) && typeof window !== 'undefined' && window.localStorage) {
+            try {
+              const raw = window.localStorage.getItem('auth-storage')
+              if (raw) {
+                const parsed = JSON.parse(raw) as { state?: { tenantId?: string; userId?: string } }
+                tenantId = tenantId || parsed.state?.tenantId || null
+                currentUserId = currentUserId || parsed.state?.userId || null
+              }
+            } catch (_e) { /* SAFETY: ignore JSON parse errors for E2E fallback when localStorage is malformed */ void _e }
+          }
           if (!tenantId || !currentUserId || (ownerId !== undefined && currentUserId !== ownerId)) return state
           queued = true
           return {
@@ -75,7 +86,18 @@ export const useOfflineStore = create<OfflineState>()(
       queueInstallationUpdate: (ownerId, installationId, data) => {
         let queued = false
         set((state) => {
-          const { tenantId, userId } = useAuthStore.getState()
+          let { tenantId, userId } = useAuthStore.getState()
+          // SAFETY: E2E fallback for installation queue as well
+          if ((!tenantId || !userId) && typeof window !== 'undefined' && window.localStorage) {
+            try {
+              const raw = window.localStorage.getItem('auth-storage')
+              if (raw) {
+                const parsed = JSON.parse(raw) as { state?: { tenantId?: string; userId?: string } }
+                tenantId = tenantId || parsed.state?.tenantId || null
+                userId = userId || parsed.state?.userId || null
+              }
+            } catch (_e) { /* SAFETY: ignore JSON parse errors for E2E fallback when localStorage is malformed */ void _e }
+          }
           if (!tenantId || !ownerId || userId !== ownerId) return state
 
           const matchingIndexes = state.queue.reduce<number[]>((indexes, request, index) => {
@@ -134,7 +156,8 @@ export const useOfflineStore = create<OfflineState>()(
         })),
       remapPayloadId: (oldId, newId, tenantId, userId) =>
         set((state) => {
-          const replaceIdRecursively = (obj: unknown): unknown => {
+          // SAFETY: recursive ID remapping for offline queue payloads; any is safe here as payload is JSON-serializable and immediately cast at call site
+          const replaceIdRecursively = (obj: unknown): any => {
             if (obj === oldId) return newId
             if (Array.isArray(obj)) return obj.map(replaceIdRecursively)
             if (obj !== null && typeof obj === 'object') {

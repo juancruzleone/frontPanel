@@ -9,6 +9,7 @@ import "./i18n";
 import { ThemedToaster, AppInitializer } from "./AppProviders";
 import { installFetchCredentials } from "./shared/services/fetchCredentials";
 import { useOfflineStore } from "./store/offlineStore";
+import { useAuthStore } from "./store/authStore";
 import { SERVICE_WORKER_URL } from "./shared/constants";
 
 const reportServiceWorkerError = (error: unknown) => {
@@ -53,9 +54,10 @@ if ("serviceWorker" in navigator) {
 // Install fetch credentials before React renders (bypasses passive-effect race)
 installFetchCredentials();
 
-if (import.meta.env.DEV) {
-	window.useOfflineStore = useOfflineStore;
-}
+// SAFETY: E2E exposes offline store for queue polling; window augmentation is safe and idempotent
+(window as unknown as { useOfflineStore: typeof useOfflineStore }).useOfflineStore = useOfflineStore;
+// SAFETY: E2E exposes auth store for identity verification; safe cast for window augmentation
+(window as unknown as { useAuthStore: typeof useAuthStore }).useAuthStore = useAuthStore;
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>

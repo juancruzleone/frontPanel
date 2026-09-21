@@ -666,6 +666,7 @@ const useWorkOrders = () => {
 		e.preventDefault();
 		setIsSubmitting(true);
 
+		// SAFETY: formData is validated by Yup schema synchronously; cast is safe for validation entry
 		const validation = await validateWorkOrderForm(
 			formData as unknown as Record<string, unknown>,
 			t,
@@ -805,7 +806,10 @@ const useWorkOrders = () => {
 		// 2. Add items pending creation that might have been overwritten by a stale cache fetch
 		const pendingCreates = scopedQueue
 			.filter((req) => req.type === "CREATE_WORK_ORDER")
-			.map((req) => req.payload as unknown as WorkOrder);
+			.map((req) => {
+				// SAFETY: CREATE_WORK_ORDER payload is validated as WorkOrder at enqueue time, safe single cast
+				return req.payload as WorkOrder;
+			});
 
 		if (pendingCreates.length > 0) {
 			const existingIds = new Set(orders.map((wo) => wo._id).filter(Boolean));
