@@ -421,6 +421,9 @@
 .groupChevron {
   color: #00FFAE;
   margin-left: auto;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
   transition: transform 0.2s ease;
 }
 
@@ -447,11 +450,12 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 12px;
-  padding: 12px 16px;
+  gap: 8px;
+  padding: 10px 12px;
   color: #00FFAE !important;
   text-decoration: none;
-  font-size: 15px;
+  font-size: 13.5px;
+  white-space: nowrap;
   font-weight: 500;
   line-height: normal;
   border-radius: 10px;
@@ -462,8 +466,8 @@
 }
 
 .submenuLink svg {
-  width: 18px !important;
-  height: 18px !important;
+  width: 15px !important;
+  height: 15px !important;
   color: #00FFAE;
   flex-shrink: 0;
 }
@@ -514,15 +518,16 @@
   }
 
   .submenuLink {
-    padding: 9px 12px;
-    font-size: 13px;
-    gap: 12px;
-    border-radius: 10px;
+    padding: 8px 10px;
+    font-size: 12.5px;
+    gap: 8px;
+    border-radius: 8px;
+    white-space: nowrap;
   }
 
   .submenuLink svg {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
   }
 }
 
@@ -538,15 +543,16 @@
   }
 
   .submenuLink {
-    gap: 12px;
-    padding: 9px 12px;
-    font-size: 14px;
+    gap: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
     border-radius: 8px;
+    white-space: nowrap;
   }
 
   .submenuLink svg {
-    width: 18px;
-    height: 18px;
+    width: 15px;
+    height: 15px;
   }
 }
 
@@ -555,7 +561,6 @@
     padding: 12px 14px;
     font-size: 14.5px;
     border-radius: 8px;
-    white-space: nowrap;
   }
 
   .groupButtonContent {
@@ -563,15 +568,16 @@
   }
 
   .submenuLink {
-    gap: 12px;
-    padding: 12px 16px;
-    font-size: 15px;
-    border-radius: 10px;
+    gap: 8px;
+    padding: 9px 12px;
+    font-size: 13px;
+    border-radius: 8px;
+    white-space: nowrap;
   }
 
   .submenuLink svg {
-    width: 18px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
   }
 }
 
