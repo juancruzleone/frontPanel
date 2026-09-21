@@ -191,8 +191,8 @@
 
 .kpiCell {
   min-width: 0;
-  min-height: 96px;
-  padding: 17px 18px;
+  min-height: 84px;
+  padding: 14px 16px;
   border-right: 1px solid var(--color-card-border);
   border-bottom: 1px solid var(--color-card-border);
 }
@@ -212,7 +212,7 @@
 }
 
 .kpiCell dd {
-  margin: 8px 0 0;
+  margin: 14px 0 0;
   font-size: clamp(1.35rem, 2.2vw, 1.85rem);
   font-variant-numeric: tabular-nums;
   font-weight: 720;
@@ -239,7 +239,7 @@
 
 .panel,
 .inventorySummary {
-  padding: 20px;
+  padding: 18px;
 }
 
 .inventorySummary {
@@ -720,6 +720,72 @@
   margin: 0;
   font-size: 1.25rem;
   font-weight: 720;
+}
+
+
+.inventoryMeta {
+  margin: 6px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 0.72rem;
+}
+
+.inventoryList {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.inventoryItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 10px;
+  border: 1px solid var(--color-card-border);
+  border-radius: 6px;
+  background: var(--color-bg-light);
+  font-size: 0.78rem;
+}
+
+.inventoryItemLow {
+  border-left: 3px solid var(--chart-warning, #a16207);
+  background: #fefce8;
+}
+
+.inventoryItemName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.inventoryItemStock {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+}
+
+.inventoryItemMin {
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.inventoryBadge {
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--chart-warning, #a16207);
+  color: #fff;
+  font-size: 0.64rem;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .partialError {

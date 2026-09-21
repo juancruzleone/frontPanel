@@ -29,14 +29,36 @@ const fetchDashboardStats = async (range: RangeOption): Promise<DashboardStatsRe
   return payload
 }
 
+const toSummaryItem = (item: { _id?: string; name?: string; currentStock?: number; unit?: string; minimumStock?: number }): InventorySummaryData["items"][number] => ({
+  _id: String(item._id ?? ""),
+  name: String(item.name ?? ""),
+  currentStock: Number(item.currentStock ?? 0),
+  unit: String(item.unit ?? ""),
+  minimumStock: Number(item.minimumStock ?? 0),
+})
+
 const fetchInventorySummary = async (): Promise<InventorySummaryData> => {
-  const [allItems, lowStockItems] = await Promise.all([
-    fetchInventoryItems({ page: 1, limit: 1 }),
-    fetchInventoryItems({ page: 1, limit: 1, lowStock: true }),
+  const [totalRes, lowStockRes, itemsRes, lowStockDetailRes] = await Promise.all([
+    fetchInventoryItems({ page: 1, limit: 1 }).catch(() => ({ total: 0, items: [] as never[] })),
+    fetchInventoryItems({ page: 1, limit: 1, lowStock: true }).catch(() => ({ total: 0, items: [] as never[] })),
+    fetchInventoryItems({ page: 1, limit: 5 }).catch(() => ({ total: 0, items: [] as never[] })),
+    fetchInventoryItems({ page: 1, limit: 5, lowStock: true }).catch(() => ({ total: 0, items: [] as never[] })),
   ])
+
+  const totalItems = (totalRes as { total?: number; items?: unknown[] }).total ?? (totalRes as { items?: unknown[] }).items?.length ?? 0
+  const lowStockItems = (lowStockRes as { total?: number; items?: unknown[] }).total ?? (lowStockRes as { items?: unknown[] }).items?.length ?? 0
+  const rawItems = ((itemsRes as { items?: unknown[] }).items ?? []) as Array<{ _id?: string; name?: string; currentStock?: number; unit?: string; minimumStock?: number }>
+  const rawLow = ((lowStockDetailRes as { items?: unknown[] }).items ?? []) as Array<{ _id?: string; name?: string; currentStock?: number; unit?: string; minimumStock?: number }>
+
+  const items = rawItems.slice(0, 5).map(toSummaryItem)
+  const lowStockDetails = rawLow.slice(0, 5).map(toSummaryItem)
+
   return {
-    totalItems: allItems.total ?? allItems.items?.length ?? 0,
-    lowStockItems: lowStockItems.total ?? lowStockItems.items?.length ?? 0,
+    totalItems,
+    lowStockItems,
+    items,
+    lowStockDetails,
+    lowStockItemsDetail: lowStockDetails,
   }
 }
 

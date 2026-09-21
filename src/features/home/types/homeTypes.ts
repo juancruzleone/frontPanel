@@ -113,9 +113,20 @@ export interface DashboardAlert {
   count: number
 }
 
+export interface InventorySummaryItem {
+  _id: string
+  name: string
+  currentStock: number
+  unit: string
+  minimumStock: number
+}
+
 export interface InventorySummaryData {
   totalItems: number
   lowStockItems: number
+  items: InventorySummaryItem[]
+  lowStockDetails: InventorySummaryItem[]
+  lowStockItemsDetail?: InventorySummaryItem[]
 }
 
 export interface HomeDashboardViewData {

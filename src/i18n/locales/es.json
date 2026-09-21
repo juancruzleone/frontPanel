@@ -553,10 +553,13 @@
         "kicker": "Últimos movimientos"
       },
       "inventory": {
-        "kicker": "Recursos",
+        "kicker": "Inventario",
         "title": "Resumen de inventario",
-        "items": "Ítems registrados",
-        "lowStock": "Con stock bajo"
+        "items": "Total de ítems",
+        "lowStock": "Con stock bajo",
+        "empty": "No hay artículos en inventario",
+        "lowBadge": "Stock bajo",
+        "meta": "{{total}} ítems · {{low}} con stock bajo"
       },
       "context": {
         "kicker": "Alcance operativo",
