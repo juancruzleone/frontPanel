@@ -537,18 +537,6 @@ const Nav = () => {
 								</div>
 							</li>
 						)}
-						{isAdminUser && (
-							<li data-tour="open-settings">
-								<NavLink
-									to={settingsRoute}
-									className={({ isActive }) => (isActive ? styles.active : "")}
-									onClick={() => setIsMenuOpen(false)}
-								>
-									<Settings size={20} />{" "}
-									<span className={styles.linkText}>{t("settings.title")}</span>
-								</NavLink>
-							</li>
-						)}
 						{/* Panel Admin solo para super_admin */}
 						{isSuperAdminUser && (
 							<li>
@@ -580,6 +568,18 @@ const Nav = () => {
 							</NavLink>
 						</li>
 					)}
+						{isAdminUser && (
+							<li data-tour="open-settings">
+								<NavLink
+									to={settingsRoute}
+									className={({ isActive }) => (isActive ? styles.active : "")}
+									onClick={() => setIsMenuOpen(false)}
+								>
+									<Settings size={20} />{" "}
+									<span className={styles.linkText}>{t("settings.title")}</span>
+								</NavLink>
+							</li>
+						)}
 					{/* Auditoría oculta para todos los usuarios - solo accesible por ruta directa si es necesario */}
 					</ul>
 					<div className={styles.bottomSection}>
