@@ -93,42 +93,41 @@ button {
   letter-spacing: 0.025em;
 }
 
-/* MODO CLARO: hover coherente con paleta clara — base #f0f0f0 -> hover #fff con acento teal #057E74 */
+/* MODO CLARO: hover sutil y legible — base #f0f0f0 -> hover #fff con borde gris-teal suave */
 .secondaryButton:hover:where(:not(:disabled)),
 :global([data-theme="light"]) .secondaryButton:hover:where(:not(:disabled)) {
   background: var(--color-card);
-  color: var(--color-secondary);
-  border-color: var(--color-secondary);
+  color: var(--color-text);
+  border-color: #9ca3af;
   box-shadow:
-    0 4px 14px rgba(5, 126, 116, 0.14),
+    0 4px 14px rgba(0, 0, 0, 0.08),
     0 1px 4px rgba(0, 0, 0, 0.06);
   transform: translateY(-1px);
 }
-/* MODO OSCURO: hover coherente con paleta oscura — base #23272b -> hover con velo turquesa #00FFAE (accent dark) */
+/* MODO OSCURO: hover neutro sin neón — base #23272b -> velo blanco sutil, sin verde LED */
 :global(.dark) .secondaryButton:hover:where(:not(:disabled)),
 :global([data-theme="dark"]) .secondaryButton:hover:where(:not(:disabled)) {
-  background: rgba(0, 255, 174, 0.12);
-  color: #00FFAE;
-  border-color: #00FFAE;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--color-text);
+  border-color: rgba(255, 255, 255, 0.22);
   box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.45),
-    0 0 0 1px rgba(0, 255, 174, 0.14),
-    0 0 18px rgba(0, 255, 174, 0.18);
+    0 4px 14px rgba(0, 0, 0, 0.35),
+    0 1px 4px rgba(0, 0, 0, 0.25);
 }
 
 .secondaryButton:active:where(:not(:disabled)),
 :global([data-theme="light"]) .secondaryButton:active:where(:not(:disabled)) {
   transform: translateY(0);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-  background: rgba(5, 126, 116, 0.08);
-  border-color: var(--color-secondary);
-  color: var(--color-secondary);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  background: #f3f4f6;
+  border-color: #9ca3af;
+  color: var(--color-text);
 }
 :global(.dark) .secondaryButton:active:where(:not(:disabled)),
 :global([data-theme="dark"]) .secondaryButton:active:where(:not(:disabled)) {
-  background: rgba(0, 255, 174, 0.18);
-  border-color: #00FFAE;
-  color: #00FFAE;
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: var(--color-text);
   box-shadow: none;
   transform: translateY(0);
 }
