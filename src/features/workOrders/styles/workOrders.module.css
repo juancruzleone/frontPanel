@@ -259,7 +259,6 @@
   border-radius: 12px;
   padding: 20px;
   border: 1px solid var(--color-card-border);
-  border-left-width: 3px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
   color: var(--color-text);
@@ -289,11 +288,7 @@
   transform: translateY(-2px);
 }
 
-.workOrderCard_pendiente { border-left-color: #a16207; }
-.workOrderCard_asignada { border-left-color: #2563eb; }
-.workOrderCard_en_progreso { border-left-color: #7c3aed; }
-.workOrderCard_completada { border-left-color: #15803d; }
-.workOrderCard_cancelada { border-left-color: #b91c1c; }
+
 
 .workOrderCard button {
   padding: 8px;

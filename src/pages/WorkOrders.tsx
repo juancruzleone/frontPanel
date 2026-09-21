@@ -857,7 +857,7 @@ const WorkOrders = () => {
 					) : (
 						<>
 							{workOrders.map((order) => (
-								<article key={order._id} className={`${styles.workOrderCard} ${styles[`workOrderCard_${order.estado}`] || ""}`}>
+								<article key={order._id} className={styles.workOrderCard}>
 									<div className={styles.workOrderInfo}>
 										<div className={styles.workOrderHeader}>
 											<h3 className={styles.workOrderTitle}>{order.titulo}</h3>

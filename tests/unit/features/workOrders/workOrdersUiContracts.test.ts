@@ -136,7 +136,9 @@ describe("Work Orders UI contracts", () => {
     expect(cardRule).toContain("box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08)")
     expect(styles).toContain("linear-gradient")
     expect(styles).toContain(".workOrderCard::before")
-    expect(styles).toContain(".workOrderCard_en_progreso")
+    expect(styles).not.toContain("border-left-color")
+    expect(styles).not.toContain(".workOrderCard_en_progreso")
+    expect(cardRule).not.toContain("border-left-width")
     // Icon hover must be black/white (like installations/assets), not green
     expect(styles).toMatch(/\.iconButton:hover\s*\{[\s\S]*?background:\s*var\(--color-text\)/)
     expect(styles).toMatch(/\.iconButton:hover\s*\{[\s\S]*?color:\s*var\(--color-card\)/)
