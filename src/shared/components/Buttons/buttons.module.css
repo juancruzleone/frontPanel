@@ -93,7 +93,9 @@ button {
   letter-spacing: 0.025em;
 }
 
-.secondaryButton:hover:where(:not(:disabled)) {
+/* MODO CLARO: hover coherente con paleta clara — base #f0f0f0 -> hover #fff con acento teal #057E74 */
+.secondaryButton:hover:where(:not(:disabled)),
+:global([data-theme="light"]) .secondaryButton:hover:where(:not(:disabled)) {
   background: var(--color-card);
   color: var(--color-secondary);
   border-color: var(--color-secondary);
@@ -102,27 +104,31 @@ button {
     0 1px 4px rgba(0, 0, 0, 0.06);
   transform: translateY(-1px);
 }
+/* MODO OSCURO: hover coherente con paleta oscura — base #23272b -> hover con velo turquesa #00FFAE (accent dark) */
 :global(.dark) .secondaryButton:hover:where(:not(:disabled)),
 :global([data-theme="dark"]) .secondaryButton:hover:where(:not(:disabled)) {
-  background: rgba(0, 255, 174, 0.10);
-  color: var(--color-nav-accent);
-  border-color: rgba(0, 255, 174, 0.45);
+  background: rgba(0, 255, 174, 0.12);
+  color: #00FFAE;
+  border-color: #00FFAE;
   box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.35),
-    0 0 0 1px rgba(0, 255, 174, 0.08),
-    0 0 16px rgba(0, 255, 174, 0.12);
+    0 8px 20px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(0, 255, 174, 0.14),
+    0 0 18px rgba(0, 255, 174, 0.18);
 }
 
-.secondaryButton:active:where(:not(:disabled)) {
+.secondaryButton:active:where(:not(:disabled)),
+:global([data-theme="light"]) .secondaryButton:active:where(:not(:disabled)) {
   transform: translateY(0);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-  background: rgba(5, 126, 116, 0.06);
+  background: rgba(5, 126, 116, 0.08);
   border-color: var(--color-secondary);
+  color: var(--color-secondary);
 }
 :global(.dark) .secondaryButton:active:where(:not(:disabled)),
 :global([data-theme="dark"]) .secondaryButton:active:where(:not(:disabled)) {
-  background: rgba(0, 255, 174, 0.16);
-  border-color: rgba(0, 255, 174, 0.55);
+  background: rgba(0, 255, 174, 0.18);
+  border-color: #00FFAE;
+  color: #00FFAE;
   box-shadow: none;
   transform: translateY(0);
 }
