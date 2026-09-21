@@ -773,7 +773,7 @@
 }
 
 .skeletonHeader { height: 150px; }
-.skeletonKpis { width: calc(66.666% - 6px); height: 194px; margin-top: 28px; }
+.skeletonKpis { width: 100%; height: 194px; margin-top: 28px; }
 .skeletonTrend { grid-column: span 8; height: 390px; margin-top: 28px; }
 .skeletonDistribution { grid-column: span 4; height: 390px; margin-top: 28px; }
 .skeletonWork { grid-column: span 8; height: 290px; margin-top: 28px; }
