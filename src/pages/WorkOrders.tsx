@@ -667,22 +667,23 @@ const WorkOrders = () => {
 					</div>
 				</div>
 
-				{canExportOperationalResults(role) && (
-					<div className={styles.csvActionsRow}>
-						<Button variant="secondary" title={t("workOrders.exportResults")} onClick={async () => {
-							setExportError("");
-							try { await exportWorkOrders(workOrderFilters); }
-							catch (error) { setExportError(error instanceof Error ? error.message : String(error)); }
-						}} />
-					</div>
-				)}
+				<div className={styles.actionsBar}>
+					{!isMobile && (
+						<div className={styles.viewToggleRow}>
+							<ViewToggle view={viewMode} onViewChange={setViewMode} allowedViews={WORK_ORDER_ALLOWED_VIEWS} />
+						</div>
+					)}
+					{canExportOperationalResults(role) && (
+						<div className={styles.csvActionsRow}>
+							<Button variant="secondary" title={t("workOrders.exportResults")} onClick={async () => {
+								setExportError("");
+								try { await exportWorkOrders(workOrderFilters); }
+								catch (error) { setExportError(error instanceof Error ? error.message : String(error)); }
+							}} />
+						</div>
+					)}
+				</div>
 				{exportError && <p role="alert">{exportError}</p>}
-
-				{!isMobile && (
-					<div className={styles.viewToggleRow}>
-						<ViewToggle view={viewMode} onViewChange={setViewMode} allowedViews={WORK_ORDER_ALLOWED_VIEWS} />
-					</div>
-				)}
 
 				<div className={styles.searchRow} data-tour="search-filter">
 					<div className={styles.searchContainer}>

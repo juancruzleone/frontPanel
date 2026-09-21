@@ -382,19 +382,20 @@ const Installations = () => {
           )}
         </div>
 
-        {(canDownloadCsvTemplate(role) || canExportOperationalResults(role)) && (
-          <div className={styles.csvActionsRow}>
-            {canDownloadCsvTemplate(role) && <Button variant="secondary" title={t('installations.csv.downloadTemplate')} onClick={() => runCsvAction(downloadInstallationTemplate)} />}
-            {canDownloadCsvTemplate(role) && <Button variant="secondary" title={t('installations.csv.import')} onClick={() => setIsImportOpen(true)} />}
-            {canExportOperationalResults(role) && <Button variant="secondary" title={t('installations.exportResults')} onClick={() => runCsvAction(() => exportInstallations({ search: searchTerm, category: selectedCategory }))} />}
-          </div>
-        )}
-
-        {!isMobile && (
-          <div className={styles.viewToggleRow}>
-            <ViewToggle view={viewMode} onViewChange={setViewMode} />
-          </div>
-        )}
+        <div className={styles.actionsBar}>
+          {!isMobile && (
+            <div className={styles.viewToggleRow}>
+              <ViewToggle view={viewMode} onViewChange={setViewMode} />
+            </div>
+          )}
+          {(canDownloadCsvTemplate(role) || canExportOperationalResults(role)) && (
+            <div className={styles.csvActionsRow}>
+              {canDownloadCsvTemplate(role) && <Button variant="secondary" title={t('installations.csv.downloadTemplate')} onClick={() => runCsvAction(downloadInstallationTemplate)} />}
+              {canDownloadCsvTemplate(role) && <Button variant="secondary" title={t('installations.csv.import')} onClick={() => setIsImportOpen(true)} />}
+              {canExportOperationalResults(role) && <Button variant="secondary" title={t('installations.exportResults')} onClick={() => runCsvAction(() => exportInstallations({ search: searchTerm, category: selectedCategory }))} />}
+            </div>
+          )}
+        </div>
 
         <div className={styles.searchRow}>
           <div className={styles.searchContainerInner} data-tour="search-filter">

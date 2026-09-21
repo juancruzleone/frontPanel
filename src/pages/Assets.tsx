@@ -236,23 +236,24 @@ const Assets = () => {
           )}
         </div>
 
-        {(canDownloadCsvTemplate(role) || isAdminUser || canExportCsv(role)) && (
-          <div className={styles.csvActionsRow}>
-            {canDownloadCsvTemplate(role) && (
-              <Button variant="secondary" title={t('assets.csv.downloadTemplate')} onClick={() => runCsvAction(downloadAssetTemplate)} />
-            )}
-            {canDownloadCsvTemplate(role) && (
-              <Button variant="secondary" title={t('assets.csv.import')} onClick={() => setIsImportOpen(true)} />
-            )}
-            {canExportCsv(role) && <Button variant="secondary" title={t('assets.csv.exportFiltered')} onClick={() => runCsvAction(() => exportAssets({ search: searchTerm, category: selectedCategory }))} />}
-          </div>
-        )}
-
-        {!isMobile && (
-          <div className={styles.viewToggleRow}>
-            <ViewToggle view={viewMode} onViewChange={setViewMode} />
-          </div>
-        )}
+        <div className={styles.actionsBar}>
+          {!isMobile && (
+            <div className={styles.viewToggleRow}>
+              <ViewToggle view={viewMode} onViewChange={setViewMode} />
+            </div>
+          )}
+          {(canDownloadCsvTemplate(role) || isAdminUser || canExportCsv(role)) && (
+            <div className={styles.csvActionsRow}>
+              {canDownloadCsvTemplate(role) && (
+                <Button variant="secondary" title={t('assets.csv.downloadTemplate')} onClick={() => runCsvAction(downloadAssetTemplate)} />
+              )}
+              {canDownloadCsvTemplate(role) && (
+                <Button variant="secondary" title={t('assets.csv.import')} onClick={() => setIsImportOpen(true)} />
+              )}
+              {canExportCsv(role) && <Button variant="secondary" title={t('assets.csv.exportFiltered')} onClick={() => runCsvAction(() => exportAssets({ search: searchTerm, category: selectedCategory }))} />}
+            </div>
+          )}
+        </div>
 
         <div className={styles.searchRow}>
           <div className={styles.searchContainerInner} data-tour="search-filter">

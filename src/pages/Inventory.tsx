@@ -174,23 +174,24 @@ const Inventory = () => {
         )}
       </div>
 
-      {(isAdmin || canExportCsv(role)) && (
-        <div className={styles.csvActionsRow}>
-          {canDownloadCsvTemplate(role) && (
-            <>
-              <Button variant="secondary" title={t('inventory.csv.downloadTemplate')} onClick={() => runCsvAction(downloadInventoryTemplate)} />
-              <Button variant="secondary" title={t('inventory.csv.import')} onClick={() => setIsImportOpen(true)} />
-            </>
-          )}
-          {canExportCsv(role) && <Button variant="secondary" title={t('inventory.csv.exportFiltered')} onClick={() => runCsvAction(() => exportInventory({ name: searchTerm, category: selectedCategory }))} />}
-        </div>
-      )}
-
-      {!isMobile && (
-        <div className={styles.viewToggleRow}>
-          <ViewToggle view={viewMode} onViewChange={setViewMode} allowedViews={INVENTORY_ALLOWED_VIEWS} />
-        </div>
-      )}
+      <div className={styles.actionsBar}>
+        {!isMobile && (
+          <div className={styles.viewToggleRow}>
+            <ViewToggle view={viewMode} onViewChange={setViewMode} allowedViews={INVENTORY_ALLOWED_VIEWS} />
+          </div>
+        )}
+        {(isAdmin || canExportCsv(role)) && (
+          <div className={styles.csvActionsRow}>
+            {canDownloadCsvTemplate(role) && (
+              <>
+                <Button variant="secondary" title={t('inventory.csv.downloadTemplate')} onClick={() => runCsvAction(downloadInventoryTemplate)} />
+                <Button variant="secondary" title={t('inventory.csv.import')} onClick={() => setIsImportOpen(true)} />
+              </>
+            )}
+            {canExportCsv(role) && <Button variant="secondary" title={t('inventory.csv.exportFiltered')} onClick={() => runCsvAction(() => exportInventory({ name: searchTerm, category: selectedCategory }))} />}
+          </div>
+        )}
+      </div>
 
       {lowStockItems.length > 0 && (
         <div className={styles.lowStockAlert} data-tour="inventory-low-stock">

@@ -157,11 +157,13 @@ const Clients = () => {
                 </div>
             </div>
 
-            {!isMobile && (
-                <div className={styles.viewToggleRow}>
-                    <ViewToggle view={viewMode} onViewChange={setViewMode} />
-                </div>
-            )}
+            <div className={styles.actionsBar}>
+                {!isMobile && (
+                    <div className={styles.viewToggleRow}>
+                        <ViewToggle view={viewMode} onViewChange={setViewMode} />
+                    </div>
+                )}
+            </div>
 
             {/* Filtro de búsqueda */}
             <div className={styles.searchRow}>
