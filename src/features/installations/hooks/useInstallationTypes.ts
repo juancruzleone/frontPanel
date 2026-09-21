@@ -47,7 +47,8 @@ const useInstallationTypes = () => {
       const otherCategories = currentCategories.filter(cat => cat.tipo !== 'instalacion_tipo')
       const mappedData = data.map(cat => ({ ...cat, tipo: 'instalacion_tipo' })) as SettingCategory[]
       const nextCategories = [...otherCategories, ...mappedData]
-      // SOLO actualizar si realmente cambió (evita nueva referencia -> loop)
+      // Guard: evita churn de referencia — solo actualiza si el contenido cambió (previene loops por nueva referencia)
+      // Documentado: JSON.stringify compara deep equality; evita setCategories innecesario que dispararía efectos dependientes
       if (JSON.stringify(currentCategories) !== JSON.stringify(nextCategories)) {
         currentSetCategories(nextCategories)
       }
@@ -123,14 +124,15 @@ const useInstallationTypes = () => {
     }
   }, [isAuthenticated, loadInstallationTypes])
 
-  // Si no hay tipos de instalación activos y no hay error, intentar cargar todos incluyendo inactivos (solo una vez)
+  // Reintento único para inactivos: si el backend devolvió 0 activos y aún no se intentó inactivos, hace 1 solo retry con guard.
+  // Guard hasTriedInactiveRef evita refetch en cada mount; initialLoadDoneRef evita carrera antes del primer fetch.
   useEffect(() => {
     if (
-      initialLoadDoneRef.current && 
-      isAuthenticated && 
-      !loading && 
-      !hasTriedInactiveRef.current && 
-      installationTypes.length === 0 && 
+      initialLoadDoneRef.current &&
+      isAuthenticated &&
+      !loading &&
+      !hasTriedInactiveRef.current &&
+      installationTypes.length === 0 &&
       error === null
     ) {
       loadInstallationTypes(true)
@@ -138,6 +140,7 @@ const useInstallationTypes = () => {
   }, [isAuthenticated, loading, installationTypes.length, error, loadInstallationTypes])
 
   return {
+    // SAFETY: installationTypes filtered by tipo==='instalacion_tipo' and typed via SettingCategory union; shape matches InstallationType (validated by fetchInstallationTypes schema)
     installationTypes: installationTypes as unknown as InstallationType[],
     loading,
     error,

@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react"
+import { useEffect, useState, useCallback, useRef } from "react"
 import {
   fetchFormTemplates,
   fetchFormTemplateById,
@@ -66,6 +66,11 @@ const useForms = () => {
     }
   }, [])
 
+  const templatesRef = useRef(templates)
+  useEffect(() => {
+    templatesRef.current = templates
+  }, [templates])
+
   const loadCategories = useCallback(async () => {
     try {
       const response = await fetchFormCategories()
@@ -76,11 +81,11 @@ const useForms = () => {
 
       setCategories(categoryNames)
     } catch (err: any) {
-      // Si falla la carga de categorías, extraer de las plantillas como fallback
-      const uniqueCategories = Array.from(new Set(templates.map((t) => t.categoria)))
+      // Si falla la carga de categorías, extraer de las plantillas como fallback (usa ref para no depender de templates)
+      const uniqueCategories = Array.from(new Set(templatesRef.current.map((t) => t.categoria)))
       setCategories(uniqueCategories)
     }
-  }, [templates])
+  }, [])
 
   const loadTemplateById = useCallback(async (id: string) => {
     setLoading(true)
@@ -181,12 +186,8 @@ const useForms = () => {
   }
 
   useEffect(() => {
-    loadTemplates()
-  }, [loadTemplates])
-
-  useEffect(() => {
-    loadCategories()
-  }, [loadCategories])
+    void Promise.all([loadTemplates(), loadCategories()])
+  }, [loadTemplates, loadCategories])
 
   return {
     templates,

@@ -204,6 +204,12 @@ const WorkOrders = () => {
 	const [selectedDateFilter, setSelectedDateFilter] = useState("");
 	const [selectedTechnician, setSelectedTechnician] = useState("");
 	const [searchTerm, setSearchTerm] = useState("");
+	const [searchTermDebounced, setSearchTermDebounced] = useState(searchTerm);
+
+	useEffect(() => {
+		const id = window.setTimeout(() => setSearchTermDebounced(searchTerm), 300);
+		return () => window.clearTimeout(id);
+	}, [searchTerm]);
 	const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 	const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -254,10 +260,10 @@ const WorkOrders = () => {
 		loadInstallations();
 	}, []);
 
-	const buildFilters = useCallback(() => {
+	const workOrderFilters = useMemo(() => {
 		const filters: Record<string, string | number> = {
 			estado: selectedStatus,
-			search: searchTerm,
+			search: searchTermDebounced,
 			prioridad: selectedPriority,
 			tecnicoId: selectedTechnician,
 			timezone: timeZone,
@@ -325,7 +331,7 @@ const WorkOrders = () => {
 				case "custom":
 					if (selectedDateFilter) {
 						startDate = parseDateString(selectedDateFilter);
-						endDate = parseDateString(selectedDateFilter); // Assuming single day filter for simplicity as per Calendar implementation
+						endDate = parseDateString(selectedDateFilter);
 					}
 					break;
 			}
@@ -347,7 +353,7 @@ const WorkOrders = () => {
 		return filters;
 	}, [
 		selectedStatus,
-		searchTerm,
+		searchTermDebounced,
 		selectedPriority,
 		selectedTechnician,
 		selectedDate,
@@ -357,17 +363,16 @@ const WorkOrders = () => {
 	]);
 
 	useEffect(() => {
-		const filters = buildFilters();
-		loadWorkOrders(currentPage, itemsPerPage, filters);
-	}, [currentPage, buildFilters, loadWorkOrders]);
+		loadWorkOrders(currentPage, itemsPerPage, workOrderFilters);
+	}, [currentPage, workOrderFilters, loadWorkOrders]);
 
 	useEffect(() => {
 		const unsubscribe = socketService.onWorkOrdersChanged(() => {
-			loadWorkOrders(currentPage, itemsPerPage, buildFilters());
+			loadWorkOrders(currentPage, itemsPerPage, workOrderFilters);
 		});
 
 		return unsubscribe;
-	}, [currentPage, buildFilters, loadWorkOrders]);
+	}, [currentPage, workOrderFilters, loadWorkOrders]);
 
 	const statusOptions = useMemo(
 		() => [
@@ -479,7 +484,7 @@ const WorkOrders = () => {
 		setIsAssignModalOpen(false);
 		setIsCompleteModalOpen(false);
 		setIsDetailsModalOpen(false);
-		loadWorkOrders(currentPage, itemsPerPage, buildFilters());
+		loadWorkOrders(currentPage, itemsPerPage, workOrderFilters);
 	};
 
 	const onError = async (msg: string) => {
@@ -673,7 +678,7 @@ const WorkOrders = () => {
 					<div className={styles.csvActionsRow}>
 						<Button variant="secondary" title={t("workOrders.exportResults")} onClick={async () => {
 							setExportError("");
-							try { await exportWorkOrders(buildFilters()); }
+							try { await exportWorkOrders(workOrderFilters); }
 							catch (error) { setExportError(error instanceof Error ? error.message : String(error)); }
 						}} />
 					</div>

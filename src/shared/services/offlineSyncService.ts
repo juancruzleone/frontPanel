@@ -185,7 +185,7 @@ class OfflineSyncService {
           // For terminal failures we remove immediately; for exhausted transient we apply a minimal yield.
           if (!permanent) {
             const backoffMs = Math.min(1000 * Math.pow(2, Math.max(0, retries - 1)), 10000)
-            if (backoffMs > 0) await new Promise((resolve) => setTimeout(resolve, Math.min(backoffMs, 50)))
+            if (backoffMs > 0) await new Promise((resolve) => setTimeout(resolve, backoffMs))
           }
           // Remove terminal item — no retry. LastError is surfaced via removal; queue entry is purged.
           // BinaryRefs remain in IndexedDB only if they were lease-bound via binaryStaging (receipt-gated cleanup).
