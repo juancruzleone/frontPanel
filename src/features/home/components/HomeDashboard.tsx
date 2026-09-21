@@ -45,13 +45,13 @@ export const HomeDashboard = () => {
   const showWorkOrdersLink = data.role === "admin" || technicianCanViewWorkOrders
 
   return (
-    <div className={styles.dashboardContainer}>
+    <>
+      <div className={styles.dashboardContainer}>
         <DashboardHeader
           role={data.role}
           metadata={data.metadata}
           range={data.metadata.range}
           onRangeChange={dashboard.setRange}
-          secondaryAction={rawRole === "admin" ? <TourButton inline onClick={startTour} label={t("home.tour.buttons.restart")} /> : undefined}
         />
         {(dashboard.isOffline || dashboard.isStale || data.metadata.fallbackApplied) && (
           <div className={styles.dataNotices} role="status">
@@ -107,7 +107,11 @@ export const HomeDashboard = () => {
             )}
           </div>
         </section>
-    </div>
+      </div>
+      {rawRole === "admin" && (
+        <TourButton onClick={startTour} label={t("home.tour.buttons.restart")} />
+      )}
+    </>
   )
 }
 

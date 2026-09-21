@@ -24,7 +24,9 @@ vi.mock("../../../../src/router/useTranslatedRoutes", () => ({
   useTranslatedRoutes: () => ({ getRoute: () => "/ordenes-trabajo" }),
 }))
 vi.mock("../../../../src/shared/components/Buttons/TourButton", () => ({
-  default: ({ label }: { label: string }) => <button type="button" aria-label={label}>{label}</button>,
+  default: ({ label, inline }: { label: string; inline?: boolean }) => (
+    <button type="button" aria-label={label} data-variant={inline ? "inline" : "floating"}>{label}</button>
+  ),
 }))
 
 import { HomeDashboard } from "../../../../src/features/home/components/HomeDashboard"
@@ -123,9 +125,9 @@ describe("HomeDashboard role-aware composition", () => {
     expect(screen.getAllByText("Fecha no disponible")).toHaveLength(3)
   })
 
-  it("keeps the tour action in the admin header only", () => {
+  it("uses the floating tour action for admins only", () => {
     const { rerender } = render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
-    expect(screen.getByLabelText("Ver tutorial")).toBeInTheDocument()
+    expect(screen.getByLabelText("Ver tutorial")).toHaveAttribute("data-variant", "floating")
 
     mocks.role = "tecnico"
     mocks.state = createState("technician")
