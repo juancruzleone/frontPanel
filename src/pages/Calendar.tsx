@@ -20,6 +20,7 @@ import { compareDates, parseDateString, normalizeDate } from "../features/calend
 import { useTimeZone } from "../features/calendar/hooks/useTimeZone"
 import TimeZoneInfo from "../features/calendar/components/TimeZoneInfo"
 import { isClient } from "../shared/utils/roleUtils"
+import { resolveStartWorkOrderErrorKey } from "../features/workOrders/services/workOrderServices"
 
 const Calendar = () => {
   const { t } = useTranslation()
@@ -250,7 +251,7 @@ const Calendar = () => {
       await startWorkOrder(id)
       onSuccess(t('calendar.orderStarted'))
     } catch (err: unknown) {
-      onError((err as Error).message || t('calendar.errorStartingOrder'))
+      onError(t(resolveStartWorkOrderErrorKey(err)))
     }
   }
 

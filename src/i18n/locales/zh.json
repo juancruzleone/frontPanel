@@ -769,6 +769,12 @@
     "errorDeletingWorkOrder": "删除工单时出错",
     "workOrderStarted": "工单已成功开始",
     "errorStartingWorkOrder": "开始工单时出错",
+    "startErrors": {
+      "invalidState": "该工单在当前状态下无法再启动。",
+      "forbidden": "您无权启动此工单。",
+      "notFound": "该工单已不可用。",
+      "session": "无法验证您的会话。请重新登录后再试。"
+    },
     "confirmDeleteWorkOrder": "您确定要删除此工单吗？",
     "confirmDeleteWorkOrderDescription": "此操作无法撤销。",
     "technician": "技术员",

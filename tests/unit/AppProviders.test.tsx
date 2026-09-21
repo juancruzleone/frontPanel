@@ -28,9 +28,12 @@ describe('AppInitializer', () => {
   const setAuthResolved = vi.fn()
   const fetchToken = vi.fn()
   const logout = vi.fn()
+  const setBillingContext = vi.fn()
 
   beforeEach(() => {
     vi.clearAllMocks()
+    vi.mocked(initializeOfflineTrust).mockResolvedValue({ ok: true })
+    fetchToken.mockResolvedValue(undefined)
     
     // Mock stores
     vi.mocked(useAuthStore).mockImplementation((selector) => selector({
@@ -38,7 +41,7 @@ describe('AppInitializer', () => {
       isAuthenticated: false,
       isAuthResolved: true,
       accessMode: 'full',
-      setBillingContext: vi.fn(),
+      setBillingContext,
       setAuthResolved,
       logout,
       userId: 'user-123'
@@ -66,6 +69,42 @@ describe('AppInitializer', () => {
     render(<AppInitializer><div>Test</div></AppInitializer>)
 
     expect(verifySession).toHaveBeenCalled()
+  })
+
+  it('persists the CSRF token returned by session verification without requesting another token', async () => {
+    vi.mocked(verifySession).mockResolvedValue({
+      user: { id: '1' },
+      csrfToken: 'verified-csrf-token',
+    })
+
+    render(<AppInitializer><div>Test</div></AppInitializer>)
+
+    await waitFor(() => expect(hydrateSession).toHaveBeenCalled())
+    expect(useCSRFStore.setState).toHaveBeenCalledWith({
+      token: 'verified-csrf-token',
+      error: null,
+    })
+    expect(useCSRFStore.setState).toHaveBeenCalledBefore(hydrateSession)
+    expect(fetchToken).not.toHaveBeenCalled()
+  })
+
+  it('does not initialize offline trust before CSRF is ready', async () => {
+    vi.mocked(useAuthStore).mockImplementation((selector) => selector({
+      hydrateSession,
+      isAuthenticated: true,
+      isAuthResolved: true,
+      accessMode: 'full',
+      setBillingContext,
+      setAuthResolved,
+      logout,
+      userId: 'user-123',
+    }))
+    vi.mocked(verifySession).mockResolvedValue({ user: { id: '1' } })
+
+    render(<AppInitializer><div>Test</div></AppInitializer>)
+
+    await waitFor(() => expect(fetchToken).toHaveBeenCalledTimes(1))
+    expect(initializeOfflineTrust).not.toHaveBeenCalled()
   })
 
   it('should trigger session refresh when coming back online', async () => {
@@ -148,7 +187,7 @@ describe('AppInitializer', () => {
       isAuthenticated: false,
       isAuthResolved: false,
       accessMode: 'billing_only',
-      setBillingContext: vi.fn(),
+      setBillingContext,
       logout,
     }))
     vi.mocked(useAuthStore.getState).mockReturnValue({ userId: null, isAuthenticated: false, accessMode: 'billing_only' })
@@ -166,7 +205,7 @@ describe('AppInitializer', () => {
       isAuthenticated: false,
       isAuthResolved: false,
       accessMode: 'billing_only',
-      setBillingContext: vi.fn(),
+      setBillingContext,
       logout,
     }))
     vi.mocked(useAuthStore.getState).mockReturnValue({ userId: null, isAuthenticated: false, accessMode: 'billing_only' })

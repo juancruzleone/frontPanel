@@ -15,6 +15,20 @@ const AUTH_ERROR_CODES = new Set([
 ])
 const CSRF_ERROR_CODES = new Set(['CSRF_TOKEN_MISSING', 'CSRF_TOKEN_INVALID'])
 
+export class CsrfRefreshError extends Error {
+  readonly code = 'CSRF_REFRESH_FAILED'
+  readonly status = 403
+  cause?: unknown
+
+  constructor(cause?: unknown) {
+    super('No se pudo renovar el token CSRF')
+    this.name = 'CsrfRefreshError'
+    if (cause !== undefined) {
+      this.cause = cause
+    }
+  }
+}
+
 export const getErrorCode = (value: any): string | undefined => (
   value?.error?.code || value?.code
 )
@@ -78,7 +92,18 @@ export const fetchWithAuthRetry = async (
     const data = await response.clone().json().catch(() => ({}))
     const code = getErrorCode(data)
     if (code && CSRF_ERROR_CODES.has(code)) {
-      await useCSRFStore.getState().fetchToken()
+      const rejectedToken = useCSRFStore.getState().token
+      useCSRFStore.getState().clearToken()
+      try {
+        await useCSRFStore.getState().fetchToken()
+      } catch (error) {
+        throw new CsrfRefreshError(error)
+      }
+      const refreshedToken = useCSRFStore.getState().token
+      if (!refreshedToken || refreshedToken === rejectedToken) {
+        useCSRFStore.getState().clearToken()
+        throw new CsrfRefreshError()
+      }
       return await executeFetch(options)
     }
   }

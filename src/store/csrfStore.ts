@@ -33,7 +33,8 @@ export const useCSRFStore = create<CSRFState>()(
             set({ token: response.token, isLoading: false })
           } catch (error: unknown) {
             const message = error instanceof Error && error.message ? error.message : "Error al obtener token CSRF"
-            set({ error: message, isLoading: false })
+            set({ token: null, error: message, isLoading: false })
+            throw new Error(message)
           } finally {
             csrfStorePromise = null
           }

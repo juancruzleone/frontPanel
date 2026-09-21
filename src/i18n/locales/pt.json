@@ -726,6 +726,12 @@
     "errorDeletingWorkOrder": "Erro ao excluir a ordem",
     "workOrderStarted": "Ordem de serviço iniciada com sucesso",
     "errorStartingWorkOrder": "Erro ao iniciar a ordem",
+    "startErrors": {
+      "invalidState": "A ordem de serviço não pode mais ser iniciada no estado atual.",
+      "forbidden": "Você não tem permissão para iniciar esta ordem de serviço.",
+      "notFound": "A ordem de serviço não está mais disponível.",
+      "session": "Não foi possível validar sua sessão. Entre novamente e tente outra vez."
+    },
     "confirmDeleteWorkOrder": "Deseja excluir esta ordem de serviço?",
     "confirmDeleteWorkOrderDescription": "Esta ação não pode ser desfeita.",
     "technician": "Técnico",

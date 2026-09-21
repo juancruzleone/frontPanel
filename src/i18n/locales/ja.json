@@ -767,6 +767,12 @@
     "errorDeletingWorkOrder": "作業指示書の削除中にエラーが発生しました",
     "workOrderStarted": "作業指示書が正常に開始されました",
     "errorStartingWorkOrder": "作業指示書の開始中にエラーが発生しました",
+    "startErrors": {
+      "invalidState": "現在の状態では、この作業指示書を開始できません。",
+      "forbidden": "この作業指示書を開始する権限がありません。",
+      "notFound": "この作業指示書は利用できなくなりました。",
+      "session": "セッションを確認できませんでした。再度ログインしてお試しください。"
+    },
     "confirmDeleteWorkOrder": "この作業指示書を削除してもよろしいですか？",
     "confirmDeleteWorkOrderDescription": "この操作は元に戻せません。",
     "technician": "技術者",

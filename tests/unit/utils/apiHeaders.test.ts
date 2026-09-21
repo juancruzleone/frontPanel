@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { getApiHeaders, getHeadersWithCsrf, fetchWithCsrf } from '../../../src/shared/utils/apiHeaders'
+import { CsrfRefreshError, getApiHeaders, getHeadersWithCsrf, fetchWithCsrf } from '../../../src/shared/utils/apiHeaders'
+import { resolveStartWorkOrderErrorKey } from '../../../src/features/workOrders/services/workOrderServices'
 import { useAuthStore } from '../../../src/store/authStore'
 import { useCSRFStore } from '../../../src/store/csrfStore'
 
@@ -193,9 +194,18 @@ describe('apiHeaders - CSRF Logic', () => {
         .mockResolvedValueOnce(mock403Response)
         .mockResolvedValueOnce(mock200Response)
 
-      const fetchTokenMock = vi.fn().mockResolvedValue(undefined)
+      const fetchTokenMock = vi.fn().mockImplementation(() => {
+        useCSRFStore.getState.mockReturnValue({
+          token: 'new-csrf-token',
+          isLoading: false,
+          error: null,
+          fetchToken: fetchTokenMock,
+          clearToken: vi.fn(),
+        })
+        return Promise.resolve()
+      })
       useCSRFStore.getState.mockReturnValue({
-        token: 'new-csrf-token',
+        token: 'old-csrf-token',
         isLoading: false,
         error: null,
         fetchToken: fetchTokenMock,
@@ -212,7 +222,7 @@ describe('apiHeaders - CSRF Logic', () => {
       expect(fetchTokenMock).toHaveBeenCalled()
     })
 
-    it('should throw error if token refresh fails on 403', async () => {
+    it('wraps rejected CSRF refreshes in CsrfRefreshError preserving cause and mapping to localized session feedback', async () => {
       const mock403Response = {
         ok: false,
         status: 403,
@@ -222,7 +232,8 @@ describe('apiHeaders - CSRF Logic', () => {
       
       global.fetch = vi.fn().mockResolvedValue(mock403Response)
 
-      const fetchTokenMock = vi.fn().mockRejectedValue(new Error('Token refresh failed'))
+      const cause = new Error('Token refresh failed')
+      const fetchTokenMock = vi.fn().mockRejectedValue(cause)
       useCSRFStore.getState.mockReturnValue({
         token: 'old-csrf-token',
         isLoading: false,
@@ -231,10 +242,48 @@ describe('apiHeaders - CSRF Logic', () => {
         clearToken: vi.fn(),
       })
 
-      await expect(fetchWithCsrf('/api/data', {
-        method: 'POST',
-        body: JSON.stringify({ test: true }),
-      })).rejects.toThrow('Token refresh failed')
+      let thrown: unknown
+      try {
+        await fetchWithCsrf('/api/data', {
+          method: 'POST',
+          body: JSON.stringify({ test: true }),
+        })
+      } catch (error) {
+        thrown = error
+      }
+      expect(thrown).toBeInstanceOf(CsrfRefreshError)
+      expect(thrown).toMatchObject({
+        name: 'CsrfRefreshError',
+        code: 'CSRF_REFRESH_FAILED',
+        status: 403,
+        message: 'No se pudo renovar el token CSRF',
+      })
+      expect((thrown as unknown as { cause: unknown }).cause).toBe(cause)
+      expect(resolveStartWorkOrderErrorKey(thrown)).toBe('workOrders.startErrors.session')
+      expect(global.fetch).toHaveBeenCalledTimes(1)
+    })
+
+    it('does not retry when refresh resolves without replacing the rejected token', async () => {
+      const mock403Response = {
+        ok: false,
+        status: 403,
+        clone: function() { return this },
+        json: async () => ({ error: { code: 'CSRF_TOKEN_INVALID' } }),
+      }
+      global.fetch = vi.fn().mockResolvedValue(mock403Response)
+
+      const fetchTokenMock = vi.fn().mockResolvedValue(undefined)
+      useCSRFStore.getState.mockReturnValue({
+        token: 'stale-token',
+        isLoading: false,
+        error: null,
+        fetchToken: fetchTokenMock,
+        clearToken: vi.fn(),
+      })
+
+      await expect(fetchWithCsrf('/api/data', { method: 'POST' }))
+        .rejects.toThrow('No se pudo renovar el token CSRF')
+      expect(global.fetch).toHaveBeenCalledTimes(1)
     })
 
     it('should NOT add CSRF header for GET requests in fetchWithCsrf', async () => {
@@ -338,10 +387,10 @@ describe('apiHeaders - CSRF Logic', () => {
         .mockResolvedValueOnce(response403)
         .mockResolvedValueOnce({ ok: true, status: 200 })
       const fetchTokenMock = vi.fn().mockImplementation(() => {
-        useCSRFStore.getState.mockReturnValue({ token: 'fresh-token', fetchToken: fetchTokenMock })
+        useCSRFStore.getState.mockReturnValue({ token: 'fresh-token', fetchToken: fetchTokenMock, clearToken: vi.fn() })
         return Promise.resolve()
       })
-      useCSRFStore.getState.mockReturnValue({ token: 'stale-token', fetchToken: fetchTokenMock })
+      useCSRFStore.getState.mockReturnValue({ token: 'stale-token', fetchToken: fetchTokenMock, clearToken: vi.fn() })
       const body = JSON.stringify({ value: 'preserved' })
 
       await fetchWithCsrf('/api/data', { method: 'POST', body })

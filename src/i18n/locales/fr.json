@@ -766,6 +766,12 @@
     "errorDeletingWorkOrder": "Erreur lors de la suppression de l'ordre",
     "workOrderStarted": "Ordre de travail démarré avec succès",
     "errorStartingWorkOrder": "Erreur lors du démarrage de l'ordre",
+    "startErrors": {
+      "invalidState": "L’ordre de travail ne peut plus être démarré dans son état actuel.",
+      "forbidden": "Vous n’avez pas l’autorisation de démarrer cet ordre de travail.",
+      "notFound": "L’ordre de travail n’est plus disponible.",
+      "session": "Votre session n’a pas pu être validée. Reconnectez-vous et réessayez."
+    },
     "confirmDeleteWorkOrder": "Voulez-vous supprimer cet ordre de travail ?",
     "confirmDeleteWorkOrderDescription": "Cette action est irréversible.",
     "technician": "Technicien",

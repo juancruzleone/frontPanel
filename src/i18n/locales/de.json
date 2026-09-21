@@ -748,6 +748,12 @@
     "errorDeletingWorkOrder": "Fehler beim Löschen des Auftrags",
     "workOrderStarted": "Arbeitsauftrag erfolgreich gestartet",
     "errorStartingWorkOrder": "Fehler beim Starten des Auftrags",
+    "startErrors": {
+      "invalidState": "Der Arbeitsauftrag kann in seinem aktuellen Status nicht mehr gestartet werden.",
+      "forbidden": "Sie sind nicht berechtigt, diesen Arbeitsauftrag zu starten.",
+      "notFound": "Der Arbeitsauftrag ist nicht mehr verfügbar.",
+      "session": "Ihre Sitzung konnte nicht validiert werden. Melden Sie sich erneut an und versuchen Sie es noch einmal."
+    },
     "confirmDeleteWorkOrder": "Möchten Sie diesen Arbeitsauftrag löschen?",
     "confirmDeleteWorkOrderDescription": "Diese Aktion kann nicht rückgängig gemacht werden.",
     "technician": "Techniker",

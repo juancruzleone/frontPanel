@@ -730,6 +730,12 @@
     "errorDeletingWorkOrder": "Errore durante l'eliminazione dell'ordine",
     "workOrderStarted": "Ordine di lavoro avviato con successo",
     "errorStartingWorkOrder": "Errore durante l'avvio dell'ordine",
+    "startErrors": {
+      "invalidState": "L’ordine di lavoro non può più essere avviato nello stato attuale.",
+      "forbidden": "Non hai l’autorizzazione per avviare questo ordine di lavoro.",
+      "notFound": "L’ordine di lavoro non è più disponibile.",
+      "session": "Non è stato possibile convalidare la sessione. Accedi di nuovo e riprova."
+    },
     "confirmDeleteWorkOrder": "Vuoi eliminare questo ordine di lavoro?",
     "confirmDeleteWorkOrderDescription": "Questa azione non può essere annullata.",
     "technician": "Tecnico",

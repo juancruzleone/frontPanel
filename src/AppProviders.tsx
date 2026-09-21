@@ -41,6 +41,8 @@ export const ThemedToaster = () => {
 
 // App initialization component
 export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
+  const [isSessionBootstrapComplete, setIsSessionBootstrapComplete] = React.useState(false)
+  const csrfHydratedFromSessionRef = React.useRef(false)
   const hydrateSession = useAuthStore((state) => state.hydrateSession)
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
   const isAuthResolved = useAuthStore((state) => state.isAuthResolved)
@@ -56,6 +58,7 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
 		let cancelled = false
 
     const bootstrapSession = async () => {
+      csrfHydratedFromSessionRef.current = false
       // Durable logout guard: if explicit logout happened recently, don't re-auth
       try {
         const logoutEpoch = localStorage.getItem('logout-epoch');
@@ -79,6 +82,7 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
             if (!cancelled) {
               hydrateSession(promotedSession)
               if (promotedSession.csrfToken) {
+                csrfHydratedFromSessionRef.current = true
                 useCSRFStore.setState({ token: promotedSession.csrfToken, error: null })
               }
             }
@@ -91,6 +95,10 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
         }
         const response = await verifyCurrentSession()
         if (!cancelled) {
+          if (response.csrfToken) {
+            csrfHydratedFromSessionRef.current = true
+            useCSRFStore.setState({ token: response.csrfToken, error: null })
+          }
           hydrateSession(response)
           const user = response.user || response.cuenta
           if (user?.role === "admin") {
@@ -150,11 +158,16 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
       }
     }
 
-    bootstrapSession()
+    void bootstrapSession().finally(() => {
+      if (!cancelled) setIsSessionBootstrapComplete(true)
+    })
 
     // Refresh on reconnection
     const handleOnline = () => {
-      bootstrapSession()
+      setIsSessionBootstrapComplete(false)
+      void bootstrapSession().finally(() => {
+        if (!cancelled) setIsSessionBootstrapComplete(true)
+      })
     }
     window.addEventListener('online', handleOnline)
 
@@ -166,19 +179,19 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
   
   React.useEffect(() => {
     // Fetch CSRF token when user is authenticated and no token exists
-    if (isAuthResolved && (isAuthenticated || accessMode === "billing_only") && !csrfToken && !csrfIsLoading && !csrfError) {
-      fetchToken()
+    if (isSessionBootstrapComplete && !csrfHydratedFromSessionRef.current && isAuthResolved && (isAuthenticated || accessMode === "billing_only") && !csrfToken && !csrfIsLoading && !csrfError) {
+      void fetchToken().catch(() => undefined)
     }
-  }, [accessMode, isAuthResolved, isAuthenticated, csrfToken, csrfIsLoading, csrfError, fetchToken])
+  }, [accessMode, isAuthResolved, isAuthenticated, isSessionBootstrapComplete, csrfToken, csrfIsLoading, csrfError, fetchToken])
 
   // Initialize offline trust after authentication (online only)
   React.useEffect(() => {
-    if (isAuthResolved && isAuthenticated && accessMode === "full" && navigator.onLine) {
+    if (isAuthResolved && isAuthenticated && accessMode === "full" && navigator.onLine && Boolean(csrfToken) && !csrfIsLoading && !csrfError) {
       initializeOfflineTrust()
         .then(result => result.ok ? prepareRoleOfflinePackage() : undefined)
         .catch(() => {})
     }
-  }, [accessMode, isAuthResolved, isAuthenticated])
+  }, [accessMode, isAuthResolved, isAuthenticated, csrfError, csrfIsLoading, csrfToken])
 
   return (
     <>

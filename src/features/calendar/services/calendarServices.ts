@@ -1,5 +1,6 @@
 import { useAuthStore } from "../../../store/authStore"
 import { fetchWithAuthRetry, getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
+import { throwApiError } from "../../../shared/services/ApiError"
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
 
@@ -35,7 +36,7 @@ export const startWorkOrder = async (id: string) => {
     headers: getAuthHeaders(),
   })
 
-  if (!response.ok) throw new Error("Error al iniciar orden de trabajo")
+  if (!response.ok) return throwApiError(response, "Error al iniciar orden de trabajo")
 
   const result = await response.json()
   return result.success ? result.data : result

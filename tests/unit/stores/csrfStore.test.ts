@@ -79,12 +79,13 @@ describe('CSRF Store', () => {
       })
     })
 
-    it('should set error on fetch failure', async () => {
+    it('should reject, clear a stale token, and set error on fetch failure', async () => {
+      useCSRFStore.setState({ token: 'stale-token' })
       vi.mocked(csrfServices.fetchCsrfToken).mockRejectedValue(
         new Error('Network error')
       )
 
-      await useCSRFStore.getState().fetchToken()
+      await expect(useCSRFStore.getState().fetchToken()).rejects.toThrow('Network error')
       const state = useCSRFStore.getState()
 
       expect(state.error).toBe('Network error')
@@ -97,7 +98,7 @@ describe('CSRF Store', () => {
         new Error()
       )
 
-      await useCSRFStore.getState().fetchToken()
+      await expect(useCSRFStore.getState().fetchToken()).rejects.toThrow('Error al obtener token CSRF')
       const state = useCSRFStore.getState()
 
       expect(state.error).toBe('Error al obtener token CSRF')

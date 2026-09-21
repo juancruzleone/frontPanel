@@ -768,6 +768,12 @@
     "errorDeletingWorkOrder": "حدث خطأ أثناء حذف الأمر",
     "workOrderStarted": "تم بدء أمر العمل بنجاح",
     "errorStartingWorkOrder": "حدث خطأ أثناء بدء الأمر",
+    "startErrors": {
+      "invalidState": "لم يعد من الممكن بدء أمر العمل في حالته الحالية.",
+      "forbidden": "ليس لديك إذن لبدء أمر العمل هذا.",
+      "notFound": "لم يعد أمر العمل متاحًا.",
+      "session": "تعذر التحقق من جلستك. سجّل الدخول مرة أخرى ثم أعد المحاولة."
+    },
     "confirmDeleteWorkOrder": "هل تريد حذف أمر العمل؟",
     "confirmDeleteWorkOrderDescription": "لا يمكن التراجع عن هذا الإجراء.",
     "technician": "فني",

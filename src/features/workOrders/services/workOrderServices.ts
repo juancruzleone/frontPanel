@@ -4,8 +4,39 @@ import {
 	getAuthHeaders,
 } from "../../../shared/utils/apiHeaders";
 import { downloadResponse } from "../../../shared/utils/downloadResponse";
+import { ApiError, throwApiError } from "../../../shared/services/ApiError";
 
 const getApiUrl = () => import.meta.env.VITE_API_URL || "/api/";
+
+const INVALID_START_STATE_CODES = new Set([
+	"INVALID_TRANSITION",
+	"INVALID_WORK_ORDER_TRANSITION",
+	"WORK_ORDER_TERMINAL",
+]);
+
+export const resolveStartWorkOrderErrorKey = (error: unknown): string => {
+	const code = error instanceof ApiError
+		? error.code
+		: typeof error === "object" && error !== null && "code" in error
+			? String(error.code)
+			: undefined;
+
+	if (code && INVALID_START_STATE_CODES.has(code)) return "workOrders.startErrors.invalidState";
+	if (code === "WORK_ORDER_FORBIDDEN") return "workOrders.startErrors.forbidden";
+	if (code === "WORK_ORDER_NOT_FOUND" || code === "INVALID_WORK_ORDER_ID") return "workOrders.startErrors.notFound";
+	if (code === "CSRF_REFRESH_FAILED" || code === "CSRF_TOKEN_INVALID" || code === "CSRF_TOKEN_MISSING") {
+		return "workOrders.startErrors.session";
+	}
+
+	if (error instanceof ApiError) {
+		if (error.status === 401) return "workOrders.startErrors.session";
+		if (error.status === 403) return "workOrders.startErrors.forbidden";
+		if (error.status === 404) return "workOrders.startErrors.notFound";
+		if (error.status === 409) return "workOrders.startErrors.invalidState";
+	}
+
+	return "workOrders.errorStartingWorkOrder";
+};
 
 export type Technician = {
 	_id: string;
@@ -348,6 +379,10 @@ export const startWorkOrder = async (
 			...(startData ? { body: JSON.stringify(startData) } : {}),
 		},
 	);
+
+	if (!response.ok) {
+		return throwApiError(response, "Error al iniciar la orden de trabajo");
+	}
 
 	const result = await handleResponse(response);
 	return result.data || result;

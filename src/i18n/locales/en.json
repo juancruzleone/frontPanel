@@ -1750,6 +1750,13 @@
     "understood": "Close",
     "successTitle": "Operation successful!",
     "title": "Work orders",
+    "errorStartingWorkOrder": "Error starting work order",
+    "startErrors": {
+      "invalidState": "The work order can no longer be started in its current state.",
+      "forbidden": "You do not have permission to start this work order.",
+      "notFound": "The work order is no longer available.",
+      "session": "Your session could not be validated. Sign in again and retry."
+    },
     "createWorkOrder": "Create work order",
     "viewCalendar": "View calendar",
     "deleteOrder": "Delete order",

@@ -1757,6 +1757,12 @@
     "errorDeletingWorkOrder": "Error al eliminar la orden de trabajo",
     "workOrderStarted": "Orden de trabajo iniciada exitosamente",
     "errorStartingWorkOrder": "Error al iniciar la orden de trabajo",
+    "startErrors": {
+      "invalidState": "La orden ya no se puede iniciar en su estado actual.",
+      "forbidden": "No tienes permiso para iniciar esta orden de trabajo.",
+      "notFound": "La orden de trabajo ya no está disponible.",
+      "session": "No se pudo validar la sesión. Vuelve a iniciar sesión e inténtalo de nuevo."
+    },
     "confirmDeleteWorkOrder": "¿Eliminar orden de trabajo?",
     "confirmDeleteWorkOrderDescription": "Esta acción no se puede deshacer",
     "distributionByStatus": "Distribución por Estado",

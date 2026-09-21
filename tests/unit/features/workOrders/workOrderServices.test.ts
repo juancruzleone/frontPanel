@@ -3,8 +3,11 @@ import {
 	assignTechnicianToWorkOrder,
 	exportWorkOrders,
 	fetchWorkOrders,
+	startWorkOrder,
+	resolveStartWorkOrderErrorKey,
 	updateWorkOrder,
 } from "../../../../src/features/workOrders/services/workOrderServices";
+import { ApiError } from "../../../../src/shared/services/ApiError";
 
 // Mock fetchWithCsrf to behave like a plain fetch (no CSRF retry logic)
 // so tests stay deterministic without CSRF store / token management
@@ -95,6 +98,35 @@ describe("workOrderServices", () => {
 				horaProgramada: "10:00",
 			}),
 		).rejects.toThrow("No autorizado: Transición no permitida - estado");
+	});
+
+	it("preserves status and lifecycle code when starting an order fails", async () => {
+		fetchMock.mockResolvedValueOnce({
+			ok: false,
+			status: 409,
+			text: vi.fn().mockResolvedValue(JSON.stringify({
+				error: {
+					code: "INVALID_WORK_ORDER_TRANSITION",
+					message: "internal lifecycle detail",
+				},
+			})),
+		});
+
+		await expect(startWorkOrder("wo-1")).rejects.toMatchObject<ApiError>({
+			status: 409,
+			code: "INVALID_WORK_ORDER_TRANSITION",
+		});
+	});
+
+	it("maps structured start failures to localized safe feedback keys", () => {
+		const error = new ApiError(409, {
+			error: {
+				code: "INVALID_WORK_ORDER_TRANSITION",
+				message: "sensitive internal lifecycle detail",
+			},
+		}, "fallback");
+
+		expect(resolveStartWorkOrderErrorKey(error)).toBe("workOrders.startErrors.invalidState");
 	});
 
 	it("strips empty filter values from the export CSV URL", async () => {
