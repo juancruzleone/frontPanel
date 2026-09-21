@@ -30,8 +30,8 @@
 .headerWithToggle {
   display: flex;
   align-items: center;
-  gap: 16px;
-  flex: 1;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .topActions {
