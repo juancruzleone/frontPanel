@@ -552,13 +552,14 @@
 
 @media (min-width: 1024px) {
   .groupButton {
-    padding: 16px 24px;
-    font-size: 16px;
-    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 14.5px;
+    border-radius: 8px;
+    white-space: nowrap;
   }
 
   .groupButtonContent {
-    gap: 18px;
+    gap: 10px;
   }
 
   .submenuLink {
@@ -639,6 +640,10 @@
   box-shadow: none !important;
   border-left: 3px solid transparent !important;
   border-radius: 8px !important;
+}
+
+.linkText {
+  white-space: nowrap;
 }
 
 .submenuLink.active {
