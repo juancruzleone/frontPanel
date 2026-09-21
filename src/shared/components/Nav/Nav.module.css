@@ -152,8 +152,8 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 270px;
-    max-width: 290px;
+    width: 250px;
+    max-width: 260px;
     height: 100vh;
     transition: none;
     padding: 0 !important;
@@ -174,8 +174,8 @@
 /* Pantallas muy grandes */
 @media (min-width: 1440px) {
   .nav {
-    width: 270px;
-    max-width: 290px;
+    width: 250px;
+    max-width: 260px;
     padding: 0 !important;
     overflow: visible !important;
   }
