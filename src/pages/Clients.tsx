@@ -151,17 +151,17 @@ const Clients = () => {
             <div className={styles.topSection}>
                 <div className={styles.headerWithToggle}>
                     <h1 className={styles.title}>{t('clients.title')}</h1>
-                    {!isMobile && (
-                        <ViewToggle 
-                            view={viewMode} 
-                            onViewChange={setViewMode}
-                        />
-                    )}
                 </div>
                 <div className={styles.buttonContainer} data-tour="add-client-btn">
                     <Button title={t('clients.addClient')} onClick={handleOpenModal} />
                 </div>
             </div>
+
+            {!isMobile && (
+                <div className={styles.viewToggleRow}>
+                    <ViewToggle view={viewMode} onViewChange={setViewMode} />
+                </div>
+            )}
 
             {/* Filtro de búsqueda */}
             <div className={styles.searchRow}>

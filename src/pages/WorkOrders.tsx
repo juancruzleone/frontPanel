@@ -641,13 +641,6 @@ const WorkOrders = () => {
 				<div className={styles.topSection}>
 					<div className={styles.headerWithToggle}>
 						<h1 className={styles.title}>{t("workOrders.title")}</h1>
-						{!isMobile && (
-							<ViewToggle
-								view={viewMode}
-								onViewChange={setViewMode}
-								allowedViews={WORK_ORDER_ALLOWED_VIEWS}
-							/>
-						)}
 					</div>
 					<div className={styles.topActions}>
 						<Button
@@ -684,6 +677,12 @@ const WorkOrders = () => {
 					</div>
 				)}
 				{exportError && <p role="alert">{exportError}</p>}
+
+				{!isMobile && (
+					<div className={styles.viewToggleRow}>
+						<ViewToggle view={viewMode} onViewChange={setViewMode} allowedViews={WORK_ORDER_ALLOWED_VIEWS} />
+					</div>
+				)}
 
 				<div className={styles.searchRow} data-tour="search-filter">
 					<div className={styles.searchContainer}>

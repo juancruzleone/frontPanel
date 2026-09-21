@@ -116,13 +116,6 @@ const Suppliers = () => {
       <div className={styles.topSection}>
         <div className={styles.headerWithToggle}>
           <h1 className={styles.title} data-tour="suppliers-title">{t('suppliers.title')}</h1>
-          {!isMobile && (
-            <ViewToggle
-              view={viewMode}
-              onViewChange={setViewMode}
-              allowedViews={SUPPLIERS_ALLOWED_VIEWS}
-            />
-          )}
         </div>
         {isAdmin && (
           <div className={styles.positionButton}>
@@ -140,6 +133,12 @@ const Suppliers = () => {
             </>
           )}
           {canExportCsv(role) && <Button variant="secondary" title={t('suppliers.csv.exportFiltered')} onClick={() => runCsvAction(() => exportSuppliers({ name: searchTerm }))} />}
+        </div>
+      )}
+
+      {!isMobile && (
+        <div className={styles.viewToggleRow}>
+          <ViewToggle view={viewMode} onViewChange={setViewMode} allowedViews={SUPPLIERS_ALLOWED_VIEWS} />
         </div>
       )}
 

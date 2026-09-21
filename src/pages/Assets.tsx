@@ -195,12 +195,6 @@ const Assets = () => {
                 <span>Offline</span>
               </div>
             )}
-            {!isMobile && (
-              <ViewToggle 
-                view={viewMode} 
-                onViewChange={setViewMode}
-              />
-            )}
           </div>
 
           {!isClientUser && (
@@ -251,6 +245,12 @@ const Assets = () => {
               <Button variant="secondary" title={t('assets.csv.import')} onClick={() => setIsImportOpen(true)} />
             )}
             {canExportCsv(role) && <Button variant="secondary" title={t('assets.csv.exportFiltered')} onClick={() => runCsvAction(() => exportAssets({ search: searchTerm, category: selectedCategory }))} />}
+          </div>
+        )}
+
+        {!isMobile && (
+          <div className={styles.viewToggleRow}>
+            <ViewToggle view={viewMode} onViewChange={setViewMode} />
           </div>
         )}
 

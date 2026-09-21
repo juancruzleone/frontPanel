@@ -63,10 +63,23 @@
 
 .csvActionsRow {
   display: flex;
+  justify-content: flex-end;
   align-items: center;
   gap: 0.75rem;
   flex-wrap: wrap;
+  width: 100%;
 }
+
+.viewToggleRow {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 8px;
+}
+
 
 .manualsButton {
   display: inline-flex;

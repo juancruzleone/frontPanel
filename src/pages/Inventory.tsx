@@ -166,13 +166,6 @@ const Inventory = () => {
               <span>Offline</span>
             </div>
           )}
-          {!isMobile && (
-            <ViewToggle
-              view={viewMode}
-              onViewChange={setViewMode}
-              allowedViews={INVENTORY_ALLOWED_VIEWS}
-            />
-          )}
         </div>
         {isAdmin && (
           <div className={styles.positionButton}>
@@ -190,6 +183,12 @@ const Inventory = () => {
             </>
           )}
           {canExportCsv(role) && <Button variant="secondary" title={t('inventory.csv.exportFiltered')} onClick={() => runCsvAction(() => exportInventory({ name: searchTerm, category: selectedCategory }))} />}
+        </div>
+      )}
+
+      {!isMobile && (
+        <div className={styles.viewToggleRow}>
+          <ViewToggle view={viewMode} onViewChange={setViewMode} allowedViews={INVENTORY_ALLOWED_VIEWS} />
         </div>
       )}
 

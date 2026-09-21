@@ -365,12 +365,6 @@ const Installations = () => {
         <div className={styles.topSection}>
           <div className={styles.headerWithToggle}>
             <h1 className={styles.title}>{t('installations.title')}</h1>
-            {!isMobile && (
-              <ViewToggle 
-                view={viewMode} 
-                onViewChange={setViewMode}
-              />
-            )}
           </div>
 
           {!isRestricted && (
@@ -393,6 +387,12 @@ const Installations = () => {
             {canDownloadCsvTemplate(role) && <Button variant="secondary" title={t('installations.csv.downloadTemplate')} onClick={() => runCsvAction(downloadInstallationTemplate)} />}
             {canDownloadCsvTemplate(role) && <Button variant="secondary" title={t('installations.csv.import')} onClick={() => setIsImportOpen(true)} />}
             {canExportOperationalResults(role) && <Button variant="secondary" title={t('installations.exportResults')} onClick={() => runCsvAction(() => exportInstallations({ search: searchTerm, category: selectedCategory }))} />}
+          </div>
+        )}
+
+        {!isMobile && (
+          <div className={styles.viewToggleRow}>
+            <ViewToggle view={viewMode} onViewChange={setViewMode} />
           </div>
         )}
 
