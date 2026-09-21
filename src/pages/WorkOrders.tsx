@@ -55,7 +55,7 @@ import {
 	type ViewMode,
 } from "../shared/hooks/useResponsiveView";
 import { useTranslatedRoutes } from "../router";
-import { exportWorkOrders } from "../features/workOrders/services/workOrderServices";
+import { exportWorkOrders, resolveStartWorkOrderErrorKey } from "../features/workOrders/services/workOrderServices";
 import { canExportOperationalResults } from "../shared/utils/exportPermissions";
 
 const WORK_ORDER_ALLOWED_VIEWS: readonly ViewMode[] = [
@@ -126,20 +126,16 @@ const renderTechnicianInfo = (order: WorkOrder, t: (key: string) => string) => {
 
 	if (technicianNames.length > 0) {
 		return (
-			<p>
+			<p className={styles.detailItem}>
 				<strong>{t("workOrders.technician")}:</strong>{" "}
 				{technicianNames.join(", ")}
 				{order.estado === "asignada" && (
-					<span
-						style={{ marginLeft: "8px", color: "#4CAF50", fontSize: "0.8em" }}
-					>
+					<span className={`${styles.technicianState} ${styles.technicianAssigned}`}>
 						({t("workOrders.pendingStart")})
 					</span>
 				)}
 				{order.estado === "en_progreso" && (
-					<span
-						style={{ marginLeft: "8px", color: "#2196F3", fontSize: "0.8em" }}
-					>
+					<span className={`${styles.technicianState} ${styles.technicianInProgress}`}>
 						({t("workOrders.inProgress")})
 					</span>
 				)}
@@ -149,7 +145,7 @@ const renderTechnicianInfo = (order: WorkOrder, t: (key: string) => string) => {
 
 	if (technicianIds.length > 0) {
 		return (
-			<p style={{ color: "orange" }}>
+			<p className={`${styles.detailItem} ${styles.technicianLoading}`}>
 				<strong>{t("workOrders.assignedTechnician")}:</strong> ID{" "}
 				{technicianIds.join(", ")}
 				<br />
@@ -159,7 +155,7 @@ const renderTechnicianInfo = (order: WorkOrder, t: (key: string) => string) => {
 	}
 
 	return (
-		<p style={{ color: "var(--color-text-secondary)", fontStyle: "italic" }}>
+		<p className={`${styles.detailItem} ${styles.technicianEmpty}`}>
 			{t("workOrders.noTechnicianAssigned")}
 		</p>
 	);
@@ -525,7 +521,7 @@ const WorkOrders = () => {
 			await startWorkOrder(id);
 			onSuccess(t("workOrders.workOrderStarted"));
 		} catch (err: unknown) {
-			onError((err as Error).message || t("workOrders.errorStartingWorkOrder"));
+			onError(t(resolveStartWorkOrderErrorKey(err)));
 		}
 	};
 
@@ -858,17 +854,12 @@ const WorkOrders = () => {
 					) : (
 						<>
 							{workOrders.map((order) => (
-								<div key={order._id} className={styles.workOrderCard}>
+								<article key={order._id} className={`${styles.workOrderCard} ${styles[`workOrderCard_${order.estado}`] || ""}`}>
 									<div className={styles.workOrderInfo}>
 										<div className={styles.workOrderHeader}>
 											<h3 className={styles.workOrderTitle}>{order.titulo}</h3>
 											<span
-												className={styles.priorityBadge}
-												style={{
-													backgroundColor: getPriorityColor(order.prioridad),
-													color: "#000",
-													fontWeight: 700,
-												}}
+												className={`${styles.priorityBadge} ${styles[`priority_${order.prioridad}`] || ""}`}
 											>
 												{translatePriority(order.prioridad)}
 											</span>
@@ -879,37 +870,28 @@ const WorkOrders = () => {
 										</p>
 
 										<div className={styles.workOrderDetails}>
-											<p>
+											<p className={styles.detailItem}>
 												<strong>{t("workOrders.type")}:</strong>{" "}
 												{translateWorkType(order.tipoTrabajo)}
 											</p>
-											<p>
+											<p className={styles.detailItem}>
 												<strong>{t("workOrders.orderType")}:</strong>{" "}
 												{translateOrderType(order.tipoOrden || "correctivo")}
 											</p>
-											<p>
+											<p className={styles.detailItem}>
 												<strong>{t("workOrders.origin")}:</strong>{" "}
 												{translateOrderOrigin(order.origen || "manual")}
 											</p>
 											<div className={styles.statusRow}>
 												<strong>{t("workOrders.status")}:</strong>
 												<span
-													className={`${styles.statusBadge} ${styles[order.estado]}`}
+													className={`${styles.statusBadge} ${styles[`status_${order.estado}`] || ""}`}
 												>
 													{translateWorkOrderStatus(order.estado)}
 												</span>
 											</div>
 
-											<div
-												style={{
-													display: "flex",
-													alignItems: "center",
-													gap: "8px",
-													marginBottom: "8px",
-													marginTop: "8px",
-													color: "var(--color-text-secondary)",
-												}}
-											>
+											<div className={`${styles.detailItem} ${styles.operationalDetail}`}>
 												<Clock size={16} />
 												<span>
 													<strong>
@@ -921,31 +903,13 @@ const WorkOrders = () => {
 											</div>
 
 											{order.instalacion && (
-												<div
-													style={{
-														display: "flex",
-														alignItems: "flex-start",
-														gap: "8px",
-														marginBottom: "8px",
-														color: "var(--color-text-secondary)",
-													}}
-												>
-													<MapPin
-														size={16}
-														style={{ marginTop: "3px", flexShrink: 0 }}
-													/>
-													<div
-														style={{ display: "flex", flexDirection: "column" }}
-													>
-														<span
-															style={{
-																fontWeight: "600",
-																color: "var(--color-text)",
-															}}
-														>
+												<div className={`${styles.detailItem} ${styles.operationalDetail} ${styles.locationDetail}`}>
+													<MapPin size={16} />
+													<div className={styles.locationCopy}>
+														<span className={styles.locationName}>
 															{order.instalacion.company}
 														</span>
-														<span style={{ fontSize: "0.9em" }}>
+														<span className={styles.locationAddress}>
 															{order.instalacion.address}
 														</span>
 													</div>
@@ -1039,7 +1003,7 @@ const WorkOrders = () => {
 											)}
 										</div>
 									</div>
-								</div>
+								</article>
 							))}
 
 							<div className={styles.pagination}>

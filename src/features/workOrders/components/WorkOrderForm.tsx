@@ -337,12 +337,15 @@ const WorkOrderForm = ({
 
             <div className={styles.formRow}>
               <div className={styles.formGroup}>
-                <label>{t('workOrders.scheduledDate')} *</label>
+                <label htmlFor="work-order-scheduled-date">{t('workOrders.scheduledDate')} *</label>
                 <button
+                  id="work-order-scheduled-date"
                   type="button"
                   onClick={handleOpenDatePicker}
                   disabled={isFieldDisabled("fechaProgramada")}
-                  className={showError("fechaProgramada") ? styles.errorInput : styles.customDateButton}
+                  className={`${styles.customDateButton} ${showError("fechaProgramada") ? styles.errorInput : ""}`}
+                  aria-invalid={!!showError("fechaProgramada")}
+                  aria-describedby={showError("fechaProgramada") ? "work-order-scheduled-date-error" : undefined}
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className={styles.dateButtonIcon}>
                     <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2" />
@@ -358,16 +361,19 @@ const WorkOrderForm = ({
                     t('workOrders.selectDate')
                   )}
                 </button>
-                {showError("fechaProgramada") && <span className={styles.inputError}>{formErrors["fechaProgramada"]}</span>}
+                {showError("fechaProgramada") && <span id="work-order-scheduled-date-error" className={styles.inputError}>{formErrors["fechaProgramada"]}</span>}
               </div>
 
               <div className={styles.formGroup}>
-                <label>{t('workOrders.scheduledTime')} *</label>
+                <label htmlFor="work-order-scheduled-time">{t('workOrders.scheduledTime')} *</label>
                 <button
+                  id="work-order-scheduled-time"
                   type="button"
                   onClick={handleOpenTimePicker}
                   disabled={isFieldDisabled("horaProgramada")}
-                  className={showError("horaProgramada") ? styles.errorInput : styles.customDateButton}
+                  className={`${styles.customDateButton} ${showError("horaProgramada") ? styles.errorInput : ""}`}
+                  aria-invalid={!!showError("horaProgramada")}
+                  aria-describedby={showError("horaProgramada") ? "work-order-scheduled-time-error" : undefined}
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className={styles.dateButtonIcon}>
                     <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
@@ -375,7 +381,7 @@ const WorkOrderForm = ({
                   </svg>
                   {formData.horaProgramada || t('workOrders.selectTime')}
                 </button>
-                {showError("horaProgramada") && <span className={styles.inputError}>{formErrors["horaProgramada"]}</span>}
+                {showError("horaProgramada") && <span id="work-order-scheduled-time-error" className={styles.inputError}>{formErrors["horaProgramada"]}</span>}
               </div>
             </div>
 
