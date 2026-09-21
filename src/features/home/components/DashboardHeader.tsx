@@ -25,12 +25,10 @@ export const DashboardHeader = ({ role, metadata, range, onRangeChange, secondar
   return (
     <header className={styles.dashboardHeader}>
       <div className={styles.headerCopy}>
-        <p className={styles.eyebrow}>{t(`home.dashboard.scope.${metadata.scope}`)}</p>
         <h1>{t(`home.dashboard.roles.${role}.title`)}</h1>
         <p className={styles.subtitle}>{t(`home.dashboard.roles.${role}.description`)}</p>
         <dl className={styles.headerMetadata}>
           <div><dt>{t("home.dashboard.updated")}</dt><dd>{updatedAt}</dd></div>
-          <div><dt>{t("home.dashboard.scopeLabel")}</dt><dd>{t(`home.dashboard.scope.${metadata.scope}`)}</dd></div>
         </dl>
       </div>
       <div className={styles.headerActions}>
