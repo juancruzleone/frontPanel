@@ -544,7 +544,7 @@ const Installations = () => {
               {installations.map((inst) => (
                 <div key={inst._id} className={styles.installationCard}>
                   <div className={styles.installationInfo}>
-                    <h3 className={styles.installationTitle}>{inst.company}</h3>
+                    <h3 className={styles.installationTitle} onClick={() => handleViewDevices(inst)} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleViewDevices(inst)}}>{inst.company}</h3>
                     <p className={styles.installationType}>{translateInstallationType(inst.installationType)}</p>
                     <address className={styles.installationAddress}>
                       {translateAddress(inst.province || "", inst.city || "", inst.address, inst.floorSector || "")}
@@ -612,7 +612,7 @@ const Installations = () => {
                         </>
                       )}
                     </div>
-
+                    <span className={styles.actionDivider} aria-hidden="true">|</span>
                     <div className={styles.viewDevicesButton}>
                       <button onClick={() => handleViewDevices(inst)}>{t('installations.viewDeviceList')}</button>
                     </div>

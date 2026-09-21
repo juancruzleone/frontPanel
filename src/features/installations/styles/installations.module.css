@@ -302,10 +302,34 @@
 /* Acciones en la parte inferior */
 .cardActions {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   margin-top: auto;
   gap: 16px;
+}
+
+.actionDivider {
+  color: var(--color-card-border);
+  font-weight: 300;
+  margin: 0 4px;
+  user-select: none;
+}
+
+.installationTitle {
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.installationTitle:hover {
+  color: var(--color-secondary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.installationTitle:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 .actionButtons {

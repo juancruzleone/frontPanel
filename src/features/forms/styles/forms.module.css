@@ -317,7 +317,7 @@
 /* Acciones en la parte inferior */
 .cardActions {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   margin-top: auto;
   gap: 16px;
