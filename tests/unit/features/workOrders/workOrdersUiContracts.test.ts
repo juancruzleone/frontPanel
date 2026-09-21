@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs"
 import { resolve } from "node:path"
 import { describe, expect, it, vi } from "vitest"
-import { render, screen, fireEvent, waitFor } from "@testing-library/react"
+import { render, fireEvent, waitFor } from "@testing-library/react"
 import React from "react"
 
 const readSource = (path: string) => readFileSync(resolve(process.cwd(), path), "utf8")
@@ -124,7 +124,7 @@ describe("Work Orders UI contracts", () => {
     expect(timeError).toBeInTheDocument()
 
     // Base geometry preserved even with error class (min-height still 56px)
-    const styles = getComputedStyle(dateButton)
+    void getComputedStyle(dateButton)
     // JSDOM may not compute, so fallback to source check already done; ensure button still has customDateButton class
     expect(dateButton.className).toMatch(/customDateButton/)
   })
