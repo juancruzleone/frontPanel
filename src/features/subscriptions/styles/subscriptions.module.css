@@ -461,44 +461,83 @@
 }
 
 .actionBtn {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  border: 1px solid black;
-  background: var(--color-bg-light);
+  background: none;
+  border: none;
+  padding: 8px;
   color: var(--color-text);
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s;
-  padding: 0;
+  transition: all 0.2s ease;
   position: relative;
-  flex-shrink: 0;
-  overflow: visible;
-  /* Permitir que el tooltip sobresalga */
-}
-
-:global(.dark) .actionBtn {
-  border-color: white;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
 }
 
 .actionBtn:hover {
   background: var(--color-text);
+  transform: scale(1.05);
   color: var(--color-card);
-  /* transform removido para evitar problemas de tooltip */
+  border: 1px solid var(--color-text);
 }
 
-/* Tooltip style - Centrado y sobresaliendo de la tabla */
-.actionBtn[data-tooltip],
+.actionBtn:focus-visible {
+  outline: var(--focus-ring, 2px solid var(--color-secondary));
+  outline-offset: var(--focus-offset, 2px);
+}
+
+.actionBtn::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-text);
+  color: var(--color-card);
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.actionBtn::before {
+  content: '';
+  position: absolute;
+  bottom: 115%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--color-text);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+}
+
+.actionBtn:hover::after,
+.actionBtn:hover::before {
+  opacity: 1;
+}
+
+:global(.dark) .actionBtn {
+  border-color: transparent;
+}
+
 .actionIcon[data-tooltip] {
   position: relative;
   overflow: visible;
   z-index: auto;
-  /* Heredar del padre */
 }
 
-.actionBtn[data-tooltip]::after,
 .actionIcon[data-tooltip]::after {
   content: attr(data-tooltip);
   position: absolute;
@@ -520,18 +559,14 @@
   pointer-events: none;
   transition: opacity 0.2s ease, visibility 0.2s ease;
   z-index: 999999;
-  /* CRÍTICO: z-index muy alto para estar por encima de todo */
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
-.actionBtn:hover::after,
 .actionIcon:hover::after {
   opacity: 1;
   visibility: visible;
 }
 
-/* Flecha del tooltip */
-.actionBtn[data-tooltip]::before,
 .actionIcon[data-tooltip]::before {
   content: '';
   position: absolute;
@@ -548,10 +583,8 @@
   pointer-events: none;
   transition: opacity 0.2s ease, visibility 0.2s ease;
   z-index: 999999;
-  /* CRÍTICO: mismo z-index que el tooltip */
 }
 
-.actionBtn:hover::before,
 .actionIcon:hover::before {
   opacity: 1;
   visibility: visible;
@@ -1592,33 +1625,42 @@
 .cardsGrid {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
   animation: fadeIn 0.3s ease-out;
 }
 
 .subscriptionCard {
   background: var(--color-card);
-  border: 1px solid var(--color-card-border);
   border-radius: 12px;
   padding: 20px;
+  border: 1px solid var(--color-card-border);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  color: var(--color-text);
   display: flex;
   flex-direction: column;
   gap: 16px;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: visible;
+}
+
+.subscriptionCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, black, rgba(0, 0, 0, 0.8));
+}
+
+:global(.dark) .subscriptionCard::before {
+  background: linear-gradient(90deg, white, rgba(255, 255, 255, 0.8));
 }
 
 .subscriptionCard:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-}
-
-:global(.dark) .subscriptionCard {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-:global(.dark) .subscriptionCard:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 .cardHeader {
@@ -1673,5 +1715,6 @@
   gap: 8px;
   padding-top: 12px;
   border-top: 1px solid var(--color-card-border);
-  justify-content: flex-start;
+  justify-content: flex-end;
+  align-items: center;
 }
