@@ -366,7 +366,7 @@
 }
 
 .menu li {
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .menuGroup {
@@ -482,19 +482,19 @@
 
 @media (max-width: 767px) {
   .menu li {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
 }
 
 @media (min-width: 768px) {
   .menu li {
-    margin-bottom: 12px;
+    margin-bottom: 14px;
   }
 }
 
 @media (min-width: 1024px) {
   .menu li {
-    margin-bottom: 24px;
+    margin-bottom: 28px;
   }
 }
 
