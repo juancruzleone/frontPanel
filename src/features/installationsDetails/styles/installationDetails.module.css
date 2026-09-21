@@ -46,8 +46,8 @@
 }
 
 .installationTypeTag {
-  background: var(--color-secondary);
-  color: #fff;
+  background: var(--color-text);
+  color: var(--color-card);
   text-align: center;
   padding: 6px 12px;
   font-size: 12px;
