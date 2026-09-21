@@ -377,11 +377,12 @@
 }
 
 .groupButton {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  padding: 16px 24px;
+  padding: 16px 36px 16px 24px;
   color: #00FFAE !important;
   background: transparent;
   border: none;
@@ -420,7 +421,10 @@
 
 .groupChevron {
   color: #00FFAE;
-  margin-left: auto;
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
@@ -428,7 +432,7 @@
 }
 
 .groupChevronOpen {
-  transform: rotate(180deg);
+  transform: translateY(-50%) rotate(180deg);
 }
 
 .submenu {
@@ -504,7 +508,8 @@
 
 @media (max-width: 767px) {
   .groupButton {
-    padding: 10px 20px;
+    position: relative;
+    padding: 10px 36px 10px 20px;
     font-size: 14px;
   }
 
@@ -533,7 +538,8 @@
 
 @media (min-width: 768px) {
   .groupButton {
-    padding: 10px 14px;
+    position: relative;
+    padding: 10px 32px 10px 14px;
     font-size: 15px;
     border-radius: 8px;
   }
@@ -558,7 +564,8 @@
 
 @media (min-width: 1024px) {
   .groupButton {
-    padding: 12px 14px;
+    position: relative;
+    padding: 12px 36px 12px 14px;
     font-size: 14.5px;
     border-radius: 8px;
   }
