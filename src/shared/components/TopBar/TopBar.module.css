@@ -16,8 +16,8 @@
 
 @media (min-width: 1024px) {
     .topBar {
-        left: 270px;
-        width: calc(100% - 270px);
+        left: 230px;
+        width: calc(100% - 230px);
     }
 
     .expanded {
@@ -38,7 +38,7 @@
 
 .topBarContainer {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     height: 100%;
     display: flex;
     align-items: center;
