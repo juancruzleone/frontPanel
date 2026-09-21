@@ -23,7 +23,7 @@
 .assetInfo {
   background-color: var(--color-bg-light);
   padding: 1.5rem;
-  border-radius: 12px;
+  border-radius: 8px;
   border: 2px solid var(--color-card-border);
   margin: 1rem 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -71,7 +71,7 @@
 
 .modal {
   background: var(--color-card);
-  border-radius: 20px;
+  border-radius: 10px;
   max-width: 650px;
   width: 90%;
   max-height: 90vh;
@@ -204,7 +204,7 @@
 .formGroup select {
   padding: 0.875rem 1rem;
   border: 2px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
   background: var(--color-card);
@@ -297,7 +297,7 @@
 @media (max-width: 768px) {
   .modal {
     width: 95%;
-    border-radius: 16px;
+    border-radius: 10px;
   }
 
   .modalHeader {

@@ -163,7 +163,7 @@
 
 .tableWrapper {
   background: var(--color-card);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 0;
   border: 1px solid var(--color-card-border);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
@@ -180,7 +180,7 @@
 .inventoryCard {
   background: var(--color-card);
   border: 1px solid var(--color-card-border);
-  border-radius: 14px;
+  border-radius: 8px;
   padding: 18px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   display: flex;
@@ -199,7 +199,7 @@
   right: 0;
   height: 4px;
   background: linear-gradient(90deg, black, rgba(0, 0, 0, 0.8));
-  border-radius: 14px 14px 0 0;
+  border-radius: 8px 8px 0 0;
 }
 
 :global(.dark) .inventoryCard::before {

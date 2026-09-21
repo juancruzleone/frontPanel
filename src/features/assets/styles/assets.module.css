@@ -75,7 +75,7 @@
   padding: 6px 6px;
   background: var(--color-card);
   border: 2px solid black;
-  border-radius: 12px;
+  border-radius: 8px;
   color: var(--color-text);
   font-size: 0.9rem;
   font-weight: 500;
@@ -188,7 +188,7 @@
 
 .assetCard {
   background: var(--color-card);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 20px;
   border: 1px solid var(--color-card-border);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
@@ -294,7 +294,7 @@
   padding: 6px 12px;
   font-size: 12px;
   font-weight: 500;
-  border-radius: 20px;
+  border-radius: 8px;
   width: fit-content;
 }
 
@@ -304,7 +304,7 @@
   padding: 6px 12px;
   font-size: 12px;
   font-weight: 500;
-  border-radius: 20px;
+  border-radius: 8px;
   width: fit-content;
   display: flex;
   align-items: center;
@@ -516,7 +516,7 @@
 
 .modal {
   background: var(--color-card);
-  border-radius: 16px;
+  border-radius: 8px;
   padding: 2rem 2.5rem;
   max-width: 600px;
   width: 90%;

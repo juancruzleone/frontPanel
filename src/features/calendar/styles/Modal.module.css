@@ -21,7 +21,7 @@
 
 .modal {
   background: var(--color-card);
-  border-radius: 20px;
+  border-radius: 10px;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.05);
   max-width: 700px;
   width: 95%;
@@ -185,7 +185,7 @@
 .priorityBadge,
 .statusBadge {
   padding: 6px 12px;
-  border-radius: 16px;
+  border-radius: 10px;
   font-size: 12px;
   font-weight: 600;
   color: #000;
@@ -359,7 +359,7 @@
   .modal {
     width: 95%;
     max-height: 90vh;
-    border-radius: 16px;
+    border-radius: 10px;
   }
 
   .modalHeader {

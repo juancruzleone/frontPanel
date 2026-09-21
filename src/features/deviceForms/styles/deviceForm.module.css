@@ -23,7 +23,7 @@
 
 .formHeader {
 	background: var(--color-card);
-	border-radius: 16px;
+	border-radius: 8px;
 	padding: 32px;
 	border: 1px solid var(--color-card-border);
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -109,7 +109,7 @@
 .pendingAlert {
 	background: rgba(251, 191, 36, 0.1);
 	border: 1px solid rgba(251, 191, 36, 0.3);
-	border-radius: 12px;
+	border-radius: 8px;
 	padding: 20px;
 	display: flex;
 	flex-direction: column;
@@ -164,7 +164,7 @@
 	background: #f59e0b;
 	color: white;
 	padding: 4px 12px;
-	border-radius: 12px;
+	border-radius: 8px;
 	font-size: 12px;
 	font-weight: 600;
 }
@@ -181,7 +181,7 @@
 
 .infoCard {
 	background: var(--color-card);
-	border-radius: 16px;
+	border-radius: 8px;
 	border: 1px solid var(--color-card-border);
 	overflow: hidden;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -306,7 +306,7 @@
 
 .formSection {
 	background: var(--color-card);
-	border-radius: 16px;
+	border-radius: 8px;
 	padding: 32px;
 	border: 1px solid var(--color-card-border);
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -491,7 +491,7 @@
 	background: linear-gradient(135deg, var(--color-secondary), #047857);
 	color: white;
 	border: none;
-	border-radius: 12px;
+	border-radius: 8px;
 	font-size: 15px;
 	font-weight: 600;
 	cursor: pointer;
@@ -514,7 +514,7 @@
 .photoPreview {
 	position: relative;
 	aspect-ratio: 1;
-	border-radius: 12px;
+	border-radius: 8px;
 	overflow: hidden;
 	border: 2px solid var(--color-card-border);
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -567,7 +567,7 @@
 .signatureBox {
 	margin-top: 8px;
 	border: 2px dashed var(--color-card-border);
-	border-radius: 12px;
+	border-radius: 8px;
 	overflow: hidden;
 	background: white;
 	box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -638,7 +638,7 @@
 	align-items: center;
 	padding: 24px;
 	background: var(--color-card);
-	border-radius: 16px;
+	border-radius: 8px;
 	border: 1px solid var(--color-card-border);
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
@@ -664,7 +664,7 @@
 	background: linear-gradient(135deg, var(--color-secondary), #047857);
 	color: white;
 	border: none;
-	border-radius: 12px;
+	border-radius: 8px;
 	font-size: 16px;
 	font-weight: 700;
 	cursor: pointer;

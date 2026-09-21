@@ -26,7 +26,7 @@
 /* Modal principal (Create/Edit/AssignTemplate) */
 .modal {
   background: var(--color-card);
-  border-radius: 20px;
+  border-radius: 10px;
   max-width: 700px;
   width: 95%;
   max-height: 95vh;
@@ -199,7 +199,7 @@
 .formGroup select {
   padding: 0.875rem 1rem;
   border: 2px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
   background: var(--color-card);
@@ -262,7 +262,7 @@
   padding: 1rem;
   background: var(--color-bg-light);
   border: 2px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   color: var(--color-text);
   font-weight: 500;
 }
@@ -312,7 +312,7 @@
   color: var(--color-text);
   border: 2px solid var(--color-card-border);
   padding: 0.875rem 1.75rem;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
   font-weight: 600;
@@ -342,7 +342,7 @@
   color: white;
   border: 2px solid transparent;
   padding: 0.875rem 1.75rem;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
   font-weight: 600;
@@ -402,7 +402,7 @@
   color: white;
   border: none;
   padding: 1rem 2.5rem;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
   font-size: 1.1rem;
@@ -424,7 +424,7 @@
 /* Modal de confirmación de eliminación */
 .confirmModal {
   background: var(--color-card);
-  border-radius: 20px;
+  border-radius: 10px;
   max-width: 450px;
   width: 90%;
   overflow: hidden;
@@ -535,7 +535,7 @@
   color: white;
   border: 2px solid transparent;
   padding: 0.875rem 1.5rem;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
   font-size: 0.95rem;
@@ -554,7 +554,7 @@
   .modal {
     width: 95%;
     max-height: 90vh;
-    border-radius: 16px;
+    border-radius: 10px;
   }
 
   .modalHeader {
@@ -588,7 +588,7 @@
   }
 
   .confirmModal {
-    border-radius: 16px;
+    border-radius: 10px;
   }
 
   .confirmHeader {

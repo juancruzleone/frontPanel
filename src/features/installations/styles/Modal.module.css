@@ -26,7 +26,7 @@
 /* Modal principal (Create/Edit/AssignTemplate) */
 .modal {
   background: var(--color-card);
-  border-radius: 20px;
+  border-radius: 10px;
   max-width: 900px;
   width: 95%;
   max-height: 95vh;
@@ -274,7 +274,7 @@
   color: white;
   border: none;
   padding: 1rem 2.5rem;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
   font-size: 1.1rem;
@@ -296,7 +296,7 @@
 /* Modal de confirmación de eliminación */
 .confirmModal {
   background: var(--color-card);
-  border-radius: 20px;
+  border-radius: 10px;
   max-width: 450px;
   width: 90%;
   overflow: hidden;
@@ -405,7 +405,7 @@
   color: var(--color-text);
   border: 2px solid var(--color-card-border);
   padding: 0.875rem 1.75rem;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
   font-weight: 600;
@@ -435,7 +435,7 @@
   color: white;
   border: 2px solid transparent;
   padding: 0.875rem 1.5rem;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
   font-size: 0.95rem;
@@ -475,7 +475,7 @@
   }
 
   .confirmModal {
-    border-radius: 16px;
+    border-radius: 10px;
   }
 
   .confirmHeader {
@@ -611,7 +611,7 @@
 .categoryItem {
   background: var(--color-card);
   border: 1px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 16px;
   display: flex;
   justify-content: space-between;
@@ -736,7 +736,7 @@
   padding: 1rem;
   background: var(--color-bg-light);
   border: 2px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   color: var(--color-text);
   font-weight: 500;
 }
@@ -812,7 +812,7 @@
   align-items: flex-start;
   padding: 1.25rem 1.5rem;
   background: var(--color-bg-light);
-  border-radius: 14px;
+  border-radius: 8px;
   border: 1px solid var(--color-card-border);
   transition: all 0.2s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -977,7 +977,7 @@
   font-size: 0.75rem;
   font-weight: 600;
   padding: 4px 10px;
-  border-radius: 20px;
+  border-radius: 10px;
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }

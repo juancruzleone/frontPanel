@@ -16,7 +16,7 @@
 
 .plan-limits-modal {
   background: white;
-  border-radius: 16px;
+  border-radius: 10px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   max-width: 600px;
   width: 90%;
@@ -116,7 +116,7 @@
 .limit-card {
   background: #f8fafc;
   border: 2px solid #e2e8f0;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 20px;
   transition: all 0.2s ease;
 }

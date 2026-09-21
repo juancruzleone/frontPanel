@@ -24,7 +24,7 @@
 
 .modal {
   background: var(--color-card);
-  border-radius: 20px;
+  border-radius: 10px;
   max-width: 900px;
   width: 95%;
   max-height: 95vh;

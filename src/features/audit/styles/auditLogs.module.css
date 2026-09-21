@@ -80,7 +80,7 @@
 .infoBox {
   background: var(--color-bg-light);
   border: 1px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 48px;
   display: flex;
   flex-direction: column;
@@ -143,14 +143,14 @@
   padding: 48px;
   color: var(--color-text-secondary);
   background: var(--color-bg-light);
-  border-radius: 12px;
+  border-radius: 8px;
   border: 1px dashed var(--color-card-border);
 }
 
 .tableContainer {
   background: var(--color-card);
   border: 1px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   position: relative;

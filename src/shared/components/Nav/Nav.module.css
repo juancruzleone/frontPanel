@@ -129,7 +129,7 @@
 
 .navContent::-webkit-scrollbar-thumb {
   background-color: rgba(0, 255, 174, 0.3);
-  border-radius: 20px;
+  border-radius: 8px;
 }
 
 .nav.open {
@@ -387,7 +387,7 @@
   background: transparent;
   border: none;
   border-left: 3px solid transparent;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
   font-family: inherit;
   font-size: 16px;
@@ -442,7 +442,7 @@
   margin: 6px 0 8px 12px;
   padding: 4px 0 4px 8px;
   border-left: 2px solid rgba(0, 255, 174, 0.32);
-  border-radius: 0 12px 12px 0;
+  border-radius: 0 8px 8px 0;
   background: rgba(0, 255, 174, 0.035);
 }
 
@@ -599,7 +599,7 @@
   font-weight: 500;
   font-size: 16px;
   line-height: normal;
-  border-radius: 12px;
+  border-radius: 8px;
   border-left: 3px solid transparent;
   transition: all 0.2s ease;
   opacity: 0.9;
@@ -634,7 +634,7 @@
     gap: 18px;
     padding: 16px 24px;
     font-size: 16px;
-    border-radius: 12px;
+    border-radius: 8px;
   }
 }
 
@@ -681,7 +681,7 @@
   gap: 12px;
   padding: 12px;
   background: rgba(255, 255, 255, 0.03);
-  border-radius: 12px;
+  border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   margin-top: 12px;
   transition: all 0.2s ease;
@@ -1038,7 +1038,7 @@
   left: 95px;
   background-color: #0B1C1A;
   border: 1px solid rgba(0, 255, 174, 0.3);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 12px 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   z-index: 10001;

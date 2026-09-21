@@ -52,7 +52,7 @@
 .formGroup textarea {
   padding: 0.875rem 1rem;
   border: 2px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
   background: var(--color-card);
@@ -208,7 +208,7 @@
 .fileInput {
   padding: 1.5rem;
   border: 2px dashed var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   background: var(--color-bg-light);
   cursor: pointer;
   transition: all 0.3s ease;
@@ -336,7 +336,7 @@
   margin-top: 0.75rem;
   padding: 1rem;
   background: var(--color-bg-light);
-  border-radius: 12px;
+  border-radius: 8px;
   border: 1px solid var(--color-card-border);
   min-height: 60px;
   align-items: flex-start;
@@ -349,7 +349,7 @@
   background: var(--color-bg-light);
   color: var(--color-text);
   padding: 0.5rem 0.75rem;
-  border-radius: 20px;
+  border-radius: 8px;
   font-size: 0.875rem;
   font-weight: 500;
   display: flex;
@@ -475,7 +475,7 @@
 /* Estilos para drag and drop de archivos */
 .fileDropZone {
   border: 2px dashed var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 2rem;
   text-align: center;
   background: var(--color-bg-light);
@@ -624,7 +624,7 @@
   flex: 1;
   padding: 0.875rem 1rem;
   border: 2px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
   background: var(--color-card);

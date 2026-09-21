@@ -55,7 +55,7 @@
   padding: 6px 6px;
   background: var(--color-card);
   border: 2px solid black;
-  border-radius: 12px;
+  border-radius: 8px;
   color: var(--color-text);
   font-size: 0.9rem;
   font-weight: 500;
@@ -96,7 +96,7 @@
   padding: 6px 6px;
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   border: 2px solid #10b981;
-  border-radius: 12px;
+  border-radius: 8px;
   color: white;
   font-size: 0.9rem;
   font-weight: 500;
@@ -206,7 +206,7 @@
 
 .installationCard {
   background: var(--color-card);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 20px;
   border: 1px solid var(--color-card-border);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
@@ -287,7 +287,7 @@
   padding: 6px 12px;
   font-size: 12px;
   font-weight: 500;
-  border-radius: 20px;
+  border-radius: 8px;
   width: fit-content;
   align-self: flex-start;
 }
@@ -650,7 +650,7 @@
   background: linear-gradient(90deg, var(--color-skeleton) 25%, var(--color-skeleton-light) 50%, var(--color-skeleton) 75%);
   background-size: 200% 100%;
   animation: skeleton-loading 1.2s infinite linear;
-  border-radius: 16px;
+  border-radius: 8px;
   margin-bottom: 12px;
 }
 

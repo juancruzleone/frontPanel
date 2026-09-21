@@ -22,7 +22,7 @@
 
 .modal {
   background: var(--color-card);
-  border-radius: 20px;
+  border-radius: 10px;
   width: min(500px, calc(100vw - 40px));
   max-width: 500px;
   max-height: 95vh;
@@ -356,7 +356,7 @@
     max-width: none;
     max-height: calc(100dvh - 20px);
     margin: 0;
-    border-radius: 16px;
+    border-radius: 10px;
   }
 
   .modalHeader {

@@ -52,7 +52,7 @@
 .formGroup textarea {
   padding: 0.875rem 1rem;
   border: 2px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
   background: var(--color-card);

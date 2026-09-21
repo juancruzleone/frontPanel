@@ -8,7 +8,7 @@
 .installationInfo {
   background: var(--color-bg-light);
   border: 2px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 1.5rem;
   margin-bottom: 1rem;
 }
@@ -168,7 +168,7 @@ html[data-theme="dark"] .formGroup label::before {
 .formGroup textarea {
   padding: 1.1rem 1rem;
   border: 2px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
   background: var(--color-card);
@@ -305,7 +305,7 @@ html[data-theme="dark"] .formGroup textarea:hover:not(:focus) {
   width: 100%;
   padding: 1.1rem 1rem;
   border: 2px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   font-size: 1rem;
   background: var(--color-card);
   color: var(--color-text);
@@ -434,7 +434,7 @@ html:not([data-theme="dark"]) .selectWrapper select:focus,
 .assetInfo {
   background: var(--color-bg-light);
   border: 1px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 1rem;
   margin-top: 0.5rem;
 }

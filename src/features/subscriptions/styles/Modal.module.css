@@ -26,7 +26,7 @@
 
 .modal {
   background: var(--color-card);
-  border-radius: 20px;
+  border-radius: 10px;
   max-width: 700px;
   width: 95%;
   max-height: 95vh;
@@ -285,7 +285,7 @@
   color: white;
   border: none;
   padding: 1rem 2.5rem;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
   font-size: 1.1rem;
@@ -375,7 +375,7 @@
 .formGroup textarea {
   padding: 0.875rem 1rem;
   border: 2px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
   background: var(--color-card);
@@ -402,7 +402,7 @@
   cursor: pointer;
   padding: 0.875rem 1rem;
   border: 2px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   background: var(--color-card);
   display: flex;
   align-items: center;
@@ -448,7 +448,7 @@
   cursor: pointer;
   padding: 0.875rem 1rem;
   border: 2px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   background: var(--color-card);
   display: flex;
   align-items: center;
@@ -502,7 +502,7 @@
   .modal {
     width: 95%;
     max-height: 90vh;
-    border-radius: 16px;
+    border-radius: 10px;
   }
 
   .modalHeader {
@@ -632,7 +632,7 @@
   width: 100%;
   padding: 0.875rem 1rem;
   border: 2px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
   background: var(--color-card);
@@ -671,7 +671,7 @@
   width: 100%;
   padding: 0.875rem 1rem;
   border: 2px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s ease;
   background: var(--color-card);
@@ -701,7 +701,7 @@
 /* Drop Zone */
 .dropZone {
   border: 2px dashed var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 2rem;
   text-align: center;
   cursor: pointer;
@@ -758,7 +758,7 @@
   padding: 1rem;
   background: var(--color-bg-light);
   border: 1px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   transition: all 0.2s ease;
 }
 
@@ -876,7 +876,7 @@
 }
 
 .formGroup :global(.hybridSelect) {
-  border-radius: 12px !important;
+  border-radius: 8px !important;
   border: 2px solid var(--color-card-border) !important;
   background: var(--color-card) !important;
   min-height: 52px !important;
@@ -895,7 +895,7 @@
 .typeBadge {
   display: inline-flex;
   padding: 4px 12px;
-  border-radius: 20px;
+  border-radius: 10px;
   background: var(--color-secondary);
   color: white;
   font-weight: 600;
@@ -905,7 +905,7 @@
 /* Modal de confirmación de eliminación */
 .confirmModal {
   background: var(--color-card);
-  border-radius: 20px;
+  border-radius: 10px;
   max-width: 450px;
   width: 90%;
   overflow: hidden;
@@ -987,7 +987,7 @@
   color: var(--color-text);
   border: 2px solid var(--color-card-border);
   padding: 0.875rem 1.75rem;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
   font-weight: 600;
@@ -1017,7 +1017,7 @@
   color: white;
   border: 2px solid transparent;
   padding: 0.875rem 1.5rem;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
   font-size: 0.95rem;
@@ -1033,7 +1033,7 @@
 /* Responsive para modal de confirmación */
 @media (max-width: 768px) {
   .confirmModal {
-    border-radius: 16px;
+    border-radius: 10px;
   }
 
   .confirmHeader {

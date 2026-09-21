@@ -70,7 +70,7 @@
   align-items: center;
   padding: 2rem;
   background-color: var(--color-card);
-  border-radius: 12px;
+  border-radius: 8px;
   border: 1px solid var(--color-card-border);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition: all 0.2s ease;
@@ -484,7 +484,7 @@
     border: 1px solid var(--color-card-border);
     padding: 20px 16px;
     gap: 16px;
-    border-radius: 12px;
+    border-radius: 8px;
     margin-bottom: 16px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     transition: all 0.2s ease;
@@ -679,7 +679,7 @@
 .technicianCard {
   background: var(--color-card);
   border: 1px solid var(--color-card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 20px;
   display: flex;
   flex-direction: row;
@@ -700,7 +700,7 @@
   right: 0;
   height: 4px;
   background: linear-gradient(90deg, black, rgba(0, 0, 0, 0.8));
-  border-radius: 12px 12px 0 0;
+  border-radius: 8px 8px 0 0;
 }
 
 :global(.dark) .technicianCard::before {
@@ -1028,7 +1028,7 @@
 
 .profileModalContent {
   background: var(--color-card);
-  border-radius: 16px;
+  border-radius: 8px;
   padding: 0;
   max-width: 500px;
   width: 90%;
@@ -1113,7 +1113,7 @@
   opacity: 0.8;
   padding: 8px 16px;
   background: var(--color-bg-light);
-  border-radius: 20px;
+  border-radius: 8px;
   display: inline-block;
 }
 

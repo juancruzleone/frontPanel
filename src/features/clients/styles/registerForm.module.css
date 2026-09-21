@@ -46,7 +46,7 @@
     padding-right: 3rem;
     /* Espacio para el botón del ojo */
     border: 2px solid var(--color-card-border);
-    border-radius: 12px;
+    border-radius: 8px;
     font-size: 1rem;
     transition: all 0.3s ease;
     background: var(--color-card);
@@ -146,7 +146,7 @@
     border: 2px solid var(--color-danger);
     color: #fff;
     padding: 1rem 1.25rem;
-    border-radius: 12px;
+    border-radius: 8px;
     font-size: 0.95rem;
     font-weight: 500;
     animation: fadeIn 0.3s ease-out;
