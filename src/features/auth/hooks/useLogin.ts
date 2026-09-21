@@ -104,8 +104,18 @@ export function useLogin() {
       // Guardar los datos del usuario pero NO autenticar todavía
       login(response)
       
-      // Fetch CSRF token after successful login
-      await fetchCsrfToken()
+      // CSRF: si el login ya trae csrfToken, usarlo directo y evitar fetch que podía dar 500
+      const loginCsrf = typeof (response as any).csrfToken === "string" ? (response as any).csrfToken : null
+      if (loginCsrf) {
+        useCSRFStore.setState({ token: loginCsrf, error: null })
+      } else {
+        try {
+          await fetchCsrfToken()
+        } catch (csrfErr) {
+          // No bloquear el login si falla el fetch de CSRF: verify ya provee token y el retry lo intentará
+          console.warn("[LOGIN] fetchCsrfToken falló, se continuará con el flujo:", csrfErr)
+        }
+      }
       
       // Establecer el estado del modal
       setIsError(false)
