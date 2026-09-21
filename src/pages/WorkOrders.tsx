@@ -669,6 +669,17 @@ const WorkOrders = () => {
 					</div>
 				</div>
 
+				{canExportOperationalResults(role) && (
+					<div className={styles.csvActionsRow}>
+						<Button variant="secondary" title={t("workOrders.exportResults")} onClick={async () => {
+							setExportError("");
+							try { await exportWorkOrders(buildFilters()); }
+							catch (error) { setExportError(error instanceof Error ? error.message : String(error)); }
+						}} />
+					</div>
+				)}
+				{exportError && <p role="alert">{exportError}</p>}
+
 				<div className={styles.searchRow} data-tour="search-filter">
 					<div className={styles.searchContainer}>
 						<SearchInput
@@ -696,15 +707,7 @@ const WorkOrders = () => {
 					>
 						<FilterX size={20} />
 					</button>
-					{canExportOperationalResults(role) && (
-						<Button title={t("workOrders.exportResults")} onClick={async () => {
-							setExportError("");
-							try { await exportWorkOrders(buildFilters()); }
-							catch (error) { setExportError(error instanceof Error ? error.message : String(error)); }
-						}} />
-					)}
 				</div>
-				{exportError && <p role="alert">{exportError}</p>}
 
 				<div className={styles.filterContainer}>
 					<HybridSelect

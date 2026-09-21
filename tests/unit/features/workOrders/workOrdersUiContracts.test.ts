@@ -129,13 +129,17 @@ describe("Work Orders UI contracts", () => {
     expect(dateButton.className).toMatch(/customDateButton/)
   })
 
-  it("keeps operational card styling restrained and responsive (source contract)", () => {
+  it("keeps operational card styling aligned with assets and responsive (source contract)", () => {
     const styles = readSource("src/features/workOrders/styles/workOrders.module.css")
     const cardRule = styles.match(/\.workOrderCard\s*\{([\s\S]*?)\}/)?.[1] ?? ""
-    expect(cardRule).toContain("border-radius: var(--radius-card, 8px)")
-    expect(cardRule).toContain("box-shadow: none")
-    expect(cardRule).not.toContain("linear-gradient")
+    expect(cardRule).toContain("border-radius: 12px")
+    expect(cardRule).toContain("box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08)")
+    expect(styles).toContain("linear-gradient")
+    expect(styles).toContain(".workOrderCard::before")
     expect(styles).toContain(".workOrderCard_en_progreso")
+    // Icon hover must be black/white (like installations/assets), not green
+    expect(styles).toMatch(/\.iconButton:hover\s*\{[\s\S]*?background:\s*var\(--color-text\)/)
+    expect(styles).toMatch(/\.iconButton:hover\s*\{[\s\S]*?color:\s*var\(--color-card\)/)
   })
 
   it("prevents long unbroken titles from overflowing the flex card header on desktop and mobile", async () => {
@@ -191,6 +195,8 @@ describe("Work Orders UI contracts", () => {
     const buttonStyles = readSource("src/shared/components/Buttons/buttons.module.css")
     expect(buttonStyles).toMatch(/\.createButton:hover:where\(/)
     expect(buttonStyles).toMatch(/\.secondaryButton:hover:where\(/)
+    expect(buttonStyles).toMatch(/\.secondaryButton\s*\{[\s\S]*?background:\s*var\(--color-themebox-bg\);[\s\S]*?color:\s*var\(--color-text\);[\s\S]*?border:\s*1px solid var\(--color-themebox-border\);/)
+    expect(buttonStyles).toMatch(/\.secondaryButton:hover:where\(:not\(:disabled\)\)\s*\{[\s\S]*?color:\s*var\(--color-secondary\);/)
     expect(buttonStyles).toMatch(/\.createButton:focus-visible,\s*\.secondaryButton:focus-visible\s*\{[\s\S]*?outline:\s*var\(--focus-ring/)
     const workStyles = readSource("src/features/workOrders/styles/workOrders.module.css")
     expect(workStyles).toMatch(/\.calendarActionButton:hover:not\(:disabled\)\s*{[\s\S]*?background:\s*var\(--color-accent\)/)
