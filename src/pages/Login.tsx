@@ -87,7 +87,7 @@ const Login = () => {
       <ModalSuccess
         isOpen={showLogoutModal}
         onRequestClose={() => setShowLogoutModal(false)}
-        mensaje="Sesión cerrada con éxito."
+        mensaje={t("auth.logoutSuccess")}
       />
     </>
   )

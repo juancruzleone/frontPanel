@@ -30,7 +30,6 @@ const ModalSuccess = ({ isOpen, onRequestClose, mensaje }: ModalSuccessProps) =>
             </div>
             <p className={styles.successMessageLarge}>
               {mensaje === "Login exitoso." ? t('auth.loginSuccess') : 
-               mensaje === "Sesión cerrada con éxito." ? t('auth.logoutSuccess') : 
                mensaje === "Inicio de sesión exitoso" ? t('auth.loginSuccess') :
                mensaje}
             </p>

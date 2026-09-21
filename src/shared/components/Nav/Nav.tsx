@@ -33,6 +33,7 @@ import {
 } from "../../utils/roleUtils";
 import { useTranslatedRoutes } from "../../../router";
 import { logoutSession } from "../../../features/auth/services/loginServices";
+import { runExplicitLogout } from "../../../features/auth/services/explicitLogout";
 import { useCSRFStore } from "../../../store/csrfStore";
 import { getRouteMenuOpenState } from "./navRouteState";
 
@@ -150,17 +151,20 @@ const Nav = () => {
 		setIsMaintenanceHovered(false);
 	}, [location.pathname]);
 
-	const handleLogout = () => {
-		setLogoutMessage("Sesión cerrada con éxito.");
+	const handleLogout = async () => {
 		const csrfToken = useCSRFStore.getState().token;
 
-		logoutSession(csrfToken)
-			.catch(() => null)
-			.finally(() => {
-				logout();
-				navigate("/", { replace: true });
-				setIsMenuOpen(false);
+		try {
+			await runExplicitLogout({
+				csrfToken,
+				logoutSession,
+				logout,
+				setLogoutMessage,
+				navigate,
 			});
+		} finally {
+			setIsMenuOpen(false);
+		}
 	};
 
 	const handleWorkOrdersMouseEnter = () => {
