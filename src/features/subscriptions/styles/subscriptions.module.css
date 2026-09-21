@@ -528,6 +528,19 @@
   opacity: 1;
 }
 
+/* Fix: último botón (subir contrato/presupuesto) no se corta a la derecha */
+.cardActions .actionBtn:last-child::after {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
+.cardActions .actionBtn:last-child::before {
+  left: auto;
+  right: 12px;
+  transform: translateX(0);
+}
+
 :global(.dark) .actionBtn {
   border-color: transparent;
 }
