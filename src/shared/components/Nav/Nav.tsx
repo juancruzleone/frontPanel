@@ -36,6 +36,7 @@ import { logoutSession } from "../../../features/auth/services/loginServices";
 import { runExplicitLogout } from "../../../features/auth/services/explicitLogout";
 import { useCSRFStore } from "../../../store/csrfStore";
 import { getRouteMenuOpenState } from "./navRouteState";
+import { toast } from "sonner";
 
 const isMobileDrawerViewport = () =>
 	typeof window !== "undefined" &&
@@ -161,6 +162,10 @@ const Nav = () => {
 				logout,
 				setLogoutMessage,
 				navigate,
+			});
+		} catch (error) {
+			toast.error(t("common.error"), {
+				description: error instanceof Error ? error.message : undefined,
 			});
 		} finally {
 			setIsMenuOpen(false);

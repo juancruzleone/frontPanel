@@ -56,7 +56,6 @@ vi.mock("../../../../src/shared/offline/lifecycleStart", () => ({
 const mockStore = {
 	queue: [] as any[],
 	addToQueue: vi.fn().mockImplementation((item) => { mockStore.queue.push(item); }),
-	clearQueue: vi.fn().mockImplementation(() => { mockStore.queue = []; }),
 };
 
 vi.mock("../../../../src/store/offlineStore", () => ({
@@ -74,7 +73,7 @@ describe("useDeviceForm Offline R8 Evidence Staging", () => {
 			dataURL: "data:image/jpeg;base64,mockcompressed",
 			filename: "photo.jpg",
 		});
-		mockStore.clearQueue();
+		mockStore.queue = [];
 		vi.stubGlobal("navigator", { onLine: false });
 	});
 

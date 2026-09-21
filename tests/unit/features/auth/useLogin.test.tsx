@@ -22,9 +22,9 @@ const LoginHarness = () => {
 }
 
 describe("useLogin expired trial flow", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.clearAllMocks()
-    useAuthStore.getState().logout()
+    await useAuthStore.getState().logout()
     useCSRFStore.setState({ token: null, error: null })
   })
 

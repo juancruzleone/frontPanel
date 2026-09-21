@@ -24,11 +24,14 @@ vi.stubGlobal('indexedDB', {
     queueMicrotask(() => {
       r.result = {
         objectStoreNames: { contains: () => true },
-        transaction: () => ({ objectStore: () => ({
-          put: vi.fn().mockImplementation((val: MockRec, key: string) => { dbStore[key] = val; return mkReq(undefined) }),
-          get: vi.fn().mockImplementation((k: string) => mkReq(dbStore[k])),
-          delete: vi.fn().mockImplementation((k: string) => { delete dbStore[k]; return mkReq(undefined) }),
-        }) }),
+        transaction: () => {
+          const transaction = { oncomplete: null as (() => void) | null, onerror: null as (() => void) | null, onabort: null as (() => void) | null, error: null, objectStore: () => ({
+            put: vi.fn().mockImplementation((val: MockRec, key: string) => { dbStore[key] = val; return mkReq(undefined) }),
+            get: vi.fn().mockImplementation((k: string) => mkReq(dbStore[k])),
+            delete: vi.fn().mockImplementation((k: string) => { delete dbStore[k]; const request = mkReq(undefined); queueMicrotask(() => transaction.oncomplete?.()); return request }),
+          }) }
+          return transaction
+        },
       }
       ok?.({ target: { result: r.result } })
     })
@@ -155,7 +158,8 @@ describe('R2c trust init + store', () => {
 
       // Import and call logout
       const { useAuthStore } = await import('../../../../src/store/authStore')
-      useAuthStore.getState().logout()
+      useAuthStore.setState({ tenantId: null, userId: null })
+      await useAuthStore.getState().logout()
 
       expect(useOfflineTrustStore.getState().isOfflineReady).toBe(false)
       expect(useOfflineTrustStore.getState().deviceId).toBeNull()

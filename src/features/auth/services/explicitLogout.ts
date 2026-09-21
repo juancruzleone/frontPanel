@@ -1,7 +1,7 @@
 interface ExplicitLogoutDependencies {
   csrfToken: string | null
   logoutSession: (csrfToken?: string | null) => Promise<unknown>
-  logout: () => void | Promise<void>
+  logout: () => Promise<void>
   setLogoutMessage: (message: string) => void
   navigate: (path: string, options: { replace: boolean }) => void
 }
@@ -13,12 +13,9 @@ export const runExplicitLogout = async ({
   setLogoutMessage,
   navigate,
 }: ExplicitLogoutDependencies): Promise<void> => {
-  try {
-    await endServerSession(csrfToken)
-  } catch {
-    // Local logout must still complete when the server session is unavailable.
-  }
-
+  // A local-only logout would leave the HttpOnly session cookie valid. Keep the
+  // current session visible and retryable unless the server confirms revocation.
+  await endServerSession(csrfToken)
   await logout()
   setLogoutMessage("auth.logoutSuccess")
   navigate("/", { replace: true })

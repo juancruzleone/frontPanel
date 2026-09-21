@@ -15,7 +15,6 @@ const mockStore = {
   removeFromQueue: vi.fn(),
   updateRequest: vi.fn(),
   remapPayloadId: vi.fn(),
-  clearQueue: vi.fn(),
 }
 
 vi.mock('../../../../src/store/offlineStore', () => ({

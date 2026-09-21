@@ -6,6 +6,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 // ── IDB mock ────────────────────────────────────────────────────────────
 interface MockRec { [k: string]: unknown }
 const stores: Record<string, Record<string, MockRec>> = {}
+let abortNextTransaction = false
 
 function mkReq(result?: unknown) {
   let ok: ((e: { target: { result: unknown } }) => void) | null = null
@@ -24,14 +25,25 @@ function mockStore(name: string) {
   }
 }
 
-function mockTransaction(storeNames: string[]) {
+function mockTransaction() {
+  const shouldAbort = abortNextTransaction
+  abortNextTransaction = false
   const tx = {
     objectStore: (n: string) => mockStore(n),
     oncomplete: null as unknown as (() => void) | null,
     onerror: null as unknown as (() => void) | null,
+    onabort: null as unknown as (() => void) | null,
+    error: null as DOMException | null,
   }
   // Fire oncomplete after a macrotask — gives txDone time to set the handler
-  setTimeout(() => tx.oncomplete?.(), 0)
+  setTimeout(() => {
+    if (shouldAbort) {
+      tx.error = new DOMException('Aborted', 'AbortError')
+      tx.onabort?.()
+      return
+    }
+    tx.oncomplete?.()
+  }, 0)
   return tx
 }
 
@@ -42,7 +54,7 @@ vi.stubGlobal('indexedDB', {
     queueMicrotask(() => {
       r.result = {
         objectStoreNames: { contains: () => true },
-        transaction: (names: string | string[]) => mockTransaction(Array.isArray(names) ? names : [names]),
+        transaction: () => mockTransaction(),
       }
       ok?.({ target: { result: r.result } })
     })
@@ -51,7 +63,7 @@ vi.stubGlobal('indexedDB', {
 })
 
 const { generateStorageKey } = await import('../../../../src/shared/offline/crypto')
-const { sealAndPersistBootstrap, openPersistedBootstrap, clearPackageStorage, getPackageMeta, listReadyPackages, buildPackageScopeKey } = await import('../../../../src/shared/offline/packageStorage')
+const { sealAndPersistBootstrap, openPersistedBootstrap, clearPackageStorage, getPackageMeta, getPersistedPackageKey, listReadyPackages, buildPackageScopeKey, purgePackageStorageForIdentity } = await import('../../../../src/shared/offline/packageStorage')
 const { checkPackageReadiness } = await import('../../../../src/shared/offline/packageReadiness')
 const { PACKAGE_SCHEMA_VERSION } = await import('../../../../src/shared/offline/packageTypes')
 import type { OfflineManifest, OfflineBootstrap } from '../../../../src/shared/offline/packageTypes'
@@ -115,7 +127,7 @@ describe('R5 packageReadiness', () => {
 })
 
 describe('R5 packageStorage', () => {
-  beforeEach(() => { for (const k of Object.keys(stores)) delete stores[k] })
+  beforeEach(() => { abortNextTransaction = false; for (const k of Object.keys(stores)) delete stores[k] })
 
   it('sealAndPersistBootstrap seals all resources', async () => {
     const key = await generateStorageKey()
@@ -155,6 +167,27 @@ describe('R5 packageStorage', () => {
 
     const result = await openPersistedBootstrap(key, 't1', 'u1', 'dev-1', 'pkg-1')
     expect(result.error!.code).toBe('PACKAGE_NOT_FOUND')
+    expect(await getPersistedPackageKey('t1:u1:dev-1:pkg-1')).toBeNull()
+  })
+
+  it('purges every package record for one identity without affecting another identity', async () => {
+    const departingKey = await generateStorageKey()
+    const unrelatedKey = await generateStorageKey()
+    await sealAndPersistBootstrap({ bootstrap: makeBootstrap(), key: departingKey, kid: 'k1', tenantId: 't1', userId: 'u1', deviceId: 'dev-1' })
+    await sealAndPersistBootstrap({ bootstrap: makeBootstrap(), key: unrelatedKey, kid: 'k2', tenantId: 't1', userId: 'u2', deviceId: 'dev-2' })
+
+    await purgePackageStorageForIdentity('t1', 'u1')
+
+    expect((await openPersistedBootstrap(departingKey, 't1', 'u1', 'dev-1', 'pkg-1')).error?.code).toBe('PACKAGE_NOT_FOUND')
+    expect(await getPersistedPackageKey('t1:u1:dev-1:pkg-1')).toBeNull()
+    expect((await openPersistedBootstrap(unrelatedKey, 't1', 'u2', 'dev-2', 'pkg-1')).bootstrap?.workOrders).toHaveLength(1)
+    expect(await getPersistedPackageKey('t1:u2:dev-2:pkg-1')).toBe(unrelatedKey)
+  })
+
+  it('rejects an identity purge when its transaction aborts after record lookup', async () => {
+    abortNextTransaction = true
+
+    await expect(purgePackageStorageForIdentity('t1', 'u1')).rejects.toThrow('Aborted')
   })
 
   it('getPackageMeta returns manifest', async () => {

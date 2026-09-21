@@ -58,16 +58,21 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
 		let cancelled = false
 
     const bootstrapSession = async () => {
+      const clearInvalidSession = async () => {
+        try {
+          await logout()
+        } catch {
+          // Logout still clears auth state before reporting an offline purge failure.
+        }
+      }
+
       csrfHydratedFromSessionRef.current = false
-      // Durable logout guard: if explicit logout happened recently, don't re-auth
+      // Durable logout guard: only an explicit login may clear this marker.
       try {
         const logoutEpoch = localStorage.getItem('logout-epoch');
-        if (logoutEpoch && Date.now() - parseInt(logoutEpoch, 10) < 5 * 60 * 1000) {
+        if (logoutEpoch) {
           useAuthStore.setState({ isAuthenticated: false, isAuthResolved: true, accessMode: "anonymous" });
           return;
-        }
-        if (logoutEpoch && Date.now() - parseInt(logoutEpoch, 10) >= 5 * 60 * 1000) {
-          localStorage.removeItem('logout-epoch');
         }
       } catch {}
       const currentState = useAuthStore.getState()
@@ -89,7 +94,7 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
           } else if (billingStatus.accessMode === "billing_only") {
             setBillingContext(billingStatus)
           } else {
-            logout()
+            await clearInvalidSession()
           }
           return
         }
@@ -120,7 +125,7 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
                 accessMode: "billing_only",
               })
             } else {
-              logout()
+              await clearInvalidSession()
             }
             return
           }
@@ -149,9 +154,9 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
           
            const latestState = useAuthStore.getState()
            // After explicit logout, never re-auth from stale latestState
-           const wasRecentLogout = (() => { try { const e = localStorage.getItem('logout-epoch'); return e && Date.now() - parseInt(e, 10) < 5*60*1000; } catch { return false; } })();
+           const wasExplicitLogout = (() => { try { return Boolean(localStorage.getItem('logout-epoch')); } catch { return false; } })();
            useAuthStore.setState({
-             isAuthenticated: !wasRecentLogout && isNetworkError && latestState.accessMode === "full" && Boolean(latestState.userId),
+             isAuthenticated: !wasExplicitLogout && isNetworkError && latestState.accessMode === "full" && Boolean(latestState.userId),
              isAuthResolved: true,
            })
         }

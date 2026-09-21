@@ -32,8 +32,10 @@ describe('AppInitializer', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    localStorage.clear()
     vi.mocked(initializeOfflineTrust).mockResolvedValue({ ok: true })
     fetchToken.mockResolvedValue(undefined)
+    logout.mockResolvedValue(undefined)
     
     // Mock stores
     vi.mocked(useAuthStore).mockImplementation((selector) => selector({
@@ -124,6 +126,25 @@ describe('AppInitializer', () => {
     await waitFor(() => expect(verifySession).toHaveBeenCalled())
   })
 
+  it('never restores a logged-out cookie session during bootstrap or reconnection', async () => {
+    localStorage.setItem('logout-epoch', String(Date.now() - 24 * 60 * 60 * 1000))
+    vi.mocked(verifySession).mockResolvedValue({ user: { _id: 'user-123' } })
+
+    render(<AppInitializer><div>Test</div></AppInitializer>)
+    await waitFor(() => expect(useAuthStore.setState).toHaveBeenCalledWith({
+      isAuthenticated: false,
+      isAuthResolved: true,
+      accessMode: 'anonymous',
+    }))
+
+    window.dispatchEvent(new Event('online'))
+    await Promise.resolve()
+
+    expect(verifySession).not.toHaveBeenCalled()
+    expect(hydrateSession).not.toHaveBeenCalled()
+    expect(localStorage.getItem('logout-epoch')).not.toBeNull()
+  })
+
   it('does not immediately retry CSRF bootstrap while a failure is actionable', async () => {
     vi.mocked(verifySession).mockResolvedValue({ user: { id: '1' } })
     vi.mocked(useCSRFStore).mockImplementation((selector) => selector({
@@ -196,6 +217,29 @@ describe('AppInitializer', () => {
     render(<AppInitializer><div>Login</div></AppInitializer>)
 
     await waitFor(() => expect(logout).toHaveBeenCalledTimes(1))
+    expect(verifySession).not.toHaveBeenCalled()
+  })
+
+  it('awaits and handles logout purge failures without retrying or leaking a rejection', async () => {
+    vi.mocked(useAuthStore).mockImplementation((selector) => selector({
+      hydrateSession,
+      isAuthenticated: false,
+      isAuthResolved: false,
+      accessMode: 'billing_only',
+      setBillingContext,
+      logout,
+    }))
+    vi.mocked(useAuthStore.getState).mockReturnValue({ userId: null, isAuthenticated: false, accessMode: 'billing_only' })
+    vi.mocked(getBillingStatus).mockResolvedValue({
+      accessMode: 'denied', tenant: null, trial: null, subscription: null, availablePlans: [],
+    })
+    logout.mockRejectedValueOnce(new Error('offline purge failed'))
+
+    render(<AppInitializer><div>Login</div></AppInitializer>)
+
+    await waitFor(() => expect(logout).toHaveBeenCalledTimes(1))
+    await Promise.resolve()
+    expect(logout).toHaveBeenCalledTimes(1)
     expect(verifySession).not.toHaveBeenCalled()
   })
 

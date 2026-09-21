@@ -25,7 +25,13 @@ vi.stubGlobal('indexedDB', {
   open: vi.fn().mockImplementation(() => {
     let ok: ((e: { target: { result: unknown } }) => void) | null = null
      const r = { set onsuccess(fn: ((e: { target: { result: unknown } }) => void) | null) { ok = fn }, get onsuccess() { return ok }, set onerror(_fn: unknown) {}, onupgradeneeded: null as (() => void) | null, result: undefined as unknown, error: null }
-     queueMicrotask(() => { r.result = { objectStoreNames: { contains: (name: string) => createdStores.includes(name) }, createObjectStore: (name: string) => { createdStores.push(name); return {} }, transaction: () => ({ objectStore: (name: string) => { if (!createdStores.includes(name)) throw new Error(`Missing store ${name}`); return mockStore } }) }; if (createdStores.length === 0) r.onupgradeneeded?.(); ok?.({ target: { result: r.result } }) })
+     queueMicrotask(() => { r.result = { objectStoreNames: { contains: (name: string) => createdStores.includes(name) }, createObjectStore: (name: string) => { createdStores.push(name); return {} }, transaction: () => {
+       const transaction = { oncomplete: null as (() => void) | null, onerror: null as (() => void) | null, onabort: null as (() => void) | null, error: null, objectStore: (name: string) => {
+         if (!createdStores.includes(name)) throw new Error(`Missing store ${name}`)
+         return { ...mockStore, delete: vi.fn().mockImplementation((key: string) => { const request = mockStore.delete(key); queueMicrotask(() => transaction.oncomplete?.()); return request }) }
+       } }
+       return transaction
+     } }; if (createdStores.length === 0) r.onupgradeneeded?.(); ok?.({ target: { result: r.result } }) })
     return r
   }),
 })
@@ -88,5 +94,22 @@ describe('R2 deviceTrust', () => {
 
   it('getStoredDevice returns null for missing key', async () => {
     expect(await getStoredDevice('missing')).toBeNull()
+  })
+
+  it('rejects device deletion when the transaction aborts after request success', async () => {
+    vi.stubGlobal('indexedDB', {
+      open: vi.fn().mockImplementation(() => {
+        const request = { onsuccess: null as (() => void) | null, onerror: null as (() => void) | null, onupgradeneeded: null, error: null, result: {
+          transaction: () => {
+            const transaction = { oncomplete: null as (() => void) | null, onerror: null as (() => void) | null, onabort: null as (() => void) | null, error: new DOMException('Aborted', 'AbortError'), objectStore: () => ({ delete: () => { queueMicrotask(() => transaction.onabort?.()); return mkReq() } }) }
+            return transaction
+          },
+        } }
+        queueMicrotask(() => request.onsuccess?.())
+        return request
+      }),
+    })
+
+    await expect(clearStoredDevice('t1:u1')).rejects.toThrow('Aborted')
   })
 })

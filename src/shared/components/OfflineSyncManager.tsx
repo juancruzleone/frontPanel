@@ -43,10 +43,11 @@ export const OfflineSyncManager = () => {
   const isAuthenticated = useAuthStore(s => s.isAuthenticated)
   const isAuthResolved = useAuthStore(s => s.isAuthResolved)
   const userId = useAuthStore(s => s.userId)
+  const tenantId = useAuthStore(s => s.tenantId)
   const isOfflineReady = useOfflineTrustStore(s => s.isOfflineReady)
   const leaseStatus = useOfflineTrustStore(s => s.leaseStatus)
   const deviceId = useOfflineTrustStore(s => s.deviceId)
-  const legacyPendingCount = useOfflineStore(s => s.queue.filter(item => item.userId === userId).length)
+  const legacyPendingCount = useOfflineStore(s => s.queue.filter(item => item.tenantId === tenantId && item.userId === userId).length)
   const dismissalStorageKey = `${DISMISSED_NOTIFICATION_KEY}:${userId ?? 'anonymous'}:${deviceId ?? 'no-device'}`
 
   const [progress, setProgress] = useState<SyncProgress>(INITIAL)

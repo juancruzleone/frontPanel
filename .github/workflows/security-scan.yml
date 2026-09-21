@@ -6,6 +6,9 @@ on:
     - cron: "0 2 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   dependency-scan:
     name: Dependency Security Scan
@@ -29,11 +32,11 @@ jobs:
         run: bun ci --ignore-scripts
 
       - name: Run bun audit
-        run: bun audit --json > audit-report.json
-        continue-on-error: true
+        run: bun audit --audit-level=moderate --json > audit-report.json
 
       - name: Upload audit report
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: audit-report
           path: audit-report.json

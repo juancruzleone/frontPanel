@@ -83,6 +83,26 @@ describe('explicit logout notification flow', () => {
     expect(navigate).toHaveBeenCalledWith('/', { replace: true })
   })
 
+  it('does not report or perform a local logout when server invalidation fails', async () => {
+    const remoteError = new Error('Failed to fetch')
+    const logout = vi.fn()
+    const setLogoutMessage = vi.fn()
+    const navigate = vi.fn()
+
+    await expect(runExplicitLogout({
+      csrfToken: 'csrf-token',
+      logoutSession: vi.fn().mockRejectedValue(remoteError),
+      logout,
+      setLogoutMessage,
+      navigate,
+    })).rejects.toBe(remoteError)
+
+    expect(logout).not.toHaveBeenCalled()
+    expect(setLogoutMessage).not.toHaveBeenCalled()
+    expect(navigate).not.toHaveBeenCalled()
+    expect(localStorage.getItem('logout-epoch')).toBeNull()
+  })
+
   it('shows the success modal for an explicit logout notification', async () => {
     useAuthStore.getState().setLogoutMessage('auth.logoutSuccess')
 

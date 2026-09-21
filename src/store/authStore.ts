@@ -106,7 +106,7 @@ interface AuthState {
   setAuthResolved: (value: boolean) => void
   setLogoutMessage: (msg: string | null) => void
   setTenantId: (tenantId: string) => void
-  logout: () => void | Promise<void>
+  logout: () => Promise<void>
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -244,17 +244,16 @@ export const useAuthStore = create<AuthState>()(
         // Clear CSRF token on logout using action
         useCSRFStore.getState().clearToken()
         
-        // Clear offline trust state — prevents cross-user leakage
-        useOfflineTrustStore.getState().clearTrust()
-
-        // Selective purge: remove only draft keys for departing identity (blocking await — Ley 25.326: no fire-and-forget leakage)
+        let offlinePurgeError: unknown
         if (departingTenantId && departingUserId) {
           try {
-            const m = await import('../shared/offline/lifecycleStart')
-            await m.purgeOfflineDraftsForScope(departingTenantId, departingUserId)
-          } catch {
-            // Silently ignore purge failure to not block logout; draft cleanup is best-effort
+            const { purgeOfflineIdentity } = await import("../shared/offline/identityPurge")
+            await purgeOfflineIdentity(departingTenantId, departingUserId)
+          } catch (error) {
+            offlinePurgeError = error
           }
+        } else {
+          useOfflineTrustStore.getState().clearTrust()
         }
 
         // Clear cached stores to prevent cross-user leakage
@@ -308,6 +307,8 @@ export const useAuthStore = create<AuthState>()(
           billingTenant: null,
           billingSessionExpiresAt: null,
         })
+
+        if (offlinePurgeError) throw offlinePurgeError
       },
     }),
     {
@@ -346,4 +347,3 @@ export const selectRole = (state: AuthState) => state.role
 export const selectCanCreateSuperAdmin = (state: AuthState) => state.role === "super_admin"
 export const canCreateSuperAdmin = selectCanCreateSuperAdmin
 export const selectIsSuperAdmin = selectCanCreateSuperAdmin
-

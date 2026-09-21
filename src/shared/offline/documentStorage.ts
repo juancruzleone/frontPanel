@@ -79,6 +79,23 @@ export async function clearDocumentStore(): Promise<void> {
   })))
 }
 
+/** Clear documents for an explicit identity, independent of current auth state. */
+export async function purgeDocumentsForIdentity(tenantId: string, userId: string): Promise<void> {
+  const prefix = `${tenantId}:${userId}:`
+  const db = await openDB()
+  const tx = db.transaction(STORE, 'readwrite')
+  const s = tx.objectStore(STORE)
+  const docs = await new Promise<StoredDocumentRecord[]>((resolve, reject) => {
+    const req = s.getAll()
+    req.onsuccess = () => resolve(req.result as StoredDocumentRecord[])
+    req.onerror = () => reject(req.error)
+  })
+  for (const doc of docs) {
+    if (doc.scopeKey.startsWith(prefix)) s.delete(buildStorageKey(doc.scopeKey, doc.documentId))
+  }
+  await transactionDone(tx)
+}
+
 /** Check if a document is stored locally and ready for offline use. */
 export async function isDocumentReady(documentId: string): Promise<boolean> {
   const doc = await getStoredDocument(documentId)
@@ -93,6 +110,14 @@ export async function getDocumentQuotaUsage(): Promise<{ totalSize: number; coun
 
 function buildStorageKey(scopeKey: string, documentId: string): string {
   return `${scopeKey}:${documentId}`
+}
+
+function transactionDone(transaction: IDBTransaction): Promise<void> {
+  return new Promise((resolve, reject) => {
+    transaction.oncomplete = () => resolve()
+    transaction.onerror = () => reject(transaction.error)
+    transaction.onabort = () => reject(transaction.error)
+  })
 }
 
 function currentScopeKey(): string {

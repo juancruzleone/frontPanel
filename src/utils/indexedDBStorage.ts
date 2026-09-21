@@ -4,6 +4,24 @@ const DB_NAME = 'GMAO_Zustand_DB';
 const STORE_NAME = 'states';
 const DB_VERSION = 1;
 
+const awaitTransaction = (transaction: IDBTransaction): Promise<void> =>
+  new Promise((resolve, reject) => {
+    let settled = false;
+    const settle = (callback: () => void) => {
+      if (settled) return;
+      settled = true;
+      callback();
+    };
+
+    transaction.oncomplete = () => settle(resolve);
+    transaction.onerror = () => settle(() => reject(
+      transaction.error ?? new DOMException('IndexedDB transaction failed', 'UnknownError'),
+    ));
+    transaction.onabort = () => settle(() => reject(
+      transaction.error ?? new DOMException('IndexedDB transaction aborted', 'AbortError'),
+    ));
+  });
+
 const getDB = (): Promise<IDBDatabase> => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
@@ -31,22 +49,14 @@ export const indexedDBStorage: StateStorage = {
   },
   setItem: async (name: string, value: string): Promise<void> => {
     const db = await getDB();
-    return new Promise((resolve, reject) => {
-      const transaction = db.transaction(STORE_NAME, 'readwrite');
-      const store = transaction.objectStore(STORE_NAME);
-      const request = store.put(value, name);
-      request.onerror = () => reject(request.error);
-      request.onsuccess = () => resolve();
-    });
+    const transaction = db.transaction(STORE_NAME, 'readwrite');
+    transaction.objectStore(STORE_NAME).put(value, name);
+    await awaitTransaction(transaction);
   },
   removeItem: async (name: string): Promise<void> => {
     const db = await getDB();
-    return new Promise((resolve, reject) => {
-      const transaction = db.transaction(STORE_NAME, 'readwrite');
-      const store = transaction.objectStore(STORE_NAME);
-      const request = store.delete(name);
-      request.onerror = () => reject(request.error);
-      request.onsuccess = () => resolve();
-    });
+    const transaction = db.transaction(STORE_NAME, 'readwrite');
+    transaction.objectStore(STORE_NAME).delete(name);
+    await awaitTransaction(transaction);
   },
 };

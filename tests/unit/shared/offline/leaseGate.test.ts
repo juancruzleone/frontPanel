@@ -16,24 +16,28 @@ function mkReq(result?: unknown) {
   queueMicrotask(() => ok?.({ target: { result } }))
   return r
 }
-vi.stubGlobal('indexedDB', {
+const defaultIndexedDB = {
   open: vi.fn().mockImplementation(() => {
     let ok: ((e: { target: { result: unknown } }) => void) | null = null
     const r = { set onsuccess(fn: ((e: { target: { result: unknown } }) => void) | null) { ok = fn }, get onsuccess() { return ok }, set onerror(_fn: unknown) {}, result: undefined as unknown, error: null }
     queueMicrotask(() => {
       r.result = {
         objectStoreNames: { contains: () => true },
-        transaction: () => ({ objectStore: () => ({
-          put: vi.fn().mockImplementation((val: MockRec, key: string) => { dbStore[key] = val; return mkReq(undefined) }),
-          get: vi.fn().mockImplementation((k: string) => mkReq(dbStore[k])),
-          delete: vi.fn().mockImplementation((k: string) => { delete dbStore[k]; return mkReq(undefined) }),
-        }) }),
+        transaction: () => {
+          const transaction = { oncomplete: null as (() => void) | null, onerror: null as (() => void) | null, onabort: null as (() => void) | null, error: null, objectStore: () => ({
+            put: vi.fn().mockImplementation((val: MockRec, key: string) => { dbStore[key] = val; return mkReq(undefined) }),
+            get: vi.fn().mockImplementation((k: string) => mkReq(dbStore[k])),
+            delete: vi.fn().mockImplementation((k: string) => { delete dbStore[k]; const request = mkReq(undefined); queueMicrotask(() => transaction.oncomplete?.()); return request }),
+          }) }
+          return transaction
+        },
       }
       ok?.({ target: { result: r.result } })
     })
     return r
   }),
-})
+}
+vi.stubGlobal('indexedDB', defaultIndexedDB)
 
 const { refreshLease, checkLeaseStatus, verifyLeaseSignature, verifyLease, getStoredLease, clearStoredLease, fetchVerificationKeys } =
   await import('../../../../src/shared/offline/leaseGate')
@@ -57,6 +61,7 @@ describe('R2b leaseGate', () => {
   beforeEach(() => {
     fetchSpy.mockReset()
     for (const k of Object.keys(dbStore)) delete dbStore[k]
+    vi.stubGlobal('indexedDB', defaultIndexedDB)
   })
 
   describe('refreshLease', () => {
@@ -173,6 +178,44 @@ describe('R2b leaseGate', () => {
   })
 
   describe('getStoredLease / clearStoredLease', () => {
+    it('returns null when no lease exists', async () => {
+      await expect(getStoredLease()).resolves.toBeNull()
+    })
+
+    it('propagates IndexedDB open failures', async () => {
+      const openError = new DOMException('Lease database unavailable', 'UnknownError')
+      vi.stubGlobal('indexedDB', {
+        open: vi.fn().mockImplementation(() => {
+          const request = { onerror: null as (() => void) | null, error: openError }
+          queueMicrotask(() => request.onerror?.())
+          return request
+        }),
+      })
+
+      await expect(getStoredLease()).rejects.toThrow('Lease database unavailable')
+    })
+
+    it('propagates lease read failures', async () => {
+      const readError = new DOMException('Lease read failed', 'UnknownError')
+      vi.stubGlobal('indexedDB', {
+        open: vi.fn().mockImplementation(() => {
+          const request = { onsuccess: null as (() => void) | null, onerror: null as (() => void) | null, error: null, result: {
+            transaction: () => ({ objectStore: () => ({
+              get: () => {
+                const getRequest = { onsuccess: null as (() => void) | null, onerror: null as (() => void) | null, error: readError }
+                queueMicrotask(() => getRequest.onerror?.())
+                return getRequest
+              },
+            }) }),
+          } }
+          queueMicrotask(() => request.onsuccess?.())
+          return request
+        }),
+      })
+
+      await expect(getStoredLease()).rejects.toThrow('Lease read failed')
+    })
+
     it('stores and retrieves lease', async () => {
       const lease = makeLease()
       fetchSpy.mockResolvedValueOnce(json({ success: true, lease, header: { alg: 'ES256', kid: 'k1' }, signature: 's' }))
@@ -185,6 +228,23 @@ describe('R2b leaseGate', () => {
       dbStore['current'] = { lease: makeLease() }
       await clearStoredLease()
       expect(dbStore['current']).toBeUndefined()
+    })
+
+    it('rejects lease deletion when the transaction aborts after request success', async () => {
+      vi.stubGlobal('indexedDB', {
+        open: vi.fn().mockImplementation(() => {
+          const request = { onsuccess: null as (() => void) | null, onerror: null as (() => void) | null, error: null, result: {
+            transaction: () => {
+              const transaction = { oncomplete: null as (() => void) | null, onerror: null as (() => void) | null, onabort: null as (() => void) | null, error: new DOMException('Aborted', 'AbortError'), objectStore: () => ({ delete: () => { queueMicrotask(() => transaction.onabort?.()); return mkReq() } }) }
+              return transaction
+            },
+          } }
+          queueMicrotask(() => request.onsuccess?.())
+          return request
+        }),
+      })
+
+      await expect(clearStoredLease()).rejects.toThrow('Aborted')
     })
   })
 

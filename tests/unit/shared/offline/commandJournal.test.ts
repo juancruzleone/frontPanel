@@ -5,6 +5,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 
 // IDB mock
 const stores: Record<string, Record<string, unknown>> = {}
+let abortNextTransaction = false
 function mkReq(result?: unknown) {
   let ok: ((e: { target: { result: unknown } }) => void) | null = null
   const r = { set onsuccess(fn: ((e: { target: { result: unknown } }) => void) | null) { ok = fn }, get onsuccess() { return ok }, set onerror(_fn: unknown) {}, result, error: null }
@@ -19,6 +20,8 @@ vi.stubGlobal('indexedDB', {
       r.result = {
         objectStoreNames: { contains: () => true },
         transaction: () => {
+          const shouldAbort = abortNextTransaction
+          abortNextTransaction = false
           const s = (name: string) => stores[name] ?? (stores[name] = {})
           const tx = {
             objectStore: (n: string) => ({
@@ -29,8 +32,17 @@ vi.stubGlobal('indexedDB', {
             }),
             oncomplete: null as unknown,
             onerror: null as unknown,
+            onabort: null as unknown as (() => void) | null,
+            error: null as DOMException | null,
           }
-          setTimeout(() => tx.oncomplete?.(), 0)
+          setTimeout(() => {
+            if (shouldAbort) {
+              tx.error = new DOMException('Aborted', 'AbortError')
+              tx.onabort?.()
+              return
+            }
+            tx.oncomplete?.()
+          }, 0)
           return tx
         },
       }
@@ -55,7 +67,7 @@ vi.mock('../../../../src/shared/offline/envelope', () => ({
   openJson: vi.fn().mockImplementation(async (params: { envelope: { ct: string } }) => JSON.parse(atob(params.envelope.ct))),
 }))
 
-const { recordCommand, hashCanonicalPayload, listPendingCommands } = await import('../../../../src/shared/offline/commandJournal')
+const { recordCommand, hashCanonicalPayload, listPendingCommands, purgeCommandsForIdentity } = await import('../../../../src/shared/offline/commandJournal')
 const { COMMAND_ERROR_CODES } = await import('../../../../src/shared/offline/commandTypes')
 
 const KEY = { algorithm: { name: 'AES-GCM' } } as unknown as CryptoKey
@@ -63,7 +75,7 @@ const SCOPE = 't1:a1:dev1:pkg1'
 const B = { tenantId: 't1', actorId: 'a1', deviceId: 'dev1', packageId: 'pkg1', key: KEY, kid: 'k1' }
 
 describe('R6 commandJournal', () => {
-  beforeEach(() => { for (const k of Object.keys(stores)) delete stores[k] })
+  beforeEach(() => { abortNextTransaction = false; for (const k of Object.keys(stores)) delete stores[k] })
 
   describe('hashCanonicalPayload', () => {
     it('returns 64-char hex', async () => {
@@ -169,6 +181,23 @@ describe('R6 commandJournal', () => {
     it('returns pending commands', async () => {
       await recordCommand({ ...B, commandId: 'c1', commandType: 'start', payload: {}, entityId: 'e1', expectedEntityVersion: 1 })
       expect((await listPendingCommands(KEY, SCOPE)).length).toBeGreaterThanOrEqual(1)
+    })
+
+    it('purges only commands owned by the departing identity', async () => {
+      await recordCommand({ ...B, commandId: 'departing', commandType: 'start', payload: {}, entityId: 'e1' })
+      const unrelated = { ...B, actorId: 'a2', commandId: 'unrelated', commandType: 'start' as const, payload: {}, entityId: 'e2' }
+      await recordCommand(unrelated)
+
+      await purgeCommandsForIdentity('t1', 'a1')
+
+      expect(await listPendingCommands(KEY, SCOPE)).toEqual([])
+      expect(await listPendingCommands(KEY, 't1:a2:dev1:pkg1')).toHaveLength(1)
+    })
+
+    it('rejects an identity purge when its transaction aborts after record lookup', async () => {
+      abortNextTransaction = true
+
+      await expect(purgeCommandsForIdentity('t1', 'a1')).rejects.toThrow('Aborted')
     })
   })
 })

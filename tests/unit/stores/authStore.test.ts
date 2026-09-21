@@ -1,11 +1,17 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
+
+const purgeOfflineIdentityMock = vi.hoisted(() => vi.fn().mockResolvedValue(undefined))
+vi.mock('../../../src/shared/offline/identityPurge', () => ({ purgeOfflineIdentity: purgeOfflineIdentityMock }))
+
 import { useAuthStore } from '../../../src/store/authStore'
 
 describe('AuthStore', () => {
   beforeEach(async () => {
+    purgeOfflineIdentityMock.mockResolvedValue(undefined)
     // Reset store before each test
     await useAuthStore.getState().logout()
     localStorage.clear()
+    vi.clearAllMocks()
   })
 
   describe('Initial State', () => {
@@ -176,6 +182,24 @@ describe('AuthStore', () => {
       expect(state.tenantId).toBeNull()
       expect(state.permissions).toBeNull()
       expect(state.isAuthenticated).toBe(false)
+    })
+
+    it('awaits the identity-scoped offline purge before completing logout', async () => {
+      let finishPurge: (() => void) | undefined
+      purgeOfflineIdentityMock.mockReturnValueOnce(new Promise<void>((resolve) => { finishPurge = resolve }))
+      useAuthStore.getState().hydrateSession({
+        user: { _id: 'user123', userName: 'testuser', tenantId: 'tenant123' },
+      })
+
+      const logout = useAuthStore.getState().logout()
+      await Promise.resolve()
+      expect(useAuthStore.getState().isAuthenticated).toBe(true)
+
+      finishPurge?.()
+      await logout
+
+      expect(purgeOfflineIdentityMock).toHaveBeenCalledWith('tenant123', 'user123')
+      expect(useAuthStore.getState().isAuthenticated).toBe(false)
     })
   })
 

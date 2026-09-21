@@ -254,7 +254,7 @@ export const fetchInstallations = async (): Promise<Installation[]> => {
 	return Array.isArray(result) ? result : result.data || [];
 };
 
-export const createWorkOrder = async (workOrder: WorkOrder) => {
+export const createWorkOrder = async (workOrder: WorkOrder, idempotencyKey?: string) => {
 	const technicianIds = normalizeTechnicianIds(workOrder);
 	const payload = {
 		...workOrder,
@@ -264,8 +264,10 @@ export const createWorkOrder = async (workOrder: WorkOrder) => {
 		tecnicosAsignados: technicianIds,
 		tecnicosIds: technicianIds,
 	};
+	const key = idempotencyKey ?? crypto.randomUUID();
 	const response = await fetchWithCsrf(`${getApiUrl()}ordenes-trabajo`, {
 		method: "POST",
+		headers: { "X-Idempotency-Key": key },
 		body: JSON.stringify(payload),
 	});
 
@@ -273,7 +275,7 @@ export const createWorkOrder = async (workOrder: WorkOrder) => {
 	return result.data || result;
 };
 
-export const updateWorkOrder = async (id: string, workOrder: WorkOrder) => {
+export const updateWorkOrder = async (id: string, workOrder: WorkOrder, idempotencyKey?: string) => {
 	const { _id: _, ...rest } = workOrder;
 	const technicianIds = normalizeTechnicianIds(rest);
 	const payload = {
@@ -285,8 +287,10 @@ export const updateWorkOrder = async (id: string, workOrder: WorkOrder) => {
 		tecnicosIds: technicianIds,
 	};
 
+	const key = idempotencyKey ?? crypto.randomUUID();
 	const response = await fetchWithCsrf(`${getApiUrl()}ordenes-trabajo/${id}`, {
 		method: "PUT",
+		headers: { "X-Idempotency-Key": key },
 		body: JSON.stringify(payload),
 	});
 
@@ -319,6 +323,7 @@ export const deleteWorkOrder = async (id: string) => {
 export const assignTechnicianToWorkOrder = async (
 	workOrderId: string,
 	technicianIds: string[],
+	idempotencyKey?: string,
 ) => {
 	const normalizedIds = Array.from(
 		new Set(technicianIds.filter(Boolean).map((id) => String(id))),
@@ -328,8 +333,10 @@ export const assignTechnicianToWorkOrder = async (
 		tecnicoId: normalizedIds[0] || undefined,
 		tecnicoIds: normalizedIds,
 	});
+	const key = idempotencyKey ?? crypto.randomUUID();
 	const response = await fetchWithCsrf(url, {
 		method: "PATCH",
+		headers: { "X-Idempotency-Key": key },
 		body: body,
 	});
 

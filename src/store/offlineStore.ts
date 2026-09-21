@@ -2,9 +2,12 @@ import { create } from "zustand"
 import { persist, createJSONStorage } from "zustand/middleware"
 import { indexedDBStorage } from "../utils/indexedDBStorage"
 import { useAuthStore } from "./authStore"
+import { offlineBinaryStorage } from "../shared/services/offlineBinaryStorage"
 
 export interface QueuedRequest {
   id: string
+  /** Missing only on legacy records created before tenant-scoped queues. */
+  tenantId?: string | null
   userId?: string | null
   type: 
     | 'CREATE_WORK_ORDER' | 'UPDATE_WORK_ORDER' | 'DELETE_WORK_ORDER'
@@ -31,12 +34,16 @@ export interface QueuedRequest {
 
 interface OfflineState {
   queue: QueuedRequest[]
-  addToQueue: (request: Omit<QueuedRequest, 'id' | 'timestamp' | 'userId'>, ownerId?: string) => boolean
+  addToQueue: (request: Omit<QueuedRequest, 'id' | 'timestamp' | 'tenantId' | 'userId'>, ownerId?: string) => boolean
   queueInstallationUpdate: (ownerId: string, installationId: string, data: Record<string, unknown>) => boolean
-  removeFromQueue: (id: string) => void
-  updateRequest: (id: string, data: Partial<QueuedRequest>) => void
-  remapPayloadId: (oldId: string, newId: string) => void
-  clearQueue: () => void
+  removeFromQueue: (id: string, tenantId: string, userId: string) => void
+  updateRequest: (
+    id: string,
+    tenantId: string,
+    userId: string,
+    data: Partial<Omit<QueuedRequest, 'id' | 'tenantId' | 'userId'>>,
+  ) => void
+  remapPayloadId: (oldId: string, newId: string, tenantId: string, userId: string) => void
 }
 
 export const useOfflineStore = create<OfflineState>()(
@@ -46,8 +53,8 @@ export const useOfflineStore = create<OfflineState>()(
       addToQueue: (request, ownerId) => {
         let queued = false
         set((state) => {
-          const currentUserId = useAuthStore.getState().userId
-          if (!currentUserId || (ownerId !== undefined && currentUserId !== ownerId)) return state
+          const { tenantId, userId: currentUserId } = useAuthStore.getState()
+          if (!tenantId || !currentUserId || (ownerId !== undefined && currentUserId !== ownerId)) return state
           queued = true
           return {
             queue: [
@@ -55,6 +62,7 @@ export const useOfflineStore = create<OfflineState>()(
               {
                 ...request,
                 id: crypto.randomUUID(),
+                tenantId,
                 userId: currentUserId,
                 timestamp: Date.now(),
                 retries: 0
@@ -67,11 +75,13 @@ export const useOfflineStore = create<OfflineState>()(
       queueInstallationUpdate: (ownerId, installationId, data) => {
         let queued = false
         set((state) => {
-          if (!ownerId || useAuthStore.getState().userId !== ownerId) return state
+          const { tenantId, userId } = useAuthStore.getState()
+          if (!tenantId || !ownerId || userId !== ownerId) return state
 
           const matchingIndexes = state.queue.reduce<number[]>((indexes, request, index) => {
             if (
               request.type === 'UPDATE_INSTALLATION' &&
+              request.tenantId === tenantId &&
               request.userId === ownerId &&
               request.payload.id === installationId
             ) indexes.push(index)
@@ -85,6 +95,7 @@ export const useOfflineStore = create<OfflineState>()(
             return {
               queue: [...state.queue, {
                 id: crypto.randomUUID(),
+                tenantId,
                 userId: ownerId,
                 type: 'UPDATE_INSTALLATION',
                 payload,
@@ -107,15 +118,21 @@ export const useOfflineStore = create<OfflineState>()(
         })
         return queued
       },
-      removeFromQueue: (id) =>
+      removeFromQueue: (id, tenantId, userId) =>
         set((state) => ({
-          queue: state.queue.filter((req) => req.id !== id),
+          queue: state.queue.filter((req) => (
+            req.id !== id || req.tenantId !== tenantId || req.userId !== userId
+          )),
         })),
-      updateRequest: (id, data) =>
+      updateRequest: (id, tenantId, userId, data) =>
         set((state) => ({
-          queue: state.queue.map((req) => (req.id === id ? { ...req, ...data } : req)),
+          queue: state.queue.map((req) => (
+            req.id === id && req.tenantId === tenantId && req.userId === userId
+              ? { ...req, ...data }
+              : req
+          )),
         })),
-      remapPayloadId: (oldId, newId) =>
+      remapPayloadId: (oldId, newId, tenantId, userId) =>
         set((state) => {
           const replaceIdRecursively = (obj: unknown): unknown => {
             if (obj === oldId) return newId
@@ -130,13 +147,11 @@ export const useOfflineStore = create<OfflineState>()(
             return obj
           }
           return {
-            queue: state.queue.map((req) => ({
-              ...req,
-              payload: replaceIdRecursively(req.payload) as Record<string, unknown>
-            })),
+            queue: state.queue.map((req) => req.tenantId === tenantId && req.userId === userId
+              ? { ...req, payload: replaceIdRecursively(req.payload) as Record<string, unknown> }
+              : req),
           }
         }),
-      clearQueue: () => set({ queue: [] }),
     }),
     { 
       name: "offline-storage",
@@ -144,3 +159,16 @@ export const useOfflineStore = create<OfflineState>()(
     }
   )
 )
+
+/** Purge an exact queue identity. Unscoped legacy records are retained because ownership is unknowable. */
+export async function purgeOfflineQueueForIdentity(tenantId: string, userId: string): Promise<void> {
+  await useOfflineStore.persist.rehydrate()
+  const isDepartingIdentity = (request: QueuedRequest) => request.tenantId === tenantId && request.userId === userId
+  const departingRequests = useOfflineStore.getState().queue.filter(isDepartingIdentity)
+  const retainedQueue = useOfflineStore.getState().queue.filter((request) => !isDepartingIdentity(request))
+  const binaryIds = new Set(departingRequests.flatMap((request) => request.binaryRefs?.map((ref) => ref.id) ?? []))
+
+  await Promise.all([...binaryIds].map((id) => offlineBinaryStorage.removeBinary(id)))
+  await indexedDBStorage.setItem("offline-storage", JSON.stringify({ state: { queue: retainedQueue }, version: 0 }))
+  useOfflineStore.setState({ queue: retainedQueue })
+}

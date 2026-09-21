@@ -73,12 +73,10 @@ export default defineConfig(({ mode }) => {
 				"/api": {
 					target: apiProxyTarget,
 					changeOrigin: true,
-					secure: false,
 				},
 				"/socket.io": {
 					target: apiProxyTarget,
 					changeOrigin: true,
-					secure: false,
 					ws: true,
 				},
 			},
@@ -93,12 +91,10 @@ export default defineConfig(({ mode }) => {
 				"/api": {
 					target: apiProxyTarget,
 					changeOrigin: true,
-					secure: false,
 				},
 				"/socket.io": {
 					target: apiProxyTarget,
 					changeOrigin: true,
-					secure: false,
 					ws: true,
 				},
 			},

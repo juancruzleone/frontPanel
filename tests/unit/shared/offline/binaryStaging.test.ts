@@ -15,6 +15,7 @@ vi.mock('../../../../src/shared/offline/leaseGate', () => ({
 
 // IDB mock with raw record inspection
 const stores: Record<string, Record<string, unknown>> = {}
+let abortNextTransaction = false
 function mkReq(result?: unknown) {
   let ok: ((e: { target: { result: unknown } }) => void) | null = null
   const r = { set onsuccess(fn: ((e: { target: { result: unknown } }) => void) | null) { ok = fn }, get onsuccess() { return ok }, set onerror(_fn: unknown) {}, result, error: null }
@@ -29,6 +30,8 @@ vi.stubGlobal('indexedDB', {
       r.result = {
         objectStoreNames: { contains: () => true },
         transaction: () => {
+          const shouldAbort = abortNextTransaction
+          abortNextTransaction = false
           const s = (name: string) => stores[name] ?? (stores[name] = {})
           const tx = {
             objectStore: (n: string) => ({
@@ -37,9 +40,19 @@ vi.stubGlobal('indexedDB', {
               delete: vi.fn().mockImplementation((k: string) => { delete s(n)[k]; return mkReq(undefined) }),
               getAll: vi.fn().mockImplementation(() => mkReq(Object.values(s(n)))),
             }),
-            oncomplete: null as unknown, onerror: null as unknown,
+            oncomplete: null as unknown,
+            onerror: null as unknown,
+            onabort: null as unknown as (() => void) | null,
+            error: null as DOMException | null,
           }
-          setTimeout(() => tx.oncomplete?.(), 0)
+          setTimeout(() => {
+            if (shouldAbort) {
+              tx.error = new DOMException('Aborted', 'AbortError')
+              tx.onabort?.()
+              return
+            }
+            tx.oncomplete?.()
+          }, 0)
           return tx
         },
       }
@@ -54,14 +67,14 @@ vi.mock('../../../../src/shared/offline/crypto', async (importOriginal) => {
   return { ...orig, sha256Hex: vi.fn().mockResolvedValue('a'.repeat(64)) }
 })
 
-const { stageBinary, submitStagedBinary, cleanupStagedBinary, listStagedBinaries, purgeStagedBinary, buildBinaryScopeKey } =
+const { stageBinary, submitStagedBinary, cleanupStagedBinary, listStagedBinaries, purgeStagedBinariesForIdentity, buildBinaryScopeKey } =
   await import('../../../../src/shared/offline/binaryStaging')
 const { generateStorageKey } = await import('../../../../src/shared/offline/crypto')
 
 const json = (body: unknown, status = 200) => ({ ok: status >= 200 && status < 300, status, json: async () => body })
 
 describe('R8 binaryStaging encrypted', () => {
-  beforeEach(() => { fetchSpy.mockReset(); for (const k of Object.keys(stores)) delete stores[k] })
+  beforeEach(() => { fetchSpy.mockReset(); abortNextTransaction = false; for (const k of Object.keys(stores)) delete stores[k] })
 
   const mkBlob = (content = 'photo-bytes', type = 'image/jpeg') => new Blob([content], { type })
 
@@ -140,5 +153,22 @@ describe('R8 binaryStaging encrypted', () => {
 
   it('buildBinaryScopeKey includes all 5 components', () => {
     expect(buildBinaryScopeKey('t1', 'u1', 'd1', 'p1', 'ev1')).toBe('t1:u1:d1:p1:ev1')
+  })
+
+  it('purges staged evidence for one identity and retains unrelated evidence', async () => {
+    const key = await generateStorageKey()
+    await stageBinary({ evidenceId: 'departing', commandId: 'c1', orderId: 'o1', packageId: 'pkg1', blob: mkBlob() }, key, 'k1', 't1', 'u1', 'dev1')
+    await stageBinary({ evidenceId: 'unrelated', commandId: 'c2', orderId: 'o2', packageId: 'pkg2', blob: mkBlob() }, key, 'k1', 't1', 'u2', 'dev2')
+
+    await purgeStagedBinariesForIdentity('t1', 'u1')
+
+    expect(await listStagedBinaries('t1:u1:')).toEqual([])
+    expect(await listStagedBinaries('t1:u2:')).toEqual([{ evidenceId: 'unrelated', packageId: 'pkg2', scopeKey: 't1:u2:dev2:pkg2:unrelated' }])
+  })
+
+  it('rejects an identity purge when its transaction aborts after record lookup', async () => {
+    abortNextTransaction = true
+
+    await expect(purgeStagedBinariesForIdentity('t1', 'u1')).rejects.toThrow('Aborted')
   })
 })

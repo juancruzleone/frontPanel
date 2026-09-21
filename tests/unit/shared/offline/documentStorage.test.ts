@@ -21,14 +21,20 @@ function createIDBMock() {
       objectStoreNames: { contains: vi.fn().mockReturnValue(true) },
       transaction: vi.fn().mockImplementation((name: string) => {
          const s = stores[name] ?? (stores[name] = {})
-        return {
+        const transaction = {
           objectStore: vi.fn().mockReturnValue({
              put: vi.fn().mockImplementation((val: MockRec, key?: string) => { const k = key ?? (val as { documentId?: string }).documentId ?? 'x'; s[k] = val; return mkReq(k) }),
             get: vi.fn().mockImplementation((k: string) => mkReq(s[k])),
             delete: vi.fn().mockImplementation((k: string) => { delete s[k]; return mkReq(undefined) }),
             getAll: vi.fn().mockImplementation(() => mkReq(Object.values(s))),
           }),
+          oncomplete: null as (() => void) | null,
+          onerror: null as (() => void) | null,
+          onabort: null as (() => void) | null,
+          error: null,
         }
+        setTimeout(() => transaction.oncomplete?.(), 10)
+        return transaction
       }),
     })),
   }
@@ -37,7 +43,7 @@ function createIDBMock() {
 const idb = createIDBMock()
 vi.stubGlobal('indexedDB', idb)
 
-const { saveDocument, getStoredDocument, listStoredDocuments, removeStoredDocument, clearDocumentStore, getDocumentQuotaUsage } =
+const { saveDocument, getStoredDocument, listStoredDocuments, removeStoredDocument, clearDocumentStore, purgeDocumentsForIdentity, getDocumentQuotaUsage } =
   await import('../../../../src/shared/offline/documentStorage')
 
 const SCOPE = 't1:u1:dev1'
@@ -50,6 +56,7 @@ const mkDoc = (id: string, size = 100, scopeKey = SCOPE) => ({
 
 describe('R10 documentStorage', () => {
   beforeEach(() => {
+    vi.stubGlobal('indexedDB', idb)
     idb._clear()
     localStorage.setItem('auth-storage', JSON.stringify({ state: { tenantId: 't1', userId: 'u1', deviceId: 'dev1' } }))
   })
@@ -136,6 +143,58 @@ describe('R10 documentStorage', () => {
 
       expect(idb._stores.offlineDocumentsScoped[`${SCOPE}:active`]).toBeUndefined()
       expect(idb._stores.offlineDocumentsScoped[`${OTHER_SCOPE}:private`]).toBeDefined()
+    })
+  })
+
+  describe('purgeDocumentsForIdentity', () => {
+    it('removes every device scope for one identity and retains unrelated documents', async () => {
+      await saveDocument(mkDoc('active', 100, SCOPE))
+      idb._stores.offlineDocumentsScoped['t1:u1:other-device:second'] = mkDoc('second', 100, 't1:u1:other-device')
+      idb._stores.offlineDocumentsScoped[`${OTHER_SCOPE}:private`] = mkDoc('private', 100, OTHER_SCOPE)
+
+      await purgeDocumentsForIdentity('t1', 'u1')
+
+      expect(idb._stores.offlineDocumentsScoped[`${SCOPE}:active`]).toBeUndefined()
+      expect(idb._stores.offlineDocumentsScoped['t1:u1:other-device:second']).toBeUndefined()
+      expect(idb._stores.offlineDocumentsScoped[`${OTHER_SCOPE}:private`]).toBeDefined()
+    })
+
+    it('rejects instead of reporting completion when the transaction aborts after deletion', async () => {
+      const abortError = new DOMException('Document purge aborted', 'AbortError')
+      const deleteRequest = vi.fn()
+      const requestWithResult = <T,>(result: T) => {
+        const request = { onsuccess: null as (() => void) | null, onerror: null as (() => void) | null, result, error: null }
+        queueMicrotask(() => request.onsuccess?.())
+        return request
+      }
+      vi.stubGlobal('indexedDB', {
+        open: vi.fn().mockImplementation(() => {
+          const openRequest = { onsuccess: null as (() => void) | null, onerror: null as (() => void) | null, error: null, result: {
+            objectStoreNames: { contains: () => true },
+            transaction: () => {
+              const transaction = {
+                oncomplete: null as (() => void) | null,
+                onerror: null as (() => void) | null,
+                onabort: null as (() => void) | null,
+                error: abortError,
+                objectStore: () => ({
+                  getAll: () => requestWithResult([mkDoc('abort-me')]),
+                  delete: deleteRequest.mockImplementation(() => {
+                    queueMicrotask(() => transaction.onabort?.())
+                    return requestWithResult(undefined)
+                  }),
+                }),
+              }
+              return transaction
+            },
+          } }
+          queueMicrotask(() => openRequest.onsuccess?.())
+          return openRequest
+        }),
+      })
+
+      await expect(purgeDocumentsForIdentity('t1', 'u1')).rejects.toThrow('Document purge aborted')
+      expect(deleteRequest).toHaveBeenCalledTimes(1)
     })
   })
 

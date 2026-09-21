@@ -110,6 +110,7 @@ export type WorkOrder = {
 
 const useWorkOrders = () => {
 	const userId = useAuthStore((state) => state.userId);
+	const tenantId = useAuthStore((state) => state.tenantId);
 	const {
 		workOrders: storedWorkOrders,
 		lastUpdated,
@@ -786,8 +787,10 @@ const useWorkOrders = () => {
 
 	const workOrders = useMemo(() => {
 		let orders = filteredOfflineOrders || validStoredWorkOrders;
-		const scopedQueue = userId
-			? queue.filter((request) => request.userId === userId)
+		const scopedQueue = tenantId && userId
+			? queue.filter(
+					(request) => request.tenantId === tenantId && request.userId === userId,
+				)
 			: [];
 
 		// 1. Filter out items pending deletion
@@ -828,7 +831,7 @@ const useWorkOrders = () => {
 		}
 
 		return orders;
-	}, [filteredOfflineOrders, validStoredWorkOrders, queue, userId]);
+	}, [filteredOfflineOrders, validStoredWorkOrders, queue, tenantId, userId]);
 
 	return {
 		workOrders,

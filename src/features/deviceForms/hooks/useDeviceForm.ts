@@ -65,10 +65,12 @@ const useDeviceForm = (installationId?: string, deviceId?: string) => {
 	const [isOnline, setIsOnline] = useState(navigator.onLine);
 	const addToQueue = useOfflineStore((state) => state.addToQueue);
 	const queue = useOfflineStore((state) => state.queue);
+	const tenantId = useAuthStore((state) => state.tenantId);
+	const userId = useAuthStore((state) => state.userId);
 
 	// Filtrar solo los mantenimientos pendientes
 	const pendingSubmissions = queue
-		.filter((req) => req.type === "DEVICE_MAINTENANCE")
+		.filter((req) => req.tenantId === tenantId && req.userId === userId && req.type === "DEVICE_MAINTENANCE")
 		.map((req) => ({
 			id: req.id,
 			installationId: req.metadata?.installationId || "",

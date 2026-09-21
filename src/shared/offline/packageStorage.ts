@@ -77,9 +77,31 @@ export async function openPersistedBootstrap(key: CryptoKey, tenantId: string, u
 export async function clearPackageStorage(tenantId: string, userId: string, deviceId: string, packageId: string): Promise<void> {
   const scopeKey = buildPackageScopeKey(tenantId, userId, deviceId, packageId)
   const db = await openDB()
-  const tx = db.transaction([RES_STORE, META_STORE], 'readwrite')
+  const tx = db.transaction([RES_STORE, META_STORE, KEYS_STORE], 'readwrite')
   for (const r of await getAll(tx.objectStore(RES_STORE), scopeKey)) tx.objectStore(RES_STORE).delete(r.id)
   tx.objectStore(META_STORE).delete(scopeKey)
+  tx.objectStore(KEYS_STORE).delete(scopeKey)
+  await txDone(tx)
+}
+
+/** Remove every package resource, manifest, and decryption key for one identity. */
+export async function purgePackageStorageForIdentity(tenantId: string, userId: string): Promise<void> {
+  const prefix = `${tenantId}:${userId}:`
+  const db = await openDB()
+  const tx = db.transaction([RES_STORE, META_STORE, KEYS_STORE], 'readwrite')
+  const resources = await getAllRaw(tx.objectStore(RES_STORE))
+  const metadata = await getAllValues<PackageMeta>(tx.objectStore(META_STORE))
+  const keys = await getAllValues<{ scopeKey?: string }>(tx.objectStore(KEYS_STORE))
+
+  for (const resource of resources) {
+    if (resource.scopeKey.startsWith(prefix)) tx.objectStore(RES_STORE).delete(resource.id)
+  }
+  for (const meta of metadata) {
+    if (meta.scopeKey?.startsWith(prefix)) tx.objectStore(META_STORE).delete(meta.scopeKey)
+  }
+  for (const key of keys) {
+    if (key.scopeKey?.startsWith(prefix)) tx.objectStore(KEYS_STORE).delete(key.scopeKey)
+  }
   await txDone(tx)
 }
 
@@ -267,6 +289,10 @@ function getAllRaw(s: IDBObjectStore): Promise<StoredEnvelope[]> {
   return new Promise((resolve, reject) => { const r = s.getAll(); r.onsuccess = () => resolve((r.result as StoredEnvelope[]) ?? []); r.onerror = () => reject(r.error) })
 }
 
+function getAllValues<T>(s: IDBObjectStore): Promise<T[]> {
+  return new Promise((resolve, reject) => { const r = s.getAll(); r.onsuccess = () => resolve((r.result as T[]) ?? []); r.onerror = () => reject(r.error) })
+}
+
 function getAllMeta(): Promise<PackageMeta[]> {
   return new Promise((resolve, reject) => {
     const r = indexedDB.open(DB_NAME)
@@ -291,5 +317,9 @@ function getOne<T>(s: IDBObjectStore, key: string): Promise<T | null> {
 }
 
 function txDone(tx: IDBTransaction): Promise<void> {
-  return new Promise((resolve, reject) => { tx.oncomplete = () => resolve(); tx.onerror = () => reject(tx.error) })
+  return new Promise((resolve, reject) => {
+    tx.oncomplete = () => resolve()
+    tx.onerror = () => reject(tx.error)
+    tx.onabort = () => reject(tx.error ?? new DOMException('IndexedDB transaction aborted', 'AbortError'))
+  })
 }

@@ -43,16 +43,18 @@ export async function registerDevice(): Promise<RegisterDeviceResult> {
 
 export async function getStoredDevice(key: string): Promise<StoredDevice | null> {
   try {
-    const s = await devStore('readonly')
+    const { store } = await devStore('readonly')
     return new Promise((resolve, reject) => {
-      const r = s.get(key); r.onsuccess = () => resolve((r.result as StoredDevice) ?? null); r.onerror = () => reject(r.error)
+      const r = store.get(key); r.onsuccess = () => resolve((r.result as StoredDevice) ?? null); r.onerror = () => reject(r.error)
     })
   } catch { return null }
 }
 
 export async function clearStoredDevice(key: string): Promise<void> {
-  const s = await devStore('readwrite')
-  return new Promise((resolve, reject) => { const r = s.delete(key); r.onsuccess = () => resolve(); r.onerror = () => reject(r.error) })
+  const { store, transaction } = await devStore('readwrite')
+  const completion = transactionCompletion(transaction)
+  store.delete(key)
+  await completion
 }
 
 function getAuthScope(): { tenantId: string; userId: string } | null {
@@ -60,20 +62,31 @@ function getAuthScope(): { tenantId: string; userId: string } | null {
 }
 
 async function persistDevice(d: StoredDevice): Promise<void> {
-  const s = await devStore('readwrite')
+  const { store: s } = await devStore('readwrite')
   return new Promise((resolve, reject) => { const r = s.put(d, `${d.tenantId}:${d.userId}`); r.onsuccess = () => resolve(); r.onerror = () => reject(r.error) })
 }
 
-function devStore(mode: IDBTransactionMode): Promise<IDBObjectStore> {
+function devStore(mode: IDBTransactionMode): Promise<{ store: IDBObjectStore; transaction: IDBTransaction }> {
   return new Promise((resolve, reject) => {
     if (typeof indexedDB === 'undefined') return reject(new Error('IndexedDB not supported'))
     const r = indexedDB.open(DB_NAME, DB_VERSION)
     r.onerror = () => reject(r.error)
-    r.onsuccess = () => resolve(r.result.transaction(DEVICE_STORE, mode).objectStore(DEVICE_STORE))
+    r.onsuccess = () => {
+      const transaction = r.result.transaction(DEVICE_STORE, mode)
+      resolve({ store: transaction.objectStore(DEVICE_STORE), transaction })
+    }
     r.onupgradeneeded = () => {
       const db = r.result
       for (const name of REQUIRED_STORES) if (!db.objectStoreNames.contains(name)) db.createObjectStore(name, name === 'offlinePackageResources' ? { keyPath: 'id' } : undefined)
     }
+  })
+}
+
+function transactionCompletion(transaction: IDBTransaction): Promise<void> {
+  return new Promise((resolve, reject) => {
+    transaction.oncomplete = () => resolve()
+    transaction.onerror = () => reject(transaction.error ?? new Error('IndexedDB transaction failed'))
+    transaction.onabort = () => reject(transaction.error ?? new Error('IndexedDB transaction aborted'))
   })
 }
 

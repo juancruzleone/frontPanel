@@ -10,6 +10,9 @@ env:
   NODE_VERSION: "24.x"
   BUN_VERSION: "1.3.5"
 
+permissions:
+  contents: read
+
 jobs:
   # Job 1: Lint y Type Check
   lint-and-typecheck:
@@ -63,7 +66,6 @@ jobs:
 
       - name: Run bun audit
         run: bun audit --audit-level=moderate
-        continue-on-error: true
 
       - name: Check for outdated packages
         run: bun outdated
@@ -195,7 +197,7 @@ jobs:
   build:
     name: Build Application
     runs-on: ubuntu-latest
-    needs: [lint-and-typecheck, unit-tests, integration-tests, security-tests]
+    needs: [lint-and-typecheck, security-audit, unit-tests, integration-tests, security-tests]
 
     steps:
       - name: Checkout code

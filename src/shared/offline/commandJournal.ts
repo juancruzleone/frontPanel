@@ -188,6 +188,18 @@ interface StoredCommand {
   scopeKey: string
 }
 
+/** Remove encrypted commands belonging to one tenant/user identity only. */
+export async function purgeCommandsForIdentity(tenantId: string, actorId: string): Promise<void> {
+  const prefix = `${tenantId}:${actorId}:`
+  const db = await openDB()
+  const tx = db.transaction(CMD_STORE, 'readwrite')
+  const store = tx.objectStore(CMD_STORE)
+  for (const command of await getAllRecords(store)) {
+    if (command.id.startsWith(prefix)) store.delete(command.id)
+  }
+  await txDone(tx)
+}
+
 async function persistCommand(cmd: OfflineCommand, key: CryptoKey, kid: string, scopeKey: string): Promise<void> {
   const envelope = await sealJson({ key, kid, scopeKey, store: CMD_STORE, value: cmd })
   const id = `${cmd.tenantId}:${cmd.actorId}:${cmd.commandId}`
@@ -228,10 +240,18 @@ function getAll(s: IDBObjectStore, scopeKey: string): Promise<StoredCommand[]> {
   return new Promise((resolve, reject) => { const r = s.getAll(); r.onsuccess = () => resolve((r.result as StoredCommand[]).filter(x => x.scopeKey === scopeKey)); r.onerror = () => reject(r.error) })
 }
 
+function getAllRecords(s: IDBObjectStore): Promise<StoredCommand[]> {
+  return new Promise((resolve, reject) => { const r = s.getAll(); r.onsuccess = () => resolve((r.result as StoredCommand[]) ?? []); r.onerror = () => reject(r.error) })
+}
+
 function getOne<T>(s: IDBObjectStore, key: string): Promise<T | null> {
   return new Promise((resolve, reject) => { const r = s.get(key); r.onsuccess = () => resolve((r.result as T) ?? null); r.onerror = () => reject(r.error) })
 }
 
 function txDone(tx: IDBTransaction): Promise<void> {
-  return new Promise((resolve, reject) => { tx.oncomplete = () => resolve(); tx.onerror = () => reject(tx.error) })
+  return new Promise((resolve, reject) => {
+    tx.oncomplete = () => resolve()
+    tx.onerror = () => reject(tx.error)
+    tx.onabort = () => reject(tx.error ?? new DOMException('IndexedDB transaction aborted', 'AbortError'))
+  })
 }

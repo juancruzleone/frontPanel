@@ -75,31 +75,42 @@ export async function fetchVerificationKeys(): Promise<{ keys?: VerificationKey[
 }
 
 export async function getStoredLease(): Promise<StoredLease | null> {
-  try {
-    const s = await leaseStore('readonly')
-    return new Promise((resolve, reject) => {
-      const r = s.get('current'); r.onsuccess = () => resolve((r.result as StoredLease) ?? null); r.onerror = () => reject(r.error)
-    })
-  } catch { return null }
+  const { store } = await leaseStore('readonly')
+  return new Promise((resolve, reject) => {
+    const r = store.get('current'); r.onsuccess = () => resolve((r.result as StoredLease) ?? null); r.onerror = () => reject(r.error)
+  })
 }
 
 export async function clearStoredLease(): Promise<void> {
-  const s = await leaseStore('readwrite')
-  return new Promise((resolve, reject) => { const r = s.delete('current'); r.onsuccess = () => resolve(); r.onerror = () => reject(r.error) })
+  const { store, transaction } = await leaseStore('readwrite')
+  const completion = transactionCompletion(transaction)
+  store.delete('current')
+  await completion
 }
 
 async function persistLease(stored: StoredLease): Promise<void> {
-  const s = await leaseStore('readwrite')
+  const { store: s } = await leaseStore('readwrite')
   return new Promise((resolve, reject) => { const r = s.put(stored, 'current'); r.onsuccess = () => resolve(); r.onerror = () => reject(r.error) })
 }
 
-function leaseStore(mode: IDBTransactionMode): Promise<IDBObjectStore> {
+function leaseStore(mode: IDBTransactionMode): Promise<{ store: IDBObjectStore; transaction: IDBTransaction }> {
   return new Promise((resolve, reject) => {
     if (typeof indexedDB === 'undefined') return reject(new Error('IndexedDB not supported'))
     const r = indexedDB.open(DB_NAME)
     r.onerror = () => reject(r.error)
-    r.onsuccess = () => resolve(r.result.transaction(LEASE_STORE, mode).objectStore(LEASE_STORE))
+    r.onsuccess = () => {
+      const transaction = r.result.transaction(LEASE_STORE, mode)
+      resolve({ store: transaction.objectStore(LEASE_STORE), transaction })
+    }
      r.onupgradeneeded = () => { if (!r.result.objectStoreNames.contains(LEASE_STORE)) r.result.createObjectStore(LEASE_STORE); if (!r.result.objectStoreNames.contains(DEVICE_STORE)) r.result.createObjectStore(DEVICE_STORE) }
+  })
+}
+
+function transactionCompletion(transaction: IDBTransaction): Promise<void> {
+  return new Promise((resolve, reject) => {
+    transaction.oncomplete = () => resolve()
+    transaction.onerror = () => reject(transaction.error ?? new Error('IndexedDB transaction failed'))
+    transaction.onabort = () => reject(transaction.error ?? new Error('IndexedDB transaction aborted'))
   })
 }
 

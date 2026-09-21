@@ -71,9 +71,10 @@ export const offlineBinaryStorage = {
     return new Promise((resolve, reject) => {
       const transaction = db.transaction(STORE_NAME, 'readwrite');
       const store = transaction.objectStore(STORE_NAME);
-      const request = store.delete(id);
-      request.onerror = () => reject(request.error);
-      request.onsuccess = () => resolve();
+      transaction.oncomplete = () => resolve();
+      transaction.onerror = () => reject(transaction.error || new Error('IndexedDB transaction failed'));
+      transaction.onabort = () => reject(transaction.error || new Error('IndexedDB transaction aborted'));
+      store.delete(id);
     });
   },
 

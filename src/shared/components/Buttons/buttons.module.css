@@ -94,7 +94,7 @@ button {
 }
 
 .secondaryButton:hover:where(:not(:disabled)) {
-  background: var(--color-card);
+  background: var(--color-themebox-bg);
   color: var(--color-secondary);
   border-color: var(--color-secondary);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);

@@ -109,6 +109,18 @@ export async function purgeStagedBinary(evidenceId: string, tenantId: string, us
   await deleteStaged(buildBinaryScopeKey(tenantId, userId, deviceId, packageId, evidenceId))
 }
 
+/** Purge encrypted evidence for one identity while retaining all other scopes. */
+export async function purgeStagedBinariesForIdentity(tenantId: string, userId: string): Promise<void> {
+  const prefix = `${tenantId}:${userId}:`
+  const db = await openDB()
+  const tx = db.transaction(STAGING_STORE, 'readwrite')
+  const store = tx.objectStore(STAGING_STORE)
+  for (const record of await getAll<StoredStagedRecord>(store)) {
+    if (record.scopeKey.startsWith(prefix)) store.delete(record.id)
+  }
+  await txDone(tx)
+}
+
 export interface StageEvidenceResult {
   evidenceIds: string[]
   staged: number
@@ -194,5 +206,9 @@ function getAll<T>(s: IDBObjectStore): Promise<T[]> {
   return new Promise((resolve, reject) => { const r = s.getAll(); r.onsuccess = () => resolve(r.result as T[]); r.onerror = () => reject(r.error) })
 }
 function txDone(tx: IDBTransaction): Promise<void> {
-  return new Promise((resolve, reject) => { tx.oncomplete = () => resolve(); tx.onerror = () => reject(tx.error) })
+  return new Promise((resolve, reject) => {
+    tx.oncomplete = () => resolve()
+    tx.onerror = () => reject(tx.error)
+    tx.onabort = () => reject(tx.error ?? new DOMException('IndexedDB transaction aborted', 'AbortError'))
+  })
 }

@@ -7,7 +7,7 @@ import { useAuthStore } from "../../../src/store/authStore"
 import "../../../src/i18n"
 
 describe("billing route guards", () => {
-  beforeEach(() => useAuthStore.getState().logout())
+  beforeEach(async () => useAuthStore.getState().logout())
 
   it("allows billing-only sessions into billing and blocks the normal app", () => {
     useAuthStore.setState({ accessMode: "billing_only", isAuthResolved: true, isAuthenticated: false })

@@ -6,6 +6,7 @@ import { offlineBinaryStorage } from "../../../../src/shared/services/offlineBin
 const createIDBMock = () => {
   let store: Record<string, any> = {}
   let failQuota = false
+  let abortTransaction = false
   
   const mockRequest = (result?: any, error?: any) => {
     const req = {
@@ -54,13 +55,15 @@ const createIDBMock = () => {
 
   return {
     _setFailQuota: (val: boolean) => { failQuota = val },
+    _setAbortTransaction: (val: boolean) => { abortTransaction = val },
     _clear: () => { store = {} },
     open: vi.fn().mockImplementation(() => mockRequest({
       objectStoreNames: {
         contains: vi.fn().mockReturnValue(true),
       },
-      transaction: vi.fn().mockReturnValue({
-        objectStore: vi.fn().mockReturnValue({
+      transaction: vi.fn().mockImplementation(() => {
+        const transaction = {
+          objectStore: vi.fn().mockReturnValue({
           put: vi.fn().mockImplementation((val, key) => {
             if (failQuota) {
               return mockRequest(undefined, { name: 'QuotaExceededError' })
@@ -71,12 +74,25 @@ const createIDBMock = () => {
           get: vi.fn().mockImplementation((key) => mockRequest(store[key])),
           delete: vi.fn().mockImplementation((key) => {
             delete store[key]
-            return mockRequest()
+            const request = mockRequest()
+            setTimeout(() => {
+              if (abortTransaction) {
+                transaction.error = new DOMException('Aborted', 'AbortError')
+                transaction.onabort?.()
+              } else {
+                transaction.oncomplete?.()
+              }
+            }, 0)
+            return request
           }),
           openCursor: vi.fn().mockImplementation(() => mockCursor(Object.keys(store)))
-        }),
-        oncomplete: null,
-        onerror: null,
+          }),
+          oncomplete: null as (() => void) | null,
+          onerror: null as (() => void) | null,
+          onabort: null as (() => void) | null,
+          error: null as DOMException | null,
+        }
+        return transaction
       })
     }))
   }
@@ -93,6 +109,7 @@ describe("OfflineBinaryStorage", () => {
     vi.restoreAllMocks()
     vi.stubGlobal('indexedDB', idbMock)
     idbMock._setFailQuota(false)
+    idbMock._setAbortTransaction(false)
     idbMock._clear()
   })
 
@@ -119,6 +136,13 @@ describe("OfflineBinaryStorage", () => {
     idbMock._setFailQuota(true)
     const largeBlob = new Blob(["large-content"])
     await expect(offlineBinaryStorage.saveBinary(largeBlob)).rejects.toThrow(/quota/i)
+  })
+
+  it("rejects removal when the transaction aborts after delete request success", async () => {
+    const id = await offlineBinaryStorage.saveBinary(mockFile)
+    idbMock._setAbortTransaction(true)
+
+    await expect(offlineBinaryStorage.removeBinary(id)).rejects.toThrow('Aborted')
   })
 
   it("should cleanup records older than 7 days", async () => {

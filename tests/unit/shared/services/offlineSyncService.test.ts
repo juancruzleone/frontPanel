@@ -29,8 +29,8 @@ vi.mock("../../../../src/utils/indexedDBStorage", () => ({
 describe("OfflineSyncService", () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    useOfflineStore.getState().clearQueue()
-    useAuthStore.setState({ isAuthenticated: true, isAuthResolved: true, userId: "current-user" })
+    useOfflineStore.setState({ queue: [] })
+    useAuthStore.setState({ isAuthenticated: true, isAuthResolved: true, tenantId: "tenant-1", userId: "current-user" })
     vi.stubGlobal('navigator', { onLine: true })
     vi.mocked(refreshSession).mockResolvedValue({ success: true, authenticated: true })
   })
@@ -266,6 +266,7 @@ describe("OfflineSyncService", () => {
       queue: [
         {
           id: "other-operation",
+          tenantId: "tenant-1",
           userId: "other-user",
           type: "UPDATE_INSTALLATION",
           payload: { id: "inst-other", data: { company: "Other" } },
@@ -273,6 +274,7 @@ describe("OfflineSyncService", () => {
         },
         {
           id: "current-operation",
+          tenantId: "tenant-1",
           userId: "current-user",
           type: "UPDATE_INSTALLATION",
           payload: { id: "inst-current", data: { company: "Current" } },
@@ -306,6 +308,7 @@ describe("OfflineSyncService", () => {
       queue: [
         {
           id: "processing-operation",
+          tenantId: "tenant-1",
           userId: "current-user",
           type: "UPDATE_INSTALLATION",
           payload: { id: "inst-current", data: { company: "Current" } },
@@ -313,6 +316,7 @@ describe("OfflineSyncService", () => {
         },
         {
           id: "remaining-operation",
+          tenantId: "tenant-1",
           userId: "current-user",
           type: "UPDATE_INSTALLATION",
           payload: { id: "inst-next", data: { company: "Next" } },
@@ -343,6 +347,7 @@ describe("OfflineSyncService", () => {
       queue: [
         {
           id: "processing-operation",
+          tenantId: "tenant-1",
           userId: "current-user",
           type: "UPDATE_INSTALLATION",
           payload: { id: "inst-current", data: { company: "Current" } },
@@ -350,6 +355,7 @@ describe("OfflineSyncService", () => {
         },
         {
           id: "remaining-operation",
+          tenantId: "tenant-1",
           userId: "current-user",
           type: "UPDATE_INSTALLATION",
           payload: { id: "inst-next", data: { company: "Next" } },
@@ -380,6 +386,7 @@ describe("OfflineSyncService", () => {
     useOfflineStore.setState({
       queue: [{
         id: "orphan-operation",
+        tenantId: "tenant-1",
         userId: "current-user",
         type: "UPDATE_INSTALLATION",
         payload: { id: "inst-current", data: { company: "Current" } },
@@ -394,5 +401,52 @@ describe("OfflineSyncService", () => {
     expect(useOfflineStore.getState().queue[0]).toMatchObject({ id: "orphan-operation" })
     expect(useOfflineStore.getState().queue[0]).not.toHaveProperty("retries")
     expect(useOfflineStore.getState().queue[0]).not.toHaveProperty("lastError")
+  })
+
+  it('does not process same-user records from another tenant or unscoped legacy records', async () => {
+    useOfflineStore.setState({
+      queue: [
+        { id: 'shared-id', tenantId: 'tenant-1', userId: 'current-user', type: 'CREATE_WORK_ORDER', payload: { title: 'Current' }, timestamp: 1 },
+        { id: 'shared-id', tenantId: 'tenant-2', userId: 'current-user', type: 'CREATE_WORK_ORDER', payload: { title: 'Other tenant' }, timestamp: 2 },
+        { id: 'shared-id', userId: 'current-user', type: 'CREATE_WORK_ORDER', payload: { title: 'Legacy' }, timestamp: 3 },
+      ],
+    })
+    vi.mocked(workOrderServices.createWorkOrder).mockResolvedValue({
+      _id: 'wo-1',
+    } as Awaited<ReturnType<typeof workOrderServices.createWorkOrder>>)
+
+    await offlineSyncService.syncAll()
+
+    expect(workOrderServices.createWorkOrder).toHaveBeenCalledTimes(1)
+    expect(workOrderServices.createWorkOrder).toHaveBeenCalledWith(expect.objectContaining({ title: 'Current' }), expect.any(String))
+    const remainingQueue = useOfflineStore.getState().queue
+    expect(remainingQueue).toHaveLength(2)
+    expect(remainingQueue[0]).toMatchObject({ id: 'shared-id', tenantId: 'tenant-2', userId: 'current-user' })
+    expect(remainingQueue[1]).toMatchObject({ id: 'shared-id', userId: 'current-user', payload: { title: 'Legacy' } })
+    expect(remainingQueue[1]).not.toHaveProperty('tenantId')
+  })
+
+  it('records retry state only for the active tenant when queue IDs collide', async () => {
+    useOfflineStore.setState({
+      queue: [
+        { id: 'shared-id', tenantId: 'tenant-1', userId: 'current-user', type: 'CREATE_WORK_ORDER', payload: { title: 'Current' }, timestamp: 1 },
+        { id: 'shared-id', tenantId: 'tenant-2', userId: 'current-user', type: 'CREATE_WORK_ORDER', payload: { title: 'Other tenant' }, timestamp: 2 },
+        { id: 'shared-id', userId: 'current-user', type: 'CREATE_WORK_ORDER', payload: { title: 'Legacy' }, timestamp: 3 },
+      ],
+    })
+    vi.mocked(workOrderServices.createWorkOrder).mockRejectedValue(new Error('Retry current tenant'))
+
+    await offlineSyncService.syncAll()
+
+    expect(workOrderServices.createWorkOrder).toHaveBeenCalledTimes(1)
+    const queue = useOfflineStore.getState().queue
+    expect(queue[0]).toMatchObject({ id: 'shared-id', tenantId: 'tenant-1', retries: 1, lastError: 'Retry current tenant' })
+    expect(queue[1]).toMatchObject({ id: 'shared-id', tenantId: 'tenant-2', userId: 'current-user', payload: { title: 'Other tenant' } })
+    expect(queue[1]).not.toHaveProperty('retries')
+    expect(queue[1]).not.toHaveProperty('lastError')
+    expect(queue[2]).toMatchObject({ id: 'shared-id', userId: 'current-user', payload: { title: 'Legacy' } })
+    expect(queue[2]).not.toHaveProperty('tenantId')
+    expect(queue[2]).not.toHaveProperty('retries')
+    expect(queue[2]).not.toHaveProperty('lastError')
   })
 })

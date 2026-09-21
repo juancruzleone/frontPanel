@@ -1,12 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import useWorkOrders from '../../../../src/features/workOrders/hooks/useWorkOrders';
+import useWorkOrders, { type WorkOrder } from '../../../../src/features/workOrders/hooks/useWorkOrders';
 import * as workOrderServices from '../../../../src/features/workOrders/services/workOrderServices';
 import { useWorkOrderStore } from '../../../../src/store/workOrderStore';
 
 const offlineState = vi.hoisted(() => ({
   addToQueue: vi.fn(),
-  queue: [] as Array<{ id: string; userId?: string; type: string; payload: Record<string, unknown>; timestamp: number }>,
+  queue: [] as Array<{ id: string; tenantId?: string; userId?: string; type: string; payload: Record<string, unknown>; timestamp: number }>,
 }));
 const completionLifecycle = vi.hoisted(() => ({
   complete: vi.fn(),
@@ -22,7 +22,7 @@ vi.mock('../../../../src/shared/offline/lifecycleStart', () => ({
   startWorkOrderOnlineOrOffline: vi.fn(),
 }));
 vi.mock('../../../../src/store/authStore', () => {
-  const mockState = { userId: 'test-user', isAuthenticated: true };
+  const mockState = { tenantId: 'tenant-active', userId: 'test-user', isAuthenticated: true };
   const mockHook = vi.fn((selector) => selector ? selector(mockState) : mockState);
   (mockHook as any).getState = () => mockState;
   return { useAuthStore: mockHook };
@@ -214,6 +214,75 @@ describe('useWorkOrders hook', () => {
       const { result } = renderHook(() => useWorkOrders());
 
       expect(result.current.workOrders).toEqual([]);
+    });
+
+    it('projects only queue records for the active tenant and user identity', () => {
+      const baseOrder: WorkOrder = {
+        _id: 'wo-shared',
+        titulo: 'Original order',
+        descripcion: 'Original description',
+        instalacionId: 'installation-1',
+        estado: 'pendiente',
+        prioridad: 'media',
+        tipoTrabajo: 'mantenimiento',
+        fechaProgramada: '2026-05-01',
+        horaProgramada: '10:00',
+      };
+      const activeCreation: WorkOrder = {
+        _id: 'wo-active',
+        titulo: 'Active tenant order',
+        descripcion: 'Active tenant description',
+        instalacionId: 'installation-1',
+        estado: 'pendiente',
+        prioridad: 'media',
+        tipoTrabajo: 'mantenimiento',
+        fechaProgramada: '2026-05-01',
+        horaProgramada: '10:00',
+      };
+      offlineState.queue = [
+        {
+          id: 'active-update',
+          tenantId: 'tenant-active',
+          userId: 'test-user',
+          type: 'UPDATE_WORK_ORDER',
+          payload: { id: 'wo-shared', data: { titulo: 'Active tenant update' } },
+          timestamp: 1,
+        },
+        {
+          id: 'active-create',
+          tenantId: 'tenant-active',
+          userId: 'test-user',
+          type: 'CREATE_WORK_ORDER',
+          payload: activeCreation,
+          timestamp: 2,
+        },
+        {
+          id: 'other-tenant-delete',
+          tenantId: 'tenant-other',
+          userId: 'test-user',
+          type: 'DELETE_WORK_ORDER',
+          payload: { id: 'wo-shared' },
+          timestamp: 3,
+        },
+        {
+          id: 'legacy-create',
+          userId: 'test-user',
+          type: 'CREATE_WORK_ORDER',
+          payload: { _id: 'wo-legacy', titulo: 'Legacy order' },
+          timestamp: 4,
+        },
+      ];
+      useWorkOrderStore.setState({ workOrders: [baseOrder], ownerId: 'test-user' });
+
+      const { result } = renderHook(() => useWorkOrders());
+
+      expect(result.current.workOrders).toEqual([
+        activeCreation,
+        expect.objectContaining({ _id: 'wo-shared', titulo: 'Active tenant update' }),
+      ]);
+      expect(result.current.workOrders).not.toEqual(
+        expect.arrayContaining([expect.objectContaining({ _id: 'wo-legacy' })]),
+      );
     });
 
     it('preserves signature, photo, and completion fields for encrypted offline lifecycle handling', async () => {
