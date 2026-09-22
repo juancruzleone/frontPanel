@@ -1,12 +1,12 @@
 .container {
   margin: 0 auto;
-  padding: 16px 24px 24px 24px;
+  padding: 120px 24px 24px 24px;
   max-width: 1200px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
   color: var(--color-text);
-  min-height: unset;
+  min-height: calc(100vh - 40px);
   position: static;
 }
 
