@@ -643,14 +643,6 @@ const WorkOrders = () => {
 						<h1 className={styles.title}>{t("workOrders.title")}</h1>
 					</div>
 					<div className={styles.topActions}>
-						<Button
-							title={t("workOrders.viewCalendar")}
-							onClick={handleNavigateToCalendar}
-							className={styles.calendarActionButton}
-						>
-							<CalendarIcon size={18} />
-							{t("workOrders.viewCalendar")}
-						</Button>
 						{permissions?.canCreateWorkOrders && (
 							<div
 								className={styles.positionButton}
@@ -664,6 +656,14 @@ const WorkOrders = () => {
 								</Button>
 							</div>
 						)}
+						<Button
+							title={t("workOrders.viewCalendar")}
+							onClick={handleNavigateToCalendar}
+							className={styles.calendarActionButton}
+						>
+							<CalendarIcon size={18} />
+							{t("workOrders.viewCalendar")}
+						</Button>
 					</div>
 				</div>
 

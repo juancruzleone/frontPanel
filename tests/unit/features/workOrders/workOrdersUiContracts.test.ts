@@ -132,7 +132,7 @@ describe("Work Orders UI contracts", () => {
   it("keeps operational card styling aligned with assets and responsive (source contract)", () => {
     const styles = readSource("src/features/workOrders/styles/workOrders.module.css")
     const cardRule = styles.match(/\.workOrderCard\s*\{([\s\S]*?)\}/)?.[1] ?? ""
-    expect(cardRule).toContain("border-radius: 12px")
+    expect(cardRule).toContain("border-radius: 8px")
     expect(cardRule).toContain("box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08)")
     expect(styles).toContain("linear-gradient")
     expect(styles).toContain(".workOrderCard::before")

@@ -324,7 +324,6 @@
   overflow: visible;
 }
 
-
 .tableRow:hover {
   background: rgba(0, 0, 0, 0.02);
   z-index: 99999 !important;
@@ -372,12 +371,15 @@
 
 .typeBadge {
   display: inline-flex;
-  padding: 4px 12px;
+  padding: 6px 12px;
   border-radius: 8px;
-  background: var(--color-secondary);
-  color: white;
-  font-weight: 600;
-  font-size: 0.75rem;
+  background: var(--color-text);
+  color: var(--color-card);
+  font-weight: 500;
+  font-size: 12px;
+  text-align: center;
+  width: fit-content;
+  align-self: flex-start;
 }
 
 .frequencyGroup {
@@ -890,6 +892,25 @@
     order: 2;
   }
 
+  .tableContainer {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+
+  .tableWrapper {
+    background: transparent;
+  }
+
+  .table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    padding: 0;
+  }
+
   /* Ocultar encabezado de tabla */
   .tableHeader {
     display: none;
@@ -899,24 +920,17 @@
     display: block;
   }
 
-  .table tbody {
-    display: block;
-    width: 100%;
-    padding: 0;
-  }
-
   /* Filas continuas con layout vertical */
   /* Filas continuas con layout vertical */
   .tableRow {
     display: flex;
     flex-direction: column;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--color-card-border);
-    padding: 24px 20px;
-    gap: 32px;
-    /* Más espacio entre filas de datos */
-    border-radius: 0;
+    background: var(--color-card);
+    border: 1px solid var(--color-card-border);
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    gap: 16px;
   }
 
   :global(.dark) .tableRow {
@@ -1232,16 +1246,6 @@
   position: relative;
 }
 
-.modalHeader::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.6) 100%);
-}
-
 .modalTitle {
   margin: 0;
   font-size: 1.75rem;
@@ -1383,7 +1387,7 @@
 .frequencyForm {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
   padding: 2rem 2.5rem;
 }
 
@@ -1396,7 +1400,7 @@
   font-weight: 600;
   color: var(--color-text);
   font-size: 0.95rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;

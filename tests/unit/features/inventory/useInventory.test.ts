@@ -33,6 +33,19 @@ describe('useInventory hook', () => {
     expect(services.fetchInventoryItems).toHaveBeenCalled()
   })
 
+  it('keeps loadInventory stable when the item count changes', async () => {
+    vi.mocked(services.fetchInventoryItems).mockResolvedValue({ items: [{ name: 'Item 1' }], total: 1 })
+    const { result } = renderHook(() => useInventory())
+    const initialCallback = result.current.loadInventory
+
+    await act(async () => {
+      await initialCallback()
+    })
+
+    expect(result.current.loadInventory).toBe(initialCallback)
+    expect(services.fetchInventoryItems).toHaveBeenCalledTimes(1)
+  })
+
   it('debe devolver solo items reales de inventario (sin filas derivadas de activos)', async () => {
     vi.mocked(services.fetchInventoryItems).mockResolvedValue({ items: [], total: 0 })
 

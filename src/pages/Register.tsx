@@ -154,17 +154,13 @@ const Register = () => {
       <div className={styles.topSection}>
         <div className={styles.headerWithToggle}>
           <h1 className={styles.title}>{t('personal.title')}</h1>
-          {!isMobile && (
-            <ViewToggle 
-              view={viewMode} 
-              onViewChange={setViewMode}
-            />
-          )}
         </div>
         <div className={styles.buttonContainer} data-tour="add-technician-btn">
           <Button title={t('personal.addTechnician')} onClick={handleOpenModal} />
         </div>
       </div>
+
+      {!isMobile && <div className={styles.actionsBar}><div className={styles.viewToggleRow}><ViewToggle view={viewMode} onViewChange={setViewMode} /></div></div>}
 
       {/* Filtro de búsqueda */}
       <div className={styles.searchRow}>

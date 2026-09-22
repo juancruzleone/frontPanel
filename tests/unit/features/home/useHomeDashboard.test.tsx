@@ -24,8 +24,8 @@ describe("useHomeDashboard", () => {
       role: "admin",
     })
     inventoryMock
-      .mockResolvedValueOnce({ total: 20, items: [] })
-      .mockResolvedValueOnce({ total: 3, items: [] })
+      .mockResolvedValueOnce({ total: 20, items: [{ _id: "item-1", name: "Filtro", currentStock: 8, unit: "u", minimumStock: 2 }] })
+      .mockResolvedValueOnce({ total: 3, items: [{ _id: "item-2", name: "Correa", currentStock: 1, unit: "u", minimumStock: 4 }] })
   })
 
   it("maps the real metadata scope and stores a role-isolated admin cache", async () => {
@@ -34,7 +34,15 @@ describe("useHomeDashboard", () => {
 
     await waitFor(() => expect(result.current.loading).toBe(false))
     expect(result.current.data?.metadata.scope).toBe("tenant")
-    expect(result.current.inventory).toEqual({ totalItems: 20, lowStockItems: 3 })
+    expect(result.current.inventory).toEqual(expect.objectContaining({
+      totalItems: 20,
+      lowStockItems: 3,
+      items: [expect.objectContaining({ _id: "item-1" })],
+      lowStockDetails: [expect.objectContaining({ _id: "item-2" })],
+    }))
+    expect(inventoryMock).toHaveBeenCalledTimes(2)
+    expect(inventoryMock).toHaveBeenNthCalledWith(1, { page: 1, limit: 5 })
+    expect(inventoryMock).toHaveBeenNthCalledWith(2, { page: 1, limit: 5, lowStock: true })
     expect(useHomeStore.getState().cache?.cacheKey).toBe(buildHomeCacheKey("tenant-a", "user-1", "admin"))
   })
 

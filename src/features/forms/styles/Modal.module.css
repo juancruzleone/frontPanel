@@ -61,16 +61,6 @@
   position: relative;
 }
 
-.modalHeader::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.6) 100%);
-}
-
 .modalHeader p {
   color: var(--color-text);
 }
@@ -325,16 +315,6 @@
   position: relative;
 }
 
-.confirmHeader::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
-}
-
 .warningIcon {
   display: flex;
   align-items: center;
@@ -500,7 +480,7 @@
 
   .successContentBody {
     padding: 2rem 1.5rem;
-    gap: 1.5rem;
+    gap: 1rem;
   }
 
   .successIconLarge {
@@ -621,7 +601,7 @@
 .listContainer {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
   padding: 1rem 0;
   /* Solo padding arriba y abajo */
 }
@@ -851,16 +831,6 @@
   padding: 2rem 2rem 1rem;
   background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-card) 100%);
   position: relative;
-}
-
-.deleteConfirmHeader::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
 }
 
 .deleteConfirmContent {

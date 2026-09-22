@@ -38,17 +38,15 @@ const toSummaryItem = (item: { _id?: string; name?: string; currentStock?: numbe
 })
 
 const fetchInventorySummary = async (): Promise<InventorySummaryData> => {
-  const [totalRes, lowStockRes, itemsRes, lowStockDetailRes] = await Promise.all([
-    fetchInventoryItems({ page: 1, limit: 1 }).catch(() => ({ total: 0, items: [] as never[] })),
-    fetchInventoryItems({ page: 1, limit: 1, lowStock: true }).catch(() => ({ total: 0, items: [] as never[] })),
+  const [itemsRes, lowStockRes] = await Promise.all([
     fetchInventoryItems({ page: 1, limit: 5 }).catch(() => ({ total: 0, items: [] as never[] })),
     fetchInventoryItems({ page: 1, limit: 5, lowStock: true }).catch(() => ({ total: 0, items: [] as never[] })),
   ])
 
-  const totalItems = (totalRes as { total?: number; items?: unknown[] }).total ?? (totalRes as { items?: unknown[] }).items?.length ?? 0
+  const totalItems = (itemsRes as { total?: number; items?: unknown[] }).total ?? (itemsRes as { items?: unknown[] }).items?.length ?? 0
   const lowStockItems = (lowStockRes as { total?: number; items?: unknown[] }).total ?? (lowStockRes as { items?: unknown[] }).items?.length ?? 0
   const rawItems = ((itemsRes as { items?: unknown[] }).items ?? []) as Array<{ _id?: string; name?: string; currentStock?: number; unit?: string; minimumStock?: number }>
-  const rawLow = ((lowStockDetailRes as { items?: unknown[] }).items ?? []) as Array<{ _id?: string; name?: string; currentStock?: number; unit?: string; minimumStock?: number }>
+  const rawLow = ((lowStockRes as { items?: unknown[] }).items ?? []) as Array<{ _id?: string; name?: string; currentStock?: number; unit?: string; minimumStock?: number }>
 
   const items = rawItems.slice(0, 5).map(toSummaryItem)
   const lowStockDetails = rawLow.slice(0, 5).map(toSummaryItem)

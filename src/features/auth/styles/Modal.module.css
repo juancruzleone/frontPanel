@@ -58,20 +58,6 @@
   position: relative;
 }
 
-.modalHeader::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: #ffffff;
-}
-
-:global([data-theme="light"]) .modalHeader::before {
-  background: #000000;
-}
-
 .headerContent {
   display: flex;
   align-items: flex-start;

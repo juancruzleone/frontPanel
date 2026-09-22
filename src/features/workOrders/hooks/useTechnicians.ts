@@ -18,17 +18,19 @@ const useTechnicians = () => {
   const validTechnicians = userId && ownerId === userId ? storedTechnicians : []
 
   const loadTechnicians = useCallback(async () => {
+    const currentStore = useTechnicianStore.getState()
+    const hasValidCache = Boolean(userId && currentStore.ownerId === userId && currentStore.technicians.length > 0)
     try {
       setLoading(true)
       setError(null)
-      if (!navigator.onLine && validTechnicians.length > 0) {
+      if (!navigator.onLine && hasValidCache) {
         setLoading(false)
         return
       }
       const data = await fetchTechnicians()
       setTechnicians(data)
     } catch (err: unknown) {
-      if (validTechnicians.length > 0) {
+      if (hasValidCache) {
         setLoading(false)
         return
       }
@@ -36,7 +38,7 @@ const useTechnicians = () => {
     } finally {
       setLoading(false)
     }
-  }, [validTechnicians.length, setTechnicians])
+  }, [userId, setTechnicians])
 
   useEffect(() => {
     loadTechnicians()

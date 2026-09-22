@@ -21,7 +21,7 @@ describe('useSuppliers hook', () => {
 
   it('debe cargar proveedores al llamar a loadSuppliers', async () => {
     const mockSuppliers = [{ name: 'Prov 1' }]
-    ;(services.fetchSuppliers as any).mockResolvedValue({ suppliers: mockSuppliers, total: 1 })
+    vi.mocked(services.fetchSuppliers).mockResolvedValue({ suppliers: mockSuppliers, total: 1 })
 
     const { result } = renderHook(() => useSuppliers())
 
@@ -31,5 +31,18 @@ describe('useSuppliers hook', () => {
 
     expect(result.current.suppliers).toEqual(mockSuppliers)
     expect(services.fetchSuppliers).toHaveBeenCalled()
+  })
+
+  it('keeps loadSuppliers stable when the supplier count changes', async () => {
+    vi.mocked(services.fetchSuppliers).mockResolvedValue({ suppliers: [{ name: 'Prov 1' }], total: 1 })
+    const { result } = renderHook(() => useSuppliers())
+    const initialCallback = result.current.loadSuppliers
+
+    await act(async () => {
+      await initialCallback()
+    })
+
+    expect(result.current.loadSuppliers).toBe(initialCallback)
+    expect(services.fetchSuppliers).toHaveBeenCalledTimes(1)
   })
 })

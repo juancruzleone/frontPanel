@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { ShieldAlert, History, Info } from "lucide-react"
+import { ShieldAlert, Info } from "lucide-react"
 import { auditService } from "../features/audit/services/auditService"
 import { useAuditStore } from "../store/auditStore"
 import { useAuthStore } from "../store/authStore"
-import { AuditLog } from "../features/audit/types/audit.types"
 import styles from "../features/audit/styles/auditLogs.module.css"
 
 const AuditLogs: React.FC = () => {
@@ -14,14 +13,17 @@ const AuditLogs: React.FC = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [backendMissing, setBackendMissing] = useState(false)
+  const unknownErrorMessage = t('audit.errorUnknown')
 
   const validLogs = userId && ownerId === userId ? logs : []
 
   useEffect(() => {
     const fetchLogs = async () => {
+      const currentStore = useAuditStore.getState()
+      const hasValidCache = Boolean(userId && currentStore.ownerId === userId && currentStore.logs.length > 0)
       try {
         setLoading(true)
-        if (!navigator.onLine && validLogs.length > 0) {
+        if (!navigator.onLine && hasValidCache) {
           setLoading(false)
           return
         }
@@ -31,10 +33,10 @@ const AuditLogs: React.FC = () => {
       } catch (err: unknown) {
         if (err instanceof Error && err.message === 'BACKEND_NOT_IMPLEMENTED') {
           setBackendMissing(true)
-        } else if (validLogs.length > 0) {
+        } else if (hasValidCache) {
           // Keep cached logs if offline/error
         } else {
-          setError(err instanceof Error ? err.message : t('audit.errorUnknown'))
+          setError(err instanceof Error ? err.message : unknownErrorMessage)
         }
       } finally {
         setLoading(false)
@@ -42,7 +44,7 @@ const AuditLogs: React.FC = () => {
     }
 
     fetchLogs()
-  }, [validLogs.length, setLogs, userId, ownerId])
+  }, [setLogs, userId, ownerId, unknownErrorMessage])
 
   const displayLogs = validLogs
 

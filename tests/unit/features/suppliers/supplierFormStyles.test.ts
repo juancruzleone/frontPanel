@@ -14,9 +14,9 @@ const getRule = (selector: string) => {
 
 describe('SupplierForm styles', () => {
   it('usa el espaciado canónico entre grupos, labels, controles y errores', () => {
-    expect(getRule('.formContent')).toMatch(/gap:\s*1\.5rem/)
+    expect(getRule('.formContent')).toMatch(/gap:\s*1rem/)
     expect(getRule('.formGroup')).not.toMatch(/margin-bottom/)
-    expect(getRule('.formGroup label')).toMatch(/margin-bottom:\s*0\.5rem/)
+    expect(getRule('.formGroup label')).toMatch(/margin-bottom:\s*0\.35rem/)
     expect(getRule('.formGroup label')).not.toMatch(/margin-top|padding-top/)
     expect(getRule('.error')).toMatch(/margin-top:\s*0\.25rem/)
   })

@@ -13,6 +13,26 @@ const ASSIGNED_ORDERS_POLL_MAX_MS = 30000;
 const ASSIGNED_ORDERS_PAGE_LIMIT = 50;
 const ASSIGNED_ORDER_TOAST_DURATION_MS = 9000;
 
+class AssignedOrdersSyncError extends Error {
+    status: number;
+    retryAfterMs?: number;
+
+    constructor(status: number, message: string, retryAfterMs?: number) {
+        super(message);
+        this.status = status;
+        this.retryAfterMs = retryAfterMs;
+    }
+}
+
+const parseRetryAfterMs = (value: string | null): number | undefined => {
+    if (!value) return undefined;
+    const seconds = Number(value);
+    if (Number.isFinite(seconds) && seconds >= 0) return seconds * 1000;
+    const retryAt = Date.parse(value);
+    if (Number.isNaN(retryAt)) return undefined;
+    return Math.max(0, retryAt - Date.now());
+};
+
 const resolveSocketUrl = () => {
     const configuredSocketUrl = import.meta.env.VITE_SOCKET_URL?.trim();
     if (configuredSocketUrl) {
@@ -31,8 +51,9 @@ const SOCKET_URL = resolveSocketUrl();
 
 class SocketService {
     private socket: Socket | null = null;
-    private assignedOrdersPollId: number | null = null;
     private assignedOrdersPollTimeoutId: number | null = null;
+    private assignedOrdersPollingActive = false;
+    private intentionallyDisconnected = false;
     private knownOrderIds = new Set<string>();
     private isSyncingAssignedOrders = false;
     private pollRetryCount = 0;
@@ -47,6 +68,7 @@ class SocketService {
             return;
         }
 
+        this.intentionallyDisconnected = false;
         this.startAssignedOrdersPolling();
         this.socket = io(SOCKET_URL, {
             transports: ['polling', 'websocket'],
@@ -55,6 +77,7 @@ class SocketService {
         });
 
         this.socket.on('connect', () => {
+            this.stopAssignedOrdersPolling();
             this.identify();
         });
 
@@ -75,12 +98,15 @@ class SocketService {
         this.socket.on('orden-trabajo-eliminada', () => this.notifyWorkOrdersChanged());
         this.socket.on('work_order_deleted', () => this.notifyWorkOrdersChanged());
 
-        this.socket.on('connect_error', (error: Error) => {
+        this.socket.on('connect_error', () => {
             // Error de conexión
+            if (this.intentionallyDisconnected) return;
+            this.startAssignedOrdersPolling();
         });
 
         this.socket.on('disconnect', () => {
-            // Desconectado
+            if (this.intentionallyDisconnected) return;
+            this.startAssignedOrdersPolling();
         });
     }
 
@@ -205,9 +231,11 @@ class SocketService {
         });
 
         if (response.status === 429) {
-            const err = new Error('Rate limited al sincronizar órdenes asignadas');
-            (err as any).status = 429;
-            throw err;
+            throw new AssignedOrdersSyncError(
+                429,
+                'Rate limited al sincronizar órdenes asignadas',
+                parseRetryAfterMs(response.headers.get('Retry-After')),
+            );
         }
 
         if (!response.ok) {
@@ -244,6 +272,7 @@ class SocketService {
         }
 
         this.isSyncingAssignedOrders = true;
+        let nextDelayMs = ASSIGNED_ORDERS_POLL_MS;
         try {
             const assignedOrders = await this.fetchAssignedOrders();
             assignedOrders.forEach((order: any) => {
@@ -265,22 +294,19 @@ class SocketService {
             });
             // éxito: reset backoff
             this.pollRetryCount = 0;
-        } catch (error: any) {
-            const status = error?.status;
-            if (status === 429) {
+        } catch (error: unknown) {
+            if (error instanceof AssignedOrdersSyncError && error.status === 429) {
                 this.pollRetryCount += 1;
                 const backoffMs = Math.min(ASSIGNED_ORDERS_POLL_MS * Math.pow(2, this.pollRetryCount - 1), ASSIGNED_ORDERS_POLL_MAX_MS);
-                this.scheduleNextPoll(backoffMs);
-                return;
+                nextDelayMs = Math.max(backoffMs, error.retryAfterMs ?? 0);
+            } else {
+                this.pollRetryCount = 0;
             }
             // Error al sincronizar órdenes asignadas
         } finally {
             this.isSyncingAssignedOrders = false;
         }
-        // programa siguiente poll con intervalo base tras éxito o error no-429
-        if (this.assignedOrdersPollId !== null || this.assignedOrdersPollTimeoutId !== null) {
-            this.scheduleNextPoll(ASSIGNED_ORDERS_POLL_MS);
-        }
+        this.scheduleNextPoll(nextDelayMs);
     }
 
     private scheduleNextPoll(delayMs: number) {
@@ -288,15 +314,10 @@ class SocketService {
             clearTimeout(this.assignedOrdersPollTimeoutId);
             this.assignedOrdersPollTimeoutId = null;
         }
-        // solo reprograma si el polling sigue activo
-        if (this.assignedOrdersPollId === null && this.assignedOrdersPollTimeoutId === null) {
-            // polling activo se representa por assignedOrdersPollId sentinel; mantenemos compatibilidad
-            // si se detuvo, no reprogramar
-            return;
-        }
+        if (!this.assignedOrdersPollingActive || this.socket?.connected) return;
         this.assignedOrdersPollTimeoutId = window.setTimeout(() => {
             this.assignedOrdersPollTimeoutId = null;
-            this.syncAssignedOrders(true);
+            void this.syncAssignedOrders(true);
         }, delayMs);
     }
 
@@ -306,18 +327,14 @@ class SocketService {
             return;
         }
 
-        this.stopAssignedOrdersPolling();
-        // sentinel para indicar polling activo (compat con lógica de scheduleNextPoll)
-        this.assignedOrdersPollId = 1 as unknown as number;
+        if (this.socket?.connected || this.assignedOrdersPollingActive) return;
+        this.assignedOrdersPollingActive = true;
         this.pollRetryCount = 0;
-        this.syncAssignedOrders(false);
+        void this.syncAssignedOrders(false);
     }
 
     private stopAssignedOrdersPolling() {
-        if (this.assignedOrdersPollId !== null) {
-            // clear sentinel; no interval real ya
-            this.assignedOrdersPollId = null;
-        }
+        this.assignedOrdersPollingActive = false;
         if (this.assignedOrdersPollTimeoutId !== null) {
             clearTimeout(this.assignedOrdersPollTimeoutId);
             this.assignedOrdersPollTimeoutId = null;
@@ -326,6 +343,7 @@ class SocketService {
     }
 
     disconnect() {
+        this.intentionallyDisconnected = true;
         this.stopAssignedOrdersPolling();
         this.knownOrderIds.clear();
         if (this.workOrdersNotifyTimeoutId !== null) {

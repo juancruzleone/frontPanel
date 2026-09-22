@@ -17,9 +17,11 @@ export const useSuppliers = () => {
   const validSuppliers = userId && ownerId === userId ? suppliers : []
 
   const loadSuppliers = useCallback(async (params: { page?: number, limit?: number, name?: string } = {}) => {
+    const currentStore = useSupplierStore.getState()
+    const hasValidCache = Boolean(userId && currentStore.ownerId === userId && currentStore.suppliers.length > 0)
     setLoading(true)
     try {
-      if (!navigator.onLine && validSuppliers.length > 0) {
+      if (!navigator.onLine && hasValidCache) {
         setLoading(false)
         return
       }
@@ -28,7 +30,7 @@ export const useSuppliers = () => {
       setSuppliers(result.suppliers || [], result.total || 0)
       setError(null)
     } catch (err: unknown) {
-      if (validSuppliers.length > 0) {
+      if (hasValidCache) {
         setLoading(false)
         return
       }
@@ -36,7 +38,7 @@ export const useSuppliers = () => {
     } finally {
       setLoading(false)
     }
-  }, [setSuppliers, setLoading, validSuppliers.length])
+  }, [userId, setSuppliers, setLoading])
 
   const addSupplier = async (supplier: Omit<Supplier, '_id'>) => {
     const newSupplier = await apiCreateSupplier(supplier)

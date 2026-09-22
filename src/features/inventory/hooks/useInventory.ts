@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react"
+import { useState, useCallback } from "react"
 import { useInventoryStore } from "../../../store/inventoryStore"
 import { useAuthStore } from "../../../store/authStore"
 import { 
@@ -27,7 +27,9 @@ const useInventory = () => {
   const validItems = userId && ownerId === userId ? items : []
 
   const loadInventory = useCallback(async (params: { page?: number, limit?: number, name?: string, category?: string, lowStock?: boolean } = {}) => {
-    if (!navigator.onLine && validItems.length > 0) return
+    const currentStore = useInventoryStore.getState()
+    const hasValidCache = Boolean(userId && currentStore.ownerId === userId && currentStore.items.length > 0)
+    if (!navigator.onLine && hasValidCache) return
 
     setLoading(true)
     try {
@@ -41,7 +43,7 @@ const useInventory = () => {
         totalPages: result.totalPages || 1,
       })
     } catch (err) {
-      if (validItems.length > 0) {
+      if (hasValidCache) {
         setLoading(false)
         return
       }
@@ -49,7 +51,7 @@ const useInventory = () => {
     } finally {
       setLoading(false)
     }
-  }, [validItems.length, setItems, setLoading])
+  }, [userId, setItems, setLoading])
 
   const addInventoryItem = async (item: Partial<InventoryItem>) => {
     const newItem = await createInventoryItem(item)

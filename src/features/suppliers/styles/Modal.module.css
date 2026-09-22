@@ -59,21 +59,7 @@
   position: relative;
 }
 
-.modalHeader::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, white 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0.6) 100%);
-}
-
 /* Modo claro - Barra superior negra */
-:global([data-theme="light"]) .modalHeader::before {
-  background: linear-gradient(90deg, #000 0%, #1a1a1a 50%, #333 100%);
-}
-
 .titleSection {
   flex: 1;
 }
@@ -323,16 +309,6 @@
   position: relative;
 }
 
-.confirmHeader::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
-}
-
 .warningIcon {
   display: flex;
   align-items: center;
@@ -514,7 +490,7 @@
 
   .successContentBody {
     padding: 2rem 1.5rem;
-    gap: 1.5rem;
+    gap: 1rem;
   }
 
   .successIconLarge {
