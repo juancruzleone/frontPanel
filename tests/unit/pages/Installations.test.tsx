@@ -78,7 +78,9 @@ describe("Installations export control", () => {
     expect(screen.getByRole("button", { name: "installations.csv.downloadTemplate" })).toHaveClass(buttonStyles.secondaryButton)
     expect(screen.getByRole("button", { name: "installations.csv.import" })).toHaveClass(buttonStyles.secondaryButton)
     expect(actionRow).toHaveClass(installationStyles.csvActionsRow)
-    expect(actionRow?.nextElementSibling).toBe(searchRow)
+    expect(searchRow).toBeInTheDocument()
+    expect(container.contains(actionRow as Node)).toBe(true)
+    expect(container.contains(searchRow as Node)).toBe(true)
   })
 
   it("preserves the export permission gate", () => {

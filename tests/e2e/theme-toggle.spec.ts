@@ -45,5 +45,9 @@ test("el cambio de tema responde rápido y persiste tras recargar", async ({ pag
 
   expect(stateAfterReload.isDark).toBe(stateAfterToggle.isDark)
   expect(stateAfterReload.htmlTheme).toBe(stateAfterToggle.htmlTheme)
-  expect(stateAfterReload.bodyTheme).toBe(stateAfterToggle.bodyTheme)
+  if (stateAfterToggle.bodyTheme !== null) {
+    expect(stateAfterReload.bodyTheme).toBe(stateAfterToggle.bodyTheme)
+  } else {
+    expect(stateAfterReload.bodyTheme).toBeNull()
+  }
 })
