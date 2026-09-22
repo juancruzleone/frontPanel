@@ -174,17 +174,12 @@ const Forms = () => {
         <div className={styles.topSection}>
           <div className={styles.headerWithToggle}>
             <h1 className={styles.title}>{t("forms.title")}</h1>
-            {!isMobile && (
-              <ViewToggle 
-                view={viewMode} 
-                onViewChange={setViewMode}
-              />
-            )}
           </div>
           <div className={styles.positionButton}>
             <Button title={t("forms.createTemplate")} onClick={handleOpenCreate} data-tour="create-template-btn" />
           </div>
         </div>
+        {!isMobile && <div className={styles.actionsBar}><div className={styles.viewToggleRow}><ViewToggle view={viewMode} onViewChange={setViewMode} /></div></div>}
 
         <div className={styles.searchRow}>
           <div className={styles.searchContainerInner} data-tour="search-filter">

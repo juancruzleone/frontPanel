@@ -239,14 +239,9 @@ const Subscriptions = () => {
       <div className={styles.topSection}>
         <div className={styles.headerWithToggle}>
           <h1 className={styles.title}>{t('subscriptions.title')}</h1>
-          {!isMobile && (
-            <ViewToggle 
-              view={viewMode} 
-              onViewChange={setViewMode}
-            />
-          )}
         </div>
       </div>
+      {!isMobile && <div className={styles.actionsBar}><div className={styles.viewToggleRow}><ViewToggle view={viewMode} onViewChange={setViewMode} /></div></div>}
 
       {/* Solo mostrar controles si hay subscripciones */}
       {!loading && subscriptions.length > 0 && (

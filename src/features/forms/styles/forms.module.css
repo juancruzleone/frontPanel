@@ -24,6 +24,23 @@
   flex: 1;
 }
 
+.actionsBar {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+.viewToggleRow {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 .title {
   font-size: 32px;
   font-weight: 700;

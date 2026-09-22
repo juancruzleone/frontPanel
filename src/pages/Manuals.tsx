@@ -220,12 +220,6 @@ const Manuals = () => {
           <div className={styles.topSection}>
             <div className={styles.headerWithToggle}>
               <h1 className={styles.title}>{t('manuals.title')}</h1>
-              {!isMobile && (
-                <ViewToggle 
-                  view={viewMode} 
-                  onViewChange={setViewMode}
-                />
-              )}
             </div>
             {!isRestricted && (
               <div className={styles.positionButton} data-tour="create-manual-btn">
@@ -233,6 +227,7 @@ const Manuals = () => {
               </div>
             )}
           </div>
+          {!isMobile && <div className={styles.actionsBar}><div className={styles.viewToggleRow}><ViewToggle view={viewMode} onViewChange={setViewMode} /></div></div>}
         </div>
 
         <div className={styles.searchRow}>
