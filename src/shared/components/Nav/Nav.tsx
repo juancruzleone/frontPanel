@@ -59,6 +59,7 @@ const Nav = () => {
 	const workOrdersTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 	const operationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 	const maintenanceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+	const assetsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
 	// Usar las utilidades de roles
 	const isTechnicianUser = isTechnician(role);
@@ -84,13 +85,15 @@ const Nav = () => {
 	const complianceRoute = getRoute("compliance");
 	const currentRouteMenuState = getRouteMenuOpenState(location.pathname, {
 		workOrders: [workOrdersRoute, calendarRoute],
-		maintenance: [maintenancePlanRoute, formsRoute, manualsRoute],
+		maintenance: [maintenancePlanRoute],
 		operation: [inventoryRoute, personalRoute, suppliersRoute, clientsRoute],
+		assets: [assetsRoute, formsRoute, manualsRoute],
 	});
 	const {
 		workOrders: isWorkOrdersSectionActive,
 		maintenance: isMaintenanceSectionActive,
 		operation: isOperationSectionActive,
+		assets: isAssetsSectionActive,
 	} = currentRouteMenuState;
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isWorkOrdersMenuOpen, setIsWorkOrdersMenuOpen] = useState(
@@ -105,6 +108,10 @@ const Nav = () => {
 		() => isMaintenanceSectionActive,
 	);
 	const [isMaintenanceHovered, setIsMaintenanceHovered] = useState(false);
+	const [isAssetsMenuOpen, setIsAssetsMenuOpen] = useState(
+		() => isAssetsSectionActive,
+	);
+	const [isAssetsHovered, setIsAssetsHovered] = useState(false);
 	const [isMobileDrawer, setIsMobileDrawer] = useState(isMobileDrawerViewport);
 	const isCollapsedDesktop = isSidebarCollapsed && !isMobileDrawer;
 
@@ -130,10 +137,12 @@ const Nav = () => {
 		setIsWorkOrdersMenuOpen(isWorkOrdersSectionActive);
 		setIsOperationMenuOpen(isOperationSectionActive);
 		setIsMaintenanceMenuOpen(isMaintenanceSectionActive);
+		setIsAssetsMenuOpen(isAssetsSectionActive);
 	}, [
 		isWorkOrdersSectionActive,
 		isOperationSectionActive,
 		isMaintenanceSectionActive,
+		isAssetsSectionActive,
 	]);
 
 	useEffect(() => {
@@ -141,6 +150,7 @@ const Nav = () => {
 			setIsWorkOrdersMenuOpen(false);
 			setIsOperationMenuOpen(false);
 			setIsMaintenanceMenuOpen(false);
+			setIsAssetsMenuOpen(false);
 		}
 	}, [isCollapsedDesktop]);
 
@@ -154,9 +164,13 @@ const Nav = () => {
 		if (maintenanceTimeoutRef.current) {
 			clearTimeout(maintenanceTimeoutRef.current);
 		}
+		if (assetsTimeoutRef.current) {
+			clearTimeout(assetsTimeoutRef.current);
+		}
 		setIsWorkOrdersHovered(false);
 		setIsOperationHovered(false);
 		setIsMaintenanceHovered(false);
+		setIsAssetsHovered(false);
 	}, [location.pathname]);
 
 	const handleLogout = async () => {
@@ -271,6 +285,38 @@ const Nav = () => {
 		if (isCollapsedDesktop) {
 			maintenanceTimeoutRef.current = setTimeout(() => {
 				setIsMaintenanceHovered(false);
+			}, 300);
+		}
+	};
+
+	const handleAssetsMouseEnter = () => {
+		if (isCollapsedDesktop) {
+			if (assetsTimeoutRef.current) {
+				clearTimeout(assetsTimeoutRef.current);
+			}
+			setIsAssetsHovered(true);
+		}
+	};
+
+	const handleAssetsMouseLeave = () => {
+		if (isCollapsedDesktop) {
+			assetsTimeoutRef.current = setTimeout(() => {
+				setIsAssetsHovered(false);
+			}, 300);
+		}
+	};
+
+	const handleAssetsSubmenuEnter = () => {
+		if (isCollapsedDesktop && assetsTimeoutRef.current) {
+			clearTimeout(assetsTimeoutRef.current);
+			setIsAssetsHovered(true);
+		}
+	};
+
+	const handleAssetsSubmenuLeave = () => {
+		if (isCollapsedDesktop) {
+			assetsTimeoutRef.current = setTimeout(() => {
+				setIsAssetsHovered(false);
 			}, 300);
 		}
 	};
@@ -444,40 +490,7 @@ const Nav = () => {
 											</span>
 										</NavLink>
 									)}
-									{isAdminUser && (
-										<NavLink
-											to={formsRoute}
-											data-tour="nav-forms"
-											className={({ isActive }) =>
-												`${styles.submenuLink} ${isActive ? styles.active : ""}`
-											}
-											onClick={() => {
-												setIsMenuOpen(false);
-												setIsMaintenanceHovered(false);
-											}}
-										>
-											<FileText size={20} />{" "}
-											<span className={styles.linkText}>
-												{t("nav.forms")}
-											</span>
-										</NavLink>
-									)}
-									<NavLink
-										to={manualsRoute}
-										data-tour="nav-manuals"
-										className={({ isActive }) =>
-											`${styles.submenuLink} ${isActive ? styles.active : ""}`
-										}
-										onClick={() => {
-											setIsMenuOpen(false);
-											setIsMaintenanceHovered(false);
-										}}
-									>
-										<BookOpen size={20} />{" "}
-										<span className={styles.linkText}>
-											{t("nav.manuals")}
-										</span>
-									</NavLink>
+
 								</div>
 							</li>
 						)}
@@ -496,15 +509,88 @@ const Nav = () => {
 							</li>
 						)}
 						{!isTechnicianUser && !isSuperAdminUser && !isClientUser && (
-							<li data-tour="nav-assets">
-								<NavLink
-									to={assetsRoute}
-									className={({ isActive }) => (isActive ? styles.active : "")}
-									onClick={() => setIsMenuOpen(false)}
+							<li
+								className={styles.menuGroup}
+								onMouseEnter={handleAssetsMouseEnter}
+								onMouseLeave={handleAssetsMouseLeave}
+							>
+								<button
+									type="button"
+									data-tour="nav-assets"
+									className={`${styles.groupButton} ${isAssetsSectionActive ? styles.active : ""}`}
+									onClick={() => setIsAssetsMenuOpen((prev) => !prev)}
+									aria-expanded={
+										isAssetsMenuOpen ||
+										(isCollapsedDesktop && isAssetsHovered)
+									}
 								>
-									<Package size={20} />{" "}
-									<span className={styles.linkText}>{t("nav.assets")}</span>
-								</NavLink>
+									<span className={styles.groupButtonContent}>
+										<Package size={20} />{" "}
+										<span className={styles.linkText}>
+											{t("nav.assets")}
+										</span>
+									</span>
+									<ChevronDown
+										size={16}
+										className={`${styles.groupChevron} ${isAssetsMenuOpen ? styles.groupChevronOpen : ""}`}
+									/>
+								</button>
+								<div
+									className={`${styles.submenu} ${styles.resourcesSubmenu} ${isAssetsMenuOpen || (isCollapsedDesktop && isAssetsHovered) ? styles.submenuOpen : ""}`}
+									onMouseEnter={handleAssetsSubmenuEnter}
+									onMouseLeave={handleAssetsSubmenuLeave}
+								>
+									<NavLink
+										to={assetsRoute}
+										data-tour="nav-assets-list"
+										className={({ isActive }) =>
+											`${styles.submenuLink} ${isActive ? styles.active : ""}`
+										}
+										onClick={() => {
+											setIsMenuOpen(false);
+											setIsAssetsHovered(false);
+										}}
+									>
+										<Package size={20} />{" "}
+										<span className={styles.linkText}>
+											{t("nav.assets")}
+										</span>
+									</NavLink>
+									{isAdminUser && (
+										<NavLink
+											to={formsRoute}
+											data-tour="nav-forms"
+											className={({ isActive }) =>
+												`${styles.submenuLink} ${isActive ? styles.active : ""}`
+											}
+											onClick={() => {
+												setIsMenuOpen(false);
+												setIsAssetsHovered(false);
+											}}
+										>
+											<FileText size={20} />{" "}
+											<span className={styles.linkText}>
+												{t("nav.forms")}
+											</span>
+										</NavLink>
+									)}
+									<NavLink
+										to={manualsRoute}
+										data-tour="nav-manuals"
+										className={({ isActive }) =>
+											`${styles.submenuLink} ${isActive ? styles.active : ""}`
+										}
+										onClick={() => {
+											setIsMenuOpen(false);
+											setIsAssetsHovered(false);
+										}}
+									>
+										<BookOpen size={20} />{" "}
+										<span className={styles.linkText}>
+											{t("nav.manuals")}
+										</span>
+									</NavLink>
+								</div>
 							</li>
 						)}
 						{!isSuperAdminUser && !isClientUser && (
