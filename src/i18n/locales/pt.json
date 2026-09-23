@@ -2133,20 +2133,7 @@
       "endDate": "Data fim",
       "actions": "Ações"
     },
-    "months": {
-      "Enero": "Janeiro",
-      "Febrero": "Fevereiro",
-      "Marzo": "Março",
-      "Abril": "Abril",
-      "Mayo": "Maio",
-      "Junio": "Junho",
-      "Julio": "Julho",
-      "Agosto": "Agosto",
-      "Septiembre": "Setembro",
-      "Octubre": "Outubro",
-      "Noviembre": "Novembro",
-      "Diciembre": "Dezembro"
-    },
+    "months": "meses",
     "frequency": {
       "monthly": "Mensal",
       "quarterly": "Trimestral",
@@ -2255,7 +2242,21 @@
       "confirmDeleteDescription": "Esta ação não pode ser desfeita. O documento será excluído permanentemente.",
       "deleteSuccess": "Documento excluído com sucesso"
     },
-    "installationDetails": "Detalhes da instalação"
+    "installationDetails": "Detalhes da instalação",
+    "monthNames": {
+      "Enero": "Janeiro",
+      "Febrero": "Fevereiro",
+      "Marzo": "Março",
+      "Abril": "Abril",
+      "Mayo": "Maio",
+      "Junio": "Junho",
+      "Julio": "Julho",
+      "Agosto": "Agosto",
+      "Septiembre": "Setembro",
+      "Octubre": "Outubro",
+      "Noviembre": "Novembro",
+      "Diciembre": "Dezembro"
+    }
   },
   "planLimits": {
     "title": "Limite do Plano Atingido",

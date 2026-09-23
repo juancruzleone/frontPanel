@@ -1698,7 +1698,8 @@
       "confirmDeleteDescription": "Esta acción no se puede deshacer. El documento será eliminado permanentemente.",
       "deleteSuccess": "Documento eliminado exitosamente"
     },
-    "installationDetails": "Detalle de la instalación"
+    "installationDetails": "Detalle de la instalación",
+    "months": "meses"
   },
   "calendar": {
     "selectedDate": "Fecha seleccionada",

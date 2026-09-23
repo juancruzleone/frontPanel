@@ -2056,20 +2056,7 @@
       "endDate": "終了日",
       "actions": "アクション"
     },
-    "months": {
-      "Enero": "1月",
-      "Febrero": "2月",
-      "Marzo": "3月",
-      "Abril": "4月",
-      "Mayo": "5月",
-      "Junio": "6月",
-      "Julio": "7月",
-      "Agosto": "8月",
-      "Septiembre": "9月",
-      "Octubre": "10月",
-      "Noviembre": "11月",
-      "Diciembre": "12月"
-    },
+    "months": "か月",
     "frequency": {
       "monthly": "毎月",
       "quarterly": "四半期ごと",
@@ -2134,7 +2121,21 @@
       "confirmDeleteDescription": "この操作は元に戻せません。ドキュメントは完全に削除されます。",
       "deleteSuccess": "ドキュメントが正常に削除されました"
     },
-    "installationDetails": "インストールの詳細"
+    "installationDetails": "インストールの詳細",
+    "monthNames": {
+      "Enero": "1月",
+      "Febrero": "2月",
+      "Marzo": "3月",
+      "Abril": "4月",
+      "Mayo": "5月",
+      "Junio": "6月",
+      "Julio": "7月",
+      "Agosto": "8月",
+      "Septiembre": "9月",
+      "Octubre": "10月",
+      "Noviembre": "11月",
+      "Diciembre": "12月"
+    }
   },
   "roles": {
     "superAdmin": "スーパー管理者",

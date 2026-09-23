@@ -2057,20 +2057,7 @@
       "endDate": "تاريخ الانتهاء",
       "actions": "الإجراءات"
     },
-    "months": {
-      "Enero": "يناير",
-      "Febrero": "فبراير",
-      "Marzo": "مارس",
-      "Abril": "أبريل",
-      "Mayo": "مايو",
-      "Junio": "يونيو",
-      "Julio": "يوليو",
-      "Agosto": "أغسطس",
-      "Septiembre": "سبتمبر",
-      "Octubre": "أكتوبر",
-      "Noviembre": "نوفمبر",
-      "Diciembre": "ديسمبر"
-    },
+    "months": "أشهر",
     "frequency": {
       "monthly": "شهري",
       "quarterly": "ربع سنوي",
@@ -2135,7 +2122,21 @@
       "confirmDeleteDescription": "لا يمكن التراجع عن هذا الإجراء. سيتم حذف المستند نهائياً.",
       "deleteSuccess": "تم حذف المستند بنجاح"
     },
-    "installationDetails": "تفاصيل التركيب"
+    "installationDetails": "تفاصيل التركيب",
+    "monthNames": {
+      "Enero": "يناير",
+      "Febrero": "فبراير",
+      "Marzo": "مارس",
+      "Abril": "أبريل",
+      "Mayo": "مايو",
+      "Junio": "يونيو",
+      "Julio": "يوليو",
+      "Agosto": "أغسطس",
+      "Septiembre": "سبتمبر",
+      "Octubre": "أكتوبر",
+      "Noviembre": "نوفمبر",
+      "Diciembre": "ديسمبر"
+    }
   },
   "planLimits": {
     "title": "تم الوصول إلى حد الخطة",

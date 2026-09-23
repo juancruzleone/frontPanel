@@ -2090,20 +2090,7 @@
       "endDate": "종료일",
       "actions": "작업"
     },
-    "months": {
-      "Enero": "1월",
-      "Febrero": "2월",
-      "Marzo": "3월",
-      "Abril": "4월",
-      "Mayo": "5월",
-      "Junio": "6월",
-      "Julio": "7월",
-      "Agosto": "8월",
-      "Septiembre": "9월",
-      "Octubre": "10월",
-      "Noviembre": "11월",
-      "Diciembre": "12월"
-    },
+    "months": "개월",
     "frequency": {
       "monthly": "매월",
       "quarterly": "분기별",
@@ -2168,7 +2155,21 @@
       "confirmDeleteDescription": "이 작업은 취소할 수 없습니다. 문서가 영구적으로 삭제됩니다.",
       "deleteSuccess": "문서가 성공적으로 삭제되었습니다"
     },
-    "installationDetails": "설치 세부정보"
+    "installationDetails": "설치 세부정보",
+    "monthNames": {
+      "Enero": "1월",
+      "Febrero": "2월",
+      "Marzo": "3월",
+      "Abril": "4월",
+      "Mayo": "5월",
+      "Junio": "6월",
+      "Julio": "7월",
+      "Agosto": "8월",
+      "Septiembre": "9월",
+      "Octubre": "10월",
+      "Noviembre": "11월",
+      "Diciembre": "12월"
+    }
   },
   "roles": {
     "superAdmin": "슈퍼 관리자",

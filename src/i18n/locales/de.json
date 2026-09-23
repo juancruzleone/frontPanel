@@ -1905,20 +1905,7 @@
       "endDate": "Enddatum",
       "actions": "Aktionen"
     },
-    "months": {
-      "Enero": "Januar",
-      "Febrero": "Februar",
-      "Marzo": "März",
-      "Abril": "April",
-      "Mayo": "Mai",
-      "Junio": "Juni",
-      "Julio": "Juli",
-      "Agosto": "August",
-      "Septiembre": "September",
-      "Octubre": "Oktober",
-      "Noviembre": "November",
-      "Diciembre": "Dezember"
-    },
+    "months": "Monate",
     "frequency": {
       "monthly": "Monatlich",
       "quarterly": "Vierteljährlich",
@@ -2026,7 +2013,21 @@
       "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Das Dokument wird dauerhaft gelöscht.",
       "deleteSuccess": "Dokument erfolgreich gelöscht"
     },
-    "installationDetails": "Installationsdetails"
+    "installationDetails": "Installationsdetails",
+    "monthNames": {
+      "Enero": "Januar",
+      "Febrero": "Februar",
+      "Marzo": "März",
+      "Abril": "April",
+      "Mayo": "Mai",
+      "Junio": "Juni",
+      "Julio": "Juli",
+      "Agosto": "August",
+      "Septiembre": "September",
+      "Octubre": "Oktober",
+      "Noviembre": "November",
+      "Diciembre": "Dezember"
+    }
   },
   "planLimits": {
     "title": "Plan-Limit Erreicht",

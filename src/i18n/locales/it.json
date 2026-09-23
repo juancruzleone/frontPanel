@@ -2130,20 +2130,7 @@
       "endDate": "Data fine",
       "actions": "Azioni"
     },
-    "months": {
-      "Enero": "Gennaio",
-      "Febrero": "Febbraio",
-      "Marzo": "Marzo",
-      "Abril": "Aprile",
-      "Mayo": "Maggio",
-      "Junio": "Giugno",
-      "Julio": "Luglio",
-      "Agosto": "Agosto",
-      "Septiembre": "Settembre",
-      "Octubre": "Ottobre",
-      "Noviembre": "Novembre",
-      "Diciembre": "Dicembre"
-    },
+    "months": "mesi",
     "frequency": {
       "monthly": "Mensile",
       "quarterly": "Trimestrale",
@@ -2251,7 +2238,21 @@
       "confirmDeleteDescription": "This action cannot be undone. The document will be permanently deleted.",
       "uploading": "Uploading..."
     },
-    "installationDetails": "Detalle de la instalación"
+    "installationDetails": "Detalle de la instalación",
+    "monthNames": {
+      "Enero": "Gennaio",
+      "Febrero": "Febbraio",
+      "Marzo": "Marzo",
+      "Abril": "Aprile",
+      "Mayo": "Maggio",
+      "Junio": "Giugno",
+      "Julio": "Luglio",
+      "Agosto": "Agosto",
+      "Septiembre": "Settembre",
+      "Octubre": "Ottobre",
+      "Noviembre": "Novembre",
+      "Diciembre": "Dicembre"
+    }
   },
   "roles": {
     "superAdmin": "Super Admin",
