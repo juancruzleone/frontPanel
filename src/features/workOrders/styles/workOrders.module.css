@@ -782,11 +782,20 @@
 
 @media (max-width: 768px) {
   .searchRow {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
     gap: 10px;
   }
 
   .searchContainer {
-    flex: 1 1 100%;
+    flex: 1 1 auto;
+  }
+
+  .clearFilters {
+    width: 46px;
+    height: 52px;
+    flex-shrink: 0;
   }
 }
 
@@ -815,6 +824,8 @@
   .searchRow {
     flex-direction: column;
     align-items: stretch;
+    gap: 12px;
+    margin-bottom: 16px;
   }
 
   .searchContainer {
@@ -830,11 +841,13 @@
   .filterContainer {
     flex-direction: column;
     align-items: stretch;
+    gap: 12px;
   }
 
   .additionalFilters {
     flex-direction: column;
     align-items: stretch;
+    gap: 12px;
   }
 
   .customDateButton {

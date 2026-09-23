@@ -315,6 +315,28 @@ const Subscriptions = () => {
                 className={styles.fullWidthSelect}
               />
             </div>
+            <div className={styles.tabletSelectsRow}>
+              <HybridSelect
+                value={selectedMonthFilter}
+                onChange={setSelectedMonthFilter}
+                options={monthOptions}
+                placeholder={t('subscriptions.filterByMonth')}
+                variant="compact"
+                className={styles.tabletSelect}
+              />
+              <HybridSelect
+                value={selectedStatus}
+                onChange={setSelectedStatus}
+                options={[
+                  { value: 'active', label: t('subscriptions.status.active') },
+                  { value: 'pending', label: t('subscriptions.status.pending') },
+                  { value: 'inactive', label: t('subscriptions.status.inactive') }
+                ]}
+                placeholder={t('subscriptions.filterByStatus')}
+                variant="compact"
+                className={styles.tabletSelect}
+              />
+            </div>
           </div>
         </div>
       )}

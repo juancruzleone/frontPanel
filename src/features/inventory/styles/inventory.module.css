@@ -380,11 +380,20 @@
 
 @media (max-width: 768px) {
   .searchRow {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
     gap: 10px;
   }
 
   .searchContainerInner {
-    flex: 1 1 100%;
+    flex: 1 1 auto;
+  }
+
+  .clearFilters {
+    width: 46px;
+    height: 52px;
+    flex-shrink: 0;
   }
 }
 

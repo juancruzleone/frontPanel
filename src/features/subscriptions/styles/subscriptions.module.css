@@ -208,6 +208,18 @@
   align-items: center;
 }
 
+.tabletSelectsRow {
+  display: none;
+  width: 100%;
+  gap: 12px;
+  align-items: center;
+}
+
+.tabletSelect {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
 .clearFilters {
   padding: 0 20px;
   background: #b71c1c;
@@ -798,21 +810,37 @@
     align-items: stretch;
   }
 
-  .filterActions {
-    display: flex;
+  .searchRow {
+    flex-direction: row;
+    flex-wrap: nowrap;
     align-items: center;
     gap: 12px;
-    width: 100%;
   }
 
-  .filterActions [class*="hybridSelect"] {
-    flex: 1;
+  .searchContainerInner {
+    flex: 1 1 auto;
+  }
+
+  .clearFilters {
+    width: 46px;
+    height: 52px;
+    flex-shrink: 0;
+  }
+
+  .filterActions {
+    display: none;
   }
 
   .statusSelectContainer {
-    display: block;
+    display: none !important;
+  }
+
+  .tabletSelectsRow {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
     width: 100%;
-    margin-bottom: 0;
+    align-items: center;
   }
 
   .tabsContainer {
@@ -873,40 +901,47 @@
     font-size: 26px;
   }
 
-  /* Mobile: Stack filters vertically */
+  /* Mobile: Search on top, month + status side-by-side below */
   .filtersWrapper {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
   }
 
   .searchRow {
     width: 100%;
-    gap: 8px;
-    flex-direction: column;
-  }
-
-  .filterActions {
-    width: 100%;
-    order: 1;
+    gap: 12px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
   }
 
   .searchContainerInner {
-    width: 100%;
-    order: 4;
+    flex: 1 1 auto;
+    width: auto;
   }
 
   .clearFilters {
-    width: 100%;
-    height: 48px;
+    width: 46px;
+    height: 52px;
     flex-shrink: 0;
-    order: 3;
-    align-self: stretch;
+    align-self: center;
+  }
+
+  .filterActions {
+    display: none;
   }
 
   .statusSelectContainer {
+    display: none !important;
+  }
+
+  .tabletSelectsRow {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
     width: 100%;
-    order: 2;
+    align-items: center;
   }
 
   .tableContainer {
