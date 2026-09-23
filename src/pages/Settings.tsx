@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate, useLocation } from 'react-router'
+import { useLocation } from 'react-router'
 import { driver } from 'driver.js'
 import 'driver.js/dist/driver.css'
 import '../features/installations/styles/tour.css'
@@ -8,12 +8,6 @@ import {
   Settings as SettingsIcon,
   Check,
   ChevronRight,
-  Building2,
-  Users,
-  Bell,
-  Globe,
-  Palette,
-  Plug,
 } from 'lucide-react'
 import styles from '../features/settings/styles/settings.module.css'
 import ModalManageInstallationTypes from '../features/settings/components/ModalManageInstallationTypes'
@@ -23,15 +17,11 @@ import useInstallationTypes from '../features/installations/hooks/useInstallatio
 import useCategories from '../features/installations/hooks/useCategories'
 import useFormCategories from '../features/forms/hooks/useFormCategories'
 import { useTheme } from '../shared/hooks/useTheme'
-import { useAuthStore } from '../store/authStore'
-import { routeTranslations, type Language } from '../router/routeTranslations'
 
 const Settings = () => {
-  const { t, i18n } = useTranslation()
-  const navigate = useNavigate()
+  const { t } = useTranslation()
   const location = useLocation() as { state?: { fromHomeTour?: boolean } }
-  const { toggleTheme, dark } = useTheme()
-  const role = useAuthStore((s) => s.role)
+  const { dark } = useTheme()
   const [activeModal, setActiveModal] = useState<string | null>(null)
 
   const { installationTypes, loadInstallationTypes } = useInstallationTypes()
@@ -128,41 +118,6 @@ const Settings = () => {
     loadFormCategories()
   }
 
-  const getLang = (): Language => {
-    const raw = i18n.language?.split('-')[0] as Language
-    return (routeTranslations[raw] ? raw : 'es') as Language
-  }
-
-  const handleGeneralNavigation = (id: string) => {
-    const lang = getLang()
-    const tr = routeTranslations[lang]
-    switch (id) {
-      case 'company':
-        navigate(`/${tr.settings}`)
-        break
-      case 'users':
-        if (role === 'super_admin') navigate(`/${tr.panelAdmin}`)
-        else navigate(`/${tr.personal}`)
-        break
-      case 'notifications':
-        navigate(`/${tr.settings}`)
-        break
-      case 'language': {
-        const next = lang === 'es' ? 'en' : 'es'
-        i18n.changeLanguage(next)
-        break
-      }
-      case 'preferences':
-        toggleTheme()
-        break
-      case 'integrations':
-        navigate(`/${tr.subscriptions}`)
-        break
-      default:
-        break
-    }
-  }
-
   const checklistItems = [
     {
       id: 'installation-types',
@@ -184,45 +139,6 @@ const Settings = () => {
       title: t('settings.formCategories'),
       description: t('settings.formCategoriesDesc'),
       completed: hasFormCategories,
-    },
-  ]
-
-  const generalCards = [
-    {
-      id: 'company',
-      title: t('settings.company'),
-      description: t('settings.companyDesc'),
-      icon: <Building2 size={20} />,
-    },
-    {
-      id: 'users',
-      title: t('settings.usersAndPermissions'),
-      description: t('settings.usersAndPermissionsDesc'),
-      icon: <Users size={20} />,
-    },
-    {
-      id: 'notifications',
-      title: t('settings.notifications'),
-      description: t('settings.notificationsDesc'),
-      icon: <Bell size={20} />,
-    },
-    {
-      id: 'language',
-      title: t('settings.language'),
-      description: t('settings.languageDesc'),
-      icon: <Globe size={20} />,
-    },
-    {
-      id: 'preferences',
-      title: t('settings.preferences'),
-      description: t('settings.preferencesDesc'),
-      icon: <Palette size={20} />,
-    },
-    {
-      id: 'integrations',
-      title: t('settings.integrations'),
-      description: t('settings.integrationsDesc'),
-      icon: <Plug size={20} />,
     },
   ]
 
@@ -288,29 +204,6 @@ const Settings = () => {
           </div>
         </section>
 
-        {/* Configuración general */}
-        <section className={styles.generalSection} data-tour="settings-general">
-          <div className={styles.generalHeader}>
-            <h2 className={styles.generalTitle}>{t('settings.generalConfig')}</h2>
-            <p className={styles.generalDesc}>{t('settings.generalConfigDesc')}</p>
-          </div>
-          <div className={styles.generalGrid}>
-            {generalCards.map((card) => (
-              <button
-                key={card.id}
-                className={styles.generalCard}
-                onClick={() => handleGeneralNavigation(card.id)}
-              >
-                <div className={styles.generalCardIcon}>{card.icon}</div>
-                <div className={styles.generalCardText}>
-                  <h3 className={styles.generalCardTitle}>{card.title}</h3>
-                  <p className={styles.generalCardDesc}>{card.description}</p>
-                </div>
-                <ChevronRight size={18} className={styles.generalChevron} />
-              </button>
-            ))}
-          </div>
-        </section>
       </div>
 
       <ModalManageInstallationTypes
