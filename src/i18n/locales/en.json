@@ -25,7 +25,8 @@
     "maintenance": "Maintenance",
     "settings": "Settings",
     "audit": "Audit",
-    "compliance": "Compliance"
+    "compliance": "Compliance",
+    "list": "List"
   },
   "audit": {
     "title": "Activity Log",

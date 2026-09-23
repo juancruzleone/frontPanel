@@ -23,7 +23,8 @@
     "resources": "العمليات",
     "operation": "العمليات",
     "maintenance": "الصيانة",
-    "audit": "التدقيق"
+    "audit": "التدقيق",
+    "list": "قائمة"
   },
   "audit": {
     "title": "سجل النشاط",

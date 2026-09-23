@@ -23,7 +23,8 @@
     "resources": "Operazioni",
     "operation": "Operazioni",
     "maintenance": "Manutenzione",
-    "audit": "Audit"
+    "audit": "Audit",
+    "list": "Elenco"
   },
   "audit": {
     "title": "Registro attività",

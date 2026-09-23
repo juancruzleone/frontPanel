@@ -23,7 +23,8 @@
     "resources": "Opérations",
     "operation": "Opérations",
     "maintenance": "Maintenance",
-    "audit": "Audit"
+    "audit": "Audit",
+    "list": "Liste"
   },
   "audit": {
     "title": "Journal d'activité",

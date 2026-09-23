@@ -24,7 +24,8 @@
     "maintenance": "Mantenimiento",
     "settings": "Configuración",
     "audit": "Auditoría",
-    "compliance": "Cumplimiento"
+    "compliance": "Cumplimiento",
+    "list": "LISTADO"
   },
   "audit": {
     "title": "Registro de Actividad",

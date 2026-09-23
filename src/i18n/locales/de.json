@@ -23,7 +23,8 @@
     "resources": "Betrieb",
     "operation": "Betrieb",
     "maintenance": "Wartung",
-    "audit": "Audit"
+    "audit": "Audit",
+    "list": "Liste"
   },
   "audit": {
     "title": "Aktivitätsprotokoll",

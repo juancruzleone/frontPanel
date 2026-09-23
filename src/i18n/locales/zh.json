@@ -23,7 +23,8 @@
     "resources": "运营",
     "operation": "运营",
     "maintenance": "维护",
-    "audit": "审计"
+    "audit": "审计",
+    "list": "列表"
   },
   "audit": {
     "title": "活动日志",

@@ -23,7 +23,8 @@
     "resources": "運用",
     "operation": "運用",
     "maintenance": "メンテナンス",
-    "audit": "監査"
+    "audit": "監査",
+    "list": "一覧"
   },
   "audit": {
     "title": "アクティビティログ",

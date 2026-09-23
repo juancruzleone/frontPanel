@@ -654,7 +654,7 @@ const Nav = () => {
 									>
 										<Package size={20} />{" "}
 										<span className={styles.linkText}>
-											{t("nav.assets")}
+											{t("nav.list")}
 										</span>
 									</NavLink>
 									{isAdminUser && (

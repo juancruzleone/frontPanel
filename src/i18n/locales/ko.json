@@ -23,7 +23,8 @@
     "resources": "운영",
     "operation": "운영",
     "maintenance": "유지보수",
-    "audit": "감사"
+    "audit": "감사",
+    "list": "목록"
   },
   "audit": {
     "title": "활동 로그",
