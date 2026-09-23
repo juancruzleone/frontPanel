@@ -585,7 +585,7 @@ const Nav = () => {
 									>
 										<Building size={20} />{" "}
 										<span className={styles.linkText}>
-											{t("nav.installations")}
+											{t("nav.list")}
 										</span>
 									</NavLink>
 									{isAdminUser && (
