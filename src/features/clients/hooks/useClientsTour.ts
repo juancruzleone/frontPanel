@@ -3,9 +3,11 @@ import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
 import '../../installations/styles/tour.css';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../../../shared/hooks/useTheme';
 
 export const useClientsTour = () => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
+    const { dark } = useTheme();
     const [tourCompleted, setTourCompleted] = useState<boolean>(false);
 
     useEffect(() => {
@@ -16,33 +18,40 @@ export const useClientsTour = () => {
     }, []);
 
     const startTour = () => {
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         const driverObj = driver({
             showProgress: true,
             showButtons: ['next', 'previous', 'close'],
             progressText: t('clients.tour.progressText'),
+            animate: !reduceMotion,
+            smoothScroll: !reduceMotion,
+            popoverClass: dark ? "driverjs-dark-theme" : "driverjs-light-theme",
+            allowClose: true,
             steps: [
                 {
                     popover: {
                         title: t('clients.tour.welcome.title'),
                         description: t('clients.tour.welcome.description'),
-                        showButtons: ['next', 'close']
+                        showButtons: ['next', 'close'],
+                        side: "bottom",
+                        align: 'start'
                     }
                 },
                 {
-                    element: '[data-tour="nav-operation"]',
+                    element: '[data-tour="nav-installations"]',
                     popover: {
-                        title: t('clients.tour.navOperation.title', { defaultValue: 'Clientes en Operación' }),
-                        description: t('clients.tour.navOperation.description', { defaultValue: 'Clientes ahora está en Operación → Clientes (antes estaba como botón en Instalaciones).' }),
-                        side: "right",
+                        title: t('clients.tour.navOperation.title'),
+                        description: t('clients.tour.navOperation.description'),
+                        side: "bottom",
                         align: 'start'
                     }
                 },
                 {
                     element: '[data-tour="nav-clients"]',
                     popover: {
-                        title: t('clients.tour.navClients.title', { defaultValue: 'Ir a Clientes' }),
-                        description: t('clients.tour.navClients.description', { defaultValue: 'Accede a Clientes desde el dropdown Operación.' }),
-                        side: "right",
+                        title: t('clients.tour.navClients.title'),
+                        description: t('clients.tour.navClients.description'),
+                        side: "bottom",
                         align: 'start'
                     }
                 },

@@ -24,7 +24,9 @@
     "operation": "Operações",
     "maintenance": "Manutenção",
     "audit": "Auditoria",
-    "list": "Lista"
+    "list": "Lista",
+    "settings": "Settings",
+    "compliance": "Compliance"
   },
   "audit": {
     "title": "Registro de atividade",
@@ -167,8 +169,17 @@
         "skip": "Pular tutorial",
         "restart": "Reiniciar tutorial"
       },
-      "progressText": "{{current}} de {{total}}"
-    }
+      "progressText": "{{current}} de {{total}}",
+      "navOperation": {
+        "title": "Staff in Operations",
+        "description": "Staff is now under Operations → Staff."
+      },
+      "navPersonal": {
+        "title": "Go to Staff",
+        "description": "Access Staff from the Operations menu."
+      }
+    },
+    "limitReached": "Límite alcanzado"
   },
   "profile": {
     "assignedOrders": "Ordens atribuídas",
@@ -275,8 +286,19 @@
         "skip": "Pular tutorial",
         "restart": "Reiniciar tutorial"
       },
-      "progressText": "{{current}} de {{total}}"
-    }
+      "progressText": "{{current}} de {{total}}",
+      "navOperation": {
+        "title": "Installations",
+        "description": "Clients is now under Installations → Clients."
+      },
+      "navClients": {
+        "title": "Go to Clients",
+        "description": "Access Clients from the Installations menu."
+      }
+    },
+    "clientCreated": "Client created successfully",
+    "noPermission": "You do not have permission to perform this action",
+    "errorCreatingClient": "Error creating client"
   },
   "common": {
     "active": "Ativo",
@@ -323,7 +345,44 @@
     "syncing": "Sincronizando alterações pendentes...",
     "syncComplete": "Sincronização concluída",
     "syncValidationDiscarded": "Erro de validação ({{type}}). Descartado.",
-    "syncElementDiscarded": "Erro ao sincronizar item ({{type}}). Descartado."
+    "syncElementDiscarded": "Erro ao sincronizar item ({{type}}). Descartado.",
+    "remove": "Remove",
+    "viewCards": "Card view",
+    "continue": "Continue",
+    "hello": "Hola",
+    "download": "Download",
+    "of": "of",
+    "paste": "Paste",
+    "import": "Import",
+    "resume": "Resume",
+    "updating": "Updating...",
+    "inactive": "Inactive",
+    "viewTable": "Table view",
+    "document": "Documento",
+    "add": "Add",
+    "stop": "Stop",
+    "reject": "Reject",
+    "page": "Page",
+    "assigning": "Asignando...",
+    "redo": "Redo",
+    "assign": "Assign",
+    "export": "Export",
+    "cut": "Cut",
+    "adding": "Adding...",
+    "approve": "Approve",
+    "choose": "Choose",
+    "upload": "Upload",
+    "select": "Select",
+    "complete": "Complete",
+    "copy": "Copy",
+    "start": "Start",
+    "undo": "Undo",
+    "successTitle": "Operation successful!",
+    "view": "View",
+    "ok": "Aceptar",
+    "print": "Print",
+    "pause": "Pause",
+    "share": "Share"
   },
   "csvImport": {
     "chooseFile": "Selecione um arquivo CSV",
@@ -515,7 +574,10 @@
         "kicker": "Resources",
         "title": "Inventory summary",
         "items": "Registered items",
-        "lowStock": "Low-stock items"
+        "lowStock": "Low-stock items",
+        "lowBadge": "Stock bajo",
+        "meta": "{{total}} ítems · {{low}} con stock bajo",
+        "empty": "No hay artículos en inventario"
       },
       "context": {
         "kicker": "Operational scope",
@@ -628,7 +690,9 @@
       "installations": "Número total de instalações registradas no sistema.",
       "assets": "Número total de tipos de ativos configurados.",
       "workOrders": "Número total de ordens de serviço geradas.",
-      "technicians": "Número total de técnicos registrados na equipe."
+      "technicians": "Número total de técnicos registrados na equipe.",
+      "responseTime": "Average time elapsed from work order creation to first response.",
+      "slaRate": "Percentage of work orders completed within the agreed service level time (SLA)."
     },
     "kpiDescriptions": {
       "generic": "Indicador-chave para entender o estado da manutenção.",
@@ -662,6 +726,13 @@
         "restart": "Ver tutorial"
       },
       "progressText": "{{current}} de {{total}}"
+    },
+    "status": {
+      "cancelled": "Cancelled",
+      "inProgress": "In Progress",
+      "completed": "Completed",
+      "pending": "Pending",
+      "assigned": "Assigned"
     }
   },
   "workOrders": {
@@ -772,7 +843,8 @@
       "completeOrderMessage": "Tem certeza de que deseja marcar esta ordem como concluída?",
       "startOrderTitle": "Iniciar ordem",
       "startOrderMessage": "Tem certeza de que deseja iniciar esta ordem de serviço?",
-      "assignTechnician": "Atribuir técnico"
+      "assignTechnician": "Atribuir técnico",
+      "understood": "Close"
     },
     "form": {
       "maintenance": "Manutenção",
@@ -809,7 +881,8 @@
         "timePositive": "O tempo de trabalho deve ser positivo",
         "timeMax": "O tempo de trabalho não pode exceder 24 horas",
         "deviceStateInvalid": "O estado do dispositivo deve ser válido"
-      }
+      },
+      "technicianRequiredForAssigned": "At least one technician is required to assign the order"
     },
     "titlePage": "Ordens de Trabalho | Leonix",
     "tour": {
@@ -843,8 +916,73 @@
         "done": "Concluir",
         "skip": "Pular tutorial",
         "restart": "Ver tutorial"
-      }
-    }
+      },
+      "navWorkOrders": {
+        "title": "Work orders",
+        "description": "The Work Orders menu groups List and Calendar."
+      },
+      "navWorkOrdersList": {
+        "title": "Work orders list",
+        "description": "Manage all work orders from List."
+      },
+      "navCalendar": {
+        "title": "Calendar",
+        "description": "Calendar was previously a View calendar button; now it's under Work Orders → Calendar."
+      },
+      "progressText": "{{current}} of {{total}}"
+    },
+    "formUnavailable": "No se puede registrar: formulario no disponible o desactualizado",
+    "errorStartingOrder": "Error al iniciar orden",
+    "errorCompletingOrder": "Error al completar orden",
+    "wed": "Mié",
+    "viewDetails": "Ver Detalles",
+    "moreOrders": "más",
+    "evidenceNotStaged": "No se puede registrar: evidencia no preparada en staging cifrado",
+    "thisWeek": "Esta Semana",
+    "starting": "Iniciando...",
+    "filterByPriority": "Filtrar por prioridad",
+    "filterByDate": "Filtrar por fecha",
+    "assigning": "Asignando...",
+    "thu": "Jue",
+    "created": "Creada",
+    "selectedDate": "Fecha seleccionada",
+    "exportResults": "Export results",
+    "sun": "Dom",
+    "nextMonth": "Próximo Mes",
+    "time": "Hora",
+    "invalidWorkOrder": "Orden de trabajo inválida",
+    "selectYear": "Seleccionar año",
+    "orderStarted": "Orden iniciada con éxito",
+    "workOrderDetails": "Detalles de la Orden de Trabajo",
+    "orderCompleted": "Orden completada con éxito",
+    "additionalInfo": "Información Adicional",
+    "noDataAvailable": "No data available",
+    "allTechnicians": "Todos los técnicos",
+    "allStatuses": "Todos los Estados",
+    "errorAssigningTechnician": "Error al asignar técnico",
+    "notAssigned": "Sin asignar",
+    "today": "Hoy",
+    "clearFilters": "Limpiar Filtros",
+    "week": "Semana",
+    "startCommandBlocked": "No se puede completar: el inicio local falló o fue rechazado",
+    "orderAlreadyStarted": "Orden ya iniciada",
+    "tue": "Mar",
+    "allPriorities": "Todas las Prioridades",
+    "workDone": "Trabajo realizado",
+    "noTechniciansAvailable": "No hay técnicos disponibles",
+    "mon": "Lun",
+    "distributionByStatus": "Distribution by Status",
+    "list": "Lista",
+    "errorMaintenanceRecord": "Error al registrar mantenimiento offline",
+    "sat": "Sáb",
+    "viewComplete": "Ver Completo",
+    "selectDate": "Select date",
+    "thisMonth": "Este Mes",
+    "nextWeek": "Próxima Semana",
+    "fri": "Vie",
+    "allDates": "Todas las Fechas",
+    "noOrders": "No se encontraron órdenes de trabajo",
+    "started": "Iniciada"
   },
   "installations": {
     "exportResults": "Exportar resultados",
@@ -1000,24 +1138,7 @@
     "noInstallationTypesCreated": "Nenhum tipo de instalação criado",
     "installationTypesWillAppearHere": "Tipos de instalação aparecerão aqui quando você os criar",
     "deleteInstallationType": "Excluir tipo de instalação",
-    "installationTypes": {
-      "office": "Escritório",
-      "factory": "Fábrica",
-      "warehouse": "Armazém",
-      "store": "Loja",
-      "hospital": "Hospital",
-      "school": "Escola",
-      "residential": "Residencial",
-      "commercial": "Comercial",
-      "industrial": "Industrial",
-      "medical": "Médico",
-      "educational": "Educacional",
-      "retail": "Varejo",
-      "logistics": "Logística",
-      "manufacturing": "Manufatura",
-      "service": "Serviço",
-      "other": "Outro"
-    },
+    "installationTypes": "Tipos de Instalación",
     "addressTypes": {
       "street": "Rua",
       "avenue": "Avenida",
@@ -1232,7 +1353,15 @@
         "skip": "Pular tutorial",
         "restart": "Ver tutorial"
       },
-      "progressText": "{{current}} de {{total}}"
+      "progressText": "{{current}} de {{total}}",
+      "navOperation": {
+        "title": "Installations menu",
+        "description": "The Installations menu groups Installations and Clients."
+      },
+      "navClients": {
+        "title": "Clients in Installations",
+        "description": "Client management is now inside Installations → Clients."
+      }
     },
     "typeUpdatedSuccess": "Tipo de instalação atualizado com sucesso",
     "typeDeletedSuccess": "Tipo de instalação excluído com sucesso",
@@ -1241,7 +1370,19 @@
     "categoryUpdatedSuccess": "Categoria atualizada com sucesso",
     "categoryDeletedSuccess": "Categoria excluída com sucesso",
     "confirmDeleteCategoryWithName": "Excluir categoria {{name}}?",
-    "deleteCategoryWarning": "Esta ação não pode ser desfeita."
+    "deleteCategoryWarning": "Esta ação não pode ser desfeita.",
+    "addressField": "Dirección",
+    "deviceStatusLabel": "Asset Status",
+    "assetName": "Asset name",
+    "installationTypeField": "Tipo de Instalación",
+    "installationTypeInfo": "Tipo de instalación",
+    "addressInfo": "Dirección",
+    "noInstallationTypes": "No installation types available",
+    "companyField": "Nombre",
+    "selectCategoryDropdown": "Seleccionar categoría",
+    "noCategoriesCreated": "No hay categorías creadas",
+    "selectCategoryOption": "Seleccione una categoría",
+    "installation": "Installation"
   },
   "assets": {
     "edit": "Editar",
@@ -1282,7 +1423,12 @@
         "done": "Concluir",
         "skip": "Pular tutorial",
         "restart": "Ver tutorial"
-      }
+      },
+      "viewManuals": {
+        "title": "Manuals in Maintenance",
+        "description": "Manuals are now under Maintenance → Manuals."
+      },
+      "progressText": "{{current}} of {{total}}"
     },
     "editAsset": "Editar Ativo",
     "assetDetails": "Detalhes do Ativo",
@@ -1360,7 +1506,24 @@
         "stockZero": "O estoque deve ser maior que 0"
       }
     },
-    "titlePage": "Ativos | Leonix"
+    "titlePage": "Ativos | Leonix",
+    "csv": {
+      "chooseFile": "Select CSV. Each asset uses externalId; the base template must already have templateExternalId assigned.",
+      "downloadTemplate": "Download CSV template",
+      "exportFiltered": "Export CSV",
+      "downloadErrors": "Download errors and warnings",
+      "commit": "Commit import",
+      "preview": "Preview",
+      "completed": "Import completed",
+      "import": "Import CSV",
+      "importTitle": "Import assets"
+    },
+    "errorDeletingAsset": "Error deleting asset",
+    "page": "Page",
+    "viewCompleteDetails": "View complete details",
+    "changeTemplate": "Change template",
+    "of": "of",
+    "assetDeleted": "Asset deleted successfully"
   },
   "forms": {
     "category": "Categoria",
@@ -1407,7 +1570,16 @@
         "done": "Concluir",
         "skip": "Pular tutorial",
         "restart": "Ver tutorial"
-      }
+      },
+      "navMaintenance": {
+        "title": "Forms in Assets",
+        "description": "Forms is now under Assets → Forms."
+      },
+      "navForms": {
+        "title": "Go to Forms",
+        "description": "Access Form Templates from the Assets menu."
+      },
+      "progressText": "{{current}} of {{total}}"
     },
     "viewCreatedCategories": "Ver categorias criadas",
     "editTemplateTooltip": "Editar modelo",
@@ -1494,7 +1666,9 @@
       "fieldOptionsMin": "É necessário fornecer pelo menos uma opção",
       "fieldOptionsRequired": "As opções são obrigatórias para campos do tipo select ou radio",
       "unknownError": "Erro de validação desconhecido"
-    }
+    },
+    "more": "más",
+    "fieldTypes": "Tipos de campos"
   },
   "manuals": {
     "understood": "Fechar",
@@ -1628,8 +1802,25 @@
         "done": "Concluir",
         "skip": "Pular tutorial",
         "restart": "Ver tutorial"
-      }
-    }
+      },
+      "navMaintenance": {
+        "title": "Manuals in Assets",
+        "description": "Manuals is now under Assets → Manuals (previously buttons in Assets)."
+      },
+      "navManuals": {
+        "title": "Go to Manuals",
+        "description": "Access Manuals from the Assets menu."
+      },
+      "progressText": "{{current}} of {{total}}"
+    },
+    "maxSize": "Maximum 10MB",
+    "createAssetsFirst": "Create assets first",
+    "dragAndDrop": "Drag and drop your file here or click to select",
+    "clickToUpload": "Click to upload or drag file here",
+    "errorLoadingAssets": "Error loading assets",
+    "noAssetsAvailable": "No assets available",
+    "pdfOnly": "PDF files only",
+    "fileTooLarge": "File is too large. Maximum size is 10MB"
   },
   "calendar": {
     "selectYear": "Selecionar ano",
@@ -1694,7 +1885,8 @@
     "completed": "Concluída",
     "cancelled": "Cancelada",
     "allTechnicians": "Todos os técnicos",
-    "timezoneLabel": "🌍 America/Buenos_Aires (-03:00) • Horário de verão"
+    "timezoneLabel": "🌍 America/Buenos_Aires (-03:00) • Horário de verão",
+    "filterByTechnician": "Filter by technician"
   },
   "languageSelector": {
     "title": "Selecionar Idioma",
@@ -1783,7 +1975,8 @@
         "done": "Concluir",
         "skip": "Pular tutorial",
         "restart": "Ver tutorial"
-      }
+      },
+      "progressText": "{{current}} of {{total}}"
     }
   },
   "login": {
@@ -1880,7 +2073,9 @@
     "evidenceSection": "Evidência e assinatura",
     "evidencePhotosDescription": "Adicione fotos documentando o trabalho realizado",
     "signatureDescription": "Assine na caixa usando seu dedo ou mouse",
-    "removePhoto": "Remover foto"
+    "removePhoto": "Remover foto",
+    "pendingSync": "Order started locally. Pending synchronization.",
+    "offlineUnavailable": "Cannot start offline: device, package, or permissions unavailable"
   },
   "validations": {
     "selectAsset": "Você deve selecionar um ativo",
@@ -2011,7 +2206,20 @@
         "done": "Concluir",
         "skip": "Pular tutorial",
         "restart": "Ver tutorial"
-      }
+      },
+      "navMaintenance": {
+        "title": "Plan in Maintenance",
+        "description": "The maintenance plan now lives under Maintenance → Maintenance Plan."
+      },
+      "filterByMonth": {
+        "title": "Filter by month",
+        "description": "The filter-by-month selector is next to filter-by-status (tabletSelectsRow on iPad/mobile)."
+      },
+      "filterByStatus": {
+        "title": "Filter by status",
+        "description": "Filter by status (active/pending/inactive) next to filter-by-month."
+      },
+      "progressText": "{{current}} of {{total}}"
     },
     "documents": {
       "uploadTitle": "Enviar documento",
@@ -2061,14 +2269,20 @@
       "installations": "Instalações",
       "assets": "Ativos",
       "formTemplates": "Modelos de Formulários",
-      "workOrders": "Ordens de Trabalho"
+      "workOrders": "Ordens de Trabalho",
+      "clients": "Clients",
+      "internalUsers": "Internal users"
     },
     "messages": {
       "usersLimit": "Você atingiu o número máximo de usuários para seu plano",
       "installationsLimit": "Você atingiu o número máximo de instalações para seu plano",
       "assetsLimit": "Você atingiu o número máximo de ativos para seu plano",
       "formTemplatesLimit": "Você atingiu o número máximo de modelos de formulários para seu plano",
-      "workOrdersLimit": "Você atingiu o número máximo de ordens de trabalho para seu plano"
+      "workOrdersLimit": "Você atingiu o número máximo de ordens de trabalho para seu plano",
+      "clientsLimit": "Clients limit reached",
+      "internalUsersLimit": "Internal users limit reached",
+      "clientsWarning": "{{remaining}} of {{max}} clients remaining ({{percentage}}%) — close to limit",
+      "internalUsersWarning": "{{remaining}} of {{max}} internal users remaining ({{percentage}}%) — close to limit"
     },
     "maintenanceHistory": {
       "title": "Histórico de Manutenções",
@@ -2094,12 +2308,12 @@
     "manage": "Gerenciar",
     "installationTypes": "Tipos de Instalação",
     "installationTypesDesc": "Gerenciar as categorias de tipos de instalação disponíveis no sistema",
-    "assetCategories": "Categorias de Ativos",
-    "assetCategoriesDesc": "Gerenciar categorias para classificar seus ativos",
+    "assetCategories": "Categorias de ativos",
+    "assetCategoriesDesc": "Crie categorias para classificar seus ativos (ex: Climatização, Elétrica)",
     "deviceCategories": "Categorias de Ativos",
     "deviceCategoriesDesc": "Configurar categorias de ativos para suas instalações",
-    "formCategories": "Categorias de Formulários",
-    "formCategoriesDesc": "Organizar modelos de formulários por categorias",
+    "formCategories": "Categorias de formulários",
+    "formCategoriesDesc": "Organize seus modelos de formulários por categorias",
     "manageInstallationTypes": "Gerenciar Tipos de Instalação",
     "manageAssetCategories": "Gerenciar Categorias de Ativos",
     "manageDeviceCategories": "Gerenciar Categorias de Ativos",
@@ -2138,6 +2352,49 @@
       "updateFailed": "Erro ao atualizar o item. Por favor, tente novamente.",
       "deleteFailed": "Erro ao excluir o item. Por favor, tente novamente.",
       "validationFailed": "Erro ao validar os dados. Por favor, verifique as informações."
+    },
+    "subtitle2": "Gerencie as configurações do sistema",
+    "initialConfig": "Configuração inicial",
+    "initialConfigDesc": "Complete estes passos para configurar sua organização. Esta configuração é obrigatória antes de começar a usar o sistema.",
+    "stepsCompleted": "{{completed}} de {{total}} passos concluídos",
+    "ofSteps": "de 3",
+    "typesInstallation": "Tipos de instalação",
+    "typesInstallationDesc": "Defina os tipos de instalações que você gerencia (ex: Escritório, Depósito, Fábrica)",
+    "completed": "Concluído",
+    "pending": "Pendente",
+    "generalConfig": "Configuração geral",
+    "generalConfigDesc": "Ajustes adicionais do sistema",
+    "company": "Empresa",
+    "companyDesc": "Informações e dados da sua organização",
+    "usersAndPermissions": "Usuários e permissões",
+    "usersAndPermissionsDesc": "Gerencie usuários, funções e permissões",
+    "notifications": "Notificações",
+    "notificationsDesc": "Configure alertas e avisos do sistema",
+    "language": "Idioma",
+    "languageDesc": "Escolha o idioma da plataforma",
+    "preferences": "Preferências",
+    "preferencesDesc": "Personalize tema e aparência",
+    "integrations": "Integrações",
+    "integrationsDesc": "Conecte Mercado Pago e serviços de e-mail",
+    "tour": {
+      "welcome": {
+        "title": "Initial setup",
+        "description": "Complete these 3 steps to get the platform ready: installation types, asset categories, and form categories."
+      },
+      "checklist": {
+        "title": "Setup checklist",
+        "description": "Track progress and status for each step. Start with the first pending item."
+      },
+      "manageTypes": {
+        "title": "Manage installation types",
+        "description": "Create the installation types you will use when creating installations."
+      },
+      "progressText": "{{current}} of {{total}}",
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous",
+        "done": "Done"
+      }
     }
   },
   "viewToggle": {
@@ -2145,7 +2402,9 @@
     "cardsView": "Visualização de cartões",
     "tableView": "Visualização de tabela",
     "cards": "Cartões",
-    "table": "Tabela"
+    "table": "Tabela",
+    "kanban": "Kanban",
+    "kanbanView": "Kanban view"
   },
   "maintenanceRequests": {
     "requestMaintenance": "Solicitar Manutenção",
@@ -2313,8 +2572,28 @@
         "skip": "Pular tutorial",
         "restart": "Ver tutorial"
       },
-      "progressText": "{{current}} de {{total}}"
-    }
+      "progressText": "{{current}} de {{total}}",
+      "navOperation": {
+        "title": "Inventory in Operations",
+        "description": "Inventory is now under Operations → Inventory."
+      },
+      "navInventory": {
+        "title": "Go to Inventory",
+        "description": "Access Inventory from the Operations menu."
+      }
+    },
+    "csv": {
+      "chooseFile": "Select a CSV file",
+      "downloadErrors": "Download errors",
+      "commit": "Confirm import",
+      "import": "Import CSV",
+      "preview": "Preview",
+      "exportFiltered": "Export filtered results",
+      "downloadTemplate": "Download CSV template",
+      "importTitle": "Import inventory from CSV",
+      "completed": "Import completed"
+    },
+    "exportMovements": "Export movements"
   },
   "suppliers": {
     "title": "Fornecedores",
@@ -2363,7 +2642,26 @@
         "skip": "Pular tutorial",
         "restart": "Ver tutorial"
       },
-      "progressText": "{{current}} de {{total}}"
+      "progressText": "{{current}} de {{total}}",
+      "navOperation": {
+        "title": "Suppliers in Operations",
+        "description": "Suppliers is now under Operations → Suppliers."
+      },
+      "navSuppliers": {
+        "title": "Go to Suppliers",
+        "description": "Access Suppliers from the Operations menu."
+      }
+    },
+    "csv": {
+      "importTitle": "Import suppliers from CSV",
+      "downloadTemplate": "Download CSV template",
+      "chooseFile": "Select a CSV file",
+      "import": "Import CSV",
+      "exportFiltered": "Export filtered results",
+      "downloadErrors": "Download errors",
+      "completed": "Import completed",
+      "preview": "Preview",
+      "commit": "Confirm import"
     }
   },
   "publicDevice": {
@@ -2477,7 +2775,12 @@
       "familiaNorma": "Família da norma",
       "descripcion": "Descrição",
       "activa": "Ativa",
-      "empty": "Nenhuma norma registrada."
+      "empty": "Nenhuma norma registrada.",
+      "deleteConfirm": "Delete standard {{codigo}}? This action cannot be undone.",
+      "delete": "Delete standard",
+      "create": "Create standard",
+      "edit": "Edit standard",
+      "title": "Standards"
     },
     "reglas": {
       "nombre": "Nome",
@@ -2489,7 +2792,19 @@
         "instalacion": "Instalação"
       },
       "habilitada": "Habilitada",
-      "empty": "Nenhuma regra registrada."
+      "empty": "Nenhuma regra registrada.",
+      "etiquetaCampo": "Field label (snapshot)",
+      "edit": "Edit rule",
+      "parametrosValores": "Values (comma separated)",
+      "create": "Create rule",
+      "campoNombre": "Evidence field",
+      "parametrosMax": "Maximum",
+      "title": "Compliance rules",
+      "parametros": "Parameters",
+      "deleteConfirm": "Delete rule {{nombre}}? This action cannot be undone.",
+      "parametrosMin": "Minimum",
+      "delete": "Delete rule",
+      "parametrosMeses": "Months"
     },
     "legacy": {
       "title": "Histórico anterior",
@@ -2497,6 +2812,38 @@
       "loading": "Carregando histórico anterior...",
       "normas": "Normas históricas",
       "reglas": "Regras históricas"
+    },
+    "scan": {
+      "alreadyRunning": "A scan is already running for this tenant.",
+      "progress": "{{procesados}} of {{total}} objectives",
+      "runButton": "Run scan",
+      "counter": {
+        "omitidos": "Skipped",
+        "sinEvidencia": "No evidence",
+        "incumplidos": "Non-compliant",
+        "errores": "Errors",
+        "cumplidos": "Compliant"
+      },
+      "errorState": "The scan finished with errors",
+      "completed": "Scan completed",
+      "pending": "Scan pending",
+      "running": "Scan in progress"
+    },
+    "validation": {
+      "enumValores": "Enter at least one comma-separated value",
+      "maxNumerico": "Enter a numeric value for the maximum",
+      "rangoNumerico": "Enter numeric values for the range",
+      "nombreRequired": "The name is required",
+      "normaIdRequired": "Select a standard",
+      "objetivoTipoInvalido": "Invalid objective type",
+      "familiaRequired": "The standard family is required",
+      "operadorInvalido": "Invalid operator",
+      "objetivoTipoRequired": "Select an objective type",
+      "operadorRequired": "Select an operator",
+      "rangoInvertido": "The minimum cannot be greater than the maximum",
+      "codigoRequired": "The code is required",
+      "mesesPositivo": "Enter a number of months greater than zero",
+      "minNumerico": "Enter a numeric value for the minimum"
     }
   },
   "billing": {
@@ -2663,5 +3010,82 @@
         "server": "Server error. Try again."
       }
     }
+  },
+  "tenants": {
+    "phonePlaceholder": "Enter phone",
+    "addressPlaceholder": "Enter address",
+    "editTenant": "Edit Tenant",
+    "users": "Users",
+    "updateSuccess": "Tenant updated successfully",
+    "planProfessional": "Professional",
+    "statusCancelled": "Cancelled",
+    "status": "Status",
+    "assets": "Assets",
+    "confirmDeleteDescription": "This action cannot be undone. The tenant will be permanently deleted.",
+    "email": "Email",
+    "page": "Page",
+    "noTenantsFound": "No tenants found",
+    "workOrders": "Work Orders",
+    "createTenant": "Create Tenant",
+    "planBasic": "Basic",
+    "emailPlaceholder": "Enter email",
+    "address": "Address",
+    "maxUsers": "Max Users",
+    "searchPlaceholder": "Search by name, subdomain, email or status...",
+    "deleteSuccess": "Tenant deleted successfully",
+    "statusActive": "Active",
+    "of": "of",
+    "subdomainPlaceholder": "Enter subdomain",
+    "confirmDeleteTitle": "Delete tenant?",
+    "createSuccess": "Tenant created successfully",
+    "viewDetails": "View Details",
+    "namePlaceholder": "Enter tenant name",
+    "planEnterprise": "Enterprise",
+    "title": "Tenants",
+    "phone": "Phone",
+    "titlePage": "Tenants | Leonix",
+    "maxAssets": "Max Assets",
+    "deleteTenant": "Delete Tenant",
+    "plan": "Plan",
+    "subdomain": "Subdomain",
+    "statusSuspended": "Suspended",
+    "name": "Name",
+    "createdAt": "Created At"
+  },
+  "usageBanner": {
+    "clientsBlocked": "Clients limit reached: {{current}}/{{max}} — upgrade your plan",
+    "internalUsersBlocked": "Internal users limit reached: {{current}}/{{max}} — upgrade your plan",
+    "upgradeCta": "Upgrade plan",
+    "internalUsersWarning": "{{remaining}} of {{max}} internal users remaining ({{percentage}}%) — close to limit",
+    "clientsLabel": "clients",
+    "internalUsersLabel": "internal users",
+    "clientsWarning": "{{remaining}} of {{max}} clients remaining ({{percentage}}%) — close to limit"
+  },
+  "maintenanceHistory": {
+    "viewPDF": "View PDF Report",
+    "noMaintenances": "No maintenance records for this device",
+    "loading": "Loading history...",
+    "maintenanceNumber": "Maintenance #",
+    "close": "Close",
+    "title": "Maintenance History",
+    "noMaintenancesSubtext": "This device does not have any maintenance records yet"
+  },
+  "notFound": {
+    "goHome": "Go to Home",
+    "suggestion1": "Check that the URL is written correctly",
+    "suggestion3": "Contact the administrator if you think this is an error",
+    "suggestion2": "Use the navigation menu to access available sections",
+    "suggestionsTitle": "What can you do?",
+    "goBack": "Go Back",
+    "description": "Sorry, the page you're looking for doesn't exist or has been moved. Check the URL and try again.",
+    "title": "Page not found"
+  },
+  "panelAdmin": {
+    "createFirstTenant": "Create the first tenant to get started",
+    "recentTenants": "Recent Tenants",
+    "title": "Admin Panel",
+    "subtitle": "Centralized management of tenants and system resources",
+    "mainMetrics": "Main Metrics",
+    "noTenantsYet": "No tenants registered"
   }
 }

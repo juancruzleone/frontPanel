@@ -167,7 +167,15 @@
         "skip": "튜토리얼 건너뛰기",
         "restart": "튜토리얼 다시 시작"
       },
-      "progressText": "{{total}} 중 {{current}}"
+      "progressText": "{{total}} 중 {{current}}",
+      "navOperation": {
+        "title": "Staff in Operations",
+        "description": "Staff is now under Operations → Staff."
+      },
+      "navPersonal": {
+        "title": "Go to Staff",
+        "description": "Access Staff from the Operations menu."
+      }
     }
   },
   "profile": {
@@ -278,7 +286,15 @@
         "skip": "튜토리얼 건너뛰기",
         "restart": "튜토리얼 다시 시작"
       },
-      "progressText": "{{total}} 중 {{current}}"
+      "progressText": "{{total}} 중 {{current}}",
+      "navOperation": {
+        "title": "Installations",
+        "description": "Clients is now under Installations → Clients."
+      },
+      "navClients": {
+        "title": "Go to Clients",
+        "description": "Access Clients from the Installations menu."
+      }
     }
   },
   "common": {
@@ -710,7 +726,19 @@
         "skip": "튜토리얼 건너뛰기",
         "restart": "튜토리얼 보기"
       },
-      "progressText": "{{total}} 중 {{current}}"
+      "progressText": "{{total}} 중 {{current}}",
+      "navWorkOrders": {
+        "title": "Work orders",
+        "description": "The Work Orders menu groups List and Calendar."
+      },
+      "navWorkOrdersList": {
+        "title": "Work orders list",
+        "description": "Manage all work orders from List."
+      },
+      "navCalendar": {
+        "title": "Calendar",
+        "description": "Calendar was previously a View calendar button; now it's under Work Orders → Calendar."
+      }
     },
     "titlePlaceholder": "작업 지시서 제목을 입력하세요",
     "descriptionPlaceholder": "수행할 작업에 대한 설명",
@@ -1237,7 +1265,15 @@
         "skip": "튜토리얼 건너뛰기",
         "restart": "튜토리얼 보기"
       },
-      "progressText": "{{current}} / {{total}}"
+      "progressText": "{{current}} / {{total}}",
+      "navOperation": {
+        "title": "Installations menu",
+        "description": "The Installations menu groups Installations and Clients."
+      },
+      "navClients": {
+        "title": "Clients in Installations",
+        "description": "Client management is now inside Installations → Clients."
+      }
     },
     "typeUpdatedSuccess": "설치 유형이 성공적으로 업데이트되었습니다",
     "typeDeletedSuccess": "설치 유형이 성공적으로 삭제되었습니다",
@@ -1289,7 +1325,11 @@
         "skip": "튜토리얼 건너뛰기",
         "restart": "튜토리얼 보기"
       },
-      "progressText": "{{total}} 중 {{current}}"
+      "progressText": "{{total}} 중 {{current}}",
+      "viewManuals": {
+        "title": "Manuals in Maintenance",
+        "description": "Manuals are now under Maintenance → Manuals."
+      }
     },
     "editAsset": "자산 편집",
     "assetDetails": "자산 세부 정보",
@@ -1419,7 +1459,15 @@
         "skip": "튜토리얼 건너뛰기",
         "restart": "튜토리얼 보기"
       },
-      "progressText": "{{total}} 중 {{current}}"
+      "progressText": "{{total}} 중 {{current}}",
+      "navMaintenance": {
+        "title": "Forms in Assets",
+        "description": "Forms is now under Assets → Forms."
+      },
+      "navForms": {
+        "title": "Go to Forms",
+        "description": "Access Form Templates from the Assets menu."
+      }
     },
     "editFormTemplate": "양식 템플릿 편집",
     "templateName": "템플릿 이름",
@@ -1535,7 +1583,15 @@
         "skip": "튜토리얼 건너뛰기",
         "restart": "튜토리얼 보기"
       },
-      "progressText": "{{total}} 중 {{current}}"
+      "progressText": "{{total}} 중 {{current}}",
+      "navMaintenance": {
+        "title": "Manuals in Assets",
+        "description": "Manuals is now under Assets → Manuals (previously buttons in Assets)."
+      },
+      "navManuals": {
+        "title": "Go to Manuals",
+        "description": "Access Manuals from the Assets menu."
+      }
     },
     "understood": "닫기",
     "titlePage": "매뉴얼 | Leonix",
@@ -1970,7 +2026,19 @@
         "skip": "튜토리얼 건너뛰기",
         "restart": "튜토리얼 보기"
       },
-      "progressText": "{{total}} 중 {{current}}"
+      "progressText": "{{total}} 중 {{current}}",
+      "navMaintenance": {
+        "title": "Plan in Maintenance",
+        "description": "The maintenance plan now lives under Maintenance → Maintenance Plan."
+      },
+      "filterByMonth": {
+        "title": "Filter by month",
+        "description": "The filter-by-month selector is next to filter-by-status (tabletSelectsRow on iPad/mobile)."
+      },
+      "filterByStatus": {
+        "title": "Filter by status",
+        "description": "Filter by status (active/pending/inactive) next to filter-by-month."
+      }
     },
     "selectStartDate": "시작 날짜 선택",
     "selectEndDate": "종료 날짜 선택",
@@ -2137,11 +2205,11 @@
     "installationTypes": "설치 유형",
     "installationTypesDesc": "시스템에서 사용 가능한 설치 유형 카테고리 관리",
     "assetCategories": "자산 카테고리",
-    "assetCategoriesDesc": "자산을 분류하기 위한 카테고리 관리",
+    "assetCategoriesDesc": "자산을 분류할 카테고리를 만드세요 (예: 냉난방, 전기)",
     "deviceCategories": "자산 카테고리",
     "deviceCategoriesDesc": "설치를 위한 자산 카테고리 구성",
     "formCategories": "양식 카테고리",
-    "formCategoriesDesc": "카테고리별로 양식 템플릿 구성",
+    "formCategoriesDesc": "양식 템플릿을 카테고리별로 정리하세요",
     "manageInstallationTypes": "설치 유형 관리",
     "manageAssetCategories": "자산 카테고리 관리",
     "manageDeviceCategories": "자산 카테고리 관리",
@@ -2180,6 +2248,49 @@
       "updateFailed": "항목 업데이트 중 오류가 발생했습니다. 다시 시도해 주세요.",
       "deleteFailed": "항목 삭제 중 오류가 발생했습니다. 다시 시도해 주세요.",
       "validationFailed": "데이터 검증 중 오류가 발생했습니다. 정보를 확인해 주세요."
+    },
+    "subtitle2": "시스템 설정 관리",
+    "initialConfig": "초기 설정",
+    "initialConfigDesc": "조직을 구성하려면 다음 단계를 완료하세요. 시스템을 사용하기 전에 이 설정은 필수입니다.",
+    "stepsCompleted": "{{total}}개 중 {{completed}}단계 완료",
+    "ofSteps": "/3",
+    "typesInstallation": "설치 유형",
+    "typesInstallationDesc": "관리하는 설치 유형을 정의하세요 (예: 사무실, 창고, 공장)",
+    "completed": "완료",
+    "pending": "대기 중",
+    "generalConfig": "일반 설정",
+    "generalConfigDesc": "추가 시스템 설정",
+    "company": "회사",
+    "companyDesc": "조직의 정보와 데이터",
+    "usersAndPermissions": "사용자 및 권한",
+    "usersAndPermissionsDesc": "사용자, 역할 및 권한을 관리하세요",
+    "notifications": "알림",
+    "notificationsDesc": "알림 및 시스템 공지 설정",
+    "language": "언어",
+    "languageDesc": "플랫폼 언어를 선택하세요",
+    "preferences": "환경설정",
+    "preferencesDesc": "테마와 외관을 맞춤 설정하세요",
+    "integrations": "통합",
+    "integrationsDesc": "Mercado Pago 및 이메일 서비스를 연결하세요",
+    "tour": {
+      "welcome": {
+        "title": "Initial setup",
+        "description": "Complete these 3 steps to get the platform ready: installation types, asset categories, and form categories."
+      },
+      "checklist": {
+        "title": "Setup checklist",
+        "description": "Track progress and status for each step. Start with the first pending item."
+      },
+      "manageTypes": {
+        "title": "Manage installation types",
+        "description": "Create the installation types you will use when creating installations."
+      },
+      "progressText": "{{current}} of {{total}}",
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous",
+        "done": "Done"
+      }
     }
   },
   "viewToggle": {
@@ -2355,7 +2466,15 @@
         "skip": "튜토리얼 건너뛰기",
         "restart": "튜토리얼 보기"
       },
-      "progressText": "{{current}} / {{total}}"
+      "progressText": "{{current}} / {{total}}",
+      "navOperation": {
+        "title": "Inventory in Operations",
+        "description": "Inventory is now under Operations → Inventory."
+      },
+      "navInventory": {
+        "title": "Go to Inventory",
+        "description": "Access Inventory from the Operations menu."
+      }
     }
   },
   "suppliers": {
@@ -2405,7 +2524,15 @@
         "skip": "튜토리얼 건너뛰기",
         "restart": "튜토리얼 보기"
       },
-      "progressText": "{{current}} / {{total}}"
+      "progressText": "{{current}} / {{total}}",
+      "navOperation": {
+        "title": "Suppliers in Operations",
+        "description": "Suppliers is now under Operations → Suppliers."
+      },
+      "navSuppliers": {
+        "title": "Go to Suppliers",
+        "description": "Access Suppliers from the Operations menu."
+      }
     }
   },
   "publicDevice": {

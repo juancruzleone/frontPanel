@@ -149,7 +149,15 @@
         "skip": "Tutorial überspringen",
         "restart": "Tutorial neu starten"
       },
-      "progressText": "{{current}} von {{total}}"
+      "progressText": "{{current}} von {{total}}",
+      "navOperation": {
+        "title": "Staff in Operations",
+        "description": "Staff is now under Operations → Staff."
+      },
+      "navPersonal": {
+        "title": "Go to Staff",
+        "description": "Access Staff from the Operations menu."
+      }
     }
   },
   "profile": {
@@ -260,7 +268,15 @@
         "skip": "Tutorial überspringen",
         "restart": "Tutorial neu starten"
       },
-      "progressText": "{{current}} von {{total}}"
+      "progressText": "{{current}} von {{total}}",
+      "navOperation": {
+        "title": "Installations",
+        "description": "Clients is now under Installations → Clients."
+      },
+      "navClients": {
+        "title": "Go to Clients",
+        "description": "Access Clients from the Installations menu."
+      }
     }
   },
   "common": {
@@ -688,7 +704,19 @@
         "skip": "Tutorial überspringen",
         "restart": "Tutorial anzeigen"
       },
-      "progressText": "{{current}} von {{total}}"
+      "progressText": "{{current}} von {{total}}",
+      "navWorkOrders": {
+        "title": "Work orders",
+        "description": "The Work Orders menu groups List and Calendar."
+      },
+      "navWorkOrdersList": {
+        "title": "Work orders list",
+        "description": "Manage all work orders from List."
+      },
+      "navCalendar": {
+        "title": "Calendar",
+        "description": "Calendar was previously a View calendar button; now it's under Work Orders → Calendar."
+      }
     },
     "titlePlaceholder": "Arbeitsauftrags-Titel eingeben",
     "descriptionPlaceholder": "Beschreibung der auszuführenden Arbeit",
@@ -1173,7 +1201,15 @@
         "skip": "Tutorial überspringen",
         "restart": "Tutorial ansehen"
       },
-      "progressText": "{{current}} von {{total}}"
+      "progressText": "{{current}} von {{total}}",
+      "navOperation": {
+        "title": "Installations menu",
+        "description": "The Installations menu groups Installations and Clients."
+      },
+      "navClients": {
+        "title": "Clients in Installations",
+        "description": "Client management is now inside Installations → Clients."
+      }
     },
     "typeUpdatedSuccess": "Installationstyp erfolgreich aktualisiert",
     "typeDeletedSuccess": "Installationstyp erfolgreich gelöscht",
@@ -1224,7 +1260,11 @@
         "skip": "Tutorial überspringen",
         "restart": "Tutorial anzeigen"
       },
-      "progressText": "{{current}} von {{total}}"
+      "progressText": "{{current}} von {{total}}",
+      "viewManuals": {
+        "title": "Manuals in Maintenance",
+        "description": "Manuals are now under Maintenance → Manuals."
+      }
     },
     "editAsset": "Anlage bearbeiten",
     "assetDetails": "Anlagendetails",
@@ -1349,7 +1389,15 @@
         "skip": "Tutorial überspringen",
         "restart": "Tutorial anzeigen"
       },
-      "progressText": "{{current}} von {{total}}"
+      "progressText": "{{current}} von {{total}}",
+      "navMaintenance": {
+        "title": "Forms in Assets",
+        "description": "Forms is now under Assets → Forms."
+      },
+      "navForms": {
+        "title": "Go to Forms",
+        "description": "Access Form Templates from the Assets menu."
+      }
     },
     "viewCreatedCategories": "Erstellte Kategorien anzeigen",
     "editTemplateTooltip": "Vorlage bearbeiten",
@@ -1527,7 +1575,15 @@
         "skip": "Tutorial überspringen",
         "restart": "Tutorial ansehen"
       },
-      "progressText": "{{current}} von {{total}}"
+      "progressText": "{{current}} von {{total}}",
+      "navMaintenance": {
+        "title": "Manuals in Assets",
+        "description": "Manuals is now under Assets → Manuals (previously buttons in Assets)."
+      },
+      "navManuals": {
+        "title": "Go to Manuals",
+        "description": "Access Manuals from the Assets menu."
+      }
     }
   },
   "calendar": {
@@ -1911,7 +1967,19 @@
         "skip": "Tutorial überspringen",
         "restart": "Tutorial ansehen"
       },
-      "progressText": "{{current}} von {{total}}"
+      "progressText": "{{current}} von {{total}}",
+      "navMaintenance": {
+        "title": "Plan in Maintenance",
+        "description": "The maintenance plan now lives under Maintenance → Maintenance Plan."
+      },
+      "filterByMonth": {
+        "title": "Filter by month",
+        "description": "The filter-by-month selector is next to filter-by-status (tabletSelectsRow on iPad/mobile)."
+      },
+      "filterByStatus": {
+        "title": "Filter by status",
+        "description": "Filter by status (active/pending/inactive) next to filter-by-month."
+      }
     },
     "documents": {
       "uploadTitle": "Dokument hochladen",
@@ -1994,12 +2062,12 @@
     "manage": "Verwalten",
     "installationTypes": "Installationstypen",
     "installationTypesDesc": "Verwalten Sie die im System verfügbaren Installationstyp-Kategorien",
-    "assetCategories": "Anlagenkategorien",
-    "assetCategoriesDesc": "Verwalten Sie Kategorien zur Klassifizierung Ihrer Anlagen",
+    "assetCategories": "Asset-Kategorien",
+    "assetCategoriesDesc": "Erstellen Sie Kategorien zur Klassifizierung Ihrer Assets (z. B. Klima, Elektrik)",
     "deviceCategories": "Assetekategorien",
     "deviceCategoriesDesc": "Konfigurieren Sie Assetekategorien für Ihre Installationen",
     "formCategories": "Formularkategorien",
-    "formCategoriesDesc": "Organisieren Sie Formularvorlagen nach Kategorien",
+    "formCategoriesDesc": "Organisieren Sie Ihre Formularvorlagen nach Kategorien",
     "manageInstallationTypes": "Installationstypen verwalten",
     "manageAssetCategories": "Anlagenkategorien verwalten",
     "manageDeviceCategories": "Assetekategorien verwalten",
@@ -2038,6 +2106,49 @@
       "updateFailed": "Fehler beim Aktualisieren des Elements. Bitte versuchen Sie es erneut.",
       "deleteFailed": "Fehler beim Löschen des Elements. Bitte versuchen Sie es erneut.",
       "validationFailed": "Fehler bei der Validierung der Daten. Bitte überprüfen Sie die Informationen."
+    },
+    "subtitle2": "Systemeinstellungen verwalten",
+    "initialConfig": "Erstkonfiguration",
+    "initialConfigDesc": "Führen Sie diese Schritte aus, um Ihre Organisation zu konfigurieren. Diese Konfiguration ist erforderlich, bevor Sie das System nutzen.",
+    "stepsCompleted": "{{completed}} von {{total}} Schritten abgeschlossen",
+    "ofSteps": "von 3",
+    "typesInstallation": "Installationstypen",
+    "typesInstallationDesc": "Definieren Sie die Installationstypen, die Sie verwalten (z. B. Büro, Lager, Werk)",
+    "completed": "Abgeschlossen",
+    "pending": "Ausstehend",
+    "generalConfig": "Allgemeine Konfiguration",
+    "generalConfigDesc": "Zusätzliche Systemeinstellungen",
+    "company": "Unternehmen",
+    "companyDesc": "Informationen und Daten Ihres Unternehmens",
+    "usersAndPermissions": "Benutzer & Berechtigungen",
+    "usersAndPermissionsDesc": "Benutzer, Rollen und Berechtigungen verwalten",
+    "notifications": "Benachrichtigungen",
+    "notificationsDesc": "Warnungen und Systemhinweise konfigurieren",
+    "language": "Sprache",
+    "languageDesc": "Plattformsprache wählen",
+    "preferences": "Präferenzen",
+    "preferencesDesc": "Thema und Erscheinungsbild anpassen",
+    "integrations": "Integrationen",
+    "integrationsDesc": "Mercado Pago und E-Mail-Dienste verbinden",
+    "tour": {
+      "welcome": {
+        "title": "Initial setup",
+        "description": "Complete these 3 steps to get the platform ready: installation types, asset categories, and form categories."
+      },
+      "checklist": {
+        "title": "Setup checklist",
+        "description": "Track progress and status for each step. Start with the first pending item."
+      },
+      "manageTypes": {
+        "title": "Manage installation types",
+        "description": "Create the installation types you will use when creating installations."
+      },
+      "progressText": "{{current}} of {{total}}",
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous",
+        "done": "Done"
+      }
     }
   },
   "viewToggle": {
@@ -2213,7 +2324,15 @@
         "skip": "Tutorial überspringen",
         "restart": "Tutorial ansehen"
       },
-      "progressText": "{{current}} von {{total}}"
+      "progressText": "{{current}} von {{total}}",
+      "navOperation": {
+        "title": "Inventory in Operations",
+        "description": "Inventory is now under Operations → Inventory."
+      },
+      "navInventory": {
+        "title": "Go to Inventory",
+        "description": "Access Inventory from the Operations menu."
+      }
     }
   },
   "suppliers": {
@@ -2263,7 +2382,15 @@
         "skip": "Tutorial überspringen",
         "restart": "Tutorial ansehen"
       },
-      "progressText": "{{current}} von {{total}}"
+      "progressText": "{{current}} von {{total}}",
+      "navOperation": {
+        "title": "Suppliers in Operations",
+        "description": "Suppliers is now under Operations → Suppliers."
+      },
+      "navSuppliers": {
+        "title": "Go to Suppliers",
+        "description": "Access Suppliers from the Operations menu."
+      }
     }
   },
   "publicDevice": {

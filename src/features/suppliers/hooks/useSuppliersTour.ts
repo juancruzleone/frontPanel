@@ -3,9 +3,11 @@ import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
 import '../../installations/styles/tour.css';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../../../shared/hooks/useTheme';
 
 export const useSuppliersTour = () => {
   const { t } = useTranslation();
+  const { dark } = useTheme();
   const [tourCompleted, setTourCompleted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -16,33 +18,40 @@ export const useSuppliersTour = () => {
   }, []);
 
   const startTour = () => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const driverObj = driver({
       showProgress: true,
       showButtons: ['next', 'previous', 'close'],
       progressText: t('suppliers.tour.progressText'),
+      animate: !reduceMotion,
+      smoothScroll: !reduceMotion,
+      popoverClass: dark ? "driverjs-dark-theme" : "driverjs-light-theme",
+      allowClose: true,
       steps: [
         {
           popover: {
             title: t('suppliers.tour.welcome.title'),
             description: t('suppliers.tour.welcome.description'),
-            showButtons: ['next', 'close']
+            showButtons: ['next', 'close'],
+            side: "bottom",
+            align: 'start'
           }
         },
         {
           element: '[data-tour="nav-operation"]',
           popover: {
-            title: t('suppliers.tour.navOperation.title', { defaultValue: 'Proveedores en Operación' }),
-            description: t('suppliers.tour.navOperation.description', { defaultValue: 'Proveedores ahora está en Operación → Proveedores.' }),
-            side: "right",
+            title: t('suppliers.tour.navOperation.title'),
+            description: t('suppliers.tour.navOperation.description'),
+            side: "bottom",
             align: 'start'
           }
         },
         {
           element: '[data-tour="nav-suppliers"]',
           popover: {
-            title: t('suppliers.tour.navSuppliers.title', { defaultValue: 'Ir a Proveedores' }),
-            description: t('suppliers.tour.navSuppliers.description', { defaultValue: 'Accede a Proveedores desde el menú Operación.' }),
-            side: "right",
+            title: t('suppliers.tour.navSuppliers.title'),
+            description: t('suppliers.tour.navSuppliers.description'),
+            side: "bottom",
             align: 'start'
           }
         },
@@ -65,11 +74,11 @@ export const useSuppliersTour = () => {
           }
         },
         {
-          element: '.supplier-card-actions', // We'll add this class
+          element: '.supplier-card-actions',
           popover: {
             title: t('suppliers.tour.actions.title'),
             description: t('suppliers.tour.actions.description'),
-            side: "left",
+            side: "bottom",
             align: 'start'
           }
         }

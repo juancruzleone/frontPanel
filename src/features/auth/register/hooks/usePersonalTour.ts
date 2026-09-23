@@ -3,9 +3,11 @@ import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
 import '../../../installations/styles/tour.css';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../../../../shared/hooks/useTheme';
 
 export const usePersonalTour = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+  const { dark } = useTheme();
   const [tourCompleted, setTourCompleted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -16,33 +18,40 @@ export const usePersonalTour = () => {
   }, []);
 
   const startTour = () => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const driverObj = driver({
       showProgress: true,
       showButtons: ['next', 'previous', 'close'],
       progressText: t('personal.tour.progressText'),
+      animate: !reduceMotion,
+      smoothScroll: !reduceMotion,
+      popoverClass: dark ? "driverjs-dark-theme" : "driverjs-light-theme",
+      allowClose: true,
       steps: [
         {
           popover: {
             title: t('personal.tour.welcome.title'),
             description: t('personal.tour.welcome.description'),
-            showButtons: ['next', 'close']
+            showButtons: ['next', 'close'],
+            side: "bottom",
+            align: 'start'
           }
         },
         {
           element: '[data-tour="nav-operation"]',
           popover: {
-            title: t('personal.tour.navOperation.title', { defaultValue: 'Personal en Operación' }),
-            description: t('personal.tour.navOperation.description', { defaultValue: 'Personal ahora está en Operación → Personal.' }),
-            side: "right",
+            title: t('personal.tour.navOperation.title'),
+            description: t('personal.tour.navOperation.description'),
+            side: "bottom",
             align: 'start'
           }
         },
         {
           element: '[data-tour="nav-personal"]',
           popover: {
-            title: t('personal.tour.navPersonal.title', { defaultValue: 'Ir a Personal' }),
-            description: t('personal.tour.navPersonal.description', { defaultValue: 'Accede a Personal desde el menú Operación.' }),
-            side: "right",
+            title: t('personal.tour.navPersonal.title'),
+            description: t('personal.tour.navPersonal.description'),
+            side: "bottom",
             align: 'start'
           }
         },
@@ -67,7 +76,9 @@ export const usePersonalTour = () => {
         {
           popover: {
             title: t('personal.tour.technicianActions.title'),
-            description: t('personal.tour.technicianActions.description')
+            description: t('personal.tour.technicianActions.description'),
+            side: "bottom",
+            align: 'start'
           }
         }
       ],

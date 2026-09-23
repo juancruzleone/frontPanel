@@ -167,7 +167,15 @@
         "skip": "跳过教程",
         "restart": "重新开始教程"
       },
-      "progressText": "{{total}} 中的 {{current}}"
+      "progressText": "{{total}} 中的 {{current}}",
+      "navOperation": {
+        "title": "Staff in Operations",
+        "description": "Staff is now under Operations → Staff."
+      },
+      "navPersonal": {
+        "title": "Go to Staff",
+        "description": "Access Staff from the Operations menu."
+      }
     }
   },
   "profile": {
@@ -278,7 +286,15 @@
         "skip": "跳过教程",
         "restart": "重新开始教程"
       },
-      "progressText": "{{total}} 中的 {{current}}"
+      "progressText": "{{total}} 中的 {{current}}",
+      "navOperation": {
+        "title": "Installations",
+        "description": "Clients is now under Installations → Clients."
+      },
+      "navClients": {
+        "title": "Go to Clients",
+        "description": "Access Clients from the Installations menu."
+      }
     }
   },
   "common": {
@@ -710,7 +726,19 @@
         "skip": "跳过教程",
         "restart": "查看教程"
       },
-      "progressText": "{{total}} 中的 {{current}}"
+      "progressText": "{{total}} 中的 {{current}}",
+      "navWorkOrders": {
+        "title": "Work orders",
+        "description": "The Work Orders menu groups List and Calendar."
+      },
+      "navWorkOrdersList": {
+        "title": "Work orders list",
+        "description": "Manage all work orders from List."
+      },
+      "navCalendar": {
+        "title": "Calendar",
+        "description": "Calendar was previously a View calendar button; now it's under Work Orders → Calendar."
+      }
     },
     "titlePlaceholder": "请输入工单标题",
     "descriptionPlaceholder": "请输入要执行的工作描述",
@@ -1255,7 +1283,15 @@
         "skip": "跳过教程",
         "restart": "查看教程"
       },
-      "progressText": "{{current}} / {{total}}"
+      "progressText": "{{current}} / {{total}}",
+      "navOperation": {
+        "title": "Installations menu",
+        "description": "The Installations menu groups Installations and Clients."
+      },
+      "navClients": {
+        "title": "Clients in Installations",
+        "description": "Client management is now inside Installations → Clients."
+      }
     }
   },
   "forms": {
@@ -1304,7 +1340,15 @@
         "skip": "跳过教程",
         "restart": "查看教程"
       },
-      "progressText": "{{total}} 中的 {{current}}"
+      "progressText": "{{total}} 中的 {{current}}",
+      "navMaintenance": {
+        "title": "Forms in Assets",
+        "description": "Forms is now under Assets → Forms."
+      },
+      "navForms": {
+        "title": "Go to Forms",
+        "description": "Access Form Templates from the Assets menu."
+      }
     },
     "viewCreatedCategories": "查看已创建的类别",
     "editTemplateTooltip": "编辑模板",
@@ -1420,7 +1464,15 @@
         "skip": "跳过教程",
         "restart": "查看教程"
       },
-      "progressText": "{{total}} 中的 {{current}}"
+      "progressText": "{{total}} 中的 {{current}}",
+      "navMaintenance": {
+        "title": "Manuals in Assets",
+        "description": "Manuals is now under Assets → Manuals (previously buttons in Assets)."
+      },
+      "navManuals": {
+        "title": "Go to Manuals",
+        "description": "Access Manuals from the Assets menu."
+      }
     },
     "understood": "关闭",
     "viewFile": "查看文件",
@@ -1827,7 +1879,19 @@
         "skip": "跳过教程",
         "restart": "查看教程"
       },
-      "progressText": "{{total}} 中的 {{current}}"
+      "progressText": "{{total}} 中的 {{current}}",
+      "navMaintenance": {
+        "title": "Plan in Maintenance",
+        "description": "The maintenance plan now lives under Maintenance → Maintenance Plan."
+      },
+      "filterByMonth": {
+        "title": "Filter by month",
+        "description": "The filter-by-month selector is next to filter-by-status (tabletSelectsRow on iPad/mobile)."
+      },
+      "filterByStatus": {
+        "title": "Filter by status",
+        "description": "Filter by status (active/pending/inactive) next to filter-by-month."
+      }
     },
     "selectStartDate": "选择开始日期",
     "selectEndDate": "选择结束日期",
@@ -2010,7 +2074,11 @@
         "skip": "跳过教程",
         "restart": "查看教程"
       },
-      "progressText": "{{total}} 中的 {{current}}"
+      "progressText": "{{total}} 中的 {{current}}",
+      "viewManuals": {
+        "title": "Manuals in Maintenance",
+        "description": "Manuals are now under Maintenance → Manuals."
+      }
     },
     "typeUpdatedSuccess": "安装类型更新成功",
     "typeDeletedSuccess": "安装类型删除成功",
@@ -2128,11 +2196,11 @@
     "installationTypes": "安装类型",
     "installationTypesDesc": "管理系统中可用的安装类型类别",
     "assetCategories": "资产类别",
-    "assetCategoriesDesc": "管理用于分类资产的类别",
+    "assetCategoriesDesc": "创建用于分类资产的类别（例如：暖通、电气）",
     "deviceCategories": "资产类别",
     "deviceCategoriesDesc": "配置安装的资产类别",
     "formCategories": "表单类别",
-    "formCategoriesDesc": "按类别组织表单模板",
+    "formCategoriesDesc": "按类别整理表单模板",
     "manageInstallationTypes": "管理安装类型",
     "manageAssetCategories": "管理资产类别",
     "manageDeviceCategories": "管理资产类别",
@@ -2171,6 +2239,49 @@
       "updateFailed": "更新项目时出错。请重试。",
       "deleteFailed": "删除项目时出错。请重试。",
       "validationFailed": "验证数据时出错。请检查信息。"
+    },
+    "subtitle2": "管理系统设置",
+    "initialConfig": "初始配置",
+    "initialConfigDesc": "完成这些步骤以配置您的组织。在开始使用系统之前，此配置为必填项。",
+    "stepsCompleted": "已完成 {{completed}} / {{total}} 步",
+    "ofSteps": "/3",
+    "typesInstallation": "安装类型",
+    "typesInstallationDesc": "定义您管理的安装类型（例如：办公室、仓库、工厂）",
+    "completed": "已完成",
+    "pending": "待处理",
+    "generalConfig": "通用配置",
+    "generalConfigDesc": "其他系统设置",
+    "company": "公司",
+    "companyDesc": "组织信息与数据",
+    "usersAndPermissions": "用户与权限",
+    "usersAndPermissionsDesc": "管理用户、角色和权限",
+    "notifications": "通知",
+    "notificationsDesc": "配置提醒和系统通知",
+    "language": "语言",
+    "languageDesc": "选择平台语言",
+    "preferences": "偏好设置",
+    "preferencesDesc": "自定义主题与外观",
+    "integrations": "集成",
+    "integrationsDesc": "连接 Mercado Pago 和邮件服务",
+    "tour": {
+      "welcome": {
+        "title": "Initial setup",
+        "description": "Complete these 3 steps to get the platform ready: installation types, asset categories, and form categories."
+      },
+      "checklist": {
+        "title": "Setup checklist",
+        "description": "Track progress and status for each step. Start with the first pending item."
+      },
+      "manageTypes": {
+        "title": "Manage installation types",
+        "description": "Create the installation types you will use when creating installations."
+      },
+      "progressText": "{{current}} of {{total}}",
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous",
+        "done": "Done"
+      }
     }
   },
   "viewToggle": {
@@ -2346,7 +2457,15 @@
         "skip": "跳过教程",
         "restart": "查看教程"
       },
-      "progressText": "{{current}} / {{total}}"
+      "progressText": "{{current}} / {{total}}",
+      "navOperation": {
+        "title": "Inventory in Operations",
+        "description": "Inventory is now under Operations → Inventory."
+      },
+      "navInventory": {
+        "title": "Go to Inventory",
+        "description": "Access Inventory from the Operations menu."
+      }
     }
   },
   "suppliers": {
@@ -2396,7 +2515,15 @@
         "skip": "跳过教程",
         "restart": "查看教程"
       },
-      "progressText": "{{current}} / {{total}}"
+      "progressText": "{{current}} / {{total}}",
+      "navOperation": {
+        "title": "Suppliers in Operations",
+        "description": "Suppliers is now under Operations → Suppliers."
+      },
+      "navSuppliers": {
+        "title": "Go to Suppliers",
+        "description": "Access Suppliers from the Operations menu."
+      }
     }
   },
   "publicDevice": {

@@ -3,11 +3,11 @@ import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
 import '../../installations/styles/tour.css';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router';
+import { useTheme } from '../../../shared/hooks/useTheme';
 
 export const useManualsTour = () => {
-  const { t, i18n } = useTranslation();
-  const navigate = useNavigate();
+  const { t } = useTranslation();
+  const { dark } = useTheme();
   const [tourCompleted, setTourCompleted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -19,36 +19,40 @@ export const useManualsTour = () => {
   }, []);
 
   const startTour = () => {
-    // Forzar recreación con el idioma actual
-    const currentLang = i18n.language;
-    
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const driverObj = driver({
       showProgress: true,
       showButtons: ['next', 'previous', 'close'],
       progressText: t('manuals.tour.progressText'),
+      animate: !reduceMotion,
+      smoothScroll: !reduceMotion,
+      popoverClass: dark ? "driverjs-dark-theme" : "driverjs-light-theme",
+      allowClose: true,
       steps: [
         {
           popover: {
             title: t('manuals.tour.welcome.title'),
             description: t('manuals.tour.welcome.description'),
-            showButtons: ['next', 'close']
+            showButtons: ['next', 'close'],
+            side: "bottom",
+            align: 'start'
           }
         },
         {
-          element: '[data-tour="nav-maintenance"]',
+          element: '[data-tour="nav-assets"]',
           popover: {
-            title: t('manuals.tour.navMaintenance.title', { defaultValue: 'Manuales en Mantenimiento' }),
-            description: t('manuals.tour.navMaintenance.description', { defaultValue: 'Manuales ahora está en Mantenimiento → Manuales (antes había botones en Activos).' }),
-            side: "right",
+            title: t('manuals.tour.navMaintenance.title'),
+            description: t('manuals.tour.navMaintenance.description'),
+            side: "bottom",
             align: 'start'
           }
         },
         {
           element: '[data-tour="nav-manuals"]',
           popover: {
-            title: t('manuals.tour.navManuals.title', { defaultValue: 'Ir a Manuales' }),
-            description: t('manuals.tour.navManuals.description', { defaultValue: 'Accede a Manuales desde el dropdown Mantenimiento.' }),
-            side: "right",
+            title: t('manuals.tour.navManuals.title'),
+            description: t('manuals.tour.navManuals.description'),
+            side: "bottom",
             align: 'start'
           }
         },
@@ -57,7 +61,7 @@ export const useManualsTour = () => {
           popover: {
             title: t('manuals.tour.goToAssets.title'),
             description: t('manuals.tour.goToAssets.description'),
-            side: "right",
+            side: "bottom",
             align: 'start'
           }
         },
@@ -66,7 +70,7 @@ export const useManualsTour = () => {
           popover: {
             title: t('manuals.tour.createManual.title'),
             description: t('manuals.tour.createManual.description'),
-            side: "left",
+            side: "bottom",
             align: 'start'
           }
         },

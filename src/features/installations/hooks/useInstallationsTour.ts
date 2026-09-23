@@ -3,9 +3,11 @@ import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
 import "../styles/tour.css";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "../../../shared/hooks/useTheme";
 
 export const useInstallationsTour = () => {
 	const { t } = useTranslation();
+	const { dark } = useTheme();
 	const [tourCompleted, setTourCompleted] = useState<boolean>(false);
 
 	useEffect(() => {
@@ -17,16 +19,23 @@ export const useInstallationsTour = () => {
 	}, []);
 
 	const startTour = () => {
+		const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 		const driverObj = driver({
 			showProgress: true,
 			showButtons: ["next", "previous", "close"],
 			progressText: t("installations.tour.progressText"),
+			animate: !reduceMotion,
+			smoothScroll: !reduceMotion,
+			popoverClass: dark ? "driverjs-dark-theme" : "driverjs-light-theme",
+			allowClose: true,
 			steps: [
 				{
 					popover: {
 						title: t("installations.tour.welcome.title"),
 						description: t("installations.tour.welcome.description"),
 						showButtons: ["next", "close"],
+						side: "bottom",
+						align: "start",
 					},
 				},
 				{
@@ -34,7 +43,7 @@ export const useInstallationsTour = () => {
 					popover: {
 						title: t("installations.tour.createInstallation.title"),
 						description: t("installations.tour.createInstallation.description"),
-						side: "left",
+						side: "bottom",
 						align: "start",
 					},
 				},
@@ -48,20 +57,20 @@ export const useInstallationsTour = () => {
 					},
 				},
 				{
-					element: '[data-tour="nav-operation"]',
+					element: '[data-tour="nav-installations"]',
 					popover: {
-						title: t("installations.tour.navOperation.title", { defaultValue: "Menú Operación" }),
-						description: t("installations.tour.navOperation.description", { defaultValue: "El menú Operación agrupa Inventario, Personal, Proveedores y Clientes." }),
-						side: "right",
+						title: t("installations.tour.navOperation.title"),
+						description: t("installations.tour.navOperation.description"),
+						side: "bottom",
 						align: "start",
 					},
 				},
 				{
 					element: '[data-tour="nav-clients"]',
 					popover: {
-						title: t("installations.tour.navClients.title", { defaultValue: "Clientes en Operación" }),
-						description: t("installations.tour.navClients.description", { defaultValue: "La gestión de clientes ahora está dentro de Operación → Clientes." }),
-						side: "right",
+						title: t("installations.tour.navClients.title"),
+						description: t("installations.tour.navClients.description"),
+						side: "bottom",
 						align: "start",
 					},
 				},

@@ -3,9 +3,11 @@ import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
 import '../../installations/styles/tour.css';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../../../shared/hooks/useTheme';
 
 export const useInstallationDetailTour = () => {
   const { t } = useTranslation();
+  const { dark } = useTheme();
   const [tourCompleted, setTourCompleted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -17,22 +19,31 @@ export const useInstallationDetailTour = () => {
   }, []);
 
   const startTour = () => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const driverObj = driver({
       showProgress: true,
       showButtons: ['next', 'previous', 'close'],
       progressText: t('installationDetails.tour.progressText'),
+      animate: !reduceMotion,
+      smoothScroll: !reduceMotion,
+      popoverClass: dark ? "driverjs-dark-theme" : "driverjs-light-theme",
+      allowClose: true,
       steps: [
         {
           popover: {
             title: t('installationDetails.tour.welcome.title'),
             description: t('installationDetails.tour.welcome.description'),
-            showButtons: ['next', 'close']
+            showButtons: ['next', 'close'],
+            side: "bottom",
+            align: 'start'
           }
         },
         {
           popover: {
             title: t('installationDetails.tour.createAssetFirst.title'),
-            description: t('installationDetails.tour.createAssetFirst.description')
+            description: t('installationDetails.tour.createAssetFirst.description'),
+            side: "bottom",
+            align: 'start'
           }
         },
         {
@@ -40,7 +51,7 @@ export const useInstallationDetailTour = () => {
           popover: {
             title: t('installationDetails.tour.goToInstallations.title'),
             description: t('installationDetails.tour.goToInstallations.description'),
-            side: "left",
+            side: "bottom",
             align: 'start'
           }
         },

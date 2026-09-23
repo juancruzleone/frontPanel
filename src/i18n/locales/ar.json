@@ -167,7 +167,15 @@
         "skip": "تخطي الدليل",
         "restart": "إعادة تشغيل الدليل"
       },
-      "progressText": "{{current}} من {{total}}"
+      "progressText": "{{current}} من {{total}}",
+      "navOperation": {
+        "title": "Staff in Operations",
+        "description": "Staff is now under Operations → Staff."
+      },
+      "navPersonal": {
+        "title": "Go to Staff",
+        "description": "Access Staff from the Operations menu."
+      }
     }
   },
   "profile": {
@@ -278,7 +286,15 @@
         "skip": "تخطي الدليل",
         "restart": "إعادة تشغيل الدليل"
       },
-      "progressText": "{{current}} من {{total}}"
+      "progressText": "{{current}} من {{total}}",
+      "navOperation": {
+        "title": "Installations",
+        "description": "Clients is now under Installations → Clients."
+      },
+      "navClients": {
+        "title": "Go to Clients",
+        "description": "Access Clients from the Installations menu."
+      }
     }
   },
   "common": {
@@ -709,7 +725,19 @@
         "skip": "تخطي البرنامج التعليمي",
         "restart": "عرض البرنامج التعليمي"
       },
-      "progressText": "{{current}} من {{total}}"
+      "progressText": "{{current}} من {{total}}",
+      "navWorkOrders": {
+        "title": "Work orders",
+        "description": "The Work Orders menu groups List and Calendar."
+      },
+      "navWorkOrdersList": {
+        "title": "Work orders list",
+        "description": "Manage all work orders from List."
+      },
+      "navCalendar": {
+        "title": "Calendar",
+        "description": "Calendar was previously a View calendar button; now it's under Work Orders → Calendar."
+      }
     },
     "titlePlaceholder": "أدخل عنوان أمر العمل",
     "descriptionPlaceholder": "وصف العمل المطلوب تنفيذه",
@@ -1233,7 +1261,15 @@
         "skip": "تخطي البرنامج التعليمي",
         "restart": "عرض البرنامج التعليمي"
       },
-      "progressText": "{{current}} من {{total}}"
+      "progressText": "{{current}} من {{total}}",
+      "navOperation": {
+        "title": "Installations menu",
+        "description": "The Installations menu groups Installations and Clients."
+      },
+      "navClients": {
+        "title": "Clients in Installations",
+        "description": "Client management is now inside Installations → Clients."
+      }
     },
     "typeUpdatedSuccess": "تم تحديث نوع التثبيت بنجاح",
     "typeDeletedSuccess": "تم حذف نوع التثبيت بنجاح",
@@ -1286,7 +1322,11 @@
         "skip": "تخطي البرنامج التعليمي",
         "restart": "عرض البرنامج التعليمي"
       },
-      "progressText": "{{current}} من {{total}}"
+      "progressText": "{{current}} من {{total}}",
+      "viewManuals": {
+        "title": "Manuals in Maintenance",
+        "description": "Manuals are now under Maintenance → Manuals."
+      }
     },
     "editAsset": "تعديل الأصل",
     "assetDetails": "تفاصيل الأصل",
@@ -1416,7 +1456,15 @@
         "skip": "تخطي البرنامج التعليمي",
         "restart": "عرض البرنامج التعليمي"
       },
-      "progressText": "{{current}} من {{total}}"
+      "progressText": "{{current}} من {{total}}",
+      "navMaintenance": {
+        "title": "Forms in Assets",
+        "description": "Forms is now under Assets → Forms."
+      },
+      "navForms": {
+        "title": "Go to Forms",
+        "description": "Access Form Templates from the Assets menu."
+      }
     },
     "editFormTemplate": "تعديل قالب النموذج",
     "templateName": "اسم القالب",
@@ -1640,7 +1688,15 @@
         "skip": "تخطي الدليل التعليمي",
         "restart": "عرض الدليل التعليمي"
       },
-      "progressText": "{{current}} من {{total}}"
+      "progressText": "{{current}} من {{total}}",
+      "navMaintenance": {
+        "title": "Manuals in Assets",
+        "description": "Manuals is now under Assets → Manuals (previously buttons in Assets)."
+      },
+      "navManuals": {
+        "title": "Go to Manuals",
+        "description": "Access Manuals from the Assets menu."
+      }
     }
   },
   "calendar": {
@@ -1939,7 +1995,19 @@
         "skip": "تخطي الدليل التعليمي",
         "restart": "عرض الدليل التعليمي"
       },
-      "progressText": "{{current}} من {{total}}"
+      "progressText": "{{current}} من {{total}}",
+      "navMaintenance": {
+        "title": "Plan in Maintenance",
+        "description": "The maintenance plan now lives under Maintenance → Maintenance Plan."
+      },
+      "filterByMonth": {
+        "title": "Filter by month",
+        "description": "The filter-by-month selector is next to filter-by-status (tabletSelectsRow on iPad/mobile)."
+      },
+      "filterByStatus": {
+        "title": "Filter by status",
+        "description": "Filter by status (active/pending/inactive) next to filter-by-month."
+      }
     },
     "selectStartDate": "اختر تاريخ البدء",
     "selectEndDate": "اختر تاريخ الانتهاء",
@@ -2104,11 +2172,11 @@
     "installationTypes": "أنواع التثبيت",
     "installationTypesDesc": "إدارة فئات أنواع التثبيت المتاحة في النظام",
     "assetCategories": "فئات الأصول",
-    "assetCategoriesDesc": "إدارة الفئات لتصنيف أصولك",
+    "assetCategoriesDesc": "أنشئ فئات لتصنيف أصولك (مثل: تكييف، كهرباء)",
     "deviceCategories": "فئات الأصول",
     "deviceCategoriesDesc": "تكوين فئات الأصول لتثبيتاتك",
     "formCategories": "فئات النماذج",
-    "formCategoriesDesc": "تنظيم قوالب النماذج حسب الفئات",
+    "formCategoriesDesc": "نظم قوالب النماذج حسب الفئات",
     "manageInstallationTypes": "إدارة أنواع التثبيت",
     "manageAssetCategories": "إدارة فئات الأصول",
     "manageDeviceCategories": "إدارة فئات الأصول",
@@ -2147,6 +2215,49 @@
       "updateFailed": "خطأ في تحديث العنصر. يرجى المحاولة مرة أخرى.",
       "deleteFailed": "خطأ في حذف العنصر. يرجى المحاولة مرة أخرى.",
       "validationFailed": "خطأ في التحقق من البيانات. يرجى التحقق من المعلومات."
+    },
+    "subtitle2": "إدارة إعدادات النظام",
+    "initialConfig": "الإعداد الأولي",
+    "initialConfigDesc": "أكمل هذه الخطوات لتكوين مؤسستك. هذا الإعداد إلزامي قبل البدء في استخدام النظام.",
+    "stepsCompleted": "{{completed}} من {{total}} خطوات مكتملة",
+    "ofSteps": "من 3",
+    "typesInstallation": "أنواع التركيب",
+    "typesInstallationDesc": "حدد أنواع التركيبات التي تديرها (مثل: مكتب، مستودع، مصنع)",
+    "completed": "مكتمل",
+    "pending": "قيد الانتظار",
+    "generalConfig": "الإعداد العام",
+    "generalConfigDesc": "إعدادات النظام الإضافية",
+    "company": "الشركة",
+    "companyDesc": "معلومات وبيانات مؤسستك",
+    "usersAndPermissions": "المستخدمون والأذونات",
+    "usersAndPermissionsDesc": "إدارة المستخدمين والأدوار والأذونات",
+    "notifications": "الإشعارات",
+    "notificationsDesc": "تكوين التنبيهات وإشعارات النظام",
+    "language": "اللغة",
+    "languageDesc": "اختر لغة المنصة",
+    "preferences": "التفضيلات",
+    "preferencesDesc": "تخصيص المظهر والسمة",
+    "integrations": "التكاملات",
+    "integrationsDesc": "ربط Mercado Pago وخدمات البريد الإلكتروني",
+    "tour": {
+      "welcome": {
+        "title": "Initial setup",
+        "description": "Complete these 3 steps to get the platform ready: installation types, asset categories, and form categories."
+      },
+      "checklist": {
+        "title": "Setup checklist",
+        "description": "Track progress and status for each step. Start with the first pending item."
+      },
+      "manageTypes": {
+        "title": "Manage installation types",
+        "description": "Create the installation types you will use when creating installations."
+      },
+      "progressText": "{{current}} of {{total}}",
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous",
+        "done": "Done"
+      }
     }
   },
   "viewToggle": {
@@ -2322,7 +2433,15 @@
         "skip": "تخطي البرنامج التعليمي",
         "restart": "مشاهدة البرنامج التعليمي"
       },
-      "progressText": "{{current}} من {{total}}"
+      "progressText": "{{current}} من {{total}}",
+      "navOperation": {
+        "title": "Inventory in Operations",
+        "description": "Inventory is now under Operations → Inventory."
+      },
+      "navInventory": {
+        "title": "Go to Inventory",
+        "description": "Access Inventory from the Operations menu."
+      }
     }
   },
   "suppliers": {
@@ -2372,7 +2491,15 @@
         "skip": "تخطي البرنامج التعليمي",
         "restart": "مشاهدة البرنامج التعليمي"
       },
-      "progressText": "{{current}} من {{total}}"
+      "progressText": "{{current}} من {{total}}",
+      "navOperation": {
+        "title": "Suppliers in Operations",
+        "description": "Suppliers is now under Operations → Suppliers."
+      },
+      "navSuppliers": {
+        "title": "Go to Suppliers",
+        "description": "Access Suppliers from the Operations menu."
+      }
     }
   },
   "publicDevice": {

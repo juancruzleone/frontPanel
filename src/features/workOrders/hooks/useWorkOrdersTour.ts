@@ -3,9 +3,11 @@ import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
 import '../../installations/styles/tour.css';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../../../shared/hooks/useTheme';
 
 export const useWorkOrdersTour = () => {
   const { t } = useTranslation();
+  const { dark } = useTheme();
   const [tourCompleted, setTourCompleted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -17,42 +19,49 @@ export const useWorkOrdersTour = () => {
   }, []);
 
   const startTour = () => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const driverObj = driver({
       showProgress: true,
       showButtons: ['next', 'previous', 'close'],
       progressText: t('workOrders.tour.progressText'),
+      animate: !reduceMotion,
+      smoothScroll: !reduceMotion,
+      popoverClass: dark ? "driverjs-dark-theme" : "driverjs-light-theme",
+      allowClose: true,
       steps: [
         {
           popover: {
             title: t('workOrders.tour.welcome.title'),
             description: t('workOrders.tour.welcome.description'),
-            showButtons: ['next', 'close']
+            showButtons: ['next', 'close'],
+            side: "bottom",
+            align: 'start'
           }
         },
         {
           element: '[data-tour="nav-work-orders"]',
           popover: {
-            title: t('workOrders.tour.navWorkOrders.title', { defaultValue: 'Órdenes de trabajo' }),
-            description: t('workOrders.tour.navWorkOrders.description', { defaultValue: 'El menú Órdenes de trabajo agrupa el Listado y el Calendario.' }),
-            side: "right",
+            title: t('workOrders.tour.navWorkOrders.title'),
+            description: t('workOrders.tour.navWorkOrders.description'),
+            side: "bottom",
             align: 'start'
           }
         },
         {
           element: '[data-tour="nav-work-orders-list"]',
           popover: {
-            title: t('workOrders.tour.navWorkOrdersList.title', { defaultValue: 'Listado de órdenes' }),
-            description: t('workOrders.tour.navWorkOrdersList.description', { defaultValue: 'Desde Listado gestionas todas las órdenes de trabajo.' }),
-            side: "right",
+            title: t('workOrders.tour.navWorkOrdersList.title'),
+            description: t('workOrders.tour.navWorkOrdersList.description'),
+            side: "bottom",
             align: 'start'
           }
         },
         {
           element: '[data-tour="nav-calendar"]',
           popover: {
-            title: t('workOrders.tour.navCalendar.title', { defaultValue: 'Calendario' }),
-            description: t('workOrders.tour.navCalendar.description', { defaultValue: 'El calendario antes estaba como botón Ver calendario; ahora está en Órdenes de trabajo → Calendario.' }),
-            side: "right",
+            title: t('workOrders.tour.navCalendar.title'),
+            description: t('workOrders.tour.navCalendar.description'),
+            side: "bottom",
             align: 'start'
           }
         },
@@ -61,7 +70,7 @@ export const useWorkOrdersTour = () => {
           popover: {
             title: t('workOrders.tour.createTechnician.title'),
             description: t('workOrders.tour.createTechnician.description'),
-            side: "right",
+            side: "bottom",
             align: 'start'
           }
         },
@@ -70,7 +79,7 @@ export const useWorkOrdersTour = () => {
           popover: {
             title: t('workOrders.tour.createInstallation.title'),
             description: t('workOrders.tour.createInstallation.description'),
-            side: "right",
+            side: "bottom",
             align: 'start'
           }
         },
@@ -95,7 +104,9 @@ export const useWorkOrdersTour = () => {
         {
           popover: {
             title: t('workOrders.tour.workOrderActions.title'),
-            description: t('workOrders.tour.workOrderActions.description')
+            description: t('workOrders.tour.workOrderActions.description'),
+            side: "bottom",
+            align: 'start'
           }
         }
       ],

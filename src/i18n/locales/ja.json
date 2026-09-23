@@ -167,7 +167,15 @@
         "skip": "チュートリアルをスキップ",
         "restart": "チュートリアルを再開"
       },
-      "progressText": "{{total}} 中 {{current}}"
+      "progressText": "{{total}} 中 {{current}}",
+      "navOperation": {
+        "title": "Staff in Operations",
+        "description": "Staff is now under Operations → Staff."
+      },
+      "navPersonal": {
+        "title": "Go to Staff",
+        "description": "Access Staff from the Operations menu."
+      }
     }
   },
   "profile": {
@@ -278,7 +286,15 @@
         "skip": "チュートリアルをスキップ",
         "restart": "チュートリアルを再開"
       },
-      "progressText": "{{total}} 中 {{current}}"
+      "progressText": "{{total}} 中 {{current}}",
+      "navOperation": {
+        "title": "Installations",
+        "description": "Clients is now under Installations → Clients."
+      },
+      "navClients": {
+        "title": "Go to Clients",
+        "description": "Access Clients from the Installations menu."
+      }
     }
   },
   "common": {
@@ -708,7 +724,19 @@
         "skip": "チュートリアルをスキップ",
         "restart": "チュートリアルを表示"
       },
-      "progressText": "{{total}} 中 {{current}}"
+      "progressText": "{{total}} 中 {{current}}",
+      "navWorkOrders": {
+        "title": "Work orders",
+        "description": "The Work Orders menu groups List and Calendar."
+      },
+      "navWorkOrdersList": {
+        "title": "Work orders list",
+        "description": "Manage all work orders from List."
+      },
+      "navCalendar": {
+        "title": "Calendar",
+        "description": "Calendar was previously a View calendar button; now it's under Work Orders → Calendar."
+      }
     },
     "titlePlaceholder": "作業指示書のタイトルを入力してください",
     "descriptionPlaceholder": "実施する作業内容を入力してください",
@@ -1236,7 +1264,15 @@
         "skip": "チュートリアルをスキップ",
         "restart": "チュートリアルを表示"
       },
-      "progressText": "{{current}} / {{total}}"
+      "progressText": "{{current}} / {{total}}",
+      "navOperation": {
+        "title": "Installations menu",
+        "description": "The Installations menu groups Installations and Clients."
+      },
+      "navClients": {
+        "title": "Clients in Installations",
+        "description": "Client management is now inside Installations → Clients."
+      }
     },
     "typeUpdatedSuccess": "インストールタイプが正常に更新されました",
     "typeDeletedSuccess": "インストールタイプが正常に削除されました",
@@ -1287,7 +1323,11 @@
         "skip": "チュートリアルをスキップ",
         "restart": "チュートリアルを見る"
       },
-      "progressText": "{{total}} 中 {{current}}"
+      "progressText": "{{total}} 中 {{current}}",
+      "viewManuals": {
+        "title": "Manuals in Maintenance",
+        "description": "Manuals are now under Maintenance → Manuals."
+      }
     },
     "editAsset": "資産を編集",
     "assetDetails": "資産の詳細",
@@ -1417,7 +1457,15 @@
         "skip": "チュートリアルをスキップ",
         "restart": "チュートリアルを表示"
       },
-      "progressText": "{{total}} 中 {{current}}"
+      "progressText": "{{total}} 中 {{current}}",
+      "navMaintenance": {
+        "title": "Forms in Assets",
+        "description": "Forms is now under Assets → Forms."
+      },
+      "navForms": {
+        "title": "Go to Forms",
+        "description": "Access Form Templates from the Assets menu."
+      }
     },
     "viewCreatedCategories": "作成済みカテゴリを見る",
     "editTemplateTooltip": "テンプレートを編集",
@@ -1637,7 +1685,15 @@
         "skip": "チュートリアルをスキップ",
         "restart": "チュートリアルを見る"
       },
-      "progressText": "{{total}} 中 {{current}}"
+      "progressText": "{{total}} 中 {{current}}",
+      "navMaintenance": {
+        "title": "Manuals in Assets",
+        "description": "Manuals is now under Assets → Manuals (previously buttons in Assets)."
+      },
+      "navManuals": {
+        "title": "Go to Manuals",
+        "description": "Access Manuals from the Assets menu."
+      }
     }
   },
   "calendar": {
@@ -1936,7 +1992,19 @@
         "skip": "チュートリアルをスキップ",
         "restart": "チュートリアルを見る"
       },
-      "progressText": "{{total}} 中 {{current}}"
+      "progressText": "{{total}} 中 {{current}}",
+      "navMaintenance": {
+        "title": "Plan in Maintenance",
+        "description": "The maintenance plan now lives under Maintenance → Maintenance Plan."
+      },
+      "filterByMonth": {
+        "title": "Filter by month",
+        "description": "The filter-by-month selector is next to filter-by-status (tabletSelectsRow on iPad/mobile)."
+      },
+      "filterByStatus": {
+        "title": "Filter by status",
+        "description": "Filter by status (active/pending/inactive) next to filter-by-month."
+      }
     },
     "selectStartDate": "開始日を選択",
     "selectEndDate": "終了日を選択",
@@ -2102,12 +2170,12 @@
     "manage": "管理",
     "installationTypes": "インストールタイプ",
     "installationTypesDesc": "システムで利用可能なインストールタイプのカテゴリを管理",
-    "assetCategories": "資産カテゴリ",
-    "assetCategoriesDesc": "資産を分類するためのカテゴリを管理",
+    "assetCategories": "アセットカテゴリ",
+    "assetCategoriesDesc": "アセットを分類するカテゴリを作成します（例：空調、電気）",
     "deviceCategories": "アセットカテゴリ",
     "deviceCategoriesDesc": "インストール用のアセットカテゴリを設定",
     "formCategories": "フォームカテゴリ",
-    "formCategoriesDesc": "フォームテンプレートをカテゴリ別に整理",
+    "formCategoriesDesc": "フォームテンプレートをカテゴリ別に整理します",
     "manageInstallationTypes": "インストールタイプを管理",
     "manageAssetCategories": "資産カテゴリを管理",
     "manageDeviceCategories": "アセットカテゴリを管理",
@@ -2146,6 +2214,49 @@
       "updateFailed": "項目の更新中にエラーが発生しました。もう一度お試しください。",
       "deleteFailed": "項目の削除中にエラーが発生しました。もう一度お試しください。",
       "validationFailed": "データの検証中にエラーが発生しました。情報を確認してください。"
+    },
+    "subtitle2": "システム設定を管理",
+    "initialConfig": "初期設定",
+    "initialConfigDesc": "組織を設定するためにこれらのステップを完了してください。システムを使い始める前にこの設定は必須です。",
+    "stepsCompleted": "{{total}}中{{completed}}ステップ完了",
+    "ofSteps": "/3",
+    "typesInstallation": "設置タイプ",
+    "typesInstallationDesc": "管理する設置タイプを定義します（例：オフィス、倉庫、工場）",
+    "completed": "完了",
+    "pending": "保留中",
+    "generalConfig": "一般設定",
+    "generalConfigDesc": "追加のシステム設定",
+    "company": "会社",
+    "companyDesc": "組織の情報とデータ",
+    "usersAndPermissions": "ユーザーと権限",
+    "usersAndPermissionsDesc": "ユーザー、ロール、権限を管理します",
+    "notifications": "通知",
+    "notificationsDesc": "アラートとシステム通知を設定します",
+    "language": "言語",
+    "languageDesc": "プラットフォームの言語を選択します",
+    "preferences": "設定",
+    "preferencesDesc": "テーマと外観をカスタマイズします",
+    "integrations": "統合",
+    "integrationsDesc": "Mercado Pagoとメールサービスを連携します",
+    "tour": {
+      "welcome": {
+        "title": "Initial setup",
+        "description": "Complete these 3 steps to get the platform ready: installation types, asset categories, and form categories."
+      },
+      "checklist": {
+        "title": "Setup checklist",
+        "description": "Track progress and status for each step. Start with the first pending item."
+      },
+      "manageTypes": {
+        "title": "Manage installation types",
+        "description": "Create the installation types you will use when creating installations."
+      },
+      "progressText": "{{current}} of {{total}}",
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous",
+        "done": "Done"
+      }
     }
   },
   "viewToggle": {
@@ -2321,7 +2432,15 @@
         "skip": "チュートリアルをスキップ",
         "restart": "チュートリアルを表示"
       },
-      "progressText": "{{current}} / {{total}}"
+      "progressText": "{{current}} / {{total}}",
+      "navOperation": {
+        "title": "Inventory in Operations",
+        "description": "Inventory is now under Operations → Inventory."
+      },
+      "navInventory": {
+        "title": "Go to Inventory",
+        "description": "Access Inventory from the Operations menu."
+      }
     }
   },
   "suppliers": {
@@ -2371,7 +2490,15 @@
         "skip": "チュートリアルをスキップ",
         "restart": "チュートリアルを表示"
       },
-      "progressText": "{{current}} / {{total}}"
+      "progressText": "{{current}} / {{total}}",
+      "navOperation": {
+        "title": "Suppliers in Operations",
+        "description": "Suppliers is now under Operations → Suppliers."
+      },
+      "navSuppliers": {
+        "title": "Go to Suppliers",
+        "description": "Access Suppliers from the Operations menu."
+      }
     }
   },
   "publicDevice": {

@@ -3,9 +3,11 @@ import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
 import '../../installations/styles/tour.css';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../../../shared/hooks/useTheme';
 
 export const useInventoryTour = () => {
   const { t } = useTranslation();
+  const { dark } = useTheme();
   const [tourCompleted, setTourCompleted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -16,33 +18,40 @@ export const useInventoryTour = () => {
   }, []);
 
   const startTour = () => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const driverObj = driver({
       showProgress: true,
       showButtons: ['next', 'previous', 'close'],
       progressText: t('inventory.tour.progressText'),
+      animate: !reduceMotion,
+      smoothScroll: !reduceMotion,
+      popoverClass: dark ? "driverjs-dark-theme" : "driverjs-light-theme",
+      allowClose: true,
       steps: [
         {
           popover: {
             title: t('inventory.tour.welcome.title'),
             description: t('inventory.tour.welcome.description'),
-            showButtons: ['next', 'close']
+            showButtons: ['next', 'close'],
+            side: "bottom",
+            align: 'start'
           }
         },
         {
           element: '[data-tour="nav-operation"]',
           popover: {
-            title: t('inventory.tour.navOperation.title', { defaultValue: 'Inventario en Operación' }),
-            description: t('inventory.tour.navOperation.description', { defaultValue: 'Inventario ahora está en Operación → Inventario.' }),
-            side: "right",
+            title: t('inventory.tour.navOperation.title'),
+            description: t('inventory.tour.navOperation.description'),
+            side: "bottom",
             align: 'start'
           }
         },
         {
           element: '[data-tour="nav-inventory"]',
           popover: {
-            title: t('inventory.tour.navInventory.title', { defaultValue: 'Ir a Inventario' }),
-            description: t('inventory.tour.navInventory.description', { defaultValue: 'Accede a Inventario desde el menú Operación.' }),
-            side: "right",
+            title: t('inventory.tour.navInventory.title'),
+            description: t('inventory.tour.navInventory.description'),
+            side: "bottom",
             align: 'start'
           }
         },
@@ -74,11 +83,11 @@ export const useInventoryTour = () => {
           }
         },
         {
-          element: '.inventory-card-actions', // We'll add this class to the actions container
+          element: '.inventory-card-actions',
           popover: {
             title: t('inventory.tour.actions.title'),
             description: t('inventory.tour.actions.description'),
-            side: "left",
+            side: "bottom",
             align: 'start'
           }
         }

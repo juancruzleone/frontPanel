@@ -3,9 +3,11 @@ import { driver } from 'driver.js';
 import 'driver.js/dist/driver.css';
 import '../../installations/styles/tour.css';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '../../../shared/hooks/useTheme';
 
 export const useFormsTour = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+  const { dark } = useTheme();
   const [tourCompleted, setTourCompleted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -17,36 +19,40 @@ export const useFormsTour = () => {
   }, []);
 
   const startTour = () => {
-    // Forzar recreación con el idioma actual
-    const currentLang = i18n.language;
-    
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const driverObj = driver({
       showProgress: true,
       showButtons: ['next', 'previous', 'close'],
       progressText: t('forms.tour.progressText'),
+      animate: !reduceMotion,
+      smoothScroll: !reduceMotion,
+      popoverClass: dark ? "driverjs-dark-theme" : "driverjs-light-theme",
+      allowClose: true,
       steps: [
         {
           popover: {
             title: t('forms.tour.welcome.title'),
             description: t('forms.tour.welcome.description'),
-            showButtons: ['next', 'close']
+            showButtons: ['next', 'close'],
+            side: "bottom",
+            align: 'start'
           }
         },
         {
-          element: '[data-tour="nav-maintenance"]',
+          element: '[data-tour="nav-assets"]',
           popover: {
-            title: t('forms.tour.navMaintenance.title', { defaultValue: 'Formularios en Mantenimiento' }),
-            description: t('forms.tour.navMaintenance.description', { defaultValue: 'Formularios ahora está en Mantenimiento → Formularios.' }),
-            side: "right",
+            title: t('forms.tour.navMaintenance.title'),
+            description: t('forms.tour.navMaintenance.description'),
+            side: "bottom",
             align: 'start'
           }
         },
         {
           element: '[data-tour="nav-forms"]',
           popover: {
-            title: t('forms.tour.navForms.title', { defaultValue: 'Ir a Formularios' }),
-            description: t('forms.tour.navForms.description', { defaultValue: 'Accede a Plantillas de Formularios desde el menú Mantenimiento.' }),
-            side: "right",
+            title: t('forms.tour.navForms.title'),
+            description: t('forms.tour.navForms.description'),
+            side: "bottom",
             align: 'start'
           }
         },
@@ -55,7 +61,7 @@ export const useFormsTour = () => {
           popover: {
             title: t('forms.tour.createCategory.title'),
             description: t('forms.tour.createCategory.description'),
-            side: "left",
+            side: "bottom",
             align: 'start'
           }
         },
@@ -64,7 +70,7 @@ export const useFormsTour = () => {
           popover: {
             title: t('forms.tour.createTemplate.title'),
             description: t('forms.tour.createTemplate.description'),
-            side: "left",
+            side: "bottom",
             align: 'start'
           }
         },

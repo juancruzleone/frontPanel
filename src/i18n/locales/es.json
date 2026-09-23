@@ -169,7 +169,15 @@
         "skip": "Saltar tutorial",
         "restart": "Reiniciar tutorial"
       },
-      "progressText": "{{current}} de {{total}}"
+      "progressText": "{{current}} de {{total}}",
+      "navOperation": {
+        "title": "Personal en Operación",
+        "description": "Personal ahora está en Operación → Personal."
+      },
+      "navPersonal": {
+        "title": "Ir a Personal",
+        "description": "Accede a Personal desde el menú Operación."
+      }
     }
   },
   "clients": {
@@ -270,7 +278,15 @@
         "skip": "Saltar tutorial",
         "restart": "Reiniciar tutorial"
       },
-      "progressText": "{{current}} de {{total}}"
+      "progressText": "{{current}} de {{total}}",
+      "navOperation": {
+        "title": "Instalaciones",
+        "description": "Clientes ahora está en Instalaciones → Clientes."
+      },
+      "navClients": {
+        "title": "Ir a Clientes",
+        "description": "Accede a Clientes desde el menú Instalaciones."
+      }
     }
   },
   "profile": {
@@ -1084,7 +1100,15 @@
         "skip": "Saltar tutorial",
         "restart": "Ver tutorial"
       },
-      "progressText": "{{current}} de {{total}}"
+      "progressText": "{{current}} de {{total}}",
+      "navOperation": {
+        "title": "Menú Instalaciones",
+        "description": "El menú Instalaciones agrupa Instalaciones y Clientes."
+      },
+      "navClients": {
+        "title": "Clientes en Instalaciones",
+        "description": "La gestión de clientes ahora está dentro de Instalaciones → Clientes."
+      }
     },
     "typeUpdatedSuccess": "Tipo de instalación actualizado exitosamente",
     "typeDeletedSuccess": "Tipo de instalación eliminado exitosamente",
@@ -1277,7 +1301,15 @@
         "skip": "Saltar tutorial",
         "restart": "Ver tutorial"
       },
-      "progressText": "{{current}} de {{total}}"
+      "progressText": "{{current}} de {{total}}",
+      "navMaintenance": {
+        "title": "Formularios en Activos",
+        "description": "Formularios ahora está en Activos → Formularios."
+      },
+      "navForms": {
+        "title": "Ir a Formularios",
+        "description": "Accede a Plantillas de Formularios desde el menú Activos."
+      }
     },
     "editFormTemplate": "Editar Plantilla de Formulario",
     "editTemplate": "Editar Plantilla",
@@ -1511,7 +1543,15 @@
         "skip": "Saltar tutorial",
         "restart": "Ver tutorial"
       },
-      "progressText": "{{current}} de {{total}}"
+      "progressText": "{{current}} de {{total}}",
+      "navMaintenance": {
+        "title": "Manuales en Mantenimiento",
+        "description": "Manuales ahora está en Activos → Manuales (antes había botones en Activos)."
+      },
+      "navManuals": {
+        "title": "Ir a Manuales",
+        "description": "Accede a Manuales desde el menú Activos."
+      }
     }
   },
   "subscriptions": {
@@ -1611,7 +1651,19 @@
         "skip": "Saltar tutorial",
         "restart": "Ver tutorial"
       },
-      "progressText": "{{current}} de {{total}}"
+      "progressText": "{{current}} de {{total}}",
+      "navMaintenance": {
+        "title": "Plan en Mantenimiento",
+        "description": "El Plan de mantenimiento ahora vive en Mantenimiento → Plan de mantenimiento."
+      },
+      "filterByMonth": {
+        "title": "Filtrar por mes",
+        "description": "El selector filtrar por mes está a la izquierda del filtrar por estado (tabletSelectsRow en iPad/mobile)."
+      },
+      "filterByStatus": {
+        "title": "Filtrar por estado",
+        "description": "Filtra por estado (activo/pendiente/inactivo) junto al filtro por mes."
+      }
     },
     "documents": {
       "uploadTitle": "Subir documento",
@@ -1890,7 +1942,19 @@
         "skip": "Saltar tutorial",
         "restart": "Ver tutorial"
       },
-      "progressText": "{{current}} de {{total}}"
+      "progressText": "{{current}} de {{total}}",
+      "navWorkOrders": {
+        "title": "Órdenes de trabajo",
+        "description": "El menú Órdenes de trabajo agrupa el Listado y el Calendario."
+      },
+      "navWorkOrdersList": {
+        "title": "Listado de órdenes",
+        "description": "Desde Listado gestionas todas las órdenes de trabajo."
+      },
+      "navCalendar": {
+        "title": "Calendario",
+        "description": "El calendario antes estaba como botón Ver calendario; ahora está en Órdenes de trabajo → Calendario."
+      }
     },
     "of": "de",
     "week": "Semana",
@@ -2036,7 +2100,15 @@
         "skip": "Saltar tutorial",
         "restart": "Ver tutorial"
       },
-      "progressText": "{{current}} de {{total}}"
+      "progressText": "{{current}} de {{total}}",
+      "navOperation": {
+        "title": "Inventario en Operación",
+        "description": "Inventario ahora está en Operación → Inventario."
+      },
+      "navInventory": {
+        "title": "Ir a Inventario",
+        "description": "Accede a Inventario desde el menú Operación."
+      }
     }
   },
   "suppliers": {
@@ -2097,7 +2169,15 @@
         "skip": "Saltar tutorial",
         "restart": "Ver tutorial"
       },
-      "progressText": "{{current}} de {{total}}"
+      "progressText": "{{current}} de {{total}}",
+      "navOperation": {
+        "title": "Proveedores en Operación",
+        "description": "Proveedores ahora está en Operación → Proveedores."
+      },
+      "navSuppliers": {
+        "title": "Ir a Proveedores",
+        "description": "Accede a Proveedores desde el menú Operación."
+      }
     }
   },
   "languageSelector": {
@@ -2423,12 +2503,12 @@
     "manage": "Gestionar",
     "installationTypes": "Tipos de Instalación",
     "installationTypesDesc": "Gestiona las categorías de tipos de instalación disponibles en el sistema",
-    "assetCategories": "Categorías de Activos",
-    "assetCategoriesDesc": "Administra las categorías para clasificar tus activos",
+    "assetCategories": "Categorías de activos",
+    "assetCategoriesDesc": "Creá categorías para clasificar tus activos (ej: Climatización, Electricidad)",
     "deviceCategories": "Categorías de Activos",
     "deviceCategoriesDesc": "Configura las categorías de activos para tus instalaciones",
-    "formCategories": "Categorías de Formularios",
-    "formCategoriesDesc": "Organiza las plantillas de formularios por categorías",
+    "formCategories": "Categorías de formularios",
+    "formCategoriesDesc": "Organizá tus plantillas de formularios por categorías",
     "manageInstallationTypes": "Gestionar Tipos de Instalación",
     "manageAssetCategories": "Gestionar Categorías de Activos",
     "manageDeviceCategories": "Gestionar Categorías de Activos",
@@ -2467,6 +2547,49 @@
       "updateFailed": "Error al actualizar el elemento. Por favor, intenta nuevamente.",
       "deleteFailed": "Error al eliminar el elemento. Por favor, intenta nuevamente.",
       "validationFailed": "Error al validar los datos. Por favor, verifica la información."
+    },
+    "subtitle2": "Administra las configuraciones del sistema",
+    "initialConfig": "Configuración inicial",
+    "initialConfigDesc": "Completá estos pasos para configurar tu organización. Esta configuración es obligatoria antes de comenzar a usar el sistema.",
+    "stepsCompleted": "{{completed}} de {{total}} pasos completados",
+    "ofSteps": "de 3",
+    "typesInstallation": "Tipos de instalación",
+    "typesInstallationDesc": "Definí los tipos de instalaciones que gestionás (ej: Oficina, Depósito, Planta)",
+    "completed": "Completado",
+    "pending": "Pendiente",
+    "generalConfig": "Configuración general",
+    "generalConfigDesc": "Ajustes adicionales del sistema",
+    "company": "Empresa",
+    "companyDesc": "Información y datos de tu organización",
+    "usersAndPermissions": "Usuarios y permisos",
+    "usersAndPermissionsDesc": "Gestioná usuarios, roles y permisos",
+    "notifications": "Notificaciones",
+    "notificationsDesc": "Configurá alertas y avisos del sistema",
+    "language": "Idioma",
+    "languageDesc": "Elegí el idioma de la plataforma",
+    "preferences": "Preferencias",
+    "preferencesDesc": "Personalizá tema y apariencia",
+    "integrations": "Integraciones",
+    "integrationsDesc": "Conectá Mercado Pago y servicios de email",
+    "tour": {
+      "welcome": {
+        "title": "Configuración inicial",
+        "description": "Completá estos 3 pasos para dejar la plataforma lista: tipos de instalación, categorías de activos y categorías de formularios."
+      },
+      "checklist": {
+        "title": "Checklist de configuración",
+        "description": "Acá ves el progreso y el estado de cada paso. Empezá por el primer pendiente."
+      },
+      "manageTypes": {
+        "title": "Gestionar tipos de instalación",
+        "description": "Creá los tipos de instalación que usarás al crear instalaciones."
+      },
+      "progressText": "{{current}} de {{total}}",
+      "buttons": {
+        "next": "Siguiente",
+        "previous": "Anterior",
+        "done": "Finalizar"
+      }
     }
   },
   "viewToggle": {
