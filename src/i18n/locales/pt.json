@@ -987,7 +987,7 @@
   "installations": {
     "exportResults": "Exportar resultados",
     "csv": {
-      "downloadTemplate": "Baixar modelo",
+      "downloadTemplate": "Baixar modelo CSV",
       "import": "Importar CSV",
       "importTitle": "Importar instalações de um arquivo CSV"
     },
@@ -1509,7 +1509,7 @@
     "titlePage": "Ativos | Leonix",
     "csv": {
       "chooseFile": "Select CSV. Each asset uses externalId; the base template must already have templateExternalId assigned.",
-      "downloadTemplate": "Download CSV template",
+      "downloadTemplate": "Baixar modelo CSV",
       "exportFiltered": "Exportar resultados",
       "downloadErrors": "Download errors and warnings",
       "commit": "Commit import",
@@ -2589,7 +2589,7 @@
       "import": "Import CSV",
       "preview": "Preview",
       "exportFiltered": "Export filtered results",
-      "downloadTemplate": "Download CSV template",
+      "downloadTemplate": "Baixar modelo CSV",
       "importTitle": "Import inventory from CSV",
       "completed": "Import completed"
     },
@@ -2654,7 +2654,7 @@
     },
     "csv": {
       "importTitle": "Import suppliers from CSV",
-      "downloadTemplate": "Download CSV template",
+      "downloadTemplate": "Baixar modelo CSV",
       "chooseFile": "Select a CSV file",
       "import": "Import CSV",
       "exportFiltered": "Export filtered results",

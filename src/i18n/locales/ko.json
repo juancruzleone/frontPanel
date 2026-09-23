@@ -887,7 +887,7 @@
   "installations": {
     "exportResults": "결과 내보내기",
     "csv": {
-      "downloadTemplate": "템플릿 다운로드",
+      "downloadTemplate": "CSV 템플릿 다운로드",
       "import": "CSV 가져오기",
       "importTitle": "CSV 파일에서 설치 정보 가져오기"
     },
@@ -1413,7 +1413,15 @@
       }
     },
     "csv": {
-      "exportFiltered": "결과 내보내기"
+      "exportFiltered": "결과 내보내기",
+      "downloadTemplate": "CSV 템플릿 다운로드",
+      "import": "Import CSV",
+      "importTitle": "Import assets",
+      "chooseFile": "Select CSV. Each asset uses externalId; the base template must already have templateExternalId assigned.",
+      "preview": "Preview",
+      "commit": "Commit import",
+      "downloadErrors": "Download errors and warnings",
+      "completed": "Import completed"
     }
   },
   "forms": {
@@ -2478,6 +2486,17 @@
         "title": "Go to Inventory",
         "description": "Access Inventory from the Operations menu."
       }
+    },
+    "csv": {
+      "downloadTemplate": "CSV 템플릿 다운로드",
+      "import": "Import CSV",
+      "exportFiltered": "Export filtered results",
+      "importTitle": "Import inventory from CSV",
+      "chooseFile": "Select a CSV file",
+      "preview": "Preview",
+      "commit": "Confirm import",
+      "downloadErrors": "Download errors",
+      "completed": "Import completed"
     }
   },
   "suppliers": {
@@ -2536,6 +2555,17 @@
         "title": "Go to Suppliers",
         "description": "Access Suppliers from the Operations menu."
       }
+    },
+    "csv": {
+      "downloadTemplate": "CSV 템플릿 다운로드",
+      "import": "Import CSV",
+      "exportFiltered": "Export filtered results",
+      "importTitle": "Import suppliers from CSV",
+      "chooseFile": "Select a CSV file",
+      "preview": "Preview",
+      "commit": "Confirm import",
+      "downloadErrors": "Download errors",
+      "completed": "Import completed"
     }
   },
   "publicDevice": {

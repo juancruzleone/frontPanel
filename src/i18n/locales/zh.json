@@ -901,7 +901,7 @@
   "installations": {
     "exportResults": "导出结果",
     "csv": {
-      "downloadTemplate": "下载模板",
+      "downloadTemplate": "下载 CSV 模板",
       "import": "导入 CSV",
       "importTitle": "从 CSV 文件导入安装信息"
     },
@@ -2172,7 +2172,15 @@
     "selectDate": "选择日期",
     "titlePage": "资产 | Leonix",
     "csv": {
-      "exportFiltered": "导出结果"
+      "exportFiltered": "导出结果",
+      "downloadTemplate": "下载 CSV 模板",
+      "import": "Import CSV",
+      "importTitle": "Import assets",
+      "chooseFile": "Select CSV. Each asset uses externalId; the base template must already have templateExternalId assigned.",
+      "preview": "Preview",
+      "commit": "Commit import",
+      "downloadErrors": "Download errors and warnings",
+      "completed": "Import completed"
     }
   },
   "maintenanceHistory": {
@@ -2469,6 +2477,17 @@
         "title": "Go to Inventory",
         "description": "Access Inventory from the Operations menu."
       }
+    },
+    "csv": {
+      "downloadTemplate": "下载 CSV 模板",
+      "import": "Import CSV",
+      "exportFiltered": "Export filtered results",
+      "importTitle": "Import inventory from CSV",
+      "chooseFile": "Select a CSV file",
+      "preview": "Preview",
+      "commit": "Confirm import",
+      "downloadErrors": "Download errors",
+      "completed": "Import completed"
     }
   },
   "suppliers": {
@@ -2527,6 +2546,17 @@
         "title": "Go to Suppliers",
         "description": "Access Suppliers from the Operations menu."
       }
+    },
+    "csv": {
+      "downloadTemplate": "下载 CSV 模板",
+      "import": "Import CSV",
+      "exportFiltered": "Export filtered results",
+      "importTitle": "Import suppliers from CSV",
+      "chooseFile": "Select a CSV file",
+      "preview": "Preview",
+      "commit": "Confirm import",
+      "downloadErrors": "Download errors",
+      "completed": "Import completed"
     }
   },
   "publicDevice": {

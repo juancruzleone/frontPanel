@@ -987,7 +987,7 @@
   "installations": {
     "exportResults": "Esporta risultati",
     "csv": {
-      "downloadTemplate": "Scarica modello",
+      "downloadTemplate": "Scarica modello CSV",
       "import": "Importa CSV",
       "importTitle": "Importa installazioni da un file CSV"
     },
@@ -1504,7 +1504,7 @@
     },
     "titlePage": "Asset | Leonix",
     "csv": {
-      "downloadTemplate": "Download CSV template",
+      "downloadTemplate": "Scarica modello CSV",
       "exportFiltered": "Esporta risultati",
       "downloadErrors": "Download errors and warnings",
       "commit": "Commit import",
@@ -2651,7 +2651,7 @@
       "preview": "Preview",
       "importTitle": "Import inventory from CSV",
       "exportFiltered": "Export filtered results",
-      "downloadTemplate": "Download CSV template",
+      "downloadTemplate": "Scarica modello CSV",
       "completed": "Import completed"
     },
     "exportMovements": "Export movements"
@@ -2716,7 +2716,7 @@
     "csv": {
       "importTitle": "Import suppliers from CSV",
       "exportFiltered": "Export filtered results",
-      "downloadTemplate": "Download CSV template",
+      "downloadTemplate": "Scarica modello CSV",
       "downloadErrors": "Download errors",
       "preview": "Preview",
       "completed": "Import completed",

@@ -865,7 +865,7 @@
   "installations": {
     "exportResults": "Ergebnisse exportieren",
     "csv": {
-      "downloadTemplate": "Vorlage herunterladen",
+      "downloadTemplate": "CSV-Vorlage herunterladen",
       "import": "CSV importieren",
       "importTitle": "Installationen aus einer CSV-Datei importieren"
     },
@@ -1343,7 +1343,15 @@
     },
     "titlePage": "Assets | Leonix",
     "csv": {
-      "exportFiltered": "Ergebnisse exportieren"
+      "exportFiltered": "Ergebnisse exportieren",
+      "downloadTemplate": "CSV-Vorlage herunterladen",
+      "import": "Import CSV",
+      "importTitle": "Import assets",
+      "chooseFile": "Select CSV. Each asset uses externalId; the base template must already have templateExternalId assigned.",
+      "preview": "Preview",
+      "commit": "Commit import",
+      "downloadErrors": "Download errors and warnings",
+      "completed": "Import completed"
     }
   },
   "forms": {
@@ -2336,6 +2344,17 @@
         "title": "Go to Inventory",
         "description": "Access Inventory from the Operations menu."
       }
+    },
+    "csv": {
+      "downloadTemplate": "CSV-Vorlage herunterladen",
+      "import": "Import CSV",
+      "exportFiltered": "Export filtered results",
+      "importTitle": "Import inventory from CSV",
+      "chooseFile": "Select a CSV file",
+      "preview": "Preview",
+      "commit": "Confirm import",
+      "downloadErrors": "Download errors",
+      "completed": "Import completed"
     }
   },
   "suppliers": {
@@ -2394,6 +2413,17 @@
         "title": "Go to Suppliers",
         "description": "Access Suppliers from the Operations menu."
       }
+    },
+    "csv": {
+      "downloadTemplate": "CSV-Vorlage herunterladen",
+      "import": "Import CSV",
+      "exportFiltered": "Export filtered results",
+      "importTitle": "Import suppliers from CSV",
+      "chooseFile": "Select a CSV file",
+      "preview": "Preview",
+      "commit": "Confirm import",
+      "downloadErrors": "Download errors",
+      "completed": "Import completed"
     }
   },
   "publicDevice": {
