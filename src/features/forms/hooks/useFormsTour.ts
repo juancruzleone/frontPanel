@@ -33,6 +33,24 @@ export const useFormsTour = () => {
           }
         },
         {
+          element: '[data-tour="nav-maintenance"]',
+          popover: {
+            title: t('forms.tour.navMaintenance.title', { defaultValue: 'Formularios en Mantenimiento' }),
+            description: t('forms.tour.navMaintenance.description', { defaultValue: 'Formularios ahora está en Mantenimiento → Formularios.' }),
+            side: "right",
+            align: 'start'
+          }
+        },
+        {
+          element: '[data-tour="nav-forms"]',
+          popover: {
+            title: t('forms.tour.navForms.title', { defaultValue: 'Ir a Formularios' }),
+            description: t('forms.tour.navForms.description', { defaultValue: 'Accede a Plantillas de Formularios desde el menú Mantenimiento.' }),
+            side: "right",
+            align: 'start'
+          }
+        },
+        {
           element: '[data-tour="open-settings"]',
           popover: {
             title: t('forms.tour.createCategory.title'),

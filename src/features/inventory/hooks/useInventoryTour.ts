@@ -29,6 +29,24 @@ export const useInventoryTour = () => {
           }
         },
         {
+          element: '[data-tour="nav-operation"]',
+          popover: {
+            title: t('inventory.tour.navOperation.title', { defaultValue: 'Inventario en Operación' }),
+            description: t('inventory.tour.navOperation.description', { defaultValue: 'Inventario ahora está en Operación → Inventario.' }),
+            side: "right",
+            align: 'start'
+          }
+        },
+        {
+          element: '[data-tour="nav-inventory"]',
+          popover: {
+            title: t('inventory.tour.navInventory.title', { defaultValue: 'Ir a Inventario' }),
+            description: t('inventory.tour.navInventory.description', { defaultValue: 'Accede a Inventario desde el menú Operación.' }),
+            side: "right",
+            align: 'start'
+          }
+        },
+        {
           element: '[data-tour="inventory-add-btn"]',
           popover: {
             title: t('inventory.tour.addItem.title'),

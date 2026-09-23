@@ -1120,11 +1120,15 @@
       },
       "goToForms": {
         "title": "Paso 1: Ir a Formularios",
-        "description": "Para crear un activo, primero necesitas una plantilla de formulario. Haz clic en 'Gestionar formularios' para crearla una vez que hayas configurado categorías en Configuración."
+        "description": "Para crear un activo, primero necesitas una plantilla de formulario. Ve al menú Mantenimiento → Formularios (el menú Mantenimiento ahora está visible para todos los roles excepto super-admin)."
       },
       "createFormTemplate": {
         "title": "Paso 2: Crear Plantilla de Formulario",
         "description": "Crea una plantilla de formulario que servirá como estructura para tus activos. Define los campos que necesitas (texto, número, fecha, etc.)."
+      },
+      "viewManuals": {
+        "title": "Manuales en Mantenimiento",
+        "description": "Los manuales ahora están en Mantenimiento → Manuales."
       },
       "viewFormCategories": {
         "title": "Categorías en Configuración",

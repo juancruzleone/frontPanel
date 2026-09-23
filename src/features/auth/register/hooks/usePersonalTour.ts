@@ -29,6 +29,24 @@ export const usePersonalTour = () => {
           }
         },
         {
+          element: '[data-tour="nav-operation"]',
+          popover: {
+            title: t('personal.tour.navOperation.title', { defaultValue: 'Personal en Operación' }),
+            description: t('personal.tour.navOperation.description', { defaultValue: 'Personal ahora está en Operación → Personal.' }),
+            side: "right",
+            align: 'start'
+          }
+        },
+        {
+          element: '[data-tour="nav-personal"]',
+          popover: {
+            title: t('personal.tour.navPersonal.title', { defaultValue: 'Ir a Personal' }),
+            description: t('personal.tour.navPersonal.description', { defaultValue: 'Accede a Personal desde el menú Operación.' }),
+            side: "right",
+            align: 'start'
+          }
+        },
+        {
           element: '[data-tour="add-technician-btn"]',
           popover: {
             title: t('personal.tour.addTechnician.title'),

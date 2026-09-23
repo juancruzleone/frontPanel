@@ -29,6 +29,24 @@ export const useSuppliersTour = () => {
           }
         },
         {
+          element: '[data-tour="nav-operation"]',
+          popover: {
+            title: t('suppliers.tour.navOperation.title', { defaultValue: 'Proveedores en Operación' }),
+            description: t('suppliers.tour.navOperation.description', { defaultValue: 'Proveedores ahora está en Operación → Proveedores.' }),
+            side: "right",
+            align: 'start'
+          }
+        },
+        {
+          element: '[data-tour="nav-suppliers"]',
+          popover: {
+            title: t('suppliers.tour.navSuppliers.title', { defaultValue: 'Ir a Proveedores' }),
+            description: t('suppliers.tour.navSuppliers.description', { defaultValue: 'Accede a Proveedores desde el menú Operación.' }),
+            side: "right",
+            align: 'start'
+          }
+        },
+        {
           element: '[data-tour="suppliers-add-btn"]',
           popover: {
             title: t('suppliers.tour.addSupplier.title'),
