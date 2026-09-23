@@ -36,17 +36,35 @@ export const useAssetsTour = () => {
           }
         },
         {
-          element: '[data-tour="manage-forms-btn"]',
+          element: '[data-tour="nav-maintenance"]',
           popover: {
             title: t('assets.tour.goToForms.title'),
             description: t('assets.tour.goToForms.description'),
-            side: "bottom",
+            side: "right",
+            align: 'start'
+          }
+        },
+        {
+          element: '[data-tour="nav-forms"]',
+          popover: {
+            title: t('assets.tour.goToForms.title'),
+            description: t('assets.tour.goToForms.description'),
+            side: "right",
             align: 'start',
             onNextClick: () => {
               driverObj.destroy();
               // Navegar a formularios y continuar el tour allí
               navigate('/formularios', { state: { fromAssetsTour: true } });
             }
+          }
+        },
+        {
+          element: '[data-tour="nav-manuals"]',
+          popover: {
+            title: t('manuals.tour.welcome.title'),
+            description: t('assets.tour.viewManuals.description', { defaultValue: 'Los manuales ahora se encuentran en Mantenimiento → Manuales. Desde allí puedes crear y gestionar los manuales de tus activos.' }),
+            side: "right",
+            align: 'start'
           }
         },
         {

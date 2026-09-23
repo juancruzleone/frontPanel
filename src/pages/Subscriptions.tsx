@@ -270,7 +270,7 @@ const Subscriptions = () => {
 
           <div className={styles.filtersWrapper}>
             <div className={styles.searchRow}>
-              <div className={styles.filterActions}>
+              <div className={styles.filterActions} data-tour="filter-by-month">
                 <HybridSelect
                   value={selectedMonthFilter}
                   onChange={setSelectedMonthFilter}
@@ -280,7 +280,7 @@ const Subscriptions = () => {
                 />
               </div>
 
-              <div className={styles.searchContainerInner}>
+              <div className={styles.searchContainerInner} data-tour="search-filter-subscriptions">
                 <SearchInput
                   placeholder={t('subscriptions.searchPlaceholder')}
                   onInputChange={(value) => setSearchTerm(value)}
@@ -301,7 +301,7 @@ const Subscriptions = () => {
               </button>
             </div>
 
-            <div className={styles.statusSelectContainer}>
+            <div className={styles.statusSelectContainer} data-tour="filter-by-status">
               <HybridSelect
                 value={selectedStatus}
                 onChange={setSelectedStatus}
@@ -315,7 +315,8 @@ const Subscriptions = () => {
                 className={styles.fullWidthSelect}
               />
             </div>
-            <div className={styles.tabletSelectsRow}>
+            <div className={styles.tabletSelectsRow} data-tour="tablet-selects-row">
+              <div data-tour="filter-by-month">
               <HybridSelect
                 value={selectedMonthFilter}
                 onChange={setSelectedMonthFilter}
@@ -324,6 +325,8 @@ const Subscriptions = () => {
                 variant="compact"
                 className={styles.tabletSelect}
               />
+              </div>
+              <div data-tour="filter-by-status">
               <HybridSelect
                 value={selectedStatus}
                 onChange={setSelectedStatus}
@@ -336,6 +339,7 @@ const Subscriptions = () => {
                 variant="compact"
                 className={styles.tabletSelect}
               />
+              </div>
             </div>
           </div>
         </div>
@@ -394,6 +398,7 @@ const Subscriptions = () => {
                           </span>
                           <button
                             className={styles.actionIcon}
+                            data-tour="edit-frequency-btn"
                             onClick={() => handleEditFrequency(subscription)}
                             title={t('subscriptions.editFrequency')}
                             data-tooltip={t('subscriptions.editFrequency')}
@@ -411,6 +416,7 @@ const Subscriptions = () => {
                         <div className={styles.actionsGroup}>
                           <button
                             className={styles.actionBtn}
+                            data-tour="months-display"
                             onClick={() => handleViewMonths(subscription)}
                             title={t('common.details')}
                             data-tooltip={t('common.details')}
@@ -494,6 +500,7 @@ const Subscriptions = () => {
                   <div className={styles.cardActions}>
                     <button
                       className={styles.actionBtn}
+                      data-tour="edit-frequency-btn"
                       onClick={() => handleEditFrequency(subscription)}
                       title={t('subscriptions.editFrequency')}
                       data-tooltip={t('subscriptions.editFrequency')}
@@ -502,6 +509,7 @@ const Subscriptions = () => {
                     </button>
                     <button
                       className={styles.actionBtn}
+                      data-tour="months-display"
                       onClick={() => handleViewMonths(subscription)}
                       title={t('common.details')}
                       data-tooltip={t('common.details')}

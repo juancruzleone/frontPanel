@@ -9,10 +9,10 @@ import ModalSuccess from "../features/assets/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
 import ModalConfirmDelete from "../features/assets/components/ModalConfirmDelete"
 import ModalAssignTemplate from "../features/assets/components/ModalAssignTemplate"
-import { Edit, Trash, List, BookOpen, Plus, FilterX, Package, FileText } from "lucide-react"
+import { Edit, Trash, List, Plus, FilterX, Package } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
-import { useNavigate, useLocation } from "react-router"
+import { useLocation } from "react-router"
 import { useAssetsTour } from "../features/assets/hooks/useAssetsTour"
 import { useAuthStore } from "../store/authStore"
 import { isClient, isAdmin } from "../shared/utils/roleUtils"
@@ -28,7 +28,6 @@ import { commitAssetImport, downloadAssetImportErrors, downloadAssetTemplate, ex
 
 const Assets = () => {
   const { t, i18n } = useTranslation()
-  const navigate = useNavigate()
   const location = useLocation()
   const { tourCompleted, startTour, continueAssetsTour, skipTour } = useAssetsTour()
   const {
@@ -198,38 +197,6 @@ const Assets = () => {
           {!isClientUser && (
             <div className={styles.positionButton}>
               <Button title={t('assets.createAsset')} onClick={handleOpenCreate} data-tour="create-asset-btn" />
-              {isAdminUser && (
-                <button
-                  className={styles.manualsButton}
-                  onClick={() => navigate('/formularios')}
-                  aria-label={t('assets.manageForms')}
-                  data-tour="manage-forms-btn"
-                >
-                  <FileText size={20} />
-                  <span>{t('assets.manageForms')}</span>
-                </button>
-              )}
-              <button
-                className={styles.manualsButton}
-                onClick={() => navigate('/manuales')}
-                aria-label={t('nav.manuals')}
-                data-tour="view-manuals-btn"
-              >
-                <BookOpen size={20} />
-                <span>{t('nav.manuals')}</span>
-              </button>
-            </div>
-          )}
-          {isClientUser && (
-            <div className={styles.positionButton}>
-              <button
-                className={styles.manualsButton}
-                onClick={() => navigate('/manuales')}
-                aria-label={t('nav.manuals')}
-              >
-                <BookOpen size={20} />
-                <span>{t('nav.manuals')}</span>
-              </button>
             </div>
           )}
         </div>

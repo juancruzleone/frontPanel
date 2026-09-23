@@ -29,6 +29,24 @@ export const useClientsTour = () => {
                     }
                 },
                 {
+                    element: '[data-tour="nav-operation"]',
+                    popover: {
+                        title: t('clients.tour.navOperation.title', { defaultValue: 'Clientes en Operación' }),
+                        description: t('clients.tour.navOperation.description', { defaultValue: 'Clientes ahora está en Operación → Clientes (antes estaba como botón en Instalaciones).' }),
+                        side: "right",
+                        align: 'start'
+                    }
+                },
+                {
+                    element: '[data-tour="nav-clients"]',
+                    popover: {
+                        title: t('clients.tour.navClients.title', { defaultValue: 'Ir a Clientes' }),
+                        description: t('clients.tour.navClients.description', { defaultValue: 'Accede a Clientes desde el dropdown Operación.' }),
+                        side: "right",
+                        align: 'start'
+                    }
+                },
+                {
                     element: '[data-tour="add-client-btn"]',
                     popover: {
                         title: t('clients.tour.addClient.title'),

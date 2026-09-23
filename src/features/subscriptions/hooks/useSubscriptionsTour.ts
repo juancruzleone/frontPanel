@@ -39,6 +39,33 @@ export const useSubscriptionsTour = () => {
           }
         },
         {
+          element: '[data-tour="nav-maintenance"]',
+          popover: {
+            title: t('subscriptions.tour.navMaintenance.title', { defaultValue: 'Plan en Mantenimiento' }),
+            description: t('subscriptions.tour.navMaintenance.description', { defaultValue: 'El Plan de mantenimiento ahora vive en Mantenimiento → Plan de mantenimiento.' }),
+            side: "right",
+            align: 'start'
+          }
+        },
+        {
+          element: '[data-tour="filter-by-month"]',
+          popover: {
+            title: t('subscriptions.tour.filterByMonth.title', { defaultValue: 'Filtrar por mes' }),
+            description: t('subscriptions.tour.filterByMonth.description', { defaultValue: 'El selector filtrar por mes está a la izquierda del filtrar por estado (tabletSelectsRow en iPad/mobile).' }),
+            side: "bottom",
+            align: 'start'
+          }
+        },
+        {
+          element: '[data-tour="filter-by-status"]',
+          popover: {
+            title: t('subscriptions.tour.filterByStatus.title', { defaultValue: 'Filtrar por estado' }),
+            description: t('subscriptions.tour.filterByStatus.description', { defaultValue: 'Filtra por estado (activo/pendiente/inactivo) junto al filtro por mes.' }),
+            side: "bottom",
+            align: 'start'
+          }
+        },
+        {
           element: '[data-tour="search-filter-subscriptions"]',
           popover: {
             title: t('subscriptions.tour.searchFilter.title'),

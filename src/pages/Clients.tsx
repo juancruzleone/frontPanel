@@ -166,7 +166,7 @@ const Clients = () => {
             </div>
 
             {/* Filtro de búsqueda */}
-            <div className={styles.searchRow}>
+            <div className={styles.searchRow} data-tour="search-clients">
                 <SearchInput
                     placeholder={t('clients.searchPlaceholder')}
                     onInputChange={(value) => setSearchTerm(value)}

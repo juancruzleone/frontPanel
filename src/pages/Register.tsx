@@ -163,7 +163,7 @@ const Register = () => {
       {!isMobile && <div className={styles.actionsBar}><div className={styles.viewToggleRow}><ViewToggle view={viewMode} onViewChange={setViewMode} /></div></div>}
 
       {/* Filtro de búsqueda */}
-      <div className={styles.searchRow}>
+      <div className={styles.searchRow} data-tour="search-technicians">
         <SearchInput
           placeholder={t('personal.searchPlaceholder')}
           value={searchTerm}

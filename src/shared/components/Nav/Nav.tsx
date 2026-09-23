@@ -10,6 +10,10 @@ import {
 	X,
 	Building,
 	User,
+	Users,
+	BookOpen,
+	FileText,
+	Calendar,
 	Settings,
 	ChevronsLeft,
 	ChevronsRight,
@@ -71,14 +75,17 @@ const Nav = () => {
 	const inventoryRoute = getRoute("inventory");
 	const suppliersRoute = getRoute("suppliers");
 	const personalRoute = getRoute("personal");
+	const clientsRoute = getRoute("clients");
+	const formsRoute = getRoute("forms");
+	const manualsRoute = getRoute("manuals");
 	const settingsRoute = getRoute("settings");
 	const panelAdminRoute = getRoute("panelAdmin");
 	const profileRoute = getRoute("profile");
 	const complianceRoute = getRoute("compliance");
 	const currentRouteMenuState = getRouteMenuOpenState(location.pathname, {
 		workOrders: [workOrdersRoute, calendarRoute],
-		maintenance: [maintenancePlanRoute],
-		operation: [inventoryRoute, personalRoute, suppliersRoute],
+		maintenance: [maintenancePlanRoute, formsRoute, manualsRoute],
+		operation: [inventoryRoute, personalRoute, suppliersRoute, clientsRoute],
 	});
 	const {
 		workOrders: isWorkOrdersSectionActive,
@@ -352,7 +359,7 @@ const Nav = () => {
 									onMouseEnter={handleWorkOrdersSubmenuEnter}
 									onMouseLeave={handleWorkOrdersSubmenuLeave}
 								>
-									<NavLink
+								<NavLink
 										to={workOrdersRoute}
 										data-tour="nav-work-orders-list"
 										className={({ isActive }) =>
@@ -368,10 +375,26 @@ const Nav = () => {
 											{t("nav.workOrdersList")}
 										</span>
 									</NavLink>
+									<NavLink
+										to={calendarRoute}
+										data-tour="nav-calendar"
+										className={({ isActive }) =>
+											`${styles.submenuLink} ${isActive ? styles.active : ""}`
+										}
+										onClick={() => {
+											setIsMenuOpen(false);
+											setIsWorkOrdersHovered(false);
+										}}
+									>
+										<Calendar size={20} />{" "}
+										<span className={styles.linkText}>
+											{t("nav.calendar")}
+										</span>
+									</NavLink>
 								</div>
 							</li>
 						)}
-						{!isTechnicianUser && !isSuperAdminUser && !isClientUser && (
+						{!isSuperAdminUser && (
 							<li
 								className={styles.menuGroup}
 								onMouseEnter={handleMaintenanceMouseEnter}
@@ -421,6 +444,40 @@ const Nav = () => {
 											</span>
 										</NavLink>
 									)}
+									{isAdminUser && (
+										<NavLink
+											to={formsRoute}
+											data-tour="nav-forms"
+											className={({ isActive }) =>
+												`${styles.submenuLink} ${isActive ? styles.active : ""}`
+											}
+											onClick={() => {
+												setIsMenuOpen(false);
+												setIsMaintenanceHovered(false);
+											}}
+										>
+											<FileText size={20} />{" "}
+											<span className={styles.linkText}>
+												{t("nav.forms")}
+											</span>
+										</NavLink>
+									)}
+									<NavLink
+										to={manualsRoute}
+										data-tour="nav-manuals"
+										className={({ isActive }) =>
+											`${styles.submenuLink} ${isActive ? styles.active : ""}`
+										}
+										onClick={() => {
+											setIsMenuOpen(false);
+											setIsMaintenanceHovered(false);
+										}}
+									>
+										<BookOpen size={20} />{" "}
+										<span className={styles.linkText}>
+											{t("nav.manuals")}
+										</span>
+									</NavLink>
 								</div>
 							</li>
 						)}
@@ -531,6 +588,24 @@ const Nav = () => {
 											<Truck size={20} />{" "}
 											<span className={styles.linkText}>
 												{t("nav.suppliers")}
+											</span>
+										</NavLink>
+									)}
+									{isAdminUser && (
+										<NavLink
+											to={clientsRoute}
+											data-tour="nav-clients"
+											className={({ isActive }) =>
+												`${styles.submenuLink} ${isActive ? styles.active : ""}`
+											}
+											onClick={() => {
+												setIsMenuOpen(false);
+												setIsOperationHovered(false);
+											}}
+										>
+											<Users size={20} />{" "}
+											<span className={styles.linkText}>
+												{t("nav.clients")}
 											</span>
 										</NavLink>
 									)}

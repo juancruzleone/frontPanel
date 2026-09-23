@@ -30,6 +30,33 @@ export const useWorkOrdersTour = () => {
           }
         },
         {
+          element: '[data-tour="nav-work-orders"]',
+          popover: {
+            title: t('workOrders.tour.navWorkOrders.title', { defaultValue: 'Órdenes de trabajo' }),
+            description: t('workOrders.tour.navWorkOrders.description', { defaultValue: 'El menú Órdenes de trabajo agrupa el Listado y el Calendario.' }),
+            side: "right",
+            align: 'start'
+          }
+        },
+        {
+          element: '[data-tour="nav-work-orders-list"]',
+          popover: {
+            title: t('workOrders.tour.navWorkOrdersList.title', { defaultValue: 'Listado de órdenes' }),
+            description: t('workOrders.tour.navWorkOrdersList.description', { defaultValue: 'Desde Listado gestionas todas las órdenes de trabajo.' }),
+            side: "right",
+            align: 'start'
+          }
+        },
+        {
+          element: '[data-tour="nav-calendar"]',
+          popover: {
+            title: t('workOrders.tour.navCalendar.title', { defaultValue: 'Calendario' }),
+            description: t('workOrders.tour.navCalendar.description', { defaultValue: 'El calendario antes estaba como botón Ver calendario; ahora está en Órdenes de trabajo → Calendario.' }),
+            side: "right",
+            align: 'start'
+          }
+        },
+        {
           element: '[data-tour="nav-operation"]',
           popover: {
             title: t('workOrders.tour.createTechnician.title'),

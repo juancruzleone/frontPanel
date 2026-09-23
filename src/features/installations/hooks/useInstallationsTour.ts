@@ -23,6 +23,13 @@ export const useInstallationsTour = () => {
 			progressText: t("installations.tour.progressText"),
 			steps: [
 				{
+					popover: {
+						title: t("installations.tour.welcome.title"),
+						description: t("installations.tour.welcome.description"),
+						showButtons: ["next", "close"],
+					},
+				},
+				{
 					element: '[data-tour="create-installation-btn"]',
 					popover: {
 						title: t("installations.tour.createInstallation.title"),
@@ -37,6 +44,24 @@ export const useInstallationsTour = () => {
 						title: t("installations.tour.searchFilter.title"),
 						description: t("installations.tour.searchFilter.description"),
 						side: "bottom",
+						align: "start",
+					},
+				},
+				{
+					element: '[data-tour="nav-operation"]',
+					popover: {
+						title: t("installations.tour.navOperation.title", { defaultValue: "Menú Operación" }),
+						description: t("installations.tour.navOperation.description", { defaultValue: "El menú Operación agrupa Inventario, Personal, Proveedores y Clientes." }),
+						side: "right",
+						align: "start",
+					},
+				},
+				{
+					element: '[data-tour="nav-clients"]',
+					popover: {
+						title: t("installations.tour.navClients.title", { defaultValue: "Clientes en Operación" }),
+						description: t("installations.tour.navClients.description", { defaultValue: "La gestión de clientes ahora está dentro de Operación → Clientes." }),
+						side: "right",
 						align: "start",
 					},
 				},

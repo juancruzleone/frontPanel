@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router";
 import Button from "../shared/components/Buttons/buttonCreate";
 import SearchInput from "../shared/components/Inputs/SearchInput";
 import styles from "../features/workOrders/styles/workOrders.module.css";
@@ -54,7 +53,7 @@ import {
 	useResponsiveView,
 	type ViewMode,
 } from "../shared/hooks/useResponsiveView";
-import { useTranslatedRoutes } from "../router";
+
 import { exportWorkOrders, resolveStartWorkOrderErrorKey } from "../features/workOrders/services/workOrderServices";
 import { canExportOperationalResults } from "../shared/utils/exportPermissions";
 
@@ -184,8 +183,6 @@ const WorkOrders = () => {
 		changeWorkOrderStatus,
 	} = useWorkOrders();
 
-	const navigate = useNavigate();
-	const { getRoute } = useTranslatedRoutes();
 	const role = useAuthStore((s) => s.role);
 	const currentUserId = useAuthStore((s) => s.userId);
 	const userPermissions = useAuthStore((s) => s.permissions);
@@ -618,10 +615,6 @@ const WorkOrders = () => {
 		}
 	};
 
-	const handleNavigateToCalendar = () => {
-		navigate(getRoute("calendar"));
-	};
-
 	useEffect(() => {
 		setCurrentPage(1);
 	}, [
@@ -656,14 +649,6 @@ const WorkOrders = () => {
 								</Button>
 							</div>
 						)}
-						<Button
-							title={t("workOrders.viewCalendar")}
-							onClick={handleNavigateToCalendar}
-							className={styles.calendarActionButton}
-						>
-							<CalendarIcon size={18} />
-							{t("workOrders.viewCalendar")}
-						</Button>
 					</div>
 				</div>
 

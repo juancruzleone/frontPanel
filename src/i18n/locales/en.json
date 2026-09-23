@@ -713,7 +713,7 @@
   "installations": {
     "exportResults": "Export results",
     "csv": {
-      "downloadTemplate": "Download template",
+      "downloadTemplate": "Download CSV template",
       "import": "Import CSV",
       "importTitle": "Import installations from CSV"
     },
@@ -1119,7 +1119,7 @@
     "title": "Assets",
     "createAsset": "Create Asset",
     "csv": {
-      "downloadTemplate": "CSV template",
+      "downloadTemplate": "Download CSV template",
       "import": "Import CSV",
       "exportFiltered": "Export CSV",
       "importTitle": "Import assets",
@@ -1961,7 +1961,7 @@
     "reason": "Reason",
     "reasonPlaceholder": "Ex: Purchase from supplier, breakage, etc.",
     "csv": {
-      "downloadTemplate": "Download template",
+      "downloadTemplate": "Download CSV template",
       "import": "Import CSV",
       "exportFiltered": "Export filtered results",
       "importTitle": "Import inventory from CSV",
@@ -2038,7 +2038,7 @@
     "supplierUpdated": "Supplier updated successfully",
     "supplierDeleted": "Supplier deleted successfully",
     "csv": {
-      "downloadTemplate": "Download template",
+      "downloadTemplate": "Download CSV template",
       "import": "Import CSV",
       "exportFiltered": "Export filtered results",
       "importTitle": "Import suppliers from CSV",

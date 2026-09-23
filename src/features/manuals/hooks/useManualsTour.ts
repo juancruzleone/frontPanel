@@ -35,6 +35,24 @@ export const useManualsTour = () => {
           }
         },
         {
+          element: '[data-tour="nav-maintenance"]',
+          popover: {
+            title: t('manuals.tour.navMaintenance.title', { defaultValue: 'Manuales en Mantenimiento' }),
+            description: t('manuals.tour.navMaintenance.description', { defaultValue: 'Manuales ahora está en Mantenimiento → Manuales (antes había botones en Activos).' }),
+            side: "right",
+            align: 'start'
+          }
+        },
+        {
+          element: '[data-tour="nav-manuals"]',
+          popover: {
+            title: t('manuals.tour.navManuals.title', { defaultValue: 'Ir a Manuales' }),
+            description: t('manuals.tour.navManuals.description', { defaultValue: 'Accede a Manuales desde el dropdown Mantenimiento.' }),
+            side: "right",
+            align: 'start'
+          }
+        },
+        {
           element: '[data-tour="nav-assets"]',
           popover: {
             title: t('manuals.tour.goToAssets.title'),

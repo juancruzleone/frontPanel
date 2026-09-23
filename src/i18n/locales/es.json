@@ -720,7 +720,7 @@
   "installations": {
     "exportResults": "Exportar resultados",
     "csv": {
-      "downloadTemplate": "Descargar plantilla",
+      "downloadTemplate": "Descargar plantilla CSV",
       "import": "Importar CSV",
       "importTitle": "Importar instalaciones desde CSV"
     },
@@ -1103,7 +1103,7 @@
     "title": "Activos",
     "createAsset": "Crear Activo",
     "csv": {
-      "downloadTemplate": "Plantilla CSV",
+      "downloadTemplate": "Descargar plantilla CSV",
       "import": "Importar CSV",
       "exportFiltered": "Exportar CSV",
       "importTitle": "Importar activos",
@@ -1977,7 +1977,7 @@
     "reason": "Motivo",
     "reasonPlaceholder": "Ej: Compra a proveedor, rotura, etc.",
     "csv": {
-      "downloadTemplate": "Descargar plantilla",
+      "downloadTemplate": "Descargar plantilla CSV",
       "import": "Importar CSV",
       "exportFiltered": "Exportar resultados filtrados",
       "importTitle": "Importar inventario desde CSV",
@@ -2054,7 +2054,7 @@
     "supplierUpdated": "Proveedor actualizado correctamente",
     "supplierDeleted": "Proveedor eliminado correctamente",
     "csv": {
-      "downloadTemplate": "Descargar plantilla",
+      "downloadTemplate": "Descargar plantilla CSV",
       "import": "Importar CSV",
       "exportFiltered": "Exportar resultados filtrados",
       "importTitle": "Importar proveedores desde CSV",
