@@ -1411,6 +1411,9 @@
         "stockMin": "재고는 음수일 수 없습니다",
         "stockZero": "재고는 0보다 커야 합니다"
       }
+    },
+    "csv": {
+      "exportFiltered": "결과 내보내기"
     }
   },
   "forms": {

@@ -1510,7 +1510,7 @@
     "csv": {
       "chooseFile": "Select CSV. Each asset uses externalId; the base template must already have templateExternalId assigned.",
       "downloadTemplate": "Download CSV template",
-      "exportFiltered": "Export CSV",
+      "exportFiltered": "Exportar resultados",
       "downloadErrors": "Download errors and warnings",
       "commit": "Commit import",
       "preview": "Preview",

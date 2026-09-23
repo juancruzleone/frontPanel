@@ -1341,7 +1341,10 @@
         "stockZero": "Der Bestand muss größer als 0 sein"
       }
     },
-    "titlePage": "Assets | Leonix"
+    "titlePage": "Assets | Leonix",
+    "csv": {
+      "exportFiltered": "Ergebnisse exportieren"
+    }
   },
   "forms": {
     "category": "Kategorie",

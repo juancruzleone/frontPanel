@@ -2170,7 +2170,10 @@
     "serialNumberPlaceholder": "输入序列号",
     "optional": "可选",
     "selectDate": "选择日期",
-    "titlePage": "资产 | Leonix"
+    "titlePage": "资产 | Leonix",
+    "csv": {
+      "exportFiltered": "导出结果"
+    }
   },
   "maintenanceHistory": {
     "title": "维护历史",

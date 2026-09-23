@@ -1146,7 +1146,7 @@
     "csv": {
       "downloadTemplate": "Download CSV template",
       "import": "Import CSV",
-      "exportFiltered": "Export CSV",
+      "exportFiltered": "Export results",
       "importTitle": "Import assets",
       "chooseFile": "Select CSV. Each asset uses externalId; the base template must already have templateExternalId assigned.",
       "preview": "Preview",

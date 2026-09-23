@@ -1395,6 +1395,9 @@
         "stockMin": "Le stock ne peut pas être négatif",
         "stockZero": "Le stock doit être supérieur à 0"
       }
+    },
+    "csv": {
+      "exportFiltered": "Exporter les résultats"
     }
   },
   "forms": {

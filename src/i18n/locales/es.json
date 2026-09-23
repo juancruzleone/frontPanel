@@ -1130,7 +1130,7 @@
     "csv": {
       "downloadTemplate": "Descargar plantilla CSV",
       "import": "Importar CSV",
-      "exportFiltered": "Exportar CSV",
+      "exportFiltered": "Exportar resultados",
       "importTitle": "Importar activos",
       "chooseFile": "Seleccionar CSV. Cada activo usa externalId; la plantilla base debe tener templateExternalId asignado previamente.",
       "preview": "Previsualizar",

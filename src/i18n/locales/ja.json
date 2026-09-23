@@ -1409,7 +1409,10 @@
         "stockZero": "在庫は0より大きくなければなりません"
       }
     },
-    "titlePage": "アセット | Leonix"
+    "titlePage": "アセット | Leonix",
+    "csv": {
+      "exportFiltered": "結果をエクスポート"
+    }
   },
   "forms": {
     "category": "カテゴリ",
