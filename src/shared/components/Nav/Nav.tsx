@@ -60,6 +60,7 @@ const Nav = () => {
 	const operationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 	const maintenanceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 	const assetsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+	const installationsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
 	// Usar las utilidades de roles
 	const isTechnicianUser = isTechnician(role);
@@ -86,14 +87,16 @@ const Nav = () => {
 	const currentRouteMenuState = getRouteMenuOpenState(location.pathname, {
 		workOrders: [workOrdersRoute, calendarRoute],
 		maintenance: [maintenancePlanRoute],
-		operation: [inventoryRoute, personalRoute, suppliersRoute, clientsRoute],
+		operation: [inventoryRoute, personalRoute, suppliersRoute],
 		assets: [assetsRoute, formsRoute, manualsRoute],
+		installations: [installationsRoute, clientsRoute],
 	});
 	const {
 		workOrders: isWorkOrdersSectionActive,
 		maintenance: isMaintenanceSectionActive,
 		operation: isOperationSectionActive,
 		assets: isAssetsSectionActive,
+		installations: isInstallationsSectionActive,
 	} = currentRouteMenuState;
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isWorkOrdersMenuOpen, setIsWorkOrdersMenuOpen] = useState(
@@ -112,6 +115,10 @@ const Nav = () => {
 		() => isAssetsSectionActive,
 	);
 	const [isAssetsHovered, setIsAssetsHovered] = useState(false);
+	const [isInstallationsMenuOpen, setIsInstallationsMenuOpen] = useState(
+		() => isInstallationsSectionActive,
+	);
+	const [isInstallationsHovered, setIsInstallationsHovered] = useState(false);
 	const [isMobileDrawer, setIsMobileDrawer] = useState(isMobileDrawerViewport);
 	const isCollapsedDesktop = isSidebarCollapsed && !isMobileDrawer;
 
@@ -138,11 +145,13 @@ const Nav = () => {
 		setIsOperationMenuOpen(isOperationSectionActive);
 		setIsMaintenanceMenuOpen(isMaintenanceSectionActive);
 		setIsAssetsMenuOpen(isAssetsSectionActive);
+		setIsInstallationsMenuOpen(isInstallationsSectionActive);
 	}, [
 		isWorkOrdersSectionActive,
 		isOperationSectionActive,
 		isMaintenanceSectionActive,
 		isAssetsSectionActive,
+		isInstallationsSectionActive,
 	]);
 
 	useEffect(() => {
@@ -151,6 +160,7 @@ const Nav = () => {
 			setIsOperationMenuOpen(false);
 			setIsMaintenanceMenuOpen(false);
 			setIsAssetsMenuOpen(false);
+			setIsInstallationsMenuOpen(false);
 		}
 	}, [isCollapsedDesktop]);
 
@@ -167,10 +177,14 @@ const Nav = () => {
 		if (assetsTimeoutRef.current) {
 			clearTimeout(assetsTimeoutRef.current);
 		}
+		if (installationsTimeoutRef.current) {
+			clearTimeout(installationsTimeoutRef.current);
+		}
 		setIsWorkOrdersHovered(false);
 		setIsOperationHovered(false);
 		setIsMaintenanceHovered(false);
 		setIsAssetsHovered(false);
+		setIsInstallationsHovered(false);
 	}, [location.pathname]);
 
 	const handleLogout = async () => {
@@ -317,6 +331,38 @@ const Nav = () => {
 		if (isCollapsedDesktop) {
 			assetsTimeoutRef.current = setTimeout(() => {
 				setIsAssetsHovered(false);
+			}, 300);
+		}
+	};
+
+	const handleInstallationsMouseEnter = () => {
+		if (isCollapsedDesktop) {
+			if (installationsTimeoutRef.current) {
+				clearTimeout(installationsTimeoutRef.current);
+			}
+			setIsInstallationsHovered(true);
+		}
+	};
+
+	const handleInstallationsMouseLeave = () => {
+		if (isCollapsedDesktop) {
+			installationsTimeoutRef.current = setTimeout(() => {
+				setIsInstallationsHovered(false);
+			}, 300);
+		}
+	};
+
+	const handleInstallationsSubmenuEnter = () => {
+		if (isCollapsedDesktop && installationsTimeoutRef.current) {
+			clearTimeout(installationsTimeoutRef.current);
+			setIsInstallationsHovered(true);
+		}
+	};
+
+	const handleInstallationsSubmenuLeave = () => {
+		if (isCollapsedDesktop) {
+			installationsTimeoutRef.current = setTimeout(() => {
+				setIsInstallationsHovered(false);
 			}, 300);
 		}
 	};
@@ -495,17 +541,72 @@ const Nav = () => {
 							</li>
 						)}
 						{!isSuperAdminUser && (
-							<li data-tour="nav-installations">
-								<NavLink
-									to={installationsRoute}
-									className={({ isActive }) => (isActive ? styles.active : "")}
-									onClick={() => setIsMenuOpen(false)}
+							<li
+								className={styles.menuGroup}
+								onMouseEnter={handleInstallationsMouseEnter}
+								onMouseLeave={handleInstallationsMouseLeave}
+							>
+								<button
+									type="button"
+									data-tour="nav-installations"
+									className={`${styles.groupButton} ${isInstallationsSectionActive ? styles.active : ""}`}
+									onClick={() => setIsInstallationsMenuOpen((prev) => !prev)}
+									aria-expanded={
+										isInstallationsMenuOpen ||
+										(isCollapsedDesktop && isInstallationsHovered)
+									}
 								>
-									<Building size={20} />{" "}
-									<span className={styles.linkText}>
-										{t("nav.installations")}
+									<span className={styles.groupButtonContent}>
+										<Building size={20} />{" "}
+										<span className={styles.linkText}>
+											{t("nav.installations")}
+										</span>
 									</span>
-								</NavLink>
+									<ChevronDown
+										size={16}
+										className={`${styles.groupChevron} ${isInstallationsMenuOpen ? styles.groupChevronOpen : ""}`}
+									/>
+								</button>
+								<div
+									className={`${styles.submenu} ${styles.resourcesSubmenu} ${isInstallationsMenuOpen || (isCollapsedDesktop && isInstallationsHovered) ? styles.submenuOpen : ""}`}
+									onMouseEnter={handleInstallationsSubmenuEnter}
+									onMouseLeave={handleInstallationsSubmenuLeave}
+								>
+									<NavLink
+										to={installationsRoute}
+										data-tour="nav-installations-list"
+										className={({ isActive }) =>
+											`${styles.submenuLink} ${isActive ? styles.active : ""}`
+										}
+										onClick={() => {
+											setIsMenuOpen(false);
+											setIsInstallationsHovered(false);
+										}}
+									>
+										<Building size={20} />{" "}
+										<span className={styles.linkText}>
+											{t("nav.installations")}
+										</span>
+									</NavLink>
+									{isAdminUser && (
+										<NavLink
+											to={clientsRoute}
+											data-tour="nav-clients"
+											className={({ isActive }) =>
+												`${styles.submenuLink} ${isActive ? styles.active : ""}`
+											}
+											onClick={() => {
+												setIsMenuOpen(false);
+												setIsInstallationsHovered(false);
+											}}
+										>
+											<Users size={20} />{" "}
+											<span className={styles.linkText}>
+												{t("nav.clients")}
+											</span>
+										</NavLink>
+									)}
+								</div>
 							</li>
 						)}
 						{!isTechnicianUser && !isSuperAdminUser && !isClientUser && (
@@ -674,24 +775,6 @@ const Nav = () => {
 											<Truck size={20} />{" "}
 											<span className={styles.linkText}>
 												{t("nav.suppliers")}
-											</span>
-										</NavLink>
-									)}
-									{isAdminUser && (
-										<NavLink
-											to={clientsRoute}
-											data-tour="nav-clients"
-											className={({ isActive }) =>
-												`${styles.submenuLink} ${isActive ? styles.active : ""}`
-											}
-											onClick={() => {
-												setIsMenuOpen(false);
-												setIsOperationHovered(false);
-											}}
-										>
-											<Users size={20} />{" "}
-											<span className={styles.linkText}>
-												{t("nav.clients")}
 											</span>
 										</NavLink>
 									)}
