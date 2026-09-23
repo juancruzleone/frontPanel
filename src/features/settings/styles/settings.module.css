@@ -45,20 +45,7 @@
   overflow: hidden;
 }
 
-.initialCard::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #000, rgba(0, 0, 0, 0.8));
-  border-radius: 8px 8px 0 0;
-}
 
-:global([data-theme="dark"]) .initialCard::before {
-  background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.8));
-}
 
 :global(.dark) .initialCard {
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
