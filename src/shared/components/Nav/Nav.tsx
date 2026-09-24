@@ -99,25 +99,33 @@ const Nav = () => {
 		installations: isInstallationsSectionActive,
 	} = currentRouteMenuState;
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const [isWorkOrdersMenuOpen, setIsWorkOrdersMenuOpen] = useState(
-		() => isWorkOrdersSectionActive,
-	);
+	type MenuKey =
+		| "workOrders"
+		| "maintenance"
+		| "operation"
+		| "assets"
+		| "installations";
+	const getInitialOpenMenu = (): MenuKey | null => {
+		if (isWorkOrdersSectionActive) return "workOrders";
+		if (isMaintenanceSectionActive) return "maintenance";
+		if (isOperationSectionActive) return "operation";
+		if (isAssetsSectionActive) return "assets";
+		if (isInstallationsSectionActive) return "installations";
+		return null;
+	};
+	const [openMenu, setOpenMenu] = useState<MenuKey | null>(getInitialOpenMenu);
+	const isWorkOrdersMenuOpen = openMenu === "workOrders";
+	const isOperationMenuOpen = openMenu === "operation";
+	const isMaintenanceMenuOpen = openMenu === "maintenance";
+	const isAssetsMenuOpen = openMenu === "assets";
+	const isInstallationsMenuOpen = openMenu === "installations";
+	const toggleMenu = (menu: MenuKey) => {
+		setOpenMenu((prev) => (prev === menu ? null : menu));
+	};
 	const [isWorkOrdersHovered, setIsWorkOrdersHovered] = useState(false);
-	const [isOperationMenuOpen, setIsOperationMenuOpen] = useState(
-		() => isOperationSectionActive,
-	);
 	const [isOperationHovered, setIsOperationHovered] = useState(false);
-	const [isMaintenanceMenuOpen, setIsMaintenanceMenuOpen] = useState(
-		() => isMaintenanceSectionActive,
-	);
 	const [isMaintenanceHovered, setIsMaintenanceHovered] = useState(false);
-	const [isAssetsMenuOpen, setIsAssetsMenuOpen] = useState(
-		() => isAssetsSectionActive,
-	);
 	const [isAssetsHovered, setIsAssetsHovered] = useState(false);
-	const [isInstallationsMenuOpen, setIsInstallationsMenuOpen] = useState(
-		() => isInstallationsSectionActive,
-	);
 	const [isInstallationsHovered, setIsInstallationsHovered] = useState(false);
 	const [isMobileDrawer, setIsMobileDrawer] = useState(isMobileDrawerViewport);
 	const isCollapsedDesktop = isSidebarCollapsed && !isMobileDrawer;
@@ -141,11 +149,12 @@ const Nav = () => {
 	}, [isMenuOpen]);
 
 	useEffect(() => {
-		setIsWorkOrdersMenuOpen(isWorkOrdersSectionActive);
-		setIsOperationMenuOpen(isOperationSectionActive);
-		setIsMaintenanceMenuOpen(isMaintenanceSectionActive);
-		setIsAssetsMenuOpen(isAssetsSectionActive);
-		setIsInstallationsMenuOpen(isInstallationsSectionActive);
+		if (isWorkOrdersSectionActive) setOpenMenu("workOrders");
+		else if (isMaintenanceSectionActive) setOpenMenu("maintenance");
+		else if (isOperationSectionActive) setOpenMenu("operation");
+		else if (isAssetsSectionActive) setOpenMenu("assets");
+		else if (isInstallationsSectionActive) setOpenMenu("installations");
+		else setOpenMenu(null);
 	}, [
 		isWorkOrdersSectionActive,
 		isOperationSectionActive,
@@ -156,11 +165,7 @@ const Nav = () => {
 
 	useEffect(() => {
 		if (isCollapsedDesktop) {
-			setIsWorkOrdersMenuOpen(false);
-			setIsOperationMenuOpen(false);
-			setIsMaintenanceMenuOpen(false);
-			setIsAssetsMenuOpen(false);
-			setIsInstallationsMenuOpen(false);
+			setOpenMenu(null);
 		}
 	}, [isCollapsedDesktop]);
 
@@ -429,7 +434,7 @@ const Nav = () => {
 									type="button"
 									data-tour="nav-work-orders"
 									className={`${styles.groupButton} ${isWorkOrdersSectionActive ? styles.active : ""}`}
-									onClick={() => setIsWorkOrdersMenuOpen((prev) => !prev)}
+									onClick={() => toggleMenu("workOrders")}
 									aria-expanded={
 										isWorkOrdersMenuOpen ||
 										(isCollapsedDesktop && isWorkOrdersHovered)
@@ -496,7 +501,7 @@ const Nav = () => {
 									type="button"
 									data-tour="nav-maintenance"
 									className={`${styles.groupButton} ${isMaintenanceSectionActive ? styles.active : ""}`}
-									onClick={() => setIsMaintenanceMenuOpen((prev) => !prev)}
+									onClick={() => toggleMenu("maintenance")}
 									aria-expanded={
 										isMaintenanceMenuOpen ||
 										(isCollapsedDesktop && isMaintenanceHovered)
@@ -550,7 +555,7 @@ const Nav = () => {
 									type="button"
 									data-tour="nav-installations"
 									className={`${styles.groupButton} ${isInstallationsSectionActive ? styles.active : ""}`}
-									onClick={() => setIsInstallationsMenuOpen((prev) => !prev)}
+									onClick={() => toggleMenu("installations")}
 									aria-expanded={
 										isInstallationsMenuOpen ||
 										(isCollapsedDesktop && isInstallationsHovered)
@@ -619,7 +624,7 @@ const Nav = () => {
 									type="button"
 									data-tour="nav-assets"
 									className={`${styles.groupButton} ${isAssetsSectionActive ? styles.active : ""}`}
-									onClick={() => setIsAssetsMenuOpen((prev) => !prev)}
+									onClick={() => toggleMenu("assets")}
 									aria-expanded={
 										isAssetsMenuOpen ||
 										(isCollapsedDesktop && isAssetsHovered)
@@ -704,7 +709,7 @@ const Nav = () => {
 									type="button"
 									data-tour="nav-operation"
 									className={`${styles.groupButton} ${isOperationSectionActive ? styles.active : ""}`}
-									onClick={() => setIsOperationMenuOpen((prev) => !prev)}
+									onClick={() => toggleMenu("operation")}
 									aria-expanded={
 										isOperationMenuOpen ||
 										(isCollapsedDesktop && isOperationHovered)
