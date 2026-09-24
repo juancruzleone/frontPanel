@@ -882,7 +882,8 @@
         "timeMax": "작업 시간은 24시간을 초과할 수 없습니다",
         "deviceStateInvalid": "장치 상태가 올바르지 않습니다"
       }
-    }
+    },
+    "exportResults": "결과 내보내기"
   },
   "installations": {
     "exportResults": "결과 내보내기",
@@ -2491,7 +2492,7 @@
     "csv": {
       "downloadTemplate": "CSV 템플릿 다운로드",
       "import": "Import CSV",
-      "exportFiltered": "Export filtered results",
+      "exportFiltered": "필터링된 결과 내보내기",
       "importTitle": "Import inventory from CSV",
       "chooseFile": "Select a CSV file",
       "preview": "Preview",
@@ -2560,7 +2561,7 @@
     "csv": {
       "downloadTemplate": "CSV 템플릿 다운로드",
       "import": "Import CSV",
-      "exportFiltered": "Export filtered results",
+      "exportFiltered": "필터링된 결과 내보내기",
       "importTitle": "Import suppliers from CSV",
       "chooseFile": "Select a CSV file",
       "preview": "Preview",

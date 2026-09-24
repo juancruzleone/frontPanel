@@ -882,7 +882,8 @@
         "timeMax": "工作时间不能超过24小时",
         "deviceStateInvalid": "设备状态必须有效"
       }
-    }
+    },
+    "exportResults": "导出结果"
   },
   "modals": {
     "understood": "关闭",
@@ -2482,7 +2483,7 @@
     "csv": {
       "downloadTemplate": "下载 CSV 模板",
       "import": "Import CSV",
-      "exportFiltered": "Export filtered results",
+      "exportFiltered": "导出筛选结果",
       "importTitle": "Import inventory from CSV",
       "chooseFile": "Select a CSV file",
       "preview": "Preview",
@@ -2551,7 +2552,7 @@
     "csv": {
       "downloadTemplate": "下载 CSV 模板",
       "import": "Import CSV",
-      "exportFiltered": "Export filtered results",
+      "exportFiltered": "导出筛选结果",
       "importTitle": "Import suppliers from CSV",
       "chooseFile": "Select a CSV file",
       "preview": "Preview",

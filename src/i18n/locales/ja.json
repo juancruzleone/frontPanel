@@ -880,7 +880,8 @@
         "timeMax": "作業時間は24時間以内で入力してください",
         "deviceStateInvalid": "デバイスの状態が正しくありません"
       }
-    }
+    },
+    "exportResults": "結果をエクスポート"
   },
   "installations": {
     "exportResults": "結果をエクスポート",
@@ -2457,7 +2458,7 @@
     "csv": {
       "downloadTemplate": "CSVテンプレートをダウンロード",
       "import": "Import CSV",
-      "exportFiltered": "Export filtered results",
+      "exportFiltered": "絞り込み結果をエクスポート",
       "importTitle": "Import inventory from CSV",
       "chooseFile": "Select a CSV file",
       "preview": "Preview",
@@ -2526,7 +2527,7 @@
     "csv": {
       "downloadTemplate": "CSVテンプレートをダウンロード",
       "import": "Import CSV",
-      "exportFiltered": "Export filtered results",
+      "exportFiltered": "絞り込み結果をエクスポート",
       "importTitle": "Import suppliers from CSV",
       "chooseFile": "Select a CSV file",
       "preview": "Preview",

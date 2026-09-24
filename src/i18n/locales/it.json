@@ -935,7 +935,7 @@
     "thisWeek": "Esta Semana",
     "assigning": "Asignando...",
     "thu": "Jue",
-    "exportResults": "Export results",
+    "exportResults": "Esporta risultati",
     "orderStarted": "Orden iniciada con éxito",
     "additionalInfo": "Información Adicional",
     "allTechnicians": "Todos los técnicos",
@@ -2651,7 +2651,7 @@
       "import": "Import CSV",
       "preview": "Preview",
       "importTitle": "Import inventory from CSV",
-      "exportFiltered": "Export filtered results",
+      "exportFiltered": "Esporta risultati filtrati",
       "downloadTemplate": "Scarica modello CSV",
       "completed": "Import completed"
     },
@@ -2716,7 +2716,7 @@
     },
     "csv": {
       "importTitle": "Import suppliers from CSV",
-      "exportFiltered": "Export filtered results",
+      "exportFiltered": "Esporta risultati filtrati",
       "downloadTemplate": "Scarica modello CSV",
       "downloadErrors": "Download errors",
       "preview": "Preview",

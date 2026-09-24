@@ -878,7 +878,8 @@
         "timeMax": "لا يمكن أن يتجاوز وقت العمل 24 ساعة",
         "deviceStateInvalid": "يجب أن تكون حالة الجهاز صالحة"
       }
-    }
+    },
+    "exportResults": "تصدير النتائج"
   },
   "installations": {
     "exportResults": "تصدير النتائج",
@@ -2458,7 +2459,7 @@
     "csv": {
       "downloadTemplate": "تنزيل قالب CSV",
       "import": "Import CSV",
-      "exportFiltered": "Export filtered results",
+      "exportFiltered": "تصدير النتائج المفلترة",
       "importTitle": "Import inventory from CSV",
       "chooseFile": "Select a CSV file",
       "preview": "Preview",
@@ -2527,7 +2528,7 @@
     "csv": {
       "downloadTemplate": "تنزيل قالب CSV",
       "import": "Import CSV",
-      "exportFiltered": "Export filtered results",
+      "exportFiltered": "تصدير النتائج المفلترة",
       "importTitle": "Import suppliers from CSV",
       "chooseFile": "Select a CSV file",
       "preview": "Preview",

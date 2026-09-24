@@ -879,7 +879,8 @@
         "timeMax": "Le temps de travail ne peut pas dépasser 24 heures",
         "deviceStateInvalid": "L'état de l'appareil doit être valide"
       }
-    }
+    },
+    "exportResults": "Exporter les résultats"
   },
   "installations": {
     "exportResults": "Exporter les résultats",
@@ -2445,7 +2446,7 @@
     "csv": {
       "downloadTemplate": "Télécharger le modèle CSV",
       "import": "Import CSV",
-      "exportFiltered": "Export filtered results",
+      "exportFiltered": "Exporter les résultats filtrés",
       "importTitle": "Import inventory from CSV",
       "chooseFile": "Select a CSV file",
       "preview": "Preview",
@@ -2514,7 +2515,7 @@
     "csv": {
       "downloadTemplate": "Télécharger le modèle CSV",
       "import": "Import CSV",
-      "exportFiltered": "Export filtered results",
+      "exportFiltered": "Exporter les résultats filtrés",
       "importTitle": "Import suppliers from CSV",
       "chooseFile": "Select a CSV file",
       "preview": "Preview",
