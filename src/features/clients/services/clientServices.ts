@@ -17,8 +17,14 @@ export const createClient = async (username: string, password: string, fullName:
     // Nombre completo de respaldo para compatibilidad con backends que esperan "nombre"
     const nombre = fullName.trim() || `${firstName} ${lastName}`.trim()
 
-    // Payload compatible con ambas variantes del backend (nombre vs firstName/lastName)
-    const payload: Record<string, unknown> = {
+    // Para el panel admin, la ruta correcta es clientes-usuarios (schema createClientUser: password min 6, nombre requerido)
+    // cuenta/cliente usa cuentaRegistro (password min 8 con especial) y es para registro técnico; no usar como primario para cliente
+    const payloadClientesUsuarios: Record<string, unknown> = {
+        userName: username,
+        password: password,
+        nombre: nombre,
+    }
+    const payloadCuentaCliente: Record<string, unknown> = {
         userName: username,
         password: password,
         firstName: firstName,
@@ -34,26 +40,34 @@ export const createClient = async (username: string, password: string, fullName:
         })
     }
 
-    // Intento primario: cuenta/cliente (ruta documentada para clientes)
-    let response = await tryCreate(`${API_URL}cuenta/cliente`, payload)
+    // Intento primario: clientes-usuarios (permite password Francosa4191 sin especial, solo min 6)
+    let response = await tryCreate(`${API_URL}clientes-usuarios`, payloadClientesUsuarios)
 
-    // Fallback para backends donde la ruta es clientes-usuarios o requiere trailing distinto
-    // Si es 404/503 (NOT_FOUND / Service Unavailable) prueba ruta alternativa antes de fallar
-    if (!response.ok && [404, 503].includes(response.status)) {
+    // Fallback: cuenta/cliente por compatibilidad si el backend no tiene clientes-usuarios o requiere firstName/lastName
+    if (!response.ok && [400, 404, 503].includes(response.status)) {
         const firstError = await response.clone().json().catch(() => ({} as any))
         const firstCode = firstError?.error?.code || firstError?.code
-        if (firstCode === "NOT_FOUND" || response.status === 503) {
-            const fallbackResponse = await tryCreate(`${API_URL}clientes-usuarios`, payload)
-            // Si el fallback tiene éxito, úsalo; si no, conserva el error original para no enmascarar
+        const firstDetails = firstError?.error?.details || firstError?.details
+        const isValidationError = firstCode === "VALIDATION_ERROR" || (Array.isArray(firstDetails) && firstDetails.length > 0)
+        // Solo hace fallback si es NOT_FOUND/503 o validación por nombre (ej. si el backend espera cuenta/cliente)
+        if (firstCode === "NOT_FOUND" || response.status === 503 || isValidationError) {
+            const fallbackResponse = await tryCreate(`${API_URL}cuenta/cliente`, payloadCuentaCliente)
             if (fallbackResponse.ok) {
                 return await fallbackResponse.json()
             }
-            // Si ambos fallan, prioriza el error del fallback si es más descriptivo (VALIDATION_ERROR con details)
             const fallbackError = await fallbackResponse.clone().json().catch(() => ({} as any))
             const hasFallbackDetails =
                 (fallbackError?.error?.details && Array.isArray(fallbackError.error.details)) ||
                 (fallbackError?.details && Array.isArray(fallbackError.details))
+            // Prioriza el error más descriptivo (con details) o el que no sea NOT_FOUND genérico
             if (hasFallbackDetails || fallbackResponse.status === 400) {
+                // Si el primario era NOT_FOUND genérico y el fallback trae VALIDATION_ERROR con details, usa fallback
+                if (firstCode === "NOT_FOUND" && !firstDetails) {
+                    response = fallbackResponse
+                } else if (hasFallbackDetails) {
+                    response = fallbackResponse
+                }
+            } else if (firstCode === "NOT_FOUND" && fallbackResponse.status !== 404) {
                 response = fallbackResponse
             }
         }
