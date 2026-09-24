@@ -570,7 +570,7 @@
 :global([data-theme="dark"]) .activeLang {
     background: linear-gradient(135deg, #057e74 0%, #089b8e 100%);
     color: #ffffff !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3), inset 3px 0 0 #00ffae;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .flagImgSmall {
