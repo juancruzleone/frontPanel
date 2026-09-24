@@ -17,6 +17,9 @@ export const createClient = async (username: string, password: string, fullName:
     // Nombre completo de respaldo para compatibilidad con backends que esperan "nombre"
     const nombre = fullName.trim() || `${firstName} ${lastName}`.trim()
 
+    // Email de respaldo para backends que validan email obligatorio en cliente
+    const emailFallback = `${username.toLowerCase().replace(/[^a-z0-9._-]/g, "").slice(0, 30) || "user"}@leonix.local`
+
     // ✅ USAR LA NUEVA RUTA ESPECÍFICA PARA CLIENTES (normalizada con trailing slash)
     const response = await fetchWithAuthRetry(`${API_URL}cuenta/cliente`, {
         method: "POST",
@@ -26,7 +29,8 @@ export const createClient = async (username: string, password: string, fullName:
             password: password,
             firstName: firstName,
             lastName: lastName,
-            nombre: nombre
+            nombre: nombre,
+            email: emailFallback
             // ✅ YA NO ES NECESARIO ENVIAR EL ROL - El backend lo establece automáticamente
         }),
     })
@@ -34,12 +38,18 @@ export const createClient = async (username: string, password: string, fullName:
     if (!response.ok) {
         const errorData = await response.json().catch(() => ({} as any))
 
-        if (errorData?.error?.details && Array.isArray(errorData.error.details)) {
-            throw new Error(errorData.error.details.join(", "))
+        // Maneja múltiples formatos de error del backend (error.details, details, errors)
+        const details =
+            (errorData?.error?.details && Array.isArray(errorData.error.details) && errorData.error.details) ||
+            (errorData?.details && Array.isArray(errorData.details) && errorData.details) ||
+            (errorData?.error?.errors && Array.isArray(errorData.error.errors) && errorData.error.errors) ||
+            null
+        if (details) {
+            throw new Error(details.join(", "))
         }
 
-        // Backend puede responder 404 NOT_FOUND cuando la ruta/tenant no resuelve; expone código para debug
-        const code = errorData?.error?.code
+        // Backend puede responder 400 VALIDATION_ERROR / 404 NOT_FOUND cuando la validación falla; expone código para debug
+        const code = errorData?.error?.code || errorData?.code
         const message = errorData?.error?.message || errorData?.message || "Error al registrar el cliente"
         if (code) {
             throw new Error(`${message} (${code})`)

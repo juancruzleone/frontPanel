@@ -469,7 +469,13 @@
 }
 
 .fileSelectButton:hover {
-  background-color: var(--color-nav-hover);
+  background-color: var(--color-secondary-hover);
+  color: #fff;
+}
+
+:global(.dark) .fileSelectButton:hover {
+  background-color: var(--color-secondary-hover);
+  color: #fff;
 }
 
 /* Estilos para drag and drop de archivos */

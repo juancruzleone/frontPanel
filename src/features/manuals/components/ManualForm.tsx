@@ -311,6 +311,7 @@ const ManualForm = ({
               className={styles.hiddenInput}
             />
             <ButtonCreate
+              type="button"
               onClick={() => document.getElementById('archivoUpload')?.click()}
               title={t('manuals.selectFile')}
               className={styles.fileSelectButton}

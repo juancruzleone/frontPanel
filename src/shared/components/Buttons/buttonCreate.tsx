@@ -10,10 +10,11 @@ interface ButtonCreateProps extends React.ButtonHTMLAttributes<HTMLButtonElement
   variant?: "primary" | "secondary"
 }
 
-const ButtonCreate: React.FC<ButtonCreateProps> = ({ onClick, children, className = "", text, title, variant = "primary", ...rest }) => {
+const ButtonCreate: React.FC<ButtonCreateProps> = ({ onClick, children, className = "", text, title, variant = "primary", type, ...rest }) => {
   const variantClass = variant === "secondary" ? styles.secondaryButton : styles.createButton
   return (
     <button
+      type={type ?? "button"}
       className={`${variantClass} ${className}`}
       onClick={onClick}
       {...rest}
