@@ -401,24 +401,16 @@ html[data-theme="dark"] select:focus,
 }
 
 .appToast {
-  border-radius: 14px !important;
+  border-radius: var(--radius-control, 4px) !important;
   border: 1px solid var(--color-card-border) !important;
   background: var(--color-card) !important;
   color: var(--color-text) !important;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15) !important;
-  padding: 12px 14px !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 8px 20px rgba(0, 0, 0, 0.10) !important;
+  padding: var(--space-sm) var(--space-md) !important;
 }
 
 .dark .appToast {
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.38) !important;
-}
-
-.appToast::before {
-  content: "";
-  width: 4px;
-  border-radius: 8px;
-  background: linear-gradient(180deg, var(--color-secondary), #00c7b1);
-  margin-right: 10px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 24px rgba(0, 0, 0, 0.32) !important;
 }
 
 .appToastTitle {
@@ -436,7 +428,7 @@ html[data-theme="dark"] select:focus,
   color: #101828;
   border: 1px solid #e2e8f0;
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
-  border-radius: 14px;
+  border-radius: var(--radius-panel, 8px);
 }
 
 .driverjs-light-theme .driver-popover-title {
@@ -453,7 +445,7 @@ html[data-theme="dark"] select:focus,
   border: 1px solid #0f766e;
   color: #ffffff;
   text-shadow: none;
-  border-radius: 10px;
+  border-radius: var(--radius-card, 6px);
 }
 
 .driverjs-dark-theme.driver-popover {
@@ -461,7 +453,7 @@ html[data-theme="dark"] select:focus,
   color: #f8fafc;
   border: 1px solid #374151;
   box-shadow: 0 16px 38px rgba(0, 0, 0, 0.55);
-  border-radius: 14px;
+  border-radius: var(--radius-panel, 8px);
 }
 
 .driverjs-dark-theme .driver-popover-title {
@@ -478,5 +470,5 @@ html[data-theme="dark"] select:focus,
   border: 1px solid #14b8a6;
   color: #04111a;
   text-shadow: none;
-  border-radius: 10px;
+  border-radius: var(--radius-card, 6px);
 }

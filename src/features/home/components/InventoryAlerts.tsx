@@ -17,14 +17,16 @@ export const InventorySummary = ({ data, hasError }: InventorySummaryProps) => {
 
   return (
     <section className={styles.inventorySummary} aria-labelledby="inventory-summary-title">
-      <div>
-        <p className={styles.panelKicker}>{t("home.dashboard.inventory.kicker")}</p>
-        <h2 id="inventory-summary-title">{t("home.dashboard.inventory.title")}</h2>
-        {data && hasItems && (
-          <p className={styles.inventoryMeta}>
-            {t("home.dashboard.inventory.meta", { total: totalItems, low: lowCount })}
-          </p>
-        )}
+      <div className={styles.panelHeader}>
+        <div>
+          <p className={styles.panelKicker}>{t("home.dashboard.inventory.kicker")}</p>
+          <h2 id="inventory-summary-title">{t("home.dashboard.inventory.title")}</h2>
+          {data && hasItems && (
+            <p className={styles.inventoryMeta}>
+              {t("home.dashboard.inventory.meta", { total: totalItems, low: lowCount })}
+            </p>
+          )}
+        </div>
       </div>
       {hasError ? (
         <p className={styles.partialError}>{t("home.dashboard.errors.inventory")}</p>
