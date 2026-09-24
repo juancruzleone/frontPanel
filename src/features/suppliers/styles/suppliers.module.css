@@ -349,6 +349,6 @@
     height: 46px;
   }
 
-  .positionButton { width: 100%; }
-  .positionButton > button { flex: 1; }
+  .positionButton { width: auto; align-self: flex-start; }
+  .positionButton > button { flex: 0 0 auto; width: auto; }
 }
