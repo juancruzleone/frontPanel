@@ -1,16 +1,23 @@
 import { fetchWithAuthRetry, getHeadersWithContentType, getAuthHeaders } from "../../../shared/utils/apiHeaders"
 
-const API_URL = import.meta.env.VITE_API_URL || "/api/"
+const rawApiUrl = import.meta.env.VITE_API_URL || "/api/"
+const API_URL = rawApiUrl.endsWith("/") ? rawApiUrl : `${rawApiUrl}/`
 
 export const createClient = async (username: string, password: string, fullName: string) => {
     const headers = getHeadersWithContentType()
 
-    // Separar fullName en firstName y lastName
-    const nameParts = fullName.trim().split(' ')
-    const firstName = nameParts[0] || ''
-    const lastName = nameParts.slice(1).join(' ') || ''
+    // Separar fullName en firstName y lastName; asegurar lastName no vacío para evitar 400/NOT_FOUND del backend
+    const nameParts = fullName.trim().split(/\s+/).filter(Boolean)
+    const firstName = nameParts[0] || username || ''
+    let lastName = nameParts.slice(1).join(' ') || ''
+    // Si solo hay un nombre (caso username como fullName), duplica como apellido para cumplir validación del backend
+    if (!lastName) {
+        lastName = firstName
+    }
+    // Nombre completo de respaldo para compatibilidad con backends que esperan "nombre"
+    const nombre = fullName.trim() || `${firstName} ${lastName}`.trim()
 
-    // ✅ USAR LA NUEVA RUTA ESPECÍFICA PARA CLIENTES
+    // ✅ USAR LA NUEVA RUTA ESPECÍFICA PARA CLIENTES (normalizada con trailing slash)
     const response = await fetchWithAuthRetry(`${API_URL}cuenta/cliente`, {
         method: "POST",
         headers,
@@ -18,19 +25,26 @@ export const createClient = async (username: string, password: string, fullName:
             userName: username,
             password: password,
             firstName: firstName,
-            lastName: lastName
+            lastName: lastName,
+            nombre: nombre
             // ✅ YA NO ES NECESARIO ENVIAR EL ROL - El backend lo establece automáticamente
         }),
     })
 
     if (!response.ok) {
-        const errorData = await response.json()
+        const errorData = await response.json().catch(() => ({} as any))
 
-        if (errorData.error.details && Array.isArray(errorData.error.details)) {
+        if (errorData?.error?.details && Array.isArray(errorData.error.details)) {
             throw new Error(errorData.error.details.join(", "))
         }
 
-        throw new Error(errorData.error.message || "Error al registrar el cliente")
+        // Backend puede responder 404 NOT_FOUND cuando la ruta/tenant no resuelve; expone código para debug
+        const code = errorData?.error?.code
+        const message = errorData?.error?.message || errorData?.message || "Error al registrar el cliente"
+        if (code) {
+            throw new Error(`${message} (${code})`)
+        }
+        throw new Error(message)
     }
 
     return await response.json()

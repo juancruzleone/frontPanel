@@ -1,6 +1,7 @@
 import { fetchWithCsrf, getAuthHeaders } from "../../../../shared/utils/apiHeaders"
 
-const API_URL = import.meta.env.VITE_API_URL || "/api/"
+const rawApiUrl = import.meta.env.VITE_API_URL || "/api/"
+const API_URL = rawApiUrl.endsWith("/") ? rawApiUrl : `${rawApiUrl}/`
 
 interface TechnicianUpdatePayload {
   userName?: string
@@ -20,10 +21,13 @@ export const userRegister = async (
   documento?: string,
   profilePhoto?: File | null
 ) => {
-  // Separar fullName en firstName y lastName
-  const nameParts = fullName.trim().split(' ')
-  const firstName = nameParts[0] || ''
-  const lastName = nameParts.slice(1).join(' ') || ''
+  // Separar fullName en firstName y lastName; asegurar lastName no vacío para evitar 400/NOT_FOUND del backend
+  const nameParts = fullName.trim().split(/\s+/).filter(Boolean)
+  const firstName = nameParts[0] || username || ''
+  let lastName = nameParts.slice(1).join(' ') || ''
+  if (!lastName) {
+    lastName = firstName
+  }
   
   // Crear FormData para enviar archivos
   const formData = new FormData()
@@ -52,14 +56,19 @@ export const userRegister = async (
   })
 
   if (!response.ok) {
-    const errorData = await response.json()
+    const errorData = await response.json().catch(() => ({} as any))
 
     // Manejar errores de validación específicos
-    if (errorData.error.details && Array.isArray(errorData.error.details)) {
+    if (errorData?.error?.details && Array.isArray(errorData.error.details)) {
       throw new Error(errorData.error.details.join(", "))
     }
 
-    throw new Error(errorData.error.message || "Error al registrar el técnico")
+    const code = errorData?.error?.code
+    const message = errorData?.error?.message || errorData?.message || "Error al registrar el técnico"
+    if (code) {
+      throw new Error(`${message} (${code})`)
+    }
+    throw new Error(message)
   }
 
   return await response.json()

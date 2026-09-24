@@ -1,6 +1,7 @@
 import { fetchWithAuthRetry, getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
 
-const API_URL = import.meta.env.VITE_API_URL || "/api/"
+const rawApiUrl = import.meta.env.VITE_API_URL || "/api/"
+const API_URL = rawApiUrl.endsWith("/") ? rawApiUrl : `${rawApiUrl}/`
 
 export interface Technician {
   _id: string

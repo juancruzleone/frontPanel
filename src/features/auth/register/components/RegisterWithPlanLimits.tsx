@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAuthStore } from '../../../../store/authStore';
 import { userRegister } from '../services/registerServices';
 import { usePlanLimitsModal } from '../../../../shared/hooks/usePlanLimitsModal';
 import PlanLimitsModal from '../../../../shared/components/PlanLimitsModal/PlanLimitsModal';
@@ -17,7 +16,6 @@ const RegisterWithPlanLimits: React.FC<RegisterWithPlanLimitsProps> = ({
   onCancel
 }) => {
   const { t } = useTranslation();
-  const { token } = useAuthStore();
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -28,12 +26,7 @@ const RegisterWithPlanLimits: React.FC<RegisterWithPlanLimitsProps> = ({
   const [showGeneralError, setShowGeneralError] = useState(false);
 
   // Hook para manejar errores de límites de plan
-  const {
-    isModalOpen,
-    modalProps,
-    handleApiError,
-    shouldShowPlanLimitsModal
-  } = usePlanLimitsModal();
+  const { modalProps, handleApiError } = usePlanLimitsModal();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -78,7 +71,8 @@ const RegisterWithPlanLimits: React.FC<RegisterWithPlanLimitsProps> = ({
 
     try {
       // Usamos username como fullName para cumplir con el requerimiento del backend
-      await userRegister(formData.username, formData.password, formData.username, token || '');
+      // NOTA: userRegister no recibe token; email/documento son opcionales, no pasar token como email
+      await userRegister(formData.username, formData.password, formData.username);
 
       // Éxito: limpiar formulario y ejecutar callback
       setFormData({
