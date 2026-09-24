@@ -48,7 +48,7 @@ const Settings = () => {
       steps: [
         {
           popover: {
-            title: t('settings.tour.welcome.title', { defaultValue: 'Configuración inicial' }),
+            title: t('settings.tour.welcome.title', { defaultValue: 'Configuración del sistema' }),
             description: t('settings.tour.welcome.description', { defaultValue: 'Completá estos 3 pasos para dejar la plataforma lista: tipos de instalación, categorías de activos y categorías de formularios.' }),
             side: "bottom" as const,
             align: "start" as const,

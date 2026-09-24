@@ -2262,7 +2262,7 @@
       "validationFailed": "데이터 검증 중 오류가 발생했습니다. 정보를 확인해 주세요."
     },
     "subtitle2": "시스템 설정 관리",
-    "initialConfig": "초기 설정",
+    "initialConfig": "시스템 설정",
     "initialConfigDesc": "조직을 구성하려면 다음 단계를 완료하세요. 시스템을 사용하기 전에 이 설정은 필수입니다.",
     "stepsCompleted": "{{total}}개 중 {{completed}}단계 완료",
     "ofSteps": "/3",
@@ -2286,7 +2286,7 @@
     "integrationsDesc": "Mercado Pago 및 이메일 서비스를 연결하세요",
     "tour": {
       "welcome": {
-        "title": "Initial setup",
+        "title": "시스템 설정",
         "description": "Complete these 3 steps to get the platform ready: installation types, asset categories, and form categories."
       },
       "checklist": {

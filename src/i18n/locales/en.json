@@ -2534,7 +2534,7 @@
       "validationFailed": "Error validating data. Please check the information."
     },
     "subtitle2": "Manage system settings",
-    "initialConfig": "Initial setup",
+    "initialConfig": "System Configuration",
     "initialConfigDesc": "Complete these steps to configure your organization. This setup is required before you start using the system.",
     "stepsCompleted": "{{completed}} of {{total}} steps completed",
     "ofSteps": "of 3",
@@ -2558,7 +2558,7 @@
     "integrationsDesc": "Connect Mercado Pago and email services",
     "tour": {
       "welcome": {
-        "title": "Initial setup",
+        "title": "System Configuration",
         "description": "Complete these 3 steps to get the platform ready: installation types, asset categories, and form categories."
       },
       "checklist": {

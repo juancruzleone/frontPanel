@@ -2416,7 +2416,7 @@
       "validationFailed": "Errore durante la validazione dei dati. Verifica le informazioni."
     },
     "subtitle2": "Gestisci le impostazioni di sistema",
-    "initialConfig": "Configurazione iniziale",
+    "initialConfig": "Configurazione di sistema",
     "initialConfigDesc": "Completa questi passaggi per configurare la tua organizzazione. Questa configurazione è obbligatoria prima di iniziare a usare il sistema.",
     "stepsCompleted": "{{completed}} di {{total}} passaggi completati",
     "ofSteps": "di 3",
@@ -2440,7 +2440,7 @@
     "integrationsDesc": "Collega Mercado Pago e servizi email",
     "tour": {
       "welcome": {
-        "title": "Initial setup",
+        "title": "Configurazione di sistema",
         "description": "Complete these 3 steps to get the platform ready: installation types, asset categories, and form categories."
       },
       "checklist": {

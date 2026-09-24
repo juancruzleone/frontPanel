@@ -2550,7 +2550,7 @@
       "validationFailed": "Error al validar los datos. Por favor, verifica la información."
     },
     "subtitle2": "Administra las configuraciones del sistema",
-    "initialConfig": "Configuración inicial",
+    "initialConfig": "Configuración del sistema",
     "initialConfigDesc": "Completá estos pasos para configurar tu organización. Esta configuración es obligatoria antes de comenzar a usar el sistema.",
     "stepsCompleted": "{{completed}} de {{total}} pasos completados",
     "ofSteps": "de 3",
@@ -2574,7 +2574,7 @@
     "integrationsDesc": "Conectá Mercado Pago y servicios de email",
     "tour": {
       "welcome": {
-        "title": "Configuración inicial",
+        "title": "Configuración del sistema",
         "description": "Completá estos 3 pasos para dejar la plataforma lista: tipos de instalación, categorías de activos y categorías de formularios."
       },
       "checklist": {

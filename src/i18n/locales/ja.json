@@ -2228,7 +2228,7 @@
       "validationFailed": "データの検証中にエラーが発生しました。情報を確認してください。"
     },
     "subtitle2": "システム設定を管理",
-    "initialConfig": "初期設定",
+    "initialConfig": "システム設定",
     "initialConfigDesc": "組織を設定するためにこれらのステップを完了してください。システムを使い始める前にこの設定は必須です。",
     "stepsCompleted": "{{total}}中{{completed}}ステップ完了",
     "ofSteps": "/3",
@@ -2252,7 +2252,7 @@
     "integrationsDesc": "Mercado Pagoとメールサービスを連携します",
     "tour": {
       "welcome": {
-        "title": "Initial setup",
+        "title": "システム設定",
         "description": "Complete these 3 steps to get the platform ready: installation types, asset categories, and form categories."
       },
       "checklist": {

@@ -2253,7 +2253,7 @@
       "validationFailed": "验证数据时出错。请检查信息。"
     },
     "subtitle2": "管理系统设置",
-    "initialConfig": "初始配置",
+    "initialConfig": "系统配置",
     "initialConfigDesc": "完成这些步骤以配置您的组织。在开始使用系统之前，此配置为必填项。",
     "stepsCompleted": "已完成 {{completed}} / {{total}} 步",
     "ofSteps": "/3",
@@ -2277,7 +2277,7 @@
     "integrationsDesc": "连接 Mercado Pago 和邮件服务",
     "tour": {
       "welcome": {
-        "title": "Initial setup",
+        "title": "系统配置",
         "description": "Complete these 3 steps to get the platform ready: installation types, asset categories, and form categories."
       },
       "checklist": {

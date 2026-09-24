@@ -2120,7 +2120,7 @@
       "validationFailed": "Fehler bei der Validierung der Daten. Bitte überprüfen Sie die Informationen."
     },
     "subtitle2": "Systemeinstellungen verwalten",
-    "initialConfig": "Erstkonfiguration",
+    "initialConfig": "Systemkonfiguration",
     "initialConfigDesc": "Führen Sie diese Schritte aus, um Ihre Organisation zu konfigurieren. Diese Konfiguration ist erforderlich, bevor Sie das System nutzen.",
     "stepsCompleted": "{{completed}} von {{total}} Schritten abgeschlossen",
     "ofSteps": "von 3",
@@ -2144,7 +2144,7 @@
     "integrationsDesc": "Mercado Pago und E-Mail-Dienste verbinden",
     "tour": {
       "welcome": {
-        "title": "Initial setup",
+        "title": "Systemkonfiguration",
         "description": "Complete these 3 steps to get the platform ready: installation types, asset categories, and form categories."
       },
       "checklist": {

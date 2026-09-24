@@ -2229,7 +2229,7 @@
       "validationFailed": "خطأ في التحقق من البيانات. يرجى التحقق من المعلومات."
     },
     "subtitle2": "إدارة إعدادات النظام",
-    "initialConfig": "الإعداد الأولي",
+    "initialConfig": "تكوين النظام",
     "initialConfigDesc": "أكمل هذه الخطوات لتكوين مؤسستك. هذا الإعداد إلزامي قبل البدء في استخدام النظام.",
     "stepsCompleted": "{{completed}} من {{total}} خطوات مكتملة",
     "ofSteps": "من 3",
@@ -2253,7 +2253,7 @@
     "integrationsDesc": "ربط Mercado Pago وخدمات البريد الإلكتروني",
     "tour": {
       "welcome": {
-        "title": "Initial setup",
+        "title": "تكوين النظام",
         "description": "Complete these 3 steps to get the platform ready: installation types, asset categories, and form categories."
       },
       "checklist": {
