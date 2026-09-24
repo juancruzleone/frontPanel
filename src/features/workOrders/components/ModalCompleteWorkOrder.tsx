@@ -4,6 +4,7 @@ import styles from "../styles/Modal.module.css"
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 import type { WorkOrder } from "../hooks/useWorkOrders"
 import { useTranslation } from "react-i18next"
+import { getTranslatedWorkOrderDescription } from "../../../shared/utils/workOrderDescription"
 import useInventory from "../../inventory/hooks/useInventory"
 import { Plus, Trash2 } from "lucide-react"
 
@@ -295,6 +296,7 @@ const ModalCompleteWorkOrder = ({
         )
       }
       
+      // SAFETY: updatedCompletionData is locally constructed with the exact fields expected by onComplete; double cast via unknown is safe here
       const result = await onComplete(workOrder._id, updatedCompletionData as unknown as Record<string, unknown>)
       onSubmitSuccess(result.message)
       handleClose()
@@ -357,7 +359,7 @@ const ModalCompleteWorkOrder = ({
                 <label>Orden de Trabajo</label>
                 <div className={styles.infoDisplay}>
                   <strong>{workOrder.titulo}</strong>
-                  {workOrder.descripcion && <p>{workOrder.descripcion}</p>}
+                  {workOrder.descripcion && <p>{getTranslatedWorkOrderDescription(workOrder.descripcion, t)}</p>}
                 </div>
               </div>
 

@@ -43,6 +43,7 @@ import {
 	translateOrderType,
 	translateOrderOrigin,
 } from "../shared/utils/backendTranslations";
+import { getTranslatedWorkOrderDescription } from "../shared/utils/workOrderDescription";
 import { useAuthStore } from "../store/authStore";
 import { useWorkOrdersTour } from "../features/workOrders/hooks/useWorkOrdersTour";
 import TourButton from "../shared/components/Buttons/TourButton";
@@ -859,7 +860,7 @@ const WorkOrders = () => {
 										</div>
 
 										<p className={styles.workOrderDescription}>
-											{order.descripcion}
+											{getTranslatedWorkOrderDescription(order.descripcion, t)}
 										</p>
 
 										<div className={styles.workOrderDetails}>

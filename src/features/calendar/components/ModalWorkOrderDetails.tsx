@@ -7,6 +7,7 @@ import { Clock, MapPin, User, AlertCircle, Calendar, Play } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import i18n from "../../../i18n"
 import { translatePriority, translateWorkOrderStatus, translateWorkType, translateOrderType, translateOrderOrigin } from "../../../shared/utils/backendTranslations";
+import { getTranslatedWorkOrderDescription } from "../../../shared/utils/workOrderDescription";
 
 interface ModalWorkOrderDetailsProps {
   isOpen: boolean
@@ -151,7 +152,7 @@ const ModalWorkOrderDetails = ({
 
             <div className={styles.section}>
               <h4>{t('calendar.description')}</h4>
-              <p>{workOrder.descripcion}</p>
+              <p>{getTranslatedWorkOrderDescription(workOrder.descripcion, t)}</p>
             </div>
 
             <div className={styles.infoGrid}>
