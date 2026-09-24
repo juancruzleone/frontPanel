@@ -9,11 +9,10 @@ import ModalSuccess from "../features/manuals/components/ModalSuccess";
 import ModalError from "../features/forms/components/ModalError";
 import ModalConfirmDelete from "../features/manuals/components/ModalConfirmDelete";
 import ModalUploadFile from "../features/manuals/components/ModalUploadFile";
-import { Edit, Trash, Upload, FileText, Download, Eye, ArrowLeft, HelpCircle, FilterX } from 'lucide-react';
+import { Edit, Trash, Upload, FileText, Download, Eye, FilterX } from 'lucide-react';
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../store/authStore";
-import { useNavigate } from "react-router";
 import { useManualsTour } from "../features/manuals/hooks/useManualsTour";
 import { isClient } from "../shared/utils/roleUtils";
 import TourButton from "../shared/components/Buttons/TourButton";
@@ -25,7 +24,6 @@ import { openSafeUrl, sanitizeFilename, sanitizeUrl } from "../utils/sanitizer";
 
 const Manuals = () => {
   const { t, i18n } = useTranslation();
-  const navigate = useNavigate();
   const {
     manuals,
     pagination,
@@ -208,15 +206,6 @@ const Manuals = () => {
     <>
       <div className={styles.containerManuals}>
         <div className={styles.headerContainer}>
-          <button
-            className={styles.backButton}
-            onClick={() => navigate('/activos')}
-            aria-label={t('common.backToAssets')}
-            data-tour="back-to-assets-btn"
-          >
-            <ArrowLeft size={20} />
-            <span>{t('common.backToAssets')}</span>
-          </button>
           <div className={styles.topSection}>
             <div className={styles.headerWithToggle}>
               <h1 className={styles.title}>{t('manuals.title')}</h1>
