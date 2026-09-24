@@ -1412,7 +1412,12 @@
       "fieldOptionsMin": "You must provide at least one option",
       "fieldOptionsRequired": "Options are required for select or radio fields",
       "unknownError": "Unknown validation error"
-    }
+    },
+    "createError": "Error creating template",
+    "editSuccess": "Template updated successfully",
+    "editError": "Error updating template",
+    "deleteSuccess": "Template deleted successfully",
+    "deleteError": "Error deleting template"
   },
   "manuals": {
     "understood": "Close",

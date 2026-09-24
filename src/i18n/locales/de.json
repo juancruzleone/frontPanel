@@ -1497,7 +1497,12 @@
       "fieldOptionsMin": "Es muss mindestens eine Option angegeben werden",
       "fieldOptionsRequired": "Optionen sind erforderlich für Felder vom Typ Select oder Radio",
       "unknownError": "Unbekannter Validierungsfehler"
-    }
+    },
+    "createError": "Fehler beim Erstellen der Vorlage",
+    "editSuccess": "Vorlage erfolgreich aktualisiert",
+    "editError": "Fehler beim Aktualisieren der Vorlage",
+    "deleteSuccess": "Vorlage erfolgreich gelöscht",
+    "deleteError": "Fehler beim Löschen der Vorlage"
   },
   "manuals": {
     "understood": "Schließen",

@@ -1669,7 +1669,12 @@
       "unknownError": "Erro de validação desconhecido"
     },
     "more": "más",
-    "fieldTypes": "Tipos de campos"
+    "fieldTypes": "Tipos de campos",
+    "createError": "Erro ao criar modelo",
+    "editSuccess": "Modelo atualizado com sucesso",
+    "editError": "Erro ao atualizar modelo",
+    "deleteSuccess": "Modelo excluído com sucesso",
+    "deleteError": "Erro ao excluir modelo"
   },
   "manuals": {
     "understood": "Fechar",

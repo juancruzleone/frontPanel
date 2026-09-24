@@ -1550,7 +1550,12 @@
       "fieldOptionsMin": "Vous devez fournir au moins une option",
       "fieldOptionsRequired": "Les options sont requises pour les champs de type select ou radio",
       "unknownError": "Erreur de validation inconnue"
-    }
+    },
+    "createError": "Erreur lors de la création du modèle",
+    "editSuccess": "Modèle mis à jour avec succès",
+    "editError": "Erreur lors de la mise à jour du modèle",
+    "deleteSuccess": "Modèle supprimé avec succès",
+    "deleteError": "Erreur lors de la suppression du modèle"
   },
   "manuals": {
     "understood": "Fermer",

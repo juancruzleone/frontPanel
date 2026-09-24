@@ -1566,7 +1566,12 @@
       "fieldOptionsMin": "يجب تقديم خيار واحد على الأقل",
       "fieldOptionsRequired": "الخيارات مطلوبة للحقول من نوع select أو radio",
       "unknownError": "خطأ تحقق غير معروف"
-    }
+    },
+    "createError": "خطأ أثناء إنشاء القالب",
+    "editSuccess": "تم تحديث القالب بنجاح",
+    "editError": "خطأ أثناء تحديث القالب",
+    "deleteSuccess": "تم حذف القالب بنجاح",
+    "deleteError": "خطأ أثناء حذف القالب"
   },
   "manuals": {
     "understood": "إغلاق",

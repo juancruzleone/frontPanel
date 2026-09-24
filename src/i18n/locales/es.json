@@ -1400,7 +1400,12 @@
       "fieldOptionsMin": "Debe proporcionar al menos una opción",
       "fieldOptionsRequired": "Las opciones son obligatorias para campos de tipo select o radio",
       "unknownError": "Error de validación desconocido"
-    }
+    },
+    "createError": "Error al crear formulario",
+    "editSuccess": "Plantilla actualizada con éxito",
+    "editError": "Error al actualizar plantilla",
+    "deleteSuccess": "Plantilla eliminada con éxito",
+    "deleteError": "Error al eliminar plantilla"
   },
   "manuals": {
     "understood": "cerrar",

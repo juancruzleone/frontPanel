@@ -1563,7 +1563,12 @@
       "fieldOptionsMin": "少なくとも1つのオプションを入力してください",
       "fieldOptionsRequired": "selectまたはradioタイプのフィールドにはオプションが必要です",
       "unknownError": "不明なバリデーションエラーです"
-    }
+    },
+    "createError": "テンプレートの作成中にエラーが発生しました",
+    "editSuccess": "テンプレートが正常に更新されました",
+    "editError": "テンプレートの更新中にエラーが発生しました",
+    "deleteSuccess": "テンプレートが正常に削除されました",
+    "deleteError": "テンプレートの削除中にエラーが発生しました"
   },
   "manuals": {
     "understood": "閉じる",

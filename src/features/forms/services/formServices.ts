@@ -1,7 +1,8 @@
 import { useAuthStore } from "../../../store/authStore"
 import { fetchWithAuthRetry, getAuthHeaders, getHeadersWithContentType } from "../../../shared/utils/apiHeaders"
 
-const API_URL = import.meta.env.VITE_API_URL || "/api/"
+const rawApiUrl = import.meta.env.VITE_API_URL || "/api/"
+const API_URL = rawApiUrl.endsWith("/") ? rawApiUrl : `${rawApiUrl}/`
 
 const getToken = () => {
   return useAuthStore.getState().token
@@ -45,7 +46,20 @@ export const createFormTemplate = async (templateData: any) => {
     headers: getHeadersWithContentType(),
     body: JSON.stringify(templateData),
   })
-  if (!response.ok) throw new Error("Error al crear plantilla")
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({} as any))
+    const code = errorData?.error?.code
+    const details = errorData?.error?.details
+    if (details && Array.isArray(details)) {
+      throw new Error(details.join(", "))
+    }
+    const message = errorData?.error?.message || errorData?.message || "Error al crear plantilla"
+    // Incluye código para debug (ej. NOT_FOUND, VALIDATION_ERROR, LIMIT_REACHED) y ayuda al handler de límites
+    if (code) {
+      throw new Error(`${message} (${code})`)
+    }
+    throw new Error(message)
+  }
   const result = await response.json()
   return result.success ? result.data : result
 }
@@ -56,7 +70,16 @@ export const updateFormTemplate = async (id: string, templateData: any) => {
     headers: getHeadersWithContentType(),
     body: JSON.stringify(templateData),
   })
-  if (!response.ok) throw new Error("Error al actualizar plantilla")
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({} as any))
+    if (errorData?.error?.details && Array.isArray(errorData.error.details)) {
+      throw new Error(errorData.error.details.join(", "))
+    }
+    const message = errorData?.error?.message || errorData?.message || "Error al actualizar plantilla"
+    const code = errorData?.error?.code
+    if (code) throw new Error(`${message} (${code})`)
+    throw new Error(message)
+  }
   const result = await response.json()
   return result.success ? result.data : result
 }

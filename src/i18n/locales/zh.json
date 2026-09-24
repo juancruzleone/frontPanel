@@ -1439,7 +1439,12 @@
       "fieldOptionsMin": "必须至少提供一个选项",
       "fieldOptionsRequired": "select或radio字段必须提供选项",
       "unknownError": "未知的验证错误"
-    }
+    },
+    "createError": "创建模板时出错",
+    "editSuccess": "模板更新成功",
+    "editError": "更新模板时出错",
+    "deleteSuccess": "模板删除成功",
+    "deleteError": "删除模板时出错"
   },
   "manuals": {
     "tour": {

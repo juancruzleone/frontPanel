@@ -1666,7 +1666,12 @@
     "addField": "Add field",
     "fieldTypes": "Tipos de campos",
     "more": "más",
-    "description": "Description"
+    "description": "Description",
+    "createError": "Errore durante la creazione del modello",
+    "editSuccess": "Modello aggiornato con successo",
+    "editError": "Errore durante l'aggiornamento del modello",
+    "deleteSuccess": "Modello eliminato con successo",
+    "deleteError": "Errore durante l'eliminazione del modello"
   },
   "manuals": {
     "understood": "Chiudi",
