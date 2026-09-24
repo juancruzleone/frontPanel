@@ -17,23 +17,47 @@ export const createClient = async (username: string, password: string, fullName:
     // Nombre completo de respaldo para compatibilidad con backends que esperan "nombre"
     const nombre = fullName.trim() || `${firstName} ${lastName}`.trim()
 
-    // Email de respaldo para backends que validan email obligatorio en cliente
-    const emailFallback = `${username.toLowerCase().replace(/[^a-z0-9._-]/g, "").slice(0, 30) || "user"}@leonix.local`
+    // Payload compatible con ambas variantes del backend (nombre vs firstName/lastName)
+    const payload: Record<string, unknown> = {
+        userName: username,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+        nombre: nombre,
+    }
 
-    // ✅ USAR LA NUEVA RUTA ESPECÍFICA PARA CLIENTES (normalizada con trailing slash)
-    const response = await fetchWithAuthRetry(`${API_URL}cuenta/cliente`, {
-        method: "POST",
-        headers,
-        body: JSON.stringify({
-            userName: username,
-            password: password,
-            firstName: firstName,
-            lastName: lastName,
-            nombre: nombre,
-            email: emailFallback
-            // ✅ YA NO ES NECESARIO ENVIAR EL ROL - El backend lo establece automáticamente
-        }),
-    })
+    const tryCreate = async (url: string, body: Record<string, unknown>) => {
+        return await fetchWithAuthRetry(url, {
+            method: "POST",
+            headers,
+            body: JSON.stringify(body),
+        })
+    }
+
+    // Intento primario: cuenta/cliente (ruta documentada para clientes)
+    let response = await tryCreate(`${API_URL}cuenta/cliente`, payload)
+
+    // Fallback para backends donde la ruta es clientes-usuarios o requiere trailing distinto
+    // Si es 404/503 (NOT_FOUND / Service Unavailable) prueba ruta alternativa antes de fallar
+    if (!response.ok && [404, 503].includes(response.status)) {
+        const firstError = await response.clone().json().catch(() => ({} as any))
+        const firstCode = firstError?.error?.code || firstError?.code
+        if (firstCode === "NOT_FOUND" || response.status === 503) {
+            const fallbackResponse = await tryCreate(`${API_URL}clientes-usuarios`, payload)
+            // Si el fallback tiene éxito, úsalo; si no, conserva el error original para no enmascarar
+            if (fallbackResponse.ok) {
+                return await fallbackResponse.json()
+            }
+            // Si ambos fallan, prioriza el error del fallback si es más descriptivo (VALIDATION_ERROR con details)
+            const fallbackError = await fallbackResponse.clone().json().catch(() => ({} as any))
+            const hasFallbackDetails =
+                (fallbackError?.error?.details && Array.isArray(fallbackError.error.details)) ||
+                (fallbackError?.details && Array.isArray(fallbackError.details))
+            if (hasFallbackDetails || fallbackResponse.status === 400) {
+                response = fallbackResponse
+            }
+        }
+    }
 
     if (!response.ok) {
         const errorData = await response.json().catch(() => ({} as any))
@@ -48,9 +72,15 @@ export const createClient = async (username: string, password: string, fullName:
             throw new Error(details.join(", "))
         }
 
-        // Backend puede responder 400 VALIDATION_ERROR / 404 NOT_FOUND cuando la validación falla; expone código para debug
         const code = errorData?.error?.code || errorData?.code
         const message = errorData?.error?.message || errorData?.message || "Error al registrar el cliente"
+
+        // 503 Service Unavailable: backend temporalmente caído (visto en logs como clientes:1 503)
+        if (response.status === 503) {
+            throw new Error(`${message} - Servicio temporalmente no disponible, intente nuevamente en unos segundos (${code || "503"})`)
+        }
+
+        // 400 VALIDATION_ERROR / 404 NOT_FOUND cuando la validación falla; expone código para debug
         if (code) {
             throw new Error(`${message} (${code})`)
         }
