@@ -22,10 +22,13 @@ export const ModalMovementHistory: React.FC<ModalMovementHistoryProps> = ({
   const { t } = useTranslation()
   const [movements, setMovements] = useState<InventoryMovement[]>([])
   const [exportError, setExportError] = useState("")
+  const [loadError, setLoadError] = useState("")
   useEffect(() => {
     if (isOpen && item?._id) {
+      setLoadError("")
       fetchInventoryMovements(item._id)
         .then(res => setMovements(res))
+        .catch(error => setLoadError(error instanceof Error ? error.message : String(error)))
     }
   }, [isOpen, item])
 
@@ -92,6 +95,7 @@ export const ModalMovementHistory: React.FC<ModalMovementHistoryProps> = ({
         </div>
 
         <div className={styles.modalContent}>
+          {loadError && <p role="alert">{loadError}</p>}
           {exportError && <p role="alert">{exportError}</p>}
           <div className={styles.tableContainer}>
             <DataTable

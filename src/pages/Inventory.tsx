@@ -35,7 +35,11 @@ const Inventory = () => {
     loadInventory, 
     removeInventoryItem,
     adjustStock,
-    loading
+    loading,
+    error,
+    freshness,
+    pagination,
+    query
   } = useInventory()
   
   const { tourCompleted, startTour, skipTour } = useInventoryTour()
@@ -85,6 +89,12 @@ const Inventory = () => {
   const handleCategoryChange = (value: string) => {
     setSelectedCategory(value)
     loadInventory({ name: searchTerm, category: value })
+  }
+
+  const handleChangePage = (page: number) => {
+    if (page >= 1 && page <= pagination.totalPages) {
+      loadInventory({ page })
+    }
   }
 
   const handleOpenCreate = () => {
@@ -237,6 +247,13 @@ const Inventory = () => {
       </div>
 
       {csvError && <p role="alert" className={styles.errorMessage}>{csvError}</p>}
+      {error && <p role="alert" className={styles.errorMessage}>{error}</p>}
+      <div role="status" aria-label="inventory freshness">
+        {freshness === 'cached' && t('inventory.freshness.cached', { defaultValue: 'Datos de inventario en caché' })}
+        {freshness === 'partial' && t('inventory.freshness.partial', { defaultValue: 'Datos en caché; la actualización falló' })}
+        {freshness === 'stale' && t('inventory.freshness.stale', { defaultValue: 'Los datos de inventario están desactualizados' })}
+        {freshness === 'fresh' && t('inventory.freshness.fresh', { defaultValue: 'Datos de inventario actualizados' })}
+      </div>
 
       <div className={styles.listContainer}>
         {loading ? (
@@ -350,6 +367,13 @@ const Inventory = () => {
           </div>
         )}
       </div>
+      {pagination.totalPages > 1 && (
+        <nav aria-label="Inventory pagination">
+          <button type="button" onClick={() => handleChangePage(query.page - 1)} disabled={query.page === 1}>{t('common.previous', { defaultValue: 'Anterior' })}</button>
+          <span>{t('common.page', { defaultValue: 'Página' })} {query.page} {t('common.of', { defaultValue: 'de' })} {pagination.totalPages}</span>
+          <button type="button" onClick={() => handleChangePage(query.page + 1)} disabled={query.page === pagination.totalPages}>{t('common.next', { defaultValue: 'Siguiente' })}</button>
+        </nav>
+      )}
 
       {/* Modales */}
       <ConfirmModal

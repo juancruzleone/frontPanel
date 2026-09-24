@@ -1,10 +1,10 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { useInventoryStore } from '../../../src/store/inventoryStore'
+import { buildInventoryCacheKey, mergeInventoryQuery, useInventoryStore } from '../../../src/store/inventoryStore'
 import { InventoryItem } from '../../../src/features/inventory/types/inventory.types'
 
 describe('Inventory Store', () => {
   beforeEach(() => {
-    useInventoryStore.setState({ items: [], total: 0, loading: false })
+    useInventoryStore.getState().reset()
   })
 
   it('debe iniciar con estado vacío', () => {
@@ -51,5 +51,37 @@ describe('Inventory Store', () => {
     const state = useInventoryStore.getState()
     expect(state.items).toEqual(mockItems)
     expect(state.total).toBe(1)
+  })
+
+  it('conserva todos los filtros al cambiar de página y reinicia la página al cambiar un filtro', () => {
+    const query = mergeInventoryQuery(
+      { page: 3, limit: 25, name: 'bearing', category: 'Parts', lowStock: true },
+      { category: 'Tools' },
+    )
+
+    expect(query).toEqual({ page: 1, limit: 25, name: 'bearing', category: 'Tools', lowStock: true })
+    expect(mergeInventoryQuery(query, { page: 2 })).toEqual({ ...query, page: 2 })
+  })
+
+  it('genera claves de caché aisladas por tenant, usuario y consulta', () => {
+    const query = { page: 1, limit: 10, name: '', category: '', lowStock: false }
+    expect(buildInventoryCacheKey('tenant-a', 'user-a', query)).not.toBe(buildInventoryCacheKey('tenant-b', 'user-a', query))
+    expect(buildInventoryCacheKey('tenant-a', 'user-a', query)).not.toBe(buildInventoryCacheKey('tenant-a', 'user-b', query))
+    expect(buildInventoryCacheKey('tenant-a', 'user-a', query)).not.toBe(buildInventoryCacheKey('tenant-a', 'user-a', { ...query, lowStock: true }))
+  })
+
+  it('rechaza respuestas antiguas y expone estados cached, partial y error', () => {
+    const store = useInventoryStore.getState()
+    store.setOwnerScope('tenant-a', 'user-a')
+    expect(store.beginRequest()).toBe(1)
+    expect(store.beginRequest()).toBe(2)
+    expect(store.acceptResponse(1, [{ tenantId: 'tenant-a', name: 'Old', unit: 'u', currentStock: 1, minimumStock: 0, active: true }], 1)).toBe(false)
+    expect(store.acceptResponse(2, [{ tenantId: 'tenant-a', name: 'New', unit: 'u', currentStock: 2, minimumStock: 0, active: true }], 1)).toBe(true)
+    store.setFreshness('cached')
+    expect(useInventoryStore.getState().freshness).toBe('cached')
+    store.setFreshness('partial')
+    expect(useInventoryStore.getState().freshness).toBe('partial')
+    store.setError('No se pudo actualizar')
+    expect(useInventoryStore.getState().error).toBe('No se pudo actualizar')
   })
 })

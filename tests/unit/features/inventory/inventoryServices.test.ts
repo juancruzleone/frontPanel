@@ -32,6 +32,13 @@ describe('Inventory Services', () => {
     expect(String(url)).toContain('category=Repuestos')
   })
 
+  it('envía la señal de cancelación del request paginado', async () => {
+    ;(fetch as any).mockResolvedValue({ ok: true, json: () => Promise.resolve({ items: [], total: 0, totalPages: 1 }) })
+    const controller = new AbortController()
+    await fetchInventoryItems({ page: 2, limit: 25, name: 'bearing', category: 'Parts', lowStock: true, signal: controller.signal })
+    expect(fetch).toHaveBeenCalledWith(expect.stringContaining('page=2'), expect.objectContaining({ signal: controller.signal }))
+  })
+
   it('debe lanzar error si el fetch falla', async () => {
     const mockResponse = {
       ok: false,

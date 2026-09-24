@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect, useRef } from "react"
 import { useInventoryStore } from "../../../store/inventoryStore"
 import { useAuthStore } from "../../../store/authStore"
 import { 
@@ -9,65 +9,69 @@ import {
   createInventoryAdjustment
 } from "../services/inventoryServices"
 import { InventoryItem } from "../types/inventory.types"
+import { InventoryQuery, mergeInventoryQuery } from "../../../store/inventoryStore"
 
 const getErrorMessage = (error: unknown, fallback: string): string => {
   return error instanceof Error ? error.message : fallback
 }
 
 const useInventory = () => {
-  const { items, total, loading, setItems, setLoading, ownerId } = useInventoryStore()
-  const { userId } = useAuthStore()
-  const [error, setError] = useState<string | null>(null)
-  const [pagination, setPagination] = useState({
-    page: 1,
-    limit: 10,
-    totalPages: 1,
-  })
+  const { items, total, loading, ownerId, tenantId, query, freshness, error, setOwnerScope, setQuery, beginRequest, acceptResponse, setError, setFreshness } = useInventoryStore()
+  const { userId, tenantId: authTenantId } = useAuthStore()
+  const abortRef = useRef<AbortController | null>(null)
+  const [totalPages, setTotalPages] = useState(1)
 
-  const validItems = userId && ownerId === userId ? items : []
+  useEffect(() => {
+    setOwnerScope(authTenantId, userId)
+  }, [authTenantId, userId, setOwnerScope])
 
-  const loadInventory = useCallback(async (params: { page?: number, limit?: number, name?: string, category?: string, lowStock?: boolean } = {}) => {
+  const validItems = userId && ownerId === userId && authTenantId === tenantId ? items : []
+
+  const loadInventory = useCallback(async (params: Partial<InventoryQuery> = {}) => {
     const currentStore = useInventoryStore.getState()
-    const hasValidCache = Boolean(userId && currentStore.ownerId === userId && currentStore.items.length > 0)
-    if (!navigator.onLine && hasValidCache) return
+    const nextQuery = mergeInventoryQuery(currentStore.query, params)
+    const hasValidCache = Boolean(userId && authTenantId && currentStore.ownerId === userId && currentStore.tenantId === authTenantId && currentStore.items.length > 0)
+    setQuery(nextQuery)
+    if (!navigator.onLine && hasValidCache) {
+      setFreshness("cached")
+      return
+    }
 
-    setLoading(true)
+    abortRef.current?.abort()
+    const controller = new AbortController()
+    abortRef.current = controller
+    const sequence = beginRequest()
     try {
-      const result = await fetchInventoryItems(params)
+      const result = await fetchInventoryItems({ ...nextQuery, signal: controller.signal })
       const inventoryItems = Array.isArray(result.items) ? result.items : []
-      const rows = inventoryItems
-      setItems(rows, result.total || rows.length)
-      setPagination({
-        page: params.page || 1,
-        limit: params.limit || 10,
-        totalPages: result.totalPages || 1,
-      })
+      acceptResponse(sequence, inventoryItems, result.total || inventoryItems.length)
+      setTotalPages(result.totalPages || 1)
     } catch (err) {
+      if (controller.signal.aborted) return
       if (hasValidCache) {
-        setLoading(false)
+        setError(getErrorMessage(err, 'Error al actualizar inventario'))
+        setFreshness("partial")
         return
       }
       setError(getErrorMessage(err, 'Error al cargar inventario'))
-    } finally {
-      setLoading(false)
     }
-  }, [userId, setItems, setLoading])
+  }, [authTenantId, beginRequest, acceptResponse, setError, setFreshness, setQuery, userId])
 
   const addInventoryItem = async (item: Partial<InventoryItem>) => {
     const newItem = await createInventoryItem(item)
-    await loadInventory() // Refresh list
+    await loadInventory() // Refresh current page and filters
     return newItem
   }
 
   const updateInventoryItem = async (id: string, item: Partial<InventoryItem>) => {
     const updated = await apiUpdateInventoryItem(id, item)
-    await loadInventory() // Refresh list
+    await loadInventory() // Refresh current page and filters
     return updated
   }
 
   const removeInventoryItem = async (id: string) => {
     await apiDeleteInventoryItem(id)
-    await loadInventory() // Refresh list
+    await loadInventory() // Refresh current page and filters
   }
 
   const adjustStock = async (item: InventoryItem, quantity: number, type: 'entry' | 'exit' | 'adjustment', reason: string) => {
@@ -94,7 +98,9 @@ const useInventory = () => {
     total,
     loading,
     error,
-    pagination,
+    pagination: { page: query.page, limit: query.limit, totalPages },
+    freshness,
+    query,
     loadInventory,
     addInventoryItem,
     updateInventoryItem,

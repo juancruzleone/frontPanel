@@ -41,7 +41,7 @@ export interface InventoryImportPreview extends CsvImportPreview {
   rows: Array<CsvImportPreview['rows'][number] & { stockDelta: number, data: Partial<InventoryItem> }>
 }
 
-export const fetchInventoryItems = async (params: { page?: number, limit?: number, name?: string, category?: string, lowStock?: boolean | string } = {}): Promise<InventoryListResponse> => {
+export const fetchInventoryItems = async (params: { page?: number, limit?: number, name?: string, category?: string, lowStock?: boolean | string, signal?: AbortSignal } = {}): Promise<InventoryListResponse> => {
   const queryParams = new URLSearchParams()
   if (params.page) queryParams.append('page', params.page.toString())
   if (params.limit) queryParams.append('limit', params.limit.toString())
@@ -54,6 +54,7 @@ export const fetchInventoryItems = async (params: { page?: number, limit?: numbe
   const response = await fetch(url, {
     headers: getAuthHeaders(),
     credentials: 'include',
+    signal: params.signal,
   })
 
   if (!response.ok) {
