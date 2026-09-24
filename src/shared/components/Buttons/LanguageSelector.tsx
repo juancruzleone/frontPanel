@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { Check } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import styles from './buttons.module.css'
 import esFlag from '../../../../src/assets/flags/es.svg'
@@ -102,19 +103,29 @@ const LanguageSelector = ({ direction = 'up' }: LanguageSelectorProps) => {
       </button>
 
       {isOpen && (
-        <div className={dropdownClass}>
-          {languages.map((language) => (
-            <button
-              type="button"
-              key={language.code}
-              className={`${styles.languageOption} ${currentLangCode === language.code ? styles.active : ''
-                }`}
-              onClick={() => handleLanguageChange(language.code)}
-            >
-              <span className={styles.flag}>{language.flag}</span>
-              <span className={styles.languageName}>{language.name}</span>
-            </button>
-          ))}
+        <div className={dropdownClass} role="menu">
+          {languages.map((language) => {
+            const isActive = currentLangCode === language.code
+            return (
+              <button
+                type="button"
+                key={language.code}
+                role="menuitem"
+                aria-current={isActive ? 'true' : undefined}
+                title={language.name}
+                className={`${styles.languageOption} ${isActive ? styles.active : ''}`}
+                onClick={() => handleLanguageChange(language.code)}
+              >
+                <img
+                  src={flagMap[language.code] || esFlag}
+                  alt=""
+                  className={styles.flagImgSmall}
+                />
+                <span className={styles.languageName}>{language.name}</span>
+                {isActive && <Check size={14} className={styles.checkIcon} aria-hidden />}
+              </button>
+            )
+          })}
         </div>
       )}
     </div>

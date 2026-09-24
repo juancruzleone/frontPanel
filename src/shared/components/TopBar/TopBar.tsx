@@ -124,21 +124,28 @@ const TopBar: React.FC = () => {
 							/>
 						</button>
 						{isLangOpen && (
-							<div className={styles.langDropdown}>
-								{languages.map((language) => (
-									<button
-										key={language.code}
-										className={`${styles.langOption} ${currentLangCode === language.code ? styles.activeLang : ""}`}
-										onClick={() => handleLanguageChange(language.code)}
-									>
-										<img
-											src={flagMap[language.code] || esFlag}
-											alt={language.code}
-											className={styles.flagImgSmall}
-										/>
-										<span>{language.name}</span>
-									</button>
-								))}
+							<div className={styles.langDropdown} role="menu">
+								{languages.map((language) => {
+									const isActive = currentLangCode === language.code;
+									return (
+										<button
+											key={language.code}
+											role="menuitem"
+											aria-current={isActive ? "true" : undefined}
+											title={language.name}
+											className={`${styles.langOption} ${isActive ? styles.activeLang : ""}`}
+											onClick={() => handleLanguageChange(language.code)}
+										>
+											<img
+												src={flagMap[language.code] || esFlag}
+												alt=""
+												className={styles.flagImgSmall}
+											/>
+											<span className={styles.langName}>{language.name}</span>
+											{isActive && <Check size={14} className={styles.checkIcon} aria-hidden />}
+										</button>
+									);
+								})}
 							</div>
 						)}
 					</div>
