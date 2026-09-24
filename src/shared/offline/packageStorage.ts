@@ -3,6 +3,7 @@
  * Bound to tenant:userId:deviceId:packageId. Atomic activation.
  */
 import { sealJson, openJson, type EncryptedRecordEnvelope } from './envelope'
+import { canonicalJSON, sha256Hex } from './crypto'
 import type { OfflineBootstrap, OfflineManifest } from './packageTypes'
 
 const DB_NAME = 'GMAO_Offline_DB'
@@ -11,6 +12,7 @@ const META_STORE = 'offlinePackageMeta'
 const KEYS_STORE = 'offlinePackageKeys'
 
 export type ResourceKind = 'workOrders' | 'installations' | 'assets' | 'forms' | 'inventoryRefs' | 'documents'
+export type InventoryReference = Record<string, unknown> & { _id?: string; id?: string }
 interface StoredEnvelope { id: string; envelope: EncryptedRecordEnvelope; kind: ResourceKind; packageId: string; scopeKey: string; entityId?: string }
 export interface PackageMeta { scopeKey: string; packageId: string; manifest: OfflineManifest; sealedAt: number; resourceCount: number }
 
@@ -22,6 +24,44 @@ export interface SealBootstrapParams { bootstrap: OfflineBootstrap; key: CryptoK
 export interface SealResult { meta?: PackageMeta; error?: { message: string; code: string } }
 
 const RESOURCE_KINDS: ResourceKind[] = ['workOrders', 'installations', 'assets', 'forms', 'inventoryRefs', 'documents']
+
+/** Match the backend checksum contract for one sealed inventory reference. */
+export function computeInventoryRefChecksum(value: InventoryReference): Promise<string> {
+  return sha256Hex(new TextEncoder().encode(canonicalJSON(value)))
+}
+
+export interface VerifiedInventoryRefsParams {
+  inventoryRefs: InventoryReference[]
+  checksums: string[]
+  allowedInventoryIds: string[]
+  assignedWorkOrderIds: string[]
+  workOrderId: string
+}
+
+/** Fail-closed package closure: checksum, assignment, and audience scope all must match. */
+export async function filterVerifiedPackageInventoryRefs(
+  params: VerifiedInventoryRefsParams,
+): Promise<InventoryReference[]> {
+  if (!params.assignedWorkOrderIds.some(id => String(id) === String(params.workOrderId))) return []
+  if (params.inventoryRefs.length !== params.checksums.length) return []
+
+  const allowed = new Set(params.allowedInventoryIds.map(String))
+  const verified: InventoryReference[] = []
+  for (const [index, ref] of params.inventoryRefs.entries()) {
+    const id = ref._id ?? ref.id
+    if (!id || !allowed.has(String(id))) continue
+    if (await computeInventoryRefChecksum(ref) === params.checksums[index]) verified.push(ref)
+  }
+  return verified
+}
+
+export function selectCompletionInventory<T>({
+  online,
+  liveItems,
+  packageRefs,
+}: { online: boolean; liveItems: T[]; packageRefs: T[] }): T[] {
+  return online ? liveItems : packageRefs
+}
 
 export async function sealAndPersistBootstrap(p: SealBootstrapParams): Promise<SealResult> {
   const { bootstrap, key, kid, tenantId, userId, deviceId } = p
@@ -72,6 +112,30 @@ export async function openPersistedBootstrap(key: CryptoKey, tenantId: string, u
     }
     return { bootstrap: bs }
   } catch (e) { return { error: { message: e instanceof Error ? e.message : 'Open failed', code: 'OPEN_FAILED' } } }
+}
+
+export async function resolveVerifiedPackageInventory(
+  tenantId: string, userId: string, deviceId: string, packageId: string, workOrderId: string,
+): Promise<{ refs: InventoryReference[]; error?: string }> {
+  const scopeKey = buildPackageScopeKey(tenantId, userId, deviceId, packageId)
+  const key = await getPersistedPackageKey(scopeKey)
+  if (!key) return { refs: [], error: 'PACKAGE_KEY_NOT_FOUND' }
+  const opened = await openPersistedBootstrap(key, tenantId, userId, deviceId, packageId)
+  if (opened.error || !opened.bootstrap) return { refs: [], error: opened.error?.code ?? 'PACKAGE_OPEN_FAILED' }
+
+  const manifest = opened.bootstrap.manifest
+  if (manifest.binding?.tenantId !== tenantId || manifest.binding?.userId !== userId || manifest.binding?.deviceId !== deviceId) {
+    return { refs: [], error: 'PACKAGE_SCOPE_INVALID' }
+  }
+  return {
+    refs: await filterVerifiedPackageInventoryRefs({
+      inventoryRefs: opened.bootstrap.inventoryRefs as InventoryReference[],
+      checksums: manifest.resourceChecksums?.inventoryRefs ?? manifest.resourceChecksums?.inventory ?? [],
+      allowedInventoryIds: manifest.audience?.inventoryIds ?? [],
+      assignedWorkOrderIds: manifest.audience?.workOrderIds ?? [],
+      workOrderId,
+    }),
+  }
 }
 
 export async function clearPackageStorage(tenantId: string, userId: string, deviceId: string, packageId: string): Promise<void> {

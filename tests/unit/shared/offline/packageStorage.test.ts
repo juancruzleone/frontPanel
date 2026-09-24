@@ -63,7 +63,7 @@ vi.stubGlobal('indexedDB', {
 })
 
 const { generateStorageKey } = await import('../../../../src/shared/offline/crypto')
-const { sealAndPersistBootstrap, openPersistedBootstrap, clearPackageStorage, getPackageMeta, getPersistedPackageKey, listReadyPackages, buildPackageScopeKey, purgePackageStorageForIdentity } = await import('../../../../src/shared/offline/packageStorage')
+const { sealAndPersistBootstrap, openPersistedBootstrap, clearPackageStorage, getPackageMeta, getPersistedPackageKey, listReadyPackages, buildPackageScopeKey, purgePackageStorageForIdentity, resolveVerifiedPackageInventory, computeInventoryRefChecksum } = await import('../../../../src/shared/offline/packageStorage')
 const { checkPackageReadiness } = await import('../../../../src/shared/offline/packageReadiness')
 const { PACKAGE_SCHEMA_VERSION } = await import('../../../../src/shared/offline/packageTypes')
 import type { OfflineManifest, OfflineBootstrap } from '../../../../src/shared/offline/packageTypes'
@@ -227,5 +227,23 @@ describe('R5 packageStorage', () => {
     const bootstrap = makeBootstrap({ workOrders: null as unknown as Array<Record<string, unknown>> })
     const result = await sealAndPersistBootstrap({ bootstrap, key, kid: 'k1', tenantId: 't1', userId: 'u1', deviceId: 'dev-1' })
     expect(result.meta).toBeDefined()
+  })
+
+  it('reads only checksum-verified inventory refs from the assigned package closure', async () => {
+    const key = await generateStorageKey()
+    const ref = { _id: 'inv1', name: 'Part A' }
+    const checksum = await computeInventoryRefChecksum(ref)
+    const bootstrap = makeBootstrap({
+      inventoryRefs: [ref],
+      manifest: makeManifest({
+        audience: { role: 'tecnico', workOrderIds: ['wo1'], installationIds: [], assetIds: [], formIds: [], inventoryIds: ['inv1'], documentIds: [] },
+        resourceChecksums: { inventoryRefs: [checksum] },
+      }),
+    })
+    await sealAndPersistBootstrap({ bootstrap, key, kid: 'k1', tenantId: 't1', userId: 'u1', deviceId: 'dev-1' })
+
+    const result = await resolveVerifiedPackageInventory('t1', 'u1', 'dev-1', 'pkg-1', 'wo1')
+    expect(result.refs).toEqual([ref])
+    expect((await resolveVerifiedPackageInventory('t1', 'u1', 'dev-1', 'pkg-1', 'foreign')).refs).toEqual([])
   })
 })

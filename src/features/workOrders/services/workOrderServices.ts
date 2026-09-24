@@ -351,6 +351,17 @@ export type WorkOrderCompletionData = Record<string, unknown> & {
 	offlineSync?: boolean;
 };
 
+export type CompletionDocument = { status: "ready" | "pending"; retryable?: boolean; key?: string };
+export type WorkOrderCompletionResult = Record<string, unknown> & { document?: CompletionDocument };
+
+export const buildCompletionIdempotencyKey = (workOrderId: string): string =>
+	`completion-${workOrderId}`;
+
+export const formatCompletionSuccessMessage = (result: WorkOrderCompletionResult): string =>
+	result.document?.status === "pending"
+		? "Orden completada. Documento pendiente de reintento."
+		: "Orden completada correctamente.";
+
 export type WorkOrderStartData = {
 	fechaInicioOffline?: string;
 	fechaEjecucionOffline?: string;
@@ -362,17 +373,19 @@ export type WorkOrderStartData = {
 export const completeWorkOrder = async (
 	workOrderId: string,
 	completionData: WorkOrderCompletionData,
+	idempotencyKey = buildCompletionIdempotencyKey(workOrderId),
 ) => {
 	const response = await fetchWithCsrf(
 		`${getApiUrl()}ordenes-trabajo/${workOrderId}/completar`,
 		{
 			method: "POST",
+			headers: { "X-Idempotency-Key": idempotencyKey },
 			body: JSON.stringify(completionData),
 		},
 	);
 
 	const result = await handleResponse(response);
-	return result.data || result;
+	return (result.data || result) as WorkOrderCompletionResult;
 };
 
 export const startWorkOrder = async (

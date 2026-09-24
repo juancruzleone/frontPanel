@@ -12,6 +12,8 @@ import {
 	deleteWorkOrder,
 	assignTechnicianToWorkOrder,
 	completeWorkOrder as apiCompleteWorkOrder,
+	buildCompletionIdempotencyKey,
+	formatCompletionSuccessMessage,
 	startWorkOrder as apiStartWorkOrder,
 	fetchInstallations as apiFetchInstallations,
 } from "../services/workOrderServices";
@@ -521,9 +523,9 @@ const useWorkOrders = () => {
 
 		if (navigator.onLine) {
 			try {
-				await apiCompleteWorkOrder(id, data);
+				const result = await apiCompleteWorkOrder(id, data, buildCompletionIdempotencyKey(id));
 				storeUpdateWorkOrder(id, { estado: "completada", fechaCompletada: new Date(), ...data });
-				return { message: t("workOrders.orderCompleted") };
+				return { message: formatCompletionSuccessMessage(result) || t("workOrders.orderCompleted") };
 			} catch (err: unknown) {
 				if (!isOfflineError(err)) throw err;
 			}

@@ -6,6 +6,9 @@ import {
 	startWorkOrder,
 	resolveStartWorkOrderErrorKey,
 	updateWorkOrder,
+	completeWorkOrder,
+	buildCompletionIdempotencyKey,
+	formatCompletionSuccessMessage,
 } from "../../../../src/features/workOrders/services/workOrderServices";
 import { ApiError } from "../../../../src/shared/services/ApiError";
 
@@ -58,6 +61,23 @@ describe("workOrderServices", () => {
 			tecnicoId: "tech-1",
 			tecnicoIds: ["tech-1", "tech-2"],
 		});
+	});
+
+	it("uses the same completion idempotency key when a request is retried", async () => {
+		const key = buildCompletionIdempotencyKey("wo-1");
+		await completeWorkOrder("wo-1", { trabajoRealizado: "Done" }, key);
+		await completeWorkOrder("wo-1", { trabajoRealizado: "Done" }, key);
+
+		expect(key).toBe(buildCompletionIdempotencyKey("wo-1"));
+		expect(fetchMock.mock.calls[0][1].headers["X-Idempotency-Key"]).toBe(key);
+		expect(fetchMock.mock.calls[1][1].headers["X-Idempotency-Key"]).toBe(key);
+	});
+
+	it("surfaces pending documents without changing the completion outcome", () => {
+		expect(formatCompletionSuccessMessage({ document: { status: "pending", retryable: true } }))
+			.toContain("pendiente");
+		expect(formatCompletionSuccessMessage({ document: { status: "ready" } }))
+			.toContain("completada");
 	});
 
 	it("serializes search and priority list filters", async () => {

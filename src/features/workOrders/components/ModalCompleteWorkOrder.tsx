@@ -7,6 +7,8 @@ import { useTranslation } from "react-i18next"
 import { getTranslatedWorkOrderDescription } from "../../../shared/utils/workOrderDescription"
 import useInventory from "../../inventory/hooks/useInventory"
 import { Plus, Trash2 } from "lucide-react"
+import { selectCompletionInventory, type InventoryReference } from "../../../shared/offline/packageStorage"
+import type { InventoryItem } from "../../inventory/types/inventory.types"
 
 interface InventoryPartUsed {
   inventoryItemId: string
@@ -23,6 +25,8 @@ interface ModalCompleteWorkOrderProps {
   workOrder: WorkOrder | null
 }
 
+type PackageScopedWorkOrder = WorkOrder & { inventoryRefs?: InventoryReference[] }
+
 const ModalCompleteWorkOrder = ({
   isOpen,
   onRequestClose,
@@ -32,6 +36,12 @@ const ModalCompleteWorkOrder = ({
 }: ModalCompleteWorkOrderProps) => {
   const { t } = useTranslation()
   const { items: inventoryItems, loadInventory } = useInventory()
+  const scopedWorkOrder = workOrder as PackageScopedWorkOrder | null
+  const packageRefs = (scopedWorkOrder?.inventoryRefs ?? []) as unknown as InventoryItem[]
+  const completionInventory = useMemo(
+    () => selectCompletionInventory({ online: navigator.onLine, liveItems: inventoryItems, packageRefs }),
+    [inventoryItems, packageRefs],
+  )
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const isDrawingRef = useRef(false)
   const lastPointRef = useRef<{ x: number; y: number } | null>(null)
@@ -58,7 +68,7 @@ const ModalCompleteWorkOrder = ({
   })
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && navigator.onLine) {
       loadInventory({ limit: 100 })
     }
   }, [isOpen, loadInventory])
@@ -68,9 +78,9 @@ const ModalCompleteWorkOrder = ({
   const [inventoryError, setInventoryError] = useState("")
 
   const selectedInventoryStock = useMemo(() => {
-    const selectedItem = inventoryItems.find((item) => item._id === selectedInventoryItem)
+    const selectedItem = completionInventory.find((item) => item._id === selectedInventoryItem)
     return selectedItem?.currentStock ?? 0
-  }, [inventoryItems, selectedInventoryItem])
+  }, [completionInventory, selectedInventoryItem])
 
   const getAlreadySelectedQuantity = (inventoryItemId: string): number => {
     return completionData.inventoryPartsUsed
@@ -80,7 +90,7 @@ const ModalCompleteWorkOrder = ({
 
   const addPart = () => {
     if (!selectedInventoryItem) return
-    const item = inventoryItems.find(i => i._id === selectedInventoryItem)
+    const item = completionInventory.find(i => i._id === selectedInventoryItem)
     if (!item || !item._id) return
 
     const normalizedQuantity = Number(itemQuantity)
@@ -264,7 +274,7 @@ const ModalCompleteWorkOrder = ({
     }
 
     for (const part of completionData.inventoryPartsUsed) {
-      const item = inventoryItems.find((inventoryItem) => inventoryItem._id === part.inventoryItemId)
+      const item = completionInventory.find((inventoryItem) => inventoryItem._id === part.inventoryItemId)
       if (!item) {
         setError(t('inventory.itemNotFound', { defaultValue: 'El item de inventario ya no está disponible' }))
         return
@@ -464,7 +474,7 @@ const ModalCompleteWorkOrder = ({
                     disabled={isSubmitting}
                   >
                     <option value="">{t('inventory.selectItem')}</option>
-                    {inventoryItems.map(item => (
+                    {completionInventory.map(item => (
                       <option key={item._id} value={item._id}>
                         {item.name} ({item.currentStock} {item.unit})
                       </option>
