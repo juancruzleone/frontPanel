@@ -833,6 +833,10 @@
     width: 100%;
   }
 
+  .searchContainer [class*="hybridSelect"] {
+    margin-bottom: 8px;
+  }
+
   .clearFilters {
     width: 100%;
     height: 46px;
