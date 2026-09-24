@@ -424,7 +424,7 @@ const Nav = () => {
 								</NavLink>
 							</li>
 						)}
-						{!isSuperAdminUser && !isClientUser && (
+						{!isSuperAdminUser && (
 							<li
 								className={styles.menuGroup}
 								onMouseEnter={handleWorkOrdersMouseEnter}
@@ -491,7 +491,7 @@ const Nav = () => {
 								</div>
 							</li>
 						)}
-						{!isSuperAdminUser && (
+						{!isSuperAdminUser && !isClientUser && (
 							<li
 								className={styles.menuGroup}
 								onMouseEnter={handleMaintenanceMouseEnter}
