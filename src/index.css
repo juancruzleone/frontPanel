@@ -1,7 +1,7 @@
 @import './shared/styles/dashboard-tokens.css';
 /* VARIABLES GLOBALES DE TEMA */
 :root {
-  --color-bg: #D1D1D1;
+  --color-bg: color-mix(in srgb, var(--color-card) 94%, var(--state-neutral));
   --color-bg-light: #f7f7f7;
   --color-text: #000;
   --color-text-secondary: #666;

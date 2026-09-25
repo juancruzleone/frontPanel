@@ -1,14 +1,19 @@
 import { useTranslation } from "react-i18next"
+import { Link } from "react-router"
+import { useTranslatedRoutes } from "../../../router/useTranslatedRoutes"
 import type { InventorySummaryData } from "../types/homeTypes"
 import styles from "../styles/home.module.css"
 
 interface InventorySummaryProps {
   data: InventorySummaryData | null
   hasError: boolean
+  onRetry?: () => void
+  retrying?: boolean
 }
 
-export const InventorySummary = ({ data, hasError }: InventorySummaryProps) => {
+export const InventorySummary = ({ data, hasError, onRetry, retrying = false }: InventorySummaryProps) => {
   const { t } = useTranslation()
+  const { getRoute } = useTranslatedRoutes()
   const items = data?.items ?? []
   const lowDetails = data?.lowStockDetails ?? data?.lowStockItemsDetail ?? []
   const totalItems = data?.totalItems ?? 0
@@ -29,7 +34,10 @@ export const InventorySummary = ({ data, hasError }: InventorySummaryProps) => {
         </div>
       </div>
       {hasError ? (
-        <p className={styles.partialError}>{t("home.dashboard.errors.inventory")}</p>
+        <div role="alert">
+          <p className={styles.partialError}>{t("home.dashboard.errors.inventory")}</p>
+          {onRetry && <button className={styles.panelAction} type="button" onClick={onRetry} disabled={retrying}>{t("common.retry")}</button>}
+        </div>
       ) : !data || !hasItems ? (
         <p className={styles.emptyState}>{t("home.dashboard.inventory.empty")}</p>
       ) : (
@@ -38,20 +46,22 @@ export const InventorySummary = ({ data, hasError }: InventorySummaryProps) => {
             const isLow = item.currentStock <= item.minimumStock
             const lowBadge = isLow ? lowDetails.some((d) => d._id === item._id) || isLow : false
             return (
-              <li
-                key={item._id}
-                className={isLow ? `${styles.inventoryItem} ${styles.inventoryItemLow}` : styles.inventoryItem}
-              >
+              <li key={item._id}>
+                <Link
+                  to={getRoute("inventory")}
+                  className={isLow ? `${styles.inventoryItem} ${styles.inventoryItemLow}` : styles.inventoryItem}
+                >
                 <span className={styles.inventoryItemName} title={item.name}>
                   {item.name}
                 </span>
                 <span className={styles.inventoryItemStock}>
                   {item.currentStock} {item.unit}
-                  <span className={styles.inventoryItemMin}> (mín {item.minimumStock})</span>
+                  <span className={styles.inventoryItemMin}> ({t("home.dashboard.inventory.minimum", { count: item.minimumStock })})</span>
                   {lowBadge && (
                     <span className={styles.inventoryBadge}>{t("home.dashboard.inventory.lowBadge")}</span>
                   )}
                 </span>
+                </Link>
               </li>
             )
           })}

@@ -5,19 +5,18 @@ import styles from './buttons.module.css'
 interface TourButtonProps {
     onClick: () => void
     label: string
-    inline?: boolean
 }
 
-const TourButton: React.FC<TourButtonProps> = ({ onClick, label, inline = false }) => {
+const TourButton: React.FC<TourButtonProps> = ({ onClick, label }) => {
     return (
         <button
+            type="button"
             onClick={onClick}
-            className={inline ? styles.tourButtonInline : styles.tourButton}
+            className={styles.tourButton}
             title={label}
             aria-label={label}
         >
-            <HelpCircle size={inline ? 18 : 28} aria-hidden="true" />
-            {inline && <span>{label}</span>}
+            <HelpCircle size={22} aria-hidden="true" />
         </button>
     )
 }

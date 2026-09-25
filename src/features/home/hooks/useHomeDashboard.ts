@@ -39,8 +39,8 @@ const toSummaryItem = (item: { _id?: string; name?: string; currentStock?: numbe
 
 const fetchInventorySummary = async (): Promise<InventorySummaryData> => {
   const [itemsRes, lowStockRes] = await Promise.all([
-    fetchInventoryItems({ page: 1, limit: 5 }).catch(() => ({ total: 0, items: [] as never[] })),
-    fetchInventoryItems({ page: 1, limit: 5, lowStock: true }).catch(() => ({ total: 0, items: [] as never[] })),
+    fetchInventoryItems({ page: 1, limit: 5 }),
+    fetchInventoryItems({ page: 1, limit: 5, lowStock: true }),
   ])
 
   const totalItems = (itemsRes as { total?: number; items?: unknown[] }).total ?? (itemsRes as { items?: unknown[] }).items?.length ?? 0
@@ -90,6 +90,7 @@ export const useHomeDashboard = (): HomeDashboardState => {
     try {
       setData(mapDashboardStats(currentCache.dashboard, role))
       setInventory(currentCache.inventory)
+      setInventoryError(role === "admin" && currentCache.inventory === null)
       setIsStale(true)
       return true
     } catch {
@@ -127,7 +128,6 @@ export const useHomeDashboard = (): HomeDashboardState => {
     const load = async () => {
       setLoading(true)
       setError(null)
-      setInventoryError(false)
 
       if (!navigator.onLine) {
         setIsOffline(true)
@@ -158,6 +158,7 @@ export const useHomeDashboard = (): HomeDashboardState => {
         const mapped = mapDashboardStats(response.data, role)
         setData(mapped)
         setInventory(inventorySummary)
+        setInventoryError(role === "admin" && inventorySummary === null)
         setIsOffline(false)
         setIsStale(false)
         setDashboardData({ cacheKey, dashboard: response.data, inventory: inventorySummary })

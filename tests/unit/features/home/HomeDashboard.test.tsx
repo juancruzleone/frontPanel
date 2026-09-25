@@ -1,32 +1,32 @@
-import { render, screen } from "@testing-library/react"
+import { fireEvent, render, screen, within } from "@testing-library/react"
 import { MemoryRouter } from "react-router"
 import { beforeAll, beforeEach, describe, expect, it, vi } from "vitest"
 import i18n from "../../../../src/i18n"
 import type { HomeDashboardState } from "../../../../src/features/home/types/homeTypes"
 import { createDashboardDto } from "./dashboardFixture"
 import { mapDashboardStats } from "../../../../src/features/home/services/homeDashboardMapper"
+import TourButton from "../../../../src/shared/components/Buttons/TourButton"
+
+// These are behavior tests. jsdom cannot resolve the dashboard's token-based
+// font calculations when Testing Library computes accessible roles.
+vi.mock("../../../../src/features/home/styles/home.module.css", () => ({
+  default: new Proxy({}, { get: (_target, key) => String(key) }),
+}))
 
 const mocks = vi.hoisted(() => ({
   state: null as HomeDashboardState | null,
   role: "admin" as string | null,
+  startTour: vi.fn(),
 }))
 
 vi.mock("../../../../src/features/home/hooks/useHomeDashboard", () => ({
   useHomeDashboard: () => mocks.state,
 }))
 vi.mock("../../../../src/features/home/hooks/useHomeTour", () => ({
-  useHomeTour: () => ({ startTour: vi.fn(), tourCompleted: true }),
+  useHomeTour: () => ({ startTour: mocks.startTour, tourCompleted: true }),
 }))
 vi.mock("../../../../src/store/authStore", () => ({
   useAuthStore: (selector: (state: { role: string | null; permissions: null }) => unknown) => selector({ role: mocks.role, permissions: null }),
-}))
-vi.mock("../../../../src/router/useTranslatedRoutes", () => ({
-  useTranslatedRoutes: () => ({ getRoute: () => "/ordenes-trabajo" }),
-}))
-vi.mock("../../../../src/shared/components/Buttons/TourButton", () => ({
-  default: ({ label, inline }: { label: string; inline?: boolean }) => (
-    <button type="button" aria-label={label} data-variant={inline ? "inline" : "floating"}>{label}</button>
-  ),
 }))
 
 import { HomeDashboard } from "../../../../src/features/home/components/HomeDashboard"
@@ -35,7 +35,7 @@ const createState = (role: "admin" | "technician" | "client"): HomeDashboardStat
   const scope = role === "admin" ? "tenant" : role === "technician" ? "assigned_work" : "assigned_installations"
   return {
     data: mapDashboardStats(createDashboardDto(scope), role),
-    inventory: role === "admin" ? { totalItems: 20, lowStockItems: 3 } : null,
+    inventory: role === "admin" ? { totalItems: 20, lowStockItems: 3, items: [{ _id: "item-1", name: "Filtro", currentStock: 1, minimumStock: 2, unit: "u" }], lowStockDetails: [] } : null,
     loading: false,
     refreshing: false,
     error: null,
@@ -50,7 +50,7 @@ const createState = (role: "admin" | "technician" | "client"): HomeDashboardStat
 
 describe("HomeDashboard role-aware composition", () => {
   beforeAll(async () => { await i18n.changeLanguage("es") })
-  beforeEach(() => { mocks.role = "admin"; mocks.state = createState("admin") })
+  beforeEach(() => { mocks.role = "admin"; mocks.state = createState("admin"); mocks.startTour.mockClear() })
 
   it("shows tenant resources and inventory only to admin", () => {
     render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
@@ -100,16 +100,115 @@ describe("HomeDashboard role-aware composition", () => {
     expect(screen.getByText(/resumen de inventario no está disponible/)).toBeInTheDocument()
   })
 
-  it("hides the applied range data while a newly selected range is loading", () => {
-    const appliedState = createState("admin")
+  it.each([
+    ["admin", "admin", 3],
+    ["cliente", "client", 2],
+    ["tecnico", "technician", 0],
+    ["técnico", "technician", 0],
+  ] as const)("mirrors loaded section order and role-specific resources while loading %s", (rawRole, role, resourceCount) => {
+    mocks.role = rawRole
+    const loadedState = createState(role)
+    mocks.state = { ...loadedState, data: null, loading: true }
+    const { container, rerender } = render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
+    const skeleton = screen.getByLabelText("Cargando panel")
+    const sectionOrder = (root: Element) => Array.from(root.children)
+      .filter((child) => child.tagName === "SECTION")
+      .map((child) => child.getAttribute("aria-labelledby"))
+    const expectedSections = ["attention-overview-title", ...(resourceCount ? ["resources-title"] : []), "analysis-title", "recent-title"]
+
+    expect(sectionOrder(skeleton)).toEqual(expectedSections)
+    expect(skeleton.querySelector("header h1")).toHaveTextContent(i18n.t(`home.dashboard.roles.${role}.title`))
+    expect(within(skeleton).getAllByRole("radio")).toHaveLength(4)
+    expect(skeleton.querySelector(".refreshStatus")).toBeInTheDocument()
+    expect(skeleton.querySelector(".attentionGrid")?.children).toHaveLength(2)
+    expect(skeleton.querySelectorAll(".kpiCell")).toHaveLength(8)
+    expect(skeleton.querySelector(".attentionGrid > .attentionPanel")).toHaveClass("skeletonAttention")
+    expect(skeleton.querySelectorAll(".resourceBand dl > div")).toHaveLength(resourceCount)
+    expect(skeleton.querySelector(".analysisGrid")?.children).toHaveLength(2)
+    expect(skeleton.querySelector(".workGrid")?.children).toHaveLength(2)
+    expect(skeleton).toHaveAttribute("data-refreshing", "false")
+
+    mocks.state = loadedState
+    rerender(<MemoryRouter><HomeDashboard /></MemoryRouter>)
+    const loaded = container.querySelector(".dashboardContainer")!
+    expect(sectionOrder(loaded)).toEqual(expectedSections)
+    expect(loaded.querySelector(".attentionGrid")?.children).toHaveLength(2)
+    expect(loaded.querySelectorAll(".kpiCell")).toHaveLength(8)
+    expect(loaded.querySelectorAll(".resourceBand dl > div")).toHaveLength(resourceCount)
+    expect(screen.queryByLabelText("Cargando panel")).not.toBeInTheDocument()
+  })
+
+  it("places known loading notices between the refresh slot and attention section", () => {
+    mocks.state = { ...createState("admin"), data: null, loading: true, isOffline: true, isStale: true }
     const { rerender } = render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
-    expect(screen.getByText("Revisar bomba")).toBeInTheDocument()
+    const skeleton = screen.getByLabelText("Cargando panel")
+    const notices = skeleton.querySelector(".dataNotices")!
+    expect(notices.children).toHaveLength(2)
+    expect(notices.previousElementSibling).toHaveClass("refreshStatus")
+    expect(notices.nextElementSibling).toHaveAttribute("aria-labelledby", "attention-overview-title")
+
+    mocks.state = { ...mocks.state, isOffline: false, isStale: false }
+    rerender(<MemoryRouter><HomeDashboard /></MemoryRouter>)
+    expect(skeleton.querySelector(".dataNotices")).not.toBeInTheDocument()
+  })
+
+  it("keeps content and keyboard focus mounted throughout a range refresh", () => {
+    const appliedState = mocks.state!
+    const { rerender } = render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
+    const order = screen.getByText("Revisar bomba")
+    const selected = screen.getByRole("radio", { checked: true })
+    selected.focus()
+    fireEvent.keyDown(selected, { key: "ArrowLeft" })
+    expect(appliedState.setRange).toHaveBeenCalledWith("7d")
+    const next = screen.getAllByRole("radio")[0]
+    expect(next).toHaveFocus()
 
     mocks.state = { ...appliedState, range: "7d", loading: true, refreshing: true }
     rerender(<MemoryRouter><HomeDashboard /></MemoryRouter>)
 
-    expect(screen.getByLabelText("Cargando panel")).toHaveAttribute("data-refreshing", "true")
-    expect(screen.queryByText("Revisar bomba")).not.toBeInTheDocument()
+    expect(next).toHaveFocus()
+    expect(next).toHaveAttribute("aria-checked", "true")
+    expect(screen.getByText("Revisar bomba")).toBe(order)
+    expect(order.closest(".dashboardContainer")).toHaveAttribute("aria-busy", "true")
+    expect(order.closest(".dashboardContainer")).toHaveAttribute("data-refreshing", "true")
+    expect(screen.getByRole("status")).toHaveTextContent("Actualizando")
+    expect(screen.getByRole("status")).toHaveTextContent("30")
+    expect(screen.queryByLabelText("Cargando panel")).not.toBeInTheDocument()
+
+    mocks.state = { ...mocks.state, loading: false, refreshing: false }
+    rerender(<MemoryRouter><HomeDashboard /></MemoryRouter>)
+    expect(next).toHaveFocus()
+    expect(screen.getByRole("status")).toBeEmptyDOMElement()
+    expect(order.closest(".dashboardContainer")).toHaveAttribute("aria-busy", "false")
+    expect(order.closest(".dashboardContainer")).toHaveAttribute("data-refreshing", "false")
+  })
+
+  it("links only routable records and uses translated installation and inventory routes", async () => {
+    const { rerender } = render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
+    expect(screen.getByRole("link", { name: /Planta Norte\s*4/ })).toHaveAttribute("href", "/instalaciones/inst-1")
+    expect(screen.getByRole("link", { name: /Filtro/ })).toHaveAttribute("href", "/inventario")
+    expect(screen.getByText("Revisar bomba").closest("a, button")).toBeNull()
+    const upcoming = screen.getByText("Próximos Preventivos").parentElement!
+    expect(within(upcoming).queryByRole("link")).not.toBeInTheDocument()
+
+    await i18n.changeLanguage("en")
+    rerender(<MemoryRouter><HomeDashboard /></MemoryRouter>)
+    expect(screen.getByRole("link", { name: /Planta Norte\s*4/ })).toHaveAttribute("href", "/installations/inst-1")
+    expect(screen.getByRole("link", { name: /Filtro/ })).toHaveAttribute("href", "/inventory")
+    await i18n.changeLanguage("es")
+  })
+
+  it("distinguishes inventory failure from empty and offers a retry without replacing the panel", () => {
+    mocks.state = { ...createState("admin"), inventory: null, inventoryError: true }
+    const { rerender } = render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
+    expect(screen.getByRole("alert")).toHaveTextContent("resumen de inventario no está disponible")
+    expect(screen.queryByText("No hay artículos en inventario")).not.toBeInTheDocument()
+    fireEvent.click(screen.getByRole("button", { name: "Reintentar" }))
+    expect(mocks.state.retry).toHaveBeenCalledOnce()
+    mocks.state = { ...mocks.state, loading: true, refreshing: true }
+    rerender(<MemoryRouter><HomeDashboard /></MemoryRouter>)
+    expect(screen.getByRole("button", { name: "Reintentar" })).toBeDisabled()
+    expect(screen.getByText("Revisar bomba")).toBeInTheDocument()
   })
 
   it("renders invalid external dates with a safe fallback", () => {
@@ -125,14 +224,36 @@ describe("HomeDashboard role-aware composition", () => {
     expect(screen.getAllByText("Fecha no disponible")).toHaveLength(3)
   })
 
-  it("uses the floating tour action for admins only", () => {
-    const { rerender } = render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
-    expect(screen.getByLabelText("Ver tutorial")).toHaveAttribute("data-variant", "floating")
+  it("uses the shared floating tour action outside the header and preserves its callback", () => {
+    render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
+    const homeButton = screen.getByLabelText("Ver tutorial")
+    render(<TourButton onClick={vi.fn()} label="Section tutorial" />)
+    const sectionButton = screen.getByLabelText("Section tutorial")
 
-    mocks.role = "tecnico"
-    mocks.state = createState("technician")
-    rerender(<MemoryRouter><HomeDashboard /></MemoryRouter>)
+    expect(homeButton.className).toBe(sectionButton.className)
+    expect(homeButton.closest("header")).toBeNull()
+    expect(homeButton).toHaveAttribute("title", "Ver tutorial")
+    expect(homeButton).toHaveAttribute("type", "button")
+    expect(homeButton).toHaveTextContent("")
+    expect(homeButton.querySelector("svg")).toHaveAttribute("width", "22")
+    fireEvent.click(homeButton)
+    expect(mocks.startTour).toHaveBeenCalledOnce()
+  })
+
+  it.each(["technician", "client"] as const)("hides the tour action for %s", (role) => {
+    mocks.role = role === "technician" ? "tecnico" : "cliente"
+    mocks.state = createState(role)
+    render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
     expect(screen.queryByLabelText("Ver tutorial")).not.toBeInTheDocument()
+  })
+
+  it("retains the admin floating action during initial loading", () => {
+    mocks.state = { ...createState("admin"), data: null, loading: true }
+    render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
+    const button = screen.getByLabelText("Ver tutorial")
+    expect(button.closest("header")).toBeNull()
+    fireEvent.click(button)
+    expect(mocks.startTour).toHaveBeenCalledOnce()
   })
 
   it("provides the dashboard loading label in every configured locale", async () => {

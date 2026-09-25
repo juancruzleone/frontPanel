@@ -521,6 +521,7 @@
       "rangeLabel": "Seleccionar periodo del análisis",
       "rangeHelp": "Afecta las métricas, la tendencia y las distribuciones de órdenes.",
       "loading": "Cargando panel",
+      "refreshing": "Actualizando… Se muestran los datos de {{range}}.",
       "dateUnavailable": "Fecha no disponible",
       "sections": {
         "immediate": "Atención inmediata y resumen",
@@ -576,7 +577,8 @@
         "lowStock": "Con stock bajo",
         "empty": "No hay artículos en inventario",
         "lowBadge": "Stock bajo",
-        "meta": "{{total}} ítems · {{low}} con stock bajo"
+        "meta": "{{total}} ítems · {{low}} con stock bajo",
+        "minimum": "mín. {{count}}"
       },
       "context": {
         "kicker": "Alcance operativo",

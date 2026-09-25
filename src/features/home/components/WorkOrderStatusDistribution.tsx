@@ -21,6 +21,12 @@ export const WorkOrderStatusDistribution = ({ data, mode = "status" }: WorkOrder
   const { t } = useTranslation()
   const total = data.reduce((sum, item) => sum + item.value, 0)
   const title = mode === "priority" ? t("home.byPriority") : t("home.ordersByStatus")
+  let offset = 0
+  const segments = data.map((item) => {
+    const segment = { ...item, offset }
+    offset += item.value
+    return segment
+  })
 
   return (
     <section className={styles.panel} aria-labelledby="distribution-title">
@@ -32,15 +38,18 @@ export const WorkOrderStatusDistribution = ({ data, mode = "status" }: WorkOrder
         <p className={styles.emptyState}>{t("home.dashboard.empty.distribution")}</p>
       ) : (
         <>
-          <div className={styles.stackedBar} aria-hidden="true">
-            {data.map((item) => (
-              <span
+          <svg className={styles.stackedBar} viewBox={`0 0 ${total} 1`} preserveAspectRatio="none" aria-hidden="true">
+            {segments.map((item) => (
+              <rect
                 key={item.name}
                 className={`${styles.stackedSegment} ${styles[`segment${normalizeName(item.name)}`] || styles.segmentOther}`}
-                data-size={Math.max(1, Math.round((item.value / total) * 10))}
+                x={item.offset}
+                y={0}
+                width={item.value}
+                height={1}
               />
             ))}
-          </div>
+          </svg>
           <ul className={styles.distributionList}>
             {data.map((item) => {
               const key = normalizeName(item.name)

@@ -1,3 +1,4 @@
+import type { ReactNode } from "react"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router"
 import { useAuthStore } from "../../../store/authStore"
@@ -5,6 +6,8 @@ import { useTranslatedRoutes } from "../../../router/useTranslatedRoutes"
 import TourButton from "../../../shared/components/Buttons/TourButton"
 import { useHomeDashboard } from "../hooks/useHomeDashboard"
 import { useHomeTour } from "../hooks/useHomeTour"
+import { expectedDashboardScope, normalizeDashboardRole } from "../services/homeDashboardMapper"
+import type { DashboardRole } from "../types/homeTypes"
 import { AttentionRequired } from "./AttentionRequired"
 import { DashboardHeader } from "./DashboardHeader"
 import { InventorySummary } from "./InventoryAlerts"
@@ -22,7 +25,28 @@ export const HomeDashboard = () => {
   const { startTour } = useHomeTour()
   const dashboard = useHomeDashboard()
 
-  if (dashboard.loading) return <DashboardSkeleton refreshing={dashboard.refreshing} />
+  const tourButton = rawRole === "admin" ? <TourButton onClick={startTour} label={t("home.tour.buttons.restart")} /> : null
+  const role = dashboard.data?.role ?? normalizeDashboardRole(rawRole)
+  const header = role ? (
+    <DashboardHeader
+      role={role}
+      metadata={dashboard.data?.metadata ?? {
+        scope: expectedDashboardScope(role), range: dashboard.range, lastUpdate: "", fallbackApplied: false,
+      }}
+      loading={!dashboard.data}
+      range={dashboard.range}
+      onRangeChange={dashboard.setRange}
+    />
+  ) : <div className={`${styles.skeleton} ${styles.skeletonHeader}`} aria-hidden="true" />
+  const notices = (dashboard.isOffline || dashboard.isStale || dashboard.data?.metadata.fallbackApplied) && (
+    <div className={styles.dataNotices} role="status">
+      {dashboard.isOffline && <p>{t("home.dashboard.notices.offline")}</p>}
+      {dashboard.isStale && <p>{t("home.dashboard.notices.stale")}</p>}
+      {dashboard.data?.metadata.fallbackApplied && <p>{t("home.dashboard.notices.fallback")}</p>}
+    </div>
+  )
+
+  if (dashboard.loading && !dashboard.data) return <><DashboardSkeleton role={role} header={header} notices={notices} />{tourButton}</>
   if (dashboard.error || !dashboard.data) {
     return (
       <div className={styles.dashboardContainer}>
@@ -46,20 +70,12 @@ export const HomeDashboard = () => {
 
   return (
     <>
-      <div className={styles.dashboardContainer}>
-        <DashboardHeader
-          role={data.role}
-          metadata={data.metadata}
-          range={data.metadata.range}
-          onRangeChange={dashboard.setRange}
-        />
-        {(dashboard.isOffline || dashboard.isStale || data.metadata.fallbackApplied) && (
-          <div className={styles.dataNotices} role="status">
-            {dashboard.isOffline && <p>{t("home.dashboard.notices.offline")}</p>}
-            {dashboard.isStale && <p>{t("home.dashboard.notices.stale")}</p>}
-            {data.metadata.fallbackApplied && <p>{t("home.dashboard.notices.fallback")}</p>}
-          </div>
-        )}
+      <div className={styles.dashboardContainer} aria-busy={dashboard.refreshing} data-refreshing={dashboard.refreshing}>
+        {header}
+        <div className={styles.refreshStatus} role="status">
+          {dashboard.refreshing && t("home.dashboard.refreshing", { range: t(`home.range.${data.metadata.range}`) })}
+        </div>
+        {notices}
 
         <section aria-labelledby="attention-overview-title">
           <h2 id="attention-overview-title" className={styles.sectionHeading}>{t("home.dashboard.sections.immediate")}</h2>
@@ -99,7 +115,7 @@ export const HomeDashboard = () => {
               </div>
               <RecentWorkOrders workOrders={data.recentWorkOrders} />
             </section>
-            {data.role === "admin" ? <InventorySummary data={dashboard.inventory} hasError={dashboard.inventoryError} /> : (
+            {data.role === "admin" ? <InventorySummary data={dashboard.inventory} hasError={dashboard.inventoryError} onRetry={dashboard.retry} retrying={dashboard.refreshing} /> : (
               <section className={styles.panel} aria-labelledby="context-title">
                 <div className={styles.panelHeader}><div><p className={styles.panelKicker}>{t("home.dashboard.context.kicker")}</p><h2 id="context-title">{t(`home.dashboard.context.${data.role}`)}</h2></div></div>
                 <p className={styles.contextCopy}>{t(`home.dashboard.context.${data.role}Description`)}</p>
@@ -108,31 +124,64 @@ export const HomeDashboard = () => {
           </div>
         </section>
       </div>
-      {rawRole === "admin" && (
-        <TourButton onClick={startTour} label={t("home.tour.buttons.restart")} />
-      )}
+      {tourButton}
     </>
   )
 }
 
 interface DashboardSkeletonProps {
-  refreshing: boolean
+  role: DashboardRole | null
+  header: ReactNode
+  notices: ReactNode
 }
 
-const DashboardSkeleton = ({ refreshing }: DashboardSkeletonProps) => {
+const DashboardSkeleton = ({ role, header, notices }: DashboardSkeletonProps) => {
   const { t } = useTranslation()
+  const resources = role === "admin" ? ["installations", "assets", "technicians"] : role === "client" ? ["installations", "devices"] : []
 
   return (
-    <section
+    <div
       className={styles.dashboardContainer}
       aria-busy="true"
+      data-refreshing="false"
       aria-label={t("home.dashboard.loading")}
-      data-refreshing={refreshing || undefined}
     >
-      <div className={`${styles.skeleton} ${styles.skeletonHeader}`} />
-      <div className={`${styles.skeleton} ${styles.skeletonKpis}`} />
-      <div className={styles.analysisGrid}><div className={`${styles.skeleton} ${styles.skeletonTrend}`} /><div className={`${styles.skeleton} ${styles.skeletonDistribution}`} /></div>
-      <div className={styles.workGrid}><div className={`${styles.skeleton} ${styles.skeletonWork}`} /><div className={`${styles.skeleton} ${styles.skeletonAttention}`} /></div>
-    </section>
+      {header}
+      <div className={styles.refreshStatus} role="status" />
+      {notices}
+      <section aria-labelledby="attention-overview-title">
+        <h2 id="attention-overview-title" className={styles.sectionHeading}>{t("home.dashboard.sections.immediate")}</h2>
+        <div className={styles.attentionGrid} aria-hidden="true">
+          <div className={`${styles.kpiBand} ${styles.skeletonKpis}`}>
+            {Array.from({ length: 8 }, (_, index) => (
+              <div key={index} className={styles.kpiCell}><span className={`${styles.skeleton} ${styles.skeletonMetric}`} /></div>
+            ))}
+          </div>
+          <div className={`${styles.skeleton} ${styles.attentionPanel} ${styles.skeletonAttention}`} />
+        </div>
+      </section>
+      {resources.length > 0 && (
+        <section className={styles.resourceBand} aria-labelledby="resources-title">
+          <div><p className={styles.panelKicker}>{t("home.dashboard.resources.kicker")}</p><h2 id="resources-title">{t(`home.dashboard.resources.${role}`)}</h2></div>
+          <dl>{resources.map((id) => (
+            <div key={id}><dt>{t(`home.dashboard.resources.metrics.${id}`)}</dt><dd><span className={`${styles.skeleton} ${styles.skeletonValue}`} aria-hidden="true">&nbsp;</span></dd></div>
+          ))}</dl>
+        </section>
+      )}
+      <section aria-labelledby="analysis-title">
+        <h2 id="analysis-title" className={styles.sectionHeading}>{t("home.dashboard.sections.analysis")}</h2>
+        <div className={styles.analysisGrid} aria-hidden="true">
+          <div className={`${styles.skeleton} ${styles.skeletonTrend}`} />
+          <div className={`${styles.skeleton} ${styles.skeletonDistribution}`} />
+        </div>
+      </section>
+      <section aria-labelledby="recent-title">
+        <h2 id="recent-title" className={styles.sectionHeading}>{t("home.dashboard.sections.recent")}</h2>
+        <div className={styles.workGrid} aria-hidden="true">
+          <div className={`${styles.skeleton} ${styles.skeletonWork}`} />
+          <div className={`${styles.skeleton} ${styles.skeletonContext}`} />
+        </div>
+      </section>
+    </div>
   )
 }

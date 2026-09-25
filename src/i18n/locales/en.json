@@ -517,6 +517,7 @@
       "rangeLabel": "Select analysis period",
       "rangeHelp": "Affects work-order metrics, trends, and distributions.",
       "loading": "Loading dashboard",
+      "refreshing": "Updating… Showing data for {{range}}.",
       "dateUnavailable": "Date unavailable",
       "sections": {
         "immediate": "Immediate attention and summary",
@@ -569,7 +570,11 @@
         "kicker": "Resources",
         "title": "Inventory summary",
         "items": "Registered items",
-        "lowStock": "Low-stock items"
+        "lowStock": "Low-stock items",
+        "empty": "There are no inventory items",
+        "lowBadge": "Low stock",
+        "meta": "{{total}} items · {{low}} with low stock",
+        "minimum": "min. {{count}}"
       },
       "context": {
         "kicker": "Operational scope",
