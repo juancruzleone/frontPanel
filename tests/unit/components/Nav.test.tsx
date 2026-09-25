@@ -15,12 +15,16 @@ describe('Nav dropdown route state', () => {
       workOrders: true,
       maintenance: false,
       operation: false,
+      assets: false,
+      installations: false,
     })
 
     expect(getRouteMenuOpenState('/inventario', menuRoutes)).toEqual({
       workOrders: false,
       maintenance: false,
       operation: true,
+      assets: false,
+      installations: false,
     })
   })
 
@@ -29,6 +33,8 @@ describe('Nav dropdown route state', () => {
       workOrders: false,
       maintenance: false,
       operation: false,
+      assets: false,
+      installations: false,
     })
   })
 

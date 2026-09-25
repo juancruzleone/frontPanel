@@ -245,12 +245,34 @@ export const exportWorkOrders = async (filters: Record<string, string | number> 
   await downloadResponse(response, "Error al exportar órdenes de trabajo", "work-orders.csv")
 }
 
-export const fetchInstallations = async (): Promise<Installation[]> => {
-	const response = await fetch(`${getApiUrl()}installations`, {
+export type FetchInstallationsParams = {
+	page?: number;
+	limit?: number;
+	search?: string;
+	category?: string;
+};
+
+export const fetchInstallations = async (
+	params?: FetchInstallationsParams,
+	options?: { signal?: AbortSignal },
+): Promise<Installation[] | PaginatedResponse<Installation>> => {
+	const queryParams = new URLSearchParams();
+	if (params?.page !== undefined) queryParams.set("page", String(params.page));
+	if (params?.limit !== undefined) queryParams.set("limit", String(params.limit));
+	if (params?.search) queryParams.set("search", params.search);
+	if (params?.category) queryParams.set("category", params.category);
+	if (!params || queryParams.toString() === "") {
+		queryParams.set("limit", "100");
+	}
+
+	const response = await fetch(`${getApiUrl()}installations?${queryParams.toString()}`, {
 		headers: getAuthHeaders(),
+		signal: options?.signal,
 	});
 
 	const result = await handleResponse(response);
+	if (Array.isArray(result)) return result;
+	if (result?.data && result?.pagination) return result as PaginatedResponse<Installation>;
 	return Array.isArray(result) ? result : result.data || [];
 };
 

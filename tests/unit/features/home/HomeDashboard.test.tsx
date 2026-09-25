@@ -34,7 +34,7 @@ import { HomeDashboard } from "../../../../src/features/home/components/HomeDash
 const createState = (role: "admin" | "technician" | "client"): HomeDashboardState => {
   const scope = role === "admin" ? "tenant" : role === "technician" ? "assigned_work" : "assigned_installations"
   return {
-    data: mapDashboardStats(createDashboardDto(scope), role),
+    data: mapDashboardStats(createDashboardDto(scope), role, role === "admin" ? 6 : undefined),
     inventory: role === "admin" ? { totalItems: 20, lowStockItems: 3, items: [{ _id: "item-1", name: "Filtro", currentStock: 1, minimumStock: 2, unit: "u" }], lowStockDetails: [] } : null,
     loading: false,
     refreshing: false,
@@ -57,6 +57,45 @@ describe("HomeDashboard role-aware composition", () => {
     expect(screen.getByText("Control operativo")).toBeInTheDocument()
     expect(screen.getByText("Resumen de inventario")).toBeInTheDocument()
     expect(screen.getByText("Técnicos")).toBeInTheDocument()
+  })
+
+  it("links only resource titles inside terms with translated accessible names and routes", async () => {
+    const { rerender } = render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
+    const cases = [
+      { language: "es", title: "Capacidad de la operación", links: [["Instalaciones", "/instalaciones"], ["Activos", "/activos"], ["Técnicos", "/personal"], ["Clientes", "/clientes"]] },
+      { language: "en", title: "Operational capacity", links: [["Installations", "/installations"], ["Assets", "/assets"], ["Technicians", "/staff"], ["Clients", "/clients"]] },
+    ]
+    for (const { language, title, links } of cases) {
+      await i18n.changeLanguage(language)
+      rerender(<MemoryRouter><HomeDashboard /></MemoryRouter>)
+      const band = screen.getByRole("region", { name: title })
+      expect(within(band).getAllByRole("link")).toHaveLength(4)
+      for (const [name, href] of links) {
+        const link = within(band).getByRole("link", { name })
+        expect(link).toHaveAttribute("href", href)
+        expect(link.parentElement?.tagName).toBe("DT")
+        expect(link.parentElement?.parentElement?.parentElement?.tagName).toBe("DL")
+        const value = link.parentElement?.nextElementSibling
+        expect(value?.tagName).toBe("DD")
+        expect(value?.textContent).toMatch(/^\d+$/)
+        expect(value?.querySelector("a, button, [tabindex]")).toBeNull()
+        link.focus()
+        expect(link).toHaveFocus()
+      }
+    }
+    await i18n.changeLanguage("es")
+  })
+
+  it("keeps devices non-interactive while linking assigned installations", () => {
+    mocks.role = "cliente"
+    mocks.state = createState("client")
+    render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
+    const band = screen.getByRole("region", { name: "Instalaciones y dispositivos asignados" })
+    expect(within(band).getAllByRole("link")).toHaveLength(1)
+    expect(within(band).getByRole("link", { name: "Instalaciones" })).toHaveAttribute("href", "/instalaciones")
+    const devices = within(band).getByText("Dispositivos").parentElement!
+    expect(devices.querySelector("a, button, [tabindex]")).toBeNull()
+    expect(within(band).queryByText("Clientes")).not.toBeInTheDocument()
   })
 
   it("shows only assigned priorities and personal context to technicians", () => {
@@ -101,7 +140,7 @@ describe("HomeDashboard role-aware composition", () => {
   })
 
   it.each([
-    ["admin", "admin", 3],
+    ["admin", "admin", 4],
     ["cliente", "client", 2],
     ["tecnico", "technician", 0],
     ["técnico", "technician", 0],
@@ -187,7 +226,12 @@ describe("HomeDashboard role-aware composition", () => {
     const { rerender } = render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
     expect(screen.getByRole("link", { name: /Planta Norte\s*4/ })).toHaveAttribute("href", "/instalaciones/inst-1")
     expect(screen.getByRole("link", { name: /Filtro/ })).toHaveAttribute("href", "/inventario")
-    expect(screen.getByText("Revisar bomba").closest("a, button")).toBeNull()
+    expect(screen.getByText("Revisar bomba").closest("a")).toBeNull()
+    // Recent orders are actionable: the row is a real button that opens the
+    // shared detail dialog, never a link or a click handler on a div.
+    const orderRow = screen.getByText("Revisar bomba").closest("button")!
+    expect(orderRow).toHaveAttribute("type", "button")
+    expect(orderRow).toHaveAccessibleName("Ver detalle de Revisar bomba")
     const upcoming = screen.getByText("Próximos Preventivos").parentElement!
     expect(within(upcoming).queryByRole("link")).not.toBeInTheDocument()
 

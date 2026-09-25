@@ -105,6 +105,7 @@ export interface DashboardMetric {
   value: number | null
   unit?: "hours" | "percent"
   exception?: "warning" | "critical"
+  total?: number
 }
 
 export interface DashboardAlert {
@@ -138,7 +139,7 @@ export interface HomeDashboardViewData {
   topIncidentInstallations: TopIncidentInstallation[]
   upcomingPreventive: UpcomingPreventive[]
   alerts: DashboardAlert[]
-  resourceMetrics: Array<{ id: "installations" | "assets" | "technicians" | "devices"; value: number }>
+  resourceMetrics: Array<{ id: "installations" | "assets" | "technicians" | "clients" | "devices"; value: number }>
 }
 
 export interface HomeDashboardCache {

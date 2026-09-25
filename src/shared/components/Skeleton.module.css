@@ -1,21 +1,27 @@
 .skeleton {
-    background: linear-gradient(90deg,
-            var(--color-skeleton) 25%,
-            var(--color-skeleton-light) 50%,
-            var(--color-skeleton) 75%);
-    background-size: 200% 100%;
-    animation: skeleton-loading 1.5s infinite ease-in-out;
-    border-radius: 8px;
-    width: 100%;
-    display: block;
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--state-neutral-border);
+  border-radius: var(--radius-panel);
+  background: var(--state-neutral-surface);
+  margin-bottom: var(--space-sm);
 }
 
-@keyframes skeleton-loading {
-    0% {
-        background-position: 200% 0;
-    }
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, var(--state-neutral-surface), transparent);
+  animation: skeletonPulse 1.4s ease-in-out infinite;
+}
 
-    100% {
-        background-position: -200% 0;
-    }
+@keyframes skeletonPulse {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after { animation: none; }
 }

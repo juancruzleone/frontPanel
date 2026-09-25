@@ -3,6 +3,7 @@ import { useAuthStore } from "../../../store/authStore"
 import { buildHomeCacheKey, useHomeStore } from "../../../store/homeStore"
 import { getAuthHeaders } from "../../../shared/utils/apiHeaders"
 import { fetchInventoryItems } from "../../inventory/services/inventoryServices"
+import { getClients } from "../../clients/services/clientServices"
 import {
   expectedDashboardScope,
   mapDashboardStats,
@@ -146,7 +147,16 @@ export const useHomeDashboard = (): HomeDashboardState => {
         }
 
         let inventorySummary: InventorySummaryData | null = null
+        let clientsCount: number | undefined
+        let dashboardApplied = false
         if (role === "admin") {
+          // Optional enrichment runs alongside inventory and never gates the dashboard.
+          void getClients().then((clients) => {
+            clientsCount = clients.length
+            if (!cancelled && dashboardApplied) {
+              setData(mapDashboardStats(response.data, role, clientsCount))
+            }
+          }).catch(() => undefined)
           try {
             inventorySummary = await fetchInventorySummary()
           } catch {
@@ -155,7 +165,8 @@ export const useHomeDashboard = (): HomeDashboardState => {
         }
 
         if (cancelled) return
-        const mapped = mapDashboardStats(response.data, role)
+        const mapped = mapDashboardStats(response.data, role, clientsCount)
+        dashboardApplied = true
         setData(mapped)
         setInventory(inventorySummary)
         setInventoryError(role === "admin" && inventorySummary === null)

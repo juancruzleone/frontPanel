@@ -34,6 +34,7 @@ const normalizeUpcomingPreventive = (items: DashboardStatsDto["upcomingPreventiv
 export const mapDashboardStats = (
   dto: DashboardStatsDto,
   role: DashboardRole,
+  clientsCount?: number,
 ): HomeDashboardViewData => {
   const expectedScope = expectedDashboardScope(role)
   if (dto.metadata.scope !== expectedScope) {
@@ -55,6 +56,7 @@ export const mapDashboardStats = (
         { id: "installations" as const, value: dto.kpis.installations },
         { id: "assets" as const, value: dto.kpis.assets },
         { id: "technicians" as const, value: dto.kpis.technicians },
+        ...(clientsCount !== undefined ? [{ id: "clients" as const, value: clientsCount }] : []),
       ]
     : role === "client"
       ? [
@@ -67,9 +69,9 @@ export const mapDashboardStats = (
     role,
     metadata: dto.metadata,
     metrics: [
-      { id: "openWorkOrders", value: operational.openWorkOrders },
-      { id: "overdueWorkOrders", value: operational.overdueWorkOrders, exception: operational.overdueWorkOrders > 0 ? "critical" : undefined },
-      { id: "criticalWorkOrders", value: operational.criticalWorkOrders, exception: operational.criticalWorkOrders > 0 ? "warning" : undefined },
+      { id: "openWorkOrders", value: operational.openWorkOrders, total: dto.kpis.workOrders },
+      { id: "overdueWorkOrders", value: operational.overdueWorkOrders, total: dto.kpis.workOrders, exception: operational.overdueWorkOrders > 0 ? "critical" : undefined },
+      { id: "criticalWorkOrders", value: operational.criticalWorkOrders, total: dto.kpis.workOrders, exception: operational.criticalWorkOrders > 0 ? "warning" : undefined },
       { id: "mttrHours", value: operational.mttrHours, unit: "hours" },
       { id: "mtbfHours", value: operational.mtbfHours, unit: "hours" },
       { id: "preventiveComplianceRate", value: operational.preventiveComplianceRate, unit: "percent" },

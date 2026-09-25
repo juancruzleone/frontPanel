@@ -6,6 +6,7 @@ import { useTranslatedRoutes } from "../../../router/useTranslatedRoutes"
 import TourButton from "../../../shared/components/Buttons/TourButton"
 import { useHomeDashboard } from "../hooks/useHomeDashboard"
 import { useHomeTour } from "../hooks/useHomeTour"
+import { useWorkOrderDetail } from "../hooks/useWorkOrderDetail"
 import { expectedDashboardScope, normalizeDashboardRole } from "../services/homeDashboardMapper"
 import type { DashboardRole } from "../types/homeTypes"
 import { AttentionRequired } from "./AttentionRequired"
@@ -14,6 +15,7 @@ import { InventorySummary } from "./InventoryAlerts"
 import { LineChart } from "./LineChart"
 import { OperationalKPIs } from "./OperationalKPIs"
 import { RecentWorkOrders } from "./RecentWorkOrders"
+import { WorkOrderDetailDialog } from "./WorkOrderDetailDialog"
 import { WorkOrderStatusDistribution } from "./WorkOrderStatusDistribution"
 import styles from "../styles/home.module.css"
 
@@ -24,6 +26,7 @@ export const HomeDashboard = () => {
   const { getRoute } = useTranslatedRoutes()
   const { startTour } = useHomeTour()
   const dashboard = useHomeDashboard()
+  const workOrderDetail = useWorkOrderDetail()
 
   const tourButton = rawRole === "admin" ? <TourButton onClick={startTour} label={t("home.tour.buttons.restart")} /> : null
   const role = dashboard.data?.role ?? normalizeDashboardRole(rawRole)
@@ -78,7 +81,7 @@ export const HomeDashboard = () => {
         {notices}
 
         <section aria-labelledby="attention-overview-title">
-          <h2 id="attention-overview-title" className={styles.sectionHeading}>{t("home.dashboard.sections.immediate")}</h2>
+          <ImmediateSectionHeading />
           <div className={styles.attentionGrid}>
             <OperationalKPIs metrics={data.metrics} />
             <AttentionRequired
@@ -93,7 +96,16 @@ export const HomeDashboard = () => {
         {data.resourceMetrics.length > 0 && (
           <section className={styles.resourceBand} aria-labelledby="resources-title">
             <div><p className={styles.panelKicker}>{t("home.dashboard.resources.kicker")}</p><h2 id="resources-title">{t(`home.dashboard.resources.${data.role}`)}</h2></div>
-            <dl>{data.resourceMetrics.map((metric) => <div key={metric.id}><dt>{t(`home.dashboard.resources.metrics.${metric.id}`)}</dt><dd>{metric.value}</dd></div>)}</dl>
+            <dl>{data.resourceMetrics.map((metric) => {
+              const label = t(`home.dashboard.resources.metrics.${metric.id}`)
+              const route = metric.id === "devices" ? null : getRoute(metric.id === "technicians" ? "personal" : metric.id)
+              return (
+                <div key={metric.id}>
+                  <dt>{route ? <Link className={styles.resourceLink} to={route}>{label}</Link> : label}</dt>
+                  <dd>{metric.value}</dd>
+                </div>
+              )
+            })}</dl>
           </section>
         )}
 
@@ -113,7 +125,18 @@ export const HomeDashboard = () => {
                 <div><p className={styles.panelKicker}>{t("home.dashboard.recent.kicker")}</p><h2 id="recent-orders-title">{t("home.recentOrders")}</h2></div>
                 {showWorkOrdersLink && <Link className={styles.panelAction} to={getRoute("workOrders")}>{t("nav.workOrdersList")}</Link>}
               </div>
-              <RecentWorkOrders workOrders={data.recentWorkOrders} />
+              <RecentWorkOrders workOrders={data.recentWorkOrders} onOpenDetail={workOrderDetail.openWorkOrder} />
+              {workOrderDetail.status === "loading" && (
+                <p className={styles.orderFeedback} role="status">{t("home.dashboard.recent.detailLoading")}</p>
+              )}
+              {workOrderDetail.status === "error" && (
+                <p className={styles.orderFeedback} role="alert">
+                  {t("home.dashboard.recent.detailError")}
+                  <button type="button" className={styles.orderFeedbackAction} onClick={workOrderDetail.retryWorkOrder}>
+                    {t("common.retry")}
+                  </button>
+                </p>
+              )}
             </section>
             {data.role === "admin" ? <InventorySummary data={dashboard.inventory} hasError={dashboard.inventoryError} onRetry={dashboard.retry} retrying={dashboard.refreshing} /> : (
               <section className={styles.panel} aria-labelledby="context-title">
@@ -124,8 +147,20 @@ export const HomeDashboard = () => {
           </div>
         </section>
       </div>
+      {/* One dialog instance for the whole dashboard, driven by a single id. */}
+      <WorkOrderDetailDialog workOrder={workOrderDetail.workOrder} onRequestClose={workOrderDetail.closeWorkOrder} />
       {tourButton}
     </>
+  )
+}
+
+const ImmediateSectionHeading = () => {
+  const { t } = useTranslation()
+  return (
+    <header className={styles.sectionHeader}>
+      <p className={styles.eyebrow}>{t("home.dashboard.sections.immediateKicker")}</p>
+      <h2 id="attention-overview-title" className={styles.sectionHeading}>{t("home.dashboard.sections.immediate")}</h2>
+    </header>
   )
 }
 
@@ -137,7 +172,7 @@ interface DashboardSkeletonProps {
 
 const DashboardSkeleton = ({ role, header, notices }: DashboardSkeletonProps) => {
   const { t } = useTranslation()
-  const resources = role === "admin" ? ["installations", "assets", "technicians"] : role === "client" ? ["installations", "devices"] : []
+  const resources = role === "admin" ? ["installations", "assets", "technicians", "clients"] : role === "client" ? ["installations", "devices"] : []
 
   return (
     <div
@@ -150,7 +185,7 @@ const DashboardSkeleton = ({ role, header, notices }: DashboardSkeletonProps) =>
       <div className={styles.refreshStatus} role="status" />
       {notices}
       <section aria-labelledby="attention-overview-title">
-        <h2 id="attention-overview-title" className={styles.sectionHeading}>{t("home.dashboard.sections.immediate")}</h2>
+        <ImmediateSectionHeading />
         <div className={styles.attentionGrid} aria-hidden="true">
           <div className={`${styles.kpiBand} ${styles.skeletonKpis}`}>
             {Array.from({ length: 8 }, (_, index) => (

@@ -155,8 +155,10 @@ const useSubscriptions = () => {
         return
       }
 
-      const response = await fetchInstallations()
-      const installationsData = response.data || []
+      const response = await fetchInstallations({ limit: 50 })
+      const installationsData = Array.isArray(response)
+        ? (response as unknown as Installation[])
+        : ((response as { data?: Installation[] }).data || [])
 
       setInstallations(installationsData)
       const subscriptionsData = installationsData.map(mapInstallationToSubscription)

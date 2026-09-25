@@ -208,6 +208,16 @@
   line-height: var(--type-section-title-leading);
 }
 
+.sectionHeader {
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--color-card-border);
+}
+
+.sectionHeader .sectionHeading {
+  margin-bottom: 0;
+}
+
 .attentionGrid,
 .workGrid,
 .analysisGrid {
@@ -216,10 +226,16 @@
   gap: var(--space-grid-lg);
 }
 
+/* Two columns x four rows. The attention row is as tall as its panels
+ * (both cards stretch to the same height), so a 4x2 band would stretch every
+ * cell to ~310px and leave most of each cell empty once the content is
+ * top-aligned. Four content-sized rows keep the card filled and the cells
+ * balanced while every label still starts at the same offset as the panel
+ * kicker next to it. */
 .kpiBand {
   grid-column: span 8;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-auto-rows: 1fr;
   align-content: stretch;
   align-self: stretch;
@@ -232,23 +248,28 @@
   box-shadow: var(--elevation-card);
 }
 
+/* Content is pinned to the top of the cell: band padding (16px) + cell
+ * padding-top (16px) + the 1px card border puts the first-row label on the
+ * same 33px offset as .panelKicker in the attention panel. Internal rhythm is
+ * tightened (4px label/value gap, 8px detail gap) so the remaining space is
+ * read as cell padding instead of a hole under the metric. */
 .kpiCell {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: var(--space-2xs);
+  justify-content: flex-start;
+  gap: var(--space-3xs);
   min-width: 0;
   min-height: 96px;
-  padding: var(--space-md) var(--space-xl);
+  padding: var(--space-md) var(--space-lg);
   border-left: 1px solid var(--color-card-border);
 }
 
-.kpiCell:nth-child(4n + 1) {
+.kpiCell:nth-child(2n + 1) {
   border-left: 0;
 }
 
-.kpiCell:nth-child(n + 5) {
+.kpiCell:nth-child(n + 3) {
   border-top: 1px solid var(--color-card-border);
 }
 
@@ -266,6 +287,44 @@
   font-weight: var(--type-metric-weight);
   letter-spacing: var(--type-metric-tracking);
   line-height: var(--type-metric-leading);
+}
+
+.kpiDetail {
+  display: block;
+  margin-top: var(--space-2xs);
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  letter-spacing: normal;
+  line-height: var(--type-caption-leading);
+}
+
+.kpiProgress {
+  display: block;
+  width: 100%;
+  height: var(--space-2xs);
+  margin-top: var(--space-2xs);
+  overflow: hidden;
+  appearance: none;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--state-neutral-surface);
+  color: var(--state-info);
+}
+
+.kpiProgress::-webkit-progress-bar {
+  background: var(--state-neutral-surface);
+  border-radius: var(--radius-control);
+}
+
+.kpiProgress::-webkit-progress-value {
+  background: var(--state-info);
+  border-radius: var(--radius-control);
+}
+
+.kpiProgress::-moz-progress-bar {
+  background: var(--state-info);
+  border-radius: var(--radius-control);
 }
 
 .kpiCell.warning dd,
@@ -345,21 +404,30 @@
   border: 1px solid var(--color-card-border);
   border-radius: var(--radius-badge);
   background: var(--color-bg-light);
-  color: var(--color-secondary);
+  color: var(--color-text);
   font-size: var(--type-caption-size);
   font-weight: 680;
   text-decoration: none;
   white-space: nowrap;
 }
 
+.panelAction,
+.orderDetailButton,
+.chartDataTable summary {
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
 .panelAction:hover {
-  border-color: var(--color-secondary);
+  border-color: var(--state-neutral-border);
+  background: var(--state-neutral-surface);
+  color: var(--color-text);
   text-decoration: none;
 }
 
 .panelAction:focus-visible,
 .incidentLink:focus-visible,
-.inventoryItem:focus-visible {
+.inventoryItem:focus-visible,
+.resourceLink:focus-visible {
   outline: var(--focus-ring, 2px solid var(--color-secondary));
   outline-offset: var(--focus-offset, 2px);
 }
@@ -484,18 +552,18 @@
 
 .resourceBand {
   display: grid;
-  grid-template-columns: auto auto;
-  justify-content: start;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   gap: var(--space-xl);
-  width: fit-content;
+  width: 100%;
   max-width: 100%;
   padding: var(--space-md) var(--space-xl);
 }
 
 .resourceBand dl {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
   margin: 0;
 }
 
@@ -505,6 +573,9 @@
 }
 
 .resourceBand dt {
+  /* Explicit resting weight. The UA sheet only asks for `bolder`, which the
+   * hover state would otherwise already satisfy, making the step invisible. */
+  font-weight: 700;
   color: var(--color-text-secondary);
   font-size: var(--type-caption-size);
 }
@@ -514,6 +585,27 @@
   font-size: 1.35rem;
   font-weight: 720;
   font-variant-numeric: tabular-nums;
+}
+
+.resourceLink {
+  display: block;
+  width: fit-content;
+  min-width: 24px;
+  color: var(--color-text);
+  font-weight: 700;
+  border-radius: var(--radius-control);
+  text-decoration: underline;
+  text-underline-offset: var(--space-3xs);
+}
+
+/* Pointer and keyboard feedback are weight + underline only. No colour is
+ * redeclared per theme, so light and dark behave identically. */
+.resourceLink:hover,
+.resourceLink:focus-visible {
+  color: var(--color-text);
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 .analysisGrid {
@@ -660,16 +752,34 @@
   stroke-width: 5;
 }
 
+/* The chart surface above has no bottom padding, so the toggle needs its own
+ * clearance to avoid reading as part of the plot. */
 .chartDataTable {
-  margin-top: var(--space-2xs);
+  margin-top: var(--space-xl);
   font-size: 0.76rem;
 }
 
 .chartDataTable summary {
   width: fit-content;
-  color: var(--color-secondary);
+  padding: var(--space-3xs) var(--space-2xs);
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  color: var(--color-text);
   font-weight: 650;
   cursor: pointer;
+}
+
+.chartDataTable summary:hover {
+  color: var(--color-text);
+  border-color: var(--state-neutral-border);
+  background: var(--state-neutral-surface);
+}
+
+.panelAction:focus-visible,
+.chartDataTable summary:focus-visible,
+.resourceLink:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: var(--focus-offset);
 }
 
 .chartDataTable table {
@@ -782,10 +892,32 @@
   border-bottom: 0;
 }
 
-.orderItem > div:first-child {
+.orderItem > div:first-child,
+.orderRow {
   display: grid;
   gap: var(--space-2xs);
   min-width: 0;
+}
+
+/* The row is a real control, not a clickable container: it keeps the two-line
+ * anatomy of the label block and resets the UA button chrome. */
+.orderRow {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.orderRow:hover strong {
+  text-decoration: underline;
+}
+
+.orderRow:focus-visible {
+  outline: var(--focus-ring, 2px solid var(--color-secondary));
+  outline-offset: var(--focus-offset, 2px);
 }
 
 .orderItem strong {
@@ -797,6 +929,7 @@
 }
 
 .orderItem > div:first-child span,
+.orderRow span,
 .orderMeta time {
   color: var(--color-text-secondary);
   font-size: var(--type-caption-size);
@@ -818,6 +951,63 @@
   font-size: var(--type-caption-size);
   font-weight: 650;
   white-space: nowrap;
+}
+
+/* Same anatomy as .panelAction, but a button because it opens a dialog. */
+.orderDetailButton {
+  padding: var(--space-3xs) var(--space-md);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-badge);
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--type-caption-size);
+  font-weight: 650;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.orderDetailButton:hover {
+  border-color: var(--state-neutral-border);
+  background: var(--state-neutral-surface);
+  color: var(--color-text);
+}
+
+.orderDetailButton:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: var(--focus-offset);
+}
+
+.orderFeedback {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin: var(--space-md) 0 0;
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-card);
+  background: var(--color-bg-light);
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+}
+
+.orderFeedbackAction {
+  padding: var(--space-3xs) var(--space-md);
+  border: 1px solid var(--color-text);
+  border-radius: var(--radius-control, 4px);
+  background: var(--color-text);
+  color: var(--color-card);
+  font: inherit;
+  font-size: var(--type-caption-size);
+  font-weight: 650;
+  cursor: pointer;
+}
+
+/* display: contents keeps the fixed backdrop of the reused modal exactly as
+ * the other consumers render it, while still scoping the dialog for focus. */
+.detailLayer {
+  display: contents;
 }
 
 .statuspending {
@@ -993,16 +1183,16 @@
 .skeleton {
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--color-card-border);
+  border: 1px solid var(--state-neutral-border);
   border-radius: var(--radius-panel);
-  background: var(--color-card);
+  background: var(--state-neutral-surface);
 }
 
 .skeleton::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, var(--color-bg-light), transparent);
+  background: linear-gradient(90deg, transparent, var(--state-neutral-surface), transparent);
   animation: skeletonPulse 1.4s ease-in-out infinite;
 }
 
@@ -1048,13 +1238,11 @@
   .attentionGrid, .analysisGrid, .workGrid { gap: var(--space-md); }
   .kpiBand { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: var(--space-lg); }
   .kpiCell { min-height: 88px; padding: var(--space-md) var(--space-lg); }
-  .kpiCell:nth-child(odd) { border-left: 0; }
-  .kpiCell:nth-child(n + 3) { border-top: 1px solid var(--color-card-border); }
   .panel, .inventorySummary { padding: var(--space-lg); }
   .panelHeader { display: grid; gap: var(--space-sm); }
   .panelTotal, .panelAction { justify-self: start; }
   .resourceBand { padding: var(--space-lg); }
-  .resourceBand dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .resourceBand dl { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .resourceBand dl div { padding: var(--space-sm) var(--space-md); }
   .resourceBand dl div:nth-child(odd) { border-left: 0; padding-left: 0; }
   .trendSummary { gap: var(--space-sm); }
@@ -1065,10 +1253,13 @@
   .lineChartContainer svg { min-height: 160px; }
   .xAxisText { font-size: 9px; }
   .orderItem { grid-template-columns: 1fr; gap: var(--space-sm); }
-  .orderMeta { justify-content: space-between; }
+  .orderMeta { flex-wrap: wrap; justify-content: space-between; }
   .skeletonHeader { height: 220px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .skeleton::after { animation: none; }
+  .panelAction,
+  .orderDetailButton,
+  .chartDataTable summary { transition: none; }
 }

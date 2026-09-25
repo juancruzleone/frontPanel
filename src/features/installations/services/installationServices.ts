@@ -85,7 +85,10 @@ const getInstallationsEndpoint = () => {
   return isClientUser() ? 'mis-instalaciones' : 'installations';
 };
 
-export const fetchInstallations = async (params: { page?: number, limit?: number, search?: string, category?: string } = {}): Promise<PaginatedInstallationsResponse> => {
+export const fetchInstallations = async (
+  params: { page?: number; limit?: number; search?: string; category?: string } = {},
+  options?: { signal?: AbortSignal },
+): Promise<PaginatedInstallationsResponse> => {
   const queryParams = new URLSearchParams()
   if (params.page) queryParams.append('page', params.page.toString())
   if (params.limit) queryParams.append('limit', params.limit.toString())
@@ -95,6 +98,7 @@ export const fetchInstallations = async (params: { page?: number, limit?: number
   const endpoint = getInstallationsEndpoint();
   const response = await fetchWithCsrf(`${API_URL}${endpoint}?${queryParams.toString()}`, {
     headers: getAuthHeaders(),
+    signal: options?.signal,
   });
   
   if (!response.ok) throw new Error("Error al obtener instalaciones");

@@ -24,7 +24,24 @@ export const OperationalKPIs = ({ metrics }: OperationalKPIsProps) => {
           className={`${styles.kpiCell} ${metric.exception ? styles[metric.exception] : ""}`}
         >
           <dt>{t(`home.dashboard.metrics.${metric.id}`)}</dt>
-          <dd>{formatMetric(metric, t("common.notAvailable", { defaultValue: "N/D" }))}</dd>
+          <dd>
+            {formatMetric(metric, t("common.notAvailable", { defaultValue: "N/D" }))}
+            {metric.unit === "percent" && metric.value !== null && Number.isFinite(metric.value) && metric.value >= 0 && metric.value <= 100 && (
+              <progress
+                className={styles.kpiProgress}
+                value={metric.value}
+                max={100}
+                aria-label={t(`home.dashboard.metrics.${metric.id}`)}
+              />
+            )}
+            {metric.unit === "hours" && (
+              <span className={styles.kpiDetail}>{t(`home.dashboard.metricDetails.${metric.id}`)}</span>
+            )}
+            {!metric.unit && metric.value !== null && metric.value >= 0 && Number.isFinite(metric.value)
+              && metric.total !== undefined && Number.isFinite(metric.total) && metric.total > 0 && metric.value <= metric.total && (
+                <span className={styles.kpiDetail}>{t("home.dashboard.metricDetails.proportion", { count: metric.value, total: metric.total })}</span>
+              )}
+          </dd>
         </div>
       ))}
     </dl>

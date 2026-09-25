@@ -521,6 +521,7 @@
       "dateUnavailable": "Date unavailable",
       "sections": {
         "immediate": "Immediate attention and summary",
+        "immediateKicker": "Operational overview",
         "analysis": "Trend and status",
         "recent": "Recent activity and context"
       },
@@ -533,6 +534,12 @@
         "preventiveComplianceRate": "Preventive compliance",
         "slaRate": "SLA compliance",
         "responseTimeHours": "First response"
+      },
+      "metricDetails": {
+        "mttrHours": "Average time spent on repairs.",
+        "mtbfHours": "Average time between failures.",
+        "responseTimeHours": "Average time until the first response.",
+        "proportion": "{{count}} of {{total}} work orders"
       },
       "attention": {
         "kicker": "Exceptions",
@@ -549,6 +556,7 @@
           "installations": "Installations",
           "assets": "Assets",
           "technicians": "Technicians",
+          "clients": "Clients",
           "devices": "Devices"
         }
       },
@@ -564,7 +572,11 @@
       },
       "date": "Date",
       "recent": {
-        "kicker": "Latest activity"
+        "kicker": "Latest activity",
+        "detail": "View details",
+        "openDetail": "View details for {{title}}",
+        "detailLoading": "Opening the work order details…",
+        "detailError": "We could not open the work order details. Please try again."
       },
       "inventory": {
         "kicker": "Resources",

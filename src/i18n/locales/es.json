@@ -525,6 +525,7 @@
       "dateUnavailable": "Fecha no disponible",
       "sections": {
         "immediate": "Atención inmediata y resumen",
+        "immediateKicker": "Resumen operativo",
         "analysis": "Tendencia y estado",
         "recent": "Actividad reciente y contexto"
       },
@@ -537,6 +538,12 @@
         "preventiveComplianceRate": "Cumplimiento preventivo",
         "slaRate": "Cumplimiento SLA",
         "responseTimeHours": "Primera respuesta"
+      },
+      "metricDetails": {
+        "mttrHours": "Tiempo promedio dedicado a reparaciones.",
+        "mtbfHours": "Tiempo promedio entre fallos.",
+        "responseTimeHours": "Tiempo promedio hasta la primera respuesta.",
+        "proportion": "{{count}} de {{total}} órdenes"
       },
       "attention": {
         "kicker": "Excepciones",
@@ -553,6 +560,7 @@
           "installations": "Instalaciones",
           "assets": "Activos",
           "technicians": "Técnicos",
+          "clients": "Clientes",
           "devices": "Dispositivos"
         }
       },
@@ -568,7 +576,11 @@
       },
       "date": "Fecha",
       "recent": {
-        "kicker": "Últimos movimientos"
+        "kicker": "Últimos movimientos",
+        "detail": "Ver detalle",
+        "openDetail": "Ver detalle de {{title}}",
+        "detailLoading": "Abriendo el detalle de la orden de trabajo…",
+        "detailError": "No pudimos abrir el detalle de la orden de trabajo. Inténtalo nuevamente."
       },
       "inventory": {
         "kicker": "Inventario",

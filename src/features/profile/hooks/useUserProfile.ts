@@ -28,8 +28,8 @@ export function useUserProfile(userId: string) {
 
         // Verificar si el usuario es cliente
         if (userResponse.role === 'cliente') {
-          // Para clientes, cargar solo las instalaciones asignadas a ese cliente específico
-          const installationsResponse = await fetch(`${API_URL}clientes-usuarios/${userId}/instalaciones`);
+          // Para clientes, cargar solo las instalaciones asignadas a ese cliente específico (limit para evitar saturación)
+          const installationsResponse = await fetch(`${API_URL}clientes-usuarios/${userId}/instalaciones?limit=50`);
 
           if (!installationsResponse.ok) {
             throw new Error('Error al obtener instalaciones del cliente');
@@ -42,8 +42,8 @@ export function useUserProfile(userId: string) {
           const types = await fetchInstallationTypes();
           setInstallationTypes(types);
         } else {
-          // Para técnicos/admins, obtener órdenes de trabajo asignadas
-          const ordersResponse = await fetch(`${API_URL}ordenes-trabajo?populate=instalacion`);
+          // Para técnicos/admins, obtener órdenes de trabajo asignadas (limit para evitar saturación)
+          const ordersResponse = await fetch(`${API_URL}ordenes-trabajo?populate=instalacion&limit=50`);
 
           if (!ordersResponse.ok) {
             throw new Error('Error al obtener órdenes de trabajo');

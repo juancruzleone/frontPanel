@@ -8,6 +8,7 @@ import ModalMovementHistory from "../features/inventory/components/ModalMovement
 import useInventory from "../features/inventory/hooks/useInventory"
 import { InventoryItem } from "../features/inventory/types/inventory.types"
 import { useAuthStore } from "../store/authStore"
+import { DEFAULT_INVENTORY_QUERY } from "../store/inventoryStore"
 import { FilterX, AlertTriangle, Edit, History, Package, Trash } from "lucide-react"
 import SearchInput from "../shared/components/Inputs/SearchInput"
 import ModalSuccess from "../features/assets/components/ModalSuccess"
@@ -41,6 +42,8 @@ const Inventory = () => {
     pagination,
     query
   } = useInventory()
+  const safePagination = (pagination as unknown as { page: number; limit: number; totalPages: number } | undefined) ?? { page: 1, limit: 10, totalPages: 1 }
+  const safeQuery = (query as unknown as typeof DEFAULT_INVENTORY_QUERY | undefined) ?? DEFAULT_INVENTORY_QUERY
   
   const { tourCompleted, startTour, skipTour } = useInventoryTour()
 
@@ -92,7 +95,7 @@ const Inventory = () => {
   }
 
   const handleChangePage = (page: number) => {
-    if (page >= 1 && page <= pagination.totalPages) {
+    if (page >= 1 && page <= (safePagination?.totalPages ?? 1)) {
       loadInventory({ page })
     }
   }
@@ -367,11 +370,11 @@ const Inventory = () => {
           </div>
         )}
       </div>
-      {pagination.totalPages > 1 && (
+      {(safePagination?.totalPages ?? 1) > 1 && (
         <nav aria-label="Inventory pagination">
-          <button type="button" onClick={() => handleChangePage(query.page - 1)} disabled={query.page === 1}>{t('common.previous', { defaultValue: 'Anterior' })}</button>
-          <span>{t('common.page', { defaultValue: 'Página' })} {query.page} {t('common.of', { defaultValue: 'de' })} {pagination.totalPages}</span>
-          <button type="button" onClick={() => handleChangePage(query.page + 1)} disabled={query.page === pagination.totalPages}>{t('common.next', { defaultValue: 'Siguiente' })}</button>
+          <button type="button" onClick={() => handleChangePage((safeQuery?.page ?? 1) - 1)} disabled={(safeQuery?.page ?? 1) === 1}>{t('common.previous', { defaultValue: 'Anterior' })}</button>
+          <span>{t('common.page', { defaultValue: 'Página' })} {safeQuery?.page ?? 1} {t('common.of', { defaultValue: 'de' })} {safePagination?.totalPages ?? 1}</span>
+          <button type="button" onClick={() => handleChangePage((safeQuery?.page ?? 1) + 1)} disabled={(safeQuery?.page ?? 1) === (safePagination?.totalPages ?? 1)}>{t('common.next', { defaultValue: 'Siguiente' })}</button>
         </nav>
       )}
 

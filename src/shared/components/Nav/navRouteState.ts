@@ -10,8 +10,8 @@ type MenuRouteConfig = {
   workOrders: string[]
   maintenance: string[]
   operation: string[]
-  assets: string[]
-  installations: string[]
+  assets?: string[]
+  installations?: string[]
 }
 
 const isRoutePathActive = (pathname: string, route: string): boolean => {
@@ -24,9 +24,9 @@ export const getRouteMenuOpenState = (
   pathname: string,
   routes: MenuRouteConfig
 ): MenuOpenState => ({
-  workOrders: routes.workOrders.some((route) => isRoutePathActive(pathname, route)),
-  maintenance: routes.maintenance.some((route) => isRoutePathActive(pathname, route)),
-  operation: routes.operation.some((route) => isRoutePathActive(pathname, route)),
-  assets: routes.assets.some((route) => isRoutePathActive(pathname, route)),
-  installations: routes.installations.some((route) => isRoutePathActive(pathname, route)),
+  workOrders: (routes.workOrders ?? []).some((route) => isRoutePathActive(pathname, route)),
+  maintenance: (routes.maintenance ?? []).some((route) => isRoutePathActive(pathname, route)),
+  operation: (routes.operation ?? []).some((route) => isRoutePathActive(pathname, route)),
+  assets: (routes.assets ?? []).some((route) => isRoutePathActive(pathname, route)),
+  installations: (routes.installations ?? []).some((route) => isRoutePathActive(pathname, route)),
 })
