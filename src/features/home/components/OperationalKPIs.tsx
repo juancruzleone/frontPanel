@@ -14,8 +14,22 @@ const formatMetric = (metric: DashboardMetric, notAvailable: string): string => 
   return value
 }
 
+const isAvailable = (metric: DashboardMetric): boolean =>
+  metric.value !== null && Number.isFinite(metric.value)
+
 export const OperationalKPIs = ({ metrics }: OperationalKPIsProps) => {
   const { t } = useTranslation()
+
+  // A band whose every metric came back unavailable is not eight zeros: it is
+  // an account with nothing loaded yet. Say so instead of rendering "N/D".
+  if (metrics.length > 0 && !metrics.some(isAvailable)) {
+    return (
+      <div className={`${styles.kpiBand} ${styles.kpiBandEmpty}`} role="group" aria-label={t("home.operationalMetrics")}>
+        <p className={styles.emptyState}>{t("home.dashboard.empty.metrics")}</p>
+      </div>
+    )
+  }
+
   return (
     <dl className={styles.kpiBand} aria-label={t("home.operationalMetrics")}>
       {metrics.map((metric) => (

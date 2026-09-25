@@ -24,7 +24,9 @@
     "operation": "運用",
     "maintenance": "メンテナンス",
     "audit": "監査",
-    "list": "一覧"
+    "list": "一覧",
+    "compliance": "コンプライアンス",
+    "settings": "設定"
   },
   "audit": {
     "title": "アクティビティログ",
@@ -346,7 +348,40 @@
     "syncing": "保留中の変更を同期しています...",
     "syncComplete": "同期が完了しました",
     "syncValidationDiscarded": "検証エラー ({{type}})。破棄されました。",
-    "syncElementDiscarded": "項目の同期エラー ({{type}})。破棄されました。"
+    "syncElementDiscarded": "項目の同期エラー ({{type}})。破棄されました。",
+    "add": "追加",
+    "adding": "追加中...",
+    "approve": "承認",
+    "assign": "割り当て",
+    "assigning": "割り当て中...",
+    "choose": "選択",
+    "complete": "完了",
+    "copy": "コピー",
+    "cut": "切り取り",
+    "document": "ドキュメント",
+    "download": "ダウンロード",
+    "export": "エクスポート",
+    "hello": "こんにちは",
+    "import": "インポート",
+    "inactive": "非アクティブ",
+    "ok": "OK",
+    "paste": "貼り付け",
+    "pause": "一時停止",
+    "print": "印刷",
+    "redo": "やり直し",
+    "reject": "拒否",
+    "remove": "削除",
+    "resume": "再開",
+    "select": "選択",
+    "share": "共有",
+    "start": "開始",
+    "stop": "停止",
+    "undo": "元に戻す",
+    "updating": "更新中...",
+    "upload": "アップロード",
+    "view": "表示",
+    "viewCards": "カード表示",
+    "viewTable": "一覧表示"
   },
   "csvImport": {
     "chooseFile": "CSVファイルを選択",
@@ -455,113 +490,137 @@
     "title": "ダッシュボード",
     "subtitle": "操作の概要",
     "range": {
-      "7d": "7 days",
-      "30d": "30 days",
-      "90d": "90 days",
-      "12m": "12 months"
+      "7d": "7日間",
+      "30d": "30日間",
+      "90d": "90日間",
+      "12m": "12か月"
     },
     "dashboard": {
       "roles": {
         "admin": {
-          "title": "Operational control",
-          "description": "Exceptions, capacity, and trends across the entire operation."
+          "title": "運用の全体管理",
+          "description": "組織全体の例外、処理能力、推移を確認できます。"
         },
         "technician": {
-          "title": "My operational day",
-          "description": "Priorities, deadlines, and trends for your assigned work orders."
+          "title": "自分の業務状況",
+          "description": "割り当てられた作業指示の優先度、期限、推移を表示します。"
         },
         "client": {
-          "title": "My installation status",
-          "description": "Activity, maintenance, and health across your assigned installations."
+          "title": "自分の設置状況",
+          "description": "割り当てられた設置の作業実績、メンテナンス、状態を表示します。"
         }
       },
       "scope": {
-        "tenant": "Entire organization",
-        "assigned_work": "Assigned work",
-        "assigned_installations": "Assigned installations"
+        "tenant": "組織全体",
+        "assigned_work": "割り当てられた作業",
+        "assigned_installations": "割り当てられた設置"
       },
-      "scopeLabel": "Scope",
-      "updated": "Updated",
-      "period": "Analysis period",
-      "rangeLabel": "Select analysis period",
-      "rangeHelp": "Affects work-order metrics, trends, and distributions.",
+      "scopeLabel": "対象範囲",
+      "updated": "更新",
+      "period": "分析対象期間",
+      "rangeLabel": "分析対象期間を選択",
+      "rangeHelp": "指標、推移、作業指示の構成に反映されます。",
       "loading": "ダッシュボードを読み込み中",
       "dateUnavailable": "日付を利用できません",
       "sections": {
-        "immediate": "Immediate attention and summary",
-        "analysis": "Trend and status",
-        "recent": "Recent activity and context"
+        "immediate": "至急対応と概要",
+        "analysis": "推移と状態",
+        "recent": "最近の動きと補足情報",
+        "immediateKicker": "運用サマリー"
       },
       "metrics": {
-        "openWorkOrders": "Open work orders",
-        "overdueWorkOrders": "Overdue work orders",
-        "criticalWorkOrders": "Critical work orders",
-        "mttrHours": "Mean time to repair",
-        "mtbfHours": "Mean time between failures",
-        "preventiveComplianceRate": "Preventive compliance",
-        "slaRate": "SLA compliance",
-        "responseTimeHours": "First response"
+        "openWorkOrders": "未完了の作業指示",
+        "overdueWorkOrders": "期限超過の作業指示",
+        "criticalWorkOrders": "緊急の作業指示",
+        "mttrHours": "平均修理時間",
+        "mtbfHours": "平均故障間隔",
+        "preventiveComplianceRate": "予防保守の達成率",
+        "slaRate": "SLA達成率",
+        "responseTimeHours": "第一次対応"
       },
       "attention": {
-        "kicker": "Exceptions",
-        "title": "Attention required",
-        "clear": "There are no active exceptions right now.",
-        "overdue": "open work orders past their deadline",
-        "critical": "open work orders with critical priority"
+        "kicker": "例外",
+        "title": "対応が必要",
+        "clear": "現在、対応が必要な例外はありません。",
+        "overdue": "期限を過ぎている未完了の作業指示",
+        "critical": "優先度が緊急の未完了の作業指示"
       },
       "resources": {
-        "kicker": "Coverage",
-        "admin": "Operational capacity",
-        "client": "Assigned installations and devices",
+        "kicker": "対応体制",
+        "admin": "運用キャパシティ",
+        "client": "割り当てられた設置とデバイス",
         "metrics": {
-          "installations": "Installations",
-          "assets": "Assets",
-          "technicians": "Technicians",
-          "devices": "Devices"
+          "installations": "設置",
+          "assets": "アセット",
+          "technicians": "技術者",
+          "devices": "デバイス",
+          "clients": "クライアント"
         }
       },
       "distribution": {
-        "kicker": "Composition"
+        "kicker": "内訳"
       },
-      "ordersCount": "{{count}} orders",
+      "ordersCount": "{{count}}件の作業指示",
       "trend": {
-        "kicker": "Work flow",
-        "description": "{{created}} work orders created and {{completed}} completed in the period.",
-        "tableToggle": "View data table",
-        "tableCaption": "Work orders created and completed by date"
+        "kicker": "作業の流れ",
+        "description": "期間中に{{created}}件の作業指示が作成され、{{completed}}件が完了しました。",
+        "tableToggle": "表でデータを表示",
+        "tableCaption": "作成数と完了数の日別一覧"
       },
-      "date": "Date",
+      "date": "日付",
       "recent": {
-        "kicker": "Latest activity"
+        "kicker": "最近の動き",
+        "detail": "詳細を表示",
+        "openDetail": "{{title}}の詳細を表示",
+        "detailLoading": "作業指示の詳細を開いています…",
+        "detailError": "作業指示の詳細を開けませんでした。もう一度お試しください。"
       },
       "inventory": {
-        "kicker": "Resources",
-        "title": "Inventory summary",
-        "items": "Registered items",
-        "lowStock": "Low-stock items"
+        "kicker": "リソース",
+        "title": "在庫サマリー",
+        "items": "登録品目",
+        "lowStock": "在庫わずか品目",
+        "empty": "在庫アイテムがありません",
+        "lowBadge": "在庫わずか",
+        "meta": "合計{{total}}点 · 在庫わずか{{low}}点",
+        "minimum": "最小{{count}}",
+        "okStock": "在庫正常",
+        "noDetails": "詳細を表示できるアイテムがありません。",
+        "more": "在庫アイテム他に{{count}}点",
+        "viewAll": "在庫をすべて見る"
       },
       "context": {
-        "kicker": "Operational scope",
-        "technician": "Personal work",
-        "technicianDescription": "Indicators and visible work orders are limited to your assigned work.",
-        "client": "Installation activity",
-        "clientDescription": "The information covers all activity at your installations, never organization-wide data."
+        "kicker": "運用の対象範囲",
+        "technician": "自分の作業",
+        "technicianDescription": "指標と作業指示は、自分に割り当てられたものだけを表示します。",
+        "client": "設置の作業状況",
+        "clientDescription": "表示するのは自分の設置に関する活動だけで、組織全体のデータではありません。"
       },
       "empty": {
-        "trend": "No trend data is available for this period.",
-        "distribution": "There are no work orders to distribute in this period."
+        "trend": "この期間の推移データはありません。",
+        "distribution": "この期間に分ける作業指示はありません。",
+        "dashboard": "このダッシュボードにはまだデータが読み込まれていません。",
+        "dashboardHint": "対象範囲に作業指示、資産、在庫が登録されると、指標は自動的に表示されます。",
+        "metrics": "表示できる運用指標がありません。"
       },
       "notices": {
-        "offline": "Offline: showing the latest saved data.",
-        "stale": "Saved data may be out of date.",
-        "fallback": "There was not enough activity in this period; some visualizations use recent history."
+        "offline": "オフラインです。最後に保存したデータを表示しています。",
+        "stale": "保存されたデータは古い可能性があります。",
+        "fallback": "この期間の作業が少なかったため、一部の表示は直近の履歴を使用しています。"
       },
       "errors": {
-        "title": "We could not display the dashboard",
-        "loadFailed": "Dashboard data could not be loaded. Please try again.",
-        "offlineUnavailable": "There is no connection or saved data for this user.",
-        "unsupportedRole": "Your role does not have an authorized dashboard scope.",
-        "inventory": "The inventory summary is unavailable; the rest of the dashboard is current."
+        "title": "パネルを表示できませんでした",
+        "loadFailed": "データを読み込めませんでした。もう一度お試しください。",
+        "offlineUnavailable": "このユーザーは通信手段もなく、保存データもありません。",
+        "unsupportedRole": "あなたのロールにはパネルの表示権限がありません。",
+        "inventory": "在庫サマリーは利用できません。他のパネルは最新です。"
+      },
+      "refreshing": "更新中… {{range}}のデータを表示しています。",
+      "metricDetails": {
+        "mttrHours": "修理に要した平均時間です。",
+        "mtbfHours": "故障間の平均時間です。",
+        "responseTimeHours": "最初の対応までの平均時間です。",
+        "proportion": "作業指示{{total}}件中{{count}}件"
       }
     },
     "welcome": "ようこそ",
@@ -651,7 +710,9 @@
       "installations": "システムに登録されている設備の総数。",
       "assets": "構成されているアセットタイプの総数。",
       "workOrders": "生成された作業指示の総数。",
-      "technicians": "チームに登録されている技術者の総数。"
+      "technicians": "チームに登録されている技術者の総数。",
+      "slaRate": "サービスレベル合意（SLA）の達成率。",
+      "responseTime": "作業指示の作成から最初の対応までの平均時間。"
     },
     "kpiDescriptions": {
       "generic": "保守状況を把握するための主要指標です。",
@@ -685,6 +746,13 @@
         "restart": "チュートリアルを表示"
       },
       "progressText": "{{current}} / {{total}}"
+    },
+    "status": {
+      "pending": "保留中",
+      "assigned": "割り当て済み",
+      "inProgress": "進行中",
+      "completed": "完了",
+      "cancelled": "キャンセル済み"
     }
   },
   "workOrders": {
@@ -726,16 +794,16 @@
       },
       "progressText": "{{total}} 中 {{current}}",
       "navWorkOrders": {
-        "title": "Work orders",
-        "description": "The Work Orders menu groups List and Calendar."
+        "title": "作業指示",
+        "description": "「作業指示」メニューに一覧とカレンダーをまとめています。"
       },
       "navWorkOrdersList": {
-        "title": "Work orders list",
-        "description": "Manage all work orders from List."
+        "title": "作業指示一覧",
+        "description": "一覧ですべての作業指示を管理します。"
       },
       "navCalendar": {
-        "title": "Calendar",
-        "description": "Calendar was previously a View calendar button; now it's under Work Orders → Calendar."
+        "title": "カレンダー",
+        "description": "以前は「カレンダーを表示」ボタンでしたが、現在は「作業指示」→「カレンダー」にあります。"
       }
     },
     "titlePlaceholder": "作業指示書のタイトルを入力してください",
@@ -879,10 +947,63 @@
         "timePositive": "作業時間は正の数で入力してください",
         "timeMax": "作業時間は24時間以内で入力してください",
         "deviceStateInvalid": "デバイスの状態が正しくありません"
-      }
+      },
+      "technicianRequiredForAssigned": "技術者が割り当てられていない指示は割り当てできません。"
     },
     "exportResults": "結果をエクスポート",
-    "autoGeneratedDescription": "自動予防保全オーダー。頻度: {{frequency}}。メンテナンスプランから生成されました。"
+    "autoGeneratedDescription": "自動予防保全オーダー。頻度: {{frequency}}。メンテナンスプランから生成されました。",
+    "additionalInfo": "追加情報",
+    "allDates": "すべての日付",
+    "allPriorities": "すべての優先度",
+    "allStatuses": "すべてのステータス",
+    "allTechnicians": "すべての技術者",
+    "assigning": "割り当て中...",
+    "clearFilters": "フィルターをクリア",
+    "created": "作成済み",
+    "distributionByStatus": "ステータス別内訳",
+    "errorAssigningTechnician": "技術者の割り当てに失敗しました",
+    "errorCompletingOrder": "作業指示の完了に失敗しました",
+    "errorMaintenanceRecord": "オフライン保守の記録に失敗しました",
+    "errorStartingOrder": "作業指示の開始に失敗しました",
+    "evidenceNotStaged": "記録できません：証拠が暗号化ステージングに準備されていません",
+    "filterByDate": "日付で絞り込み",
+    "filterByPriority": "優先度で絞り込み",
+    "formUnavailable": "記録できません：フォームが利用できないか最新ではありません",
+    "invalidWorkOrder": "無効な作業指示",
+    "list": "一覧",
+    "moreOrders": "もっと見る",
+    "nextMonth": "翌月",
+    "nextWeek": "翌週",
+    "noInstallation": "設置未設定",
+    "noOrders": "作業指示が見つかりません",
+    "noTechniciansAvailable": "利用可能な技術者がいません",
+    "notAssigned": "未割り当て",
+    "orderAlreadyStarted": "作業指示は開始済みです",
+    "orderCompleted": "作業指示を完了しました",
+    "orderStarted": "作業指示を開始しました",
+    "selectYear": "年を選択",
+    "selectedDate": "選択した日付",
+    "startCommandBlocked": "完了できません：ローカル開始が失敗したか拒否されました",
+    "started": "開始済み",
+    "starting": "開始中...",
+    "thisMonth": "今月",
+    "thisWeek": "今週",
+    "time": "時刻",
+    "today": "今日",
+    "viewComplete": "すべて表示",
+    "viewDetails": "詳細を見る",
+    "week": "週",
+    "workDone": "実施した作業",
+    "workOrderDetails": "作業指示の詳細",
+    "sun": "日",
+    "mon": "月",
+    "tue": "火",
+    "wed": "水",
+    "thu": "木",
+    "fri": "金",
+    "sat": "土",
+    "noDataAvailable": "データがありません",
+    "selectDate": "日付を選択"
   },
   "installations": {
     "exportResults": "結果をエクスポート",
@@ -1415,7 +1536,7 @@
     "csv": {
       "exportFiltered": "結果をエクスポート",
       "downloadTemplate": "CSVテンプレートをダウンロード",
-      "import": "Import CSV",
+      "import": "CSVをインポート",
       "importTitle": "Import assets",
       "chooseFile": "Select CSV. Each asset uses externalId; the base template must already have templateExternalId assigned.",
       "preview": "Preview",
@@ -2463,7 +2584,7 @@
     },
     "csv": {
       "downloadTemplate": "CSVテンプレートをダウンロード",
-      "import": "Import CSV",
+      "import": "CSVをインポート",
       "exportFiltered": "絞り込み結果をエクスポート",
       "importTitle": "Import inventory from CSV",
       "chooseFile": "Select a CSV file",
@@ -2532,7 +2653,7 @@
     },
     "csv": {
       "downloadTemplate": "CSVテンプレートをダウンロード",
-      "import": "Import CSV",
+      "import": "CSVをインポート",
       "exportFiltered": "絞り込み結果をエクスポート",
       "importTitle": "Import suppliers from CSV",
       "chooseFile": "Select a CSV file",

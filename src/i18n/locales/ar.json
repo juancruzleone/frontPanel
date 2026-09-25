@@ -24,7 +24,9 @@
     "operation": "العمليات",
     "maintenance": "الصيانة",
     "audit": "التدقيق",
-    "list": "قائمة"
+    "list": "قائمة",
+    "compliance": "الامتثال",
+    "settings": "الإعدادات"
   },
   "audit": {
     "title": "سجل النشاط",
@@ -346,7 +348,40 @@
     "syncing": "جارٍ مزامنة التغييرات المعلقة...",
     "syncComplete": "اكتملت المزامنة",
     "syncValidationDiscarded": "خطأ في التحقق ({{type}}). تم تجاهله.",
-    "syncElementDiscarded": "خطأ أثناء مزامنة العنصر ({{type}}). تم تجاهله."
+    "syncElementDiscarded": "خطأ أثناء مزامنة العنصر ({{type}}). تم تجاهله.",
+    "add": "إضافة",
+    "adding": "جارٍ الإضافة...",
+    "approve": "موافقة",
+    "assign": "تعيين",
+    "assigning": "جارٍ التعيين...",
+    "choose": "اختيار",
+    "complete": "إكمال",
+    "copy": "نسخ",
+    "cut": "قصّ",
+    "document": "مستند",
+    "download": "تنزيل",
+    "export": "تصدير",
+    "hello": "مرحبًا",
+    "import": "استيراد",
+    "inactive": "غير نشط",
+    "ok": "تأكيد",
+    "paste": "لصق",
+    "pause": "إيقاف مؤقت",
+    "print": "طباعة",
+    "redo": "إعادة تنفيذ",
+    "reject": "رفض",
+    "remove": "إزالة",
+    "resume": "استئناف",
+    "select": "تحديد",
+    "share": "مشاركة",
+    "start": "بدء",
+    "stop": "إيقاف",
+    "undo": "تراجع",
+    "updating": "جارٍ التحديث...",
+    "upload": "رفع",
+    "view": "عرض",
+    "viewCards": "عرض البطاقات",
+    "viewTable": "عرض الجدول"
   },
   "csvImport": {
     "chooseFile": "اختر ملف CSV",
@@ -456,113 +491,137 @@
     "title": "لوحة التحكم",
     "subtitle": "ملخص العمليات العامة",
     "range": {
-      "7d": "7 days",
-      "30d": "30 days",
-      "90d": "90 days",
-      "12m": "12 months"
+      "7d": "7 أيام",
+      "30d": "30 يومًا",
+      "90d": "90 يومًا",
+      "12m": "12 شهرًا"
     },
     "dashboard": {
       "roles": {
         "admin": {
-          "title": "Operational control",
-          "description": "Exceptions, capacity, and trends across the entire operation."
+          "title": "التحكم التشغيلي",
+          "description": "الاستثناءات والطاقة التشغيلية والاتجاهات لكامل العمليات."
         },
         "technician": {
-          "title": "My operational day",
-          "description": "Priorities, deadlines, and trends for your assigned work orders."
+          "title": "يومي التشغيلي",
+          "description": "أولويات أوامر العمل المسندة إليك ومواعيدها واتجاهاتها."
         },
         "client": {
-          "title": "My installation status",
-          "description": "Activity, maintenance, and health across your assigned installations."
+          "title": "حالة التركيبات الخاصة بي",
+          "description": "النشاط والصيانة وحالة التركيبات المسندة إليك."
         }
       },
       "scope": {
-        "tenant": "Entire organization",
-        "assigned_work": "Assigned work",
-        "assigned_installations": "Assigned installations"
+        "tenant": "كامل المؤسسة",
+        "assigned_work": "الأعمال المسندة",
+        "assigned_installations": "التركيبات المسندة"
       },
-      "scopeLabel": "Scope",
-      "updated": "Updated",
-      "period": "Analysis period",
-      "rangeLabel": "Select analysis period",
-      "rangeHelp": "Affects work-order metrics, trends, and distributions.",
+      "scopeLabel": "النطاق",
+      "updated": "تم التحديث",
+      "period": "فترة التحليل",
+      "rangeLabel": "تحديد فترة التحليل",
+      "rangeHelp": "يؤثر في المؤشرات والاتجاه وتوزيع أوامر العمل.",
       "loading": "جارٍ تحميل لوحة المعلومات",
       "dateUnavailable": "التاريخ غير متاح",
       "sections": {
-        "immediate": "Immediate attention and summary",
-        "analysis": "Trend and status",
-        "recent": "Recent activity and context"
+        "immediate": "العاجل وملخص الوضع",
+        "analysis": "الاتجاه والحالة",
+        "recent": "النشاط الأخير والسياق",
+        "immediateKicker": "ملخص تشغيلي"
       },
       "metrics": {
-        "openWorkOrders": "Open work orders",
-        "overdueWorkOrders": "Overdue work orders",
-        "criticalWorkOrders": "Critical work orders",
-        "mttrHours": "Mean time to repair",
-        "mtbfHours": "Mean time between failures",
-        "preventiveComplianceRate": "Preventive compliance",
-        "slaRate": "SLA compliance",
-        "responseTimeHours": "First response"
+        "openWorkOrders": "أوامر عمل مفتوحة",
+        "overdueWorkOrders": "أوامر عمل متأخرة",
+        "criticalWorkOrders": "أوامر عمل حرجة",
+        "mttrHours": "متوسط وقت الإصلاح",
+        "mtbfHours": "متوسط الوقت بين الأعطال",
+        "preventiveComplianceRate": "الالتزام بالصيانة الوقائية",
+        "slaRate": "الالتزام بمستوى الخدمة (SLA)",
+        "responseTimeHours": "الاستجابة الأولى"
       },
       "attention": {
-        "kicker": "Exceptions",
-        "title": "Attention required",
-        "clear": "There are no active exceptions right now.",
-        "overdue": "open work orders past their deadline",
-        "critical": "open work orders with critical priority"
+        "kicker": "الاستثناءات",
+        "title": "يتطلب انتباهًا",
+        "clear": "لا توجد استثناءات نشطة حاليًا.",
+        "overdue": "أوامر عمل مفتوحة تجاوزت موعدها",
+        "critical": "أوامر عمل مفتوحة بأولوية حرجة"
       },
       "resources": {
-        "kicker": "Coverage",
-        "admin": "Operational capacity",
-        "client": "Assigned installations and devices",
+        "kicker": "التغطية",
+        "admin": "الطاقة التشغيلية",
+        "client": "التركيبات والأجهزة المسندة",
         "metrics": {
-          "installations": "Installations",
-          "assets": "Assets",
-          "technicians": "Technicians",
-          "devices": "Devices"
+          "installations": "التركيبات",
+          "assets": "الأصول",
+          "technicians": "الفنيون",
+          "devices": "الأجهزة",
+          "clients": "العملاء"
         }
       },
       "distribution": {
-        "kicker": "Composition"
+        "kicker": "التوزيع"
       },
-      "ordersCount": "{{count}} orders",
+      "ordersCount": "{{count}} أمر عمل",
       "trend": {
-        "kicker": "Work flow",
-        "description": "{{created}} work orders created and {{completed}} completed in the period.",
-        "tableToggle": "View data table",
-        "tableCaption": "Work orders created and completed by date"
+        "kicker": "تدفق العمل",
+        "description": "تم إنشاء {{created}} أمر عمل وإكمال {{completed}} خلال الفترة.",
+        "tableToggle": "عرض البيانات في جدول",
+        "tableCaption": "أوامر العمل المُنشأة والمكتملة حسب التاريخ"
       },
-      "date": "Date",
+      "date": "التاريخ",
       "recent": {
-        "kicker": "Latest activity"
+        "kicker": "أحدث الحركات",
+        "detail": "عرض التفاصيل",
+        "openDetail": "عرض تفاصيل {{title}}",
+        "detailLoading": "جارٍ فتح تفاصيل أمر العمل…",
+        "detailError": "لم نتمكن من فتح تفاصيل أمر العمل. حاول مرة أخرى."
       },
       "inventory": {
-        "kicker": "Resources",
-        "title": "Inventory summary",
-        "items": "Registered items",
-        "lowStock": "Low-stock items"
+        "kicker": "الموارد",
+        "title": "ملخص المخزون",
+        "items": "الأصناف المسجلة",
+        "lowStock": "أصناف بمخزون منخفض",
+        "empty": "لا توجد أصناف في المخزون",
+        "lowBadge": "مخزون منخفض",
+        "meta": "{{total}} صنف · {{low}} بمخزون منخفض",
+        "minimum": "الحد الأدنى {{count}}",
+        "okStock": "مخزون سليم",
+        "noDetails": "لا توجد أصناف بتفاصيل للعرض.",
+        "more": "{{count}} صنف إضافي في المخزون",
+        "viewAll": "عرض كل المخزون"
       },
       "context": {
-        "kicker": "Operational scope",
-        "technician": "Personal work",
-        "technicianDescription": "Indicators and visible work orders are limited to your assigned work.",
-        "client": "Installation activity",
-        "clientDescription": "The information covers all activity at your installations, never organization-wide data."
+        "kicker": "نطاق التشغيل",
+        "technician": "الأعمال الشخصية",
+        "technicianDescription": "المؤشرات وأوامر العمل المعروضة مقتصرة على أعمالك المسندة.",
+        "client": "نشاط التركيبات",
+        "clientDescription": "تشمل المعلومات كل النشاط المرتبط بتركيباتك، وليس بيانات على مستوى المؤسسة."
       },
       "empty": {
-        "trend": "No trend data is available for this period.",
-        "distribution": "There are no work orders to distribute in this period."
+        "trend": "لا يوجد تطور متاح لهذه الفترة.",
+        "distribution": "لا توجد أوامر عمل لتوزيعها في هذه الفترة.",
+        "dashboard": "لا توجد بيانات محمّلة في لوحة المعلومات بعد.",
+        "dashboardHint": "بمجرد وجود أوامر عمل أو أصول أو مخزون في نطاقك، ستُستكمل المؤشرات تلقائيًا.",
+        "metrics": "لا توجد مؤشرات تشغيلية متاحة حاليًا."
       },
       "notices": {
-        "offline": "Offline: showing the latest saved data.",
-        "stale": "Saved data may be out of date.",
-        "fallback": "There was not enough activity in this period; some visualizations use recent history."
+        "offline": "غير متصل: يتم عرض آخر البيانات المحفوظة.",
+        "stale": "قد تكون البيانات المحفوظة غير محدثة.",
+        "fallback": "لم يكن هناك نشاط كافٍ في هذه الفترة؛ تستخدم بعض الرسوم السجل الأخير."
       },
       "errors": {
-        "title": "We could not display the dashboard",
-        "loadFailed": "Dashboard data could not be loaded. Please try again.",
-        "offlineUnavailable": "There is no connection or saved data for this user.",
-        "unsupportedRole": "Your role does not have an authorized dashboard scope.",
-        "inventory": "The inventory summary is unavailable; the rest of the dashboard is current."
+        "title": "تعذر عرض اللوحة",
+        "loadFailed": "لم نتمكن من تحميل البيانات. حاول مرة أخرى.",
+        "offlineUnavailable": "لا يوجد اتصال ولا بيانات محفوظة لهذا المستخدم.",
+        "unsupportedRole": "دورك لا يملك نطاقًا معتمدًا للوحة.",
+        "inventory": "ملخص المخزون غير متاح؛ بقية اللوحة محدثة."
+      },
+      "refreshing": "جارٍ التحديث… يتم عرض بيانات {{range}}.",
+      "metricDetails": {
+        "mttrHours": "متوسط الوقت المخصص للإصلاحات.",
+        "mtbfHours": "متوسط الوقت بين الأعطال.",
+        "responseTimeHours": "متوسط الوقت حتى أول استجابة.",
+        "proportion": "{{count}} من أصل {{total}} أمر عمل"
       }
     },
     "welcome": "مرحبًا",
@@ -652,7 +711,9 @@
       "installations": "إجمالي عدد المنشآت المسجلة في النظام.",
       "assets": "إجمالي عدد أنواع الأصول التي تم تكوينها.",
       "workOrders": "إجمالي عدد أوامر العمل التي تم إنشاؤها.",
-      "technicians": "إجمالي عدد الفنيين المسجلين في الفريق."
+      "technicians": "إجمالي عدد الفنيين المسجلين في الفريق.",
+      "slaRate": "نسبة الالتزام باتفاقيات مستوى الخدمة (SLA).",
+      "responseTime": "متوسط الوقت من إنشاء الأمر حتى أول استجابة."
     },
     "kpiDescriptions": {
       "generic": "مؤشر رئيسي لفهم حالة الصيانة.",
@@ -686,6 +747,13 @@
         "restart": "عرض البرنامج التعليمي"
       },
       "progressText": "{{current}} من {{total}}"
+    },
+    "status": {
+      "pending": "قيد الانتظار",
+      "assigned": "مُعيَّنة",
+      "inProgress": "قيد التنفيذ",
+      "completed": "مكتملة",
+      "cancelled": "ملغاة"
     }
   },
   "workOrders": {
@@ -727,16 +795,16 @@
       },
       "progressText": "{{current}} من {{total}}",
       "navWorkOrders": {
-        "title": "Work orders",
-        "description": "The Work Orders menu groups List and Calendar."
+        "title": "أوامر العمل",
+        "description": "قسم أوامر العمل يجمع بين قائمة الأوامر والتقويم."
       },
       "navWorkOrdersList": {
-        "title": "Work orders list",
-        "description": "Manage all work orders from List."
+        "title": "قائمة الأوامر",
+        "description": "من القائمة تدير جميع أوامر العمل."
       },
       "navCalendar": {
-        "title": "Calendar",
-        "description": "Calendar was previously a View calendar button; now it's under Work Orders → Calendar."
+        "title": "التقويم",
+        "description": "كان التقويم يظهر سابقًا كزر لعرض التقويم، أما الآن فهو ضمن أوامر العمل."
       }
     },
     "titlePlaceholder": "أدخل عنوان أمر العمل",
@@ -840,7 +908,8 @@
       "completeOrderMessage": "هل أنت متأكد من أنك تريد تحديد هذا الأمر كمكتمل؟",
       "startOrderTitle": "بدء الأمر",
       "startOrderMessage": "هل أنت متأكد من أنك تريد بدء أمر العمل هذا؟",
-      "assignTechnician": "تعيين فني"
+      "assignTechnician": "تعيين فني",
+      "successTitle": "تمت العملية بنجاح!"
     },
     "form": {
       "maintenance": "صيانة",
@@ -877,10 +946,64 @@
         "timePositive": "يجب أن يكون وقت العمل موجبًا",
         "timeMax": "لا يمكن أن يتجاوز وقت العمل 24 ساعة",
         "deviceStateInvalid": "يجب أن تكون حالة الجهاز صالحة"
-      }
+      },
+      "technicianRequiredForAssigned": "لا يمكن تعيين أمر عمل بدون فني معيّن."
     },
     "exportResults": "تصدير النتائج",
-    "autoGeneratedDescription": "أمر صيانة وقائية تلقائي. التكرار: {{frequency}}. تم إنشاؤه من خطة الصيانة."
+    "autoGeneratedDescription": "أمر صيانة وقائية تلقائي. التكرار: {{frequency}}. تم إنشاؤه من خطة الصيانة.",
+    "additionalInfo": "معلومات إضافية",
+    "allDates": "جميع التواريخ",
+    "allPriorities": "جميع الأولويات",
+    "allStatuses": "جميع الحالات",
+    "allTechnicians": "جميع الفنيين",
+    "asignada": "معينة",
+    "assigning": "جارٍ التعيين...",
+    "clearFilters": "مسح عوامل التصفية",
+    "created": "تم الإنشاء",
+    "distributionByStatus": "التوزيع حسب الحالة",
+    "errorAssigningTechnician": "تعذر تعيين الفني",
+    "errorCompletingOrder": "تعذر إكمال أمر العمل",
+    "errorMaintenanceRecord": "تعذر تسجيل الصيانة دون اتصال",
+    "errorStartingOrder": "تعذر بدء أمر العمل",
+    "evidenceNotStaged": "لا يمكن التسجيل: الأدلة غير مُجهزة في التخزين المؤقت المشفّر",
+    "filterByDate": "تصفية حسب التاريخ",
+    "filterByPriority": "تصفية حسب الأولوية",
+    "formUnavailable": "لا يمكن التسجيل: النموذج غير متوفر أو غير محدّث",
+    "list": "قائمة",
+    "moreOrders": "المزيد",
+    "nextMonth": "الشهر القادم",
+    "nextWeek": "الأسبوع القادم",
+    "noInstallation": "بدون تركيب",
+    "noOrders": "لا توجد أوامر عمل",
+    "noTechnicianAssigned": "لا يوجد فني معيّن",
+    "notAssigned": "غير معيّن",
+    "orderAlreadyStarted": "بدأ أمر العمل بالفعل",
+    "orderCompleted": "اكتمل أمر العمل بنجاح",
+    "orderStarted": "بدأ أمر العمل بنجاح",
+    "pendiente": "قيد الانتظار",
+    "selectYear": "اختر السنة",
+    "selectedDate": "التاريخ المحدد",
+    "startCommandBlocked": "لا يمكن الإكمال: فشل البدء المحلي أو رُفض",
+    "started": "تم البدء",
+    "starting": "جارٍ البدء...",
+    "thisMonth": "هذا الشهر",
+    "thisWeek": "هذا الأسبوع",
+    "time": "الوقت",
+    "today": "اليوم",
+    "viewComplete": "عرض كامل",
+    "viewDetails": "عرض التفاصيل",
+    "week": "الأسبوع",
+    "workDone": "العمل المنجز",
+    "workOrderDetails": "تفاصيل أمر العمل",
+    "sun": "أحد",
+    "mon": "اثنين",
+    "tue": "ثلاثاء",
+    "wed": "أربعاء",
+    "thu": "خميس",
+    "fri": "جمعة",
+    "sat": "سبت",
+    "noDataAvailable": "لا توجد بيانات متاحة",
+    "selectDate": "اختر التاريخ"
   },
   "installations": {
     "exportResults": "تصدير النتائج",
@@ -1414,7 +1537,7 @@
     "csv": {
       "exportFiltered": "تصدير النتائج",
       "downloadTemplate": "تنزيل قالب CSV",
-      "import": "Import CSV",
+      "import": "استيراد CSV",
       "importTitle": "Import assets",
       "chooseFile": "Select CSV. Each asset uses externalId; the base template must already have templateExternalId assigned.",
       "preview": "Preview",
@@ -2464,7 +2587,7 @@
     },
     "csv": {
       "downloadTemplate": "تنزيل قالب CSV",
-      "import": "Import CSV",
+      "import": "استيراد CSV",
       "exportFiltered": "تصدير النتائج المفلترة",
       "importTitle": "Import inventory from CSV",
       "chooseFile": "Select a CSV file",
@@ -2533,7 +2656,7 @@
     },
     "csv": {
       "downloadTemplate": "تنزيل قالب CSV",
-      "import": "Import CSV",
+      "import": "استيراد CSV",
       "exportFiltered": "تصدير النتائج المفلترة",
       "importTitle": "Import suppliers from CSV",
       "chooseFile": "Select a CSV file",

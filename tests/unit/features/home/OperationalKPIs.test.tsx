@@ -35,7 +35,9 @@ describe("OperationalKPIs contextual detail", () => {
   })
 
   it.each([null, -1, 101, NaN])("does not draw progress for unavailable or invalid percentage %s", (value) => {
-    render(<OperationalKPIs metrics={[{ id: "slaRate", value, unit: "percent" }]} />)
+    // A companion metric with a real value keeps the band in "has data" mode;
+    // a band where nothing is available is covered by its own test below.
+    render(<OperationalKPIs metrics={[{ id: "slaRate", value, unit: "percent" }, { id: "openWorkOrders", value: 5 }]} />)
     expect(screen.queryByRole("progressbar")).not.toBeInTheDocument()
     if (value === null) expect(screen.getByText("N/D")).toBeInTheDocument()
   })
@@ -58,10 +60,55 @@ describe("OperationalKPIs contextual detail", () => {
   })
 
   it("keeps definitions factual when an hour value is unavailable", () => {
-    const metrics: DashboardMetric[] = [{ id: "responseTimeHours", value: null, unit: "hours" }]
+    const metrics: DashboardMetric[] = [
+      { id: "responseTimeHours", value: null, unit: "hours" },
+      { id: "openWorkOrders", value: 5 },
+    ]
     render(<OperationalKPIs metrics={metrics} />)
     expect(screen.getByText("N/D")).toBeInTheDocument()
     expect(screen.getByText("Tiempo promedio hasta la primera respuesta.")).toBeInTheDocument()
+  })
+
+  it("replaces a band of unavailable metrics with one clear message", () => {
+    const metrics: DashboardMetric[] = [
+      { id: "mttrHours", value: null, unit: "hours" },
+      { id: "slaRate", value: null, unit: "percent" },
+      { id: "responseTimeHours", value: null, unit: "hours" },
+      { id: "openWorkOrders", value: NaN },
+    ]
+    const { container } = render(<OperationalKPIs metrics={metrics} />)
+    expect(screen.getByText("Aún no hay métricas operativas disponibles.")).toBeInTheDocument()
+    expect(screen.queryByText("N/D")).not.toBeInTheDocument()
+    expect(screen.getByRole("group", { name: "Métricas Operativas" })).toBeInTheDocument()
+    expect(container.querySelectorAll(".kpiCell")).toHaveLength(0)
+  })
+
+  it("keeps a known zero as a value instead of treating it as no data", () => {
+    render(<OperationalKPIs metrics={[{ id: "openWorkOrders", value: 0, total: 12 }]} />)
+    expect(screen.queryByText("Aún no hay métricas operativas disponibles.")).not.toBeInTheDocument()
+    expect(screen.getByText("0 de 12 órdenes")).toBeInTheDocument()
+  })
+
+  it("translates the unavailable-metrics message in every locale", async () => {
+    const messages: Record<string, string> = {
+      en: "No operational metrics available yet.",
+      es: "Aún no hay métricas operativas disponibles.",
+      de: "Es sind noch keine betrieblichen Kennzahlen verfügbar.",
+      fr: "Aucune métrique opérationnelle disponible pour le moment.",
+      it: "Nessuna metrica operativa disponibile al momento.",
+      pt: "Nenhuma métrica operacional disponível no momento.",
+      ja: "表示できる運用指標がありません。",
+      ko: "사용할 수 있는 운영 지표가 없습니다.",
+      zh: "暂无可用的运营指标。",
+      ar: "لا توجد مؤشرات تشغيلية متاحة حاليًا.",
+    }
+    for (const [language, message] of Object.entries(messages)) {
+      await i18n.changeLanguage(language)
+      const { unmount } = render(<OperationalKPIs metrics={[{ id: "slaRate", value: null, unit: "percent" }]} />)
+      expect(screen.getByText(message)).toBeInTheDocument()
+      unmount()
+    }
+    await i18n.changeLanguage("es")
   })
 
   it("translates the new detail in English", async () => {

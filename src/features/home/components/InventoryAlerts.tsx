@@ -11,14 +11,22 @@ interface InventorySummaryProps {
   retrying?: boolean
 }
 
+/** The summary endpoint caps item details at five rows; the totals come from
+ * the paginated count, so the card can state how many items stay in the
+ * registry instead of silently dropping them. */
+const MAX_VISIBLE_ITEMS = 5
+
 export const InventorySummary = ({ data, hasError, onRetry, retrying = false }: InventorySummaryProps) => {
   const { t } = useTranslation()
   const { getRoute } = useTranslatedRoutes()
   const items = data?.items ?? []
   const lowDetails = data?.lowStockDetails ?? data?.lowStockItemsDetail ?? []
-  const totalItems = data?.totalItems ?? 0
-  const lowCount = data?.lowStockItems ?? 0
-  const hasItems = items.length > 0 || totalItems > 0
+  const totalItems = Math.max(data?.totalItems ?? 0, items.length)
+  const lowCount = Math.min(data?.lowStockItems ?? 0, totalItems)
+  const okCount = Math.max(totalItems - lowCount, 0)
+  const hasItems = items.length > 0 || (data?.totalItems ?? 0) > 0
+  const visibleItems = items.slice(0, MAX_VISIBLE_ITEMS)
+  const hiddenItems = Math.max(totalItems - visibleItems.length, 0)
 
   return (
     <section className={styles.inventorySummary} aria-labelledby="inventory-summary-title">
@@ -32,6 +40,9 @@ export const InventorySummary = ({ data, hasError, onRetry, retrying = false }: 
             </p>
           )}
         </div>
+        <Link className={styles.panelAction} to={getRoute("inventory")}>
+          {t("home.dashboard.inventory.viewAll")}
+        </Link>
       </div>
       {hasError ? (
         <div role="alert">
@@ -41,31 +52,58 @@ export const InventorySummary = ({ data, hasError, onRetry, retrying = false }: 
       ) : !data || !hasItems ? (
         <p className={styles.emptyState}>{t("home.dashboard.inventory.empty")}</p>
       ) : (
-        <ul className={styles.inventoryList} aria-label={t("home.dashboard.inventory.title")}>
-          {items.slice(0, 5).map((item) => {
-            const isLow = item.currentStock <= item.minimumStock
-            const lowBadge = isLow ? lowDetails.some((d) => d._id === item._id) || isLow : false
-            return (
-              <li key={item._id}>
-                <Link
-                  to={getRoute("inventory")}
-                  className={isLow ? `${styles.inventoryItem} ${styles.inventoryItemLow}` : styles.inventoryItem}
-                >
-                <span className={styles.inventoryItemName} title={item.name}>
-                  {item.name}
-                </span>
-                <span className={styles.inventoryItemStock}>
-                  {item.currentStock} {item.unit}
-                  <span className={styles.inventoryItemMin}> ({t("home.dashboard.inventory.minimum", { count: item.minimumStock })})</span>
-                  {lowBadge && (
-                    <span className={styles.inventoryBadge}>{t("home.dashboard.inventory.lowBadge")}</span>
-                  )}
-                </span>
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
+        <>
+          {visibleItems.length > 0 ? (
+            <ul className={styles.inventoryList} aria-label={t("home.dashboard.inventory.title")}>
+              {visibleItems.map((item) => {
+                const isLow = item.currentStock <= item.minimumStock
+                const lowBadge = isLow ? lowDetails.some((d) => d._id === item._id) || isLow : false
+                return (
+                  <li key={item._id}>
+                    <Link
+                      to={getRoute("inventory")}
+                      className={isLow ? `${styles.inventoryItem} ${styles.inventoryItemLow}` : styles.inventoryItem}
+                    >
+                    <span className={styles.inventoryItemName} title={item.name}>
+                      {item.name}
+                    </span>
+                    <span className={styles.inventoryItemStock}>
+                      {item.currentStock} {item.unit}
+                      <span className={styles.inventoryItemMin}> ({t("home.dashboard.inventory.minimum", { count: item.minimumStock })})</span>
+                      {lowBadge && (
+                        <span className={styles.inventoryBadge}>{t("home.dashboard.inventory.lowBadge")}</span>
+                      )}
+                    </span>
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          ) : (
+            <p className={styles.inventoryMeta}>{t("home.dashboard.inventory.noDetails")}</p>
+          )}
+          {hiddenItems > 0 && (
+            <p className={styles.inventoryMeta}>
+              {t("home.dashboard.inventory.more", { count: hiddenItems })}
+            </p>
+          )}
+          {/* Stock state in numbers: real totals, no invented rows. The block
+           * absorbs the leftover height of the card. */}
+          <dl>
+            <div>
+              <dt>{t("home.dashboard.inventory.items")}</dt>
+              <dd>{totalItems}</dd>
+            </div>
+            <div>
+              <dt>{t("home.dashboard.inventory.lowStock")}</dt>
+              <dd>{lowCount}</dd>
+            </div>
+            <div>
+              <dt>{t("home.dashboard.inventory.okStock")}</dt>
+              <dd>{okCount}</dd>
+            </div>
+          </dl>
+        </>
       )}
     </section>
   )

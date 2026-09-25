@@ -590,7 +590,11 @@
         "empty": "No hay artículos en inventario",
         "lowBadge": "Stock bajo",
         "meta": "{{total}} ítems · {{low}} con stock bajo",
-        "minimum": "mín. {{count}}"
+        "minimum": "mín. {{count}}",
+        "okStock": "Stock correcto",
+        "noDetails": "No hay artículos con detalle para mostrar.",
+        "more": "+{{count}} ítems más en el inventario",
+        "viewAll": "Ver todo el inventario"
       },
       "context": {
         "kicker": "Alcance operativo",
@@ -601,7 +605,10 @@
       },
       "empty": {
         "trend": "No hay evolución disponible para este periodo.",
-        "distribution": "No hay órdenes para distribuir en este periodo."
+        "distribution": "No hay órdenes para distribuir en este periodo.",
+        "dashboard": "Aún no hay datos cargados para mostrar en el panel.",
+        "dashboardHint": "Cuando haya órdenes de trabajo, activos o inventario en tu alcance, los indicadores se completarán automáticamente.",
+        "metrics": "Aún no hay métricas operativas disponibles."
       },
       "notices": {
         "offline": "Sin conexión: se muestran los últimos datos guardados.",

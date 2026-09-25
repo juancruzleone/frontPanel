@@ -25,8 +25,8 @@
     "maintenance": "Manutenção",
     "audit": "Auditoria",
     "list": "Lista",
-    "settings": "Settings",
-    "compliance": "Compliance"
+    "settings": "Configurações",
+    "compliance": "Conformidade"
   },
   "audit": {
     "title": "Registro de atividade",
@@ -346,43 +346,43 @@
     "syncComplete": "Sincronização concluída",
     "syncValidationDiscarded": "Erro de validação ({{type}}). Descartado.",
     "syncElementDiscarded": "Erro ao sincronizar item ({{type}}). Descartado.",
-    "remove": "Remove",
-    "viewCards": "Card view",
-    "continue": "Continue",
-    "hello": "Hola",
-    "download": "Download",
-    "of": "of",
-    "paste": "Paste",
-    "import": "Import",
-    "resume": "Resume",
-    "updating": "Updating...",
-    "inactive": "Inactive",
-    "viewTable": "Table view",
+    "remove": "Remover",
+    "viewCards": "Visualização em cartões",
+    "continue": "Continuar",
+    "hello": "Olá",
+    "download": "Baixar",
+    "of": "de",
+    "paste": "Colar",
+    "import": "Importar",
+    "resume": "Retomar",
+    "updating": "Atualizando...",
+    "inactive": "Inativo",
+    "viewTable": "Visualização em tabela",
     "document": "Documento",
-    "add": "Add",
-    "stop": "Stop",
-    "reject": "Reject",
-    "page": "Page",
-    "assigning": "Asignando...",
-    "redo": "Redo",
-    "assign": "Assign",
-    "export": "Export",
-    "cut": "Cut",
-    "adding": "Adding...",
-    "approve": "Approve",
-    "choose": "Choose",
-    "upload": "Upload",
-    "select": "Select",
-    "complete": "Complete",
-    "copy": "Copy",
-    "start": "Start",
-    "undo": "Undo",
-    "successTitle": "Operation successful!",
-    "view": "View",
-    "ok": "Aceptar",
-    "print": "Print",
-    "pause": "Pause",
-    "share": "Share"
+    "add": "Adicionar",
+    "stop": "Parar",
+    "reject": "Rejeitar",
+    "page": "Página",
+    "assigning": "Atribuindo...",
+    "redo": "Refazer",
+    "assign": "Atribuir",
+    "export": "Exportar",
+    "cut": "Recortar",
+    "adding": "Adicionando...",
+    "approve": "Aprovar",
+    "choose": "Escolher",
+    "upload": "Enviar",
+    "select": "Selecionar",
+    "complete": "Concluir",
+    "copy": "Copiar",
+    "start": "Iniciar",
+    "undo": "Desfazer",
+    "successTitle": "Operação bem-sucedida!",
+    "view": "Ver",
+    "ok": "OK",
+    "print": "Imprimir",
+    "pause": "Pausar",
+    "share": "Compartilhar"
   },
   "csvImport": {
     "chooseFile": "Selecione um arquivo CSV",
@@ -491,116 +491,137 @@
     "title": "Painel de Controle",
     "subtitle": "Resumo geral das operações",
     "range": {
-      "7d": "7 days",
-      "30d": "30 days",
-      "90d": "90 days",
-      "12m": "12 months"
+      "7d": "7 dias",
+      "30d": "30 dias",
+      "90d": "90 dias",
+      "12m": "12 meses"
     },
     "dashboard": {
       "roles": {
         "admin": {
-          "title": "Operational control",
-          "description": "Exceptions, capacity, and trends across the entire operation."
+          "title": "Controle operacional",
+          "description": "Exceções, capacidade e evolução de toda a operação."
         },
         "technician": {
-          "title": "My operational day",
-          "description": "Priorities, deadlines, and trends for your assigned work orders."
+          "title": "Minha jornada operacional",
+          "description": "Prioridades, prazos e evolução das ordens de serviço atribuídas a você."
         },
         "client": {
-          "title": "My installation status",
-          "description": "Activity, maintenance, and health across your assigned installations."
+          "title": "Status das minhas instalações",
+          "description": "Atividade, manutenção e estado das instalações atribuídas a você."
         }
       },
       "scope": {
-        "tenant": "Entire organization",
-        "assigned_work": "Assigned work",
-        "assigned_installations": "Assigned installations"
+        "tenant": "Toda a organização",
+        "assigned_work": "Trabalho atribuído",
+        "assigned_installations": "Instalações atribuídas"
       },
-      "scopeLabel": "Scope",
-      "updated": "Updated",
-      "period": "Analysis period",
-      "rangeLabel": "Select analysis period",
-      "rangeHelp": "Affects work-order metrics, trends, and distributions.",
+      "scopeLabel": "Escopo",
+      "updated": "Atualizado",
+      "period": "Período analisado",
+      "rangeLabel": "Selecionar período analisado",
+      "rangeHelp": "Afeta as métricas, a tendência e a distribuição das ordens de serviço.",
       "loading": "Carregando painel",
       "dateUnavailable": "Data indisponível",
       "sections": {
-        "immediate": "Immediate attention and summary",
-        "analysis": "Trend and status",
-        "recent": "Recent activity and context"
+        "immediate": "Atenção imediata e resumo",
+        "analysis": "Tendência e estado",
+        "recent": "Atividade recente e contexto",
+        "immediateKicker": "Visão operacional"
       },
       "metrics": {
-        "openWorkOrders": "Open work orders",
-        "overdueWorkOrders": "Overdue work orders",
-        "criticalWorkOrders": "Critical work orders",
-        "mttrHours": "Mean time to repair",
-        "mtbfHours": "Mean time between failures",
-        "preventiveComplianceRate": "Preventive compliance",
-        "slaRate": "SLA compliance",
-        "responseTimeHours": "First response"
+        "openWorkOrders": "Ordens de serviço abertas",
+        "overdueWorkOrders": "Ordens de serviço em atraso",
+        "criticalWorkOrders": "Ordens de serviço críticas",
+        "mttrHours": "Tempo médio de reparo",
+        "mtbfHours": "Tempo médio entre falhas",
+        "preventiveComplianceRate": "Conformidade preventiva",
+        "slaRate": "Conformidade com o SLA",
+        "responseTimeHours": "Primeira resposta"
       },
       "attention": {
-        "kicker": "Exceptions",
-        "title": "Attention required",
-        "clear": "There are no active exceptions right now.",
-        "overdue": "open work orders past their deadline",
-        "critical": "open work orders with critical priority"
+        "kicker": "Exceções",
+        "title": "Requer atenção",
+        "clear": "Não há exceções ativas no momento.",
+        "overdue": "ordens de serviço abertas fora do prazo",
+        "critical": "ordens de serviço abertas com prioridade crítica"
       },
       "resources": {
-        "kicker": "Coverage",
-        "admin": "Operational capacity",
-        "client": "Assigned installations and devices",
+        "kicker": "Cobertura",
+        "admin": "Capacidade da operação",
+        "client": "Instalações e dispositivos atribuídos",
         "metrics": {
-          "installations": "Installations",
-          "assets": "Assets",
-          "technicians": "Technicians",
-          "devices": "Devices"
+          "installations": "Instalações",
+          "assets": "Ativos",
+          "technicians": "Técnicos",
+          "devices": "Dispositivos",
+          "clients": "Clientes"
         }
       },
       "distribution": {
-        "kicker": "Composition"
+        "kicker": "Composição"
       },
-      "ordersCount": "{{count}} orders",
+      "ordersCount": "{{count}} ordens",
       "trend": {
-        "kicker": "Work flow",
-        "description": "{{created}} work orders created and {{completed}} completed in the period.",
-        "tableToggle": "View data table",
-        "tableCaption": "Work orders created and completed by date"
+        "kicker": "Fluxo de trabalho",
+        "description": "{{created}} ordens de serviço criadas e {{completed}} concluídas no período.",
+        "tableToggle": "Ver dados em tabela",
+        "tableCaption": "Ordens criadas e concluídas por data"
       },
-      "date": "Date",
+      "date": "Data",
       "recent": {
-        "kicker": "Latest activity"
+        "kicker": "Últimos movimentos",
+        "detail": "Ver detalhes",
+        "openDetail": "Ver detalhes de {{title}}",
+        "detailLoading": "Abrindo os detalhes da ordem de serviço…",
+        "detailError": "Não foi possível abrir os detalhes da ordem de serviço. Tente novamente."
       },
       "inventory": {
-        "kicker": "Resources",
-        "title": "Inventory summary",
-        "items": "Registered items",
-        "lowStock": "Low-stock items",
-        "lowBadge": "Stock bajo",
-        "meta": "{{total}} ítems · {{low}} con stock bajo",
-        "empty": "No hay artículos en inventario"
+        "kicker": "Recursos",
+        "title": "Resumo do inventário",
+        "items": "Itens cadastrados",
+        "lowStock": "Itens com estoque baixo",
+        "lowBadge": "Estoque baixo",
+        "meta": "{{total}} itens · {{low}} com estoque baixo",
+        "empty": "Nenhum item no inventário",
+        "minimum": "mín. {{count}}",
+        "okStock": "Estoque correto",
+        "noDetails": "Nenhum item com detalhes para exibir.",
+        "more": "+{{count}} itens no inventário",
+        "viewAll": "Ver todo o inventário"
       },
       "context": {
-        "kicker": "Operational scope",
-        "technician": "Personal work",
-        "technicianDescription": "Indicators and visible work orders are limited to your assigned work.",
-        "client": "Installation activity",
-        "clientDescription": "The information covers all activity at your installations, never organization-wide data."
+        "kicker": "Escopo operacional",
+        "technician": "Trabalho pessoal",
+        "technicianDescription": "Os indicadores e as ordens visíveis se limitam ao trabalho atribuído a você.",
+        "client": "Atividade das instalações",
+        "clientDescription": "As informações reúnem toda a atividade das suas instalações, não dados globais da organização."
       },
       "empty": {
-        "trend": "No trend data is available for this period.",
-        "distribution": "There are no work orders to distribute in this period."
+        "trend": "Não há evolução disponível para este período.",
+        "distribution": "Não há ordens para distribuir neste período.",
+        "dashboard": "Nenhum dado carregado neste painel.",
+        "dashboardHint": "Quando houver ordens de serviço, ativos ou inventário no seu escopo, os indicadores serão preenchidos automaticamente.",
+        "metrics": "Nenhuma métrica operacional disponível no momento."
       },
       "notices": {
-        "offline": "Offline: showing the latest saved data.",
-        "stale": "Saved data may be out of date.",
-        "fallback": "There was not enough activity in this period; some visualizations use recent history."
+        "offline": "Sem conexão: mostrando os últimos dados salvos.",
+        "stale": "Os dados salvos podem estar desatualizados.",
+        "fallback": "Não houve atividade suficiente no período; algumas visualizações usam o histórico recente."
       },
       "errors": {
-        "title": "We could not display the dashboard",
-        "loadFailed": "Dashboard data could not be loaded. Please try again.",
-        "offlineUnavailable": "There is no connection or saved data for this user.",
-        "unsupportedRole": "Your role does not have an authorized dashboard scope.",
-        "inventory": "The inventory summary is unavailable; the rest of the dashboard is current."
+        "title": "Não foi possível mostrar o painel",
+        "loadFailed": "Não foi possível carregar os dados. Tente novamente.",
+        "offlineUnavailable": "Não há conexão nem dados salvos para este usuário.",
+        "unsupportedRole": "Seu papel não tem um escopo de painel autorizado.",
+        "inventory": "O resumo do inventário não está disponível; o resto do painel está atualizado."
+      },
+      "refreshing": "Atualizando… Exibindo os dados de {{range}}.",
+      "metricDetails": {
+        "mttrHours": "Tempo médio dedicado a reparos.",
+        "mtbfHours": "Tempo médio entre falhas.",
+        "responseTimeHours": "Tempo médio até a primeira resposta.",
+        "proportion": "{{count}} de {{total}} ordens"
       }
     },
     "welcome": "Bem-vindo",
@@ -691,8 +712,8 @@
       "assets": "Número total de tipos de ativos configurados.",
       "workOrders": "Número total de ordens de serviço geradas.",
       "technicians": "Número total de técnicos registrados na equipe.",
-      "responseTime": "Average time elapsed from work order creation to first response.",
-      "slaRate": "Percentage of work orders completed within the agreed service level time (SLA)."
+      "responseTime": "Tempo médio decorrido desde a criação de uma ordem até a primeira resposta.",
+      "slaRate": "Percentual de ordens de serviço concluídas dentro do nível de serviço acordado (SLA)."
     },
     "kpiDescriptions": {
       "generic": "Indicador-chave para entender o estado da manutenção.",
@@ -728,11 +749,11 @@
       "progressText": "{{current}} de {{total}}"
     },
     "status": {
-      "cancelled": "Cancelled",
-      "inProgress": "In Progress",
-      "completed": "Completed",
-      "pending": "Pending",
-      "assigned": "Assigned"
+      "cancelled": "Cancelada",
+      "inProgress": "Em andamento",
+      "completed": "Concluída",
+      "pending": "Pendente",
+      "assigned": "Atribuída"
     }
   },
   "workOrders": {
@@ -781,7 +802,7 @@
     "filterByStatus": "Filtrar por status",
     "noWorkOrdersFound": "Nenhuma ordem de serviço encontrada",
     "type": "Tipo",
-    "status": "Status",
+    "status": "Estado",
     "scheduled": "Agendada",
     "at": "às",
     "installation": "Instalação",
@@ -844,7 +865,7 @@
       "startOrderTitle": "Iniciar ordem",
       "startOrderMessage": "Tem certeza de que deseja iniciar esta ordem de serviço?",
       "assignTechnician": "Atribuir técnico",
-      "understood": "Close"
+      "understood": "Fechar"
     },
     "form": {
       "maintenance": "Manutenção",
@@ -882,7 +903,7 @@
         "timeMax": "O tempo de trabalho não pode exceder 24 horas",
         "deviceStateInvalid": "O estado do dispositivo deve ser válido"
       },
-      "technicianRequiredForAssigned": "At least one technician is required to assign the order"
+      "technicianRequiredForAssigned": "Não é possível atribuir uma ordem sem técnico atribuído."
     },
     "titlePage": "Ordens de Trabalho | Leonix",
     "tour": {
@@ -918,18 +939,18 @@
         "restart": "Ver tutorial"
       },
       "navWorkOrders": {
-        "title": "Work orders",
-        "description": "The Work Orders menu groups List and Calendar."
+        "title": "Ordens de trabalho",
+        "description": "O menu Ordens de trabalho agrupa a Lista e o Calendário."
       },
       "navWorkOrdersList": {
-        "title": "Work orders list",
-        "description": "Manage all work orders from List."
+        "title": "Lista de ordens",
+        "description": "Na Lista você gerencia todas as ordens de trabalho."
       },
       "navCalendar": {
-        "title": "Calendar",
-        "description": "Calendar was previously a View calendar button; now it's under Work Orders → Calendar."
+        "title": "Calendário",
+        "description": "O calendário antes era um botão Ver calendário; agora está em Ordens de trabalho → Calendário."
       },
-      "progressText": "{{current}} of {{total}}"
+      "progressText": "{{current}} de {{total}}"
     },
     "formUnavailable": "No se puede registrar: formulario no disponible o desactualizado",
     "errorStartingOrder": "Error al iniciar orden",
@@ -956,7 +977,7 @@
     "workOrderDetails": "Detalles de la Orden de Trabajo",
     "orderCompleted": "Orden completada con éxito",
     "additionalInfo": "Información Adicional",
-    "noDataAvailable": "No data available",
+    "noDataAvailable": "Nenhum dado disponível",
     "allTechnicians": "Todos los técnicos",
     "allStatuses": "Todos los Estados",
     "errorAssigningTechnician": "Error al asignar técnico",
@@ -971,12 +992,12 @@
     "workDone": "Trabajo realizado",
     "noTechniciansAvailable": "No hay técnicos disponibles",
     "mon": "Lun",
-    "distributionByStatus": "Distribution by Status",
+    "distributionByStatus": "Distribuição por status",
     "list": "Lista",
     "errorMaintenanceRecord": "Error al registrar mantenimiento offline",
     "sat": "Sáb",
     "viewComplete": "Ver Completo",
-    "selectDate": "Select date",
+    "selectDate": "Selecionar data",
     "thisMonth": "Este Mes",
     "nextWeek": "Próxima Semana",
     "fri": "Vie",
@@ -1516,7 +1537,7 @@
       "commit": "Commit import",
       "preview": "Preview",
       "completed": "Import completed",
-      "import": "Import CSV",
+      "import": "Importar CSV",
       "importTitle": "Import assets"
     },
     "errorDeletingAsset": "Error deleting asset",
@@ -2593,7 +2614,7 @@
       "chooseFile": "Select a CSV file",
       "downloadErrors": "Download errors",
       "commit": "Confirm import",
-      "import": "Import CSV",
+      "import": "Importar CSV",
       "preview": "Preview",
       "exportFiltered": "Exportar resultados filtrados",
       "downloadTemplate": "Baixar modelo CSV",
@@ -2663,7 +2684,7 @@
       "importTitle": "Import suppliers from CSV",
       "downloadTemplate": "Baixar modelo CSV",
       "chooseFile": "Select a CSV file",
-      "import": "Import CSV",
+      "import": "Importar CSV",
       "exportFiltered": "Exportar resultados filtrados",
       "downloadErrors": "Download errors",
       "completed": "Import completed",

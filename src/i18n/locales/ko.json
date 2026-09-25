@@ -24,7 +24,9 @@
     "operation": "운영",
     "maintenance": "유지보수",
     "audit": "감사",
-    "list": "목록"
+    "list": "목록",
+    "compliance": "규정 준수",
+    "settings": "설정"
   },
   "audit": {
     "title": "활동 로그",
@@ -346,7 +348,40 @@
     "syncing": "보류 중인 변경 사항을 동기화하는 중...",
     "syncComplete": "동기화가 완료되었습니다",
     "syncValidationDiscarded": "유효성 검사 오류 ({{type}}). 폐기됨.",
-    "syncElementDiscarded": "항목 동기화 오류 ({{type}}). 폐기됨."
+    "syncElementDiscarded": "항목 동기화 오류 ({{type}}). 폐기됨.",
+    "add": "추가",
+    "adding": "추가 중...",
+    "approve": "승인",
+    "assign": "할당",
+    "assigning": "할당 중...",
+    "choose": "선택",
+    "complete": "완료",
+    "copy": "복사",
+    "cut": "잘라내기",
+    "document": "문서",
+    "download": "다운로드",
+    "export": "내보내기",
+    "hello": "안녕하세요",
+    "import": "가져오기",
+    "inactive": "비활성",
+    "ok": "확인",
+    "paste": "붙여넣기",
+    "pause": "일시 정지",
+    "print": "인쇄",
+    "redo": "다시 실행",
+    "reject": "거절",
+    "remove": "제거",
+    "resume": "재개",
+    "select": "선택",
+    "share": "공유",
+    "start": "시작",
+    "stop": "정지",
+    "undo": "실행 취소",
+    "updating": "업데이트 중...",
+    "upload": "업로드",
+    "view": "보기",
+    "viewCards": "카드 보기",
+    "viewTable": "표 보기"
   },
   "csvImport": {
     "chooseFile": "CSV 파일 선택",
@@ -457,113 +492,137 @@
     "title": "제어판",
     "subtitle": "운영 개요",
     "range": {
-      "7d": "7 days",
-      "30d": "30 days",
-      "90d": "90 days",
-      "12m": "12 months"
+      "7d": "7일",
+      "30d": "30일",
+      "90d": "90일",
+      "12m": "12개월"
     },
     "dashboard": {
       "roles": {
         "admin": {
-          "title": "Operational control",
-          "description": "Exceptions, capacity, and trends across the entire operation."
+          "title": "전체 운영 관리",
+          "description": "조직 전체의 예외, 처리 능력, 추이를 확인합니다."
         },
         "technician": {
-          "title": "My operational day",
-          "description": "Priorities, deadlines, and trends for your assigned work orders."
+          "title": "내 오늘의 업무",
+          "description": "할당된 작업 지시의 우선순위, 기한, 추이입니다."
         },
         "client": {
-          "title": "My installation status",
-          "description": "Activity, maintenance, and health across your assigned installations."
+          "title": "내 설치 현황",
+          "description": "할당된 설치의 작업 이력, 유지보수, 상태입니다."
         }
       },
       "scope": {
-        "tenant": "Entire organization",
-        "assigned_work": "Assigned work",
-        "assigned_installations": "Assigned installations"
+        "tenant": "조직 전체",
+        "assigned_work": "할당된 작업",
+        "assigned_installations": "할당된 설치"
       },
-      "scopeLabel": "Scope",
-      "updated": "Updated",
-      "period": "Analysis period",
-      "rangeLabel": "Select analysis period",
-      "rangeHelp": "Affects work-order metrics, trends, and distributions.",
+      "scopeLabel": "범위",
+      "updated": "업데이트",
+      "period": "분석 기간",
+      "rangeLabel": "분석 기간 선택",
+      "rangeHelp": "지표, 추이, 작업 지시 구성에 반영됩니다.",
       "loading": "대시보드 로딩 중",
       "dateUnavailable": "날짜를 사용할 수 없음",
       "sections": {
-        "immediate": "Immediate attention and summary",
-        "analysis": "Trend and status",
-        "recent": "Recent activity and context"
+        "immediate": "즉시 처리 및 요약",
+        "analysis": "추이와 상태",
+        "recent": "최근 이력과 정보",
+        "immediateKicker": "운영 요약"
       },
       "metrics": {
-        "openWorkOrders": "Open work orders",
-        "overdueWorkOrders": "Overdue work orders",
-        "criticalWorkOrders": "Critical work orders",
-        "mttrHours": "Mean time to repair",
-        "mtbfHours": "Mean time between failures",
-        "preventiveComplianceRate": "Preventive compliance",
-        "slaRate": "SLA compliance",
-        "responseTimeHours": "First response"
+        "openWorkOrders": "열린 작업 지시",
+        "overdueWorkOrders": "기한 초과 작업 지시",
+        "criticalWorkOrders": "긴급 작업 지시",
+        "mttrHours": "평균 복구 시간",
+        "mtbfHours": "평균 고장 간격",
+        "preventiveComplianceRate": "예방 정비 이행률",
+        "slaRate": "SLA 이행률",
+        "responseTimeHours": "첫 응답"
       },
       "attention": {
-        "kicker": "Exceptions",
-        "title": "Attention required",
-        "clear": "There are no active exceptions right now.",
-        "overdue": "open work orders past their deadline",
-        "critical": "open work orders with critical priority"
+        "kicker": "예외",
+        "title": "처리 필요",
+        "clear": "현재 처리할 예외가 없습니다.",
+        "overdue": "기한이 지난 열린 작업 지시",
+        "critical": "우선순위가 긴급인 열린 작업 지시"
       },
       "resources": {
-        "kicker": "Coverage",
-        "admin": "Operational capacity",
-        "client": "Assigned installations and devices",
+        "kicker": "대응 체계",
+        "admin": "운영 처리 능력",
+        "client": "할당된 설치 및 장치",
         "metrics": {
-          "installations": "Installations",
-          "assets": "Assets",
-          "technicians": "Technicians",
-          "devices": "Devices"
+          "installations": "설치",
+          "assets": "자산",
+          "technicians": "기술자",
+          "devices": "장치",
+          "clients": "고객"
         }
       },
       "distribution": {
-        "kicker": "Composition"
+        "kicker": "구성"
       },
-      "ordersCount": "{{count}} orders",
+      "ordersCount": "{{count}}건의 작업 지시",
       "trend": {
-        "kicker": "Work flow",
-        "description": "{{created}} work orders created and {{completed}} completed in the period.",
-        "tableToggle": "View data table",
-        "tableCaption": "Work orders created and completed by date"
+        "kicker": "작업 흐름",
+        "description": "기간 내 {{created}}건이 생성되고 {{completed}}건이 완료되었습니다.",
+        "tableToggle": "표로 데이터 보기",
+        "tableCaption": "날짜별 작업 지시 생성 및 완료"
       },
-      "date": "Date",
+      "date": "날짜",
       "recent": {
-        "kicker": "Latest activity"
+        "kicker": "최근 이력",
+        "detail": "상세 보기",
+        "openDetail": "{{title}} 상세 보기",
+        "detailLoading": "작업 지시 상세를 열고 있습니다…",
+        "detailError": "작업 지시 상세를 열 수 없습니다. 다시 시도해 주세요."
       },
       "inventory": {
-        "kicker": "Resources",
-        "title": "Inventory summary",
-        "items": "Registered items",
-        "lowStock": "Low-stock items"
+        "kicker": "자원",
+        "title": "재고 요약",
+        "items": "등록된 품목",
+        "lowStock": "재고 부족 품목",
+        "empty": "재고 품목이 없습니다",
+        "lowBadge": "재고 부족",
+        "meta": "총 {{total}}개 · 재고 부족 {{low}}개",
+        "minimum": "최소 {{count}}",
+        "okStock": "재고 정상",
+        "noDetails": "상세 정보를 볼 수 있는 품목이 없습니다.",
+        "more": "재고 품목 {{count}}개 더 있음",
+        "viewAll": "재고 전체 보기"
       },
       "context": {
-        "kicker": "Operational scope",
-        "technician": "Personal work",
-        "technicianDescription": "Indicators and visible work orders are limited to your assigned work.",
-        "client": "Installation activity",
-        "clientDescription": "The information covers all activity at your installations, never organization-wide data."
+        "kicker": "운영 범위",
+        "technician": "내 작업",
+        "technicianDescription": "지표와 작업 지시는 나에게 할당된 범위만 표시됩니다.",
+        "client": "설치 작업 현황",
+        "clientDescription": "표시하는 정보는 내 설치와 관련된 이력이며, 조직 전체 데이터가 아닙니다."
       },
       "empty": {
-        "trend": "No trend data is available for this period.",
-        "distribution": "There are no work orders to distribute in this period."
+        "trend": "이 기간의 추이 데이터가 없습니다.",
+        "distribution": "이 기간에 나눌 작업 지시가 없습니다.",
+        "dashboard": "이 대시보드에 아직 데이터가 없습니다.",
+        "dashboardHint": "범위에 작업 지시, 자산 또는 재고가 등록되면 지표가 자동으로 채워집니다.",
+        "metrics": "사용할 수 있는 운영 지표가 없습니다."
       },
       "notices": {
-        "offline": "Offline: showing the latest saved data.",
-        "stale": "Saved data may be out of date.",
-        "fallback": "There was not enough activity in this period; some visualizations use recent history."
+        "offline": "오프라인 상태입니다. 마지막으로 저장된 데이터를 표시합니다.",
+        "stale": "저장된 데이터가 최신이 아닐 수 있습니다.",
+        "fallback": "이 기간의 작업이 적어 일부 화면은 최근 이력을 사용합니다."
       },
       "errors": {
-        "title": "We could not display the dashboard",
-        "loadFailed": "Dashboard data could not be loaded. Please try again.",
-        "offlineUnavailable": "There is no connection or saved data for this user.",
-        "unsupportedRole": "Your role does not have an authorized dashboard scope.",
-        "inventory": "The inventory summary is unavailable; the rest of the dashboard is current."
+        "title": "패널을 표시할 수 없습니다",
+        "loadFailed": "데이터를 불러올 수 없습니다. 다시 시도해 주세요.",
+        "offlineUnavailable": "이 사용자는 네트워크 연결과 저장된 데이터가 모두 없습니다.",
+        "unsupportedRole": "현재 역할에 패널 표시 권한이 없습니다.",
+        "inventory": "재고 요약을 사용할 수 없습니다. 나머지 패널은 최신입니다."
+      },
+      "refreshing": "업데이트 중… {{range}} 데이터를 표시합니다.",
+      "metricDetails": {
+        "mttrHours": "수리에 소요된 평균 시간입니다.",
+        "mtbfHours": "고장 간 평균 시간입니다.",
+        "responseTimeHours": "최초 대응까지의 평균 시간입니다.",
+        "proportion": "작업 지시 {{total}}건 중 {{count}}건"
       }
     },
     "welcome": "환영합니다",
@@ -653,7 +712,9 @@
       "installations": "시스템에 등록된 총 설치 수입니다.",
       "assets": "구성된 총 자산 유형 수입니다.",
       "workOrders": "생성된 총 작업 오더 수입니다.",
-      "technicians": "팀에 등록된 총 기술자 수입니다."
+      "technicians": "팀에 등록된 총 기술자 수입니다.",
+      "slaRate": "서비스 수준 계약(SLA) 이행률.",
+      "responseTime": "작업 지시 생성부터 최초 응답까지의 평균 시간."
     },
     "kpiDescriptions": {
       "generic": "정비 상태를 이해하기 위한 핵심 지표입니다.",
@@ -687,6 +748,13 @@
         "restart": "튜토리얼 보기"
       },
       "progressText": "{{current}} / {{total}}"
+    },
+    "status": {
+      "pending": "대기 중",
+      "assigned": "할당됨",
+      "inProgress": "진행 중",
+      "completed": "완료됨",
+      "cancelled": "취소됨"
     }
   },
   "workOrders": {
@@ -728,16 +796,16 @@
       },
       "progressText": "{{total}} 중 {{current}}",
       "navWorkOrders": {
-        "title": "Work orders",
-        "description": "The Work Orders menu groups List and Calendar."
+        "title": "작업 지시",
+        "description": "작업 지시 메뉴에 목록과 캘린더가 함께 있습니다."
       },
       "navWorkOrdersList": {
-        "title": "Work orders list",
-        "description": "Manage all work orders from List."
+        "title": "작업 지시 목록",
+        "description": "목록에서 모든 작업 지시를 관리합니다."
       },
       "navCalendar": {
-        "title": "Calendar",
-        "description": "Calendar was previously a View calendar button; now it's under Work Orders → Calendar."
+        "title": "캘린더",
+        "description": "이전에는 캘린더 보기 버튼이었으며, 이제 작업 지시 → 캘린더에 있습니다."
       }
     },
     "titlePlaceholder": "작업 지시서 제목을 입력하세요",
@@ -881,10 +949,63 @@
         "timePositive": "작업 시간은 양수여야 합니다",
         "timeMax": "작업 시간은 24시간을 초과할 수 없습니다",
         "deviceStateInvalid": "장치 상태가 올바르지 않습니다"
-      }
+      },
+      "technicianRequiredForAssigned": "기술자가 할당되지 않은 작업 지시는 배정할 수 없습니다."
     },
     "exportResults": "결과 내보내기",
-    "autoGeneratedDescription": "자동 예방 유지보수 주문. 빈도: {{frequency}}. 유지보수 계획에서 생성되었습니다."
+    "autoGeneratedDescription": "자동 예방 유지보수 주문. 빈도: {{frequency}}. 유지보수 계획에서 생성되었습니다.",
+    "additionalInfo": "추가 정보",
+    "allDates": "모든 날짜",
+    "allPriorities": "모든 우선순위",
+    "allStatuses": "모든 상태",
+    "allTechnicians": "모든 기술자",
+    "assigning": "할당 중...",
+    "clearFilters": "필터 지우기",
+    "created": "생성됨",
+    "distributionByStatus": "상태별 분포",
+    "errorAssigningTechnician": "기술자 할당 오류",
+    "errorCompletingOrder": "작업 지시 완료 오류",
+    "errorMaintenanceRecord": "오프라인 정비 기록 오류",
+    "errorStartingOrder": "작업 지시 시작 오류",
+    "evidenceNotStaged": "기록 불가: 증거가 암호화된 스테이징에 준비되지 않음",
+    "filterByDate": "날짜로 필터",
+    "filterByPriority": "우선순위로 필터",
+    "formUnavailable": "기록 불가: 양식을 사용할 수 없거나 최신이 아님",
+    "invalidWorkOrder": "잘못된 작업 지시",
+    "list": "목록",
+    "moreOrders": "더 보기",
+    "nextMonth": "다음 달",
+    "nextWeek": "다음 주",
+    "noInstallation": "설치 미지정",
+    "noOrders": "작업 지시가 없습니다",
+    "noTechniciansAvailable": "사용 가능한 기술자가 없습니다",
+    "notAssigned": "미할당",
+    "orderAlreadyStarted": "작업 지시가 이미 시작됨",
+    "orderCompleted": "작업 지시가 완료되었습니다",
+    "orderStarted": "작업 지시가 시작되었습니다",
+    "selectYear": "연도 선택",
+    "selectedDate": "선택한 날짜",
+    "startCommandBlocked": "완료 불가: 로컬 시작이 실패하거나 거부됨",
+    "started": "시작됨",
+    "starting": "시작 중...",
+    "thisMonth": "이번 달",
+    "thisWeek": "이번 주",
+    "time": "시간",
+    "today": "오늘",
+    "viewComplete": "전체 보기",
+    "viewDetails": "상세 보기",
+    "week": "주",
+    "workDone": "수행한 작업",
+    "workOrderDetails": "작업 지시 상세",
+    "sun": "일",
+    "mon": "월",
+    "tue": "화",
+    "wed": "수",
+    "thu": "목",
+    "fri": "금",
+    "sat": "토",
+    "noDataAvailable": "데이터가 없습니다",
+    "selectDate": "날짜 선택"
   },
   "installations": {
     "exportResults": "결과 내보내기",
@@ -1417,7 +1538,7 @@
     "csv": {
       "exportFiltered": "결과 내보내기",
       "downloadTemplate": "CSV 템플릿 다운로드",
-      "import": "Import CSV",
+      "import": "CSV 가져오기",
       "importTitle": "Import assets",
       "chooseFile": "Select CSV. Each asset uses externalId; the base template must already have templateExternalId assigned.",
       "preview": "Preview",
@@ -2497,7 +2618,7 @@
     },
     "csv": {
       "downloadTemplate": "CSV 템플릿 다운로드",
-      "import": "Import CSV",
+      "import": "CSV 가져오기",
       "exportFiltered": "필터링된 결과 내보내기",
       "importTitle": "Import inventory from CSV",
       "chooseFile": "Select a CSV file",
@@ -2566,7 +2687,7 @@
     },
     "csv": {
       "downloadTemplate": "CSV 템플릿 다운로드",
-      "import": "Import CSV",
+      "import": "CSV 가져오기",
       "exportFiltered": "필터링된 결과 내보내기",
       "importTitle": "Import suppliers from CSV",
       "chooseFile": "Select a CSV file",

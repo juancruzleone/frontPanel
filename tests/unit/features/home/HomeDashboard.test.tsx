@@ -255,6 +255,36 @@ describe("HomeDashboard role-aware composition", () => {
     expect(screen.getByText("Revisar bomba")).toBeInTheDocument()
   })
 
+  it("shows a single no-data treatment when the scope has nothing loaded", () => {
+    const blank = createState("admin")
+    if (blank.data) {
+      blank.data = {
+        ...blank.data,
+        metrics: blank.data.metrics.map((metric) => ({ ...metric, value: null, total: undefined })),
+        charts: { byStatus: [], byType: [], byPriority: [], preventiveVsCorrective: [], deviceHealth: [], evolution: [] },
+        recentWorkOrders: [],
+        topIncidentInstallations: [],
+        upcomingPreventive: [],
+        resourceMetrics: [],
+      }
+    }
+    blank.inventory = { totalItems: 0, lowStockItems: 0, items: [], lowStockDetails: [] }
+    mocks.state = blank
+
+    const { rerender } = render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
+    expect(screen.getByText("Aún no hay datos cargados para mostrar en el panel.")).toBeInTheDocument()
+    expect(screen.getByText("Cuando haya órdenes de trabajo, activos o inventario en tu alcance, los indicadores se completarán automáticamente.")).toBeInTheDocument()
+    expect(screen.getByText("Aún no hay métricas operativas disponibles.")).toBeInTheDocument()
+    // The panels keep their own specific empty states; the notice is the only
+    // account-wide message.
+    expect(screen.getAllByText("No hay artículos en inventario")).toHaveLength(1)
+
+    mocks.state = createState("admin")
+    rerender(<MemoryRouter><HomeDashboard /></MemoryRouter>)
+    expect(screen.queryByText(/Aún no hay datos cargados/)).not.toBeInTheDocument()
+    expect(screen.queryByText(/Aún no hay métricas operativas/)).not.toBeInTheDocument()
+  })
+
   it("renders invalid external dates with a safe fallback", () => {
     const state = createState("admin")
     if (state.data) {

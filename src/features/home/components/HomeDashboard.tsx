@@ -8,7 +8,7 @@ import { useHomeDashboard } from "../hooks/useHomeDashboard"
 import { useHomeTour } from "../hooks/useHomeTour"
 import { useWorkOrderDetail } from "../hooks/useWorkOrderDetail"
 import { expectedDashboardScope, normalizeDashboardRole } from "../services/homeDashboardMapper"
-import type { DashboardRole } from "../types/homeTypes"
+import type { DashboardRole, ChartDataItem, HomeDashboardViewData, InventorySummaryData } from "../types/homeTypes"
 import { AttentionRequired } from "./AttentionRequired"
 import { DashboardHeader } from "./DashboardHeader"
 import { InventorySummary } from "./InventoryAlerts"
@@ -65,6 +65,7 @@ export const HomeDashboard = () => {
   const { data } = dashboard
   const distributionMode = data.role === "technician" ? "priority" : "status"
   const distributionData = distributionMode === "priority" ? data.charts.byPriority : data.charts.byStatus
+  const hasLoadedData = hasDashboardContent(data, dashboard.inventory)
   const technicianCanViewWorkOrders = data.role === "technician" && (
     permissions === null
     || (Array.isArray(permissions) ? permissions.includes("canViewWorkOrders") : permissions.canViewWorkOrders !== false)
@@ -82,6 +83,12 @@ export const HomeDashboard = () => {
 
         <section aria-labelledby="attention-overview-title">
           <ImmediateSectionHeading />
+          {!hasLoadedData && (
+            <div className={styles.noDataNotice}>
+              <p className={styles.noDataTitle}>{t("home.dashboard.empty.dashboard")}</p>
+              <p className={styles.noDataHint}>{t("home.dashboard.empty.dashboardHint")}</p>
+            </div>
+          )}
           <div className={styles.attentionGrid}>
             <OperationalKPIs metrics={data.metrics} />
             <AttentionRequired
@@ -120,14 +127,25 @@ export const HomeDashboard = () => {
         <section aria-labelledby="recent-title">
           <h2 id="recent-title" className={styles.sectionHeading}>{t("home.dashboard.sections.recent")}</h2>
           <div className={styles.workGrid}>
-            <section className={styles.panel} aria-labelledby="recent-orders-title">
+            <section className={styles.panel} aria-labelledby="recent-orders-title" aria-busy={workOrderDetail.status === "loading"}>
               <div className={styles.panelHeader}>
                 <div><p className={styles.panelKicker}>{t("home.dashboard.recent.kicker")}</p><h2 id="recent-orders-title">{t("home.recentOrders")}</h2></div>
                 {showWorkOrdersLink && <Link className={styles.panelAction} to={getRoute("workOrders")}>{t("nav.workOrdersList")}</Link>}
               </div>
               <RecentWorkOrders workOrders={data.recentWorkOrders} onOpenDetail={workOrderDetail.openWorkOrder} />
+              {/* The detail is fetched before the dialog mounts, so the only trace of
+                  the in-flight request is this text-free row placeholder: the panel is
+                  already named by its heading and carries `aria-busy` for assistive
+                  tech, which keeps the row's own accessible label from being
+                  interrupted by a status message. */}
               {workOrderDetail.status === "loading" && (
-                <p className={styles.orderFeedback} role="status">{t("home.dashboard.recent.detailLoading")}</p>
+                <div className={styles.orderLoading} aria-hidden="true">
+                  <span className={`${styles.skeleton} ${styles.orderLoadingTitle}`} />
+                  <span className={styles.orderLoadingMeta}>
+                    <span className={`${styles.skeleton} ${styles.orderLoadingChip}`} />
+                    <span className={`${styles.skeleton} ${styles.orderLoadingDate}`} />
+                  </span>
+                </div>
               )}
               {workOrderDetail.status === "error" && (
                 <p className={styles.orderFeedback} role="alert">
@@ -169,6 +187,25 @@ interface DashboardSkeletonProps {
   header: ReactNode
   notices: ReactNode
 }
+
+const seriesTotal = (items: ChartDataItem[]): number => items.reduce((total, item) => total + item.value, 0)
+
+/** True when the loaded scope holds anything worth plotting: a metric with a
+ * real value, any chart series, a recent order, or inventory stock. Used to
+ * tell "nothing loaded yet" apart from "a quiet period". */
+const hasDashboardContent = (
+  data: HomeDashboardViewData,
+  inventory: InventorySummaryData | null,
+): boolean => data.metrics.some((metric) => metric.value !== null && Number.isFinite(metric.value) && metric.value > 0)
+  || seriesTotal(data.charts.byStatus) > 0
+  || seriesTotal(data.charts.byPriority) > 0
+  || seriesTotal(data.charts.byType) > 0
+  || data.charts.evolution.some((point) => point.created > 0 || point.completed > 0)
+  || data.resourceMetrics.some((metric) => metric.value > 0)
+  || data.recentWorkOrders.length > 0
+  || data.topIncidentInstallations.length > 0
+  || data.upcomingPreventive.length > 0
+  || (inventory?.totalItems ?? 0) > 0
 
 const DashboardSkeleton = ({ role, header, notices }: DashboardSkeletonProps) => {
   const { t } = useTranslation()

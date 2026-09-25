@@ -24,7 +24,9 @@
     "operation": "运营",
     "maintenance": "维护",
     "audit": "审计",
-    "list": "列表"
+    "list": "列表",
+    "compliance": "合规",
+    "settings": "设置"
   },
   "audit": {
     "title": "活动日志",
@@ -346,7 +348,40 @@
     "syncing": "正在同步待处理的更改...",
     "syncComplete": "同步完成",
     "syncValidationDiscarded": "验证错误 ({{type}})。已丢弃。",
-    "syncElementDiscarded": "同步项目时出错 ({{type}})。已丢弃。"
+    "syncElementDiscarded": "同步项目时出错 ({{type}})。已丢弃。",
+    "add": "添加",
+    "adding": "正在添加...",
+    "approve": "批准",
+    "assign": "分配",
+    "assigning": "正在分配...",
+    "choose": "选择",
+    "complete": "完成",
+    "copy": "复制",
+    "cut": "剪切",
+    "document": "文档",
+    "download": "下载",
+    "export": "导出",
+    "hello": "你好",
+    "import": "导入",
+    "inactive": "未启用",
+    "ok": "确定",
+    "paste": "粘贴",
+    "pause": "暂停",
+    "print": "打印",
+    "redo": "重做",
+    "reject": "拒绝",
+    "remove": "移除",
+    "resume": "继续",
+    "select": "选择",
+    "share": "分享",
+    "start": "开始",
+    "stop": "停止",
+    "undo": "撤销",
+    "updating": "正在更新...",
+    "upload": "上传",
+    "view": "查看",
+    "viewCards": "卡片视图",
+    "viewTable": "表格视图"
   },
   "csvImport": {
     "chooseFile": "选择 CSV 文件",
@@ -457,113 +492,137 @@
     "title": "仪表板",
     "subtitle": "操作概览",
     "range": {
-      "7d": "7 days",
-      "30d": "30 days",
-      "90d": "90 days",
-      "12m": "12 months"
+      "7d": "7 天",
+      "30d": "30 天",
+      "90d": "90 天",
+      "12m": "12 个月"
     },
     "dashboard": {
       "roles": {
         "admin": {
-          "title": "Operational control",
-          "description": "Exceptions, capacity, and trends across the entire operation."
+          "title": "整体运营管控",
+          "description": "涵盖整个运营的异常、承载能力与趋势。"
         },
         "technician": {
-          "title": "My operational day",
-          "description": "Priorities, deadlines, and trends for your assigned work orders."
+          "title": "我的当日工作",
+          "description": "所分配工单的优先级、到期情况与趋势。"
         },
         "client": {
-          "title": "My installation status",
-          "description": "Activity, maintenance, and health across your assigned installations."
+          "title": "我的安装状态",
+          "description": "所分配安装的活动情况、维护工作与运行状态。"
         }
       },
       "scope": {
-        "tenant": "Entire organization",
-        "assigned_work": "Assigned work",
-        "assigned_installations": "Assigned installations"
+        "tenant": "整个组织",
+        "assigned_work": "已分配的工作",
+        "assigned_installations": "已分配的安装"
       },
-      "scopeLabel": "Scope",
-      "updated": "Updated",
-      "period": "Analysis period",
-      "rangeLabel": "Select analysis period",
-      "rangeHelp": "Affects work-order metrics, trends, and distributions.",
+      "scopeLabel": "范围",
+      "updated": "更新时间",
+      "period": "分析周期",
+      "rangeLabel": "选择分析周期",
+      "rangeHelp": "会影响工单指标、趋势和状态分布。",
       "loading": "正在加载仪表板",
       "dateUnavailable": "日期不可用",
       "sections": {
-        "immediate": "Immediate attention and summary",
-        "analysis": "Trend and status",
-        "recent": "Recent activity and context"
+        "immediate": "即时关注与概览",
+        "analysis": "趋势与状态",
+        "recent": "近期动态与背景",
+        "immediateKicker": "运营概览"
       },
       "metrics": {
-        "openWorkOrders": "Open work orders",
-        "overdueWorkOrders": "Overdue work orders",
-        "criticalWorkOrders": "Critical work orders",
-        "mttrHours": "Mean time to repair",
-        "mtbfHours": "Mean time between failures",
-        "preventiveComplianceRate": "Preventive compliance",
-        "slaRate": "SLA compliance",
-        "responseTimeHours": "First response"
+        "openWorkOrders": "未关闭工单",
+        "overdueWorkOrders": "逾期工单",
+        "criticalWorkOrders": "紧急工单",
+        "mttrHours": "平均修复时长",
+        "mtbfHours": "平均故障间隔",
+        "preventiveComplianceRate": "预防性维护达成率",
+        "slaRate": "SLA 达成率",
+        "responseTimeHours": "首次响应"
       },
       "attention": {
-        "kicker": "Exceptions",
-        "title": "Attention required",
-        "clear": "There are no active exceptions right now.",
-        "overdue": "open work orders past their deadline",
-        "critical": "open work orders with critical priority"
+        "kicker": "异常",
+        "title": "需要处理",
+        "clear": "当前没有待处理的异常。",
+        "overdue": "已超出计划期限的未关闭工单",
+        "critical": "优先级为紧急的未关闭工单"
       },
       "resources": {
-        "kicker": "Coverage",
-        "admin": "Operational capacity",
-        "client": "Assigned installations and devices",
+        "kicker": "覆盖情况",
+        "admin": "运营承载能力",
+        "client": "已分配的安装与设备",
         "metrics": {
-          "installations": "Installations",
-          "assets": "Assets",
-          "technicians": "Technicians",
-          "devices": "Devices"
+          "installations": "安装",
+          "assets": "资产",
+          "technicians": "技术员",
+          "devices": "设备",
+          "clients": "客户"
         }
       },
       "distribution": {
-        "kicker": "Composition"
+        "kicker": "构成"
       },
-      "ordersCount": "{{count}} orders",
+      "ordersCount": "{{count}} 张工单",
       "trend": {
-        "kicker": "Work flow",
-        "description": "{{created}} work orders created and {{completed}} completed in the period.",
-        "tableToggle": "View data table",
-        "tableCaption": "Work orders created and completed by date"
+        "kicker": "工作流转",
+        "description": "该周期内创建 {{created}} 张工单，完成 {{completed}} 张。",
+        "tableToggle": "以表格查看数据",
+        "tableCaption": "按日期统计的工单创建与完成数量"
       },
-      "date": "Date",
+      "date": "日期",
       "recent": {
-        "kicker": "Latest activity"
+        "kicker": "近期动态",
+        "detail": "查看详情",
+        "openDetail": "查看 {{title}} 的详情",
+        "detailLoading": "正在打开工单详情…",
+        "detailError": "无法打开工单详情，请重试。"
       },
       "inventory": {
-        "kicker": "Resources",
-        "title": "Inventory summary",
-        "items": "Registered items",
-        "lowStock": "Low-stock items"
+        "kicker": "资源",
+        "title": "库存概览",
+        "items": "已登记物料",
+        "lowStock": "库存偏低物料",
+        "empty": "库存中暂无物料",
+        "lowBadge": "库存偏低",
+        "meta": "共 {{total}} 项物料 · {{low}} 项库存偏低",
+        "minimum": "最低 {{count}}",
+        "okStock": "库存正常",
+        "noDetails": "没有可显示明细的物料。",
+        "more": "库存中还有 {{count}} 项物料",
+        "viewAll": "查看完整库存"
       },
       "context": {
-        "kicker": "Operational scope",
-        "technician": "Personal work",
-        "technicianDescription": "Indicators and visible work orders are limited to your assigned work.",
-        "client": "Installation activity",
-        "clientDescription": "The information covers all activity at your installations, never organization-wide data."
+        "kicker": "运营范围",
+        "technician": "个人工作",
+        "technicianDescription": "指标与工单仅显示分配给您的内容。",
+        "client": "安装相关活动",
+        "clientDescription": "此处汇总与您安装相关的全部活动，而非组织整体数据。"
       },
       "empty": {
-        "trend": "No trend data is available for this period.",
-        "distribution": "There are no work orders to distribute in this period."
+        "trend": "该周期没有可用的趋势数据。",
+        "distribution": "该周期没有可统计的工单。",
+        "dashboard": "此仪表板暂无已加载的数据。",
+        "dashboardHint": "当您的范围内出现工单、资产或库存时，指标将自动补全。",
+        "metrics": "暂无可用的运营指标。"
       },
       "notices": {
-        "offline": "Offline: showing the latest saved data.",
-        "stale": "Saved data may be out of date.",
-        "fallback": "There was not enough activity in this period; some visualizations use recent history."
+        "offline": "离线状态：显示最近保存的数据。",
+        "stale": "已保存的数据可能不是最新。",
+        "fallback": "该周期活动较少，部分图表使用近期历史数据。"
       },
       "errors": {
-        "title": "We could not display the dashboard",
-        "loadFailed": "Dashboard data could not be loaded. Please try again.",
-        "offlineUnavailable": "There is no connection or saved data for this user.",
-        "unsupportedRole": "Your role does not have an authorized dashboard scope.",
-        "inventory": "The inventory summary is unavailable; the rest of the dashboard is current."
+        "title": "无法显示面板",
+        "loadFailed": "无法加载数据，请重试。",
+        "offlineUnavailable": "该用户既无网络连接，也无已保存数据。",
+        "unsupportedRole": "您的角色没有经授权的面板范围。",
+        "inventory": "库存概览暂不可用，面板其余内容保持最新。"
+      },
+      "refreshing": "正在更新…显示 {{range}} 的数据。",
+      "metricDetails": {
+        "mttrHours": "用于维修的平均时间。",
+        "mtbfHours": "故障之间的平均时间。",
+        "responseTimeHours": "首次响应前的平均时间。",
+        "proportion": "{{total}} 张工单中的 {{count}} 张"
       }
     },
     "welcome": "欢迎",
@@ -653,7 +712,9 @@
       "installations": "系统中注册的设施总数。",
       "assets": "配置的资产类型总数。",
       "workOrders": "生成的工单总数。",
-      "technicians": "团队中注册的技术人员总数。"
+      "technicians": "团队中注册的技术人员总数。",
+      "slaRate": "服务水平协议（SLA）的达成率。",
+      "responseTime": "从创建工单到首次响应的平均时间。"
     },
     "kpiDescriptions": {
       "generic": "用于了解维护状态的关键指标。",
@@ -687,6 +748,13 @@
         "restart": "查看教程"
       },
       "progressText": "{{current}} / {{total}}"
+    },
+    "status": {
+      "pending": "待处理",
+      "assigned": "已分配",
+      "inProgress": "进行中",
+      "completed": "已完成",
+      "cancelled": "已取消"
     }
   },
   "workOrders": {
@@ -728,16 +796,16 @@
       },
       "progressText": "{{total}} 中的 {{current}}",
       "navWorkOrders": {
-        "title": "Work orders",
-        "description": "The Work Orders menu groups List and Calendar."
+        "title": "工作订单",
+        "description": "工作订单菜单包含列表和日历。"
       },
       "navWorkOrdersList": {
-        "title": "Work orders list",
-        "description": "Manage all work orders from List."
+        "title": "工单列表",
+        "description": "在列表中管理所有工作订单。"
       },
       "navCalendar": {
-        "title": "Calendar",
-        "description": "Calendar was previously a View calendar button; now it's under Work Orders → Calendar."
+        "title": "日历",
+        "description": "日历之前是查看日历按钮，现在位于工作订单 > 日历。"
       }
     },
     "titlePlaceholder": "请输入工单标题",
@@ -881,10 +949,63 @@
         "timePositive": "工作时间必须为正数",
         "timeMax": "工作时间不能超过24小时",
         "deviceStateInvalid": "设备状态必须有效"
-      }
+      },
+      "technicianRequiredForAssigned": "未指定技术员时无法分配工单。"
     },
     "exportResults": "导出结果",
-    "autoGeneratedDescription": "自动预防性维护工单。频率：{{frequency}}。根据维护计划生成。"
+    "autoGeneratedDescription": "自动预防性维护工单。频率：{{frequency}}。根据维护计划生成。",
+    "additionalInfo": "附加信息",
+    "allDates": "全部日期",
+    "allPriorities": "全部优先级",
+    "allStatuses": "全部状态",
+    "allTechnicians": "全部技术员",
+    "assigning": "正在分配...",
+    "clearFilters": "清除筛选",
+    "created": "已创建",
+    "distributionByStatus": "按状态分布",
+    "errorAssigningTechnician": "分配技术员时出错",
+    "errorCompletingOrder": "完成工单时出错",
+    "errorMaintenanceRecord": "记录离线维护时出错",
+    "errorStartingOrder": "启动工单时出错",
+    "evidenceNotStaged": "无法记录：证据未准备好加密暂存",
+    "filterByDate": "按日期筛选",
+    "filterByPriority": "按优先级筛选",
+    "formUnavailable": "无法记录：表单不可用或已过期",
+    "invalidWorkOrder": "无效的工作订单",
+    "list": "列表",
+    "moreOrders": "更多",
+    "nextMonth": "下个月",
+    "nextWeek": "下一周",
+    "noInstallation": "未关联安装",
+    "noOrders": "未找到工作订单",
+    "noTechniciansAvailable": "没有可用的技术员",
+    "notAssigned": "未分配",
+    "orderAlreadyStarted": "工单已启动",
+    "orderCompleted": "工单已成功完成",
+    "orderStarted": "工单已成功启动",
+    "selectYear": "选择年份",
+    "selectedDate": "已选日期",
+    "startCommandBlocked": "无法完成：本地启动失败或被拒绝",
+    "started": "已开始",
+    "starting": "正在启动...",
+    "thisMonth": "本月",
+    "thisWeek": "本周",
+    "time": "时间",
+    "today": "今天",
+    "viewComplete": "查看完整",
+    "viewDetails": "查看详情",
+    "week": "周",
+    "workDone": "已完成工作",
+    "workOrderDetails": "工作订单详情",
+    "sun": "日",
+    "mon": "一",
+    "tue": "二",
+    "wed": "三",
+    "thu": "四",
+    "fri": "五",
+    "sat": "六",
+    "noDataAvailable": "暂无数据",
+    "selectDate": "选择日期"
   },
   "modals": {
     "understood": "关闭",
@@ -2182,7 +2303,7 @@
     "csv": {
       "exportFiltered": "导出结果",
       "downloadTemplate": "下载 CSV 模板",
-      "import": "Import CSV",
+      "import": "导入 CSV",
       "importTitle": "Import assets",
       "chooseFile": "Select CSV. Each asset uses externalId; the base template must already have templateExternalId assigned.",
       "preview": "Preview",
@@ -2488,7 +2609,7 @@
     },
     "csv": {
       "downloadTemplate": "下载 CSV 模板",
-      "import": "Import CSV",
+      "import": "导入 CSV",
       "exportFiltered": "导出筛选结果",
       "importTitle": "Import inventory from CSV",
       "chooseFile": "Select a CSV file",
@@ -2557,7 +2678,7 @@
     },
     "csv": {
       "downloadTemplate": "下载 CSV 模板",
-      "import": "Import CSV",
+      "import": "导入 CSV",
       "exportFiltered": "导出筛选结果",
       "importTitle": "Import suppliers from CSV",
       "chooseFile": "Select a CSV file",

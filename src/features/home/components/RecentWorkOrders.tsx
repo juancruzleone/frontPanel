@@ -31,7 +31,7 @@ export const RecentWorkOrders = ({ workOrders, onOpenDetail }: RecentWorkOrdersP
   }
 
   return (
-    <ul className={styles.ordersList}>
+    <ul className={`${styles.ordersList} ${styles.recentOrdersList}`}>
       {workOrders.map((order) => {
         const status = normalizeStatus(order.estado)
         const date = order.fechaCreacion ? formatDateSafely(

@@ -218,6 +218,31 @@
   margin-bottom: 0;
 }
 
+/* First-run notice: shown only when the loaded scope has nothing to plot.
+ * Quieter than a card (no elevation) so it reads as guidance, not data. */
+.noDataNotice {
+  margin-bottom: var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-card);
+  background: var(--color-bg-light);
+}
+
+.noDataTitle {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--type-body-size);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.noDataHint {
+  margin: var(--space-2xs) 0 0;
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+}
+
 .attentionGrid,
 .workGrid,
 .analysisGrid {
@@ -271,6 +296,15 @@
 
 .kpiCell:nth-child(n + 3) {
   border-top: 1px solid var(--color-card-border);
+}
+
+/* Unavailable metrics replace the tile grid with one message, inside the same
+ * band box so the attention row keeps its measured height. */
+.kpiBandEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
 }
 
 .kpiCell dt {
@@ -372,7 +406,7 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: var(--space-lg);
-  padding-bottom: var(--space-lg);
+  padding-bottom: var(--space-xl);
   border-bottom: 1px solid var(--color-card-border);
 }
 
@@ -550,11 +584,16 @@
   white-space: nowrap;
 }
 
+/* Heading block and metric list are two columns of one full-width band. The
+ * heading column keeps a floor width and the list is inset from the column
+ * gap, so the numbers read as a separate region instead of a continuation of
+ * the title ("Capacidad de la operación"). Dividers between metrics are
+ * untouched: only the space before the first one grows. */
 .resourceBand {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: minmax(12rem, auto) minmax(0, 1fr);
   align-items: center;
-  gap: var(--space-xl);
+  gap: var(--space-xl) var(--space-3xl);
   width: 100%;
   max-width: 100%;
   padding: var(--space-md) var(--space-xl);
@@ -565,6 +604,7 @@
   grid-auto-flow: column;
   grid-auto-columns: minmax(0, 1fr);
   margin: 0;
+  padding-left: var(--space-2xl);
 }
 
 .resourceBand dl div {
@@ -879,6 +919,40 @@
   display: grid;
 }
 
+/* Recent orders rhythm. The rules below stay scoped to the dashboard list
+ * modifier because `.orderItem`, `.orderMeta` and `.orderStatus` are shared with
+ * the tenant panel: the header needs air under its divider, each row a taller
+ * band, and the chip column room to breathe without going sparse. */
+.recentOrdersList {
+  padding-top: var(--space-sm);
+}
+
+.recentOrdersList .orderItem {
+  padding: var(--space-lg) var(--space-xs);
+  gap: var(--space-xl);
+}
+
+.recentOrdersList .orderItem:first-child {
+  padding-top: var(--space-md);
+}
+
+.recentOrdersList .orderItem strong {
+  line-height: var(--type-body-leading);
+}
+
+.recentOrdersList .orderMeta {
+  gap: var(--space-lg);
+}
+
+.recentOrdersList .orderStatus,
+.recentOrdersList .orderDetailButton {
+  padding-block: var(--space-2xs);
+}
+
+.recentOrdersList .orderStatus {
+  line-height: var(--type-caption-leading);
+}
+
 .orderItem {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -1002,6 +1076,48 @@
   font-size: var(--type-caption-size);
   font-weight: 650;
   cursor: pointer;
+}
+
+/* Detail-fetch placeholder. It echoes the anatomy of one order row so the panel
+ * does not jump when the dialog mounts, and it is deliberately text-free: the
+ * named panel already carries `aria-busy` while the request is in flight. The
+ * compound `.skeleton` selectors keep the shared shimmer language and only step
+ * the radius down to control size. */
+.orderLoading {
+  display: grid;
+  gap: var(--space-2xs);
+  margin-top: var(--space-sm);
+  padding: var(--space-md) var(--space-xs) 0;
+}
+
+.orderLoadingMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.skeleton.orderLoadingTitle {
+  display: block;
+  width: min(52%, 240px);
+  height: var(--space-md);
+  border: 0;
+  border-radius: var(--radius-control);
+}
+
+.skeleton.orderLoadingChip {
+  display: block;
+  width: 92px;
+  height: 26px;
+  border: 0;
+  border-radius: var(--radius-badge);
+}
+
+.skeleton.orderLoadingDate {
+  display: block;
+  width: 104px;
+  height: var(--space-sm);
+  border: 0;
+  border-radius: var(--radius-control);
 }
 
 /* display: contents keeps the fixed backdrop of the reused modal exactly as
@@ -1223,6 +1339,8 @@
   .kpiBand, .attentionPanel, .trendPanel, .analysisGrid > .panel:not(.trendPanel), .workGrid > .panel, .workGrid > .inventorySummary, .workGrid > .panel:last-child:not(:first-child) { grid-column: 1 / -1; }
   .attentionPanel { order: -1; }
   .resourceBand { grid-template-columns: 1fr; gap: var(--space-lg); }
+  /* Stacked: the list sits under the title, so the desktop inset is dropped. */
+  .resourceBand dl { padding-left: 0; }
   .resourceBand dl div:first-child { border-left: 0; padding-left: 0; }
   .skeletonKpis { width: 100%; }
   .skeletonTrend, .skeletonDistribution, .skeletonWork, .skeletonContext, .skeletonAttention { grid-column: 1 / -1; }
@@ -1242,7 +1360,7 @@
   .panelHeader { display: grid; gap: var(--space-sm); }
   .panelTotal, .panelAction { justify-self: start; }
   .resourceBand { padding: var(--space-lg); }
-  .resourceBand dl { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .resourceBand dl { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); padding-left: 0; }
   .resourceBand dl div { padding: var(--space-sm) var(--space-md); }
   .resourceBand dl div:nth-child(odd) { border-left: 0; padding-left: 0; }
   .trendSummary { gap: var(--space-sm); }
@@ -1253,6 +1371,11 @@
   .lineChartContainer svg { min-height: 160px; }
   .xAxisText { font-size: 9px; }
   .orderItem { grid-template-columns: 1fr; gap: var(--space-sm); }
+  /* Stacked rows trade the desktop column gap for a tighter vertical rhythm. */
+  .recentOrdersList { padding-top: var(--space-2xs); }
+  .recentOrdersList .orderItem { gap: var(--space-sm); padding: var(--space-md) var(--space-xs); }
+  .recentOrdersList .orderItem:first-child { padding-top: var(--space-xs); }
+  .recentOrdersList .orderMeta { flex-wrap: wrap; justify-content: space-between; gap: var(--space-md); }
   .orderMeta { flex-wrap: wrap; justify-content: space-between; }
   .skeletonHeader { height: 220px; }
 }

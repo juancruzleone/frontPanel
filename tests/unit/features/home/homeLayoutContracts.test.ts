@@ -115,6 +115,29 @@ describe("recent work order rows are real controls", () => {
     expect(homeCss).toContain(".detailLayer {\n  display: contents;\n}")
   })
 
+  it("gives the recent orders panel room under the divider and between rows", () => {
+    // Header air, a taller row band, and separation around the chip column are
+    // scoped to the dashboard list so the shared tenant rows keep their rhythm.
+    expect(declaration(homeCss, ".panelHeader", "padding-bottom")).toBe("var(--space-xl)")
+    expect(declaration(homeCss, ".recentOrdersList", "padding-top")).toBe("var(--space-sm)")
+    expect(declaration(homeCss, ".recentOrdersList .orderItem", "padding")).toBe("var(--space-lg) var(--space-xs)")
+    expect(declaration(homeCss, ".recentOrdersList .orderItem", "gap")).toBe("var(--space-xl)")
+    expect(declaration(homeCss, ".recentOrdersList .orderMeta", "gap")).toBe("var(--space-lg)")
+    expect(homeCss).toContain(".recentOrdersList .orderStatus,\n.recentOrdersList .orderDetailButton {\n  padding-block: var(--space-2xs);\n}")
+    expect(tokenPx("space-xl")).toBeGreaterThanOrEqual(24)
+    expect(tokenPx("space-2xs")).toBeGreaterThanOrEqual(8)
+    // Relief, not a sparse card: rows keep a 20px band inside a 32px panel.
+    expect(tokenPx("space-panel-lg")).toBe(32)
+    expect(declaration(homeCss, ".orderItem", "padding")).toBe("var(--space-md) var(--space-xs)")
+  })
+
+  it("stacks the recent rows without inheriting the desktop column gap", () => {
+    const mobile = homeCss.slice(homeCss.indexOf("@media (max-width: 640px)"))
+    expect(mobile).toMatch(/\.recentOrdersList \{ padding-top: var\(--space-2xs\); \}/)
+    expect(mobile).toMatch(/\.recentOrdersList \.orderItem \{ gap: var\(--space-sm\); padding: var\(--space-md\) var\(--space-xs\); \}/)
+    expect(mobile).toMatch(/\.recentOrdersList \.orderMeta \{[^}]*flex-wrap: wrap/)
+  })
+
   it("keeps the shared orderItem label block intact for other consumers", () => {
     expect(homeCss).toContain(".orderItem > div:first-child,\n.orderRow {\n  display: grid;")
     expect(homeCss).toContain(".orderItem > div:first-child span,\n.orderRow span,\n.orderMeta time {")

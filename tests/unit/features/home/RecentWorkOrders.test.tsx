@@ -36,6 +36,15 @@ describe("RecentWorkOrders row interaction", () => {
     expect(rowFor("Cambio de filtro").closest("li")).toBe(rowFor("Revisar bomba").closest("li")?.parentElement?.children[1])
   })
 
+  it("marks the list with the dashboard rhythm modifier on top of the shared class", () => {
+    const { container } = render(<RecentWorkOrders workOrders={orders} onOpenDetail={vi.fn()} />)
+    const list = container.querySelector("ul")!
+
+    // The shared `ordersList` anatomy backs other panels too; the modifier is
+    // what scopes the dashboard spacing to this list.
+    expect(list).toHaveClass("ordersList", "recentOrdersList")
+  })
+
   it("keeps status and creation date visible inside the row", () => {
     render(<RecentWorkOrders workOrders={orders} onOpenDetail={vi.fn()} />)
     const row = rowFor("Revisar bomba").closest("li")!

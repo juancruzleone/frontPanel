@@ -166,7 +166,6 @@ describe("dashboard work order detail modal", () => {
 
     expect(dialogHeadings()).toHaveLength(0)
     fireEvent.click(rowControl("Revisar bomba"))
-    expect(screen.getByText("Abriendo el detalle de la orden de trabajo…")).toBeInTheDocument()
 
     const heading = await screen.findByRole("heading", { name: "Detalles de la Orden de Trabajo" })
     const dialog = heading.closest(".backdrop")!
@@ -175,6 +174,39 @@ describe("dashboard work order detail modal", () => {
     expect(withinText(dialog, "Av. Siempre Verde 742, Cordoba")).toBeInTheDocument()
     expect(getWorkOrderById).toHaveBeenCalledWith("wo-1")
     expect(heading).toHaveAccessibleName("Detalles de la Orden de Trabajo")
+  })
+
+  it("marks the panel busy with a text-free placeholder while the detail loads", async () => {
+    let resolveDetail!: (order: WorkOrder) => void
+    getWorkOrderById.mockReturnValueOnce(new Promise<WorkOrder>((resolve) => { resolveDetail = resolve }))
+    const { container } = render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
+
+    fireEvent.click(rowControl("Revisar bomba"))
+
+    // No loading message is shown to the user any more, in any locale.
+    expect(screen.queryByText("Abriendo el detalle de la orden de trabajo…")).not.toBeInTheDocument()
+    expect(screen.queryByText(/Abriendo el detalle|Cargando detalle/)).not.toBeInTheDocument()
+
+    // The state is exposed as busy on the named panel, not as visible text.
+    const panel = screen.getByRole("region", { name: "Órdenes Recientes" })
+    expect(panel).toHaveAttribute("aria-busy", "true")
+
+    // The placeholder mirrors one row and carries no text of its own.
+    const placeholder = panel.querySelector(".orderLoading") as HTMLElement
+    expect(placeholder).toBeInTheDocument()
+    expect(placeholder).toHaveAttribute("aria-hidden", "true")
+    expect(placeholder.textContent).toBe("")
+
+    // Nothing half-empty is mounted while the request is in flight.
+    expect(dialogHeadings()).toHaveLength(0)
+    expect(document.querySelectorAll(".backdrop")).toHaveLength(0)
+
+    await act(async () => { resolveDetail(fullOrder("wo-1", "Revisar bomba")) })
+    await screen.findByRole("heading", { name: "Detalles de la Orden de Trabajo" })
+
+    expect(panel).toHaveAttribute("aria-busy", "false")
+    expect(container.querySelectorAll(".orderLoading")).toHaveLength(0)
+    expect(screen.queryByText(/Abriendo el detalle|Cargando detalle/)).not.toBeInTheDocument()
   })
 
   it("keeps a single modal instance across sequential activations", async () => {
