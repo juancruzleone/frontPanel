@@ -1,40 +1,40 @@
 import { createBrowserRouter, RouteObject } from "react-router";
 import { routeTranslations, type Language } from './routeTranslations';
-
-// Importar componentes
-import Login from "../pages/Login";
-import Register from "../pages/Register";
-import Installations from "../pages/Installations";
-import InstallationDetails from "../pages/InstallationsDetails";
-import Assets from "../pages/Assets.tsx";
-import Inventory from "../pages/Inventory.tsx";
-import Forms from "../pages/Forms.tsx";
-import Manuals from "../pages/Manuals.tsx";
-import Suppliers from "../pages/Suppliers.tsx";
-import Subscriptions from "../pages/Subscriptions.tsx";
-import WorkOrders from "../pages/WorkOrders.tsx";
-import Calendar from "../pages/Calendar.tsx";
-import DeviceFormPage from "../pages/DeviceFormPage";
-import PublicDeviceViewPage from "../pages/PublicDeviceViewPage";
-import FormularioRedirect from "../pages/FormularioRedirect";
-import MainLayout from "../layouts/MainLayout";
 import ProtectedRoute from "./ProtectedRoute";
 import RoleProtectedRoute from "./RoleProtectedRoute";
 import RedirectIfLogged from "./RedirectIfLoggedIn.tsx";
-import Home from "../pages/Home";
-import Profile from '../pages/Profile';
-import UserProfile from '../pages/UserProfile';
-import PanelAdmin from '../pages/PanelAdmin';
-import NotFound from '../pages/NotFound';
-import Tenants from '../pages/Tenants';
-import Clients from '../pages/Clients';
-import Settings from '../pages/Settings';
-import AuditLogs from '../pages/AuditLogs';
-import Compliance from '../pages/Compliance';
 import { ROLES } from "../shared/utils/roleUtils";
 import { BillingRoute } from "./BillingRoute";
-import { BillingAccessPage } from "../features/billing/pages/BillingAccessPage";
-import { BillingReturnPage } from "../features/billing/pages/BillingReturnPage";
+import {
+  Assets,
+  AuditLogs,
+  BillingAccessPage,
+  BillingReturnPage,
+  Calendar,
+  Clients,
+  Compliance,
+  DeviceFormPage,
+  Forms,
+  FormularioRedirect,
+  Home,
+  InstallationDetails,
+  Installations,
+  Inventory,
+  Login,
+  MainLayout,
+  Manuals,
+  NotFound,
+  PanelAdmin,
+  Profile,
+  PublicDeviceViewPage,
+  Register,
+  Settings,
+  Subscriptions,
+  Suppliers,
+  Tenants,
+  UserProfile,
+  WorkOrders,
+} from "./lazyPages";
 
 /**
  * Genera rutas hijas para MainLayout para todos los idiomas
