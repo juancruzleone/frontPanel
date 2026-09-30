@@ -57,17 +57,18 @@ dashboard-redesign-pro (branch `feature/dashboard-redesign-pro`)
   - Branch/slice: `feature/dashboard-kpi-comparison`, slice 3 opcional.
   - Progreso: implementado; eliminado el único `console.log` señalado sin alterar el flujo de carga. Evidencia: `bunx eslint src/features/assets/components/ModalAssignTemplate.tsx` → 0 errores / 2 warnings preexistentes (`useAssets`, `err` sin uso); `git diff --check` → exit 0. Test/runtime harness: N/A, no existe test específico y una eliminación de logging sin cambio conductual no justifica crear una frontera artificial.
   - Rollback: restaurar una única línea, sin dependencia con F14/F15.
-  - Next step: ejecutar después de cerrar las unidades funcionales.
-- [ ] F17. Verificación final y cierre documental.
+  - Commit: `99b623f` (`Fix: eliminar log de plantillas`).
+  - Next step: ejecutar verificación final F17.
+- [x] F17. Verificación final y cierre documental.
   - Objetivo: ejecutar todos los checks disponibles sin build/Playwright persistente, registrar evidencia real, SHAs y límites de rollback.
   - Scope autorizado: lint, type-check, unit/integration/security, `git diff --check`, status/diffs/log y este documento.
   - Constraints: no build, push, PR, merge, review nativa ni limpieza de evidencia ajena.
   - Acceptance: resultados exactos distinguen éxito, warning, fallo preexistente y pending; cada unidad queda en commit convencional con paths explícitos.
   - Forecast: ~40 líneas documentales. Delivery: Docs commit final acotado solo si registrar SHAs deja cambios pendientes.
   - Branch/slice: `feature/dashboard-kpi-comparison`, cierre de cadena local.
-  - Progreso: pendiente.
+  - Progreso: verificación final completa sin build ni Playwright. `bun run lint` → exit 0, 0 errores / 829 warnings preexistentes; `bun run type-check` → exit 0; `bun run test:unit` → 151 archivos passed + 1 skipped, 1272 tests passed + 1 skipped; `bun run test:integration` → 1 archivo / 7 tests passed; `bun run test:security` → 4 archivos / 33 tests passed; `bun run test` → 156 archivos passed + 1 skipped, 1312 tests passed + 1 skipped; `git diff --check` → exit 0. Playwright omitido para no crear artefactos persistentes; build prohibido. Churn antes del cierre documental: 536 inserciones + 51 eliminaciones = 587 líneas authored aproximadas.
   - Rollback: revertir solo el commit documental; no modifica comportamiento.
-  - Next step: comenzar F14.
+  - Next step: parent assess/review por commit; no se ejecutó review nativa.
 
 ## Revision 2026-09-24 23:50: post-implement corrections
 - User reported two defects after the first P0/P1 pass: (a) blank canvas inside the attention row, (b) skeleton not matching loaded content. Measured root cause for (a): `align-self: start` + `align-content: start` left the KPI card at 239px inside a 659px row (~420px of bare canvas). After the fix the row measures 659/659. For (b) the skeleton now renders the real section structure; measured loading heights 659/448/525 match loaded 659/448/525, with `aria-busy="true" aria-label="Cargando panel"` and no layout shift.
