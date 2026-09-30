@@ -34,6 +34,7 @@ export const DashboardHeader = ({ role, metadata, range, onRangeChange, secondar
         <p className={styles.subtitle}>{t(`home.dashboard.roles.${role}.description`)}</p>
         <dl className={styles.headerMetadata}>
           <div><dt>{t("home.dashboard.updated")}</dt><dd>{loading ? <span className={`${styles.skeleton} ${styles.skeletonUpdated}`} aria-hidden="true">&nbsp;</span> : updatedAt}</dd></div>
+          <div><dt>{t("home.dashboard.period")}</dt><dd>{t(`home.range.${metadata.range}`)}</dd></div>
         </dl>
       </div>
       <div className={styles.headerActions}>

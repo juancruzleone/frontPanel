@@ -119,7 +119,17 @@ export interface DashboardMetric {
   unit?: "hours" | "percent"
   exception?: "warning" | "critical"
   total?: number
+  comparison: DashboardMetricComparison
 }
+
+export type DashboardMetricComparison =
+  | { status: "unavailable" }
+  | {
+      status: "available"
+      direction: "up" | "down" | "unchanged"
+      outcome: "improved" | "worsened" | "unchanged" | "changed"
+      delta: number
+    }
 
 export interface DashboardAlert {
   id: string

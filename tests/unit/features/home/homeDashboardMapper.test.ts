@@ -57,4 +57,51 @@ describe("home dashboard role-aware mapper", () => {
     expect(() => mapDashboardStats(createDashboardDto("tenant"), "technician")).toThrow("DASHBOARD_SCOPE_MISMATCH")
     expect(() => mapDashboardStats(createDashboardDto("tenant"), "client")).toThrow("DASHBOARD_SCOPE_MISMATCH")
   })
+
+  it("maps contextual KPI outcomes without dividing by a zero previous value", () => {
+    const dto = createDashboardDto("tenant")
+    dto.operationalKpis = {
+      ...dto.operationalKpis,
+      overdueWorkOrders: 0,
+      criticalWorkOrders: 3,
+      mttrHours: 3,
+      mtbfHours: 100,
+      preventiveComplianceRate: 0,
+      slaRate: 0,
+      responseTimeHours: 2,
+    }
+    dto.kpisPrevious = {
+      ...dto.kpisPrevious!,
+      overdueWorkOrders: 2,
+      criticalWorkOrders: 0,
+      mttrHours: 4,
+      mtbfHours: 90,
+      preventiveComplianceRate: 0,
+      slaRate: 80,
+      responseTimeHours: 1,
+    }
+
+    const metrics = new Map(mapDashboardStats(dto, "admin").metrics.map((metric) => [metric.id, metric.comparison]))
+    expect(metrics.get("overdueWorkOrders")).toMatchObject({ direction: "down", outcome: "improved", delta: -2 })
+    expect(metrics.get("criticalWorkOrders")).toMatchObject({ direction: "up", outcome: "worsened", delta: 3 })
+    expect(metrics.get("mttrHours")).toMatchObject({ outcome: "improved" })
+    expect(metrics.get("mtbfHours")).toMatchObject({ outcome: "improved" })
+    expect(metrics.get("preventiveComplianceRate")).toMatchObject({ direction: "unchanged", outcome: "unchanged", delta: 0 })
+    expect(metrics.get("slaRate")).toMatchObject({ direction: "down", outcome: "worsened", delta: -80 })
+    expect(metrics.get("responseTimeHours")).toMatchObject({ direction: "up", outcome: "worsened" })
+  })
+
+  it("marks comparison unavailable unless both periods are measurable", () => {
+    const dto = createDashboardDto("tenant")
+    dto.operationalKpis.preventiveComplianceRate = null
+    dto.kpisPrevious!.slaRate = null
+    let result = mapDashboardStats(dto, "admin")
+    expect(result.metrics.find(({ id }) => id === "preventiveComplianceRate")?.comparison).toEqual({ status: "unavailable" })
+    expect(result.metrics.find(({ id }) => id === "slaRate")?.comparison).toEqual({ status: "unavailable" })
+
+    dto.kpisPrevious = null
+    dto.previousWindow.available = false
+    result = mapDashboardStats(dto, "admin")
+    expect(result.metrics.every(({ comparison }) => comparison.status === "unavailable")).toBe(true)
+  })
 })

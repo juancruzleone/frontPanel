@@ -29,8 +29,9 @@ dashboard-redesign-pro (branch `feature/dashboard-redesign-pro`)
   - Branch/slice: `feature/dashboard-kpi-comparison`, slice 1, commit de transporte/contrato/validación.
   - Progreso: implementado. Evidencia enfocada: `bunx vitest run tests/unit/features/home/dashboardStatsService.test.ts tests/unit/features/home/useHomeDashboard.test.tsx` → 20/20; `bun run type-check` → exit 0; `git diff --check` → exit 0. Runtime harness: N/A, la frontera HTTP está cubierta con `Response` real y wrapper mockeado sin servidor frontend autorizado.
   - Rollback: revertir únicamente `dashboardStatsService.ts`, cambios de contrato en `homeTypes.ts`, import del hook, fixture y tests de esta unidad; no afecta mapper/UI.
-  - Next step: registrar SHA real y comenzar F15 sobre el contrato validado.
-- [ ] F15. Mapper, tendencias accesibles y coherencia temporal durante refresh.
+  - Commit: `dab7595` (`Feat: validar contrato comparativo del dashboard`).
+  - Next step: comenzar F15 sobre el contrato validado.
+- [x] F15. Mapper, tendencias accesibles y coherencia temporal durante refresh.
   - Objetivo: derivar comparaciones solo con valores medibles y mostrar la dirección de negocio correcta sin etiquetar datos viejos con el rango solicitado.
   - Problema y por qué: el rango seleccionado cambia antes de que cambien los datos aplicados; además no existe semántica frontend para cero→positivo, positivo→cero, N/A ni para métricas donde bajar es mejorar.
   - Scope autorizado: mapper, modelo de vista, `OperationalKPIs`, `HomeDashboard`, estilos/i18n existentes y tests de mapper/render/refresh.
@@ -40,9 +41,9 @@ dashboard-redesign-pro (branch `feature/dashboard-redesign-pro`)
   - TDD: OFF. Source: documento ODD actual. Runner: `bun run test:unit` (Vitest), con cobertura conductual añadida.
   - Forecast: ~320 líneas authored. Delivery: `feature-branch-chain` por superar el presupuesto acumulado de ~400 líneas.
   - Branch/slice: `feature/dashboard-kpi-comparison`, slice 2 encadenado sobre F14.
-  - Progreso: pendiente.
-  - Rollback: revertir modelo de tendencia, mapper, render/CSS/i18n y sus tests sin retirar el contrato HTTP de F14.
-  - Next step: cerrar F14 y usar sus tipos validados como única entrada.
+  - Progreso: implementado. Semántica: vencidas/críticas/MTTR/primera respuesta mejoran al bajar; MTBF/cumplimiento preventivo/SLA mejoran al subir; abiertas muestran cambio neutral. Los deltas son absolutos (horas, puntos porcentuales o conteo), por lo que cero→positivo y positivo→cero no requieren división. Evidencia: `bunx vitest run tests/unit/features/home/homeDashboardMapper.test.ts tests/unit/features/home/OperationalKPIs.test.tsx tests/unit/features/home/HomeDashboard.test.tsx tests/unit/features/home/homeKeyParity.test.ts tests/unit/features/home/homeTranslations.test.ts` → 71/71; `bun run type-check` → exit 0; `git diff --check` → exit 0. Runtime harness: N/A; comportamiento de render, foco y estado temporal cubierto en jsdom.
+  - Rollback: revertir `homeDashboardMapper.ts`, modelo `DashboardMetric`, `OperationalKPIs`, metadata/rango aplicado, CSS, claves i18n y tests de esta unidad; F14 permanece funcional sin tendencias.
+  - Next step: registrar SHA real y ejecutar F16 como limpieza independiente.
 - [ ] F16. Limpieza de logging de plantillas.
   - Objetivo: retirar `console.log('Templates recibidos:', data)` de producción.
   - Problema y por qué: expone ruido/datos en consola sin aportar manejo de errores.

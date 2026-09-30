@@ -26,10 +26,11 @@ describe("OperationalKPIs contextual detail", () => {
     expect(screen.getByText("5 de 12 órdenes")).toBeInTheDocument()
     expect(screen.getByText("2 de 12 órdenes").closest(".kpiCell")).toHaveClass("critical")
     expect(screen.getByText("1 de 12 órdenes").closest(".kpiCell")).toHaveClass("warning")
+    expect(screen.getByText("Órdenes vencidas").closest(".kpiCell")).toHaveTextContent("↓ 1 respecto del periodo anterior: Mejora.")
   })
 
   it.each([0, 100])("keeps %s percent determinate instead of inventing a target or a trend", (value) => {
-    render(<OperationalKPIs metrics={[{ id: "slaRate", value, unit: "percent" }]} />)
+    render(<OperationalKPIs metrics={[{ id: "slaRate", value, unit: "percent", comparison: { status: "unavailable" } }]} />)
     expect(screen.getByRole("progressbar")).toHaveAttribute("value", String(value))
     expect(screen.getByText(`${value} %`)).toBeInTheDocument()
   })
@@ -37,18 +38,18 @@ describe("OperationalKPIs contextual detail", () => {
   it.each([null, -1, 101, NaN])("does not draw progress for unavailable or invalid percentage %s", (value) => {
     // A companion metric with a real value keeps the band in "has data" mode;
     // a band where nothing is available is covered by its own test below.
-    render(<OperationalKPIs metrics={[{ id: "slaRate", value, unit: "percent" }, { id: "openWorkOrders", value: 5 }]} />)
+    render(<OperationalKPIs metrics={[{ id: "slaRate", value, unit: "percent", comparison: { status: "unavailable" } }, { id: "openWorkOrders", value: 5, comparison: { status: "unavailable" } }]} />)
     expect(screen.queryByRole("progressbar")).not.toBeInTheDocument()
     if (value === null) expect(screen.getByText("N/D")).toBeInTheDocument()
   })
 
   it.each([undefined, 0, -1, 2, NaN, Infinity])("omits proportional context for missing or inconsistent total %s", (total) => {
-    render(<OperationalKPIs metrics={[{ id: "openWorkOrders", value: 5, total }]} />)
+    render(<OperationalKPIs metrics={[{ id: "openWorkOrders", value: 5, total, comparison: { status: "unavailable" } }]} />)
     expect(screen.queryByText(/de .* órdenes/)).not.toBeInTheDocument()
   })
 
   it("shows a known zero count with a real positive denominator", () => {
-    render(<OperationalKPIs metrics={[{ id: "openWorkOrders", value: 0, total: 12 }]} />)
+    render(<OperationalKPIs metrics={[{ id: "openWorkOrders", value: 0, total: 12, comparison: { status: "unavailable" } }]} />)
     expect(screen.getByText("0 de 12 órdenes")).toBeInTheDocument()
   })
 
@@ -61,8 +62,8 @@ describe("OperationalKPIs contextual detail", () => {
 
   it("keeps definitions factual when an hour value is unavailable", () => {
     const metrics: DashboardMetric[] = [
-      { id: "responseTimeHours", value: null, unit: "hours" },
-      { id: "openWorkOrders", value: 5 },
+      { id: "responseTimeHours", value: null, unit: "hours", comparison: { status: "unavailable" } },
+      { id: "openWorkOrders", value: 5, comparison: { status: "unavailable" } },
     ]
     render(<OperationalKPIs metrics={metrics} />)
     expect(screen.getByText("N/D")).toBeInTheDocument()
@@ -71,10 +72,10 @@ describe("OperationalKPIs contextual detail", () => {
 
   it("replaces a band of unavailable metrics with one clear message", () => {
     const metrics: DashboardMetric[] = [
-      { id: "mttrHours", value: null, unit: "hours" },
-      { id: "slaRate", value: null, unit: "percent" },
-      { id: "responseTimeHours", value: null, unit: "hours" },
-      { id: "openWorkOrders", value: NaN },
+      { id: "mttrHours", value: null, unit: "hours", comparison: { status: "unavailable" } },
+      { id: "slaRate", value: null, unit: "percent", comparison: { status: "unavailable" } },
+      { id: "responseTimeHours", value: null, unit: "hours", comparison: { status: "unavailable" } },
+      { id: "openWorkOrders", value: NaN, comparison: { status: "unavailable" } },
     ]
     const { container } = render(<OperationalKPIs metrics={metrics} />)
     expect(screen.getByText("Aún no hay métricas operativas disponibles.")).toBeInTheDocument()
@@ -84,7 +85,7 @@ describe("OperationalKPIs contextual detail", () => {
   })
 
   it("keeps a known zero as a value instead of treating it as no data", () => {
-    render(<OperationalKPIs metrics={[{ id: "openWorkOrders", value: 0, total: 12 }]} />)
+    render(<OperationalKPIs metrics={[{ id: "openWorkOrders", value: 0, total: 12, comparison: { status: "unavailable" } }]} />)
     expect(screen.queryByText("Aún no hay métricas operativas disponibles.")).not.toBeInTheDocument()
     expect(screen.getByText("0 de 12 órdenes")).toBeInTheDocument()
   })
@@ -104,7 +105,7 @@ describe("OperationalKPIs contextual detail", () => {
     }
     for (const [language, message] of Object.entries(messages)) {
       await i18n.changeLanguage(language)
-      const { unmount } = render(<OperationalKPIs metrics={[{ id: "slaRate", value: null, unit: "percent" }]} />)
+      const { unmount } = render(<OperationalKPIs metrics={[{ id: "slaRate", value: null, unit: "percent", comparison: { status: "unavailable" } }]} />)
       expect(screen.getByText(message)).toBeInTheDocument()
       unmount()
     }
@@ -120,5 +121,16 @@ describe("OperationalKPIs contextual detail", () => {
     expect(screen.getByText("5 of 12 work orders")).toBeInTheDocument()
     expect(screen.getByRole("progressbar", { name: "SLA compliance" })).toHaveAttribute("value", "91")
     await i18n.changeLanguage("es")
+  })
+
+  it("renders unavailable preventive compliance as N/D without progress or an invented trend", () => {
+    const dto = createDashboardDto("tenant")
+    dto.operationalKpis.preventiveComplianceRate = null
+    const metric = mapDashboardStats(dto, "admin").metrics.find(({ id }) => id === "preventiveComplianceRate")!
+    render(<OperationalKPIs metrics={[metric, { id: "openWorkOrders", value: 1, comparison: { status: "unavailable" } }]} />)
+
+    expect(screen.getByText("N/D")).toBeInTheDocument()
+    expect(screen.queryByRole("progressbar", { name: "Cumplimiento preventivo" })).not.toBeInTheDocument()
+    expect(screen.getByText("Cumplimiento preventivo").closest(".kpiCell")).toHaveTextContent("Comparación con el periodo anterior no disponible.")
   })
 })

@@ -521,7 +521,7 @@
       "rangeLabel": "Seleccionar periodo del análisis",
       "rangeHelp": "Afecta las métricas, la tendencia y las distribuciones de órdenes.",
       "loading": "Cargando panel",
-      "refreshing": "Actualizando… Se muestran los datos de {{range}}.",
+      "refreshing": "Actualizando a {{requestedRange}}… Se siguen mostrando los datos aplicados de {{appliedRange}}.",
       "dateUnavailable": "Fecha no disponible",
       "sections": {
         "immediate": "Atención inmediata y resumen",
@@ -544,6 +544,14 @@
         "mtbfHours": "Tiempo promedio entre fallos.",
         "responseTimeHours": "Tiempo promedio hasta la primera respuesta.",
         "proportion": "{{count}} de {{total}} órdenes"
+      },
+      "comparison": {
+        "change": "{{direction}} {{value}} respecto del periodo anterior: {{outcome}}.",
+        "improved": "Mejora",
+        "worsened": "Empeora",
+        "unchanged": "Sin cambios",
+        "changed": "Cambio",
+        "unavailable": "Comparación con el periodo anterior no disponible."
       },
       "attention": {
         "kicker": "Excepciones",

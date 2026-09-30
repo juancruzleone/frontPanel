@@ -77,7 +77,10 @@ export const HomeDashboard = () => {
       <div className={styles.dashboardContainer} aria-busy={dashboard.refreshing} data-refreshing={dashboard.refreshing}>
         {header}
         <div className={styles.refreshStatus} role="status">
-          {dashboard.refreshing && t("home.dashboard.refreshing", { range: t(`home.range.${data.metadata.range}`) })}
+          {dashboard.refreshing && t("home.dashboard.refreshing", {
+            requestedRange: t(`home.range.${dashboard.range}`),
+            appliedRange: t(`home.range.${data.metadata.range}`),
+          })}
         </div>
         {notices}
 

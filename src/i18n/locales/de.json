@@ -597,12 +597,20 @@
         "unsupportedRole": "Ihre Rolle hat keinen freigegebenen Dashboard-Bereich.",
         "inventory": "Die Inventarübersicht ist nicht verfügbar; der Rest des Dashboards ist aktuell."
       },
-      "refreshing": "Aktualisierung… Es werden die Daten von {{range}} angezeigt.",
+      "refreshing": "Aktualisierung auf {{requestedRange}}… Weiterhin werden die angewendeten Daten für {{appliedRange}} angezeigt.",
       "metricDetails": {
         "mttrHours": "Durchschnittliche Zeit für Reparaturen.",
         "mtbfHours": "Durchschnittliche Zeit zwischen Ausfällen.",
         "responseTimeHours": "Durchschnittliche Zeit bis zur ersten Reaktion.",
         "proportion": "{{count}} von {{total}} Aufträgen"
+      },
+      "comparison": {
+        "change": "{{direction}} {{value}} gegenüber dem vorherigen Zeitraum: {{outcome}}.",
+        "improved": "Verbessert",
+        "worsened": "Verschlechtert",
+        "unchanged": "Unverändert",
+        "changed": "Geändert",
+        "unavailable": "Vergleich mit dem vorherigen Zeitraum nicht verfügbar."
       }
     },
     "welcome": "Willkommen",

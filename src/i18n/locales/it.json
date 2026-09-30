@@ -616,12 +616,20 @@
         "unsupportedRole": "Il tuo ruolo non ha un ambito di pannello autorizzato.",
         "inventory": "Il riepilogo inventario non è disponibile; il resto del pannello è aggiornato."
       },
-      "refreshing": "Aggiornamento… Vengono mostrati i dati di {{range}}.",
+      "refreshing": "Aggiornamento a {{requestedRange}}… Restano visualizzati i dati applicati di {{appliedRange}}.",
       "metricDetails": {
         "mttrHours": "Tempo medio dedicato alle riparazioni.",
         "mtbfHours": "Tempo medio tra i guasti.",
         "responseTimeHours": "Tempo medio fino alla prima risposta.",
         "proportion": "{{count}} ordini su {{total}}"
+      },
+      "comparison": {
+        "change": "{{direction}} {{value}} rispetto al periodo precedente: {{outcome}}.",
+        "improved": "Miglioramento",
+        "worsened": "Peggioramento",
+        "unchanged": "Nessuna variazione",
+        "changed": "Variazione",
+        "unavailable": "Confronto con il periodo precedente non disponibile."
       }
     },
     "welcome": "Benvenuto",
