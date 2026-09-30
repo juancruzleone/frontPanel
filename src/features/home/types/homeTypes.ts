@@ -21,7 +21,7 @@ export interface DashboardKpisDto {
   criticalWorkOrders: number
   mttrHours: number
   mtbfHours: number
-  preventiveComplianceRate: number
+  preventiveComplianceRate: number | null
   slaRate: number | null
   responseTimeHours: number | null
 }
@@ -32,7 +32,7 @@ export interface OperationalKpisDto {
   criticalWorkOrders: number
   mttrHours: number
   mtbfHours: number
-  preventiveComplianceRate: number
+  preventiveComplianceRate: number | null
   slaRate: number | null
   responseTimeHours: number | null
 }
@@ -74,6 +74,8 @@ export interface DashboardStatsDto {
   metadata: DashboardMetadataDto
   kpis: DashboardKpisDto
   operationalKpis: OperationalKpisDto
+  kpisPrevious: DashboardComparisonKpisDto | null
+  previousWindow: DashboardPreviousWindowDto
   charts: {
     byStatus: ChartDataItem[]
     byType: ChartDataItem[]
@@ -92,6 +94,17 @@ export interface DashboardStatsDto {
     fechaProgramada?: string
     titulo?: string
   }>
+}
+
+export interface DashboardComparisonKpisDto extends OperationalKpisDto {
+  workOrders: number
+}
+
+export interface DashboardPreviousWindowDto {
+  range: RangeOption
+  start: string
+  end: string
+  available: boolean
 }
 
 export interface DashboardStatsResponse {

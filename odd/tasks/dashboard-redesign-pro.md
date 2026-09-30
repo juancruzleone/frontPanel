@@ -17,6 +17,55 @@ dashboard-redesign-pro (branch `feature/dashboard-redesign-pro`)
 - [x] 11. P1 visual: fondo claro, proporción de KPIs, alturas de panel, banda de cobertura, chips de leyenda — done. Verificado: canvas #F6F7F8 en claro y #121212 en oscuro; legend chips sin affordance falsa.
 - [x] 12. Verificación + work-unit commit 2 — done: `15e1f8e`. Verificación independiente (gentle-ai-verify) + verificación de navegador del parent.
 - [ ] 13. Cobertura: agregar métrica Clientes, hacer clickeables Instalaciones/Activos/Técnicos/Clientes, y que la banda ocupe todo el ancho
+- [x] F14. Transporte, contrato y validación del comparativo KPI.
+  - Objetivo: solicitar `range=<rango efectivo>&compare=true` mediante `fetchWithAuthRetry`, tipar `kpisPrevious`/`previousWindow` y validar el payload antes de mapearlo.
+  - Problema y por qué: el frontend usa `fetch` directo y confía en un cast; una sesión expirada pierde el retry compartido y un payload parcial puede fallar tarde en `reduce`/`map`.
+  - Scope autorizado: hook/servicio de Home, DTOs, validador mantenible sin dependencia nueva, fixtures y tests de request, auth retry y payload malformado.
+  - Constraints: conservar aislamiento por rol/rango, cache y enriquecimientos; fallar de forma controlada; no build; no cambios backend.
+  - Acceptance: request con rango efectivo y `compare=true`; wrapper compartido probado; `null`/unavailable representados con honestidad; payload parcial/malformado produce `home.dashboard.errors.loadFailed` sin excepción de render.
+  - Checks: Vitest enfocado de hook/contrato + `bun run type-check` + `git diff --check`.
+  - TDD: OFF. Source: documento ODD actual, sin configuración explícita de proyecto/sesión. Runner: `bun run test:unit` (Vitest); se añadirán tests conductuales junto al código.
+  - Forecast: ~220 líneas authored. Delivery: `ask-on-risk` resuelto por autorización a `feature-branch-chain`.
+  - Branch/slice: `feature/dashboard-kpi-comparison`, slice 1, commit de transporte/contrato/validación.
+  - Progreso: implementado. Evidencia enfocada: `bunx vitest run tests/unit/features/home/dashboardStatsService.test.ts tests/unit/features/home/useHomeDashboard.test.tsx` → 20/20; `bun run type-check` → exit 0; `git diff --check` → exit 0. Runtime harness: N/A, la frontera HTTP está cubierta con `Response` real y wrapper mockeado sin servidor frontend autorizado.
+  - Rollback: revertir únicamente `dashboardStatsService.ts`, cambios de contrato en `homeTypes.ts`, import del hook, fixture y tests de esta unidad; no afecta mapper/UI.
+  - Next step: registrar SHA real y comenzar F15 sobre el contrato validado.
+- [ ] F15. Mapper, tendencias accesibles y coherencia temporal durante refresh.
+  - Objetivo: derivar comparaciones solo con valores medibles y mostrar la dirección de negocio correcta sin etiquetar datos viejos con el rango solicitado.
+  - Problema y por qué: el rango seleccionado cambia antes de que cambien los datos aplicados; además no existe semántica frontend para cero→positivo, positivo→cero, N/A ni para métricas donde bajar es mejorar.
+  - Scope autorizado: mapper, modelo de vista, `OperationalKPIs`, `HomeDashboard`, estilos/i18n existentes y tests de mapper/render/refresh.
+  - Constraints: una sola fuente de verdad para el rango aplicado; refresco no destructivo y foco intactos; no usar color como única señal; menor es mejor para vencidas/críticas, MTTR y primera respuesta, mayor es mejor para MTBF, cumplimiento preventivo y SLA.
+  - Acceptance: N/A si actual o anterior no es medible; cero→positivo y positivo→cero no dividen por cero ni inventan porcentaje; tendencia incluye texto/símbolo accesible; cumplimiento preventivo `null` se muestra N/A; durante refresh el control solicitado y el estado indican explícitamente qué rango sigue aplicado.
+  - Checks: Vitest enfocado mapper/OperationalKPIs/HomeDashboard + parity de i18n + `bun run type-check` + `git diff --check`.
+  - TDD: OFF. Source: documento ODD actual. Runner: `bun run test:unit` (Vitest), con cobertura conductual añadida.
+  - Forecast: ~320 líneas authored. Delivery: `feature-branch-chain` por superar el presupuesto acumulado de ~400 líneas.
+  - Branch/slice: `feature/dashboard-kpi-comparison`, slice 2 encadenado sobre F14.
+  - Progreso: pendiente.
+  - Rollback: revertir modelo de tendencia, mapper, render/CSS/i18n y sus tests sin retirar el contrato HTTP de F14.
+  - Next step: cerrar F14 y usar sus tipos validados como única entrada.
+- [ ] F16. Limpieza de logging de plantillas.
+  - Objetivo: retirar `console.log('Templates recibidos:', data)` de producción.
+  - Problema y por qué: expone ruido/datos en consola sin aportar manejo de errores.
+  - Scope autorizado: `src/features/assets/components/ModalAssignTemplate.tsx`; test solo si demuestra comportamiento útil.
+  - Constraints: no alterar carga, selección ni error de plantillas.
+  - Acceptance: log eliminado y comportamiento existente intacto.
+  - Checks: lint enfocado/global disponible + `git diff --check`; test del componente solo si ya existe una frontera útil.
+  - TDD: OFF. Source: documento ODD actual. Runner: `bun run test:unit` (Vitest).
+  - Forecast: 1 línea authored. Delivery: integrar en una unidad solo si encaja limpiamente; en caso contrario commit `Fix:` acotado.
+  - Branch/slice: `feature/dashboard-kpi-comparison`, slice 3 opcional.
+  - Progreso: pendiente.
+  - Rollback: restaurar una única línea, sin dependencia con F14/F15.
+  - Next step: ejecutar después de cerrar las unidades funcionales.
+- [ ] F17. Verificación final y cierre documental.
+  - Objetivo: ejecutar todos los checks disponibles sin build/Playwright persistente, registrar evidencia real, SHAs y límites de rollback.
+  - Scope autorizado: lint, type-check, unit/integration/security, `git diff --check`, status/diffs/log y este documento.
+  - Constraints: no build, push, PR, merge, review nativa ni limpieza de evidencia ajena.
+  - Acceptance: resultados exactos distinguen éxito, warning, fallo preexistente y pending; cada unidad queda en commit convencional con paths explícitos.
+  - Forecast: ~40 líneas documentales. Delivery: Docs commit final acotado solo si registrar SHAs deja cambios pendientes.
+  - Branch/slice: `feature/dashboard-kpi-comparison`, cierre de cadena local.
+  - Progreso: pendiente.
+  - Rollback: revertir solo el commit documental; no modifica comportamiento.
+  - Next step: comenzar F14.
 
 ## Revision 2026-09-24 23:50: post-implement corrections
 - User reported two defects after the first P0/P1 pass: (a) blank canvas inside the attention row, (b) skeleton not matching loaded content. Measured root cause for (a): `align-self: start` + `align-content: start` left the KPI card at 239px inside a 659px row (~420px of bare canvas). After the fix the row measures 659/659. For (b) the skeleton now renders the real section structure; measured loading heights 659/448/525 match loaded 659/448/525, with `aria-busy="true" aria-label="Cargando panel"` and no layout shift.

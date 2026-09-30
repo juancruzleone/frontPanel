@@ -50,6 +50,7 @@ describe("useHomeDashboard", () => {
     expect(inventoryMock).toHaveBeenCalledTimes(2)
     expect(inventoryMock).toHaveBeenNthCalledWith(1, { page: 1, limit: 5 })
     expect(inventoryMock).toHaveBeenNthCalledWith(2, { page: 1, limit: 5, lowStock: true })
+    expect(fetch).toHaveBeenCalledWith(expect.stringMatching(/dashboard\/stats\?(?=.*range=30d)(?=.*compare=true)/), expect.any(Object))
     expect(useHomeStore.getState().cache?.cacheKey).toBe(buildHomeCacheKey("tenant-a", "user-1", "admin"))
   })
 
@@ -166,6 +167,17 @@ describe("useHomeDashboard", () => {
     expect(result.current.data).toBeNull()
     expect(result.current.error).toBe("home.dashboard.errors.loadFailed")
     expect(clientsMock).not.toHaveBeenCalled()
+  })
+
+  it("fails closed when the dashboard payload is partial instead of crashing in the mapper", async () => {
+    const malformed = createDashboardDto("tenant") as unknown as Record<string, unknown>
+    Reflect.deleteProperty(malformed, "charts")
+    vi.mocked(fetch).mockResolvedValue(new Response(JSON.stringify({ success: true, data: malformed }), { status: 200 }))
+    const { result } = renderHook(() => useHomeDashboard())
+
+    await waitFor(() => expect(result.current.loading).toBe(false))
+    expect(result.current.data).toBeNull()
+    expect(result.current.error).toBe("home.dashboard.errors.loadFailed")
   })
 
   it("exposes refreshing while preserving old data during a range transition", async () => {

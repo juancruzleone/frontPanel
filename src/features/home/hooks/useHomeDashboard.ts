@@ -1,34 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useAuthStore } from "../../../store/authStore"
 import { buildHomeCacheKey, useHomeStore } from "../../../store/homeStore"
-import { getAuthHeaders } from "../../../shared/utils/apiHeaders"
 import { fetchInventoryItems } from "../../inventory/services/inventoryServices"
 import { getClients } from "../../clients/services/clientServices"
+import { fetchDashboardStats } from "../services/dashboardStatsService"
 import {
   expectedDashboardScope,
   mapDashboardStats,
   normalizeDashboardRole,
 } from "../services/homeDashboardMapper"
 import type {
-  DashboardStatsResponse,
   HomeDashboardState,
   InventorySummaryData,
   RangeOption,
 } from "../types/homeTypes"
-
-const fetchDashboardStats = async (range: RangeOption): Promise<DashboardStatsResponse> => {
-  const apiUrl = import.meta.env.VITE_API_URL || "/api/"
-  const response = await fetch(`${apiUrl}dashboard/stats?range=${range}`, {
-    headers: getAuthHeaders(true),
-    credentials: "include",
-  })
-
-  const payload = await response.json() as DashboardStatsResponse
-  if (!response.ok || !payload.success || !payload.data) {
-    throw new Error(payload.message || "DASHBOARD_LOAD_FAILED")
-  }
-  return payload
-}
 
 const toSummaryItem = (item: { _id?: string; name?: string; currentStock?: number; unit?: string; minimumStock?: number }): InventorySummaryData["items"][number] => ({
   _id: String(item._id ?? ""),
