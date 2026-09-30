@@ -43,8 +43,9 @@ dashboard-redesign-pro (branch `feature/dashboard-redesign-pro`)
   - Branch/slice: `feature/dashboard-kpi-comparison`, slice 2 encadenado sobre F14.
   - Progreso: implementado. Semántica: vencidas/críticas/MTTR/primera respuesta mejoran al bajar; MTBF/cumplimiento preventivo/SLA mejoran al subir; abiertas muestran cambio neutral. Los deltas son absolutos (horas, puntos porcentuales o conteo), por lo que cero→positivo y positivo→cero no requieren división. Evidencia: `bunx vitest run tests/unit/features/home/homeDashboardMapper.test.ts tests/unit/features/home/OperationalKPIs.test.tsx tests/unit/features/home/HomeDashboard.test.tsx tests/unit/features/home/homeKeyParity.test.ts tests/unit/features/home/homeTranslations.test.ts` → 71/71; `bun run type-check` → exit 0; `git diff --check` → exit 0. Runtime harness: N/A; comportamiento de render, foco y estado temporal cubierto en jsdom.
   - Rollback: revertir `homeDashboardMapper.ts`, modelo `DashboardMetric`, `OperationalKPIs`, metadata/rango aplicado, CSS, claves i18n y tests de esta unidad; F14 permanece funcional sin tendencias.
-  - Next step: registrar SHA real y ejecutar F16 como limpieza independiente.
-- [ ] F16. Limpieza de logging de plantillas.
+  - Commit: `4a71c69` (`Feat: mostrar tendencias KPI contextuales`).
+  - Next step: ejecutar F16 como limpieza independiente.
+- [x] F16. Limpieza de logging de plantillas.
   - Objetivo: retirar `console.log('Templates recibidos:', data)` de producción.
   - Problema y por qué: expone ruido/datos en consola sin aportar manejo de errores.
   - Scope autorizado: `src/features/assets/components/ModalAssignTemplate.tsx`; test solo si demuestra comportamiento útil.
@@ -54,7 +55,7 @@ dashboard-redesign-pro (branch `feature/dashboard-redesign-pro`)
   - TDD: OFF. Source: documento ODD actual. Runner: `bun run test:unit` (Vitest).
   - Forecast: 1 línea authored. Delivery: integrar en una unidad solo si encaja limpiamente; en caso contrario commit `Fix:` acotado.
   - Branch/slice: `feature/dashboard-kpi-comparison`, slice 3 opcional.
-  - Progreso: pendiente.
+  - Progreso: implementado; eliminado el único `console.log` señalado sin alterar el flujo de carga. Evidencia: `bunx eslint src/features/assets/components/ModalAssignTemplate.tsx` → 0 errores / 2 warnings preexistentes (`useAssets`, `err` sin uso); `git diff --check` → exit 0. Test/runtime harness: N/A, no existe test específico y una eliminación de logging sin cambio conductual no justifica crear una frontera artificial.
   - Rollback: restaurar una única línea, sin dependencia con F14/F15.
   - Next step: ejecutar después de cerrar las unidades funcionales.
 - [ ] F17. Verificación final y cierre documental.

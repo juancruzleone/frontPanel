@@ -45,7 +45,6 @@ const ModalAssignTemplate = ({
       setLoadingTemplates(true);
       fetchTemplates()
         .then(data => {
-          console.log('📋 Templates recibidos:', data);
           // Asegurarse de que data sea un array
           setTemplates(Array.isArray(data) ? data : []);
           setLoadingTemplates(false);
