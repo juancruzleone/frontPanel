@@ -130,7 +130,8 @@ test.describe("Offline Capability Review - Technician Flow", () => {
     isOfflinePhase = true;
     await context.setOffline(true);
     await page.evaluate(() => window.dispatchEvent(new Event('offline')));
-    await page.waitForFunction(() => !navigator.onLine, { timeout: 5000 }).catch(() => {});
+    await page.waitForFunction(() => !navigator.onLine, { timeout: 5000 });
+    await page.getByRole("button", { name: "Cerrar notificación de sincronización" }).click();
     
     // 5. ACT: Queued Mutation (Delete)
     let deleteSyncCalled = false;
@@ -150,33 +151,17 @@ test.describe("Offline Capability Review - Technician Flow", () => {
     // Trigger delete
     const deleteButton = page.getByLabel("Eliminar orden").first();
     await expect(deleteButton).toBeVisible();
-    await deleteButton.click({ force: true });
+    await deleteButton.click();
 
     // Confirm in modal
-    const confirmButton = page.getByRole("button", { name: "Eliminar" }).last();
+    const deleteDialog = page.getByRole("dialog", { name: /Eliminar orden de trabajo/ });
+    await expect(deleteDialog).toBeVisible();
+    const confirmButton = deleteDialog.getByRole("button", { name: "Eliminar", exact: true });
     await expect(confirmButton).toBeVisible();
-    await confirmButton.click({ force: true });
+    await confirmButton.click();
 
-
-
-
-
-    // 6. VERIFY: Optimistic UI update while offline (tolerant for CI)
-    try {
-      await expect(page.getByText("Reparación Aire Acondicionado")).toBeHidden({ timeout: 10000 });
-    } catch {
-      // On CI the optimistic update may be delayed; ensure queue at least or just continue
-      await page.waitForTimeout(1000);
-    }
-    // Queue check is best-effort; don't hard-fail if offline queue not yet populated in this mock
-    void await page.evaluate(() => {
-      const offlineStore = (window as Window & {
-        useOfflineStore?: { getState: () => { queue: Array<{ type: string }> } }
-      }).useOfflineStore;
-      return offlineStore?.getState().queue.some((item) => item.type === "DELETE_WORK_ORDER") ?? false;
-    }).catch(() => false);
-    // Only assert deleteSync not yet called while offline
-    expect(deleteSyncCalled).toBe(false);
+    // 6. VERIFY: the mutation is both visible and durably queued before reconnecting.
+    await expect(page.getByText("Reparación Aire Acondicionado")).toBeHidden({ timeout: 10000 });
     await expect.poll(() => page.evaluate(() => {
       const offlineStore = (window as Window & {
         useOfflineStore?: { getState: () => { queue: Array<{ type: string }> } }
