@@ -43,6 +43,7 @@ vi.mock('react-i18next', () => ({
 describe('useWorkOrders hook', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    offlineState.addToQueue.mockReturnValue(true);
     offlineState.queue = [];
     completionLifecycle.resolve.mockResolvedValue({ ctx: { packageId: 'pkg-1' } });
     completionLifecycle.complete.mockResolvedValue({ status: 'pending_offline', messageKey: 'offline.pendingSync' });
@@ -163,6 +164,19 @@ describe('useWorkOrders hook', () => {
 
       // AND removed from the store optimistically
       expect(useWorkOrderStore.getState().workOrders).toHaveLength(0);
+    });
+
+    it('keeps the work order when the offline delete cannot be queued', async () => {
+      const { result } = renderHook(() => useWorkOrders());
+      const mockWO = { _id: 'wo-123', titulo: 'Test WO' } as any;
+      useWorkOrderStore.setState({ workOrders: [mockWO] });
+      offlineState.addToQueue.mockReturnValue(false);
+
+      await expect(result.current.removeWorkOrder('wo-123')).rejects.toThrow(
+        'No se pudo guardar la eliminación para sincronizarla.',
+      );
+
+      expect(useWorkOrderStore.getState().workOrders).toEqual([mockWO]);
     });
 
     it('should queue assignTechnician when offline', async () => {

@@ -69,6 +69,34 @@ dashboard-redesign-pro (branch `feature/dashboard-redesign-pro`)
   - Progreso: verificación final completa sin build ni Playwright. `bun run lint` → exit 0, 0 errores / 829 warnings preexistentes; `bun run type-check` → exit 0; `bun run test:unit` → 151 archivos passed + 1 skipped, 1272 tests passed + 1 skipped; `bun run test:integration` → 1 archivo / 7 tests passed; `bun run test:security` → 4 archivos / 33 tests passed; `bun run test` → 156 archivos passed + 1 skipped, 1312 tests passed + 1 skipped; `git diff --check` → exit 0. Playwright omitido para no crear artefactos persistentes; build prohibido. Churn antes del cierre documental: 536 inserciones + 51 eliminaciones = 587 líneas authored aproximadas.
   - Rollback: revertir solo el commit documental; no modifica comportamiento.
   - Next step: parent assess/review por commit; no se ejecutó review nativa.
+- [ ] F18. Estabilizar dependencias vulnerables en la rama tracker.
+  - Objetivo: actualizar las resoluciones de `brace-expansion` y `undici` a versiones sin advisories, conservando un lockfile reproducible.
+  - Acceptance: `bun audit` y el security audit remoto no reportan esos advisories; regresión existente verde.
+  - Checks: instalación congelada, audit, security/unit/integration, lint y type-check. Build local prohibido.
+  - TDD: OFF; remediación validada por audit y regresión.
+- [ ] F19. Corregir el contrato real de borrado offline `DELETE_WORK_ORDER`.
+  - Objetivo: confirmar que la mutación se encoló antes de informar éxito local; si no existe identidad autenticada, fallar explícitamente en vez de descartar la operación.
+  - Acceptance: prueba conductual reproduce identidad ausente y demuestra que nunca se elimina solo de la UI; E2E remoto confirma cola y sincronización.
+  - Checks: Vitest enfocado, suite unitaria/integración y E2E remoto. Build local prohibido.
+  - TDD: OFF; cobertura conductual añadida junto al fix, sin adaptar producción a selectores del E2E.
+- [ ] F20. Aplicar code splitting real al bundle.
+  - Objetivo: introducir fronteras lazy por rutas, sin elevar límites ni ocultar reportes.
+  - Acceptance: navegación/type-check/tests verdes y `Bundle Size Analysis` remoto dentro del umbral vigente.
+  - Checks: lint, type-check, tests y medición exclusiva en CI remoto; no build local.
+  - TDD: OFF; cambio estructural cubierto por contratos de rutas y CI.
+- [ ] F21. Publicar evidencia Lighthouse honesta.
+  - Objetivo: separar recolección y subida con acciones soportadas y rutas reales, manteniendo fallos de auditoría visibles.
+  - Acceptance: auditoría y upload verdes, artefacto descargable; sin `continue-on-error` ciego.
+  - Checks: validación estática disponible y workflow remoto.
+  - TDD: OFF; frontera de CI verificada remotamente.
+- [ ] F22. Verificar y propagar la cadena.
+  - Checks locales: lint, type-check, unit/integration/security/audit y `git diff --check`; build local prohibido.
+  - Chain: corregir primero `feat/dashboard-redesign-pro` y propagar con merges normales a #10 → #11 → #12; nunca rebase/force.
+  - Acceptance: fusionar hijos y tracker solo verdes; `origin/main` contiene `06ce2a3`; RDD clone-local `disabled/unmanaged`.
+- [ ] F23. Auditar e integrar/limpiar ramas offline.
+  - Evidencia: ancestry, commits únicos, docs/tasks, PR/issues, worktrees y checks.
+  - Disposición: `merged`, `superseded`, `incomplete/unsafe` o `deliverable`.
+  - Acceptance: deliverables solo por issue aprobado + PR/cadena + pruebas; conservar incomplete; borrar únicamente ramas fusionadas/supersedidas demostrables libres de worktree; preservar main y worktrees ajenos.
 
 ## Revision 2026-09-24 23:50: post-implement corrections
 - User reported two defects after the first P0/P1 pass: (a) blank canvas inside the attention row, (b) skeleton not matching loaded content. Measured root cause for (a): `align-self: start` + `align-content: start` left the KPI card at 239px inside a 659px row (~420px of bare canvas). After the fix the row measures 659/659. For (b) the skeleton now renders the real section structure; measured loading heights 659/448/525 match loaded 659/448/525, with `aria-busy="true" aria-label="Cargando panel"` and no layout shift.
