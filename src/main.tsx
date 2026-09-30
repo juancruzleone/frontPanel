@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router/dom";
 import { router } from "./router";
@@ -64,7 +64,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 		<ThemeProvider>
 			<ThemedToaster />
 			<AppInitializer>
-				<RouterProvider router={router} />
+				<Suspense fallback={null}>
+					<RouterProvider router={router} />
+				</Suspense>
 			</AppInitializer>
 		</ThemeProvider>
 	</React.StrictMode>,
