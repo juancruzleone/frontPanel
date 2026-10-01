@@ -43,8 +43,9 @@ dashboard-redesign-pro (branch `feature/dashboard-redesign-pro`)
   - Branch/slice: `feature/dashboard-kpi-comparison`, slice 2 encadenado sobre F14.
   - Progreso: implementado. Semántica: vencidas/críticas/MTTR/primera respuesta mejoran al bajar; MTBF/cumplimiento preventivo/SLA mejoran al subir; abiertas muestran cambio neutral. Los deltas son absolutos (horas, puntos porcentuales o conteo), por lo que cero→positivo y positivo→cero no requieren división. Evidencia: `bunx vitest run tests/unit/features/home/homeDashboardMapper.test.ts tests/unit/features/home/OperationalKPIs.test.tsx tests/unit/features/home/HomeDashboard.test.tsx tests/unit/features/home/homeKeyParity.test.ts tests/unit/features/home/homeTranslations.test.ts` → 71/71; `bun run type-check` → exit 0; `git diff --check` → exit 0. Runtime harness: N/A; comportamiento de render, foco y estado temporal cubierto en jsdom.
   - Rollback: revertir `homeDashboardMapper.ts`, modelo `DashboardMetric`, `OperationalKPIs`, metadata/rango aplicado, CSS, claves i18n y tests de esta unidad; F14 permanece funcional sin tendencias.
-  - Next step: registrar SHA real y ejecutar F16 como limpieza independiente.
-- [ ] F16. Limpieza de logging de plantillas.
+  - Commit: `4a71c69` (`Feat: mostrar tendencias KPI contextuales`).
+  - Next step: ejecutar F16 como limpieza independiente.
+- [x] F16. Limpieza de logging de plantillas.
   - Objetivo: retirar `console.log('Templates recibidos:', data)` de producción.
   - Problema y por qué: expone ruido/datos en consola sin aportar manejo de errores.
   - Scope autorizado: `src/features/assets/components/ModalAssignTemplate.tsx`; test solo si demuestra comportamiento útil.
@@ -54,19 +55,20 @@ dashboard-redesign-pro (branch `feature/dashboard-redesign-pro`)
   - TDD: OFF. Source: documento ODD actual. Runner: `bun run test:unit` (Vitest).
   - Forecast: 1 línea authored. Delivery: integrar en una unidad solo si encaja limpiamente; en caso contrario commit `Fix:` acotado.
   - Branch/slice: `feature/dashboard-kpi-comparison`, slice 3 opcional.
-  - Progreso: pendiente.
+  - Progreso: implementado; eliminado el único `console.log` señalado sin alterar el flujo de carga. Evidencia: `bunx eslint src/features/assets/components/ModalAssignTemplate.tsx` → 0 errores / 2 warnings preexistentes (`useAssets`, `err` sin uso); `git diff --check` → exit 0. Test/runtime harness: N/A, no existe test específico y una eliminación de logging sin cambio conductual no justifica crear una frontera artificial.
   - Rollback: restaurar una única línea, sin dependencia con F14/F15.
-  - Next step: ejecutar después de cerrar las unidades funcionales.
-- [ ] F17. Verificación final y cierre documental.
+  - Commit: `99b623f` (`Fix: eliminar log de plantillas`).
+  - Next step: ejecutar verificación final F17.
+- [x] F17. Verificación final y cierre documental.
   - Objetivo: ejecutar todos los checks disponibles sin build/Playwright persistente, registrar evidencia real, SHAs y límites de rollback.
   - Scope autorizado: lint, type-check, unit/integration/security, `git diff --check`, status/diffs/log y este documento.
   - Constraints: no build, push, PR, merge, review nativa ni limpieza de evidencia ajena.
   - Acceptance: resultados exactos distinguen éxito, warning, fallo preexistente y pending; cada unidad queda en commit convencional con paths explícitos.
   - Forecast: ~40 líneas documentales. Delivery: Docs commit final acotado solo si registrar SHAs deja cambios pendientes.
   - Branch/slice: `feature/dashboard-kpi-comparison`, cierre de cadena local.
-  - Progreso: pendiente.
+  - Progreso: verificación final completa sin build ni Playwright. `bun run lint` → exit 0, 0 errores / 829 warnings preexistentes; `bun run type-check` → exit 0; `bun run test:unit` → 151 archivos passed + 1 skipped, 1272 tests passed + 1 skipped; `bun run test:integration` → 1 archivo / 7 tests passed; `bun run test:security` → 4 archivos / 33 tests passed; `bun run test` → 156 archivos passed + 1 skipped, 1312 tests passed + 1 skipped; `git diff --check` → exit 0. Playwright omitido para no crear artefactos persistentes; build prohibido. Churn antes del cierre documental: 536 inserciones + 51 eliminaciones = 587 líneas authored aproximadas.
   - Rollback: revertir solo el commit documental; no modifica comportamiento.
-  - Next step: comenzar F14.
+  - Next step: parent assess/review por commit; no se ejecutó review nativa.
 - [ ] F18. Estabilizar dependencias vulnerables en la rama tracker.
   - Objetivo: actualizar las resoluciones de `brace-expansion` y `undici` a versiones sin advisories, conservando un lockfile reproducible.
   - Acceptance: `bun audit` y el security audit remoto no reportan esos advisories; regresión existente verde.
