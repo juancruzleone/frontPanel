@@ -11,6 +11,14 @@ export const createDashboardDto = (scope: DashboardScope): DashboardStatsDto => 
     openWorkOrders: 5, overdueWorkOrders: 2, criticalWorkOrders: 1, mttrHours: 4.5,
     mtbfHours: 90, preventiveComplianceRate: 82, slaRate: 91, responseTimeHours: 1.2,
   },
+  kpisPrevious: {
+    workOrders: 10, openWorkOrders: 4, overdueWorkOrders: 3, criticalWorkOrders: 2,
+    mttrHours: 5.5, mtbfHours: 80, preventiveComplianceRate: 75, slaRate: 88,
+    responseTimeHours: 1.5,
+  },
+  previousWindow: {
+    range: "30d", start: "2026-06-25T12:00:00.000Z", end: "2026-07-25T12:00:00.000Z", available: true,
+  },
   charts: {
     byStatus: [{ name: "Pendiente", value: 3 }], byType: [], byPriority: [{ name: "critical", value: 1 }],
     preventiveVsCorrective: [], deviceHealth: [{ name: "active", value: 8 }, { name: "maintenance", value: 2 }],

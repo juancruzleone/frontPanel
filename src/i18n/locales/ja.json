@@ -615,12 +615,20 @@
         "unsupportedRole": "あなたのロールにはパネルの表示権限がありません。",
         "inventory": "在庫サマリーは利用できません。他のパネルは最新です。"
       },
-      "refreshing": "更新中… {{range}}のデータを表示しています。",
+      "refreshing": "{{requestedRange}}に更新中… 適用済みの{{appliedRange}}のデータを引き続き表示しています。",
       "metricDetails": {
         "mttrHours": "修理に要した平均時間です。",
         "mtbfHours": "故障間の平均時間です。",
         "responseTimeHours": "最初の対応までの平均時間です。",
         "proportion": "作業指示{{total}}件中{{count}}件"
+      },
+      "comparison": {
+        "change": "前期間比 {{direction}} {{value}}：{{outcome}}。",
+        "improved": "改善",
+        "worsened": "悪化",
+        "unchanged": "変化なし",
+        "changed": "変化あり",
+        "unavailable": "前期間との比較は利用できません。"
       }
     },
     "welcome": "ようこそ",

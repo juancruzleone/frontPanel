@@ -17,6 +17,22 @@ const formatMetric = (metric: DashboardMetric, notAvailable: string): string => 
 const isAvailable = (metric: DashboardMetric): boolean =>
   metric.value !== null && Number.isFinite(metric.value)
 
+const formatDelta = (metric: DashboardMetric): string => {
+  if (metric.comparison.status === "unavailable") return ""
+  const delta = Math.abs(metric.comparison.delta)
+  if (metric.unit === "hours") return `${delta.toFixed(1)} h`
+  if (metric.unit === "percent") return `${Math.round(delta)} pp`
+  return Math.round(delta).toString()
+}
+
+const TREND_SYMBOLS = { up: "↑", down: "↓", unchanged: "→" } as const
+const TREND_CLASSES = {
+  improved: styles.trendImproved,
+  worsened: styles.trendWorsened,
+  unchanged: "",
+  changed: "",
+} as const
+
 export const OperationalKPIs = ({ metrics }: OperationalKPIsProps) => {
   const { t } = useTranslation()
 
@@ -55,6 +71,17 @@ export const OperationalKPIs = ({ metrics }: OperationalKPIsProps) => {
               && metric.total !== undefined && Number.isFinite(metric.total) && metric.total > 0 && metric.value <= metric.total && (
                 <span className={styles.kpiDetail}>{t("home.dashboard.metricDetails.proportion", { count: metric.value, total: metric.total })}</span>
               )}
+            {metric.comparison.status === "available" ? (
+              <span className={`${styles.kpiTrend} ${TREND_CLASSES[metric.comparison.outcome]}`}>
+                {t("home.dashboard.comparison.change", {
+                  direction: TREND_SYMBOLS[metric.comparison.direction],
+                  value: formatDelta(metric),
+                  outcome: t(`home.dashboard.comparison.${metric.comparison.outcome}`),
+                })}
+              </span>
+            ) : (
+              <span className={styles.kpiTrend}>{t("home.dashboard.comparison.unavailable")}</span>
+            )}
           </dd>
         </div>
       ))}

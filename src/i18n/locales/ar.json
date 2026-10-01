@@ -616,12 +616,20 @@
         "unsupportedRole": "دورك لا يملك نطاقًا معتمدًا للوحة.",
         "inventory": "ملخص المخزون غير متاح؛ بقية اللوحة محدثة."
       },
-      "refreshing": "جارٍ التحديث… يتم عرض بيانات {{range}}.",
+      "refreshing": "جارٍ التحديث إلى {{requestedRange}}… يستمر عرض بيانات {{appliedRange}} المطبقة.",
       "metricDetails": {
         "mttrHours": "متوسط الوقت المخصص للإصلاحات.",
         "mtbfHours": "متوسط الوقت بين الأعطال.",
         "responseTimeHours": "متوسط الوقت حتى أول استجابة.",
         "proportion": "{{count}} من أصل {{total}} أمر عمل"
+      },
+      "comparison": {
+        "change": "{{direction}} {{value}} مقارنة بالفترة السابقة: {{outcome}}.",
+        "improved": "تحسن",
+        "worsened": "تراجع",
+        "unchanged": "دون تغيير",
+        "changed": "تغير",
+        "unavailable": "المقارنة مع الفترة السابقة غير متاحة."
       }
     },
     "welcome": "مرحبًا",

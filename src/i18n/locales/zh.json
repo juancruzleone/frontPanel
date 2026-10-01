@@ -617,12 +617,20 @@
         "unsupportedRole": "您的角色没有经授权的面板范围。",
         "inventory": "库存概览暂不可用，面板其余内容保持最新。"
       },
-      "refreshing": "正在更新…显示 {{range}} 的数据。",
+      "refreshing": "正在更新至 {{requestedRange}}…仍显示已应用的 {{appliedRange}} 数据。",
       "metricDetails": {
         "mttrHours": "用于维修的平均时间。",
         "mtbfHours": "故障之间的平均时间。",
         "responseTimeHours": "首次响应前的平均时间。",
         "proportion": "{{total}} 张工单中的 {{count}} 张"
+      },
+      "comparison": {
+        "change": "与上一周期相比 {{direction}} {{value}}：{{outcome}}。",
+        "improved": "改善",
+        "worsened": "恶化",
+        "unchanged": "无变化",
+        "changed": "有变化",
+        "unavailable": "无法与上一周期比较。"
       }
     },
     "welcome": "欢迎",

@@ -212,6 +212,8 @@ describe("HomeDashboard role-aware composition", () => {
     expect(order.closest(".dashboardContainer")).toHaveAttribute("data-refreshing", "true")
     expect(screen.getByRole("status")).toHaveTextContent("Actualizando")
     expect(screen.getByRole("status")).toHaveTextContent("30")
+    expect(screen.getByRole("status")).toHaveTextContent("7")
+    expect(screen.getByText("Periodo analizado", { selector: "dt" }).nextElementSibling).toHaveTextContent("30 días")
     expect(screen.queryByLabelText("Cargando panel")).not.toBeInTheDocument()
 
     mocks.state = { ...mocks.state, loading: false, refreshing: false }

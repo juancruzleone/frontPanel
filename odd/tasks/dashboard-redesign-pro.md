@@ -17,31 +17,83 @@ dashboard-redesign-pro (branch `feature/dashboard-redesign-pro`)
 - [x] 11. P1 visual: fondo claro, proporción de KPIs, alturas de panel, banda de cobertura, chips de leyenda — done. Verificado: canvas #F6F7F8 en claro y #121212 en oscuro; legend chips sin affordance falsa.
 - [x] 12. Verificación + work-unit commit 2 — done: `15e1f8e`. Verificación independiente (gentle-ai-verify) + verificación de navegador del parent.
 - [ ] 13. Cobertura: agregar métrica Clientes, hacer clickeables Instalaciones/Activos/Técnicos/Clientes, y que la banda ocupe todo el ancho
-- [ ] 14. Estabilizar dependencias vulnerables en la rama tracker.
+- [x] F14. Transporte, contrato y validación del comparativo KPI.
+  - Objetivo: solicitar `range=<rango efectivo>&compare=true` mediante `fetchWithAuthRetry`, tipar `kpisPrevious`/`previousWindow` y validar el payload antes de mapearlo.
+  - Problema y por qué: el frontend usa `fetch` directo y confía en un cast; una sesión expirada pierde el retry compartido y un payload parcial puede fallar tarde en `reduce`/`map`.
+  - Scope autorizado: hook/servicio de Home, DTOs, validador mantenible sin dependencia nueva, fixtures y tests de request, auth retry y payload malformado.
+  - Constraints: conservar aislamiento por rol/rango, cache y enriquecimientos; fallar de forma controlada; no build; no cambios backend.
+  - Acceptance: request con rango efectivo y `compare=true`; wrapper compartido probado; `null`/unavailable representados con honestidad; payload parcial/malformado produce `home.dashboard.errors.loadFailed` sin excepción de render.
+  - Checks: Vitest enfocado de hook/contrato + `bun run type-check` + `git diff --check`.
+  - TDD: OFF. Source: documento ODD actual, sin configuración explícita de proyecto/sesión. Runner: `bun run test:unit` (Vitest); se añadirán tests conductuales junto al código.
+  - Forecast: ~220 líneas authored. Delivery: `ask-on-risk` resuelto por autorización a `feature-branch-chain`.
+  - Branch/slice: `feature/dashboard-kpi-comparison`, slice 1, commit de transporte/contrato/validación.
+  - Progreso: implementado. Evidencia enfocada: `bunx vitest run tests/unit/features/home/dashboardStatsService.test.ts tests/unit/features/home/useHomeDashboard.test.tsx` → 20/20; `bun run type-check` → exit 0; `git diff --check` → exit 0. Runtime harness: N/A, la frontera HTTP está cubierta con `Response` real y wrapper mockeado sin servidor frontend autorizado.
+  - Rollback: revertir únicamente `dashboardStatsService.ts`, cambios de contrato en `homeTypes.ts`, import del hook, fixture y tests de esta unidad; no afecta mapper/UI.
+  - Commit: `dab7595` (`Feat: validar contrato comparativo del dashboard`).
+  - Next step: comenzar F15 sobre el contrato validado.
+- [x] F15. Mapper, tendencias accesibles y coherencia temporal durante refresh.
+  - Objetivo: derivar comparaciones solo con valores medibles y mostrar la dirección de negocio correcta sin etiquetar datos viejos con el rango solicitado.
+  - Problema y por qué: el rango seleccionado cambia antes de que cambien los datos aplicados; además no existe semántica frontend para cero→positivo, positivo→cero, N/A ni para métricas donde bajar es mejorar.
+  - Scope autorizado: mapper, modelo de vista, `OperationalKPIs`, `HomeDashboard`, estilos/i18n existentes y tests de mapper/render/refresh.
+  - Constraints: una sola fuente de verdad para el rango aplicado; refresco no destructivo y foco intactos; no usar color como única señal; menor es mejor para vencidas/críticas, MTTR y primera respuesta, mayor es mejor para MTBF, cumplimiento preventivo y SLA.
+  - Acceptance: N/A si actual o anterior no es medible; cero→positivo y positivo→cero no dividen por cero ni inventan porcentaje; tendencia incluye texto/símbolo accesible; cumplimiento preventivo `null` se muestra N/A; durante refresh el control solicitado y el estado indican explícitamente qué rango sigue aplicado.
+  - Checks: Vitest enfocado mapper/OperationalKPIs/HomeDashboard + parity de i18n + `bun run type-check` + `git diff --check`.
+  - TDD: OFF. Source: documento ODD actual. Runner: `bun run test:unit` (Vitest), con cobertura conductual añadida.
+  - Forecast: ~320 líneas authored. Delivery: `feature-branch-chain` por superar el presupuesto acumulado de ~400 líneas.
+  - Branch/slice: `feature/dashboard-kpi-comparison`, slice 2 encadenado sobre F14.
+  - Progreso: implementado. Semántica: vencidas/críticas/MTTR/primera respuesta mejoran al bajar; MTBF/cumplimiento preventivo/SLA mejoran al subir; abiertas muestran cambio neutral. Los deltas son absolutos (horas, puntos porcentuales o conteo), por lo que cero→positivo y positivo→cero no requieren división. Evidencia: `bunx vitest run tests/unit/features/home/homeDashboardMapper.test.ts tests/unit/features/home/OperationalKPIs.test.tsx tests/unit/features/home/HomeDashboard.test.tsx tests/unit/features/home/homeKeyParity.test.ts tests/unit/features/home/homeTranslations.test.ts` → 71/71; `bun run type-check` → exit 0; `git diff --check` → exit 0. Runtime harness: N/A; comportamiento de render, foco y estado temporal cubierto en jsdom.
+  - Rollback: revertir `homeDashboardMapper.ts`, modelo `DashboardMetric`, `OperationalKPIs`, metadata/rango aplicado, CSS, claves i18n y tests de esta unidad; F14 permanece funcional sin tendencias.
+  - Commit: `4a71c69` (`Feat: mostrar tendencias KPI contextuales`).
+  - Next step: ejecutar F16 como limpieza independiente.
+- [x] F16. Limpieza de logging de plantillas.
+  - Objetivo: retirar `console.log('Templates recibidos:', data)` de producción.
+  - Problema y por qué: expone ruido/datos en consola sin aportar manejo de errores.
+  - Scope autorizado: `src/features/assets/components/ModalAssignTemplate.tsx`; test solo si demuestra comportamiento útil.
+  - Constraints: no alterar carga, selección ni error de plantillas.
+  - Acceptance: log eliminado y comportamiento existente intacto.
+  - Checks: lint enfocado/global disponible + `git diff --check`; test del componente solo si ya existe una frontera útil.
+  - TDD: OFF. Source: documento ODD actual. Runner: `bun run test:unit` (Vitest).
+  - Forecast: 1 línea authored. Delivery: integrar en una unidad solo si encaja limpiamente; en caso contrario commit `Fix:` acotado.
+  - Branch/slice: `feature/dashboard-kpi-comparison`, slice 3 opcional.
+  - Progreso: implementado; eliminado el único `console.log` señalado sin alterar el flujo de carga. Evidencia: `bunx eslint src/features/assets/components/ModalAssignTemplate.tsx` → 0 errores / 2 warnings preexistentes (`useAssets`, `err` sin uso); `git diff --check` → exit 0. Test/runtime harness: N/A, no existe test específico y una eliminación de logging sin cambio conductual no justifica crear una frontera artificial.
+  - Rollback: restaurar una única línea, sin dependencia con F14/F15.
+  - Commit: `99b623f` (`Fix: eliminar log de plantillas`).
+  - Next step: ejecutar verificación final F17.
+- [x] F17. Verificación final y cierre documental.
+  - Objetivo: ejecutar todos los checks disponibles sin build/Playwright persistente, registrar evidencia real, SHAs y límites de rollback.
+  - Scope autorizado: lint, type-check, unit/integration/security, `git diff --check`, status/diffs/log y este documento.
+  - Constraints: no build, push, PR, merge, review nativa ni limpieza de evidencia ajena.
+  - Acceptance: resultados exactos distinguen éxito, warning, fallo preexistente y pending; cada unidad queda en commit convencional con paths explícitos.
+  - Forecast: ~40 líneas documentales. Delivery: Docs commit final acotado solo si registrar SHAs deja cambios pendientes.
+  - Branch/slice: `feature/dashboard-kpi-comparison`, cierre de cadena local.
+  - Progreso: verificación final completa sin build ni Playwright. `bun run lint` → exit 0, 0 errores / 829 warnings preexistentes; `bun run type-check` → exit 0; `bun run test:unit` → 151 archivos passed + 1 skipped, 1272 tests passed + 1 skipped; `bun run test:integration` → 1 archivo / 7 tests passed; `bun run test:security` → 4 archivos / 33 tests passed; `bun run test` → 156 archivos passed + 1 skipped, 1312 tests passed + 1 skipped; `git diff --check` → exit 0. Playwright omitido para no crear artefactos persistentes; build prohibido. Churn antes del cierre documental: 536 inserciones + 51 eliminaciones = 587 líneas authored aproximadas.
+  - Rollback: revertir solo el commit documental; no modifica comportamiento.
+  - Next step: parent assess/review por commit; no se ejecutó review nativa.
+- [ ] F18. Estabilizar dependencias vulnerables en la rama tracker.
   - Objetivo: actualizar las resoluciones de `brace-expansion` y `undici` a versiones sin advisories, conservando un lockfile reproducible.
   - Acceptance: `bun audit` y el security audit remoto no reportan esos advisories; regresión existente verde.
   - Checks: instalación congelada, audit, security/unit/integration, lint y type-check. Build local prohibido.
   - TDD: OFF; remediación validada por audit y regresión.
-- [ ] 15. Corregir el contrato real de borrado offline `DELETE_WORK_ORDER`.
+- [ ] F19. Corregir el contrato real de borrado offline `DELETE_WORK_ORDER`.
   - Objetivo: confirmar que la mutación se encoló antes de informar éxito local; si no existe identidad autenticada, fallar explícitamente en vez de descartar la operación.
   - Acceptance: prueba conductual reproduce identidad ausente y demuestra que nunca se elimina solo de la UI; E2E remoto confirma cola y sincronización.
   - Checks: Vitest enfocado, suite unitaria/integración y E2E remoto. Build local prohibido.
   - TDD: OFF; cobertura conductual añadida junto al fix, sin adaptar producción a selectores del E2E.
-- [ ] 16. Aplicar code splitting real al bundle.
+- [ ] F20. Aplicar code splitting real al bundle.
   - Objetivo: introducir fronteras lazy por rutas, sin elevar límites ni ocultar reportes.
   - Acceptance: navegación/type-check/tests verdes y `Bundle Size Analysis` remoto dentro del umbral vigente.
   - Checks: lint, type-check, tests y medición exclusiva en CI remoto; no build local.
   - TDD: OFF; cambio estructural cubierto por contratos de rutas y CI.
-- [ ] 17. Publicar evidencia Lighthouse honesta.
+- [ ] F21. Publicar evidencia Lighthouse honesta.
   - Objetivo: separar recolección y subida con acciones soportadas y rutas reales, manteniendo fallos de auditoría visibles.
   - Acceptance: auditoría y upload verdes, artefacto descargable; sin `continue-on-error` ciego.
   - Checks: validación estática disponible y workflow remoto.
   - TDD: OFF; frontera de CI verificada remotamente.
-- [ ] 18. Verificar y propagar la cadena.
+- [ ] F22. Verificar y propagar la cadena.
   - Checks locales: lint, type-check, unit/integration/security/audit y `git diff --check`; build local prohibido.
   - Chain: corregir primero `feat/dashboard-redesign-pro` y propagar con merges normales a #10 → #11 → #12; nunca rebase/force.
   - Acceptance: fusionar hijos y tracker solo verdes; `origin/main` contiene `06ce2a3`; RDD clone-local `disabled/unmanaged`.
-- [ ] 19. Auditar e integrar/limpiar ramas offline.
+- [ ] F23. Auditar e integrar/limpiar ramas offline.
   - Evidencia: ancestry, commits únicos, docs/tasks, PR/issues, worktrees y checks.
   - Disposición: `merged`, `superseded`, `incomplete/unsafe` o `deliverable`.
   - Acceptance: deliverables solo por issue aprobado + PR/cadena + pruebas; conservar incomplete; borrar únicamente ramas fusionadas/supersedidas demostrables libres de worktree; preservar main y worktrees ajenos.

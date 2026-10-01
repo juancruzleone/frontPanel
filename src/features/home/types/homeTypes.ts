@@ -21,7 +21,7 @@ export interface DashboardKpisDto {
   criticalWorkOrders: number
   mttrHours: number
   mtbfHours: number
-  preventiveComplianceRate: number
+  preventiveComplianceRate: number | null
   slaRate: number | null
   responseTimeHours: number | null
 }
@@ -32,7 +32,7 @@ export interface OperationalKpisDto {
   criticalWorkOrders: number
   mttrHours: number
   mtbfHours: number
-  preventiveComplianceRate: number
+  preventiveComplianceRate: number | null
   slaRate: number | null
   responseTimeHours: number | null
 }
@@ -74,6 +74,8 @@ export interface DashboardStatsDto {
   metadata: DashboardMetadataDto
   kpis: DashboardKpisDto
   operationalKpis: OperationalKpisDto
+  kpisPrevious: DashboardComparisonKpisDto | null
+  previousWindow: DashboardPreviousWindowDto
   charts: {
     byStatus: ChartDataItem[]
     byType: ChartDataItem[]
@@ -94,6 +96,17 @@ export interface DashboardStatsDto {
   }>
 }
 
+export interface DashboardComparisonKpisDto extends OperationalKpisDto {
+  workOrders: number
+}
+
+export interface DashboardPreviousWindowDto {
+  range: RangeOption
+  start: string
+  end: string
+  available: boolean
+}
+
 export interface DashboardStatsResponse {
   success: boolean
   data: DashboardStatsDto
@@ -106,7 +119,17 @@ export interface DashboardMetric {
   unit?: "hours" | "percent"
   exception?: "warning" | "critical"
   total?: number
+  comparison: DashboardMetricComparison
 }
+
+export type DashboardMetricComparison =
+  | { status: "unavailable" }
+  | {
+      status: "available"
+      direction: "up" | "down" | "unchanged"
+      outcome: "improved" | "worsened" | "unchanged" | "changed"
+      delta: number
+    }
 
 export interface DashboardAlert {
   id: string

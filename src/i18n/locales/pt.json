@@ -616,12 +616,20 @@
         "unsupportedRole": "Seu papel não tem um escopo de painel autorizado.",
         "inventory": "O resumo do inventário não está disponível; o resto do painel está atualizado."
       },
-      "refreshing": "Atualizando… Exibindo os dados de {{range}}.",
+      "refreshing": "Atualizando para {{requestedRange}}… Os dados aplicados de {{appliedRange}} continuam sendo exibidos.",
       "metricDetails": {
         "mttrHours": "Tempo médio dedicado a reparos.",
         "mtbfHours": "Tempo médio entre falhas.",
         "responseTimeHours": "Tempo médio até a primeira resposta.",
         "proportion": "{{count}} de {{total}} ordens"
+      },
+      "comparison": {
+        "change": "{{direction}} {{value}} em relação ao período anterior: {{outcome}}.",
+        "improved": "Melhora",
+        "worsened": "Piora",
+        "unchanged": "Sem alteração",
+        "changed": "Alteração",
+        "unavailable": "Comparação com o período anterior indisponível."
       }
     },
     "welcome": "Bem-vindo",
