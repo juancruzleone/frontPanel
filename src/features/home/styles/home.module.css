@@ -333,6 +333,24 @@
   line-height: var(--type-caption-leading);
 }
 
+.kpiTrend {
+  display: block;
+  margin-top: var(--space-xs);
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  letter-spacing: normal;
+  line-height: var(--type-caption-leading);
+}
+
+.trendImproved {
+  color: var(--state-success-strong);
+}
+
+.trendWorsened {
+  color: var(--state-critical-strong);
+}
+
 .kpiProgress {
   display: block;
   width: 100%;

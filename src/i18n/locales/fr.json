@@ -612,12 +612,20 @@
         "unsupportedRole": "Votre rôle ne dispose d’aucun périmètre de tableau de bord autorisé.",
         "inventory": "La synthèse de l’inventaire est indisponible ; le reste du tableau de bord est à jour."
       },
-      "refreshing": "Actualisation… Affichage des données de {{range}}.",
+      "refreshing": "Actualisation vers {{requestedRange}}… Les données appliquées de {{appliedRange}} restent affichées.",
       "metricDetails": {
         "mttrHours": "Temps moyen consacré aux réparations.",
         "mtbfHours": "Temps moyen entre deux pannes.",
         "responseTimeHours": "Temps moyen jusqu'à la première réponse.",
         "proportion": "{{count}} ordres sur {{total}}"
+      },
+      "comparison": {
+        "change": "{{direction}} {{value}} par rapport à la période précédente : {{outcome}}.",
+        "improved": "Amélioration",
+        "worsened": "Dégradation",
+        "unchanged": "Aucun changement",
+        "changed": "Changement",
+        "unavailable": "Comparaison avec la période précédente indisponible."
       }
     },
     "welcome": "Bienvenue",

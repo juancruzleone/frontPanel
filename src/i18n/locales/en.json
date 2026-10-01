@@ -521,7 +521,7 @@
       "rangeLabel": "Select analysis period",
       "rangeHelp": "Affects work-order metrics, trends, and distributions.",
       "loading": "Loading dashboard",
-      "refreshing": "Updating… Showing data for {{range}}.",
+      "refreshing": "Updating to {{requestedRange}}… Still showing the applied {{appliedRange}} data.",
       "dateUnavailable": "Date unavailable",
       "sections": {
         "immediate": "Immediate attention and summary",
@@ -544,6 +544,14 @@
         "mtbfHours": "Average time between failures.",
         "responseTimeHours": "Average time until the first response.",
         "proportion": "{{count}} of {{total}} work orders"
+      },
+      "comparison": {
+        "change": "{{direction}} {{value}} compared with the previous period: {{outcome}}.",
+        "improved": "Improved",
+        "worsened": "Worsened",
+        "unchanged": "No change",
+        "changed": "Changed",
+        "unavailable": "Previous-period comparison unavailable."
       },
       "attention": {
         "kicker": "Exceptions",

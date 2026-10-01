@@ -617,12 +617,20 @@
         "unsupportedRole": "현재 역할에 패널 표시 권한이 없습니다.",
         "inventory": "재고 요약을 사용할 수 없습니다. 나머지 패널은 최신입니다."
       },
-      "refreshing": "업데이트 중… {{range}} 데이터를 표시합니다.",
+      "refreshing": "{{requestedRange}} 범위로 업데이트 중… 적용된 {{appliedRange}} 데이터가 계속 표시됩니다.",
       "metricDetails": {
         "mttrHours": "수리에 소요된 평균 시간입니다.",
         "mtbfHours": "고장 간 평균 시간입니다.",
         "responseTimeHours": "최초 대응까지의 평균 시간입니다.",
         "proportion": "작업 지시 {{total}}건 중 {{count}}건"
+      },
+      "comparison": {
+        "change": "이전 기간 대비 {{direction}} {{value}}: {{outcome}}.",
+        "improved": "개선",
+        "worsened": "악화",
+        "unchanged": "변화 없음",
+        "changed": "변화",
+        "unavailable": "이전 기간 비교를 사용할 수 없습니다."
       }
     },
     "welcome": "환영합니다",
