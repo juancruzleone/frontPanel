@@ -69,31 +69,31 @@ dashboard-redesign-pro (branch `feature/dashboard-redesign-pro`)
   - Progreso: verificación final completa sin build ni Playwright. `bun run lint` → exit 0, 0 errores / 829 warnings preexistentes; `bun run type-check` → exit 0; `bun run test:unit` → 151 archivos passed + 1 skipped, 1272 tests passed + 1 skipped; `bun run test:integration` → 1 archivo / 7 tests passed; `bun run test:security` → 4 archivos / 33 tests passed; `bun run test` → 156 archivos passed + 1 skipped, 1312 tests passed + 1 skipped; `git diff --check` → exit 0. Playwright omitido para no crear artefactos persistentes; build prohibido. Churn antes del cierre documental: 536 inserciones + 51 eliminaciones = 587 líneas authored aproximadas.
   - Rollback: revertir solo el commit documental; no modifica comportamiento.
   - Next step: parent assess/review por commit; no se ejecutó review nativa.
-- [ ] F18. Estabilizar dependencias vulnerables en la rama tracker.
+- [x] F18. Estabilizar dependencias vulnerables en la rama tracker.
   - Objetivo: actualizar las resoluciones de `brace-expansion` y `undici` a versiones sin advisories, conservando un lockfile reproducible.
   - Acceptance: `bun audit` y el security audit remoto no reportan esos advisories; regresión existente verde.
   - Checks: instalación congelada, audit, security/unit/integration, lint y type-check. Build local prohibido.
   - TDD: OFF; remediación validada por audit y regresión.
-- [ ] F19. Corregir el contrato real de borrado offline `DELETE_WORK_ORDER`.
+- [x] F19. Corregir el contrato real de borrado offline `DELETE_WORK_ORDER`.
   - Objetivo: confirmar que la mutación se encoló antes de informar éxito local; si no existe identidad autenticada, fallar explícitamente en vez de descartar la operación.
   - Acceptance: prueba conductual reproduce identidad ausente y demuestra que nunca se elimina solo de la UI; E2E remoto confirma cola y sincronización.
   - Checks: Vitest enfocado, suite unitaria/integración y E2E remoto. Build local prohibido.
   - TDD: OFF; cobertura conductual añadida junto al fix, sin adaptar producción a selectores del E2E.
-- [ ] F20. Aplicar code splitting real al bundle.
+- [x] F20. Aplicar code splitting real al bundle.
   - Objetivo: introducir fronteras lazy por rutas, sin elevar límites ni ocultar reportes.
   - Acceptance: navegación/type-check/tests verdes y `Bundle Size Analysis` remoto dentro del umbral vigente.
   - Checks: lint, type-check, tests y medición exclusiva en CI remoto; no build local.
   - TDD: OFF; cambio estructural cubierto por contratos de rutas y CI.
-- [ ] F21. Publicar evidencia Lighthouse honesta.
+- [x] F21. Publicar evidencia Lighthouse honesta.
   - Objetivo: separar recolección y subida con acciones soportadas y rutas reales, manteniendo fallos de auditoría visibles.
   - Acceptance: auditoría y upload verdes, artefacto descargable; sin `continue-on-error` ciego.
   - Checks: validación estática disponible y workflow remoto.
   - TDD: OFF; frontera de CI verificada remotamente.
-- [ ] F22. Verificar y propagar la cadena.
+- [x] F22. Verificar y propagar la cadena.
   - Checks locales: lint, type-check, unit/integration/security/audit y `git diff --check`; build local prohibido.
   - Chain: corregir primero `feat/dashboard-redesign-pro` y propagar con merges normales a #10 → #11 → #12; nunca rebase/force.
   - Acceptance: fusionar hijos y tracker solo verdes; `origin/main` contiene `06ce2a3`; RDD clone-local `disabled/unmanaged`.
-- [ ] F23. Auditar e integrar/limpiar ramas offline.
+- [x] F23. Auditar e integrar/limpiar ramas offline.
   - Evidencia: ancestry, commits únicos, docs/tasks, PR/issues, worktrees y checks.
   - Disposición: `merged`, `superseded`, `incomplete/unsafe` o `deliverable`.
   - Acceptance: deliverables solo por issue aprobado + PR/cadena + pruebas; conservar incomplete; borrar únicamente ramas fusionadas/supersedidas demostrables libres de worktree; preservar main y worktrees ajenos.
@@ -104,6 +104,28 @@ dashboard-redesign-pro (branch `feature/dashboard-redesign-pro`)
 - El E2E original de `DELETE_WORK_ORDER` ya está verde. Los tres fallos residuales pertenecen a `inventory-core-reliability.spec.ts`: el service worker registrado toma solicitudes `/api/*` antes de que `page.route` pueda satisfacerlas y las deriva al backend real sin autenticación. Solo esta suite de contratos con rutas simuladas debe bloquear service workers; los E2E offline y la suite PWA conservan cobertura real del worker.
 - Checks enfocados antes de propagar: `inventory-core-reliability.spec.ts`, validación estática de workflows, lint, type-check, unit/integration/security, audit y `git diff --check`. El build local continúa prohibido; Lighthouse, bundle y build se demuestran exclusivamente en CI remoto.
 - Rollback: revertir por separado la opción `include-hidden-files` del upload o el aislamiento de service workers en `inventory-core-reliability.spec.ts`; ninguno cambia comportamiento productivo.
+
+## Revision 2026-10-01: delivery closeout
+- Dependencias: `dbc9088`; `bun audit --audit-level=moderate` y Security Audit remotos sin vulnerabilidades.
+- Offline delete: `ab2e340`; el contrato unitario y el E2E `offline-sync.spec.ts` verifican encolado durable y sincronización posterior.
+- Bundle: `501dc14`; `Bundle Size Analysis` verde sin elevar el límite de 500 KB.
+- Lighthouse/E2E: `521e532` + `240ee8b`; informes `.lighthouseci` publicados como artefacto y contratos de inventario aislados del service worker sin retirar cobertura offline/PWA.
+- Cadena fusionada: #12 (`2f0bfbb`) → #11 (`47bd590`) → #10 (`9aa4cd7`) → tracker #9 (`df5ba7d`). `06ce2a3` es ancestro de `origin/main`.
+- CI/CD de `main`: run `36809184948` verde, incluidos unit, integration, security, E2E, build remoto, deploy de producción y release. No se ejecutó build local. RDD clone-local permaneció `disabled/unmanaged`.
+
+### Auditoría de ramas remotas offline
+| Rama | SHA auditado | Disposición | Evidencia |
+|---|---|---|---|
+| `feat/offline-u2-storage-isolation` | `75cceab` | Superseded | Primer commit de una cadena lineal; `main` contiene el reemplazo evolucionado de aislamiento, purga y pruebas por identidad. |
+| `feat/offline-u6-package-download` | `a76d91a` | Superseded | Ancestro de R9; reemplazado por `packageDownload`, `packageService`, `packageStorage` y sus pruebas en `main`. |
+| `feat/offline-r2-client-trust` | `58fb7de` | Superseded | Ancestro de R9; reemplazado por `deviceTrust`, `leaseGate`, `trustInit` y cobertura vigente en `main`. |
+| `feat/offline-r4-u6-hardening` | `5943c00` | Superseded | Ancestro de R9; los contratos de firma, delta y paquete tienen implementación y pruebas posteriores en `main`. |
+| `feat/offline-r5-encrypted-migration` | `b1f152a` | Superseded | Ancestro de R9; cifrado/envelopes y purga evolucionaron en la arquitectura offline vigente. |
+| `feat/offline-r8-binary-queue` | `3bb736c` | Superseded | Ancestro de R9; reemplazado por staging/submit cifrado y journal/replay con pruebas vigentes. |
+| `feat/offline-r9-recovery-center` | `e5f8ab2` | Superseded | Cierre de la cadena antigua, sin issue/PR/docs; colisiona con 13 rutas al integrarse y fue reemplazado por recovery/conflict/replay posterior ya verde en `main`. |
+| `feature/dashboard-redesign-pro` | `fd78af3` | Merged | Ancestro directo de `origin/main` por #9. |
+
+Las ocho ramas remotas auditadas no estaban asociadas a worktrees ni a PRs/issues propios. Se eliminaron solo después de demostrar ancestry o supersesión; los worktrees locales ajenos y sus cambios sin commit no se modificaron.
 
 ## Revision 2026-09-24 23:50: post-implement corrections
 - User reported two defects after the first P0/P1 pass: (a) blank canvas inside the attention row, (b) skeleton not matching loaded content. Measured root cause for (a): `align-self: start` + `align-content: start` left the KPI card at 239px inside a 659px row (~420px of bare canvas). After the fix the row measures 659/659. For (b) the skeleton now renders the real section structure; measured loading heights 659/448/525 match loaded 659/448/525, with `aria-busy="true" aria-label="Cargando panel"` and no layout shift.
