@@ -1,6 +1,6 @@
 import type React from "react"
 
-import { useEffect, useState, useCallback, useMemo } from "react"
+import { useEffect, useState, useCallback, useMemo, useRef } from "react"
 import { useAuthStore } from "../../../store/authStore"
 import { useInstallationStore } from "../../../store/installationStore"
 import { useOfflineStore } from "../../../store/offlineStore"
@@ -147,9 +147,19 @@ const useInstallations = () => {
     total: 0
   })
 
-  const loadInstallations = useCallback(async (params: { page?: number, limit?: number, search?: string, category?: string } = {}) => {
+  const abortRef = useRef<AbortController | null>(null)
+
+  const loadInstallations = useCallback(async (params: { page?: number, limit?: number, search?: string, category?: string } = {}, options?: { signal?: AbortSignal }) => {
     if (!isAuthenticated) {
       return
+    }
+
+    // Cancel previous request
+    if (!options?.signal) {
+      abortRef.current?.abort()
+      const controller = new AbortController()
+      abortRef.current = controller
+      options = { signal: controller.signal }
     }
 
     const { installations: currentStored, ownerId: currentOwnerId, setInstallations: storeSetInstallations } = useInstallationStore.getState()
@@ -193,7 +203,7 @@ const useInstallations = () => {
         return;
       }
 
-      const result = await fetchInstallations(params)
+      const result = await fetchInstallations(params, { signal: options?.signal })
       setFilteredOfflineInstallations(null)
 
       if (result.success && result.pagination) {
@@ -204,6 +214,7 @@ const useInstallations = () => {
         storeSetInstallations(installationsArray)
       }
     } catch (err: unknown) {
+      if ((err as Error)?.name === "AbortError") return
       if (currentValidStored.length > 0) {
         let filtered = [...currentValidStored];
         if (params.search) {

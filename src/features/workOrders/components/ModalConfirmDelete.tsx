@@ -1,5 +1,6 @@
 import styles from "../styles/Modal.module.css";
 import buttonStyles from "../../../shared/components/Buttons/formButtons.module.css";
+import { useId } from "react";
 import { useTranslation } from "react-i18next"
 
 interface ModalConfirmDeleteProps {
@@ -18,11 +19,19 @@ const ModalConfirmDelete = ({
   description,
 }: ModalConfirmDeleteProps) => {
   const { t } = useTranslation()
+  const titleId = useId();
+  const descriptionId = useId();
   if (!isOpen) return null;
 
   return (
     <div className={styles.backdrop}>
-      <div className={styles.confirmModal}>
+      <div
+        aria-describedby={descriptionId}
+        aria-labelledby={titleId}
+        aria-modal="true"
+        className={styles.confirmModal}
+        role="dialog"
+      >
         <div className={styles.confirmHeader}>
           <div className={styles.warningIcon}>
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
@@ -33,8 +42,8 @@ const ModalConfirmDelete = ({
           </div>
         </div>
         <div className={styles.confirmContent}>
-          <h2 className={styles.confirmTitle}>{title}</h2>
-          <p className={styles.confirmDescription}>{description}</p>
+          <h2 className={styles.confirmTitle} id={titleId}>{title}</h2>
+          <p className={styles.confirmDescription} id={descriptionId}>{description}</p>
         </div>
         <div className={buttonStyles.actions}>
           <button className={buttonStyles.cancelButton} onClick={onCancel}>

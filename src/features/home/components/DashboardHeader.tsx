@@ -11,9 +11,10 @@ interface DashboardHeaderProps {
   range: RangeOption
   onRangeChange: (range: RangeOption) => void
   secondaryAction?: ReactNode
+  loading?: boolean
 }
 
-export const DashboardHeader = ({ role, metadata, range, onRangeChange, secondaryAction }: DashboardHeaderProps) => {
+export const DashboardHeader = ({ role, metadata, range, onRangeChange, secondaryAction, loading = false }: DashboardHeaderProps) => {
   const { t, i18n } = useTranslation()
   const updatedAt = formatDateSafely(
     metadata.lastUpdate,
@@ -25,10 +26,15 @@ export const DashboardHeader = ({ role, metadata, range, onRangeChange, secondar
   return (
     <header className={styles.dashboardHeader}>
       <div className={styles.headerCopy}>
+        <p className={styles.headerKicker}>
+          <span className={styles.headerKickerDot} aria-hidden="true" />
+          <span>{t("home.dashboard.scopeLabel")}: {t(`home.dashboard.scope.${metadata.scope}`)}</span>
+        </p>
         <h1>{t(`home.dashboard.roles.${role}.title`)}</h1>
         <p className={styles.subtitle}>{t(`home.dashboard.roles.${role}.description`)}</p>
         <dl className={styles.headerMetadata}>
-          <div><dt>{t("home.dashboard.updated")}</dt><dd>{updatedAt}</dd></div>
+          <div><dt>{t("home.dashboard.updated")}</dt><dd>{loading ? <span className={`${styles.skeleton} ${styles.skeletonUpdated}`} aria-hidden="true">&nbsp;</span> : updatedAt}</dd></div>
+          <div><dt>{t("home.dashboard.period")}</dt><dd>{t(`home.range.${metadata.range}`)}</dd></div>
         </dl>
       </div>
       <div className={styles.headerActions}>

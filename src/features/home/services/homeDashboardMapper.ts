@@ -1,11 +1,39 @@
 import type {
   DashboardAlert,
+  DashboardMetricComparison,
   DashboardRole,
   DashboardScope,
   DashboardStatsDto,
   HomeDashboardViewData,
   UpcomingPreventive,
 } from "../types/homeTypes"
+
+type MetricPreference = "higher" | "lower" | "neutral"
+
+const METRIC_PREFERENCES: Partial<Record<keyof DashboardStatsDto["operationalKpis"], MetricPreference>> = {
+  overdueWorkOrders: "lower",
+  criticalWorkOrders: "lower",
+  mttrHours: "lower",
+  mtbfHours: "higher",
+  preventiveComplianceRate: "higher",
+  slaRate: "higher",
+  responseTimeHours: "lower",
+}
+
+const compareMetric = (
+  current: number | null,
+  previous: number | null | undefined,
+  preference: MetricPreference,
+): DashboardMetricComparison => {
+  if (!Number.isFinite(current) || !Number.isFinite(previous)) return { status: "unavailable" }
+  const delta = (current as number) - (previous as number)
+  if (delta === 0) return { status: "available", direction: "unchanged", outcome: "unchanged", delta: 0 }
+
+  const direction = delta > 0 ? "up" : "down"
+  if (preference === "neutral") return { status: "available", direction, outcome: "changed", delta }
+  const improved = (preference === "higher" && delta > 0) || (preference === "lower" && delta < 0)
+  return { status: "available", direction, outcome: improved ? "improved" : "worsened", delta }
+}
 
 const ROLE_SCOPES: Record<DashboardRole, DashboardScope> = {
   admin: "tenant",
@@ -34,6 +62,7 @@ const normalizeUpcomingPreventive = (items: DashboardStatsDto["upcomingPreventiv
 export const mapDashboardStats = (
   dto: DashboardStatsDto,
   role: DashboardRole,
+  clientsCount?: number,
 ): HomeDashboardViewData => {
   const expectedScope = expectedDashboardScope(role)
   if (dto.metadata.scope !== expectedScope) {
@@ -41,6 +70,16 @@ export const mapDashboardStats = (
   }
 
   const operational = dto.operationalKpis ?? dto.kpis
+  const previous = dto.previousWindow.available ? dto.kpisPrevious : null
+  const metric = <K extends keyof typeof operational>(
+    id: K,
+    options: Omit<HomeDashboardViewData["metrics"][number], "id" | "value" | "comparison"> = {},
+  ): HomeDashboardViewData["metrics"][number] => ({
+    id,
+    value: operational[id],
+    comparison: compareMetric(operational[id], previous?.[id], METRIC_PREFERENCES[id] ?? "neutral"),
+    ...options,
+  })
   const alerts: DashboardAlert[] = []
   if (operational.overdueWorkOrders > 0) {
     alerts.push({ id: "overdue", severity: "critical", count: operational.overdueWorkOrders })
@@ -55,6 +94,7 @@ export const mapDashboardStats = (
         { id: "installations" as const, value: dto.kpis.installations },
         { id: "assets" as const, value: dto.kpis.assets },
         { id: "technicians" as const, value: dto.kpis.technicians },
+        ...(clientsCount !== undefined ? [{ id: "clients" as const, value: clientsCount }] : []),
       ]
     : role === "client"
       ? [
@@ -67,14 +107,14 @@ export const mapDashboardStats = (
     role,
     metadata: dto.metadata,
     metrics: [
-      { id: "openWorkOrders", value: operational.openWorkOrders },
-      { id: "overdueWorkOrders", value: operational.overdueWorkOrders, exception: operational.overdueWorkOrders > 0 ? "critical" : undefined },
-      { id: "criticalWorkOrders", value: operational.criticalWorkOrders, exception: operational.criticalWorkOrders > 0 ? "warning" : undefined },
-      { id: "mttrHours", value: operational.mttrHours, unit: "hours" },
-      { id: "mtbfHours", value: operational.mtbfHours, unit: "hours" },
-      { id: "preventiveComplianceRate", value: operational.preventiveComplianceRate, unit: "percent" },
-      { id: "slaRate", value: operational.slaRate, unit: "percent" },
-      { id: "responseTimeHours", value: operational.responseTimeHours, unit: "hours" },
+      metric("openWorkOrders", { total: dto.kpis.workOrders }),
+      metric("overdueWorkOrders", { total: dto.kpis.workOrders, exception: operational.overdueWorkOrders > 0 ? "critical" : undefined }),
+      metric("criticalWorkOrders", { total: dto.kpis.workOrders, exception: operational.criticalWorkOrders > 0 ? "warning" : undefined }),
+      metric("mttrHours", { unit: "hours" }),
+      metric("mtbfHours", { unit: "hours" }),
+      metric("preventiveComplianceRate", { unit: "percent" }),
+      metric("slaRate", { unit: "percent" }),
+      metric("responseTimeHours", { unit: "hours" }),
     ],
     charts: dto.charts,
     recentWorkOrders: dto.recentWorkOrders,

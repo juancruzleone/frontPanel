@@ -296,8 +296,11 @@ const useWorkOrders = () => {
 		setLoadingInstallations(true);
 		setErrorLoadingInstallations(null);
 		try {
-			const data = await apiFetchInstallations();
-			setInstallations(data);
+			const result = await apiFetchInstallations({ limit: 100 });
+			const data = Array.isArray(result)
+				? result
+				: (result as { data?: Installation[] }).data || [];
+			setInstallations(data as Installation[]);
 		} catch (err: unknown) {
 			if (installations.length > 0) {
 				return;
@@ -460,13 +463,16 @@ const useWorkOrders = () => {
 
 	const removeWorkOrder = async (id: string) => {
 		const saveOffline = () => {
+			const queued = addToQueue({ type: "DELETE_WORK_ORDER", payload: { id } });
+			if (!queued) {
+				throw new Error("No se pudo guardar la eliminación para sincronizarla.");
+			}
 			storeRemoveWorkOrder(id);
 			if (filteredOfflineOrders) {
 				setFilteredOfflineOrders(
 					filteredOfflineOrders.filter((wo) => wo._id !== id),
 				);
 			}
-			addToQueue({ type: "DELETE_WORK_ORDER", payload: { id } });
 			return { message: "Orden eliminada localmente." };
 		};
 

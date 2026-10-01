@@ -1,33 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useAuthStore } from "../../../store/authStore"
 import { buildHomeCacheKey, useHomeStore } from "../../../store/homeStore"
-import { getAuthHeaders } from "../../../shared/utils/apiHeaders"
 import { fetchInventoryItems } from "../../inventory/services/inventoryServices"
+import { getClients } from "../../clients/services/clientServices"
+import { fetchDashboardStats } from "../services/dashboardStatsService"
 import {
   expectedDashboardScope,
   mapDashboardStats,
   normalizeDashboardRole,
 } from "../services/homeDashboardMapper"
 import type {
-  DashboardStatsResponse,
   HomeDashboardState,
   InventorySummaryData,
   RangeOption,
 } from "../types/homeTypes"
-
-const fetchDashboardStats = async (range: RangeOption): Promise<DashboardStatsResponse> => {
-  const apiUrl = import.meta.env.VITE_API_URL || "/api/"
-  const response = await fetch(`${apiUrl}dashboard/stats?range=${range}`, {
-    headers: getAuthHeaders(true),
-    credentials: "include",
-  })
-
-  const payload = await response.json() as DashboardStatsResponse
-  if (!response.ok || !payload.success || !payload.data) {
-    throw new Error(payload.message || "DASHBOARD_LOAD_FAILED")
-  }
-  return payload
-}
 
 const toSummaryItem = (item: { _id?: string; name?: string; currentStock?: number; unit?: string; minimumStock?: number }): InventorySummaryData["items"][number] => ({
   _id: String(item._id ?? ""),
@@ -39,8 +25,8 @@ const toSummaryItem = (item: { _id?: string; name?: string; currentStock?: numbe
 
 const fetchInventorySummary = async (): Promise<InventorySummaryData> => {
   const [itemsRes, lowStockRes] = await Promise.all([
-    fetchInventoryItems({ page: 1, limit: 5 }).catch(() => ({ total: 0, items: [] as never[] })),
-    fetchInventoryItems({ page: 1, limit: 5, lowStock: true }).catch(() => ({ total: 0, items: [] as never[] })),
+    fetchInventoryItems({ page: 1, limit: 5 }),
+    fetchInventoryItems({ page: 1, limit: 5, lowStock: true }),
   ])
 
   const totalItems = (itemsRes as { total?: number; items?: unknown[] }).total ?? (itemsRes as { items?: unknown[] }).items?.length ?? 0
@@ -90,6 +76,7 @@ export const useHomeDashboard = (): HomeDashboardState => {
     try {
       setData(mapDashboardStats(currentCache.dashboard, role))
       setInventory(currentCache.inventory)
+      setInventoryError(role === "admin" && currentCache.inventory === null)
       setIsStale(true)
       return true
     } catch {
@@ -127,7 +114,6 @@ export const useHomeDashboard = (): HomeDashboardState => {
     const load = async () => {
       setLoading(true)
       setError(null)
-      setInventoryError(false)
 
       if (!navigator.onLine) {
         setIsOffline(true)
@@ -146,7 +132,16 @@ export const useHomeDashboard = (): HomeDashboardState => {
         }
 
         let inventorySummary: InventorySummaryData | null = null
+        let clientsCount: number | undefined
+        let dashboardApplied = false
         if (role === "admin") {
+          // Optional enrichment runs alongside inventory and never gates the dashboard.
+          void getClients().then((clients) => {
+            clientsCount = clients.length
+            if (!cancelled && dashboardApplied) {
+              setData(mapDashboardStats(response.data, role, clientsCount))
+            }
+          }).catch(() => undefined)
           try {
             inventorySummary = await fetchInventorySummary()
           } catch {
@@ -155,9 +150,11 @@ export const useHomeDashboard = (): HomeDashboardState => {
         }
 
         if (cancelled) return
-        const mapped = mapDashboardStats(response.data, role)
+        const mapped = mapDashboardStats(response.data, role, clientsCount)
+        dashboardApplied = true
         setData(mapped)
         setInventory(inventorySummary)
+        setInventoryError(role === "admin" && inventorySummary === null)
         setIsOffline(false)
         setIsStale(false)
         setDashboardData({ cacheKey, dashboard: response.data, inventory: inventorySummary })

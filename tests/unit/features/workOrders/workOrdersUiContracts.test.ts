@@ -198,8 +198,16 @@ describe("Work Orders UI contracts", () => {
     expect(buttonStyles).toMatch(/\.createButton:hover:where\(/)
     expect(buttonStyles).toMatch(/\.secondaryButton:hover:where\(/)
     expect(buttonStyles).toMatch(/\.secondaryButton\s*\{[\s\S]*?background:\s*var\(--color-themebox-bg\);[\s\S]*?color:\s*var\(--color-text\);[\s\S]*?border:\s*1px solid var\(--color-themebox-border\);/)
-    expect(buttonStyles).toMatch(/\.secondaryButton:hover:where\(:not\(:disabled\)\)\s*\{[\s\S]*?color:\s*var\(--color-secondary\);/)
-    expect(buttonStyles).toMatch(/\.createButton:focus-visible,\s*\.secondaryButton:focus-visible\s*\{[\s\S]*?outline:\s*var\(--focus-ring/)
+    // Bound each assertion to its own rule: unrelated later colors must not satisfy it.
+    const lightSecondaryHover = buttonStyles.match(/(?:^|\n)\.secondaryButton:hover:where\(:not\(:disabled\)\),\s*:global\(\[data-theme="light"\]\) \.secondaryButton:hover:where\(:not\(:disabled\)\)\s*\{([^{}]*)\}/)?.[1] ?? ""
+    expect(lightSecondaryHover).toMatch(/(?:^|;)\s*background:\s*var\(--color-card\);/)
+    expect(lightSecondaryHover).toMatch(/(?:^|;)\s*color:\s*var\(--color-text\);/)
+    expect(lightSecondaryHover).toMatch(/(?:^|;)\s*border-color:\s*#9ca3af;/)
+    const darkSecondaryHover = buttonStyles.match(/:global\(\.dark\) \.secondaryButton:hover:where\(:not\(:disabled\)\),\s*:global\(\[data-theme="dark"\]\) \.secondaryButton:hover:where\(:not\(:disabled\)\)\s*\{([^{}]*)\}/)?.[1] ?? ""
+    expect(darkSecondaryHover).toMatch(/(?:^|;)\s*background:\s*rgba\(255,\s*255,\s*255,\s*0\.08\);/)
+    expect(darkSecondaryHover).toMatch(/(?:^|;)\s*color:\s*var\(--color-text\);/)
+    expect(darkSecondaryHover).toMatch(/(?:^|;)\s*border-color:\s*rgba\(255,\s*255,\s*255,\s*0\.22\);/)
+    expect(buttonStyles).toMatch(/\.createButton:focus-visible,\s*\.secondaryButton:focus-visible\s*\{[^{}]*?outline:\s*var\(--focus-ring[^{}]*?outline-offset:\s*var\(--focus-offset/)
     const workStyles = readSource("src/features/workOrders/styles/workOrders.module.css")
     expect(workStyles).toMatch(/\.calendarActionButton:hover:not\(:disabled\)\s*{[\s\S]*?background:\s*var\(--color-accent\)/)
     expect(workStyles).toContain(".calendarActionButton:focus-visible")

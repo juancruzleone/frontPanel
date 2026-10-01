@@ -1,88 +1,117 @@
 .dashboardContainer {
   width: min(100%, 1320px);
   margin: 0 auto;
-  padding: 104px 28px 48px;
+  padding: 104px var(--space-2xl) var(--space-4xl);
   color: var(--color-text);
+  /* --state-warning-strong over --state-warning-surface only reaches 4.38:1.
+   * Blend it toward the theme text color so small warning text stays AA
+   * while keeping the amber hue in both light and dark themes. */
+  --home-warning-text: color-mix(in srgb, var(--state-warning-strong) 80%, var(--color-text));
 }
 
 .dashboardContainer > section {
-  margin-top: 28px;
+  margin-top: var(--space-section);
 }
 
 .dashboardHeader {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
-  gap: 36px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid #000;
-}
-
-:global(.dark) .dashboardHeader,
-:global([data-theme="dark"]) .dashboardHeader {
-  border-bottom-color: var(--color-card-border);
+  gap: var(--space-3xl);
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--color-card-border);
 }
 
 .headerCopy {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-sm);
   min-width: 0;
+}
+
+.headerKicker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--type-kicker-size);
+  font-weight: var(--type-kicker-weight);
+  letter-spacing: var(--type-kicker-tracking);
+  line-height: var(--type-kicker-leading);
+  text-transform: uppercase;
+}
+
+.headerKickerDot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-circle);
+  background: var(--color-secondary);
 }
 
 .headerActions {
   display: grid;
   justify-items: end;
-  gap: 10px;
+  gap: var(--space-md);
 }
 
 .eyebrow,
 .panelKicker {
-  margin: 0 0 6px;
-  color: var(--color-secondary);
-  font-size: 0.72rem;
-  font-weight: 750;
-  letter-spacing: 0.09em;
+  margin: 0 0 var(--space-2xs);
+  color: var(--color-text-secondary);
+  font-size: var(--type-kicker-size);
+  font-weight: var(--type-kicker-weight);
+  letter-spacing: var(--type-kicker-tracking);
+  line-height: var(--type-kicker-leading);
   text-transform: uppercase;
 }
 
 .dashboardHeader h1 {
   margin: 0;
-  font-size: clamp(1.8rem, 3vw, 2.65rem);
-  font-weight: 720;
-  letter-spacing: -0.04em;
-  line-height: 1.08;
+  font-size: var(--type-page-title-size);
+  font-weight: var(--type-page-title-weight);
+  letter-spacing: var(--type-page-title-tracking);
+  line-height: var(--type-page-title-leading);
 }
 
 .subtitle {
   max-width: 720px;
-  margin: 9px 0 0;
+  margin: 0;
   color: var(--color-text-secondary);
-  font-size: 0.98rem;
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
 }
 
 .headerMetadata {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 24px;
-  margin: 18px 0 0;
+  gap: var(--space-sm) var(--space-2xl);
+  margin: var(--space-sm) 0 0;
 }
 
 .headerMetadata div {
-  display: flex;
-  gap: 6px;
-  font-size: 0.77rem;
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-xs);
 }
 
 .headerMetadata dt {
   color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .headerMetadata dd {
   margin: 0;
+  font-size: var(--type-body-size);
   font-weight: 650;
 }
 
 .rangeField {
   display: grid;
-  gap: 6px;
+  gap: var(--space-xs);
   min-width: 292px;
 }
 
@@ -94,22 +123,23 @@
 .rangeHelp {
   max-width: 292px;
   color: var(--color-text-secondary);
-  font-size: 0.68rem;
+  font-size: var(--type-caption-size);
   line-height: 1.35;
 }
 
 .rangeFilter {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  padding: 3px;
+  padding: var(--space-3xs);
   border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-control, 6px);
+  border-radius: var(--radius-control, 4px);
   background: var(--color-card);
+  box-shadow: var(--elevation-sm);
 }
 
 .rangeButton {
-  min-height: 34px;
-  padding: 5px 9px;
+  min-height: 36px;
+  padding: var(--space-3xs) var(--space-2xs);
   border: 0;
   border-radius: var(--radius-pill, 4px);
   background: transparent;
@@ -142,31 +172,75 @@
   color: var(--color-card);
 }
 
+.refreshStatus {
+  min-height: 1.5em;
+  margin-top: var(--space-xs);
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+}
+
 .dataNotices {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 16px;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
 }
 
 .dataNotices p {
   margin: 0;
-  padding: 7px 10px;
-  border: 1px solid var(--chart-warning, #a16207);
-  border-radius: var(--radius-pill, 4px);
-  color: #854d0e;
-  background: #fefce8;
-  font-size: 0.76rem;
-  font-weight: 600;
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--state-warning-border);
+  border-radius: var(--radius-badge);
+  color: var(--home-warning-text);
+  background: var(--state-warning-surface);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
 }
 
 .sectionHeading {
-  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  margin: 0 0 var(--space-lg);
+  color: var(--color-text);
+  font-size: var(--type-section-title-size);
+  font-weight: var(--type-section-title-weight);
+  letter-spacing: var(--type-section-title-tracking);
+  line-height: var(--type-section-title-leading);
+}
+
+.sectionHeader {
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--color-card-border);
+}
+
+.sectionHeader .sectionHeading {
+  margin-bottom: 0;
+}
+
+/* First-run notice: shown only when the loaded scope has nothing to plot.
+ * Quieter than a card (no elevation) so it reads as guidance, not data. */
+.noDataNotice {
+  margin-bottom: var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-card);
+  background: var(--color-bg-light);
+}
+
+.noDataTitle {
+  margin: 0;
+  color: var(--color-text);
+  font-size: var(--type-body-size);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.noDataHint {
+  margin: var(--space-2xs) 0 0;
   color: var(--color-text-secondary);
-  font-size: 0.76rem;
-  font-weight: 750;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
 }
 
 .attentionGrid,
@@ -174,73 +248,159 @@
 .analysisGrid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 18px;
+  gap: var(--space-grid-lg);
 }
 
+/* Two columns x four rows. The attention row is as tall as its panels
+ * (both cards stretch to the same height), so a 4x2 band would stretch every
+ * cell to ~310px and leave most of each cell empty once the content is
+ * top-aligned. Four content-sized rows keep the card filled and the cells
+ * balanced while every label still starts at the same offset as the panel
+ * kicker next to it. */
 .kpiBand {
   grid-column: span 8;
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
   align-content: stretch;
+  align-self: stretch;
   margin: 0;
+  padding: var(--space-md);
   overflow: hidden;
   border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-card, 8px);
+  border-radius: var(--radius-panel);
   background: var(--color-card);
+  box-shadow: var(--elevation-card);
 }
 
+/* Content is pinned to the top of the cell: band padding (16px) + cell
+ * padding-top (16px) + the 1px card border puts the first-row label on the
+ * same 33px offset as .panelKicker in the attention panel. Internal rhythm is
+ * tightened (4px label/value gap, 8px detail gap) so the remaining space is
+ * read as cell padding instead of a hole under the metric. */
 .kpiCell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: var(--space-3xs);
   min-width: 0;
-  min-height: 90px;
-  padding: 12px 16px 14px;
-  border-right: 1px solid var(--color-card-border);
-  border-bottom: 1px solid var(--color-card-border);
+  min-height: 96px;
+  padding: var(--space-md) var(--space-lg);
+  border-left: 1px solid var(--color-card-border);
 }
 
-.kpiCell:nth-child(4n) {
-  border-right: 0;
+.kpiCell:nth-child(2n + 1) {
+  border-left: 0;
 }
 
-.kpiCell:nth-last-child(-n + 4) {
-  border-bottom: 0;
+.kpiCell:nth-child(n + 3) {
+  border-top: 1px solid var(--color-card-border);
+}
+
+/* Unavailable metrics replace the tile grid with one message, inside the same
+ * band box so the attention row keeps its measured height. */
+.kpiBandEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
 }
 
 .kpiCell dt {
   color: var(--color-text-secondary);
-  font-size: 0.78rem;
-  font-weight: 600;
-  line-height: 1.3;
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  line-height: var(--type-caption-leading);
 }
 
 .kpiCell dd {
-  margin: 10px 0 0;
-  font-size: clamp(1.35rem, 2.2vw, 1.85rem);
-  font-variant-numeric: tabular-nums;
-  font-weight: 720;
-  letter-spacing: -0.035em;
+  margin: 0;
+  font-size: var(--type-metric-size);
+  font-variant-numeric: var(--type-metric-numeric);
+  font-weight: var(--type-metric-weight);
+  letter-spacing: var(--type-metric-tracking);
+  line-height: var(--type-metric-leading);
+}
+
+.kpiDetail {
+  display: block;
+  margin-top: var(--space-2xs);
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  letter-spacing: normal;
+  line-height: var(--type-caption-leading);
+}
+
+.kpiTrend {
+  display: block;
+  margin-top: var(--space-xs);
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
+  letter-spacing: normal;
+  line-height: var(--type-caption-leading);
+}
+
+.trendImproved {
+  color: var(--state-success-strong);
+}
+
+.trendWorsened {
+  color: var(--state-critical-strong);
+}
+
+.kpiProgress {
+  display: block;
+  width: 100%;
+  height: var(--space-2xs);
+  margin-top: var(--space-2xs);
+  overflow: hidden;
+  appearance: none;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--state-neutral-surface);
+  color: var(--state-info);
+}
+
+.kpiProgress::-webkit-progress-bar {
+  background: var(--state-neutral-surface);
+  border-radius: var(--radius-control);
+}
+
+.kpiProgress::-webkit-progress-value {
+  background: var(--state-info);
+  border-radius: var(--radius-control);
+}
+
+.kpiProgress::-moz-progress-bar {
+  background: var(--state-info);
+  border-radius: var(--radius-control);
 }
 
 .kpiCell.warning dd,
 .warning dd {
-  color: var(--chart-warning, #a16207);
+  color: var(--home-warning-text);
 }
 
 .kpiCell.critical dd,
 .critical strong {
-  color: var(--chart-critical, #b91c1c);
+  color: var(--state-critical-strong);
 }
 
 .panel,
 .inventorySummary,
 .resourceBand {
   border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-card, 8px);
+  border-radius: var(--radius-panel);
   background: var(--color-card);
+  box-shadow: var(--elevation-card);
 }
 
 .panel,
 .inventorySummary {
-  padding: 18px;
+  padding: var(--space-panel-lg);
 }
 
 .inventorySummary {
@@ -250,14 +410,21 @@
 
 .attentionPanel {
   grid-column: span 4;
+  padding: var(--space-panel-lg);
+  border-radius: var(--radius-panel);
+  box-shadow: var(--elevation-raised);
+}
+
+.attentionPanel .panelKicker {
+  color: var(--state-critical-strong);
 }
 
 .panelHeader {
   display: flex;
   justify-content: space-between;
-  align-items: start;
-  gap: 18px;
-  padding-bottom: 14px;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  padding-bottom: var(--space-xl);
   border-bottom: 1px solid var(--color-card-border);
 }
 
@@ -265,30 +432,54 @@
 .inventorySummary h2,
 .resourceBand h2 {
   margin: 0;
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: -0.015em;
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  letter-spacing: var(--type-card-title-tracking);
+  line-height: var(--type-card-title-leading);
 }
 
 .panelTotal {
+  padding: var(--space-2xs) var(--space-md);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-badge);
+  background: var(--color-bg-light);
   color: var(--color-text-secondary);
-  font-size: 0.72rem;
+  font-size: var(--type-caption-size);
+  font-weight: var(--type-caption-weight);
   white-space: nowrap;
 }
 
 .panelAction {
-  color: var(--color-secondary);
-  font-size: 0.73rem;
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-2xs) var(--space-md);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-badge);
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  font-size: var(--type-caption-size);
   font-weight: 680;
   text-decoration: none;
   white-space: nowrap;
 }
 
-.panelAction:hover {
-  text-decoration: underline;
+.panelAction,
+.orderDetailButton,
+.chartDataTable summary {
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
 }
 
-.panelAction:focus-visible {
+.panelAction:hover {
+  border-color: var(--state-neutral-border);
+  background: var(--state-neutral-surface);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.panelAction:focus-visible,
+.incidentLink:focus-visible,
+.inventoryItem:focus-visible,
+.resourceLink:focus-visible {
   outline: var(--focus-ring, 2px solid var(--color-secondary));
   outline-offset: var(--focus-offset, 2px);
 }
@@ -305,28 +496,35 @@
 
 .alertList {
   display: grid;
-  gap: 8px;
-  padding-top: 14px;
+  gap: var(--space-sm);
+  padding-top: var(--space-lg);
 }
 
 .alertList li {
   display: grid;
-  grid-template-columns: 34px 1fr;
+  grid-template-columns: 40px 1fr;
   align-items: center;
-  gap: 10px;
-  padding: 10px;
-  border-left: 3px solid var(--chart-warning, #a16207);
-  background: var(--color-bg-light);
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border: 1px solid var(--state-warning-border);
+  border-radius: var(--radius-card);
+  background: var(--state-warning-surface);
   font-size: 0.78rem;
 }
 
 .alertList li.critical {
-  border-left-color: var(--chart-critical, #b91c1c);
+  border-color: var(--state-critical-border);
+  background: var(--state-critical-surface);
 }
 
 .alertList strong {
   font-size: 1.15rem;
   font-variant-numeric: tabular-nums;
+  color: var(--home-warning-text);
+}
+
+.alertList li.critical strong {
+  color: var(--state-critical-strong);
 }
 
 .attentionClear,
@@ -334,44 +532,67 @@
 .partialError,
 .contextCopy {
   margin: 0;
-  padding: 22px 0;
+  padding: var(--space-xl) 0;
   color: var(--color-text-secondary);
-  font-size: 0.83rem;
+  font-size: var(--type-body-size);
   line-height: 1.55;
 }
 
 .attentionClear::before {
   content: "";
   display: inline-block;
-  width: 7px;
-  height: 7px;
-  margin-right: 8px;
+  width: 8px;
+  height: 8px;
+  margin-right: var(--space-2xs);
   border-radius: 50%;
-  background: var(--color-success);
+  background: var(--state-success);
 }
 
 .secondaryList {
-  margin-top: 16px;
-  padding-top: 14px;
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
   border-top: 1px solid var(--color-card-border);
 }
 
 .secondaryList h3 {
-  margin: 0 0 8px;
-  font-size: 0.76rem;
+  margin: 0 0 var(--space-sm);
+  color: var(--color-text-secondary);
+  font-size: var(--type-kicker-size);
+  font-weight: var(--type-kicker-weight);
+  letter-spacing: var(--type-kicker-tracking);
+  line-height: var(--type-kicker-leading);
+  text-transform: uppercase;
 }
 
 .secondaryList li {
   display: flex;
   justify-content: space-between;
-  gap: 12px;
-  padding: 7px 0;
+  gap: var(--space-md);
+  padding: var(--space-xs) 0;
   color: var(--color-text-secondary);
-  font-size: 0.74rem;
+  font-size: var(--type-caption-size);
 }
 
 .secondaryList li + li {
   border-top: 1px solid var(--color-card-border);
+}
+
+.incidentLink {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+  width: 100%;
+  min-width: 0;
+  padding: var(--space-xs);
+  border-radius: var(--radius-control);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.incidentLink:hover {
+  background: var(--state-neutral-surface);
+  color: var(--color-text);
+  text-decoration: underline;
 }
 
 .secondaryList strong,
@@ -381,39 +602,87 @@
   white-space: nowrap;
 }
 
+/* Heading block and metric list are two columns of one full-width band. The
+ * heading column keeps a floor width and the list is inset from the column
+ * gap, so the numbers read as a separate region instead of a continuation of
+ * the title ("Capacidad de la operación"). Dividers between metrics are
+ * untouched: only the space before the first one grows. */
 .resourceBand {
   display: grid;
-  grid-template-columns: minmax(220px, 1fr) 2fr;
+  grid-template-columns: minmax(12rem, auto) minmax(0, 1fr);
   align-items: center;
-  gap: 28px;
-  padding: 18px 20px;
+  gap: var(--space-xl) var(--space-3xl);
+  width: 100%;
+  max-width: 100%;
+  padding: var(--space-md) var(--space-xl);
 }
 
 .resourceBand dl {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
   margin: 0;
+  padding-left: var(--space-2xl);
 }
 
 .resourceBand dl div {
-  padding: 2px 20px;
+  padding: var(--space-3xs) var(--space-lg);
   border-left: 1px solid var(--color-card-border);
 }
 
 .resourceBand dt {
+  /* Explicit resting weight. The UA sheet only asks for `bolder`, which the
+   * hover state would otherwise already satisfy, making the step invisible. */
+  font-weight: 700;
   color: var(--color-text-secondary);
-  font-size: 0.72rem;
+  font-size: var(--type-caption-size);
 }
 
 .resourceBand dd {
-  margin: 3px 0 0;
+  margin: var(--space-3xs) 0 0;
   font-size: 1.35rem;
   font-weight: 720;
   font-variant-numeric: tabular-nums;
 }
 
+.resourceLink {
+  display: block;
+  width: fit-content;
+  min-width: 24px;
+  color: var(--color-text);
+  font-weight: 700;
+  border-radius: var(--radius-control);
+  text-decoration: underline;
+  text-underline-offset: var(--space-3xs);
+}
+
+/* Pointer and keyboard feedback are weight + underline only. No colour is
+ * redeclared per theme, so light and dark behave identically. */
+.resourceLink:hover,
+.resourceLink:focus-visible {
+  color: var(--color-text);
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
+.analysisGrid {
+  align-items: stretch;
+}
+
+.analysisGrid > .panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
 .trendPanel {
   grid-column: span 8;
+}
+
+.analysisGrid .distributionList {
+  flex: 1;
+  align-content: stretch;
 }
 
 .analysisGrid > .panel:not(.trendPanel) {
@@ -422,15 +691,15 @@
 
 .trendSummary {
   display: flex;
-  gap: 16px;
+  gap: var(--space-lg);
   margin: 0;
 }
 
 .trendSummary div {
   display: grid;
-  grid-template-columns: auto auto;
-  gap: 5px;
-  font-size: 0.72rem;
+  gap: var(--space-3xs);
+  justify-items: end;
+  font-size: var(--type-caption-size);
 }
 
 .trendSummary dt {
@@ -439,36 +708,48 @@
 
 .trendSummary dd {
   margin: 0;
-  font-weight: 750;
+  font-size: var(--type-card-title-size);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 .chartLegend {
   display: flex;
-  gap: 16px;
-  margin-top: 12px;
-  font-size: 0.72rem;
+  flex-wrap: wrap;
+  gap: var(--space-lg);
+  margin-top: var(--space-md);
+  font-size: var(--type-caption-size);
+}
+
+.chartLegend span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--color-text-secondary);
+  font-weight: var(--type-caption-weight);
 }
 
 .chartLegend span::before {
   content: "";
-  display: inline-block;
-  width: 16px;
-  height: 2px;
-  margin: 0 6px 3px 0;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-circle);
 }
 
 .createdKey::before {
-  background: #2563eb;
+  background: var(--state-info);
 }
 
 .completedKey::before {
-  background: #047857;
+  background: var(--state-success);
 }
 
 .lineChartContainer {
   width: 100%;
-  min-height: 260px;
-  margin-top: 4px;
+  margin-top: var(--space-md);
+  padding: var(--space-md) var(--space-sm) 0;
+  border-radius: var(--radius-card);
+  background: var(--color-bg-light);
 }
 
 .lineChartContainer svg {
@@ -480,14 +761,15 @@
 }
 
 .gridLine {
-  stroke: var(--color-card-border);
+  stroke: var(--state-neutral-border);
   stroke-width: 1;
 }
 
 .axisText,
 .xAxisText {
   fill: var(--color-text-secondary);
-  font-size: 10px;
+  font-size: var(--type-caption-size);
+  font-weight: 600;
 }
 
 .axisText {
@@ -508,12 +790,12 @@
 
 .createdLine,
 .createdPoint {
-  stroke: #2563eb;
+  stroke: var(--state-info);
 }
 
 .completedLine,
 .completedPoint {
-  stroke: #047857;
+  stroke: var(--state-success);
 }
 
 .createdPoint,
@@ -528,21 +810,39 @@
   stroke-width: 5;
 }
 
+/* The chart surface above has no bottom padding, so the toggle needs its own
+ * clearance to avoid reading as part of the plot. */
 .chartDataTable {
-  margin-top: 8px;
+  margin-top: var(--space-xl);
   font-size: 0.76rem;
 }
 
 .chartDataTable summary {
   width: fit-content;
-  color: var(--color-secondary);
+  padding: var(--space-3xs) var(--space-2xs);
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  color: var(--color-text);
   font-weight: 650;
   cursor: pointer;
 }
 
+.chartDataTable summary:hover {
+  color: var(--color-text);
+  border-color: var(--state-neutral-border);
+  background: var(--state-neutral-surface);
+}
+
+.panelAction:focus-visible,
+.chartDataTable summary:focus-visible,
+.resourceLink:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: var(--focus-offset);
+}
+
 .chartDataTable table {
   width: 100%;
-  margin-top: 10px;
+  margin-top: var(--space-sm);
   border-collapse: collapse;
 }
 
@@ -556,7 +856,7 @@
 
 .chartDataTable th,
 .chartDataTable td {
-  padding: 7px;
+  padding: var(--space-xs) var(--space-sm);
   border-bottom: 1px solid var(--color-card-border);
   text-align: right;
 }
@@ -568,27 +868,16 @@
 .stackedBar {
   display: flex;
   width: 100%;
-  height: 9px;
-  margin: 22px 0 18px;
+  height: 10px;
+  margin: var(--space-lg) 0 var(--space-md);
   overflow: hidden;
-  border-radius: 2px;
-  background: var(--color-bg-light);
+  border-radius: var(--radius-badge);
+  background: var(--state-neutral-surface);
 }
 
 .stackedSegment {
-  min-width: 3px;
+  stroke: none;
 }
-
-.stackedSegment[data-size="1"] { flex: 1; }
-.stackedSegment[data-size="2"] { flex: 2; }
-.stackedSegment[data-size="3"] { flex: 3; }
-.stackedSegment[data-size="4"] { flex: 4; }
-.stackedSegment[data-size="5"] { flex: 5; }
-.stackedSegment[data-size="6"] { flex: 6; }
-.stackedSegment[data-size="7"] { flex: 7; }
-.stackedSegment[data-size="8"] { flex: 8; }
-.stackedSegment[data-size="9"] { flex: 9; }
-.stackedSegment[data-size="10"] { flex: 10; }
 
 .distributionList {
   display: grid;
@@ -596,12 +885,16 @@
 
 .distributionList li {
   display: grid;
-  grid-template-columns: 9px minmax(0, 1fr) auto 36px;
+  grid-template-columns: 10px minmax(0, 1fr) auto 40px;
   align-items: center;
-  gap: 9px;
-  padding: 9px 0;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-xs);
   border-top: 1px solid var(--color-card-border);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
+}
+
+.distributionList li:first-child {
+  border-top: 0;
 }
 
 .distributionList strong {
@@ -610,25 +903,26 @@
 
 .distributionList li > span:last-child {
   color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
   text-align: right;
 }
 
 .statusMarker {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-circle);
 }
 
-.segmentpending, .markerpending { background: #ca8a04; }
-.segmentassigned, .markerassigned { background: #2563eb; }
-.segmentinProgress, .markerinProgress { background: #7c3aed; }
-.segmentcompleted, .markercompleted { background: #047857; }
-.segmentcancelled, .markercancelled { background: var(--chart-unknown, #64748b); }
-.segmentlow, .markerlow { background: #047857; }
-.segmentmedium, .markermedium { background: #ca8a04; }
-.segmenthigh, .markerhigh { background: #ea580c; }
-.segmentcritical, .markercritical { background: var(--chart-critical, #b91c1c); }
-.segmentOther, .markerOther { background: var(--chart-unknown, #64748b); }
+.segmentpending, .markerpending { fill: var(--state-warning); background: var(--state-warning); }
+.segmentassigned, .markerassigned { fill: var(--state-info); background: var(--state-info); }
+.segmentinProgress, .markerinProgress { fill: var(--chart-professional); background: var(--chart-professional); }
+.segmentcompleted, .markercompleted { fill: var(--state-success); background: var(--state-success); }
+.segmentcancelled, .markercancelled { fill: var(--state-neutral); background: var(--state-neutral); }
+.segmentlow, .markerlow { fill: var(--state-neutral); background: var(--state-neutral); }
+.segmentmedium, .markermedium { fill: var(--state-info); background: var(--state-info); }
+.segmenthigh, .markerhigh { fill: var(--state-warning); background: var(--state-warning); }
+.segmentcritical, .markercritical { fill: var(--state-critical); background: var(--state-critical); }
+.segmentOther, .markerOther { fill: var(--state-neutral); background: var(--state-neutral); }
 
 .workGrid > .panel {
   grid-column: span 8;
@@ -643,12 +937,46 @@
   display: grid;
 }
 
+/* Recent orders rhythm. The rules below stay scoped to the dashboard list
+ * modifier because `.orderItem`, `.orderMeta` and `.orderStatus` are shared with
+ * the tenant panel: the header needs air under its divider, each row a taller
+ * band, and the chip column room to breathe without going sparse. */
+.recentOrdersList {
+  padding-top: var(--space-sm);
+}
+
+.recentOrdersList .orderItem {
+  padding: var(--space-lg) var(--space-xs);
+  gap: var(--space-xl);
+}
+
+.recentOrdersList .orderItem:first-child {
+  padding-top: var(--space-md);
+}
+
+.recentOrdersList .orderItem strong {
+  line-height: var(--type-body-leading);
+}
+
+.recentOrdersList .orderMeta {
+  gap: var(--space-lg);
+}
+
+.recentOrdersList .orderStatus,
+.recentOrdersList .orderDetailButton {
+  padding-block: var(--space-2xs);
+}
+
+.recentOrdersList .orderStatus {
+  line-height: var(--type-caption-leading);
+}
+
 .orderItem {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 18px;
+  gap: var(--space-lg);
   align-items: center;
-  padding: 14px 2px;
+  padding: var(--space-md) var(--space-xs);
   border-bottom: 1px solid var(--color-card-border);
 }
 
@@ -656,59 +984,210 @@
   border-bottom: 0;
 }
 
-.orderItem > div:first-child {
+.orderItem > div:first-child,
+.orderRow {
   display: grid;
-  gap: 4px;
+  gap: var(--space-2xs);
   min-width: 0;
+}
+
+/* The row is a real control, not a clickable container: it keeps the two-line
+ * anatomy of the label block and resets the UA button chrome. */
+.orderRow {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.orderRow:hover strong {
+  text-decoration: underline;
+}
+
+.orderRow:focus-visible {
+  outline: var(--focus-ring, 2px solid var(--color-secondary));
+  outline-offset: var(--focus-offset, 2px);
 }
 
 .orderItem strong {
   overflow: hidden;
-  font-size: 0.84rem;
+  font-size: var(--type-body-size);
+  font-weight: 650;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .orderItem > div:first-child span,
+.orderRow span,
 .orderMeta time {
   color: var(--color-text-secondary);
-  font-size: 0.72rem;
+  font-size: var(--type-caption-size);
 }
 
 .orderMeta {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-md);
 }
 
 .orderStatus {
-  padding: 4px 7px;
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-3xs) var(--space-md);
   border: 1px solid var(--color-card-border);
-  border-radius: 4px;
-  font-size: 0.68rem;
+  border-radius: var(--radius-badge);
+  background: var(--color-bg-light);
+  font-size: var(--type-caption-size);
   font-weight: 650;
   white-space: nowrap;
 }
 
-.statuspending { color: #854d0e; border-color: #ca8a04; }
-.statusassigned { color: #1d4ed8; border-color: #2563eb; }
-.statusinProgress { color: #6d28d9; border-color: #7c3aed; }
-.statuscompleted { color: #047857; border-color: #047857; }
-.statuscancelled, .statusOther { color: var(--color-text-secondary); }
+/* Same anatomy as .panelAction, but a button because it opens a dialog. */
+.orderDetailButton {
+  padding: var(--space-3xs) var(--space-md);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-badge);
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  font: inherit;
+  font-size: var(--type-caption-size);
+  font-weight: 650;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.orderDetailButton:hover {
+  border-color: var(--state-neutral-border);
+  background: var(--state-neutral-surface);
+  color: var(--color-text);
+}
+
+.orderDetailButton:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: var(--focus-offset);
+}
+
+.orderFeedback {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin: var(--space-md) 0 0;
+  padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-card);
+  background: var(--color-bg-light);
+  color: var(--color-text-secondary);
+  font-size: var(--type-caption-size);
+}
+
+.orderFeedbackAction {
+  padding: var(--space-3xs) var(--space-md);
+  border: 1px solid var(--color-text);
+  border-radius: var(--radius-control, 4px);
+  background: var(--color-text);
+  color: var(--color-card);
+  font: inherit;
+  font-size: var(--type-caption-size);
+  font-weight: 650;
+  cursor: pointer;
+}
+
+/* Detail-fetch placeholder. It echoes the anatomy of one order row so the panel
+ * does not jump when the dialog mounts, and it is deliberately text-free: the
+ * named panel already carries `aria-busy` while the request is in flight. The
+ * compound `.skeleton` selectors keep the shared shimmer language and only step
+ * the radius down to control size. */
+.orderLoading {
+  display: grid;
+  gap: var(--space-2xs);
+  margin-top: var(--space-sm);
+  padding: var(--space-md) var(--space-xs) 0;
+}
+
+.orderLoadingMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.skeleton.orderLoadingTitle {
+  display: block;
+  width: min(52%, 240px);
+  height: var(--space-md);
+  border: 0;
+  border-radius: var(--radius-control);
+}
+
+.skeleton.orderLoadingChip {
+  display: block;
+  width: 92px;
+  height: 26px;
+  border: 0;
+  border-radius: var(--radius-badge);
+}
+
+.skeleton.orderLoadingDate {
+  display: block;
+  width: 104px;
+  height: var(--space-sm);
+  border: 0;
+  border-radius: var(--radius-control);
+}
+
+/* display: contents keeps the fixed backdrop of the reused modal exactly as
+ * the other consumers render it, while still scoping the dialog for focus. */
+.detailLayer {
+  display: contents;
+}
+
+.statuspending {
+  color: var(--home-warning-text);
+  border-color: var(--state-warning-border);
+  background: var(--state-warning-surface);
+}
+
+.statusassigned {
+  color: var(--state-info-strong);
+  border-color: var(--state-info-border);
+  background: var(--state-info-surface);
+}
+
+.statusinProgress {
+  color: var(--chart-professional);
+  border-color: var(--color-secondary);
+  background: var(--color-bg-light);
+}
+
+.statuscompleted {
+  color: var(--state-success-strong);
+  border-color: var(--state-success-border);
+  background: var(--state-success-surface);
+}
+
+.statuscancelled,
+.statusOther {
+  color: var(--color-text-secondary);
+  border-color: var(--color-card-border);
+  background: var(--color-bg-light);
+}
 
 .inventorySummary dl {
   display: grid;
   flex: 1;
   align-content: stretch;
-  margin: 16px 0 0;
+  margin: var(--space-lg) 0 0;
 }
 
 .inventorySummary dl div {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: 16px;
-  padding: 13px 0;
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
   border-top: 1px solid var(--color-card-border);
 }
 
@@ -725,15 +1204,15 @@
 
 
 .inventoryMeta {
-  margin: 6px 0 0;
+  margin: var(--space-xs) 0 0;
   color: var(--color-text-secondary);
-  font-size: 0.72rem;
+  font-size: var(--type-caption-size);
 }
 
 .inventoryList {
   display: grid;
-  gap: 8px;
-  margin: 14px 0 0;
+  gap: var(--space-sm);
+  margin: var(--space-lg) 0 0;
   padding: 0;
   list-style: none;
 }
@@ -742,17 +1221,28 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  padding: 9px 10px;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
   border: 1px solid var(--color-card-border);
-  border-radius: 6px;
+  border-radius: var(--radius-card);
   background: var(--color-bg-light);
   font-size: 0.78rem;
 }
 
+.inventoryItem {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.inventoryItem:hover {
+  color: var(--color-text);
+  border-color: var(--state-neutral-border);
+  background: var(--state-neutral-surface);
+}
+
 .inventoryItemLow {
-  border-left: 3px solid var(--chart-warning, #a16207);
-  background: #fefce8;
+  border-color: var(--state-warning-border);
+  background: var(--state-warning-surface);
 }
 
 .inventoryItemName {
@@ -766,7 +1256,7 @@
 .inventoryItemStock {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--space-xs);
   flex-shrink: 0;
   font-variant-numeric: tabular-nums;
   font-weight: 650;
@@ -778,11 +1268,12 @@
 }
 
 .inventoryBadge {
-  padding: 2px 6px;
-  border-radius: 4px;
-  background: var(--chart-warning, #a16207);
-  color: #fff;
-  font-size: 0.64rem;
+  padding: var(--space-3xs) var(--space-sm);
+  border: 1px solid var(--state-warning-border);
+  border-radius: var(--radius-badge);
+  background: var(--color-card);
+  color: var(--state-warning-strong);
+  font-size: 0.66rem;
   font-weight: 750;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -790,15 +1281,15 @@
 }
 
 .partialError {
-  color: var(--chart-critical, #b91c1c);
+  color: var(--state-critical);
 }
 
 .fullError {
   max-width: 620px;
   margin: 80px auto 0;
-  padding: 30px;
+  padding: var(--space-2xl);
   border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-card, 8px);
+  border-radius: var(--radius-card, 6px);
   background: var(--color-card);
   text-align: center;
 }
@@ -813,9 +1304,9 @@
 }
 
 .fullError button {
-  padding: 9px 16px;
+  padding: var(--space-xs) var(--space-lg);
   border: 1px solid var(--color-text);
-  border-radius: 4px;
+  border-radius: var(--radius-control, 4px);
   background: var(--color-text);
   color: var(--color-card);
   font: inherit;
@@ -826,25 +1317,31 @@
 .skeleton {
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-card, 8px);
-  background: var(--color-card);
+  border: 1px solid var(--state-neutral-border);
+  border-radius: var(--radius-panel);
+  background: var(--state-neutral-surface);
 }
 
 .skeleton::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, var(--color-bg-light), transparent);
+  background: linear-gradient(90deg, transparent, var(--state-neutral-surface), transparent);
   animation: skeletonPulse 1.4s ease-in-out infinite;
 }
 
 .skeletonHeader { height: 150px; }
-.skeletonKpis { width: 100%; height: 194px; margin-top: 28px; }
-.skeletonTrend { grid-column: span 8; height: 390px; margin-top: 28px; }
-.skeletonDistribution { grid-column: span 4; height: 390px; margin-top: 28px; }
-.skeletonWork { grid-column: span 8; height: 290px; margin-top: 28px; }
-.skeletonAttention { grid-column: span 4; height: 290px; margin-top: 28px; }
+.skeletonUpdated { display: inline-block; width: 20ch; border: 0; vertical-align: bottom; }
+.skeletonValue { display: block; border: 0; }
+.skeletonKpis { width: 100%; }
+.skeletonMetric { width: 100%; height: 54px; }
+/* Initial-load estimates match the populated desktop rows. Section wrappers
+ * own the spacing, just as they do after loading; cards add no extra margins. */
+.skeletonAttention { min-height: 659px; }
+.skeletonTrend { grid-column: span 8; min-height: 448px; }
+.skeletonDistribution { grid-column: span 4; min-height: 448px; }
+.skeletonWork { grid-column: span 8; min-height: 525px; }
+.skeletonContext { grid-column: span 4; min-height: 525px; }
 
 @keyframes skeletonPulse {
   from { transform: translateX(-100%); }
@@ -852,49 +1349,58 @@
 }
 
 @media (max-width: 1050px) {
-  .dashboardContainer { padding-inline: 20px; }
-  .dashboardHeader { grid-template-columns: 1fr; align-items: start; gap: 20px; }
+  .dashboardContainer { padding-inline: var(--space-xl); }
+  .dashboardHeader { grid-template-columns: 1fr; align-items: start; gap: var(--space-xl); }
   .headerActions { width: min(100%, 360px); justify-items: start; }
   .rangeField { min-width: min(100%, 360px); }
   .rangeHelp { max-width: 360px; }
   .kpiBand, .attentionPanel, .trendPanel, .analysisGrid > .panel:not(.trendPanel), .workGrid > .panel, .workGrid > .inventorySummary, .workGrid > .panel:last-child:not(:first-child) { grid-column: 1 / -1; }
   .attentionPanel { order: -1; }
-  .resourceBand { grid-template-columns: 1fr; gap: 16px; }
+  .resourceBand { grid-template-columns: 1fr; gap: var(--space-lg); }
+  /* Stacked: the list sits under the title, so the desktop inset is dropped. */
+  .resourceBand dl { padding-left: 0; }
   .resourceBand dl div:first-child { border-left: 0; padding-left: 0; }
   .skeletonKpis { width: 100%; }
-  .skeletonTrend, .skeletonDistribution, .skeletonWork, .skeletonAttention { grid-column: 1 / -1; }
+  .skeletonTrend, .skeletonDistribution, .skeletonWork, .skeletonContext, .skeletonAttention { grid-column: 1 / -1; }
 }
 
 @media (max-width: 640px) {
-  .dashboardContainer { padding: 88px 14px 32px; }
-  .dashboardContainer > section { margin-top: 22px; }
-  .dashboardHeader { padding-bottom: 18px; }
-  .headerMetadata { display: grid; gap: 5px; }
+  .dashboardContainer { padding: 88px var(--space-lg) var(--space-2xl); }
+  .dashboardContainer > section { margin-top: var(--space-xl); }
+  .dashboardHeader { padding-bottom: var(--space-lg); }
+  .headerMetadata { display: grid; gap: var(--space-xs); }
   .rangeField, .rangeHelp { min-width: 0; max-width: none; width: 100%; }
   .headerActions { width: 100%; }
-  .attentionGrid, .analysisGrid, .workGrid { gap: 12px; }
-  .kpiBand { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .kpiCell { min-height: 82px; padding: 13px; }
-  .kpiCell:nth-child(4n) { border-right: 1px solid var(--color-card-border); }
-  .kpiCell:nth-child(2n) { border-right: 0; }
-  .kpiCell:nth-last-child(-n + 4) { border-bottom: 1px solid var(--color-card-border); }
-  .kpiCell:nth-last-child(-n + 2) { border-bottom: 0; }
-  .panel, .inventorySummary { padding: 16px; }
-  .panelHeader { display: grid; gap: 8px; }
-  .resourceBand { padding: 16px; }
-  .resourceBand dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .resourceBand dl div { padding: 8px 12px; }
+  .attentionGrid, .analysisGrid, .workGrid { gap: var(--space-md); }
+  .kpiBand { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: var(--space-lg); }
+  .kpiCell { min-height: 88px; padding: var(--space-md) var(--space-lg); }
+  .panel, .inventorySummary { padding: var(--space-lg); }
+  .panelHeader { display: grid; gap: var(--space-sm); }
+  .panelTotal, .panelAction { justify-self: start; }
+  .resourceBand { padding: var(--space-lg); }
+  .resourceBand dl { grid-auto-flow: row; grid-template-columns: repeat(2, minmax(0, 1fr)); padding-left: 0; }
+  .resourceBand dl div { padding: var(--space-sm) var(--space-md); }
   .resourceBand dl div:nth-child(odd) { border-left: 0; padding-left: 0; }
-  .trendSummary { gap: 10px; }
-  .lineChartContainer { min-height: 190px; }
-  .lineChartContainer svg { min-height: 190px; }
+  .trendSummary { gap: var(--space-sm); }
+  .inventoryItem { align-items: flex-start; flex-direction: column; }
+  .inventoryItemName { max-width: 100%; }
+  .inventoryItemStock { flex-wrap: wrap; }
+  .lineChartContainer { padding-inline: 0; }
+  .lineChartContainer svg { min-height: 160px; }
   .xAxisText { font-size: 9px; }
-  .orderItem { grid-template-columns: 1fr; gap: 9px; }
-  .orderMeta { justify-content: space-between; }
+  .orderItem { grid-template-columns: 1fr; gap: var(--space-sm); }
+  /* Stacked rows trade the desktop column gap for a tighter vertical rhythm. */
+  .recentOrdersList { padding-top: var(--space-2xs); }
+  .recentOrdersList .orderItem { gap: var(--space-sm); padding: var(--space-md) var(--space-xs); }
+  .recentOrdersList .orderItem:first-child { padding-top: var(--space-xs); }
+  .recentOrdersList .orderMeta { flex-wrap: wrap; justify-content: space-between; gap: var(--space-md); }
+  .orderMeta { flex-wrap: wrap; justify-content: space-between; }
   .skeletonHeader { height: 220px; }
-  .skeletonKpis { height: 330px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .skeleton::after { animation: none; }
+  .panelAction,
+  .orderDetailButton,
+  .chartDataTable summary { transition: none; }
 }

@@ -40,8 +40,18 @@ jobs:
         with:
           urls: |
             http://localhost:5173
-          uploadArtifacts: true
-          temporaryPublicStorage: true
+          uploadArtifacts: false
+          temporaryPublicStorage: false
+
+      - name: Upload Lighthouse results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-results-${{ github.run_id }}
+          path: .lighthouseci/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 30
 
   bundle-size:
     name: Bundle Size Analysis

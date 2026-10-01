@@ -858,6 +858,7 @@ const Nav = () => {
 									<div className={styles.userDetails}>
 										<span
 											className={styles.userName}
+											title={user}
 											onClick={() => {
 												if (!isClientUser && !isAdminUser) {
 													setIsMenuOpen(false);
@@ -872,7 +873,6 @@ const Nav = () => {
 											{user}
 										</span>
 										<span className={styles.userRole}>
-											<span className={styles.userRole}>
 												{isSuperAdminUser
 													? t("roles.superAdmin")
 													: isAdminUser
@@ -882,7 +882,6 @@ const Nav = () => {
 															: isClientUser
 																? t("roles.client")
 																: t("roles.user")}
-											</span>
 										</span>
 									</div>
 									<button

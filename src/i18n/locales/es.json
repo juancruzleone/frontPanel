@@ -521,9 +521,11 @@
       "rangeLabel": "Seleccionar periodo del análisis",
       "rangeHelp": "Afecta las métricas, la tendencia y las distribuciones de órdenes.",
       "loading": "Cargando panel",
+      "refreshing": "Actualizando a {{requestedRange}}… Se siguen mostrando los datos aplicados de {{appliedRange}}.",
       "dateUnavailable": "Fecha no disponible",
       "sections": {
         "immediate": "Atención inmediata y resumen",
+        "immediateKicker": "Resumen operativo",
         "analysis": "Tendencia y estado",
         "recent": "Actividad reciente y contexto"
       },
@@ -536,6 +538,20 @@
         "preventiveComplianceRate": "Cumplimiento preventivo",
         "slaRate": "Cumplimiento SLA",
         "responseTimeHours": "Primera respuesta"
+      },
+      "metricDetails": {
+        "mttrHours": "Tiempo promedio dedicado a reparaciones.",
+        "mtbfHours": "Tiempo promedio entre fallos.",
+        "responseTimeHours": "Tiempo promedio hasta la primera respuesta.",
+        "proportion": "{{count}} de {{total}} órdenes"
+      },
+      "comparison": {
+        "change": "{{direction}} {{value}} respecto del periodo anterior: {{outcome}}.",
+        "improved": "Mejora",
+        "worsened": "Empeora",
+        "unchanged": "Sin cambios",
+        "changed": "Cambio",
+        "unavailable": "Comparación con el periodo anterior no disponible."
       },
       "attention": {
         "kicker": "Excepciones",
@@ -552,6 +568,7 @@
           "installations": "Instalaciones",
           "assets": "Activos",
           "technicians": "Técnicos",
+          "clients": "Clientes",
           "devices": "Dispositivos"
         }
       },
@@ -567,7 +584,11 @@
       },
       "date": "Fecha",
       "recent": {
-        "kicker": "Últimos movimientos"
+        "kicker": "Últimos movimientos",
+        "detail": "Ver detalle",
+        "openDetail": "Ver detalle de {{title}}",
+        "detailLoading": "Abriendo el detalle de la orden de trabajo…",
+        "detailError": "No pudimos abrir el detalle de la orden de trabajo. Inténtalo nuevamente."
       },
       "inventory": {
         "kicker": "Inventario",
@@ -576,7 +597,12 @@
         "lowStock": "Con stock bajo",
         "empty": "No hay artículos en inventario",
         "lowBadge": "Stock bajo",
-        "meta": "{{total}} ítems · {{low}} con stock bajo"
+        "meta": "{{total}} ítems · {{low}} con stock bajo",
+        "minimum": "mín. {{count}}",
+        "okStock": "Stock correcto",
+        "noDetails": "No hay artículos con detalle para mostrar.",
+        "more": "+{{count}} ítems más en el inventario",
+        "viewAll": "Ver todo el inventario"
       },
       "context": {
         "kicker": "Alcance operativo",
@@ -587,7 +613,10 @@
       },
       "empty": {
         "trend": "No hay evolución disponible para este periodo.",
-        "distribution": "No hay órdenes para distribuir en este periodo."
+        "distribution": "No hay órdenes para distribuir en este periodo.",
+        "dashboard": "Aún no hay datos cargados para mostrar en el panel.",
+        "dashboardHint": "Cuando haya órdenes de trabajo, activos o inventario en tu alcance, los indicadores se completarán automáticamente.",
+        "metrics": "Aún no hay métricas operativas disponibles."
       },
       "notices": {
         "offline": "Sin conexión: se muestran los últimos datos guardados.",

@@ -1,21 +1,142 @@
 :root {
-  --radius-card: 8px;
-  --radius-control: 6px;
+  /* ------------------------------------------------------------------
+   * CMMS-GMAO dashboard design tokens.
+   * Scope: radius hierarchy, elevation, spacing scale, typography and
+   * semantic state colors. Additive-first: legacy token names/values
+   * stay intact so current consumers keep working while later tasks opt
+   * into the richer hierarchy. Dark overrides live in `.dark` below.
+   * ------------------------------------------------------------------ */
+
+  /* --- Radius hierarchy (large -> small) -----------------------------
+   * Enterprise-quiet radii: large surfaces cap at 8px, cards at 6px and
+   * controls/chips at 4px. Only genuinely round status dots stay circular,
+   * so badges read as restrained rectangles instead of pills. */
+  --radius-panel: 8px;
+  --radius-card: 6px;
+  --radius-control: 4px;
   --radius-pill: 4px;
-  --elevation-card: none;
-  --elevation-sm: 0 1px 2px rgba(0, 0, 0, .05);
-  --elevation-md: 0 2px 8px rgba(0, 0, 0, .08);
-  --space-section: 28px;
-  --space-grid: 18px;
-  --space-cell: 12px;
-  --space-inline: 8px;
-  --space-panel: 20px;
+  --radius-badge: 4px;
+  --radius-circle: 50%;
+
+  /* --- Elevation (restrained) ----------------------------------------
+   * Enterprise surfaces separate from the canvas through 1px neutral
+   * borders, so shadows stay to a single soft low-opacity layer. Only
+   * overlays keep real depth. Dark theme strengthens them slightly. */
+  --elevation-none: none;
+  --elevation-sm: 0 1px 2px rgba(15, 23, 42, .04);
+  --elevation-card: 0 1px 2px rgba(15, 23, 42, .04);
+  --elevation-md: 0 2px 4px rgba(15, 23, 42, .06);
+  --elevation-raised: 0 2px 6px rgba(15, 23, 42, .07);
+  --elevation-overlay: 0 6px 16px rgba(15, 23, 42, .12), 0 24px 48px rgba(15, 23, 42, .22);
+  --elevation-lg: var(--elevation-overlay);
+
+  /* --- Spacing scale -------------------------------------------------
+   * 4/8px rhythm: every step is a multiple of 4px so page, section and
+   * card gaps line up. Role aliases keep dense lists compact while main
+   * panels get extra breathing room (--space-panel-lg, --space-section). */
+  --space-3xs: 4px;
+  --space-2xs: 8px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 20px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+  --space-3xl: 40px;
+  --space-4xl: 56px;
+
+  --space-inline: var(--space-sm);
+  --space-cell: var(--space-md);
+  --space-panel: var(--space-xl);
+  --space-panel-lg: var(--space-2xl);
+  --space-grid: var(--space-lg);
+  --space-grid-lg: var(--space-xl);
+  --space-section: var(--space-2xl);
+
+  /* --- Typography hierarchy ------------------------------------------
+   * Semantic roles built on the sizes currently hardcoded in the
+   * dashboard CSS, so components can consume hierarchy instead of
+   * magic numbers. Legacy --text-* and --weight-* names are preserved. */
+  --font-sans: 'Encode Sans', system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  /* Legacy typography tokens (kept for existing consumers). */
   --text-kicker: .72rem;
   --weight-kicker: 750;
   --tracking-kicker: .09em;
   --text-metric: clamp(1.35rem, 2.2vw, 1.85rem);
   --tracking-metric: -.035em;
   --numeric-metric: tabular-nums;
+
+  /* Page title */
+  --type-page-title-size: clamp(1.7rem, 2.6vw, 2.2rem);
+  --type-page-title-weight: 720;
+  --type-page-title-tracking: -.04em;
+  --type-page-title-leading: 1.05;
+
+  /* Section title */
+  --type-section-title-size: 1.15rem;
+  --type-section-title-weight: 700;
+  --type-section-title-tracking: -.015em;
+  --type-section-title-leading: 1.2;
+
+  /* Card title */
+  --type-card-title-size: .84rem;
+  --type-card-title-weight: 680;
+  --type-card-title-tracking: -.01em;
+  --type-card-title-leading: 1.3;
+
+  /* Body */
+  --type-body-size: .9rem;
+  --type-body-weight: 500;
+  --type-body-leading: 1.5;
+
+  /* Caption */
+  --type-caption-size: .72rem;
+  --type-caption-weight: 600;
+  --type-caption-leading: 1.4;
+
+  /* Kicker (uppercase eyebrow) */
+  --type-kicker-size: var(--text-kicker);
+  --type-kicker-weight: var(--weight-kicker);
+  --type-kicker-tracking: var(--tracking-kicker);
+  --type-kicker-leading: 1.2;
+
+  /* Metric (KPI value) */
+  --type-metric-size: var(--text-metric);
+  --type-metric-weight: 720;
+  --type-metric-tracking: var(--tracking-metric);
+  --type-metric-leading: 1;
+  --type-metric-numeric: var(--numeric-metric);
+
+  /* --- Semantic state colors -----------------------------------------
+   * Base hues plus subtle surface/border variants so the later
+   * component migration can replace hardcoded hex for badges, callouts
+   * and status rows. */
+  --state-success: #047857;
+  --state-success-strong: #065f46;
+  --state-success-surface: rgba(4, 120, 87, .10);
+  --state-success-border: rgba(4, 120, 87, .28);
+
+  --state-warning: #ca8a04;
+  --state-warning-strong: #a16207;
+  --state-warning-surface: rgba(202, 138, 4, .12);
+  --state-warning-border: rgba(202, 138, 4, .32);
+
+  --state-critical: #b91c1c;
+  --state-critical-strong: #991b1b;
+  --state-critical-surface: rgba(185, 28, 28, .10);
+  --state-critical-border: rgba(185, 28, 28, .28);
+
+  --state-info: #2563eb;
+  --state-info-strong: #1d4ed8;
+  --state-info-surface: rgba(37, 99, 235, .10);
+  --state-info-border: rgba(37, 99, 235, .28);
+
+  --state-neutral: #64748b;
+  --state-neutral-surface: rgba(100, 116, 139, .10);
+  --state-neutral-border: rgba(100, 116, 139, .28);
+
+  /* --- Focus + charts + brand --------------------------------------- */
   --focus-ring: 2px solid var(--color-secondary);
   --focus-offset: 2px;
   --chart-basic: #64748b;
@@ -27,12 +148,42 @@
   --chart-unknown: #64748b;
   --chart-warning: #a16207;
   --chart-critical: #b91c1c;
-  --gradient-brand: linear-gradient(135deg, #057E74 0%, #034F49 100%);
 }
 
 .dark {
-  --elevation-sm: 0 1px 2px rgba(0, 0, 0, .5);
-  --elevation-md: 0 2px 8px rgba(0, 0, 0, .55);
+  /* Slightly stronger single-layer shadows; neutral 1px borders carry
+   * the surface definition against the dark canvas. */
+  --elevation-sm: 0 1px 2px rgba(0, 0, 0, .4);
+  --elevation-card: 0 1px 2px rgba(0, 0, 0, .45);
+  --elevation-md: 0 2px 4px rgba(0, 0, 0, .5);
+  --elevation-raised: 0 2px 6px rgba(0, 0, 0, .55);
+  --elevation-overlay: 0 8px 20px rgba(0, 0, 0, .6), 0 28px 56px rgba(0, 0, 0, .7);
+
+  /* Brighter state hues with stronger tinted surfaces for contrast. */
+  --state-success: #34d399;
+  --state-success-strong: #6ee7b7;
+  --state-success-surface: rgba(52, 211, 153, .14);
+  --state-success-border: rgba(52, 211, 153, .32);
+
+  --state-warning: #facc15;
+  --state-warning-strong: #fde047;
+  --state-warning-surface: rgba(250, 204, 21, .14);
+  --state-warning-border: rgba(250, 204, 21, .34);
+
+  --state-critical: #f87171;
+  --state-critical-strong: #fca5a5;
+  --state-critical-surface: rgba(248, 113, 113, .14);
+  --state-critical-border: rgba(248, 113, 113, .34);
+
+  --state-info: #60a5fa;
+  --state-info-strong: #93c5fd;
+  --state-info-surface: rgba(96, 165, 250, .14);
+  --state-info-border: rgba(96, 165, 250, .34);
+
+  --state-neutral: #94a3b8;
+  --state-neutral-surface: rgba(148, 163, 184, .14);
+  --state-neutral-border: rgba(148, 163, 184, .32);
+
   --chart-basic: #94a3b8;
   --chart-professional: #2dd4bf;
   --chart-enterprise: #fde047;

@@ -32,6 +32,7 @@ import Tooltip from "../shared/components/Tooltip/Tooltip"
 import { commitInstallationImport, downloadInstallationImportErrors, downloadInstallationTemplate, exportInstallations, previewInstallationImport } from "../features/installations/services/installationServices"
 import { canDownloadCsvTemplate, canExportOperationalResults } from "../shared/utils/exportPermissions"
 import { CsvImportDialog } from "../shared/components/CsvImportDialog/CsvImportDialog"
+import { useDebounce } from "../shared/hooks/useDebounce"
 
 
 const Installations = () => {
@@ -177,6 +178,7 @@ const Installations = () => {
 
   const [selectedCategory, setSelectedCategory] = useState("")
   const [searchTerm, setSearchTerm] = useState("")
+  const debouncedSearchTerm = useDebounce(searchTerm, 300)
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
@@ -201,12 +203,12 @@ const Installations = () => {
   const user = useAuthStore((s) => s.user)
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated)
 
-  // Cargar instalaciones cuando esté autenticado (ya no necesitamos token en localStorage)
+  // Cargar instalaciones cuando esté autenticado - con debounce en búsqueda y cancelación de fetch previo
   useEffect(() => {
     if (isAuthenticated) {
-      loadInstallations({ page: 1, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
+      loadInstallations({ page: 1, limit: itemsPerPage, search: debouncedSearchTerm, category: selectedCategory })
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, debouncedSearchTerm, selectedCategory])
 
   useEffect(() => {
     document.title = t("installations.titlePage")
@@ -264,14 +266,14 @@ const Installations = () => {
   const handleSuccessCreateOrEdit = (message: string) => {
     setIsCreateModalOpen(false)
     setIsEditModalOpen(false)
-    loadInstallations({ page: pagination.page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
+    loadInstallations({ page: pagination.page, limit: itemsPerPage, search: debouncedSearchTerm, category: selectedCategory })
     setResponseMessage(message)
     setIsError(false)
   }
 
   const handleSuccessAddDevice = (message: string) => {
     setIsDeviceModalOpen(false)
-    loadInstallations({ page: pagination.page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
+    loadInstallations({ page: pagination.page, limit: itemsPerPage, search: debouncedSearchTerm, category: selectedCategory })
     setResponseMessage(message)
     setIsError(false)
   }
@@ -289,7 +291,7 @@ const Installations = () => {
     // Recargar tipos de instalación para actualizar la lista
     await loadInstallationTypes()
     // Recargar instalaciones para actualizar los tipos
-    loadInstallations({ page: pagination.page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
+    loadInstallations({ page: pagination.page, limit: itemsPerPage, search: debouncedSearchTerm, category: selectedCategory })
   }
 
   const handleSubmitMaintenanceRequest = async (data: any) => {
@@ -326,7 +328,7 @@ const Installations = () => {
 
     try {
       await removeInstallation(installationToDelete._id)
-      loadInstallations({ page: pagination.page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
+      loadInstallations({ page: pagination.page, limit: itemsPerPage, search: debouncedSearchTerm, category: selectedCategory })
       setResponseMessage(t('installations.installationDeleted'))
       setIsError(false)
     } catch (err: any) {
@@ -340,18 +342,16 @@ const Installations = () => {
 
   const handleChangePage = (page: number) => {
     if (page >= 1 && page <= pagination.totalPages) {
-      loadInstallations({ page, limit: itemsPerPage, search: searchTerm, category: selectedCategory })
+      loadInstallations({ page, limit: itemsPerPage, search: debouncedSearchTerm, category: selectedCategory })
     }
   }
 
   const handleSearch = (value: string) => {
     setSearchTerm(value)
-    loadInstallations({ page: 1, limit: itemsPerPage, search: value, category: selectedCategory })
   }
 
   const handleCategoryChange = (value: string) => {
     setSelectedCategory(value)
-    loadInstallations({ page: 1, limit: itemsPerPage, search: searchTerm, category: value })
   }
 
   const runCsvAction = async (action: () => Promise<unknown>) => {
@@ -384,7 +384,7 @@ const Installations = () => {
             <div className={styles.csvActionsRow}>
               {canDownloadCsvTemplate(role) && <Button variant="secondary" title={t('installations.csv.downloadTemplate')} onClick={() => runCsvAction(downloadInstallationTemplate)} />}
               {canDownloadCsvTemplate(role) && <Button variant="secondary" title={t('installations.csv.import')} onClick={() => setIsImportOpen(true)} />}
-              {canExportOperationalResults(role) && <Button variant="secondary" title={t('installations.exportResults')} onClick={() => runCsvAction(() => exportInstallations({ search: searchTerm, category: selectedCategory }))} />}
+              {canExportOperationalResults(role) && <Button variant="secondary" title={t('installations.exportResults')} onClick={() => runCsvAction(() => exportInstallations({ search: debouncedSearchTerm, category: selectedCategory }))} />}
             </div>
           )}
         </div>
@@ -715,7 +715,7 @@ const Installations = () => {
         onCommit={commitInstallationImport}
         onDownloadErrors={downloadInstallationImportErrors}
         onDownloadTemplate={downloadInstallationTemplate}
-        onCommitted={() => loadInstallations({ page: 1, limit: itemsPerPage, search: searchTerm, category: selectedCategory })}
+        onCommitted={() => loadInstallations({ page: 1, limit: itemsPerPage, search: debouncedSearchTerm, category: selectedCategory })}
       />
 
       {/* Botón flotante del tour estilo WhatsApp */}

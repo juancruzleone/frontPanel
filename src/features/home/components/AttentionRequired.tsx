@@ -1,4 +1,6 @@
 import { useTranslation } from "react-i18next"
+import { Link } from "react-router"
+import { useTranslatedRoutes } from "../../../router/useTranslatedRoutes"
 import { formatDateSafely } from "../../../shared/utils/formatDateSafely"
 import type { DashboardAlert, TopIncidentInstallation, UpcomingPreventive } from "../types/homeTypes"
 import styles from "../styles/home.module.css"
@@ -12,6 +14,7 @@ interface AttentionRequiredProps {
 
 export const AttentionRequired = ({ alerts, incidents, maintenance, showInstallations }: AttentionRequiredProps) => {
   const { t, i18n } = useTranslation()
+  const { getRoute } = useTranslatedRoutes()
   const formatMaintenanceDate = (value: string) => formatDateSafely(
     value,
     i18n.resolvedLanguage || "es",
@@ -39,7 +42,13 @@ export const AttentionRequired = ({ alerts, incidents, maintenance, showInstalla
       {showInstallations && incidents.length > 0 && (
         <div className={styles.secondaryList}>
           <h3>{t("home.topIncidentInstallations")}</h3>
-          <ol>{incidents.slice(0, 3).map((item) => <li key={item._id}><span>{item.name}</span><strong>{item.count}</strong></li>)}</ol>
+          <ol>{incidents.slice(0, 3).map((item) => (
+            <li key={item._id}>
+              <Link className={styles.incidentLink} to={getRoute("installations", { id: item._id })}>
+                <span>{item.name}</span><strong>{item.count}</strong>
+              </Link>
+            </li>
+          ))}</ol>
         </div>
       )}
       {maintenance.length > 0 && (
