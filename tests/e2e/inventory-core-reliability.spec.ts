@@ -1,5 +1,7 @@
 import { expect, test, type Page } from "@playwright/test"
 
+test.use({ serviceWorkers: "block" })
+
 const user = {
   _id: "technician-e2e",
   userName: "technician-e2e",
