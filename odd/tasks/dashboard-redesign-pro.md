@@ -95,6 +95,13 @@ dashboard-redesign-pro (branch `feature/dashboard-redesign-pro`)
   - Disposición: `merged`, `superseded`, `incomplete/unsafe` o `deliverable`.
   - Acceptance: deliverables solo por issue aprobado + PR/cadena + pruebas; conservar incomplete; borrar únicamente ramas fusionadas/supersedidas demostrables libres de worktree; preservar main y worktrees ajenos.
 
+## Revision 2026-10-01: residual CI failures after first stabilization pass
+- El primer pase corrigió advisories, el contrato de borrado offline y el límite del entry chunk; Security Audit, Bundle Size Analysis y las regresiones locales/remotas correspondientes están verdes.
+- El job Lighthouse recolecta y escribe los informes en `.lighthouseci`, pero `actions/upload-artifact@v4` los excluye porque son archivos ocultos. La corrección debe habilitar explícitamente archivos ocultos sin volver opcional el artefacto.
+- El E2E original de `DELETE_WORK_ORDER` ya está verde. Los tres fallos residuales pertenecen a `inventory-core-reliability.spec.ts`: el service worker registrado toma solicitudes `/api/*` antes de que `page.route` pueda satisfacerlas y las deriva al backend real sin autenticación. Solo esta suite de contratos con rutas simuladas debe bloquear service workers; los E2E offline y la suite PWA conservan cobertura real del worker.
+- Checks enfocados antes de propagar: `inventory-core-reliability.spec.ts`, validación estática de workflows, lint, type-check, unit/integration/security, audit y `git diff --check`. El build local continúa prohibido; Lighthouse, bundle y build se demuestran exclusivamente en CI remoto.
+- Rollback: revertir por separado la opción `include-hidden-files` del upload o el aislamiento de service workers en `inventory-core-reliability.spec.ts`; ninguno cambia comportamiento productivo.
+
 ## Revision 2026-09-24 23:50: post-implement corrections
 - User reported two defects after the first P0/P1 pass: (a) blank canvas inside the attention row, (b) skeleton not matching loaded content. Measured root cause for (a): `align-self: start` + `align-content: start` left the KPI card at 239px inside a 659px row (~420px of bare canvas). After the fix the row measures 659/659. For (b) the skeleton now renders the real section structure; measured loading heights 659/448/525 match loaded 659/448/525, with `aria-busy="true" aria-label="Cargando panel"` and no layout shift.
 - User then requested the help button be bottom-right in every section with Home matching the rest. A previous pass had made `.tourButton` `position: static` globally and rendered Home through `TourButton inline` inside `DashboardHeader`. Both were reverted: shared floating class restored (token-based, safe-area aware), Home renders the plain variant.
