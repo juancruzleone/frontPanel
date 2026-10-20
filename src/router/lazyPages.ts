@@ -1,6 +1,9 @@
 import { lazy } from "react";
 
 export const Login = lazy(() => import("../pages/Login"));
+// The OAuth hand-off page must stay reachable without any auth guard, so it is
+// lazy-loaded like the other pages but never mounted behind one.
+export const OAuthCallback = lazy(() => import("../pages/OAuthCallback"));
 export const Register = lazy(() => import("../pages/Register"));
 export const Installations = lazy(() => import("../pages/Installations"));
 export const InstallationDetails = lazy(() => import("../pages/InstallationsDetails"));
