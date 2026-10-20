@@ -484,7 +484,35 @@
     "rememberMe": "Recordarme",
     "loginSuccess": "Inicio de sesión exitoso",
     "loginError": "Error al iniciar sesión",
-    "logoutSuccess": "Sesión cerrada exitosamente"
+    "logoutSuccess": "Sesión cerrada exitosamente",
+    "oauth": {
+      "google": "Continuar con Google",
+      "microsoft": "Continuar con Microsoft",
+      "divider": "o bien",
+      "redirecting": "Redirigiendo a {{provider}}…",
+      "unavailable": "No pudimos iniciar el acceso social. Inténtalo de nuevo o usa tus credenciales.",
+      "callback": {
+        "title": "Acceso con tu cuenta de trabajo",
+        "verifying": "Estamos verificando tu sesión…",
+        "retry": "Volver a iniciar sesión",
+        "home": "Ir al inicio",
+        "sessionFailed": "No pudimos verificar tu sesión. Inténtalo de nuevo.",
+        "errors": {
+          "notConfigured": "El acceso con cuenta de trabajo no está disponible en este momento.",
+          "providerNotAllowed": "Tu proveedor no está habilitado para este acceso.",
+          "returnTargetInvalid": "La página de destino solicitada no es válida.",
+          "transactionInvalid": "El intento de acceso dejó de ser válido. Comienza de nuevo.",
+          "transactionExpired": "El intento de acceso expiró. Comienza de nuevo.",
+          "transactionStoreUnavailable": "No pudimos registrar el intento de acceso. Inténtalo de nuevo en unos minutos.",
+          "providerDenied": "Cancelaste el acceso en tu proveedor. Puedes intentarlo de nuevo.",
+          "exchangeFailed": "Tu proveedor no pudo completar el intercambio de credenciales.",
+          "identityRejected": "Tu proveedor confirmó una identidad que no podemos usar aquí.",
+          "accountLinkRequired": "Debes vincular esta cuenta de trabajo a tu usuario de Leonix.",
+          "sessionUnavailable": "No pudimos abrir una sesión para esta cuenta.",
+          "unexpected": "El acceso con cuenta de trabajo falló. Inténtalo de nuevo."
+        }
+      }
+    }
   },
   "home": {
     "title": "Panel de Control",

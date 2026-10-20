@@ -2,6 +2,7 @@ import type { loginFormProps } from "../types/loginForm.types"
 import styles from "../styles/loginForm.module.css"
 import { FiEye, FiEyeOff } from "react-icons/fi"
 import { useTranslation } from "react-i18next"
+import { useSocialLogin } from "../hooks/useSocialLogin"
 import LanguageSelector from "../../../shared/components/Buttons/LanguageSelector"
 import ThemeToggle from "../../../shared/components/Buttons/ThemeToggle"
 
@@ -16,6 +17,14 @@ const LoginForm = ({
   handleSubmit,
 }: loginFormProps) => {
   const { t } = useTranslation()
+  const {
+    pendingProvider,
+    isRedirecting,
+    errorMessageKey,
+    startLogin,
+  } = useSocialLogin()
+
+  const providerName = pendingProvider === "microsoft" ? "Microsoft" : "Google"
 
   return (
     <div className={styles.containerForm}>
@@ -66,6 +75,32 @@ const LoginForm = ({
 
         <button type="submit" className={styles.submitButton}>{t("login.submit")}</button>
         {errors.general && <div className={styles.alertDanger}>{errors.general}</div>}
+
+        <p className={styles.formSubtitle}>{t("auth.oauth.divider")}</p>
+        <button
+          type="button"
+          className={styles.submitButton}
+          onClick={() => startLogin("google")}
+          disabled={isRedirecting}
+          aria-busy={pendingProvider === "google"}
+        >
+          {t("auth.oauth.google")}
+        </button>
+        <button
+          type="button"
+          className={styles.submitButton}
+          onClick={() => startLogin("microsoft")}
+          disabled={isRedirecting}
+          aria-busy={pendingProvider === "microsoft"}
+        >
+          {t("auth.oauth.microsoft")}
+        </button>
+        {isRedirecting && (
+          <p role="status" aria-live="polite" className={styles.formSubtitle}>
+            {t("auth.oauth.redirecting", { provider: providerName })}
+          </p>
+        )}
+        {errorMessageKey && <div role="alert" className={styles.alertDanger}>{t(errorMessageKey)}</div>}
       </form>
     </div>
   )

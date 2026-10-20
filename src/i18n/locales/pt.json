@@ -485,7 +485,35 @@
     "rememberMe": "Lembrar de mim",
     "loginSuccess": "Login realizado com sucesso",
     "loginError": "Erro no login",
-    "logoutSuccess": "Logout realizado com sucesso"
+    "logoutSuccess": "Logout realizado com sucesso",
+    "oauth": {
+      "google": "Continuar com o Google",
+      "microsoft": "Continuar com a Microsoft",
+      "divider": "ou continuar com",
+      "redirecting": "Redirecionando para {{provider}}…",
+      "unavailable": "Não foi possível iniciar o login social. Tente novamente ou use suas credenciais.",
+      "callback": {
+        "title": "Entrar com sua conta de trabalho",
+        "verifying": "Verificando sua sessão…",
+        "retry": "Voltar ao login",
+        "home": "Ir para o início",
+        "sessionFailed": "Não foi possível verificar sua sessão. Tente novamente.",
+        "errors": {
+          "notConfigured": "O acesso com conta de trabalho não está disponível no momento.",
+          "providerNotAllowed": "Seu provedor não está habilitado para este acesso.",
+          "returnTargetInvalid": "A página de destino solicitada não é válida.",
+          "transactionInvalid": "A tentativa de acesso não é mais válida. Comece novamente.",
+          "transactionExpired": "A tentativa de acesso expirou. Comece novamente.",
+          "transactionStoreUnavailable": "Não foi possível registrar a tentativa de acesso. Tente novamente em alguns minutos.",
+          "providerDenied": "Você cancelou o acesso no seu provedor. Você pode tentar de novo.",
+          "exchangeFailed": "O provedor não concluiu a troca de credenciais.",
+          "identityRejected": "O provedor confirmou uma identidade que não pode ser usada aqui.",
+          "accountLinkRequired": "Você precisa vincular esta conta de trabalho ao seu usuário Leonix.",
+          "sessionUnavailable": "Não foi possível abrir uma sessão para esta conta.",
+          "unexpected": "O acesso com conta de trabalho falhou. Tente novamente."
+        }
+      }
+    }
   },
   "home": {
     "title": "Painel de Controle",
