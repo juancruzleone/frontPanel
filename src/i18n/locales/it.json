@@ -460,7 +460,12 @@
     "viewConflicts": "Visualizza i conflitti",
     "viewDeadLetters": "Visualizza gli elementi non elaborabili",
     "retry": "Riprova",
-    "syncNow": "Sincronizza ora"
+    "syncNow": "Sincronizza ora",
+    "prepareOffline": "Prepara offline",
+    "packageReady": "Pacchetto pronto",
+    "downloading": "Download in corso...",
+    "packageIncomplete": "Pacchetto incompleto",
+    "downloadError": "Errore di download"
   },
   "notifications": {
     "title": "Notifiche",
@@ -2528,7 +2533,7 @@
     "tableView": "Vista a tabella",
     "cards": "Schede",
     "table": "Tabella",
-    "kanbanView": "Kanban view",
+    "kanbanView": "Vista Kanban",
     "kanban": "Kanban"
   },
   "maintenanceRequests": {

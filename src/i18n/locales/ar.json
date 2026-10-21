@@ -459,7 +459,12 @@
     "viewConflicts": "عرض التعارضات",
     "viewDeadLetters": "عرض العناصر غير القابلة للمعالجة",
     "retry": "إعادة المحاولة",
-    "syncNow": "المزامنة الآن"
+    "syncNow": "المزامنة الآن",
+    "prepareOffline": "تحضير دون اتصال",
+    "packageReady": "الحزمة جاهزة",
+    "downloading": "جارٍ التنزيل...",
+    "packageIncomplete": "الحزمة غير مكتملة",
+    "downloadError": "خطأ في التنزيل"
   },
   "notifications": {
     "title": "الإشعارات",
@@ -2443,7 +2448,9 @@
     "cardsView": "عرض البطاقات",
     "tableView": "عرض الجدول",
     "cards": "بطاقات",
-    "table": "جدول"
+    "table": "جدول",
+    "kanban": "كانبان",
+    "kanbanView": "عرض كانبان"
   },
   "maintenanceRequests": {
     "requestMaintenance": "طلب صيانة",

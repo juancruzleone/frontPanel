@@ -441,7 +441,12 @@
     "viewConflicts": "Konflikte anzeigen",
     "viewDeadLetters": "Nicht verarbeitbare Einträge anzeigen",
     "retry": "Wiederholen",
-    "syncNow": "Jetzt synchronisieren"
+    "syncNow": "Jetzt synchronisieren",
+    "prepareOffline": "Offline vorbereiten",
+    "packageReady": "Paket bereit",
+    "downloading": "Wird heruntergeladen...",
+    "packageIncomplete": "Unvollständiges Paket",
+    "downloadError": "Download-Fehler"
   },
   "notifications": {
     "title": "Benachrichtigungen",
@@ -2334,7 +2339,9 @@
     "cardsView": "Kartenansicht",
     "tableView": "Tabellenansicht",
     "cards": "Karten",
-    "table": "Tabelle"
+    "table": "Tabelle",
+    "kanban": "Kanban",
+    "kanbanView": "Kanban-Ansicht"
   },
   "maintenanceRequests": {
     "requestMaintenance": "Wartung Anfordern",

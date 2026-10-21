@@ -459,7 +459,12 @@
     "viewConflicts": "Ver conflictos",
     "viewDeadLetters": "Ver elementos no procesables",
     "retry": "Reintentar",
-    "syncNow": "Sincronizar ahora"
+    "syncNow": "Sincronizar ahora",
+    "prepareOffline": "Preparar offline",
+    "packageReady": "Paquete listo",
+    "downloading": "Descargando...",
+    "packageIncomplete": "Paquete incompleto",
+    "downloadError": "Error de descarga"
   },
   "notifications": {
     "title": "Notificaciones",
