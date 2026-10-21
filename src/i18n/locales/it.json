@@ -485,7 +485,35 @@
     "rememberMe": "Ricordami",
     "loginSuccess": "Accesso effettuato con successo",
     "loginError": "Errore di accesso",
-    "logoutSuccess": "Disconnessione effettuata con successo"
+    "logoutSuccess": "Disconnessione effettuata con successo",
+    "oauth": {
+      "google": "Continua con Google",
+      "microsoft": "Continua con Microsoft",
+      "divider": "oppure continua con",
+      "redirecting": "Reindirizzamento a {{provider}}…",
+      "unavailable": "Impossibile avviare l'accesso social. Riprova o usa le tue credenziali.",
+      "callback": {
+        "title": "Accesso con il tuo account di lavoro",
+        "verifying": "Verifica della sessione in corso…",
+        "retry": "Torna all'accesso",
+        "home": "Vai alla home",
+        "sessionFailed": "Non è stato possibile verificare la sessione. Riprova.",
+        "errors": {
+          "notConfigured": "L'accesso con account di lavoro non è disponibile al momento.",
+          "providerNotAllowed": "Il tuo provider non è abilitato per questo accesso.",
+          "returnTargetInvalid": "La pagina di destinazione richiesta non è valida.",
+          "transactionInvalid": "Il tentativo di accesso non è più valido. Ripeti l'operazione.",
+          "transactionExpired": "Il tentativo di accesso è scaduto. Ripeti l'operazione.",
+          "transactionStoreUnavailable": "Impossibile registrare il tentativo di accesso. Riprova tra qualche minuto.",
+          "providerDenied": "Hai annullato l'accesso presso il tuo provider. Puoi riprovare.",
+          "exchangeFailed": "Il provider non ha completato lo scambio delle credenziali.",
+          "identityRejected": "Il provider ha confermato un'identità che non può essere usata qui.",
+          "accountLinkRequired": "Devi collegare questo account di lavoro al tuo utente Leonix.",
+          "sessionUnavailable": "Impossibile aprire una sessione per questo account.",
+          "unexpected": "L'accesso con account di lavoro non è riuscito. Riprova."
+        }
+      }
+    }
   },
   "home": {
     "title": "Panello",

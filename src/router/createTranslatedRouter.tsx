@@ -4,6 +4,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import RoleProtectedRoute from "./RoleProtectedRoute";
 import RedirectIfLogged from "./RedirectIfLoggedIn.tsx";
 import { ROLES } from "../shared/utils/roleUtils";
+import { OAUTH_CALLBACK_PATH } from "../features/auth/services/oauthServices";
 import { BillingRoute } from "./BillingRoute";
 import {
   Assets,
@@ -24,6 +25,7 @@ import {
   MainLayout,
   Manuals,
   NotFound,
+  OAuthCallback,
   PanelAdmin,
   Profile,
   PublicDeviceViewPage,
@@ -221,6 +223,13 @@ export const createTranslatedRouter = () => {
     {
       path: "/formulario/:installationId/:deviceId",
       element: <FormularioRedirect />,
+    },
+    // OAuth hand-off from backPanel: no guard, no translation, and no rewrite.
+    // The session cookie it carries has not been verified yet, so neither
+    // RedirectIfLoggedIn nor ProtectedRoute may decide what happens first.
+    {
+      path: OAUTH_CALLBACK_PATH,
+      element: <OAuthCallback />,
     },
     // Rutas públicas traducidas
     ...publicRoutes,

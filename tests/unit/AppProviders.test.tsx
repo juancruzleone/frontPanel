@@ -33,6 +33,7 @@ describe('AppInitializer', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     localStorage.clear()
+    window.history.replaceState(null, '', '/')
     vi.mocked(initializeOfflineTrust).mockResolvedValue({ ok: true })
     fetchToken.mockResolvedValue(undefined)
     logout.mockResolvedValue(undefined)
@@ -297,5 +298,47 @@ describe('AppInitializer', () => {
     expect(clearCheckoutIntentId).toHaveBeenCalledTimes(1)
     expect(clearCheckoutIntentId).toHaveBeenCalledBefore(hydrateSession)
     expect(setBillingContext).not.toHaveBeenCalled()
+  })
+
+  it('leaves session hydration to the OAuth callback route instead of racing it', async () => {
+    window.history.replaceState(null, '', '/auth/callback?returnTo=%2Finicio')
+    localStorage.setItem('logout-epoch', String(Date.now()))
+    vi.mocked(verifySession).mockResolvedValue({ user: { _id: 'user-123' } })
+
+    render(<AppInitializer><div>Callback</div></AppInitializer>)
+    await Promise.resolve()
+
+    expect(verifySession).not.toHaveBeenCalled()
+    expect(hydrateSession).not.toHaveBeenCalled()
+    expect(useAuthStore.setState).not.toHaveBeenCalled()
+    expect(fetchToken).not.toHaveBeenCalled()
+    expect(initializeOfflineTrust).not.toHaveBeenCalled()
+    expect(localStorage.getItem('logout-epoch')).not.toBeNull()
+
+    window.dispatchEvent(new Event('online'))
+    await Promise.resolve()
+    expect(verifySession).not.toHaveBeenCalled()
+  })
+
+  it('suppresses bootstrap for case variants that the router resolves as the OAuth callback', async () => {
+    window.history.replaceState(null, '', '/AUTH/CALLBACK?returnTo=%2Finicio')
+    localStorage.setItem('logout-epoch', String(Date.now()))
+
+    render(<AppInitializer><div>Callback</div></AppInitializer>)
+    await Promise.resolve()
+
+    expect(verifySession).not.toHaveBeenCalled()
+    expect(hydrateSession).not.toHaveBeenCalled()
+    expect(fetchToken).not.toHaveBeenCalled()
+    expect(localStorage.getItem('logout-epoch')).not.toBeNull()
+  })
+
+  it('keeps bootstrapping every route that is not the OAuth callback itself', async () => {
+    window.history.replaceState(null, '', '/auth/callback/extra')
+    vi.mocked(verifySession).mockResolvedValue({ user: { _id: 'user-123' } })
+
+    render(<AppInitializer><div>Not the callback</div></AppInitializer>)
+
+    await waitFor(() => expect(verifySession).toHaveBeenCalled())
   })
 })

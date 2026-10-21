@@ -481,7 +481,35 @@
     "rememberMe": "Se souvenir de moi",
     "loginSuccess": "Connexion réussie",
     "loginError": "Erreur de connexion",
-    "logoutSuccess": "Déconnexion réussie"
+    "logoutSuccess": "Déconnexion réussie",
+    "oauth": {
+      "google": "Continuer avec Google",
+      "microsoft": "Continuer avec Microsoft",
+      "divider": "ou continuer avec",
+      "redirecting": "Redirection vers {{provider}}…",
+      "unavailable": "Impossible de démarrer la connexion sociale. Réessayez ou utilisez vos identifiants.",
+      "callback": {
+        "title": "Connexion avec votre compte de travail",
+        "verifying": "Vérification de votre session…",
+        "retry": "Retour à la connexion",
+        "home": "Aller à l'accueil",
+        "sessionFailed": "Impossible de vérifier votre session. Réessayez.",
+        "errors": {
+          "notConfigured": "La connexion par compte de travail n'est pas disponible pour le moment.",
+          "providerNotAllowed": "Votre fournisseur n'est pas activé pour cette connexion.",
+          "returnTargetInvalid": "La page de destination demandée n'est pas valide.",
+          "transactionInvalid": "La tentative de connexion n'est plus valide. Recommencez.",
+          "transactionExpired": "La tentative de connexion a expiré. Recommencez.",
+          "transactionStoreUnavailable": "Impossible d'enregistrer la tentative de connexion. Réessayez dans quelques minutes.",
+          "providerDenied": "Vous avez annulé la connexion chez votre fournisseur. Vous pouvez réessayer.",
+          "exchangeFailed": "Le fournisseur n'a pas pu terminer l'échange des identifiants.",
+          "identityRejected": "Le fournisseur a confirmé une identité qui ne peut pas être utilisée ici.",
+          "accountLinkRequired": "Vous devez lier ce compte de travail à votre utilisateur Leonix.",
+          "sessionUnavailable": "Impossible d'ouvrir une session pour ce compte.",
+          "unexpected": "La connexion par compte de travail a échoué. Réessayez."
+        }
+      }
+    }
   },
   "home": {
     "title": "Tableau de Bord",

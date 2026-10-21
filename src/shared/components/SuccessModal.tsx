@@ -8,6 +8,12 @@ interface Props {
   title: string
   message: string
   buttonText?: string
+  /** "error" reuses the same modal shell with an error icon and actions. */
+  variant?: "success" | "error"
+  /** Accessible role for the message paragraph (OAuth callback pins role="alert"). */
+  messageRole?: "alert" | "status"
+  secondaryButtonText?: string
+  onSecondaryAction?: () => void
 }
 
 const SuccessModal = ({
@@ -15,9 +21,23 @@ const SuccessModal = ({
   onRequestClose,
   title,
   message,
-  buttonText
+  buttonText,
+  variant = "success",
+  messageRole,
+  secondaryButtonText,
+  onSecondaryAction,
 }: Props) => {
   const { t } = useTranslation()
+  const isError = variant === "error"
+  const bodyClass = isError
+    ? `${styles.successContentBody} ${styles.errorContentBody}`
+    : styles.successContentBody
+  const iconClass = isError
+    ? `${styles.successIconLarge} ${styles.errorIconLarge}`
+    : styles.successIconLarge
+  const primaryClass = isError
+    ? `${styles.successButtonLarge} ${styles.errorButtonLarge}`
+    : styles.successButtonLarge
 
   return (
     <Modal
@@ -34,17 +54,29 @@ const SuccessModal = ({
         </button>
       </div>
       <div className={styles.modalContent}>
-        <div className={styles.successContentBody}>
-          <div className={styles.successIconLarge}>
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="10" fill="#10b981"/>
-              <path d="m9 12 2 2 4-4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+        <div className={bodyClass}>
+          <div className={iconClass}>
+            {isError ? (
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" fill="#ef4444" />
+                <path d="m9 9 6 6m0-6-6 6" stroke="white" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+            ) : (
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" fill="#10b981" />
+                <path d="m9 12 2 2 4-4" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            )}
           </div>
-          <p className={styles.successMessageLarge}>{message}</p>
-          <button onClick={onRequestClose} className={styles.successButtonLarge}>
+          <p className={styles.successMessageLarge} role={messageRole}>{message}</p>
+          <button onClick={onRequestClose} className={primaryClass}>
             {buttonText || t('common.continue')}
           </button>
+          {secondaryButtonText && onSecondaryAction && (
+            <button onClick={onSecondaryAction} className={styles.secondaryButtonLarge}>
+              {secondaryButtonText}
+            </button>
+          )}
         </div>
       </div>
     </Modal>

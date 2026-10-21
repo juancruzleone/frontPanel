@@ -15,6 +15,13 @@ import type {
 const RANGE_OPTIONS = new Set<RangeOption>(["7d", "30d", "90d", "12m"])
 const DASHBOARD_SCOPES = new Set(["tenant", "assigned_work", "assigned_installations"])
 
+// Transitorios de puerta de enlace/reinicio del backend: un único reintento
+// evita que el panel quede en estado de error por un blip de disponibilidad.
+const TRANSIENT_GATEWAY_STATUSES = new Set([502, 503, 504])
+const TRANSIENT_RETRY_DELAY_MS = 250
+
+const wait = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms))
+
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value)
 
@@ -140,7 +147,14 @@ export const parseDashboardStatsResponse = (value: unknown): DashboardStatsRespo
 export const fetchDashboardStats = async (range: RangeOption): Promise<DashboardStatsResponse> => {
   const apiUrl = import.meta.env.VITE_API_URL || "/api/"
   const query = new URLSearchParams({ range, compare: "true" })
-  const response = await fetchWithAuthRetry(`${apiUrl}dashboard/stats?${query.toString()}`)
+  const url = `${apiUrl}dashboard/stats?${query.toString()}`
+
+  let response = await fetchWithAuthRetry(url)
+  if (TRANSIENT_GATEWAY_STATUSES.has(response.status)) {
+    await wait(TRANSIENT_RETRY_DELAY_MS)
+    response = await fetchWithAuthRetry(url)
+  }
+
   const payload: unknown = await response.json()
 
   if (!response.ok) {

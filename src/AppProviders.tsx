@@ -4,6 +4,7 @@ import { useTheme } from "./shared/hooks/useTheme"
 import { useAuthStore } from "@/store/authStore"
 import { useCSRFStore } from "@/store/csrfStore"
 import { verifySession } from "./features/auth/services/loginServices"
+import { isOAuthCallbackPath } from "./features/auth/services/oauthServices"
 import { OfflineSyncManager } from "./shared/components/OfflineSyncManager"
 import { initializeOfflineTrust } from "./shared/offline/trustInit"
 import { prepareRoleOfflinePackage } from './shared/offline/roleBootstrap'
@@ -55,6 +56,12 @@ export const AppInitializer = ({ children }: { children: React.ReactNode }) => {
   const csrfError = useCSRFStore((state) => state.error)
 
 	React.useEffect(() => {
+    // The OAuth callback page owns session hydration for this document.
+    // Bootstrapping here would race it: the redirect logic could resolve a
+    // session the callback has not verified yet, or clear a durable logout
+    // that the callback must keep until the hand-off is proven.
+    if (isOAuthCallbackPath(window.location.pathname)) return
+
 		let cancelled = false
 
     const bootstrapSession = async () => {

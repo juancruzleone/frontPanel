@@ -8,6 +8,8 @@ const PENDING_GENERATION_URL = "/__leonix_pending_generation__";
 const SHELL_COMPLETE_URL = "/__leonix_shell_complete__";
 const SHELL_ASSET_LIST_URL = "/__leonix_shell_assets__";
 const BUILD_MANIFEST_URL = "/asset-manifest.json";
+const OAUTH_CALLBACK_PATH = "/auth/callback";
+const OAUTH_API_PATH = "/api/auth/oauth";
 
 let activeGeneration = null;
 let canonicalRefreshQueue = Promise.resolve();
@@ -59,8 +61,20 @@ function requestKey(value) {
   }
 }
 
+function isOAuthFlowPath(pathname) {
+  const normalized = pathname.toLowerCase();
+  const trimmed = normalized.length > 1 && normalized.endsWith("/") ? normalized.slice(0, -1) : normalized;
+
+  return (
+    trimmed === OAUTH_CALLBACK_PATH ||
+    trimmed === OAUTH_API_PATH ||
+    normalized.startsWith(`${OAUTH_API_PATH}/`)
+  );
+}
+
 function isAllowedShellUrl(value) {
   const key = requestKey(value);
+  if (isOAuthFlowPath(new URL(key, self.location.origin).pathname)) return false;
   if (["/", "/index.html", SHELL_COMPLETE_URL, SHELL_ASSET_LIST_URL].includes(key)) return true;
   if (CORE_SHELL_URLS.includes(key) || key.startsWith("/assets/")) return true;
   return isLocalDevelopmentHost() && (
@@ -507,6 +521,15 @@ self.addEventListener("fetch", (event) => {
     return;
   }
   if (url.origin !== self.location.origin) return;
+
+  if (isOAuthFlowPath(url.pathname)) {
+    // The OAuth hand-off is live or it is nothing: never a cached document, and
+    // never an app-shell fallback that could render a stale signed-in view.
+    event.respondWith(
+      fetch(request).catch(() => offlineResponse("Autenticación no disponible sin conexión")),
+    );
+    return;
+  }
 
   if (url.pathname.startsWith("/api/")) {
     event.respondWith(

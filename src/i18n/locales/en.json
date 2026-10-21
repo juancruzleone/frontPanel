@@ -484,7 +484,35 @@
     "rememberMe": "Remember me",
     "loginSuccess": "Login successful",
     "loginError": "Login error",
-    "logoutSuccess": "Logout successful"
+    "logoutSuccess": "Logout successful",
+    "oauth": {
+      "google": "Continue with Google",
+      "microsoft": "Continue with Microsoft",
+      "divider": "or continue with",
+      "redirecting": "Redirecting to {{provider}}…",
+      "unavailable": "We couldn't start social sign-in. Try again or use your credentials.",
+      "callback": {
+        "title": "Signing in with your work account",
+        "verifying": "We're verifying your session…",
+        "retry": "Back to sign-in",
+        "home": "Go to home",
+        "sessionFailed": "We couldn't verify your session. Please try again.",
+        "errors": {
+          "notConfigured": "Work account sign-in isn't available right now.",
+          "providerNotAllowed": "Your provider isn't enabled for this sign-in.",
+          "returnTargetInvalid": "The page you were going to isn't a valid destination.",
+          "transactionInvalid": "This sign-in attempt is no longer valid. Please start again.",
+          "transactionExpired": "This sign-in attempt expired. Please start again.",
+          "transactionStoreUnavailable": "We couldn't record the sign-in attempt. Please try again in a few minutes.",
+          "providerDenied": "You cancelled the sign-in at your provider. You can try again.",
+          "exchangeFailed": "Your provider couldn't complete the credential exchange.",
+          "identityRejected": "Your provider confirmed an identity that can't be used here.",
+          "accountLinkRequired": "You need to link this work account to your Leonix user.",
+          "sessionUnavailable": "We couldn't open a session for this account.",
+          "unexpected": "Work account sign-in failed. Please try again."
+        }
+      }
+    }
   },
   "home": {
     "title": "Dashboard",

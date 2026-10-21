@@ -484,7 +484,35 @@
     "rememberMe": "로그인 상태 유지",
     "loginSuccess": "로그인 성공",
     "loginError": "로그인 오류",
-    "logoutSuccess": "로그아웃 성공"
+    "logoutSuccess": "로그아웃 성공",
+    "oauth": {
+      "google": "Google로 계속",
+      "microsoft": "Microsoft로 계속",
+      "divider": "또는",
+      "redirecting": "{{provider}}(으)로 이동 중…",
+      "unavailable": "소셜 로그인을 시작할 수 없습니다. 다시 시도하거나 계정과 비밀번호를 사용하세요.",
+      "callback": {
+        "title": "업무 계정으로 로그인",
+        "verifying": "세션을 확인하는 중…",
+        "retry": "로그인으로 돌아가기",
+        "home": "홈으로 이동",
+        "sessionFailed": "세션을 확인하지 못했습니다. 다시 시도해 주세요.",
+        "errors": {
+          "notConfigured": "현재 업무 계정 로그인을 사용할 수 없습니다.",
+          "providerNotAllowed": "이 로그인에 제공자가 허용되지 않았습니다.",
+          "returnTargetInvalid": "요청한 이동 페이지가 올바르지 않습니다.",
+          "transactionInvalid": "로그인 시도가 유효하지 않습니다. 다시 시작해 주세요.",
+          "transactionExpired": "로그인 시도가 만료되었습니다. 다시 시작해 주세요.",
+          "transactionStoreUnavailable": "로그인 시도를 기록하지 못했습니다. 몇 분 후 다시 시도해 주세요.",
+          "providerDenied": "제공자에서 로그인을 취소했습니다. 다시 시도할 수 있습니다.",
+          "exchangeFailed": "제공자가 자격 증명 교환을 완료하지 못했습니다.",
+          "identityRejected": "제공자가 확인한 신원을 여기서 사용할 수 없습니다.",
+          "accountLinkRequired": "이 업무 계정을 Leonix 사용자에게 연결해야 합니다.",
+          "sessionUnavailable": "이 계정에 대한 세션을 열지 못했습니다.",
+          "unexpected": "업무 계정 로그인에 실패했습니다. 다시 시도해 주세요."
+        }
+      }
+    }
   },
   "home": {
     "successTitle": "작업이 성공적으로 완료되었습니다!",

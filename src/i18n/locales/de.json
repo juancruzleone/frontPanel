@@ -466,7 +466,35 @@
     "rememberMe": "Angemeldet bleiben",
     "loginSuccess": "Anmeldung erfolgreich",
     "loginError": "Anmeldefehler",
-    "logoutSuccess": "Abmeldung erfolgreich"
+    "logoutSuccess": "Abmeldung erfolgreich",
+    "oauth": {
+      "google": "Mit Google fortfahren",
+      "microsoft": "Mit Microsoft fortfahren",
+      "divider": "oder fortfahren mit",
+      "redirecting": "Weiterleitung zu {{provider}}…",
+      "unavailable": "Der soziale Anmeldestart hat nicht geklappt. Bitte erneut versuchen oder Zugangsdaten nutzen.",
+      "callback": {
+        "title": "Anmeldung mit deinem Arbeitskonto",
+        "verifying": "Deine Sitzung wird überprüft…",
+        "retry": "Zurück zur Anmeldung",
+        "home": "Zur Startseite",
+        "sessionFailed": "Deine Sitzung konnte nicht überprüft werden. Bitte erneut versuchen.",
+        "errors": {
+          "notConfigured": "Die Anmeldung mit Arbeitskonto ist derzeit nicht verfügbar.",
+          "providerNotAllowed": "Dein Anbieter ist für diese Anmeldung nicht freigeschaltet.",
+          "returnTargetInvalid": "Die angeforderte Zielseite ist ungültig.",
+          "transactionInvalid": "Der Anmeldeversuch ist nicht mehr gültig. Bitte erneut starten.",
+          "transactionExpired": "Der Anmeldeversuch ist abgelaufen. Bitte erneut starten.",
+          "transactionStoreUnavailable": "Der Anmeldeversuch konnte nicht gespeichert werden. Versuche es in einigen Minuten erneut.",
+          "providerDenied": "Du hast die Anmeldung beim Anbieter abgebrochen. Du kannst es erneut versuchen.",
+          "exchangeFailed": "Der Anbieter konnte die Anmeldedaten nicht austauschen.",
+          "identityRejected": "Der Anbieter hat eine Identität bestätigt, die hier nicht genutzt werden kann.",
+          "accountLinkRequired": "Du musst dieses Arbeitskonto mit deinem Leonix-Benutzer verknüpfen.",
+          "sessionUnavailable": "Für dieses Konto konnte keine Sitzung geöffnet werden.",
+          "unexpected": "Die Anmeldung mit Arbeitskonto ist fehlgeschlagen. Bitte erneut versuchen."
+        }
+      }
+    }
   },
   "home": {
     "title": "Dashboard",

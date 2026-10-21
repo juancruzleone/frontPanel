@@ -484,7 +484,35 @@
     "rememberMe": "记住我",
     "loginSuccess": "登录成功",
     "loginError": "登录错误",
-    "logoutSuccess": "登出成功"
+    "logoutSuccess": "登出成功",
+    "oauth": {
+      "google": "使用 Google 继续",
+      "microsoft": "使用 Microsoft 继续",
+      "divider": "或",
+      "redirecting": "正在重定向到 {{provider}}…",
+      "unavailable": "无法启动社交登录。请重试或使用账号密码登录。",
+      "callback": {
+        "title": "使用工作账号登录",
+        "verifying": "正在验证你的会话…",
+        "retry": "返回登录",
+        "home": "前往首页",
+        "sessionFailed": "无法验证你的会话，请重试。",
+        "errors": {
+          "notConfigured": "当前无法使用工作账号登录。",
+          "providerNotAllowed": "此登录未启用你的服务商。",
+          "returnTargetInvalid": "请求的目标页面无效。",
+          "transactionInvalid": "登录尝试已失效，请重新开始。",
+          "transactionExpired": "登录尝试已过期，请重新开始。",
+          "transactionStoreUnavailable": "无法记录登录尝试，请几分钟后再试。",
+          "providerDenied": "你在服务商处取消了登录，可以重试。",
+          "exchangeFailed": "服务商未能完成凭据交换。",
+          "identityRejected": "服务商确认的身份在此无法使用。",
+          "accountLinkRequired": "需要先将此工作账号与你的 Leonix 用户关联。",
+          "sessionUnavailable": "无法为该账号建立会话。",
+          "unexpected": "工作账号登录失败，请重试。"
+        }
+      }
+    }
   },
   "home": {
     "successTitle": "操作成功！",

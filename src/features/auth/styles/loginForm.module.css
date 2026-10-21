@@ -162,6 +162,74 @@
   outline-offset: 3px;
 }
 
+/* Divisor "o bien": reglas a ambos lados con la etiqueta centrada. */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin: 1.4rem 0 0.55rem;
+  color: var(--color-text-secondary);
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: color-mix(in srgb, var(--color-text-secondary) 40%, transparent);
+}
+
+.dividerLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Botones sociales: superficie tipo "outline" para distinguirlos del submit. */
+.socialButton {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  border: 1px solid var(--color-card-border);
+  border-radius: 4px;
+  background: var(--color-card);
+  color: var(--color-text);
+  font-family: "Encode Sans", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background-color 0.16s ease, border-color 0.16s ease;
+}
+
+.socialButton:hover:not(:disabled) {
+  border-color: var(--color-text-secondary);
+  background: color-mix(in srgb, var(--color-text) 5%, var(--color-card));
+}
+
+.socialButton:focus-visible {
+  outline: 3px solid var(--color-secondary);
+  outline-offset: 3px;
+}
+
+.socialButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.socialIconSvg {
+  width: 19px;
+  height: 19px;
+  flex: 0 0 auto;
+  display: block;
+}
+
 .inputError {
   margin: -0.75rem 0 1rem;
   color: var(--color-danger);
@@ -198,6 +266,10 @@
   color: var(--color-bg);
 }
 
+:global(.dark) .socialButton:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-text) 8%, var(--color-card));
+}
+
 :global(.dark) .alertDanger {
   color: #ffd4dd;
 }
@@ -229,7 +301,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .loginInput,
-  .submitButton {
+  .submitButton,
+  .socialButton {
     transition: none;
   }
 }

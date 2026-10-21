@@ -484,7 +484,35 @@
     "rememberMe": "ログイン状態を保持",
     "loginSuccess": "ログインに成功しました",
     "loginError": "ログインエラー",
-    "logoutSuccess": "ログアウトに成功しました"
+    "logoutSuccess": "ログアウトに成功しました",
+    "oauth": {
+      "google": "Google で続行",
+      "microsoft": "Microsoft で続行",
+      "divider": "または",
+      "redirecting": "{{provider}} にリダイレクトしています…",
+      "unavailable": "ソーシャルログインを開始できませんでした。再試行するか、認証情報を入力してください。",
+      "callback": {
+        "title": "職場のアカウントでサインイン",
+        "verifying": "セッションを確認しています…",
+        "retry": "サインインに戻る",
+        "home": "ホームへ",
+        "sessionFailed": "セッションを確認できませんでした。もう一度お試しください。",
+        "errors": {
+          "notConfigured": "現在、職場のアカウントでのサインインは利用できません。",
+          "providerNotAllowed": "このプロバイダーはサインインに有効化されていません。",
+          "returnTargetInvalid": "要求された移動先のページは有効ではありません。",
+          "transactionInvalid": "サインイン試行は無効になりました。はじめからやり直してください。",
+          "transactionExpired": "サインイン試行の有効期限が切れました。はじめからやり直してください。",
+          "transactionStoreUnavailable": "サインイン試行を記録できませんでした。数分後に再試行してください。",
+          "providerDenied": "プロバイダーでサインインがキャンセルされました。再試行できます。",
+          "exchangeFailed": "プロバイダーによる認証情報の交換が完了できませんでした。",
+          "identityRejected": "プロバイダーが確認した ID はここでは使用できません。",
+          "accountLinkRequired": "この職場のアカウントを Leonix ユーザーにリンクする必要があります。",
+          "sessionUnavailable": "このアカウントのセッションを開けませんでした。",
+          "unexpected": "職場のアカウントでのサインインに失敗しました。もう一度お試しください。"
+        }
+      }
+    }
   },
   "home": {
     "title": "ダッシュボード",
