@@ -107,13 +107,32 @@ const isDashboardStats = (value: unknown): value is DashboardStatsDto => {
   return comparisonValid && value.previousWindow.available === (value.kpisPrevious !== null)
 }
 
+const normalizeOptionalRows = (value: Record<string, unknown>): Record<string, unknown> => ({
+  ...value,
+  topIncidentInstallations: Array.isArray(value.topIncidentInstallations)
+    ? value.topIncidentInstallations.filter(isIncidentInstallation)
+    : value.topIncidentInstallations,
+  upcomingPreventive: Array.isArray(value.upcomingPreventive)
+    ? value.upcomingPreventive.map((row: unknown) => isRecord(row) ? {
+      ...row,
+      // Aggregation can return null for dates that are absent from the source document.
+      ...(row.date === null ? { date: undefined } : {}),
+      ...(row.fechaProgramada === null ? { fechaProgramada: undefined } : {}),
+    } : row)
+    : value.upcomingPreventive,
+})
+
 export const parseDashboardStatsResponse = (value: unknown): DashboardStatsResponse => {
-  if (!isRecord(value) || value.success !== true || !isDashboardStats(value.data)) {
+  if (!isRecord(value) || value.success !== true || !isRecord(value.data)) {
+    throw new Error("DASHBOARD_PAYLOAD_INVALID")
+  }
+  const data = normalizeOptionalRows(value.data)
+  if (!isDashboardStats(data)) {
     throw new Error("DASHBOARD_PAYLOAD_INVALID")
   }
   return {
     success: true,
-    data: value.data,
+    data,
     message: isString(value.message) ? value.message : undefined,
   }
 }
