@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import {
 	assignTechnicianToWorkOrder,
+	createWorkOrder,
 	exportWorkOrders,
 	fetchWorkOrders,
 	startWorkOrder,
@@ -61,6 +62,72 @@ describe("workOrderServices", () => {
 			tecnicoId: "tech-1",
 			tecnicoIds: ["tech-1", "tech-2"],
 		});
+	});
+
+	it("drops the embedded installation and other server-stripped fields from the update payload", async () => {
+		await updateWorkOrder("wo-1", {
+			_id: "wo-1",
+			titulo: "Orden de prueba",
+			descripcion: "Descripción de la orden",
+			instalacionId: "inst-1",
+			estado: "asignada",
+			prioridad: "alta",
+			fechaProgramada: "2026-06-01",
+			horaProgramada: "10:00",
+			tipoTrabajo: "mantenimiento",
+			tecnicosAsignados: ["tech-1"],
+			tecnicoAsignado: "tech-1",
+			tecnicosIds: ["tech-1"],
+			instalacion: {
+				_id: "inst-1",
+				company: "Cliente con historial pesado",
+				devices: [
+					{ maintenanceHistory: [{ foto: "data:image/jpeg;base64,AAAA" }] },
+				],
+			},
+		} as never);
+
+		const [, options] = fetchMock.mock.calls[0];
+		const body = JSON.parse(options.body);
+
+		expect(body).toEqual({
+			titulo: "Orden de prueba",
+			descripcion: "Descripción de la orden",
+			instalacionId: "inst-1",
+			prioridad: "alta",
+			fechaProgramada: "2026-06-01",
+			horaProgramada: "10:00",
+			tipoTrabajo: "mantenimiento",
+			tipoOrden: "correctivo",
+			origen: "manual",
+		});
+	});
+
+	it("drops the embedded installation from the create payload", async () => {
+		await createWorkOrder({
+			titulo: "Orden nueva",
+			descripcion: "Descripción de la orden nueva",
+			instalacionId: "inst-1",
+			estado: "pendiente",
+			prioridad: "media",
+			fechaProgramada: "2026-06-01",
+			horaProgramada: "10:00",
+			tipoTrabajo: "mantenimiento",
+			instalacion: {
+				_id: "inst-1",
+				company: "Cliente con historial pesado",
+				devices: [
+					{ maintenanceHistory: [{ foto: "data:image/jpeg;base64,AAAA" }] },
+				],
+			},
+		} as never);
+
+		const [, options] = fetchMock.mock.calls[0];
+		const body = JSON.parse(options.body);
+
+		expect(body.instalacion).toBeUndefined();
+		expect(body.estado).toBeUndefined();
+		expect(body.titulo).toBe("Orden nueva");
 	});
 
 	it("uses the same completion idempotency key when a request is retried", async () => {
