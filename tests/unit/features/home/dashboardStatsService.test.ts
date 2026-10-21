@@ -44,4 +44,40 @@ describe("dashboard stats transport and contract", () => {
     fetchWithAuthRetry.mockResolvedValue(new Response(JSON.stringify({ success: true, data: { metadata: {} } }), { status: 200 }))
     await expect(fetchDashboardStats("30d")).rejects.toThrow("DASHBOARD_PAYLOAD_INVALID")
   })
+
+  const transientGatewayResponse = () =>
+    new Response(JSON.stringify({ message: "backend reiniciando" }), { status: 503 })
+
+  it("retries once when the gateway reports a transient upstream failure", async () => {
+    fetchWithAuthRetry
+      .mockResolvedValueOnce(transientGatewayResponse())
+      .mockResolvedValueOnce(new Response(JSON.stringify({
+        success: true,
+        data: createDashboardDto("tenant"),
+      }), { status: 200 }))
+
+    await expect(fetchDashboardStats("7d")).resolves.toEqual(expect.objectContaining({ success: true }))
+
+    expect(fetchWithAuthRetry).toHaveBeenCalledTimes(2)
+    expect(fetchWithAuthRetry).toHaveBeenNthCalledWith(1, expect.stringMatching(/range=7d/))
+    expect(fetchWithAuthRetry).toHaveBeenNthCalledWith(2, expect.stringMatching(/range=7d/))
+  })
+
+  it("keeps the controlled failure when the transient retry also fails", async () => {
+    fetchWithAuthRetry.mockResolvedValue(transientGatewayResponse())
+
+    await expect(fetchDashboardStats("7d")).rejects.toThrow("backend reiniciando")
+
+    expect(fetchWithAuthRetry).toHaveBeenCalledTimes(2)
+  })
+
+  it("does not retry non-transient client failures", async () => {
+    fetchWithAuthRetry.mockResolvedValue(
+      new Response(JSON.stringify({ message: "BAD_REQUEST" }), { status: 400 })
+    )
+
+    await expect(fetchDashboardStats("7d")).rejects.toThrow("BAD_REQUEST")
+
+    expect(fetchWithAuthRetry).toHaveBeenCalledOnce()
+  })
 })
