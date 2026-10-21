@@ -103,13 +103,6 @@
   text-transform: uppercase;
 }
 
-.heroTagline::before {
-  width: 2rem;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.55);
-  content: "";
-}
-
 .heroTitle {
   max-width: 650px;
   margin: 1.1rem 0 0;
