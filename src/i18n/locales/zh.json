@@ -459,7 +459,12 @@
     "viewConflicts": "查看冲突",
     "viewDeadLetters": "查看无法处理的项目",
     "retry": "重试",
-    "syncNow": "立即同步"
+    "syncNow": "立即同步",
+    "prepareOffline": "离线准备",
+    "packageReady": "离线包已就绪",
+    "downloading": "下载中...",
+    "packageIncomplete": "离线包不完整",
+    "downloadError": "下载错误"
   },
   "notifications": {
     "title": "通知",
@@ -2465,7 +2470,9 @@
     "cardsView": "卡片视图",
     "tableView": "表格视图",
     "cards": "卡片",
-    "table": "表格"
+    "table": "表格",
+    "kanban": "看板",
+    "kanbanView": "看板视图"
   },
   "maintenanceRequests": {
     "requestMaintenance": "请求维护",

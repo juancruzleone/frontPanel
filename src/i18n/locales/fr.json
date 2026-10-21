@@ -456,7 +456,12 @@
     "viewConflicts": "Afficher les conflits",
     "viewDeadLetters": "Afficher les éléments non traitables",
     "retry": "Réessayer",
-    "syncNow": "Synchroniser maintenant"
+    "syncNow": "Synchroniser maintenant",
+    "prepareOffline": "Préparer hors ligne",
+    "packageReady": "Paquet prêt",
+    "downloading": "Téléchargement...",
+    "packageIncomplete": "Paquet incomplet",
+    "downloadError": "Erreur de téléchargement"
   },
   "notifications": {
     "title": "Notifications",
@@ -2427,7 +2432,9 @@
     "cardsView": "Vue en cartes",
     "tableView": "Vue en tableau",
     "cards": "Cartes",
-    "table": "Tableau"
+    "table": "Tableau",
+    "kanban": "Kanban",
+    "kanbanView": "Vue Kanban"
   },
   "maintenanceRequests": {
     "requestMaintenance": "Demander une Maintenance",

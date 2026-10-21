@@ -459,7 +459,12 @@
     "viewConflicts": "View conflicts",
     "viewDeadLetters": "View unprocessable items",
     "retry": "Retry",
-    "syncNow": "Sync now"
+    "syncNow": "Sync now",
+    "prepareOffline": "Prepare offline",
+    "packageReady": "Package ready",
+    "downloading": "Downloading...",
+    "packageIncomplete": "Package incomplete",
+    "downloadError": "Download error"
   },
   "notifications": {
     "title": "Notifications",
