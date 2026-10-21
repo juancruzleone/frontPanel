@@ -56,12 +56,18 @@ export const fetchWithAuthRetry = async (
   const method = (options.method || 'GET').toUpperCase()
   
   const executeFetch = async (currentOptions: RequestInit) => {
+    // JSON bodies must reach the backend as application/json: Express skips parsing
+    // without that content type, leaving an empty body that fails yup validation with
+    // a generic 400 (this broke PUT /ordenes-trabajo/:id and PATCH .../asignar).
+    // FormData and callers with an explicit Content-Type keep their own header.
+    const includeContentType =
+      typeof currentOptions.body === "string" && !hasJsonContentType(currentOptions.headers)
     const fetchOptions: RequestInit = {
       ...currentOptions,
       credentials: currentOptions.credentials ?? "include",
       headers: {
         ...currentOptions.headers,
-        ...getApiHeaders(hasJsonContentType(currentOptions.headers), method),
+        ...getApiHeaders(includeContentType, method),
       },
     }
     return fetch(url, fetchOptions)
