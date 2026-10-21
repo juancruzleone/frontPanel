@@ -68,6 +68,16 @@ describe('R2 deviceTrust', () => {
     expect(await getStoredDevice('t1:u1')).toBeDefined()
   })
 
+  it('omits clientDeviceId when localStorage has no legacy device id', async () => {
+    localStorage.removeItem('__offline_device_id')
+    fetchSpy.mockResolvedValueOnce(json({ success: true, deviceId: 'srv-2', publicKeyJwk: { kty: 'EC', crv: 'P-256', x: 'a', y: 'b' } }))
+    await registerDevice()
+    const body = JSON.parse(fetchSpy.mock.calls[0][1].body)
+    // null fails the backend yup.string().optional() contract and yields a 400;
+    // an absent key is what the schema accepts.
+    expect('clientDeviceId' in body).toBe(false)
+  })
+
   it('returns existing active device without re-registering', async () => {
     dbStore['t1:u1'] = { deviceId: 'existing', tenantId: 't1', userId: 'u1', publicKeyJwk: {}, status: 'active', registeredAt: Date.now() }
     const r = await registerDevice()

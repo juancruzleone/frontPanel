@@ -27,7 +27,7 @@ export async function registerDevice(): Promise<RegisterDeviceResult> {
     const { privateKey, publicKeyJwk } = await generateDeviceKeyPair()
     const res = await fetchWithAuthRetry(`${API}/devices/register`, {
       method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ publicKeyJwk, clientDeviceId: localStorage.getItem('__offline_device_id') }),
+      body: JSON.stringify({ publicKeyJwk, clientDeviceId: localStorage.getItem('__offline_device_id') ?? undefined }),
     })
     const body = await parseRes(res)
     if (!res.ok) return { error: extractError(body, res.status) }

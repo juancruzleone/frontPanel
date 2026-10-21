@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react"
 import { useAuthStore } from "../../../store/authStore"
+import { useCSRFStore } from "../../../store/csrfStore"
 import { buildHomeCacheKey, useHomeStore } from "../../../store/homeStore"
 import { fetchInventoryItems } from "../../inventory/services/inventoryServices"
 import { getClients } from "../../clients/services/clientServices"
@@ -48,6 +49,7 @@ const fetchInventorySummary = async (): Promise<InventorySummaryData> => {
 
 export const useHomeDashboard = (): HomeDashboardState => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  const csrfToken = useCSRFStore((state) => state.token)
   const userId = useAuthStore((state) => state.userId)
   const tenantId = useAuthStore((state) => state.tenantId)
   const rawRole = useAuthStore((state) => state.role)
@@ -102,7 +104,7 @@ export const useHomeDashboard = (): HomeDashboardState => {
   }, [retry])
 
   useEffect(() => {
-    if (!isAuthenticated) return
+    if (!isAuthenticated || !csrfToken) return
     if (!role || !cacheKey) {
       setData(null)
       setError("home.dashboard.errors.unsupportedRole")
@@ -171,7 +173,7 @@ export const useHomeDashboard = (): HomeDashboardState => {
 
     void load()
     return () => { cancelled = true }
-  }, [applyCachedData, cacheKey, isAuthenticated, range, requestVersion, role, setDashboardData])
+  }, [applyCachedData, cacheKey, csrfToken, isAuthenticated, range, requestVersion, role, setDashboardData])
 
   useEffect(() => {
     if (!validCache || !lastUpdated) return

@@ -1,6 +1,7 @@
 import { act, renderHook, waitFor } from "@testing-library/react"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { useAuthStore } from "../../../../src/store/authStore"
+import { useCSRFStore } from "../../../../src/store/csrfStore"
 import { buildHomeCacheKey, useHomeStore } from "../../../../src/store/homeStore"
 import { useHomeDashboard } from "../../../../src/features/home/hooks/useHomeDashboard"
 import { createDashboardDto } from "./dashboardFixture"
@@ -19,6 +20,7 @@ describe("useHomeDashboard", () => {
     vi.clearAllMocks()
     Object.defineProperty(navigator, "onLine", { configurable: true, value: true })
     useHomeStore.setState({ cache: null, lastUpdated: null, ownerId: null })
+    useCSRFStore.setState({ token: "session-csrf", isLoading: false, error: null })
     useAuthStore.setState({
       isAuthenticated: true,
       isAuthResolved: true,
@@ -31,6 +33,25 @@ describe("useHomeDashboard", () => {
     inventoryMock.mockReset().mockResolvedValue({ total: 0, items: [] })
       .mockResolvedValueOnce({ total: 20, items: [{ _id: "item-1", name: "Filtro", currentStock: 8, unit: "u", minimumStock: 2 }] })
       .mockResolvedValueOnce({ total: 3, items: [{ _id: "item-2", name: "Correa", currentStock: 1, unit: "u", minimumStock: 4 }] })
+  })
+
+  it("holds loading while the session has no CSRF token yet, then loads when the token arrives", async () => {
+    useCSRFStore.setState({ token: null })
+    vi.mocked(fetch).mockResolvedValue(new Response(JSON.stringify({ success: true, data: createDashboardDto("tenant") }), { status: 200 }))
+    const { result } = renderHook(() => useHomeDashboard())
+
+    // Stale localStorage auth with a dead cookie: no CSRF token can be established,
+    // so the panel must hold on the skeleton instead of latching a permanent error.
+    await Promise.resolve()
+    expect(result.current.loading).toBe(true)
+    expect(result.current.error).toBeNull()
+    expect(fetch).not.toHaveBeenCalled()
+
+    // Login/verify completes and provides the token: the panel loads without a manual retry.
+    act(() => { useCSRFStore.setState({ token: "fresh-csrf" }) })
+    await waitFor(() => expect(result.current.loading).toBe(false))
+    expect(result.current.data?.metadata.scope).toBe("tenant")
+    expect(fetch).toHaveBeenCalledWith(expect.stringMatching(/dashboard\/stats/), expect.any(Object))
   })
 
   it("maps the real metadata scope and stores a role-isolated admin cache", async () => {
