@@ -34,9 +34,12 @@ export default defineConfig(({ mode }) => {
 		},
 		build: {
 			manifest: "asset-manifest.json",
-			rollupOptions: {
+			rolldownOptions: {
 				output: {
-					manualChunks: undefined,
+					// Preserve the shared translation chunk across bundler upgrades.
+					codeSplitting: {
+						groups: [{ name: "i18n", test: /\/src\/i18n\// }],
+					},
 					assetFileNames: (assetInfo) => {
 						const info = assetInfo.name.split(".");
 						const ext = info[info.length - 1];
