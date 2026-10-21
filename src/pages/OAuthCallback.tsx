@@ -10,6 +10,7 @@ import {
   resolveCallbackReturnTarget,
   resolveOAuthErrorMessageKey,
 } from "@/features/auth/services/oauthServices"
+import SuccessModal from "@/shared/components/SuccessModal"
 import styles from "./notFound.module.css"
 
 // backPanel has already finished the OAuth transaction by the time this page
@@ -111,38 +112,27 @@ const OAuthCallback = () => {
   return (
     <main className={styles.containerNotFound}>
       <div className={styles.content}>
-        <div className={styles.errorCard}>
-          <h1 className={styles.errorSubtitle}>{t("auth.oauth.callback.title")}</h1>
-
-          {failureKey ? (
-            <div role="alert" aria-live="assertive" className={styles.errorDescription}>
-              <p>{t(failureKey)}</p>
-            </div>
-          ) : (
+        {!failureKey && (
+          <div className={styles.errorCard}>
             <div role="status" aria-live="polite" className={styles.errorDescription}>
               <p>{t("auth.oauth.callback.verifying")}</p>
             </div>
-          )}
+          </div>
+        )}
 
-          {failureKey && (
-            <div className={styles.errorActions}>
-              <button
-                type="button"
-                className={styles.primaryButton}
-                onClick={() => navigate(LOGIN_ROUTE, { replace: true })}
-              >
-                {t("auth.oauth.callback.retry")}
-              </button>
-              <button
-                type="button"
-                className={styles.secondaryButton}
-                onClick={() => navigate(homeRoute, { replace: true })}
-              >
-                {t("auth.oauth.callback.home")}
-              </button>
-            </div>
-          )}
-        </div>
+        {/* Mismo modal del éxito, en variante de error: sin tira roja, con
+            acciones de reintentar y volver al inicio. */}
+        <SuccessModal
+          isOpen={failureKey !== null}
+          onRequestClose={() => navigate(LOGIN_ROUTE, { replace: true })}
+          variant="error"
+          title={t("auth.oauth.callback.title")}
+          message={failureKey ? t(failureKey) : ""}
+          messageRole="alert"
+          buttonText={t("auth.oauth.callback.retry")}
+          secondaryButtonText={t("auth.oauth.callback.home")}
+          onSecondaryAction={() => navigate(homeRoute, { replace: true })}
+        />
       </div>
     </main>
   )
