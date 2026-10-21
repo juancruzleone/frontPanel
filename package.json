@@ -73,7 +73,7 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.4",
-    "@vitest/coverage-v8": "^4.1.11",
+    "@vitest/coverage-v8": "^4.1.12",
     "@vitest/ui": "^4.1.11",
     "esbuild": "^0.28.1",
     "eslint": "^9.39.4",
@@ -87,7 +87,7 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.65.0",
     "vite": "^8.3.4",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.12"
   },
   "overrides": {
     "basic-ftp": "^6.0.1",
