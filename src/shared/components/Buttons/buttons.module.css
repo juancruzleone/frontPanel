@@ -266,7 +266,8 @@ button {
   color: var(--color-icon);
   border: 1px solid var(--color-themebox-border);
   padding: 0;
-  border-radius: 8px;
+  /* Igual al botón de tema (44x44): mismo border-radius, no 8px. */
+  border-radius: 4px;
   cursor: pointer;
   display: flex;
   align-items: center;
