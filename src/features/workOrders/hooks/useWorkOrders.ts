@@ -341,7 +341,7 @@ const useWorkOrders = () => {
 				if (!isNaN(localDate.getTime())) {
 					fechaHoraISO = localDate.toISOString();
 				}
-			} catch (_e) {
+			} catch {
 				// ignore
 			}
 		}
@@ -388,6 +388,32 @@ const useWorkOrders = () => {
 		try {
 			const newOrder = await createWorkOrder(workOrderWithTZ);
 			storeAddWorkOrder(newOrder);
+
+			// The backend create schema strips technician fields, so the assignment
+			// must replay through the dedicated endpoint (same contract as edit).
+			if (technicianIds.length > 0) {
+				const queueAssignment = () => {
+					addToQueue({
+						type: "ASSIGN_WORK_ORDER_TECHNICIAN",
+						payload: { id: newOrder._id, technicianIds },
+					});
+				};
+
+				if (!navigator.onLine) {
+					queueAssignment();
+				} else {
+					try {
+						await assignTechnicianToWorkOrder(newOrder._id, technicianIds);
+					} catch (assignErr: unknown) {
+						if (isOfflineError(assignErr)) {
+							queueAssignment();
+						} else {
+							throw assignErr;
+						}
+					}
+				}
+			}
+
 			return { message: "Orden de trabajo creada con éxito" };
 		} catch (err: unknown) {
 			if (isOfflineError(err)) {
@@ -411,7 +437,7 @@ const useWorkOrders = () => {
 				if (!isNaN(localDate.getTime())) {
 					fechaHoraISO = localDate.toISOString();
 				}
-			} catch (_e) {
+			} catch {
 				// ignore
 			}
 		}
@@ -693,6 +719,38 @@ const useWorkOrders = () => {
 					: onAdd
 						? await onAdd(formData as WorkOrder)
 						: { message: "Error: función no definida" };
+
+			// The backend `workOrderSchema` strips technician fields from the PUT/POST
+			// body, so an edit must call the assignment endpoint explicitly; otherwise
+			// selected technicians are never persisted and never move the order to
+			// "asignada".
+			if (isEditMode && initialData?._id) {
+				const nextTechnicianIds = normalizeTechnicianIds(formData as WorkOrder);
+				const previousTechnicianIds = normalizeTechnicianIds(initialData);
+				const techniciansChanged =
+					nextTechnicianIds.length > 0 &&
+					(nextTechnicianIds.length !== previousTechnicianIds.length ||
+						nextTechnicianIds.some(
+							(id) => !previousTechnicianIds.includes(id),
+						));
+
+				if (techniciansChanged) {
+					if (navigator.onLine) {
+						await assignTechnicianToWorkOrder(
+							initialData._id,
+							nextTechnicianIds,
+						);
+					} else {
+						addToQueue({
+							type: "ASSIGN_WORK_ORDER_TECHNICIAN",
+							payload: {
+								id: initialData._id,
+								technicianIds: nextTechnicianIds,
+							},
+						});
+					}
+				}
+			}
 
 			onSuccess(result.message);
 			resetForm();

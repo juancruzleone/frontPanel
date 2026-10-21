@@ -272,6 +272,22 @@ class OfflineSyncService {
         }
         // SAFETY: payloadToSend has been sanitized and stripped of offline _id; shape verified by offline queue schema
         const created = await createWorkOrder(payloadToSend as unknown as WorkOrder, item.id)
+        // The backend create schema strips technician fields; replay the pending
+        // assignment against the server-generated id so the order becomes "asignada".
+        const queuedTechnicianIds = Array.from(
+          new Set(
+            [
+              ...(Array.isArray(payloadToSend.tecnicosAsignados) ? payloadToSend.tecnicosAsignados : []),
+              ...(Array.isArray(payloadToSend.tecnicosIds) ? payloadToSend.tecnicosIds : []),
+              payloadToSend.tecnicoAsignado,
+            ]
+              .filter(Boolean)
+              .map((id) => String(id))
+          )
+        )
+        if (created?._id && queuedTechnicianIds.length > 0) {
+          await assignTechnicianToWorkOrder(created._id, queuedTechnicianIds, `${item.id}-assign`)
+        }
         if (item.payload._id && created?._id && item.tenantId && item.userId) {
           useWorkOrderStore.getState().updateWorkOrder(item.payload._id as string, created)
           useOfflineStore.getState().remapPayloadId(item.payload._id as string, created._id, item.tenantId, item.userId)

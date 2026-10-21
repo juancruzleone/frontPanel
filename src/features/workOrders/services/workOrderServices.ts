@@ -182,16 +182,46 @@ const handleResponse = async (response: Response) => {
 	return await response.json();
 };
 
-const normalizeTechnicianIds = (workOrder: Partial<WorkOrder>) => {
-	const ids = [
-		...(Array.isArray(workOrder.tecnicosAsignados)
-			? workOrder.tecnicosAsignados
-			: []),
-		...(Array.isArray(workOrder.tecnicosIds) ? workOrder.tecnicosIds : []),
-		workOrder.tecnicoAsignado,
-	];
+const pickWorkOrderSchemaFields = (workOrder: Partial<WorkOrder>) => {
+	const schemaFields = [
+		"titulo",
+		"descripcion",
+		"instalacionId",
+		"dispositivoId",
+		"prioridad",
+		"fechaProgramada",
+		"horaProgramada",
+		"tipoTrabajo",
+		"tipoOrden",
+		"observaciones",
+		"origen",
+	] as const;
 
-	return Array.from(new Set(ids.filter(Boolean).map((id) => String(id))));
+	// Backend `workOrderSchema` strips unknown fields; sending the embedded
+	// installation (devices + base64 maintenance history) made payloads multi-MB
+	// for nothing.
+	return Object.fromEntries(
+		Object.entries(workOrder).filter(([key]) =>
+			(schemaFields as readonly string[]).includes(key),
+		),
+	) as Partial<WorkOrder>;
+};
+
+export const createWorkOrder = async (workOrder: WorkOrder, idempotencyKey?: string) => {
+	const payload = {
+		...pickWorkOrderSchemaFields(workOrder),
+		tipoOrden: workOrder.tipoOrden || "correctivo",
+		origen: workOrder.origen || "manual",
+	};
+	const key = idempotencyKey ?? crypto.randomUUID();
+	const response = await fetchWithCsrf(`${getApiUrl()}ordenes-trabajo`, {
+		method: "POST",
+		headers: { "X-Idempotency-Key": key },
+		body: JSON.stringify(payload),
+	});
+
+	const result = await handleResponse(response);
+	return result.data || result;
 };
 
 export type PaginatedResponse<T> = {
@@ -276,37 +306,13 @@ export const fetchInstallations = async (
 	return Array.isArray(result) ? result : result.data || [];
 };
 
-export const createWorkOrder = async (workOrder: WorkOrder, idempotencyKey?: string) => {
-	const technicianIds = normalizeTechnicianIds(workOrder);
+export const updateWorkOrder = async (id: string, workOrder: WorkOrder, idempotencyKey?: string) => {
+	// Technicians are assigned exclusively through PATCH /ordenes-trabajo/:id/asignar
+	// (handleSubmitForm does it after a successful edit).
 	const payload = {
-		...workOrder,
+		...pickWorkOrderSchemaFields(workOrder),
 		tipoOrden: workOrder.tipoOrden || "correctivo",
 		origen: workOrder.origen || "manual",
-		tecnicoAsignado: technicianIds[0] || undefined,
-		tecnicosAsignados: technicianIds,
-		tecnicosIds: technicianIds,
-	};
-	const key = idempotencyKey ?? crypto.randomUUID();
-	const response = await fetchWithCsrf(`${getApiUrl()}ordenes-trabajo`, {
-		method: "POST",
-		headers: { "X-Idempotency-Key": key },
-		body: JSON.stringify(payload),
-	});
-
-	const result = await handleResponse(response);
-	return result.data || result;
-};
-
-export const updateWorkOrder = async (id: string, workOrder: WorkOrder, idempotencyKey?: string) => {
-	const { _id: _, ...rest } = workOrder;
-	const technicianIds = normalizeTechnicianIds(rest);
-	const payload = {
-		...rest,
-		tipoOrden: rest.tipoOrden || "correctivo",
-		origen: rest.origen || "manual",
-		tecnicoAsignado: technicianIds[0] || undefined,
-		tecnicosAsignados: technicianIds,
-		tecnicosIds: technicianIds,
 	};
 
 	const key = idempotencyKey ?? crypto.randomUUID();

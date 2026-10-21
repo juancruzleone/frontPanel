@@ -112,6 +112,119 @@ describe('useWorkOrders hook', () => {
     expect(workOrderServices.updateWorkOrder).toHaveBeenCalled();
   });
 
+  it('assigns newly selected technicians after a successful edit', async () => {
+    const { result } = renderHook(() => useWorkOrders());
+
+    const initialOrder = {
+      _id: 'wo-9',
+      titulo: 'Orden de prueba',
+      descripcion: 'Descripción de la orden',
+      instalacionId: 'inst-1',
+      estado: 'pendiente',
+      prioridad: 'media',
+      tipoTrabajo: 'mantenimiento',
+      tipoOrden: 'correctivo',
+      fechaProgramada: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+      horaProgramada: '10:00',
+      tecnicosAsignados: [],
+    } as any;
+
+    act(() => {
+      result.current.setFormValues(initialOrder);
+    });
+    act(() => {
+      result.current.handleFieldChange('tecnicosAsignados', ['tech-2']);
+      result.current.handleFieldChange('tecnicosIds', ['tech-2']);
+    });
+
+    const onEdit = vi.fn().mockResolvedValue({ message: 'Orden de trabajo actualizada con éxito' });
+    const onSuccess = vi.fn();
+    const onError = vi.fn();
+
+    await act(async () => {
+      await result.current.handleSubmitForm(
+        { preventDefault: () => {} } as any,
+        true,
+        initialOrder,
+        onSuccess,
+        onError,
+        undefined,
+        onEdit,
+      );
+    });
+
+    expect(onEdit).toHaveBeenCalledWith('wo-9', expect.objectContaining({ tecnicosAsignados: ['tech-2'] }));
+    expect(workOrderServices.assignTechnicianToWorkOrder).toHaveBeenCalledWith('wo-9', ['tech-2']);
+    expect(onSuccess).toHaveBeenCalledWith('Orden de trabajo actualizada con éxito');
+    expect(onError).not.toHaveBeenCalled();
+  });
+
+  it('does not reassign when the technicians did not change', async () => {
+    const { result } = renderHook(() => useWorkOrders());
+
+    const initialOrder = {
+      _id: 'wo-9',
+      titulo: 'Orden de prueba',
+      descripcion: 'Descripción de la orden',
+      instalacionId: 'inst-1',
+      estado: 'asignada',
+      prioridad: 'media',
+      tipoTrabajo: 'mantenimiento',
+      tipoOrden: 'correctivo',
+      fechaProgramada: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+      horaProgramada: '10:00',
+      tecnicosAsignados: ['tech-2'],
+    } as any;
+
+    act(() => {
+      result.current.setFormValues(initialOrder);
+    });
+
+    const onEdit = vi.fn().mockResolvedValue({ message: 'Orden de trabajo actualizada con éxito' });
+    const onSuccess = vi.fn();
+    const onError = vi.fn();
+
+    await act(async () => {
+      await result.current.handleSubmitForm(
+        { preventDefault: () => {} } as any,
+        true,
+        initialOrder,
+        onSuccess,
+        onError,
+        undefined,
+        onEdit,
+      );
+    });
+
+    expect(workOrderServices.assignTechnicianToWorkOrder).not.toHaveBeenCalled();
+    expect(onSuccess).toHaveBeenCalled();
+    expect(onError).not.toHaveBeenCalled();
+  });
+
+  it('assigns selected technicians after creating an order online', async () => {
+    const { result } = renderHook(() => useWorkOrders());
+
+    const newOrder = {
+      titulo: 'Orden nueva',
+      descripcion: 'Descripción de la orden nueva',
+      instalacionId: 'inst-1',
+      estado: 'pendiente',
+      prioridad: 'media',
+      tipoTrabajo: 'mantenimiento',
+      tipoOrden: 'correctivo',
+      fechaProgramada: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+      horaProgramada: '10:00',
+      tecnicosAsignados: ['tech-5'],
+    } as any;
+
+    vi.mocked(workOrderServices.createWorkOrder).mockResolvedValue({ _id: 'wo-new' } as any);
+
+    await result.current.addWorkOrder(newOrder);
+
+    expect(workOrderServices.createWorkOrder).toHaveBeenCalled();
+    expect(workOrderServices.assignTechnicianToWorkOrder).toHaveBeenCalledWith('wo-new', ['tech-5']);
+  });
+
   it('keeps loadWorkOrders stable after storing fetched orders', async () => {
     vi.mocked(workOrderServices.fetchWorkOrders).mockResolvedValue({
       data: [
@@ -191,7 +304,54 @@ describe('useWorkOrders hook', () => {
       }));
     });
 
-    it('should queue changeWorkOrderStatus when offline', async () => {
+		it('queues the technician assignment when editing offline', async () => {
+			const { result } = renderHook(() => useWorkOrders());
+			const { useOfflineStore } = await import('../../../../src/store/offlineStore');
+
+			const initialOrder = {
+				_id: 'wo-9',
+				titulo: 'Orden de prueba',
+				descripcion: 'Descripción de la orden',
+				instalacionId: 'inst-1',
+				estado: 'pendiente',
+				prioridad: 'media',
+				tipoTrabajo: 'mantenimiento',
+				tipoOrden: 'correctivo',
+				fechaProgramada: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+				horaProgramada: '10:00',
+				tecnicosAsignados: [],
+			} as any;
+
+			act(() => {
+				result.current.setFormValues(initialOrder);
+			});
+			act(() => {
+				result.current.handleFieldChange('tecnicosAsignados', ['tech-3']);
+			});
+
+			const onEdit = vi.fn().mockResolvedValue({ message: 'Cambios guardados localmente.' });
+			const onSuccess = vi.fn();
+
+			await act(async () => {
+				await result.current.handleSubmitForm(
+					{ preventDefault: () => {} } as any,
+					true,
+					initialOrder,
+					onSuccess,
+					vi.fn(),
+					undefined,
+					onEdit,
+				);
+			});
+
+			expect(useOfflineStore.addToQueue).toHaveBeenCalledWith(expect.objectContaining({
+				type: 'ASSIGN_WORK_ORDER_TECHNICIAN',
+				payload: { id: 'wo-9', technicianIds: ['tech-3'] },
+			}));
+			expect(workOrderServices.assignTechnicianToWorkOrder).not.toHaveBeenCalled();
+		});
+
+		it('should queue changeWorkOrderStatus when offline', async () => {
       const { result } = renderHook(() => useWorkOrders());
       const { useOfflineStore } = await import('../../../../src/store/offlineStore');
       

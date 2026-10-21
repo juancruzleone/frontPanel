@@ -42,6 +42,40 @@ describe("OfflineSyncService", () => {
     expect(workOrderServices.createWorkOrder).not.toHaveBeenCalled()
   })
 
+  it("assigns queued technicians after replaying a creation", async () => {
+    // GIVEN an offline creation that selected technicians
+    useOfflineStore.getState().addToQueue({
+      type: 'CREATE_WORK_ORDER' as any,
+      payload: {
+        _id: 'offline_1',
+        titulo: 'Orden offline',
+        descripcion: 'Descripción de la orden offline',
+        instalacionId: 'inst-1',
+        estado: 'pendiente',
+        prioridad: 'media',
+        tipoTrabajo: 'mantenimiento',
+        tipoOrden: 'correctivo',
+        fechaProgramada: '2026-06-01',
+        horaProgramada: '10:00',
+        tecnicoAsignado: 'tech-9',
+        tecnicosAsignados: ['tech-9'],
+        tecnicosIds: ['tech-9'],
+      },
+    }, "current-user")
+    vi.mocked(workOrderServices.createWorkOrder).mockResolvedValue({ _id: 'wo-server-1' } as any)
+
+    // WHEN syncing
+    await offlineSyncService.syncAll()
+
+    // THEN the assignment replays against the server-generated id
+    expect(workOrderServices.createWorkOrder).toHaveBeenCalledTimes(1)
+    expect(workOrderServices.assignTechnicianToWorkOrder).toHaveBeenCalledWith(
+      'wo-server-1',
+      ['tech-9'],
+      expect.stringContaining('-assign'),
+    )
+  })
+
   it("does not refresh before current authentication is resolved", async () => {
     useAuthStore.setState({ isAuthenticated: true, isAuthResolved: false })
     useOfflineStore.getState().addToQueue({
