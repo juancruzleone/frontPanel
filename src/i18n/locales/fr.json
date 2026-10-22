@@ -2622,6 +2622,12 @@
       "commit": "Confirm import",
       "downloadErrors": "Download errors",
       "completed": "Import completed"
+    },
+    "freshness": {
+      "cached": "Données d’inventaire en cache",
+      "partial": "Données en cache ; l’actualisation a échoué",
+      "stale": "Les données d’inventaire sont obsolètes",
+      "fresh": "Données d’inventaire actualisées"
     }
   },
   "suppliers": {

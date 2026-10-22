@@ -2660,6 +2660,12 @@
       "commit": "Confirm import",
       "downloadErrors": "Download errors",
       "completed": "Import completed"
+    },
+    "freshness": {
+      "cached": "库存数据来自缓存",
+      "partial": "缓存数据；刷新失败",
+      "stale": "库存数据已过期",
+      "fresh": "库存数据已更新"
     }
   },
   "suppliers": {

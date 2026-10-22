@@ -2669,6 +2669,12 @@
       "commit": "Confirm import",
       "downloadErrors": "Download errors",
       "completed": "Import completed"
+    },
+    "freshness": {
+      "cached": "캐시된 재고 데이터",
+      "partial": "캐시된 데이터이며 새로고침에 실패했습니다",
+      "stale": "재고 데이터가 최신이 아닙니다",
+      "fresh": "재고 데이터가 업데이트되었습니다"
     }
   },
   "suppliers": {

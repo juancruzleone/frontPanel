@@ -2529,6 +2529,12 @@
       "commit": "Confirm import",
       "downloadErrors": "Download errors",
       "completed": "Import completed"
+    },
+    "freshness": {
+      "cached": "Zwischengespeicherte Bestandsdaten",
+      "partial": "Zwischengespeicherte Daten; Aktualisierung fehlgeschlagen",
+      "stale": "Die Bestandsdaten sind veraltet",
+      "fresh": "Bestandsdaten aktualisiert"
     }
   },
   "suppliers": {

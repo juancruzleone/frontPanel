@@ -2233,6 +2233,12 @@
         "title": "Go to Inventory",
         "description": "Access Inventory from the Operations menu."
       }
+    },
+    "freshness": {
+      "cached": "Cached inventory data",
+      "partial": "Cached data; the refresh failed",
+      "stale": "Inventory data is out of date",
+      "fresh": "Inventory data updated"
     }
   },
   "suppliers": {

@@ -2662,7 +2662,13 @@
       "importTitle": "Import inventory from CSV",
       "completed": "Import completed"
     },
-    "exportMovements": "Export movements"
+    "exportMovements": "Export movements",
+    "freshness": {
+      "cached": "Dados de inventário em cache",
+      "partial": "Dados em cache; a atualização falhou",
+      "stale": "Os dados do inventário estão desatualizados",
+      "fresh": "Dados do inventário atualizados"
+    }
   },
   "suppliers": {
     "title": "Fornecedores",

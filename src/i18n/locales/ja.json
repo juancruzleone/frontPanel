@@ -2635,6 +2635,12 @@
       "commit": "Confirm import",
       "downloadErrors": "Download errors",
       "completed": "Import completed"
+    },
+    "freshness": {
+      "cached": "在庫データはキャッシュされています",
+      "partial": "キャッシュデータ。更新に失敗しました",
+      "stale": "在庫データが最新ではありません",
+      "fresh": "在庫データを更新しました"
     }
   },
   "suppliers": {

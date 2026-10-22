@@ -2723,7 +2723,13 @@
       "downloadTemplate": "Scarica modello CSV",
       "completed": "Import completed"
     },
-    "exportMovements": "Export movements"
+    "exportMovements": "Export movements",
+    "freshness": {
+      "cached": "Dati di inventario in cache",
+      "partial": "Dati in cache; l’aggiornamento è fallito",
+      "stale": "I dati dell’inventario sono obsoleti",
+      "fresh": "Dati dell’inventario aggiornati"
+    }
   },
   "suppliers": {
     "title": "Fornitori",

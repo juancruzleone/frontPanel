@@ -82,4 +82,44 @@ describe('Inventory Page', () => {
     expect(screen.queryByText('inventory.csv.downloadTemplate')).not.toBeInTheDocument()
     expect(screen.getByText('inventory.csv.exportFiltered')).toBeInTheDocument()
   })
+
+  it('no muestra el estado de datos actualizados cuando el inventario está vacío', () => {
+    ;(useInventory as any).mockReturnValue({
+      items: [],
+      loading: false,
+      freshness: 'fresh',
+      loadInventory: mockLoadInventory,
+      removeInventoryItem: mockRemoveInventoryItem,
+    })
+    render(<Inventory />)
+
+    expect(screen.getByText('inventory.noItemsFound')).toBeInTheDocument()
+    expect(screen.queryByText('inventory.freshness.fresh')).not.toBeInTheDocument()
+  })
+
+  it('muestra el estado de datos actualizados cuando hay items cargados', () => {
+    ;(useInventory as any).mockReturnValue({
+      items: [{ _id: '1', name: 'Item 1', currentStock: 10, minimumStock: 5, unit: 'u', category: 'Cat 1' }],
+      loading: false,
+      freshness: 'fresh',
+      loadInventory: mockLoadInventory,
+      removeInventoryItem: mockRemoveInventoryItem,
+    })
+    render(<Inventory />)
+
+    expect(screen.getByText('inventory.freshness.fresh')).toBeInTheDocument()
+  })
+
+  it('mantiene la advertencia de datos desactualizados aunque el inventario esté vacío', () => {
+    ;(useInventory as any).mockReturnValue({
+      items: [],
+      loading: false,
+      freshness: 'stale',
+      loadInventory: mockLoadInventory,
+      removeInventoryItem: mockRemoveInventoryItem,
+    })
+    render(<Inventory />)
+
+    expect(screen.getByText('inventory.freshness.stale')).toBeInTheDocument()
+  })
 })

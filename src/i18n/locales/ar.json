@@ -2638,6 +2638,12 @@
       "commit": "Confirm import",
       "downloadErrors": "Download errors",
       "completed": "Import completed"
+    },
+    "freshness": {
+      "cached": "بيانات المخزون المخزنة مؤقتًا",
+      "partial": "بيانات مخزنة؛ فشل التحديث",
+      "stale": "بيانات المخزون قديمة",
+      "fresh": "تم تحديث بيانات المخزون"
     }
   },
   "suppliers": {

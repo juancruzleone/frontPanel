@@ -2178,6 +2178,12 @@
         "title": "Ir a Inventario",
         "description": "Accede a Inventario desde el menú Operación."
       }
+    },
+    "freshness": {
+      "cached": "Datos de inventario en caché",
+      "partial": "Datos en caché; la actualización falló",
+      "stale": "Los datos de inventario están desactualizados",
+      "fresh": "Datos de inventario actualizados"
     }
   },
   "suppliers": {
