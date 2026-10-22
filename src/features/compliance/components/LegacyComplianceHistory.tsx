@@ -57,6 +57,7 @@ export const LegacyComplianceHistory: React.FC<LegacyComplianceHistoryProps> = (
                   type="button"
                   className={styles.createButton}
                   onClick={onCreateNorma}
+                  data-tour="compliance-create-norma"
                 >
                   <Plus size={16} />
                   {t("compliance.normas.create")}
@@ -80,6 +81,7 @@ export const LegacyComplianceHistory: React.FC<LegacyComplianceHistoryProps> = (
                   type="button"
                   className={styles.createButton}
                   onClick={onCreateRegla}
+                  data-tour="compliance-create-regla"
                 >
                   <Plus size={16} />
                   {t("compliance.reglas.create")}

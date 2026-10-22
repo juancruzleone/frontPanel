@@ -1,3 +1,5 @@
+import { readdirSync, readFileSync } from "node:fs"
+import { join } from "node:path"
 import { describe, expect, it } from "vitest"
 import ar from "../../../../src/i18n/locales/ar.json"
 import de from "../../../../src/i18n/locales/de.json"
@@ -17,6 +19,18 @@ const paths = [
   ...["parameterRequired", "parameterInvalid", "select", "submit", "pending", "forbidden", "mutationError"].map((key) => `assignment.${key}`),
   ...["title", "loading", "detailLoading", "findingsLoading", "empty", "findingsEmpty", "error", "detailError", "retry", "history", "id", "state", "action", "view", "assignments", "start", "snapshot", "controls", "evaluators", "rights", "scope", "timestamp", "score", "progress", "findings", "reason", "assignment", "pack", "notAvailable"].map((key) => `evaluations.${key}`),
   ...["title", "description", "loading", "normas", "reglas"].map((key) => `legacy.${key}`),
+  ...[
+    "progressText",
+    "welcome.title", "welcome.description",
+    "navCompliance.title", "navCompliance.description",
+    "runScan.title", "runScan.description",
+    "catalog.title", "catalog.description",
+    "evaluations.title", "evaluations.description",
+    "legacy.title", "legacy.description",
+    "createNorma.title", "createNorma.description",
+    "createRegla.title", "createRegla.description",
+    "buttons.next", "buttons.previous", "buttons.done", "buttons.skip", "buttons.restart",
+  ].map((key) => `tour.${key}`),
   ...["title", "total", "noData", "estado.cumplido", "estado.incumplido", "estado.sin_evidencia", "estado.error"].map((key) => `dashboard.${key}`),
   ...["fechaAntiguaMeses", "numericoMax", "numericoMin", "numericoRango", "enumEn", "exists"].map((key) => `operador.${key}`),
   ...["codigo", "familiaNorma", "descripcion", "activa", "empty"].map((key) => `normas.${key}`),
@@ -25,6 +39,26 @@ const paths = [
 
 const valueAt = (locale: typeof es, path: string) => path.split(".").reduce((value, key) => value?.[key], locale.compliance as any)
 
+const complianceSourceKeys = (() => {
+  const root = join(process.cwd(), "src/features/compliance")
+  const files: string[] = []
+  const walk = (dir: string) => {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const full = join(dir, entry.name)
+      if (entry.isDirectory()) walk(full)
+      else if (/\.(ts|tsx)$/.test(entry.name) && !/\.test\./.test(entry.name)) files.push(full)
+    }
+  }
+  walk(root)
+  const keys = new Set<string>()
+  for (const file of files) {
+    for (const match of readFileSync(file, "utf8").matchAll(/"(compliance\.[a-zA-Z0-9_.]+)"/g)) {
+      keys.add(match[1])
+    }
+  }
+  return [...keys].sort()
+})()
+
 describe("compliance locale contract", () => {
   it("provides the active compliance key set in every locale without raw keys", () => {
     for (const [locale, messages] of Object.entries(locales)) {
@@ -32,6 +66,17 @@ describe("compliance locale contract", () => {
         const value = valueAt(messages, path)
         expect(value, `${locale}.${path}`).toBeTypeOf("string")
         expect(value, `${locale}.${path}`).not.toMatch(/^compliance\./)
+      }
+    }
+  })
+
+  it("resolves every compliance key used by the feature source in every locale", () => {
+    expect(complianceSourceKeys.length).toBeGreaterThan(0)
+    for (const [locale, messages] of Object.entries(locales)) {
+      for (const key of complianceSourceKeys) {
+        const value = valueAt(messages, key.replace(/^compliance\./, ""))
+        expect(value, `${locale}.${key}`).toBeTypeOf("string")
+        expect(value, `${locale}.${key}`).not.toMatch(/^compliance\./)
       }
     }
   })

@@ -2885,7 +2885,10 @@
       "reason": "Motivo",
       "assignment": "Assegnazione",
       "pack": "Pacchetto",
-      "notAvailable": "Non disponibile"
+      "notAvailable": "Non disponibile",
+      "findingsPagination": "Paginazione dei rilievi",
+      "previous": "Precedente",
+      "next": "Successivo"
     },
     "dashboard": {
       "title": "Riepilogo della conformità",
@@ -2912,11 +2915,11 @@
       "descripcion": "Descrizione",
       "activa": "Attiva",
       "empty": "Nessuna norma registrata.",
-      "delete": "Delete standard",
-      "edit": "Edit standard",
-      "create": "Create standard",
-      "title": "Standards",
-      "deleteConfirm": "Delete standard {{codigo}}? This action cannot be undone."
+      "delete": "Elimina norma",
+      "edit": "Modifica norma",
+      "create": "Crea norma",
+      "title": "Norme",
+      "deleteConfirm": "Eliminare la norma {{codigo}}? Questa azione non può essere annullata."
     },
     "reglas": {
       "nombre": "Nome",
@@ -2929,18 +2932,18 @@
       },
       "habilitada": "Abilitata",
       "empty": "Nessuna regola registrata.",
-      "parametrosValores": "Values (comma separated)",
-      "title": "Compliance rules",
-      "deleteConfirm": "Delete rule {{nombre}}? This action cannot be undone.",
-      "etiquetaCampo": "Field label (snapshot)",
-      "edit": "Edit rule",
-      "create": "Create rule",
-      "parametros": "Parameters",
-      "parametrosMin": "Minimum",
-      "campoNombre": "Evidence field",
-      "parametrosMax": "Maximum",
-      "delete": "Delete rule",
-      "parametrosMeses": "Months"
+      "parametrosValores": "Valori (separati da virgola)",
+      "title": "Regole di conformità",
+      "deleteConfirm": "Eliminare la regola {{nombre}}? Questa azione non può essere annullata.",
+      "etiquetaCampo": "Etichetta del campo (istantanea)",
+      "edit": "Modifica regola",
+      "create": "Crea regola",
+      "parametros": "Parametri",
+      "parametrosMin": "Minimo",
+      "campoNombre": "Campo di evidenza",
+      "parametrosMax": "Massimo",
+      "delete": "Elimina regola",
+      "parametrosMeses": "Mesi"
     },
     "legacy": {
       "title": "Cronologia precedente",
@@ -2950,20 +2953,20 @@
       "reglas": "Regole storiche"
     },
     "scan": {
-      "alreadyRunning": "A scan is already running for this tenant.",
-      "errorState": "The scan finished with errors",
+      "alreadyRunning": "È già in corso una scansione per questo tenant.",
+      "errorState": "La scansione è terminata con errori",
       "counter": {
-        "sinEvidencia": "No evidence",
-        "errores": "Errors",
-        "omitidos": "Skipped",
-        "incumplidos": "Non-compliant",
-        "cumplidos": "Compliant"
+        "sinEvidencia": "Senza evidenza",
+        "errores": "Errori",
+        "omitidos": "Ignorati",
+        "incumplidos": "Non conformi",
+        "cumplidos": "Conformi"
       },
-      "progress": "{{procesados}} of {{total}} objectives",
-      "runButton": "Run scan",
-      "completed": "Scan completed",
-      "pending": "Scan pending",
-      "running": "Scan in progress"
+      "progress": "{{procesados}} di {{total}} obiettivi",
+      "runButton": "Esegui scansione",
+      "completed": "Scansione completata",
+      "pending": "Scansione in attesa",
+      "running": "Scansione in corso"
     },
     "validation": {
       "maxNumerico": "Enter a numeric value for the maximum",
@@ -2980,6 +2983,53 @@
       "normaIdRequired": "Select a standard",
       "objetivoTipoInvalido": "Invalid objective type",
       "familiaRequired": "The standard family is required"
+    },
+    "tour": {
+      "progressText": "{{current}} di {{total}}",
+      "welcome": {
+        "title": "Benvenuto nella Conformità Normativa!",
+        "description": "Questa sezione consente di gestire norme, regole, scansioni di conformità e valutazioni Leonix. Scopri le sue principali funzionalità."
+      },
+      "navCompliance": {
+        "title": "Accesso al modulo",
+        "description": "Clicca qui per accedere al modulo Conformità Normativa in qualsiasi momento dal menu di navigazione."
+      },
+      "runScan": {
+        "title": "Scansione di conformità",
+        "description": "Usa questo pulsante per avviare una scansione legacy. Il sistema valuta tutti gli asset e le installazioni in base alle regole definite e mostra l'avanzamento in tempo reale."
+      },
+      "catalog": {
+        "title": "Catalogo di conformità",
+        "description": "Esplora i pacchetti di conformità pubblicati da Leonix, visualizza i relativi controlli e assegnali alla tua organizzazione (solo amministratori)."
+      },
+      "evaluations": {
+        "title": "Valutazioni Leonix",
+        "description": "Visualizza la cronologia delle valutazioni, avviane di nuove dalle tue assegnazioni attive e consulta i risultati dettagliati di ogni esecuzione."
+      },
+      "legacy": {
+        "title": "Storico precedente",
+        "description": "Visualizzazione in sola lettura dello storico di conformità precedente al sistema di cataloghi. Gli amministratori possono creare e gestire norme e regole da questa sezione."
+      },
+      "createNorma": {
+        "title": "Crea norma",
+        "description": "Con questo pulsante registri una nuova norma di conformità (codice, famiglia e descrizione). Le norme raggruppano le regole di valutazione."
+      },
+      "createRegla": {
+        "title": "Crea regola",
+        "description": "Con questo pulsante definisci una nuova regola di conformità: scegli la norma, l'operatore di valutazione, il campo di evidenza e il tipo di destinazione."
+      },
+      "buttons": {
+        "next": "Avanti",
+        "previous": "Indietro",
+        "done": "Fine",
+        "skip": "Salta il tutorial",
+        "restart": "Vedi il tutorial"
+      }
+    },
+    "evaluation": {
+      "error": "Impossibile avviare la valutazione.",
+      "forbidden": "Non hai i permessi per avviare valutazioni.",
+      "inactiveAssignment": "Seleziona un assegnazione attiva per avviare la valutazione."
     }
   },
   "billing": {

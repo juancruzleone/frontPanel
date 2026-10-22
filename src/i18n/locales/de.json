@@ -2691,7 +2691,10 @@
       "reason": "Grund",
       "assignment": "Zuweisung",
       "pack": "Paket",
-      "notAvailable": "Nicht verfügbar"
+      "notAvailable": "Nicht verfügbar",
+      "findingsPagination": "Seitennavigation der Feststellungen",
+      "previous": "Zurück",
+      "next": "Weiter"
     },
     "dashboard": {
       "title": "Compliance-Zusammenfassung",
@@ -2717,7 +2720,12 @@
       "familiaNorma": "Normfamilie",
       "descripcion": "Beschreibung",
       "activa": "Aktiv",
-      "empty": "Keine Standards registriert."
+      "empty": "Keine Standards registriert.",
+      "create": "Norm erstellen",
+      "edit": "Norm bearbeiten",
+      "delete": "Norm löschen",
+      "title": "Normen",
+      "deleteConfirm": "Norm {{codigo}} löschen? Diese Aktion kann nicht rückgängig gemacht werden."
     },
     "reglas": {
       "nombre": "Name",
@@ -2729,7 +2737,19 @@
         "instalacion": "Installation"
       },
       "habilitada": "Aktiviert",
-      "empty": "Keine Regeln registriert."
+      "empty": "Keine Regeln registriert.",
+      "create": "Regel erstellen",
+      "edit": "Regel bearbeiten",
+      "delete": "Regel löschen",
+      "title": "Compliance-Regeln",
+      "deleteConfirm": "Regel {{nombre}} löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "campoNombre": "Evidenzfeld",
+      "etiquetaCampo": "Feldbezeichnung (Snapshot)",
+      "parametros": "Parameter",
+      "parametrosMeses": "Monate",
+      "parametrosMax": "Maximum",
+      "parametrosMin": "Minimum",
+      "parametrosValores": "Werte (durch Komma getrennt)"
     },
     "legacy": {
       "title": "Vorheriger Verlauf",
@@ -2737,6 +2757,84 @@
       "loading": "Vorheriger Verlauf wird geladen...",
       "normas": "Historische Standards",
       "reglas": "Historische Regeln"
+    },
+    "tour": {
+      "progressText": "{{current}} von {{total}}",
+      "welcome": {
+        "title": "Willkommen zur Normenkonformität!",
+        "description": "Dieser Bereich ermöglicht die Verwaltung von Normen, Regeln, Konformitätsprüfungen und Leonix-Auswertungen. Lernen Sie die wichtigsten Funktionen kennen."
+      },
+      "navCompliance": {
+        "title": "Modulzugriff",
+        "description": "Klicken Sie hier, um das Konformitätsmodul jederzeit über das Navigationsmenü zu öffnen."
+      },
+      "runScan": {
+        "title": "Konformitätsprüfung",
+        "description": "Mit dieser Schaltfläche starten Sie eine Legacy-Prüfung. Das System bewertet alle Assets und Installationen anhand Ihrer Regeln und zeigt den Fortschritt in Echtzeit."
+      },
+      "catalog": {
+        "title": "Konformitätskatalog",
+        "description": "Durchsuchen Sie Leonix-veröffentlichte Konformitätspakete, sehen Sie deren Kontrollen und weisen Sie diese Ihrer Organisation zu (nur Administratoren)."
+      },
+      "evaluations": {
+        "title": "Leonix-Auswertungen",
+        "description": "Zeigen Sie den Auswertungsverlauf an, starten Sie neue aus Ihren aktiven Zuweisungen und prüfen Sie detaillierte Befunde jedes Durchlaufs."
+      },
+      "legacy": {
+        "title": "Frühere Historie",
+        "description": "Nur-Lese-Verlauf aus der Zeit vor dem Katalogsystem. Administratoren können hier Normen und Regeln erstellen und verwalten."
+      },
+      "createNorma": {
+        "title": "Norm erstellen",
+        "description": "Mit dieser Schaltfläche registrieren Sie eine neue Konformitätsnorm (Code, Familie und Beschreibung). Normen gruppieren die Bewertungsregeln."
+      },
+      "createRegla": {
+        "title": "Regel erstellen",
+        "description": "Mit dieser Schaltfläche definieren Sie eine neue Konformitätsregel: Wählen Sie Norm, Auswertungsoperator, Evidenzfeld und Zieltyp."
+      },
+      "buttons": {
+        "next": "Weiter",
+        "previous": "Zurück",
+        "done": "Fertigstellen",
+        "skip": "Tutorial überspringen",
+        "restart": "Tutorial anzeigen"
+      }
+    },
+    "evaluation": {
+      "error": "Die Evaluierung konnte nicht gestartet werden.",
+      "forbidden": "Sie haben keine Berechtigung, Evaluierungen zu starten.",
+      "inactiveAssignment": "Wählen Sie eine aktive Zuweisung, um die Evaluierung zu starten."
+    },
+    "scan": {
+      "alreadyRunning": "Für diesen Mandanten läuft bereits ein Scan.",
+      "completed": "Scan abgeschlossen",
+      "errorState": "Der Scan wurde mit Fehlern abgeschlossen",
+      "pending": "Scan ausstehend",
+      "progress": "{{procesados}} von {{total}} Zielen",
+      "runButton": "Scan ausführen",
+      "running": "Scan läuft",
+      "counter": {
+        "cumplidos": "Konform",
+        "incumplidos": "Nicht konform",
+        "sinEvidencia": "Keine Nachweise",
+        "errores": "Fehler"
+      }
+    },
+    "validation": {
+      "codigoRequired": "Der Code ist erforderlich",
+      "enumValores": "Geben Sie mindestens einen durch Komma getrennten Wert ein",
+      "familiaRequired": "Die Normfamilie ist erforderlich",
+      "maxNumerico": "Geben Sie einen numerischen Wert für das Maximum ein",
+      "mesesPositivo": "Geben Sie eine Monatszahl größer als null ein",
+      "minNumerico": "Geben Sie einen numerischen Wert für das Minimum ein",
+      "nombreRequired": "Der Name ist erforderlich",
+      "normaIdRequired": "Wählen Sie eine Norm aus",
+      "objetivoTipoInvalido": "Ungültiger Zieltyp",
+      "objetivoTipoRequired": "Wählen Sie einen Zieltyp aus",
+      "operadorInvalido": "Ungültiger Operator",
+      "operadorRequired": "Wählen Sie einen Operator aus",
+      "rangoInvertido": "Das Minimum darf nicht größer als das Maximum sein",
+      "rangoNumerico": "Geben Sie numerische Werte für den Bereich ein"
     }
   },
   "billing": {

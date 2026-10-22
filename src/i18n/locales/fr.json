@@ -2627,7 +2627,7 @@
       "cached": "Données d’inventaire en cache",
       "partial": "Données en cache ; l’actualisation a échoué",
       "stale": "Les données d’inventaire sont obsolètes",
-      "fresh": "Données d’inventaire actualisées"
+      "fresh": "Données d’inventario actualisées"
     }
   },
   "suppliers": {
@@ -2784,7 +2784,10 @@
       "reason": "Motif",
       "assignment": "Affectation",
       "pack": "Pack",
-      "notAvailable": "Non disponible"
+      "notAvailable": "Non disponible",
+      "findingsPagination": "Pagination des constats",
+      "previous": "Précédent",
+      "next": "Suivant"
     },
     "dashboard": {
       "title": "Résumé de conformité",
@@ -2810,7 +2813,12 @@
       "familiaNorma": "Famille de norme",
       "descripcion": "Description",
       "activa": "Active",
-      "empty": "Aucune norme enregistrée."
+      "empty": "Aucune norme enregistrée.",
+      "create": "Créer une norme",
+      "edit": "Modifier la norme",
+      "delete": "Supprimer la norme",
+      "title": "Normes",
+      "deleteConfirm": "Supprimer la norme {{codigo}} ? Cette action est irréversible."
     },
     "reglas": {
       "nombre": "Nom",
@@ -2822,7 +2830,19 @@
         "instalacion": "Installation"
       },
       "habilitada": "Activée",
-      "empty": "Aucune règle enregistrée."
+      "empty": "Aucune règle enregistrée.",
+      "create": "Créer une règle",
+      "edit": "Modifier la règle",
+      "delete": "Supprimer la règle",
+      "title": "Règles de conformité",
+      "deleteConfirm": "Supprimer la règle {{nombre}} ? Cette action est irréversible.",
+      "campoNombre": "Champ de preuve",
+      "etiquetaCampo": "Libellé du champ (instantané)",
+      "parametros": "Paramètres",
+      "parametrosMeses": "Mois",
+      "parametrosMax": "Maximum",
+      "parametrosMin": "Minimum",
+      "parametrosValores": "Valeurs (séparées par des virgules)"
     },
     "legacy": {
       "title": "Historique précédent",
@@ -2830,6 +2850,84 @@
       "loading": "Chargement de l’historique précédent...",
       "normas": "Normes historiques",
       "reglas": "Règles historiques"
+    },
+    "tour": {
+      "progressText": "{{current}} sur {{total}}",
+      "welcome": {
+        "title": "Bienvenue dans la Conformité Réglementaire !",
+        "description": "Cette section vous permet de gérer les normes, les règles, les analyses de conformité et les évaluations Leonix. Découvrez ses principales fonctionnalités."
+      },
+      "navCompliance": {
+        "title": "Accès au module",
+        "description": "Cliquez ici pour accéder au module Conformité Réglementaire à tout moment depuis le menu de navigation."
+      },
+      "runScan": {
+        "title": "Analyse de conformité",
+        "description": "Utilisez ce bouton pour lancer une analyse legacy. Le système évalue tous les actifs et installations selon vos règles et affiche la progression en temps réel."
+      },
+      "catalog": {
+        "title": "Catalogue de conformité",
+        "description": "Parcourez les packs de conformité publiés par Leonix, consultez leurs contrôles et assignez-les à votre organisation (administrateurs uniquement)."
+      },
+      "evaluations": {
+        "title": "Évaluations Leonix",
+        "description": "Visualisez l'historique des évaluations, lancez-en de nouvelles depuis vos affectations actives et consultez les résultats détaillés de chaque exécution."
+      },
+      "legacy": {
+        "title": "Historique antérieur",
+        "description": "Historique de conformité en lecture seule, antérieur au système de catalogues. Les administrateurs peuvent créer et gérer des normes et des règles depuis cette section."
+      },
+      "createNorma": {
+        "title": "Créer une norme",
+        "description": "Ce bouton vous permet d'enregistrer une nouvelle norme de conformité (code, famille et description). Les normes regroupent les règles d'évaluation."
+      },
+      "createRegla": {
+        "title": "Créer une règle",
+        "description": "Ce bouton vous permet de définir une nouvelle règle de conformité : choisissez la norme, l'opérateur d'évaluation, le champ d'évidence et le type de cible."
+      },
+      "buttons": {
+        "next": "Suivant",
+        "previous": "Précédent",
+        "done": "Terminer",
+        "skip": "Passer le tutoriel",
+        "restart": "Voir le tutoriel"
+      }
+    },
+    "evaluation": {
+      "error": "Impossible de démarrer l'évaluation.",
+      "forbidden": "Vous n'avez pas les droits pour démarrer des évaluations.",
+      "inactiveAssignment": "Sélectionnez une affectation active pour démarrer l'évaluation."
+    },
+    "scan": {
+      "alreadyRunning": "Un analyse est déjà en cours pour ce client.",
+      "completed": "Analyse terminée",
+      "errorState": "L'analyse s'est terminée avec des erreurs",
+      "pending": "Analyse en attente",
+      "progress": "{{procesados}} sur {{total}} objectifs",
+      "runButton": "Lancer l'analyse",
+      "running": "Analyse en cours",
+      "counter": {
+        "cumplidos": "Conformes",
+        "incumplidos": "Non conformes",
+        "sinEvidencia": "Sans preuve",
+        "errores": "Erreurs"
+      }
+    },
+    "validation": {
+      "codigoRequired": "Le code est obligatoire",
+      "enumValores": "Saisissez au moins une valeur séparée par des virgules",
+      "familiaRequired": "La famille de norme est obligatoire",
+      "maxNumerico": "Saisissez une valeur numérique pour le maximum",
+      "mesesPositivo": "Saisissez un nombre de mois supérieur à zéro",
+      "minNumerico": "Saisissez une valeur numérique pour le minimum",
+      "nombreRequired": "Le nom est obligatoire",
+      "normaIdRequired": "Sélectionnez une norme",
+      "objetivoTipoInvalido": "Type d'objectif invalide",
+      "objetivoTipoRequired": "Sélectionnez un type d'objectif",
+      "operadorInvalido": "Opérateur invalide",
+      "operadorRequired": "Sélectionnez un opérateur",
+      "rangoInvertido": "Le minimum ne peut pas être supérieur au maximum",
+      "rangoNumerico": "Saisissez des valeurs numériques pour la plage"
     }
   },
   "billing": {

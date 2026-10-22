@@ -2831,7 +2831,10 @@
       "reason": "사유",
       "assignment": "할당",
       "pack": "팩",
-      "notAvailable": "사용할 수 없음"
+      "notAvailable": "사용할 수 없음",
+      "findingsPagination": "검색 결과 페이지 탐색",
+      "previous": "이전",
+      "next": "다음"
     },
     "dashboard": {
       "title": "규정 준수 요약",
@@ -2857,7 +2860,12 @@
       "familiaNorma": "표준 계열",
       "descripcion": "설명",
       "activa": "활성",
-      "empty": "등록된 표준이 없습니다."
+      "empty": "등록된 표준이 없습니다.",
+      "create": "표준 생성",
+      "edit": "표준 편집",
+      "delete": "표준 삭제",
+      "title": "표준",
+      "deleteConfirm": "표준 {{codigo}}을(를) 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다."
     },
     "reglas": {
       "nombre": "이름",
@@ -2869,7 +2877,19 @@
         "instalacion": "설비"
       },
       "habilitada": "사용",
-      "empty": "등록된 규칙이 없습니다."
+      "empty": "등록된 규칙이 없습니다.",
+      "create": "규칙 생성",
+      "edit": "규칙 편집",
+      "delete": "규칙 삭제",
+      "title": "컴플라이언스 규칙",
+      "deleteConfirm": "규칙 {{nombre}}을(를) 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+      "campoNombre": "증적 필드",
+      "etiquetaCampo": "필드 레이블(스냅샷)",
+      "parametros": "매개변수",
+      "parametrosMeses": "개월",
+      "parametrosMax": "최대",
+      "parametrosMin": "최소",
+      "parametrosValores": "값(쉼표로 구분)"
     },
     "legacy": {
       "title": "이전 기록",
@@ -2877,6 +2897,84 @@
       "loading": "이전 기록을 불러오는 중...",
       "normas": "과거 표준",
       "reglas": "과거 규칙"
+    },
+    "tour": {
+      "progressText": "{{current}} / {{total}}",
+      "welcome": {
+        "title": "규정 준수 관리에 오신 것을 환영합니다!",
+        "description": "이 섹션에서 표준, 규칙, 컴플라이언스 스캔 및 Leonix 평가를 관리할 수 있습니다. 주요 기능을 함께 살펴보겠습니다."
+      },
+      "navCompliance": {
+        "title": "모듈 접근",
+        "description": "내비게이션 메뉴에서 이 항목을 클릭하면 언제든지 규정 준수 모듈에 접근할 수 있습니다."
+      },
+      "runScan": {
+        "title": "컴플라이언스 스캔",
+        "description": "이 버튼을 사용하여 레거시 스캔을 실행합니다. 시스템이 정의된 규칙에 따라 모든 자산과 시설을 평가하고 실시간으로 진행 상황을 표시합니다."
+      },
+      "catalog": {
+        "title": "컴플라이언스 카탈로그",
+        "description": "Leonix가 게시한 컴플라이언스 팩을 탐색하고, 컨트롤을 확인하고, 조직에 할당합니다(관리자 전용)."
+      },
+      "evaluations": {
+        "title": "Leonix 평가",
+        "description": "평가 기록을 보고, 활성 할당에서 새 평가를 시작하고, 각 실행의 세부 결과를 확인합니다."
+      },
+      "legacy": {
+        "title": "이전 기록",
+        "description": "카탈로그 시스템 이전의 컴플라이언스 기록(읽기 전용)입니다. 관리자는 이 섹션에서 표준과 규칙을 생성하고 관리할 수 있습니다."
+      },
+      "createNorma": {
+        "title": "표준 만들기",
+        "description": "이 버튼으로 새 컴플라이언스 표준(코드, 패밀리, 설명)을 등록합니다. 표준은 평가 규칙을 그룹화합니다."
+      },
+      "createRegla": {
+        "title": "규칙 만들기",
+        "description": "이 버튼으로 새 컴플라이언스 규칙을 정의합니다: 표준, 평가 연산자, 증거 필드 및 대상 유형을 선택하세요."
+      },
+      "buttons": {
+        "next": "다음",
+        "previous": "이전",
+        "done": "완료",
+        "skip": "튜토리얼 건너뛰기",
+        "restart": "튜토리얼 보기"
+      }
+    },
+    "evaluation": {
+      "error": "평가를 시작할 수 없습니다.",
+      "forbidden": "평가를 시작할 권한이 없습니다.",
+      "inactiveAssignment": "평가를 시작하려면 활성 할당을 선택하세요."
+    },
+    "scan": {
+      "alreadyRunning": "이 테넌트에 대한 스캔이 이미 실행 중입니다.",
+      "completed": "스캔 완료",
+      "errorState": "스캔이 오류와 함께 종료되었습니다",
+      "pending": "스캔 대기 중",
+      "progress": "전체 {{total}}개 중 {{procesados}}개 처리",
+      "runButton": "스캔 실행",
+      "running": "스캔 실행 중",
+      "counter": {
+        "cumplidos": "준수",
+        "incumplidos": "미준수",
+        "sinEvidencia": "증적 없음",
+        "errores": "오류"
+      }
+    },
+    "validation": {
+      "codigoRequired": "코드는 필수입니다",
+      "enumValores": "쉼표로 구분된 값을 하나 이상 입력하세요",
+      "familiaRequired": "표준 계열은 필수입니다",
+      "maxNumerico": "최대값을 숫자로 입력하세요",
+      "mesesPositivo": "0보다 큰 개월 수를 입력하세요",
+      "minNumerico": "최소값을 숫자로 입력하세요",
+      "nombreRequired": "이름은 필수입니다",
+      "normaIdRequired": "표준을 선택하세요",
+      "objetivoTipoInvalido": "대상 유형이 잘못되었습니다",
+      "objetivoTipoRequired": "대상 유형을 선택하세요",
+      "operadorInvalido": "연산자가 잘못되었습니다",
+      "operadorRequired": "연산자를 선택하세요",
+      "rangoInvertido": "최솟값이 최댓값보다 클 수 없습니다",
+      "rangoNumerico": "범위에 숫자 값을 입력하세요"
     }
   },
   "billing": {

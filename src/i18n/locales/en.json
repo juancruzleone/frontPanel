@@ -2902,7 +2902,10 @@
       "reason": "Reason",
       "assignment": "Assignment",
       "pack": "Pack",
-      "notAvailable": "Not available"
+      "notAvailable": "Not available",
+      "findingsPagination": "Findings pagination",
+      "previous": "Previous",
+      "next": "Next"
     },
     "operador": {
       "fechaAntiguaMeses": "Old date (months)",
@@ -2990,6 +2993,53 @@
       "rangoNumerico": "Enter numeric values for the range",
       "rangoInvertido": "The minimum cannot be greater than the maximum",
       "enumValores": "Enter at least one comma-separated value"
+    },
+    "tour": {
+      "progressText": "{{current}} of {{total}}",
+      "welcome": {
+        "title": "Welcome to Regulatory Compliance!",
+        "description": "This section lets you manage standards, rules, compliance scans and Leonix evaluations. Let's walk through its main features."
+      },
+      "navCompliance": {
+        "title": "Module access",
+        "description": "Click here to access the Compliance module at any time from the navigation menu."
+      },
+      "runScan": {
+        "title": "Compliance scan",
+        "description": "Use this button to run a legacy scan. The system evaluates all assets and installations against your defined rules and shows real-time progress."
+      },
+      "catalog": {
+        "title": "Compliance catalog",
+        "description": "Browse Leonix-published compliance packs, view their controls and assign them to your organization (admins only)."
+      },
+      "evaluations": {
+        "title": "Leonix evaluations",
+        "description": "View evaluation history, start new ones from your active assignments, and inspect detailed findings for each run."
+      },
+      "legacy": {
+        "title": "Legacy history",
+        "description": "Read-only history from before the catalog system. Admins can create and manage standards and rules from this section."
+      },
+      "createNorma": {
+        "title": "Create standard",
+        "description": "Use this button to register a new compliance standard (code, family and description). Standards group your evaluation rules."
+      },
+      "createRegla": {
+        "title": "Create rule",
+        "description": "Use this button to define a new compliance rule: choose the standard, evaluation operator, evidence field and target type."
+      },
+      "buttons": {
+        "next": "Next",
+        "previous": "Previous",
+        "done": "Finish",
+        "skip": "Skip tutorial",
+        "restart": "View tutorial"
+      }
+    },
+    "evaluation": {
+      "error": "The evaluation could not be started.",
+      "forbidden": "You do not have permission to start evaluations.",
+      "inactiveAssignment": "Select an active assignment to start the evaluation."
     }
   },
   "billing": {

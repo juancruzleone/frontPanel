@@ -2797,7 +2797,10 @@
       "reason": "理由",
       "assignment": "割り当て",
       "pack": "パック",
-      "notAvailable": "利用不可"
+      "notAvailable": "利用不可",
+      "findingsPagination": "指摘事項のページ切り替え",
+      "previous": "前へ",
+      "next": "次へ"
     },
     "dashboard": {
       "title": "コンプライアンス概要",
@@ -2823,7 +2826,12 @@
       "familiaNorma": "規格ファミリー",
       "descripcion": "説明",
       "activa": "有効",
-      "empty": "登録された規格はありません。"
+      "empty": "登録された規格はありません。",
+      "create": "規格を作成",
+      "edit": "規格を編集",
+      "delete": "規格を削除",
+      "title": "規格",
+      "deleteConfirm": "規格 {{codigo}} を削除しますか？この操作は元に戻せません。"
     },
     "reglas": {
       "nombre": "名前",
@@ -2835,7 +2843,19 @@
         "instalacion": "設備"
       },
       "habilitada": "有効",
-      "empty": "登録されたルールはありません。"
+      "empty": "登録されたルールはありません。",
+      "create": "ルールを作成",
+      "edit": "ルールを編集",
+      "delete": "ルールを削除",
+      "title": "コンプライアンスルール",
+      "deleteConfirm": "ルール {{nombre}} を削除しますか？この操作は元に戻せません。",
+      "campoNombre": "証跡フィールド",
+      "etiquetaCampo": "フィールドラベル（スナップショット）",
+      "parametros": "パラメーター",
+      "parametrosMeses": "月数",
+      "parametrosMax": "最大",
+      "parametrosMin": "最小",
+      "parametrosValores": "値（カンマ区切り）"
     },
     "legacy": {
       "title": "以前の履歴",
@@ -2843,6 +2863,84 @@
       "loading": "以前の履歴を読み込んでいます...",
       "normas": "過去の規格",
       "reglas": "過去のルール"
+    },
+    "tour": {
+      "progressText": "{{current}} / {{total}}",
+      "welcome": {
+        "title": "コンプライアンス管理へようこそ！",
+        "description": "このセクションでは、規格・ルール・コンプライアンススキャン・Leonix評価を管理できます。主な機能を一緒に確認しましょう。"
+      },
+      "navCompliance": {
+        "title": "モジュールへのアクセス",
+        "description": "ナビゲーションメニューのここをクリックして、コンプライアンス管理モジュールにいつでもアクセスできます。"
+      },
+      "runScan": {
+        "title": "コンプライアンススキャン",
+        "description": "このボタンでレガシースキャンを実行します。システムは定義されたルールに基づいてすべての資産と設備を評価し、進捗をリアルタイムで表示します。"
+      },
+      "catalog": {
+        "title": "コンプライアンスカタログ",
+        "description": "Leonixが公開したコンプライアンスパックを参照し、コントロールを確認して組織に割り当てます（管理者のみ）。"
+      },
+      "evaluations": {
+        "title": "Leonix評価",
+        "description": "評価履歴を表示し、アクティブな割り当てから新しい評価を開始し、各実行の詳細な結果を確認できます。"
+      },
+      "legacy": {
+        "title": "過去の履歴",
+        "description": "カタログシステム導入以前のコンプライアンス履歴（読み取り専用）。管理者はここで規格とルールを作成・管理できます。"
+      },
+      "createNorma": {
+        "title": "規格を作成",
+        "description": "このボタンで新しいコンプライアンス規格（コード・ファミリー・説明）を登録します。規格は評価ルールをグループ化します。"
+      },
+      "createRegla": {
+        "title": "ルールを作成",
+        "description": "このボタンで新しいコンプライアンスルールを定義します：規格・評価演算子・証拠フィールド・対象タイプを選択してください。"
+      },
+      "buttons": {
+        "next": "次へ",
+        "previous": "前へ",
+        "done": "完了",
+        "skip": "チュートリアルをスキップ",
+        "restart": "チュートリアルを見る"
+      }
+    },
+    "evaluation": {
+      "error": "評価を開始できませんでした。",
+      "forbidden": "評価を開始する権限がありません。",
+      "inactiveAssignment": "評価を開始するには有効な割り当てを選択してください。"
+    },
+    "scan": {
+      "alreadyRunning": "このテナントのスキャンは既に実行中です。",
+      "completed": "スキャン完了",
+      "errorState": "スキャンがエラーで終了しました",
+      "pending": "スキャン待ち",
+      "progress": "{{total}} 件中 {{procesados}} 件の対象を処理",
+      "runButton": "スキャンを実行",
+      "running": "スキャン実行中",
+      "counter": {
+        "cumplidos": "適合",
+        "incumplidos": "不適合",
+        "sinEvidencia": "証跡なし",
+        "errores": "エラー"
+      }
+    },
+    "validation": {
+      "codigoRequired": "コードは必須です",
+      "enumValores": "カンマ区切りで1つ以上の値を入力してください",
+      "familiaRequired": "規格ファミリーは必須です",
+      "maxNumerico": "最大値を数値で入力してください",
+      "mesesPositivo": "0より大きい月数を入力してください",
+      "minNumerico": "最小値を数値で入力してください",
+      "nombreRequired": "名前は必須です",
+      "normaIdRequired": "規格を選択してください",
+      "objetivoTipoInvalido": "対象タイプが無効です",
+      "objetivoTipoRequired": "対象タイプを選択してください",
+      "operadorInvalido": "演算子が無効です",
+      "operadorRequired": "演算子を選択してください",
+      "rangoInvertido": "最小値が最大値より大きくすることはできません",
+      "rangoNumerico": "範囲の数値を入力してください"
     }
   },
   "billing": {

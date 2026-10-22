@@ -2822,7 +2822,10 @@
       "reason": "原因",
       "assignment": "分配",
       "pack": "包",
-      "notAvailable": "不可用"
+      "notAvailable": "不可用",
+      "findingsPagination": "发现结果分页",
+      "previous": "上一页",
+      "next": "下一页"
     },
     "dashboard": {
       "title": "合规摘要",
@@ -2848,7 +2851,12 @@
       "familiaNorma": "标准系列",
       "descripcion": "描述",
       "activa": "启用",
-      "empty": "没有已登记的标准。"
+      "empty": "没有已登记的标准。",
+      "create": "创建标准",
+      "edit": "编辑标准",
+      "delete": "删除标准",
+      "title": "标准",
+      "deleteConfirm": "确定删除标准 {{codigo}}？此操作无法撤销。"
     },
     "reglas": {
       "nombre": "名称",
@@ -2860,7 +2868,19 @@
         "instalacion": "设施"
       },
       "habilitada": "已启用",
-      "empty": "没有已登记的规则。"
+      "empty": "没有已登记的规则。",
+      "create": "创建规则",
+      "edit": "编辑规则",
+      "delete": "删除规则",
+      "title": "合规规则",
+      "deleteConfirm": "确定删除规则 {{nombre}}？此操作无法撤销。",
+      "campoNombre": "证据字段",
+      "etiquetaCampo": "字段标签（快照）",
+      "parametros": "参数",
+      "parametrosMeses": "月数",
+      "parametrosMax": "最大值",
+      "parametrosMin": "最小值",
+      "parametrosValores": "值（逗号分隔）"
     },
     "legacy": {
       "title": "之前的历史",
@@ -2868,6 +2888,84 @@
       "loading": "正在加载之前的历史...",
       "normas": "历史标准",
       "reglas": "历史规则"
+    },
+    "tour": {
+      "progressText": "{{current}} / {{total}}",
+      "welcome": {
+        "title": "欢迎使用合规管理！",
+        "description": "本节允许您管理标准、规则、合规扫描和 Leonix 评估。让我们一起了解其主要功能。"
+      },
+      "navCompliance": {
+        "title": "访问模块",
+        "description": "在导航菜单中点击此处，随时进入合规管理模块。"
+      },
+      "runScan": {
+        "title": "合规扫描",
+        "description": "使用此按钮运行传统扫描。系统将根据您定义的规则评估所有资产和设施，并实时显示进度。"
+      },
+      "catalog": {
+        "title": "合规目录",
+        "description": "浏览 Leonix 发布的合规包，查看其控制项并分配给您的组织（仅管理员）。"
+      },
+      "evaluations": {
+        "title": "Leonix 评估",
+        "description": "查看评估历史记录，从活跃分配中启动新评估，并查看每次运行的详细结果。"
+      },
+      "legacy": {
+        "title": "历史记录",
+        "description": "目录系统之前的合规历史记录（只读）。管理员可在此创建和管理标准与规则。"
+      },
+      "createNorma": {
+        "title": "创建标准",
+        "description": "使用此按钮注册新的合规标准（代码、系列和描述）。标准对评估规则进行分组。"
+      },
+      "createRegla": {
+        "title": "创建规则",
+        "description": "使用此按钮定义新的合规规则：选择标准、评估运算符、证据字段和目标类型。"
+      },
+      "buttons": {
+        "next": "下一步",
+        "previous": "上一步",
+        "done": "完成",
+        "skip": "跳过教程",
+        "restart": "查看教程"
+      }
+    },
+    "evaluation": {
+      "error": "无法启动评估。",
+      "forbidden": "您没有启动评估的权限。",
+      "inactiveAssignment": "请选择有效的分配以启动评估。"
+    },
+    "scan": {
+      "alreadyRunning": "该租户已有扫描正在运行。",
+      "completed": "扫描完成",
+      "errorState": "扫描以错误结束",
+      "pending": "扫描待处理",
+      "progress": "已处理 {{procesados}} / {{total}} 个目标",
+      "runButton": "运行扫描",
+      "running": "扫描运行中",
+      "counter": {
+        "cumplidos": "合规",
+        "incumplidos": "不合规",
+        "sinEvidencia": "无证据",
+        "errores": "错误"
+      }
+    },
+    "validation": {
+      "codigoRequired": "代码为必填项",
+      "enumValores": "请至少输入一个以逗号分隔的值",
+      "familiaRequired": "标准系列为必填项",
+      "maxNumerico": "请输入最大值的数值",
+      "mesesPositivo": "请输入大于零的月数",
+      "minNumerico": "请输入最小值的数值",
+      "nombreRequired": "名称为必填项",
+      "normaIdRequired": "请选择一个标准",
+      "objetivoTipoInvalido": "目标类型无效",
+      "objetivoTipoRequired": "请选择目标类型",
+      "operadorInvalido": "运算符无效",
+      "operadorRequired": "请选择运算符",
+      "rangoInvertido": "最小值不能大于最大值",
+      "rangoNumerico": "请输入范围的数值"
     }
   },
   "billing": {

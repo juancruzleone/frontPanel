@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next"
 import { useComplianceData } from "../hooks/useComplianceData"
 import { useAuthStore } from "../../../store/authStore"
 import { isAdmin } from "../../../shared/utils/roleUtils"
+import { useComplianceTour } from "../hooks/useComplianceTour"
 import { CatalogPackBrowser } from "./CatalogPackBrowser"
 import { ComplianceEvaluationsPanel } from "./ComplianceEvaluationsPanel"
 import { LegacyComplianceHistory } from "./LegacyComplianceHistory"
@@ -10,6 +11,7 @@ import { RunScanButton } from "./RunScanButton"
 import { ComplianceModal } from "./ComplianceModal"
 import { NormaForm } from "./NormaForm"
 import { ReglaForm } from "./ReglaForm"
+import TourButton from "../../../shared/components/Buttons/TourButton"
 import type { Norma, Regla, NormaPayload, ReglaPayload } from "../services/complianceTypes"
 import styles from "../styles/compliance.module.css"
 
@@ -44,6 +46,8 @@ export const ComplianceView: React.FC = () => {
     deleteRegla,
   } = useComplianceData()
 
+  const { tourCompleted, startTour, skipTour } = useComplianceTour({ isAdmin: userIsAdmin })
+
   const [modal, setModal] = useState<ModalEstado>({ tipo: "cerrado" })
   const [modalLoading, setModalLoading] = useState(false)
   const [modalError, setModalError] = useState<string | null>(null)
@@ -52,6 +56,15 @@ export const ComplianceView: React.FC = () => {
   useEffect(() => {
     void loadAll()
   }, [loadAll])
+
+  // Auto-start tour after first load
+  useEffect(() => {
+    const onboardingDone = localStorage.getItem("onboarding-tour-v2-shown")
+    if (!loading && !tourCompleted && onboardingDone === "true") {
+      const timer = setTimeout(() => startTour(), 500)
+      return () => clearTimeout(timer)
+    }
+  }, [loading, tourCompleted, startTour])
 
   const cerrarModal = useCallback(() => {
     setModal({ tipo: "cerrado" })
@@ -161,11 +174,18 @@ export const ComplianceView: React.FC = () => {
       {error && <p role="alert" className={styles.errorMessage}>{t("compliance.error")}</p>}
 
       {/* Botón de escaneo legacy (visible para todos) */}
-      <RunScanButton onScanCompleted={refreshStatuses} />
+      <div data-tour="compliance-scan-section">
+        <RunScanButton onScanCompleted={refreshStatuses} />
+      </div>
 
-      <CatalogPackBrowser />
-      <ComplianceEvaluationsPanel />
+      <div data-tour="compliance-catalog">
+        <CatalogPackBrowser />
+      </div>
+      <div data-tour="compliance-evaluations">
+        <ComplianceEvaluationsPanel />
+      </div>
 
+      <div data-tour="compliance-legacy">
       <LegacyComplianceHistory
         normas={normas}
         reglas={reglas}
@@ -178,6 +198,13 @@ export const ComplianceView: React.FC = () => {
         onCreateRegla={() => setModal({ tipo: "regla-crear" })}
         onEditRegla={(regla) => setModal({ tipo: "regla-editar", regla })}
         onDeleteRegla={(regla) => setModal({ tipo: "regla-borrar", regla })}
+      />
+      </div>
+
+      {/* ---- Tour button ---- */}
+      <TourButton
+        onClick={tourCompleted ? startTour : skipTour}
+        label={tourCompleted ? t("compliance.tour.buttons.restart") : t("compliance.tour.buttons.skip")}
       />
 
       {/* ---- Modal CRUD ---- */}

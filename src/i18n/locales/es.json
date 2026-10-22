@@ -2847,7 +2847,10 @@
       "reason": "Motivo",
       "assignment": "Asignación",
       "pack": "Pack",
-      "notAvailable": "No disponible"
+      "notAvailable": "No disponible",
+      "findingsPagination": "Paginación de hallazgos",
+      "previous": "Anterior",
+      "next": "Siguiente"
     },
     "operador": {
       "fechaAntiguaMeses": "Fecha antigua (meses)",
@@ -2935,6 +2938,53 @@
       "rangoNumerico": "Ingresá valores numéricos para el rango",
       "rangoInvertido": "El mínimo no puede ser mayor que el máximo",
       "enumValores": "Ingresá al menos un valor separado por coma"
+    },
+    "tour": {
+      "progressText": "{{current}} de {{total}}",
+      "welcome": {
+        "title": "¡Bienvenido a Cumplimiento Normativo!",
+        "description": "Esta sección te permite gestionar normas, reglas, escaneos de cumplimiento y evaluaciones Leonix. Vamos a recorrer sus funciones principales."
+      },
+      "navCompliance": {
+        "title": "Acceso al módulo",
+        "description": "Desde el menú de navegación accedes directamente al módulo de Cumplimiento Normativo en cualquier momento."
+      },
+      "runScan": {
+        "title": "Escaneo de cumplimiento",
+        "description": "Usa este botón para ejecutar un escaneo legacy. El sistema evaluará todos los activos e instalaciones contra las reglas definidas y mostrará el progreso en tiempo real."
+      },
+      "catalog": {
+        "title": "Catálogo de packs",
+        "description": "Aquí puedes explorar los packs de cumplimiento publicados por Leonix, ver sus controles y asignarlos a tu organización (solo administradores)."
+      },
+      "evaluations": {
+        "title": "Evaluaciones Leonix",
+        "description": "Visualiza el historial de evaluaciones, inicia nuevas desde tus asignaciones activas y consulta los hallazgos detallados de cada ejecución."
+      },
+      "legacy": {
+        "title": "Historial anterior",
+        "description": "Sección de solo lectura con el historial de cumplimiento anterior al sistema de catálogos. Los administradores pueden crear y gestionar normas y reglas desde aquí."
+      },
+      "createNorma": {
+        "title": "Crear norma",
+        "description": "Con este botón puedes registrar una nueva norma de cumplimiento (código, familia y descripción). Las normas agrupan las reglas de evaluación."
+      },
+      "createRegla": {
+        "title": "Crear regla",
+        "description": "Con este botón defines una nueva regla de cumplimiento: elige la norma, el operador de evaluación, el campo de evidencia y el tipo de objetivo."
+      },
+      "buttons": {
+        "next": "Siguiente",
+        "previous": "Anterior",
+        "done": "Finalizar",
+        "skip": "Saltar tutorial",
+        "restart": "Ver tutorial"
+      }
+    },
+    "evaluation": {
+      "error": "No se pudo iniciar la evaluación.",
+      "forbidden": "No tenés permisos para iniciar evaluaciones.",
+      "inactiveAssignment": "Seleccioná una asignación activa para iniciar la evaluación."
     }
   },
   "billing": {

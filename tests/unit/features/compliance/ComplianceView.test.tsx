@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../../../../src/i18n'
 import { ComplianceView } from '../../../../src/features/compliance/components/ComplianceView'
@@ -27,6 +27,17 @@ vi.mock('../../../../src/features/compliance/components/ComplianceEvaluationsPan
   ComplianceEvaluationsPanel: () => <div>Evaluación Leonix</div>,
 }))
 
+const tourMocks = vi.hoisted(() => ({
+  startTour: vi.fn(),
+}))
+
+vi.mock('../../../../src/features/compliance/hooks/useComplianceTour', () => ({
+  useComplianceTour: () => ({
+    tourCompleted: true,
+    startTour: tourMocks.startTour,
+  }),
+}))
+
 const norma: Norma = { _id: 'n1', codigo: 'IRAM 3517', familiaNorma: 'IRAM', activa: true }
 const regla: Regla = {
   _id: 'r1', normaId: 'n1', nombre: 'Recarga cada 5 años', operador: 'fechaAntiguaMeses',
@@ -47,28 +58,37 @@ describe('ComplianceView — legacy history', () => {
     ;(services.fetchResumen as any).mockResolvedValue(resumen)
     useComplianceStore.getState().clearAll()
     useAuthStore.setState({ role: 'admin', isAuthenticated: true, isAuthResolved: true })
+    localStorage.setItem('onboarding-tour-v2-shown', 'true')
   })
 
-  it('renders historical standards and rules as read-only data for administrators', async () => {
+  it('renders scan and authoring controls for administrators', async () => {
     renderView()
 
     expect(await screen.findByRole('heading', { name: /Historial anterior|Previous history/ })).toBeInTheDocument()
     expect((await screen.findAllByText('IRAM 3517')).length).toBeGreaterThan(0)
     expect(screen.getByText('Recarga cada 5 años')).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: /Crear norma|Create standard|Crear regla|Create rule|Editar|Edit|Eliminar|Delete|Ejecutar escaneo|Run scan/ })).not.toBeInTheDocument()
-    expect(services.createNorma).not.toHaveBeenCalled()
-    expect(services.createRegla).not.toHaveBeenCalled()
-    expect(services.deleteNorma).not.toHaveBeenCalled()
-    expect(services.deleteRegla).not.toHaveBeenCalled()
+    expect(screen.getByRole('button', { name: /Crear norma|Create standard/ })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Crear regla|Create rule/ })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Ejecutar escaneo|Run scan/ })).toBeInTheDocument()
   })
 
-  it('keeps the previous history read-only for technicians', async () => {
+  it('lets technicians run scans without showing authoring controls', async () => {
     useAuthStore.setState({ role: 'tecnico' })
     renderView()
 
     await screen.findAllByText('IRAM 3517')
     expect(screen.getByText('Recarga cada 5 años')).toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: /Crear|Create|Editar|Edit|Eliminar|Delete|Ejecutar escaneo|Run scan/ })).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /Ejecutar escaneo|Run scan/ })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /Crear norma|Create standard|Crear regla|Create rule|Editar|Edit|Eliminar|Delete/ })).not.toBeInTheDocument()
+  })
+
+  it('starts the compliance guide from the tutorial button', async () => {
+    renderView()
+
+    const tourButton = await screen.findByRole('button', { name: /Ver tutorial|View tutorial/ })
+    fireEvent.click(tourButton)
+
+    expect(tourMocks.startTour).toHaveBeenCalledTimes(1)
   })
 
   it('shows a translated error without exposing the service error detail', async () => {

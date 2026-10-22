@@ -2824,7 +2824,10 @@
       "reason": "Motivo",
       "assignment": "Atribuição",
       "pack": "Pacote",
-      "notAvailable": "Indisponível"
+      "notAvailable": "Indisponível",
+      "findingsPagination": "Paginação dos achados",
+      "previous": "Anterior",
+      "next": "Próximo"
     },
     "dashboard": {
       "title": "Resumo da conformidade",
@@ -2851,11 +2854,11 @@
       "descripcion": "Descrição",
       "activa": "Ativa",
       "empty": "Nenhuma norma registrada.",
-      "deleteConfirm": "Delete standard {{codigo}}? This action cannot be undone.",
-      "delete": "Delete standard",
-      "create": "Create standard",
-      "edit": "Edit standard",
-      "title": "Standards"
+      "deleteConfirm": "Excluir a norma {{codigo}}? Esta ação não pode ser desfeita.",
+      "delete": "Excluir norma",
+      "create": "Criar norma",
+      "edit": "Editar norma",
+      "title": "Normas"
     },
     "reglas": {
       "nombre": "Nome",
@@ -2868,18 +2871,18 @@
       },
       "habilitada": "Habilitada",
       "empty": "Nenhuma regra registrada.",
-      "etiquetaCampo": "Field label (snapshot)",
-      "edit": "Edit rule",
-      "parametrosValores": "Values (comma separated)",
-      "create": "Create rule",
-      "campoNombre": "Evidence field",
-      "parametrosMax": "Maximum",
-      "title": "Compliance rules",
-      "parametros": "Parameters",
-      "deleteConfirm": "Delete rule {{nombre}}? This action cannot be undone.",
-      "parametrosMin": "Minimum",
-      "delete": "Delete rule",
-      "parametrosMeses": "Months"
+      "etiquetaCampo": "Rótulo do campo (instantâneo)",
+      "edit": "Editar regra",
+      "parametrosValores": "Valores (separados por vírgula)",
+      "create": "Criar regra",
+      "campoNombre": "Campo de evidência",
+      "parametrosMax": "Máximo",
+      "title": "Regras de conformidade",
+      "parametros": "Parâmetros",
+      "deleteConfirm": "Excluir a regra {{nombre}}? Esta ação não pode ser desfeita.",
+      "parametrosMin": "Mínimo",
+      "delete": "Excluir regra",
+      "parametrosMeses": "Meses"
     },
     "legacy": {
       "title": "Histórico anterior",
@@ -2889,20 +2892,20 @@
       "reglas": "Regras históricas"
     },
     "scan": {
-      "alreadyRunning": "A scan is already running for this tenant.",
-      "progress": "{{procesados}} of {{total}} objectives",
-      "runButton": "Run scan",
+      "alreadyRunning": "Já há uma verificação em execução para este locatário.",
+      "progress": "{{procesados}} de {{total}} objetivos",
+      "runButton": "Executar verificação",
       "counter": {
-        "omitidos": "Skipped",
-        "sinEvidencia": "No evidence",
-        "incumplidos": "Non-compliant",
-        "errores": "Errors",
-        "cumplidos": "Compliant"
+        "omitidos": "Ignorados",
+        "sinEvidencia": "Sem evidência",
+        "incumplidos": "Não conformes",
+        "errores": "Erros",
+        "cumplidos": "Conformes"
       },
-      "errorState": "The scan finished with errors",
-      "completed": "Scan completed",
-      "pending": "Scan pending",
-      "running": "Scan in progress"
+      "errorState": "A verificação terminou com erros",
+      "completed": "Verificação concluída",
+      "pending": "Verificação pendente",
+      "running": "Verificação em execução"
     },
     "validation": {
       "enumValores": "Enter at least one comma-separated value",
@@ -2919,6 +2922,53 @@
       "codigoRequired": "The code is required",
       "mesesPositivo": "Enter a number of months greater than zero",
       "minNumerico": "Enter a numeric value for the minimum"
+    },
+    "tour": {
+      "progressText": "{{current}} de {{total}}",
+      "welcome": {
+        "title": "Bem-vindo à Conformidade Regulatória!",
+        "description": "Esta seção permite gerenciar normas, regras, verificações de conformidade e avaliações Leonix. Conheça suas principais funcionalidades."
+      },
+      "navCompliance": {
+        "title": "Acesso ao módulo",
+        "description": "Clique aqui para acessar o módulo Conformidade Regulatória a qualquer momento pelo menu de navegação."
+      },
+      "runScan": {
+        "title": "Verificação de conformidade",
+        "description": "Use este botão para executar uma verificação legada. O sistema avalia todos os ativos e instalações conforme as regras definidas e exibe o progresso em tempo real."
+      },
+      "catalog": {
+        "title": "Catálogo de conformidade",
+        "description": "Explore os pacotes de conformidade publicados pela Leonix, veja seus controles e atribua-os à sua organização (somente administradores)."
+      },
+      "evaluations": {
+        "title": "Avaliações Leonix",
+        "description": "Visualize o histórico de avaliações, inicie novas a partir de suas atribuições ativas e consulte os resultados detalhados de cada execução."
+      },
+      "legacy": {
+        "title": "Histórico anterior",
+        "description": "Histórico de conformidade em modo somente leitura, anterior ao sistema de catálogos. Administradores podem criar e gerenciar normas e regras nesta seção."
+      },
+      "createNorma": {
+        "title": "Criar norma",
+        "description": "Use este botão para registrar uma nova norma de conformidade (código, família e descrição). As normas agrupam as regras de avaliação."
+      },
+      "createRegla": {
+        "title": "Criar regra",
+        "description": "Use este botão para definir uma nova regra de conformidade: escolha a norma, o operador de avaliação, o campo de evidência e o tipo de objetivo."
+      },
+      "buttons": {
+        "next": "Próximo",
+        "previous": "Anterior",
+        "done": "Concluir",
+        "skip": "Pular tutorial",
+        "restart": "Ver tutorial"
+      }
+    },
+    "evaluation": {
+      "error": "Não foi possível iniciar a avaliação.",
+      "forbidden": "Você não tem permissão para iniciar avaliações.",
+      "inactiveAssignment": "Selecione uma atribuição ativa para iniciar a avaliação."
     }
   },
   "billing": {
