@@ -28,8 +28,8 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  background: var(--color-surface, #fff);
-  border: 1px solid var(--color-border, #e0e0e0);
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
   border-radius: 8px;
   padding: 16px;
 }
@@ -66,13 +66,13 @@
   justify-content: space-between;
   align-items: center;
   font-size: 13px;
-  color: var(--color-text-secondary, #666);
+  color: var(--color-text-secondary);
 }
 
 .progressTrack {
   height: 10px;
   border-radius: 999px;
-  background: var(--color-border, #e0e0e0);
+  background: var(--color-card-border);
   overflow: hidden;
 }
 
@@ -95,7 +95,7 @@
   flex-wrap: wrap;
   gap: 16px;
   font-size: 13px;
-  color: var(--color-text-secondary, #666);
+  color: var(--color-text-secondary);
 }
 
 .successText {
@@ -112,15 +112,15 @@
 
 .errorDetail {
   font-size: 13px;
-  color: var(--color-text-secondary, #666);
+  color: var(--color-text-secondary);
   margin: 0;
 }
 
 /* ---- ComplianceDashboard ---- */
 
 .dashboardCard {
-  background: var(--color-surface, #fff);
-  border: 1px solid var(--color-border, #e0e0e0);
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
   border-radius: 8px;
   padding: 16px;
   display: flex;
@@ -144,11 +144,11 @@
 .dashboardTotal {
   font-size: 13px;
   font-weight: 600;
-  color: var(--color-text-secondary, #666);
+  color: var(--color-text-secondary);
 }
 
 .dashboardEmpty {
-  color: var(--color-text-secondary, #666);
+  color: var(--color-text-secondary);
   font-size: 14px;
   margin: 0;
 }
@@ -193,7 +193,7 @@
 
 .legendLabel {
   flex: 1;
-  color: var(--color-text-secondary, #666);
+  color: var(--color-text);
 }
 
 .legendValue {
@@ -203,8 +203,8 @@
 /* ---- Secciones de authoring (normas / reglas) ---- */
 
 .sectionCard {
-  background: var(--color-surface, #fff);
-  border: 1px solid var(--color-border, #e0e0e0);
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
   border-radius: 8px;
   padding: 16px;
   display: flex;
@@ -254,16 +254,17 @@
 .dataTable th {
   text-align: left;
   padding: 10px 12px;
-  border-bottom: 2px solid var(--color-border, #e0e0e0);
+  border-bottom: 2px solid var(--color-card-border);
   font-weight: 600;
-  color: var(--color-text-secondary, #666);
+  color: var(--color-text);
   white-space: nowrap;
 }
 
 .dataTable td {
   padding: 10px 12px;
-  border-bottom: 1px solid var(--color-border, #e0e0e0);
+  border-bottom: 1px solid var(--color-card-border);
   vertical-align: middle;
+  color: var(--color-text);
 }
 
 .badge {
@@ -275,13 +276,15 @@
 }
 
 .badgeActive {
-  background: var(--color-success-light, #e8f5e9);
+  background: rgba(56, 142, 60, 0.18);
   color: var(--color-success);
+  border: 1px solid rgba(56, 142, 60, 0.35);
 }
 
 .badgeInactive {
-  background: var(--color-border, #e0e0e0);
-  color: var(--color-text-secondary, #666);
+  background: var(--color-card-border);
+  color: var(--color-text-secondary);
+  border: 1px solid transparent;
 }
 
 .rowActions {
@@ -295,12 +298,12 @@
   align-items: center;
   justify-content: center;
   padding: 6px;
-  border: 1px solid var(--color-border, #e0e0e0);
+  border: 1px solid var(--color-card-border);
   border-radius: 8px;
   background: transparent;
-  color: var(--color-text-secondary, #666);
+  color: var(--color-text-secondary);
   cursor: pointer;
-  transition: color 0.15s ease;
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
 
 .iconButton:hover {
@@ -308,7 +311,7 @@
 }
 
 .emptyText {
-  color: var(--color-text-secondary, #666);
+  color: var(--color-text-secondary);
   font-size: 14px;
   margin: 0;
   padding: 8px 0;
@@ -322,7 +325,7 @@
 
 .legacyNotice {
   margin: 0;
-  color: var(--color-text-secondary, #666);
+  color: var(--color-text-secondary);
 }
 
 .legacyHistory h3 {
@@ -338,9 +341,11 @@
 
 .catalogDetail,
 .catalogMessage {
-  border: 1px solid var(--color-border, #e0e0e0);
+  border: 1px solid var(--color-card-border);
   border-radius: 10px;
   padding: 14px;
+  background: var(--color-card);
+  color: var(--color-text);
 }
 
 .catalogDetail h3,
@@ -360,14 +365,16 @@
 .catalogAssignment {
   padding: 10px;
   border-left: 3px solid var(--color-primary);
-  background: var(--color-background, #f7f7f7);
+  background: var(--color-bg);
+  color: var(--color-text);
 }
 
 .catalogMessage button {
   padding: 8px 12px;
-  border: 1px solid var(--color-border, #e0e0e0);
+  border: 1px solid var(--color-card-border);
   border-radius: 8px;
-  background: var(--color-surface, #fff);
+  background: var(--color-card);
+  color: var(--color-text);
   cursor: pointer;
 }
 
@@ -411,6 +418,63 @@
 
 }
 
+/* ---- Confirmación de borrado ---- */
+
+.deleteConfirm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.deleteMessage {
+  margin: 0;
+  font-size: 15px;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+.cancelButton {
+  padding: 9px 16px;
+  border: 1px solid var(--color-card-border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.cancelButton:hover {
+  background: var(--color-bg);
+}
+
+.cancelButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.deleteButton {
+  padding: 9px 16px;
+  border: none;
+  border-radius: 10px;
+  background: var(--color-danger);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.deleteButton:hover {
+  opacity: 0.88;
+}
+
+.deleteButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* ---- Formularios ---- */
 
 .formGroup {
@@ -423,17 +487,17 @@
 .formLabel {
   font-size: 13px;
   font-weight: 600;
-  color: var(--color-text-secondary, #666);
+  color: var(--color-text);
 }
 
 .formInput,
 .formSelect {
   padding: 9px 12px;
-  border: 1px solid var(--color-border, #e0e0e0);
+  border: 1px solid var(--color-card-border);
   border-radius: 10px;
   font-size: 14px;
   color: var(--color-text);
-  background: var(--color-surface, #fff);
+  background: var(--color-card);
   width: 100%;
   box-sizing: border-box;
 }
@@ -458,7 +522,7 @@
 
 .parametrosHint {
   font-size: 12px;
-  color: var(--color-text-secondary, #666);
+  color: var(--color-text-secondary);
   margin: 0;
 }
 
@@ -484,12 +548,13 @@
 }
 
 .modalPanel {
-  background: var(--color-surface, #fff);
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
   border-radius: 8px;
   padding: 20px;
   width: 100%;
   max-width: 480px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
 }
 
 .modalHeader {
@@ -511,6 +576,11 @@
   background: transparent;
   font-size: 22px;
   line-height: 1;
-  color: var(--color-text-secondary, #666);
+  color: var(--color-text-secondary);
   cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.modalClose:hover {
+  color: var(--color-text);
 }
