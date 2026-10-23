@@ -63,7 +63,7 @@ export const fetchSuppliers = async (params: { page?: number, limit?: number, na
 
   const url = `${getApiUrl()}proveedores?${queryParams.toString()}`;
 
-  const response = await fetch(url, {
+  const response = await fetchWithAuthRetry(url, {
     headers: getAuthHeaders(),
   })
 

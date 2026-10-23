@@ -15,7 +15,7 @@ export const fetchManuals = async (params: { page?: number, limit?: number, sear
   if (params.assetId) queryParams.append('assetId', params.assetId)
   if (params.categoria) queryParams.append('categoria', params.categoria)
 
-  const response = await fetch(`${API_URL}manuales?${queryParams.toString()}`, {
+  const response = await fetchWithAuthRetry(`${API_URL}manuales?${queryParams.toString()}`, {
     headers: getAuthHeaders(),
   });
 
@@ -28,7 +28,7 @@ export const fetchManuals = async (params: { page?: number, limit?: number, sear
 };
 
 export const fetchManualById = async (id: string): Promise<any> => {
-  const response = await fetch(`${API_URL}manuales/${id}`, {
+  const response = await fetchWithAuthRetry(`${API_URL}manuales/${id}`, {
     headers: getAuthHeaders(),
   });
 
@@ -41,7 +41,7 @@ export const fetchManualById = async (id: string): Promise<any> => {
 };
 
 export const fetchManualsByAssetId = async (assetId: string): Promise<any[]> => {
-  const response = await fetch(`${API_URL}activos/${assetId}/manuales`, {
+  const response = await fetchWithAuthRetry(`${API_URL}activos/${assetId}/manuales`, {
     headers: getAuthHeaders(),
   });
 

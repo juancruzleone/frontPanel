@@ -57,4 +57,18 @@ describe('deployed security header configuration', () => {
     expect(netlifyToml).toContain('Cross-Origin-Opener-Policy = "same-origin"')
     expect(netlifyToml).toContain('Cross-Origin-Resource-Policy = "same-site"')
   })
+
+  it('configures security and cross-origin isolation headers in vercel.json', () => {
+    const vercelConfig = JSON.parse(readProjectFile('vercel.json'))
+    const globalHeaderRule = vercelConfig.headers?.find((rule: { source: string }) => rule.source === '/(.*)')
+    expect(globalHeaderRule).toBeDefined()
+
+    const headerMap = new Map(globalHeaderRule.headers.map((h: { key: string; value: string }) => [h.key, h.value]))
+    expect(headerMap.get('Strict-Transport-Security')).toContain('max-age=31536000')
+    expect(headerMap.get('Cross-Origin-Embedder-Policy')).toBe('require-corp')
+    expect(headerMap.get('Cross-Origin-Opener-Policy')).toBe('same-origin')
+    expect(headerMap.get('Cross-Origin-Resource-Policy')).toBe('same-site')
+    expect(headerMap.get('X-Frame-Options')).toBe('DENY')
+    expect(headerMap.get('X-Content-Type-Options')).toBe('nosniff')
+  })
 })

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuthStore } from '../../../store/authStore';
+import { fetchWithAuthRetry, getAuthHeaders } from '../../../shared/utils/apiHeaders';
 import { getUserById } from '../../auth/register/services/registerServices';
 import { fetchInstallations } from '../../installations/services/installationServices';
 import { fetchInstallationTypes } from '../../installations/services/installationTypeServices';
@@ -29,7 +30,9 @@ export function useUserProfile(userId: string) {
         // Verificar si el usuario es cliente
         if (userResponse.role === 'cliente') {
           // Para clientes, cargar solo las instalaciones asignadas a ese cliente específico (limit para evitar saturación)
-          const installationsResponse = await fetch(`${API_URL}clientes-usuarios/${userId}/instalaciones?limit=50`);
+          const installationsResponse = await fetchWithAuthRetry(`${API_URL}clientes-usuarios/${userId}/instalaciones?limit=50`, {
+            headers: getAuthHeaders(),
+          });
 
           if (!installationsResponse.ok) {
             throw new Error('Error al obtener instalaciones del cliente');
@@ -43,7 +46,9 @@ export function useUserProfile(userId: string) {
           setInstallationTypes(types);
         } else {
           // Para técnicos/admins, obtener órdenes de trabajo asignadas (limit para evitar saturación)
-          const ordersResponse = await fetch(`${API_URL}ordenes-trabajo?populate=instalacion&limit=50`);
+          const ordersResponse = await fetchWithAuthRetry(`${API_URL}ordenes-trabajo?populate=instalacion&limit=50`, {
+            headers: getAuthHeaders(),
+          });
 
           if (!ordersResponse.ok) {
             throw new Error('Error al obtener órdenes de trabajo');

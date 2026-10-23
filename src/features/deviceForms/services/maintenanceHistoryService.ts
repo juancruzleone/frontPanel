@@ -1,4 +1,4 @@
-import { getAuthHeaders } from '../../../shared/utils/apiHeaders'
+import { getAuthHeaders, fetchWithAuthRetry } from '../../../shared/utils/apiHeaders'
 
 const API_URL = import.meta.env.VITE_API_URL || '/api/'
 
@@ -67,10 +67,11 @@ export const getMaintenanceHistory = async (
   deviceId: string
 ): Promise<MaintenanceRecord[]> => {
   try {
-    const response = await fetch(
+    const response = await fetchWithAuthRetry(
       `${API_URL}installations/${installationId}/dispositivos/${deviceId}/mantenimientos`,
       {
-        headers: getAuthHeaders()
+        headers: getAuthHeaders(),
+        credentials: 'include',
       }
     )
 

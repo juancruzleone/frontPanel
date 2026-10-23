@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { getHeadersWithContentType } from '../../../shared/utils/apiHeaders'
+import { getHeadersWithContentType, fetchWithAuthRetry, fetchWithCsrf } from '../../../shared/utils/apiHeaders'
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
 
@@ -38,7 +38,7 @@ const useBackendValidations = () => {
 
     setIsLoadingSchema(true)
     try {
-      const response = await fetch(`${API_URL}validations/${entity}`, {
+      const response = await fetchWithAuthRetry(`${API_URL}validations/${entity}`, {
         headers: getHeadersWithContentType()
       })
       
@@ -69,7 +69,7 @@ const useBackendValidations = () => {
     excludeId?: string
   ): Promise<ValidationError[]> => {
     try {
-      const response = await fetch(`${API_URL}validations/${entity}/validate`, {
+      const response = await fetchWithCsrf(`${API_URL}validations/${entity}/validate`, {
         method: 'POST',
         headers: getHeadersWithContentType(),
         body: JSON.stringify({

@@ -51,7 +51,7 @@ export const fetchInventoryItems = async (params: { page?: number, limit?: numbe
 
   const url = `${getApiUrl()}inventario?${queryParams.toString()}`;
 
-  const response = await fetch(url, {
+  const response = await fetchWithAuthRetry(url, {
     headers: getAuthHeaders(),
     credentials: 'include',
     signal: params.signal,
@@ -70,7 +70,7 @@ export const fetchInventoryAssets = async (): Promise<InventoryAsset[]> => {
 }
 
 export const fetchInventoryItemById = async (id: string): Promise<InventoryItem> => {
-  const response = await fetch(`${getApiUrl()}inventario/${id}`, {
+  const response = await fetchWithAuthRetry(`${getApiUrl()}inventario/${id}`, {
     headers: getAuthHeaders(),
     credentials: 'include',
   })
@@ -172,7 +172,7 @@ export const fetchInventoryMovements = async (itemId?: string, params: { page?: 
         ? `${getApiUrl()}inventario/${itemId}/movimientos?${queryParams.toString()}`
         : `${getApiUrl()}inventario/movimientos?${queryParams.toString()}`
 
-    const response = await fetch(url, {
+    const response = await fetchWithAuthRetry(url, {
         headers: getAuthHeaders(),
         credentials: 'include',
     })

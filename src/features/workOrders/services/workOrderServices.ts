@@ -245,7 +245,7 @@ export const fetchWorkOrders = async (
 		...(filters as Record<string, string>),
 	});
 
-	const ordersResponse = await fetch(
+	const ordersResponse = await fetchWithAuthRetry(
 		`${getApiUrl()}ordenes-trabajo?${queryParams}`,
 		{
 			headers: getAuthHeaders(),
@@ -295,7 +295,7 @@ export const fetchInstallations = async (
 		queryParams.set("limit", "100");
 	}
 
-	const response = await fetch(`${getApiUrl()}installations?${queryParams.toString()}`, {
+	const response = await fetchWithAuthRetry(`${getApiUrl()}installations?${queryParams.toString()}`, {
 		headers: getAuthHeaders(),
 		signal: options?.signal,
 	});
@@ -437,7 +437,7 @@ export const startWorkOrder = async (
 };
 
 export const getWorkOrderById = async (id: string): Promise<WorkOrder> => {
-	const response = await fetch(`${getApiUrl()}ordenes-trabajo/${id}`, {
+	const response = await fetchWithAuthRetry(`${getApiUrl()}ordenes-trabajo/${id}`, {
 		headers: getAuthHeaders(),
 	});
 

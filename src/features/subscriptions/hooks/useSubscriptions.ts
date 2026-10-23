@@ -4,7 +4,7 @@ import { fetchInstallations } from '../../installations/services/installationSer
 import type { Installation } from '../../installations/hooks/useInstallations'
 import { useAuthStore } from '../../../../src/store/authStore.ts'
 import { useInstallationStore } from '../../../../src/store/installationStore.ts'
-import { getAuthHeaders } from '@/shared/utils/apiHeaders'
+import { getAuthHeaders, fetchWithAuthRetry } from '@/shared/utils/apiHeaders'
 import {
   updateSubscription as updateSubscriptionService,
   triggerAutomaticWorkOrdersGeneration,
@@ -66,7 +66,7 @@ const useSubscriptions = () => {
         const API_URL = import.meta.env.VITE_API_URL || "/api/"
         if (!isAuthenticated) return
 
-        const response = await fetch(`${API_URL}config/subscriptions`, {
+        const response = await fetchWithAuthRetry(`${API_URL}config/subscriptions`, {
           headers: getAuthHeaders()
         })
         if (response.ok) {

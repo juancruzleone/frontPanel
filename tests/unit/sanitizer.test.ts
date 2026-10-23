@@ -192,6 +192,7 @@ describe('Sanitizer Utils', () => {
     it('should reject invalid JWT format', () => {
       expect(isValidJWT('not.a.jwt')).toBe(false)
       expect(isValidJWT('invalid')).toBe(false)
+      expect(isValidJWT('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.')).toBe(false)
     })
   })
 })

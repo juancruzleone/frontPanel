@@ -8,7 +8,7 @@ const API_URL = import.meta.env.VITE_API_URL || '/api/'
 
 export const tenantServices = {
   async getTenants(): Promise<Tenant[]> {
-    const response = await fetch(`${API_URL}tenants`, {
+    const response = await fetchWithAuthRetry(`${API_URL}tenants`, {
       method: 'GET',
       headers: getAuthHeaders(),
     })
@@ -67,7 +67,7 @@ export const tenantServices = {
 
   async getTenantsPage(page: number = 1, limit: number = 20, signal?: AbortSignal): Promise<TenantsPageResponse> {
     const url = `${API_URL}tenants?page=${page}&limit=${limit}`
-    const response = await fetch(url, {
+    const response = await fetchWithAuthRetry(url, {
       method: 'GET',
       headers: getAuthHeaders(),
       signal,

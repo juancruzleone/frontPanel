@@ -1,5 +1,5 @@
 import { AuditLog, AuditLogsResponse } from '../types/audit.types'
-import { getAuthHeaders } from '../../../shared/utils/apiHeaders'
+import { getAuthHeaders, fetchWithAuthRetry } from '../../../shared/utils/apiHeaders'
 
 const API_URL = import.meta.env.VITE_API_URL || '/api/'
 
@@ -13,7 +13,7 @@ export const auditService = {
   async getLogs(): Promise<AuditLogsResponse> {
     // Intentamos llamar al endpoint, pero manejamos si no existe
     try {
-      const response = await fetch(`${API_URL}audit-logs`, {
+      const response = await fetchWithAuthRetry(`${API_URL}audit-logs`, {
         method: 'GET',
         headers: getAuthHeaders(),
         credentials: 'include',

@@ -1,5 +1,5 @@
 import { useAuthStore } from '../../../store/authStore'
-import { getAuthHeaders, getHeadersWithContentType } from '../../../shared/utils/apiHeaders'
+import { getAuthHeaders, getHeadersWithContentType, fetchWithAuthRetry, fetchWithCsrf } from '../../../shared/utils/apiHeaders'
 import { recordClientMaintenanceRequest, listClientMaintenanceCommands } from '../../../shared/offline/clientMaintenance'
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
@@ -80,7 +80,7 @@ class MaintenanceRequestsService {
     const requestId = crypto.randomUUID()
     if (!navigator.onLine) return this.recordOffline(data, requestId)
     try {
-      const response = await fetch(this.baseUrl, {
+      const response = await fetchWithCsrf(this.baseUrl, {
         method: 'POST',
         headers: { ...getHeadersWithContentType(), 'X-Idempotency-Key': requestId },
         body: JSON.stringify({ ...data, clientRequestId: requestId })
@@ -98,7 +98,7 @@ class MaintenanceRequestsService {
     if (filters?.instalacionId) params.append('instalacionId', filters.instalacionId)
     
     // Usar la ruta de órdenes de trabajo para clientes
-    const response = await fetch(`${this.ordersUrl}?${params.toString()}`, {
+    const response = await fetchWithAuthRetry(`${this.ordersUrl}?${params.toString()}`, {
       headers: getAuthHeaders()
     })
     const result = await handleResponse(response)
@@ -114,7 +114,7 @@ class MaintenanceRequestsService {
   }
 
   async getRequestById(id: string): Promise<MaintenanceRequest> {
-    const response = await fetch(`${this.ordersUrl}/${id}`, {
+    const response = await fetchWithAuthRetry(`${this.ordersUrl}/${id}`, {
       headers: getAuthHeaders()
     })
     return handleResponse(response)

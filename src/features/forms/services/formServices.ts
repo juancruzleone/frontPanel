@@ -14,7 +14,7 @@ export const fetchFormTemplates = async (params: { page?: number, limit?: number
   if (params.limit) queryParams.append('limit', params.limit.toString())
   if (params.search) queryParams.append('search', params.search)
 
-  const response = await fetch(`${API_URL}plantillas?${queryParams.toString()}`, {
+  const response = await fetchWithAuthRetry(`${API_URL}plantillas?${queryParams.toString()}`, {
     headers: getAuthHeaders(),
   })
   if (!response.ok) throw new Error("Error al obtener plantillas")
@@ -23,7 +23,7 @@ export const fetchFormTemplates = async (params: { page?: number, limit?: number
 }
 
 export const fetchFormTemplateById = async (id: string) => {
-  const response = await fetch(`${API_URL}plantillas/${id}`, {
+  const response = await fetchWithAuthRetry(`${API_URL}plantillas/${id}`, {
     headers: getAuthHeaders(),
   })
   if (!response.ok) throw new Error("Error al obtener plantilla")
@@ -32,7 +32,7 @@ export const fetchFormTemplateById = async (id: string) => {
 }
 
 export const fetchFormTemplatesByCategory = async (category: string) => {
-  const response = await fetch(`${API_URL}plantillas/categoria/${encodeURIComponent(category)}`, {
+  const response = await fetchWithAuthRetry(`${API_URL}plantillas/categoria/${encodeURIComponent(category)}`, {
     headers: getAuthHeaders(),
   })
   if (!response.ok) throw new Error("Error al obtener plantillas por categoría")
@@ -104,7 +104,7 @@ export const deleteFormTemplate = async (id: string) => {
 // Funciones para categorías de formularios
 export const fetchFormCategories = async (includeInactive = false) => {
   const queryParams = includeInactive ? '?includeInactive=true' : ''
-  const response = await fetch(`${API_URL}categorias-formularios${queryParams}`, {
+  const response = await fetchWithAuthRetry(`${API_URL}categorias-formularios${queryParams}`, {
     headers: getAuthHeaders(),
   })
 
@@ -116,7 +116,7 @@ export const fetchFormCategories = async (includeInactive = false) => {
 }
 
 export const fetchFormCategoryById = async (id: string) => {
-  const response = await fetch(`${API_URL}categorias-formularios/${id}`, {
+  const response = await fetchWithAuthRetry(`${API_URL}categorias-formularios/${id}`, {
     headers: getAuthHeaders(),
   })
   if (!response.ok) throw new Error("Error al obtener categoría")

@@ -1,4 +1,4 @@
-import { fetchWithCsrf, getAuthHeaders } from "../../../../shared/utils/apiHeaders"
+import { fetchWithCsrf, fetchWithAuthRetry, getAuthHeaders } from "../../../../shared/utils/apiHeaders"
 
 const rawApiUrl = import.meta.env.VITE_API_URL || "/api/"
 const API_URL = rawApiUrl.endsWith("/") ? rawApiUrl : `${rawApiUrl}/`
@@ -75,7 +75,7 @@ export const userRegister = async (
 }
 
 export const getTechnicians = async () => {
-  const response = await fetch(`${API_URL}cuentas/tecnicos`, {
+  const response = await fetchWithAuthRetry(`${API_URL}cuentas/tecnicos`, {
     method: "GET",
     headers: getAuthHeaders(),
     credentials: "include",
@@ -107,7 +107,7 @@ export const deleteTechnician = async (id: string) => {
 }
 
 export const getUserById = async (id: string) => {
-  const response = await fetch(`${API_URL}cuentas/${id}`, {
+  const response = await fetchWithAuthRetry(`${API_URL}cuentas/${id}`, {
     method: "GET",
     headers: getAuthHeaders(),
     credentials: "include",

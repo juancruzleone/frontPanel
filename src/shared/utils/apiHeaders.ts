@@ -77,8 +77,8 @@ export const fetchWithAuthRetry = async (
 
   // Handle 401 TOKEN_EXPIRED
   if (response.status === 401) {
-    const clone = response.clone()
-    const data = await clone.json().catch(() => ({}))
+    const clone = typeof response.clone === 'function' ? response.clone() : response
+    const data = typeof clone.json === 'function' ? await clone.json().catch(() => ({})) : {}
 
     if (getErrorCode(data) === 'TOKEN_EXPIRED') {
       const refreshData = await refreshSession()
@@ -95,7 +95,8 @@ export const fetchWithAuthRetry = async (
 
   // Handle 403 CSRF (existing logic fallback or integrated)
   if (response.status === 403) {
-    const data = await response.clone().json().catch(() => ({}))
+    const clone = typeof response.clone === 'function' ? response.clone() : response
+    const data = typeof clone.json === 'function' ? await clone.json().catch(() => ({})) : {}
     const code = getErrorCode(data)
     if (code && CSRF_ERROR_CODES.has(code)) {
       const rejectedToken = useCSRFStore.getState().token

@@ -4,10 +4,6 @@ import { throwApiError } from "../../../shared/services/ApiError"
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
 
-const getToken = () => {
-  return useAuthStore.getState().token
-}
-
 export const fetchWorkOrders = async (filters: Record<string, string | number> = {}): Promise<unknown[]> => {
   const stringFilters: Record<string, string> = {}
   Object.entries(filters).forEach(([key, value]) => {
@@ -17,7 +13,7 @@ export const fetchWorkOrders = async (filters: Record<string, string | number> =
   })
   const queryParams = new URLSearchParams(stringFilters).toString()
   
-  const response = await fetch(`${API_URL}calendario${queryParams ? `?${queryParams}` : ""}`, {
+  const response = await fetchWithAuthRetry(`${API_URL}calendario${queryParams ? `?${queryParams}` : ""}`, {
     headers: getAuthHeaders(),
   })
 

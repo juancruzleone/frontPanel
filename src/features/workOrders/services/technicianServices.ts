@@ -10,7 +10,7 @@ export interface Technician {
 }
 
 export const fetchTechnicians = async (): Promise<Technician[]> => {
-  const response = await fetch(`${API_URL}cuentas/tecnicos`, {
+  const response = await fetchWithAuthRetry(`${API_URL}cuentas/tecnicos`, {
     headers: getHeadersWithContentType(),
   })
 
@@ -69,7 +69,7 @@ export const deleteTechnician = async (id: string) => {
 }
 
 export const getTechnicianById = async (id: string): Promise<Technician> => {
-  const response = await fetch(`${API_URL}cuentas/${id}`, {
+  const response = await fetchWithAuthRetry(`${API_URL}cuentas/${id}`, {
     headers: getAuthHeaders(),
   })
 

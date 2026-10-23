@@ -1,10 +1,10 @@
-import { fetchWithCsrf, getAuthHeaders } from "../../../shared/utils/apiHeaders"
+import { fetchWithAuthRetry, fetchWithCsrf, getAuthHeaders } from "../../../shared/utils/apiHeaders"
 import { createApiResponseError } from "../../../shared/utils/errorHelpers"
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
 
 export const fetchDeviceForm = async (installationId: string, deviceId: string) => {
-  const res = await fetch(
+  const res = await fetchWithAuthRetry(
     `${API_URL}installations/${installationId}/dispositivos/${deviceId}/formulario`,
     {
       credentials: "include",

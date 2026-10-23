@@ -1,5 +1,5 @@
 import { useAuthStore } from '../../../store/authStore';
-import { getAuthHeaders } from '../../../shared/utils/apiHeaders';
+import { getAuthHeaders, fetchWithAuthRetry } from '../../../shared/utils/apiHeaders';
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/";
 
@@ -7,7 +7,7 @@ export const fetchAssignedWorkOrders = async () => {
   const user = useAuthStore.getState().user;
   if (!user) throw new Error('No autenticado');
 
-  const response = await fetch(`${API_URL}ordenes-trabajo`, {
+  const response = await fetchWithAuthRetry(`${API_URL}ordenes-trabajo`, {
     headers: getAuthHeaders(),
   });
   if (!response.ok) throw new Error('Error al obtener órdenes');

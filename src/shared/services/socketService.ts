@@ -111,13 +111,14 @@ class SocketService {
     }
 
     identify() {
-        const { userId, tenantId, role } = useAuthStore.getState();
+        const { userId, tenantId } = useAuthStore.getState();
 
         if (this.socket && userId) {
+            // Emite la suscripción a salas de notificación sin pretender elevar rol desde el cliente
             this.socket.emit('identify', userId);
-            this.socket.emit('identify', { userId, tenantId, role });
-            this.socket.emit('register-user', { userId, tenantId, role });
-            this.socket.emit('register', { userId, tenantId, role });
+            this.socket.emit('identify', { userId, tenantId });
+            this.socket.emit('register-user', { userId, tenantId });
+            this.socket.emit('register', { userId, tenantId });
         }
     }
 
@@ -228,6 +229,7 @@ class SocketService {
         const url = `${API_URL}ordenes-trabajo?limit=${ASSIGNED_ORDERS_PAGE_LIMIT}&page=1`;
         const response = await fetch(url, {
             headers: getAuthHeaders(),
+            credentials: 'include',
         });
 
         if (response.status === 429) {

@@ -1,4 +1,4 @@
-import { getHeadersWithoutContentType, fetchWithCsrf } from '../../../shared/utils/apiHeaders'
+import { getHeadersWithoutContentType, fetchWithCsrf, fetchWithAuthRetry } from '../../../shared/utils/apiHeaders'
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
 
@@ -67,7 +67,7 @@ export const getBudgetDocuments = async (
     const baseUrl = API_URL.endsWith('/') ? API_URL.slice(0, -1) : API_URL
     const url = `${baseUrl}/installations/${installationId}/documentos`
 
-    const response = await fetch(url, {
+    const response = await fetchWithAuthRetry(url, {
         method: 'GET',
         headers: getHeadersWithoutContentType('GET'),
     })

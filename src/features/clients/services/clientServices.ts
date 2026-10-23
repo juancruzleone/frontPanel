@@ -40,7 +40,7 @@ export const createClient = async (username: string, password: string, fullName:
         })
     }
 
-    // Intento primario: clientes-usuarios (permite password Francosa4191 sin especial, solo min 6)
+    // Intento primario: clientes-usuarios (schema de creación de cliente)
     let response = await tryCreate(`${API_URL}clientes-usuarios`, payloadClientesUsuarios)
 
     // Fallback: cuenta/cliente por compatibilidad si el backend no tiene clientes-usuarios o requiere firstName/lastName
@@ -108,7 +108,7 @@ export const getClients = async () => {
     const headers = getAuthHeaders()
 
     // Usar el endpoint específico para clientes-usuarios
-    const response = await fetch(`${API_URL}clientes-usuarios`, {
+    const response = await fetchWithAuthRetry(`${API_URL}clientes-usuarios`, {
         method: "GET",
         headers,
     })

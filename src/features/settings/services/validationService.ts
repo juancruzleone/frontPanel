@@ -1,4 +1,4 @@
-import { getHeadersWithContentType } from '../../../shared/utils/apiHeaders'
+import { getHeadersWithContentType, fetchWithCsrf, fetchWithAuthRetry } from '../../../shared/utils/apiHeaders'
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
 
@@ -25,7 +25,7 @@ class ValidationService {
     excludeId?: string
   ): Promise<ValidationResponse> {
     try {
-      const response = await fetch(`${API_URL}installation-types/validate`, {
+      const response = await fetchWithCsrf(`${API_URL}installation-types/validate`, {
         method: 'POST',
         headers: getHeadersWithContentType(),
         body: JSON.stringify({
@@ -62,7 +62,7 @@ class ValidationService {
     excludeId?: string
   ): Promise<ValidationResponse> {
     try {
-      const response = await fetch(`${API_URL}device-categories/validate`, {
+      const response = await fetchWithCsrf(`${API_URL}device-categories/validate`, {
         method: 'POST',
         headers: getHeadersWithContentType(),
         body: JSON.stringify({
@@ -99,7 +99,7 @@ class ValidationService {
     excludeId?: string
   ): Promise<ValidationResponse> {
     try {
-      const response = await fetch(`${API_URL}form-categories/validate`, {
+      const response = await fetchWithCsrf(`${API_URL}form-categories/validate`, {
         method: 'POST',
         headers: getHeadersWithContentType(),
         body: JSON.stringify({
@@ -134,7 +134,7 @@ class ValidationService {
    */
   async getValidationRules(entity: string) {
     try {
-      const response = await fetch(`${API_URL}validations/${entity}/rules`, {
+      const response = await fetchWithAuthRetry(`${API_URL}validations/${entity}/rules`, {
         headers: getHeadersWithContentType()
       })
       

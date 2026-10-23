@@ -194,8 +194,8 @@ export const isValidJWT = (token: string): boolean => {
     return false
   }
   
-  // La signature puede estar vacía o debe ser válida
-  if (parts[2].length > 0 && !jwtPartRegex.test(parts[2])) {
+  // La signature debe tener contenido y caracteres base64url válidos (rechaza tokens no firmados)
+  if (parts[2].length === 0 || !jwtPartRegex.test(parts[2])) {
     return false
   }
   
