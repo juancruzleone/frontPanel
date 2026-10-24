@@ -2098,6 +2098,7 @@
   .rangeHelp { max-width: 360px; }
   .primaryKpisGrid, .quickActionsGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .secondaryKpisGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-md); }
+  .workGridRightColumn { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-grid-lg); }
   .kpiBand, .attentionPanel, .trendPanel, .analysisGrid > .panel:not(.trendPanel), .workGrid > .panel, .workGrid > .inventorySummary, .workGrid > .panel:last-child:not(:first-child) { grid-column: 1 / -1; }
   .attentionPanel { order: -1; }
   .resourceBand { grid-template-columns: 1fr; gap: var(--space-lg); }
@@ -2117,6 +2118,7 @@
   .headerActions { width: 100%; }
   .primaryKpisGrid, .quickActionsGrid { grid-template-columns: 1fr; }
   .secondaryKpisGrid { grid-template-columns: 1fr; gap: var(--space-sm); }
+  .workGridRightColumn { grid-template-columns: 1fr; }
   .overdueAlertBanner { flex-direction: column; align-items: flex-start; }
   .donutLayout { flex-direction: column; align-items: center; }
   .attentionGrid, .analysisGrid, .workGrid { gap: var(--space-md); }
