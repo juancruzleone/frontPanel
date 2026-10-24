@@ -19,7 +19,9 @@ const Login = () => {
     document.title = t("login.titlePage")
     if (logoutMessage && location.pathname === "/") {
       setShowLogoutModal(true)
-      setLogoutMessage(null)
+      // No limpiar logoutMessage aquí: React StrictMode remonta este componente
+      // y el segundo mount perdería la señal (el modal no aparecería). El
+      // mensaje se limpia al cerrar el modal (onRequestClose).
     }
   }, [logoutMessage, location, setLogoutMessage, t, i18n.language])
 
@@ -86,7 +88,10 @@ const Login = () => {
       <ModalError isOpen={showModal && isError} onRequestClose={closeModal} mensaje={responseMessage} />
       <ModalSuccess
         isOpen={showLogoutModal}
-        onRequestClose={() => setShowLogoutModal(false)}
+        onRequestClose={() => {
+          setShowLogoutModal(false)
+          setLogoutMessage(null)
+        }}
         mensaje={t("auth.logoutSuccess")}
       />
     </>

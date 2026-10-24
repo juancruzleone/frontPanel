@@ -32,9 +32,10 @@ export const buildResumenChartData = (
   resumen: ResumenCumplimiento | null,
 ): DashboardSlice[] => {
   if (!resumen) return []
+  const porEstado = resumen.porEstado ?? {}
   return ESTADO_ORDEN.map((estado) => ({
     name: estado,
-    value: resumen.porEstado[estado] ?? 0,
+    value: porEstado[estado] ?? 0,
     color: ESTADO_COLORS[estado],
   }))
 }

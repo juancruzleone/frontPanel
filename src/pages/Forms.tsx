@@ -247,7 +247,7 @@ const Forms = () => {
                             {translateFormFieldType(campo.type)}
                           </span>
                         ))}
-                        {template.campos.length > 3 && (
+                        {(template.campos ?? []).length > 3 && (
                           <span style={{ fontSize: '12px', opacity: 0.7 }}>+{template.campos.length - 3}</span>
                         )}
                       </div>
@@ -309,12 +309,12 @@ const Forms = () => {
                       <span className={styles.templateCategory}>{template.categoria}</span>
                       <p className={styles.templateDesc}>{template.descripcion}</p>
                       <div className={styles.fieldTags}>
-                        {template.campos.slice(0, 3).map((campo, idx) => (
+                        {(template.campos ?? []).slice(0, 3).map((campo, idx) => (
                           <span key={idx} className={styles.fieldTag}>
                             {translateFormFieldType(campo.type)}
                           </span>
                         ))}
-                        {template.campos.length > 3 && (
+                        {(template.campos ?? []).length > 3 && (
                           <span className={styles.moreFields}>+{template.campos.length - 3}</span>
                         )}
                       </div>

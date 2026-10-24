@@ -109,7 +109,10 @@ describe('explicit logout notification flow', () => {
     render(<MemoryRouter initialEntries={['/']}><Login /></MemoryRouter>)
 
     expect(await screen.findByText('Sesión cerrada exitosamente')).toBeInTheDocument()
-    expect(useAuthStore.getState().logoutMessage).toBeNull()
+    // El mensaje NO se limpia al mostrar: React StrictMode remonta Login y el
+    // segundo mount perdería la señal (el modal no aparecería). Se limpia al
+    // cerrar el modal, por eso sobrevive al remount y sigue seteado aquí.
+    expect(useAuthStore.getState().logoutMessage).toBe('auth.logoutSuccess')
   })
 
   it('does not show the success modal for unrelated session termination', async () => {

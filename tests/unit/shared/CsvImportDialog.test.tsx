@@ -1,3 +1,6 @@
+// El fixture de expiracion usa una hora UTC al limite: fijar UTC para que el
+// resultado no dependa de la zona horaria del sistema que corre los tests.
+process.env.TZ = 'UTC'
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import { describe, expect, it, vi } from 'vitest'

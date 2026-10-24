@@ -68,3 +68,26 @@ describe('ComplianceDashboard', () => {
     expect(screen.getByText('2')).toBeInTheDocument()
   })
 })
+describe('buildResumenChartData — respuestas parciales del backend', () => {
+  it('no crashea cuando porEstado es undefined (respuesta parcial)', () => {
+    const parcial = { ...resumen, porEstado: undefined } as unknown as ResumenCumplimiento
+    expect(() => buildResumenChartData(parcial)).not.toThrow()
+    expect(buildResumenChartData(parcial)).toEqual([
+      { name: 'cumplido', value: 0, color: expect.any(String) },
+      { name: 'incumplido', value: 0, color: expect.any(String) },
+      { name: 'sin_evidencia', value: 0, color: expect.any(String) },
+      { name: 'error', value: 0, color: expect.any(String) },
+    ])
+  })
+
+  it('no crashea cuando el resumen llega vacío pero no null', () => {
+    const vacio = {} as unknown as ResumenCumplimiento
+    expect(() => buildResumenChartData(vacio)).not.toThrow()
+    expect(buildResumenChartData(vacio)).toEqual([
+      { name: 'cumplido', value: 0, color: expect.any(String) },
+      { name: 'incumplido', value: 0, color: expect.any(String) },
+      { name: 'sin_evidencia', value: 0, color: expect.any(String) },
+      { name: 'error', value: 0, color: expect.any(String) },
+    ])
+  })
+})
