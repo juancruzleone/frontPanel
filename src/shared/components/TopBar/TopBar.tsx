@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Bell, Check, Trash2, Clock, Sun, Moon } from "lucide-react";
+import { Search, Bell, Check, Trash2, Clock, Sun, Moon } from "lucide-react";
 import { useNotificationStore } from "../../../store/notificationStore";
 import { useLayoutStore } from "../../../store/layoutStore";
+import { useAuthStore } from "../../../store/authStore";
 import { useTheme } from "../../hooks/useTheme";
 import { useTranslation } from "react-i18next";
 import { formatRelativeTime } from "../../utils/formatRelativeTime";
@@ -47,12 +48,28 @@ const TopBar: React.FC = () => {
 	} = useNotificationStore();
 	const { isSidebarCollapsed } = useLayoutStore();
 	const { dark, toggleTheme } = useTheme();
+	const { user, role } = useAuthStore();
 	const [isNotifOpen, setIsNotifOpen] = useState(false);
 	const [isLangOpen, setIsLangOpen] = useState(false);
 	const [isThemeSpinning, setIsThemeSpinning] = useState(false);
+	const [searchQuery, setSearchQuery] = useState("");
 
 	const notifRef = useRef<HTMLDivElement>(null);
 	const langRef = useRef<HTMLDivElement>(null);
+	const searchInputRef = useRef<HTMLInputElement>(null);
+
+	useEffect(() => {
+		const handleKeyDown = (event: KeyboardEvent) => {
+			if ((event.ctrlKey || event.metaKey) && (event.key === "k" || event.key === "K")) {
+				event.preventDefault();
+				searchInputRef.current?.focus();
+			}
+		};
+		window.addEventListener("keydown", handleKeyDown);
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown);
+		};
+	}, []);
 
 	useEffect(() => {
 		const handleClickOutside = (event: MouseEvent) => {
@@ -105,11 +122,30 @@ const TopBar: React.FC = () => {
 		}, 650);
 	};
 
+	const userInitials = (user || "US").substring(0, 2).toUpperCase();
+	const roleName = role ? (t(`roles.${role}`, { defaultValue: role }) || role) : "";
+
 	return (
 		<header
 			className={`${styles.topBar} ${isSidebarCollapsed ? styles.expanded : ""}`}
 		>
 			<div className={styles.topBarContainer}>
+				<div className={styles.searchContainer} data-tour="topbar-search">
+					<div className={styles.searchWrapper}>
+						<Search size={16} className={styles.searchIcon} aria-hidden />
+						<input
+							ref={searchInputRef}
+							type="search"
+							className={styles.searchInput}
+							placeholder="Buscar activos, instalaciones, órdenes de trabajo..."
+							value={searchQuery}
+							onChange={(e) => setSearchQuery(e.target.value)}
+							aria-label="Buscar activos, instalaciones y órdenes de trabajo"
+						/>
+						<kbd className={styles.searchKbd} aria-hidden>Ctrl + K</kbd>
+					</div>
+				</div>
+
 				<div className={styles.actions} data-tour="topbar-actions">
 					<div className={styles.langContainer} ref={langRef} data-tour="topbar-language">
 						<button
@@ -234,6 +270,18 @@ const TopBar: React.FC = () => {
 							</div>
 						)}
 					</div>
+
+					{user && (
+						<div className={styles.topBarUser} title={`${user} (${roleName})`}>
+							<div className={styles.userAvatar} aria-hidden>
+								{userInitials}
+							</div>
+							<div className={styles.userMeta}>
+								<span className={styles.userName} style={{ color: "#ffffff" }}>{user}</span>
+								<span className={styles.userRole} style={{ color: "rgba(255, 255, 255, 0.7)" }}>{roleName}</span>
+							</div>
+						</div>
+					)}
 				</div>
 			</div>
 		</header>

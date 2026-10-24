@@ -24,3 +24,4 @@ Header: Usuario nuevo entra y entiende toda la web sin explicación humana. Tour
 - L3 (verbatim corrección): "No, el tour inicial y despues en cada seccion. O que seria lo recomendado"
 - L4 (decisión): híbrido recomendado — global en Inicio sin navegación forzada + seccionales existentes al visitar cada página.
 - L5 (ocultar Cumplimiento): quitar el paso del tour global y ocultar el link del sidebar con flag `SHOW_COMPLIANCE_NAV = false` en Nav.tsx; ruta y keys i18n intactas para reactivarlo.
+- L6 (commit+push+CI): commit `2b53b0a` en rama `feature/onboarding-tour-global` (10 archivos, solo estos cambios), push OK. Espejo local del CI en verde: lint 0 errores, type-check OK, unit 1524 passed, integration 19 passed, security 34 passed, build OK. CI de GitHub solo corre en PR a main/develop: pendiente abrir PR.

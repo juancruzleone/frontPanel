@@ -1,6 +1,27 @@
 import { useTranslation } from "react-i18next"
+import {
+  FileText,
+  AlertTriangle,
+  AlertCircle,
+  Clock,
+  Activity,
+  CalendarCheck,
+  ShieldCheck,
+  Zap,
+} from "lucide-react"
 import type { DashboardMetric } from "../types/homeTypes"
 import styles from "../styles/home.module.css"
+
+const METRIC_ICONS: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+  openWorkOrders: FileText,
+  overdueWorkOrders: AlertTriangle,
+  criticalWorkOrders: AlertCircle,
+  mttrHours: Clock,
+  mtbfHours: Activity,
+  preventiveComplianceRate: CalendarCheck,
+  slaRate: ShieldCheck,
+  responseTimeHours: Zap,
+}
 
 interface OperationalKPIsProps {
   metrics: DashboardMetric[]
@@ -53,7 +74,13 @@ export const OperationalKPIs = ({ metrics }: OperationalKPIsProps) => {
           key={metric.id}
           className={`${styles.kpiCell} ${metric.exception ? styles[metric.exception] : ""}`}
         >
-          <dt>{t(`home.dashboard.metrics.${metric.id}`)}</dt>
+          <dt>
+            {METRIC_ICONS[metric.id] && (() => {
+              const Icon = METRIC_ICONS[metric.id]
+              return <Icon size={14} className={styles.kpiCellIcon} aria-hidden />
+            })()}
+            <span>{t(`home.dashboard.metrics.${metric.id}`)}</span>
+          </dt>
           <dd>
             {formatMetric(metric, t("common.notAvailable", { defaultValue: "N/D" }))}
             {metric.unit === "percent" && metric.value !== null && Number.isFinite(metric.value) && metric.value >= 0 && metric.value <= 100 && (

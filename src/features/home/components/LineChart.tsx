@@ -14,8 +14,8 @@ interface Point {
 }
 
 const WIDTH = 760
-const HEIGHT = 260
-const PADDING = { top: 18, right: 18, bottom: 42, left: 42 }
+const HEIGHT = 180
+const PADDING = { top: 12, right: 16, bottom: 28, left: 34 }
 
 const buildPoints = (data: EvolutionDataItem[], key: "created" | "completed", maxValue: number): Point[] => {
   const graphWidth = WIDTH - PADDING.left - PADDING.right
@@ -63,15 +63,15 @@ export const LineChart = ({ data }: LineChartProps) => {
               <desc id="trend-svg-description">{t("home.dashboard.trend.description", totals)}</desc>
               {[0, 0.5, 1].map((ratio) => {
                 const y = HEIGHT - PADDING.bottom - ratio * (HEIGHT - PADDING.top - PADDING.bottom)
-                return <g key={ratio}><line className={styles.gridLine} x1={PADDING.left} y1={y} x2={WIDTH - PADDING.right} y2={y} /><text className={styles.axisText} x={PADDING.left - 8} y={y + 4}>{Math.round(maxValue * ratio)}</text></g>
+                return <g key={ratio}><line className={styles.gridLine} x1={PADDING.left} y1={y} x2={WIDTH - PADDING.right} y2={y} /><text className={styles.axisText} x={PADDING.left - 8} y={y + 3}>{Math.round(maxValue * ratio)}</text></g>
               })}
               <path className={styles.createdLine} d={linePath(createdPoints)} />
               <path className={styles.completedLine} d={linePath(completedPoints)} />
               {createdPoints.map((point, index) => (
                 <g key={`points-${point.label}`}>
-                  <circle className={styles.createdPoint} cx={point.x} cy={point.y} r="4" tabIndex={0} aria-label={`${formatDate(point.label)}: ${t("home.created")} ${point.value}`} />
-                  <circle className={styles.completedPoint} cx={completedPoints[index].x} cy={completedPoints[index].y} r="4" tabIndex={0} aria-label={`${formatDate(point.label)}: ${t("home.completed")} ${completedPoints[index].value}`} />
-                  {(data.length <= 8 || index % Math.ceil(data.length / 7) === 0) && <text className={styles.xAxisText} x={point.x} y={HEIGHT - 14}>{formatDate(point.label)}</text>}
+                  <circle className={styles.createdPoint} cx={point.x} cy={point.y} r="3" tabIndex={0} aria-label={`${formatDate(point.label)}: ${t("home.created")} ${point.value}`} />
+                  <circle className={styles.completedPoint} cx={completedPoints[index].x} cy={completedPoints[index].y} r="3" tabIndex={0} aria-label={`${formatDate(point.label)}: ${t("home.completed")} ${completedPoints[index].value}`} />
+                  {(data.length <= 8 || index % Math.ceil(data.length / 7) === 0) && <text className={styles.xAxisText} x={point.x} y={HEIGHT - 8}>{formatDate(point.label)}</text>}
                 </g>
               ))}
             </svg>

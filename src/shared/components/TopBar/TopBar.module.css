@@ -48,7 +48,15 @@
 
 .searchContainer {
     flex: 1;
-    max-width: 400px;
+    max-width: 480px;
+    margin-left: 8px;
+}
+
+@media (max-width: 768px) {
+    .searchContainer {
+        margin-left: 0;
+        max-width: none;
+    }
 }
 
 .searchWrapper {
@@ -59,41 +67,140 @@
 
 .searchIcon {
     position: absolute;
-    left: 12px;
-    color: #00FFAE;
+    left: 14px;
+    color: #64748b;
+    pointer-events: none;
 }
 
 :global(.dark) .searchIcon {
-    color: #00FFAE;
+    color: #94a3b8;
 }
 
 .searchInput {
     width: 100%;
-    height: 40px;
-    padding: 0 12px 0 40px;
-    border-radius: 10px;
-    border: 1px solid rgba(0, 255, 174, 0.2);
-    background-color: rgba(255, 255, 255, 0.05);
-    font-size: 0.9rem;
-    color: #ffffff;
-    transition: all 0.2s;
+    height: 38px;
+    padding: 0 76px 0 38px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background-color: rgba(255, 255, 255, 0.85);
+    font-size: 0.85rem;
+    color: #0f172a;
+    transition: all 0.2s ease;
 }
 
 :global(.dark) .searchInput {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-color: rgba(0, 255, 174, 0.2);
+    background-color: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.1);
     color: #f1f5f9;
+}
+
+.searchInput::placeholder {
+    color: #94a3b8;
+}
+
+:global(.dark) .searchInput::placeholder {
+    color: rgba(255, 255, 255, 0.35);
 }
 
 .searchInput:focus {
     outline: none;
-    border-color: #00FFAE;
-    background-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 0 3px rgba(0, 255, 174, 0.1);
+    border-color: rgba(0, 255, 174, 0.45);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(0, 255, 174, 0.12);
 }
 
 :global(.dark) .searchInput:focus {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.5);
+    border-color: rgba(0, 255, 174, 0.4);
+    box-shadow: 0 0 0 3px rgba(0, 255, 174, 0.1);
+}
+
+.searchKbd {
+    position: absolute;
+    right: 10px;
+    padding: 2px 6px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    font-family: inherit;
+    color: #64748b;
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    pointer-events: none;
+    letter-spacing: 0.03em;
+}
+
+:global(.dark) .searchKbd {
+    color: rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.topBarUser {
+    display: none;
+    align-items: center;
+    gap: 9px;
+    margin-left: 8px;
+    padding: 4px 10px 4px 6px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+@media (min-width: 768px) {
+    .topBarUser {
+        display: flex;
+    }
+}
+
+:global(.dark) .topBarUser {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.userAvatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(0, 255, 174, 0.15);
+    color: #00FFAE;
+    font-weight: 700;
+    font-size: 0.72rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.02em;
+}
+
+.userMeta {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    line-height: 1.15;
+}
+
+.userName {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #ffffff;
+    max-width: 130px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+:global(.dark) .userName {
+    color: #f1f5f9;
+}
+
+.userRole {
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: capitalize;
+}
+
+:global(.dark) .userRole {
+    color: #94a3b8;
 }
 
 .actions {
@@ -185,13 +292,13 @@
 }
 
 .userName {
-    color: #0f172a;
+    color: #ffffff;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.78rem;
 }
 
 :global(.dark) .userName {
-    color: #f1f5f9;
+    color: #ffffff;
 }
 
 /* Dropdown */

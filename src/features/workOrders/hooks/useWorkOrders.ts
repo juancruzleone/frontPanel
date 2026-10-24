@@ -214,8 +214,20 @@ const useWorkOrders = () => {
 				if (!navigator.onLine) {
 					// Use cache if offline and apply local filtering
 					let filtered = [...currentValidStored];
-					if (filters.estado)
+					if (filters.estado === "vencida") {
+						const now = new Date();
+						filtered = filtered.filter((w) => {
+							if (w.estado === "vencida") return true;
+							if (w.estado === "completada" || w.estado === "cancelada") return false;
+							if (w.fechaProgramada) {
+								const d = new Date(w.fechaProgramada);
+								return !isNaN(d.getTime()) && d < now;
+							}
+							return false;
+						});
+					} else if (filters.estado) {
 						filtered = filtered.filter((w) => w.estado === filters.estado);
+					}
 					if (filters.prioridad)
 						filtered = filtered.filter(
 							(w) => w.prioridad === filters.prioridad,
@@ -255,8 +267,20 @@ const useWorkOrders = () => {
 			} catch (err: unknown) {
 				if (!navigator.onLine || currentValidStored.length > 0) {
 					let filtered = [...currentValidStored];
-					if (filters.estado)
+					if (filters.estado === "vencida") {
+						const now = new Date();
+						filtered = filtered.filter((w) => {
+							if (w.estado === "vencida") return true;
+							if (w.estado === "completada" || w.estado === "cancelada") return false;
+							if (w.fechaProgramada) {
+								const d = new Date(w.fechaProgramada);
+								return !isNaN(d.getTime()) && d < now;
+							}
+							return false;
+						});
+					} else if (filters.estado) {
 						filtered = filtered.filter((w) => w.estado === filters.estado);
+					}
 					if (filters.prioridad)
 						filtered = filtered.filter(
 							(w) => w.prioridad === filters.prioridad,

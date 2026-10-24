@@ -12,15 +12,8 @@ interface AttentionRequiredProps {
   showInstallations: boolean
 }
 
-export const AttentionRequired = ({ alerts, incidents, maintenance, showInstallations }: AttentionRequiredProps) => {
-  const { t, i18n } = useTranslation()
-  const { getRoute } = useTranslatedRoutes()
-  const formatMaintenanceDate = (value: string) => formatDateSafely(
-    value,
-    i18n.resolvedLanguage || "es",
-    { dateStyle: "medium" },
-    t("home.dashboard.dateUnavailable"),
-  )
+export const AttentionRequired = ({ alerts }: AttentionRequiredProps) => {
+  const { t } = useTranslation()
 
   return (
     <aside className={`${styles.panel} ${styles.attentionPanel}`} aria-labelledby="attention-title">
@@ -38,29 +31,6 @@ export const AttentionRequired = ({ alerts, incidents, maintenance, showInstalla
             </li>
           ))}
         </ul>
-      )}
-      {showInstallations && incidents.length > 0 && (
-        <div className={styles.secondaryList}>
-          <h3>{t("home.topIncidentInstallations")}</h3>
-          <ol>{incidents.slice(0, 3).map((item) => (
-            <li key={item._id}>
-              <Link className={styles.incidentLink} to={getRoute("installations", { id: item._id })}>
-                <span>{item.name}</span><strong>{item.count}</strong>
-              </Link>
-            </li>
-          ))}</ol>
-        </div>
-      )}
-      {maintenance.length > 0 && (
-        <div className={styles.secondaryList}>
-          <h3>{t("home.upcomingPreventive")}</h3>
-          <ul>{maintenance.slice(0, 3).map((item) => (
-            <li key={item._id}>
-              <span>{item.installationName || t("workOrders.noInstallation")}</span>
-               <time dateTime={item.date}>{formatMaintenanceDate(item.date)}</time>
-            </li>
-          ))}</ul>
-        </div>
       )}
     </aside>
   )

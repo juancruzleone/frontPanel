@@ -1,7 +1,7 @@
 .dashboardContainer {
   width: min(100%, 1320px);
   margin: 0 auto;
-  padding: 104px var(--space-2xl) var(--space-4xl);
+  padding: 104px var(--space-2xl) var(--space-md);
   color: var(--color-text);
   /* --state-warning-strong over --state-warning-surface only reaches 4.38:1.
    * Blend it toward the theme text color so small warning text stays AA
@@ -181,20 +181,33 @@
 
 .dataNotices {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-sm);
-  margin-top: var(--space-lg);
+  flex-direction: column;
+  gap: var(--space-xs);
+  width: 100%;
+  margin: var(--space-xs) 0 var(--space-md);
 }
 
 .dataNotices p {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
   margin: 0;
-  padding: var(--space-xs) var(--space-md);
+  padding: var(--space-sm) var(--space-md);
   border: 1px solid var(--state-warning-border);
-  border-radius: var(--radius-badge);
+  border-left: 4px solid var(--state-warning);
+  border-radius: var(--radius-control);
   color: var(--home-warning-text);
   background: var(--state-warning-surface);
-  font-size: var(--type-caption-size);
-  font-weight: var(--type-caption-weight);
+  box-shadow: var(--elevation-sm);
+  font-size: var(--type-body-size);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.dataNoticeIcon {
+  color: var(--state-warning);
+  flex-shrink: 0;
 }
 
 .sectionHeading {
@@ -243,12 +256,270 @@
   line-height: var(--type-caption-leading);
 }
 
+/* --- Primary KPIs --- */
+.primaryKpisSection {
+  margin-top: var(--space-section);
+}
+
+.primaryKpisGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-grid);
+  margin-top: var(--space-md);
+}
+
+.primaryKpiCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 104px;
+  padding: var(--space-lg);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-panel);
+  background: var(--color-card);
+  color: var(--color-text);
+  text-decoration: none;
+  box-shadow: var(--elevation-card);
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.primaryKpiCard:hover,
+.primaryKpiCard:focus-visible {
+  border-color: var(--state-neutral-border);
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: var(--elevation-raised);
+}
+
+.primaryKpiCard * {
+  text-decoration: none;
+}
+
+.primaryKpiCard:hover .primaryKpiTitle,
+.primaryKpiCard:focus-visible .primaryKpiTitle {
+  color: var(--color-text);
+  font-weight: 750;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.primaryKpiCardAlert {
+  border-color: var(--state-critical-border);
+}
+
+.primaryKpiHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--color-text-secondary);
+}
+
+.primaryKpiIcon {
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.kpiIconCritical {
+  color: var(--state-critical);
+}
+
+.primaryKpiTitle {
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  color: var(--color-text-secondary);
+  line-height: var(--type-card-title-leading);
+}
+
+.primaryKpiBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  margin-top: var(--space-md);
+}
+
+.primaryKpiValue {
+  font-size: clamp(1.6rem, 2.2vw, 2.1rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  color: var(--color-text);
+}
+
+.kpiValueCritical {
+  color: var(--state-critical);
+}
+
+.primaryKpiSub {
+  font-size: var(--type-caption-size);
+  color: var(--color-text-secondary);
+  line-height: var(--type-caption-leading);
+}
+
+/* --- Overdue alert banner --- */
+.overdueAlertBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  border: 1px solid var(--state-critical-border);
+  border-radius: var(--radius-panel);
+  background: var(--state-critical-surface);
+}
+
+.overdueAlertLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.overdueAlertIcon {
+  color: var(--state-critical);
+  flex-shrink: 0;
+}
+
+.overdueAlertText {
+  display: grid;
+  gap: var(--space-3xs);
+}
+
+.overdueAlertText strong {
+  font-size: var(--type-card-title-size);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.overdueAlertText p {
+  margin: 0;
+  font-size: var(--type-body-size);
+  color: var(--color-text-secondary);
+}
+
+.overdueAlertAction {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-md);
+  font-size: var(--type-caption-size);
+  font-weight: 700;
+  color: var(--state-critical);
+  border: 1px solid var(--state-critical-border);
+  border-radius: var(--radius-control);
+  text-decoration: none;
+  background: var(--color-card);
+  box-shadow: var(--elevation-sm);
+  flex-shrink: 0;
+  transition: all 0.15s ease-in-out;
+}
+
+.overdueAlertAction:hover,
+.overdueAlertAction:focus-visible {
+  color: var(--color-bg);
+  background: var(--state-critical);
+  border-color: var(--state-critical);
+  transform: translateY(-1px);
+  box-shadow: var(--elevation-md);
+  text-decoration: none;
+}
+
+.overdueAlertAction:hover svg,
+.overdueAlertAction:focus-visible svg {
+  color: var(--color-bg);
+}
+
+/* --- Quick Actions --- */
+.quickActionsSection {
+  margin-top: var(--space-section);
+}
+
+.quickActionsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-grid);
+  margin-top: var(--space-md);
+}
+
+.quickActionCard {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-sm);
+  height: 48px;
+  padding: 0 var(--space-md);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-panel);
+  background: var(--color-card);
+  color: var(--color-text);
+  font-size: var(--type-card-title-size);
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: var(--elevation-card);
+  transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.quickActionCard:hover,
+.quickActionCard:focus-visible {
+  border-color: var(--state-neutral-border);
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.quickActionCard:hover .quickActionIcon,
+.quickActionCard:focus-visible .quickActionIcon {
+  color: var(--color-text);
+}
+
+.quickActionPrimary {
+  background: var(--color-secondary);
+  color: var(--color-bg);
+  border-color: var(--color-secondary);
+}
+
+.quickActionPrimary:hover,
+.quickActionPrimary:focus-visible {
+  background: var(--color-secondary);
+  border-color: var(--color-secondary);
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.quickActionPrimary:active {
+  transform: translateY(0);
+}
+
+.quickActionIconPrimary {
+  color: var(--color-bg);
+  flex-shrink: 0;
+}
+
+.quickActionTextPrimary {
+  color: var(--color-bg);
+  font-weight: 700;
+}
+
+.quickActionIcon {
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
 .attentionGrid,
 .workGrid,
 .analysisGrid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--space-grid-lg);
+}
+
+.workGrid,
+.analysisGrid {
+  align-items: start;
 }
 
 /* Two columns x four rows. The attention row is as tall as its panels
@@ -423,9 +694,14 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: var(--space-lg);
+  gap: var(--space-md);
   padding-bottom: var(--space-xl);
   border-bottom: 1px solid var(--color-card-border);
+}
+
+.panelHeader > div:first-child {
+  min-width: 0;
+  flex: 1;
 }
 
 .panelHeader h2,
@@ -677,16 +953,15 @@
 }
 
 .trendPanel {
-  grid-column: span 8;
+  grid-column: span 7;
 }
 
 .analysisGrid .distributionList {
   flex: 1;
-  align-content: stretch;
 }
 
 .analysisGrid > .panel:not(.trendPanel) {
-  grid-column: span 4;
+  grid-column: span 5;
 }
 
 .trendSummary {
@@ -756,7 +1031,7 @@
   display: block;
   width: 100%;
   height: auto;
-  max-height: 290px;
+  max-height: 200px;
   overflow: visible;
 }
 
@@ -783,7 +1058,7 @@
 .createdLine,
 .completedLine {
   fill: none;
-  stroke-width: 2.5;
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
@@ -801,7 +1076,7 @@
 .createdPoint,
 .completedPoint {
   fill: var(--color-card);
-  stroke-width: 2.5;
+  stroke-width: 2;
 }
 
 .createdPoint:focus,
@@ -866,7 +1141,7 @@
 }
 
 .stackedBar {
-  display: flex;
+  display: none;
   width: 100%;
   height: 10px;
   margin: var(--space-lg) 0 var(--space-md);
@@ -880,31 +1155,53 @@
 }
 
 .distributionList {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .distributionList li {
   display: grid;
-  grid-template-columns: 10px minmax(0, 1fr) auto 40px;
+  grid-template-columns: 8px minmax(0, 1fr) auto auto;
   align-items: center;
   gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-xs);
+  padding: 4px 0;
   border-top: 1px solid var(--color-card-border);
-  font-size: 0.78rem;
+  font-size: 0.8rem;
+  line-height: 1.3;
 }
 
 .distributionList li:first-child {
   border-top: 0;
 }
 
+.distributionList li > span:nth-child(2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
 .distributionList strong {
   font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--color-text);
+  text-align: right;
+  min-width: 18px;
 }
 
 .distributionList li > span:last-child {
   color: var(--color-text-secondary);
   font-variant-numeric: tabular-nums;
+  font-weight: 500;
   text-align: right;
+  min-width: 36px;
 }
 
 .statusMarker {
@@ -923,6 +1220,448 @@
 .segmenthigh, .markerhigh { fill: var(--state-warning); background: var(--state-warning); }
 .segmentcritical, .markercritical { fill: var(--state-critical); background: var(--state-critical); }
 .segmentOther, .markerOther { fill: var(--state-neutral); background: var(--state-neutral); }
+
+/* --- Donut layout --- */
+.donutLayout {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  margin-top: var(--space-md);
+  width: 100%;
+}
+
+.donutContainer {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.donutSvg {
+  display: block;
+  width: 145px;
+  height: 145px;
+}
+
+.donutTrack {
+  fill: none;
+  stroke: var(--state-neutral-surface);
+  stroke-width: 12;
+}
+
+.donutSegment {
+  fill: none;
+  stroke-width: 14;
+  transform: rotate(-90deg);
+  transform-origin: 75px 75px;
+}
+
+.donutCenterValue {
+  fill: var(--color-text);
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  dominant-baseline: central;
+}
+
+.donutCenterLabel {
+  fill: var(--color-text-secondary);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.donutpending { stroke: var(--state-warning); }
+.donutassigned { stroke: var(--state-info); }
+.donutinProgress { stroke: var(--chart-professional); }
+.donutcompleted { stroke: var(--state-success); }
+.donutcancelled { stroke: var(--state-neutral); }
+.donutlow { stroke: var(--state-neutral); }
+.donutmedium { stroke: var(--state-info); }
+.donuthigh { stroke: var(--state-warning); }
+.donutcritical { stroke: var(--state-critical); }
+.donutOther { stroke: var(--state-neutral); }
+
+/* --- Full width preventive section --- */
+.preventiveFullSection {
+  margin-top: var(--space-section);
+  width: 100%;
+}
+
+.preventiveFullSection .panel {
+  width: 100%;
+}
+
+.workGridRightColumn {
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-grid-lg);
+}
+
+.incidentsPanel {
+  width: 100%;
+}
+
+/* --- Secondary KPIs --- */
+.secondaryKpisSection {
+  margin-top: var(--space-section);
+}
+
+.secondaryKpisGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-grid);
+  margin-top: var(--space-md);
+}
+
+.secondaryKpiCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 96px;
+  padding: var(--space-md) var(--space-lg);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-panel);
+  background: var(--color-card);
+  box-shadow: var(--elevation-card);
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.secondaryKpiCard:hover {
+  border-color: var(--state-neutral-border);
+  background: var(--color-bg-light);
+  transform: translateY(-1px);
+}
+
+.secondaryKpiHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--color-text-secondary);
+}
+
+.secondaryKpiIcon {
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.secondaryKpiTitle {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  line-height: 1.25;
+}
+
+.secondaryKpiBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  margin-top: var(--space-sm);
+}
+
+.secondaryKpiValue {
+  font-size: 1.35rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+  color: var(--color-text);
+}
+
+.secondaryKpiSub {
+  font-size: var(--type-caption-size);
+  color: var(--color-text-secondary);
+  line-height: var(--type-caption-leading);
+}
+
+/* Subtle status dots for work orders */
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-circle);
+  flex-shrink: 0;
+}
+
+.dotpending { background: var(--state-warning); }
+.dotassigned { background: var(--state-info); }
+.dotinProgress { background: var(--color-secondary); }
+.dotcompleted { background: var(--state-success); }
+.dotcancelled { background: var(--state-neutral); }
+.dotOther { background: var(--state-neutral); }
+
+.maintenanceHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--color-card-border);
+}
+
+.maintenanceTitleWrap h3 {
+  margin: 0;
+  font-size: var(--type-card-title-size);
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: var(--type-card-title-leading);
+}
+
+.viewAllActionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3xs);
+  padding: var(--space-3xs) var(--space-2xs);
+  font-size: var(--type-caption-size);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-control);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: auto;
+  transition: color 0.15s ease;
+}
+
+.viewAllActionBtn:hover,
+.viewAllActionBtn:focus-visible {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.maintenanceTableContainer {
+  width: 100%;
+  overflow: hidden;
+}
+
+.maintenanceTable {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.8rem;
+}
+
+.maintenanceTable th {
+  padding: var(--space-xs) var(--space-sm);
+  color: var(--color-text-secondary);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid var(--color-card-border);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.maintenanceTable td {
+  padding: var(--space-sm);
+  border-bottom: 1px solid var(--color-card-border);
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.maintenanceTableRow:last-child td {
+  border-bottom: 0;
+}
+
+.thPlan,
+.tdPlan {
+  width: 28%;
+}
+
+.planNameText {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.thInstallation,
+.tdInstallation {
+  width: 24%;
+}
+
+.installationText {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-text-secondary);
+}
+
+.thType,
+.tdType {
+  width: 14%;
+}
+
+.typeText {
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.thDate,
+.tdDate {
+  width: 14%;
+}
+
+.dateText {
+  color: var(--color-text);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+.thStatus,
+.tdStatus {
+  width: 11%;
+}
+
+.statusBadgeSober {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.statusDotSober {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-circle);
+  flex-shrink: 0;
+}
+
+.statusDotSoon {
+  background: var(--state-info);
+}
+
+.statusDotScheduled {
+  background: var(--state-neutral);
+}
+
+.thActions,
+.tdActions {
+  width: 9%;
+  text-align: right;
+  overflow: visible;
+}
+
+.tdActions {
+  padding-right: var(--space-md);
+}
+
+.tableActionBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 14px;
+  min-width: 44px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text);
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-control);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.tableActionBtn:hover,
+.tableActionBtn:focus-visible {
+  border-color: var(--state-neutral-border);
+  background: var(--color-card);
+  color: var(--color-text);
+}
+
+.incidentsListContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.incidentsColHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-xs) var(--space-sm);
+  color: var(--color-text-secondary);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 1px solid var(--color-card-border);
+}
+
+.incidentsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.incidentItem {
+  border-bottom: 1px solid var(--color-card-border);
+}
+
+.incidentItem:last-child {
+  border-bottom: 0;
+}
+
+.incidentItem .incidentLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  text-decoration: none;
+  border-radius: var(--radius-control);
+  color: var(--color-text);
+}
+
+.incidentItem .incidentLink:hover,
+.incidentItem .incidentLink:focus-visible {
+  background: var(--state-neutral-surface);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.incidentName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text);
+  max-width: 160px;
+}
+
+.incidentCountPill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.incidentSeverityDot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-circle);
+  background: var(--state-critical);
+  flex-shrink: 0;
+}
 
 .workGrid > .panel {
   grid-column: span 8;
@@ -969,6 +1708,7 @@
 
 .recentOrdersList .orderStatus {
   line-height: var(--type-caption-leading);
+  gap: var(--space-xs);
 }
 
 .orderItem {
@@ -1036,12 +1776,14 @@
 .orderStatus {
   display: inline-flex;
   align-items: center;
+  gap: var(--space-xs);
   padding: var(--space-3xs) var(--space-md);
   border: 1px solid var(--color-card-border);
   border-radius: var(--radius-badge);
   background: var(--color-bg-light);
+  color: var(--color-text);
   font-size: var(--type-caption-size);
-  font-weight: 650;
+  font-weight: 550;
   white-space: nowrap;
 }
 
@@ -1102,7 +1844,7 @@
  * compound `.skeleton` selectors keep the shared shimmer language and only step
  * the radius down to control size. */
 .orderLoading {
-  display: grid;
+  display: none;
   gap: var(--space-2xs);
   margin-top: var(--space-sm);
   padding: var(--space-md) var(--space-xs) 0;
@@ -1354,6 +2096,7 @@
   .headerActions { width: min(100%, 360px); justify-items: start; }
   .rangeField { min-width: min(100%, 360px); }
   .rangeHelp { max-width: 360px; }
+  .primaryKpisGrid, .quickActionsGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .kpiBand, .attentionPanel, .trendPanel, .analysisGrid > .panel:not(.trendPanel), .workGrid > .panel, .workGrid > .inventorySummary, .workGrid > .panel:last-child:not(:first-child) { grid-column: 1 / -1; }
   .attentionPanel { order: -1; }
   .resourceBand { grid-template-columns: 1fr; gap: var(--space-lg); }
@@ -1371,6 +2114,9 @@
   .headerMetadata { display: grid; gap: var(--space-xs); }
   .rangeField, .rangeHelp { min-width: 0; max-width: none; width: 100%; }
   .headerActions { width: 100%; }
+  .primaryKpisGrid, .quickActionsGrid { grid-template-columns: 1fr; }
+  .overdueAlertBanner { flex-direction: column; align-items: flex-start; }
+  .donutLayout { flex-direction: column; align-items: center; }
   .attentionGrid, .analysisGrid, .workGrid { gap: var(--space-md); }
   .kpiBand { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: var(--space-lg); }
   .kpiCell { min-height: 88px; padding: var(--space-md) var(--space-lg); }

@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router"
+import { ArrowRight } from "lucide-react"
 import { useTranslatedRoutes } from "../../../router/useTranslatedRoutes"
 import type { InventorySummaryData } from "../types/homeTypes"
 import styles from "../styles/home.module.css"
@@ -40,8 +41,13 @@ export const InventorySummary = ({ data, hasError, onRetry, retrying = false }: 
             </p>
           )}
         </div>
-        <Link className={styles.panelAction} to={getRoute("inventory")}>
-          {t("home.dashboard.inventory.viewAll")}
+        <Link
+          className={styles.viewAllActionBtn}
+          to={getRoute("inventory")}
+          aria-label={t("home.dashboard.inventory.viewAll")}
+        >
+          <span>{t("common.viewAll", { defaultValue: "Ver todo" })}</span>
+          <ArrowRight size={14} aria-hidden />
         </Link>
       </div>
       {hasError ? (

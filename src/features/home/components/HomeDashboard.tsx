@@ -1,6 +1,7 @@
-import type { ReactNode } from "react"
+import { useState, type ReactNode } from "react"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router"
+import { AlertTriangle, ArrowRight } from "lucide-react"
 import { useAuthStore } from "../../../store/authStore"
 import { useTranslatedRoutes } from "../../../router/useTranslatedRoutes"
 import TourButton from "../../../shared/components/Buttons/TourButton"
@@ -9,11 +10,15 @@ import { useHomeTour } from "../hooks/useHomeTour"
 import { useWorkOrderDetail } from "../hooks/useWorkOrderDetail"
 import { expectedDashboardScope, normalizeDashboardRole } from "../services/homeDashboardMapper"
 import type { DashboardRole, ChartDataItem, HomeDashboardViewData, InventorySummaryData } from "../types/homeTypes"
-import { AttentionRequired } from "./AttentionRequired"
 import { DashboardHeader } from "./DashboardHeader"
 import { InventorySummary } from "./InventoryAlerts"
 import { LineChart } from "./LineChart"
-import { OperationalKPIs } from "./OperationalKPIs"
+import { PrimaryKPIs } from "./PrimaryKPIs"
+import { QuickActions } from "./QuickActions"
+import { QuickActionModals, type QuickActionModalType } from "./QuickActionModals"
+import { SecondaryKPIs } from "./SecondaryKPIs"
+import { UpcomingPreventiveTable } from "./UpcomingPreventiveTable"
+import { IncidentInstallationsPanel } from "./IncidentInstallationsPanel"
 import { RecentWorkOrders } from "./RecentWorkOrders"
 import { WorkOrderDetailDialog } from "./WorkOrderDetailDialog"
 import { WorkOrderStatusDistribution } from "./WorkOrderStatusDistribution"
@@ -27,6 +32,7 @@ export const HomeDashboard = () => {
   const { startTour } = useHomeTour()
   const dashboard = useHomeDashboard()
   const workOrderDetail = useWorkOrderDetail()
+  const [activeQuickModal, setActiveQuickModal] = useState<QuickActionModalType>(null)
 
   const tourButton = rawRole === "admin" ? <TourButton onClick={startTour} label={t("home.tour.buttons.restart")} /> : null
   const role = dashboard.data?.role ?? normalizeDashboardRole(rawRole)
@@ -43,9 +49,24 @@ export const HomeDashboard = () => {
   ) : <div className={`${styles.skeleton} ${styles.skeletonHeader}`} aria-hidden="true" />
   const notices = (dashboard.isOffline || dashboard.isStale || dashboard.data?.metadata.fallbackApplied) && (
     <div className={styles.dataNotices} role="status">
-      {dashboard.isOffline && <p>{t("home.dashboard.notices.offline")}</p>}
-      {dashboard.isStale && <p>{t("home.dashboard.notices.stale")}</p>}
-      {dashboard.data?.metadata.fallbackApplied && <p>{t("home.dashboard.notices.fallback")}</p>}
+      {dashboard.isOffline && (
+        <p>
+          <AlertTriangle size={16} className={styles.dataNoticeIcon} aria-hidden />
+          <span>{t("home.dashboard.notices.offline")}</span>
+        </p>
+      )}
+      {dashboard.isStale && (
+        <p>
+          <AlertTriangle size={16} className={styles.dataNoticeIcon} aria-hidden />
+          <span>{t("home.dashboard.notices.stale")}</span>
+        </p>
+      )}
+      {dashboard.data?.metadata.fallbackApplied && (
+        <p>
+          <AlertTriangle size={16} className={styles.dataNoticeIcon} aria-hidden />
+          <span>{t("home.dashboard.notices.fallback")}</span>
+        </p>
+      )}
     </div>
   )
 
@@ -85,22 +106,22 @@ export const HomeDashboard = () => {
         {notices}
 
         <section aria-labelledby="attention-overview-title" data-tour="home-dashboard-attention">
-          <ImmediateSectionHeading />
           {!hasLoadedData && (
             <div className={styles.noDataNotice}>
               <p className={styles.noDataTitle}>{t("home.dashboard.empty.dashboard")}</p>
               <p className={styles.noDataHint}>{t("home.dashboard.empty.dashboardHint")}</p>
             </div>
           )}
-          <div className={styles.attentionGrid}>
-            <OperationalKPIs metrics={data.metrics} />
-            <AttentionRequired
-              alerts={data.alerts}
-              incidents={data.topIncidentInstallations}
-              maintenance={data.upcomingPreventive}
-              showInstallations={data.role === "admin" || data.role === "client"}
-            />
-          </div>
+          <PrimaryKPIs
+            metrics={data.metrics}
+            upcomingCount={data.upcomingPreventive.length}
+            assetsCount={data.resourceMetrics.find((m) => m.id === "assets")?.value ?? 0}
+          />
+          <QuickActions
+            onCreateWorkOrder={() => setActiveQuickModal("workOrder")}
+            onRegisterAsset={() => setActiveQuickModal("asset")}
+            onAddInstallation={() => setActiveQuickModal("installation")}
+          />
         </section>
 
         {data.resourceMetrics.length > 0 && (
@@ -127,20 +148,27 @@ export const HomeDashboard = () => {
           </div>
         </section>
 
+        <SecondaryKPIs metrics={data.metrics} />
+
+        <UpcomingPreventiveTable
+          maintenance={data.upcomingPreventive}
+          onOpenDetail={workOrderDetail.openWorkOrder}
+        />
+
         <section aria-labelledby="recent-title" data-tour="home-dashboard-recent">
           <h2 id="recent-title" className={styles.sectionHeading}>{t("home.dashboard.sections.recent")}</h2>
           <div className={styles.workGrid}>
             <section className={styles.panel} aria-labelledby="recent-orders-title" aria-busy={workOrderDetail.status === "loading"}>
               <div className={styles.panelHeader}>
                 <div><p className={styles.panelKicker}>{t("home.dashboard.recent.kicker")}</p><h2 id="recent-orders-title">{t("home.recentOrders")}</h2></div>
-                {showWorkOrdersLink && <Link className={styles.panelAction} to={getRoute("workOrders")}>{t("nav.workOrdersList")}</Link>}
+                {showWorkOrdersLink && (
+                  <Link className={styles.viewAllActionBtn} to={getRoute("workOrders")}>
+                    <span>{t("common.viewAllFeminine", { defaultValue: "Ver todas" })}</span>
+                    <ArrowRight size={14} aria-hidden />
+                  </Link>
+                )}
               </div>
               <RecentWorkOrders workOrders={data.recentWorkOrders} onOpenDetail={workOrderDetail.openWorkOrder} />
-              {/* The detail is fetched before the dialog mounts, so the only trace of
-                  the in-flight request is this text-free row placeholder: the panel is
-                  already named by its heading and carries `aria-busy` for assistive
-                  tech, which keeps the row's own accessible label from being
-                  interrupted by a status message. */}
               {workOrderDetail.status === "loading" && (
                 <div className={styles.orderLoading} aria-hidden="true">
                   <span className={`${styles.skeleton} ${styles.orderLoadingTitle}`} />
@@ -159,17 +187,27 @@ export const HomeDashboard = () => {
                 </p>
               )}
             </section>
-            {data.role === "admin" ? <InventorySummary data={dashboard.inventory} hasError={dashboard.inventoryError} onRetry={dashboard.retry} retrying={dashboard.refreshing} /> : (
-              <section className={styles.panel} aria-labelledby="context-title">
-                <div className={styles.panelHeader}><div><p className={styles.panelKicker}>{t("home.dashboard.context.kicker")}</p><h2 id="context-title">{t(`home.dashboard.context.${data.role}`)}</h2></div></div>
-                <p className={styles.contextCopy}>{t(`home.dashboard.context.${data.role}Description`)}</p>
-              </section>
-            )}
+            <div className={styles.workGridRightColumn}>
+              {data.role === "admin" ? <InventorySummary data={dashboard.inventory} hasError={dashboard.inventoryError} onRetry={dashboard.retry} retrying={dashboard.refreshing} /> : (
+                <section className={styles.panel} aria-labelledby="context-title">
+                  <div className={styles.panelHeader}><div><p className={styles.panelKicker}>{t("home.dashboard.context.kicker")}</p><h2 id="context-title">{t(`home.dashboard.context.${data.role}`)}</h2></div></div>
+                  <p className={styles.contextCopy}>{t(`home.dashboard.context.${data.role}Description`)}</p>
+                </section>
+              )}
+              {data.topIncidentInstallations.length > 0 && (data.role === "admin" || data.role === "client") && (
+                <IncidentInstallationsPanel incidents={data.topIncidentInstallations} />
+              )}
+            </div>
           </div>
         </section>
       </div>
       {/* One dialog instance for the whole dashboard, driven by a single id. */}
       <WorkOrderDetailDialog workOrder={workOrderDetail.workOrder} onRequestClose={workOrderDetail.closeWorkOrder} />
+      <QuickActionModals
+        activeModal={activeQuickModal}
+        onClose={() => setActiveQuickModal(null)}
+        onSuccess={() => dashboard.retry()}
+      />
       {tourButton}
     </>
   )
@@ -225,14 +263,12 @@ const DashboardSkeleton = ({ role, header, notices }: DashboardSkeletonProps) =>
       <div className={styles.refreshStatus} role="status" />
       {notices}
       <section aria-labelledby="attention-overview-title">
-        <ImmediateSectionHeading />
-        <div className={styles.attentionGrid} aria-hidden="true">
-          <div className={`${styles.kpiBand} ${styles.skeletonKpis}`}>
-            {Array.from({ length: 8 }, (_, index) => (
-              <div key={index} className={styles.kpiCell}><span className={`${styles.skeleton} ${styles.skeletonMetric}`} /></div>
-            ))}
-          </div>
-          <div className={`${styles.skeleton} ${styles.attentionPanel} ${styles.skeletonAttention}`} />
+        <div className={styles.primaryKpisGrid} aria-hidden="true">
+          {Array.from({ length: 4 }, (_, index) => (
+            <div key={index} className={styles.primaryKpiCard}>
+              <span className={`${styles.skeleton} ${styles.skeletonMetric}`} />
+            </div>
+          ))}
         </div>
       </section>
       {resources.length > 0 && (

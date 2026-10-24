@@ -54,7 +54,10 @@ export const RecentWorkOrders = ({ workOrders, onOpenDetail }: RecentWorkOrdersP
               <strong>{order.titulo}</strong><span>{order.instalacion?.company || t("workOrders.noInstallation")}</span>
             </button>
             <div className={styles.orderMeta}>
-              <span className={`${styles.orderStatus} ${styles[`status${status}`] || styles.statusOther}`}>{t(`home.status.${status}`, { defaultValue: order.estado })}</span>
+              <span className={styles.orderStatus}>
+                <span className={`${styles.statusDot} ${styles[`dot${status}`] || styles.dotOther}`} aria-hidden />
+                <span>{t(`home.status.${status}`, { defaultValue: order.estado })}</span>
+              </span>
               {date && <time dateTime={order.fechaCreacion}>{date}</time>}
               <button type="button" className={styles.orderDetailButton} onClick={handleOpen}>
                 {t("home.dashboard.recent.detail")}

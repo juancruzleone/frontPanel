@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router";
 import Button from "../shared/components/Buttons/buttonCreate";
 import SearchInput from "../shared/components/Inputs/SearchInput";
 import styles from "../features/workOrders/styles/workOrders.module.css";
@@ -196,7 +197,8 @@ const WorkOrders = () => {
 		[userPermissions, role],
 	);
 
-	const [selectedStatus, setSelectedStatus] = useState("");
+	const [searchParams] = useSearchParams();
+	const [selectedStatus, setSelectedStatus] = useState(() => searchParams.get("estado") || "");
 	const [selectedPriority, setSelectedPriority] = useState("");
 	const [selectedDate, setSelectedDate] = useState("");
 	const [selectedDateFilter, setSelectedDateFilter] = useState("");
@@ -380,6 +382,7 @@ const WorkOrders = () => {
 			{ label: t("workOrders.inProgress"), value: "en_progreso" },
 			{ label: t("workOrders.completed"), value: "completada" },
 			{ label: t("workOrders.cancelled"), value: "cancelada" },
+			{ label: t("workOrders.overdue", { defaultValue: "Vencida" }), value: "vencida" },
 		],
 		[t],
 	);

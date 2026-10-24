@@ -60,6 +60,17 @@ export const WorkOrderStatusDistribution = ({ data, mode = "status" }: WorkOrder
     return segment
   })
 
+  const RADIUS = 56
+  const CIRCUMFERENCE = 2 * Math.PI * RADIUS
+  let currentDonutOffset = 0
+  const donutSegments = rows.map((row) => {
+    const fraction = total > 0 ? row.value / total : 0
+    const strokeLength = fraction * CIRCUMFERENCE
+    const strokeOffset = currentDonutOffset
+    currentDonutOffset += strokeLength
+    return { ...row, strokeLength, strokeOffset }
+  })
+
   return (
     <section className={styles.panel} aria-labelledby="distribution-title">
       <div className={styles.panelHeader}>
@@ -83,19 +94,39 @@ export const WorkOrderStatusDistribution = ({ data, mode = "status" }: WorkOrder
               />
             ))}
           </svg>
-          <ul className={styles.distributionList}>
-            {rows.map((row) => {
-              const percentage = Math.round((row.value / total) * 100)
-              return (
-                <li key={row.key}>
-                  <span className={`${styles.statusMarker} ${styles[`marker${row.key}`] || styles.markerOther}`} />
-                  <span>{t(`home.${mode}.${row.key}`, { defaultValue: row.name })}</span>
-                  <strong>{row.value}</strong>
-                  <span>{percentage}%</span>
-                </li>
-              )
-            })}
-          </ul>
+          <div className={styles.donutLayout}>
+            <div className={styles.donutContainer} aria-hidden="true">
+              <svg viewBox="0 0 150 150" className={styles.donutSvg}>
+                <circle cx="75" cy="75" r={RADIUS} className={styles.donutTrack} />
+                {donutSegments.map((segment) => (
+                  <circle
+                    key={segment.key}
+                    cx="75"
+                    cy="75"
+                    r={RADIUS}
+                    className={`${styles.donutSegment} ${styles[`donut${segment.key}`] || styles.donutOther}`}
+                    strokeDasharray={`${segment.strokeLength} ${CIRCUMFERENCE}`}
+                    strokeDashoffset={-segment.strokeOffset}
+                  />
+                ))}
+                <text x="75" y="68" textAnchor="middle" className={styles.donutCenterValue}>{total}</text>
+                <text x="75" y="86" textAnchor="middle" className={styles.donutCenterLabel}>Total</text>
+              </svg>
+            </div>
+            <ul className={styles.distributionList}>
+              {rows.map((row) => {
+                const percentage = Math.round((row.value / total) * 100)
+                return (
+                  <li key={row.key}>
+                    <span className={`${styles.statusMarker} ${styles[`marker${row.key}`] || styles.markerOther}`} />
+                    <span>{t(`home.${mode}.${row.key}`, { defaultValue: row.name })}</span>
+                    <strong>{row.value}</strong>
+                    <span>{percentage}%</span>
+                  </li>
+                )
+              })}
+            </ul>
+          </div>
         </>
       )}
     </section>
