@@ -779,12 +779,12 @@
     },
     "tour": {
       "welcome": {
-        "title": "¡Bienvenido a Leonix!",
-        "description": "Este es tu panel de inicio. Desde acá vas a ver el estado general de tus operaciones y los indicadores principales."
+        "title": "¡Bienvenido/a a Leonix!",
+        "description": "Este es tu panel de inicio. Te muestro el mapa completo para que uses todo sin ayuda: mirá cada sección y al final cada página tiene su propio tutorial."
       },
       "settings": {
-        "title": "Paso 2: Ir a Configuración",
-        "description": "Antes de usar el panel, entrá a Configuración para crear los tipos de instalación, categorías de activos y demás datos base necesarios."
+        "title": "Configuración: empezá por acá",
+        "description": "Antes de operar, entrá a Configuración y completá los 3 pasos: tipos de instalación, categorías de activos y de formularios. Sin eso, el resto queda vacío."
       },
       "buttons": {
         "next": "Siguiente",
@@ -3093,6 +3093,50 @@
         "forbidden": "Tu rol no puede ver este panel.",
         "unauthorized": "Autenticación requerida.",
         "server": "Error del servidor. Inténtalo nuevamente."
+      }
+    }
+  },
+  "onboarding": {
+    "tour": {
+      "workOrders": {
+        "title": "Órdenes de trabajo",
+        "description": "Acá vive el trabajo diario: listado de órdenes y calendario. Crear, asignar, iniciar y completar órdenes pasa por acá."
+      },
+      "maintenance": {
+        "title": "Mantenimiento",
+        "description": "Plan de mantenimiento preventivo: frecuencias y vencimientos para que nada se rompa por olvido."
+      },
+      "installations": {
+        "title": "Instalaciones y clientes",
+        "description": "Tus sitios y tus clientes. Cada instalación junta sus equipos, órdenes e historial en un solo lugar."
+      },
+      "assets": {
+        "title": "Activos, formularios y manuales",
+        "description": "Equipos, plantillas de formularios para las visitas y manuales de ayuda. Todo lo que el técnico necesita en campo."
+      },
+      "operation": {
+        "title": "Operación: inventario, personal y proveedores",
+        "description": "Stock con alertas de faltantes, tu equipo de técnicos y tus proveedores. Si algo falta en una orden, se resuelve acá."
+      },
+      "compliance": {
+        "title": "Cumplimiento",
+        "description": "Control de vencimientos y obligaciones para estar siempre al día con la normativa."
+      },
+      "topbar": {
+        "title": "Barra superior: idioma, tema y avisos",
+        "description": "Cambiá idioma (10 disponibles), modo claro/oscuro y revisá las notificaciones. Todo queda guardado para tu usuario."
+      },
+      "attention": {
+        "title": "Tu panel: qué necesita atención",
+        "description": "KPIs, alertas críticas, instalaciones con incidentes y próximos preventivos. Si está vacío, es un período tranquilo o faltan datos base."
+      },
+      "recent": {
+        "title": "Órdenes recientes y análisis",
+        "description": "Últimas órdenes con detalle rápido, evolución creada vs completada y distribución por estado. Cada sección tiene su botón de ayuda (?) para rever su tutorial."
+      },
+      "closing": {
+        "title": "Listo: cada sección tiene su guía",
+        "description": "Este fue el mapa general. La primera vez que entres a cada sección vas a ver su tutorial corto. Podés saltarlos y relanzarlos con el botón de ayuda."
       }
     }
   }

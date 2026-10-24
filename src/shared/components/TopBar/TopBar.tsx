@@ -110,8 +110,8 @@ const TopBar: React.FC = () => {
 			className={`${styles.topBar} ${isSidebarCollapsed ? styles.expanded : ""}`}
 		>
 			<div className={styles.topBarContainer}>
-				<div className={styles.actions}>
-					<div className={styles.langContainer} ref={langRef}>
+				<div className={styles.actions} data-tour="topbar-actions">
+					<div className={styles.langContainer} ref={langRef} data-tour="topbar-language">
 						<button
 							className={styles.actionButton}
 							onClick={() => setIsLangOpen(!isLangOpen)}
@@ -151,6 +151,7 @@ const TopBar: React.FC = () => {
 					</div>
 
 					<button
+						data-tour="topbar-theme"
 						className={`${styles.actionButton} ${styles.themeToggleButton} ${dark ? styles.themeDark : styles.themeLight} ${isThemeSpinning ? styles.themeSpinActive : ""}`}
 						onClick={handleThemeToggle}
 						aria-label="Cambiar tema"
@@ -167,7 +168,7 @@ const TopBar: React.FC = () => {
 						</span>
 					</button>
 
-					<div className={styles.notificationsContainer} ref={notifRef}>
+					<div className={styles.notificationsContainer} ref={notifRef} data-tour="topbar-notifications">
 						<button
 							className={styles.actionButton}
 							onClick={() => setIsNotifOpen(!isNotifOpen)}

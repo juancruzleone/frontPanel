@@ -780,11 +780,11 @@
     "tour": {
       "welcome": {
         "title": "Welcome to Leonix!",
-        "description": "This is your home dashboard. From here you can review your operation status and main indicators."
+        "description": "This is your home dashboard. I will show you the full map so you can use everything without help: check each section, and each page has its own tutorial at the end."
       },
       "settings": {
-        "title": "Step 2: Go to Settings",
-        "description": "Before using the panel, go to Settings to create installation types, asset categories, and the other base data required to configure everything."
+        "title": "Settings: start here",
+        "description": "Before operating, go to Settings and complete the 3 steps: installation types, asset and form categories. Without that, the rest stays empty."
       },
       "buttons": {
         "next": "Next",
@@ -3148,6 +3148,50 @@
         "forbidden": "Your role cannot view this panel.",
         "unauthorized": "Authentication required.",
         "server": "Server error. Try again."
+      }
+    }
+  },
+  "onboarding": {
+    "tour": {
+      "workOrders": {
+        "title": "Work orders",
+        "description": "Daily work lives here: order list and calendar. Creating, assigning, starting and completing orders happens here."
+      },
+      "maintenance": {
+        "title": "Maintenance",
+        "description": "Preventive maintenance plan: frequencies and due dates so nothing breaks from neglect."
+      },
+      "installations": {
+        "title": "Installations & clients",
+        "description": "Your sites and your clients. Each installation groups its equipment, orders and history in one place."
+      },
+      "assets": {
+        "title": "Assets, forms & manuals",
+        "description": "Equipment, visit form templates and help manuals. Everything technicians need in the field."
+      },
+      "operation": {
+        "title": "Operations: inventory, staff & suppliers",
+        "description": "Stock with low-stock alerts, your technician team and suppliers. Missing something for an order? Solve it here."
+      },
+      "compliance": {
+        "title": "Compliance",
+        "description": "Deadline and obligation tracking to stay up to date with regulations."
+      },
+      "topbar": {
+        "title": "Top bar: language, theme & alerts",
+        "description": "Switch language (10 available), light/dark mode and check notifications. Everything is saved for your user."
+      },
+      "attention": {
+        "title": "Your dashboard: what needs attention",
+        "description": "KPIs, critical alerts, incident installations and upcoming preventive work. If empty, it's a quiet period or base data is missing."
+      },
+      "recent": {
+        "title": "Recent orders & analytics",
+        "description": "Latest orders with quick detail, created vs completed evolution and status distribution. Each section has its help (?) button to replay its tutorial."
+      },
+      "closing": {
+        "title": "Done: each section has its guide",
+        "description": "That was the general map. The first time you enter each section you'll see its short tutorial. You can skip them and replay them with the help button."
       }
     }
   }

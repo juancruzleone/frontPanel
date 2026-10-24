@@ -46,6 +46,10 @@ const isMobileDrawerViewport = () =>
 	typeof window !== "undefined" &&
 	window.matchMedia("(max-width: 1023px)").matches;
 
+// Flag de producto: Cumplimiento oculto del sidebar por ahora (la ruta sigue
+// accesible directo). Poner en true para mostrarlo de nuevo.
+const SHOW_COMPLIANCE_NAV = false;
+
 const Nav = () => {
 	const { t } = useTranslation();
 	const user = useAuthStore((s) => s.user);
@@ -799,8 +803,8 @@ const Nav = () => {
 								</NavLink>
 							</li>
 						)}
-						{/* Cumplimiento para admin y técnicos */}
-					{!isSuperAdminUser && !isClientUser && (
+						{/* Cumplimiento oculto por decisión de producto (la ruta sigue accesible directo) */}
+					{SHOW_COMPLIANCE_NAV && !isSuperAdminUser && !isClientUser && (
 						<li>
 							<NavLink
 								to={complianceRoute}

@@ -74,7 +74,7 @@ export const HomeDashboard = () => {
 
   return (
     <>
-      <div className={styles.dashboardContainer} aria-busy={dashboard.refreshing} data-refreshing={dashboard.refreshing}>
+      <div className={styles.dashboardContainer} aria-busy={dashboard.refreshing} data-refreshing={dashboard.refreshing} data-tour="home-dashboard">
         {header}
         <div className={styles.refreshStatus} role="status">
           {dashboard.refreshing && t("home.dashboard.refreshing", {
@@ -84,7 +84,7 @@ export const HomeDashboard = () => {
         </div>
         {notices}
 
-        <section aria-labelledby="attention-overview-title">
+        <section aria-labelledby="attention-overview-title" data-tour="home-dashboard-attention">
           <ImmediateSectionHeading />
           {!hasLoadedData && (
             <div className={styles.noDataNotice}>
@@ -104,7 +104,7 @@ export const HomeDashboard = () => {
         </section>
 
         {data.resourceMetrics.length > 0 && (
-          <section className={styles.resourceBand} aria-labelledby="resources-title">
+          <section className={styles.resourceBand} aria-labelledby="resources-title" data-tour="home-dashboard-resources">
             <div><p className={styles.panelKicker}>{t("home.dashboard.resources.kicker")}</p><h2 id="resources-title">{t(`home.dashboard.resources.${data.role}`)}</h2></div>
             <dl>{data.resourceMetrics.map((metric) => {
               const label = t(`home.dashboard.resources.metrics.${metric.id}`)
@@ -119,7 +119,7 @@ export const HomeDashboard = () => {
           </section>
         )}
 
-        <section aria-labelledby="analysis-title">
+        <section aria-labelledby="analysis-title" data-tour="home-dashboard-analysis">
           <h2 id="analysis-title" className={styles.sectionHeading}>{t("home.dashboard.sections.analysis")}</h2>
           <div className={styles.analysisGrid}>
             <LineChart data={data.charts.evolution} />
@@ -127,7 +127,7 @@ export const HomeDashboard = () => {
           </div>
         </section>
 
-        <section aria-labelledby="recent-title">
+        <section aria-labelledby="recent-title" data-tour="home-dashboard-recent">
           <h2 id="recent-title" className={styles.sectionHeading}>{t("home.dashboard.sections.recent")}</h2>
           <div className={styles.workGrid}>
             <section className={styles.panel} aria-labelledby="recent-orders-title" aria-busy={workOrderDetail.status === "loading"}>

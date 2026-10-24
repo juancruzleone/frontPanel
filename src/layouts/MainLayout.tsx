@@ -13,8 +13,8 @@ import { routeTranslations } from "../router/routeTranslations";
 import { isAdmin } from "../shared/utils/roleUtils";
 import { useHomeTour } from "../features/home/hooks/useHomeTour";
 import { TrialStatusCard } from "../features/billing/components/TrialStatusCard";
+import { shouldAutoStartGlobalTour } from "../shared/services/onboardingService";
 
-const ONBOARDING_TOUR_KEY = "home-onboarding-tour-v1-shown";
 const HOME_ROUTES = new Set(
 	Object.values(routeTranslations).map(({ home }) => `/${home}`),
 );
@@ -43,11 +43,7 @@ const MainLayout: React.FC = () => {
 			return;
 		}
 
-		if (localStorage.getItem(ONBOARDING_TOUR_KEY) === "true") {
-			return;
-		}
-
-		if (!isAdmin(role)) {
+		if (!shouldAutoStartGlobalTour()) {
 			return;
 		}
 
@@ -59,7 +55,8 @@ const MainLayout: React.FC = () => {
 			return;
 		}
 
-		const timeoutId = window.setTimeout(startTour, 350);
+		// Dar tiempo a que el dashboard y el Nav monten sus [data-tour].
+		const timeoutId = window.setTimeout(startTour, 600);
 		return () => window.clearTimeout(timeoutId);
 	}, [isAuthenticated, location.pathname, role, startTour]);
 
