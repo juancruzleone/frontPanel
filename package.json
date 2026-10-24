@@ -81,7 +81,7 @@
     "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^17.8.0",
     "jsdom": "^30.0.0",
-    "lighthouse": "^13.4.1",
+    "lighthouse": "^13.5.0",
     "msw": "^2.15.0",
     "rollup": "^4.62.3",
     "typescript": "~5.8.3",
@@ -102,8 +102,9 @@
     "qs": "^6.16.0",
     "socket.io-parser": "^4.2.7",
     "source-map-js": "^1.2.2",
-    "undici": "^8.10.2",
+    "undici": "^8.12.2",
     "vite": "^8.3.4",
-    "ws": "^8.21.0"
+    "ws": "^8.21.0",
+    "zod": "^4.6.7"
   }
 }
