@@ -43,3 +43,5 @@ undefined:/
 
 # Generated archives
 *.zip
+e2e-artifacts/
+.tmp-test/
