@@ -15,6 +15,10 @@ export default defineConfig({
     // (error de escritura -122). Se usa el Google Chrome estable del sistema.
     channel: "chrome",
   },
+  // Con 12 workers los tests con Service Worker y temporizadores de sync
+  // (offline-*) compiten por CPU y se vuelven flaky. 4 mantiene la suite
+  // estable y sigue siendo rápida.
+  workers: 4,
   webServer: {
     command: "bun run dev --host 127.0.0.1 --port 4173",
     url: "http://127.0.0.1:4173",

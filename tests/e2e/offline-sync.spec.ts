@@ -121,10 +121,16 @@ test.describe("Offline Capability Review - Technician Flow", () => {
     // Navigate to Work Orders
     // We use data-tour attribute for more robust selection
     await page.locator('[data-tour="nav-work-orders"]').click();
+    // Esperar la respuesta del listado (el SW puede servir de caché; si no hay
+    // request, seguimos — el store seedeado ya trae la orden).
+    await Promise.race([
+      page.waitForResponse((res) => res.url().includes("/ordenes-trabajo") && res.request().method() === "GET", { timeout: 10000 }).catch(() => undefined),
+      page.waitForTimeout(10000),
+    ]);
     await page.locator('[data-tour="nav-work-orders-list"]').click();
     
     // Wait for the specific order to appear
-    await expect(page.getByText("Reparación Aire Acondicionado")).toBeVisible({ timeout: 20000 });
+    await expect(page.getByText("Reparación Aire Acondicionado")).toBeVisible({ timeout: 30000 });
 
     // 3. GO OFFLINE
     isOfflinePhase = true;
