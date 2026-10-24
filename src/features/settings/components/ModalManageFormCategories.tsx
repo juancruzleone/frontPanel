@@ -38,12 +38,12 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
 
   useEffect(() => {
     if (isOpen) {
-      loadCategories()
+      loadCategories(true)
       setValidationError('')
       setNewCategoryName('')
       setTouchedFields({})
     }
-  }, [isOpen])
+  }, [isOpen, loadCategories])
 
   // Validación básica local para feedback inmediato
   const validateCategoryNameLocal = (name: string): string => {

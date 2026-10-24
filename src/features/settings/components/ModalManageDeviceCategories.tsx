@@ -21,7 +21,7 @@ interface EditingCategory {
 
 const ModalManageDeviceCategories = ({ isOpen, onRequestClose }: Props) => {
   const { t } = useTranslation()
-  const { categories, loadCategories, addCategory, removeCategory } = useCategories()
+  const { categories, loadCategories, addCategory, updateCategory, removeCategory } = useCategories()
   const [newCategoryName, setNewCategoryName] = useState('')
   const [isAdding, setIsAdding] = useState(false)
   const [validationError, setValidationError] = useState('')
@@ -38,12 +38,12 @@ const ModalManageDeviceCategories = ({ isOpen, onRequestClose }: Props) => {
 
   useEffect(() => {
     if (isOpen) {
-      loadCategories()
+      loadCategories(true)
       setValidationError('')
       setNewCategoryName('')
       setTouchedFields({})
     }
-  }, [isOpen])
+  }, [isOpen, loadCategories])
 
   // Validación básica local para feedback inmediato
   const validateCategoryNameLocal = (name: string): string => {
@@ -119,10 +119,10 @@ const ModalManageDeviceCategories = ({ isOpen, onRequestClose }: Props) => {
     setValidationError('')
     
     try {
-      await addCategory({ nombre: newCategoryName.trim() })
+      await addCategory({ nombre: newCategoryName.trim(), activa: true })
       setNewCategoryName('')
       setTouchedFields({})
-      await loadCategories()
+      await loadCategories(true)
       setSuccessModal({
         title: t('settings.success.categoryAdded'),
         message: t('settings.success.categoryAddedMessage')
@@ -161,9 +161,8 @@ const ModalManageDeviceCategories = ({ isOpen, onRequestClose }: Props) => {
     setEditValidationError('')
     
     try {
-      // Aquí deberías implementar la función de actualización en el hook
-      // await updateCategory(editingCategory!.id, { nombre: editName.trim() })
-      await loadCategories()
+      await updateCategory(editingCategory!.id, { nombre: editName.trim(), activa: true })
+      await loadCategories(true)
       setIsEditModalOpen(false)
       setEditingCategory(null)
       setSuccessModal({
@@ -188,7 +187,7 @@ const ModalManageDeviceCategories = ({ isOpen, onRequestClose }: Props) => {
     setIsDeleting(true)
     try {
       await removeCategory(deleteConfirm.id)
-      await loadCategories()
+      await loadCategories(true)
       setDeleteConfirm(null)
       setSuccessModal({
         title: t('settings.success.categoryDeleted'),

@@ -521,3 +521,19 @@
     font-size: 11px;
   }
 }
+
+.syncSpinner {
+  animation: spin 1s linear infinite;
+  opacity: 0.7;
+  color: var(--color-primary, #6366f1);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+

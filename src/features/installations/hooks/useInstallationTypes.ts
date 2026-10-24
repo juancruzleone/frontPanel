@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from "react"
-import { useSettingsStore, SettingCategory } from "../../../store/settingsStore"
+import { useSettingsStore, InstallationTypeItem } from "../../../store/settingsStore"
 import { useAuthStore } from "../../../store/authStore"
 import {
   fetchInstallationTypes,
   createInstallationType,
   updateInstallationType as apiUpdateInstallationType,
-  deleteInstallationType as apiDeleteInstallationType
+  deleteInstallationType as apiDeleteInstallationType,
 } from "../services/installationTypeServices"
 
 export type InstallationType = {
@@ -13,19 +13,19 @@ export type InstallationType = {
   nombre: string
   descripcion?: string
   activo: boolean
-  fechaCreacion: string
+  fechaCreacion?: string
 }
 
 const useInstallationTypes = () => {
-  const { categories: storedCategories, setCategories, ownerId } = useSettingsStore()
+  const { installationTypes: storedTypes, setInstallationTypes, ownerId } = useSettingsStore()
   const { userId, isAuthenticated } = useAuthStore()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const hasTriedInactiveRef = useRef(false)
   const initialLoadDoneRef = useRef(false)
 
-  const validCategories = userId && ownerId === userId ? storedCategories : []
-  const installationTypes = validCategories.filter(cat => cat.tipo === 'instalacion_tipo')
+  // Aislamiento: si ownerId está seteado pero pertenece a otro usuario, no se muestran
+  const validInstallationTypes = userId && ownerId && ownerId !== userId ? [] : storedTypes
 
   const loadInstallationTypes = useCallback(async (includeInactive = false) => {
     if (!isAuthenticated) {
@@ -35,22 +35,24 @@ const useInstallationTypes = () => {
     setLoading(true)
     setError(null)
     try {
-      const { categories: currentCategories, setCategories: currentSetCategories } = useSettingsStore.getState()
-      const currentInstallationTypes = currentCategories.filter(cat => cat.tipo === 'instalacion_tipo')
-      if (!navigator.onLine && currentInstallationTypes.length > 0) {
+      const currentTypes = useSettingsStore.getState().installationTypes
+      if (!navigator.onLine && currentTypes.length > 0) {
         setLoading(false)
         return
       }
 
       const data = await fetchInstallationTypes(includeInactive)
-      // Merge with other types of categories already in store
-      const otherCategories = currentCategories.filter(cat => cat.tipo !== 'instalacion_tipo')
-      const mappedData = data.map(cat => ({ ...cat, tipo: 'instalacion_tipo' })) as SettingCategory[]
-      const nextCategories = [...otherCategories, ...mappedData]
-      // Guard: evita churn de referencia — solo actualiza si el contenido cambió (previene loops por nueva referencia)
-      // Documentado: JSON.stringify compara deep equality; evita setCategories innecesario que dispararía efectos dependientes
-      if (JSON.stringify(currentCategories) !== JSON.stringify(nextCategories)) {
-        currentSetCategories(nextCategories)
+      const mappedData: InstallationTypeItem[] = (Array.isArray(data) ? data : []).map((cat) => ({
+        _id: cat._id,
+        nombre: cat.nombre,
+        descripcion: cat.descripcion,
+        activo: cat.activo !== undefined ? cat.activo : true,
+        fechaCreacion: cat.fechaCreacion,
+      }))
+
+      // Guard: solo actualiza si los datos realmente difieren
+      if (JSON.stringify(currentTypes) !== JSON.stringify(mappedData)) {
+        setInstallationTypes(mappedData)
       }
 
       initialLoadDoneRef.current = true
@@ -58,13 +60,12 @@ const useInstallationTypes = () => {
         hasTriedInactiveRef.current = true
       }
     } catch (err: unknown) {
-      const { categories: currentCategories } = useSettingsStore.getState()
-      const currentInstallationTypes = currentCategories.filter(cat => cat.tipo === 'instalacion_tipo')
-      if (currentInstallationTypes.length > 0) {
+      const currentTypes = useSettingsStore.getState().installationTypes
+      if (currentTypes.length > 0) {
         setLoading(false)
         return
       }
-      console.error('Error al cargar tipos de instalación:', err)
+      console.error("Error al cargar tipos de instalación:", err)
       setError((err as Error).message)
       initialLoadDoneRef.current = true
       if (includeInactive) {
@@ -73,8 +74,7 @@ const useInstallationTypes = () => {
     } finally {
       setLoading(false)
     }
-  }, [isAuthenticated, setCategories])
-
+  }, [isAuthenticated, setInstallationTypes])
 
   const addInstallationType = async (typeData: {
     nombre: string
@@ -86,9 +86,15 @@ const useInstallationTypes = () => {
         ...typeData,
         activo: typeData.activo !== undefined ? typeData.activo : true,
       })
-      const otherCategories = storedCategories.filter(cat => cat.tipo !== 'instalacion_tipo')
-      const updatedInstallationTypes = [...installationTypes, { ...newType, tipo: 'instalacion_tipo' }]
-      setCategories([...otherCategories, ...updatedInstallationTypes] as SettingCategory[])
+      const currentTypes = useSettingsStore.getState().installationTypes
+      const createdItem: InstallationTypeItem = {
+        _id: newType._id,
+        nombre: newType.nombre,
+        descripcion: newType.descripcion,
+        activo: newType.activo !== undefined ? newType.activo : true,
+        fechaCreacion: newType.fechaCreacion,
+      }
+      setInstallationTypes([...currentTypes, createdItem])
       return { message: "Tipo de instalación creado con éxito" }
     } catch (err: unknown) {
       throw err
@@ -98,9 +104,11 @@ const useInstallationTypes = () => {
   const updateInstallationType = async (id: string, data: Partial<InstallationType>): Promise<{ message: string }> => {
     try {
       const updatedType = await apiUpdateInstallationType(id, data)
-      setCategories(storedCategories.map(cat =>
+      const currentTypes = useSettingsStore.getState().installationTypes
+      const nextTypes = currentTypes.map((cat) =>
         cat._id === id ? { ...cat, ...updatedType } : cat
-      ) as SettingCategory[])
+      )
+      setInstallationTypes(nextTypes)
       return { message: "Tipo de instalación actualizado con éxito" }
     } catch (err: unknown) {
       throw err
@@ -110,38 +118,35 @@ const useInstallationTypes = () => {
   const removeInstallationType = async (id: string): Promise<{ message: string }> => {
     try {
       await apiDeleteInstallationType(id)
-      setCategories(storedCategories.filter(cat => cat._id !== id))
+      const currentTypes = useSettingsStore.getState().installationTypes
+      setInstallationTypes(currentTypes.filter((cat) => cat._id !== id))
       return { message: "Tipo de instalación eliminado con éxito" }
     } catch (err: unknown) {
       throw err
     }
   }
 
-  // Cargar tipos de instalación cuando el usuario se autentica
   useEffect(() => {
     if (isAuthenticated && !initialLoadDoneRef.current) {
       loadInstallationTypes()
     }
   }, [isAuthenticated, loadInstallationTypes])
 
-  // Reintento único para inactivos: si el backend devolvió 0 activos y aún no se intentó inactivos, hace 1 solo retry con guard.
-  // Guard hasTriedInactiveRef evita refetch en cada mount; initialLoadDoneRef evita carrera antes del primer fetch.
   useEffect(() => {
     if (
       initialLoadDoneRef.current &&
       isAuthenticated &&
       !loading &&
       !hasTriedInactiveRef.current &&
-      installationTypes.length === 0 &&
+      validInstallationTypes.length === 0 &&
       error === null
     ) {
       loadInstallationTypes(true)
     }
-  }, [isAuthenticated, loading, installationTypes.length, error, loadInstallationTypes])
+  }, [isAuthenticated, loading, validInstallationTypes.length, error, loadInstallationTypes])
 
   return {
-    // SAFETY: installationTypes filtered by tipo==='instalacion_tipo' and typed via SettingCategory union; shape matches InstallationType (validated by fetchInstallationTypes schema)
-    installationTypes: installationTypes as unknown as InstallationType[],
+    installationTypes: validInstallationTypes,
     loading,
     error,
     loadInstallationTypes,

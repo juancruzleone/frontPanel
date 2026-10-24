@@ -39,12 +39,12 @@ const ModalManageInstallationTypes = ({ isOpen, onRequestClose }: Props) => {
 
   useEffect(() => {
     if (isOpen) {
-      loadInstallationTypes()
+      loadInstallationTypes(true)
       setValidationError('')
       setNewTypeName('')
       setTouchedFields({})
     }
-  }, [isOpen])
+  }, [isOpen, loadInstallationTypes])
 
   // Validación básica local para feedback inmediato
   const validateTypeNameLocal = (name: string): string => {

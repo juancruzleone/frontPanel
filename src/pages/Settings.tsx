@@ -8,6 +8,7 @@ import {
   Settings as SettingsIcon,
   Check,
   ChevronRight,
+  RefreshCw,
 } from 'lucide-react'
 import styles from '../features/settings/styles/settings.module.css'
 import ModalManageInstallationTypes from '../features/settings/components/ModalManageInstallationTypes'
@@ -17,16 +18,18 @@ import useInstallationTypes from '../features/installations/hooks/useInstallatio
 import useCategories from '../features/installations/hooks/useCategories'
 import useFormCategories from '../features/forms/hooks/useFormCategories'
 import { useTheme } from '../shared/hooks/useTheme'
+import Skeleton from '../shared/components/Skeleton'
 
 const Settings = () => {
   const { t } = useTranslation()
   const location = useLocation() as { state?: { fromHomeTour?: boolean } }
   const { dark } = useTheme()
   const [activeModal, setActiveModal] = useState<string | null>(null)
+  const [isInitialLoading, setIsInitialLoading] = useState(true)
 
-  const { installationTypes, loadInstallationTypes } = useInstallationTypes()
-  const { categories: assetCategories, loadCategories: loadAssetCategories } = useCategories()
-  const { categories: formCategories, loadCategories: loadFormCategories } = useFormCategories()
+  const { installationTypes, loadInstallationTypes, loading: loadingTypes } = useInstallationTypes()
+  const { categories: assetCategories, loadCategories: loadAssetCategories, loading: loadingAssets } = useCategories()
+  const { categories: formCategories, loadCategories: loadFormCategories, loading: loadingForms } = useFormCategories()
 
   useEffect(() => {
     document.title = t('settings.titlePage')
@@ -91,16 +94,27 @@ const Settings = () => {
     }
   }, [location.state, startSettingsTour])
 
+  const reloadAll = useCallback(async () => {
+    try {
+      await Promise.allSettled([
+        loadInstallationTypes(true),
+        loadAssetCategories(true),
+        loadFormCategories(true),
+      ])
+    } finally {
+      setIsInitialLoading(false)
+    }
+  }, [loadInstallationTypes, loadAssetCategories, loadFormCategories])
+
   useEffect(() => {
-    loadInstallationTypes()
-    loadAssetCategories()
-    loadFormCategories()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    reloadAll()
+  }, [reloadAll])
 
   const hasInstallationTypes = installationTypes.length > 0
   const hasAssetCategories = assetCategories.length > 0
   const hasFormCategories = formCategories.length > 0
+  const hasAnyData = hasInstallationTypes || hasAssetCategories || hasFormCategories
+  const isSyncing = isInitialLoading || loadingTypes || loadingAssets || loadingForms
 
   const completedCount = [hasInstallationTypes, hasAssetCategories, hasFormCategories].filter(Boolean).length
   const totalSteps = 3
@@ -112,10 +126,7 @@ const Settings = () => {
 
   const handleCloseModal = () => {
     setActiveModal(null)
-    // reload to reflect new completion state
-    loadInstallationTypes()
-    loadAssetCategories()
-    loadFormCategories()
+    reloadAll()
   }
 
   const checklistItems = [
@@ -153,56 +164,86 @@ const Settings = () => {
         </div>
 
         {/* Configuración inicial */}
-        <section className={styles.initialCard} data-tour="settings-initial-card">
-          <div className={styles.initialHeader}>
-            <div className={styles.initialHeaderIcon}>
-              <SettingsIcon size={22} />
-            </div>
-            <div className={styles.initialHeaderText}>
-              <h2 className={styles.initialTitle}>{t('settings.initialConfig')}</h2>
-              <p className={styles.initialDesc}>{t('settings.initialConfigDesc')}</p>
-            </div>
-          </div>
-
-          <div className={styles.progressSection}>
-            <div className={styles.progressHeader}>
-              <span className={styles.progressLabel}>
-                {t('settings.stepsCompleted', { completed: completedCount, total: totalSteps })}
-              </span>
-              <span className={styles.progressPercent}>{progressPercent}%</span>
-            </div>
-            <div className={styles.progressTrack}>
-              <div className={styles.progressFill} style={{ width: `${progressPercent}%` }} />
-            </div>
-          </div>
-
-          <div className={styles.checklist} data-tour="settings-checklist">
-            {checklistItems.map((item) => (
-              <div key={item.id} className={styles.checklistItem} data-tour={`settings-step-${item.id}`}>
-                <div className={`${styles.circleNumber} ${item.completed ? styles.circleCompleted : styles.circlePending}`}>
-                  {item.completed ? <Check size={14} /> : item.number}
-                </div>
-                <div className={styles.checklistContent}>
-                  <h3 className={styles.checklistTitle}>{item.title}</h3>
-                  <p className={styles.checklistDesc}>{item.description}</p>
-                </div>
-                <div className={styles.checklistActions}>
-                  <span className={`${styles.statusBadge} ${item.completed ? styles.statusCompleted : styles.statusPending}`}>
-                    {item.completed ? <Check size={12} /> : null}
-                    {item.completed ? t('settings.completed') : t('settings.pending')}
-                  </span>
-                  <button
-                    data-tour={`settings-manage-${item.id}`}
-                    className={`${styles.manageButton} ${item.completed ? styles.manageButtonCompleted : styles.manageButtonPending}`}
-                    onClick={() => handleOpenModal(item.id)}
-                  >
-                    {t('settings.manage')} <ChevronRight size={14} />
-                  </button>
-                </div>
+        {isInitialLoading && !hasAnyData ? (
+          <section className={styles.initialCard} data-tour="settings-initial-card">
+            <div className={styles.initialHeader}>
+              <div className={styles.initialHeaderIcon}>
+                <SettingsIcon size={22} />
               </div>
-            ))}
-          </div>
-        </section>
+              <div className={styles.initialHeaderText} style={{ width: '100%' }}>
+                <h2 className={styles.initialTitle}>{t('settings.initialConfig')}</h2>
+                <p className={styles.initialDesc}>{t('settings.initialConfigDesc')}</p>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', margin: '24px 0' }}>
+              <Skeleton height={24} width="40%" style={{ borderRadius: 6 }} />
+              <Skeleton height={10} width="100%" style={{ borderRadius: 6 }} />
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {[1, 2, 3].map((n) => (
+                <Skeleton key={n} height={68} width="100%" style={{ borderRadius: 8 }} />
+              ))}
+            </div>
+          </section>
+        ) : (
+          <section className={styles.initialCard} data-tour="settings-initial-card">
+            <div className={styles.initialHeader}>
+              <div className={styles.initialHeaderIcon}>
+                <SettingsIcon size={22} />
+              </div>
+              <div className={styles.initialHeaderText}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <h2 className={styles.initialTitle}>{t('settings.initialConfig')}</h2>
+                  {isSyncing && (
+                    <RefreshCw size={16} className={styles.syncSpinner} data-testid="settings-syncing" />
+                  )}
+                </div>
+                <p className={styles.initialDesc}>{t('settings.initialConfigDesc')}</p>
+              </div>
+            </div>
+
+            <div className={styles.progressSection}>
+              <div className={styles.progressHeader}>
+                <span className={styles.progressLabel}>
+                  {t('settings.stepsCompleted', { completed: completedCount, total: totalSteps })}
+                </span>
+                <span className={styles.progressPercent}>{progressPercent}%</span>
+              </div>
+              <div className={styles.progressTrack}>
+                <div className={styles.progressFill} style={{ width: `${progressPercent}%` }} />
+              </div>
+            </div>
+
+            <div className={styles.checklist} data-tour="settings-checklist">
+              {checklistItems.map((item) => (
+                <div key={item.id} className={styles.checklistItem} data-tour={`settings-step-${item.id}`}>
+                  <div className={`${styles.circleNumber} ${item.completed ? styles.circleCompleted : styles.circlePending}`}>
+                    {item.completed ? <Check size={14} /> : item.number}
+                  </div>
+                  <div className={styles.checklistContent}>
+                    <h3 className={styles.checklistTitle}>{item.title}</h3>
+                    <p className={styles.checklistDesc}>{item.description}</p>
+                  </div>
+                  <div className={styles.checklistActions}>
+                    <span className={`${styles.statusBadge} ${item.completed ? styles.statusCompleted : styles.statusPending}`}>
+                      {item.completed ? <Check size={12} /> : null}
+                      {item.completed ? t('settings.completed') : t('settings.pending')}
+                    </span>
+                    <button
+                      data-tour={`settings-manage-${item.id}`}
+                      className={`${styles.manageButton} ${item.completed ? styles.manageButtonCompleted : styles.manageButtonPending}`}
+                      onClick={() => handleOpenModal(item.id)}
+                    >
+                      {t('settings.manage')} <ChevronRight size={14} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
       </div>
 

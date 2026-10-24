@@ -1,5 +1,5 @@
-import { useState, useCallback } from "react"
-import { useSettingsStore, SettingCategory } from "../../../store/settingsStore"
+import { useState, useCallback, useEffect } from "react"
+import { useSettingsStore, FormCategoryItem } from "../../../store/settingsStore"
 import { useAuthStore } from "../../../store/authStore"
 import {
   fetchFormCategories,
@@ -13,16 +13,16 @@ export type FormCategory = {
   nombre: string
   descripcion?: string
   activa?: boolean
+  fechaCreacion?: string
 }
 
 const useFormCategories = () => {
-  const { categories: storedCategories, setCategories, ownerId } = useSettingsStore()
-  const { userId } = useAuthStore()
+  const { formCategories: storedCategories, setFormCategories, ownerId } = useSettingsStore()
+  const { userId, isAuthenticated } = useAuthStore()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const validCategories = userId && ownerId === userId ? storedCategories : []
-  const formCategories = validCategories.filter(cat => cat.tipo === 'formulario')
+  const validCategories = userId && ownerId && ownerId !== userId ? [] : storedCategories
 
   const [formData, setFormData] = useState<Omit<FormCategory, "_id">>({
     nombre: "",
@@ -32,38 +32,45 @@ const useFormCategories = () => {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const loadCategories = useCallback(async (includeInactive = false) => {
+  const loadCategories = useCallback(async (includeInactive = true) => {
+    if (!isAuthenticated) {
+      return
+    }
+
     setLoading(true)
     setError(null)
     try {
-      const { categories: currentCategories, setCategories: currentSetCategories } = useSettingsStore.getState()
-      const currentFormCategories = currentCategories.filter(cat => cat.tipo === 'formulario')
-      if (!navigator.onLine && currentFormCategories.length > 0) {
+      const currentCategories = useSettingsStore.getState().formCategories
+      if (!navigator.onLine && currentCategories.length > 0) {
         setLoading(false)
         return
       }
       const response = await fetchFormCategories(includeInactive)
-      const fetchedCategories = response.categories || response
-      
-      const otherCategories = currentCategories.filter(cat => cat.tipo !== 'formulario')
-      const mappedData = (fetchedCategories || []).map((cat: any) => ({ ...cat, tipo: 'formulario' })) as SettingCategory[]
-      const nextCategories = [...otherCategories, ...mappedData]
-      // SOLO actualizar si realmente cambió (evita nueva referencia -> loop)
-      if (JSON.stringify(currentCategories) !== JSON.stringify(nextCategories)) {
-        currentSetCategories(nextCategories)
+      const fetchedCategories = response?.categories || response
+      const list = Array.isArray(fetchedCategories) ? fetchedCategories : []
+
+      const mappedData: FormCategoryItem[] = list.map((cat: Record<string, unknown>) => ({
+        _id: String(cat._id || cat.id || ""),
+        nombre: String(cat.nombre || ""),
+        descripcion: cat.descripcion ? String(cat.descripcion) : undefined,
+        activa: cat.activa !== undefined ? Boolean(cat.activa) : true,
+        fechaCreacion: cat.fechaCreacion ? String(cat.fechaCreacion) : undefined,
+      }))
+
+      if (JSON.stringify(currentCategories) !== JSON.stringify(mappedData)) {
+        setFormCategories(mappedData)
       }
-    } catch (err: any) {
-      const { categories: currentCategories } = useSettingsStore.getState()
-      const currentFormCategories = currentCategories.filter(cat => cat.tipo === 'formulario')
-      if (currentFormCategories.length > 0) {
+    } catch (err: unknown) {
+      const currentCategories = useSettingsStore.getState().formCategories
+      if (currentCategories.length > 0) {
         setLoading(false)
         return
       }
-      setError(err.message || "Error al cargar categorías")
+      setError((err as Error).message || "Error al cargar categorías")
     } finally {
       setLoading(false)
     }
-  }, [setCategories])
+  }, [isAuthenticated, setFormCategories])
 
   const handleFieldChange = (name: string, value: string | boolean) => {
     setFormData((prev) => ({ ...prev, [name]: value }))
@@ -89,7 +96,7 @@ const useFormCategories = () => {
   const handleSubmitForm = async (
     e: React.FormEvent,
     onSuccessCallback: (message: string) => void,
-    onCreate: (data: FormCategory) => Promise<{ message: string }>,
+    onCreate: (data: FormCategory) => Promise<{ message: string }>
   ) => {
     e.preventDefault()
     setIsSubmitting(true)
@@ -103,12 +110,12 @@ const useFormCategories = () => {
 
     try {
       const result = await onCreate(formData)
-      if (typeof onSuccessCallback === 'function') {
+      if (typeof onSuccessCallback === "function") {
         onSuccessCallback(result.message)
       }
       resetForm()
-      await loadCategories()
-    } catch (err) {
+      await loadCategories(true)
+    } catch {
       setError("Error al guardar categoría")
     } finally {
       setIsSubmitting(false)
@@ -117,18 +124,41 @@ const useFormCategories = () => {
 
   const addCategory = async (category: FormCategory): Promise<{ message: string }> => {
     try {
-      const response = await createFormCategory(category)
+      const payload = {
+        ...category,
+        activa: category.activa !== undefined ? category.activa : true,
+      }
+      const response = await createFormCategory(payload)
+      const current = useSettingsStore.getState().formCategories
+      const createdItem: FormCategoryItem = {
+        _id: String(response._id || response.id || ""),
+        nombre: String(response.nombre || category.nombre),
+        descripcion: response.descripcion ? String(response.descripcion) : category.descripcion,
+        activa: response.activa !== undefined ? Boolean(response.activa) : true,
+        fechaCreacion: response.fechaCreacion ? String(response.fechaCreacion) : new Date().toISOString(),
+      }
+      if (createdItem._id) {
+        setFormCategories([...current, createdItem])
+      }
       return { message: response.message || "Categoría creada con éxito" }
-    } catch (err: any) {
+    } catch (err: unknown) {
       throw err
     }
   }
 
   const updateCategory = async (id: string, data: Partial<FormCategory>): Promise<{ message: string }> => {
     try {
-      const response = await updateFormCategory(id, data)
+      const payload = {
+        ...data,
+        activa: data.activa !== undefined ? data.activa : true,
+      }
+      const response = await updateFormCategory(id, payload)
+      const current = useSettingsStore.getState().formCategories
+      setFormCategories(
+        current.map((cat) => (cat._id === id ? { ...cat, ...payload } : cat))
+      )
       return { message: response.message || "Categoría actualizada con éxito" }
-    } catch (err: any) {
+    } catch (err: unknown) {
       throw err
     }
   }
@@ -136,8 +166,10 @@ const useFormCategories = () => {
   const removeCategory = async (id: string): Promise<{ message: string }> => {
     try {
       const response = await deleteFormCategory(id)
+      const current = useSettingsStore.getState().formCategories
+      setFormCategories(current.filter((cat) => cat._id !== id))
       return { message: response.message || "Categoría eliminada con éxito" }
-    } catch (err: any) {
+    } catch (err: unknown) {
       throw err
     }
   }
@@ -151,8 +183,14 @@ const useFormCategories = () => {
     setFormErrors({})
   }
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadCategories(true)
+    }
+  }, [isAuthenticated, loadCategories])
+
   return {
-    categories: formCategories as unknown as FormCategory[],
+    categories: validCategories,
     loading,
     error,
     formData,
