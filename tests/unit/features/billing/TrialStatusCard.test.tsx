@@ -1,4 +1,8 @@
 import { describe, expect, it } from "vitest"
+
+// Los fixtures usan fechas UTC al límite del dia: fijar UTC para que el
+// resultado no dependa de la zona horaria del sistema que corre los tests.
+process.env.TZ = "UTC"
 import { render, screen } from "@testing-library/react"
 import { MemoryRouter } from "react-router"
 import { TrialStatusCard } from "../../../../src/features/billing/components/TrialStatusCard"

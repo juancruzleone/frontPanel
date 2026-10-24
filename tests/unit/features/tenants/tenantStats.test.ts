@@ -2,6 +2,10 @@ import { describe, it, expect } from 'vitest'
 import { aggregateTenantStats, buildEvolution, toDistribution, formatCount, EMPTY_AGGREGATE } from '@/features/tenants/utils/tenantStats'
 import type { Tenant } from '@/features/tenants/types/tenant.types'
 
+// Los fixtures usan fechas UTC al limite de mes: fijar UTC para que el
+// resultado no dependa de la zona horaria del sistema que corre los tests.
+process.env.TZ = 'UTC'
+
 function makeTenant(overrides: Partial<Tenant> & { _id: string }): Tenant {
   return {
     _id: overrides._id,
