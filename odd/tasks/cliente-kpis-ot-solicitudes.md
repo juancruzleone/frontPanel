@@ -18,7 +18,7 @@ Header: El rol cliente ve sus propios KPIs de sus instalaciones, accede a Órden
 - T3 (S2): front acceso cliente a OT: roleUtils + router + WorkOrders read-only con mis-ordenes-trabajo — route: inline (frontGMAO) — hecho
 - T4 (S4,S6): back estado solicitada: lifecycle + schemas + clientViews + dashboard normalize — route: inline (backPanel) — hecho
 - T5 (S4,S6): front estado solicitada: translations + kanban + tabla + filtros + origen badge (admin+cliente) — route: inline (frontGMAO) — hecho
-- T6 (S5): checks + commits + push + CI/CD en ambos repos — route: inline — en curso (commit+push+CI)
+- T6 (S5): checks + commits + push + CI/CD en ambos repos — route: inline — hecho
 
 ## Log
 
@@ -27,3 +27,4 @@ Header: El rol cliente ve sus propios KPIs de sus instalaciones, accede a Órden
 
 - L3 (checks front): type-check OK, lint 0 errores, test:unit 1533 passed, build OK. Tests ajustados: HomeDashboard cliente espera 3 KPI cards; i18n keys agregadas a los 10 locales.
 - L4 (checks back): tests de OT/dashboard/clientViews/export en verde (2459 passed excluyendo .worktrees). Fallos restantes solo en `.worktrees/offline-bootstrap-allowdiskuse` (stale worktree ajeno, fallan también en árbol limpio) + billing flaky bajo carga (pasa aislado).
+- L5 (commit+push+CI): front `8a37771` en `feature/onboarding-tour-global` (25 archivos), back `14f1c6e` en `fix/security-audit-residuals-finish` (8 archivos), push OK en ambos. CI de GitHub solo corre en push a main/develop o PR: espejo local en verde (front: lint/type/unit/build; back: unit 2459 passed). PR a main/develop queda a decisión del usuario.
