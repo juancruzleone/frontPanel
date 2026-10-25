@@ -214,7 +214,7 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
               </button>
             </Tooltip>
           )}
-          {permissions?.canAssignWorkOrders && ["pendiente", "asignada"].includes(order.estado) && (
+          {permissions?.canAssignWorkOrders && ["solicitada", "pendiente", "asignada"].includes(order.estado) && (
             <Tooltip content={t('workOrders.assignTechnician')}>
               <button
                 className={styles.iconButton}
@@ -225,7 +225,7 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
               </button>
             </Tooltip>
           )}
-          {permissions?.canEditWorkOrders && ["pendiente", "asignada"].includes(order.estado) && (
+          {permissions?.canEditWorkOrders && ["solicitada", "pendiente", "asignada"].includes(order.estado) && (
             <Tooltip content={t('workOrders.editOrder')}>
               <button
                 className={styles.iconButton}

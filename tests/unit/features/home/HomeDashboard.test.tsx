@@ -164,11 +164,11 @@ describe("HomeDashboard role-aware composition", () => {
   })
 
   it.each([
-    ["admin", "admin", 4],
-    ["cliente", "client", 2],
-    ["tecnico", "technician", 0],
-    ["técnico", "technician", 0],
-  ] as const)("mirrors loaded section order and role-specific resources while loading %s", (rawRole, role, resourceCount) => {
+    ["admin", "admin", 4, 4],
+    ["cliente", "client", 2, 3],
+    ["tecnico", "technician", 0, 4],
+    ["técnico", "technician", 0, 4],
+  ] as const)("mirrors loaded section order and role-specific resources while loading %s", (rawRole, role, resourceCount, kpiCount) => {
     mocks.role = rawRole
     const loadedState = createState(role)
     mocks.state = { ...loadedState, data: null, loading: true }
@@ -193,7 +193,7 @@ describe("HomeDashboard role-aware composition", () => {
     rerender(<MemoryRouter><HomeDashboard /></MemoryRouter>)
     const loaded = container.querySelector(".dashboardContainer")!
     expect(sectionOrder(loaded)).toEqual(expectedSections)
-    expect(loaded.querySelectorAll(".primaryKpiCard")).toHaveLength(4)
+    expect(loaded.querySelectorAll(".primaryKpiCard")).toHaveLength(kpiCount)
     expect(loaded.querySelectorAll(".secondaryKpiCard")).toHaveLength(5)
     expect(loaded.querySelectorAll(".resourceBand dl > div")).toHaveLength(resourceCount)
     expect(screen.queryByLabelText("Cargando panel")).not.toBeInTheDocument()

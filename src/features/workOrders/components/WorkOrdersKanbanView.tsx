@@ -37,6 +37,7 @@ interface WorkOrdersKanbanViewProps {
 }
 
 const KANBAN_STATUSES = [
+	"solicitada",
 	"pendiente",
 	"asignada",
 	"en_progreso",
@@ -45,6 +46,7 @@ const KANBAN_STATUSES = [
 ];
 
 const KANBAN_DOT_COLORS: Record<string, string> = {
+	solicitada: "#06b6d4",
 	pendiente: "#f59e0b",
 	asignada: "#3b82f6",
 	en_progreso: "#8b5cf6",
@@ -169,7 +171,7 @@ export const WorkOrdersKanbanView: React.FC<WorkOrdersKanbanViewProps> = ({
 						)}
 
 					{permissions?.canAssignWorkOrders &&
-						["pendiente", "asignada"].includes(order.estado) && (
+						["solicitada", "pendiente", "asignada"].includes(order.estado) && (
 							<Tooltip content={t("workOrders.assignTechnician")}>
 								<button
 									className={styles.iconButton}
@@ -181,7 +183,7 @@ export const WorkOrdersKanbanView: React.FC<WorkOrdersKanbanViewProps> = ({
 						)}
 
 					{permissions?.canEditWorkOrders &&
-						["pendiente", "asignada"].includes(order.estado) && (
+						["solicitada", "pendiente", "asignada"].includes(order.estado) && (
 							<Tooltip content={t("workOrders.editOrder")}>
 								<button
 									className={styles.iconButton}

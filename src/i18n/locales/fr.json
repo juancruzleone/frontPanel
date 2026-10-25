@@ -1088,7 +1088,15 @@
     "fri": "Ven",
     "sat": "Sam",
     "noDataAvailable": "Aucune donnée disponible",
-    "selectDate": "Sélectionner une date"
+    "selectDate": "Sélectionner une date",
+    "requested": "Demandée",
+    "allOrigins": "Toutes les origines",
+    "originClientRequest": "Demande du client",
+    "originManual": "Manuel",
+    "originMaintenancePlan": "Plan de maintenance",
+    "originAutoPreventive": "Préventif automatique",
+    "filterByOrigin": "Filtrer par origine",
+    "clientRequestBadge": "Demande du client"
   },
   "installations": {
     "exportResults": "Exporter les résultats",

@@ -200,6 +200,7 @@ const WorkOrders = () => {
 	const [searchParams] = useSearchParams();
 	const [selectedStatus, setSelectedStatus] = useState(() => searchParams.get("estado") || "");
 	const [selectedPriority, setSelectedPriority] = useState("");
+	const [selectedOrigin, setSelectedOrigin] = useState("");
 	const [selectedDate, setSelectedDate] = useState("");
 	const [selectedDateFilter, setSelectedDateFilter] = useState("");
 	const [selectedTechnician, setSelectedTechnician] = useState("");
@@ -265,6 +266,7 @@ const WorkOrders = () => {
 			estado: selectedStatus,
 			search: searchTermDebounced,
 			prioridad: selectedPriority,
+			origen: selectedOrigin,
 			tecnicoId: selectedTechnician,
 			timezone: timeZone,
 			offset: offset,
@@ -355,6 +357,7 @@ const WorkOrders = () => {
 		selectedStatus,
 		searchTermDebounced,
 		selectedPriority,
+		selectedOrigin,
 		selectedTechnician,
 		selectedDate,
 		selectedDateFilter,
@@ -377,6 +380,7 @@ const WorkOrders = () => {
 	const statusOptions = useMemo(
 		() => [
 			{ label: t("common.all"), value: "" },
+			{ label: t("workOrders.requested", { defaultValue: "Solicitada" }), value: "solicitada" },
 			{ label: t("workOrders.pending"), value: "pendiente" },
 			{ label: t("workOrders.assigned"), value: "asignada" },
 			{ label: t("workOrders.inProgress"), value: "en_progreso" },
@@ -397,6 +401,20 @@ const WorkOrders = () => {
 			{ label: t("calendar.medium") || "Media", value: "media" },
 			{ label: t("calendar.high") || "Alta", value: "alta" },
 			{ label: t("calendar.critical") || "Crítica", value: "critica" },
+		],
+		[t],
+	);
+
+	const originOptions = useMemo(
+		() => [
+			{
+				label: t("workOrders.allOrigins", { defaultValue: "Todos los orígenes" }),
+				value: "",
+			},
+			{ label: t("workOrders.originClientRequest", { defaultValue: "Solicitud de cliente" }), value: "solicitud_cliente" },
+			{ label: t("workOrders.originManual", { defaultValue: "Manual" }), value: "manual" },
+			{ label: t("workOrders.originMaintenancePlan", { defaultValue: "Plan de mantenimiento" }), value: "plan de mantenimiento" },
+			{ label: t("workOrders.originAutoPreventive", { defaultValue: "Preventivo automático" }), value: "preventivo_automatico" },
 		],
 		[t],
 	);
@@ -534,7 +552,7 @@ const WorkOrders = () => {
 	const shouldShowEditButton = (order: WorkOrder) => {
 		const perms = permissions as UserPermissions | null;
 		if (!perms?.canEditWorkOrders) return false;
-		return ["pendiente", "asignada"].includes(order.estado);
+		return ["solicitada", "pendiente", "asignada"].includes(order.estado);
 	};
 
 	const handleChangePage = (page: number) => {
@@ -549,6 +567,7 @@ const WorkOrders = () => {
 	};
 
 	const isTechnicianRole = role === "tecnico" || role === "técnico";
+	const isClientRole = role === "cliente";
 
 	const isAssignedToCurrentTechnician = (order: WorkOrder) => {
 		if (!currentUserId) return false;
@@ -624,6 +643,7 @@ const WorkOrders = () => {
 	}, [
 		searchTerm,
 		selectedStatus,
+		selectedOrigin,
 		selectedPriority,
 		selectedDate,
 		selectedDateFilter,
@@ -691,6 +711,7 @@ const WorkOrders = () => {
 						onClick={() => {
 							setSelectedStatus("");
 							setSelectedPriority("");
+							setSelectedOrigin("");
 							setSelectedDate("");
 							setSelectedDateFilter("");
 							setSearchTerm("");
@@ -704,6 +725,7 @@ const WorkOrders = () => {
 				</div>
 
 				<div className={styles.filterContainer}>
+					{!isClientRole && (
 					<HybridSelect
 						value={selectedTechnician}
 						onChange={setSelectedTechnician}
@@ -722,6 +744,18 @@ const WorkOrders = () => {
 						}
 						variant="compact"
 						className={styles.technicianSelect}
+					/>
+					)}
+
+					<HybridSelect
+						value={selectedOrigin}
+						onChange={setSelectedOrigin}
+						options={originOptions}
+						placeholder={
+							t("workOrders.filterByOrigin", { defaultValue: "Filtrar por origen" })
+						}
+						variant="compact"
+						className={styles.prioritySelect}
 					/>
 
 					<HybridSelect
@@ -878,6 +912,14 @@ const WorkOrders = () => {
 											<p className={styles.detailItem}>
 												<strong>{t("workOrders.origin")}:</strong>{" "}
 												{translateOrderOrigin(order.origen || "manual")}
+												{order.origen === "solicitud_cliente" && (
+													<span
+														className={`${styles.statusBadge} ${styles.status_solicitada}`}
+														style={{ marginLeft: 8 }}
+													>
+														{t("workOrders.clientRequestBadge", { defaultValue: "Solicitud de cliente" })}
+													</span>
+												)}
 											</p>
 											<div className={styles.statusRow}>
 												<strong>{t("workOrders.status")}:</strong>
@@ -961,7 +1003,7 @@ const WorkOrders = () => {
 													</Tooltip>
 												)}
 											{permissions?.canAssignWorkOrders &&
-												["pendiente", "asignada"].includes(order.estado) && (
+												["solicitada", "pendiente", "asignada"].includes(order.estado) && (
 													<Tooltip content={t("workOrders.assignTechnician")}>
 														<button
 															className={styles.iconButton}

@@ -9,11 +9,12 @@ interface PrimaryKPIsProps {
   metrics: DashboardMetric[]
   upcomingCount: number
   assetsCount: number
+  isClient?: boolean
 }
 
 const TREND_SYMBOLS = { up: "↑", down: "↓", unchanged: "→" } as const
 
-export const PrimaryKPIs = ({ metrics, upcomingCount, assetsCount }: PrimaryKPIsProps) => {
+export const PrimaryKPIs = ({ metrics, upcomingCount, assetsCount, isClient = false }: PrimaryKPIsProps) => {
   const { t } = useTranslation()
   const { getRoute } = useTranslatedRoutes()
 
@@ -84,8 +85,8 @@ export const PrimaryKPIs = ({ metrics, upcomingCount, assetsCount }: PrimaryKPIs
           </div>
         </Link>
 
-        {/* Card 3: Próximos mantenimientos */}
-        <Link to={getRoute("maintenancePlan")} className={styles.primaryKpiCard}>
+        {/* Card 3: Próximos mantenimientos (el cliente no tiene plan: va al calendario) */}
+        <Link to={isClient ? getRoute("calendar") : getRoute("maintenancePlan")} className={styles.primaryKpiCard}>
           <div className={styles.primaryKpiHeader}>
             <Calendar size={17} className={styles.primaryKpiIcon} aria-hidden />
             <span className={styles.primaryKpiTitle}>
@@ -101,7 +102,8 @@ export const PrimaryKPIs = ({ metrics, upcomingCount, assetsCount }: PrimaryKPIs
           </div>
         </Link>
 
-        {/* Card 4: Activos registrados */}
+        {/* Card 4: Activos registrados (oculta para el cliente) */}
+        {!isClient && (
         <Link to={getRoute("assets")} className={styles.primaryKpiCard}>
           <div className={styles.primaryKpiHeader}>
             <Package size={17} className={styles.primaryKpiIcon} aria-hidden />
@@ -117,6 +119,7 @@ export const PrimaryKPIs = ({ metrics, upcomingCount, assetsCount }: PrimaryKPIs
             </span>
           </div>
         </Link>
+        )}
       </div>
     </div>
   )

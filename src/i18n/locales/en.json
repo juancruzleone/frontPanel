@@ -2169,7 +2169,15 @@
     "wed": "Wed",
     "thu": "Thu",
     "fri": "Fri",
-    "sat": "Sat"
+    "sat": "Sat",
+    "requested": "Requested",
+    "allOrigins": "All origins",
+    "originClientRequest": "Client request",
+    "originManual": "Manual",
+    "originMaintenancePlan": "Maintenance plan",
+    "originAutoPreventive": "Automatic preventive",
+    "filterByOrigin": "Filter by origin",
+    "clientRequestBadge": "Client request"
   },
   "inventory": {
     "exportMovements": "Export movements",

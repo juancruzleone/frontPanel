@@ -90,6 +90,7 @@ export const resolveBackendLabel = (
 
 const WORK_ORDER_STATUS_LABELS: BackendLabelTable = {
   es: {
+    'solicitada': 'Solicitada',
     'pendiente': 'Pendiente',
     'asignada': 'Asignada',
     'en_progreso': 'En Progreso',
@@ -97,6 +98,7 @@ const WORK_ORDER_STATUS_LABELS: BackendLabelTable = {
     'cancelada': 'Cancelada'
   },
   en: {
+    'solicitada': 'Requested',
     'pendiente': 'Pending',
     'asignada': 'Assigned',
     'en_progreso': 'In Progress',
@@ -445,11 +447,15 @@ export const translateOrderType = (orderType: string): string =>
 const ORDER_ORIGIN_LABELS: BackendLabelTable = {
   es: {
     'manual': 'Manual',
-    'plan_mantenimiento': 'Plan de mantenimiento'
+    'plan_mantenimiento': 'Plan de mantenimiento',
+    'preventivo_automatico': 'Preventivo automático',
+    'solicitud_cliente': 'Solicitud de cliente'
   },
   en: {
     'manual': 'Manual',
-    'plan_mantenimiento': 'Maintenance plan'
+    'plan_mantenimiento': 'Maintenance plan',
+    'preventivo_automatico': 'Automatic preventive',
+    'solicitud_cliente': 'Client request'
   },
   fr: {
     'manual': 'Manuel',

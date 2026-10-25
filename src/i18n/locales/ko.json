@@ -1092,7 +1092,15 @@
     "fri": "금",
     "sat": "토",
     "noDataAvailable": "데이터가 없습니다",
-    "selectDate": "날짜 선택"
+    "selectDate": "날짜 선택",
+    "requested": "요청됨",
+    "allOrigins": "모든 출처",
+    "originClientRequest": "고객 요청",
+    "originManual": "수동",
+    "originMaintenancePlan": "유지보수 계획",
+    "originAutoPreventive": "자동 예방",
+    "filterByOrigin": "출처별 필터",
+    "clientRequestBadge": "고객 요청"
   },
   "installations": {
     "exportResults": "결과 내보내기",

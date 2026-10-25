@@ -154,7 +154,7 @@ export const HomeDashboard = () => {
     permissions === null
     || (Array.isArray(permissions) ? permissions.includes("canViewWorkOrders") : permissions.canViewWorkOrders !== false)
   )
-  const showWorkOrdersLink = data.role === "admin" || technicianCanViewWorkOrders
+  const showWorkOrdersLink = data.role === "admin" || data.role === "client" || technicianCanViewWorkOrders
 
   return (
     <>
@@ -179,6 +179,7 @@ export const HomeDashboard = () => {
             metrics={data.metrics}
             upcomingCount={data.upcomingPreventive.length}
             assetsCount={data.resourceMetrics.find((m) => m.id === "assets")?.value ?? 0}
+            isClient={data.role === "client"}
           />
           <QuickActions
             onCreateWorkOrder={() => setActiveQuickModal("workOrder")}

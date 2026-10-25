@@ -187,7 +187,7 @@ export const generateRoleSpecificRoutes = (): RouteObject[] => {
     routes.push(
       {
         path: t.workOrders,
-        element: <ProtectedRoute allowedRoles={[ROLES.ADMIN, ROLES.TECHNICIAN, ROLES.TECHNICIAN_ALT]}><WorkOrders /></ProtectedRoute>,
+        element: <ProtectedRoute allowedRoles={[ROLES.ADMIN, ROLES.TECHNICIAN, ROLES.TECHNICIAN_ALT, ROLES.CLIENT]}><WorkOrders /></ProtectedRoute>,
       },
       {
         path: `${t.internalForm}/:installationId/:deviceId`,

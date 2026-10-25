@@ -434,6 +434,13 @@
   line-height: 1;
 }
 
+.status_solicitada,
+.solicitada {
+  background: #cffafe;
+  color: #0e7490;
+  border: 1px solid #a5f3fc;
+}
+
 .status_pendiente {
   background: #fff3cd;
   color: #856404;
@@ -1139,6 +1146,7 @@
 }
 
 /* Status colors for column headers - removed colored top borders for sober neutral cards */
+.column_solicitada,
 .column_pendiente,
 .column_asignada,
 .column_en_progreso,

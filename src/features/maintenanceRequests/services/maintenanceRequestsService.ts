@@ -131,7 +131,7 @@ class MaintenanceRequestsService {
     if (result.error) throw new Error(result.error)
     return {
       message: 'Solicitud guardada localmente y pendiente de sincronización.',
-      workOrder: { ...data, _id: requestId, estado: 'pendiente', localStatus: 'pending' },
+      workOrder: { ...data, _id: requestId, estado: 'solicitada', localStatus: 'pending' },
     }
   }
 
@@ -142,7 +142,7 @@ class MaintenanceRequestsService {
       .map(command => ({
         ...(command.payload as unknown as CreateMaintenanceRequestData),
         _id: command.commandId,
-        estado: command.status === 'conflict' || command.status === 'dead-letter' ? 'conflicto' : 'pendiente',
+        estado: command.status === 'conflict' || command.status === 'dead-letter' ? 'conflicto' : 'solicitada',
         localStatus: command.status === 'conflict' || command.status === 'dead-letter' ? 'conflict' : 'pending',
         failureReason: command.failureReason,
       }))

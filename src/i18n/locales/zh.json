@@ -1092,7 +1092,15 @@
     "fri": "五",
     "sat": "六",
     "noDataAvailable": "暂无数据",
-    "selectDate": "选择日期"
+    "selectDate": "选择日期",
+    "requested": "已请求",
+    "allOrigins": "所有来源",
+    "originClientRequest": "客户请求",
+    "originManual": "手动",
+    "originMaintenancePlan": "维护计划",
+    "originAutoPreventive": "自动预防",
+    "filterByOrigin": "按来源筛选",
+    "clientRequestBadge": "客户请求"
   },
   "modals": {
     "understood": "关闭",

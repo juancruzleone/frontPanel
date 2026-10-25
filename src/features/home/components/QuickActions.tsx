@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router"
 import { Plus, Package, Building2, Calendar } from "lucide-react"
+import { useAuthStore } from "../../../store/authStore"
 import { useTranslatedRoutes } from "../../../router/useTranslatedRoutes"
 import styles from "../styles/home.module.css"
 
@@ -17,6 +18,8 @@ export const QuickActions = ({
 }: QuickActionsProps) => {
   const { t } = useTranslation()
   const { getRoute } = useTranslatedRoutes()
+  const role = useAuthStore((state) => state.role)
+  const isClient = role === "cliente"
 
   return (
     <div className={styles.quickActionsSection} data-tour="home-dashboard-quick-actions">
@@ -34,14 +37,16 @@ export const QuickActions = ({
             {t("home.dashboard.quickActions.createWorkOrder", { defaultValue: "Crear orden de trabajo" })}
           </span>
         </button>
-        <button
-          type="button"
-          onClick={onRegisterAsset}
-          className={styles.quickActionCard}
-        >
-          <Package size={18} className={styles.quickActionIcon} aria-hidden />
-          <span>{t("home.dashboard.quickActions.registerAsset", { defaultValue: "Registrar activo" })}</span>
-        </button>
+        {!isClient && (
+          <button
+            type="button"
+            onClick={onRegisterAsset}
+            className={styles.quickActionCard}
+          >
+            <Package size={18} className={styles.quickActionIcon} aria-hidden />
+            <span>{t("home.dashboard.quickActions.registerAsset", { defaultValue: "Registrar activo" })}</span>
+          </button>
+        )}
         <button
           type="button"
           onClick={onAddInstallation}

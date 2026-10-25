@@ -63,6 +63,7 @@ export const canAccessSection = (
 			"instalaciones",
 			"calendario",
 			"activos",
+			"ordenes-trabajo",
 		];
 		return clientAllowedSections.includes(section);
 	}

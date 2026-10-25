@@ -1072,7 +1072,15 @@
     "fri": "Fr",
     "sat": "Sa",
     "noDataAvailable": "Keine Daten verfügbar",
-    "selectDate": "Datum auswählen"
+    "selectDate": "Datum auswählen",
+    "requested": "Angefragt",
+    "allOrigins": "Alle Herkünfte",
+    "originClientRequest": "Kundenanfrage",
+    "originManual": "Manuell",
+    "originMaintenancePlan": "Wartungsplan",
+    "originAutoPreventive": "Automatisches Präventiv",
+    "filterByOrigin": "Nach Herkunft filtern",
+    "clientRequestBadge": "Kundenanfrage"
   },
   "installations": {
     "exportResults": "Ergebnisse exportieren",

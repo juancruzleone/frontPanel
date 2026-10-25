@@ -15,7 +15,7 @@ import styles from '../styles/workOrders.module.css'
 
 type PackageState = 'idle' | 'downloading' | 'ready' | 'incomplete' | 'error'
 
-const NON_TERMINAL_STATES = new Set(['asignada', 'pendiente', 'en_progreso'])
+const NON_TERMINAL_STATES = new Set(['solicitada', 'asignada', 'pendiente', 'en_progreso'])
 
 interface OfflinePackageActionProps {
   orderId: string

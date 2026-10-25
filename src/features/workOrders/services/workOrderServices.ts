@@ -3,6 +3,7 @@ import {
 	fetchWithCsrf,
 	getAuthHeaders,
 } from "../../../shared/utils/apiHeaders";
+import { useAuthStore } from "../../../store/authStore";
 import { downloadResponse } from "../../../shared/utils/downloadResponse";
 import { ApiError, throwApiError } from "../../../shared/services/ApiError";
 
@@ -234,11 +235,75 @@ export type PaginatedResponse<T> = {
 	};
 };
 
+export const fetchClientWorkOrders = async (
+	page = 1,
+	limit = 10,
+	filters: Record<string, string | number> = {},
+): Promise<PaginatedResponse<WorkOrder>> => {
+	// El cliente solo ve las OT de sus instalaciones asignadas (scope del backend).
+	const queryParams = new URLSearchParams({
+		page: page.toString(),
+		limit: limit.toString(),
+		...(filters as Record<string, string>),
+	});
+
+	const ordersResponse = await fetchWithAuthRetry(
+		`${getApiUrl()}mis-ordenes-trabajo?${queryParams}`,
+		{
+			headers: getAuthHeaders(),
+		},
+	);
+
+	const ordersData = await handleResponse(ordersResponse);
+	const raw: WorkOrder[] = Array.isArray(ordersData) ? ordersData : ordersData.data || [];
+
+	// El endpoint de cliente no filtra ni pagina: se aplica acá.
+	const estado = typeof filters.estado === "string" ? filters.estado : "";
+	const prioridad = typeof filters.prioridad === "string" ? filters.prioridad : "";
+	const search = typeof filters.search === "string" ? filters.search.toLowerCase() : "";
+	const origen = typeof filters.origen === "string" ? filters.origen : "";
+
+	let filtered = [...raw];
+	if (estado === "vencida") {
+		const now = new Date();
+		filtered = filtered.filter((w) => {
+			if (w.estado === "vencida") return true;
+			if (w.estado === "completada" || w.estado === "cancelada") return false;
+			if (w.fechaProgramada) {
+				const d = new Date(w.fechaProgramada);
+				return !isNaN(d.getTime()) && d < now;
+			}
+			return false;
+		});
+	} else if (estado) {
+		filtered = filtered.filter((w) => w.estado === estado);
+	}
+	if (prioridad) filtered = filtered.filter((w) => w.prioridad === prioridad);
+	if (origen) filtered = filtered.filter((w) => (w.origen || "manual") === origen);
+	if (search) {
+		filtered = filtered.filter(
+			(w) =>
+				w.titulo.toLowerCase().includes(search) ||
+				w.descripcion.toLowerCase().includes(search),
+		);
+	}
+
+	const total = filtered.length;
+	const startIndex = (page - 1) * limit;
+	return {
+		data: filtered.slice(startIndex, startIndex + limit),
+		pagination: { total, page, limit, totalPages: Math.ceil(total / limit) || 1 },
+	};
+};
+
 export const fetchWorkOrders = async (
 	page = 1,
 	limit = 10,
 	filters: Record<string, string | number> = {},
 ): Promise<PaginatedResponse<WorkOrder>> => {
+	if (useAuthStore.getState().role === "cliente") {
+		return fetchClientWorkOrders(page, limit, filters);
+	}
 	const queryParams = new URLSearchParams({
 		page: page.toString(),
 		limit: limit.toString(),

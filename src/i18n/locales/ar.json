@@ -1090,7 +1090,15 @@
     "fri": "جمعة",
     "sat": "سبت",
     "noDataAvailable": "لا توجد بيانات متاحة",
-    "selectDate": "اختر التاريخ"
+    "selectDate": "اختر التاريخ",
+    "requested": "مطلوبة",
+    "allOrigins": "كل المصادر",
+    "originClientRequest": "طلب العميل",
+    "originManual": "يدوي",
+    "originMaintenancePlan": "خطة الصيانة",
+    "originAutoPreventive": "وقائي تلقائي",
+    "filterByOrigin": "تصفية حسب المصدر",
+    "clientRequestBadge": "طلب العميل"
   },
   "installations": {
     "exportResults": "تصدير النتائج",

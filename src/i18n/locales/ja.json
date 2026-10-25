@@ -1090,7 +1090,15 @@
     "fri": "金",
     "sat": "土",
     "noDataAvailable": "データがありません",
-    "selectDate": "日付を選択"
+    "selectDate": "日付を選択",
+    "requested": "依頼済み",
+    "allOrigins": "すべての由来",
+    "originClientRequest": "クライアントからの依頼",
+    "originManual": "手動",
+    "originMaintenancePlan": "保守計画",
+    "originAutoPreventive": "自動予防",
+    "filterByOrigin": "由来で絞り込む",
+    "clientRequestBadge": "クライアントからの依頼"
   },
   "installations": {
     "exportResults": "結果をエクスポート",
