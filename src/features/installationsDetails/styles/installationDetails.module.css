@@ -2,12 +2,49 @@
   margin: 0 auto;
   padding: 120px 24px 24px 24px;
   max-width: 1200px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 24px;
   color: var(--color-text);
+  flex: 1;
   min-height: calc(100vh - 40px);
   position: static;
+}
+
+.container:has(.pagination) {
+  padding-bottom: 0;
+}
+
+:global(main):has(> .container .pagination) {
+  --tour-scroll-clearance: 0px;
+  --tour-safe-area-display: none;
+}
+
+.container .pagination {
+  flex-wrap: wrap;
+  padding-right: var(--pagination-tour-width, 0px);
+  padding-bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  min-height: calc(var(--pagination-tour-height, 0px) + env(safe-area-inset-bottom, 0px));
+}
+
+/* The optional result count is part of the page footer, not blank space. */
+.container > .pagination + div {
+  padding-right: var(--pagination-tour-width, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.loadingContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.skeletonGrid {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .header {

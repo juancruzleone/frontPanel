@@ -251,12 +251,13 @@ const Inventory = () => {
 
       {csvError && <p role="alert" className={styles.errorMessage}>{csvError}</p>}
       {error && <p role="alert" className={styles.errorMessage}>{error}</p>}
-      <div role="status" aria-label="inventory freshness">
-        {freshness === 'cached' && t('inventory.freshness.cached', { defaultValue: 'Datos de inventario en caché' })}
-        {freshness === 'partial' && t('inventory.freshness.partial', { defaultValue: 'Datos en caché; la actualización falló' })}
-        {freshness === 'stale' && t('inventory.freshness.stale', { defaultValue: 'Los datos de inventario están desactualizados' })}
-        {freshness === 'fresh' && t('inventory.freshness.fresh', { defaultValue: 'Datos de inventario actualizados' })}
-      </div>
+      {freshness !== 'fresh' && (
+        <div role="status" aria-label="inventory freshness">
+          {freshness === 'cached' && t('inventory.freshness.cached', { defaultValue: 'Datos de inventario en caché' })}
+          {freshness === 'partial' && t('inventory.freshness.partial', { defaultValue: 'Datos en caché; la actualización falló' })}
+          {freshness === 'stale' && t('inventory.freshness.stale', { defaultValue: 'Los datos de inventario están desactualizados' })}
+        </div>
+      )}
 
       <div className={styles.listContainer}>
         {loading ? (

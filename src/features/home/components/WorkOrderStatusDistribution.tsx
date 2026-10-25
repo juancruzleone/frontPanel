@@ -132,7 +132,7 @@ export const WorkOrderStatusDistribution = ({ data, mode = "status" }: WorkOrder
                   )
                 })}
                 <text x="75" y="65" textAnchor="middle" className={styles.donutCenterValue}>{total}</text>
-                <text x="75" y="90" textAnchor="middle" className={styles.donutCenterLabel}>Total</text>
+                <text x="75" y="90" textAnchor="middle" className={styles.donutCenterLabel}>{t("home.dashboard.distribution.totalLabel", { defaultValue: "Total" })}</text>
               </svg>
             </div>
             <ul className={styles.distributionList}>

@@ -138,6 +138,10 @@
 
   /* --- Focus + charts + brand --------------------------------------- */
   --color-secondary-contrast: #ffffff;
+  --quick-action-primary-bg: var(--color-secondary);
+  --quick-action-primary-border: var(--color-secondary);
+  --quick-action-primary-text: #ffffff;
+  --quick-action-primary-focus: var(--color-secondary);
   --chart-created: #087F70;
   --chart-completed: #8494A7;
   --focus-ring: 2px solid var(--color-secondary);
@@ -198,5 +202,9 @@
   --chart-critical: #f87171;
   --chart-created: #2dd4bf;
   --chart-completed: #94a3b8;
-  --color-secondary-contrast: #091e19;
+  --color-secondary-contrast: #ffffff;
+  --quick-action-primary-bg: #087F70;
+  --quick-action-primary-border: #00FFAE;
+  --quick-action-primary-text: #ffffff;
+  --quick-action-primary-focus: #00FFAE;
 }

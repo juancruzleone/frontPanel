@@ -63,9 +63,13 @@ const esKeys = [...esHome.keys()].sort()
  * future contributor has to read and trust.
  */
 const IDENTICAL_ALLOWLIST: Record<string, Record<string, string>> = {
+  es: {
+    "home.dashboard.distribution.totalLabel": "`Total` is the correct Spanish word.",
+  },
   de: {
     "home.title": "`Dashboard` is the established term in German admin UIs and is already used in de.json (`home.dashboard.loading`, `home.dashboard.empty.dashboard`).",
     "home.dashboard.inventory.minimum": "`min.` is the same abbreviation in German as in English.",
+    "home.dashboard.table.status": "`Status` is the correct German word.",
   },
   fr: {
     // French spells all five of these exactly as English does.
@@ -74,6 +78,11 @@ const IDENTICAL_ALLOWLIST: Record<string, Record<string, string>> = {
     "home.dashboard.resources.metrics.clients": "`Clients` is the French plural as written.",
     "home.dashboard.date": "`Date` is the French word for date.",
     "home.dashboard.inventory.minimum": "`min.` is the same abbreviation in French as in English.",
+    "home.dashboard.distribution.totalLabel": "`Total` is the correct French word.",
+    "home.dashboard.table.installation": "`Installation` is the correct French word.",
+    "home.dashboard.table.type": "`Type` is the correct French word.",
+    "home.dashboard.table.actions": "`Actions` is the correct French plural.",
+    "home.dashboard.attention.incidentsLabel": "`Incidents` is the correct French noun.",
   },
   it: {
     "home.dashboard.inventory.minimum": "`min.` is the standard abbreviation of `minimo`.",
@@ -84,6 +93,7 @@ const IDENTICAL_ALLOWLIST: Record<string, Record<string, string>> = {
     "home.type.preventive": "`Preventivo` is the correct Italian masculine label, identical to Spanish.",
     "home.type.preventivo": "`Preventivo` is the correct Italian masculine label, identical to Spanish.",
     "home.trend.up": "`Aumento del {{value}}%` is correct Italian, identical to Spanish.",
+    "home.dashboard.table.type": "`Tipo` is the correct Italian word, identical to Spanish.",
   },
   pt: {
     // Portuguese and Spanish share the spelling of a lot of Latinate vocabulary.
@@ -106,6 +116,12 @@ const IDENTICAL_ALLOWLIST: Record<string, Record<string, string>> = {
     "home.tour.buttons.previous": "`Anterior` is correct Portuguese.",
     "home.tour.buttons.restart": "`Ver tutorial` is correct Portuguese.",
     "home.tour.progressText": "`{{current}} de {{total}}` is correct Portuguese.",
+    "home.dashboard.distribution.totalLabel": "`Total` is the correct Portuguese word.",
+    "home.dashboard.overdueAlert.reviewAction": "`Revisar` is the correct Portuguese verb, identical to Spanish.",
+    "home.dashboard.table.type": "`Tipo` is the correct Portuguese word, identical to Spanish.",
+    "home.dashboard.table.status": "`Estado` is the correct Portuguese word, identical to Spanish.",
+    "home.dashboard.upcoming.soon": "`Próximo` is the correct Portuguese word, identical to Spanish.",
+    "home.dashboard.attention.incidentsLabel": "`Incidentes` is the correct Portuguese noun, identical to Spanish.",
   },
 }
 

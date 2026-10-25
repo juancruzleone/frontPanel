@@ -26,7 +26,8 @@
     "audit": "감사",
     "list": "목록",
     "compliance": "규정 준수",
-    "settings": "설정"
+    "settings": "설정",
+    "analytics": "지표"
   },
   "audit": {
     "title": "활동 로그",
@@ -381,7 +382,10 @@
     "upload": "업로드",
     "view": "보기",
     "viewCards": "카드 보기",
-    "viewTable": "표 보기"
+    "viewTable": "표 보기",
+    "viewAll": "모두 보기",
+    "viewAllFeminine": "모두 보기",
+    "review": "검토"
   },
   "csvImport": {
     "chooseFile": "CSV 파일 선택",
@@ -561,14 +565,16 @@
         "immediate": "즉시 처리 및 요약",
         "analysis": "추이와 상태",
         "recent": "최근 이력과 정보",
-        "immediateKicker": "운영 요약"
+        "immediateKicker": "운영 요약",
+        "primaryKpis": "주요 핵심 지표",
+        "secondaryIndicators": "보조 운영 지표"
       },
       "metrics": {
         "openWorkOrders": "열린 작업 지시",
         "overdueWorkOrders": "기한 초과 작업 지시",
         "criticalWorkOrders": "긴급 작업 지시",
-        "mttrHours": "평균 복구 시간",
-        "mtbfHours": "평균 고장 간격",
+        "mttrHours": "평균 복구 시간 (MTTR)",
+        "mtbfHours": "평균 고장 간격 (MTBF)",
         "preventiveComplianceRate": "예방 정비 이행률",
         "slaRate": "SLA 이행률",
         "responseTimeHours": "첫 응답"
@@ -578,7 +584,9 @@
         "title": "처리 필요",
         "clear": "현재 처리할 예외가 없습니다.",
         "overdue": "기한이 지난 열린 작업 지시",
-        "critical": "우선순위가 긴급인 열린 작업 지시"
+        "critical": "우선순위가 긴급인 열린 작업 지시",
+        "overdueSubtitle": "조치 필요",
+        "incidentsLabel": "인시던트"
       },
       "resources": {
         "kicker": "대응 체계",
@@ -593,14 +601,18 @@
         }
       },
       "distribution": {
-        "kicker": "구성"
+        "kicker": "구성",
+        "totalLabel": "합계"
       },
       "ordersCount": "{{count}}건의 작업 지시",
       "trend": {
         "kicker": "작업 흐름",
         "description": "기간 내 {{created}}건이 생성되고 {{completed}}건이 완료되었습니다.",
         "tableToggle": "표로 데이터 보기",
-        "tableCaption": "날짜별 작업 지시 생성 및 완료"
+        "tableCaption": "날짜별 작업 지시 생성 및 완료",
+        "subtitle": "선택한 기간 동안 생성 및 완료된 작업 지시입니다.",
+        "deltaUp": "↑ {{pct}}% 이전 기간 대비",
+        "deltaDown": "↓ {{pct}}% 이전 기간 대비"
       },
       "date": "날짜",
       "recent": {
@@ -663,7 +675,39 @@
         "worsened": "악화",
         "unchanged": "변화 없음",
         "changed": "변화",
-        "unavailable": "이전 기간 비교를 사용할 수 없습니다."
+        "unavailable": "이전 기간 비교를 사용할 수 없습니다.",
+        "lessThanPrevious": "{{direction}} 이전 기간 대비 {{count}} 건 감소",
+        "moreThanPrevious": "{{direction}} 이전 기간 대비 {{count}} 건 증가",
+        "vsPrevious": "{{direction}} {{delta}} 이전 대비",
+        "noData": "데이터 없음"
+      },
+      "quickActions": {
+        "title": "빠른 작업",
+        "createWorkOrder": "작업 지시 생성",
+        "registerAsset": "자산 등록",
+        "addInstallation": "시설 추가",
+        "maintenanceCalendar": "유지보수 일정"
+      },
+      "upcomingMaintenanceTitle": "예정된 유지보수",
+      "scheduledSubtitle": "예정됨",
+      "registeredAssetsTitle": "등록된 자산",
+      "organizationTotal": "조직 전체",
+      "overdueAlert": {
+        "title": "{{count}} 건의 지연된 작업 지시",
+        "desc": "해결해야 할 지연된 작업 지시가 {{count}} 건 있습니다.",
+        "action": "지연된 작업 지시 보기",
+        "reviewAction": "검토"
+      },
+      "table": {
+        "assetOrPlan": "자산 / 계획",
+        "installation": "시설",
+        "type": "유형",
+        "status": "상태",
+        "actions": "작업"
+      },
+      "upcoming": {
+        "soon": "임박",
+        "scheduled": "예정됨"
       }
     },
     "welcome": "환영합니다",
@@ -3035,6 +3079,28 @@
         "forbidden": "Your role cannot view this panel.",
         "unauthorized": "Authentication required.",
         "server": "Server error. Try again."
+      }
+    }
+  },
+  "topbar": {
+    "search": {
+      "placeholder": "자산, 시설, 작업 지시 검색...",
+      "ariaLabel": "자산, 시설 및 작업 지시 검색",
+      "loading": "시스템 검색 중...",
+      "noResults": "“{{query}}”에 대한 검색 결과가 없습니다",
+      "resultsKicker": "결과",
+      "viewAllResults": "모든 결과 보기",
+      "goToKicker": "이동",
+      "actionsKicker": "작업",
+      "searchEverywhere": "조직 전체에서 “{{query}}” 검색",
+      "categoryWorkOrder": "작업 지시",
+      "categoryAsset": "자산",
+      "categoryInstallation": "시설",
+      "quick": {
+        "assets": "자산",
+        "assetsDesc": "조직의 모든 자산 보기",
+        "installations": "시설",
+        "installationsDesc": "시설 및 사업장 관리"
       }
     }
   }

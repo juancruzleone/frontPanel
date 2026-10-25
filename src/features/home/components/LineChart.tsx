@@ -1,3 +1,4 @@
+import { useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import {
   ResponsiveContainer,
@@ -9,12 +10,14 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts"
-import { Table, ArrowRight } from "lucide-react"
-import type { EvolutionDataItem } from "../types/homeTypes"
+import { Table, ChevronDown } from "lucide-react"
+import type { EvolutionDataItem, RangeOption } from "../types/homeTypes"
 import styles from "../styles/home.module.css"
 
 interface LineChartProps {
   data: EvolutionDataItem[]
+  range?: RangeOption
+  onRangeChange?: (range: RangeOption) => void
 }
 
 interface CustomTooltipProps {
@@ -42,36 +45,94 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
   )
 }
 
-export const LineChart = ({ data }: LineChartProps) => {
+export const LineChart = ({ data, range = "30d", onRangeChange }: LineChartProps) => {
   const { t, i18n } = useTranslation()
 
-  const totals = data.reduce(
-    (result, item) => ({
-      created: result.created + item.created,
-      completed: result.completed + item.completed,
-    }),
-    { created: 0, completed: 0 },
-  )
+  const chartData = useMemo(() => {
+    const locale = i18n.resolvedLanguage || "es"
+    const now = new Date()
 
-  const dateFormatter = new Intl.DateTimeFormat(i18n.resolvedLanguage || "es", {
-    day: "2-digit",
-    month: "short",
-  })
+    if (range === "7d") {
+      const weekdayFormatter = new Intl.DateTimeFormat(locale, { weekday: "long" })
+      const dayMap = new Map<string, { created: number; completed: number }>()
 
-  const formatDate = (value: string) => {
-    const date = new Date(`${value}T00:00:00`)
-    return Number.isNaN(date.getTime()) ? value : dateFormatter.format(date)
-  }
+      for (const item of data) {
+        dayMap.set(item.name.slice(0, 10), { created: item.created, completed: item.completed })
+      }
 
-  const chartData = data.map((item) => ({
-    ...item,
-    formattedDate: formatDate(item.name),
-  }))
+      const points: Array<{ name: string; formattedDate: string; created: number; completed: number }> = []
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date(now)
+        d.setDate(d.getDate() - i)
+        const dateKey = d.toISOString().slice(0, 10)
+        const found = dayMap.get(dateKey) || { created: 0, completed: 0 }
+        const rawWeekday = weekdayFormatter.format(d)
+        const formattedDate = rawWeekday.charAt(0).toUpperCase() + rawWeekday.slice(1)
+        points.push({
+          name: dateKey,
+          formattedDate,
+          created: found.created,
+          completed: found.completed,
+        })
+      }
+      return points
+    }
+
+    if (range === "12m") {
+      const monthFormatter = new Intl.DateTimeFormat(locale, { month: "short" })
+      const monthMap = new Map<string, { created: number; completed: number }>()
+
+      for (const item of data) {
+        const monthKey = item.name.slice(0, 7)
+        const existing = monthMap.get(monthKey) || { created: 0, completed: 0 }
+        monthMap.set(monthKey, {
+          created: existing.created + item.created,
+          completed: existing.completed + item.completed,
+        })
+      }
+
+      const points: Array<{ name: string; formattedDate: string; created: number; completed: number }> = []
+      for (let i = 11; i >= 0; i--) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1)
+        const monthKey = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`
+        const found = monthMap.get(monthKey) || { created: 0, completed: 0 }
+        const rawMonth = monthFormatter.format(d)
+        const formattedDate = rawMonth.charAt(0).toUpperCase() + rawMonth.slice(1)
+        points.push({
+          name: monthKey,
+          formattedDate,
+          created: found.created,
+          completed: found.completed,
+        })
+      }
+      return points
+    }
+
+    const defaultDateFormatter = new Intl.DateTimeFormat(locale, { day: "2-digit", month: "short" })
+    return data.map((item) => {
+      const d = new Date(`${item.name}T00:00:00`)
+      const formattedDate = Number.isNaN(d.getTime()) ? item.name : defaultDateFormatter.format(d)
+      return {
+        ...item,
+        formattedDate,
+      }
+    })
+  }, [data, range, i18n.resolvedLanguage])
+
+  const totals = useMemo(() => {
+    return chartData.reduce(
+      (result, item) => ({
+        created: result.created + item.created,
+        completed: result.completed + item.completed,
+      }),
+      { created: 0, completed: 0 },
+    )
+  }, [chartData])
 
   return (
     <section className={`${styles.panel} ${styles.trendPanel}`} aria-labelledby="trend-title">
       <div className={styles.panelHeader}>
-        <div>
+        <div className={styles.trendHeaderInfo}>
           <p className={styles.panelKicker}>{t("home.dashboard.trend.kicker")}</p>
           <h2 id="trend-title">{t("home.temporalEvolution")}</h2>
           <p className={styles.panelSubtitle}>
@@ -83,13 +144,11 @@ export const LineChart = ({ data }: LineChartProps) => {
           <div className={styles.trendMetricItem}>
             <span className={styles.trendMetricLabel}>{t("home.created")}</span>
             <strong className={styles.trendMetricNumber}>{totals.created}</strong>
-            <span className={styles.trendMetricDeltaUp}>↑ 25% vs. período anterior</span>
           </div>
           <div className={styles.trendMetricDivider} aria-hidden />
           <div className={styles.trendMetricItem}>
             <span className={styles.trendMetricLabel}>{t("home.completed")}</span>
             <strong className={styles.trendMetricNumber}>{totals.completed}</strong>
-            <span className={styles.trendMetricDeltaDown}>↓ 50% vs. período anterior</span>
           </div>
         </div>
       </div>
@@ -100,17 +159,22 @@ export const LineChart = ({ data }: LineChartProps) => {
         <>
           <div className={styles.chartToolbar}>
             <div className={styles.chartLegend} aria-hidden="true">
-              <span className={styles.createdKey}>
-                <span className={styles.legendColorCreated} />
-                <span>{t("home.created")}</span>
-              </span>
-              <span className={styles.completedKey}>
-                <span className={styles.legendColorCompleted} />
-                <span>{t("home.completed")}</span>
-              </span>
+              <span className={styles.createdKey}>{t("home.created")}</span>
+              <span className={styles.completedKey}>{t("home.completed")}</span>
             </div>
-            <div className={styles.chartRangeBadge}>
-              <span>{t("home.range.30d", { defaultValue: "Últimos 30 días" })}</span>
+            <div className={styles.chartRangeSelectWrapper}>
+              <select
+                className={styles.chartRangeSelect}
+                value={range}
+                onChange={(e) => onRangeChange?.(e.target.value as RangeOption)}
+                aria-label={t("home.dashboard.rangeLabel", { defaultValue: "Seleccionar período" })}
+              >
+                <option value="7d">{t("home.range.7d", { defaultValue: "Últimos 7 días" })}</option>
+                <option value="30d">{t("home.range.30d", { defaultValue: "Últimos 30 días" })}</option>
+                <option value="90d">{t("home.range.90d", { defaultValue: "Últimos 90 días" })}</option>
+                <option value="12m">{t("home.range.12m", { defaultValue: "Últimos 12 meses" })}</option>
+              </select>
+              <ChevronDown size={14} className={styles.chartRangeChevron} aria-hidden />
             </div>
           </div>
 
@@ -166,7 +230,6 @@ export const LineChart = ({ data }: LineChartProps) => {
             <summary>
               <Table size={15} className={styles.chartTableIcon} aria-hidden />
               <span>{t("home.dashboard.trend.tableToggle")}</span>
-              <ArrowRight size={13} aria-hidden />
             </summary>
             <table>
               <caption>{t("home.dashboard.trend.tableCaption")}</caption>
@@ -178,9 +241,9 @@ export const LineChart = ({ data }: LineChartProps) => {
                 </tr>
               </thead>
               <tbody>
-                {data.map((item) => (
+                {chartData.map((item) => (
                   <tr key={item.name}>
-                    <th scope="row">{formatDate(item.name)}</th>
+                    <th scope="row">{item.formattedDate}</th>
                     <td>{item.created}</td>
                     <td>{item.completed}</td>
                   </tr>

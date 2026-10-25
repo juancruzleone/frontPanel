@@ -1,7 +1,7 @@
 import React from 'react'
 import { WorkOrder } from '../hooks/useWorkOrders'
 import DataTable, { Column } from '../../../components/DataTable/DataTable'
-import { translateWorkOrderStatus, translatePriority, translateWorkType } from '../../../shared/utils/backendTranslations'
+import { translateWorkOrderStatus, translatePriority, translateWorkType, translateWorkOrderTitle } from '../../../shared/utils/backendTranslations'
 import { Eye, Play, Check, User, Edit, Trash } from 'lucide-react'
 import Tooltip from '../../../shared/components/Tooltip/Tooltip'
 import styles from '../styles/workOrders.module.css'
@@ -47,7 +47,8 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
     {
       key: 'titulo',
       header: t('workOrders.title'),
-      width: '15%'
+      width: '15%',
+      render: (order) => translateWorkOrderTitle(order.titulo)
     },
     {
       key: 'prioridad',

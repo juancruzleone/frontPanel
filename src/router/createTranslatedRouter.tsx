@@ -7,6 +7,7 @@ import { ROLES } from "../shared/utils/roleUtils";
 import { OAUTH_CALLBACK_PATH } from "../features/auth/services/oauthServices";
 import { BillingRoute } from "./BillingRoute";
 import {
+  Analytics,
   Assets,
   AuditLogs,
   BillingAccessPage,
@@ -54,6 +55,23 @@ const generateChildRoutesForAllLanguages = (): RouteObject[] => {
       {
         path: t.home,
         element: <RoleProtectedRoute section="inicio"><Home /></RoleProtectedRoute>,
+      },
+      // Indicadores Operativos / Analíticas
+      {
+        path: "dashboard/indicadores",
+        element: <RoleProtectedRoute section="inicio"><Analytics /></RoleProtectedRoute>,
+      },
+      {
+        path: "dashboard/indicadores/:indicatorId",
+        element: <RoleProtectedRoute section="inicio"><Analytics /></RoleProtectedRoute>,
+      },
+      {
+        path: "indicadores",
+        element: <RoleProtectedRoute section="inicio"><Analytics /></RoleProtectedRoute>,
+      },
+      {
+        path: "indicadores/:indicatorId",
+        element: <RoleProtectedRoute section="inicio"><Analytics /></RoleProtectedRoute>,
       },
       // Instalaciones
       {

@@ -26,7 +26,8 @@
     "settings": "Settings",
     "audit": "Audit",
     "compliance": "Compliance",
-    "list": "List"
+    "list": "List",
+    "analytics": "Indicators"
   },
   "audit": {
     "title": "Activity Log",
@@ -381,7 +382,10 @@
     "assigning": "Assigning...",
     "document": "Document",
     "hello": "Hello",
-    "ok": "OK"
+    "ok": "OK",
+    "viewAll": "View all",
+    "viewAllFeminine": "View all",
+    "review": "Review"
   },
   "csvImport": {
     "chooseFile": "Select a CSV file",
@@ -560,14 +564,16 @@
         "immediate": "Immediate attention and summary",
         "immediateKicker": "Operational overview",
         "analysis": "Trend and status",
-        "recent": "Recent activity and context"
+        "recent": "Recent activity and context",
+        "primaryKpis": "Primary KPIs",
+        "secondaryIndicators": "Secondary operational indicators"
       },
       "metrics": {
         "openWorkOrders": "Open work orders",
         "overdueWorkOrders": "Overdue work orders",
         "criticalWorkOrders": "Critical work orders",
-        "mttrHours": "Mean time to repair",
-        "mtbfHours": "Mean time between failures",
+        "mttrHours": "Mean time to repair (MTTR)",
+        "mtbfHours": "Mean time between failures (MTBF)",
         "preventiveComplianceRate": "Preventive compliance",
         "slaRate": "SLA compliance",
         "responseTimeHours": "First response"
@@ -584,14 +590,20 @@
         "worsened": "Worsened",
         "unchanged": "No change",
         "changed": "Changed",
-        "unavailable": "Previous-period comparison unavailable."
+        "unavailable": "Previous-period comparison unavailable.",
+        "lessThanPrevious": "{{direction}} {{count}} less than previous period",
+        "moreThanPrevious": "{{direction}} {{count}} more than previous period",
+        "vsPrevious": "{{direction}} {{delta}} vs previous",
+        "noData": "No data"
       },
       "attention": {
         "kicker": "Exceptions",
         "title": "Attention required",
         "clear": "There are no active exceptions right now.",
         "overdue": "open work orders past their deadline",
-        "critical": "open work orders with critical priority"
+        "critical": "open work orders with critical priority",
+        "overdueSubtitle": "Require attention",
+        "incidentsLabel": "Incidents"
       },
       "resources": {
         "kicker": "Coverage",
@@ -606,14 +618,18 @@
         }
       },
       "distribution": {
-        "kicker": "Composition"
+        "kicker": "Composition",
+        "totalLabel": "Total"
       },
       "ordersCount": "{{count}} orders",
       "trend": {
         "kicker": "Work flow",
         "description": "{{created}} work orders created and {{completed}} completed in the period.",
         "tableToggle": "View data table",
-        "tableCaption": "Work orders created and completed by date"
+        "tableCaption": "Work orders created and completed by date",
+        "subtitle": "Work orders created and completed in the selected period.",
+        "deltaUp": "↑ {{pct}}% vs. previous period",
+        "deltaDown": "↓ {{pct}}% vs. previous period"
       },
       "date": "Date",
       "recent": {
@@ -662,6 +678,34 @@
         "offlineUnavailable": "There is no connection or saved data for this user.",
         "unsupportedRole": "Your role does not have an authorized dashboard scope.",
         "inventory": "The inventory summary is unavailable; the rest of the dashboard is current."
+      },
+      "quickActions": {
+        "title": "Quick actions",
+        "createWorkOrder": "Create work order",
+        "registerAsset": "Register asset",
+        "addInstallation": "Add installation",
+        "maintenanceCalendar": "Maintenance calendar"
+      },
+      "upcomingMaintenanceTitle": "Upcoming maintenance",
+      "scheduledSubtitle": "Scheduled",
+      "registeredAssetsTitle": "Registered assets",
+      "organizationTotal": "Organization total",
+      "overdueAlert": {
+        "title": "{{count}} overdue work orders",
+        "desc": "There are {{count}} overdue orders that need to be resolved.",
+        "action": "View overdue orders",
+        "reviewAction": "Review"
+      },
+      "table": {
+        "assetOrPlan": "Asset / Plan",
+        "installation": "Installation",
+        "type": "Type",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "upcoming": {
+        "soon": "Upcoming",
+        "scheduled": "Scheduled"
       }
     },
     "welcome": "Welcome",
@@ -3192,6 +3236,28 @@
       "closing": {
         "title": "Done: each section has its guide",
         "description": "That was the general map. The first time you enter each section you'll see its short tutorial. You can skip them and replay them with the help button."
+      }
+    }
+  },
+  "topbar": {
+    "search": {
+      "placeholder": "Search assets, installations, work orders...",
+      "ariaLabel": "Search assets, installations, and work orders",
+      "loading": "Searching system...",
+      "noResults": "No results found for “{{query}}”",
+      "resultsKicker": "Results",
+      "viewAllResults": "View all results",
+      "goToKicker": "Go to",
+      "actionsKicker": "Actions",
+      "searchEverywhere": "Search “{{query}}” organization-wide",
+      "categoryWorkOrder": "Work order",
+      "categoryAsset": "Asset",
+      "categoryInstallation": "Installation",
+      "quick": {
+        "assets": "Assets",
+        "assetsDesc": "View all organization assets",
+        "installations": "Installations",
+        "installationsDesc": "Manage installations and facilities"
       }
     }
   }

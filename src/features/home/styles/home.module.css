@@ -332,6 +332,20 @@
   margin-top: var(--space-md);
 }
 
+.kpiArrowIcon {
+  margin-left: auto;
+  opacity: 0.5;
+  color: var(--color-text-secondary);
+  transition: opacity 0.15s ease, transform 0.15s ease, color 0.15s ease;
+}
+
+.primaryKpiCard:hover .kpiArrowIcon,
+.secondaryKpiCard:hover .kpiArrowIcon {
+  opacity: 1;
+  color: var(--color-text);
+  transform: translate(1px, -1px);
+}
+
 .primaryKpiCard {
   display: flex;
   flex-direction: column;
@@ -442,9 +456,20 @@
   gap: var(--space-md);
 }
 
-.overdueAlertIcon {
-  color: var(--state-critical);
+.overdueAlertIconWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--state-critical-surface);
+  border: 1px solid var(--state-critical-border);
   flex-shrink: 0;
+}
+
+.overdueAlertIcon {
+  color: var(--state-critical-strong);
 }
 
 .overdueAlertText {
@@ -467,33 +492,38 @@
 .overdueAlertAction {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-xs);
-  padding: var(--space-xs) var(--space-md);
-  font-size: var(--type-caption-size);
-  font-weight: 700;
-  color: var(--state-critical);
-  border: 1px solid var(--state-critical-border);
+  gap: 5px;
+  padding: 6px 12px;
+  font-size: 0.95rem;
+  font-weight: 650;
+  color: var(--state-critical-strong);
+  border: none;
   border-radius: var(--radius-control);
   text-decoration: none;
-  background: var(--color-card);
-  box-shadow: var(--elevation-sm);
+  background: transparent;
+  box-shadow: none;
   flex-shrink: 0;
-  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+  transition: color 0.15s ease, transform 0.15s ease;
 }
 
 .overdueAlertAction:hover,
 .overdueAlertAction:focus-visible {
-  color: var(--color-bg);
-  background: var(--state-critical);
-  border-color: var(--state-critical);
-  transform: translateY(-1px);
-  box-shadow: var(--elevation-md);
-  text-decoration: none;
+  color: var(--state-critical-strong);
+  font-weight: 850;
+  background: transparent;
+  transform: translateX(2px);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.overdueAlertAction svg {
+  transition: transform 0.15s ease;
 }
 
 .overdueAlertAction:hover svg,
 .overdueAlertAction:focus-visible svg {
-  color: var(--color-bg);
+  transform: translate(2px, -2px);
 }
 
 /* --- Quick Actions --- */
@@ -536,23 +566,36 @@
   transform: translateY(-1px);
 }
 
+.quickActionCard:focus-visible {
+  outline: 2px solid var(--quick-action-primary-focus, var(--color-secondary));
+  outline-offset: 2px;
+}
+
 .quickActionCard:hover .quickActionIcon,
 .quickActionCard:focus-visible .quickActionIcon {
   color: var(--color-text);
 }
 
 .quickActionPrimary {
-  background: var(--color-secondary);
-  color: var(--color-secondary-contrast);
-  border-color: var(--color-secondary);
+  background: var(--quick-action-primary-bg, var(--color-secondary));
+  color: var(--quick-action-primary-text, var(--color-secondary-contrast));
+  border: 1px solid var(--quick-action-primary-border, var(--color-secondary));
   cursor: pointer;
 }
 
-.quickActionPrimary:hover,
+.quickActionPrimary:hover {
+  background: var(--quick-action-primary-bg, var(--color-secondary));
+  border-color: var(--quick-action-primary-border, var(--color-secondary));
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
 .quickActionPrimary:focus-visible {
-  background: var(--color-secondary);
-  border-color: var(--color-secondary);
-  filter: brightness(1.08);
+  background: var(--quick-action-primary-bg, var(--color-secondary));
+  border-color: var(--quick-action-primary-border, var(--color-secondary));
+  outline: 2px solid var(--quick-action-primary-focus, var(--color-secondary));
+  outline-offset: 2px;
+  filter: brightness(1.1);
   transform: translateY(-1px);
 }
 
@@ -561,13 +604,13 @@
 }
 
 .quickActionIconPrimary {
-  color: var(--color-secondary-contrast);
+  color: var(--quick-action-primary-text, var(--color-secondary-contrast));
   flex-shrink: 0;
 }
 
 .quickActionTextPrimary {
-  color: var(--color-secondary-contrast);
-  font-weight: 750;
+  color: var(--quick-action-primary-text, var(--color-secondary-contrast));
+  font-weight: 700;
 }
 
 .quickActionIcon {
@@ -1021,6 +1064,11 @@
   min-width: 0;
 }
 
+.trendHeaderInfo {
+  flex: 1 1 280px;
+  min-width: 220px;
+}
+
 .trendPanel {
   grid-column: span 7;
 }
@@ -1121,6 +1169,51 @@
   border: 1px solid var(--color-card-border);
   padding: 4px 10px;
   border-radius: var(--radius-control);
+}
+
+.chartRangeSelectWrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.chartRangeSelect {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-control);
+  padding: 4px 28px 4px 10px;
+  font-size: var(--type-caption-size);
+  font-weight: 550;
+  color: var(--color-text);
+  cursor: pointer;
+  outline: none;
+  line-height: 1.4;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.chartRangeSelect::-ms-expand {
+  display: none;
+}
+
+.chartRangeSelect:hover {
+  border-color: var(--state-neutral-border);
+  background-color: var(--color-bg-light);
+}
+
+.chartRangeSelect:focus-visible {
+  border-color: var(--color-secondary);
+  outline: 2px solid var(--quick-action-primary-focus, var(--color-secondary));
+  outline-offset: 1px;
+}
+
+.chartRangeChevron {
+  position: absolute;
+  right: 8px;
+  pointer-events: none;
+  color: var(--color-text-secondary);
 }
 
 .rechartsWrapper {
@@ -1364,7 +1457,7 @@
 .distributionList {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2xs);
+  gap: var(--space-xs);
   flex: 1;
   min-width: 0;
   margin: 0;
@@ -1377,10 +1470,10 @@
   grid-template-columns: 8px minmax(0, 1fr) auto auto;
   align-items: center;
   gap: var(--space-sm);
-  padding: 4px 0;
+  padding: 8px 0;
   border-top: 1px solid var(--color-card-border);
-  font-size: 0.8rem;
-  line-height: 1.3;
+  font-size: 0.82rem;
+  line-height: 1.35;
 }
 
 .distributionList li:first-child {
@@ -1428,14 +1521,18 @@
 .segmentcritical, .markercritical { fill: var(--state-critical); background: var(--state-critical); }
 .segmentOther, .markerOther { fill: var(--state-neutral); background: var(--state-neutral); }
 
-/* --- Donut layout --- */
+/* --- Donut layout: Donut ON TOP, breakdown list BELOW --- */
 .donutLayout {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--space-lg);
-  margin-top: var(--space-xl);
-  padding-top: var(--space-sm);
+  justify-content: center;
+  gap: var(--space-md);
+  flex: 1;
+  margin-top: auto;
+  margin-bottom: auto;
+  padding: var(--space-xs) 0;
   width: 100%;
 }
 
@@ -1445,12 +1542,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 auto;
 }
 
 .donutSvg {
   display: block;
-  width: 145px;
-  height: 145px;
+  width: 160px;
+  height: 160px;
 }
 
 .donutTrack {
@@ -1582,15 +1680,32 @@
   border: 1px solid var(--color-card-border);
   border-radius: var(--radius-panel);
   background: var(--color-card);
+  text-decoration: none;
   box-shadow: var(--elevation-card);
-  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
 }
 
-.secondaryKpiCard:hover {
+.secondaryKpiCard:hover,
+.secondaryKpiCard:focus-visible {
   border-color: var(--state-neutral-border);
   background: var(--color-bg-light);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: var(--elevation-raised);
+  text-decoration: none;
+}
+
+.secondaryKpiCard * {
+  text-decoration: none;
+}
+
+.secondaryKpiCard:hover .secondaryKpiTitle,
+.secondaryKpiCard:focus-visible .secondaryKpiTitle {
+  color: var(--color-text);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
 }
 
 .secondaryKpiHeader {
@@ -1823,20 +1938,22 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   padding: 0;
-  color: var(--color-text-secondary);
-  background: transparent;
-  border: none;
+  color: var(--color-text);
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-card-border);
   border-radius: var(--radius-control);
   cursor: pointer;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.15s ease;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.15s ease, border-color 0.15s ease;
 }
 
 .tableActionBtn:hover,
 .tableActionBtn:focus-visible {
   color: var(--color-text);
+  background: var(--state-neutral-surface);
+  border-color: var(--state-neutral-border);
   transform: translate(2px, -2px);
 }
 
@@ -2030,14 +2147,13 @@
 .orderStatus {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-xs);
-  padding: var(--space-3xs) var(--space-md);
-  border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-badge);
-  background: var(--color-bg-light);
+  gap: var(--space-2xs);
+  padding: 0;
+  border: none;
+  background: transparent;
   color: var(--color-text);
-  font-size: var(--type-caption-size);
-  font-weight: 550;
+  font-size: 0.72rem;
+  font-weight: 500;
   white-space: nowrap;
 }
 
@@ -2058,24 +2174,26 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   padding: 0;
-  border: none;
+  border: 1px solid var(--color-card-border);
   border-radius: var(--radius-control);
-  background: transparent;
-  color: var(--color-text-secondary);
+  background: var(--color-bg-light);
+  color: var(--color-text);
   font: inherit;
   font-size: var(--type-caption-size);
   font-weight: 650;
   white-space: nowrap;
   cursor: pointer;
   flex-shrink: 0;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.15s ease;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.15s ease, border-color 0.15s ease;
 }
 
 .orderDetailButton:hover {
   color: var(--color-text);
+  background: var(--state-neutral-surface);
+  border-color: var(--state-neutral-border);
   transform: translate(2px, -2px);
 }
 

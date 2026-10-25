@@ -26,7 +26,8 @@
     "audit": "审计",
     "list": "列表",
     "compliance": "合规",
-    "settings": "设置"
+    "settings": "设置",
+    "analytics": "指标"
   },
   "audit": {
     "title": "活动日志",
@@ -381,7 +382,10 @@
     "upload": "上传",
     "view": "查看",
     "viewCards": "卡片视图",
-    "viewTable": "表格视图"
+    "viewTable": "表格视图",
+    "viewAll": "查看全部",
+    "viewAllFeminine": "查看全部",
+    "review": "审查"
   },
   "csvImport": {
     "chooseFile": "选择 CSV 文件",
@@ -561,14 +565,16 @@
         "immediate": "即时关注与概览",
         "analysis": "趋势与状态",
         "recent": "近期动态与背景",
-        "immediateKicker": "运营概览"
+        "immediateKicker": "运营概览",
+        "primaryKpis": "主要关键指标",
+        "secondaryIndicators": "次要运营指标"
       },
       "metrics": {
         "openWorkOrders": "未关闭工单",
         "overdueWorkOrders": "逾期工单",
         "criticalWorkOrders": "紧急工单",
-        "mttrHours": "平均修复时长",
-        "mtbfHours": "平均故障间隔",
+        "mttrHours": "平均修复时长 (MTTR)",
+        "mtbfHours": "平均故障间隔 (MTBF)",
         "preventiveComplianceRate": "预防性维护达成率",
         "slaRate": "SLA 达成率",
         "responseTimeHours": "首次响应"
@@ -578,7 +584,9 @@
         "title": "需要处理",
         "clear": "当前没有待处理的异常。",
         "overdue": "已超出计划期限的未关闭工单",
-        "critical": "优先级为紧急的未关闭工单"
+        "critical": "优先级为紧急的未关闭工单",
+        "overdueSubtitle": "需要关注",
+        "incidentsLabel": "事件"
       },
       "resources": {
         "kicker": "覆盖情况",
@@ -593,14 +601,18 @@
         }
       },
       "distribution": {
-        "kicker": "构成"
+        "kicker": "构成",
+        "totalLabel": "总计"
       },
       "ordersCount": "{{count}} 张工单",
       "trend": {
         "kicker": "工作流转",
         "description": "该周期内创建 {{created}} 张工单，完成 {{completed}} 张。",
         "tableToggle": "以表格查看数据",
-        "tableCaption": "按日期统计的工单创建与完成数量"
+        "tableCaption": "按日期统计的工单创建与完成数量",
+        "subtitle": "在所选时间段内创建和完成的工单。",
+        "deltaUp": "↑ {{pct}}% 相比上一周期",
+        "deltaDown": "↓ {{pct}}% 相比上一周期"
       },
       "date": "日期",
       "recent": {
@@ -663,7 +675,39 @@
         "worsened": "恶化",
         "unchanged": "无变化",
         "changed": "有变化",
-        "unavailable": "无法与上一周期比较。"
+        "unavailable": "无法与上一周期比较。",
+        "lessThanPrevious": "{{direction}} 比上一周期减少 {{count}}",
+        "moreThanPrevious": "{{direction}} 比上一周期增加 {{count}}",
+        "vsPrevious": "{{direction}} {{delta}} 相比前期",
+        "noData": "无数据"
+      },
+      "quickActions": {
+        "title": "快捷操作",
+        "createWorkOrder": "创建工单",
+        "registerAsset": "登记资产",
+        "addInstallation": "添加设施",
+        "maintenanceCalendar": "维护日历"
+      },
+      "upcomingMaintenanceTitle": "近期维护",
+      "scheduledSubtitle": "已计划",
+      "registeredAssetsTitle": "已登记资产",
+      "organizationTotal": "组织总计",
+      "overdueAlert": {
+        "title": "{{count}} 项逾期工单",
+        "desc": "有 {{count}} 项逾期工单需要解决。",
+        "action": "查看逾期工单",
+        "reviewAction": "审查"
+      },
+      "table": {
+        "assetOrPlan": "资产 / 计划",
+        "installation": "设施",
+        "type": "类型",
+        "status": "状态",
+        "actions": "操作"
+      },
+      "upcoming": {
+        "soon": "即将到来",
+        "scheduled": "已计划"
       }
     },
     "welcome": "欢迎",
@@ -3026,6 +3070,28 @@
         "forbidden": "Your role cannot view this panel.",
         "unauthorized": "Authentication required.",
         "server": "Server error. Try again."
+      }
+    }
+  },
+  "topbar": {
+    "search": {
+      "placeholder": "搜索资产、设施、工单...",
+      "ariaLabel": "搜索资产、设施和工单",
+      "loading": "正在系统内搜索...",
+      "noResults": "未找到 “{{query}}” 的相关结果",
+      "resultsKicker": "结果",
+      "viewAllResults": "查看全部结果",
+      "goToKicker": "前往",
+      "actionsKicker": "操作",
+      "searchEverywhere": "在全组织中搜索 “{{query}}”",
+      "categoryWorkOrder": "工单",
+      "categoryAsset": "资产",
+      "categoryInstallation": "设施",
+      "quick": {
+        "assets": "资产",
+        "assetsDesc": "查看组织的所有资产",
+        "installations": "设施",
+        "installationsDesc": "管理设施与场所"
       }
     }
   }

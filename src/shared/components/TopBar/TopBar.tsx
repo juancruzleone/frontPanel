@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { Search, Bell, Check, Trash2, Clock, Sun, Moon, Wrench, Package, Building2, Loader2 } from "lucide-react";
+import { Search, Bell, Check, Trash2, Clock, Sun, Moon, Wrench, Package, Building2, Loader2, ArrowRight, X } from "lucide-react";
 import { useNotificationStore } from "../../../store/notificationStore";
 import { useLayoutStore } from "../../../store/layoutStore";
 import { useAuthStore } from "../../../store/authStore";
@@ -183,14 +183,34 @@ const TopBar: React.FC = () => {
 							ref={searchInputRef}
 							type="search"
 							className={styles.searchInput}
-							placeholder="Buscar activos, instalaciones, órdenes de trabajo..."
+							placeholder={t("topbar.search.placeholder", { defaultValue: "Buscar activos, instalaciones, órdenes de trabajo..." })}
 							value={searchQuery}
 							onChange={(e) => setSearchQuery(e.target.value)}
 							onFocus={() => {
 								if (searchQuery.trim().length >= 2) setIsSearchOpen(true);
 							}}
-							aria-label="Buscar activos, instalaciones y órdenes de trabajo"
+							onKeyDown={(e) => {
+								if (e.key === "Enter" && searchQuery.trim().length >= 2) {
+									navigate(`/ordenes-trabajo?search=${encodeURIComponent(searchQuery.trim())}`);
+									setIsSearchOpen(false);
+								}
+							}}
+							aria-label={t("topbar.search.ariaLabel", { defaultValue: "Buscar activos, instalaciones y órdenes de trabajo" })}
 						/>
+						{searchQuery.length > 0 && (
+							<button
+								type="button"
+								className={styles.searchClearBtn}
+								onClick={() => {
+									setSearchQuery("");
+									setSearchResults([]);
+									setIsSearchOpen(false);
+								}}
+								aria-label={t("common.clear", { defaultValue: "Limpiar" })}
+							>
+								<X size={14} />
+							</button>
+						)}
 						<kbd className={styles.searchKbd} aria-hidden>Ctrl + K</kbd>
 					</div>
 
@@ -199,54 +219,156 @@ const TopBar: React.FC = () => {
 							{isSearching && (
 								<div className={styles.searchStatus}>
 									<Loader2 size={16} className={styles.spinner} />
-									<span>Buscando en el sistema...</span>
+									<span>{t("topbar.search.loading", { defaultValue: "Buscando en el sistema..." })}</span>
 								</div>
 							)}
 
 							{!isSearching && searchResults.length === 0 && (
 								<div className={styles.searchEmpty}>
-									<span>No se encontraron resultados para &ldquo;{searchQuery}&rdquo;</span>
+									<span>{t("topbar.search.noResults", {
+										query: searchQuery,
+										defaultValue: `No se encontraron resultados para “${searchQuery}”`
+									})}</span>
 								</div>
 							)}
 
 							{!isSearching && searchResults.length > 0 && (
-								<div className={styles.searchResultsList}>
-									{searchResults.map((item) => {
-										const CategoryIcon =
-											item.category === "workOrders" ? Wrench :
-											item.category === "assets" ? Package : Building2;
-										const categoryLabel =
-											item.category === "workOrders" ? "Orden de trabajo" :
-											item.category === "assets" ? "Activo" : "Instalación";
+								<>
+									<div className={styles.searchSectionHeader}>
+										<span>{t("topbar.search.resultsKicker", { defaultValue: "Resultados" })}</span>
+										<button
+											type="button"
+											className={styles.searchSectionLink}
+											onClick={() => {
+												navigate(`/ordenes-trabajo?search=${encodeURIComponent(searchQuery)}`);
+												setIsSearchOpen(false);
+												setSearchQuery("");
+											}}
+										>
+											<span>{t("topbar.search.viewAllResults", { defaultValue: "Ver todos los resultados" })}</span>
+											<ArrowRight size={12} aria-hidden />
+										</button>
+									</div>
 
-										return (
-											<button
-												key={`${item.category}-${item.id}`}
-												type="button"
-												className={styles.searchResultItem}
-												onClick={() => {
-													navigate(item.url);
-													setIsSearchOpen(false);
-													setSearchQuery("");
-												}}
-											>
-												<div className={styles.resultIconWrap}>
-													<CategoryIcon size={16} />
-												</div>
-												<div className={styles.resultTextWrap}>
-													<div className={styles.resultTopRow}>
-														<span className={styles.resultTitle}>{item.title}</span>
-														<span className={styles.resultCategoryBadge}>{categoryLabel}</span>
+									<div className={styles.searchResultsList}>
+										{searchResults.map((item) => {
+											const CategoryIcon =
+												item.category === "workOrders" ? Wrench :
+												item.category === "assets" ? Package : Building2;
+											const categoryLabel =
+												item.category === "workOrders" ? t("topbar.search.categoryWorkOrder", { defaultValue: "Orden de trabajo" }) :
+												item.category === "assets" ? t("topbar.search.categoryAsset", { defaultValue: "Activo" }) :
+												t("topbar.search.categoryInstallation", { defaultValue: "Instalación" });
+
+											return (
+												<button
+													key={`${item.category}-${item.id}`}
+													type="button"
+													className={styles.searchResultItem}
+													onClick={() => {
+														navigate(item.url);
+														setIsSearchOpen(false);
+														setSearchQuery("");
+													}}
+												>
+													<div className={styles.resultIconWrap}>
+														<CategoryIcon size={16} />
 													</div>
-													{item.subtitle && (
-														<span className={styles.resultSubtitle}>{item.subtitle}</span>
-													)}
-												</div>
-											</button>
-										);
-									})}
-								</div>
+													<div className={styles.resultTextWrap}>
+														<div className={styles.resultTopRow}>
+															<span className={styles.resultTitle}>{item.title}</span>
+															<span className={styles.resultCategoryBadge}>{categoryLabel}</span>
+														</div>
+														{item.subtitle && (
+															<span className={styles.resultSubtitle}>{item.subtitle}</span>
+														)}
+													</div>
+													<ArrowRight size={14} className={styles.resultRowArrow} aria-hidden />
+												</button>
+											);
+										})}
+									</div>
+								</>
 							)}
+
+							<div className={styles.searchSectionDivider} />
+
+							<div className={styles.searchSectionHeader}>
+								<span>{t("topbar.search.goToKicker", { defaultValue: "Ir a" })}</span>
+							</div>
+
+							<div className={styles.searchResultsList}>
+								<button
+									type="button"
+									className={styles.searchResultItem}
+									onClick={() => {
+										navigate("/activos");
+										setIsSearchOpen(false);
+										setSearchQuery("");
+									}}
+								>
+									<div className={styles.resultIconWrap}>
+										<Package size={16} />
+									</div>
+									<div className={styles.resultTextWrap}>
+										<div className={styles.resultTopRow}>
+											<span className={styles.resultTitle}>{t("topbar.search.quick.assets", { defaultValue: "Activos" })}</span>
+											<span className={styles.resultCategoryBadge}>{t("topbar.search.categoryAsset", { defaultValue: "Activos" })}</span>
+										</div>
+										<span className={styles.resultSubtitle}>{t("topbar.search.quick.assetsDesc", { defaultValue: "Ver todos los activos de la organización" })}</span>
+									</div>
+									<ArrowRight size={14} className={styles.resultRowArrow} aria-hidden />
+								</button>
+
+								<button
+									type="button"
+									className={styles.searchResultItem}
+									onClick={() => {
+										navigate("/instalaciones");
+										setIsSearchOpen(false);
+										setSearchQuery("");
+									}}
+								>
+									<div className={styles.resultIconWrap}>
+										<Building2 size={16} />
+									</div>
+									<div className={styles.resultTextWrap}>
+										<div className={styles.resultTopRow}>
+											<span className={styles.resultTitle}>{t("topbar.search.quick.installations", { defaultValue: "Instalaciones" })}</span>
+											<span className={styles.resultCategoryBadge}>{t("topbar.search.categoryInstallation", { defaultValue: "Instalaciones" })}</span>
+										</div>
+										<span className={styles.resultSubtitle}>{t("topbar.search.quick.installationsDesc", { defaultValue: "Gestionar instalaciones y sedes" })}</span>
+									</div>
+									<ArrowRight size={14} className={styles.resultRowArrow} aria-hidden />
+								</button>
+							</div>
+
+							<div className={styles.searchSectionDivider} />
+
+							<div className={styles.searchSectionHeader}>
+								<span>{t("topbar.search.actionsKicker", { defaultValue: "Acciones" })}</span>
+							</div>
+
+							<button
+								type="button"
+								className={styles.searchActionRow}
+								onClick={() => {
+									navigate(`/ordenes-trabajo?search=${encodeURIComponent(searchQuery)}`);
+									setIsSearchOpen(false);
+									setSearchQuery("");
+								}}
+							>
+								<div className={styles.searchActionLeft}>
+									<Search size={14} className={styles.searchActionIcon} />
+									<span>
+										{t("topbar.search.searchEverywhere", {
+											query: searchQuery,
+											defaultValue: `Buscar “${searchQuery}” en toda la organización`,
+										})}
+									</span>
+								</div>
+								<kbd className={styles.searchEnterKbd}>Enter</kbd>
+							</button>
 						</div>
 					)}
 				</div>

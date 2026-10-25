@@ -2,6 +2,7 @@ import type { MouseEvent } from "react"
 import { useTranslation } from "react-i18next"
 import { ArrowUpRight } from "lucide-react"
 import { formatDateSafely } from "../../../shared/utils/formatDateSafely"
+import { translateWorkOrderTitle } from "../../../shared/utils/backendTranslations"
 import type { RecentWorkOrderDto } from "../types/homeTypes"
 import styles from "../styles/home.module.css"
 
@@ -50,9 +51,9 @@ export const RecentWorkOrders = ({ workOrders, onOpenDetail }: RecentWorkOrdersP
               type="button"
               className={styles.orderRow}
               onClick={handleOpen}
-              aria-label={t("home.dashboard.recent.openDetail", { title: order.titulo })}
+              aria-label={t("home.dashboard.recent.openDetail", { title: translateWorkOrderTitle(order.titulo) })}
             >
-              <strong>{order.titulo}</strong><span>{order.instalacion?.company || t("workOrders.noInstallation")}</span>
+              <strong>{translateWorkOrderTitle(order.titulo)}</strong><span>{order.instalacion?.company || t("workOrders.noInstallation")}</span>
             </button>
             <div className={styles.orderMeta}>
               <span className={styles.orderStatus}>
@@ -68,7 +69,7 @@ export const RecentWorkOrders = ({ workOrders, onOpenDetail }: RecentWorkOrdersP
                 title={t("home.dashboard.recent.detail")}
               >
                 <span className={styles.srOnly}>{t("home.dashboard.recent.detail")}</span>
-                <ArrowUpRight size={14} aria-hidden="true" />
+                <ArrowUpRight size={18} aria-hidden="true" />
               </button>
             </div>
           </li>

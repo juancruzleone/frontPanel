@@ -26,7 +26,8 @@
     "audit": "Auditoria",
     "list": "Lista",
     "settings": "Configurações",
-    "compliance": "Conformidade"
+    "compliance": "Conformidade",
+    "analytics": "Indicadores"
   },
   "audit": {
     "title": "Registro de atividade",
@@ -382,7 +383,10 @@
     "ok": "OK",
     "print": "Imprimir",
     "pause": "Pausar",
-    "share": "Compartilhar"
+    "share": "Compartilhar",
+    "viewAll": "Ver tudo",
+    "viewAllFeminine": "Ver todas",
+    "review": "Revisar"
   },
   "csvImport": {
     "chooseFile": "Selecione um arquivo CSV",
@@ -560,14 +564,16 @@
         "immediate": "Atenção imediata e resumo",
         "analysis": "Tendência e estado",
         "recent": "Atividade recente e contexto",
-        "immediateKicker": "Visão operacional"
+        "immediateKicker": "Visão operacional",
+        "primaryKpis": "Principais indicadores",
+        "secondaryIndicators": "Indicadores operacionais secundários"
       },
       "metrics": {
         "openWorkOrders": "Ordens de serviço abertas",
         "overdueWorkOrders": "Ordens de serviço em atraso",
         "criticalWorkOrders": "Ordens de serviço críticas",
-        "mttrHours": "Tempo médio de reparo",
-        "mtbfHours": "Tempo médio entre falhas",
+        "mttrHours": "Tempo médio de reparo (MTTR)",
+        "mtbfHours": "Tempo médio entre falhas (MTBF)",
         "preventiveComplianceRate": "Conformidade preventiva",
         "slaRate": "Conformidade com o SLA",
         "responseTimeHours": "Primeira resposta"
@@ -577,7 +583,9 @@
         "title": "Requer atenção",
         "clear": "Não há exceções ativas no momento.",
         "overdue": "ordens de serviço abertas fora do prazo",
-        "critical": "ordens de serviço abertas com prioridade crítica"
+        "critical": "ordens de serviço abertas com prioridade crítica",
+        "overdueSubtitle": "Requerem atenção",
+        "incidentsLabel": "Incidentes"
       },
       "resources": {
         "kicker": "Cobertura",
@@ -592,14 +600,18 @@
         }
       },
       "distribution": {
-        "kicker": "Composição"
+        "kicker": "Composição",
+        "totalLabel": "Total"
       },
       "ordersCount": "{{count}} ordens",
       "trend": {
         "kicker": "Fluxo de trabalho",
         "description": "{{created}} ordens de serviço criadas e {{completed}} concluídas no período.",
         "tableToggle": "Ver dados em tabela",
-        "tableCaption": "Ordens criadas e concluídas por data"
+        "tableCaption": "Ordens criadas e concluídas por data",
+        "subtitle": "Ordens criadas e concluídas no período selecionado.",
+        "deltaUp": "↑ {{pct}}% em relação ao período anterior",
+        "deltaDown": "↓ {{pct}}% em relação ao período anterior"
       },
       "date": "Data",
       "recent": {
@@ -662,7 +674,39 @@
         "worsened": "Piora",
         "unchanged": "Sem alteração",
         "changed": "Alteração",
-        "unavailable": "Comparação com o período anterior indisponível."
+        "unavailable": "Comparação com o período anterior indisponível.",
+        "lessThanPrevious": "{{direction}} {{count}} a menos que no período anterior",
+        "moreThanPrevious": "{{direction}} {{count}} a mais que no período anterior",
+        "vsPrevious": "{{direction}} {{delta}} em relação ao anterior",
+        "noData": "Sem dados"
+      },
+      "quickActions": {
+        "title": "Ações rápidas",
+        "createWorkOrder": "Criar ordem de serviço",
+        "registerAsset": "Registrar ativo",
+        "addInstallation": "Adicionar instalação",
+        "maintenanceCalendar": "Calendário de manutenção"
+      },
+      "upcomingMaintenanceTitle": "Próximas manutenções",
+      "scheduledSubtitle": "Agendados",
+      "registeredAssetsTitle": "Ativos registrados",
+      "organizationTotal": "Total da organização",
+      "overdueAlert": {
+        "title": "{{count}} ordens atrasadas",
+        "desc": "Existem {{count}} ordens atrasadas que precisam ser resolvidas.",
+        "action": "Ver ordens atrasadas",
+        "reviewAction": "Revisar"
+      },
+      "table": {
+        "assetOrPlan": "Ativo / Plano",
+        "installation": "Instalação",
+        "type": "Tipo",
+        "status": "Estado",
+        "actions": "Ações"
+      },
+      "upcoming": {
+        "soon": "Próximo",
+        "scheduled": "Agendado"
       }
     },
     "welcome": "Bem-vindo",
@@ -3156,5 +3200,27 @@
     "subtitle": "Centralized management of tenants and system resources",
     "mainMetrics": "Main Metrics",
     "noTenantsYet": "No tenants registered"
+  },
+  "topbar": {
+    "search": {
+      "placeholder": "Buscar ativos, instalações, ordens de serviço...",
+      "ariaLabel": "Buscar ativos, instalações e ordens de serviço",
+      "loading": "Buscando no sistema...",
+      "noResults": "Nenhum resultado encontrado para “{{query}}”",
+      "resultsKicker": "Resultados",
+      "viewAllResults": "Ver todos os resultados",
+      "goToKicker": "Ir para",
+      "actionsKicker": "Ações",
+      "searchEverywhere": "Buscar “{{query}}” em toda a organização",
+      "categoryWorkOrder": "Ordem de serviço",
+      "categoryAsset": "Ativo",
+      "categoryInstallation": "Instalação",
+      "quick": {
+        "assets": "Ativos",
+        "assetsDesc": "Ver todos os ativos da organização",
+        "installations": "Instalações",
+        "installationsDesc": "Gerenciar instalações e locais"
+      }
+    }
   }
 }

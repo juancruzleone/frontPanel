@@ -29,6 +29,7 @@ export const Clients = lazy(() => import("../pages/Clients"));
 export const Settings = lazy(() => import("../pages/Settings"));
 export const AuditLogs = lazy(() => import("../pages/AuditLogs"));
 export const Compliance = lazy(() => import("../pages/Compliance"));
+export const Analytics = lazy(() => import("../pages/Analytics"));
 export const BillingAccessPage = lazy(() =>
   import("../features/billing/pages/BillingAccessPage").then((module) => ({ default: module.BillingAccessPage })),
 );

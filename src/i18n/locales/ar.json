@@ -26,7 +26,8 @@
     "audit": "التدقيق",
     "list": "قائمة",
     "compliance": "الامتثال",
-    "settings": "الإعدادات"
+    "settings": "الإعدادات",
+    "analytics": "المؤشرات"
   },
   "audit": {
     "title": "سجل النشاط",
@@ -381,7 +382,10 @@
     "upload": "رفع",
     "view": "عرض",
     "viewCards": "عرض البطاقات",
-    "viewTable": "عرض الجدول"
+    "viewTable": "عرض الجدول",
+    "viewAll": "عرض الكل",
+    "viewAllFeminine": "عرض الكل",
+    "review": "مراجعة"
   },
   "csvImport": {
     "chooseFile": "اختر ملف CSV",
@@ -560,14 +564,16 @@
         "immediate": "العاجل وملخص الوضع",
         "analysis": "الاتجاه والحالة",
         "recent": "النشاط الأخير والسياق",
-        "immediateKicker": "ملخص تشغيلي"
+        "immediateKicker": "ملخص تشغيلي",
+        "primaryKpis": "المؤشرات الرئيسية",
+        "secondaryIndicators": "مؤشرات التشغيل الثانوية"
       },
       "metrics": {
         "openWorkOrders": "أوامر عمل مفتوحة",
         "overdueWorkOrders": "أوامر عمل متأخرة",
         "criticalWorkOrders": "أوامر عمل حرجة",
-        "mttrHours": "متوسط وقت الإصلاح",
-        "mtbfHours": "متوسط الوقت بين الأعطال",
+        "mttrHours": "متوسط وقت الإصلاح (MTTR)",
+        "mtbfHours": "متوسط الوقت بين الأعطال (MTBF)",
         "preventiveComplianceRate": "الالتزام بالصيانة الوقائية",
         "slaRate": "الالتزام بمستوى الخدمة (SLA)",
         "responseTimeHours": "الاستجابة الأولى"
@@ -577,7 +583,9 @@
         "title": "يتطلب انتباهًا",
         "clear": "لا توجد استثناءات نشطة حاليًا.",
         "overdue": "أوامر عمل مفتوحة تجاوزت موعدها",
-        "critical": "أوامر عمل مفتوحة بأولوية حرجة"
+        "critical": "أوامر عمل مفتوحة بأولوية حرجة",
+        "overdueSubtitle": "تتطلب الاهتمام",
+        "incidentsLabel": "الحوادث"
       },
       "resources": {
         "kicker": "التغطية",
@@ -592,14 +600,18 @@
         }
       },
       "distribution": {
-        "kicker": "التوزيع"
+        "kicker": "التوزيع",
+        "totalLabel": "الإجمالي"
       },
       "ordersCount": "{{count}} أمر عمل",
       "trend": {
         "kicker": "تدفق العمل",
         "description": "تم إنشاء {{created}} أمر عمل وإكمال {{completed}} خلال الفترة.",
         "tableToggle": "عرض البيانات في جدول",
-        "tableCaption": "أوامر العمل المُنشأة والمكتملة حسب التاريخ"
+        "tableCaption": "أوامر العمل المُنشأة والمكتملة حسب التاريخ",
+        "subtitle": "أوامر العمل المنشأة والمكتملة في الفترة المحددة.",
+        "deltaUp": "↑ {{pct}}% مقارنة بالفترة السابقة",
+        "deltaDown": "↓ {{pct}}% مقارنة بالفترة السابقة"
       },
       "date": "التاريخ",
       "recent": {
@@ -662,7 +674,39 @@
         "worsened": "تراجع",
         "unchanged": "دون تغيير",
         "changed": "تغير",
-        "unavailable": "المقارنة مع الفترة السابقة غير متاحة."
+        "unavailable": "المقارنة مع الفترة السابقة غير متاحة.",
+        "lessThanPrevious": "{{direction}} أقل بمقدار {{count}} عن الفترة السابقة",
+        "moreThanPrevious": "{{direction}} أكثر بمقدار {{count}} عن الفترة السابقة",
+        "vsPrevious": "{{direction}} {{delta}} مقارنة بالسابق",
+        "noData": "لا توجد بيانات"
+      },
+      "quickActions": {
+        "title": "إجراءات سريعة",
+        "createWorkOrder": "إنشاء أمر عمل",
+        "registerAsset": "تسجيل أصل",
+        "addInstallation": "إضافة منشأة",
+        "maintenanceCalendar": "تقويم الصيانة"
+      },
+      "upcomingMaintenanceTitle": "أعمال الصيانة القادمة",
+      "scheduledSubtitle": "مجدولة",
+      "registeredAssetsTitle": "الأصول المسجلة",
+      "organizationTotal": "إجمالي المؤسسة",
+      "overdueAlert": {
+        "title": "{{count}} أوامر عمل متأخرة",
+        "desc": "توجد {{count}} من أوامر العمل المتأخرة التي تحتاج إلى المعالجة.",
+        "action": "عرض أوامر العمل المتأخرة",
+        "reviewAction": "مراجعة"
+      },
+      "table": {
+        "assetOrPlan": "الأصل / الخطة",
+        "installation": "المنشأة",
+        "type": "النوع",
+        "status": "الحالة",
+        "actions": "الإجراءات"
+      },
+      "upcoming": {
+        "soon": "قريب",
+        "scheduled": "مجدول"
       }
     },
     "welcome": "مرحبًا",
@@ -3004,6 +3048,28 @@
         "forbidden": "Your role cannot view this panel.",
         "unauthorized": "Authentication required.",
         "server": "Server error. Try again."
+      }
+    }
+  },
+  "topbar": {
+    "search": {
+      "placeholder": "البحث عن الأصول والمنشآت وأوامر العمل...",
+      "ariaLabel": "البحث عن الأصول والمنشآت وأوامر العمل",
+      "loading": "جارٍ البحث في النظام...",
+      "noResults": "لم يتم العثور على نتائج لـ “{{query}}”",
+      "resultsKicker": "النتائج",
+      "viewAllResults": "عرض كافة النتائج",
+      "goToKicker": "الانتقال إلى",
+      "actionsKicker": "الإجراءات",
+      "searchEverywhere": "البحث عن “{{query}}” في كامل المؤسسة",
+      "categoryWorkOrder": "أمر عمل",
+      "categoryAsset": "أصل",
+      "categoryInstallation": "منشأة",
+      "quick": {
+        "assets": "الأصول",
+        "assetsDesc": "عرض كافة أصول المؤسسة",
+        "installations": "المنشآت",
+        "installationsDesc": "إدارة المنشآت والمواقع"
       }
     }
   }

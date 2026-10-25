@@ -206,7 +206,11 @@ export const HomeDashboard = () => {
         <section aria-labelledby="analysis-title" data-tour="home-dashboard-analysis">
           <h2 id="analysis-title" className={styles.sectionHeading}>{t("home.dashboard.sections.analysis")}</h2>
           <div className={styles.analysisGrid}>
-            <LineChart data={data.charts.evolution} />
+            <LineChart
+              data={data.charts.evolution}
+              range={dashboard.range}
+              onRangeChange={dashboard.setRange}
+            />
             <WorkOrderStatusDistribution data={distributionData} mode={distributionMode} />
           </div>
         </section>

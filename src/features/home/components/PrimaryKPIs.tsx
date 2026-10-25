@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router"
-import { FileText, AlertTriangle, Calendar, Package, ArrowRight, ArrowUpRight } from "lucide-react"
+import { FileText, AlertTriangle, Calendar, Package, ArrowUpRight } from "lucide-react"
 import { useTranslatedRoutes } from "../../../router/useTranslatedRoutes"
 import type { DashboardMetric } from "../types/homeTypes"
 import styles from "../styles/home.module.css"
@@ -26,7 +26,19 @@ export const PrimaryKPIs = ({ metrics, upcomingCount, assetsCount }: PrimaryKPIs
   if (openOrders?.comparison.status === "available") {
     const direction = TREND_SYMBOLS[openOrders.comparison.direction]
     const delta = Math.abs(openOrders.comparison.delta)
-    comparisonText = `${direction} ${delta} menos que el período anterior`
+    if (openOrders.comparison.direction === "up") {
+      comparisonText = t("home.dashboard.comparison.moreThanPrevious", {
+        direction,
+        count: delta,
+        defaultValue: `${direction} ${delta} más que el período anterior`,
+      })
+    } else {
+      comparisonText = t("home.dashboard.comparison.lessThanPrevious", {
+        direction,
+        count: delta,
+        defaultValue: `${direction} ${delta} menos que el período anterior`,
+      })
+    }
   }
 
   return (
@@ -106,33 +118,6 @@ export const PrimaryKPIs = ({ metrics, upcomingCount, assetsCount }: PrimaryKPIs
           </div>
         </Link>
       </div>
-
-      {/* Alerta de órdenes vencidas si hay al menos una */}
-      {overdueValue > 0 && (
-        <div className={styles.overdueAlertBanner}>
-          <div className={styles.overdueAlertLeft}>
-            <AlertTriangle size={18} className={styles.overdueAlertIcon} aria-hidden />
-            <div className={styles.overdueAlertText}>
-              <strong>
-                {t("home.dashboard.overdueAlert.title", {
-                  count: overdueValue,
-                  defaultValue: `${overdueValue} órdenes requieren atención`,
-                })}
-              </strong>
-              <p>
-                {t("home.dashboard.overdueAlert.desc", {
-                  count: overdueValue,
-                  defaultValue: `Hay ${overdueValue} órdenes vencidas que necesitan ser resueltas.`,
-                })}
-              </p>
-            </div>
-          </div>
-          <Link to={`${getRoute("workOrders")}?estado=vencida`} className={styles.overdueAlertAction}>
-            <span>{t("home.dashboard.overdueAlert.action", { defaultValue: "Ver órdenes vencidas" })}</span>
-            <ArrowRight size={15} aria-hidden />
-          </Link>
-        </div>
-      )}
     </div>
   )
 }

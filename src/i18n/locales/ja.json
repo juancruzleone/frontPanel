@@ -26,7 +26,8 @@
     "audit": "監査",
     "list": "一覧",
     "compliance": "コンプライアンス",
-    "settings": "設定"
+    "settings": "設定",
+    "analytics": "指標"
   },
   "audit": {
     "title": "アクティビティログ",
@@ -381,7 +382,10 @@
     "upload": "アップロード",
     "view": "表示",
     "viewCards": "カード表示",
-    "viewTable": "一覧表示"
+    "viewTable": "一覧表示",
+    "viewAll": "すべて表示",
+    "viewAllFeminine": "すべて表示",
+    "review": "確認"
   },
   "csvImport": {
     "chooseFile": "CSVファイルを選択",
@@ -559,14 +563,16 @@
         "immediate": "至急対応と概要",
         "analysis": "推移と状態",
         "recent": "最近の動きと補足情報",
-        "immediateKicker": "運用サマリー"
+        "immediateKicker": "運用サマリー",
+        "primaryKpis": "主要業績評価指標",
+        "secondaryIndicators": "二次運用指標"
       },
       "metrics": {
         "openWorkOrders": "未完了の作業指示",
         "overdueWorkOrders": "期限超過の作業指示",
         "criticalWorkOrders": "緊急の作業指示",
-        "mttrHours": "平均修理時間",
-        "mtbfHours": "平均故障間隔",
+        "mttrHours": "平均修理時間 (MTTR)",
+        "mtbfHours": "平均故障間隔 (MTBF)",
         "preventiveComplianceRate": "予防保守の達成率",
         "slaRate": "SLA達成率",
         "responseTimeHours": "第一次対応"
@@ -576,7 +582,9 @@
         "title": "対応が必要",
         "clear": "現在、対応が必要な例外はありません。",
         "overdue": "期限を過ぎている未完了の作業指示",
-        "critical": "優先度が緊急の未完了の作業指示"
+        "critical": "優先度が緊急の未完了の作業指示",
+        "overdueSubtitle": "要対応",
+        "incidentsLabel": "インシデント"
       },
       "resources": {
         "kicker": "対応体制",
@@ -591,14 +599,18 @@
         }
       },
       "distribution": {
-        "kicker": "内訳"
+        "kicker": "内訳",
+        "totalLabel": "合計"
       },
       "ordersCount": "{{count}}件の作業指示",
       "trend": {
         "kicker": "作業の流れ",
         "description": "期間中に{{created}}件の作業指示が作成され、{{completed}}件が完了しました。",
         "tableToggle": "表でデータを表示",
-        "tableCaption": "作成数と完了数の日別一覧"
+        "tableCaption": "作成数と完了数の日別一覧",
+        "subtitle": "選択した期間に作成および完了した作業指示。",
+        "deltaUp": "↑ {{pct}}% 前期間比",
+        "deltaDown": "↓ {{pct}}% 前期間比"
       },
       "date": "日付",
       "recent": {
@@ -661,7 +673,39 @@
         "worsened": "悪化",
         "unchanged": "変化なし",
         "changed": "変化あり",
-        "unavailable": "前期間との比較は利用できません。"
+        "unavailable": "前期間との比較は利用できません。",
+        "lessThanPrevious": "{{direction}} 前期間より {{count}} 件減少",
+        "moreThanPrevious": "{{direction}} 前期間より {{count}} 件増加",
+        "vsPrevious": "{{direction}} {{delta}} 前期比",
+        "noData": "データなし"
+      },
+      "quickActions": {
+        "title": "クイックアクション",
+        "createWorkOrder": "作業指示を作成",
+        "registerAsset": "資産を登録",
+        "addInstallation": "施設を追加",
+        "maintenanceCalendar": "保守カレンダー"
+      },
+      "upcomingMaintenanceTitle": "今後のメンテナンス",
+      "scheduledSubtitle": "予定済み",
+      "registeredAssetsTitle": "登録済み資産",
+      "organizationTotal": "組織全体",
+      "overdueAlert": {
+        "title": "{{count}} 件の期限超過作業指示",
+        "desc": "解決が必要な期限超過の作業指示が {{count}} 件あります。",
+        "action": "期限超過の作業指示を表示",
+        "reviewAction": "確認"
+      },
+      "table": {
+        "assetOrPlan": "資産 / 計画",
+        "installation": "施設",
+        "type": "種別",
+        "status": "状態",
+        "actions": "操作"
+      },
+      "upcoming": {
+        "soon": "近日中",
+        "scheduled": "予定済み"
       }
     },
     "welcome": "ようこそ",
@@ -3001,6 +3045,28 @@
         "forbidden": "Your role cannot view this panel.",
         "unauthorized": "Authentication required.",
         "server": "Server error. Try again."
+      }
+    }
+  },
+  "topbar": {
+    "search": {
+      "placeholder": "資産、施設、作業指示を検索...",
+      "ariaLabel": "資産、施設、作業指示を検索",
+      "loading": "システム内を検索中...",
+      "noResults": "“{{query}}” に一致する結果は見つかりませんでした",
+      "resultsKicker": "検索結果",
+      "viewAllResults": "すべての結果を表示",
+      "goToKicker": "移動",
+      "actionsKicker": "操作",
+      "searchEverywhere": "組織全体で “{{query}}” を検索",
+      "categoryWorkOrder": "作業指示",
+      "categoryAsset": "資産",
+      "categoryInstallation": "施設",
+      "quick": {
+        "assets": "資産",
+        "assetsDesc": "組織の全資産を表示",
+        "installations": "施設",
+        "installationsDesc": "施設および拠点を管理"
       }
     }
   }

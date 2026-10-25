@@ -24,6 +24,7 @@ import {
 	Cog,
 	CalendarCog,
 	ClipboardCheck,
+	Activity,
 } from "lucide-react";
 import { useLayoutStore } from "../../../store/layoutStore";
 import styles from "./Nav.module.css";
@@ -425,6 +426,18 @@ const Nav = () => {
 								>
 									<Home size={20} />{" "}
 									<span className={styles.linkText}>{t("nav.home")}</span>
+								</NavLink>
+							</li>
+						)}
+						{!isSuperAdminUser && (
+							<li>
+								<NavLink
+									to="/dashboard/indicadores"
+									className={({ isActive }) => (isActive ? styles.active : "")}
+									onClick={() => setIsMenuOpen(false)}
+								>
+									<Activity size={20} />{" "}
+									<span className={styles.linkText}>{t("nav.analytics", { defaultValue: "Indicadores" })}</span>
 								</NavLink>
 							</li>
 						)}

@@ -3,6 +3,7 @@ import { WorkOrder } from "../hooks/useWorkOrders";
 import {
 	translateWorkOrderStatus,
 	translatePriority,
+	translateWorkOrderTitle,
 } from "../../../shared/utils/backendTranslations";
 import {
 	Eye,
@@ -105,7 +106,7 @@ export const WorkOrdersKanbanView: React.FC<WorkOrdersKanbanViewProps> = ({
 			onDragStart={(e) => handleDragStart(e, order._id!)}
 		>
 			<div className={styles.kanbanCardHeader}>
-				<h4 className={styles.kanbanCardTitle}>{order.titulo}</h4>
+				<h4 className={styles.kanbanCardTitle}>{translateWorkOrderTitle(order.titulo)}</h4>
 				<span
 					className={styles.priorityBadge}
 					style={{

@@ -26,7 +26,8 @@
     "audit": "Audit",
     "list": "Liste",
     "compliance": "Conformité",
-    "settings": "Paramètres"
+    "settings": "Paramètres",
+    "analytics": "Indicateurs"
   },
   "audit": {
     "title": "Journal d'activité",
@@ -378,7 +379,10 @@
     "upload": "Téléverser",
     "view": "Afficher",
     "viewCards": "Vue cartes",
-    "viewTable": "Vue tableau"
+    "viewTable": "Vue tableau",
+    "viewAll": "Tout afficher",
+    "viewAllFeminine": "Toutes afficher",
+    "review": "Examiner"
   },
   "csvImport": {
     "chooseFile": "Sélectionnez un fichier CSV",
@@ -556,14 +560,16 @@
         "immediate": "Attention immédiate et synthèse",
         "analysis": "Tendance et état",
         "recent": "Activité récente et contexte",
-        "immediateKicker": "Vue opérationnelle"
+        "immediateKicker": "Vue opérationnelle",
+        "primaryKpis": "Indicateurs principaux",
+        "secondaryIndicators": "Indicateurs opérationnels secondaires"
       },
       "metrics": {
         "openWorkOrders": "Ordres de travail ouverts",
         "overdueWorkOrders": "Ordres de travail en retard",
         "criticalWorkOrders": "Ordres de travail critiques",
-        "mttrHours": "Temps moyen de réparation",
-        "mtbfHours": "Temps moyen entre pannes",
+        "mttrHours": "Temps moyen de réparation (MTTR)",
+        "mtbfHours": "Temps moyen entre pannes (MTBF)",
         "preventiveComplianceRate": "Conformité préventive",
         "slaRate": "Respect du SLA",
         "responseTimeHours": "Première réponse"
@@ -573,7 +579,9 @@
         "title": "Nécessite une attention",
         "clear": "Aucune exception active pour le moment.",
         "overdue": "ordres de travail ouverts hors délai",
-        "critical": "ordres de travail ouverts en priorité critique"
+        "critical": "ordres de travail ouverts en priorité critique",
+        "overdueSubtitle": "Nécessitent une attention",
+        "incidentsLabel": "Incidents"
       },
       "resources": {
         "kicker": "Couverture",
@@ -588,14 +596,18 @@
         }
       },
       "distribution": {
-        "kicker": "Répartition"
+        "kicker": "Répartition",
+        "totalLabel": "Total"
       },
       "ordersCount": "{{count}} ordres",
       "trend": {
         "kicker": "Flux de travail",
         "description": "{{created}} ordres de travail créés et {{completed}} terminés sur la période.",
         "tableToggle": "Afficher les données en tableau",
-        "tableCaption": "Ordres de travail créés et terminés par date"
+        "tableCaption": "Ordres de travail créés et terminés par date",
+        "subtitle": "Bons créés et terminés au cours de la période sélectionnée.",
+        "deltaUp": "↑ {{pct}}% par rapport à la période précédente",
+        "deltaDown": "↓ {{pct}}% par rapport à la période précédente"
       },
       "date": "Date",
       "recent": {
@@ -648,7 +660,7 @@
       "refreshing": "Actualisation vers {{requestedRange}}… Les données appliquées de {{appliedRange}} restent affichées.",
       "metricDetails": {
         "mttrHours": "Temps moyen consacré aux réparations.",
-        "mtbfHours": "Temps moyen entre deux pannes.",
+        "mtbfHours": "Temps moyen entre les pannes.",
         "responseTimeHours": "Temps moyen jusqu'à la première réponse.",
         "proportion": "{{count}} ordres sur {{total}}"
       },
@@ -658,7 +670,39 @@
         "worsened": "Dégradation",
         "unchanged": "Aucun changement",
         "changed": "Changement",
-        "unavailable": "Comparaison avec la période précédente indisponible."
+        "unavailable": "Comparaison avec la période précédente indisponible.",
+        "lessThanPrevious": "{{direction}} {{count}} de moins que la période précédente",
+        "moreThanPrevious": "{{direction}} {{count}} de plus que la période précédente",
+        "vsPrevious": "{{direction}} {{delta}} vs précédent",
+        "noData": "Aucune donnée"
+      },
+      "quickActions": {
+        "title": "Actions rapides",
+        "createWorkOrder": "Créer un bon de travail",
+        "registerAsset": "Enregistrer un équipement",
+        "addInstallation": "Ajouter une installation",
+        "maintenanceCalendar": "Calendrier de maintenance"
+      },
+      "upcomingMaintenanceTitle": "Maintenances à venir",
+      "scheduledSubtitle": "Planifiés",
+      "registeredAssetsTitle": "Équipements enregistrés",
+      "organizationTotal": "Total de l'organisation",
+      "overdueAlert": {
+        "title": "{{count}} bons en retard",
+        "desc": "Il y a {{count}} bons en retard à résoudre.",
+        "action": "Voir les bons en retard",
+        "reviewAction": "Examiner"
+      },
+      "table": {
+        "assetOrPlan": "Équipement / Plan",
+        "installation": "Installation",
+        "type": "Type",
+        "status": "Statut",
+        "actions": "Actions"
+      },
+      "upcoming": {
+        "soon": "Prochain",
+        "scheduled": "Planifié"
       }
     },
     "welcome": "Bienvenue",
@@ -2988,6 +3032,28 @@
         "forbidden": "Your role cannot view this panel.",
         "unauthorized": "Authentication required.",
         "server": "Server error. Try again."
+      }
+    }
+  },
+  "topbar": {
+    "search": {
+      "placeholder": "Rechercher équipements, installations, bons de travail...",
+      "ariaLabel": "Rechercher équipements, installations et bons de travail",
+      "loading": "Recherche dans le système...",
+      "noResults": "Aucun résultat trouvé pour « {{query}} »",
+      "resultsKicker": "Résultats",
+      "viewAllResults": "Voir tous les résultats",
+      "goToKicker": "Aller à",
+      "actionsKicker": "Actions",
+      "searchEverywhere": "Rechercher « {{query}} » dans toute l'organisation",
+      "categoryWorkOrder": "Bon de travail",
+      "categoryAsset": "Équipement",
+      "categoryInstallation": "Installation",
+      "quick": {
+        "assets": "Équipements",
+        "assetsDesc": "Voir tous les équipements de l'organisation",
+        "installations": "Installations",
+        "installationsDesc": "Gérer les installations et les sites"
       }
     }
   }

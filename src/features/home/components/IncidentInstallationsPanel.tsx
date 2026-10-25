@@ -26,14 +26,14 @@ export const IncidentInstallationsPanel = ({ incidents }: IncidentInstallationsP
         </div>
         <Link to={getRoute("installations")} className={styles.viewAllActionBtn}>
           <span>{t("common.viewAllFeminine", { defaultValue: "Ver todas" })}</span>
-          <ArrowRight size={14} aria-hidden />
+          <ArrowRight size={17} aria-hidden />
         </Link>
       </div>
 
       <div className={styles.incidentsListContainer}>
         <div className={styles.incidentsColHeader}>
-          <span>Instalación</span>
-          <span>Incidentes</span>
+          <span>{t("home.dashboard.table.installation", { defaultValue: "Instalación" })}</span>
+          <span>{t("home.dashboard.attention.incidentsLabel", { defaultValue: "Incidentes" })}</span>
         </div>
         <ol className={styles.incidentsList}>
           {incidents.slice(0, 5).map((item) => (

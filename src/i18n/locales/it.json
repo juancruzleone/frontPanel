@@ -26,7 +26,8 @@
     "audit": "Audit",
     "list": "Elenco",
     "settings": "Impostazioni",
-    "compliance": "Conformità"
+    "compliance": "Conformità",
+    "analytics": "Indicatori"
   },
   "audit": {
     "title": "Registro attività",
@@ -382,7 +383,10 @@
     "start": "Avvia",
     "view": "Visualizza",
     "pause": "Metti in pausa",
-    "share": "Condividi"
+    "share": "Condividi",
+    "viewAll": "Mostra tutto",
+    "viewAllFeminine": "Mostra tutte",
+    "review": "Esamina"
   },
   "csvImport": {
     "chooseFile": "Seleziona un file CSV",
@@ -560,14 +564,16 @@
         "immediate": "Attenzione immediata e riepilogo",
         "analysis": "Andamento e stato",
         "recent": "Attività recente e contesto",
-        "immediateKicker": "Riepilogo operativo"
+        "immediateKicker": "Riepilogo operativo",
+        "primaryKpis": "Indicatori principali",
+        "secondaryIndicators": "Indicatori operativi secondari"
       },
       "metrics": {
         "openWorkOrders": "Ordini di lavoro aperti",
         "overdueWorkOrders": "Ordini di lavoro scaduti",
         "criticalWorkOrders": "Ordini di lavoro critici",
-        "mttrHours": "Tempo medio di riparazione",
-        "mtbfHours": "Tempo medio tra i guasti",
+        "mttrHours": "Tempo medio di riparazione (MTTR)",
+        "mtbfHours": "Tempo medio tra i guasti (MTBF)",
         "preventiveComplianceRate": "Aderimento alla manutenzione preventiva",
         "slaRate": "Aderimento SLA",
         "responseTimeHours": "Prima risposta"
@@ -577,7 +583,9 @@
         "title": "Richiede attenzione",
         "clear": "Nessuna eccezione attiva al momento.",
         "overdue": "ordini di lavoro aperti oltre il termine",
-        "critical": "ordini di lavoro aperti con priorità critica"
+        "critical": "ordini di lavoro aperti con priorità critica",
+        "overdueSubtitle": "Richiedono attenzione",
+        "incidentsLabel": "Incidenti"
       },
       "resources": {
         "kicker": "Copertura",
@@ -592,14 +600,18 @@
         }
       },
       "distribution": {
-        "kicker": "Composizione"
+        "kicker": "Composizione",
+        "totalLabel": "Totale"
       },
       "ordersCount": "{{count}} ordini",
       "trend": {
         "kicker": "Flusso di lavoro",
         "description": "{{created}} ordini di lavoro creati e {{completed}} completati nel periodo.",
         "tableToggle": "Mostra i dati in tabella",
-        "tableCaption": "Ordini creati e completati per data"
+        "tableCaption": "Ordini creati e completati per data",
+        "subtitle": "Ordini creati e completati nel periodo selezionato.",
+        "deltaUp": "↑ {{pct}}% rispetto al periodo precedente",
+        "deltaDown": "↓ {{pct}}% rispetto al periodo precedente"
       },
       "date": "Data",
       "recent": {
@@ -662,7 +674,39 @@
         "worsened": "Peggioramento",
         "unchanged": "Nessuna variazione",
         "changed": "Variazione",
-        "unavailable": "Confronto con il periodo precedente non disponibile."
+        "unavailable": "Confronto con il periodo precedente non disponibile.",
+        "lessThanPrevious": "{{direction}} {{count}} in meno rispetto al periodo precedente",
+        "moreThanPrevious": "{{direction}} {{count}} in più rispetto al periodo precedente",
+        "vsPrevious": "{{direction}} {{delta}} vs precedente",
+        "noData": "Nessun dato"
+      },
+      "quickActions": {
+        "title": "Azioni rapide",
+        "createWorkOrder": "Crea ordine di lavoro",
+        "registerAsset": "Registra risorsa",
+        "addInstallation": "Aggiungi installazione",
+        "maintenanceCalendar": "Calendario di manutenzione"
+      },
+      "upcomingMaintenanceTitle": "Prossime manutenzioni",
+      "scheduledSubtitle": "Programmati",
+      "registeredAssetsTitle": "Risorse registrate",
+      "organizationTotal": "Totale dell'organizzazione",
+      "overdueAlert": {
+        "title": "{{count}} ordini scaduti",
+        "desc": "Ci sono {{count}} ordini scaduti che devono essere risolti.",
+        "action": "Visualizza ordini scaduti",
+        "reviewAction": "Esamina"
+      },
+      "table": {
+        "assetOrPlan": "Risorsa / Piano",
+        "installation": "Installazione",
+        "type": "Tipo",
+        "status": "Stato",
+        "actions": "Azioni"
+      },
+      "upcoming": {
+        "soon": "Prossimo",
+        "scheduled": "Programmato"
       }
     },
     "welcome": "Benvenuto",
@@ -3208,5 +3252,27 @@
     "title": "Admin Panel",
     "subtitle": "Centralized management of tenants and system resources",
     "noTenantsYet": "No tenants registered"
+  },
+  "topbar": {
+    "search": {
+      "placeholder": "Cerca risorse, installazioni, ordini di lavoro...",
+      "ariaLabel": "Cerca risorse, installazioni e ordini di lavoro",
+      "loading": "Ricerca nel sistema...",
+      "noResults": "Nessun risultato trovato per “{{query}}”",
+      "resultsKicker": "Risultati",
+      "viewAllResults": "Visualizza tutti i risultati",
+      "goToKicker": "Vai a",
+      "actionsKicker": "Azioni",
+      "searchEverywhere": "Cerca “{{query}}” in tutta l'organizzazione",
+      "categoryWorkOrder": "Ordine di lavoro",
+      "categoryAsset": "Risorsa",
+      "categoryInstallation": "Installazione",
+      "quick": {
+        "assets": "Risorse",
+        "assetsDesc": "Visualizza tutte le risorse dell'organizzazione",
+        "installations": "Installazioni",
+        "installationsDesc": "Gestisci installazioni e sedi"
+      }
+    }
   }
 }

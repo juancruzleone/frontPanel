@@ -488,15 +488,18 @@ button {
   }
 }
 
-/* Reserve scroll room so the final row can clear the floating action. */
+/* Nonpaginated pages reserve scroll room. Page-level pagination opts out and
+   reserves the floating action's space inside its own footer instead. */
 :global(main):has(.tourButton) {
-  padding-bottom: calc(var(--space-4xl, 56px) + var(--space-md, 16px) * 2);
+  --pagination-tour-width: calc(var(--space-4xl, 56px) + var(--space-md, 16px));
+  --pagination-tour-height: calc(var(--space-4xl, 56px) + var(--space-md, 16px) * 2);
+  padding-bottom: var(--tour-scroll-clearance, calc(var(--space-4xl, 56px) + var(--space-md, 16px) * 2));
 }
 
 /* Keep the safe-area contribution separate from calc() for CSSOM compatibility. */
 :global(main):has(.tourButton)::after {
   content: "";
-  display: block;
+  display: var(--tour-safe-area-display, block);
   height: env(safe-area-inset-bottom, 0px);
   flex-shrink: 0;
 }

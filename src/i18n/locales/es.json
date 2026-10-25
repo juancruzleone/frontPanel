@@ -25,7 +25,8 @@
     "settings": "Configuración",
     "audit": "Auditoría",
     "compliance": "Cumplimiento",
-    "list": "Listado"
+    "list": "Listado",
+    "analytics": "Indicadores"
   },
   "audit": {
     "title": "Registro de Actividad",
@@ -381,7 +382,10 @@
     "syncing": "Sincronizando cambios pendientes...",
     "syncComplete": "Sincronización completada",
     "syncValidationDiscarded": "Error de validación ({{type}}). Descartado.",
-    "syncElementDiscarded": "Error sincronizando elemento ({{type}}). Descartado."
+    "syncElementDiscarded": "Error sincronizando elemento ({{type}}). Descartado.",
+    "viewAll": "Ver todo",
+    "viewAllFeminine": "Ver todas",
+    "review": "Revisar"
   },
   "csvImport": {
     "chooseFile": "Selecciona un archivo CSV",
@@ -560,14 +564,16 @@
         "immediate": "Atención inmediata y resumen",
         "immediateKicker": "Resumen operativo",
         "analysis": "Tendencia y estado",
-        "recent": "Actividad reciente y contexto"
+        "recent": "Actividad reciente y contexto",
+        "primaryKpis": "Métricas principales",
+        "secondaryIndicators": "Indicadores operativos secundarios"
       },
       "metrics": {
         "openWorkOrders": "Órdenes abiertas",
         "overdueWorkOrders": "Órdenes vencidas",
         "criticalWorkOrders": "Órdenes críticas",
-        "mttrHours": "Tiempo medio de reparación",
-        "mtbfHours": "Tiempo medio entre fallos",
+        "mttrHours": "Tiempo medio de reparación (MTTR)",
+        "mtbfHours": "Tiempo medio entre fallos (MTBF)",
         "preventiveComplianceRate": "Cumplimiento preventivo",
         "slaRate": "Cumplimiento SLA",
         "responseTimeHours": "Primera respuesta"
@@ -584,14 +590,20 @@
         "worsened": "Empeora",
         "unchanged": "Sin cambios",
         "changed": "Cambio",
-        "unavailable": "Comparación con el periodo anterior no disponible."
+        "unavailable": "Comparación con el periodo anterior no disponible.",
+        "lessThanPrevious": "{{direction}} {{count}} menos que el período anterior",
+        "moreThanPrevious": "{{direction}} {{count}} más que el período anterior",
+        "vsPrevious": "{{direction}} {{delta}} vs anterior",
+        "noData": "Sin datos"
       },
       "attention": {
         "kicker": "Excepciones",
         "title": "Requiere atención",
         "clear": "No hay excepciones activas en este momento.",
         "overdue": "órdenes abiertas fuera de plazo",
-        "critical": "órdenes abiertas con prioridad crítica"
+        "critical": "órdenes abiertas con prioridad crítica",
+        "overdueSubtitle": "Requieren atención",
+        "incidentsLabel": "Incidentes"
       },
       "resources": {
         "kicker": "Cobertura",
@@ -606,14 +618,18 @@
         }
       },
       "distribution": {
-        "kicker": "Composición"
+        "kicker": "Composición",
+        "totalLabel": "Total"
       },
       "ordersCount": "{{count}} órdenes",
       "trend": {
         "kicker": "Flujo de trabajo",
         "description": "{{created}} órdenes creadas y {{completed}} completadas en el periodo.",
         "tableToggle": "Ver datos en tabla",
-        "tableCaption": "Órdenes creadas y completadas por fecha"
+        "tableCaption": "Órdenes creadas y completadas por fecha",
+        "subtitle": "Órdenes creadas y completadas en el período seleccionado.",
+        "deltaUp": "↑ {{pct}}% vs. período anterior",
+        "deltaDown": "↓ {{pct}}% vs. período anterior"
       },
       "date": "Fecha",
       "recent": {
@@ -662,6 +678,34 @@
         "offlineUnavailable": "No hay conexión ni datos guardados para este usuario.",
         "unsupportedRole": "Tu rol no tiene un alcance de panel autorizado.",
         "inventory": "El resumen de inventario no está disponible; el resto del panel está actualizado."
+      },
+      "quickActions": {
+        "title": "Acciones rápidas",
+        "createWorkOrder": "Crear orden de trabajo",
+        "registerAsset": "Registrar activo",
+        "addInstallation": "Agregar instalación",
+        "maintenanceCalendar": "Calendario de mantenimiento"
+      },
+      "upcomingMaintenanceTitle": "Próximos mantenimientos",
+      "scheduledSubtitle": "Programados",
+      "registeredAssetsTitle": "Activos registrados",
+      "organizationTotal": "Total de la organización",
+      "overdueAlert": {
+        "title": "{{count}} órdenes vencidas",
+        "desc": "Hay {{count}} órdenes vencidas que necesitan ser resueltas.",
+        "action": "Ver órdenes vencidas",
+        "reviewAction": "Revisar"
+      },
+      "table": {
+        "assetOrPlan": "Activo / Plan",
+        "installation": "Instalación",
+        "type": "Tipo",
+        "status": "Estado",
+        "actions": "Acciones"
+      },
+      "upcoming": {
+        "soon": "Próximo",
+        "scheduled": "Programado"
       }
     },
     "welcome": "Bienvenido",
@@ -3137,6 +3181,28 @@
       "closing": {
         "title": "Listo: cada sección tiene su guía",
         "description": "Este fue el mapa general. La primera vez que entres a cada sección vas a ver su tutorial corto. Podés saltarlos y relanzarlos con el botón de ayuda."
+      }
+    }
+  },
+  "topbar": {
+    "search": {
+      "placeholder": "Buscar activos, instalaciones, órdenes de trabajo...",
+      "ariaLabel": "Buscar activos, instalaciones y órdenes de trabajo",
+      "loading": "Buscando en el sistema...",
+      "noResults": "No se encontraron resultados para “{{query}}”",
+      "resultsKicker": "Resultados",
+      "viewAllResults": "Ver todos los resultados",
+      "goToKicker": "Ir a",
+      "actionsKicker": "Acciones",
+      "searchEverywhere": "Buscar “{{query}}” en toda la organización",
+      "categoryWorkOrder": "Orden de trabajo",
+      "categoryAsset": "Activo",
+      "categoryInstallation": "Instalación",
+      "quick": {
+        "assets": "Activos",
+        "assetsDesc": "Ver todos los activos de la organización",
+        "installations": "Instalaciones",
+        "installationsDesc": "Gestionar instalaciones y sedes"
       }
     }
   }

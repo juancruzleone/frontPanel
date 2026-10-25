@@ -47,7 +47,7 @@ export const InventorySummary = ({ data, hasError, onRetry, retrying = false }: 
           aria-label={t("home.dashboard.inventory.viewAll")}
         >
           <span>{t("common.viewAll", { defaultValue: "Ver todo" })}</span>
-          <ArrowRight size={14} aria-hidden />
+          <ArrowRight size={17} aria-hidden />
         </Link>
       </div>
       {hasError ? (

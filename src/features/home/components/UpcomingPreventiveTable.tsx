@@ -3,6 +3,7 @@ import { useNavigate } from "react-router"
 import { ArrowRight, ArrowUpRight } from "lucide-react"
 import { useTranslatedRoutes } from "../../../router/useTranslatedRoutes"
 import { formatDateSafely } from "../../../shared/utils/formatDateSafely"
+import { translateWorkOrderTitle } from "../../../shared/utils/backendTranslations"
 import type { RecentWorkOrderDto, UpcomingPreventive } from "../types/homeTypes"
 import styles from "../styles/home.module.css"
 
@@ -41,8 +42,8 @@ export const UpcomingPreventiveTable = ({ maintenance, onOpenDetail }: UpcomingP
             className={styles.viewAllActionBtn}
             onClick={() => navigate(getRoute("maintenancePlan"))}
           >
-            <span>{t("common.viewAll", { defaultValue: "Ver todos" })}</span>
-            <ArrowRight size={14} aria-hidden />
+            <span>{t("common.viewAll", { defaultValue: "Ver todo" })}</span>
+            <ArrowRight size={17} aria-hidden />
           </button>
         </div>
 
@@ -70,7 +71,8 @@ export const UpcomingPreventiveTable = ({ maintenance, onOpenDetail }: UpcomingP
             </thead>
             <tbody>
               {maintenance.slice(0, 6).map((item, index) => {
-                const title = item.planName || item.installationName || t("workOrders.noInstallation")
+                const rawTitle = item.planName || item.installationName || t("workOrders.noInstallation")
+                const title = translateWorkOrderTitle(rawTitle)
                 const isSoon = index < 2
                 return (
                   <tr key={item._id || index} className={styles.maintenanceTableRow}>
@@ -81,7 +83,7 @@ export const UpcomingPreventiveTable = ({ maintenance, onOpenDetail }: UpcomingP
                       <span className={styles.installationText}>{item.installationName || "—"}</span>
                     </td>
                     <td className={styles.tdType}>
-                      <span className={styles.typeText}>Preventivo</span>
+                      <span className={styles.typeText}>{t("home.type.preventive", { defaultValue: "Preventivo" })}</span>
                     </td>
                     <td className={styles.tdDate}>
                       <time dateTime={item.date} className={styles.dateText}>
@@ -94,7 +96,7 @@ export const UpcomingPreventiveTable = ({ maintenance, onOpenDetail }: UpcomingP
                           className={`${styles.statusDotSober} ${isSoon ? styles.statusDotSoon : styles.statusDotScheduled}`}
                           aria-hidden
                         />
-                        <span>{isSoon ? "Próximo" : "Programado"}</span>
+                        <span>{isSoon ? t("home.dashboard.upcoming.soon", { defaultValue: "Próximo" }) : t("home.dashboard.upcoming.scheduled", { defaultValue: "Programado" })}</span>
                       </span>
                     </td>
                     <td className={styles.tdActions}>
@@ -119,7 +121,7 @@ export const UpcomingPreventiveTable = ({ maintenance, onOpenDetail }: UpcomingP
                         aria-label={t("common.details", { defaultValue: "Ver detalle" })}
                         title={t("common.details", { defaultValue: "Ver detalle" })}
                       >
-                        <ArrowUpRight size={14} aria-hidden="true" />
+                        <ArrowUpRight size={18} aria-hidden="true" />
                       </button>
                     </td>
                   </tr>
