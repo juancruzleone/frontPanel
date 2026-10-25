@@ -330,8 +330,23 @@
 
 /* ESTILOS CORPORATIVOS PARA ELEMENTOS DEL FORMULARIO DE AGREGAR CAMPOS */
 .fieldFormGroup input,
-.fieldFormGroup select,
+.fieldFormGroup select {
+  height: 58px;
+  min-height: 58px;
+  box-sizing: border-box;
+  padding: 0 1rem;
+  border: 2px solid var(--color-card-border);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: var(--color-card);
+  color: var(--color-text);
+  font-family: inherit;
+}
+
 .fieldFormGroup textarea {
+  min-height: 100px;
+  box-sizing: border-box;
   padding: 1.1rem 1rem;
   border: 2px solid var(--color-card-border);
   border-radius: 8px;
