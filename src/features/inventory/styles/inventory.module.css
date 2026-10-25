@@ -9,6 +9,44 @@
   min-height: calc(100vh - 40px);
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: auto;
+  padding: 16px 0;
+}
+
+.pagination button {
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  color: var(--color-text);
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  color: var(--color-text);
+  font-size: 14px;
+  font-weight: 500;
+}
+
 .topSection {
   display: flex;
   justify-content: space-between;

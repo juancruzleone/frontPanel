@@ -137,6 +137,7 @@
   --state-neutral-border: rgba(100, 116, 139, .28);
 
   /* --- Focus + charts + brand --------------------------------------- */
+  --color-secondary-contrast: #031c18;
   --focus-ring: 2px solid var(--color-secondary);
   --focus-offset: 2px;
   --chart-basic: #64748b;
@@ -193,4 +194,5 @@
   --chart-unknown: #94a3b8;
   --chart-warning: #fbbf24;
   --chart-critical: #f87171;
+  --color-secondary-contrast: #031c18;
 }

@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import type { ChartDataItem } from "../types/homeTypes"
 import styles from "../styles/home.module.css"
@@ -50,6 +51,7 @@ const buildRows = (data: ChartDataItem[], mode: "status" | "priority"): Distribu
 
 export const WorkOrderStatusDistribution = ({ data, mode = "status" }: WorkOrderStatusDistributionProps) => {
   const { t } = useTranslation()
+  const [hoveredSegment, setHoveredSegment] = useState<DistributionRow | null>(null)
   const rows = buildRows(data, mode)
   const total = rows.reduce((sum, row) => sum + row.value, 0)
   const title = mode === "priority" ? t("home.byPriority") : t("home.ordersByStatus")
@@ -95,22 +97,42 @@ export const WorkOrderStatusDistribution = ({ data, mode = "status" }: WorkOrder
             ))}
           </svg>
           <div className={styles.donutLayout}>
-            <div className={styles.donutContainer} aria-hidden="true">
+            <div className={styles.donutContainer}>
+              {hoveredSegment && (
+                <div className={styles.donutTooltip} role="tooltip">
+                  <span className={`${styles.statusMarker} ${styles[`marker${hoveredSegment.key}`] || styles.markerOther}`} />
+                  <span className={styles.donutTooltipName}>
+                    {t(`home.${mode}.${hoveredSegment.key}`, { defaultValue: hoveredSegment.name })}
+                  </span>
+                  <span className={styles.donutTooltipValue}>
+                    {hoveredSegment.value} ({total > 0 ? Math.round((hoveredSegment.value / total) * 100) : 0}%)
+                  </span>
+                </div>
+              )}
               <svg viewBox="0 0 150 150" className={styles.donutSvg}>
                 <circle cx="75" cy="75" r={RADIUS} className={styles.donutTrack} />
-                {donutSegments.map((segment) => (
-                  <circle
-                    key={segment.key}
-                    cx="75"
-                    cy="75"
-                    r={RADIUS}
-                    className={`${styles.donutSegment} ${styles[`donut${segment.key}`] || styles.donutOther}`}
-                    strokeDasharray={`${segment.strokeLength} ${CIRCUMFERENCE}`}
-                    strokeDashoffset={-segment.strokeOffset}
-                  />
-                ))}
-                <text x="75" y="68" textAnchor="middle" className={styles.donutCenterValue}>{total}</text>
-                <text x="75" y="86" textAnchor="middle" className={styles.donutCenterLabel}>Total</text>
+                {donutSegments.map((segment) => {
+                  const isHovered = hoveredSegment?.key === segment.key
+                  const pct = total > 0 ? Math.round((segment.value / total) * 100) : 0
+                  const label = t(`home.${mode}.${segment.key}`, { defaultValue: segment.name })
+                  return (
+                    <circle
+                      key={segment.key}
+                      cx="75"
+                      cy="75"
+                      r={RADIUS}
+                      className={`${styles.donutSegment} ${styles[`donut${segment.key}`] || styles.donutOther} ${isHovered ? styles.donutSegmentHovered : ""}`}
+                      strokeDasharray={`${segment.strokeLength} ${CIRCUMFERENCE}`}
+                      strokeDashoffset={-segment.strokeOffset}
+                      onMouseEnter={() => setHoveredSegment(segment)}
+                      onMouseLeave={() => setHoveredSegment(null)}
+                    >
+                      <title>{`${label}: ${segment.value} (${pct}%)`}</title>
+                    </circle>
+                  )
+                })}
+                <text x="75" y="65" textAnchor="middle" className={styles.donutCenterValue}>{total}</text>
+                <text x="75" y="90" textAnchor="middle" className={styles.donutCenterLabel}>Total</text>
               </svg>
             </div>
             <ul className={styles.distributionList}>

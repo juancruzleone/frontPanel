@@ -1,5 +1,6 @@
 import type { MouseEvent } from "react"
 import { useTranslation } from "react-i18next"
+import { ArrowUpRight } from "lucide-react"
 import { formatDateSafely } from "../../../shared/utils/formatDateSafely"
 import type { RecentWorkOrderDto } from "../types/homeTypes"
 import styles from "../styles/home.module.css"
@@ -59,8 +60,15 @@ export const RecentWorkOrders = ({ workOrders, onOpenDetail }: RecentWorkOrdersP
                 <span>{t(`home.status.${status}`, { defaultValue: order.estado })}</span>
               </span>
               {date && <time dateTime={order.fechaCreacion}>{date}</time>}
-              <button type="button" className={styles.orderDetailButton} onClick={handleOpen}>
-                {t("home.dashboard.recent.detail")}
+              <button
+                type="button"
+                className={styles.orderDetailButton}
+                onClick={handleOpen}
+                aria-label={t("home.dashboard.recent.detail")}
+                title={t("home.dashboard.recent.detail")}
+              >
+                <span className={styles.srOnly}>{t("home.dashboard.recent.detail")}</span>
+                <ArrowUpRight size={14} aria-hidden="true" />
               </button>
             </div>
           </li>

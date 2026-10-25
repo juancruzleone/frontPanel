@@ -371,7 +371,7 @@ const Inventory = () => {
         )}
       </div>
       {(safePagination?.totalPages ?? 1) > 1 && (
-        <nav aria-label="Inventory pagination">
+        <nav aria-label="Inventory pagination" className={styles.pagination}>
           <button type="button" onClick={() => handleChangePage((safeQuery?.page ?? 1) - 1)} disabled={(safeQuery?.page ?? 1) === 1}>{t('common.previous', { defaultValue: 'Anterior' })}</button>
           <span>{t('common.page', { defaultValue: 'Página' })} {safeQuery?.page ?? 1} {t('common.of', { defaultValue: 'de' })} {safePagination?.totalPages ?? 1}</span>
           <button type="button" onClick={() => handleChangePage((safeQuery?.page ?? 1) + 1)} disabled={(safeQuery?.page ?? 1) === (safePagination?.totalPages ?? 1)}>{t('common.next', { defaultValue: 'Siguiente' })}</button>

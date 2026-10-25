@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router"
-import { FileText, AlertTriangle, Calendar, Package, ArrowRight } from "lucide-react"
+import { FileText, AlertTriangle, Calendar, Package, ArrowRight, ArrowUpRight } from "lucide-react"
 import { useTranslatedRoutes } from "../../../router/useTranslatedRoutes"
 import type { DashboardMetric } from "../types/homeTypes"
 import styles from "../styles/home.module.css"
@@ -42,6 +42,7 @@ export const PrimaryKPIs = ({ metrics, upcomingCount, assetsCount }: PrimaryKPIs
             <span className={styles.primaryKpiTitle}>
               {t("home.dashboard.metrics.openWorkOrders", { defaultValue: "Órdenes abiertas" })}
             </span>
+            <ArrowUpRight size={14} className={styles.kpiArrowIcon} aria-hidden="true" />
           </div>
           <div className={styles.primaryKpiBody}>
             <span className={styles.primaryKpiValue}>{openValue}</span>
@@ -51,7 +52,7 @@ export const PrimaryKPIs = ({ metrics, upcomingCount, assetsCount }: PrimaryKPIs
 
         {/* Card 2: Órdenes vencidas */}
         <Link
-          to={getRoute("workOrders")}
+          to={`${getRoute("workOrders")}?estado=vencida`}
           className={`${styles.primaryKpiCard} ${overdueValue > 0 ? styles.primaryKpiCardAlert : ""}`}
         >
           <div className={styles.primaryKpiHeader}>
@@ -59,6 +60,7 @@ export const PrimaryKPIs = ({ metrics, upcomingCount, assetsCount }: PrimaryKPIs
             <span className={styles.primaryKpiTitle}>
               {t("home.dashboard.metrics.overdueWorkOrders", { defaultValue: "Órdenes vencidas" })}
             </span>
+            <ArrowUpRight size={14} className={styles.kpiArrowIcon} aria-hidden="true" />
           </div>
           <div className={styles.primaryKpiBody}>
             <span className={`${styles.primaryKpiValue} ${overdueValue > 0 ? styles.kpiValueCritical : ""}`}>
@@ -77,6 +79,7 @@ export const PrimaryKPIs = ({ metrics, upcomingCount, assetsCount }: PrimaryKPIs
             <span className={styles.primaryKpiTitle}>
               {t("home.dashboard.upcomingMaintenanceTitle", { defaultValue: "Próximos mantenimientos" })}
             </span>
+            <ArrowUpRight size={14} className={styles.kpiArrowIcon} aria-hidden="true" />
           </div>
           <div className={styles.primaryKpiBody}>
             <span className={styles.primaryKpiValue}>{upcomingCount}</span>
@@ -93,6 +96,7 @@ export const PrimaryKPIs = ({ metrics, upcomingCount, assetsCount }: PrimaryKPIs
             <span className={styles.primaryKpiTitle}>
               {t("home.dashboard.registeredAssetsTitle", { defaultValue: "Activos registrados" })}
             </span>
+            <ArrowUpRight size={14} className={styles.kpiArrowIcon} aria-hidden="true" />
           </div>
           <div className={styles.primaryKpiBody}>
             <span className={styles.primaryKpiValue}>{assetsCount}</span>
@@ -123,7 +127,7 @@ export const PrimaryKPIs = ({ metrics, upcomingCount, assetsCount }: PrimaryKPIs
               </p>
             </div>
           </div>
-          <Link to={getRoute("workOrders")} className={styles.overdueAlertAction}>
+          <Link to={`${getRoute("workOrders")}?estado=vencida`} className={styles.overdueAlertAction}>
             <span>{t("home.dashboard.overdueAlert.action", { defaultValue: "Ver órdenes vencidas" })}</span>
             <ArrowRight size={15} aria-hidden />
           </Link>

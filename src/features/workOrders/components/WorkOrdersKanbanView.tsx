@@ -13,6 +13,7 @@ import {
 	User,
 	Edit,
 	Trash,
+	MoreHorizontal,
 } from "lucide-react";
 import Tooltip from "../../../shared/components/Tooltip/Tooltip";
 import styles from "../styles/workOrders.module.css";
@@ -41,6 +42,14 @@ const KANBAN_STATUSES = [
 	"completada",
 	"cancelada",
 ];
+
+const KANBAN_DOT_COLORS: Record<string, string> = {
+	pendiente: "#f59e0b",
+	asignada: "#3b82f6",
+	en_progreso: "#8b5cf6",
+	completada: "#10b981",
+	cancelada: "#64748b",
+};
 
 export const WorkOrdersKanbanView: React.FC<WorkOrdersKanbanViewProps> = ({
 	workOrders,
@@ -213,12 +222,22 @@ export const WorkOrdersKanbanView: React.FC<WorkOrdersKanbanViewProps> = ({
 							onDrop={(e) => handleDrop(e, status)}
 						>
 							<div className={styles.kanbanColumnHeader}>
-								<h3 className={styles.kanbanColumnTitle}>
-									{translateWorkOrderStatus(status)}
+								<div className={styles.kanbanColumnHeaderLeft}>
+									<span
+										className={styles.kanbanHeaderDot}
+										style={{ backgroundColor: KANBAN_DOT_COLORS[status] || "#64748b" }}
+										aria-hidden="true"
+									/>
+									<h3 className={styles.kanbanColumnTitle}>
+										{status === "en_progreso" ? "EN PROGRESO" : translateWorkOrderStatus(status).toUpperCase()}
+									</h3>
 									<span className={styles.kanbanCount}>
 										{ordersInStatus.length}
 									</span>
-								</h3>
+								</div>
+								<button type="button" className={styles.kanbanMoreButton} aria-label="Opciones de columna">
+									<MoreHorizontal size={16} />
+								</button>
 							</div>
 							<div
 								className={`${styles.kanbanCardsList} ${isDropTarget ? styles.kanbanDropTarget : ""}`}

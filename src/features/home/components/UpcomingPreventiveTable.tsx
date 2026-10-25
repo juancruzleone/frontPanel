@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, ArrowUpRight } from "lucide-react"
 import { useTranslatedRoutes } from "../../../router/useTranslatedRoutes"
 import { formatDateSafely } from "../../../shared/utils/formatDateSafely"
 import type { RecentWorkOrderDto, UpcomingPreventive } from "../types/homeTypes"
@@ -65,9 +65,7 @@ export const UpcomingPreventiveTable = ({ maintenance, onOpenDetail }: UpcomingP
                 <th scope="col" className={styles.thStatus}>
                   {t("home.dashboard.table.status", { defaultValue: "Estado" })}
                 </th>
-                <th scope="col" className={styles.thActions}>
-                  {t("home.dashboard.table.actions", { defaultValue: "Acciones" })}
-                </th>
+                <th scope="col" className={styles.thActions} aria-label={t("home.dashboard.table.actions", { defaultValue: "Acciones" })}></th>
               </tr>
             </thead>
             <tbody>
@@ -118,8 +116,10 @@ export const UpcomingPreventiveTable = ({ maintenance, onOpenDetail }: UpcomingP
                             navigate(getRoute("maintenancePlan"))
                           }
                         }}
+                        aria-label={t("common.details", { defaultValue: "Ver detalle" })}
+                        title={t("common.details", { defaultValue: "Ver detalle" })}
                       >
-                        Ver
+                        <ArrowUpRight size={14} aria-hidden="true" />
                       </button>
                     </td>
                   </tr>

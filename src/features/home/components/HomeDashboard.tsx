@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react"
 import { useTranslation } from "react-i18next"
 import { Link } from "react-router"
-import { AlertTriangle, ArrowRight } from "lucide-react"
+import { AlertTriangle, ArrowRight, ArrowUpRight, X } from "lucide-react"
 import { useAuthStore } from "../../../store/authStore"
 import { useTranslatedRoutes } from "../../../router/useTranslatedRoutes"
 import TourButton from "../../../shared/components/Buttons/TourButton"
@@ -33,6 +33,7 @@ export const HomeDashboard = () => {
   const dashboard = useHomeDashboard()
   const workOrderDetail = useWorkOrderDetail()
   const [activeQuickModal, setActiveQuickModal] = useState<QuickActionModalType>(null)
+  const [isNoticeDismissed, setIsNoticeDismissed] = useState(false)
 
   const tourButton = rawRole === "admin" ? <TourButton onClick={startTour} label={t("home.tour.buttons.restart")} /> : null
   const role = dashboard.data?.role ?? normalizeDashboardRole(rawRole)
@@ -47,25 +48,70 @@ export const HomeDashboard = () => {
       onRangeChange={dashboard.setRange}
     />
   ) : <div className={`${styles.skeleton} ${styles.skeletonHeader}`} aria-hidden="true" />
-  const notices = (dashboard.isOffline || dashboard.isStale || dashboard.data?.metadata.fallbackApplied) && (
+  const notices = (!isNoticeDismissed && (dashboard.isOffline || dashboard.isStale || dashboard.data?.metadata.fallbackApplied)) && (
     <div className={styles.dataNotices} role="status">
       {dashboard.isOffline && (
-        <p>
-          <AlertTriangle size={16} className={styles.dataNoticeIcon} aria-hidden />
-          <span>{t("home.dashboard.notices.offline")}</span>
-        </p>
+        <div className={styles.dataNoticeCard}>
+          <div className={styles.dataNoticeIconBox} aria-hidden="true">
+            <AlertTriangle size={20} className={styles.dataNoticeIcon} />
+          </div>
+          <div className={styles.dataNoticeContent}>
+            <strong className={styles.dataNoticeTitle}>
+              {t("home.dashboard.notices.offlineTitle", { defaultValue: "Modo sin conexión" })}
+            </strong>
+            <p className={styles.dataNoticeMessage}>{t("home.dashboard.notices.offline")}</p>
+          </div>
+          <button
+            type="button"
+            className={styles.dataNoticeCloseBtn}
+            onClick={() => setIsNoticeDismissed(true)}
+            aria-label={t("common.close", { defaultValue: "Cerrar" })}
+          >
+            <X size={16} aria-hidden="true" />
+          </button>
+        </div>
       )}
       {dashboard.isStale && (
-        <p>
-          <AlertTriangle size={16} className={styles.dataNoticeIcon} aria-hidden />
-          <span>{t("home.dashboard.notices.stale")}</span>
-        </p>
+        <div className={styles.dataNoticeCard}>
+          <div className={styles.dataNoticeIconBox} aria-hidden="true">
+            <AlertTriangle size={20} className={styles.dataNoticeIcon} />
+          </div>
+          <div className={styles.dataNoticeContent}>
+            <strong className={styles.dataNoticeTitle}>
+              {t("home.dashboard.notices.staleTitle", { defaultValue: "Datos desactualizados" })}
+            </strong>
+            <p className={styles.dataNoticeMessage}>{t("home.dashboard.notices.stale")}</p>
+          </div>
+          <button
+            type="button"
+            className={styles.dataNoticeCloseBtn}
+            onClick={() => setIsNoticeDismissed(true)}
+            aria-label={t("common.close", { defaultValue: "Cerrar" })}
+          >
+            <X size={16} aria-hidden="true" />
+          </button>
+        </div>
       )}
       {dashboard.data?.metadata.fallbackApplied && (
-        <p>
-          <AlertTriangle size={16} className={styles.dataNoticeIcon} aria-hidden />
-          <span>{t("home.dashboard.notices.fallback")}</span>
-        </p>
+        <div className={styles.dataNoticeCard}>
+          <div className={styles.dataNoticeIconBox} aria-hidden="true">
+            <AlertTriangle size={20} className={styles.dataNoticeIcon} />
+          </div>
+          <div className={styles.dataNoticeContent}>
+            <strong className={styles.dataNoticeTitle}>
+              {t("home.dashboard.notices.insufficientActivity", { defaultValue: "Actividad insuficiente en el período" })}
+            </strong>
+            <p className={styles.dataNoticeMessage}>{t("home.dashboard.notices.fallback")}</p>
+          </div>
+          <button
+            type="button"
+            className={styles.dataNoticeCloseBtn}
+            onClick={() => setIsNoticeDismissed(true)}
+            aria-label={t("common.close", { defaultValue: "Cerrar" })}
+          >
+            <X size={16} aria-hidden="true" />
+          </button>
+        </div>
       )}
     </div>
   )
@@ -132,7 +178,7 @@ export const HomeDashboard = () => {
               const route = metric.id === "devices" ? null : getRoute(metric.id === "technicians" ? "personal" : metric.id)
               return (
                 <div key={metric.id}>
-                  <dt>{route ? <Link className={styles.resourceLink} to={route}>{label}</Link> : label}</dt>
+                  <dt>{route ? <Link className={styles.resourceLink} to={route}><span>{label}</span><ArrowUpRight size={12} className={styles.resourceArrowIcon} aria-hidden="true" /></Link> : label}</dt>
                   <dd>{metric.value}</dd>
                 </div>
               )

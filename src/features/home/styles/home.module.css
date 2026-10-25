@@ -1,7 +1,7 @@
 .dashboardContainer {
   width: min(100%, 1320px);
   margin: 0 auto;
-  padding: 104px var(--space-2xl) var(--space-md);
+  padding: 88px var(--space-2xl) var(--space-xs);
   color: var(--color-text);
   /* --state-warning-strong over --state-warning-surface only reaches 4.38:1.
    * Blend it toward the theme text color so small warning text stays AA
@@ -10,7 +10,15 @@
 }
 
 .dashboardContainer > section {
-  margin-top: var(--space-section);
+  margin-top: var(--space-xl);
+}
+
+.dashboardContainer > section:first-of-type {
+  margin-top: var(--space-xs);
+}
+
+.dashboardContainer > section:last-child {
+  margin-bottom: 0;
 }
 
 .dashboardHeader {
@@ -179,6 +187,11 @@
   font-size: var(--type-caption-size);
 }
 
+.refreshStatus:empty {
+  min-height: 0;
+  margin: 0;
+}
+
 .dataNotices {
   display: flex;
   flex-direction: column;
@@ -187,27 +200,78 @@
   margin: var(--space-xs) 0 var(--space-md);
 }
 
-.dataNotices p {
+.dataNoticeCard {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
+  gap: var(--space-md);
   width: 100%;
   margin: 0;
-  padding: var(--space-sm) var(--space-md);
+  padding: 16px 20px;
   border: 1px solid var(--state-warning-border);
-  border-left: 4px solid var(--state-warning);
-  border-radius: var(--radius-control);
-  color: var(--home-warning-text);
+  border-radius: var(--radius-panel);
   background: var(--state-warning-surface);
   box-shadow: var(--elevation-sm);
-  font-size: var(--type-body-size);
-  font-weight: 500;
-  line-height: 1.4;
+}
+
+.dataNoticeIconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-card);
+  background: var(--color-bg-light);
+  border: 1px solid var(--state-warning-border);
+  flex-shrink: 0;
 }
 
 .dataNoticeIcon {
   color: var(--state-warning);
+}
+
+.dataNoticeContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.dataNoticeTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.3;
+}
+
+.dataNoticeMessage {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+.dataNoticeCloseBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-left: auto;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-control);
+  color: var(--color-text-secondary);
+  cursor: pointer;
   flex-shrink: 0;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.dataNoticeCloseBtn:hover,
+.dataNoticeCloseBtn:focus-visible {
+  color: var(--color-text);
+  background: var(--state-neutral-surface);
 }
 
 .sectionHeading {
@@ -258,7 +322,7 @@
 
 /* --- Primary KPIs --- */
 .primaryKpisSection {
-  margin-top: var(--space-section);
+  margin-top: 0;
 }
 
 .primaryKpisGrid {
@@ -459,6 +523,7 @@
   font-weight: 600;
   text-decoration: none;
   box-shadow: var(--elevation-card);
+  cursor: pointer;
   transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 
@@ -478,8 +543,9 @@
 
 .quickActionPrimary {
   background: var(--color-secondary);
-  color: var(--color-bg);
+  color: var(--color-secondary-contrast);
   border-color: var(--color-secondary);
+  cursor: pointer;
 }
 
 .quickActionPrimary:hover,
@@ -495,13 +561,13 @@
 }
 
 .quickActionIconPrimary {
-  color: var(--color-bg);
+  color: var(--color-secondary-contrast);
   flex-shrink: 0;
 }
 
 .quickActionTextPrimary {
-  color: var(--color-bg);
-  font-weight: 700;
+  color: var(--color-secondary-contrast);
+  font-weight: 750;
 }
 
 .quickActionIcon {
@@ -517,9 +583,12 @@
   gap: var(--space-grid-lg);
 }
 
-.workGrid,
 .analysisGrid {
   align-items: start;
+}
+
+.workGrid {
+  align-items: stretch;
 }
 
 /* Two columns x four rows. The attention row is as tall as its panels
@@ -1223,14 +1292,17 @@
 
 /* --- Donut layout --- */
 .donutLayout {
+  position: relative;
   display: flex;
   align-items: center;
   gap: var(--space-lg);
-  margin-top: var(--space-md);
+  margin-top: var(--space-xl);
+  padding-top: var(--space-sm);
   width: 100%;
 }
 
 .donutContainer {
+  position: relative;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -1254,6 +1326,43 @@
   stroke-width: 14;
   transform: rotate(-90deg);
   transform-origin: 75px 75px;
+  cursor: pointer;
+  transition: stroke-width 0.15s ease, filter 0.15s ease;
+}
+
+.donutSegmentHovered {
+  stroke-width: 17;
+  filter: brightness(1.15);
+}
+
+.donutTooltip {
+  position: absolute;
+  top: -34px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: 4px 10px;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--color-card-border);
+  background: var(--color-card);
+  box-shadow: var(--elevation-overlay);
+  white-space: nowrap;
+  font-size: 0.75rem;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.donutTooltipName {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.donutTooltipValue {
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
 }
 
 .donutCenterValue {
@@ -1298,6 +1407,16 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-grid-lg);
+  height: 100%;
+}
+
+.workGridRightColumn > .inventorySummary,
+.workGridRightColumn > .incidentsPanel,
+.workGridRightColumn > .panel {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .incidentsPanel {
@@ -1566,16 +1685,14 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 4px 14px;
-  min-width: 44px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  width: 28px;
+  height: 28px;
+  padding: 0;
   color: var(--color-text);
   background: var(--color-bg-light);
   border: 1px solid var(--color-card-border);
   border-radius: var(--radius-control);
   cursor: pointer;
-  white-space: nowrap;
   transition: all 0.15s ease;
 }
 
@@ -1584,6 +1701,7 @@
   border-color: var(--state-neutral-border);
   background: var(--color-card);
   color: var(--color-text);
+  transform: translateY(-1px);
 }
 
 .incidentsListContainer {
@@ -1787,11 +1905,28 @@
   white-space: nowrap;
 }
 
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* Same anatomy as .panelAction, but a button because it opens a dialog. */
 .orderDetailButton {
-  padding: var(--space-3xs) var(--space-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
   border: 1px solid var(--color-card-border);
-  border-radius: var(--radius-badge);
+  border-radius: var(--radius-control);
   background: var(--color-bg-light);
   color: var(--color-text);
   font: inherit;
@@ -1799,12 +1934,15 @@
   font-weight: 650;
   white-space: nowrap;
   cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
 }
 
 .orderDetailButton:hover {
   border-color: var(--state-neutral-border);
-  background: var(--state-neutral-surface);
+  background: var(--color-card);
   color: var(--color-text);
+  transform: translateY(-1px);
 }
 
 .orderDetailButton:focus-visible {

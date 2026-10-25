@@ -280,6 +280,31 @@
   letter-spacing: 0.01em;
 }
 
+.clearFiltersDesktop {
+  padding: 0;
+  background: #b71c1c;
+  color: #ffffff !important;
+  border: 1px solid #b71c1c;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 800;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 52px !important;
+  font-family: inherit;
+  box-shadow: 0 2px 10px rgba(183, 28, 28, 0.3);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.01em;
+}
+
+.clearFiltersMobile {
+  display: none;
+}
+
 :global(.dark) .clearFilters {
   background: #c62828;
   border-color: #c62828;
@@ -445,10 +470,6 @@
 /* Modo oscuro para navButton svg */
 [data-theme="dark"] .navButton svg {
   color: #fff;
-}
-
-.calendarHeader button {
-  width: 80px;
 }
 
 .monthTitle {
@@ -921,6 +942,34 @@
     min-width: 0;
     padding: 14px 20px;
     font-size: 15px;
+  }
+
+  .clearFiltersDesktop {
+    display: none !important;
+  }
+
+  .clearFiltersMobile {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 46px;
+    height: 46px;
+    background: #b71c1c;
+    color: #ffffff !important;
+    border: 1px solid #b71c1c;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 8px;
+    box-shadow: 0 2px 10px rgba(183, 28, 28, 0.3);
+  }
+
+  .clearFiltersMobile svg {
+    color: #ffffff !important;
+    stroke: #ffffff !important;
   }
 
   .dayCell {

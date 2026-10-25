@@ -35,6 +35,23 @@ const Calendar = () => {
   const [selectedTechnician, setSelectedTechnician] = useState("")
 
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
+  const [hasInitialLoadCompleted, setHasInitialLoadCompleted] = useState(false)
+
+  useEffect(() => {
+    if (!loading && !hasInitialLoadCompleted) {
+      setHasInitialLoadCompleted(true)
+    }
+  }, [loading, hasInitialLoadCompleted])
+
+  const handleClearAllFilters = () => {
+    setSelectedStatus("")
+    setSelectedPriority("")
+    setSelectedDate("")
+    setSelectedDateFilter("")
+    setSearchTerm("")
+    setSelectedTechnician("")
+    setCurrentDate(new Date())
+  }
   const [selectedWorkOrder, setSelectedWorkOrder] = useState<WorkOrder | null>(null)
   const [responseMessage, setResponseMessage] = useState("")
   const [isError, setIsError] = useState(false)
@@ -385,16 +402,8 @@ const Calendar = () => {
               />
             </div>
             <button
-              onClick={() => {
-                setSelectedStatus("")
-                setSelectedPriority("")
-                setSelectedDate("")
-                setSelectedDateFilter("")
-                setSearchTerm("")
-                setSelectedTechnician("")
-                setCurrentDate(new Date())
-              }}
-              className={styles.clearFilters}
+              onClick={handleClearAllFilters}
+              className={`${styles.clearFilters} ${styles.clearFiltersDesktop}`}
               title={t('calendar.clearFilters')}
             >
               <FilterX size={22} strokeWidth={3} />
@@ -459,10 +468,20 @@ const Calendar = () => {
               )}
             </button>
           </div>
+
+          <button
+            onClick={handleClearAllFilters}
+            className={styles.clearFiltersMobile}
+            title={t('calendar.clearFilters')}
+            type="button"
+          >
+            <FilterX size={20} strokeWidth={2.5} />
+            <span>{t('calendar.clearFilters') || 'Limpiar filtros'}</span>
+          </button>
         </div>
 
         <div className={styles.content}>
-          {loading ? (
+          {!hasInitialLoadCompleted && loading ? (
             <div className={styles.loadingContainer}>
               <div className={styles.skeletonGrid}>
                 {[1, 2, 3].map((_, i) => <Skeleton key={i} height={120} width={"100%"} style={{ borderRadius: 14 }} />)}
