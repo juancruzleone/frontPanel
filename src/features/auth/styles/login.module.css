@@ -89,7 +89,7 @@
 
 .heroMessage {
   max-width: 620px;
-  margin: auto 0 0;
+  margin: auto 0;
 }
 
 .heroTagline {
@@ -124,7 +124,7 @@
 }
 
 .heroBrandLine {
-  margin: 1.5rem 0 0;
+  margin: 1.5rem 0 auto;
   color: rgba(255, 255, 255, 0.52);
   font-size: 0.72rem;
   letter-spacing: 0.03em;
@@ -133,9 +133,9 @@
 .positionForm {
   min-height: 100vh;
   min-height: 100dvh;
-  padding: clamp(2.5rem, 6vw, 6rem);
+  padding: clamp(1.25rem, 3vh, 2.5rem) clamp(2.5rem, 6vw, 6rem) clamp(2rem, 5vh, 4rem);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   background: var(--color-bg-light);
 }
