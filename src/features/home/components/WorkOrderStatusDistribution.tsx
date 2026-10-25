@@ -135,19 +135,27 @@ export const WorkOrderStatusDistribution = ({ data, mode = "status" }: WorkOrder
                 <text x="75" y="90" textAnchor="middle" className={styles.donutCenterLabel}>{t("home.dashboard.distribution.totalLabel", { defaultValue: "Total" })}</text>
               </svg>
             </div>
-            <ul className={styles.distributionList}>
-              {rows.map((row) => {
-                const percentage = Math.round((row.value / total) * 100)
-                return (
-                  <li key={row.key}>
-                    <span className={`${styles.statusMarker} ${styles[`marker${row.key}`] || styles.markerOther}`} />
-                    <span>{t(`home.${mode}.${row.key}`, { defaultValue: row.name })}</span>
-                    <strong>{row.value}</strong>
-                    <span>{percentage}%</span>
-                  </li>
-                )
-              })}
-            </ul>
+            <div className={styles.distributionTableWrap}>
+              <div className={styles.distributionHeader}>
+                <span aria-hidden="true" />
+                <span>{mode === "priority" ? t("workOrders.priority", { defaultValue: "Prioridad" }) : t("home.dashboard.table.status", { defaultValue: "Estado" })}</span>
+                <span>{t("home.dashboard.distribution.countHeader", { defaultValue: "Cantidad" })}</span>
+                <span>{t("home.dashboard.distribution.percentageHeader", { defaultValue: "Porcentaje" })}</span>
+              </div>
+              <ul className={styles.distributionList}>
+                {rows.map((row) => {
+                  const percentage = total > 0 ? Math.round((row.value / total) * 100) : 0
+                  return (
+                    <li key={row.key}>
+                      <span className={`${styles.statusMarker} ${styles[`marker${row.key}`] || styles.markerOther}`} />
+                      <span>{t(`home.${mode}.${row.key}`, { defaultValue: row.name })}</span>
+                      <strong>{row.value}</strong>
+                      <span>{percentage}%</span>
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
           </div>
         </>
       )}

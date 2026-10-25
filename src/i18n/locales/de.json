@@ -582,7 +582,9 @@
       },
       "distribution": {
         "kicker": "Zusammensetzung",
-        "totalLabel": "Gesamt"
+        "totalLabel": "Gesamt",
+        "countHeader": "Anzahl",
+        "percentageHeader": "Prozentsatz"
       },
       "ordersCount": "{{count}} Aufträge",
       "trend": {

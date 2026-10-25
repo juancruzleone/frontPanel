@@ -602,7 +602,9 @@
       },
       "distribution": {
         "kicker": "构成",
-        "totalLabel": "总计"
+        "totalLabel": "总计",
+        "countHeader": "数量",
+        "percentageHeader": "占比"
       },
       "ordersCount": "{{count}} 张工单",
       "trend": {

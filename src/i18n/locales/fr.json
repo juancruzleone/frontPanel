@@ -597,7 +597,9 @@
       },
       "distribution": {
         "kicker": "Répartition",
-        "totalLabel": "Total"
+        "totalLabel": "Total",
+        "countHeader": "Quantité",
+        "percentageHeader": "Pourcentage"
       },
       "ordersCount": "{{count}} ordres",
       "trend": {

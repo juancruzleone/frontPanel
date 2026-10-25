@@ -602,7 +602,9 @@
       },
       "distribution": {
         "kicker": "구성",
-        "totalLabel": "합계"
+        "totalLabel": "합계",
+        "countHeader": "수량",
+        "percentageHeader": "비율"
       },
       "ordersCount": "{{count}}건의 작업 지시",
       "trend": {

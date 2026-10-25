@@ -601,7 +601,9 @@
       },
       "distribution": {
         "kicker": "Composição",
-        "totalLabel": "Total"
+        "totalLabel": "Total",
+        "countHeader": "Quantidade",
+        "percentageHeader": "Percentual"
       },
       "ordersCount": "{{count}} ordens",
       "trend": {

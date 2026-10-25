@@ -600,7 +600,9 @@
       },
       "distribution": {
         "kicker": "内訳",
-        "totalLabel": "合計"
+        "totalLabel": "合計",
+        "countHeader": "数量",
+        "percentageHeader": "割合"
       },
       "ordersCount": "{{count}}件の作業指示",
       "trend": {
