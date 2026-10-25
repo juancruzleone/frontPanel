@@ -24,6 +24,8 @@ import { WorkOrderDetailDialog } from "./WorkOrderDetailDialog"
 import { WorkOrderStatusDistribution } from "./WorkOrderStatusDistribution"
 import styles from "../styles/home.module.css"
 
+const NOTICE_DISMISSED_KEY = "home-insufficient-activity-notice-dismissed"
+
 export const HomeDashboard = () => {
   const { t } = useTranslation()
   const rawRole = useAuthStore((state) => state.role)
@@ -33,7 +35,22 @@ export const HomeDashboard = () => {
   const dashboard = useHomeDashboard()
   const workOrderDetail = useWorkOrderDetail()
   const [activeQuickModal, setActiveQuickModal] = useState<QuickActionModalType>(null)
-  const [isNoticeDismissed, setIsNoticeDismissed] = useState(false)
+  const [isNoticeDismissed, setIsNoticeDismissed] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem(NOTICE_DISMISSED_KEY) === "true"
+    } catch {
+      return false
+    }
+  })
+
+  const handleDismissNotice = () => {
+    try {
+      localStorage.setItem(NOTICE_DISMISSED_KEY, "true")
+    } catch {
+      // ignore
+    }
+    setIsNoticeDismissed(true)
+  }
 
   const tourButton = rawRole === "admin" ? <TourButton onClick={startTour} label={t("home.tour.buttons.restart")} /> : null
   const role = dashboard.data?.role ?? normalizeDashboardRole(rawRole)
@@ -64,7 +81,7 @@ export const HomeDashboard = () => {
           <button
             type="button"
             className={styles.dataNoticeCloseBtn}
-            onClick={() => setIsNoticeDismissed(true)}
+            onClick={handleDismissNotice}
             aria-label={t("common.close", { defaultValue: "Cerrar" })}
           >
             <X size={16} aria-hidden="true" />
@@ -85,7 +102,7 @@ export const HomeDashboard = () => {
           <button
             type="button"
             className={styles.dataNoticeCloseBtn}
-            onClick={() => setIsNoticeDismissed(true)}
+            onClick={handleDismissNotice}
             aria-label={t("common.close", { defaultValue: "Cerrar" })}
           >
             <X size={16} aria-hidden="true" />
@@ -106,7 +123,7 @@ export const HomeDashboard = () => {
           <button
             type="button"
             className={styles.dataNoticeCloseBtn}
-            onClick={() => setIsNoticeDismissed(true)}
+            onClick={handleDismissNotice}
             aria-label={t("common.close", { defaultValue: "Cerrar" })}
           >
             <X size={16} aria-hidden="true" />

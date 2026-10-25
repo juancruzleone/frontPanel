@@ -50,7 +50,12 @@ const createState = (role: "admin" | "technician" | "client"): HomeDashboardStat
 
 describe("HomeDashboard role-aware composition", () => {
   beforeAll(async () => { await i18n.changeLanguage("es") })
-  beforeEach(() => { mocks.role = "admin"; mocks.state = createState("admin"); mocks.startTour.mockClear() })
+  beforeEach(() => {
+    localStorage.clear()
+    mocks.role = "admin"
+    mocks.state = createState("admin")
+    mocks.startTour.mockClear()
+  })
 
   it("shows tenant resources and inventory only to admin", () => {
     render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
@@ -137,6 +142,25 @@ describe("HomeDashboard role-aware composition", () => {
     expect(screen.getByText(/últimos datos guardados/)).toBeInTheDocument()
     expect(screen.getByText(/pueden estar desactualizados/)).toBeInTheDocument()
     expect(screen.getByText(/resumen de inventario no está disponible/)).toBeInTheDocument()
+  })
+
+  it("persists notice dismissal in localStorage across visits", () => {
+    localStorage.clear()
+    const emptyState = createState("admin")
+    emptyState.data = emptyState.data ? { ...emptyState.data, metadata: { ...emptyState.data.metadata, fallbackApplied: true } } : null
+    mocks.state = { ...emptyState }
+    const { unmount } = render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
+    expect(screen.getByText(/algunas visualizaciones usan histórico reciente/)).toBeInTheDocument()
+
+    const closeBtn = screen.getByRole("button", { name: "Cerrar" })
+    fireEvent.click(closeBtn)
+
+    expect(screen.queryByText(/algunas visualizaciones usan histórico reciente/)).not.toBeInTheDocument()
+    expect(localStorage.getItem("home-insufficient-activity-notice-dismissed")).toBe("true")
+
+    unmount()
+    render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
+    expect(screen.queryByText(/algunas visualizaciones usan histórico reciente/)).not.toBeInTheDocument()
   })
 
   it.each([

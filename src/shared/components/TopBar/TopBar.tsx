@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Search, Bell, Check, Trash2, Clock, Sun, Moon } from "lucide-react";
+import { useNavigate } from "react-router";
+import { Search, Bell, Check, Trash2, Clock, Sun, Moon, Wrench, Package, Building2, Loader2 } from "lucide-react";
 import { useNotificationStore } from "../../../store/notificationStore";
 import { useLayoutStore } from "../../../store/layoutStore";
 import { useAuthStore } from "../../../store/authStore";
 import { useTheme } from "../../hooks/useTheme";
 import { useTranslation } from "react-i18next";
 import { formatRelativeTime } from "../../utils/formatRelativeTime";
+import { executeGlobalSearch, type GlobalSearchResult } from "../../services/globalSearchService";
 import styles from "./TopBar.module.css";
 
 import esFlag from "../../../../src/assets/flags/es.svg";
@@ -39,6 +41,7 @@ const flagMap: Record<string, string> = {
 
 const TopBar: React.FC = () => {
 	const { t, i18n } = useTranslation();
+	const navigate = useNavigate();
 	const {
 		notifications,
 		unreadCount,
@@ -53,10 +56,49 @@ const TopBar: React.FC = () => {
 	const [isLangOpen, setIsLangOpen] = useState(false);
 	const [isThemeSpinning, setIsThemeSpinning] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
+	const [searchResults, setSearchResults] = useState<GlobalSearchResult[]>([]);
+	const [isSearching, setIsSearching] = useState(false);
+	const [isSearchOpen, setIsSearchOpen] = useState(false);
 
 	const notifRef = useRef<HTMLDivElement>(null);
 	const langRef = useRef<HTMLDivElement>(null);
 	const searchInputRef = useRef<HTMLInputElement>(null);
+	const searchContainerRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		const q = searchQuery.trim();
+		if (q.length < 2) {
+			setSearchResults([]);
+			setIsSearching(false);
+			setIsSearchOpen(false);
+			return;
+		}
+
+		setIsSearching(true);
+		setIsSearchOpen(true);
+		const timer = setTimeout(async () => {
+			try {
+				const results = await executeGlobalSearch(q);
+				setSearchResults(results);
+			} catch {
+				setSearchResults([]);
+			} finally {
+				setIsSearching(false);
+			}
+		}, 300);
+
+		return () => clearTimeout(timer);
+	}, [searchQuery]);
+
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+				setIsSearchOpen(false);
+			}
+		};
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => document.removeEventListener("mousedown", handleClickOutside);
+	}, []);
 
 	useEffect(() => {
 		const handleKeyDown = (event: KeyboardEvent) => {
@@ -130,9 +172,13 @@ const TopBar: React.FC = () => {
 			className={`${styles.topBar} ${isSidebarCollapsed ? styles.expanded : ""}`}
 		>
 			<div className={styles.topBarContainer}>
-				<div className={styles.searchContainer} data-tour="topbar-search">
+				<div className={styles.searchContainer} ref={searchContainerRef} data-tour="topbar-search">
 					<div className={styles.searchWrapper}>
-						<Search size={16} className={styles.searchIcon} aria-hidden />
+						{isSearching ? (
+							<Loader2 size={16} className={`${styles.searchIcon} ${styles.spinner}`} aria-hidden />
+						) : (
+							<Search size={16} className={styles.searchIcon} aria-hidden />
+						)}
 						<input
 							ref={searchInputRef}
 							type="search"
@@ -140,10 +186,69 @@ const TopBar: React.FC = () => {
 							placeholder="Buscar activos, instalaciones, órdenes de trabajo..."
 							value={searchQuery}
 							onChange={(e) => setSearchQuery(e.target.value)}
+							onFocus={() => {
+								if (searchQuery.trim().length >= 2) setIsSearchOpen(true);
+							}}
 							aria-label="Buscar activos, instalaciones y órdenes de trabajo"
 						/>
 						<kbd className={styles.searchKbd} aria-hidden>Ctrl + K</kbd>
 					</div>
+
+					{isSearchOpen && (
+						<div className={styles.searchResultsDropdown} role="listbox">
+							{isSearching && (
+								<div className={styles.searchStatus}>
+									<Loader2 size={16} className={styles.spinner} />
+									<span>Buscando en el sistema...</span>
+								</div>
+							)}
+
+							{!isSearching && searchResults.length === 0 && (
+								<div className={styles.searchEmpty}>
+									<span>No se encontraron resultados para &ldquo;{searchQuery}&rdquo;</span>
+								</div>
+							)}
+
+							{!isSearching && searchResults.length > 0 && (
+								<div className={styles.searchResultsList}>
+									{searchResults.map((item) => {
+										const CategoryIcon =
+											item.category === "workOrders" ? Wrench :
+											item.category === "assets" ? Package : Building2;
+										const categoryLabel =
+											item.category === "workOrders" ? "Orden de trabajo" :
+											item.category === "assets" ? "Activo" : "Instalación";
+
+										return (
+											<button
+												key={`${item.category}-${item.id}`}
+												type="button"
+												className={styles.searchResultItem}
+												onClick={() => {
+													navigate(item.url);
+													setIsSearchOpen(false);
+													setSearchQuery("");
+												}}
+											>
+												<div className={styles.resultIconWrap}>
+													<CategoryIcon size={16} />
+												</div>
+												<div className={styles.resultTextWrap}>
+													<div className={styles.resultTopRow}>
+														<span className={styles.resultTitle}>{item.title}</span>
+														<span className={styles.resultCategoryBadge}>{categoryLabel}</span>
+													</div>
+													{item.subtitle && (
+														<span className={styles.resultSubtitle}>{item.subtitle}</span>
+													)}
+												</div>
+											</button>
+										);
+									})}
+								</div>
+							)}
+						</div>
+					)}
 				</div>
 
 				<div className={styles.actions} data-tour="topbar-actions">
