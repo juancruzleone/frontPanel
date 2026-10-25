@@ -1,5 +1,8 @@
 import { fetchWithAuthRetry, getHeadersWithContentType, getAuthHeaders } from "../../../shared/utils/apiHeaders"
 
+import type { PageQuery, ServerPage } from '../../../shared/types/pagination'
+import type { Client } from '../hooks/useClients'
+
 const rawApiUrl = import.meta.env.VITE_API_URL || "/api/"
 const API_URL = rawApiUrl.endsWith("/") ? rawApiUrl : `${rawApiUrl}/`
 
@@ -102,6 +105,19 @@ export const createClient = async (username: string, password: string, fullName:
     }
 
     return await response.json()
+}
+
+// Explicit opt-in leaves legacy array consumers unchanged.
+export const getClientsPage = async (query: PageQuery, options?: { signal?: AbortSignal }): Promise<ServerPage<Client>> => {
+    const params = new URLSearchParams({ page: String(query.page), limit: String(query.limit), search: query.search })
+    const response = await fetchWithAuthRetry(`${API_URL}clientes-usuarios?${params}`, {
+        method: 'GET', headers: getAuthHeaders(), signal: options?.signal,
+    })
+    if (!response.ok) {
+        const error = await response.json().catch(() => ({}))
+        throw new Error(error.error?.message || 'Error al obtener clientes')
+    }
+    return response.json()
 }
 
 export const getClients = async () => {

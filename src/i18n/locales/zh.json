@@ -27,7 +27,20 @@
     "list": "列表",
     "compliance": "合规",
     "settings": "设置",
-    "analytics": "指标"
+    "analytics": "分析"
+  },
+  "analytics": {
+    "titlePage": "分析 | Leonix",
+    "subtitle": "涵盖整个运营维度的异常、容量与演进趋势。",
+    "periodAnalyzed": "分析周期",
+    "howItIsCalculated": "计算方式",
+    "viewAnalysis": "查看分析",
+    "evolutionTitle": "指标演进",
+    "evolutionSubtitle": "所选周期内关键指标的变化趋势。",
+    "attentionTitle": "需重点关注的设施",
+    "attentionSubtitle": "具有最大改进空间的安装设施。",
+    "evolutionEmpty": "暂无足够数据以展示指标演进趋势。",
+    "attentionEmpty": "所选周期内未发现需要特别关注的设施。"
   },
   "audit": {
     "title": "活动日志",

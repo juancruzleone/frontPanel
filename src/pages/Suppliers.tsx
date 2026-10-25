@@ -59,6 +59,10 @@ const Suppliers = () => {
   }
 
   useEffect(() => {
+    document.title = t("suppliers.titlePage", { defaultValue: "Proveedores | Leonix" })
+  }, [t])
+
+  useEffect(() => {
     loadSuppliers()
   }, [loadSuppliers])
 

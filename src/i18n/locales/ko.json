@@ -27,7 +27,20 @@
     "list": "목록",
     "compliance": "규정 준수",
     "settings": "설정",
-    "analytics": "지표"
+    "analytics": "분석"
+  },
+  "analytics": {
+    "titlePage": "분석 | Leonix",
+    "subtitle": "전체 운영의 예외 사항, 처리 역량 및 추이 분석.",
+    "periodAnalyzed": "분석 기간",
+    "howItIsCalculated": "산출 방식",
+    "viewAnalysis": "분석 보기",
+    "evolutionTitle": "지표 추이",
+    "evolutionSubtitle": "선택한 기간 동안의 주요 지표 변화 추이.",
+    "attentionTitle": "주의가 필요한 시설",
+    "attentionSubtitle": "개선 여지가 가장 큰 설치 시설 목록.",
+    "evolutionEmpty": "지표 추이를 표시하기 위한 데이터가 아직 충분하지 않습니다.",
+    "attentionEmpty": "선택한 기간 동안 주의가 필요한 시설이 없습니다."
   },
   "audit": {
     "title": "활동 로그",

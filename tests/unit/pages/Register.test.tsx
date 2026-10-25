@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -71,20 +72,30 @@ vi.mock('../../../src/shared/components/Buttons/TourButton', () => ({
 
 describe('Register page', () => {
   beforeEach(() => {
-    vi.mocked(useRegister).mockReturnValue({
-      showModal: false,
-      responseMessage: '',
-      isError: false,
-      closeModal: vi.fn(),
-      technicians: [
+    vi.mocked(useRegister).mockImplementation(() => {
+      const [search, setSearch] = useState('')
+      const allTechnicians = [
         { _id: '1', userName: 'Alpha', role: 'TECHNICIAN', createdAt: '2026-08-01T00:00:00.000Z' },
         { _id: '2', userName: 'Beta', role: 'TECHNICIAN', createdAt: '2026-08-02T00:00:00.000Z' },
-      ],
-      loadingTechnicians: false,
-      fetchTechnicians: vi.fn(),
-      addTechnician: vi.fn(),
-      showSuccess: vi.fn(),
-      showError: vi.fn(),
+      ]
+      const filtered = allTechnicians.filter(t => !search || t.userName.toLowerCase().includes(search.toLowerCase()))
+      return {
+        showModal: false,
+        responseMessage: '',
+        isError: false,
+        closeModal: vi.fn(),
+        technicians: filtered,
+        loadingTechnicians: false,
+        fetchTechnicians: vi.fn(),
+        addTechnician: vi.fn(),
+        showSuccess: vi.fn(),
+        showError: vi.fn(),
+        search,
+        setSearch,
+        pagination: { page: 1, limit: 10, total: filtered.length, totalPages: 1 },
+        setPage: vi.fn(),
+        error: null,
+      } as any
     })
   })
 

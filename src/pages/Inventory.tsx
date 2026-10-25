@@ -71,6 +71,10 @@ const Inventory = () => {
   }
 
   useEffect(() => {
+    document.title = t("inventory.titlePage", { defaultValue: "Inventario | Leonix" })
+  }, [t])
+
+  useEffect(() => {
     loadInventory()
   }, [loadInventory])
 

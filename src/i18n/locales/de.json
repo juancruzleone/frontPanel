@@ -27,7 +27,20 @@
     "list": "Liste",
     "compliance": "Compliance",
     "settings": "Einstellungen",
-    "analytics": "Kennzahlen"
+    "analytics": "Analysen"
+  },
+  "analytics": {
+    "titlePage": "Analysen | Leonix",
+    "subtitle": "Ausnahmen, Kapazität und Entwicklung des gesamten Betriebs.",
+    "periodAnalyzed": "Analysierter Zeitraum",
+    "howItIsCalculated": "Berechnungsmethode",
+    "viewAnalysis": "Analyse anzeigen",
+    "evolutionTitle": "Entwicklung der Kennzahlen",
+    "evolutionSubtitle": "Trend der wichtigsten Kennzahlen im ausgewählten Zeitraum.",
+    "attentionTitle": "Anlagen mit Handlungsbedarf",
+    "attentionSubtitle": "Standorte mit dem größten Verbesserungspotenzial.",
+    "evolutionEmpty": "Derzeit liegen noch nicht genügend Daten vor, um die Entwicklung anzuzeigen.",
+    "attentionEmpty": "Im ausgewählten Zeitraum wurden keine auffälligen Anlagen gefunden."
   },
   "audit": {
     "title": "Aktivitätsprotokoll",

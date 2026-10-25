@@ -1,5 +1,4 @@
 import { expect, test, type Page } from '@playwright/test'
-import { readFileSync } from 'node:fs'
 
 // Real-route coverage below is supplemented by production-CSS layout fixtures.
 // Fixtures render the actual TourButton, including its main:has() cascade.
@@ -19,6 +18,7 @@ async function mockSession(page: Page) {
     localStorage.setItem('i18nextLng', 'es')
     localStorage.setItem('installationsTourCompleted', 'true')
     localStorage.setItem('clientsTourCompleted', 'true')
+    localStorage.setItem('suppliersTourCompleted', 'true')
   })
   await page.route('**/api/**', route => {
     const path = new URL(route.request().url()).pathname
@@ -80,34 +80,16 @@ for (const width of widths) {
 }
 
 for (const width of [390, 1440]) {
-  test(`nonpaginated Clients preserves tour clearance ${width}px`, async ({ page }) => {
+  test(`nonpaginated Suppliers preserves tour clearance ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 1000 })
     await mockSession(page)
-    await page.goto('/clientes')
-    await expect(page.getByRole('heading', { name: 'Clientes', exact: true })).toBeVisible()
+    await page.goto('/proveedores')
+    await expect(page.getByRole('heading', { name: 'Proveedores', exact: true })).toBeVisible()
     const tour = page.locator('main button[class*="_tourButton_"]')
     await expect(tour).toBeVisible()
     expect(await page.locator('main').evaluate(main => getComputedStyle(main).paddingBottom)).toBe('88px')
     const box = await tour.boundingBox()
     expect(box).toMatchObject({ x: width - 72, y: 928, width: 56, height: 56 })
-    // Temporary, uncommitted differential against the exact allowed-file starting snapshot.
-    const snapshot = JSON.parse(readFileSync('node_modules/.vite/pagination-start.json', 'utf8')) as Record<string, string>
-    const originalTourCss = snapshot['src/shared/components/Buttons/buttons.module.css'].split('/* Reserve scroll room')[1]
-    const measureShared = () => page.locator('main').evaluate(main => ({
-      main: main.getBoundingClientRect().toJSON(),
-      content: main.firstElementChild!.getBoundingClientRect().toJSON(),
-      tour: main.querySelector('button[class*="_tourButton_"]')!.getBoundingClientRect().toJSON(),
-      padding: getComputedStyle(main).paddingBottom,
-      after: getComputedStyle(main, '::after').height,
-      scrollHeight: document.body.scrollHeight,
-    }))
-    const currentShared = await measureShared()
-    const tourClass = await tour.getAttribute('class')
-    const baselineStyle = await page.addStyleTag({ content: (`/* Reserve scroll room${originalTourCss}`)
-      .replaceAll(':global(main)', 'main').replaceAll('.tourButton', `.${tourClass}`) })
-    expect(await measureShared()).toEqual(currentShared)
-    console.log(`Clients snapshot/current differential ${width}px: identical geometry`, currentShared)
-    await baselineStyle.evaluate(style => style.remove())
     await tour.focus()
     await expect(tour).toBeFocused()
     await tour.press('Enter')

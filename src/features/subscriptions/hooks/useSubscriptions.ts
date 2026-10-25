@@ -1,11 +1,13 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { fetchInstallations } from '../../installations/services/installationServices'
+import type { PaginationMetadata } from '../../../shared/types/pagination'
 import type { Installation } from '../../installations/hooks/useInstallations'
 import { useAuthStore } from '../../../../src/store/authStore.ts'
-import { useInstallationStore } from '../../../../src/store/installationStore.ts'
 import { getAuthHeaders, fetchWithAuthRetry } from '@/shared/utils/apiHeaders'
 import {
+  fetchSubscriptionPage,
+  type SubscriptionQuery,
+  type SubscriptionStatusCounts,
   updateSubscription as updateSubscriptionService,
   triggerAutomaticWorkOrdersGeneration,
 } from '../services/subscriptionServices'
@@ -49,16 +51,27 @@ const normalizeFrequencyValue = (value: string): string => {
 const useSubscriptions = () => {
   const { t } = useTranslation()
   const [subscriptions, setSubscriptions] = useState<Subscription[]>([])
-  const { installations: cachedInstallations, ownerId } = useInstallationStore()
-  const { userId } = useAuthStore()
+  const { userId, tenantId, isAuthenticated } = useAuthStore()
   const [installations, setInstallations] = useState<Installation[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  const [query, setQuery] = useState<SubscriptionQuery>({ page: 1, limit: 5, search: '', maintenanceStatus: '', maintenanceMonth: '' })
+  const [pagination, setPagination] = useState<PaginationMetadata>({ page: 1, limit: 5, total: 0, totalPages: 0 })
+  const [statusCounts, setStatusCounts] = useState<SubscriptionStatusCounts>({ all: 0, active: 0, inactive: 0, pending: 0 })
+  const abortRef = useRef<AbortController | null>(null)
+  const queryRef = useRef(query)
+  queryRef.current = query
+
+  const changeQuery = (changes: Partial<SubscriptionQuery>) => {
+    abortRef.current?.abort()
+    setQuery(current => ({ ...current, page: 1, ...changes }))
+  }
+  const setPage = (page: number) => changeQuery({ page })
+  const setSearch = (search: string) => changeQuery({ search })
+  const setStatus = (maintenanceStatus: string) => changeQuery({ maintenanceStatus })
+  const setMonth = (maintenanceMonth: string) => changeQuery({ maintenanceMonth })
 
   const [config, setConfig] = useState<{ frequencies: { id?: string, value?: string }[] } | null>(null)
-
-  const validCachedInstallations = userId && ownerId === userId ? cachedInstallations : []
 
   useEffect(() => {
     const fetchConfig = async () => {
@@ -139,54 +152,46 @@ const useSubscriptions = () => {
   }, [])
 
   const loadSubscriptions = useCallback(async () => {
+    abortRef.current?.abort()
+    const controller = new AbortController()
+    abortRef.current = controller
+    const current = queryRef.current
+    setSubscriptions([])
+    setInstallations([])
+    setError(null)
+    if (!isAuthenticated) {
+      setLoading(false)
+      return
+    }
+    setLoading(true)
     try {
-      setLoading(true)
-      setError(null)
-
-      const { installations: currentStored, ownerId: currentOwnerId } = useInstallationStore.getState()
-      const currentScope = userId || ''
-      const currentValidStored = currentOwnerId === currentScope ? currentStored : []
-
-      if (!navigator.onLine && currentValidStored.length > 0) {
-        setInstallations(currentValidStored as unknown as Installation[])
-        const subscriptionsData = (currentValidStored as unknown as Installation[]).map(mapInstallationToSubscription)
-        setSubscriptions(subscriptionsData)
-        setLoading(false)
+      const response = await fetchSubscriptionPage(current, { signal: controller.signal })
+      if (controller.signal.aborted) return
+      setStatusCounts(response.statusCounts)
+      const lastPage = Math.max(1, response.pagination.totalPages)
+      if (!response.data.length && current.page > lastPage) {
+        setQuery({ ...current, page: lastPage })
         return
       }
-
-      const response = await fetchInstallations({ limit: 50 })
-      const installationsData = Array.isArray(response)
-        ? (response as unknown as Installation[])
-        : ((response as { data?: Installation[] }).data || [])
-
-      setInstallations(installationsData)
-      const subscriptionsData = installationsData.map(mapInstallationToSubscription)
-
-      setSubscriptions(subscriptionsData)
+      setInstallations(response.data)
+      setSubscriptions(response.data.map(mapInstallationToSubscription))
+      setPagination(response.pagination)
     } catch (err: unknown) {
-      const { installations: currentStored, ownerId: currentOwnerId } = useInstallationStore.getState()
-      const currentScope = userId || ''
-      const currentValidStored = currentOwnerId === currentScope ? currentStored : []
-      if (currentValidStored.length > 0) {
-        setInstallations(currentValidStored as unknown as Installation[])
-        const subscriptionsData = (currentValidStored as unknown as Installation[]).map(mapInstallationToSubscription)
-        setSubscriptions(subscriptionsData)
-      } else {
-        setError((err as Error).message || 'Error al cargar abonos')
-      }
+      if (controller.signal.aborted) return
+      setError(err instanceof Error ? err.message : t('common.error'))
+      setPagination({ ...current, total: 0, totalPages: 0 })
+      setStatusCounts({ all: 0, active: 0, inactive: 0, pending: 0 })
     } finally {
-      setLoading(false)
+      if (!controller.signal.aborted) setLoading(false)
     }
-  }, [mapInstallationToSubscription, userId])
+  }, [mapInstallationToSubscription, isAuthenticated, userId, tenantId, t])
 
   useEffect(() => {
-    loadSubscriptions()
-  }, [loadSubscriptions])
+    void loadSubscriptions()
+    return () => abortRef.current?.abort()
+  }, [loadSubscriptions, query])
 
-  const refreshSubscriptions = useCallback(() => {
-    loadSubscriptions()
-  }, [loadSubscriptions])
+  const refreshSubscriptions = loadSubscriptions
 
   const updateSubscription = async (subscriptionId: string, data: Partial<Subscription>) => {
     const installation = installations.find(inst => inst._id === subscriptionId)
@@ -446,6 +451,15 @@ const useSubscriptions = () => {
   }, [resetForm])
 
   return {
+    pagination,
+    statusCounts,
+    search: query.search,
+    selectedStatus: query.maintenanceStatus || '',
+    selectedMonth: query.maintenanceMonth || '',
+    setPage,
+    setSearch,
+    setStatus,
+    setMonth,
     subscriptions,
     installations,
     frequencyOptions,

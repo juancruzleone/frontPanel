@@ -27,7 +27,20 @@
     "audit": "Audit",
     "compliance": "Compliance",
     "list": "List",
-    "analytics": "Indicators"
+    "analytics": "Analytics"
+  },
+  "analytics": {
+    "titlePage": "Analytics | Leonix",
+    "subtitle": "Exceptions, capacity, and evolution across the entire operation.",
+    "periodAnalyzed": "Period analyzed",
+    "howItIsCalculated": "How it is calculated",
+    "viewAnalysis": "View analysis",
+    "evolutionTitle": "Indicator evolution",
+    "evolutionSubtitle": "Trend of key metrics over the selected period.",
+    "attentionTitle": "Installations requiring attention",
+    "attentionSubtitle": "Facilities with the greatest opportunities for improvement.",
+    "evolutionEmpty": "Not enough data available to display indicator trends yet.",
+    "attentionEmpty": "No installations requiring attention were found for the selected period."
   },
   "audit": {
     "title": "Activity Log",

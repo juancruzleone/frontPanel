@@ -1,9 +1,10 @@
-import { useState, useCallback } from "react"
-import { userRegister, getTechnicians } from "../services/registerServices"
+import { useState, useCallback, useEffect, useRef } from "react"
+import { userRegister, getTechniciansPage } from "../services/registerServices"
+import type { PageQuery, PaginationMetadata } from '../../../../shared/types/pagination'
 import { useAuthStore } from "../../../../../src/store/authStore.ts"
 import { useTranslation } from "react-i18next"
 
-interface Technician {
+export interface Technician {
   _id?: string
   id?: string
   userName: string
@@ -20,21 +21,58 @@ export function useRegister() {
   const [technicians, setTechnicians] = useState<Technician[]>([])
   const [loadingTechnicians, setLoadingTechnicians] = useState(true)
 
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+  const { isAuthenticated, userId, tenantId } = useAuthStore()
+  const [query, setQuery] = useState<PageQuery>({ page: 1, limit: 10, search: '' })
+  const [pagination, setPagination] = useState<PaginationMetadata>({ page: 1, limit: 10, total: 0, totalPages: 0 })
+  const [error, setError] = useState<string | null>(null)
+  const abortRef = useRef<AbortController | null>(null)
+  const queryRef = useRef(query)
+  queryRef.current = query
+
+  const setPage = (page: number) => {
+    abortRef.current?.abort()
+    setQuery(current => ({ ...current, page }))
+  }
+  const setSearch = (search: string) => {
+    abortRef.current?.abort()
+    setQuery(current => ({ ...current, page: 1, search }))
+  }
 
   const fetchTechnicians = useCallback(async () => {
-    if (!isAuthenticated) return
-
+    abortRef.current?.abort()
+    const controller = new AbortController()
+    abortRef.current = controller
+    const current = queryRef.current
+    setTechnicians([])
+    setError(null)
+    if (!isAuthenticated) {
+      setLoadingTechnicians(false)
+      return
+    }
     setLoadingTechnicians(true)
     try {
-      const data = await getTechnicians()
-      setTechnicians(Array.isArray(data) ? data : [])
-    } catch (error) {
-      setTechnicians([])
+      const result = await getTechniciansPage(current, { signal: controller.signal })
+      if (controller.signal.aborted) return
+      const lastPage = Math.max(1, result.pagination.totalPages)
+      if (!result.data.length && current.page > lastPage) {
+        setQuery({ ...current, page: lastPage })
+        return
+      }
+      setTechnicians(result.data)
+      setPagination(result.pagination)
+    } catch (err) {
+      if (controller.signal.aborted) return
+      setError(err instanceof Error ? err.message : t('common.error'))
+      setPagination({ ...current, total: 0, totalPages: 0 })
     } finally {
-      setLoadingTechnicians(false)
+      if (!controller.signal.aborted) setLoadingTechnicians(false)
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, userId, tenantId, t])
+
+  useEffect(() => {
+    void fetchTechnicians()
+    return () => abortRef.current?.abort()
+  }, [fetchTechnicians, query])
 
   const addTechnician = useCallback(
     async (
@@ -90,6 +128,11 @@ export function useRegister() {
   }
 
   return {
+    pagination,
+    search: query.search,
+    setPage,
+    setSearch,
+    error,
     showModal,
     responseMessage,
     isError,

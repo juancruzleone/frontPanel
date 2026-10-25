@@ -27,7 +27,20 @@
     "list": "一覧",
     "compliance": "コンプライアンス",
     "settings": "設定",
-    "analytics": "指標"
+    "analytics": "アナリティクス"
+  },
+  "analytics": {
+    "titlePage": "アナリティクス | Leonix",
+    "subtitle": "オペレーション全体の例外、対応能力、および進捗の推移。",
+    "periodAnalyzed": "分析期間",
+    "howItIsCalculated": "算出方法",
+    "viewAnalysis": "詳細分析を見る",
+    "evolutionTitle": "指標の推移",
+    "evolutionSubtitle": "選択した期間における主要指標のトレンド。",
+    "attentionTitle": "注意が必要な施設",
+    "attentionSubtitle": "改善の余地が大きい施設の一覧。",
+    "evolutionEmpty": "推移を表示するための十分なデータがまだありません。",
+    "attentionEmpty": "選択期間中に注意を要する施設は見つかりませんでした。"
   },
   "audit": {
     "title": "アクティビティログ",

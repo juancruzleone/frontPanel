@@ -437,7 +437,7 @@ const Nav = () => {
 									onClick={() => setIsMenuOpen(false)}
 								>
 									<Activity size={20} />{" "}
-									<span className={styles.linkText}>{t("nav.analytics", { defaultValue: "Indicadores" })}</span>
+									<span className={styles.linkText}>{t("nav.analytics", { defaultValue: "Analíticas" })}</span>
 								</NavLink>
 							</li>
 						)}

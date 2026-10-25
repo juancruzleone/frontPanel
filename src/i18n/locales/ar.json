@@ -27,7 +27,20 @@
     "list": "قائمة",
     "compliance": "الامتثال",
     "settings": "الإعدادات",
-    "analytics": "المؤشرات"
+    "analytics": "التحليلات"
+  },
+  "analytics": {
+    "titlePage": "التحليلات | Leonix",
+    "subtitle": "الاستثناءات والقدرة التشغيلية والتطور عبر كامل العمليات.",
+    "periodAnalyzed": "الفترة المحددة",
+    "howItIsCalculated": "كيفية الحساب",
+    "viewAnalysis": "عرض التحليل",
+    "evolutionTitle": "تطور المؤشرات",
+    "evolutionSubtitle": "اتجاه المؤشرات الرئيسية خلال الفترة المحددة.",
+    "attentionTitle": "المرافق التي تتطلب الاهتمام",
+    "attentionSubtitle": "المنشآت التي تمتلك أكبر فرص للتحسين.",
+    "evolutionEmpty": "لا توجد بيانات كافية حالياً لعرض تطور المؤشرات.",
+    "attentionEmpty": "لم يتم العثور على مرافق تتطلب الاهتمام في الفترة المحددة."
   },
   "audit": {
     "title": "سجل النشاط",

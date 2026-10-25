@@ -1,6 +1,13 @@
 import { fetchWorkOrders } from "../../workOrders/services/workOrderServices"
 import { fetchInstallations } from "../../installations/services/installationServices"
-import type { IndicatorId, IndicatorSummary, MetricTrendPoint, BreakdownItem, ContributingRecord } from "../types/analyticsTypes"
+import type {
+  IndicatorId,
+  IndicatorSummary,
+  MetricTrendPoint,
+  BreakdownItem,
+  ContributingRecord,
+  IndicatorDetailMetrics,
+} from "../types/analyticsTypes"
 import type { RangeOption } from "../../home/types/homeTypes"
 
 const RANGE_DAYS: Record<RangeOption, number> = {
@@ -16,6 +23,9 @@ const toDateString = (val: unknown): string => {
   return String(val)
 }
 
+const getOrderNumber = (order: any): string =>
+  order.numeroOrden || order.orderNumber || (order._id ? `#${String(order._id).slice(-5)}` : "—")
+
 export const fetchAnalyticsData = async (
   range: RangeOption,
   installationId?: string,
@@ -25,6 +35,9 @@ export const fetchAnalyticsData = async (
   recordsByIndicator: Record<IndicatorId, ContributingRecord[]>
   trendsByIndicator: Record<IndicatorId, MetricTrendPoint[]>
   breakdownsByIndicator: Record<IndicatorId, BreakdownItem[]>
+  assetBreakdownsByIndicator: Record<IndicatorId, BreakdownItem[]>
+  detailMetricsByIndicator: Record<IndicatorId, IndicatorDetailMetrics>
+  attentionInstallations: Array<{ id: string; name: string; count: number }>
 }> => {
   const [ordersRes, instRes] = await Promise.allSettled([
     fetchWorkOrders(1, 150),
@@ -47,7 +60,8 @@ export const fetchAnalyticsData = async (
   const filteredOrders = allOrders.filter((order: any) => {
     const orderDate = new Date(order.fechaCreacion || order.createdAt || order.fechaProgramada || now)
     if (orderDate < cutoff) return false
-    if (installationId && order.instalacion?._id !== installationId && order.instalacion !== installationId) return false
+    const instId = order.instalacion?._id || order.instalacion
+    if (installationId && instId !== installationId) return false
     return true
   })
 
@@ -56,7 +70,10 @@ export const fetchAnalyticsData = async (
   let totalRepairMs = 0
 
   for (const order of filteredOrders) {
-    const isCorrective = order.tipoTrabajo === "correctivo" || order.tipoTrabajo === "reparacion" || (order.titulo && /correctiv|reparaci/i.test(order.titulo))
+    const isCorrective =
+      order.tipoTrabajo === "correctivo" ||
+      order.tipoTrabajo === "reparacion" ||
+      (order.titulo && /correctiv|reparaci/i.test(order.titulo))
     const isCompleted = String(order.estado).toLowerCase() === "completada"
 
     if (isCorrective && isCompleted && order.fechaCreacion && order.fechaCompletada) {
@@ -64,16 +81,19 @@ export const fetchAnalyticsData = async (
       const end = new Date(order.fechaCompletada).getTime()
       if (end >= start) {
         const durationHours = Math.round(((end - start) / (1000 * 60 * 60)) * 10) / 10
-        totalRepairMs += (end - start)
+        totalRepairMs += end - start
         mttrRecords.push({
           id: String(order._id || ""),
+          orderNumber: getOrderNumber(order),
           title: order.titulo || "Reparación",
           installationName: order.instalacion?.company || "Sin instalación",
-          assetName: order.dispositivo?.nombre,
+          assetName: order.dispositivo?.nombre || "—",
           priority: order.prioridad || "media",
           status: order.estado || "completada",
           date: toDateString(order.fechaCreacion),
+          startDate: toDateString(order.fechaInicio || order.fechaCreacion),
           completionDate: toDateString(order.fechaCompletada),
+          duration: `${durationHours.toFixed(1)} h`,
           calculatedValue: durationHours,
           unit: "h",
         })
@@ -81,12 +101,12 @@ export const fetchAnalyticsData = async (
     }
   }
 
-  const mttrValue = mttrRecords.length > 0 ? Math.round((totalRepairMs / (mttrRecords.length * 1000 * 60 * 60)) * 10) / 10 : null
+  const mttrValue =
+    mttrRecords.length > 0 ? Math.round((totalRepairMs / (mttrRecords.length * 1000 * 60 * 60)) * 10) / 10 : null
 
   // 2. MTBF: Failures and operating time
   const mtbfRecords: ContributingRecord[] = []
   const failureCount = mttrRecords.length
-  // MTBF technically requires logged operational uptime hours; if no failures or unlogged uptime, show null / N/D
   const mtbfValue = failureCount > 0 ? Math.round(((days * 24) / failureCount) * 10) / 10 : null
 
   for (const rec of mttrRecords) {
@@ -98,7 +118,11 @@ export const fetchAnalyticsData = async (
 
   // 3. Cumplimiento Preventivo: Preventive orders scheduled in period
   const preventiveOrders = filteredOrders.filter((order: any) => {
-    return order.tipoTrabajo === "preventivo" || (order.titulo && /preventiv/i.test(order.titulo)) || order.origen === "plan_mantenimiento"
+    return (
+      order.tipoTrabajo === "preventivo" ||
+      (order.titulo && /preventiv/i.test(order.titulo)) ||
+      order.origen === "plan_mantenimiento"
+    )
   })
 
   const prevRecords: ContributingRecord[] = []
@@ -116,18 +140,22 @@ export const fetchAnalyticsData = async (
 
     prevRecords.push({
       id: String(order._id || ""),
+      orderNumber: getOrderNumber(order),
       title: order.titulo || "Mantenimiento preventivo",
       installationName: order.instalacion?.company || "Sin instalación",
-      assetName: order.dispositivo?.nombre,
+      assetName: order.dispositivo?.nombre || "—",
       priority: order.prioridad || "media",
       status: order.estado || "pendiente",
       date: toDateString(order.fechaProgramada || order.fechaCreacion),
+      startDate: toDateString(order.fechaInicio || order.fechaCreacion),
       completionDate: toDateString(order.fechaCompletada),
+      duration: onTime ? "A tiempo" : isCompleted ? "Fuera de plazo" : "Pendiente",
       calculatedValue: onTime ? "A tiempo" : isCompleted ? "Fuera de plazo" : "Pendiente",
     })
   }
 
-  const prevComplianceRate = preventiveOrders.length > 0 ? Math.round((prevOnTime / preventiveOrders.length) * 100) : null
+  const prevComplianceRate =
+    preventiveOrders.length > 0 ? Math.round((prevOnTime / preventiveOrders.length) * 100) : null
 
   // 4. Cumplimiento SLA
   const slaRecords: ContributingRecord[] = []
@@ -140,19 +168,24 @@ export const fetchAnalyticsData = async (
     let met = false
 
     if (isCompleted && order.fechaCreacion && order.fechaCompletada) {
-      const diffHours = (new Date(order.fechaCompletada).getTime() - new Date(order.fechaCreacion).getTime()) / (1000 * 60 * 60)
+      const diffHours =
+        (new Date(order.fechaCompletada).getTime() - new Date(order.fechaCreacion).getTime()) / (1000 * 60 * 60)
       met = diffHours <= targetHours
       if (met) slaMetCount++
     }
 
     slaRecords.push({
       id: String(order._id || ""),
+      orderNumber: getOrderNumber(order),
       title: order.titulo || "Orden de trabajo",
       installationName: order.instalacion?.company || "Sin instalación",
+      assetName: order.dispositivo?.nombre || "—",
       priority: order.prioridad || "media",
       status: order.estado || "pendiente",
       date: toDateString(order.fechaCreacion),
+      startDate: toDateString(order.fechaInicio || order.fechaCreacion),
       completionDate: toDateString(order.fechaCompletada),
+      duration: met ? "Cumplido" : isCompleted ? "Incumplido" : "En curso",
       calculatedValue: met ? "Cumplido" : isCompleted ? "Incumplido" : "En curso",
     })
   }
@@ -170,15 +203,19 @@ export const fetchAnalyticsData = async (
       const firstAction = new Date(order.fechaInicio).getTime()
       if (firstAction >= start) {
         const diffHours = Math.round(((firstAction - start) / (1000 * 60 * 60)) * 10) / 10
-        totalResponseMs += (firstAction - start)
+        totalResponseMs += firstAction - start
         answeredCount++
         responseRecords.push({
           id: String(order._id || ""),
+          orderNumber: getOrderNumber(order),
           title: order.titulo || "Orden de trabajo",
           installationName: order.instalacion?.company || "Sin instalación",
+          assetName: order.dispositivo?.nombre || "—",
           priority: order.prioridad || "media",
           status: order.estado || "en_progreso",
           date: toDateString(order.fechaCreacion),
+          startDate: toDateString(order.fechaInicio),
+          duration: `${diffHours.toFixed(1)} h`,
           calculatedValue: diffHours,
           unit: "h",
         })
@@ -186,13 +223,14 @@ export const fetchAnalyticsData = async (
     }
   }
 
-  const responseTimeHours = answeredCount > 0 ? Math.round((totalResponseMs / (answeredCount * 1000 * 60 * 60)) * 10) / 10 : null
+  const responseTimeHours =
+    answeredCount > 0 ? Math.round((totalResponseMs / (answeredCount * 1000 * 60 * 60)) * 10) / 10 : null
 
   // Summaries
   const summaries: Record<IndicatorId, IndicatorSummary> = {
     mttr: {
       id: "mttr",
-      title: "Tiempo medio de reparación",
+      title: "Tiempo medio de reparación (MTTR)",
       shortTitle: "MTTR",
       value: mttrValue,
       unit: "h",
@@ -200,13 +238,16 @@ export const fetchAnalyticsData = async (
       delta: mttrValue !== null ? -0.4 : null,
       deltaDirection: "down",
       status: mttrValue !== null ? "available" : "insufficient_data",
-      statusMessage: mttrValue !== null ? "Calculado a partir de reparaciones completadas." : "Todavía no hay reparaciones completadas para calcular el MTTR.",
+      statusMessage:
+        mttrValue !== null
+          ? "Calculado a partir de reparaciones completadas."
+          : "Todavía no hay reparaciones completadas para calcular el MTTR.",
       description: "Mide el tiempo promedio requerido para reparar un activo o equipo que presentó fallas correctivas.",
       formula: "MTTR = Σ(Tiempo de reparación) / N° de reparaciones correctivas completadas",
     },
     mtbf: {
       id: "mtbf",
-      title: "Tiempo medio entre fallos",
+      title: "Tiempo medio entre fallos (MTBF)",
       shortTitle: "MTBF",
       value: mtbfValue,
       unit: "h",
@@ -214,7 +255,10 @@ export const fetchAnalyticsData = async (
       delta: mtbfValue !== null ? 1.2 : null,
       deltaDirection: "up",
       status: mtbfValue !== null ? "available" : "insufficient_data",
-      statusMessage: mtbfValue !== null ? "Calculado sobre tiempo operativo y fallas del período." : "No existen datos suficientes de fallas y funcionamiento para un cálculo válido.",
+      statusMessage:
+        mtbfValue !== null
+          ? "Calculado sobre tiempo operativo y fallas del período."
+          : "No existen datos suficientes de fallas y funcionamiento para un cálculo válido.",
       description: "Evalúa la confiabilidad de los activos midiendo el intervalo operativo promedio entre fallas consecutivas.",
       formula: "MTBF = Tiempo operativo acumulado / Número total de fallas",
     },
@@ -228,7 +272,10 @@ export const fetchAnalyticsData = async (
       delta: prevComplianceRate !== null ? 2.5 : null,
       deltaDirection: "up",
       status: prevComplianceRate !== null ? "available" : "insufficient_data",
-      statusMessage: prevComplianceRate !== null ? "Basado en órdenes preventivas con vencimiento en el período." : "No hay órdenes preventivas programadas en el período seleccionado.",
+      statusMessage:
+        prevComplianceRate !== null
+          ? "Basado en órdenes preventivas con vencimiento en el período."
+          : "No hay mantenimientos preventivos exigibles en el período seleccionado.",
       description: "Mide el porcentaje de órdenes de mantenimiento preventivo ejecutadas dentro del plazo estipulado.",
       formula: "Cumplimiento = (Preventivos completados a tiempo / Preventivos exigibles) × 100",
     },
@@ -242,7 +289,10 @@ export const fetchAnalyticsData = async (
       delta: slaRate !== null ? -1.0 : null,
       deltaDirection: "down",
       status: slaRate !== null ? "available" : "insufficient_data",
-      statusMessage: slaRate !== null ? "Calculado a partir de compromisos de tiempo por prioridad." : "No hay órdenes evaluadas para el acuerdo de nivel de servicio en este período.",
+      statusMessage:
+        slaRate !== null
+          ? "Calculado a partir de compromisos de tiempo por prioridad."
+          : "No hay órdenes evaluables o no hay reglas de SLA configuradas.",
       description: "Evalúa el cumplimiento de los tiempos de resolución comprometidos de acuerdo a la prioridad de cada incidencia.",
       formula: "Cumplimiento SLA = (Órdenes resueltas dentro del plazo SLA / Total de órdenes evaluables) × 100",
     },
@@ -256,9 +306,116 @@ export const fetchAnalyticsData = async (
       delta: responseTimeHours !== null ? -0.2 : null,
       deltaDirection: "down",
       status: responseTimeHours !== null ? "available" : "insufficient_data",
-      statusMessage: responseTimeHours !== null ? "Basado en el tiempo transcurrido hasta la primera atención efectiva." : "No se registraron tiempos de primera atención efectiva para este período.",
+      statusMessage:
+        responseTimeHours !== null
+          ? "Basado en el tiempo transcurrido hasta la primera atención efectiva."
+          : "No hay órdenes evaluables para calcular el tiempo de primera respuesta.",
       description: "Mide el tiempo transcurrido desde la recepción de la solicitud hasta el inicio formal de las tareas de atención.",
       formula: "Primera respuesta = Fecha/hora de primera atención efectiva - Fecha/hora de recepción",
+    },
+  }
+
+  // Detail metrics (top 3 cards in detail view)
+  const detailMetricsByIndicator: Record<IndicatorId, IndicatorDetailMetrics> = {
+    mttr: {
+      mainMetric: {
+        label: "MTTR promedio",
+        value: mttrValue !== null ? `${mttrValue.toFixed(1)} h` : "N/D",
+        subtitle:
+          mttrValue !== null
+            ? "Calculado a partir de reparaciones completadas."
+            : "Sin reparaciones completadas para calcular el MTTR.",
+      },
+      metric1: {
+        label: "Reparaciones completadas",
+        value: mttrRecords.length,
+        subtitle: "En el período seleccionado.",
+      },
+      metric2: {
+        label: "Activos reparados",
+        value: new Set(mttrRecords.map((r) => r.assetName).filter((n) => n && n !== "—")).size,
+        subtitle: "Activos únicos con reparaciones completadas.",
+      },
+    },
+    mtbf: {
+      mainMetric: {
+        label: "MTBF promedio",
+        value: mtbfValue !== null ? `${mtbfValue.toFixed(1)} h` : "N/D",
+        subtitle:
+          mtbfValue !== null
+            ? "Calculado sobre tiempo operativo y fallas del período."
+            : "No existen datos suficientes de fallas para un cálculo válido.",
+      },
+      metric1: {
+        label: "Fallas registradas",
+        value: failureCount,
+        subtitle: "En el período seleccionado.",
+      },
+      metric2: {
+        label: "Activos monitoreados",
+        value: new Set(allOrders.map((o: any) => o.dispositivo?.nombre).filter(Boolean)).size,
+        subtitle: "Activos con registro en el período.",
+      },
+    },
+    "cumplimiento-preventivo": {
+      mainMetric: {
+        label: "Cumplimiento preventivo",
+        value: prevComplianceRate !== null ? `${prevComplianceRate}%` : "N/D",
+        subtitle:
+          prevComplianceRate !== null
+            ? "Basado en órdenes preventivas con vencimiento en el período."
+            : "No hay mantenimientos preventivos exigibles en el período seleccionado.",
+      },
+      metric1: {
+        label: "Preventivos exigibles",
+        value: preventiveOrders.length,
+        subtitle: "En el período seleccionado.",
+      },
+      metric2: {
+        label: "Completados a tiempo",
+        value: prevOnTime,
+        subtitle: "Mantenimientos realizados dentro del plazo.",
+      },
+    },
+    "cumplimiento-sla": {
+      mainMetric: {
+        label: "Cumplimiento SLA",
+        value: slaRate !== null ? `${slaRate}%` : "N/D",
+        subtitle:
+          slaRate !== null
+            ? "Calculado a partir de compromisos de tiempo por prioridad."
+            : "No hay órdenes evaluables o no hay reglas de SLA configuradas.",
+      },
+      metric1: {
+        label: "Órdenes evaluables",
+        value: filteredOrders.length,
+        subtitle: "En el período seleccionado.",
+      },
+      metric2: {
+        label: "Órdenes en plazo",
+        value: slaMetCount,
+        subtitle: "Resueltas cumpliendo el compromiso de SLA.",
+      },
+    },
+    "primera-respuesta": {
+      mainMetric: {
+        label: "Tiempo de primera respuesta",
+        value: responseTimeHours !== null ? `${responseTimeHours.toFixed(1)} h` : "N/D",
+        subtitle:
+          responseTimeHours !== null
+            ? "Basado en el tiempo transcurrido hasta la primera atención."
+            : "No hay órdenes evaluables para calcular el tiempo de primera respuesta.",
+      },
+      metric1: {
+        label: "Órdenes atendidas",
+        value: answeredCount,
+        subtitle: "En el período seleccionado.",
+      },
+      metric2: {
+        label: "Atendidas en < 24h",
+        value: responseRecords.filter((r) => typeof r.calculatedValue === "number" && r.calculatedValue <= 24).length,
+        subtitle: "Primera respuesta ágil dentro de 24 horas.",
+      },
     },
   }
 
@@ -270,7 +427,7 @@ export const fetchAnalyticsData = async (
     const intervalDays = Math.max(1, Math.round(days / steps))
     for (let i = steps - 1; i >= 0; i--) {
       const ptDate = new Date(now.getTime() - i * intervalDays * 24 * 60 * 60 * 1000)
-      const variance = (Math.sin(i * 1.5) * (baseVal * 0.15))
+      const variance = Math.sin(i * 1.5) * (baseVal * 0.15)
       points.push({
         date: ptDate.toISOString().slice(0, 10),
         value: Math.max(0, Math.round((baseVal + variance) * 10) / 10),
@@ -279,10 +436,10 @@ export const fetchAnalyticsData = async (
     return points
   }
 
-  // Breakdown generation
-  const generateBreakdown = (records: ContributingRecord[]): BreakdownItem[] => {
+  // Breakdown generation by installation
+  const generateBreakdown = (recs: ContributingRecord[]): BreakdownItem[] => {
     const map = new Map<string, { count: number; totalVal: number }>()
-    for (const r of records) {
+    for (const r of recs) {
       const key = r.installationName || "General"
       const entry = map.get(key) || { count: 0, totalVal: 0 }
       entry.count++
@@ -296,6 +453,46 @@ export const fetchAnalyticsData = async (
       value: data.count > 0 ? Math.round((data.totalVal / data.count) * 10) / 10 : 0,
     }))
   }
+
+  // Breakdown generation by asset
+  const generateAssetBreakdown = (recs: ContributingRecord[]): BreakdownItem[] => {
+    const map = new Map<string, { count: number; totalVal: number }>()
+    for (const r of recs) {
+      const key = r.assetName && r.assetName !== "—" ? r.assetName : null
+      if (!key) continue
+      const entry = map.get(key) || { count: 0, totalVal: 0 }
+      entry.count++
+      if (typeof r.calculatedValue === "number") entry.totalVal += r.calculatedValue
+      map.set(key, entry)
+    }
+    return Array.from(map.entries())
+      .map(([name, data]) => ({
+        id: name,
+        name,
+        count: data.count,
+        value: data.count > 0 ? Math.round((data.totalVal / data.count) * 10) / 10 : 0,
+      }))
+      .sort((a, b) => b.value - a.value || b.count - a.count)
+      .slice(0, 5)
+  }
+
+  // Attention installations (open or corrective orders)
+  const incidentMap = new Map<string, number>()
+  for (const order of filteredOrders) {
+    const isIncident =
+      order.estado !== "completada" &&
+      order.estado !== "cancelada" &&
+      (order.tipoTrabajo === "correctivo" || order.prioridad === "alta" || order.prioridad === "critica")
+    if (isIncident) {
+      const name = order.instalacion?.company || "Instalación"
+      incidentMap.set(name, (incidentMap.get(name) || 0) + 1)
+    }
+  }
+
+  const attentionInstallations = Array.from(incidentMap.entries())
+    .map(([name, count]) => ({ id: name, name, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 5)
 
   return {
     summaries,
@@ -321,6 +518,15 @@ export const fetchAnalyticsData = async (
       "cumplimiento-sla": generateBreakdown(slaRecords),
       "primera-respuesta": generateBreakdown(responseRecords),
     },
+    assetBreakdownsByIndicator: {
+      mttr: generateAssetBreakdown(mttrRecords),
+      mtbf: generateAssetBreakdown(mtbfRecords),
+      "cumplimiento-preventivo": generateAssetBreakdown(prevRecords),
+      "cumplimiento-sla": generateAssetBreakdown(slaRecords),
+      "primera-respuesta": generateAssetBreakdown(responseRecords),
+    },
+    detailMetricsByIndicator,
+    attentionInstallations,
   }
 }
 
@@ -330,15 +536,17 @@ export const exportRecordsToCsv = (
 ) => {
   if (records.length === 0) return
 
-  const headers = ["ID", "Título", "Instalación", "Prioridad", "Estado", "Fecha", "Valor Calculado"]
+  const headers = ["N° de orden", "Título", "Instalación", "Activo", "Prioridad", "Estado", "Fecha inicio", "Fecha cierre", "Duración"]
   const rows = records.map((r) => [
-    `"${r.id}"`,
+    `"${r.orderNumber || r.id}"`,
     `"${(r.title || "").replace(/"/g, '""')}"`,
     `"${(r.installationName || "").replace(/"/g, '""')}"`,
+    `"${(r.assetName || "").replace(/"/g, '""')}"`,
     `"${r.priority}"`,
     `"${r.status}"`,
-    `"${r.date ? r.date.slice(0, 10) : ""}"`,
-    `"${r.calculatedValue}${r.unit ? ` ${r.unit}` : ""}"`,
+    `"${r.startDate ? r.startDate.slice(0, 10) : ""}"`,
+    `"${r.completionDate ? r.completionDate.slice(0, 10) : ""}"`,
+    `"${r.duration || r.calculatedValue}"`,
   ])
 
   const csvContent = [headers.join(","), ...rows.map((row) => row.join(","))].join("\n")
@@ -346,7 +554,7 @@ export const exportRecordsToCsv = (
   const url = URL.createObjectURL(blob)
   const link = document.createElement("a")
   link.setAttribute("href", url)
-  link.setAttribute("download", `indicador-${indicatorTitle.toLowerCase().replace(/\s+/g, "_")}.csv`)
+  link.setAttribute("download", `analitica-${indicatorTitle.toLowerCase().replace(/\s+/g, "_")}.csv`)
   document.body.appendChild(link)
   link.click()
   document.body.removeChild(link)

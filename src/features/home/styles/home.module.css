@@ -332,6 +332,10 @@
   margin-top: var(--space-md);
 }
 
+.primaryKpisGrid.clientKpisGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .kpiArrowIcon {
   margin-left: auto;
   opacity: 0.5;
@@ -536,6 +540,10 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--space-grid);
   margin-top: var(--space-md);
+}
+
+.quickActionsGrid.clientQuickActionsGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .quickActionCard {

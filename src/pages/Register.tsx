@@ -12,7 +12,7 @@ import { useRegister } from "../features/auth/register/hooks/useRegister.ts"
 import { useTranslation } from "react-i18next"
 import i18n from "../i18n"
 import { translateUserRole } from "../shared/utils/backendTranslations"
-import { Trash, User, Edit, CircleHelp, Search } from "lucide-react"
+import { Trash, User, Edit, CircleHelp } from "lucide-react"
 import SearchInput from "../shared/components/Inputs/SearchInput"
 import { useTheme } from "../shared/hooks/useTheme"
 import { deleteTechnician } from "../features/auth/register/services/registerServices"
@@ -22,6 +22,7 @@ import Skeleton from "../shared/components/Skeleton"
 import TourButton from "../shared/components/Buttons/TourButton"
 import ViewToggle from "../components/ViewToggle/ViewToggle"
 import { useResponsiveView } from "../shared/hooks/useResponsiveView"
+import { Pagination } from '../shared/components/Pagination/Pagination'
 import DataTable from "../components/DataTable/DataTable"
 import Tooltip from "../shared/components/Tooltip/Tooltip"
 
@@ -29,7 +30,7 @@ const Register = () => {
   const { t, i18n } = useTranslation()
   const { dark } = useTheme()
   const navigate = useNavigate()
-  const { showModal, responseMessage, isError, closeModal, technicians, loadingTechnicians, fetchTechnicians, addTechnician, showSuccess, showError } = useRegister()
+  const { showModal, responseMessage, isError, closeModal, technicians, loadingTechnicians, fetchTechnicians, addTechnician, showSuccess, showError, pagination, search: searchTerm, setSearch: setSearchTerm, setPage, error } = useRegister()
 
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
@@ -38,7 +39,6 @@ const Register = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [technicianToDelete, setTechnicianToDelete] = useState<any>(null)
   const [technicianToEdit, setTechnicianToEdit] = useState<any>(null)
-  const [searchTerm, setSearchTerm] = useState("")
   const [viewMode, setViewMode, isMobile] = useResponsiveView('register-view', 'cards')
   const { tourCompleted, startTour, resetTour, skipTour } = usePersonalTour()
 
@@ -56,12 +56,11 @@ const Register = () => {
   }
 
   useEffect(() => {
-    fetchTechnicians()
     document.title = t('personal.titlePage')
     // Obtener el id del usuario actual (admin) desde el token o el store si está disponible
     // Aquí asumo que tienes acceso al id del usuario logueado, si no, deberás ajustarlo
     // setUserId(authStore.user?._id)
-  }, [fetchTechnicians])
+  }, [t])
 
   useEffect(() => {
     if (!tourCompleted && technicians.length >= 0) {
@@ -145,10 +144,6 @@ const Register = () => {
     navigate(`/perfil/${technician._id || technician.id}`)
   }
 
-  const filteredTechnicians = technicians.filter((tech: any) =>
-    tech.userName.toLowerCase().includes(searchTerm.toLowerCase())
-  )
-
   return (
     <div className={styles.container}>
       <div className={styles.topSection}>
@@ -179,17 +174,16 @@ const Register = () => {
           <div className={styles.loadingContainer}>
             <Skeleton height={300} width="100%" style={{ borderRadius: 12 }} />
           </div>
-        ) : !Array.isArray(technicians) || technicians.length === 0 ? (
+        ) : error ? (
+          <div className={styles.emptyContainer} role="alert">
+            <p>{error}</p>
+            <button onClick={() => void fetchTechnicians()}>{t('common.retry')}</button>
+          </div>
+        ) : technicians.length === 0 ? (
           <div className={styles.emptyContainer}>
             <FiUser size={48} className={styles.emptyIcon} />
-            <p>{t('personal.noTechnicians')}</p>
-            <span className={styles.emptySubtext}>{t('personal.addFirstTechnician')}</span>
-          </div>
-        ) : filteredTechnicians.length === 0 ? (
-          <div className={styles.emptyContainer}>
-            <Search size={48} className={styles.emptyIcon} />
-            <p>{t('personal.noSearchResults')}</p>
-            <span className={styles.emptySubtext}>{t('personal.tryDifferentSearch')}</span>
+            <p>{t(searchTerm ? 'personal.noSearchResults' : 'personal.noTechnicians')}</p>
+            <span className={styles.emptySubtext}>{t(searchTerm ? 'personal.tryDifferentSearch' : 'personal.addFirstTechnician')}</span>
           </div>
         ) : viewMode === 'table' ? (
           <div className={styles.tableContainer}>
@@ -202,7 +196,7 @@ const Register = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredTechnicians.map((tech) => (
+                {technicians.map((tech) => (
                   <tr key={tech._id || tech.id}>
                     <td data-label={t('personal.user')}>
                       <div className={styles.userInfo}>
@@ -251,7 +245,7 @@ const Register = () => {
           </div>
         ) : (
           <div className={styles.cardsGrid}>
-            {filteredTechnicians.map((tech) => (
+            {technicians.map((tech) => (
               <div key={tech._id || tech.id} className={styles.technicianCard}>
                 <div className={styles.cardHeader}>
                   <div className={styles.userInfo}>
@@ -300,6 +294,8 @@ const Register = () => {
           </div>
         )}
       </div>
+
+      <Pagination className={styles.pagination} pagination={pagination} onPageChange={setPage} disabled={loadingTechnicians || !!error} />
 
       {/* Modal para registrar técnico */}
       <ModalRegisterTechnician

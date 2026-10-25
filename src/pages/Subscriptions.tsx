@@ -21,11 +21,15 @@ import { useSubscriptionsTour } from "../features/subscriptions/hooks/useSubscri
 import TourButton from "../shared/components/Buttons/TourButton"
 import ViewToggle from "../components/ViewToggle/ViewToggle"
 import { useResponsiveView } from "../shared/hooks/useResponsiveView"
+import { Pagination } from '../shared/components/Pagination/Pagination'
 
 const Subscriptions = () => {
   const { t, i18n } = useTranslation()
   useTheme()
-  const { subscriptions, frequencyOptions, loading, error, refreshSubscriptions, updateSubscription } = useSubscriptions()
+  const { subscriptions, frequencyOptions, loading, error, refreshSubscriptions, updateSubscription,
+    pagination, statusCounts, search: searchTerm, setSearch: setSearchTerm,
+    selectedMonth: selectedMonthFilter, setMonth: setSelectedMonthFilter,
+    selectedStatus, setStatus: setSelectedStatus, setPage: setCurrentPage } = useSubscriptions()
   const role = useAuthStore((s) => s.role)
   const navigate = useNavigate()
   const isTechnician = role && ["tecnico", "técnico"].includes(role.toLowerCase())
@@ -38,9 +42,6 @@ const Subscriptions = () => {
     }
   }, [role, navigate])
 
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedMonthFilter, setSelectedMonthFilter] = useState("")
-  const [currentPage, setCurrentPage] = useState(1)
   const [isEditFrequencyModalOpen, setIsEditFrequencyModalOpen] = useState(false)
   const [selectedSubscription, setSelectedSubscription] = useState<Subscription | null>(null)
   const [responseMessage, setResponseMessage] = useState("")
@@ -52,7 +53,6 @@ const Subscriptions = () => {
   const [isViewDocumentsModalOpen, setIsViewDocumentsModalOpen] = useState(false)
   const [selectedSubscriptionForViewDocs, setSelectedSubscriptionForViewDocs] = useState<Subscription | null>(null)
   const [viewMode, setViewMode, isMobile] = useResponsiveView('subscriptions-view', 'cards')
-  const itemsPerPage = 5
 
   useEffect(() => {
     document.title = t("subscriptions.titlePage")
@@ -84,54 +84,6 @@ const Subscriptions = () => {
     { label: translateMonthToCurrentLang('Noviembre', i18n.language), value: "Noviembre" },
     { label: translateMonthToCurrentLang('Diciembre', i18n.language), value: "Diciembre" },
   ], [i18n.language])
-
-  const [selectedStatus, setSelectedStatus] = useState<string>("")
-
-  // Filtrar suscripciones por término de búsqueda, mes y estado
-  const filteredSubscriptions = useMemo(() => {
-    const searchTermLower = searchTerm.toLowerCase()
-
-    return subscriptions.filter((subscription) => {
-      if (!subscription) return false
-
-      const fieldsToSearch = [
-        subscription.installationName || '',
-        subscription.address || '',
-        subscription.city || '',
-        subscription.province || '',
-        subscription.installationType || '',
-        subscription.frequency || '',
-      ]
-
-      const matchesSearch = fieldsToSearch.some(
-        field => field.toLowerCase().includes(searchTermLower)
-      )
-
-      // Filtro por mes
-      const matchesMonth = !selectedMonthFilter || subscription.months.includes(selectedMonthFilter)
-
-      // Filtro por estado (si no hay filtro seleccionado, mostrar todas)
-      const matchesStatus = !selectedStatus || subscription.status === selectedStatus
-
-      return matchesSearch && matchesMonth && matchesStatus
-    })
-  }, [subscriptions, searchTerm, selectedMonthFilter, selectedStatus])
-
-  // Cálculos de paginación
-  const totalPages = Math.ceil(filteredSubscriptions.length / itemsPerPage)
-  const paginatedSubscriptions = useMemo(() => {
-    const start = (currentPage - 1) * itemsPerPage
-    return filteredSubscriptions.slice(start, start + itemsPerPage)
-  }, [filteredSubscriptions, currentPage])
-
-  // Resetear página cuando cambie el término de búsqueda
-  useEffect(() => {
-    setCurrentPage(1)
-  }, [searchTerm])
-
-  const handleChangePage = (page: number) => {
-    setCurrentPage(page)
-  }
 
   const handleEditFrequency = (subscription: Subscription) => {
     setSelectedSubscription(subscription)
@@ -222,18 +174,6 @@ const Subscriptions = () => {
     }
   }
 
-  if (error) {
-    return (
-      <div className={styles.containerSubscriptions}>
-        <h1 className={styles.title}>{t('subscriptions.title')}</h1>
-        <p className={styles.error}>{error}</p>
-        <button onClick={refreshSubscriptions} className={styles.retryButton}>
-          {t('common.retry')}
-        </button>
-      </div>
-    )
-  }
-
   return (
     <div className={styles.containerSubscriptions}>
       <div className={styles.topSection}>
@@ -243,8 +183,7 @@ const Subscriptions = () => {
       </div>
       {!isMobile && <div className={styles.actionsBar}><div className={styles.viewToggleRow}><ViewToggle view={viewMode} onViewChange={setViewMode} /></div></div>}
 
-      {/* Solo mostrar controles si hay subscripciones */}
-      {!loading && subscriptions.length > 0 && (
+      {/* Keep filters available on empty pages and request errors. */}
         <div className={styles.mainControls}>
           <div className={styles.tabsContainer}>
             {[
@@ -260,9 +199,7 @@ const Subscriptions = () => {
               >
                 {tab.label}
                 <span className={styles.tabBadge}>
-                  {tab.id === ''
-                    ? subscriptions.length
-                    : subscriptions.filter(s => s.status === tab.id).length}
+                  {statusCounts[tab.id as 'active' | 'inactive' | 'pending' || 'all']}
                 </span>
               </button>
             ))}
@@ -343,23 +280,21 @@ const Subscriptions = () => {
             </div>
           </div>
         </div>
-      )}
 
       <div className={styles.tableContainer}>
         {loading ? (
           <div className={styles.loadingContainer}>
             <Skeleton height={400} width="100%" style={{ borderRadius: 12 }} />
           </div>
+        ) : error ? (
+          <div className={styles.emptyState} role="alert">
+            <p>{error}</p>
+            <button onClick={() => void refreshSubscriptions()}>{t('common.retry')}</button>
+          </div>
         ) : subscriptions.length === 0 ? (
           <div className={styles.emptyState}>
             <p className={styles.emptyMessage}>
-              {t('subscriptions.noSubscriptions')}
-            </p>
-          </div>
-        ) : filteredSubscriptions.length === 0 ? (
-          <div className={styles.emptyState}>
-            <p className={styles.emptyMessage}>
-              {t('subscriptions.noSubscriptionsFound')}
+              {t(statusCounts.all ? 'subscriptions.noSubscriptionsFound' : 'subscriptions.noSubscriptions')}
             </p>
           </div>
         ) : viewMode === 'table' ? (
@@ -376,7 +311,7 @@ const Subscriptions = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {paginatedSubscriptions.map((subscription) => (
+                  {subscriptions.map((subscription) => (
                     <tr key={subscription._id} className={styles.tableRow}>
                       <td className={styles.tableCell} style={{ textAlign: 'left' }} data-label={t('subscriptions.table.installation')}>
                         <div className={styles.installationCell}>
@@ -447,32 +382,11 @@ const Subscriptions = () => {
               </table>
             </div>
 
-            {totalPages > 1 && (
-              <div className={styles.pagination}>
-                <button
-                  onClick={() => handleChangePage(currentPage - 1)}
-                  disabled={currentPage === 1}
-                >
-                  {t('common.previous')}
-                </button>
-
-                <span>
-                  {t('common.page')} {currentPage} {t('common.of')} {totalPages}
-                </span>
-
-                <button
-                  onClick={() => handleChangePage(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                >
-                  {t('common.next')}
-                </button>
-              </div>
-            )}
           </>
         ) : (
           <>
             <div className={styles.cardsGrid}>
-              {paginatedSubscriptions.map((subscription) => (
+              {subscriptions.map((subscription) => (
                 <div key={subscription._id} className={styles.subscriptionCard}>
                   <div className={styles.cardHeader}>
                     <div className={styles.installationInfo}>
@@ -537,29 +451,9 @@ const Subscriptions = () => {
               ))}
             </div>
 
-            {totalPages > 1 && (
-              <div className={styles.pagination}>
-                <button
-                  onClick={() => handleChangePage(currentPage - 1)}
-                  disabled={currentPage === 1}
-                >
-                  {t('common.previous')}
-                </button>
-
-                <span>
-                  {t('common.page')} {currentPage} {t('common.of')} {totalPages}
-                </span>
-
-                <button
-                  onClick={() => handleChangePage(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                >
-                  {t('common.next')}
-                </button>
-              </div>
-            )}
           </>
         )}
+        <Pagination className={styles.pagination} pagination={pagination} onPageChange={setCurrentPage} disabled={loading || !!error} />
       </div>
 
       <ModalEditFrequency

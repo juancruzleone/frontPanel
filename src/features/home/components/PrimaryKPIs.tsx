@@ -47,7 +47,7 @@ export const PrimaryKPIs = ({ metrics, upcomingCount, assetsCount, isClient = fa
       <h2 id="attention-overview-title" className={styles.sectionHeading}>
         {t("home.dashboard.sections.primaryKpis", { defaultValue: "Métricas principales" })}
       </h2>
-      <div className={styles.primaryKpisGrid}>
+      <div className={`${styles.primaryKpisGrid} ${isClient ? styles.clientKpisGrid : ""}`}>
         {/* Card 1: Órdenes abiertas */}
         <Link to={getRoute("workOrders")} className={styles.primaryKpiCard}>
           <div className={styles.primaryKpiHeader}>

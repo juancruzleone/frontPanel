@@ -26,7 +26,7 @@ export const QuickActions = ({
       <h2 id="quick-actions-title" className={styles.sectionHeading}>
         {t("home.dashboard.quickActions.title", { defaultValue: "Acciones rápidas" })}
       </h2>
-      <div className={styles.quickActionsGrid}>
+      <div className={`${styles.quickActionsGrid} ${isClient ? styles.clientQuickActionsGrid : ""}`}>
         <button
           type="button"
           onClick={onCreateWorkOrder}

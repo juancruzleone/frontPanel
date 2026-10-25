@@ -11,7 +11,7 @@ import styles from "../features/clients/styles/clients.module.css"
 import { FiUser } from "react-icons/fi"
 import { useClients } from "../features/clients/hooks/useClients"
 import { useTranslation } from "react-i18next"
-import { Trash, User, Search, Edit, Building2 } from "lucide-react"
+import { Trash, User, Edit, Building2 } from "lucide-react"
 import SearchInput from "../shared/components/Inputs/SearchInput"
 import { deleteClient, assignInstallationsToClient } from "../features/clients/services/clientServices"
 import { useAuthStore } from "../store/authStore"
@@ -21,11 +21,12 @@ import Skeleton from "../shared/components/Skeleton"
 import TourButton from "../shared/components/Buttons/TourButton"
 import ViewToggle from "../components/ViewToggle/ViewToggle"
 import { useResponsiveView } from "../shared/hooks/useResponsiveView"
+import { Pagination } from '../shared/components/Pagination/Pagination'
 
 const Clients = () => {
     const { t, i18n } = useTranslation()
     const navigate = useNavigate()
-    const { showModal, responseMessage, isError, closeModal, clients, loadingClients, fetchClients, addClient, showSuccess, showError } = useClients()
+    const { showModal, responseMessage, isError, closeModal, clients, loadingClients, fetchClients, addClient, showSuccess, showError, pagination, search: searchTerm, setSearch: setSearchTerm, setPage, error } = useClients()
 
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false)
     const [isEditModalOpen, setIsEditModalOpen] = useState(false)
@@ -35,14 +36,12 @@ const Clients = () => {
     const [clientToDelete, setClientToDelete] = useState<{ _id?: string, id?: string, userName?: string } | null>(null)
     const [clientToEdit, setClientToEdit] = useState<unknown | null>(null)
     const [clientToAssign, setClientToAssign] = useState<unknown | null>(null)
-    const [searchTerm, setSearchTerm] = useState("")
     const [viewMode, setViewMode, isMobile] = useResponsiveView('clients-view', 'cards')
     const { tourCompleted, startTour, skipTour } = useClientsTour()
     const { installations, loadInstallations } = useInstallations()
 
     useEffect(() => {
         const loadInitialData = async () => {
-            await fetchClients()
             await loadInstallations()
         }
         loadInitialData()
@@ -128,9 +127,10 @@ const Clients = () => {
         (message: string) => {
             setIsAssignModalOpen(false)
             setClientToAssign(null)
+            fetchClients()
             showSuccess(message)
         },
-        [showSuccess],
+        [fetchClients, showSuccess],
     )
 
     const handleAssign = async (clientId: string, installationIds: string[]) => {
@@ -141,10 +141,6 @@ const Clients = () => {
             throw err
         }
     }
-
-    const filteredClients = (clients as { userName: string, _id?: string, id?: string, createdAt: string }[]).filter((client) =>
-        client.userName.toLowerCase().includes(searchTerm.toLowerCase())
-    )
 
     return (
         <div className={styles.container}>
@@ -169,6 +165,7 @@ const Clients = () => {
             <div className={styles.searchRow} data-tour="search-clients">
                 <SearchInput
                     placeholder={t('clients.searchPlaceholder')}
+                    value={searchTerm}
                     onInputChange={(value) => setSearchTerm(value)}
                 />
             </div>
@@ -181,20 +178,18 @@ const Clients = () => {
                     <div className={styles.loadingContainer}>
                         <Skeleton height={300} width="100%" style={{ borderRadius: 12 }} />
                     </div>
-                ) :
-                    !Array.isArray(clients) || clients.length === 0 ? (
-                        <div className={styles.emptyContainer}>
-                            <FiUser size={48} className={styles.emptyIcon} />
-                            <p>{t('clients.noClients')}</p>
-                            <span className={styles.emptySubtext}>{t('clients.addFirstClient')}</span>
-                        </div>
-                    ) : filteredClients.length === 0 ? (
-                        <div className={styles.emptyContainer}>
-                            <Search size={48} className={styles.emptyIcon} />
-                            <p>{t('clients.noSearchResults')}</p>
-                            <span className={styles.emptySubtext}>{t('clients.tryDifferentSearch')}</span>
-                        </div>
-                    ) : viewMode === 'table' ? (
+                ) : error ? (
+                    <div className={styles.emptyContainer} role="alert">
+                        <p>{error}</p>
+                        <button onClick={() => void fetchClients()}>{t('common.retry')}</button>
+                    </div>
+                ) : clients.length === 0 ? (
+                    <div className={styles.emptyContainer}>
+                        <FiUser size={48} className={styles.emptyIcon} />
+                        <p>{t(searchTerm ? 'clients.noSearchResults' : 'clients.noClients')}</p>
+                        <span className={styles.emptySubtext}>{t(searchTerm ? 'clients.tryDifferentSearch' : 'clients.addFirstClient')}</span>
+                    </div>
+                ) : viewMode === 'table' ? (
                         <div className={styles.tableContainer}>
                             <table className={styles.clientsTable}>
                                 <thead>
@@ -205,7 +200,7 @@ const Clients = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {filteredClients.map((client) => (
+                                    {clients.map((client) => (
                                         <tr key={client._id || client.id}>
                                             <td data-label={t('clients.user')}>
                                                 <div className={styles.userInfo}>
@@ -262,7 +257,7 @@ const Clients = () => {
                         </div>
                     ) : (
                         <div className={styles.cardsGrid}>
-                            {filteredClients.map((client) => (
+                            {clients.map((client) => (
                                 <div key={client._id || client.id} className={styles.clientCard}>
                                     <div className={styles.cardHeader}>
                                         <div className={styles.userInfo}>
@@ -319,6 +314,8 @@ const Clients = () => {
                         </div>
                     )}
             </div>
+
+            <Pagination className={styles.pagination} pagination={pagination} onPageChange={setPage} disabled={loadingClients || !!error} />
 
             {/* Modal para registrar cliente */}
             <ModalRegisterClient

@@ -45,13 +45,34 @@ export interface BreakdownItem {
 
 export interface ContributingRecord {
   id: string
+  orderNumber?: string
   title: string
   installationName: string
   assetName?: string
   priority: string
   status: string
   date: string
+  startDate?: string
   completionDate?: string
   calculatedValue: number | string
+  duration?: string
   unit?: string
+}
+
+export interface IndicatorDetailMetrics {
+  mainMetric: {
+    label: string
+    value: string
+    subtitle: string
+  }
+  metric1: {
+    label: string
+    value: string | number
+    subtitle: string
+  }
+  metric2: {
+    label: string
+    value: string | number
+    subtitle: string
+  }
 }

@@ -11,6 +11,19 @@
   min-height: calc(100vh - 40px);
 }
 
+.container:has(.pagination) {
+  padding-bottom: 0;
+}
+
+:global(main):has(> .container .pagination) {
+  --tour-scroll-clearance: 0px;
+  --tour-safe-area-display: none;
+}
+
+.pagination {
+  flex-shrink: 0;
+}
+
 .header {
   display: flex;
   justify-content: space-between;

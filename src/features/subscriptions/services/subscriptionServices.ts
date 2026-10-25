@@ -1,7 +1,38 @@
 import { useAuthStore } from '../../../store/authStore'
-import { fetchWithAuthRetry, getHeadersWithContentType } from '../../../shared/utils/apiHeaders'
+import { fetchWithAuthRetry, getHeadersWithContentType, getAuthHeaders } from '../../../shared/utils/apiHeaders'
+import type { PageQuery, ServerPage } from '../../../shared/types/pagination'
+import type { InstallationResponse } from '../../installations/services/installationServices'
 
 const API_URL = import.meta.env.VITE_API_URL || "/api/"
+
+export interface SubscriptionQuery extends PageQuery {
+  maintenanceStatus?: string
+  maintenanceMonth?: string
+}
+
+export interface SubscriptionStatusCounts {
+  all: number
+  active: number
+  inactive: number
+  pending: number
+}
+
+export interface SubscriptionPage extends ServerPage<InstallationResponse> {
+  statusCounts: SubscriptionStatusCounts
+}
+
+// Plan pages are independent of the full, owner-scoped installation cache.
+export const fetchSubscriptionPage = async (query: SubscriptionQuery, options?: { signal?: AbortSignal }): Promise<SubscriptionPage> => {
+  const params = new URLSearchParams({ maintenancePlan: 'true', page: String(query.page), limit: String(query.limit), search: query.search })
+  if (query.maintenanceStatus) params.set('maintenanceStatus', query.maintenanceStatus)
+  if (query.maintenanceMonth) params.set('maintenanceMonth', query.maintenanceMonth)
+  const baseUrl = API_URL.endsWith('/') ? API_URL : `${API_URL}/`
+  const response = await fetchWithAuthRetry(`${baseUrl}installations?${params}`, {
+    headers: getAuthHeaders(), signal: options?.signal,
+  })
+  if (!response.ok) throw new Error('Error al obtener instalaciones')
+  return response.json()
+}
 
 export const updateSubscription = async (subscriptionId: string, updateData: Record<string, any>) => {
   // Obtener el token del store

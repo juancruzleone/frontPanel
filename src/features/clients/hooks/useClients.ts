@@ -1,5 +1,6 @@
-import { useState, useCallback } from "react"
-import { createClient, getClients } from "../services/clientServices"
+import { useState, useCallback, useEffect, useRef } from "react"
+import { createClient, getClientsPage } from "../services/clientServices"
+import type { PageQuery, PaginationMetadata } from '../../../shared/types/pagination'
 import { useAuthStore } from "../../../store/authStore"
 import { useTranslation } from "react-i18next"
 
@@ -21,21 +22,58 @@ export function useClients() {
     const [clients, setClients] = useState<Client[]>([])
     const [loadingClients, setLoadingClients] = useState(true)
 
-    const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
+    const { isAuthenticated, userId, tenantId } = useAuthStore()
+    const [query, setQuery] = useState<PageQuery>({ page: 1, limit: 10, search: '' })
+    const [pagination, setPagination] = useState<PaginationMetadata>({ page: 1, limit: 10, total: 0, totalPages: 0 })
+    const [error, setError] = useState<string | null>(null)
+    const abortRef = useRef<AbortController | null>(null)
+    const queryRef = useRef(query)
+    queryRef.current = query
+
+    const setPage = (page: number) => {
+        abortRef.current?.abort()
+        setQuery(current => ({ ...current, page }))
+    }
+    const setSearch = (search: string) => {
+        abortRef.current?.abort()
+        setQuery(current => ({ ...current, page: 1, search }))
+    }
 
     const fetchClients = useCallback(async () => {
-        if (!isAuthenticated) return
-
+        abortRef.current?.abort()
+        const controller = new AbortController()
+        abortRef.current = controller
+        const current = queryRef.current
+        setClients([])
+        setError(null)
+        if (!isAuthenticated) {
+            setLoadingClients(false)
+            return
+        }
         setLoadingClients(true)
         try {
-            const data = await getClients()
-            setClients(Array.isArray(data) ? data : [])
-        } catch (error) {
-            setClients([])
+            const result = await getClientsPage(current, { signal: controller.signal })
+            if (controller.signal.aborted) return
+            const lastPage = Math.max(1, result.pagination.totalPages)
+            if (!result.data.length && current.page > lastPage) {
+                setQuery({ ...current, page: lastPage })
+                return
+            }
+            setClients(result.data)
+            setPagination(result.pagination)
+        } catch (err) {
+            if (controller.signal.aborted) return
+            setError(err instanceof Error ? err.message : t('common.error'))
+            setPagination({ ...current, total: 0, totalPages: 0 })
         } finally {
-            setLoadingClients(false)
+            if (!controller.signal.aborted) setLoadingClients(false)
         }
-    }, [isAuthenticated])
+    }, [isAuthenticated, userId, tenantId, t])
+
+    useEffect(() => {
+        void fetchClients()
+        return () => abortRef.current?.abort()
+    }, [fetchClients, query])
 
     const addClient = useCallback(
         async (username: string, password: string, fullName: string): Promise<{ message: string }> => {
@@ -82,6 +120,11 @@ export function useClients() {
     }
 
     return {
+        pagination,
+        search: query.search,
+        setPage,
+        setSearch,
+        error,
         showModal,
         responseMessage,
         isError,

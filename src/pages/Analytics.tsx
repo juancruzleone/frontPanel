@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react"
-import { useParams, useNavigate, Link } from "react-router"
+import { useState, useEffect, useMemo } from "react"
+import { useParams, Link } from "react-router"
 import { useTranslation } from "react-i18next"
 import {
   Clock,
@@ -8,9 +8,17 @@ import {
   ShieldCheck,
   Zap,
   ArrowRight,
-  ArrowUpRight,
   Download,
   ChevronRight,
+  ChevronDown,
+  Info,
+  X,
+  Wrench,
+  Package,
+  Building2,
+  FileText,
+  SlidersHorizontal,
+  Search,
 } from "lucide-react"
 import {
   ResponsiveContainer,
@@ -22,7 +30,14 @@ import {
   Tooltip,
 } from "recharts"
 import { fetchAnalyticsData, exportRecordsToCsv } from "../features/analytics/services/analyticsService"
-import type { IndicatorId, IndicatorSummary, ContributingRecord, MetricTrendPoint, BreakdownItem } from "../features/analytics/types/analyticsTypes"
+import type {
+  IndicatorId,
+  IndicatorSummary,
+  ContributingRecord,
+  MetricTrendPoint,
+  BreakdownItem,
+  IndicatorDetailMetrics,
+} from "../features/analytics/types/analyticsTypes"
 import type { RangeOption } from "../features/home/types/homeTypes"
 import styles from "../features/analytics/styles/analytics.module.css"
 
@@ -36,12 +51,20 @@ const INDICATOR_ICONS = {
 
 const RANGE_OPTIONS: RangeOption[] = ["7d", "30d", "90d", "12m"]
 
+const RANGE_LABELS: Record<RangeOption, string> = {
+  "7d": "7 días",
+  "30d": "30 días",
+  "90d": "90 días",
+  "12m": "12 meses",
+}
+
 const Analytics = () => {
   const { indicatorId } = useParams<{ indicatorId?: string }>()
   const { t } = useTranslation()
 
   const [range, setRange] = useState<RangeOption>("30d")
   const [selectedInstallation, setSelectedInstallation] = useState<string>("")
+  const [selectedEvolutionMetric, setSelectedEvolutionMetric] = useState<IndicatorId>("mttr")
   const [summaries, setSummaries] = useState<Record<IndicatorId, IndicatorSummary> | null>(null)
   const [installations, setInstallations] = useState<Array<{ id: string; name: string }>>([])
   const [records, setRecords] = useState<Record<IndicatorId, ContributingRecord[]>>({
@@ -58,6 +81,42 @@ const Analytics = () => {
     "cumplimiento-sla": [],
     "primera-respuesta": [],
   })
+  const [breakdowns, setBreakdowns] = useState<Record<IndicatorId, BreakdownItem[]>>({
+    mttr: [],
+    mtbf: [],
+    "cumplimiento-preventivo": [],
+    "cumplimiento-sla": [],
+    "primera-respuesta": [],
+  })
+  const [assetBreakdowns, setAssetBreakdowns] = useState<Record<IndicatorId, BreakdownItem[]>>({
+    mttr: [],
+    mtbf: [],
+    "cumplimiento-preventivo": [],
+    "cumplimiento-sla": [],
+    "primera-respuesta": [],
+  })
+  const [detailMetrics, setDetailMetrics] = useState<Record<IndicatorId, IndicatorDetailMetrics> | null>(null)
+  const [attentionInstallations, setAttentionInstallations] = useState<Array<{ id: string; name: string; count: number }>>([])
+
+  // Detail view state
+  const [isHowModalOpen, setIsHowModalOpen] = useState(false)
+  const [tableSearch, setTableSearch] = useState("")
+
+  const activeIndicator = indicatorId && summaries ? summaries[indicatorId as IndicatorId] : null
+  const activeRecords = indicatorId ? records[indicatorId as IndicatorId] || [] : []
+  const activeTrends = indicatorId ? trends[indicatorId as IndicatorId] || [] : []
+  const activeBreakdown = indicatorId ? breakdowns[indicatorId as IndicatorId] || [] : []
+  const activeAssetBreakdown = indicatorId ? assetBreakdowns[indicatorId as IndicatorId] || [] : []
+  const activeDetailMetric = indicatorId && detailMetrics ? detailMetrics[indicatorId as IndicatorId] : null
+
+  // Browser Tab Title (document.title)
+  useEffect(() => {
+    if (indicatorId && activeIndicator) {
+      document.title = `${activeIndicator.title} | Leonix`
+    } else {
+      document.title = t("analytics.titlePage", { defaultValue: "Analíticas | Leonix" })
+    }
+  }, [indicatorId, activeIndicator, t])
 
   useEffect(() => {
     let isMounted = true
@@ -69,6 +128,10 @@ const Analytics = () => {
         setInstallations(data.installations)
         setRecords(data.recordsByIndicator)
         setTrends(data.trendsByIndicator)
+        setBreakdowns(data.breakdownsByIndicator)
+        setAssetBreakdowns(data.assetBreakdownsByIndicator)
+        setDetailMetrics(data.detailMetricsByIndicator)
+        setAttentionInstallations(data.attentionInstallations)
       })
       .catch((err) => {
         console.error("Error cargando analíticas:", err)
@@ -79,53 +142,75 @@ const Analytics = () => {
     }
   }, [range, selectedInstallation])
 
-  const activeIndicator = indicatorId && summaries ? summaries[indicatorId as IndicatorId] : null
-  const activeRecords = indicatorId ? records[indicatorId as IndicatorId] || [] : []
-  const activeTrends = indicatorId ? trends[indicatorId as IndicatorId] || [] : []
-
   const handleExport = () => {
     if (!activeIndicator) return
     exportRecordsToCsv(activeIndicator.shortTitle, activeRecords)
   }
 
+  // Filtered records for detail table search
+  const filteredDetailRecords = useMemo(() => {
+    if (!tableSearch.trim()) return activeRecords
+    const query = tableSearch.toLowerCase()
+    return activeRecords.filter(
+      (r) =>
+        (r.orderNumber && r.orderNumber.toLowerCase().includes(query)) ||
+        (r.title && r.title.toLowerCase().includes(query)) ||
+        (r.installationName && r.installationName.toLowerCase().includes(query)) ||
+        (r.assetName && r.assetName.toLowerCase().includes(query)),
+    )
+  }, [activeRecords, tableSearch])
+
+  // Trend data for hub evolution card
+  const hubTrend = trends[selectedEvolutionMetric] || []
+
   return (
     <div className={styles.containerAnalytics}>
-      {/* Top Header / Breadcrumbs */}
+      {/* Detail View Breadcrumb: Analíticas > [Indicador] (No "Inicio") */}
+      {indicatorId && activeIndicator && (
+        <nav className={styles.breadcrumb} aria-label="Breadcrumb">
+          <Link to="/dashboard/indicadores" className={styles.breadcrumbLink}>
+            {t("nav.analytics", { defaultValue: "Analíticas" })}
+          </Link>
+          <ChevronRight size={13} aria-hidden />
+          <span className={styles.breadcrumbCurrent}>{activeIndicator.title}</span>
+        </nav>
+      )}
+
+      {/* Header Row */}
       <div className={styles.topSection}>
         <div className={styles.titleContainer}>
-          <nav className={styles.breadcrumb} aria-label="Breadcrumb">
-            <Link to="/inicio" className={styles.breadcrumbLink}>{t("nav.home", { defaultValue: "Inicio" })}</Link>
-            <ChevronRight size={13} aria-hidden />
-            {indicatorId ? (
-              <>
-                <Link to="/dashboard/indicadores" className={styles.breadcrumbLink}>
-                  {t("nav.analytics", { defaultValue: "Indicadores operativos" })}
-                </Link>
-                <ChevronRight size={13} aria-hidden />
-                <span className={styles.breadcrumbCurrent}>{activeIndicator?.title || indicatorId}</span>
-              </>
-            ) : (
-              <span className={styles.breadcrumbCurrent}>{t("nav.analytics", { defaultValue: "Indicadores operativos" })}</span>
-            )}
-          </nav>
           <h1 className={styles.title}>
-            {activeIndicator ? activeIndicator.title : t("nav.analytics", { defaultValue: "Indicadores operativos" })}
+            {indicatorId && activeIndicator ? activeIndicator.title : t("nav.analytics", { defaultValue: "Analíticas" })}
           </h1>
           <p className={styles.subtitle}>
-            {activeIndicator
+            {indicatorId && activeIndicator
               ? activeIndicator.description
-              : t("home.dashboard.roles.admin.description", {
-                  defaultValue: "Centro de analíticas y métricas de rendimiento operacional de Leonix CMMS.",
+              : t("analytics.subtitle", {
+                  defaultValue: "Excepciones, capacidad y evolución de toda la operación.",
                 })}
           </p>
         </div>
+
+        {/* Top Right Button in Detail View: Cómo se calcula */}
+        {indicatorId && activeIndicator && (
+          <button
+            type="button"
+            className={styles.howItWorksBtn}
+            onClick={() => setIsHowModalOpen(true)}
+          >
+            <Info size={15} aria-hidden />
+            <span>{t("analytics.howItIsCalculated", { defaultValue: "Cómo se calcula" })}</span>
+          </button>
+        )}
       </div>
 
-      {/* Global Controls & Filters */}
+      {/* Filter Card */}
       <div className={styles.controlsBar}>
-        <div className={styles.filterGroup}>
-          <div className={styles.filterItem}>
-            <span className={styles.filterLabel}>{t("home.dashboard.period", { defaultValue: "Período" })}:</span>
+        <div className={styles.controlsLeft}>
+          <div className={styles.controlGroup}>
+            <span className={styles.controlLabel}>
+              {t("analytics.periodAnalyzed", { defaultValue: "Período analizado" })}
+            </span>
             <div className={styles.rangeButtons} role="radiogroup" aria-label="Período analizado">
               {RANGE_OPTIONS.map((opt) => (
                 <button
@@ -134,105 +219,296 @@ const Analytics = () => {
                   className={`${styles.rangeBtn} ${range === opt ? styles.rangeBtnActive : ""}`}
                   onClick={() => setRange(opt)}
                 >
-                  {t(`home.range.${opt}`, { defaultValue: opt })}
+                  {t(`home.range.${opt}`, { defaultValue: RANGE_LABELS[opt] })}
                 </button>
               ))}
             </div>
           </div>
 
-          <div className={styles.filterItem}>
-            <span className={styles.filterLabel}>{t("installations.title", { defaultValue: "Instalación" })}:</span>
-            <select
-              className={styles.selectInput}
-              value={selectedInstallation}
-              onChange={(e) => setSelectedInstallation(e.target.value)}
-              aria-label="Filtrar por instalación"
-            >
-              <option value="">{t("common.all", { defaultValue: "Todas las instalaciones" })}</option>
-              {installations.map((inst) => (
-                <option key={inst.id} value={inst.id}>{inst.name}</option>
-              ))}
-            </select>
+          <div className={styles.divider} aria-hidden />
+
+          <div className={styles.controlGroup}>
+            <span className={styles.controlLabel}>
+              {t("installations.title", { defaultValue: "Instalaciones" })}
+            </span>
+            <div className={styles.selectWrapper}>
+              <select
+                className={styles.selectInput}
+                value={selectedInstallation}
+                onChange={(e) => setSelectedInstallation(e.target.value)}
+                aria-label="Filtrar por instalación"
+              >
+                <option value="">{t("common.allInstallations", { defaultValue: "Todas las instalaciones" })}</option>
+                {installations.map((inst) => (
+                  <option key={inst.id} value={inst.id}>
+                    {inst.name}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown size={14} className={styles.selectIcon} aria-hidden />
+            </div>
           </div>
         </div>
 
-        {activeIndicator && (
-          <button type="button" className={styles.exportBtn} onClick={handleExport}>
-            <Download size={14} aria-hidden />
-            <span>{t("common.export", { defaultValue: "Exportar CSV" })}</span>
-          </button>
+        {indicatorId && activeIndicator && (
+          <div className={styles.controlsRight}>
+            <button type="button" className={styles.exportBtn} onClick={handleExport}>
+              <Download size={14} aria-hidden />
+              <span>{t("common.export", { defaultValue: "Exportar" })}</span>
+              <ChevronDown size={14} aria-hidden />
+            </button>
+          </div>
         )}
       </div>
 
-      {/* Overview Hub View (when !indicatorId) */}
+      {/* --- HUB VIEW (when !indicatorId) --- */}
       {!indicatorId && summaries && (
-        <div className={styles.indicatorsGrid}>
-          {(Object.keys(summaries) as IndicatorId[]).map((id) => {
-            const item = summaries[id]
-            const Icon = INDICATOR_ICONS[id] || Activity
+        <>
+          {/* Top 5 KPI Cards Grid (3 in row 1, 2 in row 2) */}
+          <div className={styles.indicatorsGrid}>
+            {(Object.keys(summaries) as IndicatorId[]).map((id) => {
+              const item = summaries[id]
+              const Icon = INDICATOR_ICONS[id] || Activity
 
-            return (
-              <Link key={id} to={`/dashboard/indicadores/${id}`} className={styles.indicatorCard}>
-                <div className={styles.indicatorCardHeader}>
-                  <div className={styles.indicatorIconTitle}>
-                    <Icon size={16} aria-hidden />
+              return (
+                <Link key={id} to={`/dashboard/indicadores/${id}`} className={styles.indicatorCard}>
+                  <div className={styles.indicatorCardHeader}>
+                    <Icon size={16} className={styles.indicatorIcon} aria-hidden />
                     <span className={styles.indicatorCardTitle}>{item.title}</span>
                   </div>
-                  <ArrowUpRight size={14} aria-hidden />
-                </div>
 
-                <div className={styles.indicatorCardBody}>
-                  <span className={styles.indicatorCardValue}>{item.formattedValue}</span>
-                  <span className={styles.indicatorCardSub}>
-                    {item.delta !== null
-                      ? `${item.delta > 0 ? "↑" : "↓"} ${Math.abs(item.delta)}% vs anterior`
-                      : item.statusMessage}
-                  </span>
-                </div>
-
-                <div className={styles.indicatorCardFooter}>
-                  <span
-                    className={`${styles.statusBadge} ${
-                      item.status === "available" ? styles.statusAvailable : styles.statusInsufficient
-                    }`}
-                  >
-                    {item.status === "available" ? "Disponible" : "Datos insuficientes"}
-                  </span>
-                  <ArrowRight size={13} aria-hidden />
-                </div>
-              </Link>
-            )
-          })}
-        </div>
-      )}
-
-      {/* Individual Indicator Detail View */}
-      {indicatorId && activeIndicator && (
-        <>
-          <div className={styles.detailGrid}>
-            {/* Hero & Evolution Chart */}
-            <div className={styles.heroPanel}>
-              <div className={styles.heroHeader}>
-                <div>
-                  <span className={styles.filterLabel}>{activeIndicator.shortTitle} · Resumen</span>
-                  <div className={styles.heroValueWrap}>
-                    <span className={styles.heroValue}>{activeIndicator.formattedValue}</span>
+                  <div className={styles.indicatorCardBody}>
+                    <div className={styles.indicatorCardValue}>{item.formattedValue}</div>
+                    <p className={styles.indicatorCardSub}>{item.statusMessage}</p>
                   </div>
-                  <p className={styles.heroStatus}>{activeIndicator.statusMessage}</p>
+
+                  <div className={styles.indicatorCardFooter}>
+                    <span className={styles.analysisLinkText}>
+                      {t("analytics.viewAnalysis", { defaultValue: "Ver análisis" })}
+                    </span>
+                    <ArrowRight size={16} aria-hidden />
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+
+          {/* Bottom 2 Cards Side-by-Side */}
+          <div className={styles.bottomGrid}>
+            {/* Card Left: Evolución de indicadores */}
+            <div className={styles.bottomCard}>
+              <div className={styles.bottomCardHeader}>
+                <div className={styles.bottomCardTitleGroup}>
+                  <h2 className={styles.bottomCardTitle}>
+                    {t("analytics.evolutionTitle", { defaultValue: "Evolución de indicadores" })}
+                  </h2>
+                  <p className={styles.bottomCardSubtitle}>
+                    {t("analytics.evolutionSubtitle", {
+                      defaultValue: "Tendencia de las principales métricas en el período seleccionado.",
+                    })}
+                  </p>
                 </div>
-                <span
-                  className={`${styles.statusBadge} ${
-                    activeIndicator.status === "available" ? styles.statusAvailable : styles.statusInsufficient
-                  }`}
-                >
-                  {activeIndicator.status === "available" ? "Cálculo activo" : "N/D"}
-                </span>
+                <div className={styles.metricSelectWrapper}>
+                  <select
+                    className={styles.metricSelect}
+                    value={selectedEvolutionMetric}
+                    onChange={(e) => setSelectedEvolutionMetric(e.target.value as IndicatorId)}
+                    aria-label="Seleccionar indicador para evolución"
+                  >
+                    <option value="mttr">MTTR</option>
+                    <option value="mtbf">MTBF</option>
+                    <option value="cumplimiento-preventivo">Cumplimiento preventivo</option>
+                    <option value="cumplimiento-sla">Cumplimiento SLA</option>
+                    <option value="primera-respuesta">Primera respuesta</option>
+                  </select>
+                  <ChevronDown size={14} className={styles.selectIcon} aria-hidden />
+                </div>
               </div>
 
-              {/* Chart */}
-              <div className={styles.chartContainer}>
-                {activeTrends.length > 0 ? (
-                  <ResponsiveContainer width="100%" height={240}>
+              <div className={styles.bottomCardContent}>
+                {hubTrend.length > 0 ? (
+                  <div className={styles.chartWrap}>
+                    <ResponsiveContainer width="100%" height={220}>
+                      <AreaChart data={hubTrend} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-card-border)" />
+                        <XAxis
+                          dataKey="date"
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fill: "var(--color-text-secondary)", fontSize: 11 }}
+                        />
+                        <YAxis
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fill: "var(--color-text-secondary)", fontSize: 11 }}
+                        />
+                        <Tooltip />
+                        <Area
+                          type="monotone"
+                          dataKey="value"
+                          stroke="var(--color-secondary, #057E74)"
+                          fill="var(--state-neutral-surface)"
+                          strokeWidth={2}
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+                ) : (
+                  <div className={styles.emptyState}>
+                    <div className={styles.emptyIconWrap}>
+                      <svg
+                        width="32"
+                        height="32"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden
+                      >
+                        <rect width="18" height="18" x="3" y="3" rx="4" />
+                        <path d="M7 16v-4" />
+                        <path d="M12 16v-8" />
+                        <path d="M17 16v-6" />
+                      </svg>
+                    </div>
+                    <p className={styles.emptyTitle}>
+                      {t("common.noDataAvailable", { defaultValue: "No hay datos disponibles" })}
+                    </p>
+                    <p className={styles.emptySubtitle}>
+                      {t("analytics.evolutionEmpty", {
+                        defaultValue: "Aún no hay información suficiente para mostrar la evolución de los indicadores.",
+                      })}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Card Right: Instalaciones que requieren atención */}
+            <div className={styles.bottomCard}>
+              <div className={styles.bottomCardHeader}>
+                <div className={styles.bottomCardTitleGroup}>
+                  <h2 className={styles.bottomCardTitle}>
+                    {t("analytics.attentionTitle", { defaultValue: "Instalaciones que requieren atención" })}
+                  </h2>
+                  <p className={styles.bottomCardSubtitle}>
+                    {t("analytics.attentionSubtitle", {
+                      defaultValue: "Instalaciones con mayores oportunidades de mejora.",
+                    })}
+                  </p>
+                </div>
+              </div>
+
+              <div className={styles.bottomCardContent}>
+                {attentionInstallations.length > 0 ? (
+                  <ul className={styles.attentionList}>
+                    {attentionInstallations.map((inst) => (
+                      <li key={inst.id} className={styles.attentionItem}>
+                        <div className={styles.attentionItemLeft}>
+                          <Building2 size={16} className={styles.attentionIcon} aria-hidden />
+                          <span className={styles.attentionItemName}>{inst.name}</span>
+                        </div>
+                        <span className={styles.attentionBadge}>
+                          {inst.count} {inst.count === 1 ? "incidencia" : "incidencias"}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className={styles.emptyState}>
+                    <div className={styles.emptyIconWrap}>
+                      <svg
+                        width="32"
+                        height="32"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden
+                      >
+                        <rect width="18" height="18" x="3" y="3" rx="4" />
+                        <path d="M7 8h10" />
+                        <path d="M7 12h10" />
+                        <path d="M7 16h4" />
+                      </svg>
+                    </div>
+                    <p className={styles.emptyTitle}>
+                      {t("common.noDataAvailable", { defaultValue: "No hay datos disponibles" })}
+                    </p>
+                    <p className={styles.emptySubtitle}>
+                      {t("analytics.attentionEmpty", {
+                        defaultValue:
+                          "No se encontraron instalaciones con indicadores que requieran atención en el período seleccionado.",
+                      })}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* --- DETAIL VIEW (when indicatorId exists) --- */}
+      {indicatorId && activeIndicator && activeDetailMetric && (
+        <div className={styles.detailContainer}>
+          {/* Top 3 KPI Cards */}
+          <div className={styles.detailKpisGrid}>
+            {/* Card 1: Main Metric */}
+            <div className={styles.detailKpiCard}>
+              <div className={styles.detailKpiHeader}>
+                <Clock size={16} className={styles.detailKpiIcon} aria-hidden />
+                <span className={styles.detailKpiTitle}>{activeDetailMetric.mainMetric.label}</span>
+              </div>
+              <div className={styles.detailKpiValue}>{activeDetailMetric.mainMetric.value}</div>
+              <p className={styles.detailKpiSubtitle}>{activeDetailMetric.mainMetric.subtitle}</p>
+            </div>
+
+            {/* Card 2: Completed / Total */}
+            <div className={styles.detailKpiCard}>
+              <div className={styles.detailKpiHeader}>
+                <Wrench size={16} className={styles.detailKpiIcon} aria-hidden />
+                <span className={styles.detailKpiTitle}>{activeDetailMetric.metric1.label}</span>
+              </div>
+              <div className={styles.detailKpiValue}>{activeDetailMetric.metric1.value}</div>
+              <p className={styles.detailKpiSubtitle}>{activeDetailMetric.metric1.subtitle}</p>
+            </div>
+
+            {/* Card 3: Affected Assets */}
+            <div className={styles.detailKpiCard}>
+              <div className={styles.detailKpiHeader}>
+                <Package size={16} className={styles.detailKpiIcon} aria-hidden />
+                <span className={styles.detailKpiTitle}>{activeDetailMetric.metric2.label}</span>
+              </div>
+              <div className={styles.detailKpiValue}>{activeDetailMetric.metric2.value}</div>
+              <p className={styles.detailKpiSubtitle}>{activeDetailMetric.metric2.subtitle}</p>
+            </div>
+          </div>
+
+          {/* Evolution Chart Card */}
+          <div className={styles.chartPanel}>
+            <div className={styles.chartPanelHeader}>
+              <div className={styles.bottomCardTitleGroup}>
+                <h2 className={styles.bottomCardTitle}>
+                  Evolución del {activeIndicator.shortTitle}
+                </h2>
+                <p className={styles.bottomCardSubtitle}>
+                  Tendencia del {activeIndicator.title.toLowerCase()} en el período seleccionado.
+                </p>
+              </div>
+              <div className={styles.metricSelectWrapper}>
+                <div className={styles.staticMetricTag}>{activeIndicator.shortTitle}</div>
+              </div>
+            </div>
+
+            <div className={styles.chartPanelBody}>
+              {activeTrends.length > 0 ? (
+                <div className={styles.chartWrap}>
+                  <ResponsiveContainer width="100%" height={260}>
                     <AreaChart data={activeTrends} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-card-border)" />
                       <XAxis
@@ -245,6 +521,7 @@ const Analytics = () => {
                         axisLine={false}
                         tickLine={false}
                         tick={{ fill: "var(--color-text-secondary)", fontSize: 11 }}
+                        unit={` ${activeIndicator.unit}`}
                       />
                       <Tooltip />
                       <Area
@@ -257,78 +534,272 @@ const Analytics = () => {
                       />
                     </AreaChart>
                   </ResponsiveContainer>
+                </div>
+              ) : (
+                <div className={styles.emptyChartGrid}>
+                  <div className={styles.emptyState}>
+                    <div className={styles.emptyIconWrap}>
+                      <svg
+                        width="36"
+                        height="36"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden
+                      >
+                        <rect width="18" height="18" x="3" y="3" rx="4" />
+                        <path d="M7 16v-4" />
+                        <path d="M12 16v-8" />
+                        <path d="M17 16v-6" />
+                      </svg>
+                    </div>
+                    <p className={styles.emptyTitle}>
+                      {t("common.noDataAvailable", { defaultValue: "No hay datos disponibles" })}
+                    </p>
+                    <p className={styles.emptySubtitle}>{activeIndicator.statusMessage}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Middle 2 Breakdown Cards */}
+          <div className={styles.bottomGrid}>
+            {/* Left Card: Por instalación */}
+            <div className={styles.bottomCard}>
+              <div className={styles.bottomCardHeader}>
+                <div className={styles.bottomCardTitleGroup}>
+                  <h2 className={styles.bottomCardTitle}>
+                    {activeIndicator.shortTitle} por instalación
+                  </h2>
+                  <p className={styles.bottomCardSubtitle}>
+                    Comparativa del {activeIndicator.title.toLowerCase()} por instalación.
+                  </p>
+                </div>
+              </div>
+
+              <div className={styles.bottomCardContent}>
+                {activeBreakdown.length > 0 ? (
+                  <ul className={styles.breakdownList}>
+                    {activeBreakdown.map((item) => (
+                      <li key={item.id} className={styles.breakdownItem}>
+                        <div className={styles.breakdownItemName}>{item.name}</div>
+                        <div className={styles.breakdownItemVal}>
+                          <strong>{item.value} {activeIndicator.unit}</strong>
+                          <span className={styles.breakdownItemCount}>({item.count} reg.)</span>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
                 ) : (
-                  <div className={styles.emptyRecords}>
-                    <p>{activeIndicator.statusMessage}</p>
+                  <div className={styles.emptyState}>
+                    <div className={styles.emptyIconWrap}>
+                      <Building2 size={28} className={styles.emptyIcon} aria-hidden />
+                    </div>
+                    <p className={styles.emptyTitle}>
+                      {t("common.noDataAvailable", { defaultValue: "No hay datos disponibles" })}
+                    </p>
+                    <p className={styles.emptySubtitle}>
+                      No existen registros completados en el período seleccionado.
+                    </p>
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Methodology & Formula Panel */}
-            <div className={styles.infoPanel}>
-              <div className={styles.infoSection}>
-                <h3>Metodología de cálculo</h3>
-                <p>{activeIndicator.description}</p>
+            {/* Right Card: Activos con mayores tiempos */}
+            <div className={styles.bottomCard}>
+              <div className={styles.bottomCardHeader}>
+                <div className={styles.bottomCardTitleGroup}>
+                  <h2 className={styles.bottomCardTitle}>
+                    Activos con mayores tiempos de {activeIndicator.shortTitle === "MTTR" ? "reparación" : "atención"}
+                  </h2>
+                  <p className={styles.bottomCardSubtitle}>
+                    Top de activos según el {activeIndicator.title.toLowerCase()}.
+                  </p>
+                </div>
+              </div>
+
+              <div className={styles.bottomCardContent}>
+                {activeAssetBreakdown.length > 0 ? (
+                  <ul className={styles.breakdownList}>
+                    {activeAssetBreakdown.map((item) => (
+                      <li key={item.id} className={styles.breakdownItem}>
+                        <div className={styles.breakdownItemName}>{item.name}</div>
+                        <div className={styles.breakdownItemVal}>
+                          <strong>{item.value} {activeIndicator.unit}</strong>
+                          <span className={styles.breakdownItemCount}>({item.count} reg.)</span>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className={styles.emptyState}>
+                    <div className={styles.emptyIconWrap}>
+                      <Package size={28} className={styles.emptyIcon} aria-hidden />
+                    </div>
+                    <p className={styles.emptyTitle}>
+                      {t("common.noDataAvailable", { defaultValue: "No hay datos disponibles" })}
+                    </p>
+                    <p className={styles.emptySubtitle}>
+                      No existen registros completados en el período seleccionado.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Table Card */}
+          <div className={styles.tableCard}>
+            <div className={styles.tableCardHeader}>
+              <div className={styles.bottomCardTitleGroup}>
+                <h2 className={styles.bottomCardTitle}>
+                  {activeIndicator.shortTitle === "MTTR"
+                    ? `Reparaciones analizadas (${filteredDetailRecords.length})`
+                    : `Órdenes analizadas (${filteredDetailRecords.length})`}
+                </h2>
+                <p className={styles.bottomCardSubtitle}>
+                  Órdenes de trabajo incluidas en el cálculo del {activeIndicator.shortTitle}.
+                </p>
+              </div>
+
+              <div className={styles.tableCardActions}>
+                <div className={styles.tableSearchWrap}>
+                  <Search size={14} className={styles.tableSearchIcon} aria-hidden />
+                  <input
+                    type="text"
+                    className={styles.tableSearchInput}
+                    placeholder="Buscar por orden, activo o instalación..."
+                    value={tableSearch}
+                    onChange={(e) => setTableSearch(e.target.value)}
+                    aria-label="Buscar en la tabla"
+                  />
+                </div>
+                <button type="button" className={styles.tableFilterBtn} aria-label="Filtros adicionales">
+                  <SlidersHorizontal size={14} aria-hidden />
+                </button>
+              </div>
+            </div>
+
+            <div className={styles.tableCardBody}>
+              {filteredDetailRecords.length > 0 ? (
+                <div className={styles.tableScrollWrap}>
+                  <table className={styles.dataTable}>
+                    <thead>
+                      <tr>
+                        <th>N° de orden</th>
+                        <th>Instalación</th>
+                        <th>Activo</th>
+                        <th>Fecha de inicio</th>
+                        <th>Fecha de cierre</th>
+                        <th>Duración</th>
+                        <th>Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredDetailRecords.map((rec) => (
+                        <tr key={rec.id}>
+                          <td>
+                            <Link
+                              to={`/ordenes-trabajo?search=${encodeURIComponent(rec.title)}`}
+                              className={styles.recordLink}
+                            >
+                              {rec.orderNumber || rec.id}
+                            </Link>
+                          </td>
+                          <td>{rec.installationName}</td>
+                          <td>{rec.assetName || "—"}</td>
+                          <td>{rec.startDate ? rec.startDate.slice(0, 10) : "—"}</td>
+                          <td>{rec.completionDate ? rec.completionDate.slice(0, 10) : "—"}</td>
+                          <td>
+                            <strong>{rec.duration || rec.calculatedValue}</strong>
+                          </td>
+                          <td>
+                            <span className={styles.statusChip}>{rec.status}</span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className={styles.emptyTableState}>
+                  <div className={styles.emptyIconWrap}>
+                    <FileText size={32} className={styles.emptyIcon} aria-hidden />
+                  </div>
+                  <p className={styles.emptyTitle}>
+                    {activeIndicator.shortTitle === "MTTR"
+                      ? "No hay reparaciones para mostrar"
+                      : "No hay órdenes para mostrar"}
+                  </p>
+                  <p className={styles.emptySubtitle}>
+                    {activeIndicator.shortTitle === "MTTR"
+                      ? "Todavía no hay órdenes de trabajo con reparaciones completadas en el período seleccionado."
+                      : "Todavía no hay órdenes de trabajo evaluables en el período seleccionado."}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal: Cómo se calcula */}
+      {isHowModalOpen && activeIndicator && (
+        <div className={styles.modalOverlay} role="dialog" aria-modal="true" aria-labelledby="modal-how-title">
+          <div className={styles.modalCard}>
+            <div className={styles.modalHeader}>
+              <h3 id="modal-how-title" className={styles.modalTitle}>
+                Cómo se calcula: {activeIndicator.title}
+              </h3>
+              <button
+                type="button"
+                className={styles.modalCloseBtn}
+                onClick={() => setIsHowModalOpen(false)}
+                aria-label="Cerrar modal"
+              >
+                <X size={18} aria-hidden />
+              </button>
+            </div>
+
+            <div className={styles.modalBody}>
+              <div className={styles.modalSection}>
+                <h4 className={styles.modalSectionTitle}>Metodología de cálculo</h4>
+                <p className={styles.modalSectionText}>{activeIndicator.description}</p>
+              </div>
+
+              <div className={styles.modalSection}>
+                <h4 className={styles.modalSectionTitle}>Fórmula</h4>
                 <div className={styles.formulaBox}>
                   <code>{activeIndicator.formula}</code>
                 </div>
               </div>
 
-              <div className={styles.infoSection}>
-                <h3>Criterios de validez</h3>
-                <p>
-                  Leonix calcula este indicador a partir de eventos y órdenes registradas en el sistema. Los períodos
-                  sin actividad representativa muestran N/D para garantizar transparencia operativa.
+              <div className={styles.modalSection}>
+                <h4 className={styles.modalSectionTitle}>Criterios de validez</h4>
+                <p className={styles.modalSectionText}>
+                  Leonix calcula este indicador de forma continua y transparente a partir de las órdenes registradas en
+                  el sistema. Si no existen suficientes datos en el período seleccionado, el indicador mostrará N/D para
+                  evitar sesgos operativos.
                 </p>
               </div>
             </div>
-          </div>
 
-          {/* Contributing Records Table */}
-          <div className={styles.recordsSection}>
-            <div className={styles.recordsHeader}>
-              <h2 className={styles.title} style={{ fontSize: "1.2rem" }}>Registros evaluados ({activeRecords.length})</h2>
+            <div className={styles.modalFooter}>
+              <button
+                type="button"
+                className={styles.modalActionBtn}
+                onClick={() => setIsHowModalOpen(false)}
+              >
+                {t("common.close", { defaultValue: "Cerrar" })}
+              </button>
             </div>
-
-            {activeRecords.length === 0 ? (
-              <div className={styles.emptyRecords}>
-                <p>{activeIndicator.statusMessage}</p>
-              </div>
-            ) : (
-              <table className={styles.dataTable}>
-                <thead>
-                  <tr>
-                    <th>Orden / Registro</th>
-                    <th>Instalación</th>
-                    <th>Prioridad</th>
-                    <th>Estado</th>
-                    <th>Fecha</th>
-                    <th>Resultado</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {activeRecords.slice(0, 15).map((rec) => (
-                    <tr key={rec.id}>
-                      <td>
-                        <Link to={`/ordenes-trabajo?search=${encodeURIComponent(rec.title)}`} className={styles.recordLink}>
-                          {rec.title}
-                        </Link>
-                      </td>
-                      <td>{rec.installationName}</td>
-                      <td>{rec.priority}</td>
-                      <td>{rec.status}</td>
-                      <td>{rec.date ? rec.date.slice(0, 10) : "—"}</td>
-                      <td>
-                        <strong>{rec.calculatedValue}{rec.unit ? ` ${rec.unit}` : ""}</strong>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
           </div>
-        </>
+        </div>
       )}
     </div>
   )

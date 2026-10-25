@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import usePanelAdminDashboard from "../features/tenants/hooks/usePanelAdminDashboard"
 import TenantStatsCards from "../features/tenants/components/TenantStatsCards"
@@ -14,6 +14,9 @@ import { useTranslatedRoutes } from "../router"
 
 const PanelAdmin: React.FC = () => {
   const { t } = useTranslation()
+  useEffect(() => {
+    document.title = t("panelAdmin.titlePage", { defaultValue: "Panel Admin | Leonix" })
+  }, [t])
   const { stats, meta, loading, refreshing, error, lastUpdated, retry } = usePanelAdminDashboard() as any
   const { getRoute } = useTranslatedRoutes()
 

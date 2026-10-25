@@ -27,7 +27,20 @@
     "list": "Elenco",
     "settings": "Impostazioni",
     "compliance": "Conformità",
-    "analytics": "Indicatori"
+    "analytics": "Analisi"
+  },
+  "analytics": {
+    "titlePage": "Analisi | Leonix",
+    "subtitle": "Eccezioni, capacità ed evoluzione dell'intera operazione.",
+    "periodAnalyzed": "Periodo analizzato",
+    "howItIsCalculated": "Come viene calcolato",
+    "viewAnalysis": "Visualizza analisi",
+    "evolutionTitle": "Evoluzione degli indicatori",
+    "evolutionSubtitle": "Andamento delle metriche principali nel periodo selezionato.",
+    "attentionTitle": "Impianti che richiedono attenzione",
+    "attentionSubtitle": "Impianti con le maggiori opportunità di miglioramento.",
+    "evolutionEmpty": "Non ci sono ancora dati sufficienti per mostrare l'andamento degli indicatori.",
+    "attentionEmpty": "Nessun impianto richiede attenzione nel periodo selezionato."
   },
   "audit": {
     "title": "Registro attività",

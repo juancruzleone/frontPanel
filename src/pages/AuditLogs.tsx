@@ -18,6 +18,7 @@ const AuditLogs: React.FC = () => {
   const validLogs = userId && ownerId === userId ? logs : []
 
   useEffect(() => {
+    document.title = t("audit.titlePage", { defaultValue: "Auditoría | Leonix" })
     const fetchLogs = async () => {
       const currentStore = useAuditStore.getState()
       const hasValidCache = Boolean(userId && currentStore.ownerId === userId && currentStore.logs.length > 0)

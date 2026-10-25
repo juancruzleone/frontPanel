@@ -1,5 +1,8 @@
 import { fetchWithCsrf, fetchWithAuthRetry, getAuthHeaders } from "../../../../shared/utils/apiHeaders"
 
+import type { PageQuery, ServerPage } from '../../../../shared/types/pagination'
+import type { Technician } from '../hooks/useRegister'
+
 const rawApiUrl = import.meta.env.VITE_API_URL || "/api/"
 const API_URL = rawApiUrl.endsWith("/") ? rawApiUrl : `${rawApiUrl}/`
 
@@ -72,6 +75,18 @@ export const userRegister = async (
   }
 
   return await response.json()
+}
+
+export const getTechniciansPage = async (query: PageQuery, options?: { signal?: AbortSignal }): Promise<ServerPage<Technician>> => {
+  const params = new URLSearchParams({ page: String(query.page), limit: String(query.limit), search: query.search })
+  const response = await fetchWithAuthRetry(`${API_URL}cuentas/tecnicos?${params}`, {
+    method: 'GET', headers: getAuthHeaders(), credentials: 'include', signal: options?.signal,
+  })
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}))
+    throw new Error(error.error?.message || 'Error al obtener técnicos')
+  }
+  return response.json()
 }
 
 export const getTechnicians = async () => {
