@@ -89,7 +89,7 @@
 
 .heroMessage {
   max-width: 620px;
-  margin: auto 0;
+  margin: auto 0 0;
 }
 
 .heroTagline {
@@ -124,7 +124,7 @@
 }
 
 .heroBrandLine {
-  margin: 1.5rem 0 auto;
+  margin: 1rem 0 0;
   color: rgba(255, 255, 255, 0.52);
   font-size: 0.72rem;
   letter-spacing: 0.03em;
