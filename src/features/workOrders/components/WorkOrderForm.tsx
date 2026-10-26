@@ -7,6 +7,7 @@ import { validateWorkOrderForm, validateWorkOrderField } from '../validators/wor
 import DatePickerModal from '../../calendar/components/DatePickerModal'
 import TimePickerModal from '../../calendar/components/TimePickerModal'
 import HybridSelect from '../../../shared/components/HybridSelect/HybridSelect'
+import { TechnicianSelector } from './TechnicianSelector'
 
 interface WorkOrderFormProps {
   onCancel: () => void
@@ -258,23 +259,16 @@ const WorkOrderForm = ({
 
             <div className={styles.formGroup}>
               <label>{t('workOrders.assignTechnician')}</label>
-              {technicians.length === 0 ? (
-                <p className={styles.readOnlyField}>{t('workOrders.noTechniciansAvailable')}</p>
-              ) : (
-                <div className={styles.multiSelectList}>
-                  {technicians.map((tech) => (
-                    <label key={tech._id} className={styles.multiSelectItem}>
-                      <input
-                        type="checkbox"
-                        checked={selectedTechnicians.includes(tech._id)}
-                        onChange={() => handleTechnicianToggle(tech._id)}
-                        disabled={isFieldDisabled("tecnicosAsignados")}
-                      />
-                      <span>{tech.userName}</span>
-                    </label>
-                  ))}
-                </div>
-              )}
+              <TechnicianSelector
+                technicians={technicians}
+                selectedTechnicianIds={selectedTechnicians}
+                onChange={(ids) => {
+                  handleFieldChange("tecnicosAsignados", ids)
+                  handleFieldChange("tecnicosIds", ids)
+                  handleFieldChange("tecnicoAsignado", ids[0] || "")
+                }}
+                disabled={isFieldDisabled("tecnicosAsignados")}
+              />
             </div>
 
             <div className={styles.formRow}>

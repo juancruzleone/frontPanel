@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { TechnicianSelector } from "./TechnicianSelector"
 import styles from "../styles/workOrderForm.module.css"
 import formButtonStyles from "../../../shared/components/Buttons/formButtons.module.css"
 import { useTranslation } from "react-i18next"
@@ -69,19 +70,18 @@ const AssignTechnicianForm: React.FC<AssignTechnicianFormProps> = ({
 
         <div className={styles.formGroup}>
           <label>{t('workOrders.assignTechnician')}</label>
-          <div className={`${styles.multiSelectList} ${error && touched ? styles.errorInput : ""}`} onBlur={handleBlur}>
-            {technicians.map((tech) => (
-              <label key={tech._id} className={styles.multiSelectItem}>
-                <input
-                  type="checkbox"
-                  checked={selectedTechnicians.includes(tech._id)}
-                  onChange={() => handleTechnicianToggle(tech._id)}
-                  disabled={isSubmitting}
-                />
-                <span>{tech.userName}</span>
-              </label>
-            ))}
-          </div>
+          <TechnicianSelector
+            technicians={technicians}
+            selectedTechnicianIds={selectedTechnicians}
+            onChange={(ids) => {
+              setSelectedTechnicians(ids)
+              setTouched(true)
+              if (error) setError("")
+            }}
+            onBlur={handleBlur}
+            disabled={isSubmitting}
+            error={Boolean(error && touched)}
+          />
           {error && touched && <p className={styles.inputError}>{error}</p>}
         </div>
 
