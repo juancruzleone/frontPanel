@@ -64,6 +64,12 @@ describe('deployed security header configuration', () => {
     expect(globalHeaderRule).toBeDefined()
 
     const headerMap = new Map(globalHeaderRule.headers.map((h: { key: string; value: string }) => [h.key, h.value]))
+    const csp = headerMap.get('Content-Security-Policy') as string
+    expect(csp.split(';').map((directive) => directive.trim())).toContain("object-src 'none'")
+    // Preserve Vercel's existing policy; Netlify also has intentionally different directives.
+    expect(csp.split(';').map((directive) => directive.trim()).filter((directive) => !directive.startsWith('object-src')).join('; ')).toBe(
+      "default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; script-src-elem 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://api.leonix.net.ar wss://api.leonix.net.ar https://cloudflareinsights.com https://static.cloudflareinsights.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests",
+    )
     expect(headerMap.get('Strict-Transport-Security')).toContain('max-age=31536000')
     expect(headerMap.get('Cross-Origin-Embedder-Policy')).toBe('require-corp')
     expect(headerMap.get('Cross-Origin-Opener-Policy')).toBe('same-origin')

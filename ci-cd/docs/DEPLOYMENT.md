@@ -1,5 +1,21 @@
 # Guía de Deployment
 
+## Script de deployment con auditoría obligatoria
+
+Con Node.js 24 y Bun disponibles, ejecutar desde un árbol de trabajo sin cambios:
+
+```bash
+./ci-cd/scripts/deploy.sh staging
+# Producción requiere la rama main:
+./ci-cd/scripts/deploy.sh production
+```
+
+El script ejecuta `bun audit --audit-level=moderate` antes de construir o desplegar.
+Cualquier salida no cero, incluidas vulnerabilidades o errores de herramienta/red,
+cancela el proceso con código 1 y el mensaje `Auditoría de seguridad falló. Deployment cancelado.`
+Corregir la causa y volver a ejecutar; no continuar con un despliegue manual para omitir la auditoría.
+Los comandos manuales siguientes usan las mismas versiones fijas del CLI que el script.
+
 ## Plataformas Soportadas
 
 - **Netlify** (Recomendado)
@@ -29,14 +45,11 @@ VITE_ENVIRONMENT=production
 ### Deploy Manual
 
 ```bash
-# Instalar Netlify CLI
-bun install --global netlify-cli
+# Login con la versión fijada (sin instalación global)
+bunx netlify-cli@27.14.2 login
 
-# Login
-netlify login
-
-# Deploy
-netlify deploy --prod --dir=dist
+# Deploy (tras completar las verificaciones previas)
+bunx netlify-cli@27.14.2 deploy --prod --dir=dist
 ```
 
 ### Deploy Automático
@@ -65,14 +78,11 @@ VITE_ENVIRONMENT=production
 ### Deploy Manual
 
 ```bash
-# Instalar Vercel CLI
-bun install --global vercel
+# Login con la versión fijada (sin instalación global)
+bunx vercel@65.2.0 login
 
-# Login
-vercel login
-
-# Deploy
-vercel --prod
+# Deploy (tras completar las verificaciones previas)
+bunx vercel@65.2.0 --prod
 ```
 
 ## Deployment a GitHub Pages
@@ -159,17 +169,17 @@ Debe incluir:
 
 ```bash
 # Listar deploys
-netlify deploy:list
+bunx netlify-cli@27.14.2 deploy:list
 
 # Rollback a deploy anterior
-netlify rollback
+bunx netlify-cli@27.14.2 rollback
 ```
 
 ### Vercel
 
 ```bash
 # Listar deploys
-vercel ls
+bunx vercel@65.2.0 ls
 
 # Rollback desde dashboard
 # Vercel → Deployments → Promote to Production
@@ -223,7 +233,7 @@ git push origin main
 - [ ] Build exitoso: `bun run build`
 - [ ] Linting sin errores: `bun run lint`
 - [ ] Type checking sin errores: `bun run type-check`
-- [ ] Security audit: `bun audit`
+- [ ] Security audit exitoso: `bun audit --audit-level=moderate`
 - [ ] Variables de entorno configuradas
 - [ ] Changelog actualizado
 - [ ] Tag de versión creado

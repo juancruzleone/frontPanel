@@ -68,7 +68,7 @@ bun run test || error "Tests fallaron"
 
 # Ejecutar security audit
 log "🔒 Ejecutando security audit..."
-bun audit --audit-level=moderate || warning "Se encontraron vulnerabilidades"
+bun audit --audit-level=moderate || error "Auditoría de seguridad falló. Deployment cancelado."
 
 # Build
 log "🏗️  Construyendo aplicación..."
@@ -89,16 +89,16 @@ log "✅ Build completado exitosamente"
 if [[ -n "$NETLIFY_AUTH_TOKEN" ]]; then
     log "🌐 Deploying a Netlify..."
     if [[ "$ENVIRONMENT" == "production" ]]; then
-        bunx netlify-cli deploy --prod --dir=dist || error "Deploy a Netlify falló"
+        bunx netlify-cli@27.14.2 deploy --prod --dir=dist || error "Deploy a Netlify falló"
     else
-        bunx netlify-cli deploy --dir=dist || error "Deploy a Netlify falló"
+        bunx netlify-cli@27.14.2 deploy --dir=dist || error "Deploy a Netlify falló"
     fi
 elif [[ -n "$VERCEL_TOKEN" ]]; then
     log "🌐 Deploying a Vercel..."
     if [[ "$ENVIRONMENT" == "production" ]]; then
-        bunx vercel --prod || error "Deploy a Vercel falló"
+        bunx vercel@65.2.0 --prod || error "Deploy a Vercel falló"
     else
-        bunx vercel || error "Deploy a Vercel falló"
+        bunx vercel@65.2.0 || error "Deploy a Vercel falló"
     fi
 else
     warning "No se encontró token de Netlify o Vercel. Saltando deploy automático."
