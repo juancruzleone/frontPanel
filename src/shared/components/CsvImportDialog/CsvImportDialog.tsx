@@ -113,7 +113,7 @@ export const CsvImportDialog = ({ isOpen, title, onClose, onPreview, onCommit, o
                   <p><strong>{t('csvImport.guidance.referenceLabel')}</strong> {t(GUIDANCE_CONFIG[guidance].referenceKey)}</p>
                 </div>
               )}
-              <label className={styles.file}>{t('csvImport.chooseFile')}<input type="file" accept=".csv,text/csv" onChange={(event) => handleFileChange(event.target.files?.[0] || null)} /></label>
+              <label className={styles.file}>{t('csvImport.chooseFile')}<input type="file" accept=".xlsx,.xls,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv" onChange={(event) => handleFileChange(event.target.files?.[0] || null)} /></label>
               {onDownloadTemplate && (
                 <p className={styles.templateHint}>
                   <button type="button" className={styles.templateLink} disabled={loading} onClick={() => run(onDownloadTemplate)}>

@@ -162,7 +162,7 @@ export interface AssetImportPreview extends CsvImportPreview {
 
 export const downloadAssetTemplate = async () => {
   const response = await fetchWithAuthRetry(`${API_URL}activos/csv/template`, { headers: getAuthHeaders() })
-  await downloadResponse(response, "Error al descargar la plantilla", "assets-template.csv")
+  await downloadResponse(response, "Error al descargar la plantilla", "plantilla-activos.xlsx")
 }
 
 export const previewAssetImport = async (file: File): Promise<AssetImportPreview> => {
@@ -185,7 +185,7 @@ export const commitAssetImport = async (preview: AssetImportPreview) => {
 
 export const downloadAssetImportErrors = async (token: string) => {
   const response = await fetchWithAuthRetry(`${API_URL}activos/csv/import/${encodeURIComponent(token)}/errors`, { headers: getAuthHeaders() })
-  await downloadResponse(response, "Error al descargar los errores", "assets-import-errors.csv")
+  await downloadResponse(response, "Error al descargar los errores", "errores-importacion-activos.csv")
 }
 
 export const exportAssets = async (params: { search?: string, category?: string } = {}) => {
@@ -193,5 +193,5 @@ export const exportAssets = async (params: { search?: string, category?: string 
   if (params.search) query.set("search", params.search)
   if (params.category) query.set("category", params.category)
   const response = await fetchWithAuthRetry(`${API_URL}activos/csv/export?${query.toString()}`, { headers: getAuthHeaders() })
-  await downloadResponse(response, "Error al exportar activos", "assets.csv")
+  await downloadResponse(response, "Error al exportar activos", "activos.xlsx")
 }

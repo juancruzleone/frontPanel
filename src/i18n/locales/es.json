@@ -491,14 +491,14 @@
     "review": "Revisar"
   },
   "csvImport": {
-    "chooseFile": "Selecciona un archivo CSV",
+    "chooseFile": "Selecciona un archivo Excel (.xlsx) o CSV",
     "fileTooLarge": "El archivo supera el límite de 2 MB",
     "processing": "Procesando…",
     "preview": "Previsualizar",
     "commit": "Confirmar importación",
     "close": "Cerrar",
     "downloadErrors": "Descargar errores",
-    "downloadTemplateFirst": "Descarga la plantilla antes de importar",
+    "downloadTemplateFirst": "Descarga la plantilla Excel antes de importar",
     "completed": "Importación completada",
     "created": "Creados",
     "updated": "Actualizados",
@@ -511,32 +511,32 @@
     "delta": "Delta",
     "expiresAt": "Previsualización válida hasta {{time}}",
     "guidance": {
-      "download": "Descarga la plantilla de esta sección.",
-      "headers": "Mantén los encabezados sin cambios y completa el formato de ejemplo.",
-      "excel": "En Excel, guarda como CSV UTF-8. Los archivos XLS y XLSX no son compatibles.",
+      "download": "Descarga la plantilla Excel (.xlsx) organizada de esta sección.",
+      "headers": "Mantén los encabezados en español y completa los datos en la solapa principal.",
+      "excel": "El archivo incluye solapas de referencia con los catálogos válidos del sistema.",
       "preview": "Previsualiza el archivo: la validación no modifica registros del dominio o del negocio hasta que confirmes la importación.",
       "requiredLabel": "Campos obligatorios:",
       "referenceLabel": "Referencias:",
       "entities": {
         "assets": {
-          "required": "schemaVersion, externalId, name y templateExternalId.",
-          "references": "templateExternalId debe identificar una plantilla base del tenant.",
-          "updates": "El mismo externalId actualiza el activo; las celdas opcionales vacías conservan los valores existentes."
+          "required": "ID Externo, Nombre del Activo e ID Plantilla Formulario.",
+          "references": "Revisa la solapa 'Plantillas Disponibles' para conocer las plantillas habilitadas.",
+          "updates": "El mismo ID Externo actualiza el activo; las celdas opcionales vacías conservan los valores existentes."
         },
         "inventory": {
-          "required": "schemaVersion, externalId, name y unit.",
-          "references": "supplierExternalId, si se completa, debe identificar un proveedor del tenant.",
-          "updates": "El mismo externalId actualiza el artículo; las celdas opcionales vacías conservan los valores existentes."
+          "required": "ID Externo, Nombre del Artículo y Unidad de Medida.",
+          "references": "La solapa 'Proveedores' lista los proveedores válidos del sistema si deseas vincular uno.",
+          "updates": "El mismo ID Externo actualiza el artículo; las celdas opcionales vacías conservan los valores existentes."
         },
         "suppliers": {
-          "required": "schemaVersion, externalId y name.",
-          "references": "externalId es la clave estable elegida para cada proveedor.",
-          "updates": "El mismo externalId actualiza el proveedor; las celdas opcionales vacías conservan los valores existentes."
+          "required": "ID Externo y Nombre o Razón Social.",
+          "references": "El ID Externo es la clave única elegida para identificar a cada proveedor.",
+          "updates": "El mismo ID Externo actualiza el proveedor; las celdas opcionales vacías conservan los valores existentes."
         },
         "installations": {
-          "required": "todos los campos de installations.v1; no se permiten celdas vacías.",
-          "references": "installationType debe coincidir con un tipo de instalación activo del tenant.",
-          "updates": "El mismo externalId actualiza únicamente los siete campos base de la instalación."
+          "required": "Todos los campos de la instalación; no se permiten celdas vacías.",
+          "references": "El Tipo de Instalación debe coincidir con alguno de la solapa 'Tipos de Instalación'.",
+          "updates": "El mismo ID Externo actualiza los campos base de la instalación."
         }
       }
     }
@@ -948,9 +948,9 @@
   "installations": {
     "exportResults": "Exportar resultados",
     "csv": {
-      "downloadTemplate": "Descargar plantilla CSV",
-      "import": "Importar CSV",
-      "importTitle": "Importar instalaciones desde CSV"
+      "downloadTemplate": "Descargar plantilla Excel",
+      "import": "Importar Excel / CSV",
+      "importTitle": "Importar instalaciones desde Excel o CSV"
     },
     "deviceNamePlaceholder": "Escribe el nombre del dispositvo",
     "installation": "Instalación",
@@ -1339,11 +1339,11 @@
     "title": "Activos",
     "createAsset": "Crear Activo",
     "csv": {
-      "downloadTemplate": "Descargar plantilla CSV",
-      "import": "Importar CSV",
+      "downloadTemplate": "Descargar plantilla Excel",
+      "import": "Importar Excel / CSV",
       "exportFiltered": "Exportar resultados",
       "importTitle": "Importar activos",
-      "chooseFile": "Seleccionar CSV. Cada activo usa externalId; la plantilla base debe tener templateExternalId asignado previamente.",
+      "chooseFile": "Seleccionar Excel (.xlsx) o CSV. Cada activo usa ID Externo; la plantilla base debe tener ID Plantilla asignado.",
       "preview": "Previsualizar",
       "commit": "Confirmar importación",
       "downloadErrors": "Descargar errores y avisos",
@@ -2272,11 +2272,11 @@
     "reason": "Motivo",
     "reasonPlaceholder": "Ej: Compra a proveedor, rotura, etc.",
     "csv": {
-      "downloadTemplate": "Descargar plantilla CSV",
-      "import": "Importar CSV",
+      "downloadTemplate": "Descargar plantilla Excel",
+      "import": "Importar Excel / CSV",
       "exportFiltered": "Exportar resultados filtrados",
-      "importTitle": "Importar inventario desde CSV",
-      "chooseFile": "Selecciona un archivo CSV",
+      "importTitle": "Importar inventario desde Excel o CSV",
+      "chooseFile": "Selecciona un archivo Excel (.xlsx) o CSV",
       "preview": "Previsualizar",
       "commit": "Confirmar importación",
       "downloadErrors": "Descargar errores",
@@ -2357,11 +2357,11 @@
     "supplierUpdated": "Proveedor actualizado correctamente",
     "supplierDeleted": "Proveedor eliminado correctamente",
     "csv": {
-      "downloadTemplate": "Descargar plantilla CSV",
-      "import": "Importar CSV",
+      "downloadTemplate": "Descargar plantilla Excel",
+      "import": "Importar Excel / CSV",
       "exportFiltered": "Exportar resultados filtrados",
-      "importTitle": "Importar proveedores desde CSV",
-      "chooseFile": "Selecciona un archivo CSV",
+      "importTitle": "Importar proveedores desde Excel o CSV",
+      "chooseFile": "Selecciona un archivo Excel (.xlsx) o CSV",
       "preview": "Previsualizar",
       "commit": "Confirmar importación",
       "downloadErrors": "Descargar errores",

@@ -120,7 +120,7 @@ export const deleteSupplier = async (id: string) => {
 
 export const downloadSupplierTemplate = async () => {
   const response = await fetchWithAuthRetry(`${getApiUrl()}proveedores/csv/template`, { headers: getAuthHeaders() })
-  await downloadResponse(response, 'Error al descargar la plantilla', 'suppliers-template.csv')
+  await downloadResponse(response, 'Error al descargar la plantilla', 'plantilla-proveedores.xlsx')
 }
 
 export const previewSupplierImport = async (file: File): Promise<SupplierImportPreview> => {
@@ -143,12 +143,12 @@ export const commitSupplierImport = async (preview: SupplierImportPreview) => {
 
 export const downloadSupplierImportErrors = async (token: string) => {
   const response = await fetchWithAuthRetry(`${getApiUrl()}proveedores/csv/import/${encodeURIComponent(token)}/errors`, { headers: getAuthHeaders() })
-  await downloadResponse(response, 'Error al descargar los errores', 'supplier-import-errors.csv')
+  await downloadResponse(response, 'Error al descargar los errores', 'errores-importacion-proveedores.csv')
 }
 
 export const exportSuppliers = async (params: { name?: string } = {}) => {
   const query = new URLSearchParams()
   if (params.name) query.set('name', params.name)
   const response = await fetchWithAuthRetry(`${getApiUrl()}proveedores/csv/export?${query.toString()}`, { headers: getAuthHeaders() })
-  await downloadResponse(response, 'Error al exportar proveedores', 'suppliers.csv')
+  await downloadResponse(response, 'Error al exportar proveedores', 'proveedores.xlsx')
 }

@@ -149,8 +149,8 @@ describe('installationServices', () => {
 
     expect(String(vi.mocked(fetch).mock.calls[0][0])).toBe('/api/installations/csv/template')
     expect(String(vi.mocked(fetch).mock.calls[1][0])).toBe('/api/installations/csv/import/opaque%2Ftoken/errors')
-    expect(downloadResponse).toHaveBeenNthCalledWith(1, expect.anything(), 'Error al descargar la plantilla', 'installations-template.csv')
-    expect(downloadResponse).toHaveBeenNthCalledWith(2, expect.anything(), 'Error al descargar los errores', 'installations-import-errors.csv')
+    expect(downloadResponse).toHaveBeenNthCalledWith(1, expect.anything(), 'Error al descargar la plantilla', 'plantilla-instalaciones.xlsx')
+    expect(downloadResponse).toHaveBeenNthCalledWith(2, expect.anything(), 'Error al descargar los errores', 'errores-importacion-instalaciones.csv')
   })
 
   it('previews with multipart CSV and commits using the preview token as the idempotency key', async () => {

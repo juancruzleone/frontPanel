@@ -173,7 +173,7 @@ export const exportInstallations = async (params: { search?: string, category?: 
   if (params.search) query.set("search", params.search)
   if (params.category) query.set("category", params.category)
   const response = await fetchWithAuthRetry(`${API_URL}installations/csv/export?${query}`, { headers: getAuthHeaders() })
-  await downloadResponse(response, "Error al exportar instalaciones", "installations.csv")
+  await downloadResponse(response, "Error al exportar instalaciones", "instalaciones.xlsx")
 }
 
 export interface InstallationImportPreview extends CsvImportPreview {
@@ -182,7 +182,7 @@ export interface InstallationImportPreview extends CsvImportPreview {
 
 export const downloadInstallationTemplate = async (): Promise<void> => {
   const response = await fetchWithAuthRetry(`${API_URL}installations/csv/template`, { headers: getAuthHeaders() });
-  await downloadResponse(response, "Error al descargar la plantilla", "installations-template.csv");
+  await downloadResponse(response, "Error al descargar la plantilla", "plantilla-instalaciones.xlsx");
 };
 
 export const previewInstallationImport = async (file: File): Promise<InstallationImportPreview> => {
@@ -211,7 +211,7 @@ export const getInstallationImportStatus = async (token: string) => {
 
 export const downloadInstallationImportErrors = async (token: string): Promise<void> => {
   const response = await fetchWithAuthRetry(`${API_URL}installations/csv/import/${encodeURIComponent(token)}/errors`, { headers: getAuthHeaders() });
-  await downloadResponse(response, "Error al descargar los errores", "installations-import-errors.csv");
+  await downloadResponse(response, "Error al descargar los errores", "errores-importacion-instalaciones.csv");
 };
 
 export const fetchInstallationById = async (id: string): Promise<InstallationResponse> => {

@@ -23,7 +23,7 @@ describe("operational CSV services", () => {
   it("preserves active installation filters and downloads the response", async () => {
     await exportInstallations({ search: "north plant", category: "Office" })
     expect(fetch).toHaveBeenCalledWith(expect.stringContaining("installations/csv/export?search=north+plant&category=Office"), expect.objectContaining({ credentials: "include" }))
-    expect(downloadResponse).toHaveBeenCalledWith(expect.anything(), expect.any(String), "installations.csv")
+    expect(downloadResponse).toHaveBeenCalledWith(expect.anything(), expect.any(String), "instalaciones.xlsx")
   })
 
   it("preserves all current work-order filters without pagination", async () => {
@@ -33,12 +33,12 @@ describe("operational CSV services", () => {
     expect(url).toContain("estado=asignada")
     expect(url).toContain("tecnicoId=tech-1")
     expect(url).not.toContain("page=")
-    expect(downloadResponse).toHaveBeenCalledWith(expect.anything(), expect.any(String), "work-orders.csv")
+    expect(downloadResponse).toHaveBeenCalledWith(expect.anything(), expect.any(String), "ordenes-trabajo.xlsx")
   })
 
   it("encodes the selected inventory item and downloads its complete history", async () => {
     await exportInventoryMovements("item/1")
     expect(fetch).toHaveBeenCalledWith(expect.stringContaining("inventario/item%2F1/movimientos/csv/export"), expect.objectContaining({ credentials: "include" }))
-    expect(downloadResponse).toHaveBeenCalledWith(expect.anything(), expect.any(String), "inventory-movements.csv")
+    expect(downloadResponse).toHaveBeenCalledWith(expect.anything(), expect.any(String), "movimientos-inventario.xlsx")
   })
 })

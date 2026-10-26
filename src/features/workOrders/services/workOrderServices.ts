@@ -337,7 +337,7 @@ export const exportWorkOrders = async (filters: Record<string, string | number> 
   }
   const query = new URLSearchParams(cleanFilters)
   const response = await fetchWithAuthRetry(`${getApiUrl()}ordenes-trabajo/csv/export?${query}`, { headers: getAuthHeaders() })
-  await downloadResponse(response, "Error al exportar órdenes de trabajo", "work-orders.csv")
+  await downloadResponse(response, "Error al exportar órdenes de trabajo", "ordenes-trabajo.xlsx")
 }
 
 export type FetchInstallationsParams = {

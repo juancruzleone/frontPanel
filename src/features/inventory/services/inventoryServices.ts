@@ -192,7 +192,7 @@ export const updateInventoryAssetStock = async (assetId: string, stock: number):
 
 export const downloadInventoryTemplate = async () => {
   const response = await fetchWithAuthRetry(`${getApiUrl()}inventario/csv/template`, { headers: getAuthHeaders() })
-  await downloadResponse(response, 'Error al descargar la plantilla', 'inventory-template.csv')
+  await downloadResponse(response, 'Error al descargar la plantilla', 'plantilla-inventario.xlsx')
 }
 
 export const previewInventoryImport = async (file: File): Promise<InventoryImportPreview> => {
@@ -215,7 +215,7 @@ export const commitInventoryImport = async (preview: InventoryImportPreview) => 
 
 export const downloadInventoryImportErrors = async (token: string) => {
   const response = await fetchWithAuthRetry(`${getApiUrl()}inventario/csv/import/${encodeURIComponent(token)}/errors`, { headers: getAuthHeaders() })
-  await downloadResponse(response, 'Error al descargar los errores', 'inventory-import-errors.csv')
+  await downloadResponse(response, 'Error al descargar los errores', 'errores-importacion-inventario.csv')
 }
 
 export const exportInventory = async (params: { name?: string, category?: string, lowStock?: boolean } = {}) => {
@@ -224,10 +224,10 @@ export const exportInventory = async (params: { name?: string, category?: string
   if (params.category) query.set('category', params.category)
   if (params.lowStock !== undefined) query.set('lowStock', String(params.lowStock))
   const response = await fetchWithAuthRetry(`${getApiUrl()}inventario/csv/export?${query.toString()}`, { headers: getAuthHeaders() })
-  await downloadResponse(response, 'Error al exportar inventario', 'inventory.csv')
+  await downloadResponse(response, 'Error al exportar inventario', 'inventario.xlsx')
 }
 
 export const exportInventoryMovements = async (itemId: string) => {
   const response = await fetchWithAuthRetry(`${getApiUrl()}inventario/${encodeURIComponent(itemId)}/movimientos/csv/export`, { headers: getAuthHeaders() })
-  await downloadResponse(response, 'Error al exportar movimientos', 'inventory-movements.csv')
+  await downloadResponse(response, 'Error al exportar movimientos', 'movimientos-inventario.xlsx')
 }

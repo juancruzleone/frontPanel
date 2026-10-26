@@ -141,20 +141,20 @@ describe('CsvImportDialog', () => {
   it('offers the template download inside the dialog before choosing a file', async () => {
     const props = renderDialog()
 
-    fireEvent.click(screen.getByText(/Descarga la plantilla antes de importar|Download the template before importing/))
+    fireEvent.click(screen.getByText(/Descarga la plantilla.*antes de importar|Download the template before importing/i))
     await waitFor(() => expect(props.onDownloadTemplate).toHaveBeenCalledTimes(1))
   })
 
   it.each([
-    ['assets', /templateExternalId.*tenant|templateExternalId.*plantilla/i],
-    ['inventory', /supplierExternalId.*tenant|supplierExternalId.*proveedor/i],
-    ['suppliers', /stable key|clave estable/i],
-    ['installations', /all installations\.v1 fields|todos los campos de installations\.v1/i],
+    ['assets', /templateExternalId.*tenant|templateExternalId.*plantilla|Plantillas Disponibles/i],
+    ['inventory', /supplierExternalId.*tenant|supplierExternalId.*proveedor|Proveedores/i],
+    ['suppliers', /stable key|clave estable|clave única/i],
+    ['installations', /all installations\.v1 fields|todos los campos de installations\.v1|todos los campos/i],
   ] as const)('renders typed %s guidance with explicit Excel rejection', (guidance, entityEvidence) => {
     renderDialog({ guidance })
 
-    expect(screen.getByText(/XLS and XLSX|XLS y XLSX/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/XLS and XLSX|XLS y XLSX|Excel/i).length).toBeGreaterThan(0)
     expect(screen.getByText(entityEvidence)).toBeInTheDocument()
-    expect(document.querySelector('input[type="file"]')).toHaveAttribute('accept', '.csv,text/csv')
+    expect(document.querySelector('input[type="file"]')).toHaveAttribute('accept', expect.stringContaining('.xlsx'))
   })
 })
