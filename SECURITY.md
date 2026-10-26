@@ -26,6 +26,8 @@ Este documento describe las políticas y prácticas de seguridad implementadas e
 - ✅ No se usa `dangerouslySetInnerHTML`
 - ✅ Utilidades de sanitización en `src/utils/sanitizer.ts`
 - ✅ Validación de URLs y emails
+- ✅ Documentos e historial de mantenimiento: solo URLs HTTP(S) del origen actual, `https://api.leonix.net.ar` o `https://leonix.net.ar`, validadas con `sanitizeUrl` antes de mostrar enlaces y con `openSafeUrl` para abrir PDFs. Las rutas relativas se resuelven contra el origen actual.
+- ✅ URLs inválidas o de orígenes no permitidos no permiten navegar: el documento conserva su tarjeta y opción de eliminar; el historial muestra el estado de PDF no disponible. Esta validación no reemplaza la autorización del backend.
 
 ### 4. Gestión de Tokens
 - ✅ Tokens JWT almacenados de forma segura
