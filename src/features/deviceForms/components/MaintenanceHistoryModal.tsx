@@ -1,6 +1,7 @@
 import React from 'react'
 import { FileText, Calendar } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { openSafeUrl, sanitizeUrl } from '../../../utils/sanitizer'
 import styles from '../../../features/installations/styles/Modal.module.css'
 
 interface MaintenanceRecord {
@@ -58,7 +59,7 @@ const MaintenanceHistoryModal: React.FC<MaintenanceHistoryModalProps> = ({
   }
 
   const handleOpenPDF = (pdfUrl: string) => {
-    window.open(pdfUrl, '_blank', 'noopener,noreferrer')
+    openSafeUrl(pdfUrl)
   }
 
   return (
@@ -90,6 +91,7 @@ const MaintenanceHistoryModal: React.FC<MaintenanceHistoryModalProps> = ({
             <div className={styles.listContainer}>
               {maintenances.map((maintenance, index) => {
                 const { dateStr, timeStr } = formatDate(maintenance.date)
+                const pdfUrl = sanitizeUrl(maintenance.pdfUrl || '')
 
                 return (
                   <div key={maintenance._id} className={styles.listItem} style={{ flexDirection: 'column', alignItems: 'stretch', gap: '12px' }}>
@@ -128,12 +130,9 @@ const MaintenanceHistoryModal: React.FC<MaintenanceHistoryModalProps> = ({
                         )}
                       </p>
 
-                      {maintenance.pdfUrl ? (
+                      {pdfUrl !== 'about:blank' ? (
                         <button
-                          onClick={() => {
-
-                            handleOpenPDF(maintenance.pdfUrl)
-                          }}
+                          onClick={() => handleOpenPDF(pdfUrl)}
                           style={{
                             padding: '0.6rem 1.2rem',
                             background: 'linear-gradient(135deg, var(--color-secondary) 0%, #047857 100%)',

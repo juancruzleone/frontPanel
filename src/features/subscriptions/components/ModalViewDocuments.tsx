@@ -4,6 +4,7 @@ import { FileText, Trash2, Eye, Loader2, AlertCircle } from 'lucide-react'
 import styles from '../styles/Modal.module.css'
 import { getBudgetDocuments, deleteBudgetDocument, type BudgetDocument } from '../services/documentServices'
 import ModalConfirmDelete from './ModalConfirmDelete'
+import { sanitizeUrl } from '../../../utils/sanitizer'
 
 interface ModalViewDocumentsProps {
     isOpen: boolean
@@ -139,10 +140,7 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
                                 // Adaptación para la estructura plana que devuelve la API
                                 const fileName = doc.name || doc.metadata?.original_filename || t('subscriptions.documents.unnamedDocument')
                                 const fileSize = doc.size || doc.metadata?.bytes || 0
-                                const fileUrl = doc.url || doc.metadata?.secure_url
-
-                                // Si no hay URL, no podemos mostrarlo
-                                if (!fileUrl) return null
+                                const fileUrl = sanitizeUrl(doc.url || doc.metadata?.secure_url || '')
 
                                 return (
                                     <div key={doc._id} className={styles.selectedFile} style={{ cursor: 'default' }}>
@@ -164,15 +162,17 @@ const ModalViewDocuments: React.FC<ModalViewDocumentsProps> = ({
                                             </div>
                                         </div>
                                         <div style={{ display: 'flex', gap: '8px' }}>
-                                            <a
-                                                href={fileUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className={`${styles.fileActionButton} ${styles.viewFileButton}`}
-                                                title={t('common.view')}
-                                            >
-                                                <Eye size={18} />
-                                            </a>
+                                            {fileUrl !== 'about:blank' && (
+                                                <a
+                                                    href={fileUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className={`${styles.fileActionButton} ${styles.viewFileButton}`}
+                                                    title={t('common.view')}
+                                                >
+                                                    <Eye size={18} />
+                                                </a>
+                                            )}
                                             <button
                                                 type="button"
                                                 onClick={() => handleDeleteClick(doc)}
