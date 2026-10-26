@@ -10,10 +10,10 @@ S4. Resolve the audit finding: "Herramientas de despliegue y acciones sin refere
 S5. User authorization: "Podrias resolver esas vulnerabilidades, cuadno termines commitea y pushea".
 
 ## Tasks
-- T1 [done] S2 — navigation destinations validated with shared sanitizer; component regressions added. Parent focused GREEN included in 89/89. Risk: item 2 (security). Commit: pending (work-unit 1).
-- T2 [done] S1,S3,S4 — fail-closed deploy audit, pinned CLIs/actions, Vercel object-src none, docs/tests. Parent focused GREEN included in 89/89. Risk: item 5 (delivery/environment). Commit: pending (work-unit 2).
+- T1 [done] S2 — navigation destinations validated with shared sanitizer; component regressions added. Parent focused GREEN included in 89/89. Risk: item 2 (security). Commit: 313acac (work-unit 1).
+- T2 [done] S1,S3,S4 — fail-closed deploy audit, pinned CLIs/actions, Vercel object-src none, docs/tests. Parent focused GREEN included in 89/89. Risk: item 5 (delivery/environment). Commit: fe6dfa7 (work-unit 2).
 - T3 [in_progress] S1-S4 — parent verification: focused 89/89, type-check 0, lint 0 errors, build 0, audit moderate 0. Independent verifier unavailable after repeated host errors; chronological RED missing. Native review to be assessed before delivery if provider authority is available.
-- T4 [pending] S5 — parent work-unit commits and push feature branch to origin; no merge or PR authorized. Commit/push evidence: pending.
+- T4 [in_progress] S5 — work-unit commits 313acac + fe6dfa7 created; push to origin pending. No merge or PR authorized.
 
 ## Log
 L1. User request verbatim: "Podrias resolver esas vulnerabilidades, cuadno termines commitea y pushea".
