@@ -1185,6 +1185,7 @@
   align-items: center;
 }
 
+
 .chartRangeSelect {
   appearance: none;
   -webkit-appearance: none;
@@ -1739,6 +1740,22 @@
   box-shadow: var(--elevation-raised);
   text-decoration: none;
 }
+
+.secondaryKpiArrowIcon {
+  margin-left: auto;
+  opacity: 0.65;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease, color 0.15s ease;
+}
+
+.secondaryKpiCard:hover .secondaryKpiArrowIcon,
+.secondaryKpiCard:focus-visible .secondaryKpiArrowIcon {
+  opacity: 1;
+  color: var(--color-text);
+  transform: translate(2px, -2px);
+}
+
 
 .secondaryKpiCard * {
   text-decoration: none;

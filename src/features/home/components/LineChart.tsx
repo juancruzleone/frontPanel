@@ -10,7 +10,8 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts"
-import { Table, ChevronDown } from "lucide-react"
+import { Table } from "lucide-react"
+import HybridSelect from "../../../shared/components/HybridSelect"
 import type { EvolutionDataItem, RangeOption } from "../types/homeTypes"
 import styles from "../styles/home.module.css"
 
@@ -129,6 +130,13 @@ export const LineChart = ({ data, range = "30d", onRangeChange }: LineChartProps
     )
   }, [chartData])
 
+  const rangeOptions = useMemo(() => [
+    { value: "7d", label: t("home.range.7d", { defaultValue: "Últimos 7 días" }) },
+    { value: "30d", label: t("home.range.30d", { defaultValue: "Últimos 30 días" }) },
+    { value: "90d", label: t("home.range.90d", { defaultValue: "Últimos 90 días" }) },
+    { value: "12m", label: t("home.range.12m", { defaultValue: "Últimos 12 meses" }) },
+  ], [t])
+
   return (
     <section className={`${styles.panel} ${styles.trendPanel}`} aria-labelledby="trend-title">
       <div className={styles.panelHeader}>
@@ -162,20 +170,12 @@ export const LineChart = ({ data, range = "30d", onRangeChange }: LineChartProps
               <span className={styles.createdKey}>{t("home.created")}</span>
               <span className={styles.completedKey}>{t("home.completed")}</span>
             </div>
-            <div className={styles.chartRangeSelectWrapper}>
-              <select
-                className={styles.chartRangeSelect}
-                value={range}
-                onChange={(e) => onRangeChange?.(e.target.value as RangeOption)}
-                aria-label={t("home.dashboard.rangeLabel", { defaultValue: "Seleccionar período" })}
-              >
-                <option value="7d">{t("home.range.7d", { defaultValue: "Últimos 7 días" })}</option>
-                <option value="30d">{t("home.range.30d", { defaultValue: "Últimos 30 días" })}</option>
-                <option value="90d">{t("home.range.90d", { defaultValue: "Últimos 90 días" })}</option>
-                <option value="12m">{t("home.range.12m", { defaultValue: "Últimos 12 meses" })}</option>
-              </select>
-              <ChevronDown size={14} className={styles.chartRangeChevron} aria-hidden />
-            </div>
+            <HybridSelect
+              value={range}
+              onChange={(val) => onRangeChange?.(val as RangeOption)}
+              options={rangeOptions}
+              variant="compact"
+            />
           </div>
 
           <div className={styles.rechartsWrapper}>

@@ -89,7 +89,7 @@ export const SecondaryKPIs = ({ metrics }: SecondaryKPIsProps) => {
                 <span className={styles.secondaryKpiTitle}>
                   {t(`home.dashboard.metrics.${id}`)}
                 </span>
-                <ArrowUpRight size={13} className={styles.kpiArrowIcon} aria-hidden="true" />
+                <ArrowUpRight size={18} className={styles.secondaryKpiArrowIcon} aria-hidden="true" />
               </div>
               <div className={styles.secondaryKpiBody}>
                 <span className={styles.secondaryKpiValue}>{value}</span>

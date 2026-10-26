@@ -29,6 +29,8 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts"
+import Skeleton from "../shared/components/Skeleton"
+import HybridSelect from "../shared/components/HybridSelect"
 import { fetchAnalyticsData, exportRecordsToCsv } from "../features/analytics/services/analyticsService"
 import type {
   IndicatorId,
@@ -65,6 +67,7 @@ const Analytics = () => {
   const [range, setRange] = useState<RangeOption>("30d")
   const [selectedInstallation, setSelectedInstallation] = useState<string>("")
   const [selectedEvolutionMetric, setSelectedEvolutionMetric] = useState<IndicatorId>("mttr")
+  const [loading, setLoading] = useState<boolean>(true)
   const [summaries, setSummaries] = useState<Record<IndicatorId, IndicatorSummary> | null>(null)
   const [installations, setInstallations] = useState<Array<{ id: string; name: string }>>([])
   const [records, setRecords] = useState<Record<IndicatorId, ContributingRecord[]>>({
@@ -112,7 +115,8 @@ const Analytics = () => {
   // Browser Tab Title (document.title)
   useEffect(() => {
     if (indicatorId && activeIndicator) {
-      document.title = `${activeIndicator.title} | Leonix`
+      const localizedTitle = t(`analytics.indicators.${indicatorId}.title`, { defaultValue: activeIndicator.title })
+      document.title = `${localizedTitle} | Leonix`
     } else {
       document.title = t("analytics.titlePage", { defaultValue: "Analíticas | Leonix" })
     }
@@ -120,6 +124,7 @@ const Analytics = () => {
 
   useEffect(() => {
     let isMounted = true
+    setLoading(true)
 
     fetchAnalyticsData(range, selectedInstallation || undefined)
       .then((data) => {
@@ -132,9 +137,11 @@ const Analytics = () => {
         setAssetBreakdowns(data.assetBreakdownsByIndicator)
         setDetailMetrics(data.detailMetricsByIndicator)
         setAttentionInstallations(data.attentionInstallations)
+        setLoading(false)
       })
       .catch((err) => {
         console.error("Error cargando analíticas:", err)
+        if (isMounted) setLoading(false)
       })
 
     return () => {
@@ -146,6 +153,15 @@ const Analytics = () => {
     if (!activeIndicator) return
     exportRecordsToCsv(activeIndicator.shortTitle, activeRecords)
   }
+
+  // Installation options for HybridSelect
+  const installationOptions = useMemo(
+    () => [
+      { value: "", label: t("analytics.allInstallations", { defaultValue: "Todas las instalaciones" }) },
+      ...installations.map((inst) => ({ value: inst.id, label: inst.name })),
+    ],
+    [installations, t],
+  )
 
   // Filtered records for detail table search
   const filteredDetailRecords = useMemo(() => {
@@ -172,7 +188,9 @@ const Analytics = () => {
             {t("nav.analytics", { defaultValue: "Analíticas" })}
           </Link>
           <ChevronRight size={13} aria-hidden />
-          <span className={styles.breadcrumbCurrent}>{activeIndicator.title}</span>
+          <span className={styles.breadcrumbCurrent}>
+            {t(`analytics.indicators.${indicatorId}.title`, { defaultValue: activeIndicator.title })}
+          </span>
         </nav>
       )}
 
@@ -180,11 +198,13 @@ const Analytics = () => {
       <div className={styles.topSection}>
         <div className={styles.titleContainer}>
           <h1 className={styles.title}>
-            {indicatorId && activeIndicator ? activeIndicator.title : t("nav.analytics", { defaultValue: "Analíticas" })}
+            {indicatorId && activeIndicator
+              ? t(`analytics.indicators.${indicatorId}.title`, { defaultValue: activeIndicator.title })
+              : t("nav.analytics", { defaultValue: "Analíticas" })}
           </h1>
           <p className={styles.subtitle}>
             {indicatorId && activeIndicator
-              ? activeIndicator.description
+              ? t(`analytics.indicators.${indicatorId}.description`, { defaultValue: activeIndicator.description })
               : t("analytics.subtitle", {
                   defaultValue: "Excepciones, capacidad y evolución de toda la operación.",
                 })}
@@ -229,24 +249,16 @@ const Analytics = () => {
 
           <div className={styles.controlGroup}>
             <span className={styles.controlLabel}>
-              {t("installations.title", { defaultValue: "Instalaciones" })}
+              {t("installations.title", { defaultValue: "Instalaciones" })}:
             </span>
-            <div className={styles.selectWrapper}>
-              <select
-                className={styles.selectInput}
-                value={selectedInstallation}
-                onChange={(e) => setSelectedInstallation(e.target.value)}
-                aria-label="Filtrar por instalación"
-              >
-                <option value="">{t("common.allInstallations", { defaultValue: "Todas las instalaciones" })}</option>
-                {installations.map((inst) => (
-                  <option key={inst.id} value={inst.id}>
-                    {inst.name}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown size={14} className={styles.selectIcon} aria-hidden />
-            </div>
+            <HybridSelect
+              value={selectedInstallation}
+              onChange={setSelectedInstallation}
+              options={installationOptions}
+              variant="compact"
+              className={styles.hybridSelectInstallations}
+              placeholder={t("analytics.filterByInstallation", { defaultValue: "Filtrar por instalación..." })}
+            />
           </div>
         </div>
 
@@ -254,7 +266,7 @@ const Analytics = () => {
           <div className={styles.controlsRight}>
             <button type="button" className={styles.exportBtn} onClick={handleExport}>
               <Download size={14} aria-hidden />
-              <span>{t("common.export", { defaultValue: "Exportar" })}</span>
+              <span>{t("analytics.export", { defaultValue: "Exportar" })}</span>
               <ChevronDown size={14} aria-hidden />
             </button>
           </div>
@@ -262,36 +274,64 @@ const Analytics = () => {
       </div>
 
       {/* --- HUB VIEW (when !indicatorId) --- */}
-      {!indicatorId && summaries && (
+      {!indicatorId && (
         <>
           {/* Top 5 KPI Cards Grid (3 in row 1, 2 in row 2) */}
-          <div className={styles.indicatorsGrid}>
-            {(Object.keys(summaries) as IndicatorId[]).map((id) => {
-              const item = summaries[id]
-              const Icon = INDICATOR_ICONS[id] || Activity
-
-              return (
-                <Link key={id} to={`/dashboard/indicadores/${id}`} className={styles.indicatorCard}>
-                  <div className={styles.indicatorCardHeader}>
-                    <Icon size={16} className={styles.indicatorIcon} aria-hidden />
-                    <span className={styles.indicatorCardTitle}>{item.title}</span>
+          {loading ? (
+            <div className={styles.indicatorsGrid} aria-busy="true" aria-label="Cargando indicadores">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className={styles.skeletonCard}>
+                  <div className={styles.skeletonCardHeader}>
+                    <Skeleton height={18} width={18} style={{ borderRadius: "50%", margin: 0, flexShrink: 0 }} />
+                    <Skeleton height={16} width="65%" style={{ borderRadius: 4, margin: 0 }} />
                   </div>
-
-                  <div className={styles.indicatorCardBody}>
-                    <div className={styles.indicatorCardValue}>{item.formattedValue}</div>
-                    <p className={styles.indicatorCardSub}>{item.statusMessage}</p>
+                  <div className={styles.skeletonCardBody}>
+                    <Skeleton height={38} width="45%" style={{ borderRadius: 6, margin: 0 }} />
+                    <Skeleton height={14} width="95%" style={{ borderRadius: 4, margin: "6px 0 0" }} />
+                    <Skeleton height={14} width="80%" style={{ borderRadius: 4, margin: "4px 0 0" }} />
                   </div>
-
-                  <div className={styles.indicatorCardFooter}>
-                    <span className={styles.analysisLinkText}>
-                      {t("analytics.viewAnalysis", { defaultValue: "Ver análisis" })}
-                    </span>
-                    <ArrowRight size={16} aria-hidden />
+                  <div className={styles.skeletonCardFooter}>
+                    <Skeleton height={14} width="35%" style={{ borderRadius: 4, margin: 0 }} />
+                    <Skeleton height={16} width={16} style={{ borderRadius: 4, margin: 0 }} />
                   </div>
-                </Link>
-              )
-            })}
-          </div>
+                </div>
+              ))}
+            </div>
+          ) : summaries ? (
+            <div className={styles.indicatorsGrid}>
+              {(Object.keys(summaries) as IndicatorId[]).map((id) => {
+                const item = summaries[id]
+                const Icon = INDICATOR_ICONS[id] || Activity
+
+                const title = t(`analytics.indicators.${id}.title`, { defaultValue: item.title })
+                const statusMessage =
+                  item.value !== null
+                    ? t(`analytics.indicators.${id}.statusAvailable`, { defaultValue: item.statusMessage })
+                    : t(`analytics.indicators.${id}.statusEmpty`, { defaultValue: item.statusMessage })
+
+                return (
+                  <Link key={id} to={`/dashboard/indicadores/${id}`} className={styles.indicatorCard}>
+                    <div className={styles.indicatorCardHeader}>
+                      <Icon size={16} className={styles.indicatorIcon} aria-hidden />
+                      <span className={styles.indicatorCardTitle}>{title}</span>
+                    </div>
+
+                    <div className={styles.indicatorCardBody}>
+                      <div className={styles.indicatorCardValue}>{item.formattedValue}</div>
+                      <p className={styles.indicatorCardSub}>{statusMessage}</p>
+                    </div>
+
+                    <div className={styles.indicatorCardFooter}>
+                      <span className={styles.analysisLinkText}>
+                        {t("analytics.viewAnalysis", { defaultValue: "Ver análisis" })}
+                      </span>
+                      <ArrowRight size={16} aria-hidden />
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          ) : null}
 
           {/* Bottom 2 Cards Side-by-Side */}
           <div className={styles.bottomGrid}>
@@ -317,16 +357,33 @@ const Analytics = () => {
                   >
                     <option value="mttr">MTTR</option>
                     <option value="mtbf">MTBF</option>
-                    <option value="cumplimiento-preventivo">Cumplimiento preventivo</option>
-                    <option value="cumplimiento-sla">Cumplimiento SLA</option>
-                    <option value="primera-respuesta">Primera respuesta</option>
+                    <option value="cumplimiento-preventivo">
+                      {t("analytics.indicators.cumplimiento-preventivo.shortTitle", { defaultValue: "Cumplimiento preventivo" })}
+                    </option>
+                    <option value="cumplimiento-sla">
+                      {t("analytics.indicators.cumplimiento-sla.shortTitle", { defaultValue: "Cumplimiento SLA" })}
+                    </option>
+                    <option value="primera-respuesta">
+                      {t("analytics.indicators.primera-respuesta.shortTitle", { defaultValue: "Primera respuesta" })}
+                    </option>
                   </select>
                   <ChevronDown size={14} className={styles.selectIcon} aria-hidden />
                 </div>
               </div>
 
               <div className={styles.bottomCardContent}>
-                {hubTrend.length > 0 ? (
+                {loading ? (
+                  <div className={styles.skeletonChartPlaceholder}>
+                    <div style={{ display: "flex", gap: 12, height: 160, alignItems: "flex-end", padding: "0 16px" }}>
+                      {[40, 65, 30, 85, 55, 70, 45, 90].map((h, idx) => (
+                        <div key={idx} style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8, alignItems: "center" }}>
+                          <Skeleton height={`${h}%`} width="100%" style={{ borderRadius: "4px 4px 0 0", margin: 0 }} />
+                          <Skeleton height={10} width="60%" style={{ borderRadius: 2, margin: 0 }} />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ) : hubTrend.length > 0 ? (
                   <div className={styles.chartWrap}>
                     <ResponsiveContainer width="100%" height={220}>
                       <AreaChart data={hubTrend} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
@@ -356,17 +413,7 @@ const Analytics = () => {
                 ) : (
                   <div className={styles.emptyState}>
                     <div className={styles.emptyIconWrap}>
-                      <svg
-                        width="32"
-                        height="32"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        aria-hidden
-                      >
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                         <rect width="18" height="18" x="3" y="3" rx="4" />
                         <path d="M7 16v-4" />
                         <path d="M12 16v-8" />
@@ -402,7 +449,13 @@ const Analytics = () => {
               </div>
 
               <div className={styles.bottomCardContent}>
-                {attentionInstallations.length > 0 ? (
+                {loading ? (
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10, padding: "8px 0" }}>
+                    {[1, 2, 3].map((i) => (
+                      <Skeleton key={i} height={42} width="100%" style={{ borderRadius: 8, margin: 0 }} />
+                    ))}
+                  </div>
+                ) : attentionInstallations.length > 0 ? (
                   <ul className={styles.attentionList}>
                     {attentionInstallations.map((inst) => (
                       <li key={inst.id} className={styles.attentionItem}>
@@ -411,7 +464,7 @@ const Analytics = () => {
                           <span className={styles.attentionItemName}>{inst.name}</span>
                         </div>
                         <span className={styles.attentionBadge}>
-                          {inst.count} {inst.count === 1 ? "incidencia" : "incidencias"}
+                          {inst.count} {inst.count === 1 ? t("analytics.incident", { defaultValue: "incidencia" }) : t("analytics.incidents", { defaultValue: "incidencias" })}
                         </span>
                       </li>
                     ))}
@@ -419,17 +472,7 @@ const Analytics = () => {
                 ) : (
                   <div className={styles.emptyState}>
                     <div className={styles.emptyIconWrap}>
-                      <svg
-                        width="32"
-                        height="32"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        aria-hidden
-                      >
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                         <rect width="18" height="18" x="3" y="3" rx="4" />
                         <path d="M7 8h10" />
                         <path d="M7 12h10" />
@@ -454,50 +497,84 @@ const Analytics = () => {
       )}
 
       {/* --- DETAIL VIEW (when indicatorId exists) --- */}
-      {indicatorId && activeIndicator && activeDetailMetric && (
+      {indicatorId && activeIndicator && (
         <div className={styles.detailContainer}>
           {/* Top 3 KPI Cards */}
-          <div className={styles.detailKpisGrid}>
-            {/* Card 1: Main Metric */}
-            <div className={styles.detailKpiCard}>
-              <div className={styles.detailKpiHeader}>
-                <Clock size={16} className={styles.detailKpiIcon} aria-hidden />
-                <span className={styles.detailKpiTitle}>{activeDetailMetric.mainMetric.label}</span>
-              </div>
-              <div className={styles.detailKpiValue}>{activeDetailMetric.mainMetric.value}</div>
-              <p className={styles.detailKpiSubtitle}>{activeDetailMetric.mainMetric.subtitle}</p>
+          {loading ? (
+            <div className={styles.detailKpisGrid} aria-busy="true" aria-label="Cargando métricas de detalle">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className={styles.skeletonDetailKpiCard}>
+                  <div className={styles.skeletonCardHeader}>
+                    <Skeleton height={18} width={18} style={{ borderRadius: "50%", margin: 0, flexShrink: 0 }} />
+                    <Skeleton height={16} width="60%" style={{ borderRadius: 4, margin: 0 }} />
+                  </div>
+                  <Skeleton height={36} width="45%" style={{ borderRadius: 6, margin: "6px 0" }} />
+                  <Skeleton height={14} width="85%" style={{ borderRadius: 4, margin: 0 }} />
+                </div>
+              ))}
             </div>
+          ) : activeDetailMetric ? (
+            <div className={styles.detailKpisGrid}>
+              {/* Card 1: Main Metric */}
+              <div className={styles.detailKpiCard}>
+                <div className={styles.detailKpiHeader}>
+                  <Clock size={16} className={styles.detailKpiIcon} aria-hidden />
+                  <span className={styles.detailKpiTitle}>
+                    {t(`analytics.indicators.${indicatorId}.mainLabel`, { defaultValue: activeDetailMetric.mainMetric.label })}
+                  </span>
+                </div>
+                <div className={styles.detailKpiValue}>{activeDetailMetric.mainMetric.value}</div>
+                <p className={styles.detailKpiSubtitle}>
+                  {activeIndicator.value !== null
+                    ? t(`analytics.indicators.${indicatorId}.statusAvailable`, { defaultValue: activeDetailMetric.mainMetric.subtitle })
+                    : t(`analytics.indicators.${indicatorId}.mainSubtitle`, { defaultValue: activeDetailMetric.mainMetric.subtitle })}
+                </p>
+              </div>
 
-            {/* Card 2: Completed / Total */}
-            <div className={styles.detailKpiCard}>
-              <div className={styles.detailKpiHeader}>
-                <Wrench size={16} className={styles.detailKpiIcon} aria-hidden />
-                <span className={styles.detailKpiTitle}>{activeDetailMetric.metric1.label}</span>
+              {/* Card 2: Completed / Total */}
+              <div className={styles.detailKpiCard}>
+                <div className={styles.detailKpiHeader}>
+                  <Wrench size={16} className={styles.detailKpiIcon} aria-hidden />
+                  <span className={styles.detailKpiTitle}>
+                    {t(`analytics.indicators.${indicatorId}.metric1Label`, { defaultValue: activeDetailMetric.metric1.label })}
+                  </span>
+                </div>
+                <div className={styles.detailKpiValue}>{activeDetailMetric.metric1.value}</div>
+                <p className={styles.detailKpiSubtitle}>
+                  {t("analytics.inSelectedPeriod", { defaultValue: "En el período seleccionado." })}
+                </p>
               </div>
-              <div className={styles.detailKpiValue}>{activeDetailMetric.metric1.value}</div>
-              <p className={styles.detailKpiSubtitle}>{activeDetailMetric.metric1.subtitle}</p>
-            </div>
 
-            {/* Card 3: Affected Assets */}
-            <div className={styles.detailKpiCard}>
-              <div className={styles.detailKpiHeader}>
-                <Package size={16} className={styles.detailKpiIcon} aria-hidden />
-                <span className={styles.detailKpiTitle}>{activeDetailMetric.metric2.label}</span>
+              {/* Card 3: Affected Assets */}
+              <div className={styles.detailKpiCard}>
+                <div className={styles.detailKpiHeader}>
+                  <Package size={16} className={styles.detailKpiIcon} aria-hidden />
+                  <span className={styles.detailKpiTitle}>
+                    {t(`analytics.indicators.${indicatorId}.metric2Label`, { defaultValue: activeDetailMetric.metric2.label })}
+                  </span>
+                </div>
+                <div className={styles.detailKpiValue}>{activeDetailMetric.metric2.value}</div>
+                <p className={styles.detailKpiSubtitle}>
+                  {t(`analytics.indicators.${indicatorId}.metric2Subtitle`, { defaultValue: activeDetailMetric.metric2.subtitle })}
+                </p>
               </div>
-              <div className={styles.detailKpiValue}>{activeDetailMetric.metric2.value}</div>
-              <p className={styles.detailKpiSubtitle}>{activeDetailMetric.metric2.subtitle}</p>
             </div>
-          </div>
+          ) : null}
 
           {/* Evolution Chart Card */}
           <div className={styles.chartPanel}>
             <div className={styles.chartPanelHeader}>
               <div className={styles.bottomCardTitleGroup}>
                 <h2 className={styles.bottomCardTitle}>
-                  Evolución del {activeIndicator.shortTitle}
+                  {t("analytics.evolutionOf", {
+                    indicator: activeIndicator.shortTitle,
+                    defaultValue: `Evolución del ${activeIndicator.shortTitle}`,
+                  })}
                 </h2>
                 <p className={styles.bottomCardSubtitle}>
-                  Tendencia del {activeIndicator.title.toLowerCase()} en el período seleccionado.
+                  {t("analytics.evolutionOfSubtitle", {
+                    defaultValue: "Tendencia en el período seleccionado.",
+                  })}
                 </p>
               </div>
               <div className={styles.metricSelectWrapper}>
@@ -506,7 +583,18 @@ const Analytics = () => {
             </div>
 
             <div className={styles.chartPanelBody}>
-              {activeTrends.length > 0 ? (
+              {loading ? (
+                <div className={styles.skeletonChartPlaceholder}>
+                  <div style={{ display: "flex", gap: 16, height: 200, alignItems: "flex-end", padding: "0 24px" }}>
+                    {[35, 60, 45, 75, 50, 90, 65, 80, 55, 70].map((h, idx) => (
+                      <div key={idx} style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8, alignItems: "center" }}>
+                        <Skeleton height={`${h}%`} width="100%" style={{ borderRadius: "4px 4px 0 0", margin: 0 }} />
+                        <Skeleton height={10} width="60%" style={{ borderRadius: 2, margin: 0 }} />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : activeTrends.length > 0 ? (
                 <div className={styles.chartWrap}>
                   <ResponsiveContainer width="100%" height={260}>
                     <AreaChart data={activeTrends} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
@@ -559,7 +647,9 @@ const Analytics = () => {
                     <p className={styles.emptyTitle}>
                       {t("common.noDataAvailable", { defaultValue: "No hay datos disponibles" })}
                     </p>
-                    <p className={styles.emptySubtitle}>{activeIndicator.statusMessage}</p>
+                    <p className={styles.emptySubtitle}>
+                      {t(`analytics.indicators.${indicatorId}.statusEmpty`, { defaultValue: activeIndicator.statusMessage })}
+                    </p>
                   </div>
                 </div>
               )}
@@ -573,22 +663,30 @@ const Analytics = () => {
               <div className={styles.bottomCardHeader}>
                 <div className={styles.bottomCardTitleGroup}>
                   <h2 className={styles.bottomCardTitle}>
-                    {activeIndicator.shortTitle} por instalación
+                    {activeIndicator.shortTitle} {t("analytics.byInstallation", { defaultValue: "por instalación" })}
                   </h2>
                   <p className={styles.bottomCardSubtitle}>
-                    Comparativa del {activeIndicator.title.toLowerCase()} por instalación.
+                    {t("analytics.byInstallationSubtitle", { defaultValue: "Comparativa por instalación en el período seleccionado." })}
                   </p>
                 </div>
               </div>
 
               <div className={styles.bottomCardContent}>
-                {activeBreakdown.length > 0 ? (
+                {loading ? (
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10, padding: "8px 0" }}>
+                    {[1, 2, 3].map((i) => (
+                      <Skeleton key={i} height={42} width="100%" style={{ borderRadius: 8, margin: 0 }} />
+                    ))}
+                  </div>
+                ) : activeBreakdown.length > 0 ? (
                   <ul className={styles.breakdownList}>
                     {activeBreakdown.map((item) => (
                       <li key={item.id} className={styles.breakdownItem}>
                         <div className={styles.breakdownItemName}>{item.name}</div>
                         <div className={styles.breakdownItemVal}>
-                          <strong>{item.value} {activeIndicator.unit}</strong>
+                          <strong>
+                            {item.value} {activeIndicator.unit}
+                          </strong>
                           <span className={styles.breakdownItemCount}>({item.count} reg.)</span>
                         </div>
                       </li>
@@ -603,7 +701,7 @@ const Analytics = () => {
                       {t("common.noDataAvailable", { defaultValue: "No hay datos disponibles" })}
                     </p>
                     <p className={styles.emptySubtitle}>
-                      No existen registros completados en el período seleccionado.
+                      {t("analytics.noCompletedRecords", { defaultValue: "No existen registros completados en el período seleccionado." })}
                     </p>
                   </div>
                 )}
@@ -615,22 +713,30 @@ const Analytics = () => {
               <div className={styles.bottomCardHeader}>
                 <div className={styles.bottomCardTitleGroup}>
                   <h2 className={styles.bottomCardTitle}>
-                    Activos con mayores tiempos de {activeIndicator.shortTitle === "MTTR" ? "reparación" : "atención"}
+                    {t("analytics.topAssets", { defaultValue: "Activos con mayores tiempos de reparación" })}
                   </h2>
                   <p className={styles.bottomCardSubtitle}>
-                    Top de activos según el {activeIndicator.title.toLowerCase()}.
+                    {t("analytics.topAssetsSubtitle", { defaultValue: "Top de activos según el indicador seleccionado." })}
                   </p>
                 </div>
               </div>
 
               <div className={styles.bottomCardContent}>
-                {activeAssetBreakdown.length > 0 ? (
+                {loading ? (
+                  <div style={{ display: "flex", flexDirection: "column", gap: 10, padding: "8px 0" }}>
+                    {[1, 2, 3].map((i) => (
+                      <Skeleton key={i} height={42} width="100%" style={{ borderRadius: 8, margin: 0 }} />
+                    ))}
+                  </div>
+                ) : activeAssetBreakdown.length > 0 ? (
                   <ul className={styles.breakdownList}>
                     {activeAssetBreakdown.map((item) => (
                       <li key={item.id} className={styles.breakdownItem}>
                         <div className={styles.breakdownItemName}>{item.name}</div>
                         <div className={styles.breakdownItemVal}>
-                          <strong>{item.value} {activeIndicator.unit}</strong>
+                          <strong>
+                            {item.value} {activeIndicator.unit}
+                          </strong>
                           <span className={styles.breakdownItemCount}>({item.count} reg.)</span>
                         </div>
                       </li>
@@ -645,7 +751,7 @@ const Analytics = () => {
                       {t("common.noDataAvailable", { defaultValue: "No hay datos disponibles" })}
                     </p>
                     <p className={styles.emptySubtitle}>
-                      No existen registros completados en el período seleccionado.
+                      {t("analytics.noCompletedRecords", { defaultValue: "No existen registros completados en el período seleccionado." })}
                     </p>
                   </div>
                 )}
@@ -659,11 +765,11 @@ const Analytics = () => {
               <div className={styles.bottomCardTitleGroup}>
                 <h2 className={styles.bottomCardTitle}>
                   {activeIndicator.shortTitle === "MTTR"
-                    ? `Reparaciones analizadas (${filteredDetailRecords.length})`
-                    : `Órdenes analizadas (${filteredDetailRecords.length})`}
+                    ? `${t("analytics.analyzedRepairs", { defaultValue: "Reparaciones analizadas" })} (${filteredDetailRecords.length})`
+                    : `${t("analytics.analyzedOrders", { defaultValue: "Órdenes analizadas" })} (${filteredDetailRecords.length})`}
                 </h2>
                 <p className={styles.bottomCardSubtitle}>
-                  Órdenes de trabajo incluidas en el cálculo del {activeIndicator.shortTitle}.
+                  {t("analytics.ordersIncluded", { defaultValue: "Órdenes de trabajo incluidas en el cálculo." })}
                 </p>
               </div>
 
@@ -673,7 +779,7 @@ const Analytics = () => {
                   <input
                     type="text"
                     className={styles.tableSearchInput}
-                    placeholder="Buscar por orden, activo o instalación..."
+                    placeholder={t("analytics.searchPlaceholder", { defaultValue: "Buscar por orden, activo o instalación..." })}
                     value={tableSearch}
                     onChange={(e) => setTableSearch(e.target.value)}
                     aria-label="Buscar en la tabla"
@@ -686,18 +792,24 @@ const Analytics = () => {
             </div>
 
             <div className={styles.tableCardBody}>
-              {filteredDetailRecords.length > 0 ? (
+              {loading ? (
+                <div style={{ display: "flex", flexDirection: "column", gap: 8, padding: "12px 0" }}>
+                  {[1, 2, 3, 4].map((i) => (
+                    <Skeleton key={i} height={40} width="100%" style={{ borderRadius: 6, margin: 0 }} />
+                  ))}
+                </div>
+              ) : filteredDetailRecords.length > 0 ? (
                 <div className={styles.tableScrollWrap}>
                   <table className={styles.dataTable}>
                     <thead>
                       <tr>
-                        <th>N° de orden</th>
-                        <th>Instalación</th>
-                        <th>Activo</th>
-                        <th>Fecha de inicio</th>
-                        <th>Fecha de cierre</th>
-                        <th>Duración</th>
-                        <th>Estado</th>
+                        <th>{t("analytics.orderNumber", { defaultValue: "N° de orden" })}</th>
+                        <th>{t("analytics.installation", { defaultValue: "Instalación" })}</th>
+                        <th>{t("analytics.asset", { defaultValue: "Activo" })}</th>
+                        <th>{t("analytics.startDate", { defaultValue: "Fecha de inicio" })}</th>
+                        <th>{t("analytics.closeDate", { defaultValue: "Fecha de cierre" })}</th>
+                        <th>{t("analytics.duration", { defaultValue: "Duración" })}</th>
+                        <th>{t("analytics.status", { defaultValue: "Estado" })}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -733,13 +845,13 @@ const Analytics = () => {
                   </div>
                   <p className={styles.emptyTitle}>
                     {activeIndicator.shortTitle === "MTTR"
-                      ? "No hay reparaciones para mostrar"
-                      : "No hay órdenes para mostrar"}
+                      ? t("analytics.noRepairs", { defaultValue: "No hay reparaciones para mostrar" })
+                      : t("analytics.noOrders", { defaultValue: "No hay órdenes para mostrar" })}
                   </p>
                   <p className={styles.emptySubtitle}>
                     {activeIndicator.shortTitle === "MTTR"
-                      ? "Todavía no hay órdenes de trabajo con reparaciones completadas en el período seleccionado."
-                      : "Todavía no hay órdenes de trabajo evaluables en el período seleccionado."}
+                      ? t("analytics.noRepairsSubtitle", { defaultValue: "Todavía no hay órdenes de trabajo con reparaciones completadas en el período seleccionado." })
+                      : t("analytics.noOrdersSubtitle", { defaultValue: "Todavía no hay órdenes de trabajo registradas en el período seleccionado." })}
                   </p>
                 </div>
               )}
@@ -754,7 +866,10 @@ const Analytics = () => {
           <div className={styles.modalCard}>
             <div className={styles.modalHeader}>
               <h3 id="modal-how-title" className={styles.modalTitle}>
-                Cómo se calcula: {activeIndicator.title}
+                {t("analytics.howItIsCalculatedTitle", {
+                  indicator: t(`analytics.indicators.${indicatorId}.title`, { defaultValue: activeIndicator.title }),
+                  defaultValue: `Cómo se calcula: ${activeIndicator.title}`,
+                })}
               </h3>
               <button
                 type="button"
@@ -768,23 +883,32 @@ const Analytics = () => {
 
             <div className={styles.modalBody}>
               <div className={styles.modalSection}>
-                <h4 className={styles.modalSectionTitle}>Metodología de cálculo</h4>
-                <p className={styles.modalSectionText}>{activeIndicator.description}</p>
+                <h4 className={styles.modalSectionTitle}>
+                  {t("analytics.methodology", { defaultValue: "Metodología de cálculo" })}
+                </h4>
+                <p className={styles.modalSectionText}>
+                  {t(`analytics.indicators.${indicatorId}.description`, { defaultValue: activeIndicator.description })}
+                </p>
               </div>
 
               <div className={styles.modalSection}>
-                <h4 className={styles.modalSectionTitle}>Fórmula</h4>
+                <h4 className={styles.modalSectionTitle}>
+                  {t("analytics.formula", { defaultValue: "Fórmula" })}
+                </h4>
                 <div className={styles.formulaBox}>
                   <code>{activeIndicator.formula}</code>
                 </div>
               </div>
 
               <div className={styles.modalSection}>
-                <h4 className={styles.modalSectionTitle}>Criterios de validez</h4>
+                <h4 className={styles.modalSectionTitle}>
+                  {t("analytics.validityCriteria", { defaultValue: "Criterios de validez" })}
+                </h4>
                 <p className={styles.modalSectionText}>
-                  Leonix calcula este indicador de forma continua y transparente a partir de las órdenes registradas en
-                  el sistema. Si no existen suficientes datos en el período seleccionado, el indicador mostrará N/D para
-                  evitar sesgos operativos.
+                  {t("analytics.validityText", {
+                    defaultValue:
+                      "Leonix calcula este indicador de forma continua y transparente a partir de las órdenes registradas en el sistema. Si no existen suficientes datos en el período seleccionado, el indicador mostrará N/D para evitar sesgos operativos.",
+                  })}
                 </p>
               </div>
             </div>
