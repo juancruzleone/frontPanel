@@ -121,7 +121,7 @@ test.describe("inventory core reliability cross-repository contracts", () => {
     const filteredRequest = page.waitForRequest((request) =>
       request.url().includes("/api/inventario?") && new URL(request.url()).searchParams.get("name") === "needle",
     )
-    await page.getByPlaceholder(/buscar/i).fill("needle")
+    await page.locator("main").getByPlaceholder(/buscar/i).fill("needle")
     await filteredRequest
 
     const pageTwoRequest = page.waitForRequest((request) =>
@@ -137,7 +137,7 @@ test.describe("inventory core reliability cross-repository contracts", () => {
     const failedRequest = page.waitForRequest((request) =>
       request.url().includes("/api/inventario?") && new URL(request.url()).searchParams.get("name") === "missing",
     )
-    await page.getByPlaceholder(/buscar/i).fill("missing")
+    await page.locator("main").getByPlaceholder(/buscar/i).fill("missing")
     await failedRequest
     await expect(page.getByRole("alert")).toBeVisible()
     await expect(page.getByRole("alert")).not.toHaveText("")

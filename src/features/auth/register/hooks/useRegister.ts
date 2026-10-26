@@ -51,15 +51,25 @@ export function useRegister() {
     }
     setLoadingTechnicians(true)
     try {
-      const result = await getTechniciansPage(current, { signal: controller.signal })
+      const rawResult = await getTechniciansPage(current, { signal: controller.signal })
       if (controller.signal.aborted) return
-      const lastPage = Math.max(1, result.pagination.totalPages)
-      if (!result.data.length && current.page > lastPage) {
+      const resultData = Array.isArray(rawResult)
+        ? rawResult
+        : Array.isArray((rawResult as any)?.data)
+          ? (rawResult as any).data
+          : Array.isArray((rawResult as any)?.tecnicos)
+            ? (rawResult as any).tecnicos
+            : []
+      const resultPagination = !Array.isArray(rawResult) && (rawResult as any)?.pagination
+        ? (rawResult as any).pagination
+        : { page: current.page, limit: current.limit, total: resultData.length, totalPages: Math.ceil(resultData.length / current.limit) || 1 }
+      const lastPage = Math.max(1, resultPagination.totalPages)
+      if (!resultData.length && current.page > lastPage) {
         setQuery({ ...current, page: lastPage })
         return
       }
-      setTechnicians(result.data)
-      setPagination(result.pagination)
+      setTechnicians(resultData)
+      setPagination(resultPagination)
     } catch (err) {
       if (controller.signal.aborted) return
       setError(err instanceof Error ? err.message : t('common.error'))

@@ -165,17 +165,31 @@ const useSubscriptions = () => {
     }
     setLoading(true)
     try {
-      const response = await fetchSubscriptionPage(current, { signal: controller.signal })
+      const rawResponse = await fetchSubscriptionPage(current, { signal: controller.signal })
       if (controller.signal.aborted) return
-      setStatusCounts(response.statusCounts)
-      const lastPage = Math.max(1, response.pagination.totalPages)
-      if (!response.data.length && current.page > lastPage) {
+      const responseData = Array.isArray(rawResponse)
+        ? rawResponse
+        : Array.isArray((rawResponse as any)?.data)
+          ? (rawResponse as any).data
+          : []
+      const responsePagination = !Array.isArray(rawResponse) && (rawResponse as any)?.pagination
+        ? (rawResponse as any).pagination
+        : { page: current.page, limit: current.limit, total: responseData.length, totalPages: Math.ceil(responseData.length / current.limit) || 1 }
+      const responseStatusCounts = (rawResponse as any)?.statusCounts || {
+        all: responseData.length,
+        active: responseData.filter((i: any) => i.estado === 'Activo' || i.estado === 'active').length,
+        inactive: responseData.filter((i: any) => i.estado === 'Inactivo' || i.estado === 'inactive').length,
+        pending: responseData.filter((i: any) => i.estado === 'Pendiente' || i.estado === 'pending').length,
+      }
+      setStatusCounts(responseStatusCounts)
+      const lastPage = Math.max(1, responsePagination.totalPages)
+      if (!responseData.length && current.page > lastPage) {
         setQuery({ ...current, page: lastPage })
         return
       }
-      setInstallations(response.data)
-      setSubscriptions(response.data.map(mapInstallationToSubscription))
-      setPagination(response.pagination)
+      setInstallations(responseData)
+      setSubscriptions(responseData.map(mapInstallationToSubscription))
+      setPagination(responsePagination)
     } catch (err: unknown) {
       if (controller.signal.aborted) return
       setError(err instanceof Error ? err.message : t('common.error'))

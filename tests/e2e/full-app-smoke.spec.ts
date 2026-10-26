@@ -180,6 +180,7 @@ async function seedSession(page: Page, currentUser: typeof ADMIN_USER) {
     }))
     localStorage.setItem("i18nextLng", "es")
     for (const key of [
+      "leonix-global-onboarding-v2-completed",
       "home-onboarding-tour-v1-shown",
       "inventory-onboarding-tour-v1-shown",
       "work-orders-onboarding-tour-v1-shown",
