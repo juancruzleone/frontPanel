@@ -15,10 +15,8 @@ import { Trash, User, Edit, Building2 } from "lucide-react"
 import SearchInput from "../shared/components/Inputs/SearchInput"
 import { deleteClient, assignInstallationsToClient } from "../features/clients/services/clientServices"
 import { useAuthStore } from "../store/authStore"
-import { useClientsTour } from "../features/clients/hooks/useClientsTour"
 import useInstallations from "../features/installations/hooks/useInstallations"
 import Skeleton from "../shared/components/Skeleton"
-import TourButton from "../shared/components/Buttons/TourButton"
 import ViewToggle from "../components/ViewToggle/ViewToggle"
 import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 import { Pagination } from '../shared/components/Pagination/Pagination'
@@ -37,7 +35,6 @@ const Clients = () => {
     const [clientToEdit, setClientToEdit] = useState<unknown | null>(null)
     const [clientToAssign, setClientToAssign] = useState<unknown | null>(null)
     const [viewMode, setViewMode, isMobile] = useResponsiveView('clients-view', 'cards')
-    const { tourCompleted, startTour, skipTour } = useClientsTour()
     const { installations, loadInstallations } = useInstallations()
 
     useEffect(() => {
@@ -48,15 +45,6 @@ const Clients = () => {
         document.title = t('clients.titlePage')
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
-    useEffect(() => {
-        if (!tourCompleted && clients.length >= 0) {
-            const timer = setTimeout(() => {
-                startTour()
-            }, 500)
-            return () => clearTimeout(timer)
-        }
-    }, [tourCompleted, clients, startTour])
 
     const formatDate = useCallback((dateString: string) => {
         const date = new Date(dateString)
@@ -148,7 +136,7 @@ const Clients = () => {
                 <div className={styles.headerWithToggle}>
                     <h1 className={styles.title}>{t('clients.title')}</h1>
                 </div>
-                <div className={styles.buttonContainer} data-tour="add-client-btn">
+                <div className={styles.buttonContainer}>
                     <Button title={t('clients.addClient')} onClick={handleOpenModal} />
                 </div>
             </div>
@@ -162,7 +150,7 @@ const Clients = () => {
             </div>
 
             {/* Filtro de búsqueda */}
-            <div className={styles.searchRow} data-tour="search-clients">
+            <div className={styles.searchRow}>
                 <SearchInput
                     placeholder={t('clients.searchPlaceholder')}
                     value={searchTerm}
@@ -358,12 +346,6 @@ const Clients = () => {
 
             <ModalSuccess isOpen={showModal && !isError} onClose={closeModal} message={responseMessage} />
             <ModalError isOpen={showModal && isError} onClose={closeModal} message={responseMessage} />
-
-            {/* Botón flotante del tour */}
-            <TourButton
-                onClick={tourCompleted ? startTour : skipTour}
-                label={tourCompleted ? t('clients.tour.buttons.restart') : t('clients.tour.buttons.skip')}
-            />
         </div>
     )
 }

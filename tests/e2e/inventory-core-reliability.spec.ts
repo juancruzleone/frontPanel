@@ -55,12 +55,6 @@ async function seedAuthenticatedPage(page: Page) {
       },
       version: 0,
     }))
-    for (const key of [
-      "home-onboarding-tour-v1-shown",
-      "inventory-onboarding-tour-v1-shown",
-      "work-orders-onboarding-tour-v1-shown",
-      "workOrdersTourCompleted",
-    ]) localStorage.setItem(key, "true")
   }, { currentUser: user })
 }
 
@@ -74,6 +68,12 @@ async function mockCommonApi(page: Page) {
     status: 200,
     contentType: "application/json",
     body: JSON.stringify({ token: "csrf-e2e" }),
+  }))
+  // Setup inicial completo: el gate de onboarding deja pasar al panel.
+  await page.route("**/api/tenant/onboarding", (route) => route.fulfill({
+    status: 200,
+    contentType: "application/json",
+    body: JSON.stringify({ status: "complete", version: 1, completedAt: "2026-01-01T00:00:00.000Z", checks: { company: true, installationTypes: true, deviceCategories: true, formCategories: true, maintenanceTemplate: true }, missing: [] }),
   }))
 }
 

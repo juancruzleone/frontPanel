@@ -16,9 +16,6 @@ window.__vite_plugin_react_preamble_installed__ = true;
 async function mockSession(page: Page) {
   await page.addInitScript(() => {
     localStorage.setItem('i18nextLng', 'es')
-    localStorage.setItem('installationsTourCompleted', 'true')
-    localStorage.setItem('clientsTourCompleted', 'true')
-    localStorage.setItem('suppliersTourCompleted', 'true')
   })
   await page.route('**/api/**', route => {
     const path = new URL(route.request().url()).pathname
@@ -30,6 +27,8 @@ async function mockSession(page: Page) {
     return route.fulfill({ json: body })
   })
   await page.route('**/socket.io**', route => route.abort())
+  // Setup inicial completo: el gate de onboarding deja pasar al panel.
+  await page.route('**/api/tenant/onboarding', route => route.fulfill({ json: { status: "complete", version: 1, completedAt: "2026-01-01T00:00:00.000Z", checks: { company: true, installationTypes: true, deviceCategories: true, formCategories: true, maintenanceTemplate: true }, missing: [] } }))
 }
 
 for (const width of widths) {
@@ -47,8 +46,6 @@ for (const width of widths) {
     await page.goto('/instalaciones')
     await expect(page.getByText('Planta 1', { exact: true }).first()).toBeVisible()
     const pagination = page.locator('main [class*="_pagination_"]')
-    const tour = page.locator('main button[class*="_tourButton_"]')
-    await expect(tour).toBeVisible()
     const geometry = await page.locator('main').evaluate(main => {
       const root = main.querySelector('[class*="_containerInstallations_"]')!
       const pagination = main.querySelector('[class*="_pagination_"]')!
@@ -72,30 +69,12 @@ for (const width of widths) {
     await expect(pagination.locator('button').last()).toBeDisabled()
     await pagination.locator('button').first().click()
     await expect(page.getByText('Planta 1', { exact: true }).first()).toBeVisible()
-    await tour.focus()
-    await expect(tour).toBeFocused()
-    await tour.press('Enter')
-    await expect(page.locator('.driver-popover')).toBeVisible()
   })
 }
 
-for (const width of [390, 1440]) {
-  test(`nonpaginated Suppliers preserves tour clearance ${width}px`, async ({ page }) => {
-    await page.setViewportSize({ width, height: 1000 })
-    await mockSession(page)
-    await page.goto('/proveedores')
-    await expect(page.getByRole('heading', { name: 'Proveedores', exact: true })).toBeVisible()
-    const tour = page.locator('main button[class*="_tourButton_"]')
-    await expect(tour).toBeVisible()
-    expect(await page.locator('main').evaluate(main => getComputedStyle(main).paddingBottom)).toBe('88px')
-    const box = await tour.boundingBox()
-    expect(box).toMatchObject({ x: width - 72, y: 928, width: 56, height: 56 })
-    await tour.focus()
-    await expect(tour).toBeFocused()
-    await tour.press('Enter')
-    await expect(page.locator('.driver-popover')).toBeVisible()
-  })
-}
+// Eliminado con las guías turísticas (T4): la página real de Proveedores ya no
+// renderiza el botón flotante, así que no existe clearance que preservar. La
+// cascada CSS con el botón presente sigue cubierta por los tests de fixture.
 const sections = [
   { name: 'Installations', feature: 'installations', file: 'installations', root: 'containerInstallations', list: 'listContainer', card: 'installationCard' },
   { name: 'Assets', feature: 'assets', file: 'assets', root: 'containerAssets', list: 'listContainer', card: 'assetCard' },

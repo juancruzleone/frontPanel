@@ -17,8 +17,6 @@ import { useSubscriptions } from "../features/subscriptions/hooks/useSubscriptio
 import type { Subscription } from "../features/subscriptions/hooks/useSubscriptions"
 import { translateMonthToCurrentLang, translateFrequencyToCurrentLang } from "../shared/utils/backendTranslations"
 import styles from "../features/subscriptions/styles/subscriptions.module.css"
-import { useSubscriptionsTour } from "../features/subscriptions/hooks/useSubscriptionsTour"
-import TourButton from "../shared/components/Buttons/TourButton"
 import ViewToggle from "../components/ViewToggle/ViewToggle"
 import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 import { Pagination } from '../shared/components/Pagination/Pagination'
@@ -33,7 +31,6 @@ const Subscriptions = () => {
   const role = useAuthStore((s) => s.role)
   const navigate = useNavigate()
   const isTechnician = role && ["tecnico", "técnico"].includes(role.toLowerCase())
-  const { tourCompleted, startTour, skipTour } = useSubscriptionsTour()
 
   // Redirigir a la página anterior si es técnico
   useEffect(() => {
@@ -57,17 +54,6 @@ const Subscriptions = () => {
   useEffect(() => {
     document.title = t("subscriptions.titlePage")
   }, [t])
-
-  // Iniciar el tour automáticamente si no se ha completado
-  useEffect(() => {
-    if (!loading && !tourCompleted && !isTechnician) {
-      // Esperar un poco para que el DOM se cargue completamente
-      const timer = setTimeout(() => {
-        startTour()
-      }, 500)
-      return () => clearTimeout(timer)
-    }
-  }, [loading, tourCompleted, startTour, isTechnician])
 
   // Opciones para el filtro de meses (sin la opción "Todas")
   const monthOptions = useMemo(() => [
@@ -209,7 +195,7 @@ const Subscriptions = () => {
 
           <div className={styles.filtersWrapper}>
             <div className={styles.searchRow}>
-              <div className={styles.filterActions} data-tour="filter-by-month">
+              <div className={styles.filterActions}>
                 <HybridSelect
                   value={selectedMonthFilter}
                   onChange={setSelectedMonthFilter}
@@ -219,7 +205,7 @@ const Subscriptions = () => {
                 />
               </div>
 
-              <div className={styles.searchContainerInner} data-tour="search-filter-subscriptions">
+              <div className={styles.searchContainerInner}>
                 <SearchInput
                   placeholder={t('subscriptions.searchPlaceholder')}
                   onInputChange={(value) => setSearchTerm(value)}
@@ -240,7 +226,7 @@ const Subscriptions = () => {
               </button>
             </div>
 
-            <div className={styles.statusSelectContainer} data-tour="filter-by-status">
+            <div className={styles.statusSelectContainer}>
               <HybridSelect
                 value={selectedStatus}
                 onChange={setSelectedStatus}
@@ -254,8 +240,8 @@ const Subscriptions = () => {
                 className={styles.fullWidthSelect}
               />
             </div>
-            <div className={styles.tabletSelectsRow} data-tour="tablet-selects-row">
-              <div data-tour="filter-by-month">
+            <div className={styles.tabletSelectsRow}>
+              <div>
               <HybridSelect
                 value={selectedMonthFilter}
                 onChange={setSelectedMonthFilter}
@@ -265,7 +251,7 @@ const Subscriptions = () => {
                 className={styles.tabletSelect}
               />
               </div>
-              <div data-tour="filter-by-status">
+              <div>
               <HybridSelect
                 value={selectedStatus}
                 onChange={setSelectedStatus}
@@ -335,7 +321,6 @@ const Subscriptions = () => {
                           </span>
                           <button
                             className={styles.actionIcon}
-                            data-tour="edit-frequency-btn"
                             onClick={() => handleEditFrequency(subscription)}
                             title={t('subscriptions.editFrequency')}
                             data-tooltip={t('subscriptions.editFrequency')}
@@ -353,7 +338,6 @@ const Subscriptions = () => {
                         <div className={styles.actionsGroup}>
                           <button
                             className={styles.actionBtn}
-                            data-tour="months-display"
                             onClick={() => handleViewMonths(subscription)}
                             title={t('common.details')}
                             data-tooltip={t('common.details')}
@@ -416,7 +400,6 @@ const Subscriptions = () => {
                   <div className={styles.cardActions}>
                     <button
                       className={styles.actionBtn}
-                      data-tour="edit-frequency-btn"
                       onClick={() => handleEditFrequency(subscription)}
                       title={t('subscriptions.editFrequency')}
                       data-tooltip={t('subscriptions.editFrequency')}
@@ -425,7 +408,6 @@ const Subscriptions = () => {
                     </button>
                     <button
                       className={styles.actionBtn}
-                      data-tour="months-display"
                       onClick={() => handleViewMonths(subscription)}
                       title={t('common.details')}
                       data-tooltip={t('common.details')}
@@ -504,13 +486,6 @@ const Subscriptions = () => {
       <ModalSuccess isOpen={!!responseMessage && !isError} onClose={() => setResponseMessage("")} message={responseMessage} />
       <ModalError isOpen={!!responseMessage && isError} onClose={() => setResponseMessage("")} message={responseMessage} />
 
-      {/* Botón flotante del tour estilo WhatsApp */}
-      {!isTechnician && (
-        <TourButton
-          onClick={tourCompleted ? startTour : skipTour}
-          label={tourCompleted ? t('subscriptions.tour.buttons.restart') : t('subscriptions.tour.buttons.skip')}
-        />
-      )}
     </div>
   )
 }

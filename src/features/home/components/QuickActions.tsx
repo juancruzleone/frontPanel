@@ -22,7 +22,7 @@ export const QuickActions = ({
   const isClient = role === "cliente"
 
   return (
-    <div className={styles.quickActionsSection} data-tour="home-dashboard-quick-actions">
+    <div className={styles.quickActionsSection}>
       <h2 id="quick-actions-title" className={styles.sectionHeading}>
         {t("home.dashboard.quickActions.title", { defaultValue: "Acciones rápidas" })}
       </h2>

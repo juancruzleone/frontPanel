@@ -491,7 +491,6 @@ const Nav = () => {
 									</NavLink>
 									<NavLink
 										to={calendarRoute}
-										data-tour="nav-calendar"
 										className={({ isActive }) =>
 											`${styles.submenuLink} ${isActive ? styles.active : ""}`
 										}
@@ -516,7 +515,6 @@ const Nav = () => {
 							>
 								<button
 									type="button"
-									data-tour="nav-maintenance"
 									className={`${styles.groupButton} ${isMaintenanceSectionActive ? styles.active : ""}`}
 									onClick={() => toggleMenu("maintenance")}
 									aria-expanded={
@@ -543,7 +541,6 @@ const Nav = () => {
 									{!isTechnicianUser && !isSuperAdminUser && !isClientUser && (
 										<NavLink
 											to={maintenancePlanRoute}
-											data-tour="nav-maintenance-plan"
 											className={({ isActive }) =>
 												`${styles.submenuLink} ${isActive ? styles.active : ""}`
 											}
@@ -570,7 +567,6 @@ const Nav = () => {
 							>
 								<button
 									type="button"
-									data-tour="nav-installations"
 									className={`${styles.groupButton} ${isInstallationsSectionActive ? styles.active : ""}`}
 									onClick={() => toggleMenu("installations")}
 									aria-expanded={
@@ -596,7 +592,6 @@ const Nav = () => {
 								>
 									<NavLink
 										to={installationsRoute}
-										data-tour="nav-installations-list"
 										className={({ isActive }) =>
 											`${styles.submenuLink} ${isActive ? styles.active : ""}`
 										}
@@ -613,7 +608,6 @@ const Nav = () => {
 									{isAdminUser && (
 										<NavLink
 											to={clientsRoute}
-											data-tour="nav-clients"
 											className={({ isActive }) =>
 												`${styles.submenuLink} ${isActive ? styles.active : ""}`
 											}
@@ -639,7 +633,6 @@ const Nav = () => {
 							>
 								<button
 									type="button"
-									data-tour="nav-assets"
 									className={`${styles.groupButton} ${isAssetsSectionActive ? styles.active : ""}`}
 									onClick={() => toggleMenu("assets")}
 									aria-expanded={
@@ -665,7 +658,6 @@ const Nav = () => {
 								>
 									<NavLink
 										to={assetsRoute}
-										data-tour="nav-assets-list"
 										className={({ isActive }) =>
 											`${styles.submenuLink} ${isActive ? styles.active : ""}`
 										}
@@ -682,7 +674,6 @@ const Nav = () => {
 									{isAdminUser && (
 										<NavLink
 											to={formsRoute}
-											data-tour="nav-forms"
 											className={({ isActive }) =>
 												`${styles.submenuLink} ${isActive ? styles.active : ""}`
 											}
@@ -699,7 +690,6 @@ const Nav = () => {
 									)}
 									<NavLink
 										to={manualsRoute}
-										data-tour="nav-manuals"
 										className={({ isActive }) =>
 											`${styles.submenuLink} ${isActive ? styles.active : ""}`
 										}
@@ -724,7 +714,6 @@ const Nav = () => {
 							>
 								<button
 									type="button"
-									data-tour="nav-operation"
 									className={`${styles.groupButton} ${isOperationSectionActive ? styles.active : ""}`}
 									onClick={() => toggleMenu("operation")}
 									aria-expanded={
@@ -750,7 +739,6 @@ const Nav = () => {
 								>
 									<NavLink
 										to={inventoryRoute}
-										data-tour="nav-inventory"
 										className={({ isActive }) =>
 											`${styles.submenuLink} ${isActive ? styles.active : ""}`
 										}
@@ -767,7 +755,6 @@ const Nav = () => {
 									{!isTechnicianUser && !isSuperAdminUser && !isClientUser && (
 										<NavLink
 											to={personalRoute}
-											data-tour="nav-personal"
 											className={({ isActive }) =>
 												`${styles.submenuLink} ${isActive ? styles.active : ""}`
 											}
@@ -785,7 +772,6 @@ const Nav = () => {
 									{isAdminUser && (
 										<NavLink
 											to={suppliersRoute}
-											data-tour="nav-suppliers"
 											className={({ isActive }) =>
 												`${styles.submenuLink} ${isActive ? styles.active : ""}`
 											}
@@ -821,7 +807,6 @@ const Nav = () => {
 						<li>
 							<NavLink
 								to={complianceRoute}
-								data-tour="nav-compliance"
 								className={({ isActive }) =>
 									isActive ? styles.active : ""
 								}
@@ -835,7 +820,7 @@ const Nav = () => {
 						</li>
 					)}
 						{isAdminUser && (
-							<li data-tour="open-settings">
+							<li>
 								<NavLink
 									to={settingsRoute}
 									className={({ isActive }) => (isActive ? styles.active : "")}

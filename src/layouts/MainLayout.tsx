@@ -11,9 +11,7 @@ import { socketService } from "../shared/services/socketService";
 import { pushNotificationService } from "../shared/services/pushNotificationService";
 import { routeTranslations } from "../router/routeTranslations";
 import { isAdmin } from "../shared/utils/roleUtils";
-import { useHomeTour } from "../features/home/hooks/useHomeTour";
 import { TrialStatusCard } from "../features/billing/components/TrialStatusCard";
-import { shouldAutoStartGlobalTour } from "../shared/services/onboardingService";
 
 const HOME_ROUTES = new Set(
 	Object.values(routeTranslations).map(({ home }) => `/${home}`),
@@ -23,7 +21,6 @@ const MainLayout: React.FC = () => {
 	const { isSidebarCollapsed } = useLayoutStore();
 	const { isAuthenticated, isAuthResolved, userId, role, accessMode, trial } = useAuthStore();
 	const location = useLocation();
-	const { startTour } = useHomeTour();
 
 	useEffect(() => {
 		if (isAuthResolved && isAuthenticated && accessMode === "full" && userId) {
@@ -37,28 +34,6 @@ const MainLayout: React.FC = () => {
 			socketService.disconnect();
 		};
 	}, [accessMode, isAuthResolved, isAuthenticated, userId]);
-
-	useEffect(() => {
-		if (!isAuthenticated) {
-			return;
-		}
-
-		if (!shouldAutoStartGlobalTour()) {
-			return;
-		}
-
-		if (!HOME_ROUTES.has(location.pathname)) {
-			return;
-		}
-
-		if (!window.matchMedia("(min-width: 1024px)").matches) {
-			return;
-		}
-
-		// Dar tiempo a que el dashboard y el Nav monten sus [data-tour].
-		const timeoutId = window.setTimeout(startTour, 600);
-		return () => window.clearTimeout(timeoutId);
-	}, [isAuthenticated, location.pathname, role, startTour]);
 
 	return (
 		<div className={styles.layoutContainer}>

@@ -36,7 +36,9 @@ export type Template = {
 }
 
 const useAssets = () => {
-  const { assets, templates, categories, setAssets, setTemplates, setCategories, updateAsset: updateAssetInStore } = useAssetStore()
+  // Assets inherit form categories via template.categoria, not device categories (/categorias).
+  // Keep the persisted store field and public `categories` alias compatible with existing consumers.
+  const { assets, templates, categories: formCategories, setAssets, setTemplates, setCategories, updateAsset: updateAssetInStore } = useAssetStore()
   const [loading, setLoading] = useState(false)
   const [templatesLoading, setTemplatesLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -204,7 +206,8 @@ const useAssets = () => {
   return {
     assets,
     templates,
-    categories,
+    formCategories,
+    categories: formCategories,
     loading,
     templatesLoading,
     error,

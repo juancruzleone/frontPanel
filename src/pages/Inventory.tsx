@@ -19,8 +19,6 @@ import ViewToggle from "../components/ViewToggle/ViewToggle"
 import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 import Tooltip from "../shared/components/Tooltip/Tooltip"
 import { WifiOff } from "lucide-react"
-import { useInventoryTour } from "../features/inventory/hooks/useInventoryTour"
-import TourButton from "../shared/components/Buttons/TourButton"
 import Skeleton from "../shared/components/Skeleton"
 import styles from "../features/inventory/styles/inventory.module.css"
 import { CsvImportDialog } from "../shared/components/CsvImportDialog/CsvImportDialog"
@@ -45,8 +43,6 @@ const Inventory = () => {
   const safePagination = (pagination as unknown as { page: number; limit: number; totalPages: number } | undefined) ?? { page: 1, limit: 10, totalPages: 1 }
   const safeQuery = (query as unknown as typeof DEFAULT_INVENTORY_QUERY | undefined) ?? DEFAULT_INVENTORY_QUERY
   
-  const { tourCompleted, startTour, skipTour } = useInventoryTour()
-
   const role = useAuthStore((s) => s.role)
   const isAdmin = role === 'admin' || role === 'super_admin'
   const [viewMode, setViewMode, isMobile] = useResponsiveView('inventory-view', 'cards', {
@@ -77,15 +73,6 @@ const Inventory = () => {
   useEffect(() => {
     loadInventory()
   }, [loadInventory])
-
-  useEffect(() => {
-    if (!loading && !tourCompleted) {
-      const timer = setTimeout(() => {
-        startTour()
-      }, 500)
-      return () => clearTimeout(timer)
-    }
-  }, [loading, tourCompleted, startTour])
 
 
   const handleSearch = (value: string) => {
@@ -176,7 +163,7 @@ const Inventory = () => {
     <div className={styles.containerInventory}>
       <div className={styles.topSection}>
         <div className={styles.headerWithToggle}>
-          <h1 className={styles.title} data-tour="inventory-title">{t('inventory.title')}</h1>
+          <h1 className={styles.title}>{t('inventory.title')}</h1>
           {!navigator.onLine && (
             <div className={styles.offlineBadge} title={t('deviceForm.offline')}>
               <WifiOff size={16} />
@@ -186,7 +173,7 @@ const Inventory = () => {
         </div>
         {isAdmin && (
           <div className={styles.positionButton}>
-            <Button data-tour="inventory-add-btn" title={t('inventory.addItem')} onClick={handleOpenCreate} />
+            <Button title={t('inventory.addItem')} onClick={handleOpenCreate} />
           </div>
         )}
       </div>
@@ -211,7 +198,7 @@ const Inventory = () => {
       </div>
 
       {lowStockItems.length > 0 && (
-        <div className={styles.lowStockAlert} data-tour="inventory-low-stock">
+        <div className={styles.lowStockAlert}>
           <div className={styles.alertHeader}>
             <AlertTriangle size={20} />
             <h2>{t('inventory.lowStockAlert')}</h2>
@@ -228,7 +215,7 @@ const Inventory = () => {
       )}
 
       <div className={styles.searchRow}>
-        <div className={styles.searchContainerInner} data-tour="inventory-search">
+        <div className={styles.searchContainerInner}>
           <SearchInput
             placeholder={t('inventory.searchPlaceholder')}
             showSelect
@@ -441,11 +428,6 @@ const Inventory = () => {
         onDownloadErrors={downloadInventoryImportErrors}
         onDownloadTemplate={downloadInventoryTemplate}
         onCommitted={() => loadInventory({ name: searchTerm, category: selectedCategory })}
-      />
-      
-      <TourButton
-        onClick={tourCompleted ? startTour : skipTour}
-        label={tourCompleted ? t('inventory.tour.buttons.restart') : t('inventory.tour.buttons.skip')}
       />
     </div>
   )

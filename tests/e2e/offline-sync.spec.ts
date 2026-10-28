@@ -82,13 +82,6 @@ test.describe("Offline Capability Review - Technician Flow", () => {
       };
       localStorage.setItem('work-order-storage', JSON.stringify(woState));
 
-      // Kill all tours
-      localStorage.setItem('home-onboarding-tour-v1-shown', 'true');
-      localStorage.setItem('installations-onboarding-tour-v1-shown', 'true');
-      localStorage.setItem('work-orders-onboarding-tour-v1-shown', 'true');
-      localStorage.setItem('workOrdersTourCompleted', 'true');
-      localStorage.setItem('clients-onboarding-tour-v1-shown', 'true');
-      localStorage.setItem('personal-onboarding-tour-v1-shown', 'true');
       localStorage.setItem('workorders-view', '"table"');
     }, { user: mockUser, orders: mockOrders });
 
@@ -105,9 +98,17 @@ test.describe("Offline Capability Review - Technician Flow", () => {
       } else if (url.includes("/ordenes-trabajo") && method === "DELETE" && isOfflinePhase) {
         // While offline, abort to trigger queue (isOfflineError) instead of succeeding
         await route.abort();
+      } else if (url.includes("/tenant/onboarding")) {
+        await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ status: "complete", version: 1, completedAt: "2026-01-01T00:00:00.000Z", checks: { company: true, installationTypes: true, deviceCategories: true, formCategories: true, maintenanceTemplate: true }, missing: [] }) });
       } else {
         await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify([]) });
       }
+    });
+
+    // El Service Worker reemite los fetch de la app y esos requests no pasan
+    // por page.route: se mockea también a nivel de contexto.
+    await page.context().route("**/api/tenant/onboarding", async (route) => {
+      await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ status: "complete", version: 1, completedAt: "2026-01-01T00:00:00.000Z", checks: { company: true, installationTypes: true, deviceCategories: true, formCategories: true, maintenanceTemplate: true }, missing: [] }) });
     });
 
     // 2. ACT: Visit and let SW register
