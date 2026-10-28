@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Calendar } from 'lucide-react'
+import { Calendar, ChevronDown, Users } from 'lucide-react'
 import styles from '../styles/Modal.module.css'
 import formButtonStyles from '../../../shared/components/Buttons/formButtons.module.css'
 import DatePickerModal from '../../calendar/components/DatePickerModal'
 import HybridSelect from '../../../shared/components/HybridSelect'
+import { TechnicianSelector } from '../../workOrders/components/TechnicianSelector'
 import MonthYearSelectorModal from './MonthYearSelectorModal'
 import { formatDateValue, toISODateString } from '../../../shared/utils/dateDisplay'
 import type { FrequencyOption } from '../hooks/useSubscriptions'
@@ -36,6 +37,10 @@ interface FrequencyFormProps {
   onSubmit: (e: React.FormEvent) => void
   onCancel: () => void
   monthsError: string
+  technicians?: { _id: string; userName: string; role?: string }[]
+  loadingTechnicians?: boolean
+  selectedTechnicianIds?: string[]
+  onTechnicianChange?: (ids: string[]) => void
 }
 
 const FrequencyForm: React.FC<FrequencyFormProps> = ({
@@ -60,9 +65,17 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
   onSubmit,
   onCancel,
   monthsError,
+  technicians = [],
+  loadingTechnicians = false,
+  selectedTechnicianIds = [],
+  onTechnicianChange,
 }) => {
   const { t } = useTranslation()
   const [isMonthSelectorOpen, setIsMonthSelectorOpen] = useState(false)
+  const [isTechniciansExpanded, setIsTechniciansExpanded] = useState(false)
+  const selectedTechs = technicians.filter((tech) => selectedTechnicianIds.includes(tech._id))
+  const previewTechs = selectedTechs.slice(0, 3)
+  const remainingCount = selectedTechs.length - previewTechs.length
 
   // Obtener el primer mes seleccionado basado en la fecha de inicio
   const getFirstMonth = () => {
@@ -229,6 +242,56 @@ const FrequencyForm: React.FC<FrequencyFormProps> = ({
             />
           </div>
         )}
+
+        <div className={styles.formGroup}>
+          <button
+            type="button"
+            className={styles.techniciansToggle}
+            onClick={() => setIsTechniciansExpanded((prev) => !prev)}
+            aria-expanded={isTechniciansExpanded}
+            disabled={isSubmitting}
+          >
+            <span className={styles.techniciansToggleLeft}>
+              <Users size={16} aria-hidden />
+              <span>{t('subscriptions.assignedTechnicians')}</span>
+              <span className={styles.techniciansCount}>
+                {selectedTechnicianIds.length === 0
+                  ? t('subscriptions.noTechniciansAssigned')
+                  : `${selectedTechnicianIds.length} ${selectedTechnicianIds.length === 1 ? t('subscriptions.technicianAssignedSingle') : t('subscriptions.technicianAssignedPlural')}`}
+              </span>
+            </span>
+            <ChevronDown
+              size={18}
+              className={`${styles.techniciansChevron} ${isTechniciansExpanded ? styles.techniciansChevronOpen : ''}`}
+              aria-hidden
+            />
+          </button>
+          <p className={styles.techniciansHint}>{t('subscriptions.assignedTechniciansHint')}</p>
+          {!isTechniciansExpanded && selectedTechs.length > 0 && (
+            <div className={styles.techniciansPreview}>
+              {previewTechs.map((tech) => (
+                <span key={tech._id} className={styles.techniciansPreviewChip}>
+                  {tech.userName}
+                </span>
+              ))}
+              {remainingCount > 0 && (
+                <span className={styles.techniciansPreviewMore}>+{remainingCount}</span>
+              )}
+            </div>
+          )}
+          {isTechniciansExpanded && (
+            loadingTechnicians ? (
+              <p className={styles.techniciansHint}>{t('common.loading')}</p>
+            ) : (
+              <TechnicianSelector
+                technicians={technicians}
+                selectedTechnicianIds={selectedTechnicianIds}
+                onChange={(ids) => onTechnicianChange?.(ids)}
+                disabled={isSubmitting}
+              />
+            )
+          )}
+        </div>
       </div>
 
       <div className={formButtonStyles.actions}>

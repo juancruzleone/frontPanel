@@ -123,7 +123,8 @@ const Subscriptions = () => {
     startDate?: string,
     endDate?: string,
     status?: 'active' | 'inactive' | 'pending',
-    months?: string[]
+    months?: string[],
+    technicianIds?: string[]
   ) => {
       // Convertir fechas string a Date sin problema de zona horaria
       const parseDateString = (dateStr?: string): Date | undefined => {
@@ -139,6 +140,7 @@ const Subscriptions = () => {
         endDate: parseDateString(endDate),
         status: status || 'active',
         months: months || [],
+        ...(technicianIds !== undefined ? { technicianIds } : {}),
       })
       return { message: t('subscriptions.frequencyUpdated') }
   }
