@@ -91,6 +91,7 @@ export const resolveBackendLabel = (
 const WORK_ORDER_STATUS_LABELS: BackendLabelTable = {
   es: {
     'solicitada': 'Solicitada',
+    'en_revision': 'En revisión',
     'pendiente': 'Pendiente',
     'asignada': 'Asignada',
     'en_progreso': 'En Progreso',
@@ -99,6 +100,7 @@ const WORK_ORDER_STATUS_LABELS: BackendLabelTable = {
   },
   en: {
     'solicitada': 'Requested',
+    'en_revision': 'Under review',
     'pendiente': 'Pending',
     'asignada': 'Assigned',
     'en_progreso': 'In Progress',
@@ -106,6 +108,8 @@ const WORK_ORDER_STATUS_LABELS: BackendLabelTable = {
     'cancelada': 'Cancelled'
   },
   fr: {
+    'solicitada': 'Demandée',
+    'en_revision': 'En révision',
     'pendiente': 'En Attente',
     'asignada': 'Assignée',
     'en_progreso': 'En Cours',
@@ -113,6 +117,8 @@ const WORK_ORDER_STATUS_LABELS: BackendLabelTable = {
     'cancelada': 'Annulée'
   },
   pt: {
+    'solicitada': 'Solicitada',
+    'en_revision': 'Em revisão',
     'pendiente': 'Pendente',
     'asignada': 'Atribuída',
     'en_progreso': 'Em Andamento',
@@ -120,6 +126,8 @@ const WORK_ORDER_STATUS_LABELS: BackendLabelTable = {
     'cancelada': 'Cancelada'
   },
   de: {
+    'solicitada': 'Angefordert',
+    'en_revision': 'In Prüfung',
     'pendiente': 'Ausstehend',
     'asignada': 'Zugewiesen',
     'en_progreso': 'In Bearbeitung',
@@ -127,6 +135,8 @@ const WORK_ORDER_STATUS_LABELS: BackendLabelTable = {
     'cancelada': 'Storniert'
   },
   it: {
+    'solicitada': 'Richiesta',
+    'en_revision': 'In revisione',
     'pendiente': 'In Attesa',
     'asignada': 'Assegnata',
     'en_progreso': 'In Corso',
@@ -134,6 +144,8 @@ const WORK_ORDER_STATUS_LABELS: BackendLabelTable = {
     'cancelada': 'Annullata'
   },
   ja: {
+    'solicitada': '依頼済み',
+    'en_revision': '確認中',
     'pendiente': '保留中',
     'asignada': '割り当て済み',
     'en_progreso': '進行中',
@@ -141,6 +153,8 @@ const WORK_ORDER_STATUS_LABELS: BackendLabelTable = {
     'cancelada': 'キャンセル'
   },
   ko: {
+    'solicitada': '요청됨',
+    'en_revision': '검토 중',
     'pendiente': '대기 중',
     'asignada': '할당됨',
     'en_progreso': '진행 중',
@@ -148,6 +162,8 @@ const WORK_ORDER_STATUS_LABELS: BackendLabelTable = {
     'cancelada': '취소됨'
   },
   zh: {
+    'solicitada': '已申请',
+    'en_revision': '审核中',
     'pendiente': '待处理',
     'asignada': '已分配',
     'en_progreso': '进行中',
@@ -155,6 +171,8 @@ const WORK_ORDER_STATUS_LABELS: BackendLabelTable = {
     'cancelada': '已取消'
   },
   ar: {
+    'solicitada': 'مطلوبة',
+    'en_revision': 'قيد المراجعة',
     'pendiente': 'قيد الانتظار',
     'asignada': 'مُسندة',
     'en_progreso': 'قيد التنفيذ',
@@ -165,6 +183,10 @@ const WORK_ORDER_STATUS_LABELS: BackendLabelTable = {
 
 const WORK_ORDER_STATUS_ALIASES: Record<string, string> = {
   'en progreso': 'en_progreso',
+  'en revision': 'en_revision',
+  'en revisión': 'en_revision',
+  'in review': 'en_revision',
+  'under review': 'en_revision',
   'in progress': 'en_progreso',
   'pending': 'pendiente',
   'assigned': 'asignada',

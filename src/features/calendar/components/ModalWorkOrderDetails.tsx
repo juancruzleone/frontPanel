@@ -7,6 +7,9 @@ import { Clock, MapPin, User, AlertCircle, Calendar, Play } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import i18n from "../../../i18n"
 import { translatePriority, translateWorkOrderStatus, translateWorkType, translateOrderType, translateOrderOrigin } from "../../../shared/utils/backendTranslations";
+import { useAuthStore } from "../../../store/authStore";
+import { canRequestCancel, getPreferredVsScheduled, isClientRequest } from "../../workOrders/utils/clientRequestUtils";
+import { maintenanceRequestsService } from "../../maintenanceRequests/services/maintenanceRequestsService";
 import { getTranslatedWorkOrderDescription } from "../../../shared/utils/workOrderDescription";
 
 interface ModalWorkOrderDetailsProps {
@@ -30,6 +33,9 @@ const ModalWorkOrderDetails = ({
   const [isLoading, setIsLoading] = useState(false)
   const [installationDetails, setInstallationDetails] = useState<any>(null)
   const [loadingInstallation, setLoadingInstallation] = useState(false)
+  const [cancelling, setCancelling] = useState(false)
+  const role = useAuthStore((s) => s.role)
+  const currentUserId = useAuthStore((s) => s.userId)
 
   useEffect(() => {
     const loadInstallation = async () => {
@@ -75,6 +81,9 @@ const ModalWorkOrderDetails = ({
 
   const getStatusColor = (status: string) => {
     switch (status) {
+      case "solicitada":
+      case "en_revision":
+        return "#06b6d4"
       case "pendiente":
         return "#9E9E9E"
       case "asignada":
@@ -101,6 +110,25 @@ const ModalWorkOrderDetails = ({
       onError(error.message || t('calendar.errorStartingOrder'))
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const preferred = workOrder ? getPreferredVsScheduled(workOrder as never) : null
+  const showCancel = workOrder && role === "cliente" && canRequestCancel(workOrder as never, role, currentUserId)
+
+  const handleRequestCancel = async () => {
+    if (!workOrder?._id || cancelling) return
+    const motivo = window.prompt(t("workOrders.cancelReason") || "Motivo")
+    if (motivo === null) return
+    setCancelling(true)
+    try {
+      const result = await maintenanceRequestsService.cancelRequest(workOrder._id, motivo || undefined)
+      onSuccess(result.message || t("workOrders.cancelRequested"))
+      onRequestClose()
+    } catch (error: unknown) {
+      onError(error instanceof Error ? error.message : String(error))
+    } finally {
+      setCancelling(false)
     }
   }
 
@@ -172,6 +200,20 @@ const ModalWorkOrderDetails = ({
                 </div>
               </div>
 
+              {isClientRequest(workOrder) && ((workOrder as { fechaPreferida?: unknown }).fechaPreferida || (workOrder as { horaPreferida?: unknown }).horaPreferida) && (
+                <div className={styles.infoItem}>
+                  <Calendar size={20} />
+                  <div>
+                    <strong>{t('workOrders.preferredDateLabel')}</strong>
+                    <p>
+                      {preferred?.preferred ? formatDate(preferred.preferred) : "—"}
+                      {(workOrder as { horaPreferida?: string }).horaPreferida ? ` ${(workOrder as { horaPreferida?: string }).horaPreferida}` : ""}
+                    </p>
+                    {preferred?.areDifferent && <p><small>{t('workOrders.differentScheduleNote')}</small></p>}
+                  </div>
+                </div>
+              )}
+
               <div className={styles.infoItem}>
                 <AlertCircle size={20} />
                 <div>
@@ -239,6 +281,35 @@ const ModalWorkOrderDetails = ({
               <div className={styles.section}>
                 <h4>{t('calendar.workDone')}</h4>
                 <p>{workOrder.trabajoRealizado}</p>
+              </div>
+            )}
+
+            {showCancel && (
+              <div className={styles.actions} style={{ marginTop: '16px' }}>
+                <button className={styles.startButton} onClick={handleRequestCancel} disabled={cancelling}>
+                  {cancelling ? (t('common.sending') || 'Enviando...') : t('workOrders.requestCancel')}
+                </button>
+              </div>
+            )}
+
+            {Array.isArray(workOrder.historial) && workOrder.historial.length > 0 && (
+              <div className={styles.section}>
+                <h4>{t('workOrders.historyTitle')}</h4>
+                <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {workOrder.historial.map((h, idx) => (
+                    <li key={idx} style={{ borderLeft: '2px solid var(--color-card-border)', paddingLeft: 12 }}>
+                      <div style={{ fontWeight: 700, fontSize: 13 }}>{translateWorkOrderStatus(h.accion) !== h.accion ? translateWorkOrderStatus(h.accion) : h.accion}</div>
+                      <div style={{ fontSize: 12, opacity: 0.8 }}>{h.fecha ? formatDate(h.fecha) : ""}{h.usuario ? ` · ${h.usuario}` : ""}</div>
+                      {h.observaciones && <div style={{ fontSize: 13 }}>{h.observaciones}</div>}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {(!workOrder.historial || workOrder.historial.length === 0) && isClientRequest(workOrder) && (
+              <div className={styles.section}>
+                <h4>{t('workOrders.historyTitle')}</h4>
+                <p style={{ fontSize: 13, opacity: 0.7 }}>{t('workOrders.noHistory')}</p>
               </div>
             )}
 

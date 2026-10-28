@@ -1,7 +1,7 @@
 import React from 'react'
 import { WorkOrder } from '../hooks/useWorkOrders'
 import DataTable, { Column } from '../../../components/DataTable/DataTable'
-import { translateWorkOrderStatus, translatePriority, translateWorkType, translateWorkOrderTitle } from '../../../shared/utils/backendTranslations'
+import { translateWorkOrderStatus, translatePriority, translateWorkType, translateWorkOrderTitle, translateOrderOrigin } from '../../../shared/utils/backendTranslations'
 import { Eye, Play, Check, User, Edit, Trash } from 'lucide-react'
 import Tooltip from '../../../shared/components/Tooltip/Tooltip'
 import styles from '../styles/workOrders.module.css'
@@ -48,7 +48,16 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
       key: 'titulo',
       header: t('workOrders.title'),
       width: '15%',
-      render: (order) => translateWorkOrderTitle(order.titulo)
+      render: (order) => (
+        <span>
+          {translateWorkOrderTitle(order.titulo)}
+          {(order.origen === 'solicitud_cliente') && (
+            <span className={`${styles.statusBadge} ${styles.status_solicitada}`} style={{ marginLeft: 6, fontSize: '10px' }}>
+              {translateOrderOrigin(order.origen)}
+            </span>
+          )}
+        </span>
+      )
     },
     {
       key: 'prioridad',
@@ -77,7 +86,7 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
       width: '10%',
       align: 'center',
       render: (order) => (
-        <span className={`${styles.statusBadge} ${styles[order.estado]}`}>
+        <span className={`${styles.statusBadge} ${styles[`status_${order.estado}`] || ''}`}>
           {translateWorkOrderStatus(order.estado)}
         </span>
       )

@@ -121,9 +121,29 @@ class MaintenanceRequestsService {
   }
 
   async cancelRequest(id: string, motivo?: string): Promise<{ message: string }> {
-    // Esta funcionalidad puede no estar disponible para clientes
-    // Verificar con el backend si existe una ruta para cancelar
-    throw new Error("Funcionalidad no disponible. Contacte al administrador para cancelar la solicitud.")
+    const reason = motivo?.trim() || "Cancelación solicitada por el cliente";
+    const attempts: Array<{ url: string; body: unknown }> = [
+      { url: `${this.ordersUrl}/${id}/cancelar`, body: { motivo: reason } },
+      { url: `${this.ordersUrl}/${id}/estado`, body: { estado: "cancelada", motivo: reason, observaciones: reason } },
+    ];
+    let lastError: unknown = null;
+    for (const attempt of attempts) {
+      try {
+        const response = await fetchWithCsrf(attempt.url, {
+          method: "PATCH",
+          body: JSON.stringify(attempt.body),
+        });
+        const result = await handleResponse(response);
+        return { message: (result as { message?: string })?.message || "Solicitud de cancelación enviada." };
+      } catch (error) {
+        lastError = error;
+        const message = error instanceof Error ? error.message : String(error);
+        if (!/404|no existe|not found/i.test(message)) break;
+      }
+    }
+    throw lastError instanceof Error
+      ? lastError
+      : new Error("No se pudo solicitar la cancelación. Contacte al administrador.");
   }
 
   private async recordOffline(data: CreateMaintenanceRequestData, requestId: string): Promise<{ message: string; workOrder: MaintenanceRequest }> {
