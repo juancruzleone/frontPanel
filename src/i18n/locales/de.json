@@ -1050,6 +1050,7 @@
     "originManual": "Manuell",
     "originMaintenancePlan": "Wartungsplan",
     "originAutoPreventive": "Automatisches Präventiv",
+    "originTechnicianReport": "Technikerbericht",
     "filterByOrigin": "Nach Herkunft filtern",
     "clientRequestBadge": "Kundenanfrage",
     "myRequests": "Meine Anfragen",
@@ -1071,7 +1072,11 @@
     "inReview": "In Prüfung",
     "statsPending": "Ausstehend",
     "statsInProgress": "In Bearbeitung",
-    "statsResolved": "Abgeschlossen"
+    "statsResolved": "Abgeschlossen",
+    "complete": {
+      "detectIncidentFollowup": "Ein Vorfall wurde festgestellt, der eine Nachverfolgung erfordert",
+      "detectIncidentHint": "Ermöglicht den Abschluss dieser vorbeugenden Wartung bei gleichzeitiger automatischer Erstellung eines verknüpften Korrekturberichts."
+    }
   },
   "installations": {
     "exportResults": "Ergebnisse exportieren",

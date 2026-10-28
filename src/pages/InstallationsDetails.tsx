@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react"
 import { useParams, useNavigate, useLocation } from "react-router"
 import styles from "../features/installationsDetails/styles/installationDetails.module.css"
-import { Trash, Edit, Plus, QrCode, FileText, HelpCircle, History } from "lucide-react"
+import { Trash, Edit, Plus, QrCode, FileText, HelpCircle, History, AlertTriangle } from "lucide-react"
 import Tooltip from "../shared/components/Tooltip/Tooltip"
 import { FiArrowLeft } from "react-icons/fi"
 import { useTheme } from "../shared/hooks/useTheme"
@@ -11,6 +11,7 @@ import ModalConfirmDelete from "../features/installations/components/ModalConfir
 import ModalSuccess from "../features/installations/components/ModalSuccess"
 import ModalError from "../features/forms/components/ModalError"
 import ModalQRCode from "../features/installationsDetails/components/ModalQrCode"
+import ModalReportIncident from "../features/incidents/components/ModalReportIncident"
 import MaintenanceHistoryModal from "../features/deviceForms/components/MaintenanceHistoryModal"
 import useInstallations from "../features/installations/hooks/useInstallations"
 import { getLastMaintenanceForDevice } from "../features/installationsDetails/services/installationDetailsServices.ts"
@@ -70,6 +71,8 @@ const InstallationDetails = () => {
   const [isEditDeviceModalOpen, setIsEditDeviceModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isQRModalOpen, setIsQRModalOpen] = useState(false)
+  const [isIncidentModalOpen, setIsIncidentModalOpen] = useState(false)
+  const [deviceForIncident, setDeviceForIncident] = useState<Device | null>(null)
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false)
   const [deviceToDelete, setDeviceToDelete] = useState<Device | null>(null)
   const [deviceToEdit, setDeviceToEdit] = useState<Device | null>(null)
@@ -189,6 +192,11 @@ const InstallationDetails = () => {
   const handleShowQR = (device: Device) => {
     setDeviceForQR(device)
     setIsQRModalOpen(true)
+  }
+
+  const handleReportIncident = (device: Device) => {
+    setDeviceForIncident(device)
+    setIsIncidentModalOpen(true)
   }
 
   const { historyByDevice, setHistory, lastMaintenanceByDevice, setLastMaintenance, ownerId: maintenanceOwnerId } = useMaintenanceStore()
@@ -499,6 +507,18 @@ const InstallationDetails = () => {
                     <FileText size={18} />
                   </button>
                 </Tooltip>
+                {!isClientUser && (
+                  <Tooltip content={t("incidents.reportIncident", { defaultValue: "Reportar incidencia" })}>
+                    <button
+                      className={styles.incidentButton}
+                      onClick={() => handleReportIncident(device)}
+                      aria-label={t("incidents.reportIncident", { defaultValue: "Reportar incidencia" })}
+                      data-tooltip={t("incidents.reportIncident", { defaultValue: "Reportar incidencia" })}
+                    >
+                      <AlertTriangle size={18} />
+                    </button>
+                  </Tooltip>
+                )}
                 {!isRestricted && (
                   <>
                     <Tooltip content={t("installationDetails.editDevice")}>
@@ -585,6 +605,18 @@ const InstallationDetails = () => {
                             <FileText size={18} />
                           </button>
                         </Tooltip>
+                        {!isClientUser && (
+                          <Tooltip content={t("incidents.reportIncident", { defaultValue: "Reportar incidencia" })}>
+                            <button
+                              className={styles.incidentButton}
+                              onClick={() => handleReportIncident(device)}
+                              aria-label={t("incidents.reportIncident", { defaultValue: "Reportar incidencia" })}
+                              data-tooltip={t("incidents.reportIncident", { defaultValue: "Reportar incidencia" })}
+                            >
+                              <AlertTriangle size={18} />
+                            </button>
+                          </Tooltip>
+                        )}
                         {!isRestricted && (
                           <>
                             <Tooltip content={t("installationDetails.editDevice")}>
@@ -688,6 +720,25 @@ const InstallationDetails = () => {
         onRequestClose={() => setIsQRModalOpen(false)}
         device={deviceForQR}
         installation={currentInstallation}
+      />
+
+      <ModalReportIncident
+        isOpen={isIncidentModalOpen}
+        onClose={() => {
+          setIsIncidentModalOpen(false)
+          setDeviceForIncident(null)
+        }}
+        installation={currentInstallation ? {
+          _id: currentInstallation._id,
+          company: currentInstallation.company,
+          address: currentInstallation.address,
+          devices: currentInstallation.devices,
+        } : null}
+        device={deviceForIncident}
+        onSubmitSuccess={(msg) => {
+          setResponseMessage(msg)
+          setIsError(false)
+        }}
       />
 
       <MaintenanceHistoryModal

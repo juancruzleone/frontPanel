@@ -1066,6 +1066,7 @@
     "originManual": "Manuel",
     "originMaintenancePlan": "Plan de maintenance",
     "originAutoPreventive": "Préventif automatique",
+    "originTechnicianReport": "Rapport de technicien",
     "filterByOrigin": "Filtrer par origine",
     "clientRequestBadge": "Demande du client",
     "myRequests": "Mes demandes",
@@ -1087,7 +1088,11 @@
     "inReview": "En révision",
     "statsPending": "En attente",
     "statsInProgress": "En cours",
-    "statsResolved": "Résolues"
+    "statsResolved": "Résolues",
+    "complete": {
+      "detectIncidentFollowup": "Un incident nécessitant un suivi a été détecté",
+      "detectIncidentHint": "Permet de finaliser cette maintenance préventive tout en générant automatiquement un rapport correctif lié."
+    }
   },
   "installations": {
     "exportResults": "Exporter les résultats",

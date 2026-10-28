@@ -1070,6 +1070,7 @@
     "originManual": "수동",
     "originMaintenancePlan": "유지보수 계획",
     "originAutoPreventive": "자동 예방",
+    "originTechnicianReport": "기술자 보고서",
     "filterByOrigin": "출처별 필터",
     "clientRequestBadge": "고객 요청",
     "myRequests": "내 요청",
@@ -1091,7 +1092,11 @@
     "inReview": "검토 중",
     "statsPending": "대기 중",
     "statsInProgress": "진행 중",
-    "statsResolved": "해결됨"
+    "statsResolved": "해결됨",
+    "complete": {
+      "detectIncidentFollowup": "후속 조치가 필요한 인시던트가 감지되었습니다",
+      "detectIncidentHint": "이 예방 유지보수를 완료하면서 연결된 시정 조치 보고서를 자동으로 생성합니다."
+    }
   },
   "installations": {
     "exportResults": "결과 내보내기",

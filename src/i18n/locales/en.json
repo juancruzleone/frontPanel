@@ -1962,6 +1962,7 @@
     "originManual": "Manual",
     "originMaintenancePlan": "Maintenance plan",
     "originAutoPreventive": "Automatic preventive",
+    "originTechnicianReport": "Technician report",
     "filterByOrigin": "Filter by origin",
     "clientRequestBadge": "Client request",
     "myRequests": "My requests",
@@ -1983,7 +1984,11 @@
     "inReview": "Under review",
     "statsPending": "Pending",
     "statsInProgress": "In progress",
-    "statsResolved": "Resolved"
+    "statsResolved": "Resolved",
+    "complete": {
+      "detectIncidentFollowup": "An incident requiring follow-up was detected",
+      "detectIncidentHint": "Allows completing this preventive maintenance while automatically generating a linked corrective incident report."
+    }
   },
   "inventory": {
     "exportMovements": "Export movements",
@@ -2979,6 +2984,38 @@
     },
     "notice": {
       "goToSetup": "Go to initial setup"
+    }
+  },
+  "incidents": {
+    "reportIncident": "Report incident",
+    "reportSubtitle": "Log a field-detected fault to generate a corrective work order",
+    "offlineNotice": "Offline. The report will be stored locally and sent once connection is restored.",
+    "installation": "Installation",
+    "selectInstallation": "Select installation...",
+    "device": "Device",
+    "selectDevice": "Select device...",
+    "incidentType": "Incident type",
+    "types": {
+      "falla_detectada": "Fault detected",
+      "desgaste_anomalo": "Abnormal wear",
+      "riesgo_seguridad": "Safety hazard",
+      "operacion_defectuosa": "Defective operation",
+      "otro": "Other"
+    },
+    "suggestedPriority": "Suggested priority",
+    "description": "Description",
+    "descriptionPlaceholder": "Describe with precision the observed fault, abnormal noises, leaks or symptoms...",
+    "copyExample": "Copy sample report",
+    "exampleDescription": "Fault detected in primary sensor. Intermittent out-of-range readings and preventive alarm triggered. Requires wiring inspection and potential unit replacement.",
+    "photos": "Evidence photos (optional, max 4)",
+    "addPhoto": "Photo",
+    "sendReport": "Submit report",
+    "success": "Incident reported successfully. It will be reviewed by administration.",
+    "errors": {
+      "installationRequired": "Please select an installation",
+      "deviceRequired": "Please select a device",
+      "descriptionMin": "Description must have at least 5 characters",
+      "generic": "Error submitting report"
     }
   }
 }

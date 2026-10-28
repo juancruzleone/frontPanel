@@ -772,3 +772,52 @@
 .dark .errorContentBody {
   color: #fff !important;
 }
+
+/* Incident follow-up section on completion */
+.incidentSectionBox {
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  background: rgba(217, 119, 6, 0.08);
+  border: 1px solid rgba(217, 119, 6, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.incidentCheckboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-text, #1e293b);
+  cursor: pointer;
+}
+
+.incidentCheckbox {
+  width: 18px;
+  height: 18px;
+  accent-color: #d97706;
+  cursor: pointer;
+}
+
+.incidentCheckboxText {
+  color: #b45309;
+}
+
+.incidentCheckboxHint {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--color-text-secondary, #64748b);
+  line-height: 1.4;
+}
+
+.incidentFields {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed rgba(217, 119, 6, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}

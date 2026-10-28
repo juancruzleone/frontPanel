@@ -1068,6 +1068,7 @@
     "originManual": "يدوي",
     "originMaintenancePlan": "خطة الصيانة",
     "originAutoPreventive": "وقائي تلقائي",
+    "originTechnicianReport": "تقرير فني",
     "filterByOrigin": "تصفية حسب المصدر",
     "clientRequestBadge": "طلب العميل",
     "myRequests": "طلباتي",
@@ -1089,7 +1090,11 @@
     "inReview": "قيد المراجعة",
     "statsPending": "معلقة",
     "statsInProgress": "قيد التنفيذ",
-    "statsResolved": "محلولة"
+    "statsResolved": "محلولة",
+    "complete": {
+      "detectIncidentFollowup": "تم اكتشاف عطل يتطلب متابعة",
+      "detectIncidentHint": "يتيح إكمال هذه الصيانة الوقائية مع إنشاء تقرير تصحيحي مرتبط بالجهاز تلقائيًا."
+    }
   },
   "installations": {
     "exportResults": "تصدير النتائج",

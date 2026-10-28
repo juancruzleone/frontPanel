@@ -289,7 +289,8 @@
 .deleteButton,
 .qrButton,
 .pdfButton,
-.historyButton {
+.historyButton,
+.incidentButton {
   background: none;
   border: none;
   padding: 8px;
@@ -304,6 +305,17 @@
   width: 32px;
   height: 32px;
   font-size: 16px;
+}
+
+.incidentButton {
+  color: #d97706;
+}
+
+.incidentButton:hover {
+  background: #d97706;
+  color: #ffffff;
+  border: 1px solid #d97706;
+  transform: scale(1.05);
 }
 
 .editButton:hover,

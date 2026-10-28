@@ -471,45 +471,55 @@ const ORDER_ORIGIN_LABELS: BackendLabelTable = {
     'manual': 'Manual',
     'plan_mantenimiento': 'Plan de mantenimiento',
     'preventivo_automatico': 'Preventivo automático',
-    'solicitud_cliente': 'Solicitud de cliente'
+    'solicitud_cliente': 'Solicitud de cliente',
+    'reporte_tecnico': 'Reporte de técnico'
   },
   en: {
     'manual': 'Manual',
     'plan_mantenimiento': 'Maintenance plan',
     'preventivo_automatico': 'Automatic preventive',
-    'solicitud_cliente': 'Client request'
+    'solicitud_cliente': 'Client request',
+    'reporte_tecnico': 'Technician report'
   },
   fr: {
     'manual': 'Manuel',
-    'plan_mantenimiento': 'Plan de maintenance'
+    'plan_mantenimiento': 'Plan de maintenance',
+    'reporte_tecnico': 'Rapport de technicien'
   },
   pt: {
     'manual': 'Manual',
-    'plan_mantenimiento': 'Plano de manutenção'
+    'plan_mantenimiento': 'Plano de manutenção',
+    'reporte_tecnico': 'Relatório do técnico'
   },
   de: {
     'manual': 'Manuell',
-    'plan_mantenimiento': 'Wartungsplan'
+    'plan_mantenimiento': 'Wartungsplan',
+    'reporte_tecnico': 'Technikerbericht'
   },
   it: {
     'manual': 'Manuale',
-    'plan_mantenimiento': 'Piano di manutenzione'
+    'plan_mantenimiento': 'Piano di manutenzione',
+    'reporte_tecnico': 'Rapporto del tecnico'
   },
   ja: {
     'manual': '手動',
-    'plan_mantenimiento': '保守計画'
+    'plan_mantenimiento': '保守計画',
+    'reporte_tecnico': '技術者レポート'
   },
   ko: {
     'manual': '수동',
-    'plan_mantenimiento': '유지보수 계획'
+    'plan_mantenimiento': '유지보수 계획',
+    'reporte_tecnico': '기술자 보고서'
   },
   zh: {
     'manual': '手动',
-    'plan_mantenimiento': '维护计划'
+    'plan_mantenimiento': '维护计划',
+    'reporte_tecnico': '技术员报告'
   },
   ar: {
     'manual': 'يدوي',
-    'plan_mantenimiento': 'خطة الصيانة'
+    'plan_mantenimiento': 'خطة الصيانة',
+    'reporte_tecnico': 'تقرير فني'
   }
 }
 
@@ -524,7 +534,10 @@ const ORDER_ORIGIN_ALIASES: Record<string, string> = {
   'plan de mantenimiento': 'plan_mantenimiento',
   'maintenance plan': 'plan_mantenimiento',
   'mantenimiento': 'plan_mantenimiento',
-  'manually': 'manual'
+  'manually': 'manual',
+  'reporte de tecnico': 'reporte_tecnico',
+  'reporte de técnico': 'reporte_tecnico',
+  'technician report': 'reporte_tecnico'
 }
 
 // Traduce el origen de la orden (manual o plan) al idioma activo.

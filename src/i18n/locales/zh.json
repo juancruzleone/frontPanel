@@ -1070,6 +1070,7 @@
     "originManual": "手动",
     "originMaintenancePlan": "维护计划",
     "originAutoPreventive": "自动预防",
+    "originTechnicianReport": "技术员报告",
     "filterByOrigin": "按来源筛选",
     "clientRequestBadge": "客户请求",
     "myRequests": "我的请求",
@@ -1091,7 +1092,11 @@
     "inReview": "审核中",
     "statsPending": "待处理",
     "statsInProgress": "进行中",
-    "statsResolved": "已解决"
+    "statsResolved": "已解决",
+    "complete": {
+      "detectIncidentFollowup": "检测到需要跟进的故障事件",
+      "detectIncidentHint": "在完成此预防性维护的同时，自动生成关联的纠正报告。"
+    }
   },
   "modals": {
     "understood": "关闭",

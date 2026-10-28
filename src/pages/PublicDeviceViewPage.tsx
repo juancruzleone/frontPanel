@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react"
 import { useParams } from "react-router"
-import { FileText, Calendar, Building2, MapPin, Wrench, History, ExternalLink } from "lucide-react"
+import { FileText, Calendar, Building2, MapPin, Wrench, History, ExternalLink, AlertTriangle } from "lucide-react"
 import { getPublicDeviceForm, getPublicMaintenanceHistory, type MaintenanceRecord } from "../features/deviceForms/services/maintenanceHistoryService"
 import styles from "../features/deviceForms/styles/publicDeviceView.module.css"
 import { openSafeUrl } from "../utils/sanitizer"
 import { useTranslation } from "react-i18next"
+import { useAuthStore } from "../store/authStore"
+import ModalReportIncident from "../features/incidents/components/ModalReportIncident"
 
 interface DeviceInfo {
   _id: string
@@ -35,7 +37,11 @@ const PublicDeviceViewPage: React.FC = () => {
   const [maintenanceHistory, setMaintenanceHistory] = useState<MaintenanceRecord[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [isIncidentModalOpen, setIsIncidentModalOpen] = useState(false)
+  const [successMessage, setSuccessMessage] = useState<string | null>(null)
   const { t, i18n } = useTranslation()
+  const { isAuthenticated, role } = useAuthStore()
+  const isTechOrAdmin = isAuthenticated && (role === 'tecnico' || role === 'técnico' || role === 'admin' || role === 'super_admin')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -180,6 +186,31 @@ const PublicDeviceViewPage: React.FC = () => {
             <strong>{t('publicDevice.serialNumber', 'N° Serie')}:</strong>
             <span>{deviceInfo.numeroSerie}</span>
           </div>
+
+          {isTechOrAdmin && (
+            <div style={{ marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px solid var(--color-card-border, #e2e8f0)', display: 'flex', justifyContent: 'flex-end' }}>
+              <button
+                type="button"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  padding: '0.65rem 1rem',
+                  background: '#d97706',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '6px',
+                  fontWeight: 600,
+                  fontSize: '0.875rem',
+                  cursor: 'pointer',
+                }}
+                onClick={() => setIsIncidentModalOpen(true)}
+              >
+                <AlertTriangle size={16} />
+                <span>{t('incidents.reportIncident', { defaultValue: 'Reportar incidencia' })}</span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -259,6 +290,29 @@ const PublicDeviceViewPage: React.FC = () => {
           </div>
         </div>
       )}
+
+      {successMessage && (
+        <div style={{ padding: '0.75rem 1rem', background: 'rgba(34, 197, 94, 0.1)', color: '#15803d', border: '1px solid #16a34a', borderRadius: '8px', marginBottom: '1rem', textAlign: 'center' }}>
+          {successMessage}
+        </div>
+      )}
+
+      <ModalReportIncident
+        isOpen={isIncidentModalOpen}
+        onClose={() => setIsIncidentModalOpen(false)}
+        installation={installationInfo ? {
+          _id: installationInfo._id,
+          company: installationInfo.company,
+          address: installationInfo.address,
+        } : null}
+        device={deviceInfo ? {
+          _id: deviceInfo._id,
+          nombre: deviceInfo.nombre,
+          ubicacion: deviceInfo.ubicacion,
+          categoria: deviceInfo.categoria,
+        } : null}
+        onSubmitSuccess={(msg) => setSuccessMessage(msg)}
+      />
 
       <div className={styles.footer}>
         <p>{t('publicDevice.footer', 'Sistema de Gestión de Mantenimiento (GMAO)')}</p>

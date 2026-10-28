@@ -10,7 +10,7 @@ import { COMMAND_SCHEMA_VERSION, COMMAND_ERROR_CODES } from './commandTypes'
 const DB_NAME = 'GMAO_Offline_DB'
 const CMD_STORE = 'offlineCommands'
 
-const VALID_TYPES = new Set<string>(['start', 'maintenance', 'completion', 'evidence', 'client_maintenance_request'])
+const VALID_TYPES = new Set<string>(['start', 'maintenance', 'completion', 'evidence', 'client_maintenance_request', 'technician_incident_report'])
 
 export interface RecordCommandParams {
   commandId: string; commandType: CommandType; payload: Record<string, unknown>

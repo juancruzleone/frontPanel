@@ -9,6 +9,8 @@ import useInventory from "../../inventory/hooks/useInventory"
 import { Plus, Trash2 } from "lucide-react"
 import { selectCompletionInventory, type InventoryReference } from "../../../shared/offline/packageStorage"
 import type { InventoryItem } from "../../inventory/types/inventory.types"
+import { incidentService } from "../../incidents/services/incidentServices"
+import type { IncidentType, IncidentPriority } from "../../incidents/types/incidents.types"
 
 interface InventoryPartUsed {
   inventoryItemId: string
@@ -76,6 +78,11 @@ const ModalCompleteWorkOrder = ({
   const [selectedInventoryItem, setSelectedInventoryItem] = useState("")
   const [itemQuantity, setItemQuantity] = useState(1)
   const [inventoryError, setInventoryError] = useState("")
+
+  const [reportFollowUpIncident, setReportFollowUpIncident] = useState(false)
+  const [incidentType, setIncidentType] = useState<IncidentType>("falla_detectada")
+  const [incidentPriority, setIncidentPriority] = useState<IncidentPriority>("media")
+  const [incidentDescription, setIncidentDescription] = useState("")
 
   const selectedInventoryStock = useMemo(() => {
     const selectedItem = completionInventory.find((item) => item._id === selectedInventoryItem)
@@ -273,6 +280,11 @@ const ModalCompleteWorkOrder = ({
       return
     }
 
+    if (reportFollowUpIncident && (!incidentDescription || incidentDescription.trim().length < 5)) {
+      setError("La descripción de la incidencia que requiere seguimiento debe tener al menos 5 caracteres")
+      return
+    }
+
     for (const part of completionData.inventoryPartsUsed) {
       const item = completionInventory.find((inventoryItem) => inventoryItem._id === part.inventoryItemId)
       if (!item) {
@@ -308,7 +320,34 @@ const ModalCompleteWorkOrder = ({
       
       // SAFETY: updatedCompletionData is locally constructed with the exact fields expected by onComplete; double cast via unknown is safe here
       const result = await onComplete(workOrder._id, updatedCompletionData as unknown as Record<string, unknown>)
-      onSubmitSuccess(result.message)
+
+      if (reportFollowUpIncident && workOrder.instalacionId && workOrder.dispositivo?._id) {
+        try {
+          const inst = workOrder.instalacionId as Record<string, unknown> | string | undefined | null
+          const rawInstId = typeof inst === "object" && inst !== null && "_id" in inst
+            ? String((inst as { _id: string })._id)
+            : String(inst || "")
+
+          await incidentService.reportIncident({
+            instalacionId: rawInstId,
+            dispositivoId: workOrder.dispositivo._id,
+            tipoIncidencia: incidentType,
+            prioridadSugerida: incidentPriority,
+            descripcion: incidentDescription.trim(),
+            fotos: completionData.evidenciaFoto ? [completionData.evidenciaFoto] : [],
+            ordenPreventivaOrigenId: workOrder._id,
+            observaciones: `Reportado al finalizar orden de trabajo: ${workOrder.titulo}`,
+          })
+        } catch (incidentErr) {
+          console.error("Error al reportar incidencia de seguimiento:", incidentErr)
+        }
+      }
+
+      const finalMsg = reportFollowUpIncident
+        ? `${result.message}. Se generó la incidencia para seguimiento correctivo.`
+        : result.message
+
+      onSubmitSuccess(finalMsg)
       handleClose()
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : String(err))
@@ -340,6 +379,10 @@ const ModalCompleteWorkOrder = ({
         nombreFoto: "",
         firmaTecnico: "",
       })
+      setReportFollowUpIncident(false)
+      setIncidentType("falla_detectada")
+      setIncidentPriority("media")
+      setIncidentDescription("")
       setTouchedFields({})
       setError("")
     }
@@ -566,6 +609,85 @@ const ModalCompleteWorkOrder = ({
                   </div>
                 )}
               </div>
+
+              {/* Incidencia vinculada que requiere seguimiento */}
+              {workOrder.dispositivo && (
+                <div className={styles.incidentSectionBox}>
+                  <label className={styles.incidentCheckboxLabel}>
+                    <input
+                      type="checkbox"
+                      checked={reportFollowUpIncident}
+                      onChange={(e) => setReportFollowUpIncident(e.target.checked)}
+                      disabled={isSubmitting}
+                      className={styles.incidentCheckbox}
+                    />
+                    <span className={styles.incidentCheckboxText}>
+                      {t("workOrders.complete.detectIncidentFollowup", {
+                        defaultValue: "Se detectó una incidencia que requiere seguimiento",
+                      })}
+                    </span>
+                  </label>
+                  <p className={styles.incidentCheckboxHint}>
+                    {t("workOrders.complete.detectIncidentHint", {
+                      defaultValue:
+                        "Permite finalizar este mantenimiento preventivo y generar automáticamente un reporte correctivo vinculado al dispositivo.",
+                    })}
+                  </p>
+
+                  {reportFollowUpIncident && (
+                    <div className={styles.incidentFields}>
+                      <div className={styles.formGroup}>
+                        <label>{t("incidents.suggestedPriority", { defaultValue: "Prioridad sugerida" })}</label>
+                        <select
+                          value={incidentPriority}
+                          onChange={(e) => setIncidentPriority(e.target.value as IncidentPriority)}
+                          disabled={isSubmitting}
+                        >
+                          <option value="baja">{t("priorities.low", { defaultValue: "Baja" })}</option>
+                          <option value="media">{t("priorities.medium", { defaultValue: "Media" })}</option>
+                          <option value="alta">{t("priorities.high", { defaultValue: "Alta" })}</option>
+                        </select>
+                      </div>
+
+                      <div className={styles.formGroup}>
+                        <label>{t("incidents.incidentType", { defaultValue: "Tipo de incidencia" })}</label>
+                        <select
+                          value={incidentType}
+                          onChange={(e) => setIncidentType(e.target.value as IncidentType)}
+                          disabled={isSubmitting}
+                        >
+                          <option value="falla_detectada">
+                            {t("incidents.types.falla_detectada", { defaultValue: "Falla detectada" })}
+                          </option>
+                          <option value="desgaste_anomalo">
+                            {t("incidents.types.desgaste_anomalo", { defaultValue: "Desgaste anómalo" })}
+                          </option>
+                          <option value="riesgo_seguridad">
+                            {t("incidents.types.riesgo_seguridad", { defaultValue: "Riesgo de seguridad" })}
+                          </option>
+                          <option value="operacion_defectuosa">
+                            {t("incidents.types.operacion_defectuosa", { defaultValue: "Operación defectuosa" })}
+                          </option>
+                          <option value="otro">{t("incidents.types.otro", { defaultValue: "Otro" })}</option>
+                        </select>
+                      </div>
+
+                      <div className={styles.formGroup}>
+                        <label>{t("incidents.description", { defaultValue: "Descripción de la falla" })}*</label>
+                        <textarea
+                          value={incidentDescription}
+                          onChange={(e) => setIncidentDescription(e.target.value)}
+                          disabled={isSubmitting}
+                          rows={3}
+                          placeholder={t("incidents.descriptionPlaceholder", {
+                            defaultValue: "Describí con precisión el problema detectado para la orden correctiva...",
+                          })}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {error && <p className={styles.generalError}>{error}</p>}
             </div>

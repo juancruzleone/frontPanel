@@ -1068,6 +1068,7 @@
     "originManual": "手動",
     "originMaintenancePlan": "保守計画",
     "originAutoPreventive": "自動予防",
+    "originTechnicianReport": "技術者レポート",
     "filterByOrigin": "由来で絞り込む",
     "clientRequestBadge": "クライアントからの依頼",
     "myRequests": "自分のリクエスト",
@@ -1089,7 +1090,11 @@
     "inReview": "確認中",
     "statsPending": "保留中",
     "statsInProgress": "進行中",
-    "statsResolved": "解決済み"
+    "statsResolved": "解決済み",
+    "complete": {
+      "detectIncidentFollowup": "フォローアップが必要なインシデントが検出されました",
+      "detectIncidentHint": "この予防保守を完了すると同時に、リンクされた是正レポートを自動的に生成します。"
+    }
   },
   "installations": {
     "exportResults": "結果をエクスポート",
