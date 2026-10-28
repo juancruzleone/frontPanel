@@ -44,6 +44,8 @@ function mockApi(page: import("@playwright/test").Page, overrides: Record<string
       await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ keys: [] }) })
     } else if (url.includes("/ordenes-trabajo") && method === "GET") {
       await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ data: [], pagination: { total: 0 } }) })
+    } else if (url.includes("/tenant/onboarding")) {
+      await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ status: "complete", version: 1, completedAt: "2026-01-01T00:00:00.000Z", checks: { company: true, installationTypes: true, deviceCategories: true, formCategories: true, maintenanceTemplate: true }, missing: [] }) })
     } else {
       await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({}) })
     }

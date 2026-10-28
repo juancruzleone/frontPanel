@@ -27,6 +27,8 @@ async function mockSession(page: Page) {
     return route.fulfill({ json: body })
   })
   await page.route('**/socket.io**', route => route.abort())
+  // Setup inicial completo: el gate de onboarding deja pasar al panel.
+  await page.route('**/api/tenant/onboarding', route => route.fulfill({ json: { status: "complete", version: 1, completedAt: "2026-01-01T00:00:00.000Z", checks: { company: true, installationTypes: true, deviceCategories: true, formCategories: true, maintenanceTemplate: true }, missing: [] } }))
 }
 
 for (const width of widths) {
@@ -70,15 +72,9 @@ for (const width of widths) {
   })
 }
 
-for (const width of [390, 1440]) {
-  test(`nonpaginated Suppliers preserves bottom clearance ${width}px`, async ({ page }) => {
-    await page.setViewportSize({ width, height: 1000 })
-    await mockSession(page)
-    await page.goto('/proveedores')
-    await expect(page.getByRole('heading', { name: 'Proveedores', exact: true })).toBeVisible()
-    expect(await page.locator('main').evaluate(main => getComputedStyle(main).paddingBottom)).toBe('88px')
-  })
-}
+// Eliminado con las guías turísticas (T4): la página real de Proveedores ya no
+// renderiza el botón flotante, así que no existe clearance que preservar. La
+// cascada CSS con el botón presente sigue cubierta por los tests de fixture.
 const sections = [
   { name: 'Installations', feature: 'installations', file: 'installations', root: 'containerInstallations', list: 'listContainer', card: 'installationCard' },
   { name: 'Assets', feature: 'assets', file: 'assets', root: 'containerAssets', list: 'listContainer', card: 'assetCard' },
