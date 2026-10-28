@@ -75,6 +75,12 @@ export type WorkOrder = {
 	tipoTrabajo: string;
 	tipoOrden?: string;
 	origen?: string;
+	solicitadoPor?: string;
+	fechaPreferida?: Date | string | null;
+	horaPreferida?: string | null;
+	contactoNombre?: string;
+	contactoTelefono?: string;
+	contactoEmail?: string;
 	fechaProgramada: Date | string;
 	horaProgramada: string;
 	tecnicoAsignado?: string;
