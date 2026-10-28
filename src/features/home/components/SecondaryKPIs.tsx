@@ -62,7 +62,7 @@ export const SecondaryKPIs = ({ metrics }: SecondaryKPIsProps) => {
 
   if (metrics.length > 0 && !metrics.some(isAvailable)) {
     return (
-      <div className={styles.secondaryKpisSection} data-tour="home-dashboard-secondary-kpis">
+      <div className={styles.secondaryKpisSection}>
         <h2 id="secondary-indicators-title" className={styles.sectionHeading}>
           {t("home.dashboard.sections.secondaryIndicators", { defaultValue: "Indicadores operativos secundarios" })}
         </h2>
@@ -72,7 +72,7 @@ export const SecondaryKPIs = ({ metrics }: SecondaryKPIsProps) => {
   }
 
   return (
-    <div className={styles.secondaryKpisSection} data-tour="home-dashboard-secondary-kpis">
+    <div className={styles.secondaryKpisSection}>
       <h2 id="secondary-indicators-title" className={styles.sectionHeading}>
         {t("home.dashboard.sections.secondaryIndicators", { defaultValue: "Indicadores operativos secundarios" })}
       </h2>

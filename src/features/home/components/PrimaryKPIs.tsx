@@ -43,7 +43,7 @@ export const PrimaryKPIs = ({ metrics, upcomingCount, assetsCount, isClient = fa
   }
 
   return (
-    <div className={styles.primaryKpisSection} data-tour="home-dashboard-primary-kpis">
+    <div className={styles.primaryKpisSection}>
       <h2 id="attention-overview-title" className={styles.sectionHeading}>
         {t("home.dashboard.sections.primaryKpis", { defaultValue: "Métricas principales" })}
       </h2>

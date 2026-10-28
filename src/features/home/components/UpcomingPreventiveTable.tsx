@@ -30,7 +30,7 @@ export const UpcomingPreventiveTable = ({ maintenance, onOpenDetail }: UpcomingP
   }
 
   return (
-    <div className={styles.preventiveFullSection} data-tour="home-dashboard-maintenance-schedule">
+    <div className={styles.preventiveFullSection}>
       <div className={styles.panel}>
         <div className={styles.panelHeader}>
           <div>

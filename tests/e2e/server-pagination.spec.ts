@@ -27,14 +27,6 @@ async function seedSession(page: Page) {
       version: 0,
     }))
     localStorage.setItem('i18nextLng', 'es')
-    for (const key of [
-      'home-onboarding-tour-v1-shown',
-      'clientsTourCompleted',
-      'personalTourCompleted',
-      'subscriptionsTourCompleted',
-      'suppliersTourCompleted',
-      'installationsTourCompleted',
-    ]) localStorage.setItem(key, 'true')
   }, { user: ADMIN_USER })
 
   await page.route('**/api/billing/**', route => route.fulfill({

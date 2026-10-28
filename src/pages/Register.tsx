@@ -17,9 +17,7 @@ import SearchInput from "../shared/components/Inputs/SearchInput"
 import { useTheme } from "../shared/hooks/useTheme"
 import { deleteTechnician } from "../features/auth/register/services/registerServices"
 import { useAuthStore } from "../store/authStore"
-import { usePersonalTour } from "../features/auth/register/hooks/usePersonalTour"
 import Skeleton from "../shared/components/Skeleton"
-import TourButton from "../shared/components/Buttons/TourButton"
 import ViewToggle from "../components/ViewToggle/ViewToggle"
 import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 import { Pagination } from '../shared/components/Pagination/Pagination'
@@ -40,8 +38,6 @@ const Register = () => {
   const [technicianToDelete, setTechnicianToDelete] = useState<any>(null)
   const [technicianToEdit, setTechnicianToEdit] = useState<any>(null)
   const [viewMode, setViewMode, isMobile] = useResponsiveView('register-view', 'cards')
-  const { tourCompleted, startTour, resetTour, skipTour } = usePersonalTour()
-
   // Wrapper para addTechnician que acepta FormData
   const handleAddTechnician = async (data: { 
     userName: string
@@ -61,15 +57,6 @@ const Register = () => {
     // Aquí asumo que tienes acceso al id del usuario logueado, si no, deberás ajustarlo
     // setUserId(authStore.user?._id)
   }, [t])
-
-  useEffect(() => {
-    if (!tourCompleted && technicians.length >= 0) {
-      const timer = setTimeout(() => {
-        startTour()
-      }, 500)
-      return () => clearTimeout(timer)
-    }
-  }, [tourCompleted, technicians])
 
   const formatDate = useCallback((dateString: string) => {
     const date = new Date(dateString)
@@ -150,7 +137,7 @@ const Register = () => {
         <div className={styles.headerWithToggle}>
           <h1 className={styles.title}>{t('personal.title')}</h1>
         </div>
-        <div className={styles.buttonContainer} data-tour="add-technician-btn">
+        <div className={styles.buttonContainer}>
           <Button title={t('personal.addTechnician')} onClick={handleOpenModal} />
         </div>
       </div>
@@ -158,7 +145,7 @@ const Register = () => {
       {!isMobile && <div className={styles.actionsBar}><div className={styles.viewToggleRow}><ViewToggle view={viewMode} onViewChange={setViewMode} /></div></div>}
 
       {/* Filtro de búsqueda */}
-      <div className={styles.searchRow} data-tour="search-technicians">
+      <div className={styles.searchRow}>
         <SearchInput
           placeholder={t('personal.searchPlaceholder')}
           value={searchTerm}
@@ -330,11 +317,6 @@ const Register = () => {
       <ModalSuccess isOpen={showModal && !isError} onRequestClose={closeModal} mensaje={responseMessage} />
       <ModalError isOpen={showModal && isError} onRequestClose={closeModal} mensaje={responseMessage} />
 
-      {/* Botón flotante del tour */}
-      <TourButton
-        onClick={tourCompleted ? startTour : skipTour}
-        label={tourCompleted ? t('personal.tour.buttons.restart') : t('personal.tour.buttons.skip')}
-      />
     </div>
   )
 }

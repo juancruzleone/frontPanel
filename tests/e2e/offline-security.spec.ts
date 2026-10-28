@@ -23,9 +23,6 @@ function seedAuth(page: import("@playwright/test").Page, identity: typeof TENANT
       },
       version: 0,
     }))
-    localStorage.setItem("home-onboarding-tour-v1-shown", "true")
-    localStorage.setItem("work-orders-onboarding-tour-v1-shown", "true")
-    localStorage.setItem("workOrdersTourCompleted", "true")
     localStorage.setItem("workorders-view", '"table"')
   }, identity)
 }

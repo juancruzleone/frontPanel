@@ -46,8 +46,6 @@ import {
 } from "../shared/utils/backendTranslations";
 import { getTranslatedWorkOrderDescription } from "../shared/utils/workOrderDescription";
 import { useAuthStore } from "../store/authStore";
-import { useWorkOrdersTour } from "../features/workOrders/hooks/useWorkOrdersTour";
-import TourButton from "../shared/components/Buttons/TourButton";
 import Tooltip from "../shared/components/Tooltip/Tooltip";
 import { socketService } from "../shared/services/socketService";
 import ViewToggle from "../components/ViewToggle/ViewToggle";
@@ -174,7 +172,6 @@ const renderTechnicianInfo = (order: WorkOrder, t: (key: string) => string) => {
 
 const WorkOrders = () => {
 	const { t, i18n } = useTranslation();
-	const { tourCompleted, startTour, skipTour } = useWorkOrdersTour();
 	const {
 		workOrders,
 		pagination,
@@ -257,16 +254,6 @@ const WorkOrders = () => {
 	useEffect(() => {
 		document.title = t("workOrders.titlePage");
 	}, [t, i18n.language]);
-
-	// Iniciar el tour automáticamente si no se ha completado
-	useEffect(() => {
-		if (!loading && !tourCompleted) {
-			const timer = setTimeout(() => {
-				startTour();
-			}, 500);
-			return () => clearTimeout(timer);
-		}
-	}, [loading, tourCompleted, startTour]);
 
 	// Cargar catálogos (solo una vez)
 	useEffect(() => {
@@ -752,7 +739,6 @@ const WorkOrders = () => {
 						{permissions?.canCreateWorkOrders && (
 							<div
 								className={styles.positionButton}
-								data-tour="create-work-order-btn"
 							>
 								<Button
 									title={t("workOrders.createWorkOrder")}
@@ -830,7 +816,7 @@ const WorkOrders = () => {
 					</div>
 				)}
 
-				<div className={styles.searchRow} data-tour="search-filter">
+				<div className={styles.searchRow}>
 					<div className={styles.searchContainer}>
 						<SearchInput
 							placeholder={t("workOrders.searchPlaceholder")}
@@ -1317,15 +1303,6 @@ const WorkOrders = () => {
 				mensaje={responseMessage}
 			/>
 
-			{/* Botón flotante del tour estilo WhatsApp */}
-			<TourButton
-				onClick={tourCompleted ? startTour : skipTour}
-				label={
-					tourCompleted
-						? t("workOrders.tour.buttons.restart")
-						: t("workOrders.tour.buttons.skip")
-				}
-			/>
 			<DatePickerModal
 				isOpen={isDatePickerOpen}
 				onRequestClose={() => setIsDatePickerOpen(false)}

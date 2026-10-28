@@ -248,40 +248,6 @@
       "documentoRequired": "ID document is required for technicians",
       "documentoMinLength": "ID document must be at least 5 characters",
       "documentoMaxLength": "ID document cannot exceed 20 characters"
-    },
-    "tour": {
-      "welcome": {
-        "title": "Welcome to personnel management!",
-        "description": "Here you can manage all the technicians in your company. We'll show you the main features."
-      },
-      "addTechnician": {
-        "title": "Add technician",
-        "description": "Click here to register a new technician in the system. You can assign specific roles and permissions."
-      },
-      "searchTechnicians": {
-        "title": "Search technicians",
-        "description": "Use this search bar to find specific technicians by their username."
-      },
-      "technicianActions": {
-        "title": "Technician actions",
-        "description": "In the table you can view each technician's profile, edit their information or delete users when necessary."
-      },
-      "buttons": {
-        "next": "Next",
-        "previous": "Previous",
-        "done": "Finish",
-        "skip": "Skip tutorial",
-        "restart": "Restart tutorial"
-      },
-      "progressText": "{{current}} of {{total}}",
-      "navOperation": {
-        "title": "Staff in Operations",
-        "description": "Staff is now under Operations → Staff."
-      },
-      "navPersonal": {
-        "title": "Go to Staff",
-        "description": "Access Staff from the Operations menu."
-      }
     }
   },
   "profile": {
@@ -367,40 +333,6 @@
       "passwordMinLength": "Password must be at least 6 characters",
       "passwordMaxLength": "Password cannot be more than 100 characters",
       "confirmPasswordRequired": "You must confirm the password"
-    },
-    "tour": {
-      "welcome": {
-        "title": "Welcome to client management!",
-        "description": "Here you can manage all the clients in your company. We'll show you the main features."
-      },
-      "addClient": {
-        "title": "Add client",
-        "description": "Click here to register a new client in the system."
-      },
-      "searchClients": {
-        "title": "Search clients",
-        "description": "Use this search bar to find specific clients by their username."
-      },
-      "clientActions": {
-        "title": "Client actions",
-        "description": "In the table you can view each client's profile, edit their information or delete users when necessary."
-      },
-      "buttons": {
-        "next": "Next",
-        "previous": "Previous",
-        "done": "Finish",
-        "skip": "Skip tutorial",
-        "restart": "Restart tutorial"
-      },
-      "progressText": "{{current}} of {{total}}",
-      "navOperation": {
-        "title": "Installations",
-        "description": "Clients is now under Installations → Clients."
-      },
-      "navClients": {
-        "title": "Go to Clients",
-        "description": "Access Clients from the Installations menu."
-      }
     }
   },
   "common": {
@@ -925,24 +857,6 @@
       "preventiveCompliance": "Preventive maintenance compliance level.",
       "slaRate": "Percentage of jobs resolved within the SLA.",
       "responseTime": "Average time until first response."
-    },
-    "tour": {
-      "welcome": {
-        "title": "Welcome to Leonix!",
-        "description": "This is your home dashboard. I will show you the full map so you can use everything without help: check each section, and each page has its own tutorial at the end."
-      },
-      "settings": {
-        "title": "Settings: start here",
-        "description": "Before operating, go to Settings and complete the 3 steps: installation types, asset and form categories. Without that, the rest stays empty."
-      },
-      "buttons": {
-        "next": "Next",
-        "previous": "Previous",
-        "done": "Done",
-        "skip": "Skip tutorial",
-        "restart": "View tutorial"
-      },
-      "progressText": "{{current}} of {{total}}"
     }
   },
   "installations": {
@@ -1303,44 +1217,6 @@
     },
     "confirmDeleteTitle": "Delete installation?",
     "confirmDeleteDescription": "This action cannot be undone. The installation will be permanently deleted.",
-    "tour": {
-      "welcome": {
-        "title": "Welcome to Leonix!",
-        "description": "Before you start using the panel, it's important to go to Settings to create the necessary installation types and asset categories. We'll guide you step by step."
-      },
-      "createInstallationType": {
-        "title": "Step 1: Go to Settings",
-        "description": "Click on the settings icon (gear) in the top bar. There you must create: 1) Installation types (e.g., Office, Factory, Warehouse), 2) Asset categories (e.g., Pump, Motor, Sensor). This is mandatory before creating installations."
-      },
-      "viewInstallationTypes": {
-        "title": "View Installation Types",
-        "description": "Here you can view and manage all the installation types you've created."
-      },
-      "createInstallation": {
-        "title": "Step 1: Create Installation",
-        "description": "Once you've created at least one installation type, use this button to create your first installation. Enter installation name, address, and select the installation type."
-      },
-      "searchFilter": {
-        "title": "Search and Filter",
-        "description": "Use this bar to search installations by name, address, or city, and filter by installation type."
-      },
-      "buttons": {
-        "next": "Next",
-        "previous": "Previous",
-        "done": "Done",
-        "skip": "Skip tutorial",
-        "restart": "View tutorial"
-      },
-      "progressText": "{{current}} of {{total}}",
-      "navOperation": {
-        "title": "Installations menu",
-        "description": "The Installations menu groups Installations and Clients."
-      },
-      "navClients": {
-        "title": "Clients in Installations",
-        "description": "Client management is now inside Installations → Clients."
-      }
-    },
     "typeUpdatedSuccess": "Installation type updated successfully",
     "typeDeletedSuccess": "Installation type deleted successfully",
     "confirmDeleteType": "Delete installation type {{name}}?",
@@ -1371,44 +1247,6 @@
       "commit": "Commit import",
       "downloadErrors": "Download errors and warnings",
       "completed": "Import completed"
-    },
-    "tour": {
-      "welcome": {
-        "title": "Welcome to Assets!",
-        "description": "Assets are the devices or equipment that serve as a base for the devices you add to installations. For example: pumps, motors, sensors, etc. We'll guide you step by step to learn how to manage them. First you need to create a form template, then you can create assets."
-      },
-      "goToForms": {
-        "title": "Step 1: Go to Forms",
-        "description": "To create an asset, you first need a form template. Click on 'Manage forms' to create your first template."
-      },
-      "createFormTemplate": {
-        "title": "Step 2: Create Form Template",
-        "description": "Here you can create a form template that will serve as a structure for your assets. Define the fields you need (text, number, date, etc.)."
-      },
-      "viewFormCategories": {
-        "title": "View Form Categories",
-        "description": "You can organize your templates into categories. Click here to view and manage existing categories."
-      },
-      "createAsset": {
-        "title": "Step 3: Create Asset",
-        "description": "Once you have at least one form template, use this button to create your first asset. Select the template and fill in the fields."
-      },
-      "searchFilter": {
-        "title": "Search and Filter",
-        "description": "Use this bar to search for assets by name or template, and filter by template category."
-      },
-      "buttons": {
-        "next": "Next",
-        "previous": "Previous",
-        "done": "Done",
-        "skip": "Skip tutorial",
-        "restart": "View tutorial"
-      },
-      "progressText": "{{current}} of {{total}}",
-      "viewManuals": {
-        "title": "Manuals in Maintenance",
-        "description": "Manuals are now under Maintenance → Manuals."
-      }
     },
     "assetDetails": "Asset Details",
     "name": "Name",
@@ -1507,44 +1345,6 @@
     "manageCategories": "View categories",
     "createCategory": "Create category",
     "createTemplate": "Create template",
-    "tour": {
-      "welcome": {
-        "title": "Welcome to Form Templates!",
-        "description": "We'll guide you step by step to learn how to create and manage form templates for your assets."
-      },
-      "createCategory": {
-        "title": "Step 1: Create Category",
-        "description": "First create a category to organize your templates. Categories help you classify your forms (e.g., Equipment, Vehicles, Machinery)."
-      },
-      "viewCategories": {
-        "title": "View Created Categories",
-        "description": "Here you can view and manage all the categories you've created. You can edit or delete existing categories."
-      },
-      "createTemplate": {
-        "title": "Step 2: Create Form Template",
-        "description": "Once you have categories, use this button to create your first template. Define the fields you need for your assets (name, serial number, purchase date, etc.)."
-      },
-      "searchFilter": {
-        "title": "Search and Filter",
-        "description": "Use this bar to search templates by name or description, and filter by category."
-      },
-      "buttons": {
-        "next": "Next",
-        "previous": "Previous",
-        "done": "Done",
-        "skip": "Skip tutorial",
-        "restart": "View tutorial"
-      },
-      "progressText": "{{current}} of {{total}}",
-      "navMaintenance": {
-        "title": "Forms in Assets",
-        "description": "Forms is now under Assets → Forms."
-      },
-      "navForms": {
-        "title": "Go to Forms",
-        "description": "Access Form Templates from the Assets menu."
-      }
-    },
     "viewCreatedCategories": "View created categories",
     "editTemplateTooltip": "Edit template",
     "deleteTemplateTooltip": "Delete template",
@@ -1753,40 +1553,6 @@
       "tagsMax": "You cannot add more than 10 tags",
       "tagMax": "Each tag cannot exceed 30 characters",
       "unknownError": "Unknown validation error"
-    },
-    "tour": {
-      "welcome": {
-        "title": "Welcome to Manuals!",
-        "description": "Here you can manage the manuals for your assets. We'll show you how this section works."
-      },
-      "goToAssets": {
-        "title": "Go to Assets",
-        "description": "To create a manual, you first need to have at least one asset created. Click here to go to the Assets section and create your first asset."
-      },
-      "createManual": {
-        "title": "Create Manual",
-        "description": "Once you have assets created, use this button to create a manual. You can associate it with an asset, upload PDF files, and add information such as version, author, and language."
-      },
-      "searchFilter": {
-        "title": "Search and Filter",
-        "description": "Use this bar to search manuals by name, description, author, or tags, and filter by category."
-      },
-      "buttons": {
-        "next": "Next",
-        "previous": "Previous",
-        "done": "Finish",
-        "skip": "Skip tutorial",
-        "restart": "View tutorial"
-      },
-      "progressText": "{{current}} of {{total}}",
-      "navMaintenance": {
-        "title": "Manuals in Assets",
-        "description": "Manuals is now under Assets → Manuals (previously buttons in Assets)."
-      },
-      "navManuals": {
-        "title": "Go to Manuals",
-        "description": "Access Manuals from the Assets menu."
-      }
     }
   },
   "subscriptions": {
@@ -1863,48 +1629,6 @@
     "period": "Period",
     "noMonthsAvailable": "No months available",
     "monthsIncluded": "Months included",
-    "tour": {
-      "welcome": {
-        "title": "Welcome to the Maintenance Plan!",
-        "description": "Here you can manage maintenance subscriptions for your installations. We'll show you how this section works."
-      },
-      "goToInstallations": {
-        "title": "Go to Installations",
-        "description": "Before creating a subscription, make sure you have at least one installation created. Click here to go to the Installations section and create it."
-      },
-      "searchFilter": {
-        "title": "Search and Filter",
-        "description": "Use the search bar to find subscriptions by installation, address, or type. You can also filter by month to see which subscriptions are active in a specific month."
-      },
-      "editFrequency": {
-        "title": "Edit Frequency",
-        "description": "Click this button to change the subscription frequency (monthly, quarterly, semiannual, or annual) and adjust the months when maintenance will be performed."
-      },
-      "months": {
-        "title": "Selected Months",
-        "description": "Here are shown the months when maintenance will be performed according to the configured frequency. Months are automatically adjusted according to the chosen frequency."
-      },
-      "buttons": {
-        "next": "Next",
-        "previous": "Previous",
-        "done": "Done",
-        "skip": "Skip tutorial",
-        "restart": "View tutorial"
-      },
-      "progressText": "{{current}} of {{total}}",
-      "navMaintenance": {
-        "title": "Plan in Maintenance",
-        "description": "The maintenance plan now lives under Maintenance → Maintenance Plan."
-      },
-      "filterByMonth": {
-        "title": "Filter by month",
-        "description": "The filter-by-month selector is next to filter-by-status (tabletSelectsRow on iPad/mobile)."
-      },
-      "filterByStatus": {
-        "title": "Filter by status",
-        "description": "Filter by status (active/pending/inactive) next to filter-by-month."
-      }
-    },
     "documents": {
       "uploadTitle": "Upload document",
       "uploadSubtitle": "Upload a contract or budget for this installation",
@@ -2167,52 +1891,6 @@
     "noDataAvailable": "No data available",
     "noWorkOrdersFound": "No work orders found",
     "titlePage": "Work Orders | Leonix",
-    "tour": {
-      "welcome": {
-        "title": "Welcome to Work Orders!",
-        "description": "Work orders allow you to manage maintenance tasks, repairs, and inspections. First, you need to create technicians and installations to be able to assign and locate the orders."
-      },
-      "createTechnician": {
-        "title": "Step 1: Create Technicians",
-        "description": "Click here to go to the Personnel section. You need to register technicians who can be assigned to work orders."
-      },
-      "createInstallation": {
-        "title": "Step 2: Create Installations",
-        "description": "Click here to go to Installations. You need to have installations registered where work orders will be performed."
-      },
-      "createWorkOrder": {
-        "title": "Step 3: Create Work Order",
-        "description": "Once you have technicians and installations, use this button to create your first work order. Define the title, description, work type, priority, scheduled date and time."
-      },
-      "searchFilter": {
-        "title": "Search and Filter",
-        "description": "Use this bar to search for orders by title, description, installation or technician, and filter by status (Pending, Assigned, In progress, Completed)."
-      },
-      "workOrderActions": {
-        "title": "Work Order Actions",
-        "description": "Each order shows different actions depending on its status:\n\n• Pending: Assign technician, Edit, Delete\n• Assigned: Start order, Edit, Delete\n• In progress: Complete order\n• Completed: View only\n\nTechnicians can start and complete their assigned orders."
-      },
-      "buttons": {
-        "next": "Next",
-        "previous": "Previous",
-        "done": "Done",
-        "skip": "Skip tutorial",
-        "restart": "View tutorial"
-      },
-      "progressText": "{{current}} of {{total}}",
-      "navWorkOrders": {
-        "title": "Work orders",
-        "description": "The Work Orders menu groups List and Calendar."
-      },
-      "navWorkOrdersList": {
-        "title": "Work orders list",
-        "description": "Manage all work orders from List."
-      },
-      "navCalendar": {
-        "title": "Calendar",
-        "description": "Calendar was previously a View calendar button; now it's under Work Orders → Calendar."
-      }
-    },
     "autoGeneratedDescription": "Automatic preventive maintenance order. Frequency: {{frequency}}. Generated from the maintenance plan.",
     "additionalInfo": "Additional information",
     "allDates": "All dates",
@@ -2377,44 +2055,6 @@
     "units": {
       "unidades": "units",
       "units": "units"
-    },
-    "tour": {
-      "welcome": {
-        "title": "Welcome to Inventory!",
-        "description": "Here you can manage materials, spare parts, and supplies for your company. We'll show you the main functions."
-      },
-      "addItem": {
-        "title": "Add Item",
-        "description": "Use this button to register a new material or spare part in the inventory."
-      },
-      "lowStock": {
-        "title": "Low Stock Alerts",
-        "description": "When an item reaches its minimum stock, an alert will appear here so you know what to restock."
-      },
-      "search": {
-        "title": "Search and Filter",
-        "description": "Quickly find what you're looking for by filtering by name or category."
-      },
-      "actions": {
-        "title": "Stock Management",
-        "description": "From each item, you can adjust stock (entries/exits), view movement history, edit, or delete."
-      },
-      "buttons": {
-        "next": "Next",
-        "previous": "Previous",
-        "done": "Finish",
-        "skip": "Skip tutorial",
-        "restart": "View tutorial"
-      },
-      "progressText": "{{current}} of {{total}}",
-      "navOperation": {
-        "title": "Inventory in Operations",
-        "description": "Inventory is now under Operations → Inventory."
-      },
-      "navInventory": {
-        "title": "Go to Inventory",
-        "description": "Access Inventory from the Operations menu."
-      }
     }
   },
   "suppliers": {
@@ -2450,40 +2090,6 @@
     "validation": {
       "nameRequired": "Supplier name is required",
       "emailInvalid": "Invalid email"
-    },
-    "tour": {
-      "welcome": {
-        "title": "Welcome to Suppliers!",
-        "description": "Manage the directory of your material and service suppliers. We'll guide you through the key options."
-      },
-      "addSupplier": {
-        "title": "Add Supplier",
-        "description": "Click here to register a new supplier with their contact details."
-      },
-      "search": {
-        "title": "Quick Search",
-        "description": "Search for suppliers by their name or email address."
-      },
-      "actions": {
-        "title": "Actions",
-        "description": "You can edit supplier information or delete them if you no longer work with them."
-      },
-      "buttons": {
-        "next": "Next",
-        "previous": "Previous",
-        "done": "Finish",
-        "skip": "Skip tutorial",
-        "restart": "View tutorial"
-      },
-      "progressText": "{{current}} of {{total}}",
-      "navOperation": {
-        "title": "Suppliers in Operations",
-        "description": "Suppliers is now under Operations → Suppliers."
-      },
-      "navSuppliers": {
-        "title": "Go to Suppliers",
-        "description": "Access Suppliers from the Operations menu."
-      }
     }
   },
   "languageSelector": {
@@ -2541,41 +2147,7 @@
     "noDevicesFound": "No assets found with that search term",
     "showingDevices": "Showing {{start}}-{{end}} of {{total}} assets",
     "noMaintenanceAvailable": "No maintenance available for this asset",
-    "errorLoadingMaintenance": "Error loading maintenance",
-    "tour": {
-      "welcome": {
-        "title": "Welcome to Installation Details!",
-        "description": "Here you can manage all assets for this installation. We'll show you how this section works."
-      },
-      "goToInstallations": {
-        "title": "Go to Installations",
-        "description": "Before adding assets, make sure to create asset categories from the Installations section. Click here to go to that section."
-      },
-      "createAssetFirst": {
-        "title": "Important: Create Assets First",
-        "description": "Before adding a asset to this installation, you must first create an asset in the Assets section. Assets serve as the base/template for assets in installations."
-      },
-      "addDevice": {
-        "title": "Add Asset",
-        "description": "Use this button to add a new asset to the installation. You'll need to select the category, location, status, and other asset details."
-      },
-      "searchFilter": {
-        "title": "Search and Filter",
-        "description": "Use this bar to search for assets by name, location, or category. You can also filter by asset status."
-      },
-      "deviceActions": {
-        "title": "Asset Actions",
-        "description": "Each asset card has buttons to: view QR code, download last maintenance (PDF), edit the asset, and delete it."
-      },
-      "buttons": {
-        "next": "Next",
-        "previous": "Previous",
-        "done": "Done",
-        "skip": "Skip tutorial",
-        "restart": "View tutorial"
-      },
-      "progressText": "{{current}} of {{total}}"
-    }
+    "errorLoadingMaintenance": "Error loading maintenance"
   },
   "login": {
     "understood": "Close",
@@ -2877,27 +2449,7 @@
     "preferences": "Preferences",
     "preferencesDesc": "Customize theme and appearance",
     "integrations": "Integrations",
-    "integrationsDesc": "Connect Mercado Pago and email services",
-    "tour": {
-      "welcome": {
-        "title": "System Configuration",
-        "description": "Complete these 3 steps to get the platform ready: installation types, asset categories, and form categories."
-      },
-      "checklist": {
-        "title": "Setup checklist",
-        "description": "Track progress and status for each step. Start with the first pending item."
-      },
-      "manageTypes": {
-        "title": "Manage installation types",
-        "description": "Create the installation types you will use when creating installations."
-      },
-      "progressText": "{{current}} of {{total}}",
-      "buttons": {
-        "next": "Next",
-        "previous": "Previous",
-        "done": "Done"
-      }
-    }
+    "integrationsDesc": "Connect Mercado Pago and email services"
   },
   "viewToggle": {
     "contentView": "Content view",
@@ -3331,50 +2883,6 @@
         "forbidden": "Your role cannot view this panel.",
         "unauthorized": "Authentication required.",
         "server": "Server error. Try again."
-      }
-    }
-  },
-  "onboarding": {
-    "tour": {
-      "workOrders": {
-        "title": "Work orders",
-        "description": "Daily work lives here: order list and calendar. Creating, assigning, starting and completing orders happens here."
-      },
-      "maintenance": {
-        "title": "Maintenance",
-        "description": "Preventive maintenance plan: frequencies and due dates so nothing breaks from neglect."
-      },
-      "installations": {
-        "title": "Installations & clients",
-        "description": "Your sites and your clients. Each installation groups its equipment, orders and history in one place."
-      },
-      "assets": {
-        "title": "Assets, forms & manuals",
-        "description": "Equipment, visit form templates and help manuals. Everything technicians need in the field."
-      },
-      "operation": {
-        "title": "Operations: inventory, staff & suppliers",
-        "description": "Stock with low-stock alerts, your technician team and suppliers. Missing something for an order? Solve it here."
-      },
-      "compliance": {
-        "title": "Compliance",
-        "description": "Deadline and obligation tracking to stay up to date with regulations."
-      },
-      "topbar": {
-        "title": "Top bar: language, theme & alerts",
-        "description": "Switch language (10 available), light/dark mode and check notifications. Everything is saved for your user."
-      },
-      "attention": {
-        "title": "Your dashboard: what needs attention",
-        "description": "KPIs, critical alerts, incident installations and upcoming preventive work. If empty, it's a quiet period or base data is missing."
-      },
-      "recent": {
-        "title": "Recent orders & analytics",
-        "description": "Latest orders with quick detail, created vs completed evolution and status distribution. Each section has its help (?) button to replay its tutorial."
-      },
-      "closing": {
-        "title": "Done: each section has its guide",
-        "description": "That was the general map. The first time you enter each section you'll see its short tutorial. You can skip them and replay them with the help button."
       }
     }
   },

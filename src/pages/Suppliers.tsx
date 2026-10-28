@@ -9,8 +9,6 @@ import Button from "../shared/components/Buttons/buttonCreate"
 import ViewToggle from "../components/ViewToggle/ViewToggle"
 import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 import Tooltip from "../shared/components/Tooltip/Tooltip"
-import { useSuppliersTour } from "../features/suppliers/hooks/useSuppliersTour"
-import TourButton from "../shared/components/Buttons/TourButton"
 import Skeleton from "../shared/components/Skeleton"
 import styles from "../features/suppliers/styles/suppliers.module.css"
 
@@ -36,8 +34,6 @@ const Suppliers = () => {
     loading
   } = useSuppliers()
   
-  const { tourCompleted, startTour, skipTour } = useSuppliersTour()
-
   const role = useAuthStore((s) => s.role)
   const isAdmin = role === 'admin' || role === 'super_admin'
   const [viewMode, setViewMode, isMobile] = useResponsiveView('suppliers-view', 'cards', {
@@ -65,15 +61,6 @@ const Suppliers = () => {
   useEffect(() => {
     loadSuppliers()
   }, [loadSuppliers])
-
-  useEffect(() => {
-    if (!loading && !tourCompleted) {
-      const timer = setTimeout(() => {
-        startTour()
-      }, 500)
-      return () => clearTimeout(timer)
-    }
-  }, [loading, tourCompleted, startTour])
 
 
   const handleSearch = (value: string) => {
@@ -119,11 +106,11 @@ const Suppliers = () => {
     <div className={styles.containerSuppliers}>
       <div className={styles.topSection}>
         <div className={styles.headerWithToggle}>
-          <h1 className={styles.title} data-tour="suppliers-title">{t('suppliers.title')}</h1>
+          <h1 className={styles.title}>{t('suppliers.title')}</h1>
         </div>
         {isAdmin && (
           <div className={styles.positionButton}>
-            <Button data-tour="suppliers-add-btn" title={t('suppliers.addSupplier')} onClick={handleOpenCreate} />
+            <Button title={t('suppliers.addSupplier')} onClick={handleOpenCreate} />
           </div>
         )}
       </div>
@@ -148,7 +135,7 @@ const Suppliers = () => {
       </div>
 
       <div className={styles.searchRow}>
-        <div className={styles.searchContainerInner} data-tour="suppliers-search">
+        <div className={styles.searchContainerInner}>
           <SearchInput
             placeholder={t('suppliers.searchPlaceholder')}
             onInputChange={handleSearch}
@@ -278,11 +265,6 @@ const Suppliers = () => {
         onDownloadErrors={downloadSupplierImportErrors}
         onDownloadTemplate={downloadSupplierTemplate}
         onCommitted={() => loadSuppliers({ name: searchTerm })}
-      />
-      
-      <TourButton
-        onClick={tourCompleted ? startTour : skipTour}
-        label={tourCompleted ? t('suppliers.tour.buttons.restart') : t('suppliers.tour.buttons.skip')}
       />
     </div>
   )

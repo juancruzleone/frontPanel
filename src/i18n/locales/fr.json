@@ -245,40 +245,6 @@
       "documentoRequired": "Le document d'identité est obligatoire pour les techniciens",
       "documentoMinLength": "Le document d'identité doit contenir au moins 5 caractères",
       "documentoMaxLength": "Le document d'identité ne peut pas dépasser 20 caractères"
-    },
-    "tour": {
-      "welcome": {
-        "title": "Bienvenue dans la gestion du personnel !",
-        "description": "Ici, vous pouvez gérer tous les techniciens de votre entreprise. Nous vous montrerons les principales fonctionnalités."
-      },
-      "addTechnician": {
-        "title": "Ajouter un technicien",
-        "description": "Cliquez ici pour enregistrer un nouveau technicien dans le système. Vous pourrez attribuer des rôles et des autorisations spécifiques."
-      },
-      "searchTechnicians": {
-        "title": "Rechercher des techniciens",
-        "description": "Utilisez cette barre de recherche pour trouver des techniciens spécifiques par leur nom d’utilisateur."
-      },
-      "technicianActions": {
-        "title": "Actions des techniciens",
-        "description": "Dans le tableau, vous pouvez voir le profil de chaque technicien, modifier ses informations ou supprimer des utilisateurs si nécessaire."
-      },
-      "buttons": {
-        "next": "Suivant",
-        "previous": "Précédent",
-        "done": "Terminer",
-        "skip": "Passer le tutoriel",
-        "restart": "Redémarrer le tutoriel"
-      },
-      "progressText": "{{current}} sur {{total}}",
-      "navOperation": {
-        "title": "Staff in Operations",
-        "description": "Staff is now under Operations → Staff."
-      },
-      "navPersonal": {
-        "title": "Go to Staff",
-        "description": "Access Staff from the Operations menu."
-      }
     }
   },
   "profile": {
@@ -364,40 +330,6 @@
       "passwordMinLength": "Le mot de passe doit contenir au moins 6 caractères",
       "passwordMaxLength": "Le mot de passe ne peut pas dépasser 100 caractères",
       "confirmPasswordRequired": "Vous devez confirmer le mot de passe"
-    },
-    "tour": {
-      "welcome": {
-        "title": "Bienvenue dans la gestion des clients !",
-        "description": "Ici, vous pouvez gérer tous les clients de votre entreprise. Nous vous montrerons les principales fonctionnalités."
-      },
-      "addClient": {
-        "title": "Ajouter un client",
-        "description": "Cliquez ici pour enregistrer un nouveau client dans le système."
-      },
-      "searchClients": {
-        "title": "Rechercher des clients",
-        "description": "Utilisez cette barre de recherche pour trouver des clients spécifiques par leur nom d'utilisateur."
-      },
-      "clientActions": {
-        "title": "Actions des clients",
-        "description": "Dans le tableau, vous pouvez voir le profil de chaque client, modifier ses informations ou supprimer des utilisateurs si nécessaire."
-      },
-      "buttons": {
-        "next": "Suivant",
-        "previous": "Précédent",
-        "done": "Terminer",
-        "skip": "Passer le tutoriel",
-        "restart": "Redémarrer le tutoriel"
-      },
-      "progressText": "{{current}} sur {{total}}",
-      "navOperation": {
-        "title": "Installations",
-        "description": "Clients is now under Installations → Clients."
-      },
-      "navClients": {
-        "title": "Go to Clients",
-        "description": "Access Clients from the Installations menu."
-      }
     }
   },
   "common": {
@@ -917,24 +849,6 @@
       "slaRate": "Pourcentage de travaux résolus dans le SLA.",
       "responseTime": "Temps moyen jusqu'à la première réponse."
     },
-    "tour": {
-      "welcome": {
-        "title": "Bienvenue sur Leonix !",
-        "description": "Voici votre tableau de bord d'accueil. Vous pouvez y consulter l'état de vos opérations et les principaux indicateurs."
-      },
-      "settings": {
-        "title": "Étape 2 : Aller dans Paramètres",
-        "description": "Avant d'utiliser le panneau, allez dans Paramètres pour créer les types d'installation, les catégories d'actifs et les autres données de base nécessaires."
-      },
-      "buttons": {
-        "next": "Suivant",
-        "previous": "Précédent",
-        "done": "Terminer",
-        "skip": "Passer le tutoriel",
-        "restart": "Voir le tutoriel"
-      },
-      "progressText": "{{current}} sur {{total}}"
-    },
     "status": {
       "pending": "En attente",
       "assigned": "Assignée",
@@ -948,52 +862,6 @@
     "successTitle": "Opération réussie !",
     "continue": "Continuer",
     "titlePage": "Ordres de travail | Leonix",
-    "tour": {
-      "welcome": {
-        "title": "Bienvenue dans les Ordres de Travail !",
-        "description": "Les ordres de travail vous permettent de gérer les tâches de maintenance, les réparations et les inspections. Vous devez d'abord créer des techniciens et des installations pour pouvoir assigner et localiser les ordres."
-      },
-      "createTechnician": {
-        "title": "Étape 1 : Créer des Techniciens",
-        "description": "Cliquez ici pour accéder à la section Personnel. Vous devez enregistrer des techniciens qui pourront être assignés aux ordres de travail."
-      },
-      "createInstallation": {
-        "title": "Étape 2 : Créer des Installations",
-        "description": "Cliquez ici pour accéder aux Installations. Vous devez avoir des installations enregistrées où les ordres de travail seront effectués."
-      },
-      "createWorkOrder": {
-        "title": "Étape 3 : Créer un Ordre de Travail",
-        "description": "Une fois que vous avez des techniciens et des installations, utilisez ce bouton pour créer votre premier ordre de travail. Définissez le titre, la description, le type de travail, la priorité, la date et l'heure prévues."
-      },
-      "searchFilter": {
-        "title": "Rechercher et Filtrer",
-        "description": "Utilisez cette barre pour rechercher des ordres par titre, description, installation ou technicien, et filtrer par statut (En attente, Assignée, En cours, Terminée)."
-      },
-      "workOrderActions": {
-        "title": "Actions sur les Ordres de Travail",
-        "description": "Chaque ordre affiche différentes actions selon son statut :\n\n• En attente : Assigner un technicien, Modifier, Supprimer\n• Assignée : Démarrer l'ordre, Modifier, Supprimer\n• En cours : Terminer l'ordre\n• Terminée : Visualisation uniquement\n\nLes techniciens peuvent démarrer et terminer leurs ordres assignés."
-      },
-      "buttons": {
-        "next": "Suivant",
-        "previous": "Précédent",
-        "done": "Terminer",
-        "skip": "Passer le tutoriel",
-        "restart": "Voir le tutoriel"
-      },
-      "progressText": "{{current}} sur {{total}}",
-      "navWorkOrders": {
-        "title": "Ordres de travail",
-        "description": "Le menu Ordres de travail regroupe la Liste et le Calendrier."
-      },
-      "navWorkOrdersList": {
-        "title": "Liste des ordres",
-        "description": "Depuis la Liste, vous gérez tous les ordres de travail."
-      },
-      "navCalendar": {
-        "title": "Calendrier",
-        "description": "Le calendrier était auparavant un bouton Afficher le calendrier ; il se trouve maintenant dans Ordres de travail → Calendrier."
-      }
-    },
     "titlePlaceholder": "Entrez le titre de l'ordre de travail",
     "descriptionPlaceholder": "Description du travail à effectuer",
     "observationsPlaceholder": "Remarques supplémentaires (optionnel)",
@@ -1569,44 +1437,6 @@
     },
     "confirmDeleteTitle": "Supprimer l'installation ?",
     "confirmDeleteDescription": "Cette action est irréversible. L'installation sera supprimée définitivement.",
-    "tour": {
-      "welcome": {
-        "title": "Bienvenue sur Leonix!",
-        "description": "Avant de commencer à utiliser le panneau, il est important d'aller dans Paramètres pour créer les types d'installation et les catégories d'actifs nécessaires. Nous vous guiderons étape par étape."
-      },
-      "createInstallationType": {
-        "title": "Étape 1: Aller dans Paramètres",
-        "description": "Cliquez sur l'icône des paramètres (engrenage) dans la barre supérieure. Vous devez y créer: 1) Types d'installation (ex: Bureau, Usine, Entrepôt), 2) Catégories d'actifs (ex: Pompe, Moteur, Capteur). Ceci est obligatoire avant de créer des installations."
-      },
-      "viewInstallationTypes": {
-        "title": "Voir les Types d'Installation",
-        "description": "Ici, vous pouvez voir et gérer tous les types d'installation que vous avez créés."
-      },
-      "createInstallation": {
-        "title": "Étape 1 : Créer une Installation",
-        "description": "Une fois que vous avez créé au moins un type d'installation, utilisez ce bouton pour créer votre première installation. Entrez les données de l'entreprise, l'adresse et sélectionnez le type d'installation."
-      },
-      "searchFilter": {
-        "title": "Rechercher et Filtrer",
-        "description": "Utilisez cette barre pour rechercher des installations par nom, adresse ou ville, et filtrez par type d'installation."
-      },
-      "buttons": {
-        "next": "Suivant",
-        "previous": "Précédent",
-        "done": "Terminer",
-        "skip": "Passer le tutoriel",
-        "restart": "Voir le tutoriel"
-      },
-      "progressText": "{{current}} sur {{total}}",
-      "navOperation": {
-        "title": "Installations menu",
-        "description": "The Installations menu groups Installations and Clients."
-      },
-      "navClients": {
-        "title": "Clients in Installations",
-        "description": "Client management is now inside Installations → Clients."
-      }
-    },
     "typeUpdatedSuccess": "Type d'installation mis à jour avec succès",
     "typeDeletedSuccess": "Type d'installation supprimé avec succès",
     "confirmDeleteType": "Supprimer le type d'installation {{name}} ?",
@@ -1625,44 +1455,6 @@
     "titlePage": "Actifs | Leonix",
     "title": "Actifs",
     "createAsset": "Créer un Actif",
-    "tour": {
-      "welcome": {
-        "title": "Bienvenue dans Actifs !",
-        "description": "Nous vous guiderons étape par étape pour apprendre à gérer vos actifs. Vous devez d'abord créer un modèle de formulaire, puis vous pourrez créer des actifs."
-      },
-      "goToForms": {
-        "title": "Étape 1 : Aller aux Formulaires",
-        "description": "Pour créer un actif, vous avez d'abord besoin d'un modèle de formulaire. Cliquez sur 'Gérer les formulaires' pour créer votre premier modèle."
-      },
-      "createFormTemplate": {
-        "title": "Étape 2 : Créer un Modèle de Formulaire",
-        "description": "Ici, vous pouvez créer un modèle de formulaire qui servira de structure pour vos actifs. Définissez les champs dont vous avez besoin (texte, nombre, date, etc.)."
-      },
-      "viewFormCategories": {
-        "title": "Voir les Catégories de Formulaires",
-        "description": "Vous pouvez organiser vos modèles en catégories. Cliquez ici pour voir et gérer les catégories existantes."
-      },
-      "createAsset": {
-        "title": "Étape 3 : Créer un Actif",
-        "description": "Une fois que vous avez au moins un modèle de formulaire, utilisez ce bouton pour créer votre premier actif. Sélectionnez le modèle et remplissez les champs."
-      },
-      "searchFilter": {
-        "title": "Rechercher et Filtrer",
-        "description": "Utilisez cette barre pour rechercher des actifs par nom ou modèle, et filtrez par catégorie de modèle."
-      },
-      "buttons": {
-        "next": "Suivant",
-        "previous": "Précédent",
-        "done": "Terminer",
-        "skip": "Passer le tutoriel",
-        "restart": "Voir le tutoriel"
-      },
-      "progressText": "{{current}} sur {{total}}",
-      "viewManuals": {
-        "title": "Manuals in Maintenance",
-        "description": "Manuals are now under Maintenance → Manuals."
-      }
-    },
     "editAsset": "Modifier l'Actif",
     "assetDetails": "Détails de l'Actif",
     "name": "Nom",
@@ -1765,44 +1557,6 @@
     "manageCategories": "Voir les catégories",
     "createCategory": "Créer une catégorie",
     "createTemplate": "Créer un modèle",
-    "tour": {
-      "welcome": {
-        "title": "Bienvenue dans les Modèles de Formulaires !",
-        "description": "Nous vous guiderons étape par étape pour apprendre à créer et gérer des modèles de formulaires pour vos actifs."
-      },
-      "createCategory": {
-        "title": "Étape 1 : Créer une Catégorie",
-        "description": "Créez d'abord une catégorie pour organiser vos modèles. Les catégories vous aident à classer vos formulaires (ex : Équipements, Véhicules, Machinerie)."
-      },
-      "viewCategories": {
-        "title": "Voir les Catégories Créées",
-        "description": "Ici vous pouvez voir et gérer toutes les catégories que vous avez créées. Vous pouvez modifier ou supprimer des catégories existantes."
-      },
-      "createTemplate": {
-        "title": "Étape 2 : Créer un Modèle de Formulaire",
-        "description": "Une fois que vous avez des catégories, utilisez ce bouton pour créer votre premier modèle. Définissez les champs dont vous avez besoin pour vos actifs (nom, numéro de série, date d'achat, etc.)."
-      },
-      "searchFilter": {
-        "title": "Rechercher et Filtrer",
-        "description": "Utilisez cette barre pour rechercher des modèles par nom ou description, et filtrez par catégorie."
-      },
-      "buttons": {
-        "next": "Suivant",
-        "previous": "Précédent",
-        "done": "Terminer",
-        "skip": "Passer le tutoriel",
-        "restart": "Voir le tutoriel"
-      },
-      "progressText": "{{current}} sur {{total}}",
-      "navMaintenance": {
-        "title": "Forms in Assets",
-        "description": "Forms is now under Assets → Forms."
-      },
-      "navForms": {
-        "title": "Go to Forms",
-        "description": "Access Form Templates from the Assets menu."
-      }
-    },
     "viewCreatedCategories": "Voir les catégories créées",
     "editTemplateTooltip": "Modifier le modèle",
     "deleteTemplateTooltip": "Supprimer le modèle",
@@ -2003,40 +1757,6 @@
       "tagsMax": "Vous ne pouvez pas ajouter plus de 10 tags",
       "tagMax": "Chaque tag ne peut pas dépasser 30 caractères",
       "unknownError": "Erreur de validation inconnue"
-    },
-    "tour": {
-      "welcome": {
-        "title": "Bienvenue dans Manuels !",
-        "description": "Ici vous pouvez gérer les manuels de vos actifs. Nous allons vous montrer comment cette section fonctionne."
-      },
-      "goToAssets": {
-        "title": "Aller aux Actifs",
-        "description": "Pour créer un manuel, vous devez d'abord avoir au moins un actif créé. Cliquez ici pour aller à la section Actifs et créer votre premier actif."
-      },
-      "createManual": {
-        "title": "Créer un Manuel",
-        "description": "Une fois que vous avez des actifs créés, utilisez ce bouton pour créer un manuel. Vous pourrez l'associer à un actif, téléverser des fichiers PDF et ajouter des informations telles que la version, l'auteur et la langue."
-      },
-      "searchFilter": {
-        "title": "Rechercher et Filtrer",
-        "description": "Utilisez cette barre pour rechercher des manuels par nom, description, auteur ou tags, et filtrez par catégorie."
-      },
-      "buttons": {
-        "next": "Suivant",
-        "previous": "Précédent",
-        "done": "Terminer",
-        "skip": "Passer le tutoriel",
-        "restart": "Voir le tutoriel"
-      },
-      "navMaintenance": {
-        "title": "Manuals in Assets",
-        "description": "Manuals is now under Assets → Manuals (previously buttons in Assets)."
-      },
-      "navManuals": {
-        "title": "Go to Manuals",
-        "description": "Access Manuals from the Assets menu."
-      },
-      "progressText": "{{current}} of {{total}}"
     }
   },
   "calendar": {
@@ -2159,41 +1879,7 @@
     "noDevicesFound": "Aucun actif trouvé avec ce terme de recherche",
     "showingDevices": "Affichage de {{start}}-{{end}} sur {{total}} actifs",
     "noMaintenanceAvailable": "Aucune maintenance disponible pour cet actif",
-    "errorLoadingMaintenance": "Erreur lors du chargement de la maintenance",
-    "tour": {
-      "welcome": {
-        "title": "Bienvenue dans les Détails de l'Installation !",
-        "description": "Ici, vous pouvez gérer tous les actifs de cette installation. Nous allons vous montrer comment fonctionne cette section."
-      },
-      "goToInstallations": {
-        "title": "Aller aux Installations",
-        "description": "Avant d'ajouter des actifs, assurez-vous de créer les catégories d'actifs depuis la section Installations. Cliquez ici pour accéder à cette section."
-      },
-      "createAssetFirst": {
-        "title": "Important : Créer d'abord les Actifs",
-        "description": "Avant d'ajouter un actif à cette installation, vous devez d'abord créer un actif dans la section Actifs. Les actifs servent de base/modèle pour les actifs dans les installations."
-      },
-      "addDevice": {
-        "title": "Ajouter un Actif",
-        "description": "Utilisez ce bouton pour ajouter un nouvel actif à l'installation. Vous devrez sélectionner la catégorie, l'emplacement, le statut et d'autres détails de l'actif."
-      },
-      "searchFilter": {
-        "title": "Rechercher et Filtrer",
-        "description": "Utilisez cette barre pour rechercher des actifs par nom, emplacement ou catégorie. Vous pouvez également filtrer par statut de l'actif."
-      },
-      "deviceActions": {
-        "title": "Actions sur les Actifs",
-        "description": "Chaque carte d'actif dispose de boutons pour : voir le code QR, télécharger la dernière maintenance (PDF), modifier l'actif et le supprimer."
-      },
-      "buttons": {
-        "next": "Suivant",
-        "previous": "Précédent",
-        "done": "Terminé",
-        "skip": "Passer le tutoriel",
-        "restart": "Voir le tutoriel"
-      },
-      "progressText": "{{current}} sur {{total}}"
-    }
+    "errorLoadingMaintenance": "Erreur lors du chargement de la maintenance"
   },
   "login": {
     "understood": "Fermer",
@@ -2379,48 +2065,6 @@
     "period": "Période",
     "noMonthsAvailable": "Aucun mois disponible",
     "monthsIncluded": "Mois inclus",
-    "tour": {
-      "welcome": {
-        "title": "Bienvenue dans le Plan de Maintenance !",
-        "description": "Ici, vous pouvez gérer les abonnements de maintenance de vos installations. Nous allons vous montrer comment cette section fonctionne."
-      },
-      "goToInstallations": {
-        "title": "Aller aux Installations",
-        "description": "Avant de créer un abonnement, assurez-vous d'avoir au moins une installation créée. Cliquez ici pour aller à la section Installations et la créer."
-      },
-      "searchFilter": {
-        "title": "Rechercher et Filtrer",
-        "description": "Utilisez la barre de recherche pour trouver des abonnements par installation, adresse ou type. Vous pouvez également filtrer par mois pour voir quels abonnements sont actifs dans un mois spécifique."
-      },
-      "editFrequency": {
-        "title": "Modifier la Fréquence",
-        "description": "Cliquez sur ce bouton pour changer la fréquence de l'abonnement (mensuel, trimestriel, semestriel ou annuel) et ajuster les mois où la maintenance sera effectuée."
-      },
-      "months": {
-        "title": "Mois Sélectionnés",
-        "description": "Ici sont affichés les mois où la maintenance sera effectuée selon la fréquence configurée. Les mois sont ajustés automatiquement selon la fréquence choisie."
-      },
-      "buttons": {
-        "next": "Suivant",
-        "previous": "Précédent",
-        "done": "Terminé",
-        "skip": "Passer le tutoriel",
-        "restart": "Voir le tutoriel"
-      },
-      "progressText": "{{current}} sur {{total}}",
-      "navMaintenance": {
-        "title": "Plan in Maintenance",
-        "description": "The maintenance plan now lives under Maintenance → Maintenance Plan."
-      },
-      "filterByMonth": {
-        "title": "Filter by month",
-        "description": "The filter-by-month selector is next to filter-by-status (tabletSelectsRow on iPad/mobile)."
-      },
-      "filterByStatus": {
-        "title": "Filter by status",
-        "description": "Filter by status (active/pending/inactive) next to filter-by-month."
-      }
-    },
     "documents": {
       "uploadTitle": "Téléverser un document",
       "uploadSubtitle": "Téléversez un contrat ou un budget pour cette installation",
@@ -2582,27 +2226,7 @@
     "preferences": "Préférences",
     "preferencesDesc": "Personnalisez le thème et l'apparence",
     "integrations": "Intégrations",
-    "integrationsDesc": "Connectez Mercado Pago et les services e-mail",
-    "tour": {
-      "welcome": {
-        "title": "Configuration système",
-        "description": "Complete these 3 steps to get the platform ready: installation types, asset categories, and form categories."
-      },
-      "checklist": {
-        "title": "Setup checklist",
-        "description": "Track progress and status for each step. Start with the first pending item."
-      },
-      "manageTypes": {
-        "title": "Manage installation types",
-        "description": "Create the installation types you will use when creating installations."
-      },
-      "progressText": "{{current}} of {{total}}",
-      "buttons": {
-        "next": "Next",
-        "previous": "Previous",
-        "done": "Done"
-      }
-    }
+    "integrationsDesc": "Connectez Mercado Pago et les services e-mail"
   },
   "viewToggle": {
     "contentView": "Vue du contenu",
@@ -2751,44 +2375,6 @@
     },
     "availableStock": "Stock disponible",
     "assetType": "Type d'actif",
-    "tour": {
-      "welcome": {
-        "title": "Bienvenue dans l'inventaire !",
-        "description": "Ici, vous pouvez gérer les matériaux, les pièces de rechange et les fournitures de votre entreprise. Nous vous montrerons les fonctions principales."
-      },
-      "addItem": {
-        "title": "Ajouter un article",
-        "description": "Utilisez ce bouton pour enregistrer un nouveau matériau ou une pièce de rechange dans l'inventaire."
-      },
-      "lowStock": {
-        "title": "Alertes de stock faible",
-        "description": "Lorsqu'un article atteint son stock minimum, une alerte apparaîtra ici pour que vous sachiez quoi réapprovisionner."
-      },
-      "search": {
-        "title": "Rechercher et filtrer",
-        "description": "Trouvez rapidement ce que vous cherchez en filtrant par nom ou par catégorie."
-      },
-      "actions": {
-        "title": "Gestion des stocks",
-        "description": "À partir de chaque article, vous pouvez ajuster le stock (entrées/sorties), consulter l'historique des mouvements, éditer ou supprimer."
-      },
-      "buttons": {
-        "next": "Suivant",
-        "previous": "Précédent",
-        "done": "Terminer",
-        "skip": "Passer le tutoriel",
-        "restart": "Voir le tutoriel"
-      },
-      "progressText": "{{current}} sur {{total}}",
-      "navOperation": {
-        "title": "Inventory in Operations",
-        "description": "Inventory is now under Operations → Inventory."
-      },
-      "navInventory": {
-        "title": "Go to Inventory",
-        "description": "Access Inventory from the Operations menu."
-      }
-    },
     "csv": {
       "downloadTemplate": "Télécharger le modèle CSV",
       "import": "Importer un CSV",
@@ -2823,40 +2409,6 @@
     "validation": {
       "nameRequired": "Le nom du fournisseur est obligatoire",
       "emailInvalid": "E-mail non valide"
-    },
-    "tour": {
-      "welcome": {
-        "title": "Bienvenue chez les fournisseurs !",
-        "description": "Gérez l'annuaire de vos fournisseurs de matériaux et de services. Nous vous guiderons à travers les options clés."
-      },
-      "addSupplier": {
-        "title": "Ajouter un fournisseur",
-        "description": "Cliquez ici pour enregistrer un nouveau fournisseur avec ses coordonnées."
-      },
-      "search": {
-        "title": "Recherche rapide",
-        "description": "Recherchez des fournisseurs par leur nom ou leur adresse e-mail."
-      },
-      "actions": {
-        "title": "Actions",
-        "description": "Vous pouvez modifier les informations du fournisseur ou les supprimer si vous ne travaillez plus avec eux."
-      },
-      "buttons": {
-        "next": "Suivant",
-        "previous": "Précédent",
-        "done": "Terminer",
-        "skip": "Passer le tutoriel",
-        "restart": "Voir le tutoriel"
-      },
-      "progressText": "{{current}} sur {{total}}",
-      "navOperation": {
-        "title": "Suppliers in Operations",
-        "description": "Suppliers is now under Operations → Suppliers."
-      },
-      "navSuppliers": {
-        "title": "Go to Suppliers",
-        "description": "Access Suppliers from the Operations menu."
-      }
     },
     "csv": {
       "downloadTemplate": "Télécharger le modèle CSV",

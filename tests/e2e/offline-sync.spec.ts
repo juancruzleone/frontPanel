@@ -82,13 +82,6 @@ test.describe("Offline Capability Review - Technician Flow", () => {
       };
       localStorage.setItem('work-order-storage', JSON.stringify(woState));
 
-      // Kill all tours
-      localStorage.setItem('home-onboarding-tour-v1-shown', 'true');
-      localStorage.setItem('installations-onboarding-tour-v1-shown', 'true');
-      localStorage.setItem('work-orders-onboarding-tour-v1-shown', 'true');
-      localStorage.setItem('workOrdersTourCompleted', 'true');
-      localStorage.setItem('clients-onboarding-tour-v1-shown', 'true');
-      localStorage.setItem('personal-onboarding-tour-v1-shown', 'true');
       localStorage.setItem('workorders-view', '"table"');
     }, { user: mockUser, orders: mockOrders });
 

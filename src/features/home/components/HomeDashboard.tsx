@@ -4,9 +4,7 @@ import { Link } from "react-router"
 import { AlertTriangle, ArrowRight, ArrowUpRight, X } from "lucide-react"
 import { useAuthStore } from "../../../store/authStore"
 import { useTranslatedRoutes } from "../../../router/useTranslatedRoutes"
-import TourButton from "../../../shared/components/Buttons/TourButton"
 import { useHomeDashboard } from "../hooks/useHomeDashboard"
-import { useHomeTour } from "../hooks/useHomeTour"
 import { useWorkOrderDetail } from "../hooks/useWorkOrderDetail"
 import { expectedDashboardScope, normalizeDashboardRole } from "../services/homeDashboardMapper"
 import type { DashboardRole, ChartDataItem, HomeDashboardViewData, InventorySummaryData } from "../types/homeTypes"
@@ -31,7 +29,6 @@ export const HomeDashboard = () => {
   const rawRole = useAuthStore((state) => state.role)
   const permissions = useAuthStore((state) => state.permissions)
   const { getRoute } = useTranslatedRoutes()
-  const { startTour } = useHomeTour()
   const dashboard = useHomeDashboard()
   const workOrderDetail = useWorkOrderDetail()
   const [activeQuickModal, setActiveQuickModal] = useState<QuickActionModalType>(null)
@@ -52,7 +49,6 @@ export const HomeDashboard = () => {
     setIsNoticeDismissed(true)
   }
 
-  const tourButton = rawRole === "admin" ? <TourButton onClick={startTour} label={t("home.tour.buttons.restart")} /> : null
   const role = dashboard.data?.role ?? normalizeDashboardRole(rawRole)
   const header = role ? (
     <DashboardHeader
@@ -133,7 +129,7 @@ export const HomeDashboard = () => {
     </div>
   )
 
-  if (dashboard.loading && !dashboard.data) return <><DashboardSkeleton role={role} header={header} notices={notices} />{tourButton}</>
+  if (dashboard.loading && !dashboard.data) return <><DashboardSkeleton role={role} header={header} notices={notices} /></>
   if (dashboard.error || !dashboard.data) {
     return (
       <div className={styles.dashboardContainer}>
@@ -158,7 +154,7 @@ export const HomeDashboard = () => {
 
   return (
     <>
-      <div className={styles.dashboardContainer} aria-busy={dashboard.refreshing} data-refreshing={dashboard.refreshing} data-tour="home-dashboard">
+      <div className={styles.dashboardContainer} aria-busy={dashboard.refreshing} data-refreshing={dashboard.refreshing}>
         {header}
         <div className={styles.refreshStatus} role="status">
           {dashboard.refreshing && t("home.dashboard.refreshing", {
@@ -168,7 +164,7 @@ export const HomeDashboard = () => {
         </div>
         {notices}
 
-        <section aria-labelledby="attention-overview-title" data-tour="home-dashboard-attention">
+        <section aria-labelledby="attention-overview-title">
           {!hasLoadedData && (
             <div className={styles.noDataNotice}>
               <p className={styles.noDataTitle}>{t("home.dashboard.empty.dashboard")}</p>
@@ -189,7 +185,7 @@ export const HomeDashboard = () => {
         </section>
 
         {data.resourceMetrics.length > 0 && (
-          <section className={styles.resourceBand} aria-labelledby="resources-title" data-tour="home-dashboard-resources">
+          <section className={styles.resourceBand} aria-labelledby="resources-title">
             <div><p className={styles.panelKicker}>{t("home.dashboard.resources.kicker")}</p><h2 id="resources-title">{t(`home.dashboard.resources.${data.role}`)}</h2></div>
             <dl>{data.resourceMetrics.map((metric) => {
               const label = t(`home.dashboard.resources.metrics.${metric.id}`)
@@ -204,7 +200,7 @@ export const HomeDashboard = () => {
           </section>
         )}
 
-        <section aria-labelledby="analysis-title" data-tour="home-dashboard-analysis">
+        <section aria-labelledby="analysis-title">
           <h2 id="analysis-title" className={styles.sectionHeading}>{t("home.dashboard.sections.analysis")}</h2>
           <div className={styles.analysisGrid}>
             <LineChart
@@ -223,7 +219,7 @@ export const HomeDashboard = () => {
           onOpenDetail={workOrderDetail.openWorkOrder}
         />
 
-        <section aria-labelledby="recent-title" data-tour="home-dashboard-recent">
+        <section aria-labelledby="recent-title">
           <h2 id="recent-title" className={styles.sectionHeading}>{t("home.dashboard.sections.recent")}</h2>
           <div className={styles.workGrid}>
             <section className={styles.panel} aria-labelledby="recent-orders-title" aria-busy={workOrderDetail.status === "loading"}>
@@ -276,7 +272,6 @@ export const HomeDashboard = () => {
         onClose={() => setActiveQuickModal(null)}
         onSuccess={() => dashboard.retry()}
       />
-      {tourButton}
     </>
   )
 }
