@@ -2,14 +2,17 @@ import { Navigate, Outlet } from "react-router"
 import { useAuthStore } from "../../src/store/authStore.ts"
 import { isSuperAdmin, isTechnician, isAdmin } from "../shared/utils/roleUtils"
 import { useTranslatedRoutes } from "./useTranslatedRoutes"
+import { OnboardingGate } from "../features/setup/components/OnboardingGate"
 import React from "react"
 
 interface ProtectedRouteProps {
   allowedRoles?: string[]
   children?: React.ReactNode
+  /** La ruta de setup usa auth sin la guarda de onboarding (nunca se auto-redirige). */
+  skipOnboarding?: boolean
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles, children }) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles, children, skipOnboarding = false }) => {
   const user = useAuthStore((state) => state.user)
   const role = useAuthStore((state) => state.role)
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated)
@@ -51,7 +54,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles, children 
     return <Navigate to={getRoute('home')} replace />
   }
 
-  return children ? <>{children}</> : <Outlet />
+  const content = children ? <>{children}</> : <Outlet />
+
+  return <OnboardingGate skip={skipOnboarding}>{content}</OnboardingGate>
 }
 
 export default ProtectedRoute

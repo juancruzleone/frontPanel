@@ -3,6 +3,7 @@ import { Navigate } from "react-router"
 import { useAuthStore } from "../../src/store/authStore.ts"
 import { isSuperAdmin, canAccessSection } from "../shared/utils/roleUtils"
 import { useTranslatedRoutes } from "./useTranslatedRoutes"
+import { OnboardingGate } from "../features/setup/components/OnboardingGate"
 
 interface RoleProtectedRouteProps {
   children: React.ReactNode
@@ -36,7 +37,7 @@ const RoleProtectedRoute: React.FC<RoleProtectedRouteProps> = ({ children, secti
     return <Navigate to={getRoute('home')} replace />
   }
 
-  return <>{children}</>
+  return <OnboardingGate>{children}</OnboardingGate>
 }
 
 export default RoleProtectedRoute 

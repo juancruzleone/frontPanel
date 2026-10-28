@@ -6,6 +6,7 @@ import RedirectIfLogged from "./RedirectIfLoggedIn.tsx";
 import { ROLES } from "../shared/utils/roleUtils";
 import { OAUTH_CALLBACK_PATH } from "../features/auth/services/oauthServices";
 import { BillingRoute } from "./BillingRoute";
+import { SETUP_PATH } from "../features/setup/setupPaths";
 import {
   Analytics,
   Assets,
@@ -19,6 +20,7 @@ import {
   Forms,
   FormularioRedirect,
   Home,
+  Setup,
   InstallationDetails,
   Installations,
   Inventory,
@@ -259,6 +261,16 @@ export const createTranslatedRouter = () => {
           path: "/",
           element: <Login />,
         },
+      ],
+    },
+    // Asistente de configuración inicial obligatoria: ruta fija sin traducir,
+    // registrada una sola vez fuera de los bucles traducidos. La guarda de
+    // onboarding vive dentro de ProtectedRoute con skipOnboarding, así esta
+    // ruta nunca se redirige a sí misma.
+    {
+      element: <ProtectedRoute skipOnboarding />,
+      children: [
+        { path: SETUP_PATH, element: <Setup /> },
       ],
     },
     {

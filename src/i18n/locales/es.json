@@ -3319,5 +3319,110 @@
         "installationsDesc": "Gestionar instalaciones y sedes"
       }
     }
+  },
+  "setup": {
+    "page": {
+      "title": "Configuración inicial",
+      "heading": "Configuración inicial obligatoria",
+      "intro": "Completá estos pasos en orden para habilitar el acceso al sistema."
+    },
+    "gate": {
+      "loading": "Verificando configuración inicial…",
+      "loadError": "No se pudo verificar la configuración inicial. Reintentá la conexión.",
+      "retry": "Reintentar"
+    },
+    "wizard": {
+      "loading": "Cargando configuración inicial…",
+      "loadError": "No se pudo cargar el estado de configuración.",
+      "manage": "Gestionar",
+      "complete": "Completar configuración",
+      "completeHint": "Completá todos los pasos en orden para habilitar el cierre.",
+      "completeError": "No se pudo completar la configuración. El servidor indicó que faltan requisitos:",
+      "waitingAdmin": "En espera: un administrador del tenant debe completar la configuración inicial. Ya podrás acceder cuando termine.",
+      "alreadyComplete": "La configuración inicial ya está completa."
+    },
+    "steps": {
+      "company": {
+        "title": "Empresa identificada",
+        "description": "Verificá que la empresa del tenant sea la correcta. Es la base de toda la configuración.",
+        "verify": "Volver a comprobar",
+        "state": {
+          "done": "Verificada",
+          "current": "Pendiente de verificación",
+          "locked": "Bloqueada"
+        }
+      },
+      "installationTypes": {
+        "title": "Tipos de instalación",
+        "description": "Creá al menos un tipo de instalación. Se requiere al crear instalaciones.",
+        "state": {
+          "done": "Completo",
+          "current": "Pendiente",
+          "locked": "Bloqueado"
+        }
+      },
+      "deviceCategories": {
+        "title": "Categorías de dispositivo",
+        "description": "Creá al menos una categoría de dispositivo. Se requiere al asignar equipos.",
+        "state": {
+          "done": "Completo",
+          "current": "Pendiente",
+          "locked": "Bloqueado"
+        }
+      },
+      "formCategories": {
+        "title": "Categorías de formulario",
+        "description": "Creá al menos una categoría de formulario. Se necesita para crear plantillas.",
+        "state": {
+          "done": "Completo",
+          "current": "Pendiente",
+          "locked": "Bloqueado"
+        }
+      },
+      "maintenanceTemplate": {
+        "title": "Plantilla de mantenimiento",
+        "description": "Creá al menos una plantilla de mantenimiento válida. Los activos requieren template.",
+        "state": {
+          "done": "Completo",
+          "current": "Pendiente",
+          "locked": "Bloqueado"
+        }
+      }
+    },
+    "notice": {
+      "goToSetup": "Ir a la configuración inicial"
+    }
+  },
+  "incidents": {
+    "reportIncident": "Reportar incidencia",
+    "reportSubtitle": "Registrá una falla detectada en campo para generar la orden correctiva",
+    "offlineNotice": "Sin conexión. El reporte se guardará en el equipo y se enviará al reconectar.",
+    "installation": "Instalación",
+    "selectInstallation": "Seleccionar instalación...",
+    "device": "Dispositivo",
+    "selectDevice": "Seleccionar dispositivo...",
+    "incidentType": "Tipo de incidencia",
+    "types": {
+      "falla_detectada": "Falla detectada",
+      "desgaste_anomalo": "Desgaste anómalo",
+      "riesgo_seguridad": "Riesgo de seguridad",
+      "operacion_defectuosa": "Operación defectuosa",
+      "otro": "Otro"
+    },
+    "suggestedPriority": "Prioridad sugerida",
+    "description": "Descripción",
+    "descriptionPlaceholder": "Describí con precisión el problema detectado, ruidos, fugas o síntomas observados...",
+    "copyExample": "Copiar reporte de ejemplo",
+    "exampleDescription": "Falla detectada en sensor principal. Lectura intermitente fuera de rango y alarma preventiva activada. Requiere revisión de cableado y posible sustitución de la unidad.",
+    "photos": "Fotografías de evidencia (opcional, máx. 4)",
+    "addPhoto": "Foto",
+    "sendReport": "Enviar reporte",
+    "success": "Incidencia reportada con éxito. Será revisada por la administración.",
+    "errors": {
+      "installationRequired": "Seleccioná una instalación",
+      "deviceRequired": "Seleccioná un dispositivo",
+      "descriptionMin": "La descripción debe tener al menos 5 caracteres",
+      "generic": "Error al enviar el reporte"
+    }
   }
 }
