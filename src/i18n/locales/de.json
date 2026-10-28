@@ -230,40 +230,6 @@
       "documentoRequired": "Ausweisdokument ist für Techniker erforderlich",
       "documentoMinLength": "Ausweisdokument muss mindestens 5 Zeichen lang sein",
       "documentoMaxLength": "Ausweisdokument darf 20 Zeichen nicht überschreiten"
-    },
-    "tour": {
-      "welcome": {
-        "title": "Willkommen im Personalmanagement!",
-        "description": "Hier können Sie alle Techniker Ihres Unternehmens verwalten. Wir zeigen Ihnen die Hauptfunktionen."
-      },
-      "addTechnician": {
-        "title": "Techniker hinzufügen",
-        "description": "Klicken Sie hier, um einen neuen Techniker im System zu registrieren. Sie können bestimmte Rollen und Berechtigungen zuweisen."
-      },
-      "searchTechnicians": {
-        "title": "Techniker suchen",
-        "description": "Verwenden Sie diese Suchleiste, um bestimmte Techniker anhand ihres Benutzernamens zu finden."
-      },
-      "technicianActions": {
-        "title": "Technikeraktionen",
-        "description": "In der Tabelle können Sie das Profil jedes Technikers anzeigen, seine Informationen bearbeiten oder Benutzer bei Bedarf löschen."
-      },
-      "buttons": {
-        "next": "Weiter",
-        "previous": "Zurück",
-        "done": "Fertigstellen",
-        "skip": "Tutorial überspringen",
-        "restart": "Tutorial neu starten"
-      },
-      "progressText": "{{current}} von {{total}}",
-      "navOperation": {
-        "title": "Staff in Operations",
-        "description": "Staff is now under Operations → Staff."
-      },
-      "navPersonal": {
-        "title": "Go to Staff",
-        "description": "Access Staff from the Operations menu."
-      }
     }
   },
   "profile": {
@@ -349,40 +315,6 @@
       "passwordMinLength": "Passwort muss mindestens 6 Zeichen haben",
       "passwordMaxLength": "Passwort darf nicht mehr als 100 Zeichen haben",
       "confirmPasswordRequired": "Sie müssen das Passwort bestätigen"
-    },
-    "tour": {
-      "welcome": {
-        "title": "Willkommen in der Kundenverwaltung!",
-        "description": "Hier können Sie alle Kunden Ihres Unternehmens verwalten. Wir zeigen Ihnen die Hauptfunktionen."
-      },
-      "addClient": {
-        "title": "Kunden hinzufügen",
-        "description": "Klicken Sie hier, um einen neuen Kunden im System zu registrieren."
-      },
-      "searchClients": {
-        "title": "Kunden suchen",
-        "description": "Verwenden Sie diese Suchleiste, um bestimmte Kunden anhand ihres Benutzernamens zu finden."
-      },
-      "clientActions": {
-        "title": "Kundenaktionen",
-        "description": "In der Tabelle können Sie das Profil jedes Kunden anzeigen, seine Informationen bearbeiten oder Benutzer bei Bedarf löschen."
-      },
-      "buttons": {
-        "next": "Weiter",
-        "previous": "Zurück",
-        "done": "Fertigstellen",
-        "skip": "Tutorial überspringen",
-        "restart": "Tutorial neu starten"
-      },
-      "progressText": "{{current}} von {{total}}",
-      "navOperation": {
-        "title": "Installations",
-        "description": "Clients is now under Installations → Clients."
-      },
-      "navClients": {
-        "title": "Go to Clients",
-        "description": "Access Clients from the Installations menu."
-      }
     }
   },
   "common": {
@@ -901,24 +833,6 @@
       "slaRate": "Prozentsatz der Arbeiten, die innerhalb des SLA gelöst wurden.",
       "responseTime": "Durchschnittliche Zeit bis zur ersten Antwort."
     },
-    "tour": {
-      "welcome": {
-        "title": "Willkommen bei Leonix!",
-        "description": "Dies ist Ihr Start-Dashboard. Hier sehen Sie den Status Ihrer Abläufe und die wichtigsten Kennzahlen."
-      },
-      "settings": {
-        "title": "Schritt 2: Zu Einstellungen gehen",
-        "description": "Gehen Sie vor der Nutzung des Panels zu den Einstellungen, um Installationstypen, Asset-Kategorien und weitere erforderliche Basisdaten zu erstellen."
-      },
-      "buttons": {
-        "next": "Weiter",
-        "previous": "Zurück",
-        "done": "Fertig",
-        "skip": "Tutorial überspringen",
-        "restart": "Tutorial ansehen"
-      },
-      "progressText": "{{current}} von {{total}}"
-    },
     "status": {
       "pending": "Ausstehend",
       "assigned": "Zugewiesen",
@@ -932,52 +846,6 @@
     "successTitle": "Vorgang erfolgreich!",
     "continue": "Weiter",
     "titlePage": "Arbeitsaufträge | Leonix",
-    "tour": {
-      "welcome": {
-        "title": "Willkommen bei Arbeitsaufträgen!",
-        "description": "Arbeitsaufträge ermöglichen es Ihnen, Wartungsaufgaben, Reparaturen und Inspektionen zu verwalten. Zuerst müssen Sie Techniker und Installationen erstellen, um Aufträge zuweisen und lokalisieren zu können."
-      },
-      "createTechnician": {
-        "title": "Schritt 1: Techniker erstellen",
-        "description": "Klicken Sie hier, um zum Personalbereich zu gelangen. Sie müssen Techniker registrieren, die Arbeitsaufträgen zugewiesen werden können."
-      },
-      "createInstallation": {
-        "title": "Schritt 2: Installationen erstellen",
-        "description": "Klicken Sie hier, um zu Installationen zu gelangen. Sie benötigen registrierte Installationen, an denen Arbeitsaufträge ausgeführt werden."
-      },
-      "createWorkOrder": {
-        "title": "Schritt 3: Arbeitsauftrag erstellen",
-        "description": "Sobald Sie Techniker und Installationen haben, verwenden Sie diese Schaltfläche, um Ihren ersten Arbeitsauftrag zu erstellen. Definieren Sie Titel, Beschreibung, Arbeitstyp, Priorität, geplantes Datum und Uhrzeit."
-      },
-      "searchFilter": {
-        "title": "Suchen und Filtern",
-        "description": "Verwenden Sie diese Leiste, um Aufträge nach Titel, Beschreibung, Installation oder Techniker zu suchen und nach Status zu filtern (Ausstehend, Zugewiesen, In Bearbeitung, Abgeschlossen)."
-      },
-      "workOrderActions": {
-        "title": "Arbeitsauftrag-Aktionen",
-        "description": "Jeder Auftrag zeigt unterschiedliche Aktionen je nach Status:\n\n• Ausstehend: Techniker zuweisen, Bearbeiten, Löschen\n• Zugewiesen: Auftrag starten, Bearbeiten, Löschen\n• In Bearbeitung: Auftrag abschließen\n• Abgeschlossen: Nur Ansicht\n\nTechniker können ihre zugewiesenen Aufträge starten und abschließen."
-      },
-      "buttons": {
-        "next": "Weiter",
-        "previous": "Zurück",
-        "done": "Fertig",
-        "skip": "Tutorial überspringen",
-        "restart": "Tutorial anzeigen"
-      },
-      "progressText": "{{current}} von {{total}}",
-      "navWorkOrders": {
-        "title": "Arbeitsaufträge",
-        "description": "Das Menü Arbeitsaufträge fasst Liste und Kalender zusammen."
-      },
-      "navWorkOrdersList": {
-        "title": "Auftragsliste",
-        "description": "In der Liste verwalten Sie alle Arbeitsaufträge."
-      },
-      "navCalendar": {
-        "title": "Kalender",
-        "description": "Der Kalender war früher eine Schaltfläche zum Anzeigen des Kalenders; jetzt ist er unter Arbeitsaufträge → Kalender zu finden."
-      }
-    },
     "titlePlaceholder": "Arbeitsauftrags-Titel eingeben",
     "descriptionPlaceholder": "Beschreibung der auszuführenden Arbeit",
     "observationsPlaceholder": "Zusätzliche Hinweise (optional)",
@@ -1496,44 +1364,6 @@
     "errorDeletingInstallation": "Fehler beim Löschen der Installation",
     "confirmDeleteTitle": "Installation löschen?",
     "confirmDeleteDescription": "Diese Aktion kann nicht rückgängig gemacht werden. Die Installation wird dauerhaft gelöscht.",
-    "tour": {
-      "welcome": {
-        "title": "Willkommen bei Leonix!",
-        "description": "Bevor Sie das Panel verwenden, ist es wichtig, zu den Einstellungen zu gehen, um die erforderlichen Installationstypen und Assetekategorien zu erstellen. Wir führen Sie Schritt für Schritt."
-      },
-      "createInstallationType": {
-        "title": "Schritt 1: Zu Einstellungen gehen",
-        "description": "Klicken Sie auf das Einstellungssymbol (Zahnrad) in der oberen Leiste. Dort müssen Sie erstellen: 1) Installationstypen (z.B. Büro, Fabrik, Lager), 2) Assetekategorien (z.B. Pumpe, Motor, Sensor). Dies ist obligatorisch, bevor Sie Installationen erstellen."
-      },
-      "viewInstallationTypes": {
-        "title": "Installationstypen anzeigen",
-        "description": "Hier können Sie alle von Ihnen erstellten Installationstypen anzeigen und verwalten."
-      },
-      "createInstallation": {
-        "title": "Schritt 1: Installation erstellen",
-        "description": "Sobald Sie mindestens einen Installationstyp in den Einstellungen erstellt haben, verwenden Sie diese Schaltfläche, um Ihre erste Installation zu erstellen. Geben Sie den Namen, die Adresse ein und wählen Sie den Installationstyp."
-      },
-      "searchFilter": {
-        "title": "Suchen und Filtern",
-        "description": "Verwenden Sie diese Leiste, um Installationen nach Name, Adresse oder Stadt zu suchen und nach Installationstyp zu filtern."
-      },
-      "buttons": {
-        "next": "Weiter",
-        "previous": "Zurück",
-        "done": "Fertig",
-        "skip": "Tutorial überspringen",
-        "restart": "Tutorial ansehen"
-      },
-      "progressText": "{{current}} von {{total}}",
-      "navOperation": {
-        "title": "Installations menu",
-        "description": "The Installations menu groups Installations and Clients."
-      },
-      "navClients": {
-        "title": "Clients in Installations",
-        "description": "Client management is now inside Installations → Clients."
-      }
-    },
     "typeUpdatedSuccess": "Installationstyp erfolgreich aktualisiert",
     "typeDeletedSuccess": "Installationstyp erfolgreich gelöscht",
     "confirmDeleteType": "Installationstyp {{name}} löschen?",
@@ -1551,44 +1381,6 @@
     "continue": "Weiter",
     "title": "Assets",
     "createAsset": "Anlage erstellen",
-    "tour": {
-      "welcome": {
-        "title": "Willkommen bei Anlagen!",
-        "description": "Wir führen Sie Schritt für Schritt durch die Verwaltung Ihrer Anlagen. Zuerst müssen Sie eine Formularvorlage erstellen, dann können Sie Anlagen erstellen."
-      },
-      "goToForms": {
-        "title": "Schritt 1: Zu Formularen gehen",
-        "description": "Um eine Anlage zu erstellen, benötigen Sie zuerst eine Formularvorlage. Klicken Sie auf 'Formulare verwalten', um Ihre erste Vorlage zu erstellen."
-      },
-      "createFormTemplate": {
-        "title": "Schritt 2: Formularvorlage erstellen",
-        "description": "Hier können Sie eine Formularvorlage erstellen, die als Struktur für Ihre Anlagen dient. Definieren Sie die benötigten Felder (Text, Zahl, Datum usw.)."
-      },
-      "viewFormCategories": {
-        "title": "Formularkategorien anzeigen",
-        "description": "Sie können Ihre Vorlagen in Kategorien organisieren. Klicken Sie hier, um vorhandene Kategorien anzuzeigen und zu verwalten."
-      },
-      "createAsset": {
-        "title": "Schritt 3: Anlage erstellen",
-        "description": "Sobald Sie mindestens eine Formularvorlage haben, verwenden Sie diese Schaltfläche, um Ihre erste Anlage zu erstellen. Wählen Sie die Vorlage aus und füllen Sie die Felder aus."
-      },
-      "searchFilter": {
-        "title": "Suchen und Filtern",
-        "description": "Verwenden Sie diese Leiste, um Anlagen nach Name oder Vorlage zu suchen und nach Vorlagenkategorie zu filtern."
-      },
-      "buttons": {
-        "next": "Weiter",
-        "previous": "Zurück",
-        "done": "Fertig",
-        "skip": "Tutorial überspringen",
-        "restart": "Tutorial anzeigen"
-      },
-      "progressText": "{{current}} von {{total}}",
-      "viewManuals": {
-        "title": "Manuals in Maintenance",
-        "description": "Manuals are now under Maintenance → Manuals."
-      }
-    },
     "editAsset": "Anlage bearbeiten",
     "assetDetails": "Anlagendetails",
     "name": "Name",
@@ -1695,44 +1487,6 @@
     "manageCategories": "Kategorien anzeigen",
     "createCategory": "Kategorie erstellen",
     "createTemplate": "Vorlage erstellen",
-    "tour": {
-      "welcome": {
-        "title": "Willkommen bei Formularvorlagen!",
-        "description": "Wir führen Sie Schritt für Schritt durch die Erstellung und Verwaltung von Formularvorlagen für Ihre Anlagen."
-      },
-      "createCategory": {
-        "title": "Schritt 1: Kategorie erstellen",
-        "description": "Erstellen Sie zuerst eine Kategorie, um Ihre Vorlagen zu organisieren. Kategorien helfen Ihnen, Ihre Formulare zu klassifizieren (z.B. Geräte, Fahrzeuge, Maschinen)."
-      },
-      "viewCategories": {
-        "title": "Erstellte Kategorien anzeigen",
-        "description": "Hier können Sie alle erstellten Kategorien anzeigen und verwalten. Sie können vorhandene Kategorien bearbeiten oder löschen."
-      },
-      "createTemplate": {
-        "title": "Schritt 2: Formularvorlage erstellen",
-        "description": "Sobald Sie Kategorien haben, verwenden Sie diese Schaltfläche, um Ihre erste Vorlage zu erstellen. Definieren Sie die Felder, die Sie für Ihre Anlagen benötigen (Name, Seriennummer, Kaufdatum usw.)."
-      },
-      "searchFilter": {
-        "title": "Suchen und Filtern",
-        "description": "Verwenden Sie diese Leiste, um Vorlagen nach Name oder Beschreibung zu suchen und nach Kategorie zu filtern."
-      },
-      "buttons": {
-        "next": "Weiter",
-        "previous": "Zurück",
-        "done": "Fertig",
-        "skip": "Tutorial überspringen",
-        "restart": "Tutorial anzeigen"
-      },
-      "progressText": "{{current}} von {{total}}",
-      "navMaintenance": {
-        "title": "Forms in Assets",
-        "description": "Forms is now under Assets → Forms."
-      },
-      "navForms": {
-        "title": "Go to Forms",
-        "description": "Access Form Templates from the Assets menu."
-      }
-    },
     "viewCreatedCategories": "Erstellte Kategorien anzeigen",
     "editTemplateTooltip": "Vorlage bearbeiten",
     "deleteTemplateTooltip": "Vorlage löschen",
@@ -1889,40 +1643,6 @@
       "tagsMax": "Es dürfen nicht mehr als 10 Tags hinzugefügt werden",
       "tagMax": "Jeder Tag darf maximal 30 Zeichen lang sein",
       "unknownError": "Unbekannter Validierungsfehler"
-    },
-    "tour": {
-      "welcome": {
-        "title": "Willkommen bei Handbüchern!",
-        "description": "Hier können Sie die Handbücher für Ihre Anlagen verwalten. Wir zeigen Ihnen, wie dieser Bereich funktioniert."
-      },
-      "goToAssets": {
-        "title": "Zu Anlagen gehen",
-        "description": "Um ein Handbuch zu erstellen, müssen Sie zunächst mindestens eine Anlage erstellt haben. Klicken Sie hier, um zum Bereich Anlagen zu gehen und Ihre erste Anlage zu erstellen."
-      },
-      "createManual": {
-        "title": "Handbuch erstellen",
-        "description": "Sobald Sie Anlagen erstellt haben, verwenden Sie diese Schaltfläche, um ein Handbuch zu erstellen. Sie können es einer Anlage zuordnen, PDF-Dateien hochladen und Informationen wie Version, Autor und Sprache hinzufügen."
-      },
-      "searchFilter": {
-        "title": "Suchen und Filtern",
-        "description": "Verwenden Sie diese Leiste, um Handbücher nach Name, Beschreibung, Autor oder Tags zu suchen und nach Kategorie zu filtern."
-      },
-      "buttons": {
-        "next": "Weiter",
-        "previous": "Zurück",
-        "done": "Fertig",
-        "skip": "Tutorial überspringen",
-        "restart": "Tutorial ansehen"
-      },
-      "progressText": "{{current}} von {{total}}",
-      "navMaintenance": {
-        "title": "Manuals in Assets",
-        "description": "Manuals is now under Assets → Manuals (previously buttons in Assets)."
-      },
-      "navManuals": {
-        "title": "Go to Manuals",
-        "description": "Access Manuals from the Assets menu."
-      }
     }
   },
   "calendar": {
@@ -2045,41 +1765,7 @@
     "noDevicesFound": "Keine Assete mit diesem Suchbegriff gefunden",
     "showingDevices": "Zeige {{start}}-{{end}} von {{total}} Asseten",
     "noMaintenanceAvailable": "Keine Wartung für dieses Asset verfügbar",
-    "errorLoadingMaintenance": "Fehler beim Laden der Wartung",
-    "tour": {
-      "welcome": {
-        "title": "Willkommen bei den Installationsdetails!",
-        "description": "Hier können Sie alle Assete dieser Installation verwalten. Wir zeigen Ihnen, wie dieser Bereich funktioniert."
-      },
-      "goToInstallations": {
-        "title": "Zu Installationen gehen",
-        "description": "Bevor Sie Assete hinzufügen, stellen Sie sicher, dass Sie Assetekategorien im Bereich Installationen erstellt haben. Klicken Sie hier, um zu diesem Bereich zu gelangen."
-      },
-      "createAssetFirst": {
-        "title": "Wichtig: Zuerst Assets erstellen",
-        "description": "Bevor Sie ein Asset zu dieser Installation hinzufügen, müssen Sie zuerst ein Asset im Bereich Assets erstellen. Assets dienen als Basis/Vorlage für Assete in Installationen."
-      },
-      "addDevice": {
-        "title": "Asset hinzufügen",
-        "description": "Verwenden Sie diese Schaltfläche, um ein neues Asset zur Installation hinzuzufügen. Sie müssen die Kategorie, den Standort, den Status und andere Assetedetails auswählen."
-      },
-      "searchFilter": {
-        "title": "Suchen und Filtern",
-        "description": "Verwenden Sie diese Leiste, um nach Asseten nach Name, Standort oder Kategorie zu suchen. Sie können auch nach Assetestatus filtern."
-      },
-      "deviceActions": {
-        "title": "Asseteaktionen",
-        "description": "Jede Assetekarte verfügt über Schaltflächen zum: QR-Code anzeigen, letzte Wartung herunterladen (PDF), Asset bearbeiten und löschen."
-      },
-      "buttons": {
-        "next": "Weiter",
-        "previous": "Zurück",
-        "done": "Fertig",
-        "skip": "Tutorial überspringen",
-        "restart": "Tutorial anzeigen"
-      },
-      "progressText": "{{current}} von {{total}}"
-    }
+    "errorLoadingMaintenance": "Fehler beim Laden der Wartung"
   },
   "login": {
     "understood": "Schließen",
@@ -2265,48 +1951,6 @@
     "period": "Zeitraum",
     "noMonthsAvailable": "Keine Monate verfügbar",
     "monthsIncluded": "Enthaltene Monate",
-    "tour": {
-      "welcome": {
-        "title": "Willkommen beim Wartungsplan!",
-        "description": "Hier können Sie die Wartungsabonnements Ihrer Installationen verwalten. Wir zeigen Ihnen, wie dieser Bereich funktioniert."
-      },
-      "goToInstallations": {
-        "title": "Zu Installationen gehen",
-        "description": "Bevor Sie ein Abonnement erstellen, stellen Sie sicher, dass Sie mindestens eine Installation erstellt haben. Klicken Sie hier, um zum Bereich Installationen zu gehen und diese zu erstellen."
-      },
-      "searchFilter": {
-        "title": "Suchen und Filtern",
-        "description": "Verwenden Sie die Suchleiste, um Abonnements nach Installation, Adresse oder Typ zu finden. Sie können auch nach Monat filtern, um zu sehen, welche Abonnements in einem bestimmten Monat aktiv sind."
-      },
-      "editFrequency": {
-        "title": "Frequenz bearbeiten",
-        "description": "Klicken Sie auf diese Schaltfläche, um die Abonnementfrequenz zu ändern (monatlich, vierteljährlich, halbjährlich oder jährlich) und die Monate anzupassen, in denen die Wartung durchgeführt wird."
-      },
-      "months": {
-        "title": "Ausgewählte Monate",
-        "description": "Hier werden die Monate angezeigt, in denen die Wartung gemäß der konfigurierten Frequenz durchgeführt wird. Die Monate werden automatisch entsprechend der gewählten Frequenz angepasst."
-      },
-      "buttons": {
-        "next": "Weiter",
-        "previous": "Zurück",
-        "done": "Fertig",
-        "skip": "Tutorial überspringen",
-        "restart": "Tutorial ansehen"
-      },
-      "progressText": "{{current}} von {{total}}",
-      "navMaintenance": {
-        "title": "Plan in Maintenance",
-        "description": "The maintenance plan now lives under Maintenance → Maintenance Plan."
-      },
-      "filterByMonth": {
-        "title": "Filter by month",
-        "description": "The filter-by-month selector is next to filter-by-status (tabletSelectsRow on iPad/mobile)."
-      },
-      "filterByStatus": {
-        "title": "Filter by status",
-        "description": "Filter by status (active/pending/inactive) next to filter-by-month."
-      }
-    },
     "documents": {
       "uploadTitle": "Dokument hochladen",
       "uploadSubtitle": "Laden Sie einen Vertrag oder ein Budget für diese Installation hoch",
@@ -2469,27 +2113,7 @@
     "preferences": "Präferenzen",
     "preferencesDesc": "Thema und Erscheinungsbild anpassen",
     "integrations": "Integrationen",
-    "integrationsDesc": "Mercado Pago und E-Mail-Dienste verbinden",
-    "tour": {
-      "welcome": {
-        "title": "Systemkonfiguration",
-        "description": "Complete these 3 steps to get the platform ready: installation types, asset categories, and form categories."
-      },
-      "checklist": {
-        "title": "Setup checklist",
-        "description": "Track progress and status for each step. Start with the first pending item."
-      },
-      "manageTypes": {
-        "title": "Manage installation types",
-        "description": "Create the installation types you will use when creating installations."
-      },
-      "progressText": "{{current}} of {{total}}",
-      "buttons": {
-        "next": "Next",
-        "previous": "Previous",
-        "done": "Done"
-      }
-    }
+    "integrationsDesc": "Mercado Pago und E-Mail-Dienste verbinden"
   },
   "viewToggle": {
     "contentView": "Inhaltsansicht",
@@ -2638,44 +2262,6 @@
     },
     "availableStock": "Verfügbarer Bestand",
     "assetType": "Anlagentyp",
-    "tour": {
-      "welcome": {
-        "title": "Willkommen im Inventar!",
-        "description": "Hier können Sie Materialien, Ersatzteile und Vorräte für Ihr Unternehmen verwalten. Wir zeigen Ihnen die wichtigsten Funktionen."
-      },
-      "addItem": {
-        "title": "Artikel hinzufügen",
-        "description": "Verwenden Sie diese Schaltfläche, um ein neues Material oder Ersatzteil im Inventar zu registrieren."
-      },
-      "lowStock": {
-        "title": "Warnungen bei niedrigem Lagerbestand",
-        "description": "Wenn ein Artikel seinen Mindestbestand erreicht, erscheint hier eine Warnung, damit Sie wissen, was nachbestellt werden muss."
-      },
-      "search": {
-        "title": "Suchen und Filtern",
-        "description": "Finden Sie schnell, was Sie suchen, indem Sie nach Name oder Kategorie filtern."
-      },
-      "actions": {
-        "title": "Lagerverwaltung",
-        "description": "Für jeden Artikel können Sie den Bestand anpassen (Eingänge/Ausgänge), die Bewegungshistorie anzeigen, bearbeiten oder löschen."
-      },
-      "buttons": {
-        "next": "Weiter",
-        "previous": "Zurück",
-        "done": "Fertig",
-        "skip": "Tutorial überspringen",
-        "restart": "Tutorial ansehen"
-      },
-      "progressText": "{{current}} von {{total}}",
-      "navOperation": {
-        "title": "Inventory in Operations",
-        "description": "Inventory is now under Operations → Inventory."
-      },
-      "navInventory": {
-        "title": "Go to Inventory",
-        "description": "Access Inventory from the Operations menu."
-      }
-    },
     "csv": {
       "downloadTemplate": "CSV-Vorlage herunterladen",
       "import": "CSV importieren",
@@ -2710,40 +2296,6 @@
     "validation": {
       "nameRequired": "Lieferantenname ist erforderlich",
       "emailInvalid": "Ungültige E-Mail"
-    },
-    "tour": {
-      "welcome": {
-        "title": "Willkommen bei Lieferanten!",
-        "description": "Verwalten Sie das Verzeichnis Ihrer Material- und Dienstleistungslieferanten. Wir führen Sie durch die wichtigsten Optionen."
-      },
-      "addSupplier": {
-        "title": "Lieferant hinzufügen",
-        "description": "Klicken Sie hier, um einen neuen Lieferanten mit seinen Kontaktdaten zu registrieren."
-      },
-      "search": {
-        "title": "Schnellsuche",
-        "description": "Suchen Sie Lieferanten nach ihrem Namen oder ihrer E-Mail-Adresse."
-      },
-      "actions": {
-        "title": "Aktionen",
-        "description": "Sie können Lieferanteninformationen bearbeiten oder sie löschen, wenn Sie nicht mehr mit ihnen zusammenarbeiten."
-      },
-      "buttons": {
-        "next": "Weiter",
-        "previous": "Zurück",
-        "done": "Fertig",
-        "skip": "Tutorial überspringen",
-        "restart": "Tutorial ansehen"
-      },
-      "progressText": "{{current}} von {{total}}",
-      "navOperation": {
-        "title": "Suppliers in Operations",
-        "description": "Suppliers is now under Operations → Suppliers."
-      },
-      "navSuppliers": {
-        "title": "Go to Suppliers",
-        "description": "Access Suppliers from the Operations menu."
-      }
     },
     "csv": {
       "downloadTemplate": "CSV-Vorlage herunterladen",

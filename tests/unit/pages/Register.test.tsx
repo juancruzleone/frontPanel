@@ -29,14 +29,6 @@ vi.mock('../../../src/features/auth/register/hooks/useRegister', () => ({
   useRegister: vi.fn(),
 }))
 
-vi.mock('../../../src/features/auth/register/hooks/usePersonalTour', () => ({
-  usePersonalTour: () => ({
-    tourCompleted: true,
-    startTour: vi.fn(),
-    resetTour: vi.fn(),
-    skipTour: vi.fn(),
-  }),
-}))
 
 vi.mock('../../../src/shared/hooks/useResponsiveView', () => ({
   useResponsiveView: () => ['cards', vi.fn(), false],
@@ -63,10 +55,6 @@ vi.mock('../../../src/features/forms/components/ModalError', () => ({
 }))
 
 vi.mock('../../../src/features/installations/components/ModalConfirmDelete', () => ({
-  default: () => null,
-}))
-
-vi.mock('../../../src/shared/components/Buttons/TourButton', () => ({
   default: () => null,
 }))
 

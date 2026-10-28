@@ -12,12 +12,9 @@ import ModalAssignTemplate from "../features/assets/components/ModalAssignTempla
 import { Edit, Trash, List, Plus, FilterX, Package } from "lucide-react"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
-import { useLocation } from "react-router"
-import { useAssetsTour } from "../features/assets/hooks/useAssetsTour"
 import { useAuthStore } from "../store/authStore"
 import { isClient, isAdmin } from "../shared/utils/roleUtils"
 import { canDownloadCsvTemplate, canExportCsv } from "../shared/utils/exportPermissions"
-import TourButton from "../shared/components/Buttons/TourButton"
 import ViewToggle from "../components/ViewToggle/ViewToggle"
 import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 import { WifiOff } from "lucide-react"
@@ -28,8 +25,6 @@ import { commitAssetImport, downloadAssetImportErrors, downloadAssetTemplate, ex
 
 const Assets = () => {
   const { t, i18n } = useTranslation()
-  const location = useLocation()
-  const { tourCompleted, startTour, continueAssetsTour, skipTour } = useAssetsTour()
   const {
     assets,
     pagination,
@@ -71,27 +66,6 @@ const Assets = () => {
   useEffect(() => {
     document.title = t("assets.titlePage")
   }, [t, i18n.language])
-
-  // Iniciar el tour automáticamente si no se ha completado
-  useEffect(() => {
-    if (!loading && !tourCompleted) {
-      // Esperar un poco para que el DOM se cargue completamente
-      const timer = setTimeout(() => {
-        startTour()
-      }, 500)
-      return () => clearTimeout(timer)
-    }
-  }, [loading, tourCompleted, startTour])
-
-  // Continuar el tour si venimos de formularios
-  useEffect(() => {
-    if (location.state?.fromFormsTour && !tourCompleted) {
-      const timer = setTimeout(() => {
-        continueAssetsTour()
-      }, 500)
-      return () => clearTimeout(timer)
-    }
-  }, [location.state, tourCompleted, continueAssetsTour])
 
   const dynamicCategories = useMemo(
     () => [
@@ -196,7 +170,7 @@ const Assets = () => {
 
           {!isClientUser && (
             <div className={styles.positionButton}>
-              <Button title={t('assets.createAsset')} onClick={handleOpenCreate} data-tour="create-asset-btn" />
+              <Button title={t('assets.createAsset')} onClick={handleOpenCreate} />
             </div>
           )}
         </div>
@@ -221,7 +195,7 @@ const Assets = () => {
         </div>
 
         <div className={styles.searchRow}>
-          <div className={styles.searchContainerInner} data-tour="search-filter">
+          <div className={styles.searchContainerInner}>
             <SearchInput
               placeholder={t('assets.searchPlaceholder')}
               showSelect={true}
@@ -374,7 +348,6 @@ const Assets = () => {
                             onClick={() => handleOpenTemplate(asset)}
                             aria-label={t('assets.assignTemplate')}
                             data-tooltip={t('assets.assignTemplate')}
-                            data-tour="assign-template-btn"
                           >
                             <Plus size={24} />
                           </button>
@@ -383,7 +356,6 @@ const Assets = () => {
                             onClick={() => handleOpenEdit(asset)}
                             aria-label={t('assets.editAsset')}
                             data-tooltip={t('assets.editAsset')}
-                            data-tour="edit-asset-btn"
                           >
                             <Edit size={24} />
                           </button>
@@ -395,7 +367,6 @@ const Assets = () => {
                             }}
                             aria-label={t('assets.deleteAsset')}
                             data-tooltip={t('assets.deleteAsset')}
-                            data-tour="delete-asset-btn"
                           >
                             <Trash size={24} />
                           </button>
@@ -468,14 +439,6 @@ const Assets = () => {
         onDownloadTemplate={downloadAssetTemplate}
         onCommitted={() => loadAssets({ page: 1, limit: itemsPerPage, search: searchTerm, category: selectedCategory })}
       />
-
-      {/* Botón flotante del tour estilo WhatsApp */}
-      {!isClientUser && (
-        <TourButton
-          onClick={tourCompleted ? startTour : skipTour}
-          label={tourCompleted ? t('assets.tour.buttons.restart') : t('assets.tour.buttons.skip')}
-        />
-      )}
     </>
   )
 }

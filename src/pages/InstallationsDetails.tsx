@@ -21,12 +21,10 @@ import { useTranslation } from "react-i18next"
 import { translateDeviceStatus } from "../shared/utils/backendTranslations"
 import SearchInput from "../shared/components/Inputs/SearchInput"
 import HybridSelect from "../shared/components/HybridSelect/HybridSelect"
-import { useInstallationDetailTour } from "../features/installationsDetails/hooks/useInstallationDetailTour"
 import { useAuthStore } from "../store/authStore"
 import { useMaintenanceStore } from "../store/maintenanceStore"
 import { isClient, isTechnician as checkIsTechnician } from "../shared/utils/roleUtils"
 import Skeleton from "../shared/components/Skeleton"
-import TourButton from "../shared/components/Buttons/TourButton"
 import ViewToggle from "../components/ViewToggle/ViewToggle"
 import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 
@@ -43,7 +41,6 @@ const InstallationDetails = () => {
   const isTechnicalUser = role && checkIsTechnician(role)
   const isClientUser = role && isClient(role)
   const isRestricted = isTechnicalUser || isClientUser
-  const { tourCompleted, startTour, resetTour, skipTour } = useInstallationDetailTour()
 
   // Opciones de estado para el filtro
   const statusOptions = [
@@ -132,17 +129,6 @@ const InstallationDetails = () => {
       document.title = t("installationDetails.titlePage")
     }
   }, [id, loadInstallationDetails, t])
-
-  // Iniciar el tour automáticamente si no se ha completado
-  useEffect(() => {
-    if (!loading && !tourCompleted && !isTechnicalUser) {
-      // Esperar un poco para que el DOM se cargue completamente
-      const timer = setTimeout(() => {
-        startTour()
-      }, 500)
-      return () => clearTimeout(timer)
-    }
-  }, [loading, tourCompleted, startTour, isTechnicalUser])
 
   // Resetear página cuando cambien los dispositivos, el término de búsqueda o el filtro de estado
   useEffect(() => {
@@ -402,7 +388,6 @@ const InstallationDetails = () => {
               <button
                 className={styles.addButton}
                 onClick={() => setIsAddDeviceModalOpen(true)}
-                data-tour="add-device-btn"
               >
                 <span>{t("installationDetails.addDevice")}</span>
               </button>
@@ -419,7 +404,7 @@ const InstallationDetails = () => {
         </div>
       )}
 
-      <div className={styles.searchContainer} data-tour="search-filter-devices">
+      <div className={styles.searchContainer}>
         <div className={styles.filterContainer}>
           <HybridSelect
             value={selectedStatus}
@@ -720,13 +705,6 @@ const InstallationDetails = () => {
       <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={closeModal} mensaje={responseMessage} />
       <ModalError isOpen={!!responseMessage && isError} onRequestClose={closeModal} mensaje={responseMessage} />
 
-      {/* Botón flotante del tour estilo WhatsApp */}
-      {!isRestricted && (
-        <TourButton
-          onClick={tourCompleted ? startTour : skipTour}
-          label={tourCompleted ? t('installationDetails.tour.buttons.restart') : t('installationDetails.tour.buttons.skip')}
-        />
-      )}
     </div>
   )
 }

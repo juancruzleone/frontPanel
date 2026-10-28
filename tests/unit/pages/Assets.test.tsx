@@ -6,7 +6,6 @@ import { useAuthStore } from "../../../src/store/authStore"
 
 vi.mock("../../../src/features/assets/hooks/useAssets")
 vi.mock("../../../src/store/authStore")
-vi.mock("../../../src/features/assets/hooks/useAssetsTour", () => ({ useAssetsTour: () => ({ tourCompleted: true, startTour: vi.fn(), continueAssetsTour: vi.fn(), skipTour: vi.fn() }) }))
 vi.mock("../../../src/shared/hooks/useResponsiveView", () => ({ useResponsiveView: () => ["cards", vi.fn(), false] }))
 vi.mock("../../../src/shared/hooks/useTheme", () => ({ useTheme: () => ({ theme: "light" }) }))
 vi.mock("react-router", () => ({ useNavigate: () => vi.fn(), useLocation: () => ({ state: null }) }))

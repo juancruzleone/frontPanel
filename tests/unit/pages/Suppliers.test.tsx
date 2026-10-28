@@ -14,13 +14,6 @@ vi.mock('../../../src/features/suppliers/services/supplierServices', () => ({
 import { exportSuppliers } from '../../../src/features/suppliers/services/supplierServices'
 
 vi.mock('../../../src/features/suppliers/hooks/useSuppliers')
-vi.mock('../../../src/features/suppliers/hooks/useSuppliersTour', () => ({
-  useSuppliersTour: () => ({
-    tourCompleted: true,
-    startTour: vi.fn(),
-    skipTour: vi.fn(),
-  }),
-}))
 vi.mock('../../../src/shared/hooks/useResponsiveView', () => ({
   useResponsiveView: () => ['cards', vi.fn(), false],
 }))

@@ -13,9 +13,7 @@ import { Edit, Trash, Upload, FileText, Download, Eye, FilterX } from 'lucide-re
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../store/authStore";
-import { useManualsTour } from "../features/manuals/hooks/useManualsTour";
 import { isClient } from "../shared/utils/roleUtils";
-import TourButton from "../shared/components/Buttons/TourButton";
 import ViewToggle from "../components/ViewToggle/ViewToggle";
 import { useResponsiveView } from "../shared/hooks/useResponsiveView";
 import DataTable from "../components/DataTable/DataTable";
@@ -55,22 +53,10 @@ const Manuals = () => {
   const isTechnician = role && ["tecnico", "técnico"].includes(role.toLowerCase())
   const isClientUser = role && isClient(role)
   const isRestricted = isTechnician || isClientUser
-  const { tourCompleted, startTour, skipTour } = useManualsTour()
 
   useEffect(() => {
     document.title = t("manuals.titlePage");
   }, [t, i18n.language]);
-
-  // Iniciar el tour automáticamente si no se ha completado
-  useEffect(() => {
-    if (!loading && !tourCompleted && !isTechnician) {
-      // Esperar un poco para que el DOM se cargue completamente
-      const timer = setTimeout(() => {
-        startTour()
-      }, 500)
-      return () => clearTimeout(timer)
-    }
-  }, [loading, tourCompleted, startTour, isTechnician]);
 
   const dynamicCategories = useMemo(() => [
     { label: t('common.all'), value: "" },
@@ -211,7 +197,7 @@ const Manuals = () => {
               <h1 className={styles.title}>{t('manuals.title')}</h1>
             </div>
             {!isRestricted && (
-              <div className={styles.positionButton} data-tour="create-manual-btn">
+              <div className={styles.positionButton}>
                 <Button title={t('manuals.createManual')} onClick={handleOpenCreate} />
               </div>
             )}
@@ -220,7 +206,7 @@ const Manuals = () => {
         </div>
 
         <div className={styles.searchRow}>
-          <div className={styles.searchContainerInner} data-tour="search-filter">
+          <div className={styles.searchContainerInner}>
             <SearchInput
               placeholder={t('manuals.searchPlaceholder')}
               showSelect
@@ -553,13 +539,6 @@ const Manuals = () => {
         mensaje={responseMessage}
       />
 
-      {/* Botón flotante del tour estilo WhatsApp */}
-      {!isRestricted && (
-        <TourButton
-          onClick={tourCompleted ? startTour : skipTour}
-          label={tourCompleted ? t('manuals.tour.buttons.restart') : t('manuals.tour.buttons.skip')}
-        />
-      )}
     </>
   );
 };

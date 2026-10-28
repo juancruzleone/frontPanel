@@ -248,40 +248,6 @@
       "documentoRequired": "وثيقة الهوية مطلوبة للفنيين",
       "documentoMinLength": "يجب أن تحتوي وثيقة الهوية على 5 أحرف على الأقل",
       "documentoMaxLength": "لا يمكن أن تتجاوز وثيقة الهوية 20 حرفًا"
-    },
-    "tour": {
-      "welcome": {
-        "title": "مرحبًا بك في إدارة الموظفين!",
-        "description": "هنا يمكنك إدارة جميع الفنيين في شركتك. سنعرض لك الميزات الرئيسية."
-      },
-      "addTechnician": {
-        "title": "إضافة فني",
-        "description": "انقر هنا لتسجيل فني جديد في النظام. يمكنك تعيين أدوار وصلاحيات محددة."
-      },
-      "searchTechnicians": {
-        "title": "البحث عن الفنيين",
-        "description": "استخدم شريط البحث هذا للعثور على فنيين محددين حسب اسم المستخدم."
-      },
-      "technicianActions": {
-        "title": "إجراءات الفنيين",
-        "description": "في الجدول يمكنك عرض ملف كل فني، تعديل معلوماته أو حذف المستخدمين عند الحاجة."
-      },
-      "buttons": {
-        "next": "التالي",
-        "previous": "السابق",
-        "done": "إنهاء",
-        "skip": "تخطي الدليل",
-        "restart": "إعادة تشغيل الدليل"
-      },
-      "progressText": "{{current}} من {{total}}",
-      "navOperation": {
-        "title": "Staff in Operations",
-        "description": "Staff is now under Operations → Staff."
-      },
-      "navPersonal": {
-        "title": "Go to Staff",
-        "description": "Access Staff from the Operations menu."
-      }
     }
   },
   "profile": {
@@ -367,40 +333,6 @@
       "passwordMinLength": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
       "passwordMaxLength": "لا يمكن أن تتجاوز كلمة المرور 100 حرف",
       "confirmPasswordRequired": "يجب تأكيد كلمة المرور"
-    },
-    "tour": {
-      "welcome": {
-        "title": "مرحبًا بك في إدارة العملاء!",
-        "description": "هنا يمكنك إدارة جميع العملاء في شركتك. سنعرض لك الميزات الرئيسية."
-      },
-      "addClient": {
-        "title": "إضافة عميل",
-        "description": "انقر هنا لتسجيل عميل جديد في النظام."
-      },
-      "searchClients": {
-        "title": "البحث عن العملاء",
-        "description": "استخدم شريط البحث هذا للعثور على عملاء محددين حسب اسم المستخدم."
-      },
-      "clientActions": {
-        "title": "إجراءات العملاء",
-        "description": "في الجدول يمكنك عرض ملف كل عميل، تعديل معلوماته أو حذف المستخدمين عند الحاجة."
-      },
-      "buttons": {
-        "next": "التالي",
-        "previous": "السابق",
-        "done": "إنهاء",
-        "skip": "تخطي الدليل",
-        "restart": "إعادة تشغيل الدليل"
-      },
-      "progressText": "{{current}} من {{total}}",
-      "navOperation": {
-        "title": "Installations",
-        "description": "Clients is now under Installations → Clients."
-      },
-      "navClients": {
-        "title": "Go to Clients",
-        "description": "Access Clients from the Installations menu."
-      }
     }
   },
   "common": {
@@ -920,24 +852,6 @@
       "slaRate": "نسبة الأعمال التي تم حلها ضمن اتفاقية مستوى الخدمة.",
       "responseTime": "متوسط الوقت حتى أول استجابة."
     },
-    "tour": {
-      "welcome": {
-        "title": "مرحبًا بك في Leonix!",
-        "description": "هذه هي لوحة البداية. يمكنك من هنا مراجعة حالة العمليات والمؤشرات الرئيسية."
-      },
-      "settings": {
-        "title": "الخطوة 2: الانتقال إلى الإعدادات",
-        "description": "قبل استخدام اللوحة، انتقل إلى الإعدادات لإنشاء أنواع المنشآت وفئات الأصول وبقية البيانات الأساسية المطلوبة."
-      },
-      "buttons": {
-        "next": "التالي",
-        "previous": "السابق",
-        "done": "إنهاء",
-        "skip": "تخطي البرنامج التعليمي",
-        "restart": "عرض البرنامج التعليمي"
-      },
-      "progressText": "{{current}} من {{total}}"
-    },
     "status": {
       "pending": "قيد الانتظار",
       "assigned": "مُعيَّنة",
@@ -951,52 +865,6 @@
     "successTitle": "تمت العملية بنجاح!",
     "continue": "متابعة",
     "titlePage": "أوامر العمل | Leonix",
-    "tour": {
-      "welcome": {
-        "title": "مرحبًا بك في أوامر العمل!",
-        "description": "تتيح لك أوامر العمل إدارة مهام الصيانة والإصلاحات والتفتيشات. أولاً، تحتاج إلى إنشاء فنيين وتركيبات لتتمكن من تعيين الأوامر وتحديد مواقعها."
-      },
-      "createTechnician": {
-        "title": "الخطوة 1: إنشاء الفنيين",
-        "description": "انقر هنا للانتقال إلى قسم الموظفين. تحتاج إلى تسجيل فنيين يمكن تعيينهم لأوامر العمل."
-      },
-      "createInstallation": {
-        "title": "الخطوة 2: إنشاء التركيبات",
-        "description": "انقر هنا للانتقال إلى التركيبات. تحتاج إلى تسجيل تركيبات حيث سيتم تنفيذ أوامر العمل."
-      },
-      "createWorkOrder": {
-        "title": "الخطوة 3: إنشاء أمر العمل",
-        "description": "بمجرد أن يكون لديك فنيون وتركيبات، استخدم هذا الزر لإنشاء أمر العمل الأول الخاص بك. حدد العنوان والوصف ونوع العمل والأولوية والتاريخ والوقت المجدولين."
-      },
-      "searchFilter": {
-        "title": "البحث والتصفية",
-        "description": "استخدم هذا الشريط للبحث عن الأوامر حسب العنوان أو الوصف أو التركيب أو الفني، والتصفية حسب الحالة (قيد الانتظار، معينة، قيد التنفيذ، مكتملة)."
-      },
-      "workOrderActions": {
-        "title": "إجراءات أوامر العمل",
-        "description": "يعرض كل أمر إجراءات مختلفة اعتمادًا على حالته:\n\n• قيد الانتظار: تعيين فني، تحرير، حذف\n• معينة: بدء الأمر، تحرير، حذف\n• قيد التنفيذ: إكمال الأمر\n• مكتملة: العرض فقط\n\nيمكن للفنيين بدء وإكمال أوامر العمل المعينة لهم."
-      },
-      "buttons": {
-        "next": "التالي",
-        "previous": "السابق",
-        "done": "إنهاء",
-        "skip": "تخطي البرنامج التعليمي",
-        "restart": "عرض البرنامج التعليمي"
-      },
-      "progressText": "{{current}} من {{total}}",
-      "navWorkOrders": {
-        "title": "أوامر العمل",
-        "description": "قسم أوامر العمل يجمع بين قائمة الأوامر والتقويم."
-      },
-      "navWorkOrdersList": {
-        "title": "قائمة الأوامر",
-        "description": "من القائمة تدير جميع أوامر العمل."
-      },
-      "navCalendar": {
-        "title": "التقويم",
-        "description": "كان التقويم يظهر سابقًا كزر لعرض التقويم، أما الآن فهو ضمن أوامر العمل."
-      }
-    },
     "titlePlaceholder": "أدخل عنوان أمر العمل",
     "descriptionPlaceholder": "وصف العمل المطلوب تنفيذه",
     "observationsPlaceholder": "ملاحظات إضافية (اختياري)",
@@ -1556,44 +1424,6 @@
     "titlePage": "التثبيتات | Leonix",
     "confirmDeleteTitle": "هل تريد حذف التثبيت؟",
     "confirmDeleteDescription": "لا يمكن التراجع عن هذا الإجراء. سيتم حذف التثبيت نهائيًا.",
-    "tour": {
-      "welcome": {
-        "title": "مرحبًا بك في Leonix!",
-        "description": "قبل البدء في استخدام اللوحة، من المهم الذهاب إلى الإعدادات لإنشاء أنواع التركيب وفئات الأصول اللازمة. سنرشدك خطوة بخطوة."
-      },
-      "createInstallationType": {
-        "title": "الخطوة 1: الذهاب إلى الإعدادات",
-        "description": "انقر على أيقونة الإعدادات (الترس) في الشريط العلوي. يجب عليك إنشاء: 1) أنواع التركيب (مثل: مكتب، مصنع، مستودع)، 2) فئات الأصول (مثل: مضخة، محرك، مستشعر). هذا إلزامي قبل إنشاء التركيبات."
-      },
-      "viewInstallationTypes": {
-        "title": "عرض أنواع التركيب",
-        "description": "هنا يمكنك عرض وإدارة جميع أنواع التركيب التي أنشأتها."
-      },
-      "createInstallation": {
-        "title": "الخطوة 1: إنشاء تركيب",
-        "description": "بمجرد إنشاء نوع تركيب واحد على الأقل في الإعدادات، استخدم هذا الزر لإنشاء أول تركيب لك. أدخل الاسم والعنوان واختر نوع التركيب."
-      },
-      "searchFilter": {
-        "title": "البحث والتصفية",
-        "description": "استخدم هذا الشريط للبحث عن التركيبات حسب الاسم أو العنوان أو المدينة، والتصفية حسب نوع التركيب."
-      },
-      "buttons": {
-        "next": "التالي",
-        "previous": "السابق",
-        "done": "إنهاء",
-        "skip": "تخطي البرنامج التعليمي",
-        "restart": "عرض البرنامج التعليمي"
-      },
-      "progressText": "{{current}} من {{total}}",
-      "navOperation": {
-        "title": "Installations menu",
-        "description": "The Installations menu groups Installations and Clients."
-      },
-      "navClients": {
-        "title": "Clients in Installations",
-        "description": "Client management is now inside Installations → Clients."
-      }
-    },
     "typeUpdatedSuccess": "تم تحديث نوع التثبيت بنجاح",
     "typeDeletedSuccess": "تم حذف نوع التثبيت بنجاح",
     "confirmDeleteType": "حذف نوع التثبيت {{name}}؟",
@@ -1613,44 +1443,6 @@
     "assign": "تعيين",
     "title": "الأصول",
     "createAsset": "إنشاء أصل",
-    "tour": {
-      "welcome": {
-        "title": "مرحبًا بك في الأصول!",
-        "description": "سنرشدك خطوة بخطوة لتتعلم كيفية إدارة أصولك. أولاً تحتاج إلى إنشاء نموذج استمارة، ثم يمكنك إنشاء الأصول."
-      },
-      "goToForms": {
-        "title": "الخطوة 1: الانتقال إلى النماذج",
-        "description": "لإنشاء أصل، تحتاج أولاً إلى نموذج استمارة. انقر على 'إدارة النماذج' لإنشاء أول نموذج."
-      },
-      "createFormTemplate": {
-        "title": "الخطوة 2: إنشاء نموذج استمارة",
-        "description": "هنا يمكنك إنشاء نموذج استمارة سيكون بمثابة بنية لأصولك. حدد الحقول التي تحتاجها (نص، رقم، تاريخ، إلخ)."
-      },
-      "viewFormCategories": {
-        "title": "عرض فئات النماذج",
-        "description": "يمكنك تنظيم نماذجك في فئات. انقر هنا لعرض وإدارة الفئات الموجودة."
-      },
-      "createAsset": {
-        "title": "الخطوة 3: إنشاء أصل",
-        "description": "بمجرد إنشاء نموذج استمارة واحد علم الأقل، استخدم هذا الزر لإنشاء أول أصل. اختر النموذج واملأ الحقول."
-      },
-      "searchFilter": {
-        "title": "البحث والتصفية",
-        "description": "استخدم هذا الشريط للبحث عن الأصول بالاسم أو النموذج، والتصفية حسب فئة النموذج."
-      },
-      "buttons": {
-        "next": "التالي",
-        "previous": "السابق",
-        "done": "إنهاء",
-        "skip": "تخطي البرنامج التعليمي",
-        "restart": "عرض البرنامج التعليمي"
-      },
-      "progressText": "{{current}} من {{total}}",
-      "viewManuals": {
-        "title": "Manuals in Maintenance",
-        "description": "Manuals are now under Maintenance → Manuals."
-      }
-    },
     "editAsset": "تعديل الأصل",
     "assetDetails": "تفاصيل الأصل",
     "name": "الاسم",
@@ -1762,44 +1554,6 @@
     "confirmDeleteDescription": "لا يمكن التراجع عن هذا الإجراء. سيتم حذف القالب {{name}} نهائيًا.",
     "manageCategories": "عرض الفئات",
     "createCategory": "إنشاء فئة",
-    "tour": {
-      "welcome": {
-        "title": "مرحبًا بك في قوالب النماذج!",
-        "description": "سنرشدك خطوة بخطوة لتتعلم كيفية إنشاء وإدارة قوالب النماذج لأصولك."
-      },
-      "createCategory": {
-        "title": "الخطوة 1: إنشاء فئة",
-        "description": "أنشئ فئة أولاً لتنظيم قوالبك. تساعدك الفئات على تصنيف نماذجك (مثل: المعدات، المركبات، الآلات)."
-      },
-      "viewCategories": {
-        "title": "عرض الفئات المنشأة",
-        "description": "هنا يمكنك عرض وإدارة جميع الفئات التي أنشأتها. يمكنك تعديل أو حذف الفئات الموجودة."
-      },
-      "createTemplate": {
-        "title": "الخطوة 2: إنشاء قالب نموذج",
-        "description": "بمجرد إنشاء فئات، استخدم هذا الزر لإنشاء أول قالب. حدد الحقول التي تحتاجها لأصولك (الاسم، الرقم التسلسلي، تاريخ الشراء، إلخ)."
-      },
-      "searchFilter": {
-        "title": "البحث والتصفية",
-        "description": "استخدم هذا الشريط للبحث عن القوالب بالاسم أو الوصف والتصفية حسب الفئة."
-      },
-      "buttons": {
-        "next": "التالي",
-        "previous": "السابق",
-        "done": "إنهاء",
-        "skip": "تخطي البرنامج التعليمي",
-        "restart": "عرض البرنامج التعليمي"
-      },
-      "progressText": "{{current}} من {{total}}",
-      "navMaintenance": {
-        "title": "Forms in Assets",
-        "description": "Forms is now under Assets → Forms."
-      },
-      "navForms": {
-        "title": "Go to Forms",
-        "description": "Access Form Templates from the Assets menu."
-      }
-    },
     "editFormTemplate": "تعديل قالب النموذج",
     "templateName": "اسم القالب",
     "enterTemplateName": "أدخل اسم القالب",
@@ -2002,40 +1756,6 @@
       "tagsMax": "لا يمكن إضافة أكثر من 10 وسوم",
       "tagMax": "لا يمكن أن يتجاوز كل وسم 30 حرفًا",
       "unknownError": "خطأ تحقق غير معروف"
-    },
-    "tour": {
-      "welcome": {
-        "title": "مرحبًا بك في الأدلة!",
-        "description": "هنا يمكنك إدارة أدلة أصولك. سنوضح لك كيفية عمل هذا القسم."
-      },
-      "goToAssets": {
-        "title": "الذهاب إلى الأصول",
-        "description": "لإنشاء دليل، تحتاج أولاً إلى إنشاء أصل واحد على الأقل. انقر هنا للانتقال إلى قسم الأصول وإنشاء أول أصل لك."
-      },
-      "createManual": {
-        "title": "إنشاء دليل",
-        "description": "بمجرد أن يكون لديك أصول تم إنشاؤها، استخدم هذا الزر لإنشاء دليل. يمكنك ربطه بأصل، تحميل ملفات PDF وإضافة معلومات مثل الإصدار، المؤلف واللغة."
-      },
-      "searchFilter": {
-        "title": "البحث والتصفية",
-        "description": "استخدم هذا الشريط للبحث عن الأدلة بالاسم أو الوصف أو المؤلف أو العلامات، وقم بتصفية حسب الفئة."
-      },
-      "buttons": {
-        "next": "التالي",
-        "previous": "السابق",
-        "done": "إنهاء",
-        "skip": "تخطي الدليل التعليمي",
-        "restart": "عرض الدليل التعليمي"
-      },
-      "progressText": "{{current}} من {{total}}",
-      "navMaintenance": {
-        "title": "Manuals in Assets",
-        "description": "Manuals is now under Assets → Manuals (previously buttons in Assets)."
-      },
-      "navManuals": {
-        "title": "Go to Manuals",
-        "description": "Access Manuals from the Assets menu."
-      }
     }
   },
   "calendar": {
@@ -2157,41 +1877,7 @@
     "searchDevicesPlaceholder": "البحث بالأصل أو الموقع أو الفئة...",
     "noDevicesFound": "لم يتم العثور على أجهزة لهذا البحث",
     "noMaintenanceAvailable": "لا توجد صيانة متاحة لهذا الأصل",
-    "errorLoadingMaintenance": "خطأ في تحميل الصيانة",
-    "tour": {
-      "welcome": {
-        "title": "مرحبًا بك في تفاصيل التركيبة!",
-        "description": "هنا يمكنك إدارة جميع أجهزة هذه التركيبة. سنوضح لك كيفية عمل هذا القسم."
-      },
-      "goToInstallations": {
-        "title": "الانتقال إلى التركيبات",
-        "description": "قبل إضافة الأصول، تأكد من إنشاء فئات الأصول من قسم التركيبات. انقر هنا للانتقال إلى ذلك القسم."
-      },
-      "createAssetFirst": {
-        "title": "مهم: إنشاء الأصول أولاً",
-        "description": "قبل إضافة أصل إلى هذه التركيبة، يجب عليك أولاً إنشاء أصل في قسم الأصول. تعمل الأصول كقاعدة/نموذج للأجهزة في التركيبات."
-      },
-      "addDevice": {
-        "title": "إضافة أصل",
-        "description": "استخدم هذا الزر لإضافة أصل جديد إلى التركيبة. ستحتاج إلى تحديد الفئة والموقع والحالة وتفاصيل أخرى للأصل."
-      },
-      "searchFilter": {
-        "title": "البحث والتصفية",
-        "description": "استخدم هذا الشريط للبحث عن الأصول بالاسم أو الموقع أو الفئة. يمكنك أيضًا التصفية حسب حالة الأصل."
-      },
-      "deviceActions": {
-        "title": "إجراءات الأصول",
-        "description": "كل بطاقة أصل تحتوي على أزرار لـ: عرض رمز الاستجابة السريعة، تحميل آخر صيانة (PDF)، تعديل الأصل وحذفه."
-      },
-      "buttons": {
-        "next": "التالي",
-        "previous": "السابق",
-        "done": "إنهاء",
-        "skip": "تخطي الدليل",
-        "restart": "عرض الدليل"
-      },
-      "progressText": "{{current}} من {{total}}"
-    }
+    "errorLoadingMaintenance": "خطأ في تحميل الصيانة"
   },
   "login": {
     "understood": "إغلاق",
@@ -2306,48 +1992,6 @@
     "serialMax": "لا يمكن أن يتجاوز الرقم التسلسلي 100 حرف"
   },
   "subscriptions": {
-    "tour": {
-      "welcome": {
-        "title": "مرحبًا بك في خطة الصيانة!",
-        "description": "هنا يمكنك إدارة اشتراكات صيانة منشآتك. سنوضح لك كيفية عمل هذا القسم."
-      },
-      "goToInstallations": {
-        "title": "الذهاب إلى المنشآت",
-        "description": "قبل إنشاء اشتراك، تأكد من وجود منشأة واحدة على الأقل. انقر هنا للانتقال إلى قسم المنشآت وإنشائها."
-      },
-      "searchFilter": {
-        "title": "البحث والتصفية",
-        "description": "استخدم شريط البحث للعثور على الاشتراكات حسب المنشأة أو العنوان أو النوع. يمكنك أيضًا التصفية حسب الشهر لمعرفة الاشتراكات النشطة في شهر محدد."
-      },
-      "editFrequency": {
-        "title": "تعديل التكرار",
-        "description": "انقر على هذا الزر لتغيير تكرار الاشتراك (شهري، ربع سنوي، نصف سنوي أو سنوي) وضبط الأشهر التي سيتم فيها الصيانة."
-      },
-      "months": {
-        "title": "الأشهر المختارة",
-        "description": "هنا تظهر الأشهر التي ستتم فيها الصيانة وفقًا للتكرار المحدد. يتم ضبط الأشهر تلقائيًا حسب التكرار المختار."
-      },
-      "buttons": {
-        "next": "التالي",
-        "previous": "السابق",
-        "done": "إنهاء",
-        "skip": "تخطي الدليل التعليمي",
-        "restart": "عرض الدليل التعليمي"
-      },
-      "progressText": "{{current}} من {{total}}",
-      "navMaintenance": {
-        "title": "Plan in Maintenance",
-        "description": "The maintenance plan now lives under Maintenance → Maintenance Plan."
-      },
-      "filterByMonth": {
-        "title": "Filter by month",
-        "description": "The filter-by-month selector is next to filter-by-status (tabletSelectsRow on iPad/mobile)."
-      },
-      "filterByStatus": {
-        "title": "Filter by status",
-        "description": "Filter by status (active/pending/inactive) next to filter-by-month."
-      }
-    },
     "selectStartDate": "اختر تاريخ البدء",
     "selectEndDate": "اختر تاريخ الانتهاء",
     "title": "خطة الصيانة",
@@ -2578,27 +2222,7 @@
     "preferences": "التفضيلات",
     "preferencesDesc": "تخصيص المظهر والسمة",
     "integrations": "التكاملات",
-    "integrationsDesc": "ربط Mercado Pago وخدمات البريد الإلكتروني",
-    "tour": {
-      "welcome": {
-        "title": "تكوين النظام",
-        "description": "Complete these 3 steps to get the platform ready: installation types, asset categories, and form categories."
-      },
-      "checklist": {
-        "title": "Setup checklist",
-        "description": "Track progress and status for each step. Start with the first pending item."
-      },
-      "manageTypes": {
-        "title": "Manage installation types",
-        "description": "Create the installation types you will use when creating installations."
-      },
-      "progressText": "{{current}} of {{total}}",
-      "buttons": {
-        "next": "Next",
-        "previous": "Previous",
-        "done": "Done"
-      }
-    }
+    "integrationsDesc": "ربط Mercado Pago وخدمات البريد الإلكتروني"
   },
   "viewToggle": {
     "contentView": "عرض المحتوى",
@@ -2747,44 +2371,6 @@
     },
     "availableStock": "المخزون المتاح",
     "assetType": "نوع الأصل",
-    "tour": {
-      "welcome": {
-        "title": "مرحباً بك في المخزون!",
-        "description": "هنا يمكنك إدارة المواد وقطع الغيار والمستلزمات الخاصة بشركتك. سنعرض لك الوظائف الرئيسية."
-      },
-      "addItem": {
-        "title": "إضافة عنصر",
-        "description": "استخدم هذا الزر لتسجيل مادة جديدة أو قطعة غيار في المخزون."
-      },
-      "lowStock": {
-        "title": "تنبيهات انخفاض المخزون",
-        "description": "عندما يصل عنصر إلى الحد الأدنى للمخزون، سيظهر تنبيه هنا لتعرف ما يجب إعادة تخزينه."
-      },
-      "search": {
-        "title": "البحث والتصفية",
-        "description": "اعثر بسرعة على ما تبحث عنه من خلال التصفية حسب الاسم أو الفئة."
-      },
-      "actions": {
-        "title": "إدارة المخزون",
-        "description": "من كل عنصر يمكنك تعديل المخزون (إدخال/إخراج)، وعرض سجل التحركات، أو التعديل، أو الحذف."
-      },
-      "buttons": {
-        "next": "التالي",
-        "previous": "السابق",
-        "done": "إنهاء",
-        "skip": "تخطي البرنامج التعليمي",
-        "restart": "مشاهدة البرنامج التعليمي"
-      },
-      "progressText": "{{current}} من {{total}}",
-      "navOperation": {
-        "title": "Inventory in Operations",
-        "description": "Inventory is now under Operations → Inventory."
-      },
-      "navInventory": {
-        "title": "Go to Inventory",
-        "description": "Access Inventory from the Operations menu."
-      }
-    },
     "csv": {
       "downloadTemplate": "تنزيل قالب CSV",
       "import": "استيراد CSV",
@@ -2819,40 +2405,6 @@
     "validation": {
       "nameRequired": "اسم المورد مطلوب",
       "emailInvalid": "البريد الإلكتروني غير صالح"
-    },
-    "tour": {
-      "welcome": {
-        "title": "مرحباً بك في الموردين!",
-        "description": "إدارة دليل موردي المواد والخدمات الخاص بك. سنوجهك عبر الخيارات الرئيسية."
-      },
-      "addSupplier": {
-        "title": "إضافة مورد",
-        "description": "انقر هنا لتسجيل مورد جديد مع تفاصيل الاتصال الخاصة به."
-      },
-      "search": {
-        "title": "بحث سريع",
-        "description": "ابحث عن الموردين بالاسم أو البريد الإلكتروني."
-      },
-      "actions": {
-        "title": "الإجراءات",
-        "description": "يمكنك تعديل معلومات المورد أو حذفه إذا لم تعد تعمل معه."
-      },
-      "buttons": {
-        "next": "التالي",
-        "previous": "السابق",
-        "done": "إنهاء",
-        "skip": "تخطي البرنامج التعليمي",
-        "restart": "مشاهدة البرنامج التعليمي"
-      },
-      "progressText": "{{current}} من {{total}}",
-      "navOperation": {
-        "title": "Suppliers in Operations",
-        "description": "Suppliers is now under Operations → Suppliers."
-      },
-      "navSuppliers": {
-        "title": "Go to Suppliers",
-        "description": "Access Suppliers from the Operations menu."
-      }
     },
     "csv": {
       "downloadTemplate": "تنزيل قالب CSV",

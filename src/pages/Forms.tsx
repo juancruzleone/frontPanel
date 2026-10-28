@@ -15,10 +15,6 @@ import type { FormTemplate } from "../features/forms/hooks/useForms"
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { translateFormFieldType } from "../shared/utils/backendTranslations"
-import { useLocation } from "react-router"
-import { useAssetsTour } from "../features/assets/hooks/useAssetsTour"
-import { useFormsTour } from "../features/forms/hooks/useFormsTour"
-import TourButton from "../shared/components/Buttons/TourButton"
 import ViewToggle from "../components/ViewToggle/ViewToggle"
 import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 import DataTable from "../components/DataTable/DataTable"
@@ -26,9 +22,6 @@ import Tooltip from "../shared/components/Tooltip/Tooltip"
 
 const Forms = () => {
   const { t, i18n } = useTranslation()
-  const location = useLocation()
-  const { continueFormsTour } = useAssetsTour()
-  const { tourCompleted, startTour, skipTour } = useFormsTour()
   const {
     templates,
     pagination,
@@ -59,27 +52,6 @@ const Forms = () => {
   useEffect(() => {
     document.title = t("forms.titlePage")
   }, [t, i18n.language])
-
-  // Iniciar el tour automáticamente si no se ha completado
-  useEffect(() => {
-    if (!loading && !tourCompleted && !location.state?.fromAssetsTour) {
-      // Esperar un poco para que el DOM se cargue completamente
-      const timer = setTimeout(() => {
-        startTour()
-      }, 500)
-      return () => clearTimeout(timer)
-    }
-  }, [loading, tourCompleted, startTour, location.state])
-
-  // Continuar el tour si venimos de activos
-  useEffect(() => {
-    if (location.state?.fromAssetsTour) {
-      const timer = setTimeout(() => {
-        continueFormsTour()
-      }, 500)
-      return () => clearTimeout(timer)
-    }
-  }, [location.state, continueFormsTour])
 
   const handleOpenCreate = () => {
     setCurrentTemplate({
@@ -176,13 +148,13 @@ const Forms = () => {
             <h1 className={styles.title}>{t("forms.title")}</h1>
           </div>
           <div className={styles.positionButton}>
-            <Button title={t("forms.createTemplate")} onClick={handleOpenCreate} data-tour="create-template-btn" />
+            <Button title={t("forms.createTemplate")} onClick={handleOpenCreate} />
           </div>
         </div>
         {!isMobile && <div className={styles.actionsBar}><div className={styles.viewToggleRow}><ViewToggle view={viewMode} onViewChange={setViewMode} /></div></div>}
 
         <div className={styles.searchRow}>
-          <div className={styles.searchContainerInner} data-tour="search-filter">
+          <div className={styles.searchContainerInner}>
             <SearchInput
               placeholder={t("forms.searchPlaceholder")}
               showSelect={true}
@@ -329,7 +301,6 @@ const Forms = () => {
                           onClick={() => handleOpenEdit(template)}
                           aria-label={t('forms.editTemplate')}
                           data-tooltip={t('forms.editTemplate')}
-                          data-tour="edit-template-btn"
                         >
                           <Edit size={24} />
                         </button>
@@ -341,7 +312,6 @@ const Forms = () => {
                           }}
                           aria-label={t('forms.deleteTemplate')}
                           data-tooltip={t('forms.deleteTemplate')}
-                          data-tour="delete-template-btn"
                         >
                           <Trash size={24} />
                         </button>
@@ -417,11 +387,6 @@ const Forms = () => {
       <ModalSuccess isOpen={!!responseMessage && !isError} onRequestClose={closeModal} mensaje={responseMessage} />
       <ModalError isOpen={!!responseMessage && isError} onRequestClose={closeModal} mensaje={responseMessage} />
 
-      {/* Botón flotante del tour estilo WhatsApp */}
-      <TourButton
-        onClick={tourCompleted ? startTour : skipTour}
-        label={tourCompleted ? t('forms.tour.buttons.restart') : t('forms.tour.buttons.skip')}
-      />
     </>
   )
 }

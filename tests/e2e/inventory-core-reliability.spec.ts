@@ -55,12 +55,6 @@ async function seedAuthenticatedPage(page: Page) {
       },
       version: 0,
     }))
-    for (const key of [
-      "home-onboarding-tour-v1-shown",
-      "inventory-onboarding-tour-v1-shown",
-      "work-orders-onboarding-tour-v1-shown",
-      "workOrdersTourCompleted",
-    ]) localStorage.setItem(key, "true")
   }, { currentUser: user })
 }
 

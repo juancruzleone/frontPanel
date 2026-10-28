@@ -159,7 +159,7 @@ async function screenshot(page: Page, name: string) {
 }
 
 // ---------------------------------------------------------------------------
-// Seed de sesión + tours off + i18n ES
+// Seed de sesión + i18n ES
 // ---------------------------------------------------------------------------
 
 async function seedSession(page: Page, currentUser: typeof ADMIN_USER) {
@@ -179,18 +179,6 @@ async function seedSession(page: Page, currentUser: typeof ADMIN_USER) {
       version: 0,
     }))
     localStorage.setItem("i18nextLng", "es")
-    for (const key of [
-      "leonix-global-onboarding-v2-completed",
-      "home-onboarding-tour-v1-shown",
-      "inventory-onboarding-tour-v1-shown",
-      "work-orders-onboarding-tour-v1-shown",
-      "workOrdersTourCompleted",
-      "settingsTourCompleted",
-      "clients-tour-completed",
-      "clientsTourCompleted",
-      "suppliers-tour-completed",
-      "suppliersTourCompleted",
-    ]) localStorage.setItem(key, "true")
   }, { user: currentUser })
 }
 

@@ -26,9 +26,6 @@ const mocks = vi.hoisted(() => ({
 vi.mock("../../../../src/features/home/hooks/useHomeDashboard", () => ({
   useHomeDashboard: () => mocks.state,
 }))
-vi.mock("../../../../src/features/home/hooks/useHomeTour", () => ({
-  useHomeTour: () => ({ startTour: vi.fn(), tourCompleted: true }),
-}))
 vi.mock("../../../../src/store/authStore", () => ({
   useAuthStore: (selector: (state: { role: string | null; permissions: null }) => unknown) => selector({ role: "admin", permissions: null }),
 }))

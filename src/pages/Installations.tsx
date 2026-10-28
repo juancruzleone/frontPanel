@@ -22,9 +22,7 @@ import { Edit, Trash, Plus, HelpCircle, FilterX, List, Wrench } from "lucide-rea
 import Skeleton from '../shared/components/Skeleton'
 import { useTranslation } from "react-i18next"
 import { useAuthStore } from "../store/authStore"
-import { useInstallationsTour } from "../features/installations/hooks/useInstallationsTour"
 import { isClient, isTechnician as checkIsTechnician } from "../shared/utils/roleUtils"
-import TourButton from "../shared/components/Buttons/TourButton"
 import ViewToggle from "../components/ViewToggle/ViewToggle"
 import { useResponsiveView } from "../shared/hooks/useResponsiveView"
 import DataTable from "../components/DataTable/DataTable"
@@ -174,8 +172,6 @@ const Installations = () => {
   const isTechnician = role && checkIsTechnician(role)
   const isClientUser = role && isClient(role)
   const isRestricted = isTechnician || isClientUser
-  const { tourCompleted, startTour, skipTour } = useInstallationsTour()
-
   const [selectedCategory, setSelectedCategory] = useState("")
   const [searchTerm, setSearchTerm] = useState("")
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
@@ -214,20 +210,6 @@ const Installations = () => {
     document.title = t("installations.titlePage")
     loadCategories()
   }, [t, i18n.language])
-
-  // Iniciar el tour automáticamente si no se ha completado
-  useEffect(() => {
-    // Verificar si el tour de onboarding global ya se completó
-    const onboardingCompleted = localStorage.getItem('onboarding-tour-v2-shown');
-    
-    if (!loading && !tourCompleted && !isRestricted && onboardingCompleted === 'true') {
-      // Esperar un poco para que el DOM se cargue completamente
-      const timer = setTimeout(() => {
-        startTour()
-      }, 500)
-      return () => clearTimeout(timer)
-    }
-  }, [loading, tourCompleted, startTour, isRestricted])
 
   const dynamicCategories = useMemo(
     () => [
@@ -369,7 +351,7 @@ const Installations = () => {
 
           {!isRestricted && (
             <div className={styles.positionButton}>
-              <Button title={t('installations.createInstallation')} onClick={handleOpenCreate} data-tour="create-installation-btn" />
+              <Button title={t('installations.createInstallation')} onClick={handleOpenCreate} />
             </div>
           )}
         </div>
@@ -390,7 +372,7 @@ const Installations = () => {
         </div>
 
         <div className={styles.searchRow}>
-          <div className={styles.searchContainerInner} data-tour="search-filter">
+          <div className={styles.searchContainerInner}>
             <SearchInput
               placeholder={t('installations.searchPlaceholder')}
               showSelect
@@ -717,15 +699,6 @@ const Installations = () => {
         onDownloadTemplate={downloadInstallationTemplate}
         onCommitted={() => loadInstallations({ page: 1, limit: itemsPerPage, search: debouncedSearchTerm, category: selectedCategory })}
       />
-
-      {/* Botón flotante del tour estilo WhatsApp */}
-      {/* Botón flotante del tour estilo WhatsApp */}
-      {!isRestricted && (
-        <TourButton
-          onClick={tourCompleted ? startTour : skipTour}
-          label={tourCompleted ? t('installations.tour.buttons.restart') : t('installations.tour.buttons.skip')}
-        />
-      )}
     </>
   )
 }

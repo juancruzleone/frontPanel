@@ -5,7 +5,6 @@ import i18n from "../../../../src/i18n"
 import type { HomeDashboardState } from "../../../../src/features/home/types/homeTypes"
 import { createDashboardDto } from "./dashboardFixture"
 import { mapDashboardStats } from "../../../../src/features/home/services/homeDashboardMapper"
-import TourButton from "../../../../src/shared/components/Buttons/TourButton"
 
 // These are behavior tests. jsdom cannot resolve the dashboard's token-based
 // font calculations when Testing Library computes accessible roles.
@@ -16,14 +15,10 @@ vi.mock("../../../../src/features/home/styles/home.module.css", () => ({
 const mocks = vi.hoisted(() => ({
   state: null as HomeDashboardState | null,
   role: "admin" as string | null,
-  startTour: vi.fn(),
 }))
 
 vi.mock("../../../../src/features/home/hooks/useHomeDashboard", () => ({
   useHomeDashboard: () => mocks.state,
-}))
-vi.mock("../../../../src/features/home/hooks/useHomeTour", () => ({
-  useHomeTour: () => ({ startTour: mocks.startTour, tourCompleted: true }),
 }))
 vi.mock("../../../../src/store/authStore", () => ({
   useAuthStore: (selector: (state: { role: string | null; permissions: null }) => unknown) => selector({ role: mocks.role, permissions: null }),
@@ -54,7 +49,6 @@ describe("HomeDashboard role-aware composition", () => {
     localStorage.clear()
     mocks.role = "admin"
     mocks.state = createState("admin")
-    mocks.startTour.mockClear()
   })
 
   it("shows tenant resources and inventory only to admin", () => {
@@ -320,38 +314,6 @@ describe("HomeDashboard role-aware composition", () => {
 
     expect(() => render(<MemoryRouter><HomeDashboard /></MemoryRouter>)).not.toThrow()
     expect(screen.getAllByText("Fecha no disponible")).toHaveLength(3)
-  })
-
-  it("uses the shared floating tour action outside the header and preserves its callback", () => {
-    render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
-    const homeButton = screen.getByLabelText("Ver tutorial")
-    render(<TourButton onClick={vi.fn()} label="Section tutorial" />)
-    const sectionButton = screen.getByLabelText("Section tutorial")
-
-    expect(homeButton.className).toBe(sectionButton.className)
-    expect(homeButton.closest("header")).toBeNull()
-    expect(homeButton).toHaveAttribute("title", "Ver tutorial")
-    expect(homeButton).toHaveAttribute("type", "button")
-    expect(homeButton).toHaveTextContent("")
-    expect(homeButton.querySelector("svg")).toHaveAttribute("width", "22")
-    fireEvent.click(homeButton)
-    expect(mocks.startTour).toHaveBeenCalledOnce()
-  })
-
-  it.each(["technician", "client"] as const)("hides the tour action for %s", (role) => {
-    mocks.role = role === "technician" ? "tecnico" : "cliente"
-    mocks.state = createState(role)
-    render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
-    expect(screen.queryByLabelText("Ver tutorial")).not.toBeInTheDocument()
-  })
-
-  it("retains the admin floating action during initial loading", () => {
-    mocks.state = { ...createState("admin"), data: null, loading: true }
-    render(<MemoryRouter><HomeDashboard /></MemoryRouter>)
-    const button = screen.getByLabelText("Ver tutorial")
-    expect(button.closest("header")).toBeNull()
-    fireEvent.click(button)
-    expect(mocks.startTour).toHaveBeenCalledOnce()
   })
 
   it("provides the dashboard loading label in every configured locale", async () => {
