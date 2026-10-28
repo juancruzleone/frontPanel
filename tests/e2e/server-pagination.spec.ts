@@ -38,6 +38,11 @@ async function seedSession(page: Page) {
   }))
 
   await page.route('**/socket.io/**', route => route.abort())
+
+  // Setup inicial completo: el gate de onboarding deja pasar al panel.
+  await page.route('**/api/tenant/onboarding', route => route.fulfill({
+    json: { status: "complete", version: 1, completedAt: "2026-01-01T00:00:00.000Z", checks: { company: true, installationTypes: true, deviceCategories: true, formCategories: true, maintenanceTemplate: true }, missing: [] },
+  }))
 }
 
 test.describe('Server-driven pagination across Clientes, Personal and Abonos', () => {
