@@ -32,6 +32,7 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
   const [isSaving, setIsSaving] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState<{ id: string; name: string } | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [deleteError, setDeleteError] = useState('')
   const [successModal, setSuccessModal] = useState<{ title: string; message: string } | null>(null)
 
   const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({})
@@ -186,6 +187,7 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
   }
 
   const handleDeleteClick = (categoryId: string, categoryName: string) => {
+    setDeleteError('')
     setDeleteConfirm({ id: categoryId, name: categoryName })
   }
 
@@ -193,6 +195,7 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
     if (!deleteConfirm) return
     
     setIsDeleting(true)
+    setDeleteError('')
     try {
       await removeCategory(deleteConfirm.id)
       await loadCategories()
@@ -201,8 +204,8 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
         title: t('settings.success.categoryDeleted'),
         message: t('settings.success.categoryDeletedMessage')
       })
-    } catch (error: any) {
-      setValidationError(error.response?.data?.message || error.message || t('settings.error.deleteFailed'))
+    } catch (error: unknown) {
+      setDeleteError(error instanceof Error ? error.message : t('settings.error.deleteFailed'))
     } finally {
       setIsDeleting(false)
     }
@@ -231,6 +234,7 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
       </div>
 
       <div className={styles.modalBody}>
+        <p>{t('settings.assetCategoryInheritance')}</p>
         <div className={styles.addSection}>
           <div className={styles.inputWrapper}>
             <input
@@ -307,7 +311,7 @@ const ModalManageFormCategories = ({ isOpen, onRequestClose }: Props) => {
         onRequestClose={() => setDeleteConfirm(null)}
         onConfirm={handleConfirmDelete}
         title={t('settings.confirmDeleteTitle')}
-        message={t('settings.confirmDeleteMessage', { name: deleteConfirm?.name })}
+        message={[t('settings.confirmDeleteMessage', { name: deleteConfirm?.name }), deleteError].filter(Boolean).join(' ')}
         confirmText={t('common.delete')}
         isLoading={isDeleting}
         variant="danger"
