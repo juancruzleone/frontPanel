@@ -24,6 +24,7 @@ export const Profile = lazy(() => import("../pages/Profile"));
 export const UserProfile = lazy(() => import("../pages/UserProfile"));
 export const PanelAdmin = lazy(() => import("../pages/PanelAdmin"));
 export const NotFound = lazy(() => import("../pages/NotFound"));
+export const Setup = lazy(() => import("../pages/Setup"));
 export const Tenants = lazy(() => import("../pages/Tenants"));
 export const Clients = lazy(() => import("../pages/Clients"));
 export const Settings = lazy(() => import("../pages/Settings"));

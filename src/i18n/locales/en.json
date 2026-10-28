@@ -3399,5 +3399,78 @@
         "installationsDesc": "Manage installations and facilities"
       }
     }
+  },
+  "setup": {
+    "page": {
+      "title": "Initial setup",
+      "heading": "Mandatory initial setup",
+      "intro": "Complete these steps in order to enable access to the system."
+    },
+    "gate": {
+      "loading": "Checking initial setup…",
+      "loadError": "Could not verify the initial setup. Please retry the connection.",
+      "retry": "Retry"
+    },
+    "wizard": {
+      "loading": "Loading initial setup…",
+      "loadError": "Could not load the setup status.",
+      "manage": "Manage",
+      "complete": "Complete setup",
+      "completeHint": "Complete all steps in order to enable completion.",
+      "completeError": "Could not complete the setup. The server reported missing requirements:",
+      "waitingAdmin": "Waiting: a tenant administrator must complete the initial setup. You will get access when it is done.",
+      "alreadyComplete": "The initial setup is already complete."
+    },
+    "steps": {
+      "company": {
+        "title": "Identified company",
+        "description": "Verify the tenant company is correct. It is the basis of the whole setup.",
+        "verify": "Check again",
+        "state": {
+          "done": "Verified",
+          "current": "Pending verification",
+          "locked": "Locked"
+        }
+      },
+      "installationTypes": {
+        "title": "Installation types",
+        "description": "Create at least one installation type. Required to create installations.",
+        "state": {
+          "done": "Done",
+          "current": "Pending",
+          "locked": "Locked"
+        }
+      },
+      "deviceCategories": {
+        "title": "Device categories",
+        "description": "Create at least one device category. Required to assign equipment.",
+        "state": {
+          "done": "Done",
+          "current": "Pending",
+          "locked": "Locked"
+        }
+      },
+      "formCategories": {
+        "title": "Form categories",
+        "description": "Create at least one form category. Needed to create templates.",
+        "state": {
+          "done": "Done",
+          "current": "Pending",
+          "locked": "Locked"
+        }
+      },
+      "maintenanceTemplate": {
+        "title": "Maintenance template",
+        "description": "Create at least one valid maintenance template. Assets require a template.",
+        "state": {
+          "done": "Done",
+          "current": "Pending",
+          "locked": "Locked"
+        }
+      }
+    },
+    "notice": {
+      "goToSetup": "Go to initial setup"
+    }
   }
 }
