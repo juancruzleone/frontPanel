@@ -39,6 +39,10 @@ export interface InstallationResponse {
   fechaCreacion?: string | Date;
   fechaActualizacion?: string | Date;
   mesesFrecuencia?: string[];
+  tecnicosAsignados?: string[];
+  tecnicosIds?: string[];
+  tecnicoAsignado?: string;
+  technicianIds?: string[];
 }
 
 export interface InstallationUpdateDto {

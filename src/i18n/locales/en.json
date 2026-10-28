@@ -1951,7 +1951,12 @@
       "Octubre": "October",
       "Noviembre": "November",
       "Diciembre": "December"
-    }
+    },
+    "assignedTechnicians": "Assigned technicians",
+    "assignedTechniciansHint": "Search by name and tap to assign or remove. Stays collapsed to keep the modal compact.",
+    "noTechniciansAssigned": "Unassigned",
+    "technicianAssignedSingle": "assigned",
+    "technicianAssignedPlural": "assigned"
   },
   "calendar": {
     "selectYear": "Select year",

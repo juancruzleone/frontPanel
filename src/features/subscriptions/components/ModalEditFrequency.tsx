@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styles from '../styles/Modal.module.css'
 import subscriptionStyles from '../styles/subscriptions.module.css'
 import type { Subscription, FrequencyOption } from '../hooks/useSubscriptions'
 import { useSubscriptions } from '../hooks/useSubscriptions'
+import useTechnicians from '../../workOrders/hooks/useTechnicians'
 import FrequencyForm from './FrequencyForm'
 import { translateFrequencyToCurrentLang } from '../../../shared/utils/backendTranslations';
 import { toISODateString } from '../../../shared/utils/dateDisplay';
@@ -13,7 +14,7 @@ interface ModalEditFrequencyProps {
   onRequestClose: () => void
   subscription: Subscription | null
   frequencyOptions: FrequencyOption[]
-  onSave: (subscriptionId: string, frequency: string, startDate?: string, endDate?: string, status?: 'active' | 'inactive' | 'pending', months?: string[]) => Promise<{ message: string }>
+  onSave: (subscriptionId: string, frequency: string, startDate?: string, endDate?: string, status?: 'active' | 'inactive' | 'pending', months?: string[], technicianIds?: string[]) => Promise<{ message: string }>
   onSubmitSuccess: (message: string) => void
   onSubmitError: (message: string) => void
 }
@@ -57,6 +58,8 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
     validateAllFields,
     monthsError,
   } = useSubscriptions()
+  const { technicians, loading: loadingTechnicians } = useTechnicians()
+  const [selectedTechnicianIds, setSelectedTechnicianIds] = useState<string[]>([])
 
   useEffect(() => {
     if (isOpen && subscription) {
@@ -77,10 +80,14 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
       setResponseMessage('');
       setIsStartDatePickerOpen(false);
       setIsEndDatePickerOpen(false);
+      setSelectedTechnicianIds(
+        Array.isArray(subscription.technicianIds) ? subscription.technicianIds.map((id) => String(id as string)) : [],
+      );
     }
 
     if (!isOpen) {
       resetFrequencyForm();
+      setSelectedTechnicianIds([]);
     }
   }, [isOpen, subscription, resetFrequencyForm, setFormData, setIsEndDatePickerOpen, setIsError, setIsStartDatePickerOpen, setResponseMessage, setSelectedMonths]);
 
@@ -119,7 +126,8 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
         formData.startDate || undefined,
         formData.endDate || undefined,
         formData.status as 'active' | 'inactive' | 'pending' || 'active',
-        selectedMonths.length > 0 ? selectedMonths : undefined
+        selectedMonths.length > 0 ? selectedMonths : undefined,
+        selectedTechnicianIds
       )
 
       onSubmitSuccess(result.message || t('subscriptions.frequencyUpdated'))
@@ -192,6 +200,10 @@ const ModalEditFrequency: React.FC<ModalEditFrequencyProps> = ({
             onSubmit={handleSubmit}
             onCancel={handleClose}
             monthsError={monthsError}
+            technicians={technicians}
+            loadingTechnicians={loadingTechnicians}
+            selectedTechnicianIds={selectedTechnicianIds}
+            onTechnicianChange={setSelectedTechnicianIds}
           />
         </div>
       </div>

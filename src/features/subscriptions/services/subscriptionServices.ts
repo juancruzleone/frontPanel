@@ -42,13 +42,27 @@ export const updateSubscription = async (subscriptionId: string, updateData: Rec
   }
 
   // IMPORTANTE: Enviar solo los campos requeridos por validateSubscriptionUpdate
-  const updatePayload = {
+  // Los campos de técnicos se envían con tolerancia: si el backend usa validación
+  // estricta los ignora, y si ya soporta asignación quedan persistidos.
+  const technicianIds = Array.isArray(updateData.technicianIds)
+    ? updateData.technicianIds
+    : Array.isArray(updateData.tecnicosAsignados)
+      ? updateData.tecnicosAsignados
+      : Array.isArray(updateData.tecnicosIds)
+        ? updateData.tecnicosIds
+        : undefined
+  const updatePayload: Record<string, unknown> = {
     fechaInicio: updateData.fechaInicio,
     fechaFin: updateData.fechaFin,
     frecuencia: updateData.frecuencia?.trim(),
     mesesFrecuencia: updateData.mesesFrecuencia,
     estado: updateData.estado,
     // La nueva API no espera generacionAutomatica en este endpoint, pero si es necesario se envía
+  }
+  if (technicianIds !== undefined) {
+    updatePayload.technicianIds = technicianIds
+    updatePayload.tecnicosAsignados = technicianIds
+    updatePayload.tecnicosIds = technicianIds
   }
 
   // Asegurarse de que la URL esté bien formada

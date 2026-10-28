@@ -26,6 +26,7 @@ export interface Subscription {
   startDate: Date | undefined
   endDate: Date | undefined
   status: 'active' | 'inactive' | 'pending'
+  technicianIds?: string[]
   createdAt: Date
   updatedAt: Date
 }
@@ -132,6 +133,16 @@ const useSubscriptions = () => {
     const endDate = parseDate(installation.fechaFin)
     const frequency = installation.frecuencia ? installation.frecuencia.toLowerCase() : ''
     const months = installation.mesesFrecuencia || []
+    const rawInstallation = installation as Record<string, unknown>
+    const toIdList = (value: unknown): string[] => Array.isArray(value) ? value.filter(Boolean).map((id) => String(id)) : []
+    const technicianIds = Array.from(
+      new Set([
+        ...toIdList(rawInstallation['tecnicosAsignados']),
+        ...toIdList(rawInstallation['tecnicosIds']),
+        ...toIdList(rawInstallation['technicianIds']),
+        ...(typeof rawInstallation['tecnicoAsignado'] === 'string' && rawInstallation['tecnicoAsignado'] ? [rawInstallation['tecnicoAsignado'] as string] : []),
+      ]),
+    )
 
     return {
       _id: installation._id || '',
@@ -146,6 +157,7 @@ const useSubscriptions = () => {
       startDate: startDate,
       endDate: endDate,
       status: mapStatusToEnglish(installation.estado || 'Activo'),
+      technicianIds: technicianIds,
       createdAt: installation.fechaCreacion ? new Date(installation.fechaCreacion) : new Date(),
       updatedAt: installation.fechaActualizacion ? new Date(installation.fechaActualizacion) : new Date(),
     }
@@ -267,6 +279,7 @@ const useSubscriptions = () => {
       mesesFrecuencia: monthsToSave,
       estado: data.status ? mapStatus(data.status) : installation.estado || 'Activo',
       generacionAutomatica: (data.status ? mapStatus(data.status) : installation.estado || 'Activo') === 'Activo',
+      ...(data.technicianIds !== undefined ? { technicianIds: data.technicianIds, tecnicosAsignados: data.technicianIds, tecnicosIds: data.technicianIds, tecnicoAsignado: data.technicianIds[0] } : {}),
     }
 
     await updateSubscriptionService(subscriptionId, updateData)

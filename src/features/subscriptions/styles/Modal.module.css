@@ -1078,6 +1078,102 @@
   /* Más blanco en modo oscuro */
 }
 
+/* Technicians assignment (collapsible, no choclo) */
+.techniciansToggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border: 2px solid var(--color-card-border);
+  border-radius: 8px;
+  background: var(--color-card);
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.techniciansToggle:hover:not(:disabled) {
+  border-color: var(--color-card-border);
+  background: var(--color-bg-light);
+}
+
+.techniciansToggle:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.techniciansToggleLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.techniciansCount {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-card-border);
+  color: var(--color-text);
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
+.techniciansChevron {
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+
+.techniciansChevronOpen {
+  transform: rotate(180deg);
+}
+
+.techniciansHint {
+  margin: 0.4rem 0 0;
+  font-size: 0.82rem;
+  color: var(--color-text);
+  opacity: 0.65;
+}
+
+.techniciansPreview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+}
+
+.techniciansPreviewChip {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(5, 126, 116, 0.12);
+  border: 1px solid rgba(5, 126, 116, 0.3);
+  color: var(--color-text);
+  max-width: 160px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.techniciansPreviewMore {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-card-border);
+  color: var(--color-text);
+}
+
 /* Documents List */
 .documentsList {
   display: flex;

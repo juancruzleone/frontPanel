@@ -1915,7 +1915,12 @@
       "deleteSuccess": "Documento eliminado exitosamente"
     },
     "installationDetails": "Detalle de la instalación",
-    "months": "meses"
+    "months": "meses",
+    "assignedTechnicians": "Técnicos asignados",
+    "assignedTechniciansHint": "Buscá por nombre y tocá para asignar o quitar. Queda colapsado para no alargar el modal.",
+    "noTechniciansAssigned": "Sin asignar",
+    "technicianAssignedSingle": "asignado",
+    "technicianAssignedPlural": "asignados"
   },
   "calendar": {
     "selectedDate": "Fecha seleccionada",
