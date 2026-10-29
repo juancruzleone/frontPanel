@@ -75,6 +75,11 @@ jobs:
   unit-tests:
     name: Unit Tests
     runs-on: ubuntu-latest
+    # Runner ubuntu-latest expone 4 vCPU/16 GB pero Node limita el heap a ~4 GB:
+    # la suite unitaria (178 archivos, jsdom) superaba ese techo con OOM.
+    # Se eleva el techo y se baja el paralelismo para no romper nada.
+    env:
+      NODE_OPTIONS: --max-old-space-size=8192
 
     steps:
       - name: Checkout code
@@ -94,7 +99,7 @@ jobs:
         run: bun ci --ignore-scripts
 
       - name: Run unit tests
-        run: bun run test:unit
+        run: bunx vitest run tests/unit --maxWorkers=2
 
       - name: Upload coverage reports
         uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238 # v4
