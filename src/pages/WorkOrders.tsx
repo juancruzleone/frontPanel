@@ -64,6 +64,7 @@ import {
   getPreferredVsScheduled,
   getRequestStatusGroup,
   isClientRequest,
+  PRE_EXECUTION_STATES,
 } from "../features/workOrders/utils/clientRequestUtils";
 import { maintenanceRequestsService } from "../features/maintenanceRequests/services/maintenanceRequestsService";
 
@@ -553,7 +554,7 @@ const WorkOrders = () => {
 	const shouldShowEditButton = (order: WorkOrder) => {
 		const perms = permissions as UserPermissions | null;
 		if (!perms?.canEditWorkOrders) return false;
-		return ["solicitada", "pendiente", "asignada"].includes(order.estado);
+		return (PRE_EXECUTION_STATES as readonly string[]).includes(order.estado);
 	};
 
 	const handleChangePage = (page: number) => {
@@ -1166,7 +1167,7 @@ const WorkOrders = () => {
 													</Tooltip>
 												)}
 												{permissions?.canAssignWorkOrders &&
-												["solicitada", "pendiente", "asignada"].includes(order.estado) && (
+												(PRE_EXECUTION_STATES as readonly string[]).includes(order.estado) && (
 													<Tooltip content={t("workOrders.assignTechnician")}>
 														<button
 															className={styles.iconButton}

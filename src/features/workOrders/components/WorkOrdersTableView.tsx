@@ -8,6 +8,7 @@ import styles from '../styles/workOrders.module.css'
 import { getProfilePhotoUrl } from '../../../shared/utils/imageUtils'
 import { UserPermissions } from '../../../store/authStore'
 import { OfflinePackageAction } from './OfflinePackageAction'
+import { PRE_EXECUTION_STATES } from '../utils/clientRequestUtils'
 
 type TechnicianLike = {
   profilePhoto?: string
@@ -223,7 +224,7 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
               </button>
             </Tooltip>
           )}
-          {permissions?.canAssignWorkOrders && ["solicitada", "pendiente", "asignada"].includes(order.estado) && (
+          {permissions?.canAssignWorkOrders && (PRE_EXECUTION_STATES as readonly string[]).includes(order.estado) && (
             <Tooltip content={t('workOrders.assignTechnician')}>
               <button
                 className={styles.iconButton}
@@ -234,7 +235,7 @@ const WorkOrdersTableView: React.FC<WorkOrdersTableViewProps> = ({
               </button>
             </Tooltip>
           )}
-          {permissions?.canEditWorkOrders && ["solicitada", "pendiente", "asignada"].includes(order.estado) && (
+          {permissions?.canEditWorkOrders && (PRE_EXECUTION_STATES as readonly string[]).includes(order.estado) && (
             <Tooltip content={t('workOrders.editOrder')}>
               <button
                 className={styles.iconButton}

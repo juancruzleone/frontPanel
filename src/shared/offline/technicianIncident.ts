@@ -21,7 +21,7 @@ export function savePendingIncidentsToStorage(items: (CreateIncidentData & { com
   try {
     localStorage.setItem(PENDING_INCIDENTS_KEY, JSON.stringify(items))
   } catch {
-    // ignore
+    throw new Error('OFFLINE_STORAGE_UNAVAILABLE')
   }
 }
 
@@ -35,8 +35,13 @@ export async function recordTechnicianIncident(
   const saveLocalFallback = () => {
     try {
       const items = getPendingIncidentsFromStorage()
-      items.push({ ...payload, commandId, createdAt: new Date().toISOString() })
+      const entry = { ...payload, commandId, createdAt: new Date().toISOString() }
+      items.push(entry)
       savePendingIncidentsToStorage(items)
+      const verify = getPendingIncidentsFromStorage()
+      if (!verify.some(item => item.commandId === commandId)) {
+        return { error: 'OFFLINE_INCIDENT_UNAVAILABLE' }
+      }
       return { commandId }
     } catch {
       return { error: 'OFFLINE_INCIDENT_UNAVAILABLE' }

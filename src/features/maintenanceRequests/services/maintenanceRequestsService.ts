@@ -121,29 +121,30 @@ class MaintenanceRequestsService {
   }
 
   async cancelRequest(id: string, motivo?: string): Promise<{ message: string }> {
+    // S4+S8: el cliente pide la cancelación contra la ruta propia. Solo se
+    // prueba la ruta alternativa cuando la primera no existe (404/405 =
+    // ruta no implementada). Cualquier otro rechazo (403, validación,
+    // estado no cancelable) se informa directamente sin enmascararlo.
+    // La ruta oficial está pendiente de confirmación del backend.
     const reason = motivo?.trim() || "Cancelación solicitada por el cliente";
     const attempts: Array<{ url: string; body: unknown }> = [
       { url: `${this.ordersUrl}/${id}/cancelar`, body: { motivo: reason } },
       { url: `${this.ordersUrl}/${id}/estado`, body: { estado: "cancelada", motivo: reason, observaciones: reason } },
     ];
-    let lastError: unknown = null;
     for (const attempt of attempts) {
-      try {
-        const response = await fetchWithCsrf(attempt.url, {
-          method: "PATCH",
-          body: JSON.stringify(attempt.body),
-        });
-        const result = await handleResponse(response);
-        return { message: (result as { message?: string })?.message || "Solicitud de cancelación enviada." };
-      } catch (error) {
-        lastError = error;
-        const message = error instanceof Error ? error.message : String(error);
-        if (!/404|no existe|not found/i.test(message)) break;
+      const response = await fetchWithCsrf(attempt.url, {
+        method: "PATCH",
+        body: JSON.stringify(attempt.body),
+      });
+      if (response.ok) {
+        const result = (await handleResponse(response)) as { message?: string };
+        return { message: result?.message || "Solicitud de cancelación enviada." };
+      }
+      if (response.status !== 404 && response.status !== 405) {
+        await handleResponse(response);
       }
     }
-    throw lastError instanceof Error
-      ? lastError
-      : new Error("No se pudo solicitar la cancelación. Contacte al administrador.");
+    throw new Error("La cancelación en línea no está disponible. Contacte al administrador.");
   }
 
   private async recordOffline(data: CreateMaintenanceRequestData, requestId: string): Promise<{ message: string; workOrder: MaintenanceRequest }> {

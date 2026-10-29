@@ -12,10 +12,12 @@ import { downloadPackage } from '../../../shared/offline/packageDownload'
 import { listReadyPackages } from '../../../shared/offline/packageStorage'
 import Tooltip from '../../../shared/components/Tooltip/Tooltip'
 import styles from '../styles/workOrders.module.css'
+import { PRE_EXECUTION_STATES } from '../utils/clientRequestUtils'
 
 type PackageState = 'idle' | 'downloading' | 'ready' | 'incomplete' | 'error'
 
-const NON_TERMINAL_STATES = new Set(['solicitada', 'asignada', 'pendiente', 'en_progreso'])
+// S7: mismos estados de pre-ejecución que el resto de las vistas, más en_progreso en curso.
+const NON_TERMINAL_STATES = new Set<string>([...PRE_EXECUTION_STATES, 'en_progreso'])
 
 interface OfflinePackageActionProps {
   orderId: string

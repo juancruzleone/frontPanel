@@ -104,18 +104,29 @@ export const triggerAutomaticWorkOrdersGeneration = async () => {
 
   let lastError: Error | null = null
   for (const url of endpoints) {
+    let response: Response
     try {
-      const response = await fetchWithAuthRetry(url, {
+      response = await fetchWithAuthRetry(url, {
         method: "POST",
         headers: getHeadersWithContentType('POST'),
       })
-      if (response.ok) {
-        return await response.json()
-      }
-      lastError = new Error(`Error ${response.status}: ${response.statusText}`)
     } catch (error: unknown) {
-      lastError = error as Error
+      // Fallo de red/transporte: reintentar otra ruta no lo resuelve; no ocultar el problema.
+      throw (error as Error) ?? new Error('No se pudo generar órdenes automáticas')
     }
+    if (response.ok) {
+      return await response.json()
+    }
+    // S8: contrato único por operación. Solo se prueba la siguiente ruta cuando
+    // la actual no existe (404/405 = ruta no implementada en el backend).
+    // Cualquier otro estado (400/401/403/500/…) es un error con significado:
+    // se informa de inmediato sin enmascararlo con más intentos.
+    // Ruta oficial pendiente de confirmación del backend (ver odd/tasks/auditoria-leonix-fase1.md T2).
+    if (response.status === 404 || response.status === 405) {
+      lastError = new Error(`Error ${response.status}: ${response.statusText}`)
+      continue
+    }
+    throw new Error(`Error ${response.status}: ${response.statusText}`)
   }
 
   throw lastError || new Error('No se pudo generar órdenes automáticas')

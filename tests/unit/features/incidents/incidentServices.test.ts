@@ -105,4 +105,17 @@ describe('IncidentService', () => {
     expect(syncResult.failed).toBe(0)
     expect(JSON.parse(localStorage.getItem('offline_pending_incidents') || '[]')).toHaveLength(0)
   })
+
+  it('no informa éxito cuando localStorage falla (S1)', async () => {
+    Object.defineProperty(navigator, 'onLine', {
+      value: false,
+      configurable: true,
+      writable: true,
+    })
+    vi.spyOn(localStorage, 'setItem').mockImplementation(() => {
+      throw new Error('QuotaExceeded')
+    })
+
+    await expect(incidentService.reportIncident(samplePayload)).rejects.toThrow()
+  })
 })

@@ -18,19 +18,42 @@ interface TenantOnboardingState {
   error: Error | null
   /** Solo los administradores pueden cerrar la configuración inicial. */
   canComplete: boolean
-  refresh: () => Promise<void>
-  retry: () => Promise<void>
+  /** force=false usa la caché fresca entre navegaciones (S6); por defecto fuerza. */
+  refresh: (force?: boolean) => Promise<void>
+  retry: (force?: boolean) => Promise<void>
   complete: () => Promise<TenantOnboardingStatus>
 }
 
 /** Promesa en vuelo compartida para no duplicar la consulta entre guardas anidadas. */
 let inflightStatus: Promise<TenantOnboardingStatus> | null = null
 
-const loadSharedStatus = (): Promise<TenantOnboardingStatus> => {
+/**
+ * S6: caché breve del estado entre navegaciones. Cada ruta protegida monta
+ * su propio OnboardingGate; sin caché cada navegación re-consultaba
+ * tenant/onboarding. TTL corto: el servidor sigue siendo la fuente de
+ * verdad (refresh forzado y complete() invalidan).
+ */
+const STATUS_TTL_MS = 45_000
+let cachedStatus: { at: number; value: TenantOnboardingStatus } | null = null
+
+export const __resetOnboardingStatusCache = (): void => {
+  inflightStatus = null
+  cachedStatus = null
+}
+
+const loadSharedStatus = (force = false): Promise<TenantOnboardingStatus> => {
+  if (!force && cachedStatus && Date.now() - cachedStatus.at < STATUS_TTL_MS) {
+    return Promise.resolve(cachedStatus.value)
+  }
   if (!inflightStatus) {
-    inflightStatus = fetchTenantOnboardingStatus().finally(() => {
-      inflightStatus = null
-    })
+    inflightStatus = fetchTenantOnboardingStatus()
+      .then((next) => {
+        cachedStatus = { at: Date.now(), value: next }
+        return next
+      })
+      .finally(() => {
+        inflightStatus = null
+      })
   }
   return inflightStatus
 }
@@ -55,12 +78,12 @@ export const useTenantOnboarding = (options: UseTenantOnboardingOptions = {}): T
     }
   }, [])
 
-  const refresh = useCallback(async () => {
+  const refresh = useCallback(async (force = true) => {
     if (disabled) return
     setLoading(true)
     setError(null)
     try {
-      const next = await loadSharedStatus()
+      const next = await loadSharedStatus(force)
       if (mountedRef.current) setStatus(next)
     } catch (err) {
       if (mountedRef.current) setError(err instanceof Error ? err : new Error("No se pudo obtener el estado de configuración"))
@@ -74,11 +97,14 @@ export const useTenantOnboarding = (options: UseTenantOnboardingOptions = {}): T
       setLoading(false)
       return
     }
-    void refresh()
+    // Montaje del gate: usa caché si está fresca (S6); reintentos y
+    // mutaciones usan refresh() forzado.
+    void refresh(false)
   }, [disabled, refresh])
 
   const complete = useCallback(async () => {
     const next = await completeTenantOnboarding()
+    cachedStatus = { at: Date.now(), value: next }
     if (mountedRef.current) setStatus(next)
     return next
   }, [])

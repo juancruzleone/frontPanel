@@ -6,6 +6,7 @@ import ProtectedRoute from "../../../src/router/ProtectedRoute"
 import RoleProtectedRoute from "../../../src/router/RoleProtectedRoute"
 import { SETUP_PATH } from "../../../src/features/setup/setupPaths"
 import { useAuthStore } from "../../../src/store/authStore"
+import { __resetOnboardingStatusCache } from "../../../src/features/setup/hooks/useTenantOnboarding"
 import "../../../src/i18n"
 
 const incompleteStatus = {
@@ -58,6 +59,8 @@ describe("onboarding access gate", () => {
   beforeEach(async () => {
     await useAuthStore.getState().logout()
     vi.clearAllMocks()
+    // S6: la caché entre navegaciones no debe filtrarse entre casos.
+    __resetOnboardingStatusCache()
     ;(global.fetch as ReturnType<typeof vi.fn>).mockReset()
   })
 

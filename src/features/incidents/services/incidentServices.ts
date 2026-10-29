@@ -39,7 +39,7 @@ class IncidentService {
 
   private async recordOfflineFallback(data: CreateIncidentData, commandId: string): Promise<IncidentReportResponse> {
     const offlineResult = await recordTechnicianIncident(data, commandId)
-    if (offlineResult.error && offlineResult.error !== 'INSTALLATION_NOT_PREPARED') {
+    if (offlineResult.error) {
       throw new Error(`Error al registrar en modo sin conexión: ${offlineResult.error}`)
     }
 

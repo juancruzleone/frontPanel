@@ -7,6 +7,8 @@ import {
   getPreferredVsScheduled,
   getRequestStatusGroup,
   isClientRequest,
+  KANBAN_COLUMN_STATES,
+  PRE_EXECUTION_STATES,
 } from "../../../../src/features/workOrders/utils/clientRequestUtils";
 
 describe("clientRequestUtils", () => {
@@ -16,19 +18,27 @@ describe("clientRequestUtils", () => {
     expect(isClientRequest({})).toBe(false);
   });
 
-  it("filtra Mis solicitudes por autor cuando hay dato, con fallback si falta", () => {
+  it("filtra Mis solicitudes por autor", () => {
     const orders = [
       { _id: "1", origen: "solicitud_cliente", solicitadoPor: "u1", estado: "solicitada" },
       { _id: "2", origen: "solicitud_cliente", solicitadoPor: "otro", estado: "solicitada" },
       { _id: "3", origen: "manual", solicitadoPor: "u1", estado: "pendiente" },
     ];
     expect(filterMyRequests(orders, "u1").map((o) => o._id)).toEqual(["1"]);
+  });
 
+  it("excluye solicitudes sin autor identificado (S3)", () => {
     const withoutOwner = [
       { _id: "a", origen: "solicitud_cliente", estado: "solicitada" },
       { _id: "b", origen: "manual", estado: "pendiente" },
     ];
-    expect(filterMyRequests(withoutOwner, "u1").map((o) => o._id)).toEqual(["a"]);
+    expect(filterMyRequests(withoutOwner, "u1").map((o) => o._id)).toEqual([]);
+  });
+
+  it("unifica estados de pre-ejecución y columnas Kanban con en_revision (S7)", () => {
+    expect([...PRE_EXECUTION_STATES]).toEqual(["solicitada", "en_revision", "pendiente", "asignada"]);
+    expect([...KANBAN_COLUMN_STATES]).toContain("en_revision");
+    expect(getRequestStatusGroup("en_revision")).toBe("pendientes");
   });
 
   it("filtra Solicitudes recibidas solo con estados revisables", () => {
