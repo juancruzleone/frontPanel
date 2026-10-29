@@ -29,12 +29,19 @@ export interface ModalReportIncidentProps {
   onSubmitSuccess?: (message: string) => void
 }
 
+type AvailableInstallation = NonNullable<ModalReportIncidentProps['availableInstallations']>
+
+// Identidad estable para el valor por defecto: un literal `[]` aquí crearía
+// una referencia nueva en cada render y, como el efecto de sincronización
+// depende de `availableInstallations`, provocaría un bucle infinito de renders.
+const EMPTY_AVAILABLE_INSTALLATIONS: AvailableInstallation = []
+
 export const ModalReportIncident: React.FC<ModalReportIncidentProps> = ({
   isOpen,
   onClose,
   installation,
   device,
-  availableInstallations = [],
+  availableInstallations = EMPTY_AVAILABLE_INSTALLATIONS,
   ordenPreventivaOrigenId = null,
   onSubmitSuccess,
 }) => {
