@@ -121,9 +121,30 @@ class MaintenanceRequestsService {
   }
 
   async cancelRequest(id: string, motivo?: string): Promise<{ message: string }> {
-    // Esta funcionalidad puede no estar disponible para clientes
-    // Verificar con el backend si existe una ruta para cancelar
-    throw new Error("Funcionalidad no disponible. Contacte al administrador para cancelar la solicitud.")
+    // S4+S8: el cliente pide la cancelación contra la ruta propia. Solo se
+    // prueba la ruta alternativa cuando la primera no existe (404/405 =
+    // ruta no implementada). Cualquier otro rechazo (403, validación,
+    // estado no cancelable) se informa directamente sin enmascararlo.
+    // La ruta oficial está pendiente de confirmación del backend.
+    const reason = motivo?.trim() || "Cancelación solicitada por el cliente";
+    const attempts: Array<{ url: string; body: unknown }> = [
+      { url: `${this.ordersUrl}/${id}/cancelar`, body: { motivo: reason } },
+      { url: `${this.ordersUrl}/${id}/estado`, body: { estado: "cancelada", motivo: reason, observaciones: reason } },
+    ];
+    for (const attempt of attempts) {
+      const response = await fetchWithCsrf(attempt.url, {
+        method: "PATCH",
+        body: JSON.stringify(attempt.body),
+      });
+      if (response.ok) {
+        const result = (await handleResponse(response)) as { message?: string };
+        return { message: result?.message || "Solicitud de cancelación enviada." };
+      }
+      if (response.status !== 404 && response.status !== 405) {
+        await handleResponse(response);
+      }
+    }
+    throw new Error("La cancelación en línea no está disponible. Contacte al administrador.");
   }
 
   private async recordOffline(data: CreateMaintenanceRequestData, requestId: string): Promise<{ message: string; workOrder: MaintenanceRequest }> {
