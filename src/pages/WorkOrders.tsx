@@ -951,7 +951,7 @@ const WorkOrders = () => {
 								style={{ borderRadius: 14 }}
 							/>
 						</div>
-					) : workOrders.length === 0 ? (
+					) : displayedWorkOrders.length === 0 ? (
 						<p className={styles.loader}>{t("workOrders.noWorkOrdersFound")}</p>
 					) : viewMode === "table" ? (
 						<>

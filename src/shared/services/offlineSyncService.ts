@@ -27,6 +27,7 @@ import { submitDeviceMaintenance } from "../../features/deviceForms/services/dev
 import { offlineBinaryStorage } from "./offlineBinaryStorage"
 import { uploadBinary } from "./uploadService"
 import { ApiError } from "./ApiError"
+import { incidentService } from "../../features/incidents/services/incidentServices"
 
 const MAX_RETRIES = 3
 const PERMANENT_STATUSES = new Set([404, 409, 422])
@@ -132,6 +133,7 @@ class OfflineSyncService {
       // Proactive session refresh before sync
       await refreshSession()
       await this.syncOfflineStore()
+      await incidentService.syncPendingIncidents().catch(() => {})
     } catch (error) {
       if (isAuthError(error)) {
         // Fail entire sync if refresh fails

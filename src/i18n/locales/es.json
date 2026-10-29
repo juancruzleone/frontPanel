@@ -1639,7 +1639,12 @@
       "deleteSuccess": "Documento eliminado exitosamente"
     },
     "installationDetails": "Detalle de la instalación",
-    "months": "meses"
+    "months": "meses",
+    "assignedTechnicians": "Técnicos asignados",
+    "assignedTechniciansHint": "Buscá por nombre y tocá para asignar o quitar. Queda colapsado para no alargar el modal.",
+    "noTechniciansAssigned": "Sin asignar",
+    "technicianAssignedSingle": "asignado",
+    "technicianAssignedPlural": "asignados"
   },
   "calendar": {
     "selectedDate": "Fecha seleccionada",
@@ -1902,8 +1907,33 @@
     "originManual": "Manual",
     "originMaintenancePlan": "Plan de mantenimiento",
     "originAutoPreventive": "Preventivo automático",
+    "originTechnicianReport": "Reporte de técnico",
     "filterByOrigin": "Filtrar por origen",
-    "clientRequestBadge": "Solicitud de cliente"
+    "clientRequestBadge": "Solicitud de cliente",
+    "myRequests": "Mis solicitudes",
+    "allJobs": "Trabajos en mis instalaciones",
+    "allOrders": "Todas",
+    "receivedRequests": "Solicitudes recibidas",
+    "showReceivedOnly": "Ver solo solicitudes",
+    "reviewAccept": "Aceptar solicitud",
+    "reviewReject": "Rechazar",
+    "reviewMark": "Marcar en revisión",
+    "requestCancel": "Solicitar cancelación",
+    "cancelReason": "Motivo de la cancelación",
+    "cancelRequested": "Cancelación solicitada. Queda pendiente de confirmación.",
+    "preferredDateLabel": "Preferida del cliente",
+    "scheduledDateLabel": "Programada confirmada",
+    "differentScheduleNote": "La fecha confirmada difiere de la preferencia del cliente.",
+    "historyTitle": "Historial de la solicitud",
+    "noHistory": "Sin movimientos registrados.",
+    "inReview": "En revisión",
+    "statsPending": "Pendientes",
+    "statsInProgress": "En proceso",
+    "statsResolved": "Resueltas",
+    "complete": {
+      "detectIncidentFollowup": "Se detectó una incidencia que requiere seguimiento",
+      "detectIncidentHint": "Permite finalizar este mantenimiento preventivo y generar automáticamente un reporte correctivo vinculado al dispositivo."
+    }
   },
   "inventory": {
     "exportMovements": "Exportar movimientos",
