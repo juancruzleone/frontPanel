@@ -3,6 +3,7 @@ import { render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { MemoryRouter } from "react-router"
 import { SetupWizard } from "../../../../src/features/setup/components/SetupWizard"
+import { __resetOnboardingStatusCache } from "../../../../src/features/setup/hooks/useTenantOnboarding"
 import { useAuthStore } from "../../../../src/store/authStore"
 import "../../../../src/i18n"
 
@@ -53,6 +54,8 @@ describe("SetupWizard", () => {
   beforeEach(async () => {
     await useAuthStore.getState().logout()
     vi.clearAllMocks()
+    // S6: la caché entre navegaciones no debe filtrarse entre casos.
+    __resetOnboardingStatusCache()
     ;(global.fetch as ReturnType<typeof vi.fn>).mockReset()
   })
 
