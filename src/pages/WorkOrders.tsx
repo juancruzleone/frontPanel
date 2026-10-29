@@ -56,6 +56,17 @@ import {
 
 import { exportWorkOrders, resolveStartWorkOrderErrorKey } from "../features/workOrders/services/workOrderServices";
 import { canExportOperationalResults } from "../shared/utils/exportPermissions";
+import {
+  canRequestCancel,
+  canReviewRequest,
+  filterMyRequests,
+  filterReceivedRequests,
+  getPreferredVsScheduled,
+  getRequestStatusGroup,
+  isClientRequest,
+  PRE_EXECUTION_STATES,
+} from "../features/workOrders/utils/clientRequestUtils";
+import { maintenanceRequestsService } from "../features/maintenanceRequests/services/maintenanceRequestsService";
 
 const WORK_ORDER_ALLOWED_VIEWS: readonly ViewMode[] = [
 	"cards",
@@ -202,6 +213,9 @@ const WorkOrders = () => {
 	const [selectedDateFilter, setSelectedDateFilter] = useState("");
 	const [selectedTechnician, setSelectedTechnician] = useState("");
 	const [searchTerm, setSearchTerm] = useState("");
+	const [clientTab, setClientTab] = useState<"mine" | "all">("mine");
+	const [adminReceivedOnly, setAdminReceivedOnly] = useState(false);
+	const [actioningId, setActioningId] = useState<string | null>(null);
 	const [searchTermDebounced, setSearchTermDebounced] = useState(searchTerm);
 
 	useEffect(() => {
@@ -368,6 +382,7 @@ const WorkOrders = () => {
 		() => [
 			{ label: t("common.all"), value: "" },
 			{ label: t("workOrders.requested", { defaultValue: "Solicitada" }), value: "solicitada" },
+			{ label: t("workOrders.inReview", { defaultValue: "En revisión" }), value: "en_revision" },
 			{ label: t("workOrders.pending"), value: "pendiente" },
 			{ label: t("workOrders.assigned"), value: "asignada" },
 			{ label: t("workOrders.inProgress"), value: "en_progreso" },
@@ -539,7 +554,7 @@ const WorkOrders = () => {
 	const shouldShowEditButton = (order: WorkOrder) => {
 		const perms = permissions as UserPermissions | null;
 		if (!perms?.canEditWorkOrders) return false;
-		return ["solicitada", "pendiente", "asignada"].includes(order.estado);
+		return (PRE_EXECUTION_STATES as readonly string[]).includes(order.estado);
 	};
 
 	const handleChangePage = (page: number) => {
@@ -555,6 +570,81 @@ const WorkOrders = () => {
 
 	const isTechnicianRole = role === "tecnico" || role === "técnico";
 	const isClientRole = role === "cliente";
+	const isAdminRole = role === "admin" || role === "super_admin";
+
+	const myRequests = useMemo(
+		() => filterMyRequests(workOrders, currentUserId),
+		[workOrders, currentUserId],
+	);
+	const receivedRequests = useMemo(() => filterReceivedRequests(workOrders), [workOrders]);
+	const displayedWorkOrders = useMemo(() => {
+		if (isClientRole && clientTab === "mine") return myRequests;
+		if (isAdminRole && adminReceivedOnly) return workOrders.filter(isClientRequest);
+		return workOrders;
+	}, [isClientRole, clientTab, myRequests, isAdminRole, adminReceivedOnly, workOrders]);
+	const myStats = useMemo(() => {
+		const counts = { pendientes: 0, en_proceso: 0, resueltas: 0 };
+		for (const order of myRequests) counts[getRequestStatusGroup(order.estado)] += 1;
+		return counts;
+	}, [myRequests]);
+
+	const handleMarkInReview = async (order: WorkOrder) => {
+		if (!order._id || actioningId) return;
+		setActioningId(order._id);
+		try {
+			await changeWorkOrderStatus(order._id, "en_revision");
+			onSuccess(t("workOrders.workOrderUpdated"));
+		} catch (err: unknown) {
+			onError((err as Error).message || t("workOrders.errorUpdatingWorkOrder"));
+		} finally {
+			setActioningId(null);
+		}
+	};
+
+	const handleAcceptRequest = async (order: WorkOrder) => {
+		if (!order._id || actioningId) return;
+		setActioningId(order._id);
+		try {
+			await changeWorkOrderStatus(order._id, "pendiente");
+			setSelectedWorkOrder(order);
+			setIsAssignModalOpen(true);
+			onSuccess(t("workOrders.workOrderUpdated"));
+		} catch (err: unknown) {
+			onError((err as Error).message || t("workOrders.errorUpdatingWorkOrder"));
+		} finally {
+			setActioningId(null);
+		}
+	};
+
+	const handleRejectRequest = async (order: WorkOrder) => {
+		if (!order._id || actioningId) return;
+		const motivo = window.prompt(t("workOrders.cancelReason", { defaultValue: "Motivo de la cancelación" }) || "Motivo");
+		if (motivo === null) return;
+		setActioningId(order._id);
+		try {
+			await changeWorkOrderStatus(order._id, "cancelada", motivo || undefined);
+			onSuccess(t("workOrders.workOrderUpdated"));
+		} catch (err: unknown) {
+			onError((err as Error).message || t("workOrders.errorUpdatingWorkOrder"));
+		} finally {
+			setActioningId(null);
+		}
+	};
+
+	const handleRequestCancel = async (order: WorkOrder) => {
+		if (!order._id || actioningId) return;
+		const motivo = window.prompt(t("workOrders.cancelReason", { defaultValue: "Motivo de la cancelación" }) || "Motivo");
+		if (motivo === null) return;
+		setActioningId(order._id);
+		try {
+			const result = await maintenanceRequestsService.cancelRequest(order._id, motivo || undefined);
+			onSuccess(result.message || t("workOrders.cancelRequested"));
+		} catch (err: unknown) {
+			onError((err as Error).message || t("maintenanceRequests.error.cancelFailed"));
+		} finally {
+			setActioningId(null);
+		}
+	};
 
 	const isAssignedToCurrentTechnician = (order: WorkOrder) => {
 		if (!currentUserId) return false;
@@ -578,7 +668,7 @@ const WorkOrders = () => {
 	const canDragKanbanStatus = (order: WorkOrder) => canChangeStatus(order);
 
 	const handleStatusChange = async (orderId: string, newStatus: string) => {
-		const order = workOrders.find((o) => o._id === orderId);
+		const order = displayedWorkOrders.find((o) => o._id === orderId) ?? workOrders.find((o) => o._id === orderId);
 		if (!order || order.estado === newStatus) return;
 
 		try {
@@ -679,6 +769,53 @@ const WorkOrders = () => {
 					)}
 				</div>
 				{exportError && <p role="alert">{exportError}</p>}
+
+				{isClientRole && (
+					<div className={styles.requestTabs} role="tablist" aria-label={t("workOrders.title")}>
+						<button
+							type="button"
+							role="tab"
+							aria-selected={clientTab === "mine"}
+							className={`${styles.requestTab} ${clientTab === "mine" ? styles.requestTabActive : ""}`}
+							onClick={() => { setClientTab("mine"); setCurrentPage(1); }}
+						>
+							{t("workOrders.myRequests")} · {myRequests.length}
+						</button>
+						<button
+							type="button"
+							role="tab"
+							aria-selected={clientTab === "all"}
+							className={`${styles.requestTab} ${clientTab === "all" ? styles.requestTabActive : ""}`}
+							onClick={() => { setClientTab("all"); setCurrentPage(1); }}
+						>
+							{t("workOrders.allJobs")} · {workOrders.length}
+						</button>
+					</div>
+				)}
+				{isClientRole && clientTab === "mine" && (
+					<div className={styles.requestStats}>
+						<span>{t("workOrders.statsPending")}: {myStats.pendientes}</span>
+						<span>{t("workOrders.statsInProgress")}: {myStats.en_proceso}</span>
+						<span>{t("workOrders.statsResolved")}: {myStats.resueltas}</span>
+					</div>
+				)}
+				{isAdminRole && (
+					<div className={styles.requestTabs}>
+						<button
+							type="button"
+							aria-pressed={adminReceivedOnly}
+							className={`${styles.requestTab} ${adminReceivedOnly ? styles.requestTabActive : ""}`}
+							onClick={() => {
+								const next = !adminReceivedOnly;
+								setAdminReceivedOnly(next);
+								setSelectedOrigin(next ? "solicitud_cliente" : "");
+								setCurrentPage(1);
+							}}
+						>
+							{t("workOrders.receivedRequests")} · {receivedRequests.length}
+						</button>
+					</div>
+				)}
 
 				<div className={styles.searchRow}>
 					<div className={styles.searchContainer}>
@@ -819,7 +956,7 @@ const WorkOrders = () => {
 					) : viewMode === "table" ? (
 						<>
 							<WorkOrdersTableView
-								workOrders={workOrders}
+								workOrders={displayedWorkOrders}
 								t={t}
 								permissions={permissions}
 								onOpenDetails={handleOpenDetails}
@@ -852,7 +989,7 @@ const WorkOrders = () => {
 						</>
 					) : viewMode === "kanban" ? (
 						<WorkOrdersKanbanView
-							workOrders={workOrders}
+							workOrders={displayedWorkOrders}
 							t={t}
 							permissions={permissions}
 							onOpenDetails={handleOpenDetails}
@@ -870,7 +1007,7 @@ const WorkOrders = () => {
 						/>
 					) : (
 						<>
-							{workOrders.map((order) => (
+							{displayedWorkOrders.map((order) => (
 								<article key={order._id} className={styles.workOrderCard}>
 									<div className={styles.workOrderInfo}>
 										<div className={styles.workOrderHeader}>
@@ -926,6 +1063,21 @@ const WorkOrders = () => {
 													{t("workOrders.at")} {order.horaProgramada}
 												</span>
 											</div>
+											{isClientRequest(order) && (order.fechaPreferida || order.horaPreferida) && (
+												<div className={`${styles.detailItem} ${styles.operationalDetail}`}>
+													<CalendarIcon size={16} />
+													<span>
+														<strong>{t("workOrders.preferredDateLabel")}: </strong>
+														{getPreferredVsScheduled(order).preferred ?? "—"}
+														{order.horaPreferida ? ` ${t("workOrders.at")} ${order.horaPreferida}` : ""}
+													</span>
+												</div>
+											)}
+											{isClientRequest(order) && getPreferredVsScheduled(order).areDifferent && (
+												<p className={styles.detailItem}>
+													<small>{t("workOrders.differentScheduleNote")}</small>
+												</p>
+											)}
 
 											{order.instalacion && (
 												<div className={`${styles.detailItem} ${styles.operationalDetail} ${styles.locationDetail}`}>
@@ -988,8 +1140,34 @@ const WorkOrders = () => {
 														</button>
 													</Tooltip>
 												)}
-											{permissions?.canAssignWorkOrders &&
-												["solicitada", "pendiente", "asignada"].includes(order.estado) && (
+											{isAdminRole && canReviewRequest(order, role) && (
+													<>
+														<Tooltip content={t("workOrders.reviewMark")}>
+															<button className={styles.iconButton} onClick={() => handleMarkInReview(order)} disabled={actioningId === order._id} aria-label={t("workOrders.reviewMark")}>
+																<Eye size={20} />
+															</button>
+														</Tooltip>
+														<Tooltip content={t("workOrders.reviewAccept")}>
+															<button className={styles.iconButton} onClick={() => handleAcceptRequest(order)} disabled={actioningId === order._id} aria-label={t("workOrders.reviewAccept")}>
+																<Check size={20} />
+															</button>
+														</Tooltip>
+														<Tooltip content={t("workOrders.reviewReject")}>
+															<button className={styles.iconButton} onClick={() => handleRejectRequest(order)} disabled={actioningId === order._id} aria-label={t("workOrders.reviewReject")}>
+																<Trash size={20} />
+															</button>
+														</Tooltip>
+													</>
+												)}
+												{isClientRole && canRequestCancel(order, role, currentUserId) && (
+													<Tooltip content={t("workOrders.requestCancel")}>
+														<button className={styles.iconButton} onClick={() => handleRequestCancel(order)} disabled={actioningId === order._id} aria-label={t("workOrders.requestCancel")}>
+															<FilterX size={20} />
+														</button>
+													</Tooltip>
+												)}
+												{permissions?.canAssignWorkOrders &&
+												(PRE_EXECUTION_STATES as readonly string[]).includes(order.estado) && (
 													<Tooltip content={t("workOrders.assignTechnician")}>
 														<button
 															className={styles.iconButton}

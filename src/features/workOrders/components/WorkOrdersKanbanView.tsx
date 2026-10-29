@@ -20,6 +20,7 @@ import Tooltip from "../../../shared/components/Tooltip/Tooltip";
 import styles from "../styles/workOrders.module.css";
 import { UserPermissions } from "../../../store/authStore";
 import { OfflinePackageAction } from "./OfflinePackageAction";
+import { KANBAN_COLUMN_STATES, PRE_EXECUTION_STATES } from "../utils/clientRequestUtils";
 
 interface WorkOrdersKanbanViewProps {
 	workOrders: WorkOrder[];
@@ -36,17 +37,11 @@ interface WorkOrdersKanbanViewProps {
 	canDragStatus?: (order: WorkOrder) => boolean;
 }
 
-const KANBAN_STATUSES = [
-	"solicitada",
-	"pendiente",
-	"asignada",
-	"en_progreso",
-	"completada",
-	"cancelada",
-];
+const KANBAN_STATUSES: readonly string[] = KANBAN_COLUMN_STATES;
 
 const KANBAN_DOT_COLORS: Record<string, string> = {
 	solicitada: "#06b6d4",
+	en_revision: "#0ea5e9",
 	pendiente: "#f59e0b",
 	asignada: "#3b82f6",
 	en_progreso: "#8b5cf6",
@@ -171,7 +166,7 @@ export const WorkOrdersKanbanView: React.FC<WorkOrdersKanbanViewProps> = ({
 						)}
 
 					{permissions?.canAssignWorkOrders &&
-						["solicitada", "pendiente", "asignada"].includes(order.estado) && (
+						(PRE_EXECUTION_STATES as readonly string[]).includes(order.estado) && (
 							<Tooltip content={t("workOrders.assignTechnician")}>
 								<button
 									className={styles.iconButton}
@@ -183,7 +178,7 @@ export const WorkOrdersKanbanView: React.FC<WorkOrdersKanbanViewProps> = ({
 						)}
 
 					{permissions?.canEditWorkOrders &&
-						["solicitada", "pendiente", "asignada"].includes(order.estado) && (
+						(PRE_EXECUTION_STATES as readonly string[]).includes(order.estado) && (
 							<Tooltip content={t("workOrders.editOrder")}>
 								<button
 									className={styles.iconButton}

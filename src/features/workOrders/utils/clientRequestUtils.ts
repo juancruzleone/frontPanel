@@ -15,6 +15,32 @@ export const CANCELLABLE_CLIENT_STATES = [
   "asignada",
 ] as const;
 
+/**
+ * S7: fuente única de estados de pre-ejecución en el frontend.
+ * `en_revision` es pre-ejecución (se agrupa en "pendientes" y es revisable),
+ * pero varias vistas la omitían: Kanban sin columna, acciones de asignar/
+ * editar ocultas y OfflinePackageAction inerte. Las transiciones válidas
+ * entre estados las define el backend (workOrderLifecycle); aquí solo se
+ * unifica qué estados se consideran operativos antes de la ejecución.
+ */
+export const PRE_EXECUTION_STATES = [
+  "solicitada",
+  "en_revision",
+  "pendiente",
+  "asignada",
+] as const;
+
+/** Columnas del Kanban: todo estado no terminal visible, incluido en_revision. */
+export const KANBAN_COLUMN_STATES = [
+  "solicitada",
+  "en_revision",
+  "pendiente",
+  "asignada",
+  "en_progreso",
+  "completada",
+  "cancelada",
+] as const;
+
 export interface ClientRequestLike {
   origen?: string | null;
   estado?: string | null;
